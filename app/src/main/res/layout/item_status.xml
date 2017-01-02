@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/status_boosted"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/status_boosted_icon"
+        android:layout_toEndOf="@+id/status_boosted_icon"
+        android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/boost_icon"
+        android:id="@+id/status_boosted_icon"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        android:layout_alignRight="@+id/status_avatar"
+        android:visibility="gone"
+        android:paddingRight="@dimen/status_avatar_padding"
+        android:paddingTop="@dimen/status_boost_icon_vertical_padding"
+        android:paddingBottom="@dimen/status_boost_icon_vertical_padding"
+        android:layout_alignParentTop="true" />
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/status_avatar"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:layout_below="@+id/status_boosted"
+        android:padding="@dimen/status_avatar_padding" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/status_avatar"
+        android:layout_toEndOf="@+id/status_avatar"
+        android:id="@+id/status_name_bar"
+        android:layout_below="@+id/status_boosted_icon"
+        android:layout_width="wrap_content">
+
+        <TextView
+            android:id="@+id/status_display_name"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/status_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/status_username_left_margin" />
+
+        <TextView
+            android:id="@+id/status_since_created"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/status_since_created_left_margin" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/status_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/status_avatar"
+        android:layout_toEndOf="@+id/status_avatar"
+        android:layout_below="@+id/status_name_bar" />
+
+</RelativeLayout>

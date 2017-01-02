@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Tusky</string>
+
+    <string name="oauth_scheme">com.keylesspalace.tusky</string>
+    <string name="oauth_redirect_host">oauth2redirect</string>
+    <string name="preferences_file_key">com.keylesspalace.tusky.PREFERENCES</string>
+
+    <string name="endpoint_authorize">/oauth/authorize</string>
+    <string name="endpoint_token">/oauth/token</string>
+    <string name="endpoint_apps">/api/v1/apps</string>
+    <string name="endpoint_timelines_home">/api/v1/timelines/home</string>
+
+    <string name="error_fetching_timeline">Tusky failed to fetch the timeline.</string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s boosted</string>
+
+    <string name="action_logout">Log Out</string>
+</resources>
