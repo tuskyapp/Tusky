@@ -2,6 +2,7 @@ package com.keylesspalace.tusky;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
 import android.view.LayoutInflater;
@@ -169,11 +170,16 @@ public class TimelineAdapter extends RecyclerView.Adapter {
             return prefix + span + unit;
         }
 
-        public void setCreatedAt(Date createdAt) {
-            long then = createdAt.getTime();
-            long now = new Date().getTime();
-            String since = getRelativeTimeSpanString(then, now);
-            sinceCreated.setText(since);
+        public void setCreatedAt(@Nullable Date createdAt) {
+            String readout;
+            if (createdAt != null) {
+                long then = createdAt.getTime();
+                long now = new Date().getTime();
+                readout = getRelativeTimeSpanString(then, now);
+            } else {
+                readout = "?m";
+            }
+            sinceCreated.setText(readout);
         }
 
         public void setRebloggedByUsername(String name) {
