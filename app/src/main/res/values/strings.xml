@@ -5,15 +5,63 @@
     <string name="oauth_redirect_host">oauth2redirect</string>
     <string name="preferences_file_key">com.keylesspalace.tusky.PREFERENCES</string>
 
+    <string name="endpoint_status">/api/v1/statuses</string>
+    <string name="endpoint_media">/api/v1/media</string>
+    <string name="endpoint_timelines_home">/api/v1/timelines/home</string>
+    <string name="endpoint_timelines_mentions">/api/v1/timelines/mentions</string>
+    <string name="endpoint_timelines_public">/api/v1/timelines/public</string>
+    <string name="endpoint_timelines_tag">/api/v1/timelines/tag/%s</string>
+    <string name="endpoint_notifications">/api/v1/notifications</string>
+    <string name="endpoint_follows">/api/v1/follows</string>
+    <string name="endpoint_get_status">/api/v1/statuses/%s</string>
+    <string name="endpoint_accounts">/api/v1/accounts/%s</string>
+    <string name="endpoint_verify_credentials">/api/v1/accounts/verify_credentials</string>
+    <string name="endpoint_statuses">/api/v1/accounts/%s/statuses</string>
+    <string name="endpoint_following">/api/v1/accounts/%s/following</string>
+    <string name="endpoint_followers">/api/v1/accounts/%s/followers</string>
+    <string name="endpoint_relationships">/api/v1/accounts/relationships</string>
+    <string name="endpoint_blocks">/api/v1/blocks</string>
+    <string name="endpoint_favourites">/api/v1/favourites</string>
+    <string name="endpoint_delete">/api/v1/statuses/%s</string>
+    <string name="endpoint_reblog">/api/v1/statuses/%s/reblog</string>
+    <string name="endpoint_unreblog">/api/v1/statuses/%s/unreblog</string>
+    <string name="endpoint_favourite">/api/v1/statuses/%s/favourite</string>
+    <string name="endpoint_unfavourite">/api/v1/statuses/%s/unfavourite</string>
+    <string name="endpoint_context">/api/v1/statuses/%s/context</string>
+    <string name="endpoint_reblogged_by">/api/v1/statuses/%s/reblogged_by</string>
+    <string name="endpoint_favourited_by">/api/v1/statuses/%s/favourited_by</string>
+    <string name="endpoint_follow">/api/v1/accounts/%s/follow</string>
+    <string name="endpoint_unfollow">/api/v1/accounts/%s/unfollow</string>
+    <string name="endpoint_block">/api/v1/accounts/%s/block</string>
+    <string name="endpoint_unblock">/api/v1/accounts/%s/unblock</string>
+    <string name="endpoint_apps">/api/v1/apps</string>
     <string name="endpoint_authorize">/oauth/authorize</string>
     <string name="endpoint_token">/oauth/token</string>
-    <string name="endpoint_apps">/api/v1/apps</string>
-    <string name="endpoint_timelines_home">/api/v1/timelines/home</string>
 
     <string name="error_fetching_timeline">Tusky failed to fetch the timeline.</string>
+    <string name="error_fetching_notifications">Notifications could not be fetched.</string>
+    <string name="error_compose_character_limit">The toot is too long!</string>
+    <string name="error_sending_status">The toot failed to be sent.</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_public">Public</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boosted</string>
 
+    <string name="notification_reblog_format">%s boosted your status</string>
+    <string name="notification_favourite_format">%s favourited your status</string>
+    <string name="notification_follow_format">%s followed you</string>
+
+    <string name="action_compose">Compose</string>
     <string name="action_logout">Log Out</string>
+    <string name="action_follow">Follow</string>
+    <string name="action_block">Block</string>
+    <string name="action_delete">Delete</string>
+
+    <string name="visibility_public">Public</string>
+    <string name="visibility_private">Private</string>
+    <string name="visibility_unlisted">Unlisted</string>
+
 </resources>

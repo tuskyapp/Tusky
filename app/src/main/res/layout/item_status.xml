@@ -76,4 +76,63 @@
         android:layout_toEndOf="@+id/status_avatar"
         android:layout_below="@+id/status_name_bar" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/status_content"
+        android:layout_toRightOf="@+id/status_avatar"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp">
+
+        <ImageButton
+            app:srcCompat="@drawable/ic_reply"
+            android:id="@+id/status_reply"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <ImageButton
+            app:srcCompat="@drawable/ic_reblog_off"
+            android:id="@+id/status_reblog"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:srcCompat="@drawable/ic_favourite_off"
+            android:id="@+id/status_favourite"
+            style="?android:attr/borderlessButtonStyle" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <ImageButton
+            app:srcCompat="@drawable/ic_extra"
+            android:id="@+id/status_more"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
 </RelativeLayout>

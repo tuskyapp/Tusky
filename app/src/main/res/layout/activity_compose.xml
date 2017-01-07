@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:gravity="top|left"
+        android:id="@+id/field_status"
+        android:contentDescription="What's Happening?"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/radio_visibility"
+            android:checkedButton="@+id/radio_public">
+
+            <RadioButton
+                android:text="@string/visibility_public"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/radio_public"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="@string/visibility_unlisted"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/radio_unlisted"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="@string/visibility_private"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/radio_private"
+                android:layout_weight="1" />
+
+        </RadioGroup>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/characters_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="500" />
+
+        <Button
+            android:text="TOOT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_send" />
+
+    </LinearLayout>
+
+</LinearLayout>

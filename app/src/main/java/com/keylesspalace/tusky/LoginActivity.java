@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
+    private static String OAUTH_SCOPES = "read write follow";
+
     private SharedPreferences preferences;
     private String domain;
     private String clientId;
@@ -71,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         parameters.put("client_id", clientId);
         parameters.put("redirect_uri", redirectUri);
         parameters.put("response_type", "code");
+        parameters.put("scope", OAUTH_SCOPES);
         String queryParameters;
         try {
             queryParameters = toQueryString(parameters);
@@ -107,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 parameters.put("client_name", getString(R.string.app_name));
                 parameters.put("redirect_uris", getOauthRedirectUri());
-                parameters.put("scopes", "read write follow");
+                parameters.put("scopes", OAUTH_SCOPES);
             } catch (JSONException e) {
                 //TODO: error text????
                 return;

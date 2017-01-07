@@ -1,13 +1,13 @@
 package com.keylesspalace.tusky;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,14 +21,12 @@ import java.util.List;
 public class TimelineAdapter extends RecyclerView.Adapter {
     private List<Status> statuses = new ArrayList<>();
 
-    /*
-    TootActionListener listener;
+    StatusActionListener listener;
 
-    public TimelineAdapter(TootActionListener listener) {
+    public TimelineAdapter(StatusActionListener listener) {
         super();
         this.listener = listener;
     }
-    */
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -47,13 +45,18 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         holder.setContent(status.getContent());
         holder.setAvatar(status.getAvatar());
         holder.setContent(status.getContent());
+        holder.setReblogged(status.getReblogged());
+        holder.setFavourited(status.getFavourited());
         String rebloggedByUsername = status.getRebloggedByUsername();
         if (rebloggedByUsername == null) {
-            holder.hideReblogged();
+            holder.hideRebloggedByUsername();
         } else {
             holder.setRebloggedByUsername(rebloggedByUsername);
         }
-        // holder.initButtons(mListener, position);
+        holder.setupButtons(listener, position);
+        if (status.getVisibility() == Status.Visibility.PRIVATE) {
+            holder.disableReblogging();
+        }
     }
 
     @Override
@@ -86,6 +89,11 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         notifyItemRangeInserted(end, new_statuses.size());
     }
 
+    public void removeItem(int position) {
+        statuses.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public Status getItem(int position) {
         return statuses.get(position);
     }
@@ -98,6 +106,12 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         private NetworkImageView avatar;
         private ImageView boostedIcon;
         private TextView boostedByUsername;
+        private ImageButton replyButton;
+        private ImageButton reblogButton;
+        private ImageButton favouriteButton;
+        private ImageButton moreButton;
+        private boolean favourited;
+        private boolean reblogged;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -108,11 +122,12 @@ public class TimelineAdapter extends RecyclerView.Adapter {
             avatar = (NetworkImageView) itemView.findViewById(R.id.status_avatar);
             boostedIcon = (ImageView) itemView.findViewById(R.id.status_boosted_icon);
             boostedByUsername = (TextView) itemView.findViewById(R.id.status_boosted);
-            /*
-            mReplyButton = (ImageButton) itemView.findViewById(R.id.reply);
-            mRetweetButton = (ImageButton) itemView.findViewById(R.id.retweet);
-            mFavoriteButton = (ImageButton) itemView.findViewById(R.id.favorite);
-            */
+            replyButton = (ImageButton) itemView.findViewById(R.id.status_reply);
+            reblogButton = (ImageButton) itemView.findViewById(R.id.status_reblog);
+            favouriteButton = (ImageButton) itemView.findViewById(R.id.status_favourite);
+            moreButton = (ImageButton) itemView.findViewById(R.id.status_more);
+            reblogged = false;
+            favourited = false;
         }
 
         public void setDisplayName(String name) {
@@ -177,7 +192,7 @@ public class TimelineAdapter extends RecyclerView.Adapter {
                 long now = new Date().getTime();
                 readout = getRelativeTimeSpanString(then, now);
             } else {
-                readout = "?m";
+                readout = "?m"; // unknown minutes~
             }
             sinceCreated.setText(readout);
         }
@@ -191,9 +206,53 @@ public class TimelineAdapter extends RecyclerView.Adapter {
             boostedByUsername.setVisibility(View.VISIBLE);
         }
 
-        public void hideReblogged() {
+        public void hideRebloggedByUsername() {
             boostedIcon.setVisibility(View.GONE);
             boostedByUsername.setVisibility(View.GONE);
+        }
+
+        public void setReblogged(boolean reblogged) {
+            this.reblogged = reblogged;
+            if (!reblogged) {
+                reblogButton.setImageResource(R.drawable.ic_reblog_off);
+            } else {
+                reblogButton.setImageResource(R.drawable.ic_reblog_on);
+            }
+        }
+
+        public void disableReblogging() {
+            reblogButton.setEnabled(false);
+            reblogButton.setImageResource(R.drawable.ic_reblog_disabled);
+        }
+
+        public void setFavourited(boolean favourited) {
+            this.favourited = favourited;
+            if (!favourited) {
+                favouriteButton.setImageResource(R.drawable.ic_favourite_off);
+            } else {
+                favouriteButton.setImageResource(R.drawable.ic_favourite_on);
+            }
+        }
+
+        public void setupButtons(final StatusActionListener listener, final int position) {
+            reblogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onReblog(!reblogged, position);
+                }
+            });
+            favouriteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onFavourite(!favourited, position);
+                }
+            });
+            moreButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onMore(v, position);
+                }
+            });
         }
     }
 }
