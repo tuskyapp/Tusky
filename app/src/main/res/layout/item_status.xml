@@ -77,10 +77,61 @@
         android:layout_below="@+id/status_name_bar" />
 
     <LinearLayout
+        android:id="@+id/status_media_preview_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/status_content"
+        android:layout_toRightOf="@+id/status_avatar">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/status_media_preview_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="@dimen/status_media_preview_top_margin" />
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/status_media_preview_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="@dimen/status_media_preview_top_margin" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/status_media_preview_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/status_media_preview_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="centerCrop" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/status_content"
+        android:layout_below="@id/status_media_preview_container"
         android:layout_toRightOf="@+id/status_avatar"
         android:paddingBottom="8dp"
         android:paddingTop="8dp">

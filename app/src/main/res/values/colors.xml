@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="gray">#4F4F4F</color>
+    <color name="view_video_background">#000000</color>
 </resources>

@@ -2,8 +2,10 @@ package com.keylesspalace.tusky;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
+import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +55,7 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         } else {
             holder.setRebloggedByUsername(rebloggedByUsername);
         }
+        holder.setMediaPreviews(status.getAttachments(), listener);
         holder.setupButtons(listener, position);
         if (status.getVisibility() == Status.Visibility.PRIVATE) {
             holder.disableReblogging();
@@ -112,6 +115,11 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         private ImageButton moreButton;
         private boolean favourited;
         private boolean reblogged;
+        private NetworkImageView mediaPreview0;
+        private NetworkImageView mediaPreview1;
+        private NetworkImageView mediaPreview2;
+        private NetworkImageView mediaPreview3;
+        private String[] mediaAttachmentUrls;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -128,6 +136,10 @@ public class TimelineAdapter extends RecyclerView.Adapter {
             moreButton = (ImageButton) itemView.findViewById(R.id.status_more);
             reblogged = false;
             favourited = false;
+            mediaPreview0 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_0);
+            mediaPreview1 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_1);
+            mediaPreview2 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_2);
+            mediaPreview3 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_3);
         }
 
         public void setDisplayName(String name) {
@@ -231,6 +243,37 @@ public class TimelineAdapter extends RecyclerView.Adapter {
                 favouriteButton.setImageResource(R.drawable.ic_favourite_off);
             } else {
                 favouriteButton.setImageResource(R.drawable.ic_favourite_on);
+            }
+        }
+
+        public void setMediaPreviews(final Status.MediaAttachment[] attachments,
+                 final StatusActionListener listener) {
+            final NetworkImageView[] previews = {
+                mediaPreview0,
+                mediaPreview1,
+                mediaPreview2,
+                mediaPreview3
+            };
+            Context context = mediaPreview0.getContext();
+            ImageLoader imageLoader = VolleySingleton.getInstance(context).getImageLoader();
+            int n = Math.min(attachments.length, Status.MAX_MEDIA_ATTACHMENTS);
+            for (int i = 0; i < n; i++) {
+                String previewUrl = attachments[i].getPreviewUrl();
+                previews[i].setImageUrl(previewUrl, imageLoader);
+                previews[i].setVisibility(View.VISIBLE);
+                final String url = attachments[i].getUrl();
+                final Status.MediaAttachment.Type type = attachments[i].getType();
+                previews[i].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onViewMedia(url, type);
+                    }
+                });
+            }
+            // Hide any of the placeholder previews beyond the ones set.
+            for (int i = n; i < Status.MAX_MEDIA_ATTACHMENTS; i++) {
+                previews[i].setImageUrl(null, imageLoader);
+                previews[i].setVisibility(View.GONE);
             }
         }
 

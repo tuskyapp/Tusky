@@ -5,4 +5,5 @@
     <dimen name="status_since_created_left_margin">4dp</dimen>
     <dimen name="status_avatar_padding">8dp</dimen>
     <dimen name="status_boost_icon_vertical_padding">5dp</dimen>
+    <dimen name="status_media_preview_top_margin">4dp</dimen>
 </resources>

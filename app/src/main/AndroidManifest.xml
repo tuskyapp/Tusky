@@ -30,6 +30,7 @@
         <activity
             android:name=".ComposeActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity android:name=".ViewVideoActivity" />
     </application>
 
 </manifest>

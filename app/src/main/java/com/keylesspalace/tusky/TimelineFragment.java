@@ -1,11 +1,13 @@
 package com.keylesspalace.tusky;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -184,7 +186,8 @@ public class TimelineFragment extends Fragment implements
     }
 
     public void onFetchTimelineFailure(Exception exception) {
-        Toast.makeText(getContext(), R.string.error_fetching_timeline, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.error_fetching_timeline, Toast.LENGTH_SHORT)
+                .show();
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -311,5 +314,25 @@ public class TimelineFragment extends Fragment implements
                     }
                 });
         popup.show();
+    }
+
+    public void onViewMedia(String url, Status.MediaAttachment.Type type) {
+        switch (type) {
+            case IMAGE: {
+                Fragment newFragment = ViewMediaFragment.newInstance(url);
+                FragmentManager manager = getFragmentManager();
+                manager.beginTransaction()
+                        .add(R.id.overlay_fragment_container, newFragment)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            }
+            case VIDEO: {
+                Intent intent = new Intent(getContext(), ViewVideoActivity.class);
+                intent.putExtra("url", url);
+                startActivity(intent);
+                break;
+            }
+        }
     }
 }
