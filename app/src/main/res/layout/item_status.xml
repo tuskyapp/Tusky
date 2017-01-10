@@ -85,6 +85,33 @@
         android:layout_toRightOf="@+id/status_avatar">
 
         <LinearLayout
+            android:id="@+id/status_sensitive_media_warning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/status_media_preview_top_margin"
+            android:padding="8dp"
+            android:background="@color/sensitive_media_warning_background"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/status_sensitive_media_title"
+                android:textColor="@android:color/white"
+                android:textStyle="normal|italic" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/status_sensitive_media_directions"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -92,7 +119,7 @@
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/status_media_preview_0"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 android:layout_marginTop="@dimen/status_media_preview_top_margin" />
@@ -100,7 +127,7 @@
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/status_media_preview_1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 android:layout_marginTop="@dimen/status_media_preview_top_margin" />
@@ -114,13 +141,14 @@
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/status_media_preview_2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerCrop" />
 
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/status_media_preview_3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerCrop" />
         </LinearLayout>

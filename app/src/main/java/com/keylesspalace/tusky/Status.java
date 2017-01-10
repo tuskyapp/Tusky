@@ -42,7 +42,8 @@ public class Status {
     /** whether the authenticated user has favourited this status */
     private boolean favourited;
     private Visibility visibility;
-    private MediaAttachment[] attachments = null;
+    private MediaAttachment[] attachments;
+    private boolean sensitive;
 
     public static final int MAX_MEDIA_ATTACHMENTS = 4;
 
@@ -110,6 +111,10 @@ public class Status {
         return attachments;
     }
 
+    public boolean getSensitive() {
+        return sensitive;
+    }
+
     public void setRebloggedByUsername(String name) {
         rebloggedByUsername = name;
     }
@@ -122,8 +127,9 @@ public class Status {
         this.favourited = favourited;
     }
 
-    public void setAttachments(MediaAttachment[] attachments) {
+    public void setAttachments(MediaAttachment[] attachments, boolean sensitive) {
         this.attachments = attachments;
+        this.sensitive = sensitive;
     }
 
     @Override
@@ -181,6 +187,7 @@ public class Status {
         Date createdAt = parseDate(object.getString("created_at"));
         boolean reblogged = object.getBoolean("reblogged");
         boolean favourited = object.getBoolean("favourited");
+        boolean sensitive = object.optBoolean("sensitive");
         String visibility = object.getString("visibility");
 
         JSONObject account = object.getJSONObject("account");
@@ -225,7 +232,7 @@ public class Status {
                     reblogged, favourited, visibility);
         }
         if (attachments != null) {
-            status.setAttachments(attachments);
+            status.setAttachments(attachments, sensitive);
         }
         return status;
     }

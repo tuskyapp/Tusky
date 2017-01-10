@@ -55,7 +55,11 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         } else {
             holder.setRebloggedByUsername(rebloggedByUsername);
         }
-        holder.setMediaPreviews(status.getAttachments(), listener);
+        boolean sensitive = status.getSensitive();
+        holder.setMediaPreviews(status.getAttachments(), sensitive, listener);
+        if (!sensitive) {
+            holder.hideSensitiveMediaWarning();
+        }
         holder.setupButtons(listener, position);
         if (status.getVisibility() == Status.Visibility.PRIVATE) {
             holder.disableReblogging();
@@ -119,7 +123,7 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         private NetworkImageView mediaPreview1;
         private NetworkImageView mediaPreview2;
         private NetworkImageView mediaPreview3;
-        private String[] mediaAttachmentUrls;
+        private View sensitiveMediaWarning;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -140,6 +144,7 @@ public class TimelineAdapter extends RecyclerView.Adapter {
             mediaPreview1 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_1);
             mediaPreview2 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_2);
             mediaPreview3 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_3);
+            sensitiveMediaWarning = itemView.findViewById(R.id.status_sensitive_media_warning);
         }
 
         public void setDisplayName(String name) {
@@ -247,7 +252,7 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         }
 
         public void setMediaPreviews(final Status.MediaAttachment[] attachments,
-                 final StatusActionListener listener) {
+                 boolean sensitive, final StatusActionListener listener) {
             final NetworkImageView[] previews = {
                 mediaPreview0,
                 mediaPreview1,
@@ -256,11 +261,15 @@ public class TimelineAdapter extends RecyclerView.Adapter {
             };
             Context context = mediaPreview0.getContext();
             ImageLoader imageLoader = VolleySingleton.getInstance(context).getImageLoader();
-            int n = Math.min(attachments.length, Status.MAX_MEDIA_ATTACHMENTS);
+            final int n = Math.min(attachments.length, Status.MAX_MEDIA_ATTACHMENTS);
             for (int i = 0; i < n; i++) {
                 String previewUrl = attachments[i].getPreviewUrl();
                 previews[i].setImageUrl(previewUrl, imageLoader);
-                previews[i].setVisibility(View.VISIBLE);
+                if (!sensitive) {
+                    previews[i].setVisibility(View.VISIBLE);
+                } else {
+                    previews[i].setVisibility(View.GONE);
+                }
                 final String url = attachments[i].getUrl();
                 final Status.MediaAttachment.Type type = attachments[i].getType();
                 previews[i].setOnClickListener(new View.OnClickListener() {
@@ -270,11 +279,28 @@ public class TimelineAdapter extends RecyclerView.Adapter {
                     }
                 });
             }
+            if (sensitive) {
+                sensitiveMediaWarning.setVisibility(View.VISIBLE);
+                sensitiveMediaWarning.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        v.setVisibility(View.GONE);
+                        for (int i = 0; i < n; i++) {
+                            previews[i].setVisibility(View.VISIBLE);
+                        }
+                        v.setOnClickListener(null);
+                    }
+                });
+            }
             // Hide any of the placeholder previews beyond the ones set.
             for (int i = n; i < Status.MAX_MEDIA_ATTACHMENTS; i++) {
                 previews[i].setImageUrl(null, imageLoader);
                 previews[i].setVisibility(View.GONE);
             }
+        }
+
+        public void hideSensitiveMediaWarning() {
+            sensitiveMediaWarning.setVisibility(View.GONE);
         }
 
         public void setupButtons(final StatusActionListener listener, final int position) {
