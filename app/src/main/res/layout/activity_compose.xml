@@ -1,17 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_compose"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <EditText
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:gravity="top|left"
-        android:id="@+id/field_status"
-        android:contentDescription="What's Happening?"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:srcCompat="@drawable/media_selector"
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/compose_photo_pick"
+            android:layout_marginLeft="8dp" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/compose_mark_sensitive_margin"
+            android:id="@+id/compose_mark_sensitive"
+            android:text="@string/action_mark_sensitive" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:gravity="top|start"
+            android:id="@+id/field_status"
+            android:contentDescription="@string/description_compose" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/compose_media_preview_bar"
+            android:layout_alignBottom="@id/field_status">
+
+            <!--This is filled at runtime with ImageView's for each preview in the upload queue.-->
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,7 +101,7 @@
             android:text="500" />
 
         <Button
-            android:text="TOOT"
+            android:text="@string/action_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button_send" />

@@ -6,4 +6,5 @@
     <color name="gray">#4F4F4F</color>
     <color name="view_video_background">#000000</color>
     <color name="sensitive_media_warning_background">#303030</color>
+    <color name="media_preview_unloaded_background">#DFDFDF</color>
 </resources>

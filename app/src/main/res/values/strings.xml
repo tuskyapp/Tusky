@@ -42,6 +42,12 @@
     <string name="error_fetching_notifications">Notifications could not be fetched.</string>
     <string name="error_compose_character_limit">The toot is too long!</string>
     <string name="error_sending_status">The toot failed to be sent.</string>
+    <string name="error_media_upload_size">The file must be less than 4MB.</string>
+    <string name="error_media_upload_type">That type of file is not able to be uploaded.</string>
+    <string name="error_media_upload_opening">That file could not be opened.</string>
+    <string name="error_media_upload_permission">Permission to read media is required to upload it.</string>
+    <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same toot.</string>
+    <string name="error_media_upload_sending">The media could not be uploaded.</string>
 
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifications</string>
@@ -57,10 +63,17 @@
     <string name="notification_follow_format">%s followed you</string>
 
     <string name="action_compose">Compose</string>
+    <string name="action_login">Log In</string>
     <string name="action_logout">Log Out</string>
     <string name="action_follow">Follow</string>
     <string name="action_block">Block</string>
     <string name="action_delete">Delete</string>
+    <string name="action_send">TOOT</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_mark_sensitive">Mark Sensitive</string>
+
+    <string name="description_domain">Domain</string>
+    <string name="description_compose">What\'s Happening?</string>
 
     <string name="visibility_public">Public</string>
     <string name="visibility_private">Private</string>

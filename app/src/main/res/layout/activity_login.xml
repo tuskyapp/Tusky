@@ -30,17 +30,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:text="Domain"
+                android:contentDescription="@string/description_domain"
                 android:ems="10"
                 android:id="@+id/edit_text_domain" />
 
             <Button
-                android:text="LOG IN"
+                android:text="@string/action_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/button_login"
-                android:layout_centerHorizontal="false"
-                android:layout_centerInParent="false" />
+                android:id="@+id/button_login" />
 
             <TextView
                 android:layout_width="match_parent"

@@ -55,9 +55,12 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         } else {
             holder.setRebloggedByUsername(rebloggedByUsername);
         }
+        Status.MediaAttachment[] attachments = status.getAttachments();
         boolean sensitive = status.getSensitive();
-        holder.setMediaPreviews(status.getAttachments(), sensitive, listener);
-        if (!sensitive) {
+        holder.setMediaPreviews(attachments, sensitive, listener);
+        /* A status without attachments is sometimes still marked sensitive, so it's necessary
+         * to check both whether there are any attachments and if it's marked sensitive. */
+        if (!sensitive || attachments.length == 0) {
             holder.hideSensitiveMediaWarning();
         }
         holder.setupButtons(listener, position);
@@ -144,6 +147,10 @@ public class TimelineAdapter extends RecyclerView.Adapter {
             mediaPreview1 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_1);
             mediaPreview2 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_2);
             mediaPreview3 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_3);
+            mediaPreview0.setDefaultImageResId(R.drawable.media_preview_unloaded);
+            mediaPreview1.setDefaultImageResId(R.drawable.media_preview_unloaded);
+            mediaPreview2.setDefaultImageResId(R.drawable.media_preview_unloaded);
+            mediaPreview3.setDefaultImageResId(R.drawable.media_preview_unloaded);
             sensitiveMediaWarning = itemView.findViewById(R.id.status_sensitive_media_warning);
         }
 

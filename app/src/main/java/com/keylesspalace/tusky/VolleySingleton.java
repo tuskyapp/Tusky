@@ -54,6 +54,10 @@ public class VolleySingleton {
         getRequestQueue().add(request);
     }
 
+    public void cancelRequest(String tag) {
+        getRequestQueue().cancelAll(tag);
+    }
+
     public ImageLoader getImageLoader() {
         return imageLoader;
     }
