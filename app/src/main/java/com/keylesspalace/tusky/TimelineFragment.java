@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -18,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TimelineFragment extends Fragment implements
-        SwipeRefreshLayout.OnRefreshListener, StatusActionListener {
+        SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener {
 
     public enum Kind {
         HOME,
@@ -48,8 +48,12 @@ public class TimelineFragment extends Fragment implements
     private String accessToken = null;
     private String userAccountId = null;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView recyclerView;
     private TimelineAdapter adapter;
     private Kind kind;
+    private LinearLayoutManager layoutManager;
+    private EndlessOnScrollListener scrollListener;
+    private TabLayout.OnTabSelectedListener onTabSelectedListener;
 
     public static TimelineFragment newInstance(Kind kind) {
         TimelineFragment fragment = new TimelineFragment();
@@ -79,31 +83,63 @@ public class TimelineFragment extends Fragment implements
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         // Setup the RecyclerView.
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration divider = new DividerItemDecoration(
                 context, layoutManager.getOrientation());
         Drawable drawable = ContextCompat.getDrawable(context, R.drawable.status_divider);
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
-        EndlessOnScrollListener scrollListener = new EndlessOnScrollListener(layoutManager) {
+        scrollListener = new EndlessOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 TimelineAdapter adapter = (TimelineAdapter) view.getAdapter();
-                String fromId = adapter.getItem(adapter.getItemCount() - 1).getId();
-                sendFetchTimelineRequest(fromId);
+                Status status = adapter.getItem(adapter.getItemCount() - 2);
+                if (status != null) {
+                    sendFetchTimelineRequest(status.getId());
+                } else {
+                    sendFetchTimelineRequest();
+                }
+
             }
         };
         recyclerView.addOnScrollListener(scrollListener);
-        adapter = new TimelineAdapter(this);
+        adapter = new TimelineAdapter(this, this);
         recyclerView.setAdapter(adapter);
+
+        TabLayout layout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
+        onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                jumpToTop();
+            }
+        };
+        layout.addOnTabSelectedListener(onTabSelectedListener);
 
         sendUserInfoRequest();
         sendFetchTimelineRequest();
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
+        tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
+        super.onDestroyView();
+    }
+
+    private void jumpToTop() {
+        layoutManager.scrollToPositionWithOffset(0, 0);
+        scrollListener.reset();
     }
 
     private void sendUserInfoRequest() {
@@ -182,13 +218,22 @@ public class TimelineFragment extends Fragment implements
         } else {
             adapter.update(statuses);
         }
+        showFetchTimelineRetry(false);
         swipeRefreshLayout.setRefreshing(false);
     }
 
     public void onFetchTimelineFailure(Exception exception) {
-        Toast.makeText(getContext(), R.string.error_fetching_timeline, Toast.LENGTH_SHORT)
-                .show();
+        showFetchTimelineRetry(true);
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    private void showFetchTimelineRetry(boolean show) {
+        RecyclerView.ViewHolder viewHolder =
+                recyclerView.findViewHolderForAdapterPosition(adapter.getItemCount() - 1);
+        if (viewHolder != null) {
+            TimelineAdapter.FooterViewHolder holder = (TimelineAdapter.FooterViewHolder) viewHolder;
+            holder.showRetry(show);
+        }
     }
 
     public void onRefresh() {
@@ -333,6 +378,15 @@ public class TimelineFragment extends Fragment implements
                 startActivity(intent);
                 break;
             }
+        }
+    }
+
+    public void onLoadMore() {
+        Status status = adapter.getItem(adapter.getItemCount() - 2);
+        if (status != null) {
+            sendFetchTimelineRequest(status.getId());
+        } else {
+            sendFetchTimelineRequest();
         }
     }
 }

@@ -9,8 +9,11 @@ import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -21,71 +24,101 @@ import java.util.Date;
 import java.util.List;
 
 public class TimelineAdapter extends RecyclerView.Adapter {
-    private List<Status> statuses = new ArrayList<>();
+    private static final int VIEW_TYPE_STATUS = 0;
+    private static final int VIEW_TYPE_FOOTER = 1;
 
-    StatusActionListener listener;
+    private List<Status> statuses;
+    private StatusActionListener statusListener;
+    private FooterActionListener footerListener;
 
-    public TimelineAdapter(StatusActionListener listener) {
+    public TimelineAdapter(StatusActionListener statusListener,
+            FooterActionListener footerListener) {
         super();
-        this.listener = listener;
+        statuses = new ArrayList<>();
+        this.statusListener = statusListener;
+        this.footerListener = footerListener;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_status, viewGroup, false);
-        return new ViewHolder(v);
+        switch (viewType) {
+            default:
+            case VIEW_TYPE_STATUS: {
+                View view = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.item_status, viewGroup, false);
+                return new StatusViewHolder(view);
+            }
+            case VIEW_TYPE_FOOTER: {
+                View view = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.item_footer, viewGroup, false);
+                return new FooterViewHolder(view);
+            }
+        }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        ViewHolder holder = (ViewHolder) viewHolder;
-        Status status = statuses.get(position);
-        holder.setDisplayName(status.getDisplayName());
-        holder.setUsername(status.getUsername());
-        holder.setCreatedAt(status.getCreatedAt());
-        holder.setContent(status.getContent());
-        holder.setAvatar(status.getAvatar());
-        holder.setContent(status.getContent());
-        holder.setReblogged(status.getReblogged());
-        holder.setFavourited(status.getFavourited());
-        String rebloggedByUsername = status.getRebloggedByUsername();
-        if (rebloggedByUsername == null) {
-            holder.hideRebloggedByUsername();
+        if (position < statuses.size()) {
+            StatusViewHolder holder = (StatusViewHolder) viewHolder;
+            Status status = statuses.get(position);
+            holder.setDisplayName(status.getDisplayName());
+            holder.setUsername(status.getUsername());
+            holder.setCreatedAt(status.getCreatedAt());
+            holder.setContent(status.getContent());
+            holder.setAvatar(status.getAvatar());
+            holder.setContent(status.getContent());
+            holder.setReblogged(status.getReblogged());
+            holder.setFavourited(status.getFavourited());
+            String rebloggedByUsername = status.getRebloggedByUsername();
+            if (rebloggedByUsername == null) {
+                holder.hideRebloggedByUsername();
+            } else {
+                holder.setRebloggedByUsername(rebloggedByUsername);
+            }
+            Status.MediaAttachment[] attachments = status.getAttachments();
+            boolean sensitive = status.getSensitive();
+            holder.setMediaPreviews(attachments, sensitive, statusListener);
+            /* A status without attachments is sometimes still marked sensitive, so it's necessary
+             * to check both whether there are any attachments and if it's marked sensitive. */
+            if (!sensitive || attachments.length == 0) {
+                holder.hideSensitiveMediaWarning();
+            }
+            holder.setupButtons(statusListener, position);
+            if (status.getVisibility() == Status.Visibility.PRIVATE) {
+                holder.disableReblogging();
+            }
         } else {
-            holder.setRebloggedByUsername(rebloggedByUsername);
-        }
-        Status.MediaAttachment[] attachments = status.getAttachments();
-        boolean sensitive = status.getSensitive();
-        holder.setMediaPreviews(attachments, sensitive, listener);
-        /* A status without attachments is sometimes still marked sensitive, so it's necessary
-         * to check both whether there are any attachments and if it's marked sensitive. */
-        if (!sensitive || attachments.length == 0) {
-            holder.hideSensitiveMediaWarning();
-        }
-        holder.setupButtons(listener, position);
-        if (status.getVisibility() == Status.Visibility.PRIVATE) {
-            holder.disableReblogging();
+            FooterViewHolder holder = (FooterViewHolder) viewHolder;
+            holder.setupButton(footerListener);
         }
     }
 
     @Override
     public int getItemCount() {
-        return statuses.size();
+        return statuses.size() + 1;
     }
 
-    public int update(List<Status> new_statuses) {
+    @Override
+    public int getItemViewType(int position) {
+        if (position == statuses.size()) {
+            return VIEW_TYPE_FOOTER;
+        } else {
+            return VIEW_TYPE_STATUS;
+        }
+    }
+
+    public int update(List<Status> newStatuses) {
         int scrollToPosition;
         if (statuses == null || statuses.isEmpty()) {
-            statuses = new_statuses;
+            statuses = newStatuses;
             scrollToPosition = 0;
         } else {
-            int index = new_statuses.indexOf(statuses.get(0));
+            int index = newStatuses.indexOf(statuses.get(0));
             if (index == -1) {
-                statuses.addAll(0, new_statuses);
+                statuses.addAll(0, newStatuses);
                 scrollToPosition = 0;
             } else {
-                statuses.addAll(0, new_statuses.subList(0, index));
+                statuses.addAll(0, newStatuses.subList(0, index));
                 scrollToPosition = index;
             }
         }
@@ -93,10 +126,10 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         return scrollToPosition;
     }
 
-    public void addItems(List<Status> new_statuses) {
+    public void addItems(List<Status> newStatuses) {
         int end = statuses.size();
-        statuses.addAll(new_statuses);
-        notifyItemRangeInserted(end, new_statuses.size());
+        statuses.addAll(newStatuses);
+        notifyItemRangeInserted(end, newStatuses.size());
     }
 
     public void removeItem(int position) {
@@ -104,11 +137,14 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         notifyItemRemoved(position);
     }
 
-    public Status getItem(int position) {
-        return statuses.get(position);
+    public @Nullable Status getItem(int position) {
+        if (position >= 0 && position < statuses.size()) {
+            return statuses.get(position);
+        }
+        return null;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class StatusViewHolder extends RecyclerView.ViewHolder {
         private TextView displayName;
         private TextView username;
         private TextView sinceCreated;
@@ -128,7 +164,7 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         private NetworkImageView mediaPreview3;
         private View sensitiveMediaWarning;
 
-        public ViewHolder(View itemView) {
+        public StatusViewHolder(View itemView) {
             super(itemView);
             displayName = (TextView) itemView.findViewById(R.id.status_display_name);
             username = (TextView) itemView.findViewById(R.id.status_username);
@@ -329,6 +365,39 @@ public class TimelineAdapter extends RecyclerView.Adapter {
                     listener.onMore(v, position);
                 }
             });
+        }
+    }
+
+    public static class FooterViewHolder extends RecyclerView.ViewHolder {
+        private LinearLayout retryBar;
+        private Button retry;
+        private ProgressBar progressBar;
+
+        public FooterViewHolder(View itemView) {
+            super(itemView);
+            retryBar = (LinearLayout) itemView.findViewById(R.id.footer_retry_bar);
+            retry = (Button) itemView.findViewById(R.id.footer_retry_button);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.footer_progress_bar);
+            progressBar.setIndeterminate(true);
+        }
+
+        public void setupButton(final FooterActionListener listener) {
+            retry.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onLoadMore();
+                }
+            });
+        }
+
+        public void showRetry(boolean show) {
+            if (!show) {
+                retryBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+            } else {
+                retryBar.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }
         }
     }
 }

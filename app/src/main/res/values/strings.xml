@@ -58,6 +58,8 @@
     <string name="status_sensitive_media_title">Sensitive Media</string>
     <string name="status_sensitive_media_directions">Click to view.</string>
 
+    <string name="footer_text">Could not load the rest of the toots.</string>
+
     <string name="notification_reblog_format">%s boosted your status</string>
     <string name="notification_favourite_format">%s favourited your status</string>
     <string name="notification_follow_format">%s followed you</string>
@@ -71,6 +73,7 @@
     <string name="action_send">TOOT</string>
     <string name="action_retry">Retry</string>
     <string name="action_mark_sensitive">Mark Sensitive</string>
+    <string name="action_cancel">Cancel</string>
 
     <string name="description_domain">Domain</string>
     <string name="description_compose">What\'s Happening?</string>

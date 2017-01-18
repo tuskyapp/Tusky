@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -55,6 +56,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -196,22 +198,12 @@ public class ComposeActivity extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(request);
     }
 
-    private void onReadyFailure(Exception exception, final String content,
-            final String visibility, final boolean sensitive) {
-        doErrorDialog(R.string.error_media_upload_sending, R.string.action_retry,
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        readyStatus(content, visibility, sensitive);
-                    }
-                });
-    }
-
     private void readyStatus(final String content, final String visibility,
             final boolean sensitive) {
         final ProgressDialog dialog = ProgressDialog.show(this, "Finishing Media Upload",
-                "Uploading...", true);
-        new AsyncTask<Void, Void, Boolean>() {
+                "Uploading...", true, true);
+        final AsyncTask<Void, Void, Boolean> waitForMediaTask =
+                new AsyncTask<Void, Void, Boolean>() {
             private Exception exception;
 
             @Override
@@ -235,7 +227,34 @@ public class ComposeActivity extends AppCompatActivity {
                     onReadyFailure(exception, content, visibility, sensitive);
                 }
             }
-        }.execute();
+
+            @Override
+            protected void onCancelled() {
+                removeAllMediaFromQueue();
+                super.onCancelled();
+            }
+        };
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                /* Generating an interrupt by passing true here is important because an interrupt
+                 * exception is the only thing that will kick the latch out of its waiting loop
+                 * early. */
+                waitForMediaTask.cancel(true);
+            }
+        });
+        waitForMediaTask.execute();
+    }
+
+    private void onReadyFailure(Exception exception, final String content, final String visibility,
+            final boolean sensitive) {
+        doErrorDialog(R.string.error_media_upload_sending, R.string.action_retry,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        readyStatus(content, visibility, sensitive);
+                    }
+                });
     }
 
     @Override
@@ -439,16 +458,26 @@ public class ComposeActivity extends AppCompatActivity {
         cancelReadyingMedia(item);
     }
 
+    private void removeAllMediaFromQueue() {
+        for (Iterator<QueuedMedia> it = mediaQueued.iterator(); it.hasNext();) {
+            QueuedMedia item = it.next();
+            it.remove();
+            removeMediaFromQueue(item);
+        }
+    }
+
     private void downsizeMedia(final QueuedMedia item) {
         item.setReadyStage(QueuedMedia.ReadyStage.DOWNSIZING);
-        InputStream stream;
+        InputStream stream = null;
         try {
             stream = getContentResolver().openInputStream(item.getUri());
         } catch (FileNotFoundException e) {
+            IOUtils.closeQuietly(stream);
             onMediaDownsizeFailure(item);
             return;
         }
         Bitmap bitmap = BitmapFactory.decodeStream(stream);
+        IOUtils.closeQuietly(stream);
         new DownsizeImageTask(STATUS_MEDIA_SIZE_LIMIT, new DownsizeImageTask.Listener() {
             @Override
             public void onSuccess(List<byte[]> contentList) {
@@ -538,13 +567,15 @@ public class ComposeActivity extends AppCompatActivity {
             public DataItem getData() {
                 byte[] content = item.getContent();
                 if (content == null) {
-                    InputStream stream;
+                    InputStream stream = null;
                     try {
                         stream = getContentResolver().openInputStream(item.getUri());
                     } catch (FileNotFoundException e) {
+                        IOUtils.closeQuietly(stream);
                         return null;
                     }
                     content = inputStreamGetBytes(stream);
+                    IOUtils.closeQuietly(stream);
                     if (content == null) {
                         return null;
                     }
@@ -607,10 +638,11 @@ public class ComposeActivity extends AppCompatActivity {
                         break;
                     }
                     case "image": {
-                        InputStream stream;
+                        InputStream stream = null;
                         try {
                             stream = contentResolver.openInputStream(uri);
                         } catch (FileNotFoundException e) {
+                            IOUtils.closeQuietly(stream);
                             displayTransientError(R.string.error_media_upload_opening);
                             return;
                         }
@@ -618,7 +650,9 @@ public class ComposeActivity extends AppCompatActivity {
                         Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, 96, 96);
                         source.recycle();
                         try {
-                            stream.close();
+                            if (stream != null) {
+                                stream.close();
+                            }
                         } catch (IOException e) {
                             bitmap.recycle();
                             displayTransientError(R.string.error_media_upload_opening);
