@@ -31,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +47,10 @@ public class TimelineFragment extends Fragment implements
 
     private String domain = null;
     private String accessToken = null;
+    /** ID of the account that is currently logged-in. */
     private String userAccountId = null;
+    /** Username of the account that is currently logged-in. */
+    private String userUsername = null;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private TimelineAdapter adapter;
@@ -149,6 +153,7 @@ public class TimelineFragment extends Fragment implements
                     public void onResponse(JSONObject response) {
                         try {
                             userAccountId = response.getString("id");
+                            userUsername = response.getString("acct");
                         } catch (JSONException e) {
                             //TODO: Help
                             assert(false);
@@ -271,6 +276,22 @@ public class TimelineFragment extends Fragment implements
 
     private void postRequest(String endpoint) {
         sendRequest(Request.Method.POST, endpoint, null, null);
+    }
+
+    public void onReply(int position) {
+        Status status = adapter.getItem(position);
+        String inReplyToId = status.getId();
+        Status.Mention[] mentions = status.getMentions();
+        List<String> mentionedUsernames = new ArrayList<>();
+        for (int i = 0; i < mentions.length; i++) {
+            mentionedUsernames.add(mentions[i].getUsername());
+        }
+        mentionedUsernames.add(status.getUsername());
+        mentionedUsernames.remove(userUsername);
+        Intent intent = new Intent(getContext(), ComposeActivity.class);
+        intent.putExtra("in_reply_to_id", inReplyToId);
+        intent.putExtra("mentioned_usernames", mentionedUsernames.toArray(new String[0]));
+        startActivity(intent);
     }
 
     public void onReblog(final boolean reblog, final int position) {

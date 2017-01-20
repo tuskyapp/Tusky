@@ -347,6 +347,12 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         }
 
         public void setupButtons(final StatusActionListener listener, final int position) {
+            replyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onReply(position);
+                }
+            });
             reblogButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -43,6 +43,7 @@ public class Status {
     private boolean favourited;
     private Visibility visibility;
     private MediaAttachment[] attachments;
+    private Mention[] mentions;
     private boolean sensitive;
 
     public static final int MAX_MEDIA_ATTACHMENTS = 4;
@@ -61,6 +62,7 @@ public class Status {
         this.favourited = favourited;
         this.visibility = Visibility.valueOf(visibility.toUpperCase());
         this.attachments = new MediaAttachment[0];
+        this.mentions = new Mention[0];
     }
 
     public String getId() {
@@ -111,6 +113,10 @@ public class Status {
         return attachments;
     }
 
+    public Mention[] getMentions() {
+        return mentions;
+    }
+
     public boolean getSensitive() {
         return sensitive;
     }
@@ -125,6 +131,10 @@ public class Status {
 
     public void setFavourited(boolean favourited) {
         this.favourited = favourited;
+    }
+
+    public void setMentions(Mention[] mentions) {
+        this.mentions = mentions;
     }
 
     public void setAttachments(MediaAttachment[] attachments, boolean sensitive) {
@@ -196,6 +206,20 @@ public class Status {
         String username = account.getString("acct");
         String avatar = account.getString("avatar");
 
+        JSONArray mentionsArray = object.getJSONArray("mentions");
+        Mention[] mentions = null;
+        if (mentionsArray != null) {
+            int n = mentionsArray.length();
+            mentions = new Mention[n];
+            for (int i = 0; i < n; i++) {
+                JSONObject mention = mentionsArray.getJSONObject(i);
+                String url = mention.getString("url");
+                String mentionedUsername = mention.getString("acct");
+                String mentionedAccountId = mention.getString("id");
+                mentions[i] = new Mention(url, mentionedUsername, mentionedAccountId);
+            }
+        }
+
         JSONArray mediaAttachments = object.getJSONArray("media_attachments");
         MediaAttachment[] attachments = null;
         if (mediaAttachments != null) {
@@ -230,9 +254,12 @@ public class Status {
             status = new Status(
                     id, accountId, displayName, username, contentPlus, avatar, createdAt,
                     reblogged, favourited, visibility);
-        }
-        if (attachments != null) {
-            status.setAttachments(attachments, sensitive);
+            if (mentions != null) {
+                status.setMentions(mentions);
+            }
+            if (attachments != null) {
+                status.setAttachments(attachments, sensitive);
+            }
         }
         return status;
     }
@@ -272,6 +299,30 @@ public class Status {
 
         public Type getType() {
             return type;
+        }
+    }
+
+    public static class Mention {
+        private String url;
+        private String username;
+        private String id;
+
+        public Mention(String url, String username, String id) {
+            this.url = url;
+            this.username = username;
+            this.id = id;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public String getId() {
+            return id;
         }
     }
 }

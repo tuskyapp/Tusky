@@ -26,7 +26,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -54,19 +57,25 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ComposeActivity extends AppCompatActivity {
     private static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 4000000; // 4MB
     private static final int MEDIA_PICK_RESULT = 1;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    private static final Pattern mentionPattern = Pattern.compile("\\B@[^\\s@]+@?[^\\s@]+");
 
+    private String inReplyToId;
     private String domain;
     private String accessToken;
     private EditText textEditor;
@@ -148,119 +157,71 @@ public class ComposeActivity extends AppCompatActivity {
         Snackbar.make(findViewById(R.id.activity_compose), stringId, Snackbar.LENGTH_LONG).show();
     }
 
-    private void onSendSuccess() {
-        Toast.makeText(this, "Toot!", Toast.LENGTH_SHORT).show();
-        finish();
+    private static class Interval {
+        public int start;
+        public int end;
     }
 
-    private void onSendFailure(Exception exception) {
-        textEditor.setError(getString(R.string.error_sending_status));
-    }
-
-    private void sendStatus(String content, String visibility, boolean sensitive) {
-        String endpoint = getString(R.string.endpoint_status);
-        String url = "https://" + domain + endpoint;
-        JSONObject parameters = new JSONObject();
-        try {
-            parameters.put("status", content);
-            parameters.put("visibility", visibility);
-            parameters.put("sensitive", sensitive);
-            JSONArray media_ids = new JSONArray();
-            for (QueuedMedia item : mediaQueued) {
-                media_ids.put(item.getId());
-            }
-            if (media_ids.length() > 0) {
-                parameters.put("media_ids", media_ids);
-            }
-        } catch (JSONException e) {
-            onSendFailure(e);
-            return;
+    private static void colourMentions(Spannable text, int colour) {
+        // Strip all existing colour spans.
+        int n = text.length();
+        ForegroundColorSpan[] oldSpans = text.getSpans(0, n, ForegroundColorSpan.class);
+        for (int i = oldSpans.length - 1; i >= 0; i--) {
+            text.removeSpan(oldSpans[i]);
         }
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, parameters,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        onSendSuccess();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onSendFailure(error);
-                    }
-                }) {
+        // Match a list of new colour spans.
+        List<Interval> intervals = new ArrayList<>();
+        Matcher matcher = mentionPattern.matcher(text);
+        while (matcher.find()) {
+            Interval interval = new Interval();
+            interval.start = matcher.start();
+            interval.end = matcher.end();
+            intervals.add(interval);
+        }
+        // Make sure intervals don't overlap.
+        Collections.sort(intervals, new Comparator<Interval>() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
-            }
-        };
-        VolleySingleton.getInstance(this).addToRequestQueue(request);
-    }
-
-    private void readyStatus(final String content, final String visibility,
-            final boolean sensitive) {
-        final ProgressDialog dialog = ProgressDialog.show(this, "Finishing Media Upload",
-                "Uploading...", true, true);
-        final AsyncTask<Void, Void, Boolean> waitForMediaTask =
-                new AsyncTask<Void, Void, Boolean>() {
-            private Exception exception;
-
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                try {
-                    waitForMediaLatch.await();
-                } catch (InterruptedException e) {
-                    exception = e;
-                    return false;
-                }
-                return true;
-            }
-
-            @Override
-            protected void onPostExecute(Boolean successful) {
-                super.onPostExecute(successful);
-                dialog.dismiss();
-                if (successful) {
-                    sendStatus(content, visibility, sensitive);
-                } else {
-                    onReadyFailure(exception, content, visibility, sensitive);
-                }
-            }
-
-            @Override
-            protected void onCancelled() {
-                removeAllMediaFromQueue();
-                super.onCancelled();
-            }
-        };
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                /* Generating an interrupt by passing true here is important because an interrupt
-                 * exception is the only thing that will kick the latch out of its waiting loop
-                 * early. */
-                waitForMediaTask.cancel(true);
+            public int compare(Interval a, Interval b) {
+                return a.start - b.start;
             }
         });
-        waitForMediaTask.execute();
-    }
-
-    private void onReadyFailure(Exception exception, final String content, final String visibility,
-            final boolean sensitive) {
-        doErrorDialog(R.string.error_media_upload_sending, R.string.action_retry,
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        readyStatus(content, visibility, sensitive);
+        for (int i = 0, j = 0; i < intervals.size() - 1; i++, j++) {
+            if (j != 0) {
+                Interval a = intervals.get(j - 1);
+                Interval b = intervals.get(i);
+                if (a.start <= b.end) {
+                    while (j != 0 && a.start <= b.end) {
+                        a = intervals.get(j - 1);
+                        b = intervals.get(i);
+                        a.end = Math.max(a.end, b.end);
+                        a.start = Math.min(a.start, b.start);
+                        j--;
                     }
-                });
+                } else {
+                    intervals.set(j, b);
+                }
+            } else {
+                intervals.set(j, intervals.get(i));
+            }
+        }
+        // Finally, set the spans.
+        for (Interval interval : intervals) {
+            text.setSpan(new ForegroundColorSpan(colour), interval.start, interval.end,
+                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
+
+        Intent intent = getIntent();
+        String[] mentionedUsernames = null;
+        if (intent != null) {
+            inReplyToId = intent.getStringExtra("in_reply_to_id");
+            mentionedUsernames = intent.getStringArrayExtra("mentioned_usernames");
+        }
 
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
@@ -271,6 +232,7 @@ public class ComposeActivity extends AppCompatActivity {
 
         textEditor = (EditText) findViewById(R.id.field_status);
         final TextView charactersLeft = (TextView) findViewById(R.id.characters_left);
+        final int mentionColour = ContextCompat.getColor(this, R.color.compose_mention);
         TextWatcher textEditorWatcher = new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -282,9 +244,22 @@ public class ComposeActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable editable) {
+                colourMentions(editable, mentionColour);
+            }
         };
         textEditor.addTextChangedListener(textEditorWatcher);
+
+        if (mentionedUsernames != null) {
+            StringBuilder builder = new StringBuilder();
+            for (String name : mentionedUsernames) {
+                builder.append('@');
+                builder.append(name);
+                builder.append(' ');
+            }
+            textEditor.setText(builder);
+            textEditor.setSelection(textEditor.length());
+        }
 
         mediaPreviewBar = (LinearLayout) findViewById(R.id.compose_media_preview_bar);
         mediaQueued = new ArrayList<>();
@@ -330,6 +305,118 @@ public class ComposeActivity extends AppCompatActivity {
         });
         markSensitive = (CheckBox) findViewById(R.id.compose_mark_sensitive);
         markSensitive.setVisibility(View.GONE);
+    }
+
+    private void onSendSuccess() {
+        Toast.makeText(this, "Toot!", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private void onSendFailure(Exception exception) {
+        textEditor.setError(getString(R.string.error_sending_status));
+    }
+
+    private void sendStatus(String content, String visibility, boolean sensitive) {
+        String endpoint = getString(R.string.endpoint_status);
+        String url = "https://" + domain + endpoint;
+        JSONObject parameters = new JSONObject();
+        try {
+            parameters.put("status", content);
+            parameters.put("visibility", visibility);
+            parameters.put("sensitive", sensitive);
+            if (inReplyToId != null) {
+                parameters.put("in_reply_to_id", inReplyToId);
+            }
+            JSONArray media_ids = new JSONArray();
+            for (QueuedMedia item : mediaQueued) {
+                media_ids.put(item.getId());
+            }
+            if (media_ids.length() > 0) {
+                parameters.put("media_ids", media_ids);
+            }
+        } catch (JSONException e) {
+            onSendFailure(e);
+            return;
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, parameters,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        onSendSuccess();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                onSendFailure(error);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+        };
+        VolleySingleton.getInstance(this).addToRequestQueue(request);
+    }
+
+    private void readyStatus(final String content, final String visibility,
+                             final boolean sensitive) {
+        final ProgressDialog dialog = ProgressDialog.show(this, "Finishing Media Upload",
+                "Uploading...", true, true);
+        final AsyncTask<Void, Void, Boolean> waitForMediaTask =
+                new AsyncTask<Void, Void, Boolean>() {
+                    private Exception exception;
+
+                    @Override
+                    protected Boolean doInBackground(Void... params) {
+                        try {
+                            waitForMediaLatch.await();
+                        } catch (InterruptedException e) {
+                            exception = e;
+                            return false;
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Boolean successful) {
+                        super.onPostExecute(successful);
+                        dialog.dismiss();
+                        if (successful) {
+                            sendStatus(content, visibility, sensitive);
+                        } else {
+                            onReadyFailure(exception, content, visibility, sensitive);
+                        }
+                    }
+
+                    @Override
+                    protected void onCancelled() {
+                        removeAllMediaFromQueue();
+                        super.onCancelled();
+                    }
+                };
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                /* Generating an interrupt by passing true here is important because an interrupt
+                 * exception is the only thing that will kick the latch out of its waiting loop
+                 * early. */
+                waitForMediaTask.cancel(true);
+            }
+        });
+        waitForMediaTask.execute();
+    }
+
+    private void onReadyFailure(Exception exception, final String content, final String visibility,
+                                final boolean sensitive) {
+        doErrorDialog(R.string.error_media_upload_sending, R.string.action_retry,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        readyStatus(content, visibility, sensitive);
+                    }
+                });
     }
 
     private void onMediaPick() {
@@ -468,11 +555,10 @@ public class ComposeActivity extends AppCompatActivity {
 
     private void downsizeMedia(final QueuedMedia item) {
         item.setReadyStage(QueuedMedia.ReadyStage.DOWNSIZING);
-        InputStream stream = null;
+        InputStream stream;
         try {
             stream = getContentResolver().openInputStream(item.getUri());
         } catch (FileNotFoundException e) {
-            IOUtils.closeQuietly(stream);
             onMediaDownsizeFailure(item);
             return;
         }
@@ -567,11 +653,10 @@ public class ComposeActivity extends AppCompatActivity {
             public DataItem getData() {
                 byte[] content = item.getContent();
                 if (content == null) {
-                    InputStream stream = null;
+                    InputStream stream;
                     try {
                         stream = getContentResolver().openInputStream(item.getUri());
                     } catch (FileNotFoundException e) {
-                        IOUtils.closeQuietly(stream);
                         return null;
                     }
                     content = inputStreamGetBytes(stream);
@@ -638,11 +723,10 @@ public class ComposeActivity extends AppCompatActivity {
                         break;
                     }
                     case "image": {
-                        InputStream stream = null;
+                        InputStream stream;
                         try {
                             stream = contentResolver.openInputStream(uri);
                         } catch (FileNotFoundException e) {
-                            IOUtils.closeQuietly(stream);
                             displayTransientError(R.string.error_media_upload_opening);
                             return;
                         }
