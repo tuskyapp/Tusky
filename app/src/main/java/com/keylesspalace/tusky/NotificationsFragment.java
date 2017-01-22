@@ -16,11 +16,9 @@
 package com.keylesspalace.tusky;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -29,7 +27,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -45,11 +42,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NotificationsFragment extends Fragment implements
-        SwipeRefreshLayout.OnRefreshListener {
-    private String domain = null;
-    private String accessToken = null;
+public class NotificationsFragment extends SFragment implements
+        SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener {
     private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView recyclerView;
     private NotificationsAdapter adapter;
 
     public static NotificationsFragment newInstance() {
@@ -65,19 +61,12 @@ public class NotificationsFragment extends Fragment implements
              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
 
-        Context context = getContext();
-        SharedPreferences preferences = context.getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        domain = preferences.getString("domain", null);
-        accessToken = preferences.getString("accessToken", null);
-        assert(domain != null);
-        assert(accessToken != null);
-
         // Setup the SwipeRefreshLayout.
+        Context context = getContext();
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         // Setup the RecyclerView.
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -90,12 +79,16 @@ public class NotificationsFragment extends Fragment implements
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 NotificationsAdapter adapter = (NotificationsAdapter) view.getAdapter();
-                String fromId = adapter.getItem(adapter.getItemCount() - 1).getId();
-                sendFetchNotificationsRequest(fromId);
+                Notification notification = adapter.getItem(adapter.getItemCount() - 2);
+                if (notification != null) {
+                    sendFetchNotificationsRequest(notification.getId());
+                } else {
+                    sendFetchNotificationsRequest();
+                }
             }
         };
         recyclerView.addOnScrollListener(scrollListener);
-        adapter = new NotificationsAdapter();
+        adapter = new NotificationsAdapter(this, this);
         recyclerView.setAdapter(adapter);
 
         sendFetchNotificationsRequest();
@@ -123,17 +116,22 @@ public class NotificationsFragment extends Fragment implements
                                 JSONObject account = object.getJSONObject("account");
                                 String displayName = account.getString("display_name");
                                 Notification notification = new Notification(type, id, displayName);
+                                if (notification.hasStatusType()) {
+                                    JSONObject statusObject = object.getJSONObject("status");
+                                    Status status = Status.parse(statusObject, false);
+                                    notification.setStatus(status);
+                                }
                                 notifications.add(notification);
                             }
                             onFetchNotificationsSuccess(notifications, fromId != null);
                         } catch (JSONException e) {
-                            onFetchNotificationsFailure(e);
+                            onFetchNotificationsFailure();
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        onFetchNotificationsFailure(error);
+                        onFetchNotificationsFailure();
                     }
                 }) {
             @Override
@@ -156,17 +154,65 @@ public class NotificationsFragment extends Fragment implements
         } else {
             adapter.update(notifications);
         }
+        showFetchTimelineRetry(false);
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    private void onFetchNotificationsFailure(Exception exception) {
-        Toast.makeText(getContext(), R.string.error_fetching_notifications, Toast.LENGTH_SHORT)
-                .show();
+    private void onFetchNotificationsFailure() {
+        showFetchTimelineRetry(true);
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    private void showFetchTimelineRetry(boolean show) {
+        RecyclerView.ViewHolder viewHolder =
+                recyclerView.findViewHolderForAdapterPosition(adapter.getItemCount() - 1);
+        if (viewHolder != null) {
+            FooterViewHolder holder = (FooterViewHolder) viewHolder;
+            holder.showRetry(show);
+        }
     }
 
     @Override
     public void onRefresh() {
         sendFetchNotificationsRequest();
+    }
+
+    @Override
+    public void onLoadMore() {
+        Notification notification = adapter.getItem(adapter.getItemCount() - 2);
+        if (notification != null) {
+            sendFetchNotificationsRequest(notification.getId());
+        } else {
+            sendFetchNotificationsRequest();
+        }
+    }
+
+    @Override
+    public void onReply(int position) {
+        Notification notification = adapter.getItem(position);
+        super.reply(notification.getStatus());
+    }
+
+    @Override
+    public void onReblog(boolean reblog, int position) {
+        Notification notification = adapter.getItem(position);
+        super.reblog(notification.getStatus(), reblog, adapter, position);
+    }
+
+    @Override
+    public void onFavourite(boolean favourite, int position) {
+        Notification notification = adapter.getItem(position);
+        super.favourite(notification.getStatus(), favourite, adapter, position);
+    }
+
+    @Override
+    public void onMore(View view, int position) {
+        Notification notification = adapter.getItem(position);
+        super.more(notification.getStatus(), view, adapter, position);
+    }
+
+    @Override
+    public void onViewMedia(String url, Status.MediaAttachment.Type type) {
+        super.viewMedia(url, type);
     }
 }
