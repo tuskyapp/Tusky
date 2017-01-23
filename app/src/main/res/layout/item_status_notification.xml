@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="@dimen/status_avatar_column_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/notification_side_column">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/notification_icon"
+            android:paddingTop="@dimen/notification_icon_vertical_padding"
+            android:paddingBottom="@dimen/notification_icon_vertical_padding"
+            android:paddingRight="@dimen/status_avatar_padding"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/notification_text"
+        android:layout_toRightOf="@id/notification_side_column"
+        android:paddingBottom="@dimen/notification_icon_vertical_padding" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/notification_content"
+        android:layout_toRightOf="@id/notification_side_column"
+        android:layout_below="@id/notification_text"
+        android:textColor="@color/notification_content_faded"
+        android:paddingBottom="8dp" />
+
+</RelativeLayout>

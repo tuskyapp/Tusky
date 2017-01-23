@@ -23,4 +23,5 @@ public interface StatusActionListener {
     void onFavourite(final boolean favourite, final int position);
     void onMore(View view, final int position);
     void onViewMedia(String url, Status.MediaAttachment.Type type);
+    void onViewThread(int position);
 }

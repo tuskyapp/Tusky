@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="@dimen/status_avatar_column_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/notification_side_column">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_followed"
+            android:paddingTop="@dimen/notification_icon_vertical_padding"
+            android:paddingBottom="@dimen/notification_icon_vertical_padding"
+            android:paddingRight="@dimen/status_avatar_padding"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_toRightOf="@id/notification_side_column"
+        android:id="@+id/notification_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/notification_icon_vertical_padding"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

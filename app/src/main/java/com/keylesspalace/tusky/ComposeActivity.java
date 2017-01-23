@@ -323,7 +323,7 @@ public class ComposeActivity extends AppCompatActivity {
     }
 
     private void onSendSuccess() {
-        Toast.makeText(this, "Toot!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.confirmation_send), Toast.LENGTH_SHORT).show();
         finish();
     }
 

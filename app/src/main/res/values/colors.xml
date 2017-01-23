@@ -8,4 +8,5 @@
     <color name="sensitive_media_warning_background">#303030</color>
     <color name="media_preview_unloaded_background">#DFDFDF</color>
     <color name="compose_mention">#4F5F6F</color>
+    <color name="notification_content_faded">#9F9F9F</color>
 </resources>

@@ -172,12 +172,10 @@ public class NotificationsFragment extends SFragment implements
         }
     }
 
-    @Override
     public void onRefresh() {
         sendFetchNotificationsRequest();
     }
 
-    @Override
     public void onLoadMore() {
         Notification notification = adapter.getItem(adapter.getItemCount() - 2);
         if (notification != null) {
@@ -187,32 +185,32 @@ public class NotificationsFragment extends SFragment implements
         }
     }
 
-    @Override
     public void onReply(int position) {
         Notification notification = adapter.getItem(position);
         super.reply(notification.getStatus());
     }
 
-    @Override
     public void onReblog(boolean reblog, int position) {
         Notification notification = adapter.getItem(position);
         super.reblog(notification.getStatus(), reblog, adapter, position);
     }
 
-    @Override
     public void onFavourite(boolean favourite, int position) {
         Notification notification = adapter.getItem(position);
         super.favourite(notification.getStatus(), favourite, adapter, position);
     }
 
-    @Override
     public void onMore(View view, int position) {
         Notification notification = adapter.getItem(position);
         super.more(notification.getStatus(), view, adapter, position);
     }
 
-    @Override
     public void onViewMedia(String url, Status.MediaAttachment.Type type) {
         super.viewMedia(url, type);
+    }
+
+    public void onViewThread(int position) {
+        Notification notification = adapter.getItem(position);
+        super.viewThread(notification.getStatus());
     }
 }

@@ -52,6 +52,7 @@
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_public">Public</string>
+    <string name="title_thread">Thread</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boosted</string>
@@ -60,8 +61,8 @@
 
     <string name="footer_text">Could not load the rest of the toots.</string>
 
-    <string name="notification_reblog_format">%s boosted your status</string>
-    <string name="notification_favourite_format">%s favourited your status</string>
+    <string name="notification_reblog_format">%s boosted your toot</string>
+    <string name="notification_favourite_format">%s favourited your toot</string>
     <string name="notification_follow_format">%s followed you</string>
 
     <string name="action_compose">Compose</string>
@@ -74,6 +75,9 @@
     <string name="action_retry">Retry</string>
     <string name="action_mark_sensitive">Mark Sensitive</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_back">Back</string>
+
+    <string name="confirmation_send">Toot!</string>
 
     <string name="description_domain">Domain</string>
     <string name="description_compose">What\'s Happening?</string>

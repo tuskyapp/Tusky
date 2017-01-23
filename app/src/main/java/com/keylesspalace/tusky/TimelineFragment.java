@@ -16,42 +16,31 @@
 package com.keylesspalace.tusky;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TimelineFragment extends Fragment implements
+public class TimelineFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener {
 
     public enum Kind {
@@ -60,12 +49,6 @@ public class TimelineFragment extends Fragment implements
         PUBLIC,
     }
 
-    private String domain = null;
-    private String accessToken = null;
-    /** ID of the account that is currently logged-in. */
-    private String userAccountId = null;
-    /** Username of the account that is currently logged-in. */
-    private String userUsername = null;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private TimelineAdapter adapter;
@@ -90,15 +73,8 @@ public class TimelineFragment extends Fragment implements
 
         View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
 
-        Context context = getContext();
-        SharedPreferences preferences = context.getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        domain = preferences.getString("domain", null);
-        accessToken = preferences.getString("accessToken", null);
-        assert(domain != null);
-        assert(accessToken != null);
-
         // Setup the SwipeRefreshLayout.
+        Context context = getContext();
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         // Setup the RecyclerView.
@@ -121,7 +97,6 @@ public class TimelineFragment extends Fragment implements
                 } else {
                     sendFetchTimelineRequest();
                 }
-
             }
         };
         recyclerView.addOnScrollListener(scrollListener);
@@ -143,7 +118,6 @@ public class TimelineFragment extends Fragment implements
         };
         layout.addOnTabSelectedListener(onTabSelectedListener);
 
-        sendUserInfoRequest();
         sendFetchTimelineRequest();
 
         return rootView;
@@ -159,22 +133,6 @@ public class TimelineFragment extends Fragment implements
     private void jumpToTop() {
         layoutManager.scrollToPositionWithOffset(0, 0);
         scrollListener.reset();
-    }
-
-    private void sendUserInfoRequest() {
-        sendRequest(Request.Method.GET, getString(R.string.endpoint_verify_credentials), null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            userAccountId = response.getString("id");
-                            userUsername = response.getString("acct");
-                        } catch (JSONException e) {
-                            //TODO: Help
-                            assert(false);
-                        }
-                    }
-                });
     }
 
     private void sendFetchTimelineRequest(final String fromId) {
@@ -251,170 +209,13 @@ public class TimelineFragment extends Fragment implements
         RecyclerView.ViewHolder viewHolder =
                 recyclerView.findViewHolderForAdapterPosition(adapter.getItemCount() - 1);
         if (viewHolder != null) {
-            TimelineAdapter.FooterViewHolder holder = (TimelineAdapter.FooterViewHolder) viewHolder;
+            FooterViewHolder holder = (FooterViewHolder) viewHolder;
             holder.showRetry(show);
         }
     }
 
     public void onRefresh() {
         sendFetchTimelineRequest();
-    }
-
-    private void sendRequest(
-            int method, String endpoint, JSONObject parameters,
-            @Nullable Response.Listener<JSONObject> responseListener) {
-        if (responseListener == null) {
-            // Use a dummy listener if one wasn't specified so the request can be constructed.
-            responseListener = new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {}
-            };
-        }
-        String url = "https://" + domain + endpoint;
-        JsonObjectRequest request = new JsonObjectRequest(
-                method, url, parameters, responseListener,
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.err.println(error.getMessage());
-                    }
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
-            }
-        };
-        VolleySingleton.getInstance(getContext()).addToRequestQueue(request);
-    }
-
-    private void postRequest(String endpoint) {
-        sendRequest(Request.Method.POST, endpoint, null, null);
-    }
-
-    public void onReply(int position) {
-        Status status = adapter.getItem(position);
-        String inReplyToId = status.getId();
-        Status.Mention[] mentions = status.getMentions();
-        List<String> mentionedUsernames = new ArrayList<>();
-        for (int i = 0; i < mentions.length; i++) {
-            mentionedUsernames.add(mentions[i].getUsername());
-        }
-        mentionedUsernames.add(status.getUsername());
-        mentionedUsernames.remove(userUsername);
-        Intent intent = new Intent(getContext(), ComposeActivity.class);
-        intent.putExtra("in_reply_to_id", inReplyToId);
-        intent.putExtra("mentioned_usernames", mentionedUsernames.toArray(new String[0]));
-        startActivity(intent);
-    }
-
-    public void onReblog(final boolean reblog, final int position) {
-        final Status status = adapter.getItem(position);
-        String id = status.getId();
-        String endpoint;
-        if (reblog) {
-            endpoint = String.format(getString(R.string.endpoint_reblog), id);
-        } else {
-            endpoint = String.format(getString(R.string.endpoint_unreblog), id);
-        }
-        sendRequest(Request.Method.POST, endpoint, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        status.setReblogged(reblog);
-                        adapter.notifyItemChanged(position);
-                    }
-                });
-    }
-
-    public void onFavourite(final boolean favourite, final int position) {
-        final Status status = adapter.getItem(position);
-        String id = status.getId();
-        String endpoint;
-        if (favourite) {
-            endpoint = String.format(getString(R.string.endpoint_favourite), id);
-        } else {
-            endpoint = String.format(getString(R.string.endpoint_unfavourite), id);
-        }
-        sendRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                status.setFavourited(favourite);
-                adapter.notifyItemChanged(position);
-            }
-        });
-    }
-
-    private void follow(String id) {
-        String endpoint = String.format(getString(R.string.endpoint_follow), id);
-        postRequest(endpoint);
-    }
-
-    private void block(String id) {
-        String endpoint = String.format(getString(R.string.endpoint_block), id);
-        postRequest(endpoint);
-    }
-
-    private void delete(String id) {
-        String endpoint = String.format(getString(R.string.endpoint_delete), id);
-        sendRequest(Request.Method.DELETE, endpoint, null, null);
-    }
-
-    public void onMore(View view, final int position) {
-        Status status = adapter.getItem(position);
-        final String id = status.getId();
-        final String accountId = status.getAccountId();
-        PopupMenu popup = new PopupMenu(getContext(), view);
-        // Give a different menu depending on whether this is the user's own toot or not.
-        if (userAccountId == null || !userAccountId.equals(accountId)) {
-            popup.inflate(R.menu.status_more);
-        } else {
-            popup.inflate(R.menu.status_more_for_user);
-        }
-        popup.setOnMenuItemClickListener(
-                new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.status_follow: {
-                                follow(accountId);
-                                return true;
-                            }
-                            case R.id.status_block: {
-                                block(accountId);
-                                return true;
-                            }
-                            case R.id.status_delete: {
-                                delete(id);
-                                adapter.removeItem(position);
-                                return true;
-                            }
-                        }
-                        return false;
-                    }
-                });
-        popup.show();
-    }
-
-    public void onViewMedia(String url, Status.MediaAttachment.Type type) {
-        switch (type) {
-            case IMAGE: {
-                Fragment newFragment = ViewMediaFragment.newInstance(url);
-                FragmentManager manager = getFragmentManager();
-                manager.beginTransaction()
-                        .add(R.id.overlay_fragment_container, newFragment)
-                        .addToBackStack(null)
-                        .commit();
-                break;
-            }
-            case VIDEO: {
-                Intent intent = new Intent(getContext(), ViewVideoActivity.class);
-                intent.putExtra("url", url);
-                startActivity(intent);
-                break;
-            }
-        }
     }
 
     public void onLoadMore() {
@@ -424,5 +225,29 @@ public class TimelineFragment extends Fragment implements
         } else {
             sendFetchTimelineRequest();
         }
+    }
+
+    public void onReply(int position) {
+        super.reply(adapter.getItem(position));
+    }
+
+    public void onReblog(final boolean reblog, final int position) {
+        super.reblog(adapter.getItem(position), reblog, adapter, position);
+    }
+
+    public void onFavourite(final boolean favourite, final int position) {
+        super.favourite(adapter.getItem(position), favourite, adapter, position);
+    }
+
+    public void onMore(View view, final int position) {
+        super.more(adapter.getItem(position), view, adapter, position);
+    }
+
+    public void onViewMedia(String url, Status.MediaAttachment.Type type) {
+        super.viewMedia(url, type);
+    }
+
+    public void onViewThread(int position) {
+        super.viewThread(adapter.getItem(position));
     }
 }

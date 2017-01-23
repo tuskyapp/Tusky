@@ -55,4 +55,10 @@ public class Notification {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public boolean hasStatusType() {
+        return type == Type.MENTION
+                || type == Type.FAVOURITE
+                || type == Type.REBLOG;
+    }
 }
