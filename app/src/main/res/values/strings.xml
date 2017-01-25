@@ -86,4 +86,8 @@
     <string name="visibility_private">Private</string>
     <string name="visibility_unlisted">Unlisted</string>
 
+    <string name="notification_service_description">Allows Tusky to check for Mastodon notifications.</string>
+    <string name="notification_service_several_mentions">%d new mentions</string>
+    <string name="notification_service_one_mention">Mention from %s</string>
+
 </resources>

@@ -17,6 +17,13 @@ package com.keylesspalace.tusky;
 
 import android.support.annotation.Nullable;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Notification {
     public enum Type {
         MENTION,
@@ -60,5 +67,28 @@ public class Notification {
         return type == Type.MENTION
                 || type == Type.FAVOURITE
                 || type == Type.REBLOG;
+    }
+
+    public static List<Notification> parse(JSONArray array) throws JSONException {
+        List<Notification> notifications = new ArrayList<>();
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject object = array.getJSONObject(i);
+            String id = object.getString("id");
+            Notification.Type type = Notification.Type.valueOf(
+                    object.getString("type").toUpperCase());
+            JSONObject account = object.getJSONObject("account");
+            String displayName = account.getString("display_name");
+            if (displayName.isEmpty()) {
+                displayName = account.getString("username");
+            }
+            Notification notification = new Notification(type, id, displayName);
+            if (notification.hasStatusType()) {
+                JSONObject statusObject = object.getJSONObject("status");
+                Status status = Status.parse(statusObject, false);
+                notification.setStatus(status);
+            }
+            notifications.add(notification);
+        }
+        return notifications;
     }
 }

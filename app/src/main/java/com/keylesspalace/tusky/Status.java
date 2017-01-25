@@ -214,6 +214,9 @@ public class Status {
         JSONObject account = object.getJSONObject("account");
         String accountId = account.getString("id");
         String displayName = account.getString("display_name");
+        if (displayName.isEmpty()) {
+            displayName = account.getString("username");
+        }
         String username = account.getString("acct");
         String avatar = account.getString("avatar");
 

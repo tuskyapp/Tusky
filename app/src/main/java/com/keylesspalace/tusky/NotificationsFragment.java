@@ -106,23 +106,8 @@ public class NotificationsFragment extends SFragment implements
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        List<Notification> notifications = new ArrayList<>();
                         try {
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject object = response.getJSONObject(i);
-                                String id = object.getString("id");
-                                Notification.Type type = Notification.Type.valueOf(
-                                        object.getString("type").toUpperCase());
-                                JSONObject account = object.getJSONObject("account");
-                                String displayName = account.getString("display_name");
-                                Notification notification = new Notification(type, id, displayName);
-                                if (notification.hasStatusType()) {
-                                    JSONObject statusObject = object.getJSONObject("status");
-                                    Status status = Status.parse(statusObject, false);
-                                    notification.setStatus(status);
-                                }
-                                notifications.add(notification);
-                            }
+                            List<Notification> notifications = Notification.parse(response);
                             onFetchNotificationsSuccess(notifications, fromId != null);
                         } catch (JSONException e) {
                             onFetchNotificationsFailure();

@@ -15,9 +15,12 @@
 
 package com.keylesspalace.tusky;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.SystemClock;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +30,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
+    private AlarmManager alarmManager;
+    private PendingIntent serviceAlarmIntent;
+    private boolean notificationServiceEnabled;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Setup the tabs and timeline pager.
         TimelinePagerAdapter adapter = new TimelinePagerAdapter(getSupportFragmentManager());
         String[] pageTitles = {
             getString(R.string.title_home),
@@ -46,6 +54,25 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+
+        // Retrieve notification update preference.
+        SharedPreferences preferences = getSharedPreferences(
+                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        notificationServiceEnabled = preferences.getBoolean("notificationService", true);
+        long notificationCheckInterval =
+                preferences.getLong("notificationCheckInterval", 5 * 60 * 1000);
+        // Start up the NotificationsService.
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, NotificationService.class);
+        final int SERVICE_REQUEST_CODE = 8574603; // This number is arbitrary.
+        serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        if (notificationServiceEnabled) {
+            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime(), notificationCheckInterval, serviceAlarmIntent);
+        } else {
+            alarmManager.cancel(serviceAlarmIntent);
+        }
     }
 
     private void compose() {
@@ -54,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logOut() {
+        if (notificationServiceEnabled) {
+            alarmManager.cancel(serviceAlarmIntent);
+        }
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
