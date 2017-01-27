@@ -198,4 +198,8 @@ public class NotificationsFragment extends SFragment implements
         Notification notification = adapter.getItem(position);
         super.viewThread(notification.getStatus());
     }
+
+    public void onViewTag(String tag) {
+        super.viewTag(tag);
+    }
 }

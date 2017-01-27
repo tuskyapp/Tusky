@@ -24,4 +24,5 @@ public interface StatusActionListener {
     void onMore(View view, final int position);
     void onViewMedia(String url, Status.MediaAttachment.Type type);
     void onViewThread(int position);
+    void onViewTag(String tag);
 }

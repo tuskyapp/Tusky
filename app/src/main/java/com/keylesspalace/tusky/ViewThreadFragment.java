@@ -140,4 +140,8 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
     public void onViewThread(int position) {
         super.viewThread(adapter.getItem(position));
     }
+
+    public void onViewTag(String tag) {
+        super.viewTag(tag);
+    }
 }

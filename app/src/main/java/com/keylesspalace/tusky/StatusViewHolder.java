@@ -18,7 +18,13 @@ package com.keylesspalace.tusky;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
+import android.text.util.Linkify;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -28,7 +34,10 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
+import java.net.URL;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StatusViewHolder extends RecyclerView.ViewHolder {
     private View container;
@@ -89,8 +98,32 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         username.setText(usernameText);
     }
 
-    public void setContent(Spanned content) {
-        this.content.setText(content);
+    public void setContent(Spanned content, final StatusActionListener listener) {
+        // Redirect URLSpan's in the status content to the listener for viewing tag pages.
+        SpannableStringBuilder builder = new SpannableStringBuilder(content);
+        URLSpan[] urlSpans = content.getSpans(0, content.length(), URLSpan.class);
+        for (URLSpan span : urlSpans) {
+            int start = builder.getSpanStart(span);
+            int end = builder.getSpanEnd(span);
+            int flags = builder.getSpanFlags(span);
+            CharSequence tag = builder.subSequence(start, end);
+            if (tag.charAt(0) == '#') {
+                final String viewTag = tag.subSequence(1, tag.length()).toString();
+                ClickableSpan newSpan = new ClickableSpan() {
+                    @Override
+                    public void onClick(View widget) {
+                        listener.onViewTag(viewTag);
+                    }
+                };
+                builder.removeSpan(span);
+                builder.setSpan(newSpan, start, end, flags);
+            }
+        }
+        // Set the contents.
+        this.content.setText(builder);
+        // Make links clickable.
+        this.content.setLinksClickable(true);
+        this.content.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     public void setAvatar(String url) {
@@ -203,6 +236,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setupButtons(final StatusActionListener listener, final int position) {
+
         replyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,9 +273,8 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         setDisplayName(status.getDisplayName());
         setUsername(status.getUsername());
         setCreatedAt(status.getCreatedAt());
-        setContent(status.getContent());
+        setContent(status.getContent(), listener);
         setAvatar(status.getAvatar());
-        setContent(status.getContent());
         setReblogged(status.getReblogged());
         setFavourited(status.getFavourited());
         String rebloggedByUsername = status.getRebloggedByUsername();

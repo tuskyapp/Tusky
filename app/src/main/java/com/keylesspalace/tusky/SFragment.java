@@ -244,4 +244,10 @@ public class SFragment extends Fragment {
         intent.putExtra("id", status.getId());
         startActivity(intent);
     }
+
+    protected void viewTag(String tag) {
+        Intent intent = new Intent(getContext(), ViewTagActivity.class);
+        intent.putExtra("hashtag", tag);
+        startActivity(intent);
+    }
 }

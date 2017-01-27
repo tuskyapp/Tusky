@@ -34,6 +34,7 @@
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name=".ViewVideoActivity" />
         <activity android:name=".ViewThreadActivity" />
+        <activity android:name=".ViewTagActivity" />
         <service
             android:name=".NotificationService"
             android:description="@string/notification_service_description"

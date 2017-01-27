@@ -47,12 +47,14 @@ public class TimelineFragment extends SFragment implements
         HOME,
         MENTIONS,
         PUBLIC,
+        TAG,
     }
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private TimelineAdapter adapter;
     private Kind kind;
+    private String hashtag;
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
@@ -65,11 +67,24 @@ public class TimelineFragment extends SFragment implements
         return fragment;
     }
 
+    public static TimelineFragment newInstance(Kind kind, String hashtag) {
+        TimelineFragment fragment = new TimelineFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString("kind", kind.name());
+        arguments.putString("hashtag", hashtag);
+        fragment.setArguments(arguments);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
              Bundle savedInstanceState) {
 
-        kind = Kind.valueOf(getArguments().getString("kind"));
+        Bundle arguments = getArguments();
+        kind = Kind.valueOf(arguments.getString("kind"));
+        if (kind == Kind.TAG) {
+            hashtag = arguments.getString("hashtag");
+        }
 
         View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
 
@@ -103,20 +118,24 @@ public class TimelineFragment extends SFragment implements
         adapter = new TimelineAdapter(this, this);
         recyclerView.setAdapter(adapter);
 
-        TabLayout layout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
-        onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {}
+        if (kind != Kind.TAG) {
+            TabLayout layout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
+            onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+                }
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                jumpToTop();
-            }
-        };
-        layout.addOnTabSelectedListener(onTabSelectedListener);
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+                    jumpToTop();
+                }
+            };
+            layout.addOnTabSelectedListener(onTabSelectedListener);
+        }
 
         sendFetchTimelineRequest();
 
@@ -125,8 +144,10 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onDestroyView() {
-        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
-        tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
+        if (kind != Kind.TAG) {
+            TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
+            tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
+        }
         super.onDestroyView();
     }
 
@@ -149,6 +170,11 @@ public class TimelineFragment extends SFragment implements
             }
             case PUBLIC: {
                 endpoint = getString(R.string.endpoint_timelines_public);
+                break;
+            }
+            case TAG: {
+                assert(hashtag != null);
+                endpoint = String.format(getString(R.string.endpoint_timelines_tag), hashtag);
                 break;
             }
         }
@@ -249,5 +275,9 @@ public class TimelineFragment extends SFragment implements
 
     public void onViewThread(int position) {
         super.viewThread(adapter.getItem(position));
+    }
+
+    public void onViewTag(String tag) {
+        super.viewTag(tag);
     }
 }
