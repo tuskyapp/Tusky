@@ -33,7 +33,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -61,10 +60,12 @@ public class SFragment extends Fragment {
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         domain = preferences.getString("domain", null);
         accessToken = preferences.getString("accessToken", null);
+        loggedInAccountId = preferences.getString("loggedInAccountId", null);
+        loggedInUsername = preferences.getString("loggedInAccountUsername", null);
         assert(domain != null);
         assert(accessToken != null);
-
-        sendUserInfoRequest();
+        assert(loggedInAccountId != null);
+        assert(loggedInUsername != null);
     }
 
     protected void sendRequest(
@@ -98,22 +99,6 @@ public class SFragment extends Fragment {
 
     protected void postRequest(String endpoint) {
         sendRequest(Request.Method.POST, endpoint, null, null);
-    }
-
-    private void sendUserInfoRequest() {
-        sendRequest(Request.Method.GET, getString(R.string.endpoint_verify_credentials), null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            loggedInAccountId = response.getString("id");
-                            loggedInUsername = response.getString("acct");
-                        } catch (JSONException e) {
-                            //TODO: Help
-                            assert(false);
-                        }
-                    }
-                });
     }
 
     protected void reply(Status status) {
@@ -248,6 +233,13 @@ public class SFragment extends Fragment {
     protected void viewTag(String tag) {
         Intent intent = new Intent(getContext(), ViewTagActivity.class);
         intent.putExtra("hashtag", tag);
+        startActivity(intent);
+    }
+
+    protected void viewAccount(String id, String username) {
+        Intent intent = new Intent(getContext(), AccountActivity.class);
+        intent.putExtra("id", id);
+        intent.putExtra("username", username);
         startActivity(intent);
     }
 }

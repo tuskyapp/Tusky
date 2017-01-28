@@ -35,6 +35,7 @@
         <activity android:name=".ViewVideoActivity" />
         <activity android:name=".ViewThreadActivity" />
         <activity android:name=".ViewTagActivity" />
+        <activity android:name=".AccountActivity" />
         <service
             android:name=".NotificationService"
             android:description="@string/notification_service_description"

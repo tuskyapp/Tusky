@@ -5,8 +5,6 @@
     <string name="oauth_redirect_host">oauth2redirect</string>
     <string name="preferences_file_key">com.keylesspalace.tusky.PREFERENCES</string>
 
-    <string name="content_uri_format_tag">content://com.keylesspalace.tusky.viewtagactivity/%s</string>
-
     <string name="endpoint_status">/api/v1/statuses</string>
     <string name="endpoint_media">/api/v1/media</string>
     <string name="endpoint_timelines_home">/api/v1/timelines/home</string>
@@ -42,13 +40,13 @@
 
     <string name="error_fetching_timeline">Tusky failed to fetch the timeline.</string>
     <string name="error_fetching_notifications">Notifications could not be fetched.</string>
-    <string name="error_compose_character_limit">The toot is too long!</string>
-    <string name="error_sending_status">The toot failed to be sent.</string>
+    <string name="error_compose_character_limit">The status is too long!</string>
+    <string name="error_sending_status">The status failed to be sent.</string>
     <string name="error_media_upload_size">The file must be less than 4MB.</string>
     <string name="error_media_upload_type">That type of file is not able to be uploaded.</string>
     <string name="error_media_upload_opening">That file could not be opened.</string>
     <string name="error_media_upload_permission">Permission to read media is required to upload it.</string>
-    <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same toot.</string>
+    <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same status.</string>
     <string name="error_media_upload_sending">The media could not be uploaded.</string>
 
     <string name="title_home">Home</string>
@@ -56,6 +54,9 @@
     <string name="title_public">Public</string>
     <string name="title_thread">Thread</string>
     <string name="title_tag">#%s</string>
+    <string name="title_statuses">Posts</string>
+    <string name="title_follows">Follows</string>
+    <string name="title_followers">Followers</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boosted</string>
@@ -64,21 +65,24 @@
 
     <string name="footer_text">Could not load the rest of the toots.</string>
 
-    <string name="notification_reblog_format">%s boosted your toot</string>
-    <string name="notification_favourite_format">%s favourited your toot</string>
+    <string name="notification_reblog_format">%s boosted your status</string>
+    <string name="notification_favourite_format">%s favourited your status</string>
     <string name="notification_follow_format">%s followed you</string>
 
     <string name="action_compose">Compose</string>
     <string name="action_login">Log In</string>
     <string name="action_logout">Log Out</string>
     <string name="action_follow">Follow</string>
+    <string name="action_unfollow">Unfollow</string>
     <string name="action_block">Block</string>
+    <string name="action_unblock">Unblock</string>
     <string name="action_delete">Delete</string>
     <string name="action_send">TOOT</string>
     <string name="action_retry">Retry</string>
     <string name="action_mark_sensitive">Mark Sensitive</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_back">Back</string>
+    <string name="action_profile">Profile</string>
 
     <string name="confirmation_send">Toot!</string>
 

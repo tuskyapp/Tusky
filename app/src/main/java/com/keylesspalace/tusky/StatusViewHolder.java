@@ -98,7 +98,8 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         username.setText(usernameText);
     }
 
-    public void setContent(Spanned content, final StatusActionListener listener) {
+    public void setContent(Spanned content, Status.Mention[] mentions,
+            final StatusActionListener listener) {
         // Redirect URLSpan's in the status content to the listener for viewing tag pages.
         SpannableStringBuilder builder = new SpannableStringBuilder(content);
         URLSpan[] urlSpans = content.getSpans(0, content.length(), URLSpan.class);
@@ -106,17 +107,36 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
             int start = builder.getSpanStart(span);
             int end = builder.getSpanEnd(span);
             int flags = builder.getSpanFlags(span);
-            CharSequence tag = builder.subSequence(start, end);
-            if (tag.charAt(0) == '#') {
-                final String viewTag = tag.subSequence(1, tag.length()).toString();
+            CharSequence text = builder.subSequence(start, end);
+            if (text.charAt(0) == '#') {
+                final String tag = text.subSequence(1, text.length()).toString();
                 ClickableSpan newSpan = new ClickableSpan() {
                     @Override
                     public void onClick(View widget) {
-                        listener.onViewTag(viewTag);
+                        listener.onViewTag(tag);
                     }
                 };
                 builder.removeSpan(span);
                 builder.setSpan(newSpan, start, end, flags);
+            } else if (text.charAt(0) == '@') {
+                final String accountUsername = text.subSequence(1, text.length()).toString();
+                String id = null;
+                for (Status.Mention mention: mentions) {
+                    if (mention.getUsername().equals(accountUsername)) {
+                        id = mention.getId();
+                    }
+                }
+                if (id != null) {
+                    final String accountId = id;
+                    ClickableSpan newSpan = new ClickableSpan() {
+                        @Override
+                        public void onClick(View widget) {
+                            listener.onViewAccount(accountId, accountUsername);
+                        }
+                    };
+                    builder.removeSpan(span);
+                    builder.setSpan(newSpan, start, end, flags);
+                }
             }
         }
         // Set the contents.
@@ -236,7 +256,12 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setupButtons(final StatusActionListener listener, final int position) {
-
+        avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onViewAccount(position);
+            }
+        });
         replyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -261,19 +286,25 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
                 listener.onMore(v, position);
             }
         });
-        container.setOnClickListener(new View.OnClickListener() {
+        /* Even though the content TextView is a child of the container, it won't respond to clicks
+         * if it contains URLSpans without also setting its listener. The surrounding spans will
+         * just eat the clicks instead of deferring to the parent listener, but WILL respond to a
+         * listener directly on the TextView, for whatever reason. */
+        View.OnClickListener viewThreadListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onViewThread(position);
             }
-        });
+        };
+        content.setOnClickListener(viewThreadListener);
+        container.setOnClickListener(viewThreadListener);
     }
 
     public void setupWithStatus(Status status, StatusActionListener listener, int position) {
         setDisplayName(status.getDisplayName());
         setUsername(status.getUsername());
         setCreatedAt(status.getCreatedAt());
-        setContent(status.getContent(), listener);
+        setContent(status.getContent(), status.getMentions(), listener);
         setAvatar(status.getAvatar());
         setReblogged(status.getReblogged());
         setFavourited(status.getFavourited());

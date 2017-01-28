@@ -182,26 +182,6 @@ public class Status {
         return date;
     }
 
-    private static CharSequence trimTrailingWhitespace(CharSequence s) {
-        int i = s.length();
-        do {
-            i--;
-        } while (i >= 0 && Character.isWhitespace(s.charAt(i)));
-        return s.subSequence(0, i + 1);
-    }
-
-    private static Spanned compatFromHtml(String html) {
-        Spanned result;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            result = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
-        } else {
-            result = Html.fromHtml(html);
-        }
-        /* Html.fromHtml returns trailing whitespace if the html ends in a </p> tag, which
-         * all status contents do, so it should be trimmed. */
-        return (Spanned) trimTrailingWhitespace(result);
-    }
-
     public static Status parse(JSONObject object, boolean isReblog) throws JSONException {
         String id = object.getString("id");
         String content = object.getString("content");
@@ -264,7 +244,7 @@ public class Status {
             status = reblog;
             status.setRebloggedByUsername(username);
         } else {
-            Spanned contentPlus = compatFromHtml(content);
+            Spanned contentPlus = HtmlUtils.fromHtml(content);
             status = new Status(
                     id, accountId, displayName, username, contentPlus, avatar, createdAt,
                     reblogged, favourited, visibility);

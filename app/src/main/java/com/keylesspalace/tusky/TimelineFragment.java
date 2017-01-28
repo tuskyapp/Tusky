@@ -48,13 +48,14 @@ public class TimelineFragment extends SFragment implements
         MENTIONS,
         PUBLIC,
         TAG,
+        USER,
     }
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private TimelineAdapter adapter;
     private Kind kind;
-    private String hashtag;
+    private String hashtagOrId;
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
@@ -67,11 +68,11 @@ public class TimelineFragment extends SFragment implements
         return fragment;
     }
 
-    public static TimelineFragment newInstance(Kind kind, String hashtag) {
+    public static TimelineFragment newInstance(Kind kind, String hashtagOrId) {
         TimelineFragment fragment = new TimelineFragment();
         Bundle arguments = new Bundle();
         arguments.putString("kind", kind.name());
-        arguments.putString("hashtag", hashtag);
+        arguments.putString("hashtag_or_id", hashtagOrId);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -82,8 +83,8 @@ public class TimelineFragment extends SFragment implements
 
         Bundle arguments = getArguments();
         kind = Kind.valueOf(arguments.getString("kind"));
-        if (kind == Kind.TAG) {
-            hashtag = arguments.getString("hashtag");
+        if (kind == Kind.TAG || kind == Kind.USER) {
+            hashtagOrId = arguments.getString("hashtag_or_id");
         }
 
         View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
@@ -118,7 +119,7 @@ public class TimelineFragment extends SFragment implements
         adapter = new TimelineAdapter(this, this);
         recyclerView.setAdapter(adapter);
 
-        if (kind != Kind.TAG) {
+        if (jumpToTopAllowed()) {
             TabLayout layout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
             onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
                 @Override
@@ -144,11 +145,15 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onDestroyView() {
-        if (kind != Kind.TAG) {
+        if (jumpToTopAllowed()) {
             TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
             tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
         }
         super.onDestroyView();
+    }
+
+    private boolean jumpToTopAllowed() {
+        return kind != Kind.TAG;
     }
 
     private void jumpToTop() {
@@ -173,8 +178,13 @@ public class TimelineFragment extends SFragment implements
                 break;
             }
             case TAG: {
-                assert(hashtag != null);
-                endpoint = String.format(getString(R.string.endpoint_timelines_tag), hashtag);
+                assert(hashtagOrId != null);
+                endpoint = String.format(getString(R.string.endpoint_timelines_tag), hashtagOrId);
+                break;
+            }
+            case USER: {
+                assert(hashtagOrId != null);
+                endpoint = String.format(getString(R.string.endpoint_statuses), hashtagOrId);
                 break;
             }
         }
@@ -279,5 +289,16 @@ public class TimelineFragment extends SFragment implements
 
     public void onViewTag(String tag) {
         super.viewTag(tag);
+    }
+
+    public void onViewAccount(String id, String username) {
+        super.viewAccount(id, username);
+    }
+
+    public void onViewAccount(int position) {
+        Status status = adapter.getItem(position);
+        String id = status.getAccountId();
+        String username = status.getUsername();
+        super.viewAccount(id, username);
     }
 }
