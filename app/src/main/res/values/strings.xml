@@ -67,6 +67,8 @@
     <string name="status_boosted_format">%s boosted</string>
     <string name="status_sensitive_media_title">Sensitive Media</string>
     <string name="status_sensitive_media_directions">Click to view.</string>
+    <string name="status_content_warning_show_more">Show More</string>
+    <string name="status_content_warning_show_less">Show Less</string>
 
     <string name="footer_retry_statuses">Could not load the rest of the statuses.</string>
     <string name="footer_retry_notifications">Could not load the rest of the statuses.</string>

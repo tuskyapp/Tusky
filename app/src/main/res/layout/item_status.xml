@@ -69,13 +69,43 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/status_content_warning_bar"
+        android:visibility="gone"
+        android:layout_toRightOf="@+id/status_avatar"
+        android:layout_toEndOf="@+id/status_avatar"
+        android:layout_below="@+id/status_name_bar"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/status_content_warning_description" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:id="@+id/status_content_warning_button"
+            android:textOn="@string/status_content_warning_show_less"
+            android:textOff="@string/status_content_warning_show_more"
+            android:background="@drawable/toggle_small"
+            android:padding="4dp"
+            android:layout_marginLeft="8dp"/>
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/status_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/status_avatar"
         android:layout_toEndOf="@+id/status_avatar"
-        android:layout_below="@+id/status_name_bar" />
+        android:layout_below="@+id/status_content_warning_bar" />
 
     <LinearLayout
         android:id="@+id/status_media_preview_container"

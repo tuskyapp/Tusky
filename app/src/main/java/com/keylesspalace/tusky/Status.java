@@ -15,8 +15,6 @@
 
 package com.keylesspalace.tusky;
 
-import android.os.Build;
-import android.text.Html;
 import android.text.Spanned;
 
 import org.json.JSONArray;
@@ -52,10 +50,11 @@ public class Status {
     private boolean reblogged;
     /** whether the authenticated user has favourited this status */
     private boolean favourited;
+    private boolean sensitive;
+    private String spoilerText;
     private Visibility visibility;
     private MediaAttachment[] attachments;
     private Mention[] mentions;
-    private boolean sensitive;
 
     public static final int MAX_MEDIA_ATTACHMENTS = 4;
 
@@ -71,6 +70,7 @@ public class Status {
         this.createdAt = createdAt;
         this.reblogged = reblogged;
         this.favourited = favourited;
+        this.spoilerText = "";
         this.visibility = Visibility.valueOf(visibility.toUpperCase());
         this.attachments = new MediaAttachment[0];
         this.mentions = new Mention[0];
@@ -116,6 +116,14 @@ public class Status {
         return favourited;
     }
 
+    public boolean getSensitive() {
+        return sensitive;
+    }
+
+    public String getSpoilerText() {
+        return spoilerText;
+    }
+
     public Visibility getVisibility() {
         return visibility;
     }
@@ -128,10 +136,6 @@ public class Status {
         return mentions;
     }
 
-    public boolean getSensitive() {
-        return sensitive;
-    }
-
     public void setRebloggedByUsername(String name) {
         rebloggedByUsername = name;
     }
@@ -142,6 +146,10 @@ public class Status {
 
     public void setFavourited(boolean favourited) {
         this.favourited = favourited;
+    }
+
+    public void setSpoilerText(String spoilerText) {
+        this.spoilerText = spoilerText;
     }
 
     public void setMentions(Mention[] mentions) {
@@ -188,6 +196,7 @@ public class Status {
         Date createdAt = parseDate(object.getString("created_at"));
         boolean reblogged = object.getBoolean("reblogged");
         boolean favourited = object.getBoolean("favourited");
+        String spoilerText = object.getString("spoiler_text");
         boolean sensitive = object.optBoolean("sensitive");
         String visibility = object.getString("visibility");
 
@@ -259,6 +268,9 @@ public class Status {
             }
             if (attachments != null) {
                 status.setAttachments(attachments, sensitive);
+            }
+            if (!spoilerText.isEmpty()) {
+                status.setSpoilerText(spoilerText);
             }
         }
         return status;

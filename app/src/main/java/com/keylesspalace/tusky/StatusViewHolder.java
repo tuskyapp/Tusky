@@ -21,23 +21,19 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
-import android.text.method.MovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
-import android.text.util.Linkify;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
-import java.net.URL;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class StatusViewHolder extends RecyclerView.ViewHolder {
     private View container;
@@ -59,6 +55,9 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
     private NetworkImageView mediaPreview2;
     private NetworkImageView mediaPreview3;
     private View sensitiveMediaWarning;
+    private View contentWarningBar;
+    private TextView contentWarningDescription;
+    private ToggleButton contentWarningButton;
 
     public StatusViewHolder(View itemView) {
         super(itemView);
@@ -87,6 +86,11 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         mediaPreview2.setDefaultImageResId(R.drawable.media_preview_unloaded);
         mediaPreview3.setDefaultImageResId(R.drawable.media_preview_unloaded);
         sensitiveMediaWarning = itemView.findViewById(R.id.status_sensitive_media_warning);
+        contentWarningBar = itemView.findViewById(R.id.status_content_warning_bar);
+        contentWarningDescription =
+                (TextView) itemView.findViewById(R.id.status_content_warning_description);
+        contentWarningButton =
+                (ToggleButton) itemView.findViewById(R.id.status_content_warning_button);
     }
 
     public void setDisplayName(String name) {
@@ -258,6 +262,23 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         sensitiveMediaWarning.setVisibility(View.GONE);
     }
 
+    public void setSpoilerText(String spoilerText) {
+        contentWarningDescription.setText(spoilerText);
+        contentWarningBar.setVisibility(View.VISIBLE);
+        content.setVisibility(View.GONE);
+        contentWarningButton.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            content.setVisibility(View.VISIBLE);
+                        } else {
+                            content.setVisibility(View.GONE);
+                        }
+                    }
+                });
+    }
+
     public void setupButtons(final StatusActionListener listener, final int position) {
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -328,6 +349,9 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         setupButtons(listener, position);
         if (status.getVisibility() == Status.Visibility.PRIVATE) {
             disableReblogging();
+        }
+        if (!status.getSpoilerText().isEmpty()) {
+            setSpoilerText(status.getSpoilerText());
         }
     }
 }
