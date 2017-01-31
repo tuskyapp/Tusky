@@ -20,15 +20,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class FooterViewHolder extends RecyclerView.ViewHolder {
     private LinearLayout retryBar;
+    private TextView retryMessage;
     private Button retry;
     private ProgressBar progressBar;
 
     public FooterViewHolder(View itemView) {
         super(itemView);
         retryBar = (LinearLayout) itemView.findViewById(R.id.footer_retry_bar);
+        retryMessage = (TextView) itemView.findViewById(R.id.footer_retry_message);
         retry = (Button) itemView.findViewById(R.id.footer_retry_button);
         progressBar = (ProgressBar) itemView.findViewById(R.id.footer_progress_bar);
         progressBar.setIndeterminate(true);
@@ -41,6 +44,10 @@ public class FooterViewHolder extends RecyclerView.ViewHolder {
                 listener.onLoadMore();
             }
         });
+    }
+
+    public void setRetryMessage(int messageId) {
+        retryMessage.setText(messageId);
     }
 
     public void showRetry(boolean show) {

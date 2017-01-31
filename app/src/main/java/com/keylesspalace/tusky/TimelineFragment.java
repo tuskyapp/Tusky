@@ -123,12 +123,10 @@ public class TimelineFragment extends SFragment implements
             TabLayout layout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
             onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
                 @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-                }
+                public void onTabSelected(TabLayout.Tab tab) {}
 
                 @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
-                }
+                public void onTabUnselected(TabLayout.Tab tab) {}
 
                 @Override
                 public void onTabReselected(TabLayout.Tab tab) {

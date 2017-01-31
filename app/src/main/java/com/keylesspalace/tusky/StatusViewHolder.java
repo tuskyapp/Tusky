@@ -68,6 +68,8 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         sinceCreated = (TextView) itemView.findViewById(R.id.status_since_created);
         content = (TextView) itemView.findViewById(R.id.status_content);
         avatar = (NetworkImageView) itemView.findViewById(R.id.status_avatar);
+        avatar.setDefaultImageResId(R.drawable.avatar_default);
+        avatar.setErrorImageResId(R.drawable.avatar_error);
         boostedIcon = (ImageView) itemView.findViewById(R.id.status_boosted_icon);
         boostedByUsername = (TextView) itemView.findViewById(R.id.status_boosted);
         replyButton = (ImageButton) itemView.findViewById(R.id.status_reply);
@@ -147,11 +149,12 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setAvatar(String url) {
+        if (url.isEmpty()) {
+            return;
+        }
         Context context = avatar.getContext();
         ImageLoader imageLoader = VolleySingleton.getInstance(context).getImageLoader();
         avatar.setImageUrl(url, imageLoader);
-        avatar.setDefaultImageResId(R.drawable.avatar_default);
-        avatar.setErrorImageResId(R.drawable.avatar_error);
     }
 
     public void setCreatedAt(@Nullable Date createdAt) {

@@ -15,16 +15,22 @@
 
 package com.keylesspalace.tusky;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 public class AccountPagerAdapter extends FragmentPagerAdapter {
+    private Context context;
     private String accountId;
     private String[] pageTitles;
 
-    public AccountPagerAdapter(FragmentManager manager, String accountId) {
+    public AccountPagerAdapter(FragmentManager manager, Context context, String accountId) {
         super(manager);
+        this.context = context;
         this.accountId = accountId;
     }
 
@@ -39,10 +45,10 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
                 return TimelineFragment.newInstance(TimelineFragment.Kind.USER, accountId);
             }
             case 1: {
-                return AccountFragment.newInstance(AccountFragment.Type.FOLLOWS);
+                return AccountFragment.newInstance(AccountFragment.Type.FOLLOWS, accountId);
             }
             case 2: {
-                return AccountFragment.newInstance(AccountFragment.Type.FOLLOWERS);
+                return AccountFragment.newInstance(AccountFragment.Type.FOLLOWERS, accountId);
             }
             default: {
                 return null;
@@ -58,5 +64,12 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return pageTitles[position];
+    }
+
+    public View getTabView(int position) {
+        View view = LayoutInflater.from(context).inflate(R.layout.tab_account, null);
+        TextView title = (TextView) view.findViewById(R.id.title);
+        title.setText(pageTitles[position]);
+        return view;
     }
 }

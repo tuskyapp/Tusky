@@ -18,16 +18,20 @@ package com.keylesspalace.tusky;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -47,10 +51,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AccountActivity extends AppCompatActivity {
+    private static final String TAG = "AccountActivity"; // logging tag
+
     private String domain;
     private String accessToken;
+    private String accountId;
     private boolean following = false;
     private boolean blocking = false;
+    private boolean isSelf = false;
+    private String openInWebUrl;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,17 +68,13 @@ public class AccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account);
 
         Intent intent = getIntent();
-        String username = intent.getStringExtra("username");
-        String id = intent.getStringExtra("id");
-        TextView accountName = (TextView) findViewById(R.id.account_username);
-        accountName.setText(username);
+        accountId = intent.getStringExtra("id");
 
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         domain = preferences.getString("domain", null);
         accessToken = preferences.getString("accessToken", null);
-        assert(domain != null);
-        assert(accessToken != null);
+        String loggedInAccountId = preferences.getString("loggedInAccountId", null);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -79,35 +85,50 @@ public class AccountActivity extends AppCompatActivity {
         avatar.setErrorImageResId(R.drawable.avatar_error);
         header.setDefaultImageResId(R.drawable.account_header_default);
 
-        obtainAccount(id);
-        obtainRelationships(id);
+        obtainAccount();
+        if (!accountId.equals(loggedInAccountId)) {
+            obtainRelationships();
+        } else {
+            /* Cause the options menu to update and instead show an options menu for when the
+             * account being shown is their own account. */
+            isSelf = true;
+            invalidateOptionsMenu();
+        }
 
         // Setup the tabs and timeline pager.
-        AccountPagerAdapter adapter = new AccountPagerAdapter(getSupportFragmentManager(), id);
+        AccountPagerAdapter adapter = new AccountPagerAdapter(
+                getSupportFragmentManager(), this, accountId);
         String[] pageTitles = {
-                getString(R.string.title_statuses),
-                getString(R.string.title_follows),
-                getString(R.string.title_followers)
+            getString(R.string.title_statuses),
+            getString(R.string.title_follows),
+            getString(R.string.title_followers)
         };
         adapter.setPageTitles(pageTitles);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(adapter);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            tab.setCustomView(adapter.getTabView(i));
+        }
     }
 
-    private void obtainAccount(String id) {
-        String endpoint = String.format(getString(R.string.endpoint_accounts), id);
+    private void obtainAccount() {
+        String endpoint = String.format(getString(R.string.endpoint_accounts), accountId);
         String url = "https://" + domain + endpoint;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Account account;
                         try {
-                            onObtainAccountSuccess(response);
+                            account = Account.parse(response);
                         } catch (JSONException e) {
                             onObtainAccountFailure();
+                            return;
                         }
+                        onObtainAccountSuccess(account);
                     }
                 },
                 new Response.ErrorListener() {
@@ -126,7 +147,7 @@ public class AccountActivity extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(request);
     }
 
-    private void onObtainAccountSuccess(JSONObject response) throws JSONException {
+    private void onObtainAccountSuccess(Account account) {
         TextView username = (TextView) findViewById(R.id.account_username);
         TextView displayName = (TextView) findViewById(R.id.account_display_name);
         TextView note = (TextView) findViewById(R.id.account_note);
@@ -134,36 +155,52 @@ public class AccountActivity extends AppCompatActivity {
         NetworkImageView header = (NetworkImageView) findViewById(R.id.account_header);
 
         String usernameFormatted = String.format(
-                getString(R.string.status_username_format), response.getString("acct"));
+                getString(R.string.status_username_format), account.username);
         username.setText(usernameFormatted);
 
-        String displayNameString = response.getString("display_name");
-        displayName.setText(displayNameString);
+        displayName.setText(account.displayName);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(displayNameString);
+            actionBar.setTitle(account.displayName);
         }
 
-        String noteHtml = response.getString("note");
-        Spanned noteSpanned = HtmlUtils.fromHtml(noteHtml);
-        note.setText(noteSpanned);
+        note.setText(account.note);
+        note.setLinksClickable(true);
 
         ImageLoader imageLoader = VolleySingleton.getInstance(this).getImageLoader();
-        avatar.setImageUrl(response.getString("avatar"), imageLoader);
-        String headerUrl = response.getString("header");
-        if (!headerUrl.isEmpty() && !headerUrl.equals("/headers/original/missing.png")) {
-            header.setImageUrl(headerUrl, imageLoader);
+        if (!account.avatar.isEmpty()) {
+            avatar.setImageUrl(account.avatar, imageLoader);
+        }
+        if (!account.header.isEmpty()) {
+            header.setImageUrl(account.header, imageLoader);
+        }
+
+        openInWebUrl = account.url;
+
+        // Add counts to the tabs in the TabLayout.
+        String[] counts = {
+            account.statusesCount,
+            account.followingCount,
+            account.followersCount,
+        };
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            if (tab != null) {
+                View view = tab.getCustomView();
+                TextView total = (TextView) view.findViewById(R.id.total);
+                total.setText(counts[i]);
+            }
         }
     }
 
     private void onObtainAccountFailure() {
         //TODO: help
-        assert(false);
+        Log.e(TAG, "Failed to obtain that account.");
     }
 
-    private void obtainRelationships(String id) {
+    private void obtainRelationships() {
         String endpoint = getString(R.string.endpoint_relationships);
-        String url = String.format("https://%s%s?id=%s", domain, endpoint, id);
+        String url = String.format("https://%s%s?id=%s", domain, endpoint, accountId);
         JsonArrayRequest request = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -207,7 +244,7 @@ public class AccountActivity extends AppCompatActivity {
 
     private void onObtainRelationshipsFailure() {
         //TODO: help
-        assert(false);
+        Log.e(TAG, "Could not obtain relationships?");
     }
 
     @Override
@@ -218,30 +255,139 @@ public class AccountActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem follow = menu.findItem(R.id.action_follow);
-        String title;
-        if (following) {
-            title = getString(R.string.action_unfollow);
+        if (!isSelf) {
+            MenuItem follow = menu.findItem(R.id.action_follow);
+            String title;
+            if (following) {
+                title = getString(R.string.action_unfollow);
+            } else {
+                title = getString(R.string.action_follow);
+            }
+            follow.setTitle(title);
+            MenuItem block = menu.findItem(R.id.action_block);
+            if (blocking) {
+                title = getString(R.string.action_unblock);
+            } else {
+                title = getString(R.string.action_block);
+            }
+            block.setTitle(title);
         } else {
-            title = getString(R.string.action_follow);
+            // It shouldn't be possible to block or follow yourself.
+            menu.removeItem(R.id.action_follow);
+            menu.removeItem(R.id.action_block);
         }
-        follow.setTitle(title);
-        MenuItem block = menu.findItem(R.id.action_block);
-        if (blocking) {
-            title = getString(R.string.action_unblock);
-        } else {
-            title = getString(R.string.action_block);
-        }
-        block.setTitle(title);
         return super.onPrepareOptionsMenu(menu);
     }
 
-    private void follow() {
-
+    private void postRequest(String endpoint, Response.Listener<JSONObject> listener,
+            Response.ErrorListener errorListener) {
+        String url = "https://" + domain + endpoint;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, null, listener,
+                errorListener) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+        };
+        VolleySingleton.getInstance(this).addToRequestQueue(request);
     }
 
-    private void block() {
+    private void follow(final String id) {
+        int endpointId;
+        if (following) {
+            endpointId = R.string.endpoint_unfollow;
+        } else {
+            endpointId = R.string.endpoint_follow;
+        }
+        postRequest(String.format(getString(endpointId), id),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        boolean followingValue;
+                        try {
+                            followingValue = response.getBoolean("following");
+                        } catch (JSONException e) {
+                            onFollowFailure(id);
+                            return;
+                        }
+                        following = followingValue;
+                        invalidateOptionsMenu();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        onFollowFailure(id);
+                    }
+                });
+    }
 
+    private void onFollowFailure(final String id) {
+        int messageId;
+        if (following) {
+            messageId = R.string.error_unfollowing;
+        } else {
+            messageId = R.string.error_following;
+        }
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                follow(id);
+            }
+        };
+        Snackbar.make(findViewById(R.id.activity_account), messageId, Snackbar.LENGTH_LONG)
+                .setAction(R.string.action_retry, listener)
+                .show();
+    }
+
+    private void block(final String id) {
+        int endpointId;
+        if (blocking) {
+            endpointId = R.string.endpoint_unblock;
+        } else {
+            endpointId = R.string.endpoint_block;
+        }
+        postRequest(String.format(getString(endpointId), id),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        boolean blockingValue;
+                        try {
+                            blockingValue = response.getBoolean("blocking");
+                        } catch (JSONException e) {
+                            onBlockFailure(id);
+                            return;
+                        }
+                        blocking = blockingValue;
+                        invalidateOptionsMenu();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        onBlockFailure(id);
+                    }
+                });
+    }
+
+    private void onBlockFailure(final String id) {
+        int messageId;
+        if (blocking) {
+            messageId = R.string.error_unblocking;
+        } else {
+            messageId = R.string.error_blocking;
+        }
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                block(id);
+            }
+        };
+        Snackbar.make(findViewById(R.id.activity_account), messageId, Snackbar.LENGTH_LONG)
+                .setAction(R.string.action_retry, listener)
+                .show();
     }
 
     @Override
@@ -253,12 +399,18 @@ public class AccountActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             }
+            case R.id.action_open_in_web: {
+                Uri uri = Uri.parse(openInWebUrl);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+                return true;
+            }
             case R.id.action_follow: {
-                follow();
+                follow(accountId);
                 return true;
             }
             case R.id.action_block: {
-                block();
+                block(accountId);
                 return true;
             }
         }

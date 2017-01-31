@@ -7,6 +7,10 @@
         android:icon="@drawable/ic_back"
         app:showAsAction="always" />
 
+    <item android:id="@+id/action_open_in_web"
+        android:title="@string/action_open_in_web"
+        app:showAsAction="never" />
+
     <item android:id="@+id/action_follow"
         android:title="@string/action_follow"
         app:showAsAction="never" />

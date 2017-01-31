@@ -24,6 +24,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -47,6 +48,8 @@ import java.util.Map;
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
 public class SFragment extends Fragment {
+    private static final String TAG = "SFragment"; // logging tag
+
     protected String domain;
     protected String accessToken;
     protected String loggedInAccountId;
@@ -62,10 +65,6 @@ public class SFragment extends Fragment {
         accessToken = preferences.getString("accessToken", null);
         loggedInAccountId = preferences.getString("loggedInAccountId", null);
         loggedInUsername = preferences.getString("loggedInAccountUsername", null);
-        assert(domain != null);
-        assert(accessToken != null);
-        assert(loggedInAccountId != null);
-        assert(loggedInUsername != null);
     }
 
     protected void sendRequest(
@@ -84,7 +83,7 @@ public class SFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.err.println(error.getMessage());
+                        Log.e(TAG, error.getMessage());
                     }
                 }) {
             @Override
@@ -105,8 +104,8 @@ public class SFragment extends Fragment {
         String inReplyToId = status.getId();
         Status.Mention[] mentions = status.getMentions();
         List<String> mentionedUsernames = new ArrayList<>();
-        for (int i = 0; i < mentions.length; i++) {
-            mentionedUsernames.add(mentions[i].getUsername());
+        for (Status.Mention mention : mentions) {
+            mentionedUsernames.add(mention.getUsername());
         }
         mentionedUsernames.add(status.getUsername());
         mentionedUsernames.remove(loggedInUsername);

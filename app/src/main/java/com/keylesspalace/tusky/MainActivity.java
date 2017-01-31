@@ -26,6 +26,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -42,6 +43,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity"; // logging tag
+
     private AlarmManager alarmManager;
     private PendingIntent serviceAlarmIntent;
     private boolean notificationServiceEnabled;
@@ -75,12 +78,12 @@ public class MainActivity extends AppCompatActivity {
         // Retrieve notification update preference.
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        notificationServiceEnabled = preferences.getBoolean("notificationService", true);
+        notificationServiceEnabled = preferences.getBoolean("notificationService", false);
         long notificationCheckInterval =
                 preferences.getLong("notificationCheckInterval", 5 * 60 * 1000);
-        // Start up the NotificationsService.
+        // Start up the PullNotificationsService.
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, NotificationService.class);
+        Intent intent = new Intent(this, PullNotificationService.class);
         final int SERVICE_REQUEST_CODE = 8574603; // This number is arbitrary.
         serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
@@ -90,6 +93,20 @@ public class MainActivity extends AppCompatActivity {
         } else {
             alarmManager.cancel(serviceAlarmIntent);
         }
+
+        /* @Unused: for Firebase Push Notifications
+        Log.d(TAG, "token " + FirebaseInstanceId.getInstance().getToken());
+
+        // Check if it's necessary to register for push notifications for this instance.
+        boolean registered = preferences.getBoolean("firebaseRegistered", false);
+        if (!registered) {
+            String registrationId = preferences.getString("firebaseRegistrationId", null);
+            if (registrationId == null) {
+                registrationId = FirebaseInstanceId.getInstance().getToken();
+            }
+            sendRegistrationToServer(registrationId, true);
+        }
+        */
     }
 
     private void fetchUserInfo() {
@@ -109,14 +126,16 @@ public class MainActivity extends AppCompatActivity {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
+                            String username;
+                            String id;
                             try {
-                                String id = response.getString("id");
-                                String username = response.getString("acct");
-                                onFetchUserInfoSuccess(id, username);
+                                id = response.getString("id");
+                                username = response.getString("acct");
                             } catch (JSONException e) {
-                                //TODO: Help
-                                assert (false);
+                                onFetchUserInfoFailure();
+                                return;
                             }
+                            onFetchUserInfoSuccess(id, username);
                         }
                     },
                     new Response.ErrorListener() {
@@ -149,8 +168,73 @@ public class MainActivity extends AppCompatActivity {
 
     private void onFetchUserInfoFailure() {
         //TODO: help
-        assert(false);
+        Log.e(TAG, "Failed to fetch the logged-in user's info.");
     }
+
+    /* @Unused: For Firebase push notifications, useless for now.
+    private void sendRegistrationToServer(String token, final boolean register) {
+        SharedPreferences preferences = getSharedPreferences(
+                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        String domain = preferences.getString("domain", null);
+        final String accessToken = preferences.getString("accessToken", null);
+
+        String endpoint;
+        if (register) {
+            endpoint = getString(R.string.endpoint_devices_register);
+        } else {
+            endpoint = getString(R.string.endpoint_devices_unregister);
+        }
+        String url = "https://" + domain + endpoint;
+        JSONObject formData = new JSONObject();
+        try {
+            formData.put("registration_id", token);
+        } catch (JSONException e) {
+            onSendRegistrationToServerFailure();
+            return;
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, formData,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        onSendRegistrationToServerSuccess(response, register);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        onSendRegistrationToServerFailure();
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+        };
+        VolleySingleton.getInstance(this).addToRequestQueue(request);
+    }
+
+    private void onSendRegistrationToServerSuccess(JSONObject response, boolean register) {
+        String registeredWord;
+        if (register) {
+            registeredWord = "registration";
+        } else {
+            registeredWord = "unregistration";
+        }
+        Log.d(TAG, String.format("Firebase %s is confirmed with the Mastodon instance. %s",
+                registeredWord, response.toString()));
+        SharedPreferences preferences = getSharedPreferences(
+                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("firebaseRegistered", register);
+        editor.apply();
+    }
+
+    private void onSendRegistrationToServerFailure() {
+        Log.d(TAG, "Firebase registration with the Mastodon instance failed");
+    }
+    */
 
     private void compose() {
         Intent intent = new Intent(this, ComposeActivity.class);
@@ -160,7 +244,6 @@ public class MainActivity extends AppCompatActivity {
     private void viewProfile() {
         Intent intent = new Intent(this, AccountActivity.class);
         intent.putExtra("id", loggedInAccountId);
-        intent.putExtra("username", loggedInAccountUsername);
         startActivity(intent);
     }
 

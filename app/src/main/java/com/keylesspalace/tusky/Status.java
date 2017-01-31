@@ -198,7 +198,13 @@ public class Status {
             displayName = account.getString("username");
         }
         String username = account.getString("acct");
-        String avatar = account.getString("avatar");
+        String avatarUrl = account.getString("avatar");
+        String avatar;
+        if (!avatarUrl.equals("/avatars/original/missing.png")) {
+            avatar = avatarUrl;
+        } else {
+            avatar = "";
+        }
 
         JSONArray mentionsArray = object.getJSONArray("mentions");
         Mention[] mentions = null;

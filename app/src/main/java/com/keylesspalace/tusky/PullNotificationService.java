@@ -42,10 +42,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NotificationService extends IntentService {
+public class PullNotificationService extends IntentService {
     private final int NOTIFY_ID = 6; // This is an arbitrary number.
 
-    public NotificationService() {
+    public PullNotificationService() {
         super("Tusky Notification Service");
     }
 

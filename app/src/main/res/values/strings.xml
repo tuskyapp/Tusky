@@ -37,8 +37,9 @@
     <string name="endpoint_apps">/api/v1/apps</string>
     <string name="endpoint_authorize">/oauth/authorize</string>
     <string name="endpoint_token">/oauth/token</string>
+    <string name="endpoint_devices_register">/api/v1/devices/register</string>
+    <string name="endpoint_devices_unregister">/api/v1/devices/unregister</string>
 
-    <string name="error_fetching_timeline">Tusky failed to fetch the timeline.</string>
     <string name="error_fetching_notifications">Notifications could not be fetched.</string>
     <string name="error_compose_character_limit">The status is too long!</string>
     <string name="error_sending_status">The status failed to be sent.</string>
@@ -48,6 +49,10 @@
     <string name="error_media_upload_permission">Permission to read media is required to upload it.</string>
     <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same status.</string>
     <string name="error_media_upload_sending">The media could not be uploaded.</string>
+    <string name="error_following">That user wasn\'t followed.</string>
+    <string name="error_unfollowing">That user wasn\'t unfollowed.</string>
+    <string name="error_blocking">That user wasn\'t blocked.</string>
+    <string name="error_unblocking">That user wasn\'t unblocked.</string>
 
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifications</string>
@@ -63,7 +68,9 @@
     <string name="status_sensitive_media_title">Sensitive Media</string>
     <string name="status_sensitive_media_directions">Click to view.</string>
 
-    <string name="footer_text">Could not load the rest of the toots.</string>
+    <string name="footer_retry_statuses">Could not load the rest of the statuses.</string>
+    <string name="footer_retry_notifications">Could not load the rest of the statuses.</string>
+    <string name="footer_retry_accounts">Could not load the rest of the accounts.</string>
 
     <string name="notification_reblog_format">%s boosted your status</string>
     <string name="notification_favourite_format">%s favourited your status</string>
@@ -83,6 +90,7 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_back">Back</string>
     <string name="action_profile">Profile</string>
+    <string name="action_open_in_web">Open In Web</string>
 
     <string name="confirmation_send">Toot!</string>
 

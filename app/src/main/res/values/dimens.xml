@@ -14,4 +14,6 @@
     <dimen name="compose_media_preview_side">48dp</dimen>
     <dimen name="compose_mark_sensitive_margin">8dp</dimen>
     <dimen name="notification_icon_vertical_padding">4dp</dimen>
+    <dimen name="account_note_margin">8dp</dimen>
+    <dimen name="account_avatar_margin">8dp</dimen>
 </resources>

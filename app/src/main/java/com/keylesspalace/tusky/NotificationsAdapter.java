@@ -103,6 +103,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         } else {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
             holder.setupButton(footerListener);
+            holder.setRetryMessage(R.string.footer_retry_notifications);
         }
     }
 
