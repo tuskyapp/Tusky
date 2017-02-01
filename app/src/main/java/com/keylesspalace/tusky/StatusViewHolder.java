@@ -106,7 +106,8 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
 
     public void setContent(Spanned content, Status.Mention[] mentions,
             final StatusActionListener listener) {
-        // Redirect URLSpan's in the status content to the listener for viewing tag pages.
+        /* Redirect URLSpan's in the status content to the listener for viewing tag pages and
+         * account pages. */
         SpannableStringBuilder builder = new SpannableStringBuilder(content);
         URLSpan[] urlSpans = content.getSpans(0, content.length(), URLSpan.class);
         for (URLSpan span : urlSpans) {

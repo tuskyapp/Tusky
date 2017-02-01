@@ -28,6 +28,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -110,7 +111,9 @@ public class AccountActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
-            tab.setCustomView(adapter.getTabView(i));
+            if (tab != null) {
+                tab.setCustomView(adapter.getTabView(i));
+            }
         }
     }
 
@@ -166,6 +169,7 @@ public class AccountActivity extends AppCompatActivity {
 
         note.setText(account.note);
         note.setLinksClickable(true);
+        note.setMovementMethod(LinkMovementMethod.getInstance());
 
         ImageLoader imageLoader = VolleySingleton.getInstance(this).getImageLoader();
         if (!account.avatar.isEmpty()) {
@@ -187,8 +191,10 @@ public class AccountActivity extends AppCompatActivity {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             if (tab != null) {
                 View view = tab.getCustomView();
-                TextView total = (TextView) view.findViewById(R.id.total);
-                total.setText(counts[i]);
+                if (view != null) {
+                    TextView total = (TextView) view.findViewById(R.id.total);
+                    total.setText(counts[i]);
+                }
             }
         }
     }
