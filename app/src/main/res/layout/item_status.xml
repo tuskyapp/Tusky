@@ -39,8 +39,7 @@
         android:layout_below="@+id/status_boosted"
         android:padding="@dimen/status_avatar_padding" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <com.keylesspalace.tusky.FlowLayout
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/status_avatar"
         android:layout_toEndOf="@+id/status_avatar"
@@ -59,20 +58,19 @@
             android:id="@+id/status_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/status_username_left_margin" />
+            android:paddingLeft="@dimen/status_username_left_margin" />
 
         <TextView
             android:id="@+id/status_since_created"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/status_since_created_left_margin" />
+            android:paddingLeft="@dimen/status_since_created_left_margin" />
 
-    </LinearLayout>
+    </com.keylesspalace.tusky.FlowLayout>
 
-    <LinearLayout
+    <com.keylesspalace.tusky.FlowLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:id="@+id/status_content_warning_bar"
         android:visibility="gone"
         android:layout_toRightOf="@+id/status_avatar"
@@ -83,7 +81,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/status_content_warning_description" />
+            android:id="@+id/status_content_warning_description"
+            android:paddingRight="8dp"/>
 
         <ToggleButton
             android:layout_width="wrap_content"
@@ -94,10 +93,9 @@
             android:textOn="@string/status_content_warning_show_less"
             android:textOff="@string/status_content_warning_show_more"
             android:background="@drawable/toggle_small"
-            android:padding="4dp"
-            android:layout_marginLeft="8dp"/>
+            android:padding="4dp" />
 
-    </LinearLayout>
+    </com.keylesspalace.tusky.FlowLayout>
 
     <TextView
         android:id="@+id/status_content"
