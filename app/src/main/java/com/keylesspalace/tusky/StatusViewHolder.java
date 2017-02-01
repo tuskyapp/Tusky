@@ -279,6 +279,11 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
                 });
     }
 
+    public void hideSpoilerText() {
+        contentWarningBar.setVisibility(View.GONE);
+        content.setVisibility(View.VISIBLE);
+    }
+
     public void setupButtons(final StatusActionListener listener, final int position) {
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -350,7 +355,9 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         if (status.getVisibility() == Status.Visibility.PRIVATE) {
             disableReblogging();
         }
-        if (!status.getSpoilerText().isEmpty()) {
+        if (status.getSpoilerText().isEmpty()) {
+            hideSpoilerText();
+        } else {
             setSpoilerText(status.getSpoilerText());
         }
     }
