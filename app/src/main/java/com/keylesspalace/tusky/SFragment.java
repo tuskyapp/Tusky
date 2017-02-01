@@ -18,6 +18,7 @@ package com.keylesspalace.tusky;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.ImageReader;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -36,6 +37,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -203,10 +205,26 @@ public class SFragment extends Fragment {
         popup.show();
     }
 
+    private boolean fileExtensionMatches(String url, String extension) {
+        extension = "." + extension;
+        int parametersStart = url.indexOf('?');
+        if (parametersStart == -1) {
+            return url.toLowerCase().endsWith(extension);
+        } else {
+            int start = parametersStart - extension.length();
+            return start > 0 && url.substring(start, parametersStart).equals(extension);
+        }
+    }
+
     protected void viewMedia(String url, Status.MediaAttachment.Type type) {
         switch (type) {
             case IMAGE: {
-                Fragment newFragment = ViewMediaFragment.newInstance(url);
+                Fragment newFragment;
+                if (fileExtensionMatches(url, "gif")) {
+                    newFragment = ViewGifFragment.newInstance(url);
+                } else {
+                    newFragment = ViewMediaFragment.newInstance(url);
+                }
                 FragmentManager manager = getFragmentManager();
                 manager.beginTransaction()
                         .add(R.id.overlay_fragment_container, newFragment)
