@@ -30,6 +30,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -106,6 +107,10 @@ public class AccountActivity extends AppCompatActivity {
         };
         adapter.setPageTitles(pageTitles);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8,
+                getResources().getDisplayMetrics());
+        viewPager.setPageMargin(pageMargin);
+        viewPager.setPageMarginDrawable(R.drawable.tab_page_margin);
         viewPager.setAdapter(adapter);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);

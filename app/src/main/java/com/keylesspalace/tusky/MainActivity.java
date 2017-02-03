@@ -27,6 +27,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -71,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
         };
         adapter.setPageTitles(pageTitles);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8,
+                getResources().getDisplayMetrics());
+        viewPager.setPageMargin(pageMargin);
+        viewPager.setPageMarginDrawable(R.drawable.tab_page_margin);
         viewPager.setAdapter(adapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
