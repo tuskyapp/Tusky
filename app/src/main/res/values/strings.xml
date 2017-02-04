@@ -88,7 +88,9 @@
     <string name="action_delete">Delete</string>
     <string name="action_send">TOOT</string>
     <string name="action_retry">Retry</string>
-    <string name="action_mark_sensitive">Mark Sensitive</string>
+    <string name="action_mark_sensitive">Mark media sensitive</string>
+    <string name="action_hide_text">Hide text behind warning</string>
+    <string name="action_ok">Ok</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_back">Back</string>
     <string name="action_profile">Profile</string>
@@ -99,9 +101,9 @@
     <string name="description_domain">Domain</string>
     <string name="description_compose">What\'s Happening?</string>
 
-    <string name="visibility_public">Public</string>
-    <string name="visibility_private">Private</string>
-    <string name="visibility_unlisted">Unlisted</string>
+    <string name="visibility_public">Show on public timeline</string>
+    <string name="visibility_unlisted">Do not display on public timeline</string>
+    <string name="visibility_private">Mark as private</string>
 
     <string name="notification_service_description">Allows Tusky to check for Mastodon notifications.</string>
     <string name="notification_service_several_mentions">%d new mentions</string>

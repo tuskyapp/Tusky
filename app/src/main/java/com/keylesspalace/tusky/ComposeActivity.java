@@ -33,6 +33,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -95,10 +96,14 @@ public class ComposeActivity extends AppCompatActivity {
     private String accessToken;
     private EditText textEditor;
     private ImageButton mediaPick;
-    private CheckBox markSensitive;
     private LinearLayout mediaPreviewBar;
     private List<QueuedMedia> mediaQueued;
     private CountUpDownLatch waitForMediaLatch;
+    private boolean showMarkSensitive;
+    private String statusVisibility;     // The current values of the options that will be applied
+    private boolean statusMarkSensitive; // to the status being composed.
+    private boolean statusHideText;      //
+    private View contentWarningBar;
 
     private static class QueuedMedia {
         public enum Type {
@@ -242,8 +247,6 @@ public class ComposeActivity extends AppCompatActivity {
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         domain = preferences.getString("domain", null);
         accessToken = preferences.getString("accessToken", null);
-        assert(domain != null);
-        assert(accessToken != null);
 
         textEditor = (EditText) findViewById(R.id.field_status);
         final TextView charactersLeft = (TextView) findViewById(R.id.characters_left);
@@ -280,31 +283,22 @@ public class ComposeActivity extends AppCompatActivity {
         mediaQueued = new ArrayList<>();
         waitForMediaLatch = new CountUpDownLatch();
 
-        final RadioGroup radio = (RadioGroup) findViewById(R.id.radio_visibility);
+        contentWarningBar = findViewById(R.id.compose_content_warning_bar);
+        final EditText contentWarningEditor = (EditText) findViewById(R.id.field_content_warning);
+        showContentWarning(false);
+
         final Button sendButton = (Button) findViewById(R.id.button_send);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Editable editable = textEditor.getText();
                 if (editable.length() <= STATUS_CHARACTER_LIMIT) {
-                    int id = radio.getCheckedRadioButtonId();
-                    String visibility;
-                    switch (id) {
-                        default:
-                        case R.id.radio_public: {
-                            visibility = "public";
-                            break;
-                        }
-                        case R.id.radio_unlisted: {
-                            visibility = "unlisted";
-                            break;
-                        }
-                        case R.id.radio_private: {
-                            visibility = "private";
-                            break;
-                        }
+                    String spoilerText = "";
+                    if (statusHideText) {
+                        spoilerText = contentWarningEditor.getText().toString();
                     }
-                    readyStatus(editable.toString(), visibility, markSensitive.isChecked());
+                    readyStatus(editable.toString(), statusVisibility, statusMarkSensitive,
+                            spoilerText);
                 } else {
                     textEditor.setError(getString(R.string.error_compose_character_limit));
                 }
@@ -318,20 +312,45 @@ public class ComposeActivity extends AppCompatActivity {
                 onMediaPick();
             }
         });
-        markSensitive = (CheckBox) findViewById(R.id.compose_mark_sensitive);
-        markSensitive.setVisibility(View.GONE);
+
+        ImageButton options = (ImageButton) findViewById(R.id.compose_options);
+        options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ComposeOptionsFragment fragment = ComposeOptionsFragment.newInstance(
+                        statusVisibility, statusMarkSensitive, statusHideText,
+                        showMarkSensitive,
+                        new ComposeOptionsFragment.Listener() {
+                            @Override
+                            public int describeContents() {
+                                return 0;
+                            }
+
+                            @Override
+                            public void writeToParcel(Parcel dest, int flags) {}
+
+                            @Override
+                            public void onVisibilityChanged(String visibility) {
+                                statusVisibility = visibility;
+                            }
+
+                            @Override
+                            public void onMarkSensitiveChanged(boolean markSensitive) {
+                                statusMarkSensitive = markSensitive;
+                            }
+
+                            @Override
+                            public void onContentWarningChanged(boolean hideText) {
+                                showContentWarning(hideText);
+                            }
+                        });
+                fragment.show(getSupportFragmentManager(), null);
+            }
+        });
     }
 
-    private void onSendSuccess() {
-        Toast.makeText(this, getString(R.string.confirmation_send), Toast.LENGTH_SHORT).show();
-        finish();
-    }
-
-    private void onSendFailure(Exception exception) {
-        textEditor.setError(getString(R.string.error_sending_status));
-    }
-
-    private void sendStatus(String content, String visibility, boolean sensitive) {
+    private void sendStatus(String content, String visibility, boolean sensitive,
+            String spoilerText) {
         String endpoint = getString(R.string.endpoint_status);
         String url = "https://" + domain + endpoint;
         JSONObject parameters = new JSONObject();
@@ -339,6 +358,7 @@ public class ComposeActivity extends AppCompatActivity {
             parameters.put("status", content);
             parameters.put("visibility", visibility);
             parameters.put("sensitive", sensitive);
+            parameters.put("spoiler_text", spoilerText);
             if (inReplyToId != null) {
                 parameters.put("in_reply_to_id", inReplyToId);
             }
@@ -350,7 +370,7 @@ public class ComposeActivity extends AppCompatActivity {
                 parameters.put("media_ids", media_ids);
             }
         } catch (JSONException e) {
-            onSendFailure(e);
+            onSendFailure();
             return;
         }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, parameters,
@@ -362,7 +382,7 @@ public class ComposeActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onSendFailure(error);
+                onSendFailure();
             }
         }) {
             @Override
@@ -375,20 +395,26 @@ public class ComposeActivity extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(request);
     }
 
+    private void onSendSuccess() {
+        Toast.makeText(this, getString(R.string.confirmation_send), Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private void onSendFailure() {
+        textEditor.setError(getString(R.string.error_sending_status));
+    }
+
     private void readyStatus(final String content, final String visibility,
-                             final boolean sensitive) {
+                             final boolean sensitive, final String spoilerText) {
         final ProgressDialog dialog = ProgressDialog.show(this, "Finishing Media Upload",
                 "Uploading...", true, true);
         final AsyncTask<Void, Void, Boolean> waitForMediaTask =
                 new AsyncTask<Void, Void, Boolean>() {
-                    private Exception exception;
-
                     @Override
                     protected Boolean doInBackground(Void... params) {
                         try {
                             waitForMediaLatch.await();
                         } catch (InterruptedException e) {
-                            exception = e;
                             return false;
                         }
                         return true;
@@ -399,9 +425,9 @@ public class ComposeActivity extends AppCompatActivity {
                         super.onPostExecute(successful);
                         dialog.dismiss();
                         if (successful) {
-                            sendStatus(content, visibility, sensitive);
+                            sendStatus(content, visibility, sensitive, spoilerText);
                         } else {
-                            onReadyFailure(exception, content, visibility, sensitive);
+                            onReadyFailure(content, visibility, sensitive, spoilerText);
                         }
                     }
 
@@ -423,13 +449,13 @@ public class ComposeActivity extends AppCompatActivity {
         waitForMediaTask.execute();
     }
 
-    private void onReadyFailure(Exception exception, final String content, final String visibility,
-                                final boolean sensitive) {
+    private void onReadyFailure(final String content, final String visibility,
+            final boolean sensitive, final String spoilerText) {
         doErrorDialog(R.string.error_media_upload_sending, R.string.action_retry,
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        readyStatus(content, visibility, sensitive);
+                        readyStatus(content, visibility, sensitive, spoilerText);
                     }
                 });
     }
@@ -499,7 +525,6 @@ public class ComposeActivity extends AppCompatActivity {
     }
 
     private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize) {
-        assert(mediaQueued.size() < Status.MAX_MEDIA_ATTACHMENTS);
         final QueuedMedia item = new QueuedMedia(type, uri, new ImageView(this));
         ImageView view = item.getPreview();
         Resources resources = getResources();
@@ -536,7 +561,7 @@ public class ComposeActivity extends AppCompatActivity {
             disableMediaPicking();
         }
         if (queuedCount >= 1) {
-            markSensitive.setVisibility(View.VISIBLE);
+            showMarkSensitive(true);
         }
         waitForMediaLatch.countUp();
         if (mediaSize > STATUS_MEDIA_SIZE_LIMIT && type == QueuedMedia.Type.IMAGE) {
@@ -551,7 +576,7 @@ public class ComposeActivity extends AppCompatActivity {
         mediaPreviewBar.removeView(item.getPreview());
         mediaQueued.remove(item);
         if (mediaQueued.size() == 0) {
-            markSensitive.setVisibility(View.GONE);
+            showMarkSensitive(false);
             /* If there are no image previews to show, the extra padding that was added to the
              * EditText can be removed so there isn't unnecessary empty space. */
             setPaddingRelative(textEditor, 0, 0, 0, moveBottom);
@@ -646,7 +671,7 @@ public class ComposeActivity extends AppCompatActivity {
                         try {
                             item.setId(response.getString("id"));
                         } catch (JSONException e) {
-                            onUploadFailure(item, e);
+                            onUploadFailure(item);
                             return;
                         }
                         waitForMediaLatch.countDown();
@@ -654,7 +679,7 @@ public class ComposeActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        onUploadFailure(item, error);
+                        onUploadFailure(item);
                     }
                 }) {
             @Override
@@ -692,7 +717,7 @@ public class ComposeActivity extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(request);
     }
 
-    private void onUploadFailure(QueuedMedia item, @Nullable Exception exception) {
+    private void onUploadFailure(QueuedMedia item) {
         displayTransientError(R.string.error_media_upload_sending);
         removeMediaFromQueue(item);
     }
@@ -768,6 +793,22 @@ public class ComposeActivity extends AppCompatActivity {
             } else {
                 displayTransientError(R.string.error_media_upload_type);
             }
+        }
+    }
+
+    void showMarkSensitive(boolean show) {
+        showMarkSensitive = show;
+        if(!showMarkSensitive) {
+            statusMarkSensitive = false;
+        }
+    }
+
+    void showContentWarning(boolean show) {
+        statusHideText = show;
+        if (show) {
+            contentWarningBar.setVisibility(View.VISIBLE);
+        } else {
+            contentWarningBar.setVisibility(View.GONE);
         }
     }
 }
