@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -46,7 +47,7 @@ public class PullNotificationService extends IntentService {
     private final int NOTIFY_ID = 6; // This is an arbitrary number.
 
     public PullNotificationService() {
-        super("Tusky Notification Service");
+        super("Tusky Pull Notification Service");
     }
 
     @Override
@@ -60,8 +61,6 @@ public class PullNotificationService extends IntentService {
         if (date != 0) {
             lastUpdate = new Date(date);
         }
-        assert(domain != null);
-        assert(accessToken != null);
         checkNotifications(domain, accessToken, lastUpdate);
     }
 
@@ -171,8 +170,7 @@ public class PullNotificationService extends IntentService {
 
     private void updateNotification(List<MentionResult> mentions, @Nullable Bitmap icon) {
         final int NOTIFICATION_CONTENT_LIMIT = 40;
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String title;
         if (mentions.size() > 1) {
             title = String.format(
@@ -189,13 +187,13 @@ public class PullNotificationService extends IntentService {
         if (icon != null) {
             builder.setLargeIcon(icon);
         }
-        if (preferences.getBoolean("notificationAlertSound", false)) {
+        if (preferences.getBoolean("notificationAlertSound", true)) {
             builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
         }
         if (preferences.getBoolean("notificationStyleVibrate", false)) {
             builder.setVibrate(new long[] { 500, 500 });
         }
-        if (preferences.getBoolean("notificationStyleLight", false)) {
+        if (preferences.getBoolean("notificationStyleLight", true)) {
             builder.setLights(0xFF00FF8F, 300, 1000);
         }
         for (int i = 0; i < mentions.size(); i++) {

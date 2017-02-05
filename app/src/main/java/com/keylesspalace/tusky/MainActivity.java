@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -81,11 +82,12 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         // Retrieve notification update preference.
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        notificationServiceEnabled = preferences.getBoolean("notificationService", false);
-        long notificationCheckInterval =
-                preferences.getLong("notificationCheckInterval", 5 * 60 * 1000);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        notificationServiceEnabled = preferences.getBoolean("pullNotifications", true);
+        String minutesString = preferences.getString("pullNotificationCheckInterval", "15");
+        long notificationCheckInterval = 60 * 1000 * Integer.valueOf(minutesString);
+        Log.d(TAG, String.format("pull notifications: %b %dm", notificationServiceEnabled,
+                Integer.valueOf(minutesString)));
         // Start up the PullNotificationsService.
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, PullNotificationService.class);
@@ -252,6 +254,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void viewPreferences() {
+        Intent intent = new Intent(this, PreferencesActivity.class);
+        startActivity(intent);
+    }
+
     private void logOut() {
         if (notificationServiceEnabled) {
             alarmManager.cancel(serviceAlarmIntent);
@@ -282,6 +289,10 @@ public class MainActivity extends AppCompatActivity {
             }
             case R.id.action_profile: {
                 viewProfile();
+                return true;
+            }
+            case R.id.action_preferences: {
+                viewPreferences();
                 return true;
             }
             case R.id.action_logout: {

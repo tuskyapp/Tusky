@@ -43,7 +43,7 @@ public class DownsizeImageTask extends AsyncTask<Bitmap, Void, Boolean> {
     protected Boolean doInBackground(Bitmap... bitmaps) {
         final int count = bitmaps.length;
         resultList = new ArrayList<>(count);
-        for (int i = 0; i < count; i++) {
+        for (Bitmap bitmap : bitmaps) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             /* Unfortunately, there isn't a determined worst case compression ratio for image
              * formats. So, the only way to tell if they're too big is to compress them and
@@ -54,16 +54,16 @@ public class DownsizeImageTask extends AsyncTask<Bitmap, Void, Boolean> {
             int scaledImageSize = 4096;
             do {
                 stream.reset();
-                Bitmap bitmap = scaleDown(bitmaps[i], scaledImageSize, true);
+                Bitmap scaledBitmap = scaleDown(bitmap, scaledImageSize, true);
                 Bitmap.CompressFormat format;
                 /* It's not likely the user will give transparent images over the upload limit, but
                  * if they do, make sure the transparency is retained. */
-                if (!bitmap.hasAlpha()) {
+                if (!scaledBitmap.hasAlpha()) {
                     format = Bitmap.CompressFormat.JPEG;
                 } else {
                     format = Bitmap.CompressFormat.PNG;
                 }
-                bitmap.compress(format, 75, stream);
+                scaledBitmap.compress(format, 75, stream);
                 scaledImageSize /= 2;
                 iterations++;
             } while (stream.size() > sizeLimit);

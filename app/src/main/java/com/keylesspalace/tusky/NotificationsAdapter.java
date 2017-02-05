@@ -18,7 +18,6 @@ package com.keylesspalace.tusky;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +82,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
                 case MENTION: {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
                     Status status = notification.getStatus();
-                    assert(status != null);
                     holder.setupWithStatus(status, statusListener, position);
                     break;
                 }

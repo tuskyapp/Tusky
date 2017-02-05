@@ -18,7 +18,6 @@ package com.keylesspalace.tusky;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.ImageReader;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -37,7 +36,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
