@@ -15,13 +15,16 @@
 
 package com.keylesspalace.tusky;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,6 +44,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
+    private static final String TAG = "LoginActivity";
     private static String OAUTH_SCOPES = "read write follow";
 
     private SharedPreferences preferences;
@@ -94,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
             queryParameters = toQueryString(parameters);
         } catch (UnsupportedEncodingException e) {
             //TODO: No clue how to handle this error case??
-            assert(false);
+            Log.e(TAG, "Was not able to build the authorization URL.");
             return;
         }
         String url = "https://" + domain + endpoint + "?" + queryParameters;
@@ -109,7 +113,6 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void onButtonClick(final EditText editText) {
         domain = validateDomain(editText.getText().toString());
-        assert(domain != null);
         /* Attempt to get client credentials from SharedPreferences, and if not present
          * (such as in the case that the domain has never been accessed before)
          * authenticate with the server and store the received credentials to use next
@@ -127,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                 parameters.put("redirect_uris", getOauthRedirectUri());
                 parameters.put("scopes", OAUTH_SCOPES);
             } catch (JSONException e) {
-                //TODO: error text????
+                Log.e(TAG, "Unable to build the form data for the authentication request.");
                 return;
             }
             JsonObjectRequest request = new JsonObjectRequest(
@@ -139,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
                                 clientId = response.getString("client_id");
                                 clientSecret = response.getString("client_secret");
                             } catch (JSONException e) {
-                                //TODO: Heck
+                                Log.e(TAG, "Couldn't get data from the authentication response.");
                                 return;
                             }
                             SharedPreferences.Editor editor = preferences.edit();
@@ -175,6 +178,23 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onButtonClick(editText);
+            }
+        });
+        TextView noAccount = (TextView) findViewById(R.id.no_account);
+        final Context context = this;
+        noAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(context)
+                        .setMessage(R.string.dialog_no_account)
+                        .setPositiveButton(R.string.action_close,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                        .show();
             }
         });
     }
@@ -258,7 +278,6 @@ public class LoginActivity extends AppCompatActivity {
                  * can try again. */
                 errorText.setText(error);
             } else {
-                assert(false);
                 // This case means a junk response was received somehow.
                 errorText.setText("An unidentified authorization error occurred.");
             }

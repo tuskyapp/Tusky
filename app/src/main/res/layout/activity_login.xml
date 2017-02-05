@@ -29,8 +29,8 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:contentDescription="@string/description_domain"
+                android:inputType="textUri"
+                android:hint="@string/hint_domain"
                 android:ems="10"
                 android:id="@+id/edit_text_domain" />
 
@@ -45,7 +45,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/text_error" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/no_account"
+                android:text="@string/link_no_account" />
+
         </LinearLayout>
+
     </RelativeLayout>
 
 </LinearLayout>

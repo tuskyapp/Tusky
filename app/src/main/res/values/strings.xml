@@ -92,14 +92,24 @@
     <string name="action_hide_text">Hide text behind warning</string>
     <string name="action_ok">Ok</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_close">Close</string>
     <string name="action_back">Back</string>
     <string name="action_profile">Profile</string>
     <string name="action_open_in_web">Open In Web</string>
 
     <string name="confirmation_send">Toot!</string>
 
-    <string name="description_domain">Domain</string>
-    <string name="description_compose">What\'s Happening?</string>
+    <string name="hint_domain">example.com</string>
+    <string name="hint_compose">What\'s Happening?</string>
+    <string name="hint_content_warning">Beware, folks</string>
+
+    <string name="link_no_account">No account?</string>
+
+    <string name="dialog_no_account">
+        Similar to an email address, a Mastodon account can be provided by any one of many
+        websites.\n\nSo, find the address of one you\'d like to join and enter it here. This will
+        direct you there to either make an account or log in.
+    </string>
 
     <string name="visibility_public">Show on public timeline</string>
     <string name="visibility_unlisted">Do not display on public timeline</string>

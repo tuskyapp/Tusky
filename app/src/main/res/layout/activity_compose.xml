@@ -43,7 +43,8 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:ems="10"
-            android:id="@+id/field_content_warning" />
+            android:id="@+id/field_content_warning"
+            android:hint="@string/hint_content_warning" />
 
     </LinearLayout>
 
@@ -59,7 +60,7 @@
             android:ems="10"
             android:gravity="top|start"
             android:id="@+id/field_status"
-            android:contentDescription="@string/description_compose" />
+            android:hint="@string/hint_compose" />
 
         <LinearLayout
             android:layout_width="match_parent"
