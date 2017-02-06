@@ -194,8 +194,8 @@ public class Status {
         String id = object.getString("id");
         String content = object.getString("content");
         Date createdAt = parseDate(object.getString("created_at"));
-        boolean reblogged = object.getBoolean("reblogged");
-        boolean favourited = object.getBoolean("favourited");
+        boolean reblogged = object.optBoolean("reblogged");
+        boolean favourited = object.optBoolean("favourited");
         String spoilerText = object.getString("spoiler_text");
         boolean sensitive = object.optBoolean("sensitive");
         String visibility = object.getString("visibility");

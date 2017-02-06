@@ -24,6 +24,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ import java.util.Map;
 
 public class TimelineFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener {
+    private static final String TAG = "Timeline"; // logging tag
 
     public enum Kind {
         HOME,
@@ -176,12 +178,10 @@ public class TimelineFragment extends SFragment implements
                 break;
             }
             case TAG: {
-                assert(hashtagOrId != null);
                 endpoint = String.format(getString(R.string.endpoint_timelines_tag), hashtagOrId);
                 break;
             }
             case USER: {
-                assert(hashtagOrId != null);
                 endpoint = String.format(getString(R.string.endpoint_statuses), hashtagOrId);
                 break;
             }
@@ -237,6 +237,7 @@ public class TimelineFragment extends SFragment implements
     public void onFetchTimelineFailure(Exception exception) {
         showFetchTimelineRetry(true);
         swipeRefreshLayout.setRefreshing(false);
+        Log.e(TAG, exception.getMessage());
     }
 
     private void showFetchTimelineRetry(boolean show) {

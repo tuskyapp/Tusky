@@ -86,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
         notificationServiceEnabled = preferences.getBoolean("pullNotifications", true);
         String minutesString = preferences.getString("pullNotificationCheckInterval", "15");
         long notificationCheckInterval = 60 * 1000 * Integer.valueOf(minutesString);
-        Log.d(TAG, String.format("pull notifications: %b %dm", notificationServiceEnabled,
-                Integer.valueOf(minutesString)));
         // Start up the PullNotificationsService.
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, PullNotificationService.class);
