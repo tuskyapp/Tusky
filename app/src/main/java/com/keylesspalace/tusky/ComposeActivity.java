@@ -506,15 +506,6 @@ public class ComposeActivity extends AppCompatActivity {
         startActivityForResult(intent, MEDIA_PICK_RESULT);
     }
 
-    /** A replacement for View.setPaddingRelative to use under API level 16. */
-    private static void setPaddingRelative(View view, int left, int top, int right, int bottom) {
-        view.setPadding(
-                view.getPaddingLeft() + left,
-                view.getPaddingTop() + top,
-                view.getPaddingRight() + right,
-                view.getPaddingBottom() + bottom);
-    }
-
     private void enableMediaPicking() {
         mediaPick.setEnabled(true);
     }
@@ -550,7 +541,8 @@ public class ComposeActivity extends AppCompatActivity {
              * is aligned to the bottom. But, so that text doesn't get hidden under it, extra
              * padding is added at the bottom of the EditText. */
             int totalHeight = side + margin + marginBottom;
-            setPaddingRelative(textEditor, 0, 0, 0, totalHeight);
+            textEditor.setPadding(textEditor.getPaddingLeft(), textEditor.getPaddingTop(),
+                    textEditor.getPaddingRight(), totalHeight);
             // If there's one video in the queue it is full, so disable the button to queue more.
             if (item.getType() == QueuedMedia.Type.VIDEO) {
                 disableMediaPicking();
@@ -571,14 +563,14 @@ public class ComposeActivity extends AppCompatActivity {
     }
 
     private void removeMediaFromQueue(QueuedMedia item) {
-        int moveBottom = mediaPreviewBar.getMeasuredHeight();
         mediaPreviewBar.removeView(item.getPreview());
         mediaQueued.remove(item);
         if (mediaQueued.size() == 0) {
             showMarkSensitive(false);
             /* If there are no image previews to show, the extra padding that was added to the
              * EditText can be removed so there isn't unnecessary empty space. */
-            setPaddingRelative(textEditor, 0, 0, 0, moveBottom);
+            textEditor.setPadding(textEditor.getPaddingLeft(), textEditor.getPaddingTop(),
+                    textEditor.getPaddingRight(), 0);
         }
         enableMediaPicking();
         cancelReadyingMedia(item);
