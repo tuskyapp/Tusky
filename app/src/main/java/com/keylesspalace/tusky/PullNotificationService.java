@@ -26,7 +26,6 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -44,7 +43,8 @@ import java.util.List;
 import java.util.Map;
 
 public class PullNotificationService extends IntentService {
-    private final int NOTIFY_ID = 6; // This is an arbitrary number.
+    private static final int NOTIFY_ID = 6; // This is an arbitrary number.
+    private static final String TAG = "PullNotifications";
 
     public PullNotificationService() {
         super("Tusky Pull Notification Service");
@@ -76,7 +76,7 @@ public class PullNotificationService extends IntentService {
                         try {
                             notifications = Notification.parse(response);
                         } catch (JSONException e) {
-                            onCheckNotificationsFailure();
+                            onCheckNotificationsFailure(e);
                             return;
                         }
                         onCheckNotificationsSuccess(notifications, lastUpdate);
@@ -84,7 +84,7 @@ public class PullNotificationService extends IntentService {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        onCheckNotificationsFailure();
+                        onCheckNotificationsFailure(error);
                     }
                 }) {
             @Override
@@ -134,9 +134,9 @@ public class PullNotificationService extends IntentService {
         }
     }
 
-    private void onCheckNotificationsFailure() {
+    private void onCheckNotificationsFailure(Exception exception) {
         //TODO: not sure if just logging here is enough?
-        Log.e("Error", "Could not check notifications in the service.");
+        Log.e(TAG, "Failed to check notifications. " + exception.getMessage());
     }
 
     private static class MentionResult {
@@ -193,7 +193,7 @@ public class PullNotificationService extends IntentService {
         if (preferences.getBoolean("notificationStyleVibrate", false)) {
             builder.setVibrate(new long[] { 500, 500 });
         }
-        if (preferences.getBoolean("notificationStyleLight", true)) {
+        if (preferences.getBoolean("notificationStyleLight", false)) {
             builder.setLights(0xFF00FF8F, 300, 1000);
         }
         for (int i = 0; i < mentions.size(); i++) {

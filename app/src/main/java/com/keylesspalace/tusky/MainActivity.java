@@ -27,7 +27,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -137,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                                 id = response.getString("id");
                                 username = response.getString("acct");
                             } catch (JSONException e) {
-                                onFetchUserInfoFailure();
+                                onFetchUserInfoFailure(e);
                                 return;
                             }
                             onFetchUserInfoSuccess(id, username);
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            onFetchUserInfoFailure();
+                            onFetchUserInfoFailure(error);
                         }
                     }) {
                 @Override
@@ -171,9 +170,9 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void onFetchUserInfoFailure() {
+    private void onFetchUserInfoFailure(Exception exception) {
         //TODO: help
-        Log.e(TAG, "Failed to fetch the logged-in user's info.");
+        Log.e(TAG, "Failed to fetch user info. " + exception.getMessage());
     }
 
     /* @Unused: For Firebase push notifications, useless for now.

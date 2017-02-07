@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Tusky</string>
+    <string name="app_website">http://tusky.keylesspalace.com</string>
 
     <string name="oauth_scheme">com.keylesspalace.tusky</string>
     <string name="oauth_redirect_host">oauth2redirect</string>
@@ -112,6 +113,8 @@
         websites.\n\nSo, find the address of one you\'d like to join and enter it here. This will
         direct you there to either make an account or log in.
     </string>
+    <string name="dialog_title_finishing_media_upload">Finishing Media Upload</string>
+    <string name="dialog_message_uploading_media">Uploading…</string>
 
     <string name="visibility_public">Show on public timeline</string>
     <string name="visibility_unlisted">Do not display on public timeline</string>

@@ -45,6 +45,8 @@ import java.util.Map;
 
 public class AccountFragment extends Fragment implements AccountActionListener,
         FooterActionListener {
+    private static final String TAG = "Account";
+
     public enum Type {
         FOLLOWS,
         FOLLOWERS,
@@ -166,7 +168,7 @@ public class AccountFragment extends Fragment implements AccountActionListener,
                         try {
                             accounts = Account.parse(response);
                         } catch (JSONException e) {
-                            onFetchAccountsFailure();
+                            onFetchAccountsFailure(e);
                             return;
                         }
                         onFetchAccountsSuccess(accounts, fromId != null);
@@ -175,7 +177,7 @@ public class AccountFragment extends Fragment implements AccountActionListener,
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        onFetchAccountsFailure();
+                        onFetchAccountsFailure(error);
                     }
                 }) {
             @Override
@@ -201,8 +203,9 @@ public class AccountFragment extends Fragment implements AccountActionListener,
         showFetchAccountsRetry(false);
     }
 
-    private void onFetchAccountsFailure() {
+    private void onFetchAccountsFailure(Exception exception) {
         showFetchAccountsRetry(true);
+        Log.e(TAG, "Fetch failure: " + exception.getMessage());
     }
 
     private void showFetchAccountsRetry(boolean show) {

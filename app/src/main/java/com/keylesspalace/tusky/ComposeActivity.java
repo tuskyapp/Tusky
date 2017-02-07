@@ -404,8 +404,9 @@ public class ComposeActivity extends AppCompatActivity {
 
     private void readyStatus(final String content, final String visibility,
                              final boolean sensitive, final String spoilerText) {
-        final ProgressDialog dialog = ProgressDialog.show(this, "Finishing Media Upload",
-                "Uploading...", true, true);
+        final ProgressDialog dialog = ProgressDialog.show(
+                this, getString(R.string.dialog_title_finishing_media_upload),
+                getString(R.string.dialog_message_uploading_media), true, true);
         final AsyncTask<Void, Void, Boolean> waitForMediaTask =
                 new AsyncTask<Void, Void, Boolean>() {
                     @Override
@@ -734,6 +735,10 @@ public class ComposeActivity extends AppCompatActivity {
             Uri uri = data.getData();
             ContentResolver contentResolver = getContentResolver();
             Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            if (cursor == null) {
+                displayTransientError(R.string.error_media_upload_opening);
+                return;
+            }
             int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
             cursor.moveToFirst();
             long mediaSize = cursor.getLong(sizeIndex);

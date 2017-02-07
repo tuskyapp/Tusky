@@ -24,7 +24,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -129,6 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                 parameters.put("client_name", getString(R.string.app_name));
                 parameters.put("redirect_uris", getOauthRedirectUri());
                 parameters.put("scopes", OAUTH_SCOPES);
+                parameters.put("website", getString(R.string.app_website));
             } catch (JSONException e) {
                 Log.e(TAG, "Unable to build the form data for the authentication request.");
                 return;

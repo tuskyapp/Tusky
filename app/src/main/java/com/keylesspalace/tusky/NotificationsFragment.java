@@ -42,6 +42,8 @@ import java.util.Map;
 
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener {
+    private static final String TAG = "Notifications"; // logging tag
+
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private NotificationsAdapter adapter;
@@ -108,13 +110,13 @@ public class NotificationsFragment extends SFragment implements
                             List<Notification> notifications = Notification.parse(response);
                             onFetchNotificationsSuccess(notifications, fromId != null);
                         } catch (JSONException e) {
-                            onFetchNotificationsFailure();
+                            onFetchNotificationsFailure(e);
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        onFetchNotificationsFailure();
+                        onFetchNotificationsFailure(error);
                     }
                 }) {
             @Override
@@ -141,9 +143,10 @@ public class NotificationsFragment extends SFragment implements
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    private void onFetchNotificationsFailure() {
+    private void onFetchNotificationsFailure(Exception exception) {
         showFetchTimelineRetry(true);
         swipeRefreshLayout.setRefreshing(false);
+        Log.e(TAG, "Fetch failure: " + exception.getMessage());
     }
 
     private void showFetchTimelineRetry(boolean show) {
