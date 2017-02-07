@@ -71,6 +71,7 @@ public class AccountAdapter extends RecyclerView.Adapter {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
             holder.setupButton(footerActionListener);
             holder.setRetryMessage(R.string.footer_retry_accounts);
+            holder.setEndOfTimelineMessage(R.string.footer_end_of_accounts);
         }
     }
 

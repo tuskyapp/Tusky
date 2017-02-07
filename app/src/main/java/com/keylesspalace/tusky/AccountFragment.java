@@ -46,6 +46,7 @@ import java.util.Map;
 public class AccountFragment extends Fragment implements AccountActionListener,
         FooterActionListener {
     private static final String TAG = "Account";
+    private static int EXPECTED_ACCOUNTS_FETCHED = 20;
 
     public enum Type {
         FOLLOWS,
@@ -200,20 +201,24 @@ public class AccountFragment extends Fragment implements AccountActionListener,
         } else {
             adapter.update(accounts);
         }
-        showFetchAccountsRetry(false);
+        if (accounts.size() >= EXPECTED_ACCOUNTS_FETCHED) {
+            setFetchTimelineState(FooterViewHolder.State.LOADING);
+        } else {
+            setFetchTimelineState(FooterViewHolder.State.END_OF_TIMELINE);
+        }
     }
 
     private void onFetchAccountsFailure(Exception exception) {
-        showFetchAccountsRetry(true);
+        setFetchTimelineState(FooterViewHolder.State.RETRY);
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
     }
 
-    private void showFetchAccountsRetry(boolean show) {
+    private void setFetchTimelineState(FooterViewHolder.State state) {
         RecyclerView.ViewHolder viewHolder =
                 recyclerView.findViewHolderForAdapterPosition(adapter.getItemCount() - 1);
         if (viewHolder != null) {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
-            holder.showRetry(show);
+            holder.setState(state);
         }
     }
 

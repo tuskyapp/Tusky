@@ -91,4 +91,20 @@ public class Notification {
         }
         return notifications;
     }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this.id == null) {
+            return this == other;
+        } else if (!(other instanceof Notification)) {
+            return false;
+        }
+        Notification notification = (Notification) other;
+        return notification.getId().equals(this.id);
+    }
 }

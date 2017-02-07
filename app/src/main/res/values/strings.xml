@@ -74,6 +74,9 @@
     <string name="footer_retry_statuses">Could not load the rest of the statuses.</string>
     <string name="footer_retry_notifications">Could not load the rest of the statuses.</string>
     <string name="footer_retry_accounts">Could not load the rest of the accounts.</string>
+    <string name="footer_end_of_statuses">end of the statuses</string>
+    <string name="footer_end_of_notifications">end of the notifications</string>
+    <string name="footer_end_of_accounts">end of the accounts</string>
 
     <string name="notification_reblog_format">%s boosted your status</string>
     <string name="notification_favourite_format">%s favourited your status</string>

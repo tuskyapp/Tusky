@@ -43,6 +43,7 @@ import java.util.Map;
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener {
     private static final String TAG = "Notifications"; // logging tag
+    private static final int EXPECTED_NOTIFICATIONS_FETCHED = 10;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -139,22 +140,26 @@ public class NotificationsFragment extends SFragment implements
         } else {
             adapter.update(notifications);
         }
-        showFetchTimelineRetry(false);
+        if (notifications.size() >= EXPECTED_NOTIFICATIONS_FETCHED) {
+            setFetchTimelineState(FooterViewHolder.State.LOADING);
+        } else {
+            setFetchTimelineState(FooterViewHolder.State.END_OF_TIMELINE);
+        }
         swipeRefreshLayout.setRefreshing(false);
     }
 
     private void onFetchNotificationsFailure(Exception exception) {
-        showFetchTimelineRetry(true);
+        setFetchTimelineState(FooterViewHolder.State.RETRY);
         swipeRefreshLayout.setRefreshing(false);
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
     }
 
-    private void showFetchTimelineRetry(boolean show) {
+    private void setFetchTimelineState(FooterViewHolder.State state) {
         RecyclerView.ViewHolder viewHolder =
                 recyclerView.findViewHolderForAdapterPosition(adapter.getItemCount() - 1);
         if (viewHolder != null) {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
-            holder.showRetry(show);
+            holder.setState(state);
         }
     }
 

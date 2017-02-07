@@ -102,6 +102,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
             holder.setupButton(footerListener);
             holder.setRetryMessage(R.string.footer_retry_notifications);
+            holder.setEndOfTimelineMessage(R.string.footer_end_of_notifications);
         }
     }
 

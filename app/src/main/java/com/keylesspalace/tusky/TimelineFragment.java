@@ -43,6 +43,7 @@ import java.util.Map;
 public class TimelineFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener {
     private static final String TAG = "Timeline"; // logging tag
+    private static final int EXPECTED_STATUSES_FETCHED = 20;
 
     public enum Kind {
         HOME,
@@ -229,22 +230,26 @@ public class TimelineFragment extends SFragment implements
         } else {
             adapter.update(statuses);
         }
-        showFetchTimelineRetry(false);
+        if (statuses.size() >= EXPECTED_STATUSES_FETCHED) {
+            setFetchTimelineState(FooterViewHolder.State.LOADING);
+        } else {
+            setFetchTimelineState(FooterViewHolder.State.END_OF_TIMELINE);
+        }
         swipeRefreshLayout.setRefreshing(false);
     }
 
     public void onFetchTimelineFailure(Exception exception) {
-        showFetchTimelineRetry(true);
+        setFetchTimelineState(FooterViewHolder.State.RETRY);
         swipeRefreshLayout.setRefreshing(false);
         Log.e(TAG, exception.getMessage());
     }
 
-    private void showFetchTimelineRetry(boolean show) {
+    private void setFetchTimelineState(FooterViewHolder.State state) {
         RecyclerView.ViewHolder viewHolder =
                 recyclerView.findViewHolderForAdapterPosition(adapter.getItemCount() - 1);
         if (viewHolder != null) {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
-            holder.showRetry(show);
+            holder.setState(state);
         }
     }
 

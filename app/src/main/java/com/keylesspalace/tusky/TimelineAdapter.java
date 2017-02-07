@@ -67,6 +67,7 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
             holder.setupButton(footerListener);
             holder.setRetryMessage(R.string.footer_retry_statuses);
+            holder.setEndOfTimelineMessage(R.string.footer_end_of_statuses);
         }
     }
 

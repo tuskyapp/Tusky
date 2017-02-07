@@ -73,4 +73,20 @@ public class Account {
         }
         return accounts;
     }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this.id == null) {
+            return this == other;
+        } else if (!(other instanceof Account)) {
+            return false;
+        }
+        Account account = (Account) other;
+        return account.id.equals(this.id);
+    }
 }
