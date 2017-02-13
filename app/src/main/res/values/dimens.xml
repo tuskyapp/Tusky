@@ -3,9 +3,9 @@
     <dimen name="activity_vertical_margin">0dp</dimen>
     <dimen name="status_username_left_margin">4dp</dimen>
     <dimen name="status_since_created_left_margin">4dp</dimen>
-    <dimen name="status_avatar_column_width">56dp</dimen>
     <dimen name="status_avatar_padding">8dp</dimen>
-    <dimen name="status_boost_icon_vertical_padding">5dp</dimen>
+    <dimen name="status_reblogged_bar_top_padding">8dp</dimen>
+    <dimen name="status_reblogged_icon_left_padding">40dp</dimen>
     <dimen name="status_media_preview_top_margin">4dp</dimen>
     <dimen name="status_media_preview_height">96dp</dimen>
     <dimen name="footer_text_padding">8dp</dimen>
@@ -13,7 +13,11 @@
     <dimen name="compose_media_preview_margin_bottom">16dp</dimen>
     <dimen name="compose_media_preview_side">48dp</dimen>
     <dimen name="compose_options_margin">8dp</dimen>
-    <dimen name="notification_icon_vertical_padding">4dp</dimen>
+    <dimen name="notification_icon_vertical_padding">8dp</dimen>
+    <dimen name="notification_icon_left_padding">40dp</dimen>
+    <dimen name="notification_avatar_column_width">64dp</dimen>
+    <dimen name="follow_icon_left_padding">40dp</dimen>
     <dimen name="account_note_margin">8dp</dimen>
     <dimen name="account_avatar_margin">8dp</dimen>
+    <dimen name="tab_page_margin">8dp</dimen>
 </resources>

@@ -19,6 +19,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -47,7 +48,10 @@ public class NotificationsFragment extends SFragment implements
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
+    private LinearLayoutManager layoutManager;
+    private EndlessOnScrollListener scrollListener;
     private NotificationsAdapter adapter;
+    private TabLayout.OnTabSelectedListener onTabSelectedListener;
 
     public static NotificationsFragment newInstance() {
         NotificationsFragment fragment = new NotificationsFragment();
@@ -69,14 +73,14 @@ public class NotificationsFragment extends SFragment implements
         // Setup the RecyclerView.
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration divider = new DividerItemDecoration(
                 context, layoutManager.getOrientation());
         Drawable drawable = ContextCompat.getDrawable(context, R.drawable.status_divider);
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
-        EndlessOnScrollListener scrollListener = new EndlessOnScrollListener(layoutManager) {
+        scrollListener = new EndlessOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 NotificationsAdapter adapter = (NotificationsAdapter) view.getAdapter();
@@ -92,9 +96,36 @@ public class NotificationsFragment extends SFragment implements
         adapter = new NotificationsAdapter(this, this);
         recyclerView.setAdapter(adapter);
 
+        TabLayout layout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
+        onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                jumpToTop();
+            }
+        };
+        layout.addOnTabSelectedListener(onTabSelectedListener);
+
         sendFetchNotificationsRequest();
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
+        tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
+        super.onDestroyView();
+    }
+
+    private void jumpToTop() {
+        layoutManager.scrollToPosition(0);
+        scrollListener.reset();
     }
 
     private void sendFetchNotificationsRequest(final String fromId) {

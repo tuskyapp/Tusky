@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="gray">#4F4F4F</color>
+    <color name="colorPrimary">#44A673</color>
+    <color name="colorPrimaryDark">#2C996E</color>
+    <color name="colorAccent">#3F8A65</color>
+    <color name="colorBackground">#3C4945</color>
+    <color name="windowBackground">#191E1E</color>
+    <color name="splash_background">#4F4F4F</color>
+    <color name="button_dark">#3F8A65</color>
+    <color name="image_button_dark">#CFCFCF</color>
     <color name="view_video_background">#000000</color>
     <color name="sensitive_media_warning_background">#303030</color>
-    <color name="media_preview_unloaded_background">#DFDFDF</color>
-    <color name="compose_mention">#4F5F6F</color>
+    <color name="media_preview_unloaded_background">#2F2F2F</color>
+    <color name="compose_mention">#AFBFCF</color>
     <color name="notification_content_faded">#9F9F9F</color>
-    <color name="account_header_background">#FFFFFF</color>
+    <color name="notification_icon_tint">#CFCFCF</color>
+    <color name="status_text_secondary_dark">#A4B4BC</color>
+    <color name="status_divider_dark">#000000</color>
+    <color name="tab_page_margin_dark">#4C534B</color>
+    <color name="account_header_background_dark">#000000</color>
 </resources>

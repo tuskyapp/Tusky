@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Setup the tabs and timeline pager.
-        TimelinePagerAdapter adapter = new TimelinePagerAdapter(getSupportFragmentManager());
+        TimelinePagerAdapter adapter = new TimelinePagerAdapter(getSupportFragmentManager(), this);
         String[] pageTitles = {
             getString(R.string.title_home),
             getString(R.string.title_notifications),
@@ -72,13 +72,18 @@ public class MainActivity extends AppCompatActivity {
         };
         adapter.setPageTitles(pageTitles);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8,
-                getResources().getDisplayMetrics());
+        int pageMargin = getResources().getDimensionPixelSize(R.dimen.tab_page_margin);
         viewPager.setPageMargin(pageMargin);
         viewPager.setPageMarginDrawable(R.drawable.tab_page_margin);
         viewPager.setAdapter(adapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            if (tab != null) {
+                tab.setCustomView(adapter.getTabView(i));
+            }
+        }
 
         // Retrieve notification update preference.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

@@ -182,7 +182,7 @@ public class PullNotificationService extends IntentService {
                     mentions.get(0).displayName);
         }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-            .setSmallIcon(R.drawable.ic_notify_mention)
+            .setSmallIcon(R.mipmap.ic_notify)
             .setContentTitle(title);
         if (icon != null) {
             builder.setLargeIcon(icon);

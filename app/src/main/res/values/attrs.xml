@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="FlowLayout">
         <attr name="paddingHorizontal" format="dimension" />
         <attr name="paddingVertical" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="StatusButton">
+        <attr name="state_marked" format="boolean" />
+    </declare-styleable>
+
+    <!--Themed Attributes-->
+    <attr name="image_button_style" format="reference" />
+    <attr name="favourite_button_style" format="reference" />
+    <attr name="reblog_button_style" format="reference" />
+    <attr name="content_warning_button" format="reference" />
+    <attr name="notification_content" format="reference" />
+    <attr name="notification_icon_tint" format="reference|color" />
+    <attr name="status_text_color_secondary" format="reference|color" />
+    <attr name="status_divider_color" format="reference|color" />
+    <attr name="tab_page_margin_color" format="reference|color" />
+    <attr name="account_header_background_color" format="reference|color" />
+
 </resources>

@@ -15,7 +15,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:srcCompat="@drawable/media_selector"
-            style="?android:attr/borderlessButtonStyle"
+            style="?attr/image_button_style"
             android:id="@+id/compose_photo_pick"
             android:layout_marginLeft="8dp" />
 
@@ -24,7 +24,7 @@
             android:layout_height="48dp"
             android:id="@+id/compose_options"
             app:srcCompat="@drawable/ic_options"
-            style="?android:attr/borderlessButtonStyle"
+            style="?attr/image_button_style"
             android:layout_marginLeft="8dp" />
 
     </LinearLayout>

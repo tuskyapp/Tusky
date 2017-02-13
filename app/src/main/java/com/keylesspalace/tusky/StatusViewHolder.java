@@ -42,11 +42,11 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
     private TextView sinceCreated;
     private TextView content;
     private NetworkImageView avatar;
-    private ImageView boostedIcon;
-    private TextView boostedByUsername;
+    private View rebloggedBar;
+    private TextView rebloggedByUsername;
     private ImageButton replyButton;
-    private ImageButton reblogButton;
-    private ImageButton favouriteButton;
+    private StatusButton reblogButton;
+    private StatusButton favouriteButton;
     private ImageButton moreButton;
     private boolean favourited;
     private boolean reblogged;
@@ -69,11 +69,11 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         avatar = (NetworkImageView) itemView.findViewById(R.id.status_avatar);
         avatar.setDefaultImageResId(R.drawable.avatar_default);
         avatar.setErrorImageResId(R.drawable.avatar_error);
-        boostedIcon = (ImageView) itemView.findViewById(R.id.status_boosted_icon);
-        boostedByUsername = (TextView) itemView.findViewById(R.id.status_boosted);
+        rebloggedBar = itemView.findViewById(R.id.status_reblogged_bar);
+        rebloggedByUsername = (TextView) itemView.findViewById(R.id.status_reblogged);
         replyButton = (ImageButton) itemView.findViewById(R.id.status_reply);
-        reblogButton = (ImageButton) itemView.findViewById(R.id.status_reblog);
-        favouriteButton = (ImageButton) itemView.findViewById(R.id.status_favourite);
+        reblogButton = (StatusButton) itemView.findViewById(R.id.status_reblog);
+        favouriteButton = (StatusButton) itemView.findViewById(R.id.status_favourite);
         moreButton = (ImageButton) itemView.findViewById(R.id.status_more);
         reblogged = false;
         favourited = false;
@@ -175,40 +175,34 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setRebloggedByUsername(String name) {
-        Context context = boostedByUsername.getContext();
+        Context context = rebloggedByUsername.getContext();
         String format = context.getString(R.string.status_boosted_format);
         String boostedText = String.format(format, name);
-        boostedByUsername.setText(boostedText);
-        boostedIcon.setVisibility(View.VISIBLE);
-        boostedByUsername.setVisibility(View.VISIBLE);
+        rebloggedByUsername.setText(boostedText);
+        rebloggedBar.setVisibility(View.VISIBLE);
     }
 
     public void hideRebloggedByUsername() {
-        boostedIcon.setVisibility(View.GONE);
-        boostedByUsername.setVisibility(View.GONE);
+        rebloggedBar.setVisibility(View.GONE);
     }
 
     public void setReblogged(boolean reblogged) {
         this.reblogged = reblogged;
-        if (!reblogged) {
-            reblogButton.setImageResource(R.drawable.ic_reblog_off);
-        } else {
-            reblogButton.setImageResource(R.drawable.ic_reblog_on);
-        }
+        reblogButton.setMarked(reblogged);
     }
 
-    public void disableReblogging() {
-        reblogButton.setEnabled(false);
-        reblogButton.setImageResource(R.drawable.ic_reblog_disabled);
+    public void setRebloggingEnabled(boolean enabled) {
+        reblogButton.setEnabled(enabled);
+        if (enabled) {
+            reblogButton.setImageResource(R.drawable.ic_reblog);
+        } else {
+            reblogButton.setImageResource(R.drawable.ic_reblog_disabled);
+        }
     }
 
     public void setFavourited(boolean favourited) {
         this.favourited = favourited;
-        if (!favourited) {
-            favouriteButton.setImageResource(R.drawable.ic_favourite_off);
-        } else {
-            favouriteButton.setImageResource(R.drawable.ic_favourite_on);
-        }
+        favouriteButton.setMarked(favourited);
     }
 
     public void setMediaPreviews(final Status.MediaAttachment[] attachments,
@@ -353,9 +347,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
             hideSensitiveMediaWarning();
         }
         setupButtons(listener, position);
-        if (status.getVisibility() == Status.Visibility.PRIVATE) {
-            disableReblogging();
-        }
+        setRebloggingEnabled(status.getVisibility() != Status.Visibility.PRIVATE);
         if (status.getSpoilerText().isEmpty()) {
             hideSpoilerText();
         } else {

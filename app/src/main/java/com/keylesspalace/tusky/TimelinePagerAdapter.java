@@ -15,15 +15,21 @@
 
 package com.keylesspalace.tusky;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 public class TimelinePagerAdapter extends FragmentPagerAdapter {
     private String[] pageTitles;
+    private Context context;
 
-    public TimelinePagerAdapter(FragmentManager manager) {
+    public TimelinePagerAdapter(FragmentManager manager, Context context) {
         super(manager);
+        this.context = context;
     }
 
     public void setPageTitles(String[] titles) {
@@ -56,5 +62,12 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return pageTitles[position];
+    }
+
+    public View getTabView(int position) {
+        View view = LayoutInflater.from(context).inflate(R.layout.tab_main, null);
+        TextView title = (TextView) view.findViewById(R.id.title);
+        title.setText(pageTitles[position]);
+        return view;
     }
 }

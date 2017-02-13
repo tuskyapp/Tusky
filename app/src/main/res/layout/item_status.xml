@@ -5,38 +5,37 @@
     android:layout_height="wrap_content"
     android:id="@+id/status_container">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/status_boosted"
+        android:id="@+id/status_reblogged_bar"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/status_boosted_icon"
-        android:layout_toEndOf="@+id/status_boosted_icon"
-        android:visibility="gone" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="@dimen/status_reblogged_bar_top_padding">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_reblogged"
-        android:id="@+id/status_boosted_icon"
-        android:adjustViewBounds="false"
-        android:cropToPadding="false"
-        android:layout_alignRight="@+id/status_avatar"
-        android:visibility="gone"
-        android:paddingRight="@dimen/status_avatar_padding"
-        android:paddingTop="@dimen/status_boost_icon_vertical_padding"
-        android:paddingBottom="@dimen/status_boost_icon_vertical_padding"
-        android:layout_alignParentTop="true" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_reblogged"
+            android:id="@+id/status_reblogged_icon"
+            android:paddingRight="@dimen/status_avatar_padding"
+            android:paddingLeft="@dimen/status_reblogged_icon_left_padding" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/status_reblogged"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/status_reblogged_icon" />
+
+    </RelativeLayout>
 
     <com.android.volley.toolbox.NetworkImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:scaleType="fitCenter"
         android:id="@+id/status_avatar"
-        android:layout_alignParentRight="false"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentStart="false"
-        android:layout_below="@+id/status_boosted"
+        android:layout_below="@+id/status_reblogged_bar"
         android:padding="@dimen/status_avatar_padding" />
 
     <com.keylesspalace.tusky.FlowLayout
@@ -44,8 +43,9 @@
         android:layout_toRightOf="@+id/status_avatar"
         android:layout_toEndOf="@+id/status_avatar"
         android:id="@+id/status_name_bar"
-        android:layout_below="@+id/status_boosted_icon"
-        android:layout_width="wrap_content">
+        android:layout_below="@+id/status_reblogged_bar"
+        android:layout_width="wrap_content"
+        android:paddingTop="@dimen/status_avatar_padding">
 
         <TextView
             android:id="@+id/status_display_name"
@@ -58,13 +58,15 @@
             android:id="@+id/status_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/status_username_left_margin" />
+            android:paddingLeft="@dimen/status_username_left_margin"
+            android:textColor="?attr/status_text_color_secondary" />
 
         <TextView
             android:id="@+id/status_since_created"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/status_since_created_left_margin" />
+            android:paddingLeft="@dimen/status_since_created_left_margin"
+            android:textColor="?attr/status_text_color_secondary" />
 
     </com.keylesspalace.tusky.FlowLayout>
 
@@ -92,7 +94,7 @@
             android:id="@+id/status_content_warning_button"
             android:textOn="@string/status_content_warning_show_less"
             android:textOff="@string/status_content_warning_show_more"
-            android:background="@drawable/toggle_small"
+            android:background="?attr/content_warning_button"
             android:padding="4dp" />
 
     </com.keylesspalace.tusky.FlowLayout>
@@ -196,7 +198,7 @@
         <ImageButton
             app:srcCompat="@drawable/ic_reply"
             android:id="@+id/status_reply"
-            style="?android:attr/borderlessButtonStyle"
+            style="?attr/image_button_style"
             android:layout_width="32dp"
             android:layout_height="32dp" />
 
@@ -205,10 +207,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <ImageButton
-            app:srcCompat="@drawable/ic_reblog_off"
+        <com.keylesspalace.tusky.StatusButton
+            app:srcCompat="@drawable/ic_reblog"
             android:id="@+id/status_reblog"
-            style="?android:attr/borderlessButtonStyle"
+            style="?attr/reblog_button_style"
             android:layout_width="32dp"
             android:layout_height="32dp" />
 
@@ -217,12 +219,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <ImageButton
+        <com.keylesspalace.tusky.StatusButton
             android:layout_width="32dp"
             android:layout_height="32dp"
-            app:srcCompat="@drawable/ic_favourite_off"
-            android:id="@+id/status_favourite"
-            style="?android:attr/borderlessButtonStyle" />
+            style="?attr/favourite_button_style"
+            app:srcCompat="@drawable/ic_favourite"
+            android:id="@+id/status_favourite" />
 
         <Space
             android:layout_width="0dp"
@@ -232,7 +234,7 @@
         <ImageButton
             app:srcCompat="@drawable/ic_extra"
             android:id="@+id/status_more"
-            style="?android:attr/borderlessButtonStyle"
+            style="?attr/image_button_style"
             android:layout_width="32dp"
             android:layout_height="32dp" />
 

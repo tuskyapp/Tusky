@@ -157,7 +157,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void jumpToTop() {
-        layoutManager.scrollToPositionWithOffset(0, 0);
+        layoutManager.scrollToPosition(0);
         scrollListener.reset();
     }
 
@@ -241,7 +241,7 @@ public class TimelineFragment extends SFragment implements
     public void onFetchTimelineFailure(Exception exception) {
         setFetchTimelineState(FooterViewHolder.State.RETRY);
         swipeRefreshLayout.setRefreshing(false);
-        Log.e(TAG, exception.getMessage());
+        Log.e(TAG, "Fetch Failure: " + exception.getMessage());
     }
 
     private void setFetchTimelineState(FooterViewHolder.State state) {

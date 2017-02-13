@@ -1,10 +1,51 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- Base application theme (Dark). -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/button_dark</item>
+
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:editTextColor">#FFFFFF</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textColorSecondary">#FFFFFF</item>
+        <item name="android:textColorTertiary">#FFFFFF</item>
+        <item name="android:textColorPrimaryInverse">#000000</item>
+        <item name="android:textColorSecondaryInverse">#000000</item>
+        <item name="android:textColorTertiaryInverse">#000000</item>
+
+        <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheetDialog.Dark</item>
+
+        <item name="notification_content">@color/notification_content_faded</item>
+        <item name="notification_icon_tint">@color/notification_icon_tint</item>
+        <item name="image_button_style">@style/AppTheme.ImageButton.Dark</item>
+        <item name="favourite_button_style">@style/AppTheme.FavouriteButton.Dark</item>
+        <item name="reblog_button_style">@style/AppTheme.ReblogButton.Dark</item>
+        <item name="content_warning_button">@drawable/toggle_small</item>
+        <item name="status_text_color_secondary">@color/status_text_secondary_dark</item>
+        <item name="status_divider_color">@color/status_divider_dark</item>
+        <item name="tab_page_margin_color">@color/tab_page_margin_dark</item>
+        <item name="account_header_background_color">@color/account_header_background_dark</item>
+    </style>
+
+    <style name="AppTheme.ImageButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:tint">@color/image_button_dark</item>
+    </style>
+
+    <style name="AppTheme.FavouriteButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:tint">@color/favourite_button_dark</item>
+    </style>
+
+    <style name="AppTheme.ReblogButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:tint">@color/reblog_button_dark</item>
+    </style>
+
+    <style name="AppTheme.BottomSheetDialog.Dark" parent="@style/Theme.Design.BottomSheetDialog">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
