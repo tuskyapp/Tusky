@@ -21,5 +21,6 @@
     <attr name="status_divider_color" format="reference|color" />
     <attr name="tab_page_margin_color" format="reference|color" />
     <attr name="account_header_background_color" format="reference|color" />
+    <attr name="compose_media_button_tint" format="reference|color" />
 
 </resources>

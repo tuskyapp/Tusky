@@ -29,6 +29,7 @@
         <item name="status_divider_color">@color/status_divider_dark</item>
         <item name="tab_page_margin_color">@color/tab_page_margin_dark</item>
         <item name="account_header_background_color">@color/account_header_background_dark</item>
+        <item name="compose_media_button_tint">@color/media_button_dark</item>
     </style>
 
     <style name="AppTheme.ImageButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">

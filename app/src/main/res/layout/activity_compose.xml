@@ -14,8 +14,9 @@
         <ImageButton
             android:layout_width="48dp"
             android:layout_height="48dp"
-            app:srcCompat="@drawable/media_selector"
+            app:srcCompat="@drawable/ic_media"
             style="?attr/image_button_style"
+            android:tint="?attr/compose_media_button_tint"
             android:id="@+id/compose_photo_pick"
             android:layout_marginLeft="8dp" />
 

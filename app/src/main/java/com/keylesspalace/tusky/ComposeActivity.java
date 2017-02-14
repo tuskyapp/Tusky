@@ -87,7 +87,6 @@ public class ComposeActivity extends AppCompatActivity {
     private static final int STATUS_MEDIA_SIZE_LIMIT = 4000000; // 4MB
     private static final int MEDIA_PICK_RESULT = 1;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-    private static final Pattern mentionPattern = Pattern.compile("\\B@[^\\s@]+@?[^\\s@]+");
 
     private String inReplyToId;
     private String domain;
@@ -175,9 +174,37 @@ public class ComposeActivity extends AppCompatActivity {
         Snackbar.make(findViewById(R.id.activity_compose), stringId, Snackbar.LENGTH_LONG).show();
     }
 
-    private static class Interval {
-        public int start;
-        public int end;
+    private static int findStartOfMention(String string, int fromIndex) {
+        final int length = string.length();
+        while (fromIndex < length) {
+            int at = string.indexOf('@', fromIndex);
+            if (at < 0) {
+                break;
+            } else if (at == 0 || at >= 1 && Character.isWhitespace(string.codePointBefore(at))) {
+                return at;
+            } else {
+                fromIndex = at + 1;
+            }
+        }
+        return -1;
+    }
+
+    private static int findEndOfMention(String string, int fromIndex) {
+        int atCount = 0;
+        final int length = string.length();
+        for (int i = fromIndex; i < length; ) {
+            int codepoint = string.codePointAt(i);
+            if (Character.isWhitespace(codepoint)) {
+                return i;
+            } else if (codepoint == '@') {
+                atCount += 1;
+                if (atCount > 2) {
+                    return -1;
+                }
+            }
+            i += Character.charCount(codepoint);
+        }
+        return length;
     }
 
     private static void colourMentions(Spannable text, int colour) {
@@ -187,44 +214,20 @@ public class ComposeActivity extends AppCompatActivity {
         for (int i = oldSpans.length - 1; i >= 0; i--) {
             text.removeSpan(oldSpans[i]);
         }
-        // Match a list of new colour spans.
-        List<Interval> intervals = new ArrayList<>();
-        Matcher matcher = mentionPattern.matcher(text);
-        while (matcher.find()) {
-            Interval interval = new Interval();
-            interval.start = matcher.start();
-            interval.end = matcher.end();
-            intervals.add(interval);
-        }
-        // Make sure intervals don't overlap.
-        Collections.sort(intervals, new Comparator<Interval>() {
-            @Override
-            public int compare(Interval a, Interval b) {
-                return a.start - b.start;
+        // Colour the mentions.
+        String string = text.toString();
+        int start;
+        int end = 0;
+        while (end < n) {
+            start = findStartOfMention(string, end);
+            if (start < 0 || start >= n) {
+                break;
             }
-        });
-        for (int i = 0, j = 0; i < intervals.size() - 1; i++, j++) {
-            if (j != 0) {
-                Interval a = intervals.get(j - 1);
-                Interval b = intervals.get(i);
-                if (a.start <= b.end) {
-                    while (j != 0 && a.start <= b.end) {
-                        a = intervals.get(j - 1);
-                        b = intervals.get(i);
-                        a.end = Math.max(a.end, b.end);
-                        a.start = Math.min(a.start, b.start);
-                        j--;
-                    }
-                } else {
-                    intervals.set(j, b);
-                }
-            } else {
-                intervals.set(j, intervals.get(i));
+            end = findEndOfMention(string, start);
+            if (end < 0) {
+                break;
             }
-        }
-        // Finally, set the spans.
-        for (Interval interval : intervals) {
-            text.setSpan(new ForegroundColorSpan(colour), interval.start, interval.end,
+            text.setSpan(new ForegroundColorSpan(colour), start, end,
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
     }
@@ -508,10 +511,12 @@ public class ComposeActivity extends AppCompatActivity {
 
     private void enableMediaPicking() {
         mediaPick.setEnabled(true);
+        mediaPick.setImageResource(R.drawable.ic_media);
     }
 
     private void disableMediaPicking() {
         mediaPick.setEnabled(false);
+        mediaPick.setImageResource(R.drawable.ic_media_disabled);
     }
 
     private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize) {
