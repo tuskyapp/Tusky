@@ -174,31 +174,72 @@ public class ComposeActivity extends AppCompatActivity {
         Snackbar.make(findViewById(R.id.activity_compose), stringId, Snackbar.LENGTH_LONG).show();
     }
 
-    private static int findStartOfMention(String string, int fromIndex) {
+    private static class FindCharsResult {
+        public int charIndex;
+        public int stringIndex;
+
+        public FindCharsResult() {
+            charIndex = -1;
+            stringIndex = -1;
+        }
+    }
+
+    private static FindCharsResult findChars(String string, int fromIndex, char[] chars) {
+        FindCharsResult result = new FindCharsResult();
         final int length = string.length();
-        while (fromIndex < length) {
-            int at = string.indexOf('@', fromIndex);
-            if (at < 0) {
-                break;
-            } else if (at == 0 || at >= 1 && Character.isWhitespace(string.codePointBefore(at))) {
-                return at;
-            } else {
-                fromIndex = at + 1;
+        for (int i = fromIndex; i < length; i++) {
+            char c = string.charAt(i);
+            for (int j = 0; j < chars.length; j++) {
+                if (chars[j] == c) {
+                    result.charIndex = j;
+                    result.stringIndex = i;
+                    return result;
+                }
             }
         }
-        return -1;
+        return result;
+    }
+
+    private static FindCharsResult findStart(String string, int fromIndex, char[] chars) {
+        final int length = string.length();
+        while (fromIndex < length) {
+            FindCharsResult found = findChars(string, fromIndex, chars);
+            int i = found.stringIndex;
+            if (i < 0) {
+                break;
+            } else if (i == 0 || i >= 1 && Character.isWhitespace(string.codePointBefore(i))) {
+                return found;
+            } else {
+                fromIndex = i + 1;
+            }
+        }
+        return new FindCharsResult();
+    }
+
+    private static int findEndOfHashtag(String string, int fromIndex) {
+        final int length = string.length();
+        for (int i = fromIndex + 1; i < length;) {
+            int codepoint = string.codePointAt(i);
+            if (Character.isWhitespace(codepoint)) {
+                return i;
+            } else if (codepoint == '#') {
+                return -1;
+            }
+            i += Character.charCount(codepoint);
+        }
+        return length;
     }
 
     private static int findEndOfMention(String string, int fromIndex) {
         int atCount = 0;
         final int length = string.length();
-        for (int i = fromIndex; i < length; ) {
+        for (int i = fromIndex + 1; i < length;) {
             int codepoint = string.codePointAt(i);
             if (Character.isWhitespace(codepoint)) {
                 return i;
             } else if (codepoint == '@') {
                 atCount += 1;
-                if (atCount > 2) {
+                if (atCount >= 2) {
                     return -1;
                 }
             }
@@ -207,23 +248,31 @@ public class ComposeActivity extends AppCompatActivity {
         return length;
     }
 
-    private static void colourMentions(Spannable text, int colour) {
+    private static void highlightSpans(Spannable text, int colour) {
         // Strip all existing colour spans.
         int n = text.length();
         ForegroundColorSpan[] oldSpans = text.getSpans(0, n, ForegroundColorSpan.class);
         for (int i = oldSpans.length - 1; i >= 0; i--) {
             text.removeSpan(oldSpans[i]);
         }
-        // Colour the mentions.
+        // Colour the mentions and hashtags.
         String string = text.toString();
         int start;
         int end = 0;
         while (end < n) {
-            start = findStartOfMention(string, end);
-            if (start < 0 || start >= n) {
+            char[] chars = { '#', '@' };
+            FindCharsResult found = findStart(string, end, chars);
+            start = found.stringIndex;
+            if (start < 0) {
                 break;
             }
-            end = findEndOfMention(string, start);
+            if (found.charIndex == 0) {
+                end = findEndOfHashtag(string, start);
+            } else if (found.charIndex == 1) {
+                end = findEndOfMention(string, start);
+            } else {
+                break;
+            }
             if (end < 0) {
                 break;
             }
@@ -264,7 +313,7 @@ public class ComposeActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                colourMentions(editable, mentionColour);
+                highlightSpans(editable, mentionColour);
             }
         };
         textEditor.addTextChangedListener(textEditorWatcher);
