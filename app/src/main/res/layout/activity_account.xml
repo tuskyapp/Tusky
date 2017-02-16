@@ -79,7 +79,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
+                android:background="?attr/toolbar_background_color"
                 android:layout_gravity="top"
                 app:layout_collapseMode="pin" />
 

@@ -26,7 +26,6 @@ import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -43,7 +42,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
     private TextView content;
     private NetworkImageView avatar;
     private View rebloggedBar;
-    private TextView rebloggedByUsername;
+    private TextView rebloggedByDisplayName;
     private ImageButton replyButton;
     private StatusButton reblogButton;
     private StatusButton favouriteButton;
@@ -70,7 +69,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         avatar.setDefaultImageResId(R.drawable.avatar_default);
         avatar.setErrorImageResId(R.drawable.avatar_error);
         rebloggedBar = itemView.findViewById(R.id.status_reblogged_bar);
-        rebloggedByUsername = (TextView) itemView.findViewById(R.id.status_reblogged);
+        rebloggedByDisplayName = (TextView) itemView.findViewById(R.id.status_reblogged);
         replyButton = (ImageButton) itemView.findViewById(R.id.status_reply);
         reblogButton = (StatusButton) itemView.findViewById(R.id.status_reblog);
         favouriteButton = (StatusButton) itemView.findViewById(R.id.status_favourite);
@@ -174,15 +173,15 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         sinceCreated.setText(readout);
     }
 
-    public void setRebloggedByUsername(String name) {
-        Context context = rebloggedByUsername.getContext();
+    public void setRebloggedByDisplayName(String name) {
+        Context context = rebloggedByDisplayName.getContext();
         String format = context.getString(R.string.status_boosted_format);
         String boostedText = String.format(format, name);
-        rebloggedByUsername.setText(boostedText);
+        rebloggedByDisplayName.setText(boostedText);
         rebloggedBar.setVisibility(View.VISIBLE);
     }
 
-    public void hideRebloggedByUsername() {
+    public void hideRebloggedByDisplayName() {
         rebloggedBar.setVisibility(View.GONE);
     }
 
@@ -332,11 +331,11 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         setAvatar(status.getAvatar());
         setReblogged(status.getReblogged());
         setFavourited(status.getFavourited());
-        String rebloggedByUsername = status.getRebloggedByUsername();
-        if (rebloggedByUsername == null) {
-            hideRebloggedByUsername();
+        String rebloggedByDisplayName = status.getRebloggedByDisplayName();
+        if (rebloggedByDisplayName == null) {
+            hideRebloggedByDisplayName();
         } else {
-            setRebloggedByUsername(rebloggedByUsername);
+            setRebloggedByDisplayName(rebloggedByDisplayName);
         }
         Status.MediaAttachment[] attachments = status.getAttachments();
         boolean sensitive = status.getSensitive();

@@ -43,7 +43,7 @@ public class Status {
     private Spanned content;
     /** the fully-qualified url of the avatar image */
     private String avatar;
-    private String rebloggedByUsername;
+    private String rebloggedByDisplayName;
     /** when the status was initially created */
     private Date createdAt;
     /** whether the authenticated user has reblogged this status */
@@ -104,8 +104,8 @@ public class Status {
         return createdAt;
     }
 
-    public String getRebloggedByUsername() {
-        return rebloggedByUsername;
+    public String getRebloggedByDisplayName() {
+        return rebloggedByDisplayName;
     }
 
     public boolean getReblogged() {
@@ -136,8 +136,8 @@ public class Status {
         return mentions;
     }
 
-    public void setRebloggedByUsername(String name) {
-        rebloggedByUsername = name;
+    public void setRebloggedByDisplayName(String name) {
+        rebloggedByDisplayName = name;
     }
 
     public void setReblogged(boolean reblogged) {
@@ -257,7 +257,7 @@ public class Status {
         Status status;
         if (reblog != null) {
             status = reblog;
-            status.setRebloggedByUsername(username);
+            status.setRebloggedByDisplayName(displayName);
         } else {
             Spanned contentPlus = HtmlUtils.fromHtml(content);
             status = new Status(

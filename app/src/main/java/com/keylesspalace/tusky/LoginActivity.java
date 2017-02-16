@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -42,7 +41,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     private static final String TAG = "LoginActivity";
     private static String OAUTH_SCOPES = "read write follow";
 
@@ -279,7 +278,7 @@ public class LoginActivity extends AppCompatActivity {
                 errorText.setText(error);
             } else {
                 // This case means a junk response was received somehow.
-                errorText.setText("An unidentified authorization error occurred.");
+                errorText.setText(getString(R.string.error_authorization_unknown));
             }
         }
     }

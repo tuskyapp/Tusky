@@ -19,7 +19,8 @@
             app:srcCompat="@drawable/ic_reblogged"
             android:id="@+id/status_reblogged_icon"
             android:paddingRight="@dimen/status_avatar_padding"
-            android:paddingLeft="@dimen/status_reblogged_icon_left_padding" />
+            android:paddingLeft="@dimen/status_reblogged_icon_left_padding"
+            android:tint="?attr/notification_icon_tint" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -121,7 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/status_media_preview_top_margin"
             android:padding="8dp"
-            android:background="@color/sensitive_media_warning_background"
+            android:background="?attr/sensitive_media_warning_background_color"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -182,6 +183,7 @@
                 android:layout_height="@dimen/status_media_preview_height"
                 android:layout_weight="1"
                 android:scaleType="centerCrop" />
+
         </LinearLayout>
 
     </LinearLayout>
@@ -198,9 +200,9 @@
         <ImageButton
             app:srcCompat="@drawable/ic_reply"
             android:id="@+id/status_reply"
-            style="?attr/image_button_style"
             android:layout_width="32dp"
-            android:layout_height="32dp" />
+            android:layout_height="32dp"
+            style="?attr/image_button_style" />
 
         <Space
             android:layout_width="0dp"
@@ -210,7 +212,7 @@
         <com.keylesspalace.tusky.StatusButton
             app:srcCompat="@drawable/ic_reblog"
             android:id="@+id/status_reblog"
-            style="?attr/reblog_button_style"
+            style="?attr/status_reblog_button_style"
             android:layout_width="32dp"
             android:layout_height="32dp" />
 
@@ -222,7 +224,7 @@
         <com.keylesspalace.tusky.StatusButton
             android:layout_width="32dp"
             android:layout_height="32dp"
-            style="?attr/favourite_button_style"
+            style="?attr/status_favourite_button_style"
             app:srcCompat="@drawable/ic_favourite"
             android:id="@+id/status_favourite" />
 

@@ -24,10 +24,8 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -43,7 +41,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity"; // logging tag
 
     private AlarmManager alarmManager;
@@ -102,20 +100,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             alarmManager.cancel(serviceAlarmIntent);
         }
-
-        /* @Unused: for Firebase Push Notifications
-        Log.d(TAG, "token " + FirebaseInstanceId.getInstance().getToken());
-
-        // Check if it's necessary to register for push notifications for this instance.
-        boolean registered = preferences.getBoolean("firebaseRegistered", false);
-        if (!registered) {
-            String registrationId = preferences.getString("firebaseRegistrationId", null);
-            if (registrationId == null) {
-                registrationId = FirebaseInstanceId.getInstance().getToken();
-            }
-            sendRegistrationToServer(registrationId, true);
-        }
-        */
     }
 
     private void fetchUserInfo() {
@@ -179,71 +163,6 @@ public class MainActivity extends AppCompatActivity {
         //TODO: help
         Log.e(TAG, "Failed to fetch user info. " + exception.getMessage());
     }
-
-    /* @Unused: For Firebase push notifications, useless for now.
-    private void sendRegistrationToServer(String token, final boolean register) {
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        String domain = preferences.getString("domain", null);
-        final String accessToken = preferences.getString("accessToken", null);
-
-        String endpoint;
-        if (register) {
-            endpoint = getString(R.string.endpoint_devices_register);
-        } else {
-            endpoint = getString(R.string.endpoint_devices_unregister);
-        }
-        String url = "https://" + domain + endpoint;
-        JSONObject formData = new JSONObject();
-        try {
-            formData.put("registration_id", token);
-        } catch (JSONException e) {
-            onSendRegistrationToServerFailure();
-            return;
-        }
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, formData,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        onSendRegistrationToServerSuccess(response, register);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onSendRegistrationToServerFailure();
-                    }
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
-            }
-        };
-        VolleySingleton.getInstance(this).addToRequestQueue(request);
-    }
-
-    private void onSendRegistrationToServerSuccess(JSONObject response, boolean register) {
-        String registeredWord;
-        if (register) {
-            registeredWord = "registration";
-        } else {
-            registeredWord = "unregistration";
-        }
-        Log.d(TAG, String.format("Firebase %s is confirmed with the Mastodon instance. %s",
-                registeredWord, response.toString()));
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("firebaseRegistered", register);
-        editor.apply();
-    }
-
-    private void onSendRegistrationToServerFailure() {
-        Log.d(TAG, "Firebase registration with the Mastodon instance failed");
-    }
-    */
 
     private void compose() {
         Intent intent = new Intent(this, ComposeActivity.class);

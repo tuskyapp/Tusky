@@ -41,6 +41,7 @@
     <string name="endpoint_devices_register">/api/v1/devices/register</string>
     <string name="endpoint_devices_unregister">/api/v1/devices/unregister</string>
 
+    <string name="error_authorization_unknown">An unidentified authorization error occurred.</string>
     <string name="error_fetching_notifications">Notifications could not be fetched.</string>
     <string name="error_compose_character_limit">The status is too long!</string>
     <string name="error_sending_status">The status failed to be sent.</string>
@@ -135,5 +136,7 @@
     <string name="pref_title_notification_alert_sound">Notify with a sound</string>
     <string name="pref_title_notification_style_vibrate">Notify with vibration</string>
     <string name="pref_title_notification_style_light">Notify with light</string>
+    <string name="pref_title_appearance_settings">Appearance</string>
+    <string name="pref_title_light_theme">Use The Light Theme</string>
 
 </resources>

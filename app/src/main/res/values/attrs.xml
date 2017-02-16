@@ -11,16 +11,21 @@
     </declare-styleable>
 
     <!--Themed Attributes-->
+    <attr name="toolbar_background_color" format="reference" />
+    <attr name="toolbar_icon_tint" format="reference" />
     <attr name="image_button_style" format="reference" />
-    <attr name="favourite_button_style" format="reference" />
-    <attr name="reblog_button_style" format="reference" />
+    <attr name="status_favourite_button_style" format="reference" />
+    <attr name="status_reblog_button_style" format="reference" />
     <attr name="content_warning_button" format="reference" />
-    <attr name="notification_content" format="reference" />
-    <attr name="notification_icon_tint" format="reference|color" />
+    <attr name="sensitive_media_warning_background_color" format="reference|color" />
+    <attr name="media_preview_unloaded_background_color" format="reference|color" />
     <attr name="status_text_color_secondary" format="reference|color" />
     <attr name="status_divider_color" format="reference|color" />
     <attr name="tab_page_margin_color" format="reference|color" />
+    <attr name="notification_content" format="reference" />
+    <attr name="notification_icon_tint" format="reference|color" />
     <attr name="account_header_background_color" format="reference|color" />
     <attr name="compose_media_button_tint" format="reference|color" />
+    <attr name="compose_mention_color" format="reference|color" />
 
 </resources>

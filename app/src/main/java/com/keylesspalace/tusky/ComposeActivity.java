@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -40,12 +41,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.util.TypedValue;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -71,18 +72,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class ComposeActivity extends AppCompatActivity {
+public class ComposeActivity extends BaseActivity {
     private static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 4000000; // 4MB
     private static final int MEDIA_PICK_RESULT = 1;
@@ -103,63 +100,27 @@ public class ComposeActivity extends AppCompatActivity {
     private View contentWarningBar;
 
     private static class QueuedMedia {
-        public enum Type {
+        enum Type {
             IMAGE,
             VIDEO
         }
 
-        public enum ReadyStage {
+        enum ReadyStage {
             DOWNSIZING,
             UPLOADING,
         }
 
-        private Type type;
-        private ImageView preview;
-        private Uri uri;
-        private String id;
-        private ReadyStage readyStage;
-        private byte[] content;
+        Type type;
+        ImageView preview;
+        Uri uri;
+        String id;
+        ReadyStage readyStage;
+        byte[] content;
 
-        public QueuedMedia(Type type, Uri uri, ImageView preview) {
+        QueuedMedia(Type type, Uri uri, ImageView preview) {
             this.type = type;
             this.uri = uri;
             this.preview = preview;
-        }
-
-        public Type getType() {
-            return type;
-        }
-
-        public ImageView getPreview() {
-            return preview;
-        }
-
-        public Uri getUri() {
-            return uri;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public byte[] getContent() {
-            return content;
-        }
-
-        public ReadyStage getReadyStage() {
-            return readyStage;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public void setReadyStage(ReadyStage readyStage) {
-            this.readyStage = readyStage;
-        }
-
-        public void setContent(byte[] content) {
-            this.content = content;
         }
     }
 
@@ -175,10 +136,10 @@ public class ComposeActivity extends AppCompatActivity {
     }
 
     private static class FindCharsResult {
-        public int charIndex;
-        public int stringIndex;
+        int charIndex;
+        int stringIndex;
 
-        public FindCharsResult() {
+        FindCharsResult() {
             charIndex = -1;
             stringIndex = -1;
         }
@@ -281,6 +242,15 @@ public class ComposeActivity extends AppCompatActivity {
         }
     }
 
+    private static int getThemeColor(Context context, int attribute) {
+        TypedValue value = new TypedValue();
+        if (context.getTheme().resolveAttribute(attribute, value, true)) {
+            return value.data;
+        } else {
+            return android.R.color.black;
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -300,7 +270,7 @@ public class ComposeActivity extends AppCompatActivity {
 
         textEditor = (EditText) findViewById(R.id.field_status);
         final TextView charactersLeft = (TextView) findViewById(R.id.characters_left);
-        final int mentionColour = ContextCompat.getColor(this, R.color.compose_mention);
+        final int mentionColour = getThemeColor(this, R.attr.compose_mention_color);
         TextWatcher textEditorWatcher = new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -414,7 +384,7 @@ public class ComposeActivity extends AppCompatActivity {
             }
             JSONArray media_ids = new JSONArray();
             for (QueuedMedia item : mediaQueued) {
-                media_ids.put(item.getId());
+                media_ids.put(item.id);
             }
             if (media_ids.length() > 0) {
                 parameters.put("media_ids", media_ids);
@@ -429,12 +399,13 @@ public class ComposeActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         onSendSuccess();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                onSendFailure();
-            }
-        }) {
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        onSendFailure();
+                    }
+                }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
@@ -454,8 +425,8 @@ public class ComposeActivity extends AppCompatActivity {
         textEditor.setError(getString(R.string.error_sending_status));
     }
 
-    private void readyStatus(final String content, final String visibility,
-                             final boolean sensitive, final String spoilerText) {
+    private void readyStatus(final String content, final String visibility, final boolean sensitive,
+            final String spoilerText) {
         final ProgressDialog dialog = ProgressDialog.show(
                 this, getString(R.string.dialog_title_finishing_media_upload),
                 getString(R.string.dialog_message_uploading_media), true, true);
@@ -570,7 +541,7 @@ public class ComposeActivity extends AppCompatActivity {
 
     private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize) {
         final QueuedMedia item = new QueuedMedia(type, uri, new ImageView(this));
-        ImageView view = item.getPreview();
+        ImageView view = item.preview;
         Resources resources = getResources();
         int side = resources.getDimensionPixelSize(R.dimen.compose_media_preview_side);
         int margin = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin);
@@ -598,7 +569,7 @@ public class ComposeActivity extends AppCompatActivity {
             textEditor.setPadding(textEditor.getPaddingLeft(), textEditor.getPaddingTop(),
                     textEditor.getPaddingRight(), totalHeight);
             // If there's one video in the queue it is full, so disable the button to queue more.
-            if (item.getType() == QueuedMedia.Type.VIDEO) {
+            if (item.type == QueuedMedia.Type.VIDEO) {
                 disableMediaPicking();
             }
         } else if (queuedCount >= Status.MAX_MEDIA_ATTACHMENTS) {
@@ -617,7 +588,7 @@ public class ComposeActivity extends AppCompatActivity {
     }
 
     private void removeMediaFromQueue(QueuedMedia item) {
-        mediaPreviewBar.removeView(item.getPreview());
+        mediaPreviewBar.removeView(item.preview);
         mediaQueued.remove(item);
         if (mediaQueued.size() == 0) {
             showMarkSensitive(false);
@@ -639,10 +610,10 @@ public class ComposeActivity extends AppCompatActivity {
     }
 
     private void downsizeMedia(final QueuedMedia item) {
-        item.setReadyStage(QueuedMedia.ReadyStage.DOWNSIZING);
+        item.readyStage = QueuedMedia.ReadyStage.DOWNSIZING;
         InputStream stream;
         try {
-            stream = getContentResolver().openInputStream(item.getUri());
+            stream = getContentResolver().openInputStream(item.uri);
         } catch (FileNotFoundException e) {
             onMediaDownsizeFailure(item);
             return;
@@ -652,7 +623,7 @@ public class ComposeActivity extends AppCompatActivity {
         new DownsizeImageTask(STATUS_MEDIA_SIZE_LIMIT, new DownsizeImageTask.Listener() {
             @Override
             public void onSuccess(List<byte[]> contentList) {
-                item.setContent(contentList.get(0));
+                item.content = contentList.get(0);
                 uploadMedia(item);
             }
 
@@ -695,7 +666,7 @@ public class ComposeActivity extends AppCompatActivity {
     }
 
     private void uploadMedia(final QueuedMedia item) {
-        item.setReadyStage(QueuedMedia.ReadyStage.UPLOADING);
+        item.readyStage = QueuedMedia.ReadyStage.UPLOADING;
 
         String endpoint = getString(R.string.endpoint_media);
         String url = "https://" + domain + endpoint;
@@ -714,7 +685,7 @@ public class ComposeActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            item.setId(response.getString("id"));
+                            item.id = response.getString("id");
                         } catch (JSONException e) {
                             onUploadFailure(item);
                             return;
@@ -736,11 +707,11 @@ public class ComposeActivity extends AppCompatActivity {
 
             @Override
             public DataItem getData() {
-                byte[] content = item.getContent();
+                byte[] content = item.content;
                 if (content == null) {
                     InputStream stream;
                     try {
-                        stream = getContentResolver().openInputStream(item.getUri());
+                        stream = getContentResolver().openInputStream(item.uri);
                     } catch (FileNotFoundException e) {
                         return null;
                     }
@@ -758,7 +729,7 @@ public class ComposeActivity extends AppCompatActivity {
                 return data;
             }
         };
-        request.addMarker("media_" + item.getUri().toString());
+        request.addMarker("media_" + item.uri.toString());
         VolleySingleton.getInstance(this).addToRequestQueue(request);
     }
 
@@ -768,8 +739,8 @@ public class ComposeActivity extends AppCompatActivity {
     }
 
     private void cancelReadyingMedia(QueuedMedia item) {
-        if (item.getReadyStage() == QueuedMedia.ReadyStage.UPLOADING) {
-            VolleySingleton.getInstance(this).cancelRequest("media_" + item.getUri().toString());
+        if (item.readyStage == QueuedMedia.ReadyStage.UPLOADING) {
+            VolleySingleton.getInstance(this).cancelRequest("media_" + item.uri.toString());
         }
         waitForMediaLatch.countDown();
     }
@@ -799,7 +770,7 @@ public class ComposeActivity extends AppCompatActivity {
                             return;
                         }
                         if (mediaQueued.size() > 0
-                                && mediaQueued.get(0).getType() == QueuedMedia.Type.IMAGE) {
+                                && mediaQueued.get(0).type == QueuedMedia.Type.IMAGE) {
                             displayTransientError(R.string.error_media_upload_image_or_video);
                             return;
                         }
