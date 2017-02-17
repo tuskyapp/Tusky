@@ -107,7 +107,7 @@ public class AccountActivity extends BaseActivity {
         int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8,
                 getResources().getDisplayMetrics());
         viewPager.setPageMargin(pageMargin);
-        viewPager.setPageMarginDrawable(R.drawable.tab_page_margin);
+        viewPager.setPageMarginDrawable(R.drawable.tab_page_margin_dark);
         viewPager.setAdapter(adapter);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);

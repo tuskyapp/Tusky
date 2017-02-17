@@ -205,10 +205,12 @@ public class LoginActivity extends BaseActivity {
         editor.putString("domain", domain);
         editor.putString("clientId", clientId);
         editor.putString("clientSecret", clientSecret);
-        editor.commit();
+        editor.apply();
     }
 
     private void onLoginSuccess(String accessToken) {
+        preferences = getSharedPreferences(
+                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("accessToken", accessToken);
         editor.apply();
@@ -233,6 +235,8 @@ public class LoginActivity extends BaseActivity {
                 /* During the redirect roundtrip this Activity usually dies, which wipes out the
                  * instance variables, so they have to be recovered from where they were saved in
                  * SharedPreferences. */
+                preferences = getSharedPreferences(
+                        getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
                 domain = preferences.getString("domain", null);
                 clientId = preferences.getString("clientId", null);
                 clientSecret = preferences.getString("clientSecret", null);
@@ -247,6 +251,7 @@ public class LoginActivity extends BaseActivity {
                     parameters.put("grant_type", "authorization_code");
                 } catch (JSONException e) {
                     errorText.setText("Heck.");
+                    return;
                     //TODO: I don't even know how to handle this error state.
                 }
                 String endpoint = getString(R.string.endpoint_token);
@@ -256,11 +261,12 @@ public class LoginActivity extends BaseActivity {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            String accessToken = "";
+                            String accessToken;
                             try {
                                 accessToken = response.getString("access_token");
                             } catch(JSONException e) {
                                 errorText.setText("Heck.");
+                                return;
                                 //TODO: I don't even know how to handle this error state.
                             }
                             onLoginSuccess(accessToken);

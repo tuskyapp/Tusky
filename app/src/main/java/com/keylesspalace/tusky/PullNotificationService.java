@@ -154,18 +154,22 @@ public class PullNotificationService extends IntentService {
     }
 
     private void loadAvatar(final List<MentionResult> mentions, String url) {
-        ImageRequest request = new ImageRequest(url, new Response.Listener<Bitmap>() {
-            @Override
-            public void onResponse(Bitmap response) {
-                updateNotification(mentions, response);
-            }
-        }, 0, 0, null, null, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                updateNotification(mentions, null);
-            }
-        });
-        VolleySingleton.getInstance(this).addToRequestQueue(request);
+        if (url != null) {
+            ImageRequest request = new ImageRequest(url, new Response.Listener<Bitmap>() {
+                @Override
+                public void onResponse(Bitmap response) {
+                    updateNotification(mentions, response);
+                }
+            }, 0, 0, null, null, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    updateNotification(mentions, null);
+                }
+            });
+            VolleySingleton.getInstance(this).addToRequestQueue(request);
+        } else {
+            updateNotification(mentions, null);
+        }
     }
 
     private void updateNotification(List<MentionResult> mentions, @Nullable Bitmap icon) {

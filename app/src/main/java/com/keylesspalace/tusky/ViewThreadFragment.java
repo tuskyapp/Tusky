@@ -60,7 +60,7 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
         recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration divider = new DividerItemDecoration(
                 context, layoutManager.getOrientation());
-        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.status_divider);
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.status_divider_dark);
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
         adapter = new ThreadAdapter(this);

@@ -242,15 +242,6 @@ public class ComposeActivity extends BaseActivity {
         }
     }
 
-    private static int getThemeColor(Context context, int attribute) {
-        TypedValue value = new TypedValue();
-        if (context.getTheme().resolveAttribute(attribute, value, true)) {
-            return value.data;
-        } else {
-            return android.R.color.black;
-        }
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -270,7 +261,7 @@ public class ComposeActivity extends BaseActivity {
 
         textEditor = (EditText) findViewById(R.id.field_status);
         final TextView charactersLeft = (TextView) findViewById(R.id.characters_left);
-        final int mentionColour = getThemeColor(this, R.attr.compose_mention_color);
+        final int mentionColour = ThemeUtils.getColor(this, R.attr.compose_mention_color);
         TextWatcher textEditorWatcher = new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {

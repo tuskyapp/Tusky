@@ -80,10 +80,12 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         mediaPreview1 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_1);
         mediaPreview2 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_2);
         mediaPreview3 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_3);
-        mediaPreview0.setDefaultImageResId(R.drawable.media_preview_unloaded);
-        mediaPreview1.setDefaultImageResId(R.drawable.media_preview_unloaded);
-        mediaPreview2.setDefaultImageResId(R.drawable.media_preview_unloaded);
-        mediaPreview3.setDefaultImageResId(R.drawable.media_preview_unloaded);
+        int mediaPreviewUnloadedId = ThemeUtils.getDrawableId(itemView.getContext(),
+                R.attr.media_preview_unloaded_drawable, android.R.color.black);
+        mediaPreview0.setDefaultImageResId(mediaPreviewUnloadedId);
+        mediaPreview1.setDefaultImageResId(mediaPreviewUnloadedId);
+        mediaPreview2.setDefaultImageResId(mediaPreviewUnloadedId);
+        mediaPreview3.setDefaultImageResId(mediaPreviewUnloadedId);
         sensitiveMediaWarning = itemView.findViewById(R.id.status_sensitive_media_warning);
         contentWarningBar = itemView.findViewById(R.id.status_content_warning_bar);
         contentWarningDescription =
