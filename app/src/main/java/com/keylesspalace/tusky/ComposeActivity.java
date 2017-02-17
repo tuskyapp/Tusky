@@ -24,10 +24,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -35,6 +35,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
+import android.os.Parcelable;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -46,7 +47,6 @@ import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
-import android.util.TypedValue;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -80,6 +80,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class ComposeActivity extends BaseActivity {
+    private static final String TAG = "ComposeActivity"; // logging tag, and volley request tag
     private static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 4000000; // 4MB
     private static final int MEDIA_PICK_RESULT = 1;
@@ -91,7 +92,7 @@ public class ComposeActivity extends BaseActivity {
     private EditText textEditor;
     private ImageButton mediaPick;
     private LinearLayout mediaPreviewBar;
-    private List<QueuedMedia> mediaQueued;
+    private ArrayList<QueuedMedia> mediaQueued;
     private CountUpDownLatch waitForMediaLatch;
     private boolean showMarkSensitive;
     private String statusVisibility;     // The current values of the options that will be applied
@@ -107,21 +108,70 @@ public class ComposeActivity extends BaseActivity {
 
         enum ReadyStage {
             DOWNSIZING,
-            UPLOADING,
+            UPLOADING
         }
 
         Type type;
         ImageView preview;
         Uri uri;
         String id;
+        Request uploadRequest;
         ReadyStage readyStage;
         byte[] content;
+        long mediaSize;
 
-        QueuedMedia(Type type, Uri uri, ImageView preview) {
+        QueuedMedia(Type type, Uri uri, ImageView preview, long mediaSize) {
             this.type = type;
             this.uri = uri;
             this.preview = preview;
+            this.mediaSize = mediaSize;
         }
+    }
+
+    /**This saves enough information to re-enqueue an attachment when restoring the activity. */
+    private static class SavedQueuedMedia implements Parcelable {
+        QueuedMedia.Type type;
+        Uri uri;
+        Bitmap preview;
+        long mediaSize;
+
+        SavedQueuedMedia(QueuedMedia.Type type, Uri uri, ImageView view, long mediaSize) {
+            this.type = type;
+            this.uri = uri;
+            this.preview = ((BitmapDrawable) view.getDrawable()).getBitmap();
+            this.mediaSize = mediaSize;
+        }
+
+        SavedQueuedMedia(Parcel parcel) {
+            type = (QueuedMedia.Type) parcel.readSerializable();
+            uri = parcel.readParcelable(Uri.class.getClassLoader());
+            preview = parcel.readParcelable(Bitmap.class.getClassLoader());
+            mediaSize = parcel.readLong();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeSerializable(type);
+            dest.writeParcelable(uri, flags);
+            dest.writeParcelable(preview, flags);
+            dest.writeLong(mediaSize);
+        }
+
+        public static final Parcelable.Creator<SavedQueuedMedia> CREATOR
+                = new Parcelable.Creator<SavedQueuedMedia>() {
+            public SavedQueuedMedia createFromParcel(Parcel in) {
+                return new SavedQueuedMedia(in);
+            }
+
+            public SavedQueuedMedia[] newArray(int size) {
+                return new SavedQueuedMedia[size];
+            }
+        };
     }
 
     private void doErrorDialog(int descriptionId, int actionId, View.OnClickListener listener) {
@@ -247,6 +297,24 @@ public class ComposeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
+        SharedPreferences preferences = getSharedPreferences(
+                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+
+        ArrayList<SavedQueuedMedia> savedMediaQueued = null;
+        if (savedInstanceState != null) {
+            showMarkSensitive = savedInstanceState.getBoolean("showMarkSensitive");
+            statusVisibility = savedInstanceState.getString("statusVisibility");
+            statusMarkSensitive = savedInstanceState.getBoolean("statusMarkSensitive");
+            statusHideText = savedInstanceState.getBoolean("statusHideText");
+            // Keep these until everything needed to put them in the queue is finished initializing.
+            savedMediaQueued = savedInstanceState.getParcelableArrayList("savedMediaQueued");
+        } else {
+            showMarkSensitive = false;
+            statusVisibility = preferences.getString("rememberedVisibility", "public");
+            statusMarkSensitive = false;
+            statusHideText = false;
+        }
+
         Intent intent = getIntent();
         String[] mentionedUsernames = null;
         if (intent != null) {
@@ -254,8 +322,6 @@ public class ComposeActivity extends BaseActivity {
             mentionedUsernames = intent.getStringArrayExtra("mentioned_usernames");
         }
 
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         domain = preferences.getString("domain", null);
         accessToken = preferences.getString("accessToken", null);
 
@@ -358,10 +424,48 @@ public class ComposeActivity extends BaseActivity {
                 fragment.show(getSupportFragmentManager(), null);
             }
         });
+
+        // These can only be added after everything affected by the media queue is initialized.
+        if (savedMediaQueued != null) {
+            for (SavedQueuedMedia item : savedMediaQueued) {
+                addMediaToQueue(item.type, item.preview, item.uri, item.mediaSize);
+            }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        ArrayList<SavedQueuedMedia> savedMediaQueued = new ArrayList<>();
+        for (QueuedMedia item : mediaQueued) {
+            savedMediaQueued.add(new SavedQueuedMedia(item.type, item.uri, item.preview,
+                    item.mediaSize));
+        }
+        outState.putParcelableArrayList("savedMediaQueued", savedMediaQueued);
+        outState.putBoolean("showMarkSensitive", showMarkSensitive);
+        outState.putString("statusVisibility", statusVisibility);
+        outState.putBoolean("statusMarkSensitive", statusMarkSensitive);
+        outState.putBoolean("statusHideText", statusHideText);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences preferences = getSharedPreferences(
+                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("rememberedVisibility", statusVisibility);
+        editor.apply();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        VolleySingleton.getInstance(this).cancelAll(TAG);
     }
 
     private void sendStatus(String content, String visibility, boolean sensitive,
-            String spoilerText) {
+                            String spoilerText) {
         String endpoint = getString(R.string.endpoint_status);
         String url = "https://" + domain + endpoint;
         JSONObject parameters = new JSONObject();
@@ -373,12 +477,12 @@ public class ComposeActivity extends BaseActivity {
             if (inReplyToId != null) {
                 parameters.put("in_reply_to_id", inReplyToId);
             }
-            JSONArray media_ids = new JSONArray();
+            JSONArray mediaIds = new JSONArray();
             for (QueuedMedia item : mediaQueued) {
-                media_ids.put(item.id);
+                mediaIds.put(item.id);
             }
-            if (media_ids.length() > 0) {
-                parameters.put("media_ids", media_ids);
+            if (mediaIds.length() > 0) {
+                parameters.put("media_ids", mediaIds);
             }
         } catch (JSONException e) {
             onSendFailure();
@@ -531,7 +635,7 @@ public class ComposeActivity extends BaseActivity {
     }
 
     private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize) {
-        final QueuedMedia item = new QueuedMedia(type, uri, new ImageView(this));
+        final QueuedMedia item = new QueuedMedia(type, uri, new ImageView(this), mediaSize);
         ImageView view = item.preview;
         Resources resources = getResources();
         int side = resources.getDimensionPixelSize(R.dimen.compose_media_preview_side);
@@ -720,7 +824,8 @@ public class ComposeActivity extends BaseActivity {
                 return data;
             }
         };
-        request.addMarker("media_" + item.uri.toString());
+        request.setTag(TAG);
+        item.uploadRequest = request;
         VolleySingleton.getInstance(this).addToRequestQueue(request);
     }
 
@@ -731,9 +836,13 @@ public class ComposeActivity extends BaseActivity {
 
     private void cancelReadyingMedia(QueuedMedia item) {
         if (item.readyStage == QueuedMedia.ReadyStage.UPLOADING) {
-            VolleySingleton.getInstance(this).cancelRequest("media_" + item.uri.toString());
+            item.uploadRequest.cancel();
         }
-        waitForMediaLatch.countDown();
+        if (item.id == null) {
+            /* The presence of an upload id is used to detect if it finished uploading or not, to
+             * prevent counting down twice on the same media item. */
+            waitForMediaLatch.countDown();
+        }
     }
 
     @Override

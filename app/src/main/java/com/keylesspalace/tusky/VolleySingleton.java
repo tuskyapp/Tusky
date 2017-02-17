@@ -69,7 +69,7 @@ public class VolleySingleton {
         getRequestQueue().add(request);
     }
 
-    public void cancelRequest(String tag) {
+    public void cancelAll(String tag) {
         getRequestQueue().cancelAll(tag);
     }
 
