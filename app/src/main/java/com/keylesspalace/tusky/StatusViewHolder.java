@@ -201,7 +201,9 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
     /** This should only be called after setReblogged, in order to override the tint correctly. */
     public void setRebloggingEnabled(boolean enabled) {
         reblogButton.setEnabled(enabled);
-        if (!enabled) {
+        if (enabled) {
+            reblogButton.setImageResource(R.drawable.ic_reblog);
+        } else {
             ThemeUtils.setImageViewTint(reblogButton, R.attr.status_reblog_button_disabled_tint);
             reblogButton.setImageResource(R.drawable.ic_reblog_disabled);
         }
