@@ -626,11 +626,13 @@ public class ComposeActivity extends BaseActivity {
 
     private void enableMediaPicking() {
         mediaPick.setEnabled(true);
+        ThemeUtils.setImageViewTint(mediaPick, R.attr.compose_media_button_tint);
         mediaPick.setImageResource(R.drawable.ic_media);
     }
 
     private void disableMediaPicking() {
         mediaPick.setEnabled(false);
+        ThemeUtils.setImageViewTint(mediaPick, R.attr.compose_media_button_disabled_tint);
         mediaPick.setImageResource(R.drawable.ic_media_disabled);
     }
 

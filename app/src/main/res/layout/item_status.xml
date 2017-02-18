@@ -209,10 +209,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <com.keylesspalace.tusky.StatusButton
+        <ImageButton
             app:srcCompat="@drawable/ic_reblog"
             android:id="@+id/status_reblog"
-            style="?attr/status_reblog_button_style"
+            style="?attr/image_button_style"
             android:layout_width="32dp"
             android:layout_height="32dp" />
 
@@ -221,10 +221,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <com.keylesspalace.tusky.StatusButton
+        <ImageButton
             android:layout_width="32dp"
             android:layout_height="32dp"
-            style="?attr/status_favourite_button_style"
+            style="?attr/image_button_style"
             app:srcCompat="@drawable/ic_favourite"
             android:id="@+id/status_favourite" />
 

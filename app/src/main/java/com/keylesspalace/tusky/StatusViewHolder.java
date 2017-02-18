@@ -44,8 +44,8 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
     private View rebloggedBar;
     private TextView rebloggedByDisplayName;
     private ImageButton replyButton;
-    private StatusButton reblogButton;
-    private StatusButton favouriteButton;
+    private ImageButton reblogButton;
+    private ImageButton favouriteButton;
     private ImageButton moreButton;
     private boolean favourited;
     private boolean reblogged;
@@ -71,8 +71,8 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         rebloggedBar = itemView.findViewById(R.id.status_reblogged_bar);
         rebloggedByDisplayName = (TextView) itemView.findViewById(R.id.status_reblogged);
         replyButton = (ImageButton) itemView.findViewById(R.id.status_reply);
-        reblogButton = (StatusButton) itemView.findViewById(R.id.status_reblog);
-        favouriteButton = (StatusButton) itemView.findViewById(R.id.status_favourite);
+        reblogButton = (ImageButton) itemView.findViewById(R.id.status_reblog);
+        favouriteButton = (ImageButton) itemView.findViewById(R.id.status_favourite);
         moreButton = (ImageButton) itemView.findViewById(R.id.status_more);
         reblogged = false;
         favourited = false;
@@ -189,21 +189,33 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
 
     public void setReblogged(boolean reblogged) {
         this.reblogged = reblogged;
-        reblogButton.setMarked(reblogged);
+        int attribute;
+        if (reblogged) {
+            attribute = R.attr.status_reblog_button_marked_tint;
+        } else {
+            attribute = R.attr.status_reblog_button_tint;
+        }
+        ThemeUtils.setImageViewTint(reblogButton, attribute);
     }
 
+    /** This should only be called after setReblogged, in order to override the tint correctly. */
     public void setRebloggingEnabled(boolean enabled) {
         reblogButton.setEnabled(enabled);
-        if (enabled) {
-            reblogButton.setImageResource(R.drawable.ic_reblog);
-        } else {
+        if (!enabled) {
+            ThemeUtils.setImageViewTint(reblogButton, R.attr.status_reblog_button_disabled_tint);
             reblogButton.setImageResource(R.drawable.ic_reblog_disabled);
         }
     }
 
     public void setFavourited(boolean favourited) {
         this.favourited = favourited;
-        favouriteButton.setMarked(favourited);
+        int attribute;
+        if (favourited) {
+            attribute = R.attr.status_favourite_button_marked_tint;
+        } else {
+            attribute = R.attr.status_favourite_button_tint;
+        }
+        ThemeUtils.setImageViewTint(favouriteButton, attribute);
     }
 
     public void setMediaPreviews(final Status.MediaAttachment[] attachments,

@@ -16,9 +16,11 @@
 package com.keylesspalace.tusky;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
+import android.widget.ImageView;
 
 public class ThemeUtils {
     public static Drawable getDrawable(Context context, int attribute, int fallbackDrawable) {
@@ -48,5 +50,9 @@ public class ThemeUtils {
         } else {
             return android.R.color.black;
         }
+    }
+
+    public static void setImageViewTint(ImageView view, int attribute) {
+        view.setColorFilter(getColor(view.getContext(), attribute), PorterDuff.Mode.SRC_IN);
     }
 }

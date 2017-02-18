@@ -27,8 +27,11 @@
         <item name="toolbar_background_color">@color/toolbar_background_dark</item>
         <item name="toolbar_icon_tint">@color/toolbar_icon_dark</item>
         <item name="image_button_style">@style/AppTheme.ImageButton.Dark</item>
-        <item name="status_reblog_button_style">@style/AppTheme.ReblogButton.Dark</item>
-        <item name="status_favourite_button_style">@style/AppTheme.FavouriteButton.Dark</item>
+        <item name="status_reblog_button_tint">@color/status_reblog_button_dark</item>
+        <item name="status_reblog_button_marked_tint">@color/status_reblog_button_marked_dark</item>
+        <item name="status_reblog_button_disabled_tint">@color/status_reblog_button_disabled_dark</item>
+        <item name="status_favourite_button_tint">@color/status_favourite_button_dark</item>
+        <item name="status_favourite_button_marked_tint">@color/status_favourite_button_marked_dark</item>
         <item name="content_warning_button">@drawable/toggle_small</item>
         <item name="sensitive_media_warning_background_color">@color/sensitive_media_warning_background_dark</item>
         <item name="status_text_color_secondary">@color/status_text_secondary_dark</item>
@@ -36,7 +39,8 @@
         <item name="status_divider_drawable">@drawable/status_divider_dark</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_dark</item>
         <item name="account_header_background_color">@color/account_header_background_dark</item>
-        <item name="compose_media_button_tint">@color/media_button_dark</item>
+        <item name="compose_media_button_tint">@color/compose_media_button_dark</item>
+        <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_dark</item>
         <item name="compose_mention_color">@color/compose_mention_dark</item>
         <item name="notification_content">@color/notification_content_faded_dark</item>
         <item name="notification_icon_tint">@color/notification_icon_tint_dark</item>
@@ -44,14 +48,6 @@
 
     <style name="AppTheme.ImageButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:tint">@color/image_button_dark</item>
-    </style>
-
-    <style name="AppTheme.ReblogButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
-        <item name="android:tint">@color/reblog_button_dark</item>
-    </style>
-
-    <style name="AppTheme.FavouriteButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
-        <item name="android:tint">@color/favourite_button_dark</item>
     </style>
 
     <style name="AppTheme.BottomSheetDialog.Dark" parent="@style/Theme.Design.BottomSheetDialog">
@@ -82,8 +78,11 @@
         <item name="toolbar_background_color">@color/toolbar_background_light</item>
         <item name="toolbar_icon_tint">@color/toolbar_icon_light</item>
         <item name="image_button_style">@style/AppTheme.ImageButton.Light</item>
-        <item name="status_reblog_button_style">@style/AppTheme.ReblogButton.Light</item>
-        <item name="status_favourite_button_style">@style/AppTheme.FavouriteButton.Light</item>
+        <item name="status_reblog_button_tint">@color/status_reblog_button_light</item>
+        <item name="status_reblog_button_marked_tint">@color/status_reblog_button_marked_light</item>
+        <item name="status_reblog_button_disabled_tint">@color/status_reblog_button_disabled_light</item>
+        <item name="status_favourite_button_tint">@color/status_favourite_button_light</item>
+        <item name="status_favourite_button_marked_tint">@color/status_favourite_button_marked_light</item>
         <item name="content_warning_button">@drawable/toggle_small_light</item>
         <item name="sensitive_media_warning_background_color">@color/sensitive_media_warning_background_light</item>
         <item name="status_text_color_secondary">@color/status_text_secondary_light</item>
@@ -91,7 +90,8 @@
         <item name="status_divider_drawable">@drawable/status_divider_light</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_light</item>
         <item name="account_header_background_color">@color/account_header_background_light</item>
-        <item name="compose_media_button_tint">@color/media_button_light</item>
+        <item name="compose_media_button_tint">@color/compose_media_button_light</item>
+        <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_light</item>
         <item name="compose_mention_color">@color/compose_mention_light</item>
         <item name="notification_content">@color/notification_content_faded_light</item>
         <item name="notification_icon_tint">@color/notification_icon_tint_light</item>
@@ -99,14 +99,6 @@
 
     <style name="AppTheme.ImageButton.Light" parent="Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:tint">@color/image_button_light</item>
-    </style>
-
-    <style name="AppTheme.ReblogButton.Light" parent="Widget.AppCompat.Button.Borderless.Colored">
-        <item name="android:tint">@color/reblog_button_light</item>
-    </style>
-
-    <style name="AppTheme.FavouriteButton.Light" parent="Widget.AppCompat.Button.Borderless.Colored">
-        <item name="android:tint">@color/favourite_button_light</item>
     </style>
 
     <style name="AppTheme.BottomSheetDialog.Light" parent="@style/Theme.Design.Light.BottomSheetDialog">

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:color="#009F6F" app:state_marked="true" />
-    <item android:color="#BFBFBF" android:state_enabled="false" />
-    <item android:color="#4F4F4F" />
-</selector>
