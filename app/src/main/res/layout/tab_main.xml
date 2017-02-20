@@ -9,7 +9,6 @@
         android:id="@+id/title"
         android:layout_centerInParent="true"
         android:textAllCaps="true"
-        android:textStyle="normal|bold"
-        android:textSize="12sp" />
+        android:textStyle="normal|bold" />
 
 </RelativeLayout>

@@ -4,6 +4,10 @@
         <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
+    <style name="TabLayoutTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textStyle">normal|bold</item>
+    </style>
+
     <!--Base Application Theme Styles (Dark)-->
 
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">

@@ -11,7 +11,7 @@
         android:orientation="horizontal"
         android:layout_gravity="center">
 
-        <LinearLayout
+        <com.keylesspalace.tusky.FlowLayout
             android:id="@+id/footer_retry_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
                 android:id="@+id/footer_retry_button"
                 android:text="@string/action_retry" />
 
-        </LinearLayout>
+        </com.keylesspalace.tusky.FlowLayout>
 
         <ProgressBar
             android:id="@+id/footer_progress_bar"

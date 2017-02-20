@@ -79,12 +79,6 @@ public class MainActivity extends BaseActivity {
         viewPager.setAdapter(adapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            if (tab != null) {
-                tab.setCustomView(adapter.getTabView(i));
-            }
-        }
 
         // Retrieve notification update preference.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

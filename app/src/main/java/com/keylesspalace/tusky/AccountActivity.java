@@ -57,7 +57,7 @@ public class AccountActivity extends BaseActivity {
     private String accountId;
     private boolean following = false;
     private boolean blocking = false;
-    private boolean isSelf = false;
+    private boolean isSelf;
     private String openInWebUrl;
     private TabLayout tabLayout;
 
@@ -86,6 +86,7 @@ public class AccountActivity extends BaseActivity {
 
         obtainAccount();
         if (!accountId.equals(loggedInAccountId)) {
+            isSelf = false;
             obtainRelationships();
         } else {
             /* Cause the options menu to update and instead show an options menu for when the

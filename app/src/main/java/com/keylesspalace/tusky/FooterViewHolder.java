@@ -18,12 +18,11 @@ package com.keylesspalace.tusky;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class FooterViewHolder extends RecyclerView.ViewHolder {
-    private LinearLayout retryBar;
+    private View retryBar;
     private TextView retryMessage;
     private Button retry;
     private ProgressBar progressBar;
@@ -37,7 +36,7 @@ public class FooterViewHolder extends RecyclerView.ViewHolder {
 
     public FooterViewHolder(View itemView) {
         super(itemView);
-        retryBar = (LinearLayout) itemView.findViewById(R.id.footer_retry_bar);
+        retryBar = itemView.findViewById(R.id.footer_retry_bar);
         retryMessage = (TextView) itemView.findViewById(R.id.footer_retry_message);
         retry = (Button) itemView.findViewById(R.id.footer_retry_button);
         progressBar = (ProgressBar) itemView.findViewById(R.id.footer_progress_bar);

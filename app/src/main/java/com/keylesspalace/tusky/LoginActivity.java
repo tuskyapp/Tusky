@@ -115,9 +115,11 @@ public class LoginActivity extends BaseActivity {
          * (such as in the case that the domain has never been accessed before)
          * authenticate with the server and store the received credentials to use next
          * time. */
-        clientId = preferences.getString(domain + "/client_id", null);
-        clientSecret = preferences.getString(domain + "/client_secret", null);
-        if (clientId != null && clientSecret != null) {
+        String prefClientId = preferences.getString(domain + "/client_id", null);
+        String prefClientSecret = preferences.getString(domain + "/client_secret", null);
+        if (prefClientId != null && prefClientSecret != null) {
+            clientId = prefClientId;
+            clientSecret = prefClientSecret;
             redirectUserToAuthorizeAndLogin();
         } else {
             String endpoint = getString(R.string.endpoint_apps);
@@ -137,13 +139,17 @@ public class LoginActivity extends BaseActivity {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
+                            String obtainedClientId;
+                            String obtainedClientSecret;
                             try {
-                                clientId = response.getString("client_id");
-                                clientSecret = response.getString("client_secret");
+                                obtainedClientId = response.getString("client_id");
+                                obtainedClientSecret = response.getString("client_secret");
                             } catch (JSONException e) {
                                 Log.e(TAG, "Couldn't get data from the authentication response.");
                                 return;
                             }
+                            clientId = obtainedClientId;
+                            clientSecret = obtainedClientSecret;
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString(domain + "/client_id", clientId);
                             editor.putString(domain + "/client_secret", clientSecret);
@@ -167,6 +173,11 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        if (savedInstanceState != null) {
+            domain = savedInstanceState.getString("domain");
+            clientId = savedInstanceState.getString("clientId");
+            clientSecret = savedInstanceState.getString("clientSecret");
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         preferences = getSharedPreferences(
@@ -196,6 +207,14 @@ public class LoginActivity extends BaseActivity {
                         .show();
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("domain", domain);
+        outState.putString("clientId", clientId);
+        outState.putString("clientSecret", clientSecret);
+        super.onSaveInstanceState(outState);
     }
 
     @Override

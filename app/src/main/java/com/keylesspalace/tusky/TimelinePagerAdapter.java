@@ -63,11 +63,4 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return pageTitles[position];
     }
-
-    public View getTabView(int position) {
-        View view = LayoutInflater.from(context).inflate(R.layout.tab_main, null);
-        TextView title = (TextView) view.findViewById(R.id.title);
-        title.setText(pageTitles[position]);
-        return view;
-    }
 }
