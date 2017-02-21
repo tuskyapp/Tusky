@@ -37,6 +37,7 @@
         <activity android:name=".ViewTagActivity" />
         <activity android:name=".AccountActivity" />
         <activity android:name=".PreferencesActivity" />
+        <activity android:name=".FavouritesActivity" />
         <service
             android:name=".PullNotificationService"
             android:description="@string/notification_service_description"

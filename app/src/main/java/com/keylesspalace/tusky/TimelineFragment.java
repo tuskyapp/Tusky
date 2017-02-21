@@ -51,6 +51,7 @@ public class TimelineFragment extends SFragment implements
         PUBLIC,
         TAG,
         USER,
+        FAVOURITES
     }
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -154,7 +155,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private boolean jumpToTopAllowed() {
-        return kind != Kind.TAG;
+        return kind != Kind.TAG && kind != Kind.FAVOURITES;
     }
 
     private void jumpToTop() {
@@ -184,6 +185,10 @@ public class TimelineFragment extends SFragment implements
             }
             case USER: {
                 endpoint = String.format(getString(R.string.endpoint_statuses), hashtagOrId);
+                break;
+            }
+            case FAVOURITES: {
+                endpoint = getString(R.string.endpoint_favourites);
                 break;
             }
         }

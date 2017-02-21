@@ -161,37 +161,6 @@ public class MainActivity extends BaseActivity {
         Log.e(TAG, "Failed to fetch user info. " + exception.getMessage());
     }
 
-    private void compose() {
-        Intent intent = new Intent(this, ComposeActivity.class);
-        startActivity(intent);
-    }
-
-    private void viewProfile() {
-        Intent intent = new Intent(this, AccountActivity.class);
-        intent.putExtra("id", loggedInAccountId);
-        startActivity(intent);
-    }
-
-    private void viewPreferences() {
-        Intent intent = new Intent(this, PreferencesActivity.class);
-        startActivity(intent);
-    }
-
-    private void logOut() {
-        if (notificationServiceEnabled) {
-            alarmManager.cancel(serviceAlarmIntent);
-        }
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.remove("domain");
-        editor.remove("accessToken");
-        editor.apply();
-        Intent intent = new Intent(this, SplashActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_toolbar, menu);
@@ -202,19 +171,39 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_compose: {
-                compose();
+                Intent intent = new Intent(this, ComposeActivity.class);
+                startActivity(intent);
                 return true;
             }
             case R.id.action_profile: {
-                viewProfile();
+                Intent intent = new Intent(this, AccountActivity.class);
+                intent.putExtra("id", loggedInAccountId);
+                startActivity(intent);
                 return true;
             }
             case R.id.action_preferences: {
-                viewPreferences();
+                Intent intent = new Intent(this, PreferencesActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.action_favourites: {
+                Intent intent = new Intent(this, FavouritesActivity.class);
+                startActivity(intent);
                 return true;
             }
             case R.id.action_logout: {
-                logOut();
+                if (notificationServiceEnabled) {
+                    alarmManager.cancel(serviceAlarmIntent);
+                }
+                SharedPreferences preferences = getSharedPreferences(
+                        getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.remove("domain");
+                editor.remove("accessToken");
+                editor.apply();
+                Intent intent = new Intent(this, SplashActivity.class);
+                startActivity(intent);
+                finish();
                 return true;
             }
         }
