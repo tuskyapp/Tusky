@@ -65,6 +65,7 @@
     <string name="title_follows">Follows</string>
     <string name="title_followers">Followers</string>
     <string name="title_favourites">Favourites</string>
+    <string name="title_blocks">Blocked Users</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boosted</string>
@@ -100,11 +101,12 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_close">Close</string>
     <string name="action_back">Back</string>
-    <string name="action_profile">Profile</string>
+    <string name="action_view_profile">Profile</string>
+    <string name="action_view_preferences">Preferences</string>
+    <string name="action_view_favourites">Favourites</string>
+    <string name="action_view_blocks">Blocked Users</string>
     <string name="action_open_in_web">Open In Web</string>
-    <string name="action_preferences">Preferences</string>
     <string name="action_set_time">Set</string>
-    <string name="action_favourites">Favourites</string>
 
     <string name="confirmation_send">Toot!</string>
 

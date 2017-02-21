@@ -19,7 +19,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,7 +42,6 @@ import java.util.Map;
 public class TimelineFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener {
     private static final String TAG = "Timeline"; // logging tag
-    private static final int EXPECTED_STATUSES_FETCHED = 20;
 
     public enum Kind {
         HOME,
@@ -207,7 +205,7 @@ public class TimelineFragment extends SFragment implements
                             onFetchTimelineFailure(e);
                         }
                         if (statuses != null) {
-                            onFetchTimelineSuccess(statuses, fromId != null);
+                            onFetchTimelineSuccess(statuses, fromId);
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -230,16 +228,25 @@ public class TimelineFragment extends SFragment implements
         sendFetchTimelineRequest(null);
     }
 
-    public void onFetchTimelineSuccess(List<Status> statuses, boolean added) {
-        if (added) {
-            adapter.addItems(statuses);
+    private static boolean findStatus(List<Status> statuses, String id) {
+        for (Status status : statuses) {
+            if (status.getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void onFetchTimelineSuccess(List<Status> statuses, String fromId) {
+        if (fromId != null) {
+            if (statuses.size() > 0 && !findStatus(statuses, fromId)) {
+                setFetchTimelineState(FooterViewHolder.State.LOADING);
+                adapter.addItems(statuses);
+            } else {
+                setFetchTimelineState(FooterViewHolder.State.END_OF_TIMELINE);
+            }
         } else {
             adapter.update(statuses);
-        }
-        if (statuses.size() >= EXPECTED_STATUSES_FETCHED) {
-            setFetchTimelineState(FooterViewHolder.State.LOADING);
-        } else {
-            setFetchTimelineState(FooterViewHolder.State.END_OF_TIMELINE);
         }
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -251,6 +258,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void setFetchTimelineState(FooterViewHolder.State state) {
+        adapter.setFooterState(state);
         RecyclerView.ViewHolder viewHolder =
                 recyclerView.findViewHolderForAdapterPosition(adapter.getItemCount() - 1);
         if (viewHolder != null) {

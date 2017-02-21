@@ -38,6 +38,7 @@
         <activity android:name=".AccountActivity" />
         <activity android:name=".PreferencesActivity" />
         <activity android:name=".FavouritesActivity" />
+        <activity android:name=".BlocksActivity" />
         <service
             android:name=".PullNotificationService"
             android:description="@string/notification_service_description"

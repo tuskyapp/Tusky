@@ -175,19 +175,24 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
                 return true;
             }
-            case R.id.action_profile: {
+            case R.id.action_view_profile: {
                 Intent intent = new Intent(this, AccountActivity.class);
                 intent.putExtra("id", loggedInAccountId);
                 startActivity(intent);
                 return true;
             }
-            case R.id.action_preferences: {
+            case R.id.action_view_preferences: {
                 Intent intent = new Intent(this, PreferencesActivity.class);
                 startActivity(intent);
                 return true;
             }
-            case R.id.action_favourites: {
+            case R.id.action_view_favourites: {
                 Intent intent = new Intent(this, FavouritesActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.action_view_blocks: {
+                Intent intent = new Intent(this, BlocksActivity.class);
                 startActivity(intent);
                 return true;
             }

@@ -20,7 +20,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,7 +43,6 @@ import java.util.Map;
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener {
     private static final String TAG = "Notifications"; // logging tag
-    private static final int EXPECTED_NOTIFICATIONS_FETCHED = 10;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -77,7 +75,8 @@ public class NotificationsFragment extends SFragment implements
         recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration divider = new DividerItemDecoration(
                 context, layoutManager.getOrientation());
-        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.status_divider_dark);
+        Drawable drawable = ThemeUtils.getDrawable(context, R.attr.status_divider_drawable,
+                R.drawable.status_divider_dark);
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
         scrollListener = new EndlessOnScrollListener(layoutManager) {
@@ -140,7 +139,7 @@ public class NotificationsFragment extends SFragment implements
                     public void onResponse(JSONArray response) {
                         try {
                             List<Notification> notifications = Notification.parse(response);
-                            onFetchNotificationsSuccess(notifications, fromId != null);
+                            onFetchNotificationsSuccess(notifications, fromId);
                         } catch (JSONException e) {
                             onFetchNotificationsFailure(e);
                         }
@@ -165,16 +164,25 @@ public class NotificationsFragment extends SFragment implements
         sendFetchNotificationsRequest(null);
     }
 
-    private void onFetchNotificationsSuccess(List<Notification> notifications, boolean added) {
-        if (added) {
-            adapter.addItems(notifications);
+    private static boolean findNotification(List<Notification> notifications, String id) {
+        for (Notification notification : notifications) {
+            if (notification.getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void onFetchNotificationsSuccess(List<Notification> notifications, String fromId) {
+        if (fromId != null) {
+            if (notifications.size() > 0 && !findNotification(notifications, fromId)) {
+                setFetchTimelineState(FooterViewHolder.State.LOADING);
+                adapter.addItems(notifications);
+            } else {
+                setFetchTimelineState(FooterViewHolder.State.END_OF_TIMELINE);
+            }
         } else {
             adapter.update(notifications);
-        }
-        if (notifications.size() >= EXPECTED_NOTIFICATIONS_FETCHED) {
-            setFetchTimelineState(FooterViewHolder.State.LOADING);
-        } else {
-            setFetchTimelineState(FooterViewHolder.State.END_OF_TIMELINE);
         }
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -186,6 +194,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void setFetchTimelineState(FooterViewHolder.State state) {
+        adapter.setFooterState(state);
         RecyclerView.ViewHolder viewHolder =
                 recyclerView.findViewHolderForAdapterPosition(adapter.getItemCount() - 1);
         if (viewHolder != null) {

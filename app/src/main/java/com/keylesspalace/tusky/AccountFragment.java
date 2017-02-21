@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,12 +44,12 @@ import java.util.Map;
 
 public class AccountFragment extends Fragment implements AccountActionListener,
         FooterActionListener {
-    private static final String TAG = "Account";
-    private static int EXPECTED_ACCOUNTS_FETCHED = 20;
+    private static final String TAG = "Account"; // logging tag
 
     public enum Type {
         FOLLOWS,
         FOLLOWERS,
+        BLOCKS,
     }
 
     private Type type;
@@ -62,6 +61,14 @@ public class AccountFragment extends Fragment implements AccountActionListener,
     private EndlessOnScrollListener scrollListener;
     private AccountAdapter adapter;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
+
+    public static AccountFragment newInstance(Type type) {
+        Bundle arguments = new Bundle();
+        AccountFragment fragment = new AccountFragment();
+        arguments.putString("type", type.name());
+        fragment.setArguments(arguments);
+        return fragment;
+    }
 
     public static AccountFragment newInstance(Type type, String accountId) {
         Bundle arguments = new Bundle();
@@ -99,7 +106,8 @@ public class AccountFragment extends Fragment implements AccountActionListener,
         recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration divider = new DividerItemDecoration(
                 context, layoutManager.getOrientation());
-        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.status_divider_dark);
+        Drawable drawable = ThemeUtils.getDrawable(context, R.attr.status_divider_drawable,
+                R.drawable.status_divider_dark);
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
         scrollListener = new EndlessOnScrollListener(layoutManager) {
@@ -118,45 +126,54 @@ public class AccountFragment extends Fragment implements AccountActionListener,
         adapter = new AccountAdapter(this, this);
         recyclerView.setAdapter(adapter);
 
-        TabLayout layout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
-        onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {}
+        if (jumpToTopAllowed()) {
+            TabLayout layout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
+            onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+                }
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                jumpToTop();
-            }
-        };
-        layout.addOnTabSelectedListener(onTabSelectedListener);
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+                    jumpToTop();
+                }
+            };
+            layout.addOnTabSelectedListener(onTabSelectedListener);
+        }
 
         return rootView;
     }
 
     @Override
     public void onDestroyView() {
-        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
-        tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
+        if (jumpToTopAllowed()) {
+            TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
+            tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
+        }
         super.onDestroyView();
     }
 
     private void fetchAccounts(final String fromId) {
-        int endpointId;
+        String endpoint;
         switch (type) {
             default:
             case FOLLOWS: {
-                endpointId = R.string.endpoint_following;
+                endpoint = String.format(getString(R.string.endpoint_following), accountId);
                 break;
             }
             case FOLLOWERS: {
-                endpointId = R.string.endpoint_followers;
+                endpoint = String.format(getString(R.string.endpoint_followers), accountId);
+                break;
+            }
+            case BLOCKS: {
+                endpoint = getString(R.string.endpoint_blocks);
                 break;
             }
         }
-        String endpoint = String.format(getString(endpointId), accountId);
         String url = "https://" + domain + endpoint;
         if (fromId != null) {
             url += "?max_id=" + fromId;
@@ -172,7 +189,7 @@ public class AccountFragment extends Fragment implements AccountActionListener,
                             onFetchAccountsFailure(e);
                             return;
                         }
-                        onFetchAccountsSuccess(accounts, fromId != null);
+                        onFetchAccountsSuccess(accounts, fromId);
                     }
                 },
                 new Response.ErrorListener() {
@@ -195,16 +212,25 @@ public class AccountFragment extends Fragment implements AccountActionListener,
         fetchAccounts(null);
     }
 
-    private void onFetchAccountsSuccess(List<Account> accounts, boolean added) {
-        if (added) {
-            adapter.addItems(accounts);
+    private static boolean findAccount(List<Account> accounts, String id) {
+        for (Account account : accounts) {
+            if (account.id.equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void onFetchAccountsSuccess(List<Account> accounts, String fromId) {
+        if (fromId != null) {
+            if (accounts.size() > 0 && !findAccount(accounts, fromId)) {
+                setFetchTimelineState(FooterViewHolder.State.LOADING);
+                adapter.addItems(accounts);
+            } else {
+                setFetchTimelineState(FooterViewHolder.State.END_OF_TIMELINE);
+            }
         } else {
             adapter.update(accounts);
-        }
-        if (accounts.size() >= EXPECTED_ACCOUNTS_FETCHED) {
-            setFetchTimelineState(FooterViewHolder.State.LOADING);
-        } else {
-            setFetchTimelineState(FooterViewHolder.State.END_OF_TIMELINE);
         }
     }
 
@@ -214,6 +240,9 @@ public class AccountFragment extends Fragment implements AccountActionListener,
     }
 
     private void setFetchTimelineState(FooterViewHolder.State state) {
+        // Set the adapter to set its state when it's bound, if the current Footer is offscreen.
+        adapter.setFooterState(state);
+        // Check if it's onscreen, and update it directly if it is.
         RecyclerView.ViewHolder viewHolder =
                 recyclerView.findViewHolderForAdapterPosition(adapter.getItemCount() - 1);
         if (viewHolder != null) {
@@ -235,6 +264,10 @@ public class AccountFragment extends Fragment implements AccountActionListener,
         Intent intent = new Intent(getContext(), AccountActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);
+    }
+
+    private boolean jumpToTopAllowed() {
+        return type != Type.BLOCKS;
     }
 
     private void jumpToTop() {

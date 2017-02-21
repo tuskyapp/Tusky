@@ -31,6 +31,7 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
     private List<Status> statuses;
     private StatusActionListener statusListener;
     private FooterActionListener footerListener;
+    private FooterViewHolder.State footerState;
 
     public TimelineAdapter(StatusActionListener statusListener,
             FooterActionListener footerListener) {
@@ -38,6 +39,7 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
         statuses = new ArrayList<>();
         this.statusListener = statusListener;
         this.footerListener = footerListener;
+        footerState = FooterViewHolder.State.LOADING;
     }
 
     @Override
@@ -65,6 +67,7 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
             holder.setupWithStatus(status, statusListener, position);
         } else {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
+            holder.setState(footerState);
             holder.setupButton(footerListener);
             holder.setRetryMessage(R.string.footer_retry_statuses);
             holder.setEndOfTimelineMessage(R.string.footer_end_of_statuses);
@@ -120,5 +123,9 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
             return statuses.get(position);
         }
         return null;
+    }
+
+    public void setFooterState(FooterViewHolder.State state) {
+        footerState = state;
     }
 }

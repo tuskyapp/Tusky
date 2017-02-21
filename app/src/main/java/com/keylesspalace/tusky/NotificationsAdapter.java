@@ -37,6 +37,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
     private List<Notification> notifications;
     private StatusActionListener statusListener;
     private FooterActionListener footerListener;
+    private FooterViewHolder.State footerState;
 
     public NotificationsAdapter(StatusActionListener statusListener,
         FooterActionListener footerListener) {
@@ -44,6 +45,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         notifications = new ArrayList<>();
         this.statusListener = statusListener;
         this.footerListener = footerListener;
+        footerState = FooterViewHolder.State.LOADING;
     }
 
     @Override
@@ -100,6 +102,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
             }
         } else {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
+            holder.setState(footerState);
             holder.setupButton(footerListener);
             holder.setRetryMessage(R.string.footer_retry_notifications);
             holder.setEndOfTimelineMessage(R.string.footer_end_of_notifications);
@@ -168,6 +171,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
     public void removeItem(int position) {
         notifications.remove(position);
         notifyItemChanged(position);
+    }
+
+    public void setFooterState(FooterViewHolder.State state) {
+        footerState = state;
     }
 
     public static class FollowViewHolder extends RecyclerView.ViewHolder {

@@ -35,6 +35,7 @@ public class AccountAdapter extends RecyclerView.Adapter {
     private List<Account> accounts;
     private AccountActionListener accountActionListener;
     private FooterActionListener footerActionListener;
+    private FooterViewHolder.State footerState;
 
     public AccountAdapter(AccountActionListener accountActionListener,
             FooterActionListener footerActionListener) {
@@ -42,6 +43,7 @@ public class AccountAdapter extends RecyclerView.Adapter {
         accounts = new ArrayList<>();
         this.accountActionListener = accountActionListener;
         this.footerActionListener = footerActionListener;
+        footerState = FooterViewHolder.State.LOADING;
     }
 
     @Override
@@ -69,6 +71,7 @@ public class AccountAdapter extends RecyclerView.Adapter {
             holder.setupActionListener(accountActionListener);
         } else {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
+            holder.setState(footerState);
             holder.setupButton(footerActionListener);
             holder.setRetryMessage(R.string.footer_retry_accounts);
             holder.setEndOfTimelineMessage(R.string.footer_end_of_accounts);
@@ -114,6 +117,10 @@ public class AccountAdapter extends RecyclerView.Adapter {
             return accounts.get(position);
         }
         return null;
+    }
+
+    public void setFooterState(FooterViewHolder.State state) {
+        this.footerState = state;
     }
 
     private static class AccountViewHolder extends RecyclerView.ViewHolder {

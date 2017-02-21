@@ -10,18 +10,23 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_profile"
-        android:title="@string/action_profile"
+        android:id="@+id/action_view_profile"
+        android:title="@string/action_view_profile"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_preferences"
-        android:title="@string/action_preferences"
+        android:id="@+id/action_view_preferences"
+        android:title="@string/action_view_preferences"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_favourites"
-        android:title="@string/action_favourites"
+        android:id="@+id/action_view_favourites"
+        android:title="@string/action_view_favourites"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_view_blocks"
+        android:title="@string/action_view_blocks"
         app:showAsAction="never" />
 
     <item
