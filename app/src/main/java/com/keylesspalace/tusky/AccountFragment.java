@@ -31,9 +31,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -123,7 +125,11 @@ public class AccountFragment extends Fragment implements AccountActionListener,
             }
         };
         recyclerView.addOnScrollListener(scrollListener);
-        adapter = new AccountAdapter(this, this);
+        if (type == Type.BLOCKS) {
+            adapter = new BlocksAdapter(this, this);
+        } else {
+            adapter = new FollowAdapter(this, this);
+        }
         recyclerView.setAdapter(adapter);
 
         if (jumpToTopAllowed()) {
@@ -264,6 +270,52 @@ public class AccountFragment extends Fragment implements AccountActionListener,
         Intent intent = new Intent(getContext(), AccountActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);
+    }
+
+    public void onBlock(final boolean block, final String id, final int position) {
+        String endpoint;
+        if (!block) {
+            endpoint = String.format(getString(R.string.endpoint_unblock), id);
+        } else {
+            endpoint = String.format(getString(R.string.endpoint_block), id);
+        }
+        String url = "https://" + domain + endpoint;
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        onBlockSuccess(block, position);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        onBlockFailure(block, id);
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+        };
+        VolleySingleton.getInstance(getContext()).addToRequestQueue(request);
+    }
+
+    private void onBlockSuccess(boolean blocked, int position) {
+        BlocksAdapter blocksAdapter = (BlocksAdapter) adapter;
+        blocksAdapter.setBlocked(blocked, position);
+    }
+
+    private void onBlockFailure(boolean block, String id) {
+        String verb;
+        if (block) {
+            verb = "block";
+        } else {
+            verb = "unblock";
+        }
+        Log.e(TAG, String.format("Failed to %s account id %s", verb, id));
     }
 
     private boolean jumpToTopAllowed() {

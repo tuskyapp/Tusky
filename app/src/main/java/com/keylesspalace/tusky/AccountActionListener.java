@@ -17,4 +17,5 @@ package com.keylesspalace.tusky;
 
 public interface AccountActionListener {
     void onViewAccount(String id);
+    void onBlock(final boolean block, final String id, final int position);
 }

@@ -53,20 +53,20 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-            android:textStyle="normal|bold" />
+            android:textStyle="normal|bold"
+            android:paddingRight="@dimen/status_display_name_right_padding" />
 
         <TextView
             android:id="@+id/status_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/status_username_left_margin"
-            android:textColor="?attr/status_text_color_secondary" />
+            android:textColor="?attr/status_text_color_secondary"
+            android:paddingRight="@dimen/status_username_right_padding" />
 
         <TextView
             android:id="@+id/status_since_created"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/status_since_created_left_margin"
             android:textColor="?attr/status_text_color_secondary" />
 
     </com.keylesspalace.tusky.FlowLayout>

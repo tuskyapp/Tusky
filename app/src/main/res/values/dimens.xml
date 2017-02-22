@@ -1,8 +1,8 @@
 <resources>
     <dimen name="activity_horizontal_margin">0dp</dimen>
     <dimen name="activity_vertical_margin">0dp</dimen>
-    <dimen name="status_username_left_margin">4dp</dimen>
-    <dimen name="status_since_created_left_margin">4dp</dimen>
+    <dimen name="status_display_name_right_padding">4dp</dimen>
+    <dimen name="status_username_right_padding">4dp</dimen>
     <dimen name="status_avatar_padding">8dp</dimen>
     <dimen name="status_reblogged_bar_top_padding">8dp</dimen>
     <dimen name="status_reblogged_icon_left_padding">40dp</dimen>
