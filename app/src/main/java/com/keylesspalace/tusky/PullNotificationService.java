@@ -140,9 +140,9 @@ public class PullNotificationService extends IntentService {
     }
 
     private static class MentionResult {
-        public String displayName;
-        public String content;
-        public String avatarUrl;
+        String displayName;
+        String content;
+        String avatarUrl;
     }
 
     private String truncateWithEllipses(String string, int limit) {

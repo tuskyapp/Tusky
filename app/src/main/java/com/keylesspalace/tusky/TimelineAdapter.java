@@ -24,7 +24,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
+class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
     private static final int VIEW_TYPE_STATUS = 0;
     private static final int VIEW_TYPE_FOOTER = 1;
 
@@ -33,7 +33,7 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
     private FooterActionListener footerListener;
     private FooterViewHolder.State footerState;
 
-    public TimelineAdapter(StatusActionListener statusListener,
+    TimelineAdapter(StatusActionListener statusListener,
             FooterActionListener footerListener) {
         super();
         statuses = new ArrayList<>();
@@ -88,7 +88,7 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
         }
     }
 
-    public int update(List<Status> newStatuses) {
+    int update(List<Status> newStatuses) {
         int scrollToPosition;
         if (statuses == null || statuses.isEmpty()) {
             statuses = newStatuses;
@@ -107,7 +107,7 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
         return scrollToPosition;
     }
 
-    public void addItems(List<Status> newStatuses) {
+    void addItems(List<Status> newStatuses) {
         int end = statuses.size();
         statuses.addAll(newStatuses);
         notifyItemRangeInserted(end, newStatuses.size());
@@ -118,14 +118,14 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
         notifyItemRemoved(position);
     }
 
-    public @Nullable Status getItem(int position) {
+    @Nullable Status getItem(int position) {
         if (position >= 0 && position < statuses.size()) {
             return statuses.get(position);
         }
         return null;
     }
 
-    public void setFooterState(FooterViewHolder.State state) {
+    void setFooterState(FooterViewHolder.State state) {
         footerState = state;
     }
 }

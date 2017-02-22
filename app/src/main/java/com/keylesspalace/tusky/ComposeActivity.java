@@ -39,6 +39,7 @@ import android.os.Parcelable;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -174,14 +175,15 @@ public class ComposeActivity extends BaseActivity {
         };
     }
 
-    private void doErrorDialog(int descriptionId, int actionId, View.OnClickListener listener) {
+    private void doErrorDialog(@StringRes int descriptionId, @StringRes int actionId,
+            View.OnClickListener listener) {
         Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(descriptionId),
                 Snackbar.LENGTH_SHORT);
         bar.setAction(actionId, listener);
         bar.show();
     }
 
-    private void displayTransientError(int stringId) {
+    private void displayTransientError(@StringRes int stringId) {
         Snackbar.make(findViewById(R.id.activity_compose), stringId, Snackbar.LENGTH_LONG).show();
     }
 

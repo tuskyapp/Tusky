@@ -36,6 +36,8 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class ViewThreadFragment extends SFragment implements StatusActionListener {
+    private static final String TAG = "ViewThread"; // logging tag
+
     private RecyclerView recyclerView;
     private ThreadAdapter adapter;
 
@@ -113,8 +115,8 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
     }
 
     private void onThreadRequestFailure() {
+        Log.e(TAG, "The request to fetch the thread has failed.");
         //TODO: no
-        assert(false);
     }
 
     public void onReply(int position) {

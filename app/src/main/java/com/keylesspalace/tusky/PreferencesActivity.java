@@ -33,11 +33,7 @@ public class PreferencesActivity extends AppCompatActivity
             themeSwitched = savedInstanceState.getBoolean("themeSwitched");
         } else {
             Bundle extras = getIntent().getExtras();
-            if (extras != null) {
-                themeSwitched = extras.getBoolean("themeSwitched");
-            } else {
-                themeSwitched = false;
-            }
+            themeSwitched = extras != null && extras.getBoolean("themeSwitched");
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

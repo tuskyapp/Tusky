@@ -18,16 +18,20 @@ package com.keylesspalace.tusky;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-public abstract class EndlessOnScrollListener extends RecyclerView.OnScrollListener {
-    private int visibleThreshold = 15;
-    private int currentPage = 0;
-    private int previousTotalItemCount = 0;
-    private boolean loading = true;
-    private int startingPageIndex = 0;
+abstract class EndlessOnScrollListener extends RecyclerView.OnScrollListener {
+    private static final int VISIBLE_THRESHOLD = 15;
+    private int currentPage;
+    private int previousTotalItemCount;
+    private boolean loading;
+    private int startingPageIndex;
     private LinearLayoutManager layoutManager;
 
-    public EndlessOnScrollListener(LinearLayoutManager layoutManager) {
+    EndlessOnScrollListener(LinearLayoutManager layoutManager) {
         this.layoutManager = layoutManager;
+        currentPage = 0;
+        previousTotalItemCount = 0;
+        loading = true;
+        startingPageIndex = 0;
     }
 
     @Override
@@ -45,14 +49,14 @@ public abstract class EndlessOnScrollListener extends RecyclerView.OnScrollListe
             loading = false;
             previousTotalItemCount = totalItemCount;
         }
-        if (!loading && lastVisibleItemPosition + visibleThreshold > totalItemCount) {
+        if (!loading && lastVisibleItemPosition + VISIBLE_THRESHOLD > totalItemCount) {
             currentPage++;
             onLoadMore(currentPage, totalItemCount, view);
             loading = true;
         }
     }
 
-    public void reset() {
+    void reset() {
         currentPage = startingPageIndex;
         previousTotalItemCount = 0;
         loading = true;

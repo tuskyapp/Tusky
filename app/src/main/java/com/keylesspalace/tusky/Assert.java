@@ -15,19 +15,13 @@
 
 package com.keylesspalace.tusky;
 
-import android.support.annotation.Nullable;
+/** Android Studio complains about built-in assertions so here's this is an alternative. */
+class Assert {
+    private static boolean ENABLED = BuildConfig.DEBUG;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-class IOUtils {
-    static void closeQuietly(@Nullable InputStream stream) {
-        try {
-            if (stream != null) {
-                stream.close();
-            }
-        } catch (IOException e) {
-            // intentionally unhandled
+    static void expect(boolean expression) {
+        if (ENABLED && !expression) {
+            throw new AssertionError();
         }
     }
 }

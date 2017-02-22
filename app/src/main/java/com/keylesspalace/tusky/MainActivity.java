@@ -63,7 +63,7 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         // Setup the tabs and timeline pager.
-        TimelinePagerAdapter adapter = new TimelinePagerAdapter(getSupportFragmentManager(), this);
+        TimelinePagerAdapter adapter = new TimelinePagerAdapter(getSupportFragmentManager());
         String[] pageTitles = {
             getString(R.string.title_home),
             getString(R.string.title_notifications),

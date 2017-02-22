@@ -31,6 +31,7 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -96,8 +97,8 @@ public class AccountActivity extends BaseActivity {
         }
 
         // Setup the tabs and timeline pager.
-        AccountPagerAdapter adapter = new AccountPagerAdapter(
-                getSupportFragmentManager(), this, accountId);
+        AccountPagerAdapter adapter = new AccountPagerAdapter(getSupportFragmentManager(), this,
+                accountId);
         String[] pageTitles = {
             getString(R.string.title_statuses),
             getString(R.string.title_follows),
@@ -115,7 +116,7 @@ public class AccountActivity extends BaseActivity {
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             if (tab != null) {
-                tab.setCustomView(adapter.getTabView(i));
+                tab.setCustomView(adapter.getTabView(i, tabLayout));
             }
         }
     }

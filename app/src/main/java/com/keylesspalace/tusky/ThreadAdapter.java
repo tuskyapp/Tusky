@@ -23,12 +23,12 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ThreadAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
+class ThreadAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
     private List<Status> statuses;
     private StatusActionListener statusActionListener;
     private int statusIndex;
 
-    public ThreadAdapter(StatusActionListener listener) {
+    ThreadAdapter(StatusActionListener listener) {
         this.statusActionListener = listener;
         this.statuses = new ArrayList<>();
         this.statusIndex = 0;
@@ -53,7 +53,7 @@ public class ThreadAdapter extends RecyclerView.Adapter implements AdapterItemRe
         return statuses.size();
     }
 
-    public Status getItem(int position) {
+    Status getItem(int position) {
         return statuses.get(position);
     }
 
@@ -62,20 +62,20 @@ public class ThreadAdapter extends RecyclerView.Adapter implements AdapterItemRe
         notifyItemRemoved(position);
     }
 
-    public int insertStatus(Status status) {
+    int insertStatus(Status status) {
         int i = statusIndex;
         statuses.add(i, status);
         notifyItemInserted(i);
         return i;
     }
 
-    public void addAncestors(List<Status> ancestors) {
+    void addAncestors(List<Status> ancestors) {
         statusIndex = ancestors.size();
         statuses.addAll(0, ancestors);
         notifyItemRangeInserted(0, statusIndex);
     }
 
-    public void addDescendants(List<Status> descendants) {
+    void addDescendants(List<Status> descendants) {
         int end = statuses.size();
         statuses.addAll(descendants);
         notifyItemRangeInserted(end, descendants.size());

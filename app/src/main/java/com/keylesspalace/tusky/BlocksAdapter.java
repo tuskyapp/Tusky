@@ -81,7 +81,7 @@ class BlocksAdapter extends AccountAdapter {
         }
     }
 
-    public void setBlocked(boolean blocked, int position) {
+    void setBlocked(boolean blocked, int position) {
         if (blocked) {
             unblockedAccountPositions.remove(position);
         } else {

@@ -24,17 +24,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Account {
-    public String id;
-    public String username;
-    public String displayName;
-    public Spanned note;
-    public String url;
-    public String avatar;
-    public String header;
-    public String followersCount;
-    public String followingCount;
-    public String statusesCount;
+class Account {
+    String id;
+    String username;
+    String displayName;
+    Spanned note;
+    String url;
+    String avatar;
+    String header;
+    String followersCount;
+    String followingCount;
+    String statusesCount;
 
     public static Account parse(JSONObject object) throws JSONException {
         Account account = new Account();

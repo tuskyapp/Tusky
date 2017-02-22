@@ -24,8 +24,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Notification {
-    public enum Type {
+class Notification {
+    enum Type {
         MENTION,
         REBLOG,
         FAVOURITE,
@@ -37,39 +37,39 @@ public class Notification {
     /** Which of the user's statuses has been mentioned, reblogged, or favourited. */
     private Status status;
 
-    public Notification(Type type, String id, String displayName) {
+    private Notification(Type type, String id, String displayName) {
         this.type = type;
         this.id = id;
         this.displayName = displayName;
     }
 
-    public Type getType() {
+    Type getType() {
         return type;
     }
 
-    public String getId() {
+    String getId() {
         return id;
     }
 
-    public String getDisplayName() {
+    String getDisplayName() {
         return displayName;
     }
 
-    public @Nullable Status getStatus() {
+    @Nullable Status getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    void setStatus(Status status) {
         this.status = status;
     }
 
-    public boolean hasStatusType() {
+    private boolean hasStatusType() {
         return type == Type.MENTION
                 || type == Type.FAVOURITE
                 || type == Type.REBLOG;
     }
 
-    public static List<Notification> parse(JSONArray array) throws JSONException {
+    static List<Notification> parse(JSONArray array) throws JSONException {
         List<Notification> notifications = new ArrayList<>();
         for (int i = 0; i < array.length(); i++) {
             JSONObject object = array.getJSONObject(i);

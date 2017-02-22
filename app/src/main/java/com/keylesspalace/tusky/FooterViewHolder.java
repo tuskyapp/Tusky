@@ -21,7 +21,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class FooterViewHolder extends RecyclerView.ViewHolder {
+class FooterViewHolder extends RecyclerView.ViewHolder {
     private View retryBar;
     private TextView retryMessage;
     private Button retry;
@@ -34,7 +34,7 @@ public class FooterViewHolder extends RecyclerView.ViewHolder {
         END_OF_TIMELINE,
     }
 
-    public FooterViewHolder(View itemView) {
+    FooterViewHolder(View itemView) {
         super(itemView);
         retryBar = itemView.findViewById(R.id.footer_retry_bar);
         retryMessage = (TextView) itemView.findViewById(R.id.footer_retry_message);
@@ -44,7 +44,7 @@ public class FooterViewHolder extends RecyclerView.ViewHolder {
         endOfTimelineMessage = (TextView) itemView.findViewById(R.id.footer_end_of_timeline_text);
     }
 
-    public void setupButton(final FooterActionListener listener) {
+    void setupButton(final FooterActionListener listener) {
         retry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,15 +53,15 @@ public class FooterViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void setRetryMessage(int messageId) {
+    void setRetryMessage(int messageId) {
         retryMessage.setText(messageId);
     }
 
-    public void setEndOfTimelineMessage(int messageId) {
+    void setEndOfTimelineMessage(int messageId) {
         endOfTimelineMessage.setText(messageId);
     }
 
-    public void setState(State state) {
+    void setState(State state) {
         switch (state) {
             case LOADING: {
                 retryBar.setVisibility(View.GONE);

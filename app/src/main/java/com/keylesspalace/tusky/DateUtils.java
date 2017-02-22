@@ -15,10 +15,10 @@
 
 package com.keylesspalace.tusky;
 
-public class DateUtils {
+class DateUtils {
     /* This is a rough duplicate of android.text.format.DateUtils.getRelativeTimeSpanString,
      * but even with the FORMAT_ABBREV_RELATIVE flag it wasn't abbreviating enough. */
-    public static String getRelativeTimeSpanString(long then, long now) {
+    static String getRelativeTimeSpanString(long then, long now) {
         final long MINUTE = 60;
         final long HOUR = 60 * MINUTE;
         final long DAY = 24 * HOUR;

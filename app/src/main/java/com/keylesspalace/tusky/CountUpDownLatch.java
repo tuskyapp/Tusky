@@ -15,24 +15,24 @@
 
 package com.keylesspalace.tusky;
 
-public class CountUpDownLatch {
+class CountUpDownLatch {
     private int count;
 
-    public CountUpDownLatch() {
+    CountUpDownLatch() {
         this.count = 0;
     }
 
-    public synchronized void countDown() {
+    synchronized void countDown() {
         count--;
         notifyAll();
     }
 
-    public synchronized void countUp() {
+    synchronized void countUp() {
         count++;
         notifyAll();
     }
 
-    public synchronized void await() throws InterruptedException {
+    synchronized void await() throws InterruptedException {
         while (count != 0) {
             wait();
         }

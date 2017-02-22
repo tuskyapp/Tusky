@@ -56,7 +56,7 @@ public class VolleySingleton {
         return instance;
     }
 
-    public RequestQueue getRequestQueue() {
+    private RequestQueue getRequestQueue() {
         if (requestQueue == null) {
             /* getApplicationContext() is key, it keeps you from leaking the
              * Activity or BroadcastReceiver if someone passes one in. */
@@ -65,15 +65,15 @@ public class VolleySingleton {
         return requestQueue;
     }
 
-    public <T> void addToRequestQueue(Request<T> request) {
+    <T> void addToRequestQueue(Request<T> request) {
         getRequestQueue().add(request);
     }
 
-    public void cancelAll(String tag) {
+    void cancelAll(String tag) {
         getRequestQueue().cancelAll(tag);
     }
 
-    public ImageLoader getImageLoader() {
+    ImageLoader getImageLoader() {
         return imageLoader;
     }
 }

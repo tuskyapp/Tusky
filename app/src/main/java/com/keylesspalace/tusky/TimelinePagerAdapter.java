@@ -15,24 +15,18 @@
 
 package com.keylesspalace.tusky;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
 
-public class TimelinePagerAdapter extends FragmentPagerAdapter {
+class TimelinePagerAdapter extends FragmentPagerAdapter {
     private String[] pageTitles;
-    private Context context;
 
-    public TimelinePagerAdapter(FragmentManager manager, Context context) {
+    TimelinePagerAdapter(FragmentManager manager) {
         super(manager);
-        this.context = context;
     }
 
-    public void setPageTitles(String[] titles) {
+    void setPageTitles(String[] titles) {
         pageTitles = titles;
     }
 

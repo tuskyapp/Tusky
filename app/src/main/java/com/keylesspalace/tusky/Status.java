@@ -56,7 +56,7 @@ public class Status {
     private MediaAttachment[] attachments;
     private Mention[] mentions;
 
-    public static final int MAX_MEDIA_ATTACHMENTS = 4;
+    static final int MAX_MEDIA_ATTACHMENTS = 4;
 
     public Status(String id, String accountId, String displayName, String username, Spanned content,
                   String avatar, Date createdAt, boolean reblogged, boolean favourited,
@@ -76,87 +76,87 @@ public class Status {
         this.mentions = new Mention[0];
     }
 
-    public String getId() {
+    String getId() {
         return id;
     }
 
-    public String getAccountId() {
+    String getAccountId() {
         return accountId;
     }
 
-    public String getDisplayName() {
+    String getDisplayName() {
         return displayName;
     }
 
-    public String getUsername() {
+    String getUsername() {
         return username;
     }
 
-    public Spanned getContent() {
+    Spanned getContent() {
         return content;
     }
 
-    public String getAvatar() {
+    String getAvatar() {
         return avatar;
     }
 
-    public Date getCreatedAt() {
+    Date getCreatedAt() {
         return createdAt;
     }
 
-    public String getRebloggedByDisplayName() {
+    String getRebloggedByDisplayName() {
         return rebloggedByDisplayName;
     }
 
-    public boolean getReblogged() {
+    boolean getReblogged() {
         return reblogged;
     }
 
-    public boolean getFavourited() {
+    boolean getFavourited() {
         return favourited;
     }
 
-    public boolean getSensitive() {
+    boolean getSensitive() {
         return sensitive;
     }
 
-    public String getSpoilerText() {
+    String getSpoilerText() {
         return spoilerText;
     }
 
-    public Visibility getVisibility() {
+    Visibility getVisibility() {
         return visibility;
     }
 
-    public MediaAttachment[] getAttachments() {
+    MediaAttachment[] getAttachments() {
         return attachments;
     }
 
-    public Mention[] getMentions() {
+    Mention[] getMentions() {
         return mentions;
     }
 
-    public void setRebloggedByDisplayName(String name) {
+    private void setRebloggedByDisplayName(String name) {
         rebloggedByDisplayName = name;
     }
 
-    public void setReblogged(boolean reblogged) {
+    void setReblogged(boolean reblogged) {
         this.reblogged = reblogged;
     }
 
-    public void setFavourited(boolean favourited) {
+    void setFavourited(boolean favourited) {
         this.favourited = favourited;
     }
 
-    public void setSpoilerText(String spoilerText) {
+    private void setSpoilerText(String spoilerText) {
         this.spoilerText = spoilerText;
     }
 
-    public void setMentions(Mention[] mentions) {
+    private void setMentions(Mention[] mentions) {
         this.mentions = mentions;
     }
 
-    public void setAttachments(MediaAttachment[] attachments, boolean sensitive) {
+    private void setAttachments(MediaAttachment[] attachments, boolean sensitive) {
         this.attachments = attachments;
         this.sensitive = sensitive;
     }
@@ -285,7 +285,7 @@ public class Status {
         return statuses;
     }
 
-    public static class MediaAttachment {
+    static class MediaAttachment {
         enum Type {
             IMAGE,
             VIDEO,
@@ -295,45 +295,45 @@ public class Status {
         private String previewUrl;
         private Type type;
 
-        public MediaAttachment(String url, String previewUrl, Type type) {
+        MediaAttachment(String url, String previewUrl, Type type) {
             this.url = url;
             this.previewUrl = previewUrl;
             this.type = type;
         }
 
-        public String getUrl() {
+        String getUrl() {
             return url;
         }
 
-        public String getPreviewUrl() {
+        String getPreviewUrl() {
             return previewUrl;
         }
 
-        public Type getType() {
+        Type getType() {
             return type;
         }
     }
 
-    public static class Mention {
+    static class Mention {
         private String url;
         private String username;
         private String id;
 
-        public Mention(String url, String username, String id) {
+        Mention(String url, String username, String id) {
             this.url = url;
             this.username = username;
             this.id = id;
         }
 
-        public String getUrl() {
+        String getUrl() {
             return url;
         }
 
-        public String getUsername() {
+        String getUsername() {
             return username;
         }
 
-        public String getId() {
+        String getId() {
             return id;
         }
     }

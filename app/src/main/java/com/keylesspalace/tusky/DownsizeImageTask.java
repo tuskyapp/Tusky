@@ -22,17 +22,17 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DownsizeImageTask extends AsyncTask<Bitmap, Void, Boolean> {
+class DownsizeImageTask extends AsyncTask<Bitmap, Void, Boolean> {
     private Listener listener;
     private int sizeLimit;
     private List<byte[]> resultList;
 
-    public DownsizeImageTask(int sizeLimit, Listener listener) {
+    DownsizeImageTask(int sizeLimit, Listener listener) {
         this.listener = listener;
         this.sizeLimit = sizeLimit;
     }
 
-    public static Bitmap scaleDown(Bitmap source, float maxImageSize, boolean filter) {
+    private static Bitmap scaleDown(Bitmap source, float maxImageSize, boolean filter) {
         float ratio = Math.min(maxImageSize / source.getWidth(), maxImageSize / source.getHeight());
         int width = Math.round(ratio * source.getWidth());
         int height = Math.round(ratio * source.getHeight());
@@ -67,7 +67,7 @@ public class DownsizeImageTask extends AsyncTask<Bitmap, Void, Boolean> {
                 scaledImageSize /= 2;
                 iterations++;
             } while (stream.size() > sizeLimit);
-            assert(iterations < 3);
+            Assert.expect(iterations < 3);
             resultList.add(stream.toByteArray());
             if (isCancelled()) {
                 return false;

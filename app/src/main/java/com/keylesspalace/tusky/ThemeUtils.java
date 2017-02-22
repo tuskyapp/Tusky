@@ -22,8 +22,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.widget.ImageView;
 
-public class ThemeUtils {
-    public static Drawable getDrawable(Context context, int attribute, int fallbackDrawable) {
+class ThemeUtils {
+    static Drawable getDrawable(Context context, int attribute, int fallbackDrawable) {
         TypedValue value = new TypedValue();
         int resourceId;
         if (context.getTheme().resolveAttribute(attribute, value, true)) {
@@ -34,7 +34,7 @@ public class ThemeUtils {
         return ContextCompat.getDrawable(context, resourceId);
     }
 
-    public static int getDrawableId(Context context, int attribute, int fallbackDrawableId) {
+    static int getDrawableId(Context context, int attribute, int fallbackDrawableId) {
         TypedValue value = new TypedValue();
         if (context.getTheme().resolveAttribute(attribute, value, true)) {
             return value.resourceId;
@@ -43,7 +43,7 @@ public class ThemeUtils {
         }
     }
 
-    public static int getColor(Context context, int attribute) {
+    static int getColor(Context context, int attribute) {
         TypedValue value = new TypedValue();
         if (context.getTheme().resolveAttribute(attribute, value, true)) {
             return value.data;
@@ -52,7 +52,7 @@ public class ThemeUtils {
         }
     }
 
-    public static void setImageViewTint(ImageView view, int attribute) {
+    static void setImageViewTint(ImageView view, int attribute) {
         view.setColorFilter(getColor(view.getContext(), attribute), PorterDuff.Mode.SRC_IN);
     }
 }

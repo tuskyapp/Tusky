@@ -21,20 +21,21 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class AccountPagerAdapter extends FragmentPagerAdapter {
+class AccountPagerAdapter extends FragmentPagerAdapter {
     private Context context;
     private String accountId;
     private String[] pageTitles;
 
-    public AccountPagerAdapter(FragmentManager manager, Context context, String accountId) {
+    AccountPagerAdapter(FragmentManager manager, Context context, String accountId) {
         super(manager);
         this.context = context;
         this.accountId = accountId;
     }
 
-    public void setPageTitles(String[] titles) {
+    void setPageTitles(String[] titles) {
         pageTitles = titles;
     }
 
@@ -66,8 +67,8 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
         return pageTitles[position];
     }
 
-    public View getTabView(int position) {
-        View view = LayoutInflater.from(context).inflate(R.layout.tab_account, null);
+    View getTabView(int position, ViewGroup root) {
+        View view = LayoutInflater.from(context).inflate(R.layout.tab_account, root, false);
         TextView title = (TextView) view.findViewById(R.id.title);
         title.setText(pageTitles[position]);
         return view;

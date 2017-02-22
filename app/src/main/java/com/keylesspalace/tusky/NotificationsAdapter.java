@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
+class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
     private static final int VIEW_TYPE_MENTION = 0;
     private static final int VIEW_TYPE_FOOTER = 1;
     private static final int VIEW_TYPE_STATUS_NOTIFICATION = 2;
@@ -39,7 +39,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
     private FooterActionListener footerListener;
     private FooterViewHolder.State footerState;
 
-    public NotificationsAdapter(StatusActionListener statusListener,
+    NotificationsAdapter(StatusActionListener statusListener,
         FooterActionListener footerListener) {
         super();
         notifications = new ArrayList<>();
@@ -143,7 +143,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         return null;
     }
 
-    public int update(List<Notification> new_notifications) {
+    int update(List<Notification> new_notifications) {
         int scrollToPosition;
         if (notifications == null || notifications.isEmpty()) {
             notifications = new_notifications;
@@ -162,7 +162,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         return scrollToPosition;
     }
 
-    public void addItems(List<Notification> new_notifications) {
+    void addItems(List<Notification> new_notifications) {
         int end = notifications.size();
         notifications.addAll(new_notifications);
         notifyItemRangeInserted(end, new_notifications.size());
@@ -173,19 +173,19 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         notifyItemChanged(position);
     }
 
-    public void setFooterState(FooterViewHolder.State state) {
+    void setFooterState(FooterViewHolder.State state) {
         footerState = state;
     }
 
-    public static class FollowViewHolder extends RecyclerView.ViewHolder {
+    private static class FollowViewHolder extends RecyclerView.ViewHolder {
         private TextView message;
 
-        public FollowViewHolder(View itemView) {
+        FollowViewHolder(View itemView) {
             super(itemView);
             message = (TextView) itemView.findViewById(R.id.notification_text);
         }
 
-        public void setMessage(String displayName) {
+        void setMessage(String displayName) {
             Context context = message.getContext();
             String format = context.getString(R.string.notification_follow_format);
             String wholeMessage = String.format(format, displayName);
@@ -193,19 +193,19 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         }
     }
 
-    public static class StatusNotificationViewHolder extends RecyclerView.ViewHolder {
+    private static class StatusNotificationViewHolder extends RecyclerView.ViewHolder {
         private TextView message;
         private ImageView icon;
         private TextView statusContent;
 
-        public StatusNotificationViewHolder(View itemView) {
+        StatusNotificationViewHolder(View itemView) {
             super(itemView);
             message = (TextView) itemView.findViewById(R.id.notification_text);
             icon = (ImageView) itemView.findViewById(R.id.notification_icon);
             statusContent = (TextView) itemView.findViewById(R.id.notification_content);
         }
 
-        public void setMessage(Notification.Type type, String displayName, Status status) {
+        void setMessage(Notification.Type type, String displayName, Status status) {
             Context context = message.getContext();
             String format;
             switch (type) {

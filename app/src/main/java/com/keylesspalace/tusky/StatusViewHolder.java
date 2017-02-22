@@ -34,7 +34,7 @@ import com.android.volley.toolbox.NetworkImageView;
 
 import java.util.Date;
 
-public class StatusViewHolder extends RecyclerView.ViewHolder {
+class StatusViewHolder extends RecyclerView.ViewHolder {
     private View container;
     private TextView displayName;
     private TextView username;
@@ -58,7 +58,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
     private TextView contentWarningDescription;
     private ToggleButton contentWarningButton;
 
-    public StatusViewHolder(View itemView) {
+    StatusViewHolder(View itemView) {
         super(itemView);
         container = itemView.findViewById(R.id.status_container);
         displayName = (TextView) itemView.findViewById(R.id.status_display_name);
@@ -94,18 +94,18 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
                 (ToggleButton) itemView.findViewById(R.id.status_content_warning_button);
     }
 
-    public void setDisplayName(String name) {
+    private void setDisplayName(String name) {
         displayName.setText(name);
     }
 
-    public void setUsername(String name) {
+    void setUsername(String name) {
         Context context = username.getContext();
         String format = context.getString(R.string.status_username_format);
         String usernameText = String.format(format, name);
         username.setText(usernameText);
     }
 
-    public void setContent(Spanned content, Status.Mention[] mentions,
+    private void setContent(Spanned content, Status.Mention[] mentions,
             final StatusActionListener listener) {
         /* Redirect URLSpan's in the status content to the listener for viewing tag pages and
          * account pages. */
@@ -154,7 +154,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         this.content.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    public void setAvatar(String url) {
+    private void setAvatar(String url) {
         if (url.isEmpty()) {
             return;
         }
@@ -163,7 +163,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         avatar.setImageUrl(url, imageLoader);
     }
 
-    public void setCreatedAt(@Nullable Date createdAt) {
+    private void setCreatedAt(@Nullable Date createdAt) {
         String readout;
         if (createdAt != null) {
             long then = createdAt.getTime();
@@ -175,7 +175,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         sinceCreated.setText(readout);
     }
 
-    public void setRebloggedByDisplayName(String name) {
+    private void setRebloggedByDisplayName(String name) {
         Context context = rebloggedByDisplayName.getContext();
         String format = context.getString(R.string.status_boosted_format);
         String boostedText = String.format(format, name);
@@ -183,11 +183,11 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         rebloggedBar.setVisibility(View.VISIBLE);
     }
 
-    public void hideRebloggedByDisplayName() {
+    private void hideRebloggedByDisplayName() {
         rebloggedBar.setVisibility(View.GONE);
     }
 
-    public void setReblogged(boolean reblogged) {
+    private void setReblogged(boolean reblogged) {
         this.reblogged = reblogged;
         int attribute;
         if (reblogged) {
@@ -199,7 +199,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
     }
 
     /** This should only be called after setReblogged, in order to override the tint correctly. */
-    public void setRebloggingEnabled(boolean enabled) {
+    private void setRebloggingEnabled(boolean enabled) {
         reblogButton.setEnabled(enabled);
         if (enabled) {
             reblogButton.setImageResource(R.drawable.ic_reblog);
@@ -209,7 +209,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void setFavourited(boolean favourited) {
+    private void setFavourited(boolean favourited) {
         this.favourited = favourited;
         int attribute;
         if (favourited) {
@@ -220,7 +220,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         ThemeUtils.setImageViewTint(favouriteButton, attribute);
     }
 
-    public void setMediaPreviews(final Status.MediaAttachment[] attachments,
+    private void setMediaPreviews(final Status.MediaAttachment[] attachments,
                                  boolean sensitive, final StatusActionListener listener) {
         final NetworkImageView[] previews = {
                 mediaPreview0,
@@ -268,11 +268,11 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void hideSensitiveMediaWarning() {
+    private void hideSensitiveMediaWarning() {
         sensitiveMediaWarning.setVisibility(View.GONE);
     }
 
-    public void setSpoilerText(String spoilerText) {
+    private void setSpoilerText(String spoilerText) {
         contentWarningDescription.setText(spoilerText);
         contentWarningBar.setVisibility(View.VISIBLE);
         content.setVisibility(View.GONE);
@@ -289,12 +289,12 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
                 });
     }
 
-    public void hideSpoilerText() {
+    private void hideSpoilerText() {
         contentWarningBar.setVisibility(View.GONE);
         content.setVisibility(View.VISIBLE);
     }
 
-    public void setupButtons(final StatusActionListener listener, final int position) {
+    private void setupButtons(final StatusActionListener listener, final int position) {
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -339,7 +339,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         container.setOnClickListener(viewThreadListener);
     }
 
-    public void setupWithStatus(Status status, StatusActionListener listener, int position) {
+    void setupWithStatus(Status status, StatusActionListener listener, int position) {
         setDisplayName(status.getDisplayName());
         setUsername(status.getUsername());
         setCreatedAt(status.getCreatedAt());

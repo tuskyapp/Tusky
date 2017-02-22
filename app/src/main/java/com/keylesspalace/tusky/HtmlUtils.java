@@ -19,7 +19,7 @@ import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
 
-public class HtmlUtils {
+class HtmlUtils {
     private static CharSequence trimTrailingWhitespace(CharSequence s) {
         int i = s.length();
         do {
@@ -28,7 +28,7 @@ public class HtmlUtils {
         return s.subSequence(0, i + 1);
     }
 
-    public static Spanned fromHtml(String html) {
+    static Spanned fromHtml(String html) {
         Spanned result;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             result = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);

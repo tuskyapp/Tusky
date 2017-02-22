@@ -29,14 +29,14 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-public class MultipartRequest extends Request<JSONObject> {
+class MultipartRequest extends Request<JSONObject> {
     private static final String CHARSET = "utf-8";
     private final String boundary = "something-" + System.currentTimeMillis();
 
     private JSONObject parameters;
     private Response.Listener<JSONObject> listener;
 
-    public MultipartRequest(int method, String url, JSONObject parameters,
+    MultipartRequest(int method, String url, JSONObject parameters,
             Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         this.parameters = parameters;
@@ -108,10 +108,10 @@ public class MultipartRequest extends Request<JSONObject> {
         return null;
     }
 
-    public static class DataItem {
-        public String name;
-        public String filename;
-        public String mimeType;
-        public byte[] content;
+    static class DataItem {
+        String name;
+        String filename;
+        String mimeType;
+        byte[] content;
     }
 }

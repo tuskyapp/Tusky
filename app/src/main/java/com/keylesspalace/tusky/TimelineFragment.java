@@ -314,8 +314,11 @@ public class TimelineFragment extends SFragment implements
 
     public void onViewAccount(int position) {
         Status status = adapter.getItem(position);
-        String id = status.getAccountId();
-        String username = status.getUsername();
-        super.viewAccount(id, username);
+        Assert.expect(status != null);
+        if (status != null) {
+            String id = status.getAccountId();
+            String username = status.getUsername();
+            super.viewAccount(id, username);
+        }
     }
 }
