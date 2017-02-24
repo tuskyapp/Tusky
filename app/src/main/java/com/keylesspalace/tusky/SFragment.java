@@ -47,7 +47,7 @@ import java.util.Map;
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
 public class SFragment extends Fragment {
-    private static final String TAG = "SFragment"; // logging tag
+    private static final String TAG = "SFragment"; // logging tag and Volley request tag
 
     protected String domain;
     protected String accessToken;
@@ -64,6 +64,12 @@ public class SFragment extends Fragment {
         accessToken = preferences.getString("accessToken", null);
         loggedInAccountId = preferences.getString("loggedInAccountId", null);
         loggedInUsername = preferences.getString("loggedInAccountUsername", null);
+    }
+
+    @Override
+    public void onDestroy() {
+        VolleySingleton.getInstance(getContext()).cancelAll(TAG);
+        super.onDestroy();
     }
 
     protected void sendRequest(
@@ -92,6 +98,7 @@ public class SFragment extends Fragment {
                 return headers;
             }
         };
+        request.setTag(TAG);
         VolleySingleton.getInstance(getContext()).addToRequestQueue(request);
     }
 

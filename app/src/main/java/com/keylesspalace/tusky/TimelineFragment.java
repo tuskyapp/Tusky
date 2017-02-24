@@ -41,7 +41,7 @@ import java.util.Map;
 
 public class TimelineFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener {
-    private static final String TAG = "Timeline"; // logging tag
+    private static final String TAG = "Timeline"; // logging tag and Volley request tag
 
     public enum Kind {
         HOME,
@@ -76,6 +76,12 @@ public class TimelineFragment extends SFragment implements
         arguments.putString("hashtag_or_id", hashtagOrId);
         fragment.setArguments(arguments);
         return fragment;
+    }
+
+    @Override
+    public void onDestroy() {
+        VolleySingleton.getInstance(getContext()).cancelAll(TAG);
+        super.onDestroy();
     }
 
     @Override
@@ -221,6 +227,7 @@ public class TimelineFragment extends SFragment implements
                 return headers;
             }
         };
+        request.setTag(TAG);
         VolleySingleton.getInstance(getContext()).addToRequestQueue(request);
     }
 

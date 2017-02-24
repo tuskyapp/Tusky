@@ -31,7 +31,6 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -51,7 +50,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AccountActivity extends BaseActivity {
-    private static final String TAG = "AccountActivity"; // logging tag
+    private static final String TAG = "AccountActivity"; // Volley request tag and logging tag
 
     private String domain;
     private String accessToken;
@@ -121,6 +120,12 @@ public class AccountActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        VolleySingleton.getInstance(this).cancelAll(TAG);
+        super.onDestroy();
+    }
+
     private void obtainAccount() {
         String endpoint = String.format(getString(R.string.endpoint_accounts), accountId);
         String url = "https://" + domain + endpoint;
@@ -151,6 +156,7 @@ public class AccountActivity extends BaseActivity {
                 return headers;
             }
         };
+        request.setTag(TAG);
         VolleySingleton.getInstance(this).addToRequestQueue(request);
     }
 
@@ -241,6 +247,7 @@ public class AccountActivity extends BaseActivity {
                 return headers;
             }
         };
+        request.setTag(TAG);
         VolleySingleton.getInstance(this).addToRequestQueue(request);
     }
 
@@ -301,6 +308,7 @@ public class AccountActivity extends BaseActivity {
                 return headers;
             }
         };
+        request.setTag(TAG);
         VolleySingleton.getInstance(this).addToRequestQueue(request);
     }
 

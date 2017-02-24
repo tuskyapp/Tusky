@@ -46,7 +46,7 @@ import java.util.Map;
 
 public class AccountFragment extends Fragment implements AccountActionListener,
         FooterActionListener {
-    private static final String TAG = "Account"; // logging tag
+    private static final String TAG = "Account"; // logging tag and Volley request tag
 
     public enum Type {
         FOLLOWS,
@@ -92,6 +92,12 @@ public class AccountFragment extends Fragment implements AccountActionListener,
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         domain = preferences.getString("domain", null);
         accessToken = preferences.getString("accessToken", null);
+    }
+
+    @Override
+    public void onDestroy() {
+        VolleySingleton.getInstance(getContext()).cancelAll(TAG);
+        super.onDestroy();
     }
 
     @Nullable
@@ -211,6 +217,7 @@ public class AccountFragment extends Fragment implements AccountActionListener,
                 return headers;
             }
         };
+        request.setTag(TAG);
         VolleySingleton.getInstance(getContext()).addToRequestQueue(request);
     }
 
@@ -300,6 +307,7 @@ public class AccountFragment extends Fragment implements AccountActionListener,
                 return headers;
             }
         };
+        request.setTag(TAG);
         VolleySingleton.getInstance(getContext()).addToRequestQueue(request);
     }
 

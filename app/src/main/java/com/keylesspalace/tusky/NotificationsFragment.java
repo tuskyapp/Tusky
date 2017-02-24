@@ -42,7 +42,7 @@ import java.util.Map;
 
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener {
-    private static final String TAG = "Notifications"; // logging tag
+    private static final String TAG = "Notifications"; // logging tag and Volley request tag
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -56,6 +56,12 @@ public class NotificationsFragment extends SFragment implements
         Bundle arguments = new Bundle();
         fragment.setArguments(arguments);
         return fragment;
+    }
+
+    @Override
+    public void onDestroy() {
+        VolleySingleton.getInstance(getContext()).cancelAll(TAG);
+        super.onDestroy();
     }
 
     @Nullable
@@ -157,6 +163,7 @@ public class NotificationsFragment extends SFragment implements
                 return headers;
             }
         };
+        request.setTag(TAG);
         VolleySingleton.getInstance(getContext()).addToRequestQueue(request);
     }
 

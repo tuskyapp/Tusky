@@ -44,10 +44,16 @@ import java.util.Map;
 
 public class PullNotificationService extends IntentService {
     private static final int NOTIFY_ID = 6; // This is an arbitrary number.
-    private static final String TAG = "PullNotifications";
+    private static final String TAG = "PullNotifications"; // logging tag and Volley request tag
 
     public PullNotificationService() {
         super("Tusky Pull Notification Service");
+    }
+
+    @Override
+    public void onDestroy() {
+        VolleySingleton.getInstance(this).cancelAll(TAG);
+        super.onDestroy();
     }
 
     @Override
@@ -94,6 +100,7 @@ public class PullNotificationService extends IntentService {
                 return headers;
             }
         };
+        request.setTag(TAG);
         VolleySingleton.getInstance(this).addToRequestQueue(request);
     }
 

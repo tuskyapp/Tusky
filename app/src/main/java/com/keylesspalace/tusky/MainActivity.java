@@ -43,7 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends BaseActivity {
-    private static final String TAG = "MainActivity"; // logging tag
+    private static final String TAG = "MainActivity"; // logging tag and Volley request tag
 
     private AlarmManager alarmManager;
     private PendingIntent serviceAlarmIntent;
@@ -141,6 +141,7 @@ public class MainActivity extends BaseActivity {
                     return headers;
                 }
             };
+            request.setTag(TAG);
             VolleySingleton.getInstance(this).addToRequestQueue(request);
         }
     }

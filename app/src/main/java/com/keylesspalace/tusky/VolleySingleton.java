@@ -24,14 +24,18 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+import java.lang.ref.WeakReference;
+
 public class VolleySingleton {
     private static VolleySingleton instance;
     private RequestQueue requestQueue;
     private ImageLoader imageLoader;
-    private static Context context;
+    /* This is a weak reference to account for the case where it might be held onto beyond the
+     * lifetime of the Activity/Fragment/Service, so it can be cleaned up. */
+    private static WeakReference<Context> context;
 
     private VolleySingleton(Context context) {
-        VolleySingleton.context = context;
+        VolleySingleton.context = new WeakReference<>(context);
         requestQueue = getRequestQueue();
         imageLoader = new ImageLoader(requestQueue,
                 new ImageLoader.ImageCache() {
@@ -60,7 +64,7 @@ public class VolleySingleton {
         if (requestQueue == null) {
             /* getApplicationContext() is key, it keeps you from leaking the
              * Activity or BroadcastReceiver if someone passes one in. */
-            requestQueue= Volley.newRequestQueue(context.getApplicationContext());
+            requestQueue= Volley.newRequestQueue(context.get().getApplicationContext());
         }
         return requestQueue;
     }
