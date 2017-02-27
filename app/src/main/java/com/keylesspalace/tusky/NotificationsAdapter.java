@@ -21,8 +21,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.android.volley.toolbox.NetworkImageView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,14 +39,16 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
 
     private List<Notification> notifications;
     private StatusActionListener statusListener;
+    private FollowListener followListener;
     private FooterActionListener footerListener;
     private FooterViewHolder.State footerState;
 
-    NotificationsAdapter(StatusActionListener statusListener,
+    NotificationsAdapter(StatusActionListener statusListener, FollowListener followListener,
         FooterActionListener footerListener) {
         super();
         notifications = new ArrayList<>();
         this.statusListener = statusListener;
+        this.followListener = followListener;
         this.footerListener = footerListener;
         footerState = FooterViewHolder.State.LOADING;
     }
@@ -96,7 +101,10 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
                 }
                 case FOLLOW: {
                     FollowViewHolder holder = (FollowViewHolder) viewHolder;
-                    holder.setMessage(notification.getDisplayName());
+                    holder.setMessage(notification.getDisplayName(), notification.getUsername(),
+                            notification.getAvatar());
+                    holder.setupButtons(followListener, notification.getAccountId(),
+                            notification.getUsername());
                     break;
                 }
             }
@@ -177,19 +185,59 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
         footerState = state;
     }
 
+    interface FollowListener {
+        void onViewAccount(String id, String username);
+        void onFollow(String id);
+    }
+
     private static class FollowViewHolder extends RecyclerView.ViewHolder {
         private TextView message;
+        private TextView usernameView;
+        private TextView displayNameView;
+        private NetworkImageView avatar;
+        private Button follow;
 
         FollowViewHolder(View itemView) {
             super(itemView);
             message = (TextView) itemView.findViewById(R.id.notification_text);
+            usernameView = (TextView) itemView.findViewById(R.id.notification_username);
+            displayNameView = (TextView) itemView.findViewById(R.id.notification_display_name);
+            avatar = (NetworkImageView) itemView.findViewById(R.id.notification_avatar);
+            avatar.setDefaultImageResId(R.drawable.avatar_default);
+            avatar.setErrorImageResId(R.drawable.avatar_error);
+            follow = (Button) itemView.findViewById(R.id.notification_follow_button);
         }
 
-        void setMessage(String displayName) {
+        void setMessage(String displayName, String username, String avatarUrl) {
             Context context = message.getContext();
+
             String format = context.getString(R.string.notification_follow_format);
             String wholeMessage = String.format(format, displayName);
             message.setText(wholeMessage);
+
+            format = context.getString(R.string.status_username_format);
+            String wholeUsername = String.format(format, username);
+            usernameView.setText(wholeUsername);
+
+            displayNameView.setText(displayName);
+
+            avatar.setImageUrl(avatarUrl, VolleySingleton.getInstance(context).getImageLoader());
+        }
+
+        void setupButtons(final FollowListener listener, final String accountId,
+                final String username) {
+            avatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onViewAccount(accountId, username);
+                }
+            });
+            follow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onFollow(accountId);
+                }
+            });
         }
     }
 

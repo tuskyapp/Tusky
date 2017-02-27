@@ -34,13 +34,20 @@ class Notification {
     private Type type;
     private String id;
     private String displayName;
+    private String username;
+    private String avatar;
+    private String accountId;
     /** Which of the user's statuses has been mentioned, reblogged, or favourited. */
     private Status status;
 
-    private Notification(Type type, String id, String displayName) {
+    private Notification(Type type, String id, String displayName, String username, String avatar,
+            String accountId) {
         this.type = type;
         this.id = id;
         this.displayName = displayName;
+        this.username = username;
+        this.avatar = avatar;
+        this.accountId = accountId;
     }
 
     Type getType() {
@@ -53,6 +60,18 @@ class Notification {
 
     String getDisplayName() {
         return displayName;
+    }
+
+    String getUsername() {
+        return username;
+    }
+
+    String getAvatar() {
+        return avatar;
+    }
+
+    String getAccountId() {
+        return accountId;
     }
 
     @Nullable Status getStatus() {
@@ -81,7 +100,11 @@ class Notification {
             if (displayName.isEmpty()) {
                 displayName = account.getString("username");
             }
-            Notification notification = new Notification(type, id, displayName);
+            String username = account.getString("acct");
+            String avatar = account.getString("avatar");
+            String accountId = account.getString("id");
+            Notification notification = new Notification(type, id, displayName, username, avatar,
+                    accountId);
             if (notification.hasStatusType()) {
                 JSONObject statusObject = object.getJSONObject("status");
                 Status status = Status.parse(statusObject, false);

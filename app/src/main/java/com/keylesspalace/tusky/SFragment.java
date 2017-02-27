@@ -161,7 +161,7 @@ public class SFragment extends Fragment {
         }, null);
     }
 
-    private void follow(String id) {
+    protected void follow(String id) {
         String endpoint = String.format(getString(R.string.endpoint_follow), id);
         postRequest(endpoint);
     }

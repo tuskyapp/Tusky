@@ -41,7 +41,8 @@ import java.util.List;
 import java.util.Map;
 
 public class NotificationsFragment extends SFragment implements
-        SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener {
+        SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener,
+        NotificationsAdapter.FollowListener {
     private static final String TAG = "Notifications"; // logging tag and Volley request tag
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -98,7 +99,7 @@ public class NotificationsFragment extends SFragment implements
             }
         };
         recyclerView.addOnScrollListener(scrollListener);
-        adapter = new NotificationsAdapter(this, this);
+        adapter = new NotificationsAdapter(this, this, this);
         recyclerView.setAdapter(adapter);
 
         TabLayout layout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
@@ -265,5 +266,9 @@ public class NotificationsFragment extends SFragment implements
         String id = status.getAccountId();
         String username = status.getUsername();
         super.viewAccount(id, username);
+    }
+
+    public void onFollow(String id) {
+        super.follow(id);
     }
 }
