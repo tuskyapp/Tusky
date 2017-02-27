@@ -39,6 +39,9 @@
         <activity android:name=".PreferencesActivity" />
         <activity android:name=".FavouritesActivity" />
         <activity android:name=".BlocksActivity" />
+        <activity
+            android:name=".ReportActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <service
             android:name=".PullNotificationService"
             android:description="@string/notification_service_description"

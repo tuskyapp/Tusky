@@ -35,6 +35,7 @@
     <string name="endpoint_unfollow">/api/v1/accounts/%s/unfollow</string>
     <string name="endpoint_block">/api/v1/accounts/%s/block</string>
     <string name="endpoint_unblock">/api/v1/accounts/%s/unblock</string>
+    <string name="endpoint_reports">/api/v1/reports</string>
     <string name="endpoint_apps">/api/v1/apps</string>
     <string name="endpoint_authorize">/oauth/authorize</string>
     <string name="endpoint_token">/oauth/token</string>
@@ -57,6 +58,7 @@
     <string name="error_unblocking">That user wasn\'t unblocked.</string>
     <string name="error_view_thread">Couldn\'t fetch that thread.</string>
     <string name="error_obtain_account">Failed to obtain that account.</string>
+    <string name="error_report_unsent">The report could not be sent.</string>
 
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifications</string>
@@ -87,6 +89,9 @@
     <string name="notification_favourite_format">%s favourited your status</string>
     <string name="notification_follow_format">%s followed you</string>
 
+    <string name="report_username_format">Reporting @%s</string>
+    <string name="report_comment_hint">Additional Comments?</string>
+
     <string name="action_compose">Compose</string>
     <string name="action_login">Ask Site To Log In</string>
     <string name="action_logout">Log Out</string>
@@ -94,6 +99,7 @@
     <string name="action_unfollow">Unfollow</string>
     <string name="action_block">Block</string>
     <string name="action_unblock">Unblock</string>
+    <string name="action_report">Report</string>
     <string name="action_delete">Delete</string>
     <string name="action_send">TOOT</string>
     <string name="action_retry">Retry</string>
@@ -111,6 +117,7 @@
     <string name="action_set_time">Set</string>
 
     <string name="confirmation_send">Toot!</string>
+    <string name="confirmation_reported">Sent!</string>
 
     <string name="hint_domain">Which Site?</string>
     <string name="hint_compose">What\'s Happening?</string>

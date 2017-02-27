@@ -37,6 +37,7 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.OpenableColumns;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -363,6 +364,9 @@ public class ComposeActivity extends BaseActivity {
         waitForMediaLatch = new CountUpDownLatch();
 
         contentWarningBar = findViewById(R.id.compose_content_warning_bar);
+        @DrawableRes int drawableId = ThemeUtils.getDrawableId(this,
+                R.attr.compose_content_warning_bar_background, R.drawable.border_background_dark);
+        contentWarningBar.setBackgroundResource(drawableId);
         final EditText contentWarningEditor = (EditText) findViewById(R.id.field_content_warning);
         showContentWarning(false);
 

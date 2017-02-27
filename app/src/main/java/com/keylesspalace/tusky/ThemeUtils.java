@@ -18,14 +18,18 @@ package com.keylesspalace.tusky;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.AttrRes;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.widget.ImageView;
 
 class ThemeUtils {
-    static Drawable getDrawable(Context context, int attribute, int fallbackDrawable) {
+    static Drawable getDrawable(Context context, @AttrRes int attribute,
+            @DrawableRes int fallbackDrawable) {
         TypedValue value = new TypedValue();
-        int resourceId;
+        @DrawableRes int resourceId;
         if (context.getTheme().resolveAttribute(attribute, value, true)) {
             resourceId = value.resourceId;
         } else {
@@ -34,7 +38,8 @@ class ThemeUtils {
         return ContextCompat.getDrawable(context, resourceId);
     }
 
-    static int getDrawableId(Context context, int attribute, int fallbackDrawableId) {
+    static @DrawableRes int getDrawableId(Context context, @AttrRes int attribute,
+            @DrawableRes int fallbackDrawableId) {
         TypedValue value = new TypedValue();
         if (context.getTheme().resolveAttribute(attribute, value, true)) {
             return value.resourceId;
@@ -43,7 +48,7 @@ class ThemeUtils {
         }
     }
 
-    static int getColor(Context context, int attribute) {
+    static @ColorRes int getColor(Context context, @AttrRes int attribute) {
         TypedValue value = new TypedValue();
         if (context.getTheme().resolveAttribute(attribute, value, true)) {
             return value.data;
@@ -52,7 +57,7 @@ class ThemeUtils {
         }
     }
 
-    static void setImageViewTint(ImageView view, int attribute) {
+    static void setImageViewTint(ImageView view, @AttrRes int attribute) {
         view.setColorFilter(getColor(view.getContext(), attribute), PorterDuff.Mode.SRC_IN);
     }
 }

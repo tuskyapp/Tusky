@@ -24,6 +24,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spanned;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -180,6 +181,8 @@ public class SFragment extends Fragment {
             final int position) {
         final String id = status.getId();
         final String accountId = status.getAccountId();
+        final String accountUsename = status.getUsername();
+        final Spanned content = status.getContent();
         PopupMenu popup = new PopupMenu(getContext(), view);
         // Give a different menu depending on whether this is the user's own toot or not.
         if (loggedInAccountId == null || !loggedInAccountId.equals(accountId)) {
@@ -198,6 +201,10 @@ public class SFragment extends Fragment {
                             }
                             case R.id.status_block: {
                                 block(accountId);
+                                return true;
+                            }
+                            case R.id.status_report: {
+                                openReportPage(accountId, accountUsename, id, content);
                                 return true;
                             }
                             case R.id.status_delete: {
@@ -264,6 +271,16 @@ public class SFragment extends Fragment {
         Intent intent = new Intent(getContext(), AccountActivity.class);
         intent.putExtra("id", id);
         intent.putExtra("username", username);
+        startActivity(intent);
+    }
+
+    protected void openReportPage(String accountId, String accoundUsername, String statusId,
+            Spanned statusContent) {
+        Intent intent = new Intent(getContext(), ReportActivity.class);
+        intent.putExtra("account_id", accountId);
+        intent.putExtra("account_username", accoundUsername);
+        intent.putExtra("status_id", statusId);
+        intent.putExtra("status_content", HtmlUtils.toHtml(statusContent));
         startActivity(intent);
     }
 }

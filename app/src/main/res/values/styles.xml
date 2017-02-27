@@ -46,8 +46,10 @@
         <item name="compose_media_button_tint">@color/compose_media_button_dark</item>
         <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_dark</item>
         <item name="compose_mention_color">@color/compose_mention_dark</item>
+        <item name="compose_content_warning_bar_background">@drawable/border_background_dark</item>
         <item name="notification_content">@color/notification_content_faded_dark</item>
         <item name="notification_icon_tint">@color/notification_icon_tint_dark</item>
+        <item name="report_status_background_color">@color/report_status_background_dark</item>
     </style>
 
     <style name="AppTheme.ImageButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
@@ -97,8 +99,10 @@
         <item name="compose_media_button_tint">@color/compose_media_button_light</item>
         <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_light</item>
         <item name="compose_mention_color">@color/compose_mention_light</item>
+        <item name="compose_content_warning_bar_background">@drawable/border_background_light</item>
         <item name="notification_content">@color/notification_content_faded_light</item>
         <item name="notification_icon_tint">@color/notification_icon_tint_light</item>
+        <item name="report_status_background_color">@color/report_status_background_light</item>
     </style>
 
     <style name="AppTheme.ImageButton.Light" parent="Widget.AppCompat.Button.Borderless.Colored">

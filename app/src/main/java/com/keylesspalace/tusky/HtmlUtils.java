@@ -39,4 +39,14 @@ class HtmlUtils {
          * all status contents do, so it should be trimmed. */
         return (Spanned) trimTrailingWhitespace(result);
     }
+
+    static String toHtml(Spanned text) {
+        String result;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            result = Html.toHtml(text, Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE);
+        } else {
+            result = Html.toHtml(text);
+        }
+        return result;
+    }
 }

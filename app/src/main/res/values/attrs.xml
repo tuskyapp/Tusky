@@ -31,5 +31,7 @@
     <attr name="compose_media_button_tint" format="reference|color" />
     <attr name="compose_media_button_disabled_tint" format="reference|color" />
     <attr name="compose_mention_color" format="reference|color" />
+    <attr name="compose_content_warning_bar_background" format="reference" />
+    <attr name="report_status_background_color" format="reference|color" />
 
 </resources>
