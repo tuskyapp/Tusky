@@ -26,7 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/blocked_user_display_name"
-            android:text="Display Name" />
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+            android:textStyle="normal|bold" />
 
         <Space
             android:layout_width="wrap_content"
@@ -37,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/blocked_user_username"
-            android:text="\@username\@example.com" />
+            android:textColor="?attr/status_text_color_secondary" />
 
         <Space
             android:layout_width="wrap_content"

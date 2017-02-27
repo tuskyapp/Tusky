@@ -37,7 +37,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,15 +53,14 @@ public class LoginActivity extends BaseActivity {
      * Chain together the key-value pairs into a query string, for either appending to a URL or
      * as the content of an HTTP request.
      */
-    private String toQueryString(Map<String, String> parameters)
-            throws UnsupportedEncodingException {
+    private String toQueryString(Map<String, String> parameters) {
         StringBuilder s = new StringBuilder();
         String between = "";
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
             s.append(between);
-            s.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+            s.append(entry.getKey());
             s.append("=");
-            s.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+            s.append(entry.getValue());
             between = "&";
         }
         return s.toString();
@@ -91,15 +89,7 @@ public class LoginActivity extends BaseActivity {
         parameters.put("redirect_uri", redirectUri);
         parameters.put("response_type", "code");
         parameters.put("scope", OAUTH_SCOPES);
-        String queryParameters;
-        try {
-            queryParameters = toQueryString(parameters);
-        } catch (UnsupportedEncodingException e) {
-            //TODO: No clue how to handle this error case??
-            Log.e(TAG, "Was not able to build the authorization URL.");
-            return;
-        }
-        String url = "https://" + domain + endpoint + "?" + queryParameters;
+        String url = "https://" + domain + endpoint + "?" + toQueryString(parameters);
         Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(url));
         startActivity(viewIntent);
     }
@@ -269,9 +259,8 @@ public class LoginActivity extends BaseActivity {
                     parameters.put("code", code);
                     parameters.put("grant_type", "authorization_code");
                 } catch (JSONException e) {
-                    errorText.setText("Heck.");
+                    errorText.setText(e.getMessage());
                     return;
-                    //TODO: I don't even know how to handle this error state.
                 }
                 String endpoint = getString(R.string.endpoint_token);
                 String url = "https://" + domain + endpoint;
@@ -284,9 +273,8 @@ public class LoginActivity extends BaseActivity {
                             try {
                                 accessToken = response.getString("access_token");
                             } catch(JSONException e) {
-                                errorText.setText("Heck.");
+                                errorText.setText(e.getMessage());
                                 return;
-                                //TODO: I don't even know how to handle this error state.
                             }
                             onLoginSuccess(accessToken);
                         }

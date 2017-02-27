@@ -2,7 +2,7 @@
 
 This is an android client for [Mastodon, a GNU Social-compatible microblogging server](https://mastodon.social). Presently, it is in active development and its current state does not represent the features or design of the final program.
 
-It is currently available for alpha testing on the [Tusky Google Play store page](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky).
+It is currently available for alpha testing on the Tusky [Google Play store page](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky). You can also find it on F-Droid or at its [F-Droid page](https://f-droid.org/repository/browse/?fdid=com.keylesspalace.tusky).
 
 Also, [my mastodon account is Vavassor@mastodon.social](https://mastodon.social/users/Vavassor).
 

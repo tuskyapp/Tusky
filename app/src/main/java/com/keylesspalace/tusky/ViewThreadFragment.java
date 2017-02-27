@@ -19,6 +19,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +30,7 @@ import android.view.ViewGroup;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,8 +38,6 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class ViewThreadFragment extends SFragment implements StatusActionListener {
-    private static final String TAG = "ViewThread"; // logging tag
-
     private RecyclerView recyclerView;
     private ThreadAdapter adapter;
 
@@ -75,7 +75,7 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
         return rootView;
     }
 
-    private void sendStatusRequest(String id) {
+    private void sendStatusRequest(final String id) {
         String endpoint = String.format(getString(R.string.endpoint_get_status), id);
         super.sendRequest(Request.Method.GET, endpoint, null,
                 new Response.Listener<JSONObject>() {
@@ -85,16 +85,22 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
                         try {
                             status = Status.parse(response, false);
                         } catch (JSONException e) {
-                            onThreadRequestFailure();
+                            onThreadRequestFailure(id);
                             return;
                         }
                         int position = adapter.insertStatus(status);
                         recyclerView.scrollToPosition(position);
                     }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        onThreadRequestFailure(id);
+                    }
                 });
     }
 
-    private void sendThreadRequest(String id) {
+    private void sendThreadRequest(final String id) {
         String endpoint = String.format(getString(R.string.endpoint_context), id);
         super.sendRequest(Request.Method.GET, endpoint, null,
                 new Response.Listener<JSONObject>() {
@@ -108,15 +114,28 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
                             adapter.addAncestors(ancestors);
                             adapter.addDescendants(descendants);
                         } catch (JSONException e) {
-                            onThreadRequestFailure();
+                            onThreadRequestFailure(id);
                         }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        onThreadRequestFailure(id);
                     }
                 });
     }
 
-    private void onThreadRequestFailure() {
-        Log.e(TAG, "The request to fetch the thread has failed.");
-        //TODO: no
+    private void onThreadRequestFailure(final String id) {
+        Snackbar.make(recyclerView, R.string.error_view_thread, Snackbar.LENGTH_LONG)
+                .setAction(R.string.action_retry, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sendThreadRequest(id);
+                        sendStatusRequest(id);
+                    }
+                })
+                .show();
     }
 
     public void onReply(int position) {

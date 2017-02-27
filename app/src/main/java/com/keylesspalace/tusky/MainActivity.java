@@ -158,7 +158,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void onFetchUserInfoFailure(Exception exception) {
-        //TODO: help
         Log.e(TAG, "Failed to fetch user info. " + exception.getMessage());
     }
 

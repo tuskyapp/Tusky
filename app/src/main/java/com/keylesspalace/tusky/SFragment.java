@@ -74,7 +74,8 @@ public class SFragment extends Fragment {
 
     protected void sendRequest(
             int method, String endpoint, JSONObject parameters,
-            @Nullable Response.Listener<JSONObject> responseListener) {
+            @Nullable Response.Listener<JSONObject> responseListener,
+            @Nullable Response.ErrorListener errorListener) {
         if (responseListener == null) {
             // Use a dummy listener if one wasn't specified so the request can be constructed.
             responseListener = new Response.Listener<JSONObject>() {
@@ -82,15 +83,17 @@ public class SFragment extends Fragment {
                 public void onResponse(JSONObject response) {}
             };
         }
+        if (errorListener == null) {
+            errorListener = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e(TAG, "Request Failed: " + error.getMessage());
+                }
+            };
+        }
         String url = "https://" + domain + endpoint;
         JsonObjectRequest request = new JsonObjectRequest(
-                method, url, parameters, responseListener,
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, "Request Failed: " + error.getMessage());
-                    }
-                }) {
+                method, url, parameters, responseListener, errorListener) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
@@ -103,7 +106,7 @@ public class SFragment extends Fragment {
     }
 
     protected void postRequest(String endpoint) {
-        sendRequest(Request.Method.POST, endpoint, null, null);
+        sendRequest(Request.Method.POST, endpoint, null, null, null);
     }
 
     protected void reply(Status status) {
@@ -137,7 +140,7 @@ public class SFragment extends Fragment {
                         status.setReblogged(reblog);
                         adapter.notifyItemChanged(position);
                     }
-                });
+                }, null);
     }
 
     protected void favourite(final Status status, final boolean favourite,
@@ -155,7 +158,7 @@ public class SFragment extends Fragment {
                 status.setFavourited(favourite);
                 adapter.notifyItemChanged(position);
             }
-        });
+        }, null);
     }
 
     private void follow(String id) {
@@ -170,7 +173,7 @@ public class SFragment extends Fragment {
 
     private void delete(String id) {
         String endpoint = String.format(getString(R.string.endpoint_delete), id);
-        sendRequest(Request.Method.DELETE, endpoint, null, null);
+        sendRequest(Request.Method.DELETE, endpoint, null, null, null);
     }
 
     protected void more(Status status, View view, final AdapterItemRemover adapter,

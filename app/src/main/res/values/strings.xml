@@ -55,6 +55,8 @@
     <string name="error_unfollowing">That user wasn\'t unfollowed.</string>
     <string name="error_blocking">That user wasn\'t blocked.</string>
     <string name="error_unblocking">That user wasn\'t unblocked.</string>
+    <string name="error_view_thread">Couldn\'t fetch that thread.</string>
+    <string name="error_obtain_account">Failed to obtain that account.</string>
 
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifications</string>
@@ -86,7 +88,7 @@
     <string name="notification_follow_format">%s followed you</string>
 
     <string name="action_compose">Compose</string>
-    <string name="action_login">Log In</string>
+    <string name="action_login">Ask Site To Log In</string>
     <string name="action_logout">Log Out</string>
     <string name="action_follow">Follow</string>
     <string name="action_unfollow">Unfollow</string>
@@ -110,7 +112,7 @@
 
     <string name="confirmation_send">Toot!</string>
 
-    <string name="hint_domain">example.com</string>
+    <string name="hint_domain">Which Site?</string>
     <string name="hint_compose">What\'s Happening?</string>
     <string name="hint_content_warning">Beware, folks</string>
 

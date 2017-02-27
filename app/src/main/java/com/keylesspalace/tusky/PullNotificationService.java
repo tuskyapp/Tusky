@@ -142,7 +142,6 @@ public class PullNotificationService extends IntentService {
     }
 
     private void onCheckNotificationsFailure(Exception exception) {
-        //TODO: not sure if just logging here is enough?
         Log.e(TAG, "Failed to check notifications. " + exception.getMessage());
     }
 

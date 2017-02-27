@@ -210,8 +210,14 @@ public class AccountActivity extends BaseActivity {
     }
 
     private void onObtainAccountFailure() {
-        //TODO: help
-        Log.e(TAG, "Failed to obtain that account.");
+        Snackbar.make(tabLayout, R.string.error_obtain_account, Snackbar.LENGTH_LONG)
+                .setAction(R.string.action_retry, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        obtainAccount();
+                    }
+                })
+                .show();
     }
 
     private void obtainRelationships() {
@@ -228,7 +234,7 @@ public class AccountActivity extends BaseActivity {
                             following = object.getBoolean("following");
                             blocking = object.getBoolean("blocking");
                         } catch (JSONException e) {
-                            onObtainRelationshipsFailure();
+                            onObtainRelationshipsFailure(e);
                             return;
                         }
                         onObtainRelationshipsSuccess(following, blocking);
@@ -237,7 +243,7 @@ public class AccountActivity extends BaseActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        onObtainRelationshipsFailure();
+                        onObtainRelationshipsFailure(error);
                     }
                 }) {
             @Override
@@ -259,9 +265,8 @@ public class AccountActivity extends BaseActivity {
         }
     }
 
-    private void onObtainRelationshipsFailure() {
-        //TODO: help
-        Log.e(TAG, "Could not obtain relationships?");
+    private void onObtainRelationshipsFailure(Exception exception) {
+        Log.e(TAG, "Could not obtain relationships. " + exception.getMessage());
     }
 
     @Override
