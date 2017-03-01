@@ -37,6 +37,7 @@
     <color name="notification_content_faded_dark">#9F9F9F</color>
     <color name="notification_icon_tint_dark">#CFCFCF</color>
     <color name="report_status_background_dark">#000000</color>
+    <color name="report_status_divider_dark">#2F2F2F</color>
     <!--Light Theme Colors-->
     <color name="color_primary_light">#44A673</color>
     <color name="color_primary_dark_light">#2C996E</color>
@@ -71,4 +72,5 @@
     <color name="notification_content_faded_light">#7F7F7F</color>
     <color name="notification_icon_tint_light">#1F1F1F</color>
     <color name="report_status_background_light">#EFEFEF</color>
+    <color name="report_status_divider_light">#9F9F9F</color>
 </resources>

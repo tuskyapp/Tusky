@@ -50,6 +50,7 @@
         <item name="notification_content">@color/notification_content_faded_dark</item>
         <item name="notification_icon_tint">@color/notification_icon_tint_dark</item>
         <item name="report_status_background_color">@color/report_status_background_dark</item>
+        <item name="report_status_divider_drawable">@drawable/report_status_divider_dark</item>
     </style>
 
     <style name="AppTheme.ImageButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
@@ -103,6 +104,7 @@
         <item name="notification_content">@color/notification_content_faded_light</item>
         <item name="notification_icon_tint">@color/notification_icon_tint_light</item>
         <item name="report_status_background_color">@color/report_status_background_light</item>
+        <item name="report_status_divider_drawable">@drawable/report_status_divider_light</item>
     </style>
 
     <style name="AppTheme.ImageButton.Light" parent="Widget.AppCompat.Button.Borderless.Colored">

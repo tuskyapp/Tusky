@@ -18,28 +18,34 @@ package com.keylesspalace.tusky;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ReportActivity extends BaseActivity {
@@ -48,6 +54,7 @@ public class ReportActivity extends BaseActivity {
     private String domain;
     private String accessToken;
     private View anyView; // what Snackbar will use to find the root view
+    private ReportAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +64,7 @@ public class ReportActivity extends BaseActivity {
         Intent intent = getIntent();
         final String accountId = intent.getStringExtra("account_id");
         String accountUsername = intent.getStringExtra("account_username");
-        final String statusId = intent.getStringExtra("status_id");
+        String statusId = intent.getStringExtra("status_id");
         String statusContent = intent.getStringExtra("status_content");
 
         SharedPreferences preferences = getSharedPreferences(
@@ -75,18 +82,39 @@ public class ReportActivity extends BaseActivity {
         }
         anyView = toolbar;
 
-        TextView content = (TextView) findViewById(R.id.report_status_content);
-        content.setText(HtmlUtils.fromHtml(statusContent));
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.report_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new ReportAdapter();
+        recyclerView.setAdapter(adapter);
+
+        DividerItemDecoration divider = new DividerItemDecoration(
+                this, layoutManager.getOrientation());
+        Drawable drawable = ThemeUtils.getDrawable(this, R.attr.report_status_divider_drawable,
+                R.drawable.report_status_divider_dark);
+        divider.setDrawable(drawable);
+        recyclerView.addItemDecoration(divider);
+
+        ReportAdapter.ReportStatus reportStatus = new ReportAdapter.ReportStatus(statusId,
+                HtmlUtils.fromHtml(statusContent), true);
+        adapter.addItem(reportStatus);
 
         final EditText comment = (EditText) findViewById(R.id.report_comment);
         Button send = (Button) findViewById(R.id.report_send);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] statusIds = new String[] { statusId };
-                sendReport(accountId, statusIds, comment.getText().toString());
+                String[] statusIds = adapter.getCheckedStatusIds();
+                if (statusIds.length > 0) {
+                    sendReport(accountId, statusIds, comment.getText().toString());
+                } else {
+                    comment.setError(getString(R.string.error_report_too_few_statuses));
+                }
             }
         });
+
+        fetchRecentStatuses(accountId);
     }
 
     /* JSONArray has a constructor to take primitive arrays but it's restricted to API level 19 and
@@ -107,8 +135,7 @@ public class ReportActivity extends BaseActivity {
             parameters.put("status_ids", makeStringArrayCompat(statusIds));
             parameters.put("comment", comment);
         } catch (JSONException e) {
-            Log.e(TAG, "Not all the report parameters have been properly set. "
-                    + e.getMessage());
+            Log.e(TAG, "Not all the report parameters have been properly set. " + e.getMessage());
             onSendFailure(accountId, statusIds, comment);
             return;
         }
@@ -154,5 +181,52 @@ public class ReportActivity extends BaseActivity {
                     }
                 })
                 .show();
+    }
+
+    private void fetchRecentStatuses(String accountId) {
+        String endpoint = String.format(getString(R.string.endpoint_statuses), accountId);
+        String url = "https://" + domain + endpoint;
+        JsonArrayRequest request = new JsonArrayRequest(url,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        List<Status> statusList;
+                        try {
+                            statusList = Status.parse(response);
+                        } catch (JSONException e) {
+                            onFetchStatusesFailure(e);
+                            return;
+                        }
+                        // Add all the statuses except reblogs.
+                        List<ReportAdapter.ReportStatus> itemList = new ArrayList<>();
+                        for (Status status : statusList) {
+                            if (status.getRebloggedByDisplayName() == null) {
+                                ReportAdapter.ReportStatus item = new ReportAdapter.ReportStatus(
+                                        status.getId(), status.getContent(), false);
+                                itemList.add(item);
+                            }
+                        }
+                        adapter.addItems(itemList);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        onFetchStatusesFailure(error);
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+        };
+        request.setTag(TAG);
+        VolleySingleton.getInstance(this).addToRequestQueue(request);
+    }
+
+    private void onFetchStatusesFailure(Exception exception) {
+        Log.e(TAG, "Failed to fetch recent statuses to report. " + exception.getMessage());
     }
 }

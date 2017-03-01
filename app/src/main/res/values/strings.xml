@@ -59,6 +59,7 @@
     <string name="error_view_thread">Couldn\'t fetch that thread.</string>
     <string name="error_obtain_account">Failed to obtain that account.</string>
     <string name="error_report_unsent">The report could not be sent.</string>
+    <string name="error_report_too_few_statuses">At least one status must be reported.</string>
 
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifications</string>
