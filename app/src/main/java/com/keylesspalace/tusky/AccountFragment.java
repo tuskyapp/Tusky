@@ -243,7 +243,12 @@ public class AccountFragment extends Fragment implements AccountActionListener,
                 setFetchTimelineState(FooterViewHolder.State.END_OF_TIMELINE);
             }
         } else {
-            adapter.update(accounts);
+            if (accounts.size() > 0) {
+                setFetchTimelineState(FooterViewHolder.State.LOADING);
+                adapter.update(accounts);
+            } else {
+                setFetchTimelineState(FooterViewHolder.State.END_OF_TIMELINE);
+            }
         }
     }
 
