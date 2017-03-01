@@ -11,17 +11,11 @@
         android:layout_weight="1"
         android:padding="8dp" />
 
-    <RelativeLayout
+    <CheckBox
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/report_status_check_box"
-            android:layout_centerVertical="true"
-            android:layout_margin="16dp" />
-
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:id="@+id/report_status_check_box"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="16dp" />
 
 </LinearLayout>

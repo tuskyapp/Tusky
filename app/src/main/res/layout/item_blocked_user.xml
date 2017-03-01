@@ -11,11 +11,21 @@
         android:padding="@dimen/status_avatar_padding"
         android:layout_alignParentLeft="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/blocked_user_unblock"
+        android:layout_gravity="center_vertical"
+        android:text="@string/action_unblock"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="64dp"
         android:orientation="vertical"
-        android:layout_toRightOf="@id/blocked_user_avatar">
+        android:layout_toRightOf="@id/blocked_user_avatar"
+        android:layout_toLeftOf="@id/blocked_user_unblock">
 
         <Space
             android:layout_width="wrap_content"
@@ -46,13 +56,5 @@
             android:layout_weight="1" />
 
     </LinearLayout>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/blocked_user_unblock"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:text="@string/action_unblock" />
 
 </RelativeLayout>

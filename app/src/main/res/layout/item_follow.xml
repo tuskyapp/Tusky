@@ -42,14 +42,25 @@
             android:layout_height="64dp"
             android:id="@+id/notification_avatar"
             android:scaleType="fitCenter"
-            android:padding="@dimen/status_avatar_padding"
+            android:paddingLeft="@dimen/status_avatar_padding"
+            android:paddingRight="@dimen/status_avatar_padding"
+            android:paddingBottom="@dimen/status_avatar_padding"
             android:layout_alignParentLeft="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/notification_follow_button"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="@string/action_follow" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="64dp"
             android:orientation="vertical"
-            android:layout_toRightOf="@id/notification_avatar">
+            android:layout_toRightOf="@id/notification_avatar"
+            android:layout_toLeftOf="@id/notification_follow_button">
 
             <Space
                 android:layout_width="wrap_content"
@@ -80,14 +91,6 @@
                 android:layout_weight="1" />
 
         </LinearLayout>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/notification_follow_button"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="@string/action_follow" />
 
     </RelativeLayout>
 
