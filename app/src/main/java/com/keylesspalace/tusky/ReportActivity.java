@@ -49,7 +49,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ReportActivity extends BaseActivity {
-    private static final String TAG = "ReportActivity"; // Volley request tag
+    private static final String TAG = "ReportActivity"; // logging tag and Volley request tag
 
     private String domain;
     private String accessToken;
@@ -117,8 +117,14 @@ public class ReportActivity extends BaseActivity {
         fetchRecentStatuses(accountId);
     }
 
+    @Override
+    protected void onDestroy() {
+        VolleySingleton.getInstance(this).cancelAll(TAG);
+        super.onDestroy();
+    }
+
     /* JSONArray has a constructor to take primitive arrays but it's restricted to API level 19 and
-     * above, so this is an alternative. */
+         * above, so this is an alternative. */
     private static JSONArray makeStringArrayCompat(String[] stringArray) throws JSONException {
         JSONArray result = new JSONArray();
         for (int i = 0; i < stringArray.length; i++) {
