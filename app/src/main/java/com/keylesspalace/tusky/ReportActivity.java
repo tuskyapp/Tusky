@@ -55,6 +55,7 @@ public class ReportActivity extends BaseActivity {
     private String accessToken;
     private View anyView; // what Snackbar will use to find the root view
     private ReportAdapter adapter;
+    private boolean reportAlreadyInFlight;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,11 +103,16 @@ public class ReportActivity extends BaseActivity {
 
         final EditText comment = (EditText) findViewById(R.id.report_comment);
         Button send = (Button) findViewById(R.id.report_send);
+        reportAlreadyInFlight = false;
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (reportAlreadyInFlight) {
+                    return;
+                }
                 String[] statusIds = adapter.getCheckedStatusIds();
                 if (statusIds.length > 0) {
+                    reportAlreadyInFlight = true;
                     sendReport(accountId, statusIds, comment.getText().toString());
                 } else {
                     comment.setError(getString(R.string.error_report_too_few_statuses));
@@ -187,6 +193,7 @@ public class ReportActivity extends BaseActivity {
                     }
                 })
                 .show();
+        reportAlreadyInFlight = false;
     }
 
     private void fetchRecentStatuses(String accountId) {

@@ -101,6 +101,7 @@ public class ComposeActivity extends BaseActivity {
     private boolean statusMarkSensitive; // to the status being composed.
     private boolean statusHideText;      //
     private View contentWarningBar;
+    private boolean statusAlreadyInFlight; // to prevent duplicate sends by mashing the send button
 
     private static class QueuedMedia {
         enum Type {
@@ -370,12 +371,17 @@ public class ComposeActivity extends BaseActivity {
         final EditText contentWarningEditor = (EditText) findViewById(R.id.field_content_warning);
         showContentWarning(false);
 
+        statusAlreadyInFlight = false;
         final Button sendButton = (Button) findViewById(R.id.button_send);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (statusAlreadyInFlight) {
+                    return;
+                }
                 Editable editable = textEditor.getText();
                 if (editable.length() <= STATUS_CHARACTER_LIMIT) {
+                    statusAlreadyInFlight = true;
                     String spoilerText = "";
                     if (statusHideText) {
                         spoilerText = contentWarningEditor.getText().toString();
@@ -524,6 +530,7 @@ public class ComposeActivity extends BaseActivity {
 
     private void onSendFailure() {
         textEditor.setError(getString(R.string.error_sending_status));
+        statusAlreadyInFlight = false;
     }
 
     private void readyStatus(final String content, final String visibility, final boolean sensitive,
@@ -557,6 +564,7 @@ public class ComposeActivity extends BaseActivity {
                     @Override
                     protected void onCancelled() {
                         removeAllMediaFromQueue();
+                        statusAlreadyInFlight = false;
                         super.onCancelled();
                     }
                 };
@@ -581,6 +589,7 @@ public class ComposeActivity extends BaseActivity {
                         readyStatus(content, visibility, sensitive, spoilerText);
                     }
                 });
+        statusAlreadyInFlight = false;
     }
 
     private void onMediaPick() {
