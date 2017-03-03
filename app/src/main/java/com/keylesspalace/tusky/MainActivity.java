@@ -75,7 +75,7 @@ public class MainActivity extends BaseActivity {
         viewPager.setPageMargin(pageMargin);
         Drawable pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
                 R.drawable.tab_page_margin_dark);
-            viewPager.setPageMarginDrawable(pageMarginDrawable);
+        viewPager.setPageMarginDrawable(pageMarginDrawable);
         viewPager.setAdapter(adapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);

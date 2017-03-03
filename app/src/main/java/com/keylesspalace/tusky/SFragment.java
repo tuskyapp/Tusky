@@ -267,18 +267,17 @@ public class SFragment extends Fragment {
         startActivity(intent);
     }
 
-    protected void viewAccount(String id, String username) {
+    protected void viewAccount(String id) {
         Intent intent = new Intent(getContext(), AccountActivity.class);
         intent.putExtra("id", id);
-        intent.putExtra("username", username);
         startActivity(intent);
     }
 
-    protected void openReportPage(String accountId, String accoundUsername, String statusId,
+    protected void openReportPage(String accountId, String accountUsername, String statusId,
             Spanned statusContent) {
         Intent intent = new Intent(getContext(), ReportActivity.class);
         intent.putExtra("account_id", accountId);
-        intent.putExtra("account_username", accoundUsername);
+        intent.putExtra("account_username", accountUsername);
         intent.putExtra("status_id", statusId);
         intent.putExtra("status_content", HtmlUtils.toHtml(statusContent));
         startActivity(intent);

@@ -98,7 +98,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         displayName.setText(name);
     }
 
-    void setUsername(String name) {
+    private void setUsername(String name) {
         Context context = username.getContext();
         String format = context.getString(R.string.status_username_format);
         String usernameText = String.format(format, name);
@@ -139,7 +139,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
                     ClickableSpan newSpan = new ClickableSpan() {
                         @Override
                         public void onClick(View widget) {
-                            listener.onViewAccount(accountId, accountUsername);
+                            listener.onViewAccount(accountId);
                         }
                     };
                     builder.removeSpan(span);
@@ -294,35 +294,35 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         content.setVisibility(View.VISIBLE);
     }
 
-    private void setupButtons(final StatusActionListener listener, final int position) {
+    private void setupButtons(final StatusActionListener listener, final String accountId) {
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onViewAccount(position);
+                listener.onViewAccount(accountId);
             }
         });
         replyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onReply(position);
+                listener.onReply(getAdapterPosition());
             }
         });
         reblogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onReblog(!reblogged, position);
+                listener.onReblog(!reblogged, getAdapterPosition());
             }
         });
         favouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onFavourite(!favourited, position);
+                listener.onFavourite(!favourited, getAdapterPosition());
             }
         });
         moreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onMore(v, position);
+                listener.onMore(v, getAdapterPosition());
             }
         });
         /* Even though the content TextView is a child of the container, it won't respond to clicks
@@ -332,7 +332,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         View.OnClickListener viewThreadListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onViewThread(position);
+                listener.onViewThread(getAdapterPosition());
             }
         };
         content.setOnClickListener(viewThreadListener);
@@ -361,7 +361,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         if (!sensitive || attachments.length == 0) {
             hideSensitiveMediaWarning();
         }
-        setupButtons(listener, position);
+        setupButtons(listener, status.getAccountId());
         setRebloggingEnabled(status.getVisibility() != Status.Visibility.PRIVATE);
         if (status.getSpoilerText().isEmpty()) {
             hideSpoilerText();

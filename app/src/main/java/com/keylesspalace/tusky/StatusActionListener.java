@@ -25,6 +25,5 @@ interface StatusActionListener {
     void onViewMedia(String url, Status.MediaAttachment.Type type);
     void onViewThread(int position);
     void onViewTag(String tag);
-    void onViewAccount(String id, String username);
-    void onViewAccount(int position);
+    void onViewAccount(String id);
 }

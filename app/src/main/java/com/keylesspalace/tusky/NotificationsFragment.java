@@ -257,15 +257,8 @@ public class NotificationsFragment extends SFragment implements
         super.viewTag(tag);
     }
 
-    public void onViewAccount(String id, String username) {
-        super.viewAccount(id, username);
-    }
-
-    public void onViewAccount(int position) {
-        Status status = adapter.getItem(position).getStatus();
-        String id = status.getAccountId();
-        String username = status.getUsername();
-        super.viewAccount(id, username);
+    public void onViewAccount(String id) {
+        super.viewAccount(id);
     }
 
     public void onFollow(String id) {

@@ -18,6 +18,7 @@ package com.keylesspalace.tusky;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,7 +28,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -105,10 +105,11 @@ public class AccountActivity extends BaseActivity {
         };
         adapter.setPageTitles(pageTitles);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8,
-                getResources().getDisplayMetrics());
+        int pageMargin = getResources().getDimensionPixelSize(R.dimen.tab_page_margin);
         viewPager.setPageMargin(pageMargin);
-        viewPager.setPageMarginDrawable(R.drawable.tab_page_margin_dark);
+        Drawable pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
+                R.drawable.tab_page_margin_dark);
+        viewPager.setPageMarginDrawable(pageMarginDrawable);
         viewPager.setAdapter(adapter);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);

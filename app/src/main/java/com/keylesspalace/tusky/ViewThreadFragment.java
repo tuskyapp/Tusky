@@ -20,7 +20,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +39,7 @@ import java.util.List;
 public class ViewThreadFragment extends SFragment implements StatusActionListener {
     private RecyclerView recyclerView;
     private ThreadAdapter adapter;
+    private String thisThreadsStatusId;
 
     public static ViewThreadFragment newInstance(String id) {
         Bundle arguments = new Bundle();
@@ -62,7 +62,8 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
         recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration divider = new DividerItemDecoration(
                 context, layoutManager.getOrientation());
-        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.status_divider_dark);
+        Drawable drawable = ThemeUtils.getDrawable(context, R.attr.status_divider_drawable,
+                R.drawable.status_divider_dark);
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
         adapter = new ThreadAdapter(this);
@@ -71,6 +72,7 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
         String id = getArguments().getString("id");
         sendStatusRequest(id);
         sendThreadRequest(id);
+        thisThreadsStatusId = id;
 
         return rootView;
     }
@@ -159,21 +161,19 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
     }
 
     public void onViewThread(int position) {
-        super.viewThread(adapter.getItem(position));
+        Status status = adapter.getItem(position);
+        if (thisThreadsStatusId.equals(status.getId())) {
+            // If already viewing this thread, don't reopen it.
+            return;
+        }
+        super.viewThread(status);
     }
 
     public void onViewTag(String tag) {
         super.viewTag(tag);
     }
 
-    public void onViewAccount(String id, String username) {
-        super.viewAccount(id, username);
-    }
-
-    public void onViewAccount(int position) {
-        Status status = adapter.getItem(position);
-        String id = status.getAccountId();
-        String username = status.getUsername();
-        super.viewAccount(id, username);
+    public void onViewAccount(String id) {
+        super.viewAccount(id);
     }
 }

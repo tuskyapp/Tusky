@@ -312,20 +312,19 @@ public class TimelineFragment extends SFragment implements
     }
 
     public void onViewTag(String tag) {
+        if (kind == Kind.TAG && hashtagOrId.equals(tag)) {
+            // If already viewing a tag page, then ignore any request to view that tag again.
+            return;
+        }
         super.viewTag(tag);
     }
 
-    public void onViewAccount(String id, String username) {
-        super.viewAccount(id, username);
-    }
-
-    public void onViewAccount(int position) {
-        Status status = adapter.getItem(position);
-        Assert.expect(status != null);
-        if (status != null) {
-            String id = status.getAccountId();
-            String username = status.getUsername();
-            super.viewAccount(id, username);
+    public void onViewAccount(String id) {
+        if (kind == Kind.USER && hashtagOrId.equals(id)) {
+            /* If already viewing an account page, then any requests to view that account page
+             * should be ignored. */
+            return;
         }
+        super.viewAccount(id);
     }
 }

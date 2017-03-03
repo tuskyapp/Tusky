@@ -103,8 +103,7 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
                     FollowViewHolder holder = (FollowViewHolder) viewHolder;
                     holder.setMessage(notification.getDisplayName(), notification.getUsername(),
                             notification.getAvatar());
-                    holder.setupButtons(followListener, notification.getAccountId(),
-                            notification.getUsername());
+                    holder.setupButtons(followListener, notification.getAccountId());
                     break;
                 }
             }
@@ -186,7 +185,7 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
     }
 
     interface FollowListener {
-        void onViewAccount(String id, String username);
+        void onViewAccount(String id);
         void onFollow(String id);
     }
 
@@ -224,12 +223,11 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
             avatar.setImageUrl(avatarUrl, VolleySingleton.getInstance(context).getImageLoader());
         }
 
-        void setupButtons(final FollowListener listener, final String accountId,
-                final String username) {
+        void setupButtons(final FollowListener listener, final String accountId) {
             avatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onViewAccount(accountId, username);
+                    listener.onViewAccount(accountId);
                 }
             });
             follow.setOnClickListener(new View.OnClickListener() {
