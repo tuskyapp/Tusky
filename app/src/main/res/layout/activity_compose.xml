@@ -50,23 +50,18 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:id="@+id/compose_edit_area">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:gravity="top|start"
-            android:id="@+id/field_status"
-            android:hint="@string/hint_compose" />
+        <!--An special EditText is created at runtime here, because it has to be a modified
+         * anonymous class to support image/GIF picking from the soft keyboard.-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/compose_media_preview_bar"
-            android:layout_alignBottom="@id/field_status">
+            android:layout_alignParentBottom="true">
 
             <!--This is filled at runtime with ImageView's for each preview in the upload queue.-->
 

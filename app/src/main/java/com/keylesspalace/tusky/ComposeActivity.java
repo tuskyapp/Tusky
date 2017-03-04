@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -42,20 +43,29 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.support.v13.view.inputmethod.EditorInfoCompat;
+import android.support.v13.view.inputmethod.InputConnectionCompat;
+import android.support.v13.view.inputmethod.InputContentInfoCompat;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +84,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -87,6 +98,7 @@ public class ComposeActivity extends BaseActivity {
     private static final int STATUS_MEDIA_SIZE_LIMIT = 4000000; // 4MB
     private static final int MEDIA_PICK_RESULT = 1;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    private static final int MEDIA_SIZE_UNKNOWN = -1;
 
     private String inReplyToId;
     private String domain;
@@ -102,6 +114,9 @@ public class ComposeActivity extends BaseActivity {
     private boolean statusHideText;      //
     private View contentWarningBar;
     private boolean statusAlreadyInFlight; // to prevent duplicate sends by mashing the send button
+    private InputContentInfoCompat currentInputContentInfo;
+    private int currentFlags;
+    private ProgressDialog finishingUploadDialog;
 
     private static class QueuedMedia {
         enum Type {
@@ -312,6 +327,13 @@ public class ComposeActivity extends BaseActivity {
             statusHideText = savedInstanceState.getBoolean("statusHideText");
             // Keep these until everything needed to put them in the queue is finished initializing.
             savedMediaQueued = savedInstanceState.getParcelableArrayList("savedMediaQueued");
+            // These are for restoring an in-progress commit content operation.
+            InputContentInfoCompat previousInputContentInfo = InputContentInfoCompat.wrap(
+                    savedInstanceState.getParcelable("commitContentInputContentInfo"));
+            int previousFlags = savedInstanceState.getInt("commitContentFlags");
+            if (previousInputContentInfo != null) {
+                onCommitContentInternal(previousInputContentInfo, previousFlags);
+            }
         } else {
             showMarkSensitive = false;
             statusVisibility = preferences.getString("rememberedVisibility", "public");
@@ -329,7 +351,12 @@ public class ComposeActivity extends BaseActivity {
         domain = preferences.getString("domain", null);
         accessToken = preferences.getString("accessToken", null);
 
-        textEditor = (EditText) findViewById(R.id.field_status);
+        textEditor = createEditText(null); // new String[] { "image/gif", "image/webp" }
+        if (savedInstanceState != null) {
+            textEditor.onRestoreInstanceState(savedInstanceState.getParcelable("textEditorState"));
+        }
+        RelativeLayout editArea = (RelativeLayout) findViewById(R.id.compose_edit_area);
+        editArea.addView(textEditor);
         final TextView charactersLeft = (TextView) findViewById(R.id.characters_left);
         final int mentionColour = ThemeUtils.getColor(this, R.attr.compose_mention_color);
         TextWatcher textEditorWatcher = new TextWatcher() {
@@ -457,6 +484,14 @@ public class ComposeActivity extends BaseActivity {
         outState.putString("statusVisibility", statusVisibility);
         outState.putBoolean("statusMarkSensitive", statusMarkSensitive);
         outState.putBoolean("statusHideText", statusHideText);
+        outState.putParcelable("textEditorState", textEditor.onSaveInstanceState());
+        if (currentInputContentInfo != null) {
+            outState.putParcelable("commitContentInputContentInfo",
+                    (Parcelable) currentInputContentInfo.unwrap());
+            outState.putInt("commitContentFlags", currentFlags);
+        }
+        currentInputContentInfo = null;
+        currentFlags = 0;
         super.onSaveInstanceState(outState);
     }
 
@@ -474,6 +509,101 @@ public class ComposeActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         VolleySingleton.getInstance(this).cancelAll(TAG);
+    }
+
+    private EditText createEditText(String[] contentMimeTypes) {
+        final String[] mimeTypes;
+        if (contentMimeTypes == null || contentMimeTypes.length == 0) {
+            mimeTypes = new String[0];
+        } else {
+            mimeTypes = Arrays.copyOf(contentMimeTypes, contentMimeTypes.length);
+        }
+        EditText editText = new EditText(this) {
+            @Override
+            public InputConnection onCreateInputConnection(EditorInfo editorInfo) {
+                final InputConnection ic = super.onCreateInputConnection(editorInfo);
+                EditorInfoCompat.setContentMimeTypes(editorInfo, mimeTypes);
+                final InputConnectionCompat.OnCommitContentListener callback =
+                        new InputConnectionCompat.OnCommitContentListener() {
+                            @Override
+                            public boolean onCommitContent(InputContentInfoCompat inputContentInfo,
+                                    int flags, Bundle opts) {
+                                return ComposeActivity.this.onCommitContent(inputContentInfo, flags,
+                                        mimeTypes);
+                            }
+                        };
+                return InputConnectionCompat.createWrapper(ic, editorInfo, callback);
+            }
+        };
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        editText.setLayoutParams(layoutParams);
+        editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        editText.setEms(10);
+        editText.setGravity(Gravity.START | Gravity.TOP);
+        editText.setHint(R.string.hint_compose);
+        return editText;
+    }
+
+    private boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags,
+            String[] mimeTypes) {
+        try {
+            if (currentInputContentInfo != null) {
+                currentInputContentInfo.releasePermission();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "InputContentInfoCompat#releasePermission() failed." + e.getMessage());
+        } finally {
+            currentInputContentInfo = null;
+        }
+
+        // Verify the returned content's type is actually in the list of MIME types requested.
+        boolean supported = false;
+        for (final String mimeType : mimeTypes) {
+            if (inputContentInfo.getDescription().hasMimeType(mimeType)) {
+                supported = true;
+                break;
+            }
+        }
+
+        return supported && onCommitContentInternal(inputContentInfo, flags);
+    }
+
+    private boolean onCommitContentInternal(InputContentInfoCompat inputContentInfo, int flags) {
+        if ((flags & InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION) != 0) {
+            try {
+                inputContentInfo.requestPermission();
+            } catch (Exception e) {
+                Log.e(TAG, "InputContentInfoCompat#requestPermission() failed." + e.getMessage());
+                return false;
+            }
+        }
+
+        // Determine the file size before putting handing it off to be put in the queue.
+        Uri uri = inputContentInfo.getContentUri();
+        long mediaSize;
+        AssetFileDescriptor descriptor = null;
+        try {
+            descriptor = getContentResolver().openAssetFileDescriptor(uri, "r");
+        } catch (FileNotFoundException e) {
+            // Eat this exception, having the descriptor be null is sufficient.
+        }
+        if (descriptor != null) {
+            mediaSize = descriptor.getLength();
+            try {
+                descriptor.close();
+            } catch (IOException e) {
+                // Just eat this exception.
+            }
+        } else {
+            mediaSize = MEDIA_SIZE_UNKNOWN;
+        }
+        pickMedia(uri, mediaSize);
+
+        currentInputContentInfo = inputContentInfo;
+        currentFlags = flags;
+
+        return true;
     }
 
     private void sendStatus(String content, String visibility, boolean sensitive,
@@ -535,7 +665,7 @@ public class ComposeActivity extends BaseActivity {
 
     private void readyStatus(final String content, final String visibility, final boolean sensitive,
             final String spoilerText) {
-        final ProgressDialog dialog = ProgressDialog.show(
+        finishingUploadDialog = ProgressDialog.show(
                 this, getString(R.string.dialog_title_finishing_media_upload),
                 getString(R.string.dialog_message_uploading_media), true, true);
         final AsyncTask<Void, Void, Boolean> waitForMediaTask =
@@ -553,7 +683,8 @@ public class ComposeActivity extends BaseActivity {
                     @Override
                     protected void onPostExecute(Boolean successful) {
                         super.onPostExecute(successful);
-                        dialog.dismiss();
+                        finishingUploadDialog.dismiss();
+                        finishingUploadDialog = null;
                         if (successful) {
                             sendStatus(content, visibility, sensitive, spoilerText);
                         } else {
@@ -568,7 +699,7 @@ public class ComposeActivity extends BaseActivity {
                         super.onCancelled();
                     }
                 };
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+        finishingUploadDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
                 /* Generating an interrupt by passing true here is important because an interrupt
@@ -848,6 +979,9 @@ public class ComposeActivity extends BaseActivity {
 
     private void onUploadFailure(QueuedMedia item) {
         displayTransientError(R.string.error_media_upload_sending);
+        if (finishingUploadDialog != null) {
+            finishingUploadDialog.cancel();
+        }
         removeMediaFromQueue(item);
     }
 
@@ -867,69 +1001,78 @@ public class ComposeActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == MEDIA_PICK_RESULT && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
-            ContentResolver contentResolver = getContentResolver();
+            long mediaSize;
             Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-            if (cursor == null) {
-                displayTransientError(R.string.error_media_upload_opening);
-                return;
-            }
-            int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
-            cursor.moveToFirst();
-            long mediaSize = cursor.getLong(sizeIndex);
-            cursor.close();
-            String mimeType = contentResolver.getType(uri);
-            if (mimeType != null) {
-                String topLevelType = mimeType.substring(0, mimeType.indexOf('/'));
-                switch (topLevelType) {
-                    case "video": {
-                        if (mediaSize > STATUS_MEDIA_SIZE_LIMIT) {
-                            displayTransientError(R.string.error_media_upload_size);
-                            return;
-                        }
-                        if (mediaQueued.size() > 0
-                                && mediaQueued.get(0).type == QueuedMedia.Type.IMAGE) {
-                            displayTransientError(R.string.error_media_upload_image_or_video);
-                            return;
-                        }
-                        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-                        retriever.setDataSource(this, uri);
-                        Bitmap source = retriever.getFrameAtTime();
-                        Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, 96, 96);
-                        source.recycle();
-                        addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize);
-                        break;
-                    }
-                    case "image": {
-                        InputStream stream;
-                        try {
-                            stream = contentResolver.openInputStream(uri);
-                        } catch (FileNotFoundException e) {
-                            displayTransientError(R.string.error_media_upload_opening);
-                            return;
-                        }
-                        Bitmap source = BitmapFactory.decodeStream(stream);
-                        Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, 96, 96);
-                        source.recycle();
-                        try {
-                            if (stream != null) {
-                                stream.close();
-                            }
-                        } catch (IOException e) {
-                            bitmap.recycle();
-                            displayTransientError(R.string.error_media_upload_opening);
-                            return;
-                        }
-                        addMediaToQueue(QueuedMedia.Type.IMAGE, bitmap, uri, mediaSize);
-                        break;
-                    }
-                    default: {
-                        displayTransientError(R.string.error_media_upload_type);
-                        break;
-                    }
-                }
+            if (cursor != null) {
+                int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
+                cursor.moveToFirst();
+                mediaSize = cursor.getLong(sizeIndex);
+                cursor.close();
             } else {
-                displayTransientError(R.string.error_media_upload_type);
+                mediaSize = MEDIA_SIZE_UNKNOWN;
             }
+            pickMedia(uri, mediaSize);
+        }
+    }
+
+    private void pickMedia(Uri uri, long mediaSize) {
+        ContentResolver contentResolver = getContentResolver();
+        if (mediaSize == MEDIA_SIZE_UNKNOWN) {
+            displayTransientError(R.string.error_media_upload_opening);
+            return;
+        }
+        String mimeType = contentResolver.getType(uri);
+        if (mimeType != null) {
+            String topLevelType = mimeType.substring(0, mimeType.indexOf('/'));
+            switch (topLevelType) {
+                case "video": {
+                    if (mediaSize > STATUS_MEDIA_SIZE_LIMIT) {
+                        displayTransientError(R.string.error_media_upload_size);
+                        return;
+                    }
+                    if (mediaQueued.size() > 0
+                            && mediaQueued.get(0).type == QueuedMedia.Type.IMAGE) {
+                        displayTransientError(R.string.error_media_upload_image_or_video);
+                        return;
+                    }
+                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                    retriever.setDataSource(this, uri);
+                    Bitmap source = retriever.getFrameAtTime();
+                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, 96, 96);
+                    source.recycle();
+                    addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize);
+                    break;
+                }
+                case "image": {
+                    InputStream stream;
+                    try {
+                        stream = contentResolver.openInputStream(uri);
+                    } catch (FileNotFoundException e) {
+                        displayTransientError(R.string.error_media_upload_opening);
+                        return;
+                    }
+                    Bitmap source = BitmapFactory.decodeStream(stream);
+                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, 96, 96);
+                    source.recycle();
+                    try {
+                        if (stream != null) {
+                            stream.close();
+                        }
+                    } catch (IOException e) {
+                        bitmap.recycle();
+                        displayTransientError(R.string.error_media_upload_opening);
+                        return;
+                    }
+                    addMediaToQueue(QueuedMedia.Type.IMAGE, bitmap, uri, mediaSize);
+                    break;
+                }
+                default: {
+                    displayTransientError(R.string.error_media_upload_type);
+                    break;
+                }
+            }
+        } else {
+            displayTransientError(R.string.error_media_upload_type);
         }
     }
 

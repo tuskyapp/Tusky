@@ -295,6 +295,10 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setupButtons(final StatusActionListener listener, final String accountId) {
+        /* Originally position was passed through to all these listeners, but it caused several
+         * bugs where other statuses in the list would be removed or added and cause the position
+         * here to become outdated. So, getting the adapter position at the time the listener is
+         * actually called is the appropriate solution. */
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

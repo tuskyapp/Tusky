@@ -28,6 +28,7 @@ class HtmlUtils {
         return s.subSequence(0, i + 1);
     }
 
+    @SuppressWarnings("deprecation")
     static Spanned fromHtml(String html) {
         Spanned result;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -40,6 +41,7 @@ class HtmlUtils {
         return (Spanned) trimTrailingWhitespace(result);
     }
 
+    @SuppressWarnings("deprecation")
     static String toHtml(Spanned text) {
         String result;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
