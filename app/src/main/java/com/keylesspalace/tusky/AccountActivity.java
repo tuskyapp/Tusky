@@ -19,9 +19,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.icu.text.NumberFormat;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -31,6 +35,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -41,6 +46,8 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
+import com.pkmmte.view.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,11 +85,21 @@ public class AccountActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        NetworkImageView avatar = (NetworkImageView) findViewById(R.id.account_avatar);
-        NetworkImageView header = (NetworkImageView) findViewById(R.id.account_header);
-        avatar.setDefaultImageResId(R.drawable.avatar_default);
-        avatar.setErrorImageResId(R.drawable.avatar_error);
-        header.setDefaultImageResId(R.drawable.account_header_default);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setTitle(null);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
+
+        FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
+        floatingBtn.hide();
+
+        CircularImageView avatar = (CircularImageView) findViewById(R.id.account_avatar);
+        ImageView header = (ImageView) findViewById(R.id.account_header);
+        avatar.setImageResource(R.drawable.avatar_default);
+        header.setImageResource(R.drawable.account_header_default);
 
         obtainAccount();
         if (!accountId.equals(loggedInAccountId)) {
@@ -165,39 +182,43 @@ public class AccountActivity extends BaseActivity {
         TextView username = (TextView) findViewById(R.id.account_username);
         TextView displayName = (TextView) findViewById(R.id.account_display_name);
         TextView note = (TextView) findViewById(R.id.account_note);
-        NetworkImageView avatar = (NetworkImageView) findViewById(R.id.account_avatar);
-        NetworkImageView header = (NetworkImageView) findViewById(R.id.account_header);
+        CircularImageView avatar = (CircularImageView) findViewById(R.id.account_avatar);
+        ImageView header = (ImageView) findViewById(R.id.account_header);
 
         String usernameFormatted = String.format(
                 getString(R.string.status_username_format), account.username);
         username.setText(usernameFormatted);
 
         displayName.setText(account.displayName);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(account.displayName);
-        }
 
         note.setText(account.note);
         note.setLinksClickable(true);
         note.setMovementMethod(LinkMovementMethod.getInstance());
 
-        ImageLoader imageLoader = VolleySingleton.getInstance(this).getImageLoader();
         if (!account.avatar.isEmpty()) {
-            avatar.setImageUrl(account.avatar, imageLoader);
+            Picasso.with(this)
+                    .load(account.avatar)
+                    .placeholder(R.drawable.avatar_default)
+                    .error(R.drawable.avatar_error)
+                    .into(avatar);
         }
         if (!account.header.isEmpty()) {
-            header.setImageUrl(account.header, imageLoader);
+            Picasso.with(this)
+                    .load(account.header)
+                    .placeholder(R.drawable.account_header_default)
+                    .into(header);
         }
 
         openInWebUrl = account.url;
+        java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
 
         // Add counts to the tabs in the TabLayout.
         String[] counts = {
-            account.statusesCount,
-            account.followingCount,
-            account.followersCount,
+            nf.format(Integer.parseInt(account.statusesCount)),
+            nf.format(Integer.parseInt(account.followingCount)),
+            nf.format(Integer.parseInt(account.followersCount)),
         };
+
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             if (tab != null) {
@@ -261,8 +282,36 @@ public class AccountActivity extends BaseActivity {
     private void onObtainRelationshipsSuccess(boolean following, boolean blocking) {
         this.following = following;
         this.blocking = blocking;
+
         if (!following || !blocking) {
             invalidateOptionsMenu();
+        }
+
+        updateButtons();
+    }
+
+    private void updateButtons() {
+        invalidateOptionsMenu();
+
+        FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
+
+        if(!isSelf && !blocking) {
+            floatingBtn.show();
+
+            if (!following) {
+                floatingBtn.setImageResource(R.drawable.ic_person_add_24dp);
+            } else {
+                floatingBtn.setImageResource(R.drawable.ic_person_outline_24dp);
+            }
+
+            floatingBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    follow(accountId);
+                }
+            });
+        } else if(!isSelf && blocking) {
+            // TODO: floating button becomes unblock
         }
     }
 
@@ -337,7 +386,7 @@ public class AccountActivity extends BaseActivity {
                             return;
                         }
                         following = followingValue;
-                        invalidateOptionsMenu();
+                        updateButtons();
                     }
                 },
                 new Response.ErrorListener() {
@@ -385,7 +434,7 @@ public class AccountActivity extends BaseActivity {
                             return;
                         }
                         blocking = blockingValue;
-                        invalidateOptionsMenu();
+                        updateButtons();
                     }
                 },
                 new Response.ErrorListener() {
@@ -417,10 +466,8 @@ public class AccountActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_back: {
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+            case android.R.id.home: {
+                onBackPressed();
                 return true;
             }
             case R.id.action_open_in_web: {

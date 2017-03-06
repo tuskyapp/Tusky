@@ -10,77 +10,93 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
+        android:theme="@style/AppTheme"
         android:layout_height="wrap_content">
 
         <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="?attr/toolbar_background_color"
+            android:fitsSystemWindows="true"
             app:titleEnabled="false">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="?attr/actionBarSize"
                 android:background="?attr/account_header_background_color">
 
-                <com.android.volley.toolbox.NetworkImageView
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/account_header"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="pin"
+                    android:fitsSystemWindows="true"
                     android:adjustViewBounds="true" />
 
-                <RelativeLayout
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:paddingTop="?attr/actionBarSize"
+                    android:background="@drawable/account_header_gradient"
                     android:layout_width="match_parent"
+                    app:layout_collapseMode="parallax"
                     android:layout_height="wrap_content">
 
-                    <com.android.volley.toolbox.NetworkImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:id="@+id/account_avatar"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:paddingTop="8dp" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:layout_height="wrap_content">
 
-                    <LinearLayout
+                        <com.pkmmte.view.CircularImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginRight="10dp"
+                            android:id="@+id/account_avatar" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/account_avatar">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/account_display_name"
+                                android:textStyle="normal|bold"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/account_username" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_toRightOf="@id/account_avatar"
-                        android:layout_centerVertical="true">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/account_display_name"
-                            android:textStyle="normal|bold"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/account_username" />
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/account_note"
-                    android:padding="8dp" />
-
-            </LinearLayout>
+                        android:id="@+id/account_note"
+                        android:padding="16dp"
+                        android:paddingTop="10dp"/>
+                </LinearLayout>
+            </FrameLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/toolbar_background_color"
+                android:background="@android:color/transparent"
                 android:layout_gravity="top"
+                android:layout_alignParentTop="true"
                 app:layout_collapseMode="pin" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -118,5 +134,13 @@
         android:id="@+id/overlay_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floating_btn"
+        android:layout_width="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_person_add_24dp"/>
 
 </android.support.design.widget.CoordinatorLayout>
