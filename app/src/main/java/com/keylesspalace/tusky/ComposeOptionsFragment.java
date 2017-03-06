@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 public class ComposeOptionsFragment extends BottomSheetDialogFragment {
@@ -21,7 +22,7 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
     private Listener listener;
 
     public static ComposeOptionsFragment newInstance(String visibility, boolean markSensitive,
-            boolean hideText, boolean showMarkSensitive, Listener listener) {
+            boolean hideText, boolean showMarkSensitive, boolean isReply, Listener listener) {
         Bundle arguments = new Bundle();
         ComposeOptionsFragment fragment = new ComposeOptionsFragment();
         arguments.putParcelable("listener", listener);
@@ -29,6 +30,7 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
         arguments.putBoolean("markSensitive", markSensitive);
         arguments.putBoolean("hideText", hideText);
         arguments.putBoolean("showMarkSensitive", showMarkSensitive);
+        arguments.putBoolean("isReply", isReply);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -45,9 +47,15 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
         boolean statusMarkSensitive = arguments.getBoolean("markSensitive");
         boolean statusHideText = arguments.getBoolean("hideText");
         boolean showMarkSensitive = arguments.getBoolean("showMarkSensitive");
+        boolean isReply = arguments.getBoolean("isReply");
 
         RadioGroup radio = (RadioGroup) rootView.findViewById(R.id.radio_visibility);
-        int radioCheckedId = R.id.radio_public;
+        int radioCheckedId;
+        if (!isReply) {
+            radioCheckedId = R.id.radio_public;
+        } else {
+            radioCheckedId = R.id.radio_unlisted;
+        }
         if (statusVisibility != null) {
             if (statusVisibility.equals("unlisted")) {
                 radioCheckedId = R.id.radio_unlisted;
@@ -78,6 +86,10 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
                 listener.onVisibilityChanged(visibility);
             }
         });
+        if (isReply) {
+            RadioButton publicButton = (RadioButton) rootView.findViewById(R.id.radio_public);
+            publicButton.setEnabled(false);
+        }
 
         CheckBox markSensitive = (CheckBox) rootView.findViewById(R.id.compose_mark_sensitive);
         if (showMarkSensitive) {

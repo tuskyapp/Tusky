@@ -121,6 +121,7 @@ public class SFragment extends Fragment {
         mentionedUsernames.remove(loggedInUsername);
         Intent intent = new Intent(getContext(), ComposeActivity.class);
         intent.putExtra("in_reply_to_id", inReplyToId);
+        intent.putExtra("reply_visibility", status.getVisibility().toString().toLowerCase());
         intent.putExtra("mentioned_usernames", mentionedUsernames.toArray(new String[0]));
         startActivity(intent);
     }
@@ -250,6 +251,12 @@ public class SFragment extends Fragment {
                 Intent intent = new Intent(getContext(), ViewVideoActivity.class);
                 intent.putExtra("url", url);
                 startActivity(intent);
+                break;
+            }
+            case UNKNOWN: {
+                /* Intentionally do nothing. This case is here is to handle when new attachment
+                 * types are added to the API before code is added here to handle them. So, the
+                 * best fallback is to just show the preview and ignore requests to view them. */
                 break;
             }
         }

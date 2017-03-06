@@ -89,6 +89,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -345,6 +346,12 @@ public class ComposeActivity extends BaseActivity {
         String[] mentionedUsernames = null;
         if (intent != null) {
             inReplyToId = intent.getStringExtra("in_reply_to_id");
+            String replyVisibility = intent.getStringExtra("reply_visibility");
+            if (replyVisibility != null) {
+                /* Override any remembered visibilty and instead adopt the visibility of the status
+                 * to which this replies. */
+                statusVisibility = replyVisibility;
+            }
             mentionedUsernames = intent.getStringArrayExtra("mentioned_usernames");
         }
 
@@ -363,7 +370,7 @@ public class ComposeActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int left = STATUS_CHARACTER_LIMIT - s.length();
-                charactersLeft.setText(Integer.toString(left));
+                charactersLeft.setText(String.format(Locale.getDefault(), "%d", left));
             }
 
             @Override
@@ -435,7 +442,7 @@ public class ComposeActivity extends BaseActivity {
             public void onClick(View v) {
                 ComposeOptionsFragment fragment = ComposeOptionsFragment.newInstance(
                         statusVisibility, statusMarkSensitive, statusHideText,
-                        showMarkSensitive,
+                        showMarkSensitive, inReplyToId != null,
                         new ComposeOptionsFragment.Listener() {
                             @Override
                             public int describeContents() {
@@ -498,6 +505,11 @@ public class ComposeActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        if (inReplyToId != null) {
+            /* Don't save the visibility setting for replies because they adopt the visibility of
+             * the status they reply to and that behaviour needs to be kept separate. */
+            return;
+        }
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();

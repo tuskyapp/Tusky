@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky;
 
+import android.support.annotation.Nullable;
 import android.text.Spanned;
 
 import org.json.JSONArray;
@@ -177,6 +178,8 @@ public class Status {
         return status.id.equals(this.id);
     }
 
+    @SuppressWarnings("SimpleDateFormat") // UTC needs to not specify a Locale
+    @Nullable
     private static Date parseDate(String dateTime) {
         Date date;
         String s = dateTime.replace("Z", "+00:00");
@@ -188,6 +191,18 @@ public class Status {
             return null;
         }
         return date;
+    }
+
+    private static MediaAttachment.Type parseMediaType(@Nullable String type) {
+        if (type == null) {
+            return MediaAttachment.Type.UNKNOWN;
+        }
+        switch (type.toUpperCase()) {
+            case "IMAGE": return MediaAttachment.Type.IMAGE;
+            case "GIFV":
+            case "VIDEO": return MediaAttachment.Type.VIDEO;
+            default: return MediaAttachment.Type.UNKNOWN;
+        }
     }
 
     public static Status parse(JSONObject object, boolean isReblog) throws JSONException {
@@ -239,8 +254,7 @@ public class Status {
                 String url = attachment.getString("url");
                 String previewUrl = attachment.getString("preview_url");
                 String type = attachment.getString("type");
-                attachments[i] = new MediaAttachment(url, previewUrl,
-                        MediaAttachment.Type.valueOf(type.toUpperCase()));
+                attachments[i] = new MediaAttachment(url, previewUrl, parseMediaType(type));
             }
         }
 
@@ -289,6 +303,7 @@ public class Status {
         enum Type {
             IMAGE,
             VIDEO,
+            UNKNOWN,
         }
 
         private String url;
