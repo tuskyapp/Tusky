@@ -3,19 +3,18 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="16dp"
     android:id="@+id/account_container">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.android.volley.toolbox.NetworkImageView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/account_avatar"
-            android:layout_marginLeft="@dimen/account_avatar_margin"
-            android:layout_marginRight="@dimen/account_avatar_margin"
-            android:layout_marginTop="@dimen/account_avatar_margin" />
+            android:layout_marginRight="10dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -28,11 +27,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/account_display_name"
+                android:textColor="?android:textColorPrimary"
                 android:textStyle="normal|bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="?android:textColorSecondary"
                 android:id="@+id/account_username" />
 
         </LinearLayout>
@@ -43,6 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/account_note"
-        android:layout_margin="@dimen/account_note_margin" />
+        android:paddingTop="4dp"
+        android:textColor="?android:textColorTertiary" />
 
 </LinearLayout>
