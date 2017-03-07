@@ -16,8 +16,13 @@
 package com.keylesspalace.tusky;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.media.Image;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -190,18 +196,14 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
         private TextView message;
         private TextView usernameView;
         private TextView displayNameView;
-        private NetworkImageView avatar;
-        private Button follow;
+        private ImageView avatar;
 
         FollowViewHolder(View itemView) {
             super(itemView);
             message = (TextView) itemView.findViewById(R.id.notification_text);
             usernameView = (TextView) itemView.findViewById(R.id.notification_username);
             displayNameView = (TextView) itemView.findViewById(R.id.notification_display_name);
-            avatar = (NetworkImageView) itemView.findViewById(R.id.notification_avatar);
-            avatar.setDefaultImageResId(R.drawable.avatar_default);
-            avatar.setErrorImageResId(R.drawable.avatar_error);
-            follow = (Button) itemView.findViewById(R.id.notification_follow_button);
+            avatar = (ImageView) itemView.findViewById(R.id.notification_avatar);
         }
 
         void setMessage(String displayName, String username, String avatarUrl) {
@@ -217,7 +219,11 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
 
             displayNameView.setText(displayName);
 
-            avatar.setImageUrl(avatarUrl, VolleySingleton.getInstance(context).getImageLoader());
+            Picasso.with(context)
+                    .load(avatarUrl)
+                    .placeholder(R.drawable.avatar_default)
+                    .error(R.drawable.avatar_error)
+                    .into(avatar);
         }
 
         void setupButtons(final FollowListener listener, final String accountId) {
@@ -225,12 +231,6 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
                 @Override
                 public void onClick(View v) {
                     listener.onViewAccount(accountId);
-                }
-            });
-            follow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onFollow(accountId);
                 }
             });
         }
@@ -254,22 +254,22 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
             switch (type) {
                 default:
                 case FAVOURITE: {
-                    icon.setImageResource(R.drawable.ic_favourited);
+                    icon.setImageResource(R.drawable.ic_star_24dp);
+                    icon.setColorFilter(ContextCompat.getColor(context, R.color.status_favourite_button_marked_dark));
                     format = context.getString(R.string.notification_favourite_format);
                     break;
                 }
                 case REBLOG: {
-                    icon.setImageResource(R.drawable.ic_reblogged);
+                    icon.setImageResource(R.drawable.ic_repeat_24dp);
+                    icon.setColorFilter(ContextCompat.getColor(context, R.color.color_accent_dark));
                     format = context.getString(R.string.notification_reblog_format);
                     break;
                 }
             }
             String wholeMessage = String.format(format, displayName);
-            message.setText(wholeMessage);
-            String timestamp = DateUtils.getRelativeTimeSpanString(
-                    status.getCreatedAt().getTime(),
-                    new Date().getTime());
-            statusContent.setText(String.format("%s: ", timestamp));
+            final SpannableStringBuilder str = new SpannableStringBuilder(wholeMessage);
+            str.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), 0, displayName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            message.setText(str);
             statusContent.append(status.getContent());
         }
     }

@@ -7,89 +7,69 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="10dp"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
         android:layout_height="wrap_content">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/follow_icon"
-            app:srcCompat="@drawable/ic_followed"
-            android:paddingTop="@dimen/notification_icon_vertical_padding"
-            android:paddingBottom="@dimen/notification_icon_vertical_padding"
-            android:paddingRight="@dimen/status_avatar_padding"
-            android:paddingLeft="@dimen/follow_icon_left_padding"
-            android:tint="?attr/notification_icon_tint" />
+            app:srcCompat="@drawable/ic_person_add_24dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="24dp"
+            android:tint="?attr/colorAccent" />
 
         <TextView
             android:id="@+id/notification_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="?android:textColorTertiary"
             android:layout_centerVertical="true"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:layout_toRightOf="@id/follow_icon" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="4dp"
         android:layout_height="wrap_content">
 
-        <com.android.volley.toolbox.NetworkImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/notification_avatar"
             android:scaleType="fitCenter"
-            android:paddingLeft="@dimen/status_avatar_padding"
-            android:paddingRight="@dimen/status_avatar_padding"
-            android:paddingBottom="@dimen/status_avatar_padding"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="10dp"
             android:layout_alignParentLeft="true" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/notification_follow_button"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="@string/action_follow" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_toRightOf="@id/notification_avatar"
-            android:layout_toLeftOf="@id/notification_follow_button">
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+            android:layout_toRightOf="@id/notification_avatar">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/notification_display_name"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:textColor="?android:textColorPrimary"
                 android:textStyle="normal|bold" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/notification_username"
                 android:textColor="?android:textColorSecondary" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
         </LinearLayout>
 
     </RelativeLayout>
