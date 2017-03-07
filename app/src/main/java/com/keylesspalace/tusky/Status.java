@@ -18,6 +18,8 @@ package com.keylesspalace.tusky;
 import android.support.annotation.Nullable;
 import android.text.Spanned;
 
+import com.emojione.Emojione;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -273,7 +275,7 @@ public class Status {
             status = reblog;
             status.setRebloggedByDisplayName(displayName);
         } else {
-            Spanned contentPlus = HtmlUtils.fromHtml(content);
+            Spanned contentPlus = HtmlUtils.fromHtml(Emojione.shortnameToUnicode(content, false));
             status = new Status(
                     id, accountId, displayName, username, contentPlus, avatar, createdAt,
                     reblogged, favourited, visibility);
