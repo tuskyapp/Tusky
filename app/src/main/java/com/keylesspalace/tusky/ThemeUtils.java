@@ -16,10 +16,11 @@
 package com.keylesspalace.tusky;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.AttrRes;
-import android.support.annotation.ColorRes;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
@@ -48,16 +49,20 @@ class ThemeUtils {
         }
     }
 
-    static @ColorRes int getColor(Context context, @AttrRes int attribute) {
+    static @ColorInt int getColor(Context context, @AttrRes int attribute) {
         TypedValue value = new TypedValue();
         if (context.getTheme().resolveAttribute(attribute, value, true)) {
             return value.data;
         } else {
-            return android.R.color.black;
+            return Color.BLACK;
         }
     }
 
     static void setImageViewTint(ImageView view, @AttrRes int attribute) {
         view.setColorFilter(getColor(view.getContext(), attribute), PorterDuff.Mode.SRC_IN);
+    }
+
+    static void setDrawableTint(Context context, Drawable drawable, @AttrRes int attribute) {
+        drawable.setColorFilter(getColor(context, attribute), PorterDuff.Mode.SRC_IN);
     }
 }
