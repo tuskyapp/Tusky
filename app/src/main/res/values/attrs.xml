@@ -21,7 +21,6 @@
     <attr name="status_favourite_button_marked_tint" format="reference|color" />
     <attr name="content_warning_button" format="reference" />
     <attr name="sensitive_media_warning_background_color" format="reference|color" />
-    <attr name="status_text_color_secondary" format="reference|color" />
     <attr name="media_preview_unloaded_drawable" format="reference" />
     <attr name="status_divider_drawable" format="reference" />
     <attr name="tab_page_margin_drawable" format="reference" />

@@ -37,7 +37,7 @@
         <item name="status_favourite_button_tint">@color/status_favourite_button_dark</item>
         <item name="status_favourite_button_marked_tint">@color/status_favourite_button_marked_dark</item>
         <item name="content_warning_button">@drawable/toggle_small</item>
-        <item name="sensitive_media_warning_background_color">@color/sensitive_media_warning_background_dark</item>
+        <item name="sensitive_media_warning_background_color">@color/color_background_dark</item>
         <item name="media_preview_unloaded_drawable">@drawable/media_preview_unloaded_dark</item>
         <item name="status_divider_drawable">@drawable/status_divider_dark</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_dark</item>
@@ -91,7 +91,6 @@
         <item name="status_favourite_button_marked_tint">@color/status_favourite_button_marked_light</item>
         <item name="content_warning_button">@drawable/toggle_small_light</item>
         <item name="sensitive_media_warning_background_color">@color/sensitive_media_warning_background_light</item>
-        <item name="status_text_color_secondary">@color/status_text_secondary_light</item>
         <item name="media_preview_unloaded_drawable">@drawable/media_preview_unloaded_light</item>
         <item name="status_divider_drawable">@drawable/status_divider_light</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_light</item>

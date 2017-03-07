@@ -117,6 +117,7 @@
             android:textOff="@string/status_content_warning_show_more"
             android:padding="3dp"
             android:textSize="12sp"
+            android:textAllCaps="true"
             android:background="?attr/content_warning_button" />
 
     </com.keylesspalace.tusky.FlowLayout>
@@ -126,26 +127,81 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="?android:textColorPrimary"
+        android:layout_marginBottom="4dp"
         android:layout_toRightOf="@+id/status_avatar"
         android:layout_toEndOf="@+id/status_avatar"
         android:layout_below="@+id/status_content_warning_bar" />
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/status_media_preview_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_below="@+id/status_content"
         android:layout_toRightOf="@+id/status_avatar">
 
         <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/status_media_preview_0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/status_media_preview_height"
+                    android:layout_weight="1"
+                    android:layout_marginRight="2dp"
+                    android:scaleType="centerCrop"
+                    android:layout_marginTop="@dimen/status_media_preview_top_margin" />
+
+                <ImageView
+                    android:id="@+id/status_media_preview_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/status_media_preview_height"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="2dp"
+                    android:scaleType="centerCrop"
+                    android:layout_marginTop="@dimen/status_media_preview_top_margin" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_marginTop="2dp"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/status_media_preview_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/status_media_preview_height"
+                    android:layout_weight="1"
+                    android:layout_marginRight="2dp"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:id="@+id/status_media_preview_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/status_media_preview_height"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/status_sensitive_media_warning"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="@dimen/status_media_preview_top_margin"
             android:padding="8dp"
-            android:background="?attr/sensitive_media_warning_background_color"
+            android:gravity="center"
             android:orientation="vertical"
+            android:background="?attr/sensitive_media_warning_background_color"
             android:visibility="gone">
 
             <TextView
@@ -154,7 +210,7 @@
                 android:textAlignment="center"
                 android:text="@string/status_sensitive_media_title"
                 android:textColor="@android:color/white"
-                android:textStyle="normal|italic" />
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -162,53 +218,8 @@
                 android:textAlignment="center"
                 android:text="@string/status_sensitive_media_directions"
                 android:textColor="@android:color/white" />
-
         </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/status_media_preview_0"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/status_media_preview_height"
-                android:layout_weight="1"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="@dimen/status_media_preview_top_margin" />
-
-            <com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/status_media_preview_1"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/status_media_preview_height"
-                android:layout_weight="1"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="@dimen/status_media_preview_top_margin" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/status_media_preview_2"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/status_media_preview_height"
-                android:layout_weight="1"
-                android:scaleType="centerCrop" />
-
-            <com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/status_media_preview_3"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/status_media_preview_height"
-                android:layout_weight="1"
-                android:scaleType="centerCrop" />
-
-        </LinearLayout>
-
-    </LinearLayout>
+    </FrameLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -217,7 +228,7 @@
         android:layout_below="@id/status_media_preview_container"
         android:layout_toRightOf="@+id/status_avatar"
         android:paddingBottom="8dp"
-        android:paddingTop="10dp">
+        android:paddingTop="6dp">
 
         <ImageButton
             app:srcCompat="@drawable/ic_reply_24dp"

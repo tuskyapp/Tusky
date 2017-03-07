@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -51,10 +52,10 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     private ImageButton moreButton;
     private boolean favourited;
     private boolean reblogged;
-    private NetworkImageView mediaPreview0;
-    private NetworkImageView mediaPreview1;
-    private NetworkImageView mediaPreview2;
-    private NetworkImageView mediaPreview3;
+    private ImageView mediaPreview0;
+    private ImageView mediaPreview1;
+    private ImageView mediaPreview2;
+    private ImageView mediaPreview3;
     private View sensitiveMediaWarning;
     private View contentWarningBar;
     private TextView contentWarningDescription;
@@ -76,16 +77,10 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         moreButton = (ImageButton) itemView.findViewById(R.id.status_more);
         reblogged = false;
         favourited = false;
-        mediaPreview0 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_0);
-        mediaPreview1 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_1);
-        mediaPreview2 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_2);
-        mediaPreview3 = (NetworkImageView) itemView.findViewById(R.id.status_media_preview_3);
-        int mediaPreviewUnloadedId = ThemeUtils.getDrawableId(itemView.getContext(),
-                R.attr.media_preview_unloaded_drawable, android.R.color.black);
-        mediaPreview0.setDefaultImageResId(mediaPreviewUnloadedId);
-        mediaPreview1.setDefaultImageResId(mediaPreviewUnloadedId);
-        mediaPreview2.setDefaultImageResId(mediaPreviewUnloadedId);
-        mediaPreview3.setDefaultImageResId(mediaPreviewUnloadedId);
+        mediaPreview0 = (ImageView) itemView.findViewById(R.id.status_media_preview_0);
+        mediaPreview1 = (ImageView) itemView.findViewById(R.id.status_media_preview_1);
+        mediaPreview2 = (ImageView) itemView.findViewById(R.id.status_media_preview_2);
+        mediaPreview3 = (ImageView) itemView.findViewById(R.id.status_media_preview_3);
         sensitiveMediaWarning = itemView.findViewById(R.id.status_sensitive_media_warning);
         contentWarningBar = itemView.findViewById(R.id.status_content_warning_bar);
         contentWarningDescription =
@@ -225,23 +220,29 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
 
     private void setMediaPreviews(final Status.MediaAttachment[] attachments,
                                  boolean sensitive, final StatusActionListener listener) {
-        final NetworkImageView[] previews = {
+        final ImageView[] previews = {
                 mediaPreview0,
                 mediaPreview1,
                 mediaPreview2,
                 mediaPreview3
         };
         Context context = mediaPreview0.getContext();
-        ImageLoader imageLoader = VolleySingleton.getInstance(context).getImageLoader();
+
+        int mediaPreviewUnloadedId = ThemeUtils.getDrawableId(itemView.getContext(),
+                R.attr.media_preview_unloaded_drawable, android.R.color.black);
+
         final int n = Math.min(attachments.length, Status.MAX_MEDIA_ATTACHMENTS);
+
         for (int i = 0; i < n; i++) {
             String previewUrl = attachments[i].getPreviewUrl();
-            previews[i].setImageUrl(previewUrl, imageLoader);
-            if (!sensitive) {
-                previews[i].setVisibility(View.VISIBLE);
-            } else {
-                previews[i].setVisibility(View.GONE);
-            }
+
+            previews[i].setVisibility(View.VISIBLE);
+
+            Picasso.with(context)
+                .load(previewUrl)
+                .placeholder(mediaPreviewUnloadedId)
+                .into(previews[i]);
+
             final String url = attachments[i].getUrl();
             final Status.MediaAttachment.Type type = attachments[i].getType();
             previews[i].setOnClickListener(new View.OnClickListener() {
@@ -251,22 +252,20 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
                 }
             });
         }
+
         if (sensitive) {
             sensitiveMediaWarning.setVisibility(View.VISIBLE);
             sensitiveMediaWarning.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     v.setVisibility(View.GONE);
-                    for (int i = 0; i < n; i++) {
-                        previews[i].setVisibility(View.VISIBLE);
-                    }
                     v.setOnClickListener(null);
                 }
             });
         }
+
         // Hide any of the placeholder previews beyond the ones set.
         for (int i = n; i < Status.MAX_MEDIA_ATTACHMENTS; i++) {
-            previews[i].setImageUrl(null, imageLoader);
             previews[i].setVisibility(View.GONE);
         }
     }
