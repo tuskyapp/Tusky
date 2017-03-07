@@ -42,12 +42,15 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v13.view.inputmethod.EditorInfoCompat;
 import android.support.v13.view.inputmethod.InputConnectionCompat;
 import android.support.v13.view.inputmethod.InputContentInfoCompat;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.Spannable;
@@ -55,6 +58,8 @@ import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -105,7 +110,6 @@ public class ComposeActivity extends BaseActivity {
     private String domain;
     private String accessToken;
     private EditText textEditor;
-    private ImageButton mediaPick;
     private LinearLayout mediaPreviewBar;
     private ArrayList<QueuedMedia> mediaQueued;
     private CountUpDownLatch waitForMediaLatch;
@@ -118,6 +122,8 @@ public class ComposeActivity extends BaseActivity {
     private InputContentInfoCompat currentInputContentInfo;
     private int currentFlags;
     private ProgressDialog finishingUploadDialog;
+    private EditText contentWarningEditor;
+    private boolean mediaPickEnabled;
 
     private static class QueuedMedia {
         enum Type {
@@ -317,8 +323,29 @@ public class ComposeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setTitle(null);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
+
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+
+        mediaPickEnabled = true;
+
+        FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
+        floatingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendStatus();
+            }
+        });
 
         ArrayList<SavedQueuedMedia> savedMediaQueued = null;
         if (savedInstanceState != null) {
@@ -399,83 +426,65 @@ public class ComposeActivity extends BaseActivity {
         waitForMediaLatch = new CountUpDownLatch();
 
         contentWarningBar = findViewById(R.id.compose_content_warning_bar);
-        @DrawableRes int drawableId = ThemeUtils.getDrawableId(this,
-                R.attr.compose_content_warning_bar_background, R.drawable.border_background_dark);
-        contentWarningBar.setBackgroundResource(drawableId);
-        final EditText contentWarningEditor = (EditText) findViewById(R.id.field_content_warning);
+        contentWarningEditor = (EditText) findViewById(R.id.field_content_warning);
         showContentWarning(false);
 
         statusAlreadyInFlight = false;
-        final Button sendButton = (Button) findViewById(R.id.button_send);
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (statusAlreadyInFlight) {
-                    return;
-                }
-                Editable editable = textEditor.getText();
-                if (editable.length() <= STATUS_CHARACTER_LIMIT) {
-                    statusAlreadyInFlight = true;
-                    String spoilerText = "";
-                    if (statusHideText) {
-                        spoilerText = contentWarningEditor.getText().toString();
-                    }
-                    readyStatus(editable.toString(), statusVisibility, statusMarkSensitive,
-                            spoilerText);
-                } else {
-                    textEditor.setError(getString(R.string.error_compose_character_limit));
-                }
-            }
-        });
-
-        mediaPick = (ImageButton) findViewById(R.id.compose_photo_pick);
-        mediaPick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onMediaPick();
-            }
-        });
-
-        ImageButton options = (ImageButton) findViewById(R.id.compose_options);
-        options.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ComposeOptionsFragment fragment = ComposeOptionsFragment.newInstance(
-                        statusVisibility, statusMarkSensitive, statusHideText,
-                        showMarkSensitive, inReplyToId != null,
-                        new ComposeOptionsFragment.Listener() {
-                            @Override
-                            public int describeContents() {
-                                return 0;
-                            }
-
-                            @Override
-                            public void writeToParcel(Parcel dest, int flags) {}
-
-                            @Override
-                            public void onVisibilityChanged(String visibility) {
-                                statusVisibility = visibility;
-                            }
-
-                            @Override
-                            public void onMarkSensitiveChanged(boolean markSensitive) {
-                                statusMarkSensitive = markSensitive;
-                            }
-
-                            @Override
-                            public void onContentWarningChanged(boolean hideText) {
-                                showContentWarning(hideText);
-                            }
-                        });
-                fragment.show(getSupportFragmentManager(), null);
-            }
-        });
 
         // These can only be added after everything affected by the media queue is initialized.
         if (savedMediaQueued != null) {
             for (SavedQueuedMedia item : savedMediaQueued) {
                 addMediaToQueue(item.type, item.preview, item.uri, item.mediaSize);
             }
+        }
+    }
+
+    private void showComposeOptions() {
+        ComposeOptionsFragment fragment = ComposeOptionsFragment.newInstance(
+                statusVisibility, statusMarkSensitive, statusHideText,
+                showMarkSensitive, inReplyToId != null,
+                new ComposeOptionsFragment.Listener() {
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void writeToParcel(Parcel dest, int flags) {}
+
+                    @Override
+                    public void onVisibilityChanged(String visibility) {
+                        statusVisibility = visibility;
+                    }
+
+                    @Override
+                    public void onMarkSensitiveChanged(boolean markSensitive) {
+                        statusMarkSensitive = markSensitive;
+                    }
+
+                    @Override
+                    public void onContentWarningChanged(boolean hideText) {
+                        showContentWarning(hideText);
+                    }
+                });
+        fragment.show(getSupportFragmentManager(), null);
+    }
+
+    private void sendStatus() {
+        if (statusAlreadyInFlight) {
+            return;
+        }
+        Editable editable = textEditor.getText();
+        if (editable.length() <= STATUS_CHARACTER_LIMIT) {
+            statusAlreadyInFlight = true;
+            String spoilerText = "";
+            if (statusHideText) {
+                spoilerText = contentWarningEditor.getText().toString();
+            }
+            readyStatus(editable.toString(), statusVisibility, statusMarkSensitive,
+                    spoilerText);
+        } else {
+            textEditor.setError(getString(R.string.error_compose_character_limit));
         }
     }
 
@@ -530,7 +539,7 @@ public class ComposeActivity extends BaseActivity {
         } else {
             mimeTypes = Arrays.copyOf(contentMimeTypes, contentMimeTypes.length);
         }
-        EditText editText = new EditText(this) {
+        EditText editText = new android.support.v7.widget.AppCompatEditText(this) {
             @Override
             public InputConnection onCreateInputConnection(EditorInfo editorInfo) {
                 final InputConnection ic = super.onCreateInputConnection(editorInfo);
@@ -783,15 +792,24 @@ public class ComposeActivity extends BaseActivity {
     }
 
     private void enableMediaPicking() {
-        mediaPick.setEnabled(true);
-        ThemeUtils.setImageViewTint(mediaPick, R.attr.compose_media_button_tint);
-        mediaPick.setImageResource(R.drawable.ic_media);
+        mediaPickEnabled = true;
+        invalidateOptionsMenu();
     }
 
     private void disableMediaPicking() {
-        mediaPick.setEnabled(false);
-        ThemeUtils.setImageViewTint(mediaPick, R.attr.compose_media_button_disabled_tint);
-        mediaPick.setImageResource(R.drawable.ic_media_disabled);
+        mediaPickEnabled = false;
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (mediaPickEnabled) {
+            menu.findItem(R.id.compose_photo_pick).setEnabled(true);
+        } else {
+            menu.findItem(R.id.compose_photo_pick).setEnabled(false);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize) {
@@ -1102,5 +1120,33 @@ public class ComposeActivity extends BaseActivity {
         } else {
             contentWarningBar.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.compose_toolbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                onBackPressed();
+                return true;
+            }
+
+            case R.id.compose_photo_pick: {
+                onMediaPick();
+                return true;
+            }
+
+            case R.id.compose_options: {
+                showComposeOptions();
+                return true;
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

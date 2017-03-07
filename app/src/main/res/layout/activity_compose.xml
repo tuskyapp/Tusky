@@ -1,95 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_compose"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageButton
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            app:srcCompat="@drawable/ic_media"
-            style="?attr/image_button_style"
-            android:id="@+id/compose_photo_pick"
-            android:layout_marginLeft="8dp" />
-
-        <ImageButton
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:id="@+id/compose_options"
-            app:srcCompat="@drawable/ic_options"
-            style="?attr/image_button_style"
-            android:layout_marginLeft="8dp" />
-
-    </LinearLayout>
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/compose_content_warning_bar"
-        android:layout_margin="8dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp">
-
-        <EditText
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:ems="10"
-            android:id="@+id/field_content_warning"
-            android:hint="@string/hint_content_warning" />
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/compose_edit_area">
-
-        <!--An special EditText is created at runtime here, because it has to be a modified
-         * anonymous class to support image/GIF picking from the soft keyboard.-->
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="4dp"
+            android:layout_marginBottom="16dp"
+            android:background="?attr/toolbar_background_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/compose_media_preview_bar"
-            android:layout_alignParentBottom="true">
-
-            <!--This is filled at runtime with ImageView's for each preview in the upload queue.-->
+            android:id="@+id/compose_content_warning_bar"
+            android:paddingTop="0dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_marginBottom="4dp">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/field_content_warning"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/hint_content_warning"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
+            android:id="@+id/compose_edit_area">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <!--An special EditText is created at runtime here, because it has to be a modified
+             * anonymous class to support image/GIF picking from the soft keyboard.-->
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/compose_media_preview_bar"
+                android:layout_alignParentBottom="true">
 
-        <TextView
-            android:id="@+id/characters_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="500" />
+                <!--This is filled at runtime with ImageView's for each preview in the upload queue.-->
 
-        <Button
-            android:text="@string/action_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button_send" />
+            </LinearLayout>
 
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:paddingTop="4dp"
+            android:paddingLeft="16dp"
+            android:paddingBottom="16dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/characters_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?android:textColorPrimary"
+                android:text="500" />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floating_btn"
+        android:layout_width="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_send_24dp"/>
+
+</FrameLayout>

@@ -121,8 +121,8 @@
     <string name="confirmation_reported">Sent!</string>
 
     <string name="hint_domain">Which Site?</string>
-    <string name="hint_compose">What\'s Happening?</string>
-    <string name="hint_content_warning">Beware, folks</string>
+    <string name="hint_compose">What\'s happening?</string>
+    <string name="hint_content_warning">Content warning</string>
 
     <string name="link_no_account">No account?</string>
 
@@ -152,5 +152,8 @@
     <string name="pref_title_notification_style_light">Notify with light</string>
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_light_theme">Use The Light Theme</string>
+    <string name="action_submit">Submit</string>
+    <string name="action_photo_pick">Add media</string>
+    <string name="action_compose_options">Privacy options</string>
 
 </resources>
