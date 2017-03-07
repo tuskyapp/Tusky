@@ -10,8 +10,9 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:theme="@style/AppTheme"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.Account.AppBarLayout"
+        android:id="@+id/account_app_bar_layout">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
@@ -95,7 +96,9 @@
                         android:textColor="?android:textColorTertiary"
                         android:padding="16dp"
                         android:paddingTop="10dp"/>
+
                 </LinearLayout>
+
             </FrameLayout>
 
             <android.support.v7.widget.Toolbar
@@ -105,7 +108,8 @@
                 android:background="@android:color/transparent"
                 android:layout_gravity="top"
                 android:layout_alignParentTop="true"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin"
+                app:popupTheme="?attr/account_toolbar_popup_theme" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

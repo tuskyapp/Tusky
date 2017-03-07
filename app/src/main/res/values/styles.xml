@@ -8,6 +8,12 @@
         <item name="android:textStyle">normal|bold</item>
     </style>
 
+    <style name="AppTheme.Account.AppBarLayout" parent="ThemeOverlay.AppCompat">
+        <item name="android:textColorPrimary">@color/text_color_primary_dark</item>
+        <item name="android:textColorSecondary">@color/text_color_secondary_dark</item>
+        <item name="android:textColorTertiary">@color/text_color_tertiary_dark</item>
+    </style>
+
     <!--Base Application Theme Styles (Dark)-->
 
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
@@ -25,6 +31,7 @@
         <item name="android:textColorPrimaryInverse">@color/text_color_primary_inverse_dark</item>
         <item name="android:textColorSecondaryInverse">@color/text_color_secondary_inverse_dark</item>
         <item name="android:textColorTertiaryInverse">@color/text_color_tertiary_inverse_dark</item>
+        <item name="android:actionMenuTextColor">@color/text_color_primary_dark</item>
 
         <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheetDialog.Dark</item>
 
@@ -42,6 +49,9 @@
         <item name="status_divider_drawable">@drawable/status_divider_dark</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_dark</item>
         <item name="account_header_background_color">@color/account_header_background_dark</item>
+        <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark</item>
+        <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_dark</item>
+        <item name="account_toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Dark</item>
         <item name="compose_media_button_tint">@color/compose_media_button_dark</item>
         <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_dark</item>
         <item name="compose_mention_color">@color/compose_mention_dark</item>
@@ -61,6 +71,10 @@
         <item name="android:colorBackground">@color/color_background_dark</item>
     </style>
 
+    <style name="AppTheme.Account.ToolbarPopupTheme.Dark" parent="ThemeOverlay.AppCompat">
+        <item name="android:textColorPrimary">@color/text_color_primary_dark</item>
+    </style>
+
     <!--Light Application Theme Styles-->
 
     <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
@@ -78,6 +92,7 @@
         <item name="android:textColorPrimaryInverse">@color/text_color_primary_inverse_light</item>
         <item name="android:textColorSecondaryInverse">@color/text_color_secondary_inverse_light</item>
         <item name="android:textColorTertiaryInverse">@color/text_color_tertiary_inverse_light</item>
+        <item name="android:actionMenuTextColor">@color/text_color_primary_light</item>
 
         <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheetDialog.Light</item>
 
@@ -94,6 +109,9 @@
         <item name="media_preview_unloaded_drawable">@drawable/media_preview_unloaded_light</item>
         <item name="status_divider_drawable">@drawable/status_divider_light</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_light</item>
+        <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark</item> <!--Default to dark on purpose, because header backgrounds with gradients are always dark.-->
+        <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_light</item>
+        <item name="account_toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Light</item>
         <item name="account_header_background_color">@color/account_header_background_light</item>
         <item name="compose_media_button_tint">@color/compose_media_button_light</item>
         <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_light</item>
@@ -112,6 +130,10 @@
     <style name="AppTheme.BottomSheetDialog.Light" parent="@style/Theme.Design.Light.BottomSheetDialog">
         <item name="colorAccent">@color/color_accent_light</item>
         <item name="android:colorBackground">@color/color_background_light</item>
+    </style>
+
+    <style name="AppTheme.Account.ToolbarPopupTheme.Light" parent="ThemeOverlay.AppCompat">
+        <item name="android:textColorPrimary">@color/text_color_primary_light</item>
     </style>
 
 </resources>

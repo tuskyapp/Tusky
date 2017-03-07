@@ -30,6 +30,7 @@
     <color name="status_text_secondary_dark">#A4B4BC</color>
     <color name="status_divider_dark">#2f3441</color>
     <color name="tab_page_margin_dark">#4C534B</color>
+    <color name="account_toolbar_icon_collapsed_dark">#FFFFFF</color>
     <color name="account_header_background_dark">#000000</color>
     <color name="compose_media_button_dark">#FFFFFF</color>
     <color name="compose_media_button_disabled_dark">#8F8F8F</color>
@@ -65,6 +66,7 @@
     <color name="status_text_secondary_light">#34444C</color>
     <color name="status_divider_light">#CFCFCF</color>
     <color name="tab_page_margin_light">#9F9F9F</color>
+    <color name="account_toolbar_icon_collapsed_light">#000000</color>
     <color name="account_header_background_light">#EFEFEF</color>
     <color name="compose_media_button_light">#000000</color>
     <color name="compose_media_button_disabled_light">#8F8F8F</color>
