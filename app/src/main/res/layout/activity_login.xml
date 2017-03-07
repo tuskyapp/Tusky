@@ -4,14 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context="com.keylesspalace.tusky.LoginActivity">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:elevation="4dp"
-        android:background="?attr/toolbar_background_color" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,30 +15,44 @@
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
+            android:layout_centerInParent="true"
+            android:gravity="center">
 
-            <EditText
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textUri"
-                android:hint="@string/hint_domain"
-                android:ems="10"
-                android:id="@+id/edit_text_domain" />
+                android:src="@drawable/elephant_friend"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textUri"
+                    android:hint="@string/hint_domain"
+                    android:ems="10"
+                    android:id="@+id/edit_text_domain" />
+            </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:text="@string/action_login"
+                android:id="@+id/button_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/button_login" />
+                android:layout_marginTop="4dp"
+                android:elevation="0dp"
+                android:text="@string/action_login" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:id="@+id/text_error" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textAlignment="center"
                 android:id="@+id/no_account"
                 android:text="@string/link_no_account" />
 

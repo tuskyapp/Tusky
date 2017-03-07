@@ -94,7 +94,7 @@
     <string name="report_comment_hint">Additional Comments?</string>
 
     <string name="action_compose">Compose</string>
-    <string name="action_login">Ask Site To Log In</string>
+    <string name="action_login">Login with Mastodon</string>
     <string name="action_logout">Log Out</string>
     <string name="action_follow">Follow</string>
     <string name="action_unfollow">Unfollow</string>
@@ -120,7 +120,7 @@
     <string name="confirmation_send">Toot!</string>
     <string name="confirmation_reported">Sent!</string>
 
-    <string name="hint_domain">Which Site?</string>
+    <string name="hint_domain">Which instance?</string>
     <string name="hint_compose">What\'s happening?</string>
     <string name="hint_content_warning">Content warning</string>
 
@@ -155,5 +155,6 @@
     <string name="action_submit">Submit</string>
     <string name="action_photo_pick">Add media</string>
     <string name="action_compose_options">Privacy options</string>
+    <string name="login_success">Welcome back!</string>
 
 </resources>
