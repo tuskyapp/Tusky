@@ -1,39 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:id="@+id/notification_top_bar">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/notification_icon"
-            android:paddingTop="@dimen/notification_icon_vertical_padding"
-            android:paddingBottom="@dimen/notification_icon_vertical_padding"
-            android:paddingLeft="@dimen/notification_icon_left_padding"
-            android:paddingRight="@dimen/status_avatar_padding"
-            android:tint="?attr/notification_icon_tint" />
+            android:paddingRight="10dp"
+            android:paddingLeft="24dp"
+            app:srcCompat="@drawable/ic_repeat_24dp"
+            android:tint="?attr/colorAccent" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/notification_text"
+            android:textColor="?android:textColorSecondary"
             android:layout_centerVertical="true"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="Someone favourited your status"
             android:layout_toRightOf="@id/notification_icon" />
 
     </RelativeLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/notification_content"
-        android:paddingLeft="@dimen/notification_avatar_column_width"
-        android:textColor="?attr/notification_content"
-        android:paddingBottom="8dp" />
+        android:paddingLeft="58dp"
+        android:text="Example status here"
+        android:textColor="?android:textColorTertiary"
+        android:paddingBottom="10dp" />
 
 </LinearLayout>

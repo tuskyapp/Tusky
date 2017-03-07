@@ -229,7 +229,7 @@ public class AccountActivity extends BaseActivity {
         if (!account.header.isEmpty()) {
             Picasso.with(this)
                     .load(account.header)
-                    .placeholder(R.drawable.account_header_default)
+                    .placeholder(R.drawable.account_header_missing)
                     .into(header);
         }
 

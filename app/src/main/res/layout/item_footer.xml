@@ -2,7 +2,8 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
@@ -10,39 +11,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center">
-
-        <com.keylesspalace.tusky.FlowLayout
-            android:id="@+id/footer_retry_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/footer_retry_message"
-                android:padding="@dimen/footer_text_padding" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/footer_retry_button"
-                android:text="@string/action_retry" />
-
-        </com.keylesspalace.tusky.FlowLayout>
-
         <ProgressBar
             android:id="@+id/footer_progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/footer_end_of_timeline_text"
-            android:padding="@dimen/footer_text_padding"
-            android:visibility="gone" />
-
     </LinearLayout>
 
 </LinearLayout>

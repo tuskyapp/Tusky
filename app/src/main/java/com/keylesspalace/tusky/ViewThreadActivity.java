@@ -35,7 +35,9 @@ public class ViewThreadActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
-            bar.setTitle(R.string.title_thread);
+            bar.setTitle(null);
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setDisplayShowHomeEnabled(true);
         }
 
         String id = getIntent().getStringExtra("id");
@@ -54,10 +56,8 @@ public class ViewThreadActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_back: {
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+            case android.R.id.home: {
+                onBackPressed();
                 return true;
             }
         }

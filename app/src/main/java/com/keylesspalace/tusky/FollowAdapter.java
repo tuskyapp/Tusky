@@ -20,10 +20,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.squareup.picasso.Picasso;
 
 /** Both for follows and following lists. */
 class FollowAdapter extends AccountAdapter {
@@ -61,9 +63,6 @@ class FollowAdapter extends AccountAdapter {
         } else {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
             holder.setState(footerState);
-            holder.setupButton(footerActionListener);
-            holder.setRetryMessage(R.string.footer_retry_accounts);
-            holder.setEndOfTimelineMessage(R.string.footer_end_of_accounts);
         }
     }
 
@@ -81,7 +80,7 @@ class FollowAdapter extends AccountAdapter {
         private TextView username;
         private TextView displayName;
         private TextView note;
-        private NetworkImageView avatar;
+        private ImageView avatar;
         private String id;
 
         AccountViewHolder(View itemView) {
@@ -90,9 +89,7 @@ class FollowAdapter extends AccountAdapter {
             username = (TextView) itemView.findViewById(R.id.account_username);
             displayName = (TextView) itemView.findViewById(R.id.account_display_name);
             note = (TextView) itemView.findViewById(R.id.account_note);
-            avatar = (NetworkImageView) itemView.findViewById(R.id.account_avatar);
-            avatar.setDefaultImageResId(R.drawable.avatar_default);
-            avatar.setErrorImageResId(R.drawable.avatar_error);
+            avatar = (ImageView) itemView.findViewById(R.id.account_avatar);
         }
 
         void setupWithAccount(Account account) {
@@ -103,8 +100,11 @@ class FollowAdapter extends AccountAdapter {
             displayName.setText(account.displayName);
             note.setText(account.note);
             Context context = avatar.getContext();
-            ImageLoader imageLoader = VolleySingleton.getInstance(context).getImageLoader();
-            avatar.setImageUrl(account.avatar, imageLoader);
+            Picasso.with(context)
+                    .load(account.avatar)
+                    .placeholder(R.drawable.avatar_default)
+                    .error(R.drawable.avatar_error)
+                    .into(avatar);
         }
 
         void setupActionListener(final AccountActionListener listener) {

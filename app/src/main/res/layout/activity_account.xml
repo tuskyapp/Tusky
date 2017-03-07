@@ -71,6 +71,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/account_display_name"
+                                android:maxLines="1"
+                                android:ellipsize="end"
                                 android:textStyle="normal|bold"
                                 android:textColor="?android:textColorPrimary"
                                 android:textSize="18sp" />
@@ -78,6 +80,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:ellipsize="end"
                                 android:textColor="?android:textColorSecondary"
                                 android:id="@+id/account_username" />
 

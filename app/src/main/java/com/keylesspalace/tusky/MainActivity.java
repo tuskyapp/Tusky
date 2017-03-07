@@ -21,13 +21,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
+import android.transition.TransitionInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +47,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity"; // logging tag and Volley request tag
@@ -52,6 +57,8 @@ public class MainActivity extends BaseActivity {
     private boolean notificationServiceEnabled;
     private String loggedInAccountId;
     private String loggedInAccountUsername;
+    Stack<Integer> pageHistory = new Stack<Integer>();
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,15 +88,43 @@ public class MainActivity extends BaseActivity {
             getString(R.string.title_public)
         };
         adapter.setPageTitles(pageTitles);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager = (ViewPager) findViewById(R.id.pager);
         int pageMargin = getResources().getDimensionPixelSize(R.dimen.tab_page_margin);
         viewPager.setPageMargin(pageMargin);
         Drawable pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
                 R.drawable.tab_page_margin_dark);
         viewPager.setPageMarginDrawable(pageMarginDrawable);
         viewPager.setAdapter(adapter);
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+
+                if (pageHistory.empty()) {
+                    pageHistory.push(0);
+                }
+
+                if (pageHistory.contains(tab.getPosition())) {
+                    pageHistory.remove(pageHistory.indexOf(tab.getPosition()));
+                }
+
+                pageHistory.push(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         // Retrieve notification update preference.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -218,6 +253,17 @@ public class MainActivity extends BaseActivity {
                 return true;
             }
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(pageHistory.empty()) {
+            super.onBackPressed();
+        } else {
+            pageHistory.pop();
+            viewPager.setCurrentItem(pageHistory.lastElement());
+        }
     }
 }

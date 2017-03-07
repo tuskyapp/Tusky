@@ -68,9 +68,6 @@ class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover
         } else {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
             holder.setState(footerState);
-            holder.setupButton(footerListener);
-            holder.setRetryMessage(R.string.footer_retry_statuses);
-            holder.setEndOfTimelineMessage(R.string.footer_end_of_statuses);
         }
     }
 

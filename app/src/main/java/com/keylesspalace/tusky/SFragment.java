@@ -280,8 +280,14 @@ public class SFragment extends Fragment {
         startActivity(intent);
     }
 
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
     protected void openReportPage(String accountId, String accountUsername, String statusId,
-            Spanned statusContent) {
+                                  Spanned statusContent) {
         Intent intent = new Intent(getContext(), ReportActivity.class);
         intent.putExtra("account_id", accountId);
         intent.putExtra("account_username", accountUsername);

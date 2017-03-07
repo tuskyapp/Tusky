@@ -5,10 +5,4 @@
 
     <solid android:color="@color/color_background_dark" />
 
-    <stroke
-        android:dashWidth="4dp"
-        android:dashGap="4dp"
-        android:width="2dp"
-        android:color="@color/color_primary_dark" />
-
 </shape>

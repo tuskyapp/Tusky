@@ -22,10 +22,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -48,6 +50,7 @@ public class LoginActivity extends BaseActivity {
     private String domain;
     private String clientId;
     private String clientSecret;
+    private EditText editText;
 
     /**
      * Chain together the key-value pairs into a query string, for either appending to a URL or
@@ -173,7 +176,7 @@ public class LoginActivity extends BaseActivity {
         preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         Button button = (Button) findViewById(R.id.button_login);
-        final EditText editText = (EditText) findViewById(R.id.edit_text_domain);
+        editText = (EditText) findViewById(R.id.edit_text_domain);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -273,7 +276,7 @@ public class LoginActivity extends BaseActivity {
                             try {
                                 accessToken = response.getString("access_token");
                             } catch(JSONException e) {
-                                errorText.setText(e.getMessage());
+                                editText.setError(e.getMessage());
                                 return;
                             }
                             onLoginSuccess(accessToken);
@@ -281,7 +284,7 @@ public class LoginActivity extends BaseActivity {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            errorText.setText(error.getMessage());
+                            editText.setError(error.getMessage());
                         }
                     });
                 VolleySingleton.getInstance(this).addToRequestQueue(request);
