@@ -227,6 +227,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/status_media_preview_container"
         android:layout_toRightOf="@+id/status_avatar"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:paddingBottom="8dp"
         android:paddingTop="6dp">
 
@@ -242,10 +244,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <ImageButton
-            app:srcCompat="@drawable/ic_repeat_24dp"
+        <com.varunest.sparkbutton.SparkButton
             android:id="@+id/status_reblog"
-            style="?attr/image_button_style"
+            app:sparkbutton_activeImage="@drawable/reblog_active"
+            app:sparkbutton_inActiveImage="@drawable/reblog_inactive"
+            app:sparkbutton_iconSize="28dp"
+            android:layout_gravity="center"
+            app:sparkbutton_primaryColor="@color/status_reblog_button_marked_dark"
+            app:sparkbutton_secondaryColor="@color/status_reblog_button_marked_light"
             android:layout_width="32dp"
             android:layout_height="32dp" />
 
@@ -254,11 +260,15 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <ImageButton
+        <com.varunest.sparkbutton.SparkButton
             android:layout_width="32dp"
             android:layout_height="32dp"
-            style="?attr/image_button_style"
-            app:srcCompat="@drawable/ic_star_24dp"
+            app:sparkbutton_activeImage="@drawable/favourite_active"
+            app:sparkbutton_inActiveImage="@drawable/favourite_inactive"
+            app:sparkbutton_iconSize="28dp"
+            android:layout_gravity="center"
+            app:sparkbutton_primaryColor="@color/status_favourite_button_marked_light"
+            app:sparkbutton_secondaryColor="?attr/status_favourite_button_marked_tint"
             android:id="@+id/status_favourite" />
 
         <Space
