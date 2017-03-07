@@ -295,23 +295,15 @@ public class AccountActivity extends BaseActivity {
 
         FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
 
-        if(!isSelf && !blocking) {
+        if(!isSelf && !blocking && !following) {
             floatingBtn.show();
-
-            if (!following) {
-                floatingBtn.setImageResource(R.drawable.ic_person_add_24dp);
-            } else {
-                floatingBtn.setImageResource(R.drawable.ic_person_outline_24dp);
-            }
-
+            floatingBtn.setImageResource(R.drawable.ic_person_add_24dp);
             floatingBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     follow(accountId);
                 }
             });
-        } else if(!isSelf && blocking) {
-            // TODO: floating button becomes unblock
         }
     }
 

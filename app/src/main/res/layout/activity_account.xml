@@ -56,6 +56,7 @@
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:layout_marginRight="10dp"
+                            app:shadow="true"
                             android:id="@+id/account_avatar" />
 
                         <LinearLayout
@@ -70,11 +71,13 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/account_display_name"
                                 android:textStyle="normal|bold"
+                                android:textColor="?android:textColorPrimary"
                                 android:textSize="18sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textColor="?android:textColorSecondary"
                                 android:id="@+id/account_username" />
 
                         </LinearLayout>
@@ -85,6 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/account_note"
+                        android:textColor="?android:textColorTertiary"
                         android:padding="16dp"
                         android:paddingTop="10dp"/>
                 </LinearLayout>
@@ -111,6 +115,7 @@
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
+            app:tabBackground="?android:colorBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

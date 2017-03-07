@@ -26,11 +26,13 @@ import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 
@@ -40,7 +42,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     private TextView username;
     private TextView sinceCreated;
     private TextView content;
-    private NetworkImageView avatar;
+    private ImageView avatar;
     private View rebloggedBar;
     private TextView rebloggedByDisplayName;
     private ImageButton replyButton;
@@ -65,9 +67,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         username = (TextView) itemView.findViewById(R.id.status_username);
         sinceCreated = (TextView) itemView.findViewById(R.id.status_since_created);
         content = (TextView) itemView.findViewById(R.id.status_content);
-        avatar = (NetworkImageView) itemView.findViewById(R.id.status_avatar);
-        avatar.setDefaultImageResId(R.drawable.avatar_default);
-        avatar.setErrorImageResId(R.drawable.avatar_error);
+        avatar = (ImageView) itemView.findViewById(R.id.status_avatar);
         rebloggedBar = itemView.findViewById(R.id.status_reblogged_bar);
         rebloggedByDisplayName = (TextView) itemView.findViewById(R.id.status_reblogged);
         replyButton = (ImageButton) itemView.findViewById(R.id.status_reply);
@@ -159,8 +159,11 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
             return;
         }
         Context context = avatar.getContext();
-        ImageLoader imageLoader = VolleySingleton.getInstance(context).getImageLoader();
-        avatar.setImageUrl(url, imageLoader);
+        Picasso.with(context)
+                .load(url)
+                .placeholder(R.drawable.avatar_default)
+                .error(R.drawable.avatar_error)
+                .into(avatar);
     }
 
     private void setCreatedAt(@Nullable Date createdAt) {
@@ -202,10 +205,10 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     private void setRebloggingEnabled(boolean enabled) {
         reblogButton.setEnabled(enabled);
         if (enabled) {
-            reblogButton.setImageResource(R.drawable.ic_reblog);
+            reblogButton.setImageResource(R.drawable.ic_repeat_24dp);
         } else {
             ThemeUtils.setImageViewTint(reblogButton, R.attr.status_reblog_button_disabled_tint);
-            reblogButton.setImageResource(R.drawable.ic_reblog_disabled);
+            reblogButton.setImageResource(R.drawable.ic_lock_24dp);
         }
     }
 
