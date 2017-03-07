@@ -19,15 +19,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.icu.text.NumberFormat;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.AttrRes;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -42,10 +43,8 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.NetworkImageView;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -82,7 +81,7 @@ public class AccountActivity extends BaseActivity {
         accessToken = preferences.getString("accessToken", null);
         String loggedInAccountId = preferences.getString("loggedInAccountId", null);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -92,6 +91,31 @@ public class AccountActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
         }
+
+        // Add a listener to change the toolbar icon color when it enters/exits its collapsed state.
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.account_app_bar_layout);
+        final CollapsingToolbarLayout collapsingToolbar =
+                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @AttrRes int priorAttribute = R.attr.account_toolbar_icon_tint_uncollapsed;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                @AttrRes int attribute;
+                if (collapsingToolbar.getHeight() + verticalOffset
+                        < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
+                    attribute = R.attr.account_toolbar_icon_tint_collapsed;
+                } else {
+                    attribute = R.attr.account_toolbar_icon_tint_uncollapsed;
+                }
+                if (attribute != priorAttribute) {
+                    priorAttribute = attribute;
+                    Context context = toolbar.getContext();
+                    ThemeUtils.setDrawableTint(context, toolbar.getNavigationIcon(), attribute);
+                    ThemeUtils.setDrawableTint(context, toolbar.getOverflowIcon(), attribute);
+                }
+            }
+        });
 
         FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
         floatingBtn.hide();
