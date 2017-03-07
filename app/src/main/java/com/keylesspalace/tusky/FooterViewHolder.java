@@ -22,11 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 class FooterViewHolder extends RecyclerView.ViewHolder {
-    private View retryBar;
-    private TextView retryMessage;
-    private Button retry;
     private ProgressBar progressBar;
-    private TextView endOfTimelineMessage;
 
     enum State {
         LOADING,
@@ -36,49 +32,22 @@ class FooterViewHolder extends RecyclerView.ViewHolder {
 
     FooterViewHolder(View itemView) {
         super(itemView);
-        retryBar = itemView.findViewById(R.id.footer_retry_bar);
-        retryMessage = (TextView) itemView.findViewById(R.id.footer_retry_message);
-        retry = (Button) itemView.findViewById(R.id.footer_retry_button);
         progressBar = (ProgressBar) itemView.findViewById(R.id.footer_progress_bar);
         progressBar.setIndeterminate(true);
-        endOfTimelineMessage = (TextView) itemView.findViewById(R.id.footer_end_of_timeline_text);
-    }
-
-    void setupButton(final FooterActionListener listener) {
-        retry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onLoadMore();
-            }
-        });
-    }
-
-    void setRetryMessage(int messageId) {
-        retryMessage.setText(messageId);
-    }
-
-    void setEndOfTimelineMessage(int messageId) {
-        endOfTimelineMessage.setText(messageId);
     }
 
     void setState(State state) {
         switch (state) {
             case LOADING: {
-                retryBar.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
-                endOfTimelineMessage.setVisibility(View.GONE);
                 break;
             }
             case RETRY: {
-                retryBar.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
-                endOfTimelineMessage.setVisibility(View.GONE);
                 break;
             }
             case END_OF_TIMELINE: {
-                retryBar.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
-                endOfTimelineMessage.setVisibility(View.VISIBLE);
                 break;
             }
         }

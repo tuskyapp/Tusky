@@ -61,9 +61,6 @@ class FollowAdapter extends AccountAdapter {
         } else {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
             holder.setState(footerState);
-            holder.setupButton(footerActionListener);
-            holder.setRetryMessage(R.string.footer_retry_accounts);
-            holder.setEndOfTimelineMessage(R.string.footer_end_of_accounts);
         }
     }
 
