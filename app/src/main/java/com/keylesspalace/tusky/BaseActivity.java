@@ -25,8 +25,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spanned;
 import android.util.TypedValue;
 import android.view.Menu;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 
@@ -99,10 +103,14 @@ public class BaseActivity extends AppCompatActivity {
                 })
                 .build();
 
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
+                .create();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getBaseUrl())
                 .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
         mastodonAPI = retrofit.create(MastodonAPI.class);

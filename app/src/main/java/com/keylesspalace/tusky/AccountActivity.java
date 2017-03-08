@@ -45,6 +45,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.keylesspalace.tusky.entity.Account;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -54,6 +55,9 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class AccountActivity extends BaseActivity {
     private static final String TAG = "AccountActivity"; // Volley request tag and logging tag
@@ -71,6 +75,7 @@ public class AccountActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+        createMastodonAPI();
 
         Intent intent = getIntent();
         accountId = intent.getStringExtra("id");
@@ -169,37 +174,17 @@ public class AccountActivity extends BaseActivity {
     }
 
     private void obtainAccount() {
-        String endpoint = String.format(getString(R.string.endpoint_accounts), accountId);
-        String url = "https://" + domain + endpoint;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Account account;
-                        try {
-                            account = Account.parse(response);
-                        } catch (JSONException e) {
-                            onObtainAccountFailure();
-                            return;
-                        }
-                        onObtainAccountSuccess(account);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onObtainAccountFailure();
-                    }
-                }) {
+        mastodonAPI.account(accountId).enqueue(new Callback<Account>() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
+            public void onResponse(Call<Account> call, retrofit2.Response<Account> response) {
+                onObtainAccountSuccess(response.body());
             }
-        };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(this).addToRequestQueue(request);
+
+            @Override
+            public void onFailure(Call<Account> call, Throwable t) {
+                onObtainAccountFailure();
+            }
+        });
     }
 
     private void onObtainAccountSuccess(Account account) {

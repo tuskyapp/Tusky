@@ -3,7 +3,7 @@ package com.keylesspalace.tusky.entity;
 import com.google.gson.annotations.SerializedName;
 
 public class Relationship {
-    public int id;
+    public String id;
 
     public boolean following;
 

@@ -3,7 +3,7 @@ package com.keylesspalace.tusky.entity;
 import com.google.gson.annotations.SerializedName;
 
 public class Media {
-    public int id;
+    public String id;
 
     public String type;
 

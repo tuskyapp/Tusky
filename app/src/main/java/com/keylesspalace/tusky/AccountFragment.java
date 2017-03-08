@@ -34,15 +34,15 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
-
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.keylesspalace.tusky.entity.Account;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class AccountFragment extends Fragment implements AccountActionListener,
         FooterActionListener {
@@ -170,55 +170,39 @@ public class AccountFragment extends Fragment implements AccountActionListener,
     }
 
     private void fetchAccounts(final String fromId) {
+        MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
+
+        Callback<List<Account>> cb = new Callback<List<Account>>() {
+            @Override
+            public void onResponse(Call<List<Account>> call, retrofit2.Response<List<Account>> response) {
+                onFetchAccountsSuccess(response.body(), fromId);
+            }
+
+            @Override
+            public void onFailure(Call<List<Account>> call, Throwable t) {
+                onFetchAccountsFailure((Exception) t);
+            }
+        };
+
         String endpoint;
         switch (type) {
             default:
             case FOLLOWS: {
                 endpoint = String.format(getString(R.string.endpoint_following), accountId);
+                api.accountFollowing(accountId, fromId, null, null).enqueue(cb);
                 break;
             }
             case FOLLOWERS: {
                 endpoint = String.format(getString(R.string.endpoint_followers), accountId);
+                api.accountFollowers(accountId, fromId, null, null).enqueue(cb);
                 break;
             }
             case BLOCKS: {
                 endpoint = getString(R.string.endpoint_blocks);
+                api.blocks(fromId, null, null).enqueue(cb);
                 break;
             }
         }
-        String url = "https://" + domain + endpoint;
-        if (fromId != null) {
-            url += "?max_id=" + fromId;
-        }
-        JsonArrayRequest request = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        List<Account> accounts;
-                        try {
-                            accounts = Account.parse(response);
-                        } catch (JSONException e) {
-                            onFetchAccountsFailure(e);
-                            return;
-                        }
-                        onFetchAccountsSuccess(accounts, fromId);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onFetchAccountsFailure(error);
-                    }
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
-            }
-        };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(getContext()).addToRequestQueue(request);
     }
 
     private void fetchAccounts() {
