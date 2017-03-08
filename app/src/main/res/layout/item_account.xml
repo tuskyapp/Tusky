@@ -3,16 +3,18 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     android:id="@+id/account_container">
 
     <RelativeLayout
+        android:paddingTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:id="@+id/account_avatar"
             android:layout_marginRight="10dp" />
 
@@ -20,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/account_avatar">
 
@@ -27,12 +30,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/account_display_name"
+                android:text="Display name"
                 android:textColor="?android:textColorPrimary"
                 android:textStyle="normal|bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="\@username"
                 android:textColor="?android:textColorSecondary"
                 android:id="@+id/account_username" />
 
@@ -45,6 +50,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/account_note"
         android:paddingTop="4dp"
+        android:paddingBottom="8dp"
         android:textColor="?android:textColorTertiary" />
 
 </LinearLayout>
