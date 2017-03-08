@@ -45,7 +45,7 @@ class ThreadAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         StatusViewHolder holder = (StatusViewHolder) viewHolder;
         Status status = statuses.get(position);
-        holder.setupWithStatus(status, statusActionListener, position);
+        holder.setupWithStatus(status, statusActionListener);
     }
 
     @Override

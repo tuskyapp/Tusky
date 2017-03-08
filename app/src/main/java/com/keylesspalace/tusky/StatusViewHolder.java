@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -31,11 +30,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.squareup.picasso.Picasso;
 import com.varunest.sparkbutton.SparkButton;
-import com.varunest.sparkbutton.SparkButtonBuilder;
 import com.varunest.sparkbutton.SparkEventListener;
 
 import java.util.Date;
@@ -198,11 +194,15 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         reblogButton.setEnabled(enabled);
 
         if (enabled) {
-            reblogButton.setInactiveImage(R.drawable.reblog_inactive);
+            int inactiveId = ThemeUtils.getDrawableId(reblogButton.getContext(),
+                    R.attr.status_reblog_inactive_drawable, R.drawable.reblog_inactive_dark);
+            reblogButton.setInactiveImage(inactiveId);
             reblogButton.setActiveImage(R.drawable.reblog_active);
         } else {
-            reblogButton.setInactiveImage(R.drawable.reblog_disabled);
-            reblogButton.setActiveImage(R.drawable.reblog_disabled);
+            int disabledId = ThemeUtils.getDrawableId(reblogButton.getContext(),
+                    R.attr.status_reblog_disabled_drawable, R.drawable.reblog_disabled_dark);
+            reblogButton.setInactiveImage(disabledId);
+            reblogButton.setActiveImage(disabledId);
         }
     }
 
@@ -338,7 +338,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         container.setOnClickListener(viewThreadListener);
     }
 
-    void setupWithStatus(Status status, StatusActionListener listener, int position) {
+    void setupWithStatus(Status status, StatusActionListener listener) {
         setDisplayName(status.getDisplayName());
         setUsername(status.getUsername());
         setCreatedAt(status.getCreatedAt());

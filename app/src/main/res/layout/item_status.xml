@@ -251,7 +251,7 @@
         <com.varunest.sparkbutton.SparkButton
             android:id="@+id/status_reblog"
             app:sparkbutton_activeImage="@drawable/reblog_active"
-            app:sparkbutton_inActiveImage="@drawable/reblog_inactive"
+            app:sparkbutton_inActiveImage="?attr/status_reblog_inactive_drawable"
             app:sparkbutton_iconSize="28dp"
             android:layout_gravity="center"
             app:sparkbutton_primaryColor="@color/status_reblog_button_marked_dark"
@@ -268,7 +268,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             app:sparkbutton_activeImage="@drawable/favourite_active"
-            app:sparkbutton_inActiveImage="@drawable/favourite_inactive"
+            app:sparkbutton_inActiveImage="?attr/status_favourite_inactive_drawable"
             app:sparkbutton_iconSize="28dp"
             android:layout_gravity="center"
             app:sparkbutton_primaryColor="@color/status_favourite_button_marked_light"
@@ -283,9 +283,9 @@
         <ImageButton
             app:srcCompat="@drawable/ic_more_horiz_24dp"
             android:id="@+id/status_more"
-            style="?attr/image_button_style"
             android:layout_width="32dp"
-            android:layout_height="32dp" />
+            android:layout_height="32dp"
+            style="?attr/image_button_style" />
 
         <Space
             android:layout_width="0dp"

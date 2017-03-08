@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--This applies only to favourite and reblog notifications.-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -19,8 +20,7 @@
             android:id="@+id/notification_icon"
             android:paddingRight="10dp"
             android:paddingLeft="24dp"
-            app:srcCompat="@drawable/ic_repeat_24dp"
-            android:tint="?attr/colorAccent" />
+            app:srcCompat="@drawable/ic_repeat_24dp" />
 
         <TextView
             android:layout_width="wrap_content"

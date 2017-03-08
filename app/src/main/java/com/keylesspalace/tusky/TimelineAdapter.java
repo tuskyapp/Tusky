@@ -64,7 +64,7 @@ class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover
         if (position < statuses.size()) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             Status status = statuses.get(position);
-            holder.setupWithStatus(status, statusListener, position);
+            holder.setupWithStatus(status, statusListener);
         } else {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
             holder.setState(footerState);

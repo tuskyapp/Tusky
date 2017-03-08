@@ -91,7 +91,7 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
                 case MENTION: {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
                     Status status = notification.getStatus();
-                    holder.setupWithStatus(status, statusListener, position);
+                    holder.setupWithStatus(status, statusListener);
                     break;
                 }
                 case FAVOURITE:
