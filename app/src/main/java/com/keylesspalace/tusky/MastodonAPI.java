@@ -2,7 +2,9 @@ package com.keylesspalace.tusky;
 
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Media;
+import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Relationship;
+import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
 
 import java.util.List;
@@ -146,7 +148,7 @@ public interface MastodonAPI {
             @Query("limit") Integer limit);
 
     @GET("api/v1/favourites")
-    Call<List<Account>> favourites(
+    Call<List<Status>> favourites(
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);

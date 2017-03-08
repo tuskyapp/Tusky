@@ -75,7 +75,6 @@ public class AccountActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        createMastodonAPI();
 
         Intent intent = getIntent();
         accountId = intent.getStringExtra("id");

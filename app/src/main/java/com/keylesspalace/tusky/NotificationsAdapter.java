@@ -28,6 +28,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.keylesspalace.tusky.entity.Notification;
+import com.keylesspalace.tusky.entity.Status;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -86,26 +88,26 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (position < notifications.size()) {
             Notification notification = notifications.get(position);
-            Notification.Type type = notification.getType();
+            Notification.Type type = notification.type;
             switch (type) {
                 case MENTION: {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
-                    Status status = notification.getStatus();
+                    Status status = notification.status;
                     holder.setupWithStatus(status, statusListener);
                     break;
                 }
                 case FAVOURITE:
                 case REBLOG: {
                     StatusNotificationViewHolder holder = (StatusNotificationViewHolder) viewHolder;
-                    holder.setMessage(type, notification.getDisplayName(),
-                            notification.getStatus());
+                    holder.setMessage(type, notification.account.displayName,
+                            notification.status);
                     break;
                 }
                 case FOLLOW: {
                     FollowViewHolder holder = (FollowViewHolder) viewHolder;
-                    holder.setMessage(notification.getDisplayName(), notification.getUsername(),
-                            notification.getAvatar());
-                    holder.setupButtons(followListener, notification.getAccountId());
+                    holder.setMessage(notification.account.displayName, notification.account.username,
+                            notification.account.avatar);
+                    holder.setupButtons(followListener, notification.account.id);
                     break;
                 }
             }
@@ -126,7 +128,7 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
             return VIEW_TYPE_FOOTER;
         } else {
             Notification notification = notifications.get(position);
-            switch (notification.getType()) {
+            switch (notification.type) {
                 default:
                 case MENTION: {
                     return VIEW_TYPE_MENTION;
@@ -269,7 +271,7 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
             str.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), 0, displayName.length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             message.setText(str);
-            statusContent.setText(status.getContent());
+            statusContent.setText(status.content);
         }
     }
 }

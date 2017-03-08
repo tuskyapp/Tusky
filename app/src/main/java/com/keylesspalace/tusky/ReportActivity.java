@@ -38,6 +38,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.keylesspalace.tusky.entity.Status;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,6 +48,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class ReportActivity extends BaseActivity {
     private static final String TAG = "ReportActivity"; // logging tag and Volley request tag
@@ -197,46 +201,26 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void fetchRecentStatuses(String accountId) {
-        String endpoint = String.format(getString(R.string.endpoint_statuses), accountId);
-        String url = "https://" + domain + endpoint;
-        JsonArrayRequest request = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        List<Status> statusList;
-                        try {
-                            statusList = Status.parse(response);
-                        } catch (JSONException e) {
-                            onFetchStatusesFailure(e);
-                            return;
-                        }
-                        // Add all the statuses except reblogs.
-                        List<ReportAdapter.ReportStatus> itemList = new ArrayList<>();
-                        for (Status status : statusList) {
-                            if (status.getRebloggedByDisplayName() == null) {
-                                ReportAdapter.ReportStatus item = new ReportAdapter.ReportStatus(
-                                        status.getId(), status.getContent(), false);
-                                itemList.add(item);
-                            }
-                        }
-                        adapter.addItems(itemList);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onFetchStatusesFailure(error);
-                    }
-                }) {
+        mastodonAPI.accountStatuses(accountId, null, null, null).enqueue(new Callback<List<Status>>() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
+            public void onResponse(Call<List<Status>> call, retrofit2.Response<List<Status>> response) {
+                List<Status> statusList = response.body();
+                List<ReportAdapter.ReportStatus> itemList = new ArrayList<>();
+                for (Status status : statusList) {
+                    if (status.reblog != null) {
+                        ReportAdapter.ReportStatus item = new ReportAdapter.ReportStatus(
+                                status.id, status.content, false);
+                        itemList.add(item);
+                    }
+                }
+                adapter.addItems(itemList);
             }
-        };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(this).addToRequestQueue(request);
+
+            @Override
+            public void onFailure(Call<List<Status>> call, Throwable t) {
+                onFetchStatusesFailure((Exception) t);
+            }
+        });
     }
 
     private void onFetchStatusesFailure(Exception exception) {

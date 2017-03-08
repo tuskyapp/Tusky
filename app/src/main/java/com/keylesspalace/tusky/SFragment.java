@@ -33,6 +33,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.keylesspalace.tusky.entity.Status;
 
 import org.json.JSONObject;
 
@@ -111,24 +112,24 @@ public class SFragment extends Fragment {
     }
 
     protected void reply(Status status) {
-        String inReplyToId = status.getId();
-        Status.Mention[] mentions = status.getMentions();
+        String inReplyToId = status.getActionableId();
+        Status.Mention[] mentions = status.mentions;
         List<String> mentionedUsernames = new ArrayList<>();
         for (Status.Mention mention : mentions) {
-            mentionedUsernames.add(mention.getUsername());
+            mentionedUsernames.add(mention.username);
         }
-        mentionedUsernames.add(status.getUsername());
+        mentionedUsernames.add(status.account.username);
         mentionedUsernames.remove(loggedInUsername);
         Intent intent = new Intent(getContext(), ComposeActivity.class);
         intent.putExtra("in_reply_to_id", inReplyToId);
-        intent.putExtra("reply_visibility", status.getVisibility().toString().toLowerCase());
+        intent.putExtra("reply_visibility", status.visibility.toString().toLowerCase());
         intent.putExtra("mentioned_usernames", mentionedUsernames.toArray(new String[0]));
         startActivity(intent);
     }
 
     protected void reblog(final Status status, final boolean reblog,
             final RecyclerView.Adapter adapter, final int position) {
-        String id = status.getId();
+        String id = status.getActionableId();
         String endpoint;
         if (reblog) {
             endpoint = String.format(getString(R.string.endpoint_reblog), id);
@@ -139,7 +140,7 @@ public class SFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        status.setReblogged(reblog);
+                        status.reblogged = reblog;
                         adapter.notifyItemChanged(position);
                     }
                 }, null);
@@ -147,7 +148,7 @@ public class SFragment extends Fragment {
 
     protected void favourite(final Status status, final boolean favourite,
             final RecyclerView.Adapter adapter, final int position) {
-        String id = status.getId();
+        String id = status.getActionableId();
         String endpoint;
         if (favourite) {
             endpoint = String.format(getString(R.string.endpoint_favourite), id);
@@ -157,7 +158,7 @@ public class SFragment extends Fragment {
         sendRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                status.setFavourited(favourite);
+                status.favourited = favourite;
                 adapter.notifyItemChanged(position);
             }
         }, null);
@@ -180,10 +181,10 @@ public class SFragment extends Fragment {
 
     protected void more(Status status, View view, final AdapterItemRemover adapter,
             final int position) {
-        final String id = status.getId();
-        final String accountId = status.getAccountId();
-        final String accountUsename = status.getUsername();
-        final Spanned content = status.getContent();
+        final String id = status.getActionableId();
+        final String accountId = status.getActionableStatus().account.id;
+        final String accountUsename = status.getActionableStatus().account.username;
+        final Spanned content = status.getActionableStatus().content;
         PopupMenu popup = new PopupMenu(getContext(), view);
         // Give a different menu depending on whether this is the user's own toot or not.
         if (loggedInAccountId == null || !loggedInAccountId.equals(accountId)) {
@@ -234,12 +235,8 @@ public class SFragment extends Fragment {
     protected void viewMedia(String url, Status.MediaAttachment.Type type) {
         switch (type) {
             case IMAGE: {
-                Fragment newFragment;
-                if (fileExtensionMatches(url, "gif")) {
-                    newFragment = ViewGifFragment.newInstance(url);
-                } else {
-                    newFragment = ViewMediaFragment.newInstance(url);
-                }
+                Fragment newFragment = ViewMediaFragment.newInstance(url);
+
                 FragmentManager manager = getFragmentManager();
                 manager.beginTransaction()
                         .add(R.id.overlay_fragment_container, newFragment)
@@ -264,7 +261,7 @@ public class SFragment extends Fragment {
 
     protected void viewThread(Status status) {
         Intent intent = new Intent(getContext(), ViewThreadActivity.class);
-        intent.putExtra("id", status.getId());
+        intent.putExtra("id", status.id);
         startActivity(intent);
     }
 

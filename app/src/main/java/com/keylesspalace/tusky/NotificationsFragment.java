@@ -32,6 +32,8 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.keylesspalace.tusky.entity.Notification;
+import com.keylesspalace.tusky.entity.Status;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +41,9 @@ import org.json.JSONException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener,
@@ -92,7 +97,7 @@ public class NotificationsFragment extends SFragment implements
                 NotificationsAdapter adapter = (NotificationsAdapter) view.getAdapter();
                 Notification notification = adapter.getItem(adapter.getItemCount() - 2);
                 if (notification != null) {
-                    sendFetchNotificationsRequest(notification.getId());
+                    sendFetchNotificationsRequest(notification.id);
                 } else {
                     sendFetchNotificationsRequest();
                 }
@@ -135,37 +140,19 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void sendFetchNotificationsRequest(final String fromId) {
-        String endpoint = getString(R.string.endpoint_notifications);
-        String url = "https://" + domain + endpoint;
-        if (fromId != null) {
-            url += "?max_id=" + fromId;
-        }
-        JsonArrayRequest request = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-                            List<Notification> notifications = Notification.parse(response);
-                            onFetchNotificationsSuccess(notifications, fromId);
-                        } catch (JSONException e) {
-                            onFetchNotificationsFailure(e);
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onFetchNotificationsFailure(error);
-                    }
-                }) {
+        MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
+
+        api.notifications(fromId, null, null).enqueue(new Callback<List<Notification>>() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
+            public void onResponse(Call<List<Notification>> call, retrofit2.Response<List<Notification>> response) {
+                onFetchNotificationsSuccess(response.body(), fromId);
             }
-        };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(getContext()).addToRequestQueue(request);
+
+            @Override
+            public void onFailure(Call<List<Notification>> call, Throwable t) {
+                onFetchNotificationsFailure((Exception) t);
+            }
+        });
     }
 
     private void sendFetchNotificationsRequest() {
@@ -174,7 +161,7 @@ public class NotificationsFragment extends SFragment implements
 
     private static boolean findNotification(List<Notification> notifications, String id) {
         for (Notification notification : notifications) {
-            if (notification.getId().equals(id)) {
+            if (notification.id.equals(id)) {
                 return true;
             }
         }
@@ -218,7 +205,7 @@ public class NotificationsFragment extends SFragment implements
     public void onLoadMore() {
         Notification notification = adapter.getItem(adapter.getItemCount() - 2);
         if (notification != null) {
-            sendFetchNotificationsRequest(notification.getId());
+            sendFetchNotificationsRequest(notification.id);
         } else {
             sendFetchNotificationsRequest();
         }
@@ -226,22 +213,22 @@ public class NotificationsFragment extends SFragment implements
 
     public void onReply(int position) {
         Notification notification = adapter.getItem(position);
-        super.reply(notification.getStatus());
+        super.reply(notification.status);
     }
 
     public void onReblog(boolean reblog, int position) {
         Notification notification = adapter.getItem(position);
-        super.reblog(notification.getStatus(), reblog, adapter, position);
+        super.reblog(notification.status, reblog, adapter, position);
     }
 
     public void onFavourite(boolean favourite, int position) {
         Notification notification = adapter.getItem(position);
-        super.favourite(notification.getStatus(), favourite, adapter, position);
+        super.favourite(notification.status, favourite, adapter, position);
     }
 
     public void onMore(View view, int position) {
         Notification notification = adapter.getItem(position);
-        super.more(notification.getStatus(), view, adapter, position);
+        super.more(notification.status, view, adapter, position);
     }
 
     public void onViewMedia(String url, Status.MediaAttachment.Type type) {
@@ -250,7 +237,7 @@ public class NotificationsFragment extends SFragment implements
 
     public void onViewThread(int position) {
         Notification notification = adapter.getItem(position);
-        super.viewThread(notification.getStatus());
+        super.viewThread(notification.status);
     }
 
     public void onViewTag(String tag) {

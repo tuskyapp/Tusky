@@ -31,6 +31,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.keylesspalace.tusky.entity.Status;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +39,9 @@ import org.json.JSONException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class TimelineFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener {
@@ -117,7 +121,7 @@ public class TimelineFragment extends SFragment implements
                 TimelineAdapter adapter = (TimelineAdapter) view.getAdapter();
                 Status status = adapter.getItem(adapter.getItemCount() - 2);
                 if (status != null) {
-                    sendFetchTimelineRequest(status.getId());
+                    sendFetchTimelineRequest(status.id);
                 } else {
                     sendFetchTimelineRequest();
                 }
@@ -168,67 +172,43 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void sendFetchTimelineRequest(final String fromId) {
-        String endpoint;
+        MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
+
+        Callback<List<Status>> cb = new Callback<List<Status>>() {
+            @Override
+            public void onResponse(Call<List<Status>> call, retrofit2.Response<List<Status>> response) {
+                onFetchTimelineSuccess(response.body(), fromId);
+            }
+
+            @Override
+            public void onFailure(Call<List<Status>> call, Throwable t) {
+                onFetchTimelineFailure((Exception) t);
+            }
+        };
+
         switch (kind) {
             default:
             case HOME: {
-                endpoint = getString(R.string.endpoint_timelines_home);
-                break;
-            }
-            case MENTIONS: {
-                endpoint = getString(R.string.endpoint_timelines_mentions);
+                api.homeTimeline(fromId, null, null).enqueue(cb);
                 break;
             }
             case PUBLIC: {
-                endpoint = getString(R.string.endpoint_timelines_public);
+                api.publicTimeline(null, fromId, null, null).enqueue(cb);
                 break;
             }
             case TAG: {
-                endpoint = String.format(getString(R.string.endpoint_timelines_tag), hashtagOrId);
+                api.hashtagTimeline(hashtagOrId, null, fromId, null, null).enqueue(cb);
                 break;
             }
             case USER: {
-                endpoint = String.format(getString(R.string.endpoint_statuses), hashtagOrId);
+                api.accountStatuses(hashtagOrId, fromId, null, null).enqueue(cb);
                 break;
             }
             case FAVOURITES: {
-                endpoint = getString(R.string.endpoint_favourites);
+                api.favourites(fromId, null, null).enqueue(cb);
                 break;
             }
         }
-        String url = "https://" + domain + endpoint;
-        if (fromId != null) {
-            url += "?max_id=" + fromId;
-        }
-        JsonArrayRequest request = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        List<Status> statuses = null;
-                        try {
-                            statuses = Status.parse(response);
-                        } catch (JSONException e) {
-                            onFetchTimelineFailure(e);
-                        }
-                        if (statuses != null) {
-                            onFetchTimelineSuccess(statuses, fromId);
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onFetchTimelineFailure(error);
-                    }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
-            }
-        };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(getContext()).addToRequestQueue(request);
     }
 
     private void sendFetchTimelineRequest() {
@@ -237,7 +217,7 @@ public class TimelineFragment extends SFragment implements
 
     private static boolean findStatus(List<Status> statuses, String id) {
         for (Status status : statuses) {
-            if (status.getId().equals(id)) {
+            if (status.id.equals(id)) {
                 return true;
             }
         }
@@ -281,7 +261,7 @@ public class TimelineFragment extends SFragment implements
     public void onLoadMore() {
         Status status = adapter.getItem(adapter.getItemCount() - 2);
         if (status != null) {
-            sendFetchTimelineRequest(status.getId());
+            sendFetchTimelineRequest(status.id);
         } else {
             sendFetchTimelineRequest();
         }

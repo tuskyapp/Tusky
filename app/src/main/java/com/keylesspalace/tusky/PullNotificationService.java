@@ -26,21 +26,35 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.text.Spanned;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.keylesspalace.tusky.entity.*;
+import com.keylesspalace.tusky.entity.Notification;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PullNotificationService extends IntentService {
     private static final int NOTIFY_ID = 6; // This is an arbitrary number.
@@ -62,82 +76,80 @@ public class PullNotificationService extends IntentService {
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         String domain = preferences.getString("domain", null);
         String accessToken = preferences.getString("accessToken", null);
-        long date = preferences.getLong("lastUpdate", 0);
-        Date lastUpdate = null;
-        if (date != 0) {
-            lastUpdate = new Date(date);
-        }
-        checkNotifications(domain, accessToken, lastUpdate);
+        String lastUpdateId = preferences.getString("lastUpdateId", null);
+        checkNotifications(domain, accessToken, lastUpdateId);
     }
 
     private void checkNotifications(final String domain, final String accessToken,
-            final Date lastUpdate) {
-        String endpoint = getString(R.string.endpoint_notifications);
-        String url = "https://" + domain + endpoint;
-        JsonArrayRequest request = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
+            final String lastUpdateId) {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
                     @Override
-                    public void onResponse(JSONArray response) {
-                        List<Notification> notifications;
-                        try {
-                            notifications = Notification.parse(response);
-                        } catch (JSONException e) {
-                            onCheckNotificationsFailure(e);
-                            return;
-                        }
-                        onCheckNotificationsSuccess(notifications, lastUpdate);
+                    public okhttp3.Response intercept(Chain chain) throws IOException {
+                        Request originalRequest = chain.request();
+
+                        Request.Builder builder = originalRequest.newBuilder()
+                                .header("Authorization", String.format("Bearer %s", accessToken));
+
+                        Request newRequest = builder.build();
+
+                        return chain.proceed(newRequest);
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onCheckNotificationsFailure(error);
-                    }
-                }) {
+                })
+                .build();
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + domain)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        MastodonAPI api = retrofit.create(MastodonAPI.class);
+
+        api.notifications(null, lastUpdateId, null).enqueue(new Callback<List<Notification>>() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
+            public void onResponse(Call<List<Notification>> call, retrofit2.Response<List<Notification>> response) {
+                onCheckNotificationsSuccess(response.body(), lastUpdateId);
             }
-        };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(this).addToRequestQueue(request);
+
+            @Override
+            public void onFailure(Call<List<Notification>> call, Throwable t) {
+                onCheckNotificationsFailure((Exception) t);
+            }
+        });
     }
 
-    private void onCheckNotificationsSuccess(List<Notification> notifications, Date lastUpdate) {
-        Date newest = null;
+    private void onCheckNotificationsSuccess(List<com.keylesspalace.tusky.entity.Notification> notifications, String lastUpdateId) {
         List<MentionResult> mentions = new ArrayList<>();
-        for (Notification notification : notifications) {
-            if (notification.getType() == Notification.Type.MENTION) {
-                Status status = notification.getStatus();
+
+        for (com.keylesspalace.tusky.entity.Notification notification : notifications) {
+            if (notification.type == com.keylesspalace.tusky.entity.Notification.Type.MENTION) {
+                Status status = notification.status;
+
                 if (status != null) {
-                    Date createdAt = status.getCreatedAt();
-                    if (lastUpdate == null || createdAt.after(lastUpdate)) {
-                        MentionResult mention = new MentionResult();
-                        mention.content = status.getContent().toString();
-                        mention.displayName = notification.getDisplayName();
-                        mention.avatarUrl = status.getAvatar();
-                        mentions.add(mention);
-                    }
-                    if (newest == null || createdAt.after(newest)) {
-                        newest = createdAt;
-                    }
+                    MentionResult mention = new MentionResult();
+                    mention.content = status.content.toString();
+                    mention.displayName = notification.account.displayName;
+                    mention.avatarUrl = status.account.avatar;
+                    mentions.add(mention);
                 }
             }
         }
-        long now = new Date().getTime();
-        if (mentions.size() > 0) {
+
+        if (notifications.size() > 0) {
             SharedPreferences preferences = getSharedPreferences(
                     getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putLong("lastUpdate", now);
+            editor.putString("lastUpdateId", notifications.get(0).id);
             editor.apply();
+        }
+
+        if (mentions.size() > 0) {
             loadAvatar(mentions, mentions.get(0).avatarUrl);
-        } else if (newest != null) {
-            long hoursAgo = (now - newest.getTime()) / (60 * 60 * 1000);
-            if (hoursAgo >= 1) {
-                dismissStaleNotifications();
-            }
         }
     }
 
@@ -226,11 +238,5 @@ public class PullNotificationService extends IntentService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFY_ID, builder.build());
-    }
-
-    private void dismissStaleNotifications() {
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(NOTIFY_ID);
     }
 }

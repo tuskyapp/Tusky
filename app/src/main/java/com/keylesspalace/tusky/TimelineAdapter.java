@@ -21,6 +21,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.keylesspalace.tusky.entity.Status;
+
 import java.util.ArrayList;
 import java.util.List;
 

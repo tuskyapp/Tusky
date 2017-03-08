@@ -51,6 +51,9 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        createMastodonAPI();
+
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("lightTheme", false)) {
             setTheme(R.style.AppTheme_Light);
         }

@@ -184,21 +184,17 @@ public class AccountFragment extends Fragment implements AccountActionListener,
             }
         };
 
-        String endpoint;
         switch (type) {
             default:
             case FOLLOWS: {
-                endpoint = String.format(getString(R.string.endpoint_following), accountId);
                 api.accountFollowing(accountId, fromId, null, null).enqueue(cb);
                 break;
             }
             case FOLLOWERS: {
-                endpoint = String.format(getString(R.string.endpoint_followers), accountId);
                 api.accountFollowers(accountId, fromId, null, null).enqueue(cb);
                 break;
             }
             case BLOCKS: {
-                endpoint = getString(R.string.endpoint_blocks);
                 api.blocks(fromId, null, null).enqueue(cb);
                 break;
             }
