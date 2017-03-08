@@ -38,7 +38,6 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.OpenableColumns;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -65,9 +64,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.webkit.MimeTypeMap;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -390,7 +387,10 @@ public class ComposeActivity extends BaseActivity {
             textEditor.onRestoreInstanceState(savedInstanceState.getParcelable("textEditorState"));
         }
         RelativeLayout editArea = (RelativeLayout) findViewById(R.id.compose_edit_area);
-        editArea.addView(textEditor);
+        /* Adding this at index zero because it implicitly gives it the lowest input priority. So,
+         * when media previews are added in front of the editor, they can receive click events
+         * without the text editor stealing the events from behind them. */
+        editArea.addView(textEditor, 0);
         final TextView charactersLeft = (TextView) findViewById(R.id.characters_left);
         final int mentionColour = ThemeUtils.getColor(this, R.attr.compose_mention_color);
         TextWatcher textEditorWatcher = new TextWatcher() {

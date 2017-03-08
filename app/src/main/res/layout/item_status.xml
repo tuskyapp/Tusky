@@ -53,10 +53,21 @@
         android:paddingBottom="4dp"
         android:paddingTop="@dimen/status_avatar_padding">
 
+        <TextView
+            android:id="@+id/status_since_created"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="20m ago"
+            android:textColor="?android:textColorSecondary" />
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/status_since_created">
+
             <TextView
                 android:id="@+id/status_display_name"
                 android:layout_height="wrap_content"
@@ -77,15 +88,8 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:text="Username is the slongest thing ever i am totally going" />
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/status_since_created"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="20m ago"
-            android:textColor="?android:textColorSecondary" />
+        </LinearLayout>
 
     </RelativeLayout>
 
