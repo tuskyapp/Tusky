@@ -32,5 +32,7 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.pkmmte.view:circularimageview:1.1'
+    compile 'com.github.peter9870:sparkbutton:master'
     testCompile 'junit:junit:4.12'
+    compile 'com.mikhaellopez:circularfillableloaders:1.2.0'
 }

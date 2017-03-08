@@ -34,6 +34,9 @@ import android.widget.ToggleButton;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.squareup.picasso.Picasso;
+import com.varunest.sparkbutton.SparkButton;
+import com.varunest.sparkbutton.SparkButtonBuilder;
+import com.varunest.sparkbutton.SparkEventListener;
 
 import java.util.Date;
 
@@ -47,8 +50,8 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     private View rebloggedBar;
     private TextView rebloggedByDisplayName;
     private ImageButton replyButton;
-    private ImageButton reblogButton;
-    private ImageButton favouriteButton;
+    private SparkButton reblogButton;
+    private SparkButton favouriteButton;
     private ImageButton moreButton;
     private boolean favourited;
     private boolean reblogged;
@@ -72,8 +75,8 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         rebloggedBar = itemView.findViewById(R.id.status_reblogged_bar);
         rebloggedByDisplayName = (TextView) itemView.findViewById(R.id.status_reblogged);
         replyButton = (ImageButton) itemView.findViewById(R.id.status_reply);
-        reblogButton = (ImageButton) itemView.findViewById(R.id.status_reblog);
-        favouriteButton = (ImageButton) itemView.findViewById(R.id.status_favourite);
+        reblogButton = (SparkButton) itemView.findViewById(R.id.status_reblog);
+        favouriteButton = (SparkButton) itemView.findViewById(R.id.status_favourite);
         moreButton = (ImageButton) itemView.findViewById(R.id.status_more);
         reblogged = false;
         favourited = false;
@@ -187,35 +190,25 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
 
     private void setReblogged(boolean reblogged) {
         this.reblogged = reblogged;
-        int attribute;
-        if (reblogged) {
-            attribute = R.attr.status_reblog_button_marked_tint;
-        } else {
-            attribute = R.attr.status_reblog_button_tint;
-        }
-        ThemeUtils.setImageViewTint(reblogButton, attribute);
+        reblogButton.setChecked(reblogged);
     }
 
     /** This should only be called after setReblogged, in order to override the tint correctly. */
     private void setRebloggingEnabled(boolean enabled) {
         reblogButton.setEnabled(enabled);
+
         if (enabled) {
-            reblogButton.setImageResource(R.drawable.ic_repeat_24dp);
+            reblogButton.setInactiveImage(R.drawable.reblog_inactive);
+            reblogButton.setActiveImage(R.drawable.reblog_active);
         } else {
-            ThemeUtils.setImageViewTint(reblogButton, R.attr.status_reblog_button_disabled_tint);
-            reblogButton.setImageResource(R.drawable.ic_lock_24dp);
+            reblogButton.setInactiveImage(R.drawable.reblog_disabled);
+            reblogButton.setActiveImage(R.drawable.reblog_disabled);
         }
     }
 
     private void setFavourited(boolean favourited) {
         this.favourited = favourited;
-        int attribute;
-        if (favourited) {
-            attribute = R.attr.status_favourite_button_marked_tint;
-        } else {
-            attribute = R.attr.status_favourite_button_tint;
-        }
-        ThemeUtils.setImageViewTint(favouriteButton, attribute);
+        favouriteButton.setChecked(favourited);
     }
 
     private void setMediaPreviews(final Status.MediaAttachment[] attachments,
@@ -313,15 +306,15 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
                 listener.onReply(getAdapterPosition());
             }
         });
-        reblogButton.setOnClickListener(new View.OnClickListener() {
+        reblogButton.setEventListener(new SparkEventListener() {
             @Override
-            public void onClick(View v) {
+            public void onEvent(ImageView button, boolean buttonState) {
                 listener.onReblog(!reblogged, getAdapterPosition());
             }
         });
-        favouriteButton.setOnClickListener(new View.OnClickListener() {
+        favouriteButton.setEventListener(new SparkEventListener() {
             @Override
-            public void onClick(View v) {
+            public void onEvent(ImageView button, boolean buttonState) {
                 listener.onFavourite(!favourited, getAdapterPosition());
             }
         });

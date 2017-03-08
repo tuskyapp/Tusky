@@ -57,10 +57,10 @@
     <color name="toolbar_icon_light">#000000</color>
     <color name="image_button_light">#2F2F2F</color>
     <color name="status_reblog_button_light">#4F4F4F</color>
-    <color name="status_reblog_button_marked_light">#009F6F</color>
+    <color name="status_reblog_button_marked_light">#56a7e1</color>
     <color name="status_reblog_button_disabled_light">#BFBFBF</color>
     <color name="status_favourite_button_light">#4F4F4F</color>
-    <color name="status_favourite_button_marked_light">#ffec21</color>
+    <color name="status_favourite_button_marked_light">#fab207</color>
     <color name="sensitive_media_warning_background_light">#B0B0B0</color>
     <color name="media_preview_unloaded_background_light">#CFCFCF</color>
     <color name="status_text_secondary_light">#34444C</color>
