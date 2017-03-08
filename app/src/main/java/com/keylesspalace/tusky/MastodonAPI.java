@@ -7,6 +7,7 @@ import com.keylesspalace.tusky.entity.StatusContext;
 import java.util.List;
 
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
@@ -18,7 +19,7 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface MastodonService {
+public interface MastodonAPI {
     @GET("api/v1/timelines/home")
     Call<List<Status>> homeTimeline(@Query("max_id") int maxId, @Query("since_id") int sinceId, @Query("limit") int limit);
     @GET("api/v1/timelines/public")
@@ -29,7 +30,7 @@ public interface MastodonService {
     @GET("api/v1/notifications")
     Call<List<Notification>> notifications(@Query("max_id") int maxId, @Query("since_id") int sinceId, @Query("limit") int limit);
     @POST("api/v1/notifications/clear")
-    Call clearNotifications();
+    Call<ResponseBody> clearNotifications();
     @GET("api/v1/notifications/{id}")
     Call<Notification> notification(@Path("id") int notificationId);
 
@@ -49,7 +50,7 @@ public interface MastodonService {
     @GET("api/v1/statuses/{id}/favourited_by")
     Call<List<Account>> statusFavouritedBy(@Path("id") int statusId, @Query("max_id") int maxId, @Query("since_id") int sinceId, @Query("limit") int limit);
     @DELETE("api/v1/statuses/{id}")
-    Call deleteStatus(@Path("id") int statusId);
+    Call<ResponseBody> deleteStatus(@Path("id") int statusId);
     @POST("api/v1/statuses/{id}/reblog")
     Call<Status> reblogStatus(@Path("id") int statusId);
     @POST("api/v1/statuses/{id}/unreblog")
