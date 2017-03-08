@@ -17,7 +17,6 @@ package com.keylesspalace.tusky;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -26,15 +25,12 @@ import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.NetworkImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
@@ -255,22 +251,25 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
                 default:
                 case FAVOURITE: {
                     icon.setImageResource(R.drawable.ic_star_24dp);
-                    icon.setColorFilter(ContextCompat.getColor(context, R.color.status_favourite_button_marked_dark));
+                    icon.setColorFilter(ContextCompat.getColor(context,
+                            R.color.status_favourite_button_marked_dark));
                     format = context.getString(R.string.notification_favourite_format);
                     break;
                 }
                 case REBLOG: {
                     icon.setImageResource(R.drawable.ic_repeat_24dp);
-                    icon.setColorFilter(ContextCompat.getColor(context, R.color.color_accent_dark));
+                    icon.setColorFilter(ContextCompat.getColor(context,
+                            R.color.color_accent_dark));
                     format = context.getString(R.string.notification_reblog_format);
                     break;
                 }
             }
             String wholeMessage = String.format(format, displayName);
             final SpannableStringBuilder str = new SpannableStringBuilder(wholeMessage);
-            str.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), 0, displayName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            str.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), 0, displayName.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             message.setText(str);
-            statusContent.append(status.getContent());
+            statusContent.setText(status.getContent());
         }
     }
 }
