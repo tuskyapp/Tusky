@@ -42,6 +42,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
  * of that is complicated by how they're coupled with Status and Notification and the corresponding
@@ -55,6 +58,7 @@ public class SFragment extends Fragment {
     protected String accessToken;
     protected String loggedInAccountId;
     protected String loggedInUsername;
+    private MastodonAPI api;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,49 +70,13 @@ public class SFragment extends Fragment {
         accessToken = preferences.getString("accessToken", null);
         loggedInAccountId = preferences.getString("loggedInAccountId", null);
         loggedInUsername = preferences.getString("loggedInAccountUsername", null);
+        api = ((BaseActivity) getActivity()).mastodonAPI;
     }
 
     @Override
     public void onDestroy() {
         VolleySingleton.getInstance(getContext()).cancelAll(TAG);
         super.onDestroy();
-    }
-
-    protected void sendRequest(
-            int method, String endpoint, JSONObject parameters,
-            @Nullable Response.Listener<JSONObject> responseListener,
-            @Nullable Response.ErrorListener errorListener) {
-        if (responseListener == null) {
-            // Use a dummy listener if one wasn't specified so the request can be constructed.
-            responseListener = new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {}
-            };
-        }
-        if (errorListener == null) {
-            errorListener = new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e(TAG, "Request Failed: " + error.getMessage());
-                }
-            };
-        }
-        String url = "https://" + domain + endpoint;
-        JsonObjectRequest request = new JsonObjectRequest(
-                method, url, parameters, responseListener, errorListener) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
-            }
-        };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(getContext()).addToRequestQueue(request);
-    }
-
-    protected void postRequest(String endpoint) {
-        sendRequest(Request.Method.POST, endpoint, null, null, null);
     }
 
     protected void reply(Status status) {
@@ -130,53 +98,61 @@ public class SFragment extends Fragment {
     protected void reblog(final Status status, final boolean reblog,
             final RecyclerView.Adapter adapter, final int position) {
         String id = status.getActionableId();
-        String endpoint;
+
+        Callback<Status> cb = new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
+                status.reblogged = reblog;
+                adapter.notifyItemChanged(position);
+            }
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+
+            }
+        };
+
         if (reblog) {
-            endpoint = String.format(getString(R.string.endpoint_reblog), id);
+            api.reblogStatus(id).enqueue(cb);
         } else {
-            endpoint = String.format(getString(R.string.endpoint_unreblog), id);
+            api.unreblogStatus(id).enqueue(cb);
         }
-        sendRequest(Request.Method.POST, endpoint, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        status.reblogged = reblog;
-                        adapter.notifyItemChanged(position);
-                    }
-                }, null);
     }
 
     protected void favourite(final Status status, final boolean favourite,
             final RecyclerView.Adapter adapter, final int position) {
         String id = status.getActionableId();
-        String endpoint;
-        if (favourite) {
-            endpoint = String.format(getString(R.string.endpoint_favourite), id);
-        } else {
-            endpoint = String.format(getString(R.string.endpoint_unfavourite), id);
-        }
-        sendRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
+
+        Callback<Status> cb = new Callback<Status>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
                 status.favourited = favourite;
                 adapter.notifyItemChanged(position);
             }
-        }, null);
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+
+            }
+        };
+
+        if (favourite) {
+            api.favouriteStatus(id).enqueue(cb);
+        } else {
+            api.unfavouriteStatus(id).enqueue(cb);
+        }
     }
 
     protected void follow(String id) {
-        String endpoint = String.format(getString(R.string.endpoint_follow), id);
-        postRequest(endpoint);
+        api.followAccount(id).enqueue(null);
     }
 
     private void block(String id) {
-        String endpoint = String.format(getString(R.string.endpoint_block), id);
-        postRequest(endpoint);
+        api.blockAccount(id).enqueue(null);
     }
 
     private void delete(String id) {
-        String endpoint = String.format(getString(R.string.endpoint_delete), id);
-        sendRequest(Request.Method.DELETE, endpoint, null, null, null);
+        api.deleteStatus(id).enqueue(null);
     }
 
     protected void more(Status status, View view, final AdapterItemRemover adapter,
