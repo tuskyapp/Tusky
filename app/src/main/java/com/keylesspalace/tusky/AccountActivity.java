@@ -219,19 +219,15 @@ public class AccountActivity extends BaseActivity {
         note.setLinksClickable(true);
         note.setMovementMethod(LinkMovementMethod.getInstance());
 
-        if (!account.avatar.isEmpty()) {
-            Picasso.with(this)
-                    .load(account.avatar)
-                    .placeholder(R.drawable.avatar_default)
-                    .error(R.drawable.avatar_error)
-                    .into(avatar);
-        }
-        if (!account.header.isEmpty()) {
-            Picasso.with(this)
-                    .load(account.header)
-                    .placeholder(R.drawable.account_header_missing)
-                    .into(header);
-        }
+        Picasso.with(this)
+                .load(account.avatar)
+                .placeholder(R.drawable.avatar_default)
+                .error(R.drawable.avatar_error)
+                .into(avatar);
+        Picasso.with(this)
+                .load(account.header)
+                .placeholder(R.drawable.account_header_missing)
+                .into(header);
 
         openInWebUrl = account.url;
         java.text.NumberFormat nf = java.text.NumberFormat.getInstance();

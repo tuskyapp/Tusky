@@ -50,13 +50,13 @@ class Account {
         if (!avatarUrl.equals("/avatars/original/missing.png")) {
             account.avatar = avatarUrl;
         } else {
-            account.avatar = "";
+            account.avatar = null;
         }
         String headerUrl = object.getString("header");
         if (!headerUrl.equals("/headers/original/missing.png")) {
             account.header = headerUrl;
         } else {
-            account.header = "";
+            account.header = null;
         }
         account.followersCount = object.getString("followers_count");
         account.followingCount = object.getString("following_count");

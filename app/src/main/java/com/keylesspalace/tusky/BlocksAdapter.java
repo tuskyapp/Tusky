@@ -20,9 +20,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.NetworkImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -88,7 +89,7 @@ class BlocksAdapter extends AccountAdapter {
     }
 
     private static class BlockedUserViewHolder extends RecyclerView.ViewHolder {
-        private NetworkImageView avatar;
+        private ImageView avatar;
         private TextView username;
         private TextView displayName;
         private Button unblock;
@@ -96,7 +97,7 @@ class BlocksAdapter extends AccountAdapter {
 
         BlockedUserViewHolder(View itemView) {
             super(itemView);
-            avatar = (NetworkImageView) itemView.findViewById(R.id.blocked_user_avatar);
+            avatar = (ImageView) itemView.findViewById(R.id.blocked_user_avatar);
             displayName = (TextView) itemView.findViewById(R.id.blocked_user_display_name);
             username = (TextView) itemView.findViewById(R.id.blocked_user_username);
             unblock = (Button) itemView.findViewById(R.id.blocked_user_unblock);
@@ -108,8 +109,11 @@ class BlocksAdapter extends AccountAdapter {
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.username);
             username.setText(formattedUsername);
-            avatar.setImageUrl(account.avatar,
-                    VolleySingleton.getInstance(avatar.getContext()).getImageLoader());
+            Picasso.with(avatar.getContext())
+                    .load(account.avatar)
+                    .error(R.drawable.avatar_error)
+                    .placeholder(R.drawable.avatar_default)
+                    .into(avatar);
         }
 
         void setupActionListener(final AccountActionListener listener, final boolean blocked,
