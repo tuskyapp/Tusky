@@ -36,6 +36,8 @@ public class Account {
 
     public String header;
 
+    public boolean locked;
+
     @SerializedName("followers_count")
     public String followersCount;
 

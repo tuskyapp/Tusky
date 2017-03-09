@@ -156,5 +156,7 @@
     <string name="action_photo_pick">Add media</string>
     <string name="action_compose_options">Privacy options</string>
     <string name="login_success">Welcome back!</string>
+    <string name="action_share">Share</string>
+    <string name="send_status_to">Share toot URL to...</string>
 
 </resources>

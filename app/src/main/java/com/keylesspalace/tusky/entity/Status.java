@@ -24,6 +24,20 @@ import java.util.Date;
 public class Status {
     private Status actionableStatus;
 
+    public String url;
+
+    @SerializedName("reblogs_count")
+    public String reblogsCount;
+
+    @SerializedName("favourites_count")
+    public String favouritesCount;
+
+    @SerializedName("in_reply_to_id")
+    public String inReplyToId;
+
+    @SerializedName("in_reply_to_account_id")
+    public String inReplyToAccountId;
+
     public String getActionableId() {
         return reblog == null ? id : reblog.id;
     }

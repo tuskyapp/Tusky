@@ -193,6 +193,7 @@ public class SFragment extends Fragment {
         final String accountId = status.getActionableStatus().account.id;
         final String accountUsename = status.getActionableStatus().account.username;
         final Spanned content = status.getActionableStatus().content;
+        final String statusUrl = status.getActionableStatus().url;
         PopupMenu popup = new PopupMenu(getContext(), view);
         // Give a different menu depending on whether this is the user's own toot or not.
         if (loggedInAccountId == null || !loggedInAccountId.equals(accountId)) {
@@ -205,8 +206,12 @@ public class SFragment extends Fragment {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.status_follow: {
-                                follow(accountId);
+                            case R.id.status_share: {
+                                Intent sendIntent = new Intent();
+                                sendIntent.setAction(Intent.ACTION_SEND);
+                                sendIntent.putExtra(Intent.EXTRA_TEXT, statusUrl);
+                                sendIntent.setType("text/plain");
+                                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_to)));
                                 return true;
                             }
                             case R.id.status_block: {
