@@ -41,6 +41,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.keylesspalace.tusky.entity.Account;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +49,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity"; // logging tag and Volley request tag
@@ -148,47 +152,23 @@ public class MainActivity extends BaseActivity {
     private void fetchUserInfo() {
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        String domain = preferences.getString("domain", null);
-        final String accessToken = preferences.getString("accessToken", null);
         String id = preferences.getString("loggedInAccountId", null);
         String username = preferences.getString("loggedInAccountUsername", null);
         if (id != null && username != null) {
             loggedInAccountId = id;
             loggedInAccountUsername = username;
         } else {
-            String endpoint = getString(R.string.endpoint_verify_credentials);
-            String url = "https://" + domain + endpoint;
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            String username;
-                            String id;
-                            try {
-                                id = response.getString("id");
-                                username = response.getString("acct");
-                            } catch (JSONException e) {
-                                onFetchUserInfoFailure(e);
-                                return;
-                            }
-                            onFetchUserInfoSuccess(id, username);
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            onFetchUserInfoFailure(error);
-                        }
-                    }) {
+            mastodonAPI.accountVerifyCredentials().enqueue(new Callback<Account>() {
                 @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", "Bearer " + accessToken);
-                    return headers;
+                public void onResponse(Call<Account> call, retrofit2.Response<Account> response) {
+                    onFetchUserInfoSuccess(response.body().id, response.body().username);
                 }
-            };
-            request.setTag(TAG);
-            VolleySingleton.getInstance(this).addToRequestQueue(request);
+
+                @Override
+                public void onFailure(Call<Account> call, Throwable t) {
+                    onFetchUserInfoFailure((Exception) t);
+                }
+            });
         }
     }
 

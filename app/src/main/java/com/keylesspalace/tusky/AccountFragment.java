@@ -36,6 +36,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.keylesspalace.tusky.entity.Account;
+import com.keylesspalace.tusky.entity.Relationship;
 
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +64,7 @@ public class AccountFragment extends Fragment implements AccountActionListener,
     private EndlessOnScrollListener scrollListener;
     private AccountAdapter adapter;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
+    private MastodonAPI api;
 
     public static AccountFragment newInstance(Type type) {
         Bundle arguments = new Bundle();
@@ -92,6 +94,7 @@ public class AccountFragment extends Fragment implements AccountActionListener,
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         domain = preferences.getString("domain", null);
         accessToken = preferences.getString("accessToken", null);
+        api = ((BaseActivity) getActivity()).mastodonAPI;
     }
 
     @Override
@@ -170,8 +173,6 @@ public class AccountFragment extends Fragment implements AccountActionListener,
     }
 
     private void fetchAccounts(final String fromId) {
-        MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
-
         Callback<List<Account>> cb = new Callback<List<Account>>() {
             @Override
             public void onResponse(Call<List<Account>> call, retrofit2.Response<List<Account>> response) {
@@ -265,35 +266,23 @@ public class AccountFragment extends Fragment implements AccountActionListener,
     }
 
     public void onBlock(final boolean block, final String id, final int position) {
-        String endpoint;
-        if (!block) {
-            endpoint = String.format(getString(R.string.endpoint_unblock), id);
-        } else {
-            endpoint = String.format(getString(R.string.endpoint_block), id);
-        }
-        String url = "https://" + domain + endpoint;
-        StringRequest request = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        onBlockSuccess(block, position);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onBlockFailure(block, id);
-                    }
-                }) {
+        Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
+            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
+                onBlockSuccess(block, position);
+            }
+
+            @Override
+            public void onFailure(Call<Relationship> call, Throwable t) {
+                onBlockFailure(block, id);
             }
         };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(getContext()).addToRequestQueue(request);
+
+        if (!block) {
+            api.unblockAccount(id).enqueue(cb);
+        } else {
+            api.blockAccount(id).enqueue(cb);
+        }
     }
 
     private void onBlockSuccess(boolean blocked, int position) {

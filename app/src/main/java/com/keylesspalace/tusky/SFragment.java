@@ -33,6 +33,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.Status;
 
 import org.json.JSONObject;
@@ -42,6 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -144,15 +146,45 @@ public class SFragment extends Fragment {
     }
 
     protected void follow(String id) {
-        api.followAccount(id).enqueue(null);
+        api.followAccount(id).enqueue(new Callback<Relationship>() {
+            @Override
+            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Relationship> call, Throwable t) {
+
+            }
+        });
     }
 
     private void block(String id) {
-        api.blockAccount(id).enqueue(null);
+        api.blockAccount(id).enqueue(new Callback<Relationship>() {
+            @Override
+            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Relationship> call, Throwable t) {
+
+            }
+        });
     }
 
     private void delete(String id) {
-        api.deleteStatus(id).enqueue(null);
+        api.deleteStatus(id).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
     protected void more(Status status, View view, final AdapterItemRemover adapter,

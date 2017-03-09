@@ -76,6 +76,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
 
 import org.json.JSONArray;
@@ -95,6 +96,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class ComposeActivity extends BaseActivity {
     private static final String TAG = "ComposeActivity"; // logging tag, and volley request tag
@@ -138,7 +145,7 @@ public class ComposeActivity extends BaseActivity {
         ImageView preview;
         Uri uri;
         String id;
-        Request uploadRequest;
+        Call<Media> uploadRequest;
         ReadyStage readyStage;
         byte[] content;
         long mediaSize;
@@ -630,53 +637,28 @@ public class ComposeActivity extends BaseActivity {
 
     private void sendStatus(String content, String visibility, boolean sensitive,
                             String spoilerText) {
-        String endpoint = getString(R.string.endpoint_status);
-        String url = "https://" + domain + endpoint;
-        JSONObject parameters = new JSONObject();
-        try {
-            parameters.put("status", content);
-            parameters.put("visibility", visibility);
-            parameters.put("sensitive", sensitive);
-            parameters.put("spoiler_text", spoilerText);
-            if (inReplyToId != null) {
-                parameters.put("in_reply_to_id", inReplyToId);
-            }
-            JSONArray mediaIds = new JSONArray();
-            for (QueuedMedia item : mediaQueued) {
-                mediaIds.put(item.id);
-            }
-            if (mediaIds.length() > 0) {
-                parameters.put("media_ids", mediaIds);
-            }
-        } catch (JSONException e) {
-            onSendFailure();
-            return;
+        ArrayList<String> mediaIds = new ArrayList<String>();
+
+        for (QueuedMedia item : mediaQueued) {
+            mediaIds.add(item.id);
         }
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, parameters,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        onSendSuccess();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onSendFailure();
-                    }
-                }) {
+
+        mastodonAPI.createStatus(content, inReplyToId, spoilerText, visibility, sensitive, mediaIds).enqueue(new Callback<Status>() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
+            public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
+                onSendSuccess();
             }
-        };
-        VolleySingleton.getInstance(this).addToRequestQueue(request);
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+                onSendFailure();
+            }
+        });
     }
 
     private void onSendSuccess() {
-        Toast.makeText(this, getString(R.string.confirmation_send), Toast.LENGTH_SHORT).show();
+        Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(R.string.confirmation_send), Snackbar.LENGTH_SHORT);
+        bar.show();
         finish();
     }
 
@@ -942,9 +924,6 @@ public class ComposeActivity extends BaseActivity {
     private void uploadMedia(final QueuedMedia item) {
         item.readyStage = QueuedMedia.ReadyStage.UPLOADING;
 
-        String endpoint = getString(R.string.endpoint_media);
-        String url = "https://" + domain + endpoint;
-
         final String mimeType = getContentResolver().getType(item.uri);
         MimeTypeMap map = MimeTypeMap.getSingleton();
         String fileExtension = map.getExtensionFromMimeType(mimeType);
@@ -954,58 +933,42 @@ public class ComposeActivity extends BaseActivity {
                 randomAlphanumericString(10),
                 fileExtension);
 
-        MultipartRequest request = new MultipartRequest(Request.Method.POST, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            item.id = response.getString("id");
-                        } catch (JSONException e) {
-                            onUploadFailure(item);
-                            return;
-                        }
-                        waitForMediaLatch.countDown();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onUploadFailure(item);
-                    }
-                }) {
+        byte[] content = item.content;
+
+        if (content == null) {
+            InputStream stream;
+
+            try {
+                stream = getContentResolver().openInputStream(item.uri);
+            } catch (FileNotFoundException e) {
+                return;
+            }
+
+            content = inputStreamGetBytes(stream);
+            IOUtils.closeQuietly(stream);
+
+            if (content == null) {
+                return;
+            }
+        }
+
+        RequestBody requestFile = RequestBody.create(MediaType.parse(mimeType), content);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", filename, requestFile);
+
+        item.uploadRequest = mastodonAPI.uploadMedia(body);
+
+        item.uploadRequest.enqueue(new Callback<Media>() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
+            public void onResponse(Call<Media> call, retrofit2.Response<Media> response) {
+                item.id = response.body().id;
+                waitForMediaLatch.countDown();
             }
 
             @Override
-            public DataItem getData() {
-                byte[] content = item.content;
-                if (content == null) {
-                    InputStream stream;
-                    try {
-                        stream = getContentResolver().openInputStream(item.uri);
-                    } catch (FileNotFoundException e) {
-                        return null;
-                    }
-                    content = inputStreamGetBytes(stream);
-                    IOUtils.closeQuietly(stream);
-                    if (content == null) {
-                        return null;
-                    }
-                }
-                DataItem data = new DataItem();
-                data.name = "file";
-                data.filename = filename;
-                data.mimeType = mimeType;
-                data.content = content;
-                return data;
+            public void onFailure(Call<Media> call, Throwable t) {
+                onUploadFailure(item);
             }
-        };
-        request.setTag(TAG);
-        item.uploadRequest = request;
-        VolleySingleton.getInstance(this).addToRequestQueue(request);
+        });
     }
 
     private void onUploadFailure(QueuedMedia item) {

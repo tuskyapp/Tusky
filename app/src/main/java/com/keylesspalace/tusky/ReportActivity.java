@@ -45,10 +45,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -145,45 +147,22 @@ public class ReportActivity extends BaseActivity {
 
     private void sendReport(final String accountId, final String[] statusIds,
             final String comment) {
-        JSONObject parameters = new JSONObject();
-        try {
-            parameters.put("account_id", accountId);
-            parameters.put("status_ids", makeStringArrayCompat(statusIds));
-            parameters.put("comment", comment);
-        } catch (JSONException e) {
-            Log.e(TAG, "Not all the report parameters have been properly set. " + e.getMessage());
-            onSendFailure(accountId, statusIds, comment);
-            return;
-        }
-        String endpoint = getString(R.string.endpoint_reports);
-        String url = "https://" + domain + endpoint;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, parameters,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        onSendSuccess();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onSendFailure(accountId, statusIds, comment);
-                    }
-                }) {
+        mastodonAPI.report(accountId, Arrays.asList(statusIds), comment).enqueue(new Callback<ResponseBody>() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                onSendSuccess();
             }
-        };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(this).addToRequestQueue(request);
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                onSendFailure(accountId, statusIds, comment);
+            }
+        });
     }
 
     private void onSendSuccess() {
-        Toast.makeText(this, getString(R.string.confirmation_reported), Toast.LENGTH_SHORT)
-                .show();
+        Snackbar bar = Snackbar.make(anyView, getString(R.string.confirmation_reported), Snackbar.LENGTH_SHORT);
+        bar.show();
         finish();
     }
 

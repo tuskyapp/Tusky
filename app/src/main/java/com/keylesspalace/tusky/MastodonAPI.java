@@ -9,6 +9,7 @@ import com.keylesspalace.tusky.entity.StatusContext;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -54,7 +55,7 @@ public interface MastodonAPI {
 
     @Multipart
     @POST("api/v1/media")
-    Call<Media> uploadMedia(@Part("file") RequestBody file);
+    Call<Media> uploadMedia(@Part("file") MultipartBody.Part file);
 
     @FormUrlEncoded
     @POST("api/v1/statuses")
@@ -162,4 +163,8 @@ public interface MastodonAPI {
     Call<Relationship> authorizeFollowRequest(@Path("id") String accountId);
     @POST("api/v1/follow_requests/{id}/reject")
     Call<Relationship> rejectFollowRequest(@Path("id") String accountId);
+
+    @FormUrlEncoded
+    @POST("api/v1/reports")
+    Call<ResponseBody> report(@Field("account_id") String accountId, @Field("status_ids[]") List<String> statusIds, @Field("comment") String comment);
 }
