@@ -141,10 +141,10 @@ public class MainActivity extends BaseActivity {
                 .withHasStableIds(true)
                 .withSelectedItem(-1)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.action_view_favourites)).withIcon(R.drawable.ic_star_24dp).withSelectable(false),
-                        new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.action_view_blocks)).withIcon(R.drawable.ic_block_24dp).withSelectable(false),
-                        new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.action_view_preferences)).withIcon(R.drawable.ic_settings_24dp).withSelectable(false),
-                        new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.action_logout)).withIcon(R.drawable.ic_exit_to_app_24dp).withSelectable(false)
+                        new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.action_view_favourites)).withSelectable(false),
+                        new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.action_view_blocks)).withSelectable(false),
+                        new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.action_view_preferences)).withSelectable(false),
+                        new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.action_logout)).withSelectable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
