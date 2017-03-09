@@ -133,7 +133,7 @@ public interface MastodonAPI {
     Call<Relationship> unmuteAccount(@Path("id") String accountId);
 
     @GET("api/v1/accounts/relationships")
-    Call<List<Relationship>> relationships(@Query("id[]") List<Integer> accountIds);
+    Call<List<Relationship>> relationships(@Query("id[]") List<String> accountIds);
 
     @GET("api/v1/blocks")
     Call<List<Account>> blocks(
