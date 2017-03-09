@@ -143,15 +143,15 @@
     <string name="notification_service_one_mention">Mention from %s</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
-    <string name="pref_title_pull_notifications">Enable Pull Notifcations</string>
-    <string name="pref_summary_pull_notifications">check for notifications periodically</string>
-    <string name="pref_title_pull_notification_check_interval">Check Interval</string>
-    <string name="pref_summary_pull_notification_check_interval">how often to pull</string>
+    <string name="pref_title_pull_notifications">Enable pull notifcations</string>
+    <string name="pref_summary_pull_notifications">Check for notifications periodically</string>
+    <string name="pref_title_pull_notification_check_interval">Check interval</string>
+    <string name="pref_summary_pull_notification_check_interval">How often to pull</string>
     <string name="pref_title_notification_alert_sound">Notify with a sound</string>
     <string name="pref_title_notification_style_vibrate">Notify with vibration</string>
     <string name="pref_title_notification_style_light">Notify with light</string>
     <string name="pref_title_appearance_settings">Appearance</string>
-    <string name="pref_title_light_theme">Use The Light Theme</string>
+    <string name="pref_title_light_theme">Use the Light Theme</string>
     <string name="action_submit">Submit</string>
     <string name="action_photo_pick">Add media</string>
     <string name="action_compose_options">Privacy options</string>

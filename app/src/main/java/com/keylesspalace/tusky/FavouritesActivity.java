@@ -21,6 +21,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 public class FavouritesActivity extends BaseActivity {
     @Override
@@ -33,11 +34,24 @@ public class FavouritesActivity extends BaseActivity {
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
             bar.setTitle(getString(R.string.title_favourites));
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setDisplayShowHomeEnabled(true);
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.FAVOURITES);
         fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                onBackPressed();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
