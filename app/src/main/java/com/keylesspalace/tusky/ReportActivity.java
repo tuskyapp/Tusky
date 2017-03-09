@@ -15,9 +15,7 @@
 
 package com.keylesspalace.tusky;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,35 +28,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.keylesspalace.tusky.entity.Status;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class ReportActivity extends BaseActivity {
-    private static final String TAG = "ReportActivity"; // logging tag and Volley request tag
+    private static final String TAG = "ReportActivity"; // logging tag
 
-    private String domain;
-    private String accessToken;
     private View anyView; // what Snackbar will use to find the root view
     private ReportAdapter adapter;
     private boolean reportAlreadyInFlight;
@@ -73,11 +56,6 @@ public class ReportActivity extends BaseActivity {
         String accountUsername = intent.getStringExtra("account_username");
         String statusId = intent.getStringExtra("status_id");
         String statusContent = intent.getStringExtra("status_content");
-
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        domain = preferences.getString("domain", null);
-        accessToken = preferences.getString("accessToken", null);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -127,22 +105,6 @@ public class ReportActivity extends BaseActivity {
         });
 
         fetchRecentStatuses(accountId);
-    }
-
-    @Override
-    protected void onDestroy() {
-        VolleySingleton.getInstance(this).cancelAll(TAG);
-        super.onDestroy();
-    }
-
-    /* JSONArray has a constructor to take primitive arrays but it's restricted to API level 19 and
-         * above, so this is an alternative. */
-    private static JSONArray makeStringArrayCompat(String[] stringArray) throws JSONException {
-        JSONArray result = new JSONArray();
-        for (int i = 0; i < stringArray.length; i++) {
-            result.put(i, stringArray[i]);
-        }
-        return result;
     }
 
     private void sendReport(final String accountId, final String[] statusIds,

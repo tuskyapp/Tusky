@@ -28,20 +28,11 @@ import android.text.Spanned;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.Status;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -54,8 +45,6 @@ import retrofit2.Callback;
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
 public class SFragment extends Fragment {
-    private static final String TAG = "SFragment"; // logging tag and Volley request tag
-
     protected String domain;
     protected String accessToken;
     protected String loggedInAccountId;
@@ -73,12 +62,6 @@ public class SFragment extends Fragment {
         loggedInAccountId = preferences.getString("loggedInAccountId", null);
         loggedInUsername = preferences.getString("loggedInAccountUsername", null);
         api = ((BaseActivity) getActivity()).mastodonAPI;
-    }
-
-    @Override
-    public void onDestroy() {
-        VolleySingleton.getInstance(getContext()).cancelAll(TAG);
-        super.onDestroy();
     }
 
     protected void reply(Status status) {
@@ -232,17 +215,6 @@ public class SFragment extends Fragment {
                     }
                 });
         popup.show();
-    }
-
-    private boolean fileExtensionMatches(String url, String extension) {
-        extension = "." + extension;
-        int parametersStart = url.indexOf('?');
-        if (parametersStart == -1) {
-            return url.toLowerCase().endsWith(extension);
-        } else {
-            int start = parametersStart - extension.length();
-            return start > 0 && url.substring(start, parametersStart).equals(extension);
-        }
     }
 
     protected void viewMedia(String url, Status.MediaAttachment.Type type) {

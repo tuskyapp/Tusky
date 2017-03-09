@@ -52,7 +52,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AccountActivity extends BaseActivity {
-    private static final String TAG = "AccountActivity"; // Volley request tag and logging tag
+    private static final String TAG = "AccountActivity"; // logging tag
 
     private String accountId;
     private boolean following = false;
@@ -153,12 +153,6 @@ public class AccountActivity extends BaseActivity {
                 tab.setCustomView(adapter.getTabView(i, tabLayout));
             }
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        VolleySingleton.getInstance(this).cancelAll(TAG);
-        super.onDestroy();
     }
 
     private void obtainAccount() {

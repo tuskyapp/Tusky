@@ -69,19 +69,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -90,11 +80,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Random;
 
 import okhttp3.MediaType;
@@ -104,7 +92,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class ComposeActivity extends BaseActivity {
-    private static final String TAG = "ComposeActivity"; // logging tag, and volley request tag
+    private static final String TAG = "ComposeActivity"; // logging tag
     private static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 4000000; // 4MB
     private static final int MEDIA_PICK_RESULT = 1;
@@ -534,12 +522,6 @@ public class ComposeActivity extends BaseActivity {
         editor.apply();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        VolleySingleton.getInstance(this).cancelAll(TAG);
-    }
-
     private EditText createEditText(String[] contentMimeTypes) {
         final String[] mimeTypes;
         if (contentMimeTypes == null || contentMimeTypes.length == 0) {
@@ -966,6 +948,7 @@ public class ComposeActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<Media> call, Throwable t) {
+                Log.d(TAG, t.getMessage());
                 onUploadFailure(item);
             }
         });

@@ -29,19 +29,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,7 +40,7 @@ import retrofit2.Callback;
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener,
         NotificationsAdapter.FollowListener {
-    private static final String TAG = "Notifications"; // logging tag and Volley request tag
+    private static final String TAG = "Notifications"; // logging tag
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -63,12 +54,6 @@ public class NotificationsFragment extends SFragment implements
         Bundle arguments = new Bundle();
         fragment.setArguments(arguments);
         return fragment;
-    }
-
-    @Override
-    public void onDestroy() {
-        VolleySingleton.getInstance(getContext()).cancelAll(TAG);
-        super.onDestroy();
     }
 
     @Override

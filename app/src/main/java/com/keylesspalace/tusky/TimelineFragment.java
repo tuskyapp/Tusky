@@ -27,25 +27,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.keylesspalace.tusky.entity.Status;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class TimelineFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener {
-    private static final String TAG = "Timeline"; // logging tag and Volley request tag
+    private static final String TAG = "Timeline"; // logging tag
 
     public enum Kind {
         HOME,
@@ -80,12 +71,6 @@ public class TimelineFragment extends SFragment implements
         arguments.putString("hashtag_or_id", hashtagOrId);
         fragment.setArguments(arguments);
         return fragment;
-    }
-
-    @Override
-    public void onDestroy() {
-        VolleySingleton.getInstance(getContext()).cancelAll(TAG);
-        super.onDestroy();
     }
 
     @Override

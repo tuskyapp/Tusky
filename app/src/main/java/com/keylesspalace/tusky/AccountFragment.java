@@ -47,7 +47,7 @@ import retrofit2.Callback;
 
 public class AccountFragment extends Fragment implements AccountActionListener,
         FooterActionListener {
-    private static final String TAG = "Account"; // logging tag and Volley request tag
+    private static final String TAG = "Account"; // logging tag
 
     public enum Type {
         FOLLOWS,
@@ -95,12 +95,6 @@ public class AccountFragment extends Fragment implements AccountActionListener,
         domain = preferences.getString("domain", null);
         accessToken = preferences.getString("accessToken", null);
         api = ((BaseActivity) getActivity()).mastodonAPI;
-    }
-
-    @Override
-    public void onDestroy() {
-        VolleySingleton.getInstance(getContext()).cancelAll(TAG);
-        super.onDestroy();
     }
 
     @Nullable
