@@ -55,7 +55,7 @@ public interface MastodonAPI {
 
     @Multipart
     @POST("api/v1/media")
-    Call<Media> uploadMedia(@Part("file") MultipartBody.Part file);
+    Call<Media> uploadMedia(@Part MultipartBody.Part file);
 
     @FormUrlEncoded
     @POST("api/v1/statuses")

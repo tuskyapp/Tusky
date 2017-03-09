@@ -78,6 +78,8 @@
 
     <style name="AppTheme.Account.ToolbarPopupTheme.Dark" parent="ThemeOverlay.AppCompat">
         <item name="android:textColorPrimary">@color/text_color_primary_dark</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
     </style>
 
     <!--Light Application Theme Styles-->
@@ -138,6 +140,8 @@
 
     <style name="AppTheme.Account.ToolbarPopupTheme.Light" parent="ThemeOverlay.AppCompat">
         <item name="android:textColorPrimary">@color/text_color_primary_light</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
     </style>
 
 </resources>
