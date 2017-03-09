@@ -15,7 +15,9 @@
 
 package com.keylesspalace.tusky;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -23,17 +25,35 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spanned;
 import android.util.TypedValue;
 import android.view.Menu;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /* There isn't presently a way to globally change the theme of a whole application at runtime, just
  * individual activities. So, each activity has to set its theme before any views are created. And
  * the most expedient way to accomplish this was to put it in a base class and just have every
  * activity extend from it. */
 public class BaseActivity extends AppCompatActivity {
+    protected MastodonAPI mastodonAPI;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        createMastodonAPI();
+
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("lightTheme", false)) {
             setTheme(R.style.AppTheme_Light);
         }
@@ -57,6 +77,46 @@ public class BaseActivity extends AppCompatActivity {
 
     private void overridePendingTransitionExit() {
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    protected String getAccessToken() {
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        return preferences.getString("accessToken", null);
+    }
+
+    protected String getBaseUrl() {
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        return "https://" + preferences.getString("domain", null);
+    }
+
+    protected void createMastodonAPI() {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request originalRequest = chain.request();
+
+                        Request.Builder builder = originalRequest.newBuilder()
+                                .header("Authorization", String.format("Bearer %s", getAccessToken()));
+
+                        Request newRequest = builder.build();
+
+                        return chain.proceed(newRequest);
+                    }
+                })
+                .build();
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getBaseUrl())
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        mastodonAPI = retrofit.create(MastodonAPI.class);
     }
 
     @Override

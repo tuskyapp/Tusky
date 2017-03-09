@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.keylesspalace.tusky.entity.Account;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashSet;

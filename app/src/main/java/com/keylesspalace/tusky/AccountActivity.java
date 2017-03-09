@@ -39,30 +39,25 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.keylesspalace.tusky.entity.Account;
+import com.keylesspalace.tusky.entity.Relationship;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.HashMap;
-import java.util.Map;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AccountActivity extends BaseActivity {
     private static final String TAG = "AccountActivity"; // Volley request tag and logging tag
 
-    private String domain;
-    private String accessToken;
     private String accountId;
     private boolean following = false;
     private boolean blocking = false;
+    private boolean muting = false;
     private boolean isSelf;
     private String openInWebUrl;
     private TabLayout tabLayout;
@@ -77,8 +72,6 @@ public class AccountActivity extends BaseActivity {
 
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        domain = preferences.getString("domain", null);
-        accessToken = preferences.getString("accessToken", null);
         String loggedInAccountId = preferences.getString("loggedInAccountId", null);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -169,37 +162,17 @@ public class AccountActivity extends BaseActivity {
     }
 
     private void obtainAccount() {
-        String endpoint = String.format(getString(R.string.endpoint_accounts), accountId);
-        String url = "https://" + domain + endpoint;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Account account;
-                        try {
-                            account = Account.parse(response);
-                        } catch (JSONException e) {
-                            onObtainAccountFailure();
-                            return;
-                        }
-                        onObtainAccountSuccess(account);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onObtainAccountFailure();
-                    }
-                }) {
+        mastodonAPI.account(accountId).enqueue(new Callback<Account>() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
+            public void onResponse(Call<Account> call, retrofit2.Response<Account> response) {
+                onObtainAccountSuccess(response.body());
             }
-        };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(this).addToRequestQueue(request);
+
+            @Override
+            public void onFailure(Call<Account> call, Throwable t) {
+                onObtainAccountFailure();
+            }
+        });
     }
 
     private void onObtainAccountSuccess(Account account) {
@@ -263,47 +236,28 @@ public class AccountActivity extends BaseActivity {
     }
 
     private void obtainRelationships() {
-        String endpoint = getString(R.string.endpoint_relationships);
-        String url = String.format("https://%s%s?id=%s", domain, endpoint, accountId);
-        JsonArrayRequest request = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        boolean following;
-                        boolean blocking;
-                        try {
-                            JSONObject object = response.getJSONObject(0);
-                            following = object.getBoolean("following");
-                            blocking = object.getBoolean("blocking");
-                        } catch (JSONException e) {
-                            onObtainRelationshipsFailure(e);
-                            return;
-                        }
-                        onObtainRelationshipsSuccess(following, blocking);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onObtainRelationshipsFailure(error);
-                    }
-                }) {
+        List<String> ids = new ArrayList<>(1);
+        ids.add(accountId);
+        mastodonAPI.relationships(ids).enqueue(new Callback<List<Relationship>>() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
+            public void onResponse(Call<List<Relationship>> call, retrofit2.Response<List<Relationship>> response) {
+                Relationship relationship = response.body().get(0);
+                onObtainRelationshipsSuccess(relationship.following, relationship.blocking, relationship.muting);
             }
-        };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(this).addToRequestQueue(request);
+
+            @Override
+            public void onFailure(Call<List<Relationship>> call, Throwable t) {
+                onObtainRelationshipsFailure((Exception) t);
+            }
+        });
     }
 
-    private void onObtainRelationshipsSuccess(boolean following, boolean blocking) {
+    private void onObtainRelationshipsSuccess(boolean following, boolean blocking, boolean muting) {
         this.following = following;
         this.blocking = blocking;
+        this.muting = muting;
 
-        if (!following || !blocking) {
+        if (!following || !blocking || !muting) {
             invalidateOptionsMenu();
         }
 
@@ -355,58 +309,42 @@ public class AccountActivity extends BaseActivity {
                 title = getString(R.string.action_block);
             }
             block.setTitle(title);
+            MenuItem mute = menu.findItem(R.id.action_mute);
+            if (muting) {
+                title = getString(R.string.action_unmute);
+            } else {
+                title = getString(R.string.action_mute);
+            }
+            mute.setTitle(title);
         } else {
             // It shouldn't be possible to block or follow yourself.
             menu.removeItem(R.id.action_follow);
             menu.removeItem(R.id.action_block);
+            menu.removeItem(R.id.action_mute);
         }
         return super.onPrepareOptionsMenu(menu);
     }
 
-    private void postRequest(String endpoint, Response.Listener<JSONObject> listener,
-            Response.ErrorListener errorListener) {
-        String url = "https://" + domain + endpoint;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, null, listener,
-                errorListener) {
+    private void follow(final String id) {
+        Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
+            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
+                following = response.body().following;
+                // TODO: display message/indicator when "requested" is true (i.e. when the follow is awaiting approval)
+                updateButtons();
+            }
+
+            @Override
+            public void onFailure(Call<Relationship> call, Throwable t) {
+                onFollowFailure(id);
             }
         };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(this).addToRequestQueue(request);
-    }
 
-    private void follow(final String id) {
-        int endpointId;
         if (following) {
-            endpointId = R.string.endpoint_unfollow;
+            mastodonAPI.unfollowAccount(id).enqueue(cb);
         } else {
-            endpointId = R.string.endpoint_follow;
+            mastodonAPI.followAccount(id).enqueue(cb);
         }
-        postRequest(String.format(getString(endpointId), id),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        boolean followingValue;
-                        try {
-                            followingValue = response.getBoolean("following");
-                        } catch (JSONException e) {
-                            onFollowFailure(id);
-                            return;
-                        }
-                        following = followingValue;
-                        updateButtons();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onFollowFailure(id);
-                    }
-                });
     }
 
     private void onFollowFailure(final String id) {
@@ -428,33 +366,23 @@ public class AccountActivity extends BaseActivity {
     }
 
     private void block(final String id) {
-        int endpointId;
+        Callback<Relationship> cb = new Callback<Relationship>() {
+            @Override
+            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
+                blocking = response.body().blocking;
+                updateButtons();
+            }
+
+            @Override
+            public void onFailure(Call<Relationship> call, Throwable t) {
+                onBlockFailure(id);
+            }
+        };
         if (blocking) {
-            endpointId = R.string.endpoint_unblock;
+            mastodonAPI.unblockAccount(id).enqueue(cb);
         } else {
-            endpointId = R.string.endpoint_block;
+            mastodonAPI.blockAccount(id).enqueue(cb);
         }
-        postRequest(String.format(getString(endpointId), id),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        boolean blockingValue;
-                        try {
-                            blockingValue = response.getBoolean("blocking");
-                        } catch (JSONException e) {
-                            onBlockFailure(id);
-                            return;
-                        }
-                        blocking = blockingValue;
-                        updateButtons();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onBlockFailure(id);
-                    }
-                });
     }
 
     private void onBlockFailure(final String id) {
@@ -475,6 +403,50 @@ public class AccountActivity extends BaseActivity {
                 .show();
     }
 
+
+    private void mute(final String id) {
+        Callback<Relationship> cb = new Callback<Relationship>() {
+            @Override
+            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
+                muting = response.body().muting;
+                updateButtons();
+            }
+
+            @Override
+            public void onFailure(Call<Relationship> call, Throwable t) {
+                onMuteFailure(id);
+            }
+        };
+
+        if (muting) {
+            mastodonAPI.unmuteAccount(id).enqueue(cb);
+        } else {
+            mastodonAPI.muteAccount(id).enqueue(cb);
+        }
+    }
+
+    private void onMuteFailure(final String id) {
+        int messageId;
+
+        if (muting) {
+            messageId = R.string.error_unmuting;
+        } else {
+            messageId = R.string.error_muting;
+        }
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mute(id);
+            }
+        };
+
+        Snackbar.make(findViewById(R.id.activity_account), messageId, Snackbar.LENGTH_LONG)
+                .setAction(R.string.action_retry, listener)
+                .show();
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -494,6 +466,10 @@ public class AccountActivity extends BaseActivity {
             }
             case R.id.action_block: {
                 block(accountId);
+                return true;
+            }
+            case R.id.action_mute: {
+                mute(accountId);
                 return true;
             }
         }

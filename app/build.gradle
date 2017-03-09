@@ -35,4 +35,10 @@ dependencies {
     compile 'com.github.peter9870:sparkbutton:master'
     testCompile 'junit:junit:4.12'
     compile 'com.mikhaellopez:circularfillableloaders:1.2.0'
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile('com.mikepenz:materialdrawer:5.8.2@aar') {
+        transitive = true
+    }
+    compile 'com.github.chrisbanes:PhotoView:1.3.1'
 }

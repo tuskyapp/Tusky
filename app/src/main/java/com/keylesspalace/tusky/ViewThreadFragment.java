@@ -30,11 +30,16 @@ import android.view.ViewGroup;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.entity.StatusContext;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class ViewThreadFragment extends SFragment implements StatusActionListener {
     private RecyclerView recyclerView;
@@ -78,54 +83,39 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
     }
 
     private void sendStatusRequest(final String id) {
-        String endpoint = String.format(getString(R.string.endpoint_get_status), id);
-        super.sendRequest(Request.Method.GET, endpoint, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Status status;
-                        try {
-                            status = Status.parse(response, false);
-                        } catch (JSONException e) {
-                            onThreadRequestFailure(id);
-                            return;
-                        }
-                        int position = adapter.insertStatus(status);
-                        recyclerView.scrollToPosition(position);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onThreadRequestFailure(id);
-                    }
-                });
+        MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
+
+        api.status(id).enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
+                int position = adapter.insertStatus(response.body());
+                recyclerView.scrollToPosition(position);
+            }
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+                onThreadRequestFailure(id);
+            }
+        });
     }
 
     private void sendThreadRequest(final String id) {
-        String endpoint = String.format(getString(R.string.endpoint_context), id);
-        super.sendRequest(Request.Method.GET, endpoint, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            List<Status> ancestors =
-                                    Status.parse(response.getJSONArray("ancestors"));
-                            List<Status> descendants =
-                                    Status.parse(response.getJSONArray("descendants"));
-                            adapter.addAncestors(ancestors);
-                            adapter.addDescendants(descendants);
-                        } catch (JSONException e) {
-                            onThreadRequestFailure(id);
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onThreadRequestFailure(id);
-                    }
-                });
+        MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
+
+        api.statusContext(id).enqueue(new Callback<StatusContext>() {
+            @Override
+            public void onResponse(Call<StatusContext> call, retrofit2.Response<StatusContext> response) {
+                StatusContext context = response.body();
+
+                adapter.addAncestors(context.ancestors);
+                adapter.addDescendants(context.descendants);
+            }
+
+            @Override
+            public void onFailure(Call<StatusContext> call, Throwable t) {
+                onThreadRequestFailure(id);
+            }
+        });
     }
 
     private void onThreadRequestFailure(final String id) {
@@ -162,7 +152,7 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
 
     public void onViewThread(int position) {
         Status status = adapter.getItem(position);
-        if (thisThreadsStatusId.equals(status.getId())) {
+        if (thisThreadsStatusId.equals(status.id)) {
             // If already viewing this thread, don't reopen it.
             return;
         }

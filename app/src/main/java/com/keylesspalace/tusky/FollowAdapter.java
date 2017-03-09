@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.keylesspalace.tusky.entity.Account;
 import com.squareup.picasso.Picasso;
 
 /** Both for follows and following lists. */

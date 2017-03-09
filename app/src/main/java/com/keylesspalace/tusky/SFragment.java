@@ -33,6 +33,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.keylesspalace.tusky.entity.Relationship;
+import com.keylesspalace.tusky.entity.Status;
 
 import org.json.JSONObject;
 
@@ -40,6 +42,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
@@ -54,6 +60,7 @@ public class SFragment extends Fragment {
     protected String accessToken;
     protected String loggedInAccountId;
     protected String loggedInUsername;
+    private MastodonAPI api;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +72,7 @@ public class SFragment extends Fragment {
         accessToken = preferences.getString("accessToken", null);
         loggedInAccountId = preferences.getString("loggedInAccountId", null);
         loggedInUsername = preferences.getString("loggedInAccountUsername", null);
+        api = ((BaseActivity) getActivity()).mastodonAPI;
     }
 
     @Override
@@ -73,117 +81,119 @@ public class SFragment extends Fragment {
         super.onDestroy();
     }
 
-    protected void sendRequest(
-            int method, String endpoint, JSONObject parameters,
-            @Nullable Response.Listener<JSONObject> responseListener,
-            @Nullable Response.ErrorListener errorListener) {
-        if (responseListener == null) {
-            // Use a dummy listener if one wasn't specified so the request can be constructed.
-            responseListener = new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {}
-            };
-        }
-        if (errorListener == null) {
-            errorListener = new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e(TAG, "Request Failed: " + error.getMessage());
-                }
-            };
-        }
-        String url = "https://" + domain + endpoint;
-        JsonObjectRequest request = new JsonObjectRequest(
-                method, url, parameters, responseListener, errorListener) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
-            }
-        };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(getContext()).addToRequestQueue(request);
-    }
-
-    protected void postRequest(String endpoint) {
-        sendRequest(Request.Method.POST, endpoint, null, null, null);
-    }
-
     protected void reply(Status status) {
-        String inReplyToId = status.getId();
-        Status.Mention[] mentions = status.getMentions();
+        String inReplyToId = status.getActionableId();
+        Status.Mention[] mentions = status.mentions;
         List<String> mentionedUsernames = new ArrayList<>();
         for (Status.Mention mention : mentions) {
-            mentionedUsernames.add(mention.getUsername());
+            mentionedUsernames.add(mention.username);
         }
-        mentionedUsernames.add(status.getUsername());
+        mentionedUsernames.add(status.account.username);
         mentionedUsernames.remove(loggedInUsername);
         Intent intent = new Intent(getContext(), ComposeActivity.class);
         intent.putExtra("in_reply_to_id", inReplyToId);
-        intent.putExtra("reply_visibility", status.getVisibility().toString().toLowerCase());
+        intent.putExtra("reply_visibility", status.visibility.toString().toLowerCase());
         intent.putExtra("mentioned_usernames", mentionedUsernames.toArray(new String[0]));
         startActivity(intent);
     }
 
     protected void reblog(final Status status, final boolean reblog,
             final RecyclerView.Adapter adapter, final int position) {
-        String id = status.getId();
-        String endpoint;
+        String id = status.getActionableId();
+
+        Callback<Status> cb = new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
+                status.reblogged = reblog;
+                adapter.notifyItemChanged(position);
+            }
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+
+            }
+        };
+
         if (reblog) {
-            endpoint = String.format(getString(R.string.endpoint_reblog), id);
+            api.reblogStatus(id).enqueue(cb);
         } else {
-            endpoint = String.format(getString(R.string.endpoint_unreblog), id);
+            api.unreblogStatus(id).enqueue(cb);
         }
-        sendRequest(Request.Method.POST, endpoint, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        status.setReblogged(reblog);
-                        adapter.notifyItemChanged(position);
-                    }
-                }, null);
     }
 
     protected void favourite(final Status status, final boolean favourite,
             final RecyclerView.Adapter adapter, final int position) {
-        String id = status.getId();
-        String endpoint;
-        if (favourite) {
-            endpoint = String.format(getString(R.string.endpoint_favourite), id);
-        } else {
-            endpoint = String.format(getString(R.string.endpoint_unfavourite), id);
-        }
-        sendRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
+        String id = status.getActionableId();
+
+        Callback<Status> cb = new Callback<Status>() {
             @Override
-            public void onResponse(JSONObject response) {
-                status.setFavourited(favourite);
+            public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
+                status.favourited = favourite;
                 adapter.notifyItemChanged(position);
             }
-        }, null);
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+
+            }
+        };
+
+        if (favourite) {
+            api.favouriteStatus(id).enqueue(cb);
+        } else {
+            api.unfavouriteStatus(id).enqueue(cb);
+        }
     }
 
     protected void follow(String id) {
-        String endpoint = String.format(getString(R.string.endpoint_follow), id);
-        postRequest(endpoint);
+        api.followAccount(id).enqueue(new Callback<Relationship>() {
+            @Override
+            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Relationship> call, Throwable t) {
+
+            }
+        });
     }
 
     private void block(String id) {
-        String endpoint = String.format(getString(R.string.endpoint_block), id);
-        postRequest(endpoint);
+        api.blockAccount(id).enqueue(new Callback<Relationship>() {
+            @Override
+            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Relationship> call, Throwable t) {
+
+            }
+        });
     }
 
     private void delete(String id) {
-        String endpoint = String.format(getString(R.string.endpoint_delete), id);
-        sendRequest(Request.Method.DELETE, endpoint, null, null, null);
+        api.deleteStatus(id).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
     protected void more(Status status, View view, final AdapterItemRemover adapter,
             final int position) {
-        final String id = status.getId();
-        final String accountId = status.getAccountId();
-        final String accountUsename = status.getUsername();
-        final Spanned content = status.getContent();
+        final String id = status.getActionableId();
+        final String accountId = status.getActionableStatus().account.id;
+        final String accountUsename = status.getActionableStatus().account.username;
+        final Spanned content = status.getActionableStatus().content;
+        final String statusUrl = status.getActionableStatus().url;
         PopupMenu popup = new PopupMenu(getContext(), view);
         // Give a different menu depending on whether this is the user's own toot or not.
         if (loggedInAccountId == null || !loggedInAccountId.equals(accountId)) {
@@ -196,8 +206,12 @@ public class SFragment extends Fragment {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.status_follow: {
-                                follow(accountId);
+                            case R.id.status_share: {
+                                Intent sendIntent = new Intent();
+                                sendIntent.setAction(Intent.ACTION_SEND);
+                                sendIntent.putExtra(Intent.EXTRA_TEXT, statusUrl);
+                                sendIntent.setType("text/plain");
+                                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_to)));
                                 return true;
                             }
                             case R.id.status_block: {
@@ -234,19 +248,17 @@ public class SFragment extends Fragment {
     protected void viewMedia(String url, Status.MediaAttachment.Type type) {
         switch (type) {
             case IMAGE: {
-                Fragment newFragment;
-                if (fileExtensionMatches(url, "gif")) {
-                    newFragment = ViewGifFragment.newInstance(url);
-                } else {
-                    newFragment = ViewMediaFragment.newInstance(url);
-                }
+                Fragment newFragment = ViewMediaFragment.newInstance(url);
+
                 FragmentManager manager = getFragmentManager();
                 manager.beginTransaction()
+                        .setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
                         .add(R.id.overlay_fragment_container, newFragment)
                         .addToBackStack(null)
                         .commit();
                 break;
             }
+            case GIFV:
             case VIDEO: {
                 Intent intent = new Intent(getContext(), ViewVideoActivity.class);
                 intent.putExtra("url", url);
@@ -264,7 +276,7 @@ public class SFragment extends Fragment {
 
     protected void viewThread(Status status) {
         Intent intent = new Intent(getContext(), ViewThreadActivity.class);
-        intent.putExtra("id", status.getId());
+        intent.putExtra("id", status.id);
         startActivity(intent);
     }
 

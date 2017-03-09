@@ -17,6 +17,8 @@ package com.keylesspalace.tusky;
 
 import android.support.v7.widget.RecyclerView;
 
+import com.keylesspalace.tusky.entity.Account;
+
 import java.util.ArrayList;
 import java.util.List;
 

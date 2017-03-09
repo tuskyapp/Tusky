@@ -21,8 +21,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class ViewMediaFragment extends Fragment {
     public static ViewMediaFragment newInstance(String url) {
@@ -40,16 +43,35 @@ public class ViewMediaFragment extends Fragment {
 
         Bundle arguments = getArguments();
         String url = arguments.getString("url");
-        NetworkImageView image = (NetworkImageView) rootView.findViewById(R.id.view_media_image);
-        ImageLoader imageLoader = VolleySingleton.getInstance(getContext()).getImageLoader();
-        image.setImageUrl(url, imageLoader);
+        PhotoView photoView = (PhotoView) rootView.findViewById(R.id.view_media_image);
 
-        rootView.setOnClickListener(new View.OnClickListener() {
+        final PhotoViewAttacher attacher = new PhotoViewAttacher(photoView);
+
+        attacher.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
             @Override
-            public void onClick(View v) {
+            public void onPhotoTap(View view, float x, float y) {
+
+            }
+
+            @Override
+            public void onOutsidePhotoTap() {
                 dismiss();
             }
         });
+
+        Picasso.with(getContext())
+                .load(url)
+                .into(photoView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        attacher.update();
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
 
         return rootView;
     }

@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.keylesspalace.tusky.entity.Status;
 import com.squareup.picasso.Picasso;
 import com.varunest.sparkbutton.SparkButton;
 import com.varunest.sparkbutton.SparkEventListener;
@@ -124,8 +125,8 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
                 final String accountUsername = text.subSequence(1, text.length()).toString();
                 String id = null;
                 for (Status.Mention mention: mentions) {
-                    if (mention.getUsername().equals(accountUsername)) {
-                        id = mention.getId();
+                    if (mention.username.equals(accountUsername)) {
+                        id = mention.id;
                     }
                 }
                 if (id != null) {
@@ -227,7 +228,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         final int n = Math.min(attachments.length, Status.MAX_MEDIA_ATTACHMENTS);
 
         for (int i = 0; i < n; i++) {
-            String previewUrl = attachments[i].getPreviewUrl();
+            String previewUrl = attachments[i].previewUrl;
 
             previews[i].setVisibility(View.VISIBLE);
 
@@ -236,8 +237,8 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
                 .placeholder(mediaPreviewUnloadedId)
                 .into(previews[i]);
 
-            final String url = attachments[i].getUrl();
-            final Status.MediaAttachment.Type type = attachments[i].getType();
+            final String url = attachments[i].url;
+            final Status.MediaAttachment.Type type = attachments[i].type;
             previews[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -339,33 +340,35 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     }
 
     void setupWithStatus(Status status, StatusActionListener listener) {
-        setDisplayName(status.getDisplayName());
-        setUsername(status.getUsername());
-        setCreatedAt(status.getCreatedAt());
-        setContent(status.getContent(), status.getMentions(), listener);
-        setAvatar(status.getAvatar());
-        setReblogged(status.getReblogged());
-        setFavourited(status.getFavourited());
-        String rebloggedByDisplayName = status.getRebloggedByDisplayName();
-        if (rebloggedByDisplayName == null) {
+        Status realStatus = status.getActionableStatus();
+
+        setDisplayName(realStatus.account.displayName);
+        setUsername(realStatus.account.username);
+        setCreatedAt(realStatus.createdAt);
+        setContent(realStatus.content, realStatus.mentions, listener);
+        setAvatar(realStatus.account.avatar);
+        setReblogged(realStatus.reblogged);
+        setFavourited(realStatus.favourited);
+        String rebloggedByDisplayName = status.account.displayName;
+        if (status.reblog == null) {
             hideRebloggedByDisplayName();
         } else {
             setRebloggedByDisplayName(rebloggedByDisplayName);
         }
-        Status.MediaAttachment[] attachments = status.getAttachments();
-        boolean sensitive = status.getSensitive();
+        Status.MediaAttachment[] attachments = realStatus.attachments;
+        boolean sensitive = realStatus.sensitive;
         setMediaPreviews(attachments, sensitive, listener);
         /* A status without attachments is sometimes still marked sensitive, so it's necessary to
          * check both whether there are any attachments and if it's marked sensitive. */
         if (!sensitive || attachments.length == 0) {
             hideSensitiveMediaWarning();
         }
-        setupButtons(listener, status.getAccountId());
-        setRebloggingEnabled(status.getVisibility() != Status.Visibility.PRIVATE);
-        if (status.getSpoilerText().isEmpty()) {
+        setupButtons(listener, realStatus.account.id);
+        setRebloggingEnabled(realStatus.visibility != Status.Visibility.PRIVATE);
+        if (realStatus.spoilerText.isEmpty()) {
             hideSpoilerText();
         } else {
-            setSpoilerText(status.getSpoilerText());
+            setSpoilerText(realStatus.spoilerText);
         }
     }
 }

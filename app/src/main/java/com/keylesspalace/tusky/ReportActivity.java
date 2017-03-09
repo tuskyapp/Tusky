@@ -38,15 +38,21 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.keylesspalace.tusky.entity.Status;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class ReportActivity extends BaseActivity {
     private static final String TAG = "ReportActivity"; // logging tag and Volley request tag
@@ -141,45 +147,22 @@ public class ReportActivity extends BaseActivity {
 
     private void sendReport(final String accountId, final String[] statusIds,
             final String comment) {
-        JSONObject parameters = new JSONObject();
-        try {
-            parameters.put("account_id", accountId);
-            parameters.put("status_ids", makeStringArrayCompat(statusIds));
-            parameters.put("comment", comment);
-        } catch (JSONException e) {
-            Log.e(TAG, "Not all the report parameters have been properly set. " + e.getMessage());
-            onSendFailure(accountId, statusIds, comment);
-            return;
-        }
-        String endpoint = getString(R.string.endpoint_reports);
-        String url = "https://" + domain + endpoint;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, parameters,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        onSendSuccess();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onSendFailure(accountId, statusIds, comment);
-                    }
-                }) {
+        mastodonAPI.report(accountId, Arrays.asList(statusIds), comment).enqueue(new Callback<ResponseBody>() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                onSendSuccess();
             }
-        };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(this).addToRequestQueue(request);
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                onSendFailure(accountId, statusIds, comment);
+            }
+        });
     }
 
     private void onSendSuccess() {
-        Toast.makeText(this, getString(R.string.confirmation_reported), Toast.LENGTH_SHORT)
-                .show();
+        Snackbar bar = Snackbar.make(anyView, getString(R.string.confirmation_reported), Snackbar.LENGTH_SHORT);
+        bar.show();
         finish();
     }
 
@@ -197,46 +180,26 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void fetchRecentStatuses(String accountId) {
-        String endpoint = String.format(getString(R.string.endpoint_statuses), accountId);
-        String url = "https://" + domain + endpoint;
-        JsonArrayRequest request = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        List<Status> statusList;
-                        try {
-                            statusList = Status.parse(response);
-                        } catch (JSONException e) {
-                            onFetchStatusesFailure(e);
-                            return;
-                        }
-                        // Add all the statuses except reblogs.
-                        List<ReportAdapter.ReportStatus> itemList = new ArrayList<>();
-                        for (Status status : statusList) {
-                            if (status.getRebloggedByDisplayName() == null) {
-                                ReportAdapter.ReportStatus item = new ReportAdapter.ReportStatus(
-                                        status.getId(), status.getContent(), false);
-                                itemList.add(item);
-                            }
-                        }
-                        adapter.addItems(itemList);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onFetchStatusesFailure(error);
-                    }
-                }) {
+        mastodonAPI.accountStatuses(accountId, null, null, null).enqueue(new Callback<List<Status>>() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
+            public void onResponse(Call<List<Status>> call, retrofit2.Response<List<Status>> response) {
+                List<Status> statusList = response.body();
+                List<ReportAdapter.ReportStatus> itemList = new ArrayList<>();
+                for (Status status : statusList) {
+                    if (status.reblog != null) {
+                        ReportAdapter.ReportStatus item = new ReportAdapter.ReportStatus(
+                                status.id, status.content, false);
+                        itemList.add(item);
+                    }
+                }
+                adapter.addItems(itemList);
             }
-        };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(this).addToRequestQueue(request);
+
+            @Override
+            public void onFailure(Call<List<Status>> call, Throwable t) {
+                onFetchStatusesFailure((Exception) t);
+            }
+        });
     }
 
     private void onFetchStatusesFailure(Exception exception) {

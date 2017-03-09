@@ -34,15 +34,16 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
-
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.keylesspalace.tusky.entity.Account;
+import com.keylesspalace.tusky.entity.Relationship;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class AccountFragment extends Fragment implements AccountActionListener,
         FooterActionListener {
@@ -63,6 +64,7 @@ public class AccountFragment extends Fragment implements AccountActionListener,
     private EndlessOnScrollListener scrollListener;
     private AccountAdapter adapter;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
+    private MastodonAPI api;
 
     public static AccountFragment newInstance(Type type) {
         Bundle arguments = new Bundle();
@@ -92,6 +94,7 @@ public class AccountFragment extends Fragment implements AccountActionListener,
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         domain = preferences.getString("domain", null);
         accessToken = preferences.getString("accessToken", null);
+        api = ((BaseActivity) getActivity()).mastodonAPI;
     }
 
     @Override
@@ -170,55 +173,33 @@ public class AccountFragment extends Fragment implements AccountActionListener,
     }
 
     private void fetchAccounts(final String fromId) {
-        String endpoint;
+        Callback<List<Account>> cb = new Callback<List<Account>>() {
+            @Override
+            public void onResponse(Call<List<Account>> call, retrofit2.Response<List<Account>> response) {
+                onFetchAccountsSuccess(response.body(), fromId);
+            }
+
+            @Override
+            public void onFailure(Call<List<Account>> call, Throwable t) {
+                onFetchAccountsFailure((Exception) t);
+            }
+        };
+
         switch (type) {
             default:
             case FOLLOWS: {
-                endpoint = String.format(getString(R.string.endpoint_following), accountId);
+                api.accountFollowing(accountId, fromId, null, null).enqueue(cb);
                 break;
             }
             case FOLLOWERS: {
-                endpoint = String.format(getString(R.string.endpoint_followers), accountId);
+                api.accountFollowers(accountId, fromId, null, null).enqueue(cb);
                 break;
             }
             case BLOCKS: {
-                endpoint = getString(R.string.endpoint_blocks);
+                api.blocks(fromId, null, null).enqueue(cb);
                 break;
             }
         }
-        String url = "https://" + domain + endpoint;
-        if (fromId != null) {
-            url += "?max_id=" + fromId;
-        }
-        JsonArrayRequest request = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        List<Account> accounts;
-                        try {
-                            accounts = Account.parse(response);
-                        } catch (JSONException e) {
-                            onFetchAccountsFailure(e);
-                            return;
-                        }
-                        onFetchAccountsSuccess(accounts, fromId);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onFetchAccountsFailure(error);
-                    }
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
-            }
-        };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(getContext()).addToRequestQueue(request);
     }
 
     private void fetchAccounts() {
@@ -285,35 +266,23 @@ public class AccountFragment extends Fragment implements AccountActionListener,
     }
 
     public void onBlock(final boolean block, final String id, final int position) {
-        String endpoint;
-        if (!block) {
-            endpoint = String.format(getString(R.string.endpoint_unblock), id);
-        } else {
-            endpoint = String.format(getString(R.string.endpoint_block), id);
-        }
-        String url = "https://" + domain + endpoint;
-        StringRequest request = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        onBlockSuccess(block, position);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onBlockFailure(block, id);
-                    }
-                }) {
+        Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + accessToken);
-                return headers;
+            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
+                onBlockSuccess(block, position);
+            }
+
+            @Override
+            public void onFailure(Call<Relationship> call, Throwable t) {
+                onBlockFailure(block, id);
             }
         };
-        request.setTag(TAG);
-        VolleySingleton.getInstance(getContext()).addToRequestQueue(request);
+
+        if (!block) {
+            api.unblockAccount(id).enqueue(cb);
+        } else {
+            api.blockAccount(id).enqueue(cb);
+        }
     }
 
     private void onBlockSuccess(boolean blocked, int position) {
