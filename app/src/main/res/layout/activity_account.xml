@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.Account.AppBarLayout"
+        app:popupTheme="@style/AppTheme.Account.ToolbarPopupTheme.Dark"
         android:id="@+id/account_app_bar_layout">
 
         <android.support.design.widget.CollapsingToolbarLayout
