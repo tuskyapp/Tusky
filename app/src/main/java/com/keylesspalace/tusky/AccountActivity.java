@@ -49,15 +49,15 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AccountActivity extends BaseActivity {
     private static final String TAG = "AccountActivity"; // Volley request tag and logging tag
 
-    private String domain;
-    private String accessToken;
     private String accountId;
     private boolean following = false;
     private boolean blocking = false;
+    private boolean muting = false;
     private boolean isSelf;
     private String openInWebUrl;
     private TabLayout tabLayout;
@@ -72,8 +72,6 @@ public class AccountActivity extends BaseActivity {
 
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        domain = preferences.getString("domain", null);
-        accessToken = preferences.getString("accessToken", null);
         String loggedInAccountId = preferences.getString("loggedInAccountId", null);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -244,7 +242,7 @@ public class AccountActivity extends BaseActivity {
             @Override
             public void onResponse(Call<List<Relationship>> call, retrofit2.Response<List<Relationship>> response) {
                 Relationship relationship = response.body().get(0);
-                onObtainRelationshipsSuccess(relationship.following, relationship.blocking);
+                onObtainRelationshipsSuccess(relationship.following, relationship.blocking, relationship.muting);
             }
 
             @Override
@@ -254,11 +252,12 @@ public class AccountActivity extends BaseActivity {
         });
     }
 
-    private void onObtainRelationshipsSuccess(boolean following, boolean blocking) {
+    private void onObtainRelationshipsSuccess(boolean following, boolean blocking, boolean muting) {
         this.following = following;
         this.blocking = blocking;
+        this.muting = muting;
 
-        if (!following || !blocking) {
+        if (!following || !blocking || !muting) {
             invalidateOptionsMenu();
         }
 
@@ -310,10 +309,18 @@ public class AccountActivity extends BaseActivity {
                 title = getString(R.string.action_block);
             }
             block.setTitle(title);
+            MenuItem mute = menu.findItem(R.id.action_mute);
+            if (muting) {
+                title = getString(R.string.action_unmute);
+            } else {
+                title = getString(R.string.action_mute);
+            }
+            mute.setTitle(title);
         } else {
             // It shouldn't be possible to block or follow yourself.
             menu.removeItem(R.id.action_follow);
             menu.removeItem(R.id.action_block);
+            menu.removeItem(R.id.action_mute);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -396,6 +403,50 @@ public class AccountActivity extends BaseActivity {
                 .show();
     }
 
+
+    private void mute(final String id) {
+        Callback<Relationship> cb = new Callback<Relationship>() {
+            @Override
+            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
+                muting = response.body().muting;
+                updateButtons();
+            }
+
+            @Override
+            public void onFailure(Call<Relationship> call, Throwable t) {
+                onMuteFailure(id);
+            }
+        };
+
+        if (muting) {
+            mastodonAPI.unmuteAccount(id).enqueue(cb);
+        } else {
+            mastodonAPI.muteAccount(id).enqueue(cb);
+        }
+    }
+
+    private void onMuteFailure(final String id) {
+        int messageId;
+
+        if (muting) {
+            messageId = R.string.error_unmuting;
+        } else {
+            messageId = R.string.error_muting;
+        }
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mute(id);
+            }
+        };
+
+        Snackbar.make(findViewById(R.id.activity_account), messageId, Snackbar.LENGTH_LONG)
+                .setAction(R.string.action_retry, listener)
+                .show();
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -415,6 +466,10 @@ public class AccountActivity extends BaseActivity {
             }
             case R.id.action_block: {
                 block(accountId);
+                return true;
+            }
+            case R.id.action_mute: {
+                mute(accountId);
                 return true;
             }
         }
