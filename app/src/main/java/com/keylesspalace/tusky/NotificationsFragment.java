@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -68,6 +69,14 @@ public class NotificationsFragment extends SFragment implements
     public void onDestroy() {
         VolleySingleton.getInstance(getContext()).cancelAll(TAG);
         super.onDestroy();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        NotificationManager notificationManager =
+                (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(PullNotificationService.NOTIFY_ID);
+        super.onCreate(savedInstanceState);
     }
 
     @Nullable

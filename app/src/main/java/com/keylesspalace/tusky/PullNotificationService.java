@@ -57,7 +57,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PullNotificationService extends IntentService {
-    private static final int NOTIFY_ID = 6; // This is an arbitrary number.
+    static final int NOTIFY_ID = 6; // This is an arbitrary number.
     private static final String TAG = "PullNotifications"; // logging tag and Volley request tag
 
     public PullNotificationService() {
