@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -35,6 +36,7 @@ import android.transition.TransitionInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -42,6 +44,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.keylesspalace.tusky.entity.Account;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,6 +77,8 @@ public class MainActivity extends BaseActivity {
     private String loggedInAccountUsername;
     Stack<Integer> pageHistory = new Stack<Integer>();
     private ViewPager viewPager;
+    private AccountHeader headerResult;
+    private Drawer drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +99,88 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+        headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withSelectionListEnabledForSingleProfile(false)
+                .withTranslucentStatusBar(true)
+                .withCompactStyle(true)
+                .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
+                    @Override
+                    public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
+                        Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+                        intent.putExtra("id", loggedInAccountId);
+                        startActivity(intent);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
+                        return false;
+                    }
+                })
+                .build();
+
+        DrawerImageLoader.init(new AbstractDrawerImageLoader() {
+            @Override
+            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+                Picasso.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
+            }
+
+            @Override
+            public void cancel(ImageView imageView) {
+                Picasso.with(imageView.getContext()).cancelRequest(imageView);
+            }
+        });
+
+        drawer = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .withTranslucentStatusBar(true)
+                .withAccountHeader(headerResult)
+                .withHasStableIds(true)
+                .withSelectedItem(-1)
+                .addDrawerItems(
+                        new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.action_view_favourites)).withIcon(R.drawable.ic_star_24dp).withSelectable(false),
+                        new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.action_view_blocks)).withIcon(R.drawable.ic_block_24dp).withSelectable(false),
+                        new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.action_view_preferences)).withIcon(R.drawable.ic_settings_24dp).withSelectable(false),
+                        new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.action_logout)).withIcon(R.drawable.ic_exit_to_app_24dp).withSelectable(false)
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        if (drawerItem != null) {
+                            long drawerItemIdentifier = drawerItem.getIdentifier();
+
+                            if (drawerItemIdentifier == 1) {
+                                Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
+                                startActivity(intent);
+                            } else if (drawerItemIdentifier == 2) {
+                                Intent intent = new Intent(MainActivity.this, BlocksActivity.class);
+                                startActivity(intent);
+                            } else if (drawerItemIdentifier == 3) {
+                                Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
+                                startActivity(intent);
+                            } else if (drawerItemIdentifier == 4) {
+                                if (notificationServiceEnabled) {
+                                    alarmManager.cancel(serviceAlarmIntent);
+                                }
+                                SharedPreferences preferences = getSharedPreferences(
+                                        getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.remove("domain");
+                                editor.remove("accessToken");
+                                editor.apply();
+                                Intent intent = new Intent(MainActivity.this, SplashActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+
+                        return false;
+                    }
+                })
+                .build();
 
         // Setup the tabs and timeline pager.
         TimelinePagerAdapter adapter = new TimelinePagerAdapter(getSupportFragmentManager());
@@ -152,16 +250,34 @@ public class MainActivity extends BaseActivity {
     private void fetchUserInfo() {
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        final String domain = preferences.getString("domain", null);
         String id = preferences.getString("loggedInAccountId", null);
         String username = preferences.getString("loggedInAccountUsername", null);
-        if (id != null && username != null) {
-            loggedInAccountId = id;
-            loggedInAccountUsername = username;
-        } else {
+        //if (id != null && username != null) {
+        //    loggedInAccountId = id;
+        //    loggedInAccountUsername = username;
+        //} else {
             mastodonAPI.accountVerifyCredentials().enqueue(new Callback<Account>() {
                 @Override
                 public void onResponse(Call<Account> call, retrofit2.Response<Account> response) {
-                    onFetchUserInfoSuccess(response.body().id, response.body().username);
+                    Account me = response.body();
+                    ImageView background = headerResult.getHeaderBackgroundView();
+
+                    Picasso.with(MainActivity.this)
+                            .load(me.header)
+                            .placeholder(R.drawable.account_header_missing)
+                            .resize(background.getWidth(), background.getHeight())
+                            .centerCrop()
+                            .into(background);
+
+                    headerResult.addProfiles(
+                            new ProfileDrawerItem()
+                                    .withName(me.displayName)
+                                    .withEmail(String.format("%s@%s", me.username, domain))
+                                    .withIcon(me.avatar)
+                    );
+
+                    //onFetchUserInfoSuccess(response.body().id, response.body().username);
                 }
 
                 @Override
@@ -169,7 +285,7 @@ public class MainActivity extends BaseActivity {
                     onFetchUserInfoFailure((Exception) t);
                 }
             });
-        }
+        //}
     }
 
     private void onFetchUserInfoSuccess(String id, String username) {
@@ -188,58 +304,10 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_toolbar, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_view_profile: {
-                Intent intent = new Intent(this, AccountActivity.class);
-                intent.putExtra("id", loggedInAccountId);
-                startActivity(intent);
-                return true;
-            }
-            case R.id.action_view_preferences: {
-                Intent intent = new Intent(this, PreferencesActivity.class);
-                startActivity(intent);
-                return true;
-            }
-            case R.id.action_view_favourites: {
-                Intent intent = new Intent(this, FavouritesActivity.class);
-                startActivity(intent);
-                return true;
-            }
-            case R.id.action_view_blocks: {
-                Intent intent = new Intent(this, BlocksActivity.class);
-                startActivity(intent);
-                return true;
-            }
-            case R.id.action_logout: {
-                if (notificationServiceEnabled) {
-                    alarmManager.cancel(serviceAlarmIntent);
-                }
-                SharedPreferences preferences = getSharedPreferences(
-                        getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.remove("domain");
-                editor.remove("accessToken");
-                editor.apply();
-                Intent intent = new Intent(this, SplashActivity.class);
-                startActivity(intent);
-                finish();
-                return true;
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onBackPressed() {
-        if(pageHistory.empty()) {
+        if(drawer != null && drawer.isDrawerOpen()) {
+            drawer.closeDrawer();
+        } else if(pageHistory.empty()) {
             super.onBackPressed();
         } else {
             pageHistory.pop();

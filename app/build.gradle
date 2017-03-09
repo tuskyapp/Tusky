@@ -37,4 +37,7 @@ dependencies {
     compile 'com.mikhaellopez:circularfillableloaders:1.2.0'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile('com.mikepenz:materialdrawer:5.8.2@aar') {
+        transitive = true
+    }
 }

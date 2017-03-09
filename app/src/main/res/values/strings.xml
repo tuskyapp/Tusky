@@ -91,7 +91,7 @@
     <string name="notification_follow_format">%s followed you</string>
 
     <string name="report_username_format">Reporting @%s</string>
-    <string name="report_comment_hint">Additional Comments?</string>
+    <string name="report_comment_hint">Additional comments?</string>
 
     <string name="action_compose">Compose</string>
     <string name="action_login">Login with Mastodon</string>
@@ -113,7 +113,7 @@
     <string name="action_view_profile">Profile</string>
     <string name="action_view_preferences">Preferences</string>
     <string name="action_view_favourites">Favourites</string>
-    <string name="action_view_blocks">Blocked Users</string>
+    <string name="action_view_blocks">Blocked users</string>
     <string name="action_open_in_web">Open in browser</string>
     <string name="action_set_time">Set</string>
 
