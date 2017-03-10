@@ -1,51 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:elevation="4dp"
-        android:theme="@style/AppTheme.Account.AppBarLayout"
-        app:popupTheme="@style/AppTheme.Account.ToolbarPopupTheme.Dark"
-        android:background="?attr/toolbar_background_color" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="4dp"
+            android:theme="@style/AppTheme.Account.AppBarLayout"
+            app:popupTheme="@style/AppTheme.Account.ToolbarPopupTheme.Dark"
+            android:background="?attr/toolbar_background_color" />
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:id="@+id/report_recycler_view"
-        android:scrollbars="vertical"
-        android:fadeScrollbars="false"
-        android:background="?attr/report_status_background_color" />
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:id="@+id/report_recycler_view"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
+            android:background="?attr/report_status_background_color" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/report_comment"
-        android:inputType="textMultiLine"
-        android:gravity="top|start"
-        android:ems="10"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:hint="@string/report_comment_hint" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:id="@+id/report_send"
-            android:text="@string/action_report" />
-
-    </RelativeLayout>
-
-</LinearLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/report_comment"
+            android:inputType="textMultiLine"
+            android:gravity="top|start"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:hint="@string/report_comment_hint" />
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

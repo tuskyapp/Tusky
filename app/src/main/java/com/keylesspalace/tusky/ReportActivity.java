@@ -17,6 +17,7 @@ package com.keylesspalace.tusky;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -25,6 +26,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,6 +48,11 @@ public class ReportActivity extends BaseActivity {
     private View anyView; // what Snackbar will use to find the root view
     private ReportAdapter adapter;
     private boolean reportAlreadyInFlight;
+    private String accountId;
+    private String accountUsername;
+    private String statusId;
+    private String statusContent;
+    private EditText comment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,10 +60,10 @@ public class ReportActivity extends BaseActivity {
         setContentView(R.layout.activity_report);
 
         Intent intent = getIntent();
-        final String accountId = intent.getStringExtra("account_id");
-        String accountUsername = intent.getStringExtra("account_username");
-        String statusId = intent.getStringExtra("status_id");
-        String statusContent = intent.getStringExtra("status_content");
+        accountId = intent.getStringExtra("account_id");
+        accountUsername = intent.getStringExtra("account_username");
+        statusId = intent.getStringExtra("status_id");
+        statusContent = intent.getStringExtra("status_content");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -64,6 +72,8 @@ public class ReportActivity extends BaseActivity {
             String title = String.format(getString(R.string.report_username_format),
                     accountUsername);
             bar.setTitle(title);
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setDisplayShowHomeEnabled(true);
         }
         anyView = toolbar;
 
@@ -85,26 +95,26 @@ public class ReportActivity extends BaseActivity {
                 HtmlUtils.fromHtml(statusContent), true);
         adapter.addItem(reportStatus);
 
-        final EditText comment = (EditText) findViewById(R.id.report_comment);
-        Button send = (Button) findViewById(R.id.report_send);
+        comment = (EditText) findViewById(R.id.report_comment);
+
         reportAlreadyInFlight = false;
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (reportAlreadyInFlight) {
-                    return;
-                }
-                String[] statusIds = adapter.getCheckedStatusIds();
-                if (statusIds.length > 0) {
-                    reportAlreadyInFlight = true;
-                    sendReport(accountId, statusIds, comment.getText().toString());
-                } else {
-                    comment.setError(getString(R.string.error_report_too_few_statuses));
-                }
-            }
-        });
 
         fetchRecentStatuses(accountId);
+    }
+
+    private void onClickSend() {
+        if (reportAlreadyInFlight) {
+            return;
+        }
+
+        String[] statusIds = adapter.getCheckedStatusIds();
+
+        if (statusIds.length > 0) {
+            reportAlreadyInFlight = true;
+            sendReport(accountId, statusIds, comment.getText().toString());
+        } else {
+            comment.setError(getString(R.string.error_report_too_few_statuses));
+        }
     }
 
     private void sendReport(final String accountId, final String[] statusIds,
@@ -166,5 +176,26 @@ public class ReportActivity extends BaseActivity {
 
     private void onFetchStatusesFailure(Exception exception) {
         Log.e(TAG, "Failed to fetch recent statuses to report. " + exception.getMessage());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.report_toolbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                onBackPressed();
+                return true;
+            }
+            case R.id.action_report: {
+                onClickSend();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
