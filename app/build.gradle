@@ -41,4 +41,5 @@ dependencies {
         transitive = true
     }
     compile 'com.github.chrisbanes:PhotoView:1.3.1'
+    compile 'com.mikepenz:google-material-typeface:3.0.1.0.original@aar'
 }

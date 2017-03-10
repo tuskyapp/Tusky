@@ -56,13 +56,13 @@
         <item name="report_status_background_color">@color/report_status_background_dark</item>
         <item name="report_status_divider_drawable">@drawable/report_status_divider_dark</item>
 
-        <item name="material_drawer_background">@color/color_primary_dark</item>
+        <item name="material_drawer_background">@color/window_background_dark</item>
         <item name="material_drawer_primary_text">@color/text_color_primary_dark</item>
         <item name="material_drawer_primary_icon">@color/toolbar_icon_dark</item>
         <item name="material_drawer_secondary_text">@color/text_color_secondary_dark</item>
         <item name="material_drawer_hint_text">@color/text_color_tertiary_dark</item>
         <item name="material_drawer_divider">@color/color_primary_dark_dark</item>
-        <item name="material_drawer_selected">@color/window_background_dark</item>
+        <item name="material_drawer_selected">@color/color_primary_dark</item>
         <item name="material_drawer_selected_text">@color/text_color_primary_dark</item>
         <item name="material_drawer_header_selection_text">@color/text_color_primary_dark</item>
     </style>
