@@ -15,21 +15,18 @@ import android.widget.RadioGroup;
 public class ComposeOptionsFragment extends BottomSheetDialogFragment {
     public interface Listener extends Parcelable {
         void onVisibilityChanged(String visibility);
-        void onMarkSensitiveChanged(boolean markSensitive);
         void onContentWarningChanged(boolean hideText);
     }
 
     private Listener listener;
 
-    public static ComposeOptionsFragment newInstance(String visibility, boolean markSensitive,
-            boolean hideText, boolean showMarkSensitive, boolean isReply, Listener listener) {
+    public static ComposeOptionsFragment newInstance(String visibility,
+            boolean hideText, boolean isReply, Listener listener) {
         Bundle arguments = new Bundle();
         ComposeOptionsFragment fragment = new ComposeOptionsFragment();
         arguments.putParcelable("listener", listener);
         arguments.putString("visibility", visibility);
-        arguments.putBoolean("markSensitive", markSensitive);
         arguments.putBoolean("hideText", hideText);
-        arguments.putBoolean("showMarkSensitive", showMarkSensitive);
         arguments.putBoolean("isReply", isReply);
         fragment.setArguments(arguments);
         return fragment;
@@ -44,9 +41,7 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
         Bundle arguments = getArguments();
         listener = arguments.getParcelable("listener");
         String statusVisibility = arguments.getString("visibility");
-        boolean statusMarkSensitive = arguments.getBoolean("markSensitive");
         boolean statusHideText = arguments.getBoolean("hideText");
-        boolean showMarkSensitive = arguments.getBoolean("showMarkSensitive");
         boolean isReply = arguments.getBoolean("isReply");
 
         RadioGroup radio = (RadioGroup) rootView.findViewById(R.id.radio_visibility);
@@ -89,20 +84,6 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
         if (isReply) {
             RadioButton publicButton = (RadioButton) rootView.findViewById(R.id.radio_public);
             publicButton.setEnabled(false);
-        }
-
-        CheckBox markSensitive = (CheckBox) rootView.findViewById(R.id.compose_mark_sensitive);
-        if (showMarkSensitive) {
-            markSensitive.setChecked(statusMarkSensitive);
-            markSensitive.setEnabled(true);
-            markSensitive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    listener.onMarkSensitiveChanged(isChecked);
-                }
-            });
-        } else {
-            markSensitive.setEnabled(false);
         }
 
         CheckBox hideText = (CheckBox) rootView.findViewById(R.id.compose_hide_text);

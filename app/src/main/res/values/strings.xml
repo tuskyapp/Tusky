@@ -134,9 +134,9 @@
     <string name="dialog_title_finishing_media_upload">Finishing Media Upload</string>
     <string name="dialog_message_uploading_media">Uploading…</string>
 
-    <string name="visibility_public">Show on public timeline</string>
-    <string name="visibility_unlisted">Do not display on public timeline</string>
-    <string name="visibility_private">Mark as private</string>
+    <string name="visibility_public">Everyone can see</string>
+    <string name="visibility_unlisted">Everyone can see, but not on public timelines</string>
+    <string name="visibility_private">Only followers and mentions can see</string>
 
     <string name="notification_service_description">Allows Tusky to check for Mastodon notifications.</string>
     <string name="notification_service_several_mentions">%d new mentions</string>
@@ -163,5 +163,6 @@
     <string name="error_unmuting">That user wasn\'t unmuted.</string>
     <string name="error_muting">That user wasn\'t muted.</string>
     <string name="search">Search accounts...</string>
+    <string name="toggle_nsfw">NSFW</string>
 
 </resources>
