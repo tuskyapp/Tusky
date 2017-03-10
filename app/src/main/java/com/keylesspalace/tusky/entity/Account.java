@@ -15,9 +15,13 @@
 
 package com.keylesspalace.tusky.entity;
 
+import android.os.Parcel;
 import android.text.Spanned;
 
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.google.gson.annotations.SerializedName;
+
+import org.parceler.Parcels;
 
 public class Account {
     public String id;

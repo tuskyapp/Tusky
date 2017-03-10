@@ -43,6 +43,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.arlib.floatingsearchview.FloatingSearchView;
 import com.keylesspalace.tusky.entity.Account;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -63,6 +64,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -90,8 +92,8 @@ public class MainActivity extends BaseActivity {
         // Fetch user info while we're doing other things.
         fetchUserInfo();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
         floatingBtn.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +103,8 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+        final FloatingSearchView searchView = (FloatingSearchView) findViewById(R.id.floating_search_view);
 
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -123,7 +127,7 @@ public class MainActivity extends BaseActivity {
 
         drawer = new DrawerBuilder()
                 .withActivity(this)
-                .withToolbar(toolbar)
+                //.withToolbar(toolbar)
                 .withAccountHeader(headerResult)
                 .withHasStableIds(true)
                 .withSelectedItem(-1)
@@ -174,6 +178,8 @@ public class MainActivity extends BaseActivity {
                     }
                 })
                 .build();
+
+        searchView.attachNavigationDrawerToMenuButton(drawer.getDrawerLayout());
 
         // Setup the tabs and timeline pager.
         TimelinePagerAdapter adapter = new TimelinePagerAdapter(getSupportFragmentManager());
