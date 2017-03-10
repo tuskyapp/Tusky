@@ -128,5 +128,6 @@
     <string name="error_muting">That user wasn\'t muted.</string>
     <string name="search">Search accounts…</string>
     <string name="toggle_nsfw">NSFW</string>
+    <string name="action_mention">Mention</string>
 
 </resources>

@@ -61,6 +61,7 @@ public class AccountActivity extends BaseActivity {
     private boolean isSelf;
     private String openInWebUrl;
     private TabLayout tabLayout;
+    private Account loadedAccount;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -170,6 +171,8 @@ public class AccountActivity extends BaseActivity {
     }
 
     private void onObtainAccountSuccess(Account account) {
+        loadedAccount = account;
+
         TextView username = (TextView) findViewById(R.id.account_username);
         TextView displayName = (TextView) findViewById(R.id.account_display_name);
         TextView note = (TextView) findViewById(R.id.account_note);
@@ -446,6 +449,12 @@ public class AccountActivity extends BaseActivity {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 onBackPressed();
+                return true;
+            }
+            case R.id.action_mention: {
+                Intent intent = new Intent(this, ComposeActivity.class);
+                intent.putExtra("mentioned_usernames", new String[] { loadedAccount.username });
+                startActivity(intent);
                 return true;
             }
             case R.id.action_open_in_web: {
