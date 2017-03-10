@@ -20,6 +20,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.SystemClock;
@@ -29,10 +30,17 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
+import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.keylesspalace.tusky.entity.Account;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -49,10 +57,12 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
 import java.util.Stack;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity"; // logging tag and Volley request tag
@@ -164,6 +174,70 @@ public class MainActivity extends BaseActivity {
 
         searchView.attachNavigationDrawerToMenuButton(drawer.getDrawerLayout());
 
+        searchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+            @Override
+            public void onSearchTextChanged(String oldQuery, String newQuery) {
+                if (!oldQuery.equals("") && newQuery.equals("")) {
+                    searchView.clearSuggestions();
+                    return;
+                }
+
+                if (newQuery.length() < 3) {
+                    return;
+                }
+
+                searchView.showProgress();
+
+                mastodonAPI.searchAccounts(newQuery, false, 5).enqueue(new Callback<List<Account>>() {
+                    @Override
+                    public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
+                        searchView.swapSuggestions(response.body());
+                        searchView.hideProgress();
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Account>> call, Throwable t) {
+                        searchView.hideProgress();
+                    }
+                });
+            }
+        });
+
+        searchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
+            @Override
+            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
+                Account accountSuggestion = (Account) searchSuggestion;
+                Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+                intent.putExtra("id", accountSuggestion.id);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onSearchAction(String currentQuery) {
+
+            }
+        });
+
+        searchView.setOnBindSuggestionCallback(new SearchSuggestionsAdapter.OnBindSuggestionCallback() {
+            @Override
+            public void onBindSuggestion(View suggestionView, ImageView leftIcon, TextView textView, SearchSuggestion item, int itemPosition) {
+                Account accountSuggestion = ((Account) item);
+
+                Picasso.with(MainActivity.this)
+                        .load(accountSuggestion.avatar)
+                        .placeholder(R.drawable.avatar_default)
+                        .into(leftIcon);
+
+                String searchStr = accountSuggestion.getDisplayName() + " " + accountSuggestion.username;
+                final SpannableStringBuilder str = new SpannableStringBuilder(searchStr);
+
+                str.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), 0, accountSuggestion.getDisplayName().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                textView.setText(str);
+                textView.setMaxLines(1);
+                textView.setEllipsize(TextUtils.TruncateAt.END);
+            }
+        });
+
         // Setup the tabs and timeline pager.
         TimelinePagerAdapter adapter = new TimelinePagerAdapter(getSupportFragmentManager());
         String[] pageTitles = {
@@ -256,12 +330,12 @@ public class MainActivity extends BaseActivity {
 
                 headerResult.addProfiles(
                         new ProfileDrawerItem()
-                                .withName(me.displayName)
+                                .withName(me.getDisplayName())
                                 .withEmail(String.format("%s@%s", me.username, domain))
                                 .withIcon(me.avatar)
                 );
 
-                //onFetchUserInfoSuccess(response.body().id, response.body().username);
+                onFetchUserInfoSuccess(me.id, me.username);
             }
 
             @Override

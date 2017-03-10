@@ -180,7 +180,7 @@ public class AccountActivity extends BaseActivity {
                 getString(R.string.status_username_format), account.username);
         username.setText(usernameFormatted);
 
-        displayName.setText(account.displayName);
+        displayName.setText(account.getDisplayName());
 
         note.setText(account.note);
         note.setLinksClickable(true);

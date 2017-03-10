@@ -105,7 +105,7 @@ class BlocksAdapter extends AccountAdapter {
 
         void setupWithAccount(Account account) {
             id = account.id;
-            displayName.setText(account.displayName);
+            displayName.setText(account.getDisplayName());
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.username);
             username.setText(formattedUsername);

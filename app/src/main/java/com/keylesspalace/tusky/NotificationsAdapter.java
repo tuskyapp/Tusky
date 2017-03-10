@@ -96,13 +96,13 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
                 case FAVOURITE:
                 case REBLOG: {
                     StatusNotificationViewHolder holder = (StatusNotificationViewHolder) viewHolder;
-                    holder.setMessage(type, notification.account.displayName,
+                    holder.setMessage(type, notification.account.getDisplayName(),
                             notification.status);
                     break;
                 }
                 case FOLLOW: {
                     FollowViewHolder holder = (FollowViewHolder) viewHolder;
-                    holder.setMessage(notification.account.displayName, notification.account.username,
+                    holder.setMessage(notification.account.getDisplayName(), notification.account.username,
                             notification.account.avatar);
                     holder.setupButtons(followListener, notification.account.id);
                     break;

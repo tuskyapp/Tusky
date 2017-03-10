@@ -15,12 +15,17 @@
 
 package com.keylesspalace.tusky.entity;
 
+import android.os.Parcel;
 import android.text.Spanned;
 
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.google.gson.annotations.SerializedName;
 
-public class Account {
+public class Account implements SearchSuggestion {
     public String id;
+
+    @SerializedName("username")
+    public String localUsername;
 
     @SerializedName("acct")
     public String username;
@@ -62,4 +67,47 @@ public class Account {
         Account account = (Account) other;
         return account.id.equals(this.id);
     }
+
+    public String getDisplayName() {
+        if (displayName.length() == 0) {
+            return localUsername;
+        }
+
+        return displayName;
+    }
+
+    @Override
+    public String getBody() {
+        return username;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
+
+    public Account() {
+
+    }
+
+    protected Account(Parcel in) {
+
+    }
+
+    public static final Creator<Account> CREATOR = new Creator<Account>() {
+        @Override
+        public Account createFromParcel(Parcel source) {
+            return new Account(source);
+        }
+
+        @Override
+        public Account[] newArray(int size) {
+            return new Account[size];
+        }
+    };
 }
