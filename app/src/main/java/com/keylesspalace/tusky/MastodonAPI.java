@@ -1,6 +1,8 @@
 package com.keylesspalace.tusky;
 
+import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.Account;
+import com.keylesspalace.tusky.entity.AppCredentials;
 import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Relationship;
@@ -10,7 +12,6 @@ import com.keylesspalace.tusky.entity.StatusContext;
 import java.util.List;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
@@ -167,4 +168,22 @@ public interface MastodonAPI {
     @FormUrlEncoded
     @POST("api/v1/reports")
     Call<ResponseBody> report(@Field("account_id") String accountId, @Field("status_ids[]") List<String> statusIds, @Field("comment") String comment);
+
+    @FormUrlEncoded
+    @POST("api/v1/apps")
+    Call<AppCredentials> authenticateApp(
+            @Field("client_name") String clientName,
+            @Field("redirect_uris[]") List<String> redirectUris,
+            @Field("scopes") String scopes,
+            @Field("website") String website);
+
+    @FormUrlEncoded
+    @POST("oauth/token")
+    Call<AccessToken> fetchOAuthToken(
+            @Field("client_id") String clientId,
+            @Field("client_secret") String clientSecret,
+            @Field("redirect_uri") String redirectUri,
+            @Field("code") String code,
+            @Field("grant_type") String grantType
+    );
 }

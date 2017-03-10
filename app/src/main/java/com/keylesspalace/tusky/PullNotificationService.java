@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -28,25 +29,16 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.Spanned;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.keylesspalace.tusky.entity.*;
 import com.keylesspalace.tusky.entity.Notification;
-
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -58,16 +50,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PullNotificationService extends IntentService {
     static final int NOTIFY_ID = 6; // This is an arbitrary number.
-    private static final String TAG = "PullNotifications"; // logging tag and Volley request tag
+    private static final String TAG = "PullNotifications"; // logging tag
 
     public PullNotificationService() {
         super("Tusky Pull Notification Service");
-    }
-
-    @Override
-    public void onDestroy() {
-        VolleySingleton.getInstance(this).cancelAll(TAG);
-        super.onDestroy();
     }
 
     @Override
@@ -173,18 +159,23 @@ public class PullNotificationService extends IntentService {
 
     private void loadAvatar(final List<MentionResult> mentions, String url) {
         if (url != null) {
-            ImageRequest request = new ImageRequest(url, new Response.Listener<Bitmap>() {
+            Target target = new Target() {
                 @Override
-                public void onResponse(Bitmap response) {
-                    updateNotification(mentions, response);
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    updateNotification(mentions, bitmap);
                 }
-            }, 0, 0, null, null, new Response.ErrorListener() {
+
                 @Override
-                public void onErrorResponse(VolleyError error) {
+                public void onBitmapFailed(Drawable errorDrawable) {
                     updateNotification(mentions, null);
                 }
-            });
-            VolleySingleton.getInstance(this).addToRequestQueue(request);
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {}
+            };
+            Picasso.with(this)
+                    .load(url)
+                    .into(target);
         } else {
             updateNotification(mentions, null);
         }

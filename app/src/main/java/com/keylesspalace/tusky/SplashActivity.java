@@ -37,7 +37,6 @@ public class SplashActivity extends Activity {
         String domain = preferences.getString("domain", null);
         String accessToken = preferences.getString("accessToken", null);
 
-
         final Intent intent;
 
         if (domain != null && accessToken != null) {

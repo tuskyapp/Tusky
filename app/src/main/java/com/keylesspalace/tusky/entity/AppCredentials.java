@@ -17,16 +17,10 @@ package com.keylesspalace.tusky.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Media {
-    public String id;
+public class AppCredentials {
+    @SerializedName("client_id")
+    public String clientId;
 
-    public String type;
-
-    public String url;
-
-    @SerializedName("preview_url")
-    public String previewUrl;
-
-    @SerializedName("text_url")
-    public String textUrl;
+    @SerializedName("client_secret")
+    public String clientSecret;
 }

@@ -28,19 +28,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.keylesspalace.tusky.entity.AccessToken;
+import com.keylesspalace.tusky.entity.AppCredentials;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class LoginActivity extends BaseActivity {
-    private static final String TAG = "LoginActivity";
     private static String OAUTH_SCOPES = "read write follow";
 
     private SharedPreferences preferences;
@@ -112,50 +112,33 @@ public class LoginActivity extends BaseActivity {
             clientSecret = prefClientSecret;
             redirectUserToAuthorizeAndLogin();
         } else {
-            String endpoint = getString(R.string.endpoint_apps);
-            String url = "https://" + domain + endpoint;
-            JSONObject parameters = new JSONObject();
-            try {
-                parameters.put("client_name", getString(R.string.app_name));
-                parameters.put("redirect_uris", getOauthRedirectUri());
-                parameters.put("scopes", OAUTH_SCOPES);
-                parameters.put("website", getString(R.string.app_website));
-            } catch (JSONException e) {
-                Log.e(TAG, "Unable to build the form data for the authentication request.");
-                return;
-            }
-            JsonObjectRequest request = new JsonObjectRequest(
-                    Request.Method.POST, url, parameters,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            String obtainedClientId;
-                            String obtainedClientSecret;
-                            try {
-                                obtainedClientId = response.getString("client_id");
-                                obtainedClientSecret = response.getString("client_secret");
-                            } catch (JSONException e) {
-                                Log.e(TAG, "Couldn't get data from the authentication response.");
-                                return;
-                            }
-                            clientId = obtainedClientId;
-                            clientSecret = obtainedClientSecret;
-                            SharedPreferences.Editor editor = preferences.edit();
-                            editor.putString(domain + "/client_id", clientId);
-                            editor.putString(domain + "/client_secret", clientSecret);
-                            editor.apply();
-                            redirectUserToAuthorizeAndLogin();
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            editText.setError(
-                                    "This app could not obtain authentication from that server " +
-                                    "instance.");
-                            error.printStackTrace();
-                        }
-                    });
-            VolleySingleton.getInstance(this).addToRequestQueue(request);
+            Callback<AppCredentials> callback = new Callback<AppCredentials>() {
+                @Override
+                public void onResponse(Call<AppCredentials> call, Response<AppCredentials> response) {
+                    AppCredentials credentials = response.body();
+                    clientId = credentials.clientId;
+                    clientSecret = credentials.clientSecret;
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString(domain + "/client_id", clientId);
+                    editor.putString(domain + "/client_secret", clientSecret);
+                    editor.apply();
+                    redirectUserToAuthorizeAndLogin();
+                }
+
+                @Override
+                public void onFailure(Call<AppCredentials> call, Throwable t) {
+                    editText.setError(
+                            "This app could not obtain authentication from that server " +
+                            "instance.");
+                    t.printStackTrace();
+                }
+            };
+
+            List<String> redirectUris = new ArrayList<>();
+            redirectUris.add(getOauthRedirectUri());
+            mastodonAPI.authenticateApp(getString(R.string.app_name), redirectUris, OAUTH_SCOPES,
+                    getString(R.string.app_website)).enqueue(callback);
+
         }
     }
 
@@ -251,40 +234,19 @@ public class LoginActivity extends BaseActivity {
                 clientSecret = preferences.getString("clientSecret", null);
                 /* Since authorization has succeeded, the final step to log in is to exchange
                  * the authorization code for an access token. */
-                JSONObject parameters = new JSONObject();
-                try {
-                    parameters.put("client_id", clientId);
-                    parameters.put("client_secret", clientSecret);
-                    parameters.put("redirect_uri", redirectUri);
-                    parameters.put("code", code);
-                    parameters.put("grant_type", "authorization_code");
-                } catch (JSONException e) {
-                    errorText.setText(e.getMessage());
-                    return;
-                }
-                String endpoint = getString(R.string.endpoint_token);
-                String url = "https://" + domain + endpoint;
-                JsonObjectRequest request = new JsonObjectRequest(
-                    Request.Method.POST, url, parameters,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            String accessToken;
-                            try {
-                                accessToken = response.getString("access_token");
-                            } catch(JSONException e) {
-                                editText.setError(e.getMessage());
-                                return;
-                            }
-                            onLoginSuccess(accessToken);
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            editText.setError(error.getMessage());
-                        }
-                    });
-                VolleySingleton.getInstance(this).addToRequestQueue(request);
+                Callback<AccessToken> callback = new Callback<AccessToken>() {
+                    @Override
+                    public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
+                        onLoginSuccess(response.body().accessToken);
+                    }
+
+                    @Override
+                    public void onFailure(Call<AccessToken> call, Throwable t) {
+                        editText.setError(t.getMessage());
+                    }
+                };
+                mastodonAPI.fetchOAuthToken(clientId, clientSecret, redirectUri, code,
+                        "authorization_code").enqueue(callback);
             } else if (error != null) {
                 /* Authorization failed. Put the error response where the user can read it and they
                  * can try again. */

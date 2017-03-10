@@ -27,16 +27,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -96,9 +96,11 @@ public class BaseActivity extends AppCompatActivity {
                     public Response intercept(Chain chain) throws IOException {
                         Request originalRequest = chain.request();
 
-                        Request.Builder builder = originalRequest.newBuilder()
-                                .header("Authorization", String.format("Bearer %s", getAccessToken()));
-
+                        Request.Builder builder = originalRequest.newBuilder();
+                        String accessToken = getAccessToken();
+                        if (accessToken != null) {
+                            builder.header("Authorization", String.format("Bearer %s", accessToken));
+                        }
                         Request newRequest = builder.build();
 
                         return chain.proceed(newRequest);

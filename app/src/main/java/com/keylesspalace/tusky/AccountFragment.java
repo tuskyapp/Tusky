@@ -17,7 +17,6 @@ package com.keylesspalace.tusky;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,17 +29,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,8 +49,6 @@ public class AccountFragment extends Fragment implements AccountActionListener,
 
     private Type type;
     private String accountId;
-    private String domain;
-    private String accessToken;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
@@ -89,11 +79,6 @@ public class AccountFragment extends Fragment implements AccountActionListener,
         Bundle arguments = getArguments();
         type = Type.valueOf(arguments.getString("type"));
         accountId = arguments.getString("accountId");
-
-        SharedPreferences preferences = getContext().getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        domain = preferences.getString("domain", null);
-        accessToken = preferences.getString("accessToken", null);
         api = ((BaseActivity) getActivity()).mastodonAPI;
     }
 
