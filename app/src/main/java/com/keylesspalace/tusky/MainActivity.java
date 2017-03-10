@@ -32,13 +32,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.arlib.floatingsearchview.FloatingSearchView;
 import com.keylesspalace.tusky.entity.Account;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
@@ -71,8 +75,8 @@ public class MainActivity extends BaseActivity {
         // Fetch user info while we're doing other things.
         fetchUserInfo();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
         floatingBtn.setOnClickListener(new View.OnClickListener() {
@@ -83,25 +87,13 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        final FloatingSearchView searchView = (FloatingSearchView) findViewById(R.id.floating_search_view);
+
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withSelectionListEnabledForSingleProfile(false)
-                .withTranslucentStatusBar(true)
+                .withDividerBelowHeader(false)
                 .withCompactStyle(true)
-                .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
-                    @Override
-                    public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-                        Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-                        intent.putExtra("id", loggedInAccountId);
-                        startActivity(intent);
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
-                        return false;
-                    }
-                })
                 .build();
 
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
@@ -118,16 +110,17 @@ public class MainActivity extends BaseActivity {
 
         drawer = new DrawerBuilder()
                 .withActivity(this)
-                .withToolbar(toolbar)
-                .withTranslucentStatusBar(true)
+                //.withToolbar(toolbar)
                 .withAccountHeader(headerResult)
                 .withHasStableIds(true)
                 .withSelectedItem(-1)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.action_view_favourites)).withSelectable(false),
-                        new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.action_view_blocks)).withSelectable(false),
-                        new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.action_view_preferences)).withSelectable(false),
-                        new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.action_logout)).withSelectable(false)
+                        new PrimaryDrawerItem().withIdentifier(0).withName(R.string.action_view_profile).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person),
+                        new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.action_view_favourites)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_star),
+                        new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block),
+                        new DividerDrawerItem(),
+                        new SecondaryDrawerItem().withIdentifier(3).withName(getString(R.string.action_view_preferences)).withSelectable(false),
+                        new SecondaryDrawerItem().withIdentifier(4).withName(getString(R.string.action_logout)).withSelectable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -135,7 +128,11 @@ public class MainActivity extends BaseActivity {
                         if (drawerItem != null) {
                             long drawerItemIdentifier = drawerItem.getIdentifier();
 
-                            if (drawerItemIdentifier == 1) {
+                            if (drawerItemIdentifier == 0) {
+                                Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+                                intent.putExtra("id", loggedInAccountId);
+                                startActivity(intent);
+                            } else if (drawerItemIdentifier == 1) {
                                 Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
                                 startActivity(intent);
                             } else if (drawerItemIdentifier == 2) {
@@ -164,6 +161,8 @@ public class MainActivity extends BaseActivity {
                     }
                 })
                 .build();
+
+        searchView.attachNavigationDrawerToMenuButton(drawer.getDrawerLayout());
 
         // Setup the tabs and timeline pager.
         TimelinePagerAdapter adapter = new TimelinePagerAdapter(getSupportFragmentManager());
@@ -236,39 +235,40 @@ public class MainActivity extends BaseActivity {
         final String domain = preferences.getString("domain", null);
         String id = preferences.getString("loggedInAccountId", null);
         String username = preferences.getString("loggedInAccountUsername", null);
-        //if (id != null && username != null) {
-        //    loggedInAccountId = id;
-        //    loggedInAccountUsername = username;
-        //} else {
-            mastodonAPI.accountVerifyCredentials().enqueue(new Callback<Account>() {
-                @Override
-                public void onResponse(Call<Account> call, retrofit2.Response<Account> response) {
-                    Account me = response.body();
-                    ImageView background = headerResult.getHeaderBackgroundView();
 
-                    Picasso.with(MainActivity.this)
-                            .load(me.header)
-                            .placeholder(R.drawable.account_header_missing)
-                            .resize(background.getWidth(), background.getHeight())
-                            .centerCrop()
-                            .into(background);
+        if (id != null && username != null) {
+            loggedInAccountId = id;
+            loggedInAccountUsername = username;
+        }
 
-                    headerResult.addProfiles(
-                            new ProfileDrawerItem()
-                                    .withName(me.displayName)
-                                    .withEmail(String.format("%s@%s", me.username, domain))
-                                    .withIcon(me.avatar)
-                    );
+        mastodonAPI.accountVerifyCredentials().enqueue(new Callback<Account>() {
+            @Override
+            public void onResponse(Call<Account> call, retrofit2.Response<Account> response) {
+                Account me = response.body();
+                ImageView background = headerResult.getHeaderBackgroundView();
 
-                    //onFetchUserInfoSuccess(response.body().id, response.body().username);
-                }
+                Picasso.with(MainActivity.this)
+                        .load(me.header)
+                        .placeholder(R.drawable.account_header_missing)
+                        .resize(background.getWidth(), background.getHeight())
+                        .centerCrop()
+                        .into(background);
 
-                @Override
-                public void onFailure(Call<Account> call, Throwable t) {
-                    onFetchUserInfoFailure((Exception) t);
-                }
-            });
-        //}
+                headerResult.addProfiles(
+                        new ProfileDrawerItem()
+                                .withName(me.displayName)
+                                .withEmail(String.format("%s@%s", me.username, domain))
+                                .withIcon(me.avatar)
+                );
+
+                //onFetchUserInfoSuccess(response.body().id, response.body().username);
+            }
+
+            @Override
+            public void onFailure(Call<Account> call, Throwable t) {
+                onFetchUserInfoFailure((Exception) t);
+            }
+        });
     }
 
     private void onFetchUserInfoSuccess(String id, String username) {

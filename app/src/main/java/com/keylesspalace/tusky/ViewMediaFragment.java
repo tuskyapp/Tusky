@@ -28,6 +28,9 @@ import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class ViewMediaFragment extends Fragment {
+
+    private PhotoViewAttacher attacher;
+
     public static ViewMediaFragment newInstance(String url) {
         Bundle arguments = new Bundle();
         ViewMediaFragment fragment = new ViewMediaFragment();
@@ -45,7 +48,7 @@ public class ViewMediaFragment extends Fragment {
         String url = arguments.getString("url");
         PhotoView photoView = (PhotoView) rootView.findViewById(R.id.view_media_image);
 
-        final PhotoViewAttacher attacher = new PhotoViewAttacher(photoView);
+        attacher = new PhotoViewAttacher(photoView);
 
         attacher.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
             @Override
@@ -74,6 +77,12 @@ public class ViewMediaFragment extends Fragment {
                 });
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        attacher.cleanup();
+        super.onDestroyView();
     }
 
     private void dismiss() {

@@ -233,12 +233,13 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
             previews[i].setVisibility(View.VISIBLE);
 
             Picasso.with(context)
-                .load(previewUrl)
-                .placeholder(mediaPreviewUnloadedId)
-                .into(previews[i]);
+                    .load(previewUrl)
+                    .placeholder(mediaPreviewUnloadedId)
+                    .into(previews[i]);
 
             final String url = attachments[i].url;
             final Status.MediaAttachment.Type type = attachments[i].type;
+
             previews[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -16,14 +16,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
+        <!--<android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/AppTheme.Account.AppBarLayout"
             app:popupTheme="@style/AppTheme.Account.ToolbarPopupTheme.Dark"
             android:elevation="4dp"
-            android:background="?attr/toolbar_background_color" />
+            android:background="?attr/toolbar_background_color" />-->
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
@@ -34,9 +34,11 @@
                 android:id="@+id/tab_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?android:colorBackground"
+                android:paddingTop="?attr/actionBarSize"
                 app:tabTextAppearance="@style/TabLayoutTextStyle"
-                app:tabBackground="?android:colorBackground"
                 app:tabPaddingStart="1dp"
+                app:tabPaddingTop="4dp"
                 app:tabPaddingEnd="1dp">
 
                 <android.support.design.widget.TabItem
@@ -59,6 +61,19 @@
         </android.support.v4.view.ViewPager>
     </LinearLayout>
 
+    <com.arlib.floatingsearchview.FloatingSearchView
+        android:id="@+id/floating_search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:floatingSearch_searchBarMarginLeft="6dp"
+        app:floatingSearch_searchBarMarginTop="4dp"
+        app:floatingSearch_searchBarMarginRight="6dp"
+        app:floatingSearch_searchHint="@string/search"
+        app:floatingSearch_suggestionsListAnimDuration="250"
+        app:floatingSearch_showSearchKey="false"
+        app:floatingSearch_leftActionMode="showHamburger"
+        app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
+
     <FrameLayout
         android:id="@+id/overlay_fragment_container"
         android:layout_width="match_parent"
@@ -68,7 +83,9 @@
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floating_btn"
         android:layout_width="wrap_content"
-        android:layout_gravity="bottom|end"
+        app:layout_anchor="@id/pager"
+        app:layout_anchorGravity="bottom|end"
+        android:clickable="true"
         android:layout_margin="16dp"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_create_24dp"/>

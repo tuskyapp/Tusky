@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:padding="16dp"
     android:layout_height="match_parent">
 
     <RadioGroup
@@ -34,13 +35,6 @@
             android:layout_weight="1" />
 
     </RadioGroup>
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/compose_options_margin"
-        android:id="@+id/compose_mark_sensitive"
-        android:text="@string/action_mark_sensitive" />
 
     <CheckBox
         android:layout_width="wrap_content"

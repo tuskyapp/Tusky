@@ -41,7 +41,6 @@ import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v13.view.inputmethod.EditorInfoCompat;
 import android.support.v13.view.inputmethod.InputConnectionCompat;
@@ -57,14 +56,15 @@ import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -72,6 +72,7 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -100,8 +101,6 @@ public class ComposeActivity extends BaseActivity {
     private static final int MEDIA_SIZE_UNKNOWN = -1;
 
     private String inReplyToId;
-    private String domain;
-    private String accessToken;
     private EditText textEditor;
     private LinearLayout mediaPreviewBar;
     private ArrayList<QueuedMedia> mediaQueued;
@@ -117,6 +116,10 @@ public class ComposeActivity extends BaseActivity {
     private ProgressDialog finishingUploadDialog;
     private EditText contentWarningEditor;
     private boolean mediaPickEnabled;
+    private ImageButton pickBtn;
+    private Button nsfwBtn;
+    private ImageButton visibilityBtn;
+    private Button floatingBtn;
 
     private static class QueuedMedia {
         enum Type {
@@ -325,6 +328,7 @@ public class ComposeActivity extends BaseActivity {
             actionBar.setTitle(null);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_close_24dp);
         }
 
         SharedPreferences preferences = getSharedPreferences(
@@ -332,11 +336,33 @@ public class ComposeActivity extends BaseActivity {
 
         mediaPickEnabled = true;
 
-        FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
+        floatingBtn = (Button) findViewById(R.id.floating_btn);
+        pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
+        nsfwBtn = (Button) findViewById(R.id.action_toggle_nsfw);
+        visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
+
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendStatus();
+            }
+        });
+        pickBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onMediaPick();
+            }
+        });
+        nsfwBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleNsfw();
+            }
+        });
+        visibilityBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showComposeOptions();
             }
         });
 
@@ -362,6 +388,12 @@ public class ComposeActivity extends BaseActivity {
             statusHideText = false;
         }
 
+        if (statusMarkSensitive) {
+            nsfwBtn.setTextColor(ContextCompat.getColor(this, R.color.color_accent_dark));
+        } else {
+            nsfwBtn.setTextColor(ContextCompat.getColor(this, R.color.image_button_dark));
+        }
+
         Intent intent = getIntent();
         String[] mentionedUsernames = null;
         if (intent != null) {
@@ -374,9 +406,6 @@ public class ComposeActivity extends BaseActivity {
             }
             mentionedUsernames = intent.getStringArrayExtra("mentioned_usernames");
         }
-
-        domain = preferences.getString("domain", null);
-        accessToken = preferences.getString("accessToken", null);
 
         textEditor = createEditText(null); // new String[] { "image/gif", "image/webp" }
         if (savedInstanceState != null) {
@@ -435,10 +464,19 @@ public class ComposeActivity extends BaseActivity {
         }
     }
 
+    private void toggleNsfw() {
+        statusMarkSensitive = !statusMarkSensitive;
+
+        if (statusMarkSensitive) {
+            nsfwBtn.setTextColor(ContextCompat.getColor(this, R.color.color_accent_dark));
+        } else {
+            nsfwBtn.setTextColor(ContextCompat.getColor(this, R.color.image_button_dark));
+        }
+    }
+
     private void showComposeOptions() {
         ComposeOptionsFragment fragment = ComposeOptionsFragment.newInstance(
-                statusVisibility, statusMarkSensitive, statusHideText,
-                showMarkSensitive, inReplyToId != null,
+                statusVisibility, statusHideText, inReplyToId != null,
                 new ComposeOptionsFragment.Listener() {
                     @Override
                     public int describeContents() {
@@ -451,11 +489,6 @@ public class ComposeActivity extends BaseActivity {
                     @Override
                     public void onVisibilityChanged(String visibility) {
                         statusVisibility = visibility;
-                    }
-
-                    @Override
-                    public void onMarkSensitiveChanged(boolean markSensitive) {
-                        statusMarkSensitive = markSensitive;
                     }
 
                     @Override
@@ -551,6 +584,7 @@ public class ComposeActivity extends BaseActivity {
         editText.setLayoutParams(layoutParams);
         editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editText.setEms(10);
+        editText.setBackgroundColor(0);
         editText.setGravity(Gravity.START | Gravity.TOP);
         editText.setHint(R.string.hint_compose);
         return editText;
@@ -758,23 +792,12 @@ public class ComposeActivity extends BaseActivity {
 
     private void enableMediaPicking() {
         mediaPickEnabled = true;
-        invalidateOptionsMenu();
+        pickBtn.setEnabled(true);
     }
 
     private void disableMediaPicking() {
         mediaPickEnabled = false;
-        invalidateOptionsMenu();
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if (mediaPickEnabled) {
-            menu.findItem(R.id.compose_photo_pick).setEnabled(true);
-        } else {
-            menu.findItem(R.id.compose_photo_pick).setEnabled(false);
-        }
-
-        return super.onPrepareOptionsMenu(menu);
+        pickBtn.setEnabled(false);
     }
 
     private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize) {
@@ -786,10 +809,15 @@ public class ComposeActivity extends BaseActivity {
         int marginBottom = resources.getDimensionPixelSize(
                 R.dimen.compose_media_preview_margin_bottom);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(side, side);
-        layoutParams.setMargins(margin, margin, margin, marginBottom);
+        layoutParams.setMargins(margin, 0, margin, marginBottom);
         view.setLayoutParams(layoutParams);
-        view.setImageBitmap(preview);
-        view.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        Picasso.with(this)
+                .load(uri)
+                .resize(side, side)
+                .centerCrop()
+                .into(view);
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1055,8 +1083,16 @@ public class ComposeActivity extends BaseActivity {
 
     void showMarkSensitive(boolean show) {
         showMarkSensitive = show;
+
         if(!showMarkSensitive) {
             statusMarkSensitive = false;
+            nsfwBtn.setTextColor(ContextCompat.getColor(this, R.color.image_button_dark));
+        }
+
+        if(show) {
+            nsfwBtn.setVisibility(View.VISIBLE);
+        } else {
+            nsfwBtn.setVisibility(View.GONE);
         }
     }
 
@@ -1070,26 +1106,10 @@ public class ComposeActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.compose_toolbar, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 onBackPressed();
-                return true;
-            }
-
-            case R.id.compose_photo_pick: {
-                onMediaPick();
-                return true;
-            }
-
-            case R.id.compose_options: {
-                showComposeOptions();
                 return true;
             }
         }
