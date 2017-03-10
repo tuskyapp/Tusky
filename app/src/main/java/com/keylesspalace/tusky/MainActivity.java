@@ -32,6 +32,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.arlib.floatingsearchview.FloatingSearchView;
 import com.keylesspalace.tusky.entity.Account;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -41,6 +42,7 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
@@ -73,8 +75,8 @@ public class MainActivity extends BaseActivity {
         // Fetch user info while we're doing other things.
         fetchUserInfo();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
         floatingBtn.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +86,8 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+        final FloatingSearchView searchView = (FloatingSearchView) findViewById(R.id.floating_search_view);
 
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -106,7 +110,7 @@ public class MainActivity extends BaseActivity {
 
         drawer = new DrawerBuilder()
                 .withActivity(this)
-                .withToolbar(toolbar)
+                //.withToolbar(toolbar)
                 .withAccountHeader(headerResult)
                 .withHasStableIds(true)
                 .withSelectedItem(-1)
@@ -157,6 +161,8 @@ public class MainActivity extends BaseActivity {
                     }
                 })
                 .build();
+
+        searchView.attachNavigationDrawerToMenuButton(drawer.getDrawerLayout());
 
         // Setup the tabs and timeline pager.
         TimelinePagerAdapter adapter = new TimelinePagerAdapter(getSupportFragmentManager());
