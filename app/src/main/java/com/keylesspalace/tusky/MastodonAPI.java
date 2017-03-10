@@ -25,6 +25,8 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface MastodonAPI {
+    String ENDPOINT_AUTHORIZE = "/oauth/authorize";
+
     @GET("api/v1/timelines/home")
     Call<List<Status>> homeTimeline(
             @Query("max_id") String maxId,

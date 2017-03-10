@@ -32,15 +32,12 @@ class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover
 
     private List<Status> statuses;
     private StatusActionListener statusListener;
-    private FooterActionListener footerListener;
     private FooterViewHolder.State footerState;
 
-    TimelineAdapter(StatusActionListener statusListener,
-            FooterActionListener footerListener) {
+    TimelineAdapter(StatusActionListener statusListener) {
         super();
         statuses = new ArrayList<>();
         this.statusListener = statusListener;
-        this.footerListener = footerListener;
         footerState = FooterViewHolder.State.LOADING;
     }
 

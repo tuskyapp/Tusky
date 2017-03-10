@@ -35,9 +35,8 @@ class BlocksAdapter extends AccountAdapter {
 
     private Set<Integer> unblockedAccountPositions;
 
-    BlocksAdapter(AccountActionListener accountActionListener,
-            FooterActionListener footerActionListener) {
-        super(accountActionListener, footerActionListener);
+    BlocksAdapter(AccountActionListener accountActionListener) {
+        super(accountActionListener);
         unblockedAccountPositions = new HashSet<>();
     }
 

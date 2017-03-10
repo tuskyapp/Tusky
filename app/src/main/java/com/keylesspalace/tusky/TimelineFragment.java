@@ -18,6 +18,7 @@ package com.keylesspalace.tusky;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -35,12 +36,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class TimelineFragment extends SFragment implements
-        SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener {
+        SwipeRefreshLayout.OnRefreshListener, StatusActionListener {
     private static final String TAG = "Timeline"; // logging tag
 
-    public enum Kind {
+    enum Kind {
         HOME,
-        MENTIONS,
         PUBLIC,
         TAG,
         USER,
@@ -106,14 +106,14 @@ public class TimelineFragment extends SFragment implements
                 TimelineAdapter adapter = (TimelineAdapter) view.getAdapter();
                 Status status = adapter.getItem(adapter.getItemCount() - 2);
                 if (status != null) {
-                    sendFetchTimelineRequest(status.id);
+                    sendFetchTimelineRequest(status.id, null);
                 } else {
                     sendFetchTimelineRequest();
                 }
             }
         };
         recyclerView.addOnScrollListener(scrollListener);
-        adapter = new TimelineAdapter(this, this);
+        adapter = new TimelineAdapter(this);
         recyclerView.setAdapter(adapter);
 
         if (jumpToTopAllowed()) {
@@ -156,7 +156,7 @@ public class TimelineFragment extends SFragment implements
         scrollListener.reset();
     }
 
-    private void sendFetchTimelineRequest(final String fromId) {
+    private void sendFetchTimelineRequest(@Nullable final String fromId, @Nullable String uptoId) {
         MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
 
         Callback<List<Status>> cb = new Callback<List<Status>>() {
@@ -174,30 +174,30 @@ public class TimelineFragment extends SFragment implements
         switch (kind) {
             default:
             case HOME: {
-                api.homeTimeline(fromId, null, null).enqueue(cb);
+                api.homeTimeline(fromId, uptoId, null).enqueue(cb);
                 break;
             }
             case PUBLIC: {
-                api.publicTimeline(null, fromId, null, null).enqueue(cb);
+                api.publicTimeline(null, fromId, uptoId, null).enqueue(cb);
                 break;
             }
             case TAG: {
-                api.hashtagTimeline(hashtagOrId, null, fromId, null, null).enqueue(cb);
+                api.hashtagTimeline(hashtagOrId, null, fromId, uptoId, null).enqueue(cb);
                 break;
             }
             case USER: {
-                api.accountStatuses(hashtagOrId, fromId, null, null).enqueue(cb);
+                api.accountStatuses(hashtagOrId, fromId, uptoId, null).enqueue(cb);
                 break;
             }
             case FAVOURITES: {
-                api.favourites(fromId, null, null).enqueue(cb);
+                api.favourites(fromId, uptoId, null).enqueue(cb);
                 break;
             }
         }
     }
 
     private void sendFetchTimelineRequest() {
-        sendFetchTimelineRequest(null);
+        sendFetchTimelineRequest(null, null);
     }
 
     private static boolean findStatus(List<Status> statuses, String id) {
@@ -240,13 +240,9 @@ public class TimelineFragment extends SFragment implements
     }
 
     public void onRefresh() {
-        sendFetchTimelineRequest();
-    }
-
-    public void onLoadMore() {
-        Status status = adapter.getItem(adapter.getItemCount() - 2);
+        Status status = adapter.getItem(0);
         if (status != null) {
-            sendFetchTimelineRequest(status.id);
+            sendFetchTimelineRequest(null, status.id);
         } else {
             sendFetchTimelineRequest();
         }

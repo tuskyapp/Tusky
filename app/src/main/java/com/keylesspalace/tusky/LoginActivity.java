@@ -82,7 +82,7 @@ public class LoginActivity extends BaseActivity {
     private void redirectUserToAuthorizeAndLogin() {
         /* To authorize this app and log in it's necessary to redirect to the domain given,
          * activity_login there, and the server will redirect back to the app with its response. */
-        String endpoint = getString(R.string.endpoint_authorize);
+        String endpoint = MastodonAPI.ENDPOINT_AUTHORIZE;
         String redirectUri = getOauthRedirectUri();
         Map<String, String> parameters = new HashMap<>();
         parameters.put("client_id", clientId);

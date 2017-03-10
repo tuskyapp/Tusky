@@ -44,16 +44,13 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
     private List<Notification> notifications;
     private StatusActionListener statusListener;
     private FollowListener followListener;
-    private FooterActionListener footerListener;
     private FooterViewHolder.State footerState;
 
-    NotificationsAdapter(StatusActionListener statusListener, FollowListener followListener,
-        FooterActionListener footerListener) {
+    NotificationsAdapter(StatusActionListener statusListener, FollowListener followListener) {
         super();
         notifications = new ArrayList<>();
         this.statusListener = statusListener;
         this.followListener = followListener;
-        this.footerListener = footerListener;
         footerState = FooterViewHolder.State.LOADING;
     }
 
@@ -187,7 +184,6 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
 
     interface FollowListener {
         void onViewAccount(String id);
-        void onFollow(String id);
     }
 
     private static class FollowViewHolder extends RecyclerView.ViewHolder {

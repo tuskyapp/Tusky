@@ -38,7 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class NotificationsFragment extends SFragment implements
-        SwipeRefreshLayout.OnRefreshListener, StatusActionListener, FooterActionListener,
+        SwipeRefreshLayout.OnRefreshListener, StatusActionListener,
         NotificationsAdapter.FollowListener {
     private static final String TAG = "Notifications"; // logging tag
 
@@ -91,14 +91,14 @@ public class NotificationsFragment extends SFragment implements
                 NotificationsAdapter adapter = (NotificationsAdapter) view.getAdapter();
                 Notification notification = adapter.getItem(adapter.getItemCount() - 2);
                 if (notification != null) {
-                    sendFetchNotificationsRequest(notification.id);
+                    sendFetchNotificationsRequest(notification.id, null);
                 } else {
                     sendFetchNotificationsRequest();
                 }
             }
         };
         recyclerView.addOnScrollListener(scrollListener);
-        adapter = new NotificationsAdapter(this, this, this);
+        adapter = new NotificationsAdapter(this, this);
         recyclerView.setAdapter(adapter);
 
         TabLayout layout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
@@ -116,8 +116,6 @@ public class NotificationsFragment extends SFragment implements
         };
         layout.addOnTabSelectedListener(onTabSelectedListener);
 
-        sendFetchNotificationsRequest();
-
         return rootView;
     }
 
@@ -133,10 +131,10 @@ public class NotificationsFragment extends SFragment implements
         scrollListener.reset();
     }
 
-    private void sendFetchNotificationsRequest(final String fromId) {
+    private void sendFetchNotificationsRequest(final String fromId, String uptoId) {
         MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
 
-        api.notifications(fromId, null, null).enqueue(new Callback<List<Notification>>() {
+        api.notifications(fromId, uptoId, null).enqueue(new Callback<List<Notification>>() {
             @Override
             public void onResponse(Call<List<Notification>> call, retrofit2.Response<List<Notification>> response) {
                 onFetchNotificationsSuccess(response.body(), fromId);
@@ -150,7 +148,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void sendFetchNotificationsRequest() {
-        sendFetchNotificationsRequest(null);
+        sendFetchNotificationsRequest(null, null);
     }
 
     private static boolean findNotification(List<Notification> notifications, String id) {
@@ -193,13 +191,9 @@ public class NotificationsFragment extends SFragment implements
     }
 
     public void onRefresh() {
-        sendFetchNotificationsRequest();
-    }
-
-    public void onLoadMore() {
-        Notification notification = adapter.getItem(adapter.getItemCount() - 2);
+        Notification notification = adapter.getItem(0);
         if (notification != null) {
-            sendFetchNotificationsRequest(notification.id);
+            sendFetchNotificationsRequest(null, notification.id);
         } else {
             sendFetchNotificationsRequest();
         }
@@ -240,9 +234,5 @@ public class NotificationsFragment extends SFragment implements
 
     public void onViewAccount(String id) {
         super.viewAccount(id);
-    }
-
-    public void onFollow(String id) {
-        super.follow(id);
     }
 }

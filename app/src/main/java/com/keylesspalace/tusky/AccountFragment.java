@@ -37,8 +37,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class AccountFragment extends Fragment implements AccountActionListener,
-        FooterActionListener {
+public class AccountFragment extends Fragment implements AccountActionListener {
     private static final String TAG = "Account"; // logging tag
 
     public enum Type {
@@ -106,7 +105,7 @@ public class AccountFragment extends Fragment implements AccountActionListener,
                 AccountAdapter adapter = (AccountAdapter) view.getAdapter();
                 Account account = adapter.getItem(adapter.getItemCount() - 2);
                 if (account != null) {
-                    fetchAccounts(account.id);
+                    fetchAccounts(account.id, null);
                 } else {
                     fetchAccounts();
                 }
@@ -114,9 +113,9 @@ public class AccountFragment extends Fragment implements AccountActionListener,
         };
         recyclerView.addOnScrollListener(scrollListener);
         if (type == Type.BLOCKS) {
-            adapter = new BlocksAdapter(this, this);
+            adapter = new BlocksAdapter(this);
         } else {
-            adapter = new FollowAdapter(this, this);
+            adapter = new FollowAdapter(this);
         }
         recyclerView.setAdapter(adapter);
 
@@ -151,7 +150,7 @@ public class AccountFragment extends Fragment implements AccountActionListener,
         super.onDestroyView();
     }
 
-    private void fetchAccounts(final String fromId) {
+    private void fetchAccounts(final String fromId, String uptoId) {
         Callback<List<Account>> cb = new Callback<List<Account>>() {
             @Override
             public void onResponse(Call<List<Account>> call, retrofit2.Response<List<Account>> response) {
@@ -167,22 +166,22 @@ public class AccountFragment extends Fragment implements AccountActionListener,
         switch (type) {
             default:
             case FOLLOWS: {
-                api.accountFollowing(accountId, fromId, null, null).enqueue(cb);
+                api.accountFollowing(accountId, fromId, uptoId, null).enqueue(cb);
                 break;
             }
             case FOLLOWERS: {
-                api.accountFollowers(accountId, fromId, null, null).enqueue(cb);
+                api.accountFollowers(accountId, fromId, uptoId, null).enqueue(cb);
                 break;
             }
             case BLOCKS: {
-                api.blocks(fromId, null, null).enqueue(cb);
+                api.blocks(fromId, uptoId, null).enqueue(cb);
                 break;
             }
         }
     }
 
     private void fetchAccounts() {
-        fetchAccounts(null);
+        fetchAccounts(null, null);
     }
 
     private static boolean findAccount(List<Account> accounts, String id) {
@@ -226,15 +225,6 @@ public class AccountFragment extends Fragment implements AccountActionListener,
         if (viewHolder != null) {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
             holder.setState(state);
-        }
-    }
-
-    public void onLoadMore() {
-        Account account = adapter.getItem(adapter.getItemCount() - 2);
-        if (account != null) {
-            fetchAccounts(account.id);
-        } else {
-            fetchAccounts();
         }
     }
 

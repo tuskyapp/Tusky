@@ -25,15 +25,12 @@ import java.util.List;
 abstract class AccountAdapter extends RecyclerView.Adapter {
     List<Account> accountList;
     AccountActionListener accountActionListener;
-    FooterActionListener footerActionListener;
     FooterViewHolder.State footerState;
 
-    AccountAdapter(AccountActionListener accountActionListener,
-            FooterActionListener footerActionListener) {
+    AccountAdapter(AccountActionListener accountActionListener) {
         super();
         accountList = new ArrayList<>();
         this.accountActionListener = accountActionListener;
-        this.footerActionListener = footerActionListener;
         footerState = FooterViewHolder.State.LOADING;
     }
 

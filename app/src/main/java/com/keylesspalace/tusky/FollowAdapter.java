@@ -31,9 +31,8 @@ class FollowAdapter extends AccountAdapter {
     private static final int VIEW_TYPE_ACCOUNT = 0;
     private static final int VIEW_TYPE_FOOTER = 1;
 
-    FollowAdapter(AccountActionListener accountActionListener,
-            FooterActionListener footerActionListener) {
-        super(accountActionListener, footerActionListener);
+    FollowAdapter(AccountActionListener accountActionListener) {
+        super(accountActionListener);
     }
 
     @Override
