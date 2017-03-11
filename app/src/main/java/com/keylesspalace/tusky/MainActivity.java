@@ -28,7 +28,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -44,7 +43,6 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
@@ -61,8 +59,7 @@ public class MainActivity extends BaseActivity {
     private PendingIntent serviceAlarmIntent;
     private boolean notificationServiceEnabled;
     private String loggedInAccountId;
-    private String loggedInAccountUsername;
-    Stack<Integer> pageHistory = new Stack<Integer>();
+    Stack<Integer> pageHistory = new Stack<>();
     private ViewPager viewPager;
     private AccountHeader headerResult;
     private Drawer drawer;
@@ -129,9 +126,13 @@ public class MainActivity extends BaseActivity {
                             long drawerItemIdentifier = drawerItem.getIdentifier();
 
                             if (drawerItemIdentifier == 0) {
-                                Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-                                intent.putExtra("id", loggedInAccountId);
-                                startActivity(intent);
+                                if (loggedInAccountId != null) {
+                                    Intent intent = new Intent(MainActivity.this,  AccountActivity.class);
+                                    intent.putExtra("id", loggedInAccountId);
+                                    startActivity(intent);
+                                } else {
+                                    Log.e(TAG, "Logged-in account id was not obtained yet when profile was opened.");
+                                }
                             } else if (drawerItemIdentifier == 1) {
                                 Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
                                 startActivity(intent);
@@ -233,13 +234,6 @@ public class MainActivity extends BaseActivity {
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         final String domain = preferences.getString("domain", null);
-        String id = preferences.getString("loggedInAccountId", null);
-        String username = preferences.getString("loggedInAccountUsername", null);
-
-        if (id != null && username != null) {
-            loggedInAccountId = id;
-            loggedInAccountUsername = username;
-        }
 
         mastodonAPI.accountVerifyCredentials().enqueue(new Callback<Account>() {
             @Override
@@ -261,7 +255,7 @@ public class MainActivity extends BaseActivity {
                                 .withIcon(me.avatar)
                 );
 
-                //onFetchUserInfoSuccess(response.body().id, response.body().username);
+                loggedInAccountId = me.id;
             }
 
             @Override
@@ -269,17 +263,6 @@ public class MainActivity extends BaseActivity {
                 onFetchUserInfoFailure((Exception) t);
             }
         });
-    }
-
-    private void onFetchUserInfoSuccess(String id, String username) {
-        loggedInAccountId = id;
-        loggedInAccountUsername = username;
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("loggedInAccountId", loggedInAccountId);
-        editor.putString("loggedInAccountUsername", loggedInAccountUsername);
-        editor.apply();
     }
 
     private void onFetchUserInfoFailure(Exception exception) {

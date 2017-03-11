@@ -45,8 +45,6 @@ import retrofit2.Callback;
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
 public class SFragment extends Fragment {
-    protected String domain;
-    protected String accessToken;
     protected String loggedInAccountId;
     protected String loggedInUsername;
     private MastodonAPI api;
@@ -57,8 +55,6 @@ public class SFragment extends Fragment {
 
         SharedPreferences preferences = getContext().getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        domain = preferences.getString("domain", null);
-        accessToken = preferences.getString("accessToken", null);
         loggedInAccountId = preferences.getString("loggedInAccountId", null);
         loggedInUsername = preferences.getString("loggedInAccountUsername", null);
         api = ((BaseActivity) getActivity()).mastodonAPI;
@@ -126,20 +122,6 @@ public class SFragment extends Fragment {
         } else {
             api.unfavouriteStatus(id).enqueue(cb);
         }
-    }
-
-    protected void follow(String id) {
-        api.followAccount(id).enqueue(new Callback<Relationship>() {
-            @Override
-            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<Relationship> call, Throwable t) {
-
-            }
-        });
     }
 
     private void block(String id) {
