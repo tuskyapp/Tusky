@@ -119,7 +119,7 @@ public class PullNotificationService extends IntentService {
                 if (status != null) {
                     MentionResult mention = new MentionResult();
                     mention.content = status.content.toString();
-                    mention.displayName = notification.account.displayName;
+                    mention.displayName = notification.account.getDisplayName();
                     mention.avatarUrl = status.account.avatar;
                     mentions.add(mention);
                 }

@@ -53,8 +53,8 @@
         <item name="compose_content_warning_bar_background">@drawable/border_background_dark</item>
         <item name="notification_content">@color/notification_content_faded_dark</item>
         <item name="notification_icon_tint">@color/notification_icon_tint_dark</item>
-        <item name="report_status_background_color">@color/report_status_background_dark</item>
-        <item name="report_status_divider_drawable">@drawable/report_status_divider_dark</item>
+        <item name="report_status_background_color">@color/color_background_dark</item>
+        <item name="report_status_divider_drawable">@drawable/status_divider_dark</item>
 
         <item name="material_drawer_background">@color/window_background_dark</item>
         <item name="material_drawer_primary_text">@color/text_color_primary_dark</item>

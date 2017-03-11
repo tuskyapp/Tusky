@@ -95,7 +95,7 @@ class FollowAdapter extends AccountAdapter {
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.username);
             username.setText(formattedUsername);
-            displayName.setText(account.displayName);
+            displayName.setText(account.getDisplayName());
             note.setText(account.note);
             Context context = avatar.getContext();
             Picasso.with(context)

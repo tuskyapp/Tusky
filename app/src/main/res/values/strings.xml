@@ -54,7 +54,7 @@
     <string name="notification_favourite_format">%s favourited your status</string>
     <string name="notification_follow_format">%s followed you</string>
 
-    <string name="report_username_format">Reporting @%s</string>
+    <string name="report_username_format">Report @%s</string>
     <string name="report_comment_hint">Additional comments?</string>
 
     <string name="action_compose">Compose</string>
@@ -128,5 +128,6 @@
     <string name="error_muting">That user wasn\'t muted.</string>
     <string name="search">Search accounts…</string>
     <string name="toggle_nsfw">NSFW</string>
+    <string name="action_mention">Mention</string>
 
 </resources>

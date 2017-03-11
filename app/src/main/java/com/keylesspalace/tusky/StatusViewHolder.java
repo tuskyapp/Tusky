@@ -343,14 +343,14 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     void setupWithStatus(Status status, StatusActionListener listener) {
         Status realStatus = status.getActionableStatus();
 
-        setDisplayName(realStatus.account.displayName);
+        setDisplayName(realStatus.account.getDisplayName());
         setUsername(realStatus.account.username);
         setCreatedAt(realStatus.createdAt);
         setContent(realStatus.content, realStatus.mentions, listener);
         setAvatar(realStatus.account.avatar);
         setReblogged(realStatus.reblogged);
         setFavourited(realStatus.favourited);
-        String rebloggedByDisplayName = status.account.displayName;
+        String rebloggedByDisplayName = status.account.getDisplayName();
         if (status.reblog == null) {
             hideRebloggedByDisplayName();
         } else {
