@@ -41,6 +41,7 @@ import android.widget.TextView;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.keylesspalace.tusky.entity.Account;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -60,6 +61,9 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.Stack;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -67,28 +71,27 @@ import retrofit2.Response;
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity"; // logging tag and Volley request tag
 
-    private AlarmManager alarmManager;
-    private PendingIntent serviceAlarmIntent;
-    private boolean notificationServiceEnabled;
     private String loggedInAccountId;
     private String loggedInAccountUsername;
     Stack<Integer> pageHistory = new Stack<Integer>();
-    private ViewPager viewPager;
     private AccountHeader headerResult;
     private Drawer drawer;
+
+    @BindView(R.id.floating_search_view) FloatingSearchView searchView;
+    @BindView(R.id.floating_btn) FloatingActionButton floatingBtn;
+    @BindView(R.id.tab_layout) TabLayout tabLayout;
+    @BindView(R.id.pager) ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ButterKnife.bind(this);
+
         // Fetch user info while we're doing other things.
         fetchUserInfo();
 
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
-        FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,8 +100,79 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        final FloatingSearchView searchView = (FloatingSearchView) findViewById(R.id.floating_search_view);
+        setupDrawer();
+        setupSearchView();
 
+        // Setup the tabs and timeline pager.
+        TimelinePagerAdapter adapter = new TimelinePagerAdapter(getSupportFragmentManager());
+        String[] pageTitles = {
+                getString(R.string.title_home),
+                getString(R.string.title_notifications),
+                getString(R.string.title_public)
+        };
+        adapter.setPageTitles(pageTitles);
+
+        int pageMargin = getResources().getDimensionPixelSize(R.dimen.tab_page_margin);
+        viewPager.setPageMargin(pageMargin);
+        Drawable pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
+                R.drawable.tab_page_margin_dark);
+        viewPager.setPageMarginDrawable(pageMarginDrawable);
+        viewPager.setAdapter(adapter);
+
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+
+                if (pageHistory.empty()) {
+                    pageHistory.push(0);
+                }
+
+                if (pageHistory.contains(tab.getPosition())) {
+                    pageHistory.remove(pageHistory.indexOf(tab.getPosition()));
+                }
+
+                pageHistory.push(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        Intent intent = getIntent();
+
+        if (intent != null) {
+            int tabPosition = intent.getIntExtra("tab_position", 0);
+
+            if (tabPosition != 0) {
+                tabLayout.getTabAt(tabPosition).select();
+            }
+        }
+
+        // Setup push notifications
+        tuskyAPI.register(getBaseUrl(), getAccessToken(), FirebaseInstanceId.getInstance().getToken()).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void setupDrawer() {
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withSelectionListEnabledForSingleProfile(false)
@@ -152,18 +226,7 @@ public class MainActivity extends BaseActivity {
                                 Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
                                 startActivity(intent);
                             } else if (drawerItemIdentifier == 4) {
-                                if (notificationServiceEnabled) {
-                                    alarmManager.cancel(serviceAlarmIntent);
-                                }
-                                SharedPreferences preferences = getSharedPreferences(
-                                        getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.remove("domain");
-                                editor.remove("accessToken");
-                                editor.apply();
-                                Intent intent = new Intent(MainActivity.this, SplashActivity.class);
-                                startActivity(intent);
-                                finish();
+                                logout();
                             }
                         }
 
@@ -171,7 +234,33 @@ public class MainActivity extends BaseActivity {
                     }
                 })
                 .build();
+    }
 
+    private void logout() {
+        tuskyAPI.unregister(getBaseUrl(), getAccessToken()).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove("domain");
+        editor.remove("accessToken");
+        editor.apply();
+
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void setupSearchView() {
         searchView.attachNavigationDrawerToMenuButton(drawer.getDrawerLayout());
 
         searchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
@@ -237,70 +326,6 @@ public class MainActivity extends BaseActivity {
                 textView.setEllipsize(TextUtils.TruncateAt.END);
             }
         });
-
-        // Setup the tabs and timeline pager.
-        TimelinePagerAdapter adapter = new TimelinePagerAdapter(getSupportFragmentManager());
-        String[] pageTitles = {
-                getString(R.string.title_home),
-                getString(R.string.title_notifications),
-                getString(R.string.title_public)
-        };
-        adapter.setPageTitles(pageTitles);
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        int pageMargin = getResources().getDimensionPixelSize(R.dimen.tab_page_margin);
-        viewPager.setPageMargin(pageMargin);
-        Drawable pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
-                R.drawable.tab_page_margin_dark);
-        viewPager.setPageMarginDrawable(pageMarginDrawable);
-        viewPager.setAdapter(adapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.setupWithViewPager(viewPager);
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-
-                if (pageHistory.empty()) {
-                    pageHistory.push(0);
-                }
-
-                if (pageHistory.contains(tab.getPosition())) {
-                    pageHistory.remove(pageHistory.indexOf(tab.getPosition()));
-                }
-
-                pageHistory.push(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        // Retrieve notification update preference.
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        notificationServiceEnabled = preferences.getBoolean("pullNotifications", true);
-        String minutesString = preferences.getString("pullNotificationCheckInterval", "15");
-        long notificationCheckInterval = 60 * 1000 * Integer.valueOf(minutesString);
-        // Start up the PullNotificationsService.
-        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, PullNotificationService.class);
-        final int SERVICE_REQUEST_CODE = 8574603; // This number is arbitrary.
-        serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        if (notificationServiceEnabled) {
-            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime(), notificationCheckInterval, serviceAlarmIntent);
-        } else {
-            alarmManager.cancel(serviceAlarmIntent);
-        }
     }
 
     private void fetchUserInfo() {

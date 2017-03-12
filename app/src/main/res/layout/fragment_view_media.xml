@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
     android:background="#60000000">
     <uk.co.senab.photoview.PhotoView
         android:id="@+id/view_media_image"

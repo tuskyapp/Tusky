@@ -47,12 +47,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * activity extend from it. */
 public class BaseActivity extends AppCompatActivity {
     protected MastodonAPI mastodonAPI;
+    protected TuskyAPI tuskyAPI;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         createMastodonAPI();
+        createTuskyAPI();
 
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("lightTheme", false)) {
             setTheme(R.style.AppTheme_Light);
@@ -119,6 +121,14 @@ public class BaseActivity extends AppCompatActivity {
                 .build();
 
         mastodonAPI = retrofit.create(MastodonAPI.class);
+    }
+
+    protected void createTuskyAPI() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.tusky_api_url))
+                .build();
+
+        tuskyAPI = retrofit.create(TuskyAPI.class);
     }
 
     @Override

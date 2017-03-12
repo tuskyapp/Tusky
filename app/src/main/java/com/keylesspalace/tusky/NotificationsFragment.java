@@ -118,15 +118,6 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        
-        // When we view this fragment, dismiss the notifications
-        NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(PullNotificationService.NOTIFY_ID);
-    }
-
-    @Override
     public void onDestroyView() {
         TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
         tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
