@@ -34,7 +34,7 @@
     <string name="title_follows">Follows</string>
     <string name="title_followers">Followers</string>
     <string name="title_favourites">Favourites</string>
-    <string name="title_blocks">Blocked Users</string>
+    <string name="title_blocks">Blocked users</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boosted</string>
