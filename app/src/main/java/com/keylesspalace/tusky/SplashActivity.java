@@ -36,7 +36,7 @@ public class SplashActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_splash);
-        
+
         /* Determine whether the user is currently logged in, and if so go ahead and load the
          * timeline. Otherwise, start the activity_login screen. */
         SharedPreferences preferences = getSharedPreferences(
