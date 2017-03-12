@@ -26,13 +26,14 @@ class ConversationLineItemDecoration extends RecyclerView.ItemDecoration {
         int dividerLeft  = parent.getPaddingLeft() + mContext.getResources().getDimensionPixelSize(R.dimen.status_left_line_margin);
         int dividerRight = dividerLeft + mDivider.getIntrinsicWidth();
 
-        int childCount = parent.getChildCount();
+        int childCount   = parent.getChildCount();
+        int avatarMargin = mContext.getResources().getDimensionPixelSize(R.dimen.account_avatar_margin);
 
-        for (int i = 0; i < childCount - 1; i++) {
+        for (int i = 0; i < childCount; i++) {
             View child = parent.getChildAt(i);
 
-            int dividerTop    = child.getTop() + (i == 0 ? mContext.getResources().getDimensionPixelSize(R.dimen.account_avatar_margin) : 0);
-            int dividerBottom = (i == childCount - 2 ? dividerTop + mContext.getResources().getDimensionPixelSize(R.dimen.account_avatar_margin) : child.getBottom());
+            int dividerTop    = child.getTop() + (i == 0 ? avatarMargin : 0);
+            int dividerBottom = (i == childCount - 1 ? child.getTop() + avatarMargin : child.getBottom());
 
             mDivider.setBounds(dividerLeft, dividerTop, dividerRight, dividerBottom);
             mDivider.draw(c);
