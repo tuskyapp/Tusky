@@ -37,7 +37,7 @@
         <activity
             android:name=".ComposeActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity android:name=".ViewVideoActivity" />
+        <activity android:name=".ViewVideoActivity" android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".ViewThreadActivity" />
         <activity android:name=".ViewTagActivity" />
         <activity android:name=".AccountActivity" />

@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/view_video_background">
-
+    android:background="@color/view_video_background"
+    tools:context=".ViewVideoActivity">
     <VideoView
         android:id="@+id/video_player"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true" />
-
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/AppTheme.Account.AppBarLayout"
+        app:popupTheme="@style/AppTheme.Account.ToolbarPopupTheme.Dark"
+        android:elevation="4dp"
+        android:background="@color/semi_transparent" />
 </android.support.design.widget.CoordinatorLayout>

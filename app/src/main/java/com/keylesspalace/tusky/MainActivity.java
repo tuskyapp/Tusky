@@ -20,6 +20,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -27,6 +28,7 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -121,6 +123,10 @@ public class MainActivity extends BaseActivity {
 
         tabLayout.setupWithViewPager(viewPager);
 
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_home_24dp);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_notifications_24dp);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_public_24dp);
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -135,11 +141,12 @@ public class MainActivity extends BaseActivity {
                 }
 
                 pageHistory.push(tab.getPosition());
+                tintTab(tab, true);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                tintTab(tab, false);
             }
 
             @Override
@@ -155,7 +162,12 @@ public class MainActivity extends BaseActivity {
 
             if (tabPosition != 0) {
                 tabLayout.getTabAt(tabPosition).select();
+                tintTab(tabLayout.getTabAt(tabPosition), true);
+            } else {
+                tintTab(tabLayout.getTabAt(0), true);
             }
+        } else {
+            tintTab(tabLayout.getTabAt(0), true);
         }
 
         // Setup push notifications
@@ -170,6 +182,10 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+    }
+
+    private void tintTab(TabLayout.Tab tab, boolean tinted) {
+        tab.getIcon().setColorFilter(ContextCompat.getColor(this, tinted ? R.color.color_accent_dark : R.color.toolbar_icon_dark), PorterDuff.Mode.SRC_IN);
     }
 
     private void setupDrawer() {
