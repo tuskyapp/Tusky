@@ -20,14 +20,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.Account;
+import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 class BlocksAdapter extends AccountAdapter {
     private static final int VIEW_TYPE_BLOCKED_USER = 0;
@@ -88,19 +93,17 @@ class BlocksAdapter extends AccountAdapter {
         notifyItemChanged(position);
     }
 
-    private static class BlockedUserViewHolder extends RecyclerView.ViewHolder {
-        private ImageView avatar;
-        private TextView username;
-        private TextView displayName;
-        private Button unblock;
+    static class BlockedUserViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.blocked_user_avatar) CircularImageView avatar;
+        @BindView(R.id.blocked_user_username) TextView username;
+        @BindView(R.id.blocked_user_display_name) TextView displayName;
+        @BindView(R.id.blocked_user_unblock) ImageButton unblock;
+
         private String id;
 
         BlockedUserViewHolder(View itemView) {
             super(itemView);
-            avatar = (ImageView) itemView.findViewById(R.id.blocked_user_avatar);
-            displayName = (TextView) itemView.findViewById(R.id.blocked_user_display_name);
-            username = (TextView) itemView.findViewById(R.id.blocked_user_username);
-            unblock = (Button) itemView.findViewById(R.id.blocked_user_unblock);
+            ButterKnife.bind(this, itemView);
         }
 
         void setupWithAccount(Account account) {
@@ -118,13 +121,6 @@ class BlocksAdapter extends AccountAdapter {
 
         void setupActionListener(final AccountActionListener listener, final boolean blocked,
                 final int position) {
-            int unblockTextId;
-            if (blocked) {
-                unblockTextId = R.string.action_unblock;
-            } else {
-                unblockTextId = R.string.action_block;
-            }
-            unblock.setText(unblock.getContext().getString(unblockTextId));
             unblock.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

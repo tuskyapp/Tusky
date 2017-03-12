@@ -1,56 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="72dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
+    android:gravity="center_vertical"
     android:id="@+id/account_container">
 
-    <RelativeLayout
-        android:paddingTop="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:id="@+id/account_avatar"
+        android:layout_marginRight="24dp" />
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:id="@+id/account_avatar"
-            android:layout_marginRight="10dp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@id/account_avatar">
 
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:id="@+id/account_display_name"
+            android:text="Display name"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="16sp"
+            android:textColor="?android:textColorPrimary"
+            android:textStyle="normal|bold" />
 
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/account_avatar">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\@username"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="14sp"
+            android:textColor="?android:textColorSecondary"
+            android:id="@+id/account_username" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/account_display_name"
-                android:text="Display name"
-                android:textColor="?android:textColorPrimary"
-                android:textStyle="normal|bold" />
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="\@username"
-                android:textColor="?android:textColorSecondary"
-                android:id="@+id/account_username" />
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/account_note"
-        android:paddingTop="4dp"
-        android:paddingBottom="8dp"
-        android:textColor="?android:textColorTertiary" />
-
-</LinearLayout>
+</RelativeLayout>

@@ -20,4 +20,5 @@
     <dimen name="account_note_margin">8dp</dimen>
     <dimen name="account_avatar_margin">8dp</dimen>
     <dimen name="tab_page_margin">8dp</dimen>
+    <dimen name="status_left_line_margin">38dp</dimen>
 </resources>

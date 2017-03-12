@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -17,22 +17,27 @@
             android:theme="@android:style/Theme.Black.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="@string/oauth_scheme" android:host="@string/oauth_redirect_host" />
+
+                <data
+                    android:host="@string/oauth_redirect_host"
+                    android:scheme="@string/oauth_scheme" />
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
         <activity
             android:name=".ComposeActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity android:name=".ViewVideoActivity" />
+        <activity android:name=".ViewVideoActivity" android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".ViewThreadActivity" />
         <activity android:name=".ViewTagActivity" />
         <activity android:name=".AccountActivity" />
@@ -42,10 +47,17 @@
         <activity
             android:name=".ReportActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-        <service
-            android:name=".PullNotificationService"
-            android:description="@string/notification_service_description"
-            android:exported="false" />
+
+        <service android:name=".MyFirebaseInstanceIdService" android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <service android:name=".MyFirebaseMessagingService" android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

@@ -139,6 +139,12 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        sendFetchTimelineRequest();
+    }
+
+    @Override
     public void onDestroyView() {
         if (jumpToTopAllowed()) {
             TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);

@@ -3,39 +3,20 @@
     android:key="@string/preferences_file_key">
 
     <PreferenceCategory android:title="@string/pref_title_notification_settings">
-
         <CheckBoxPreference
-            android:key="pullNotifications"
-            android:title="@string/pref_title_pull_notifications"
-            android:summary="@string/pref_summary_pull_notifications"
-            android:defaultValue="true" />
-
-        <ListPreference
-            android:dependency="pullNotifications"
-            android:key="pullNotificationCheckInterval"
-            android:title="@string/pref_title_pull_notification_check_interval"
-            android:summary="@string/pref_summary_pull_notification_check_interval"
-            android:entries="@array/pull_notification_check_interval_names"
-            android:entryValues="@array/pull_notification_check_intervals"
-            android:defaultValue="15" />
-
-        <CheckBoxPreference
-            android:dependency="pullNotifications"
             android:key="notificationAlertSound"
             android:title="@string/pref_title_notification_alert_sound"
             android:defaultValue="true" />
 
         <CheckBoxPreference
-            android:dependency="pullNotifications"
             android:key="notificationStyleVibrate"
             android:title="@string/pref_title_notification_style_vibrate"
-            android:defaultValue="false" />
+            android:defaultValue="true" />
 
         <CheckBoxPreference
-            android:dependency="pullNotifications"
             android:key="notificationStyleLight"
             android:title="@string/pref_title_notification_style_light"
-            android:defaultValue="false" />
+            android:defaultValue="true" />
 
     </PreferenceCategory>
 

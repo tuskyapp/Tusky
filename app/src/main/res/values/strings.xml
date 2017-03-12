@@ -34,7 +34,7 @@
     <string name="title_follows">Follows</string>
     <string name="title_followers">Followers</string>
     <string name="title_favourites">Favourites</string>
-    <string name="title_blocks">Blocked Users</string>
+    <string name="title_blocks">Blocked users</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boosted</string>
@@ -50,8 +50,8 @@
     <string name="footer_end_of_notifications">end of the notifications</string>
     <string name="footer_end_of_accounts">end of the accounts</string>
 
-    <string name="notification_reblog_format">%s boosted your status</string>
-    <string name="notification_favourite_format">%s favourited your status</string>
+    <string name="notification_reblog_format">%s boosted your toot</string>
+    <string name="notification_favourite_format">%s favourited your toot</string>
     <string name="notification_follow_format">%s followed you</string>
 
     <string name="report_username_format">Report @%s</string>
@@ -129,5 +129,7 @@
     <string name="search">Search accounts…</string>
     <string name="toggle_nsfw">NSFW</string>
     <string name="action_mention">Mention</string>
+    <string name="tusky_api_url">http://tusky.zeonfederated.com</string>
+    <string name="notification_mention_format">%s mentioned you</string>
 
 </resources>

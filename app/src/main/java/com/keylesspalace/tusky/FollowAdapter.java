@@ -24,7 +24,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.Account;
+import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
+
+import butterknife.ButterKnife;
 
 /** Both for follows and following lists. */
 class FollowAdapter extends AccountAdapter {
@@ -77,8 +80,7 @@ class FollowAdapter extends AccountAdapter {
         private View container;
         private TextView username;
         private TextView displayName;
-        private TextView note;
-        private ImageView avatar;
+        private CircularImageView avatar;
         private String id;
 
         AccountViewHolder(View itemView) {
@@ -86,8 +88,7 @@ class FollowAdapter extends AccountAdapter {
             container = itemView.findViewById(R.id.account_container);
             username = (TextView) itemView.findViewById(R.id.account_username);
             displayName = (TextView) itemView.findViewById(R.id.account_display_name);
-            note = (TextView) itemView.findViewById(R.id.account_note);
-            avatar = (ImageView) itemView.findViewById(R.id.account_avatar);
+            avatar = (CircularImageView) itemView.findViewById(R.id.account_avatar);
         }
 
         void setupWithAccount(Account account) {
@@ -96,7 +97,6 @@ class FollowAdapter extends AccountAdapter {
             String formattedUsername = String.format(format, account.username);
             username.setText(formattedUsername);
             displayName.setText(account.getDisplayName());
-            note.setText(account.note);
             Context context = avatar.getContext();
             Picasso.with(context)
                     .load(account.avatar)

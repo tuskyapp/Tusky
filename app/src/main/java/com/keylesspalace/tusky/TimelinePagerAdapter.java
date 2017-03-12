@@ -55,6 +55,6 @@ class TimelinePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return pageTitles[position];
+        return null;
     }
 }

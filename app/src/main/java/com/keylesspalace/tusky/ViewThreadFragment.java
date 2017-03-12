@@ -20,6 +20,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -63,6 +64,7 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
                 R.drawable.status_divider_dark);
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
+        recyclerView.addItemDecoration(new ConversationLineItemDecoration(context, ContextCompat.getDrawable(context, R.drawable.conversation_divider_dark)));
         adapter = new ThreadAdapter(this);
         recyclerView.setAdapter(adapter);
 

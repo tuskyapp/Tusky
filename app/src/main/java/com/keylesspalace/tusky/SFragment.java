@@ -206,7 +206,6 @@ public class SFragment extends Fragment {
 
                 FragmentManager manager = getFragmentManager();
                 manager.beginTransaction()
-                        .setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
                         .add(R.id.overlay_fragment_container, newFragment)
                         .addToBackStack(null)
                         .commit();

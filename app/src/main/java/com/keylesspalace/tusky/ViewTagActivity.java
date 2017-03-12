@@ -21,25 +21,46 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ViewTagActivity extends BaseActivity {
+    @BindView(R.id.toolbar) Toolbar toolbar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_tag);
 
+        ButterKnife.bind(this);
+
         String hashtag = getIntent().getStringExtra("hashtag");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
+
         if (bar != null) {
             bar.setTitle(String.format(getString(R.string.title_tag), hashtag));
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setDisplayShowHomeEnabled(true);
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.TAG, hashtag);
         fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                onBackPressed();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

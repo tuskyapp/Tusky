@@ -1,60 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="72dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:gravity="center_vertical">
 
-    <ImageView
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:scaleType="fitCenter"
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:id="@+id/blocked_user_avatar"
-        android:padding="@dimen/status_avatar_padding"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="24dp"
+        android:layout_centerVertical="true"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageButton
+        app:srcCompat="@drawable/ic_clear_24dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:id="@+id/blocked_user_unblock"
         android:layout_gravity="center_vertical"
-        android:text="@string/action_unblock"
+        style="?attr/image_button_style"
         android:layout_alignParentRight="true"
+        android:layout_marginLeft="16dp"
         android:layout_centerVertical="true" />
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="64dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
         android:orientation="vertical"
         android:layout_toRightOf="@id/blocked_user_avatar"
         android:layout_toLeftOf="@id/blocked_user_unblock">
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/blocked_user_display_name"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+            android:text="Display name"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="16sp"
+            android:textColor="?android:textColorPrimary"
             android:textStyle="normal|bold" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="\@username"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="14sp"
             android:id="@+id/blocked_user_username"
             android:textColor="?android:textColorSecondary" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
     </LinearLayout>
 
 </RelativeLayout>

@@ -17,6 +17,7 @@ package com.keylesspalace.tusky;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -58,9 +59,6 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        NotificationManager notificationManager =
-                (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(PullNotificationService.NOTIFY_ID);
         super.onCreate(savedInstanceState);
     }
 
@@ -120,6 +118,12 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        sendFetchNotificationsRequest();
+    }
+
+    @Override
     public void onDestroyView() {
         TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
         tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
@@ -165,6 +169,13 @@ public class NotificationsFragment extends SFragment implements
             if (notifications.size() > 0 && !findNotification(notifications, fromId)) {
                 setFetchTimelineState(FooterViewHolder.State.LOADING);
                 adapter.addItems(notifications);
+
+                // Set last update id for pull notifications so that we don't get notified
+                // about things we already loaded here
+                SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("lastUpdateId", notifications.get(0).id);
+                editor.apply();
             } else {
                 setFetchTimelineState(FooterViewHolder.State.END_OF_TIMELINE);
             }
