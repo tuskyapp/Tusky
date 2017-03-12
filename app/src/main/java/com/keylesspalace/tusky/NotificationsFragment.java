@@ -118,6 +118,12 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        sendFetchNotificationsRequest();
+    }
+
+    @Override
     public void onDestroyView() {
         TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
         tabLayout.removeOnTabSelectedListener(onTabSelectedListener);

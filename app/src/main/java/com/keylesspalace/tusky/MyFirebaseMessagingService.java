@@ -109,7 +109,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void buildNotification(Notification body) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         Intent resultIntent = new Intent(this, MainActivity.class);
         resultIntent.putExtra("tab_position", 1);
@@ -121,7 +121,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_notify)
                 .setAutoCancel(true)
-                .setContentIntent(resultPendingIntent);
+                .setContentIntent(resultPendingIntent)
+                .setDefaults(0); // So it doesn't ring twice, notify only in Target callback
 
         final Integer mId = (int)(System.currentTimeMillis() / 1000);
 
@@ -129,6 +130,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 builder.setLargeIcon(bitmap);
+
+                if (preferences.getBoolean("notificationAlertSound", true)) {
+                    builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+                }
+
+                if (preferences.getBoolean("notificationStyleVibrate", false)) {
+                    builder.setVibrate(new long[] { 500, 500 });
+                }
+
+                if (preferences.getBoolean("notificationStyleLight", false)) {
+                    builder.setLights(0xFF00FF8F, 300, 1000);
+                }
+
                 ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE))).notify(mId, builder.build());
             }
 
@@ -147,18 +161,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .load(body.account.avatar)
                 .placeholder(R.drawable.avatar_default)
                 .into(mTarget);
-
-        if (preferences.getBoolean("notificationAlertSound", true)) {
-            builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-        }
-
-        if (preferences.getBoolean("notificationStyleVibrate", false)) {
-            builder.setVibrate(new long[] { 500, 500 });
-        }
-
-        if (preferences.getBoolean("notificationStyleLight", false)) {
-            builder.setLights(0xFF00FF8F, 300, 1000);
-        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder.setVisibility(android.app.Notification.VISIBILITY_PRIVATE);
