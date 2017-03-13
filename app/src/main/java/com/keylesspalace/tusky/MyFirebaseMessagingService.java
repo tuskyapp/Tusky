@@ -160,6 +160,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Picasso.with(this)
                 .load(body.account.avatar)
                 .placeholder(R.drawable.avatar_default)
+                .transform(new RoundedTransformation(7, 0))
                 .into(mTarget);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

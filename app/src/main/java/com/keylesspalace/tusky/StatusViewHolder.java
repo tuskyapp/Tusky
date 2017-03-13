@@ -158,6 +158,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
                 .load(url)
                 .placeholder(R.drawable.avatar_default)
                 .error(R.drawable.avatar_error)
+                .transform(new RoundedTransformation(7, 0))
                 .into(avatar);
     }
 
