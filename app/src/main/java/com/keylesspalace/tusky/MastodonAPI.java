@@ -175,7 +175,7 @@ public interface MastodonAPI {
     @POST("api/v1/apps")
     Call<AppCredentials> authenticateApp(
             @Field("client_name") String clientName,
-            @Field("redirect_uris[]") List<String> redirectUris,
+            @Field("redirect_uris") String redirectUris,
             @Field("scopes") String scopes,
             @Field("website") String website);
 
