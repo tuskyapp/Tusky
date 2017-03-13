@@ -21,8 +21,6 @@ class ConversationLineItemDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        // Fun fact: this method draws in pixels, but all layouts are in DP, so I'm using the divider's
-        // own 2dp width to calculate what I want
         int dividerLeft  = parent.getPaddingLeft() + mContext.getResources().getDimensionPixelSize(R.dimen.status_left_line_margin);
         int dividerRight = dividerLeft + mDivider.getIntrinsicWidth();
 
