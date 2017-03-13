@@ -39,6 +39,8 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends BaseActivity {
     private static String OAUTH_SCOPES = "read write follow";
@@ -94,6 +96,15 @@ public class LoginActivity extends BaseActivity {
         startActivity(viewIntent);
     }
 
+    private MastodonAPI getApiFor(String domain) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + domain)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        return retrofit.create(MastodonAPI.class);
+    }
+
     /**
      * Obtain the oauth client credentials for this app. This is only necessary the first time the
      * app is run on a given server instance. So, after the first authentication, they are
@@ -134,9 +145,7 @@ public class LoginActivity extends BaseActivity {
                 }
             };
 
-            List<String> redirectUris = new ArrayList<>();
-            redirectUris.add(getOauthRedirectUri());
-            mastodonAPI.authenticateApp(getString(R.string.app_name), redirectUris, OAUTH_SCOPES,
+            getApiFor(domain).authenticateApp(getString(R.string.app_name), getOauthRedirectUri(), OAUTH_SCOPES,
                     getString(R.string.app_website)).enqueue(callback);
 
         }
@@ -245,7 +254,7 @@ public class LoginActivity extends BaseActivity {
                         editText.setError(t.getMessage());
                     }
                 };
-                mastodonAPI.fetchOAuthToken(clientId, clientSecret, redirectUri, code,
+                getApiFor(domain).fetchOAuthToken(clientId, clientSecret, redirectUri, code,
                         "authorization_code").enqueue(callback);
             } else if (error != null) {
                 /* Authorization failed. Put the error response where the user can read it and they
