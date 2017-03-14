@@ -48,6 +48,7 @@ public class NotificationsFragment extends SFragment implements
     private EndlessOnScrollListener scrollListener;
     private NotificationsAdapter adapter;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
+    private Call<List<Notification>> listCall;
 
     public static NotificationsFragment newInstance() {
         NotificationsFragment fragment = new NotificationsFragment();
@@ -123,6 +124,12 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (listCall != null) listCall.cancel();
+    }
+
+    @Override
     public void onDestroyView() {
         TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
         tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
@@ -137,7 +144,9 @@ public class NotificationsFragment extends SFragment implements
     private void sendFetchNotificationsRequest(final String fromId, String uptoId) {
         MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
 
-        api.notifications(fromId, uptoId, null).enqueue(new Callback<List<Notification>>() {
+        listCall = api.notifications(fromId, uptoId, null);
+
+        listCall.enqueue(new Callback<List<Notification>>() {
             @Override
             public void onResponse(Call<List<Notification>> call, retrofit2.Response<List<Notification>> response) {
                 if (response.isSuccessful()) {

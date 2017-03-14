@@ -39,6 +39,8 @@ public class TimelineFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener {
     private static final String TAG = "Timeline"; // logging tag
 
+    private Call<List<Status>> listCall;
+
     enum Kind {
         HOME,
         PUBLIC,
@@ -145,6 +147,12 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (listCall != null) listCall.cancel();
+    }
+
+    @Override
     public void onDestroyView() {
         if (jumpToTopAllowed()) {
             TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
@@ -184,23 +192,28 @@ public class TimelineFragment extends SFragment implements
         switch (kind) {
             default:
             case HOME: {
-                api.homeTimeline(fromId, uptoId, null).enqueue(cb);
+                listCall = api.homeTimeline(fromId, uptoId, null);
+                listCall.enqueue(cb);
                 break;
             }
             case PUBLIC: {
-                api.publicTimeline(null, fromId, uptoId, null).enqueue(cb);
+                listCall = api.publicTimeline(null, fromId, uptoId, null);
+                listCall.enqueue(cb);
                 break;
             }
             case TAG: {
-                api.hashtagTimeline(hashtagOrId, null, fromId, uptoId, null).enqueue(cb);
+                listCall = api.hashtagTimeline(hashtagOrId, null, fromId, uptoId, null);
+                listCall.enqueue(cb);
                 break;
             }
             case USER: {
-                api.accountStatuses(hashtagOrId, fromId, uptoId, null).enqueue(cb);
+                listCall = api.accountStatuses(hashtagOrId, fromId, uptoId, null);
+                listCall.enqueue(cb);
                 break;
             }
             case FAVOURITES: {
-                api.favourites(fromId, uptoId, null).enqueue(cb);
+                listCall = api.favourites(fromId, uptoId, null);
+                listCall.enqueue(cb);
                 break;
             }
         }
