@@ -15,8 +15,6 @@
 
 package com.keylesspalace.tusky;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,15 +22,11 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -55,7 +49,6 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
@@ -75,7 +68,7 @@ public class MainActivity extends BaseActivity {
 
     private String loggedInAccountId;
     private String loggedInAccountUsername;
-    Stack<Integer> pageHistory = new Stack<Integer>();
+    Stack<Integer> pageHistory = new Stack<>();
     private AccountHeader headerResult;
     private Drawer drawer;
 
@@ -296,8 +289,12 @@ public class MainActivity extends BaseActivity {
                 mastodonAPI.searchAccounts(newQuery, false, 5).enqueue(new Callback<List<Account>>() {
                     @Override
                     public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
-                        searchView.swapSuggestions(response.body());
-                        searchView.hideProgress();
+                        if (response.isSuccessful()) {
+                            searchView.swapSuggestions(response.body());
+                            searchView.hideProgress();
+                        } else {
+                            searchView.hideProgress();
+                        }
                     }
 
                     @Override
@@ -359,6 +356,11 @@ public class MainActivity extends BaseActivity {
         mastodonAPI.accountVerifyCredentials().enqueue(new Callback<Account>() {
             @Override
             public void onResponse(Call<Account> call, retrofit2.Response<Account> response) {
+                if (!response.isSuccessful()) {
+                    onFetchUserInfoFailure(new Exception(response.message()));
+                    return;
+                }
+
                 Account me = response.body();
                 ImageView background = headerResult.getHeaderBackgroundView();
 

@@ -653,7 +653,7 @@ public class ComposeActivity extends BaseActivity {
 
     private void sendStatus(String content, String visibility, boolean sensitive,
                             String spoilerText) {
-        ArrayList<String> mediaIds = new ArrayList<String>();
+        ArrayList<String> mediaIds = new ArrayList<>();
 
         for (QueuedMedia item : mediaQueued) {
             mediaIds.add(item.id);
@@ -662,7 +662,11 @@ public class ComposeActivity extends BaseActivity {
         mastodonAPI.createStatus(content, inReplyToId, spoilerText, visibility, sensitive, mediaIds).enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
-                onSendSuccess();
+                if (response.isSuccessful()) {
+                    onSendSuccess();
+                } else {
+                    onSendFailure();
+                }
             }
 
             @Override
@@ -970,8 +974,13 @@ public class ComposeActivity extends BaseActivity {
         item.uploadRequest.enqueue(new Callback<Media>() {
             @Override
             public void onResponse(Call<Media> call, retrofit2.Response<Media> response) {
-                item.id = response.body().id;
-                waitForMediaLatch.countDown();
+                if (response.isSuccessful()) {
+                    item.id = response.body().id;
+                    waitForMediaLatch.countDown();
+                } else {
+                    Log.d(TAG, "Upload request failed. " + response.message());
+                    onUploadFailure(item);
+                }
             }
 
             @Override

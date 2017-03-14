@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -141,7 +140,11 @@ public class NotificationsFragment extends SFragment implements
         api.notifications(fromId, uptoId, null).enqueue(new Callback<List<Notification>>() {
             @Override
             public void onResponse(Call<List<Notification>> call, retrofit2.Response<List<Notification>> response) {
-                onFetchNotificationsSuccess(response.body(), fromId);
+                if (response.isSuccessful()) {
+                    onFetchNotificationsSuccess(response.body(), fromId);
+                } else {
+                    onFetchNotificationsFailure(new Exception(response.message()));
+                }
             }
 
             @Override

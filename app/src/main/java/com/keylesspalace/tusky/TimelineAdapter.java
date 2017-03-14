@@ -86,8 +86,10 @@ class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover
 
     int update(List<Status> newStatuses) {
         int scrollToPosition;
-        if (statuses == null || statuses.isEmpty()) {
-            statuses = newStatuses;
+        if (statuses.isEmpty()) {
+            if (newStatuses != null) {
+                statuses = newStatuses;
+            }
             scrollToPosition = 0;
         } else {
             int index = newStatuses.indexOf(statuses.get(0));

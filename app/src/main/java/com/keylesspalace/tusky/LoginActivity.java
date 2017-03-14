@@ -31,9 +31,7 @@ import android.widget.TextView;
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.AppCredentials;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -43,6 +41,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends BaseActivity {
+    private static final String TAG = "LoginActivity"; // logging tag
     private static String OAUTH_SCOPES = "read write follow";
 
     private SharedPreferences preferences;
@@ -126,6 +125,13 @@ public class LoginActivity extends BaseActivity {
             Callback<AppCredentials> callback = new Callback<AppCredentials>() {
                 @Override
                 public void onResponse(Call<AppCredentials> call, Response<AppCredentials> response) {
+                    if (!response.isSuccessful()) {
+                        editText.setError(
+                                "This app could not obtain authentication from that server " +
+                                "instance.");
+                        Log.e(TAG, "App authentication failed. " + response.message());
+                        return;
+                    }
                     AppCredentials credentials = response.body();
                     clientId = credentials.clientId;
                     clientSecret = credentials.clientSecret;
@@ -246,7 +252,11 @@ public class LoginActivity extends BaseActivity {
                 Callback<AccessToken> callback = new Callback<AccessToken>() {
                     @Override
                     public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
-                        onLoginSuccess(response.body().accessToken);
+                        if (response.isSuccessful()) {
+                            onLoginSuccess(response.body().accessToken);
+                        } else {
+                            editText.setError(response.message());
+                        }
                     }
 
                     @Override

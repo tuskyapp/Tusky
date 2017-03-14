@@ -82,8 +82,12 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
         api.status(id).enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
-                int position = adapter.insertStatus(response.body());
-                recyclerView.scrollToPosition(position);
+                if (response.isSuccessful()) {
+                    int position = adapter.insertStatus(response.body());
+                    recyclerView.scrollToPosition(position);
+                } else {
+                    onThreadRequestFailure(id);
+                }
             }
 
             @Override
@@ -99,10 +103,14 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
         api.statusContext(id).enqueue(new Callback<StatusContext>() {
             @Override
             public void onResponse(Call<StatusContext> call, retrofit2.Response<StatusContext> response) {
-                StatusContext context = response.body();
+                if (response.isSuccessful()) {
+                    StatusContext context = response.body();
 
-                adapter.addAncestors(context.ancestors);
-                adapter.addDescendants(context.descendants);
+                    adapter.addAncestors(context.ancestors);
+                    adapter.addDescendants(context.descendants);
+                } else {
+                    onThreadRequestFailure(id);
+                }
             }
 
             @Override

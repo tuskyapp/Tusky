@@ -160,7 +160,11 @@ public class AccountActivity extends BaseActivity {
         mastodonAPI.account(accountId).enqueue(new Callback<Account>() {
             @Override
             public void onResponse(Call<Account> call, retrofit2.Response<Account> response) {
-                onObtainAccountSuccess(response.body());
+                if (response.isSuccessful()) {
+                    onObtainAccountSuccess(response.body());
+                } else {
+                    onObtainAccountFailure();
+                }
             }
 
             @Override
@@ -238,8 +242,12 @@ public class AccountActivity extends BaseActivity {
         mastodonAPI.relationships(ids).enqueue(new Callback<List<Relationship>>() {
             @Override
             public void onResponse(Call<List<Relationship>> call, retrofit2.Response<List<Relationship>> response) {
-                Relationship relationship = response.body().get(0);
-                onObtainRelationshipsSuccess(relationship.following, relationship.blocking, relationship.muting);
+                if (response.isSuccessful()) {
+                    Relationship relationship = response.body().get(0);
+                    onObtainRelationshipsSuccess(relationship.following, relationship.blocking, relationship.muting);
+                } else {
+                    onObtainRelationshipsFailure(new Exception(response.message()));
+                }
             }
 
             @Override
@@ -326,9 +334,13 @@ public class AccountActivity extends BaseActivity {
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
             public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
-                following = response.body().following;
-                // TODO: display message/indicator when "requested" is true (i.e. when the follow is awaiting approval)
-                updateButtons();
+                if (response.isSuccessful()) {
+                    following = response.body().following;
+                    // TODO: display message/indicator when "requested" is true (i.e. when the follow is awaiting approval)
+                    updateButtons();
+                } else {
+                    onFollowFailure(id);
+                }
             }
 
             @Override
@@ -366,8 +378,12 @@ public class AccountActivity extends BaseActivity {
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
             public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
-                blocking = response.body().blocking;
-                updateButtons();
+                if (response.isSuccessful()) {
+                    blocking = response.body().blocking;
+                    updateButtons();
+                } else {
+                    onBlockFailure(id);
+                }
             }
 
             @Override
@@ -405,8 +421,12 @@ public class AccountActivity extends BaseActivity {
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
             public void onResponse(Call<Relationship> call, Response<Relationship> response) {
-                muting = response.body().muting;
-                updateButtons();
+                if (response.isSuccessful()) {
+                    muting = response.body().muting;
+                    updateButtons();
+                } else {
+                    onMuteFailure(id);
+                }
             }
 
             @Override

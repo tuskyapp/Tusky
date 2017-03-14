@@ -56,7 +56,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         mastodonAPI.notification(notificationId).enqueue(new Callback<Notification>() {
             @Override
             public void onResponse(Call<Notification> call, Response<Notification> response) {
-                buildNotification(response.body());
+                if (response.isSuccessful()) {
+                    buildNotification(response.body());
+                }
             }
 
             @Override
