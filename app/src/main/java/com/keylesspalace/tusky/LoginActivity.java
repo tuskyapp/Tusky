@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +33,8 @@ import com.keylesspalace.tusky.entity.AppCredentials;
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,10 +46,14 @@ public class LoginActivity extends BaseActivity {
     private static String OAUTH_SCOPES = "read write follow";
 
     private SharedPreferences preferences;
+
     private String domain;
     private String clientId;
     private String clientSecret;
-    private EditText editText;
+
+    @BindView(R.id.edit_text_domain) EditText editText;
+    @BindView(R.id.button_login) Button button;
+    @BindView(R.id.no_account) TextView noAccount;
 
     /**
      * Chain together the key-value pairs into a query string, for either appending to a URL or
@@ -117,6 +122,7 @@ public class LoginActivity extends BaseActivity {
          * time. */
         String prefClientId = preferences.getString(domain + "/client_id", null);
         String prefClientSecret = preferences.getString(domain + "/client_secret", null);
+
         if (prefClientId != null && prefClientSecret != null) {
             clientId = prefClientId;
             clientSecret = prefClientSecret;
@@ -126,9 +132,7 @@ public class LoginActivity extends BaseActivity {
                 @Override
                 public void onResponse(Call<AppCredentials> call, Response<AppCredentials> response) {
                     if (!response.isSuccessful()) {
-                        editText.setError(
-                                "This app could not obtain authentication from that server " +
-                                "instance.");
+                        editText.setError(getString(R.string.error_failed_app_registration));
                         Log.e(TAG, "App authentication failed. " + response.message());
                         return;
                     }
@@ -144,15 +148,17 @@ public class LoginActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(Call<AppCredentials> call, Throwable t) {
-                    editText.setError(
-                            "This app could not obtain authentication from that server " +
-                            "instance.");
+                    editText.setError(getString(R.string.error_failed_app_registration));
                     t.printStackTrace();
                 }
             };
 
-            getApiFor(domain).authenticateApp(getString(R.string.app_name), getOauthRedirectUri(), OAUTH_SCOPES,
-                    getString(R.string.app_website)).enqueue(callback);
+            try {
+                getApiFor(domain).authenticateApp(getString(R.string.app_name), getOauthRedirectUri(), OAUTH_SCOPES,
+                        getString(R.string.app_website)).enqueue(callback);
+            } catch (IllegalArgumentException e) {
+                editText.setError(getString(R.string.error_invalid_domain));
+            }
 
         }
     }
@@ -161,25 +167,26 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
+
         if (savedInstanceState != null) {
             domain = savedInstanceState.getString("domain");
             clientId = savedInstanceState.getString("clientId");
             clientSecret = savedInstanceState.getString("clientSecret");
         }
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
         preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        Button button = (Button) findViewById(R.id.button_login);
-        editText = (EditText) findViewById(R.id.edit_text_domain);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onButtonClick(editText);
             }
         });
-        TextView noAccount = (TextView) findViewById(R.id.no_account);
+
         final Context context = this;
+
         noAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -233,11 +240,12 @@ public class LoginActivity extends BaseActivity {
          * redirect that was given to the server. If so, its response is here! */
         Uri uri = getIntent().getData();
         String redirectUri = getOauthRedirectUri();
+
         if (uri != null && uri.toString().startsWith(redirectUri)) {
             // This should either have returned an authorization code or an error.
             String code = uri.getQueryParameter("code");
             String error = uri.getQueryParameter("error");
-            final TextView errorText = (TextView) findViewById(R.id.text_error);
+
             if (code != null) {
                 /* During the redirect roundtrip this Activity usually dies, which wipes out the
                  * instance variables, so they have to be recovered from where they were saved in
@@ -264,15 +272,16 @@ public class LoginActivity extends BaseActivity {
                         editText.setError(t.getMessage());
                     }
                 };
+
                 getApiFor(domain).fetchOAuthToken(clientId, clientSecret, redirectUri, code,
                         "authorization_code").enqueue(callback);
             } else if (error != null) {
                 /* Authorization failed. Put the error response where the user can read it and they
                  * can try again. */
-                errorText.setText(error);
+                editText.setError(error);
             } else {
                 // This case means a junk response was received somehow.
-                errorText.setText(getString(R.string.error_authorization_unknown));
+                editText.setError(getString(R.string.error_authorization_unknown));
             }
         }
     }

@@ -47,6 +47,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,10 +65,13 @@ public class AccountActivity extends BaseActivity {
     private TabLayout tabLayout;
     private Account loadedAccount;
 
+    @BindView(R.id.account_locked) ImageView accountLockedView;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+        ButterKnife.bind(this);
 
         Intent intent = getIntent();
         accountId = intent.getStringExtra("id");
@@ -192,6 +197,12 @@ public class AccountActivity extends BaseActivity {
         note.setText(account.note);
         note.setLinksClickable(true);
         note.setMovementMethod(LinkMovementMethod.getInstance());
+
+        if (account.locked) {
+            accountLockedView.setVisibility(View.VISIBLE);
+        } else {
+            accountLockedView.setVisibility(View.GONE);
+        }
 
         Picasso.with(this)
                 .load(account.avatar)

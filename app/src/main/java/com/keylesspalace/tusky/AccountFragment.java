@@ -40,10 +40,13 @@ import retrofit2.Callback;
 public class AccountFragment extends Fragment implements AccountActionListener {
     private static final String TAG = "Account"; // logging tag
 
+    private Call<List<Account>> listCall;
+
     public enum Type {
         FOLLOWS,
         FOLLOWERS,
         BLOCKS,
+        MUTES,
     }
 
     private Type type;
@@ -142,6 +145,12 @@ public class AccountFragment extends Fragment implements AccountActionListener {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (listCall != null) listCall.cancel();
+    }
+
+    @Override
     public void onDestroyView() {
         if (jumpToTopAllowed()) {
             TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
@@ -166,15 +175,23 @@ public class AccountFragment extends Fragment implements AccountActionListener {
         switch (type) {
             default:
             case FOLLOWS: {
-                api.accountFollowing(accountId, fromId, uptoId, null).enqueue(cb);
+                listCall = api.accountFollowing(accountId, fromId, uptoId, null);
+                listCall.enqueue(cb);
                 break;
             }
             case FOLLOWERS: {
-                api.accountFollowers(accountId, fromId, uptoId, null).enqueue(cb);
+                listCall = api.accountFollowers(accountId, fromId, uptoId, null);
+                listCall.enqueue(cb);
                 break;
             }
             case BLOCKS: {
-                api.blocks(fromId, uptoId, null).enqueue(cb);
+                listCall = api.blocks(fromId, uptoId, null);
+                listCall.enqueue(cb);
+                break;
+            }
+            case MUTES: {
+                listCall = api.mutes(fromId, uptoId, null);
+                listCall.enqueue(cb);
                 break;
             }
         }

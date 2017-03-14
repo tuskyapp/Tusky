@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
-    android:background="#60000000">
+    android:layout_gravity="center"
+    android:background="@android:color/black">
     <uk.co.senab.photoview.PhotoView
         android:id="@+id/view_media_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</RelativeLayout>
+</FrameLayout>

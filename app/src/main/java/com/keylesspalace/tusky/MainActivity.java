@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,12 +23,12 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -185,6 +186,18 @@ public class MainActivity extends BaseActivity {
                 Log.d(TAG, "tusky-api failure: " + t.getMessage());
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences notificationPreferences = getApplicationContext().getSharedPreferences("Notifications", MODE_PRIVATE);
+        SharedPreferences.Editor editor = notificationPreferences.edit();
+        editor.putString("current", "[]");
+        editor.apply();
+
+        ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE))).cancel(MyFirebaseMessagingService.NOTIFY_ID);
     }
 
     @Override
