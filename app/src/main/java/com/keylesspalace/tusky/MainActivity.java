@@ -22,6 +22,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
@@ -53,6 +54,7 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -68,7 +70,7 @@ public class MainActivity extends BaseActivity {
 
     private String loggedInAccountId;
     private String loggedInAccountUsername;
-    Stack<Integer> pageHistory = new Stack<>();
+    private Stack<Integer> pageHistory;
     private AccountHeader headerResult;
     private Drawer drawer;
 
@@ -81,6 +83,14 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        pageHistory = new Stack<>();
+        if (savedInstanceState != null) {
+            List<Integer> restoredHistory = savedInstanceState.getIntegerArrayList("pageHistory");
+            if (restoredHistory != null) {
+                pageHistory.addAll(restoredHistory);
+            }
+        }
 
         ButterKnife.bind(this);
 
@@ -125,7 +135,7 @@ public class MainActivity extends BaseActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
 
-                if (pageHistory.empty()) {
+                if (pageHistory.isEmpty()) {
                     pageHistory.push(0);
                 }
 
@@ -175,6 +185,14 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        ArrayList<Integer> pageHistoryList = new ArrayList<>();
+        pageHistoryList.addAll(pageHistory);
+        outState.putIntegerArrayList("pageHistory", pageHistoryList);
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     private void tintTab(TabLayout.Tab tab, boolean tinted) {
@@ -407,11 +425,11 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         if(drawer != null && drawer.isDrawerOpen()) {
             drawer.closeDrawer();
-        } else if(pageHistory.empty()) {
+        } else if(pageHistory.size() < 2) {
             super.onBackPressed();
         } else {
             pageHistory.pop();
-            viewPager.setCurrentItem(pageHistory.lastElement());
+            viewPager.setCurrentItem(pageHistory.peek());
         }
     }
 }
