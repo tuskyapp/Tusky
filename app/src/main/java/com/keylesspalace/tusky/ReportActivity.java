@@ -17,7 +17,6 @@ package com.keylesspalace.tusky;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -29,7 +28,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.keylesspalace.tusky.entity.Status;
@@ -122,7 +120,11 @@ public class ReportActivity extends BaseActivity {
         mastodonAPI.report(accountId, Arrays.asList(statusIds), comment).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                onSendSuccess();
+                if (response.isSuccessful()) {
+                    onSendSuccess();
+                } else {
+                    onSendFailure(accountId, statusIds, comment);
+                }
             }
 
             @Override
@@ -155,6 +157,10 @@ public class ReportActivity extends BaseActivity {
         mastodonAPI.accountStatuses(accountId, null, null, null).enqueue(new Callback<List<Status>>() {
             @Override
             public void onResponse(Call<List<Status>> call, retrofit2.Response<List<Status>> response) {
+                if (!response.isSuccessful()) {
+                    onFetchStatusesFailure(new Exception(response.message()));
+                    return;
+                }
                 List<Status> statusList = response.body();
                 List<ReportAdapter.ReportStatus> itemList = new ArrayList<>();
                 for (Status status : statusList) {

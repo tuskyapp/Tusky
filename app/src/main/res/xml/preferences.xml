@@ -20,13 +20,4 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_title_appearance_settings">
-
-        <CheckBoxPreference
-            android:key="lightTheme"
-            android:title="@string/pref_title_light_theme"
-            android:defaultValue="false" />
-
-    </PreferenceCategory>
-
 </PreferenceScreen>

@@ -168,7 +168,11 @@ public class TimelineFragment extends SFragment implements
         Callback<List<Status>> cb = new Callback<List<Status>>() {
             @Override
             public void onResponse(Call<List<Status>> call, retrofit2.Response<List<Status>> response) {
-                onFetchTimelineSuccess(response.body(), fromId);
+                if (response.isSuccessful()) {
+                    onFetchTimelineSuccess(response.body(), fromId);
+                } else {
+                    onFetchTimelineFailure(new Exception(response.message()));
+                }
             }
 
             @Override

@@ -83,8 +83,10 @@ public class SFragment extends Fragment {
         Callback<Status> cb = new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
-                status.reblogged = reblog;
-                adapter.notifyItemChanged(position);
+                if (response.isSuccessful()) {
+                    status.reblogged = reblog;
+                    adapter.notifyItemChanged(position);
+                }
             }
 
             @Override
@@ -107,8 +109,10 @@ public class SFragment extends Fragment {
         Callback<Status> cb = new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
-                status.favourited = favourite;
-                adapter.notifyItemChanged(position);
+                if (response.isSuccessful()) {
+                    status.favourited = favourite;
+                    adapter.notifyItemChanged(position);
+                }
             }
 
             @Override
