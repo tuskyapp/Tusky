@@ -22,6 +22,9 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -36,6 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private MastodonAPI mastodonAPI;
     private static final String TAG = "MyFirebaseMessagingService";
+    public static final int NOTIFY_ID = 666;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -112,6 +116,34 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void buildNotification(Notification body) {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences notificationPreferences = getApplicationContext().getSharedPreferences("Notifications", MODE_PRIVATE);
+
+        String rawCurrentNotifications = notificationPreferences.getString("current", "[]");
+        JSONArray currentNotifications;
+
+        try {
+            currentNotifications = new JSONArray(rawCurrentNotifications);
+        } catch (JSONException e) {
+            currentNotifications = new JSONArray();
+        }
+
+        boolean alreadyContains = false;
+
+        for(int i = 0; i < currentNotifications.length(); i++) {
+            try {
+                if (currentNotifications.getString(i).equals(body.account.displayName)) {
+                    alreadyContains = true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (!alreadyContains) currentNotifications.put(body.account.displayName);
+
+        SharedPreferences.Editor editor = notificationPreferences.edit();
+        editor.putString("current", currentNotifications.toString());
+        editor.commit();
 
         Intent resultIntent = new Intent(this, MainActivity.class);
         resultIntent.putExtra("tab_position", 1);
@@ -122,73 +154,103 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_notify)
-                .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent)
                 .setDefaults(0); // So it doesn't ring twice, notify only in Target callback
 
-        final Integer mId = (int)(System.currentTimeMillis() / 1000);
+        if (currentNotifications.length() == 1) {
+            builder.setContentTitle(titleForType(body))
+                    .setContentText(truncateWithEllipses(bodyForType(body), 40));
 
-        Target mTarget = new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                builder.setLargeIcon(bitmap);
+            Target mTarget = new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    builder.setLargeIcon(bitmap);
 
-                if (preferences.getBoolean("notificationAlertSound", true)) {
-                    builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+                    if (preferences.getBoolean("notificationAlertSound", true)) {
+                        builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+                    }
+
+                    if (preferences.getBoolean("notificationStyleVibrate", false)) {
+                        builder.setVibrate(new long[] { 500, 500 });
+                    }
+
+                    if (preferences.getBoolean("notificationStyleLight", false)) {
+                        builder.setLights(0xFF00FF8F, 300, 1000);
+                    }
+
+                    ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE))).notify(NOTIFY_ID, builder.build());
                 }
 
-                if (preferences.getBoolean("notificationStyleVibrate", false)) {
-                    builder.setVibrate(new long[] { 500, 500 });
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+
                 }
 
-                if (preferences.getBoolean("notificationStyleLight", false)) {
-                    builder.setLights(0xFF00FF8F, 300, 1000);
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
                 }
+            };
 
-                ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE))).notify(mId, builder.build());
+            Picasso.with(this)
+                    .load(body.account.avatar)
+                    .placeholder(R.drawable.avatar_default)
+                    .transform(new RoundedTransformation(7, 0))
+                    .into(mTarget);
+        } else {
+            try {
+                builder.setContentTitle(String.format(getString(R.string.notification_title_summary), currentNotifications.length()))
+                        .setContentText(truncateWithEllipses(joinNames(currentNotifications), 40));
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-            }
-        };
-
-        Picasso.with(this)
-                .load(body.account.avatar)
-                .placeholder(R.drawable.avatar_default)
-                .transform(new RoundedTransformation(7, 0))
-                .into(mTarget);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder.setVisibility(android.app.Notification.VISIBILITY_PRIVATE);
             builder.setCategory(android.app.Notification.CATEGORY_SOCIAL);
         }
 
-        switch (body.type) {
-            case MENTION:
-                builder.setContentTitle(String.format(getString(R.string.notification_mention_format), body.account.getDisplayName()))
-                        .setContentText(truncateWithEllipses(body.status.content.toString(), 40));
-                break;
-            case FOLLOW:
-                builder.setContentTitle(String.format(getString(R.string.notification_follow_format), body.account.getDisplayName()))
-                        .setContentText(truncateWithEllipses(body.account.username, 40));
-                break;
-            case FAVOURITE:
-                builder.setContentTitle(String.format(getString(R.string.notification_favourite_format), body.account.getDisplayName()))
-                        .setContentText(truncateWithEllipses(body.status.content.toString(), 40));
-                break;
-            case REBLOG:
-                builder.setContentTitle(String.format(getString(R.string.notification_reblog_format), body.account.getDisplayName()))
-                        .setContentText(truncateWithEllipses(body.status.content.toString(), 40));
-                break;
+        ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE))).notify(NOTIFY_ID, builder.build());
+    }
+
+    private String joinNames(JSONArray array) throws JSONException {
+        if (array.length() > 3) {
+            return String.format(getString(R.string.notification_summary_large), array.get(0), array.get(1), array.get(2), array.length() - 3);
+        } else if (array.length() == 3) {
+            return String.format(getString(R.string.notification_summary_medium), array.get(0), array.get(1), array.get(2));
+        } else if (array.length() == 2) {
+            return String.format(getString(R.string.notification_summary_small), array.get(0), array.get(1));
         }
 
-        ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE))).notify(mId, builder.build());
+        return null;
+    }
+
+    private String titleForType(Notification notification) {
+        switch (notification.type) {
+            case MENTION:
+                return String.format(getString(R.string.notification_mention_format), notification.account.getDisplayName());
+            case FOLLOW:
+                return String.format(getString(R.string.notification_follow_format), notification.account.getDisplayName());
+            case FAVOURITE:
+                return String.format(getString(R.string.notification_favourite_format), notification.account.getDisplayName());
+            case REBLOG:
+                return String.format(getString(R.string.notification_reblog_format), notification.account.getDisplayName());
+        }
+
+        return null;
+    }
+
+    private String bodyForType(Notification notification) {
+        switch (notification.type) {
+            case FOLLOW:
+                return notification.account.username;
+            case MENTION:
+            case FAVOURITE:
+            case REBLOG:
+                return notification.status.content.toString();
+        }
+
+        return null;
     }
 }

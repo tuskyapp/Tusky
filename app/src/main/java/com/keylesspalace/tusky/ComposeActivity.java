@@ -399,11 +399,18 @@ public class ComposeActivity extends BaseActivity {
         if (intent != null) {
             inReplyToId = intent.getStringExtra("in_reply_to_id");
             String replyVisibility = intent.getStringExtra("reply_visibility");
+
             if (replyVisibility != null) {
-                /* Override any remembered visibilty and instead adopt the visibility of the status
-                 * to which this replies. */
-                statusVisibility = replyVisibility;
+                // Lowest possible visibility setting in response
+                if (statusVisibility.equals("private") || replyVisibility.equals("private")) {
+                    statusVisibility = "private";
+                } else if (statusVisibility.equals("unlisted") || replyVisibility.equals("unlisted")) {
+                    statusVisibility = "unlisted";
+                } else {
+                    statusVisibility = replyVisibility;
+                }
             }
+
             mentionedUsernames = intent.getStringArrayExtra("mentioned_usernames");
         }
 

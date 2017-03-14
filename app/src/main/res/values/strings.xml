@@ -102,12 +102,8 @@
     <string name="visibility_unlisted">Everyone can see, but not on public timelines</string>
     <string name="visibility_private">Only followers and mentions can see</string>
 
-    <string name="notification_service_description">Allows Tusky to check for Mastodon notifications.</string>
-    <string name="notification_service_several_mentions">%d new mentions</string>
-    <string name="notification_service_one_mention">Mention from %s</string>
-
     <string name="pref_title_notification_settings">Notifications</string>
-    <string name="pref_title_pull_notifications">Enable pull notifcations</string>
+    <string name="pref_title_pull_notifications">Enable pull notifications</string>
     <string name="pref_summary_pull_notifications">Check for notifications periodically</string>
     <string name="pref_title_pull_notification_check_interval">Check interval</string>
     <string name="pref_summary_pull_notification_check_interval">How often to pull</string>
@@ -133,5 +129,8 @@
     <string name="notification_mention_format">%s mentioned you</string>
     <string name="error_invalid_domain">Invalid domain entered</string>
     <string name="error_failed_app_registration">This app could not obtain authentication from that server instance.</string>
-
+    <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
+    <string name="notification_summary_medium">%1$s, %2$s, and %3$s</string>
+    <string name="notification_summary_small">%1$s and %2$s</string>
+    <string name="notification_title_summary">%d new interactions</string>
 </resources>
