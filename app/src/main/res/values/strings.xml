@@ -131,5 +131,7 @@
     <string name="action_mention">Mention</string>
     <string name="tusky_api_url">http://tuskynotify.keylesspalace.com</string>
     <string name="notification_mention_format">%s mentioned you</string>
+    <string name="error_invalid_domain">Invalid domain entered</string>
+    <string name="error_failed_app_registration">This app could not obtain authentication from that server instance.</string>
 
 </resources>
