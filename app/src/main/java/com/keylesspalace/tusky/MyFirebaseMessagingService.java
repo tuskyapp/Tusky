@@ -166,17 +166,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                     builder.setLargeIcon(bitmap);
 
-                    if (preferences.getBoolean("notificationAlertSound", true)) {
-                        builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-                    }
-
-                    if (preferences.getBoolean("notificationStyleVibrate", false)) {
-                        builder.setVibrate(new long[] { 500, 500 });
-                    }
-
-                    if (preferences.getBoolean("notificationStyleLight", false)) {
-                        builder.setLights(0xFF00FF8F, 300, 1000);
-                    }
+                    setupPreferences(preferences, builder);
 
                     ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE))).notify(NOTIFY_ID, builder.build());
                 }
@@ -198,6 +188,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .transform(new RoundedTransformation(7, 0))
                     .into(mTarget);
         } else {
+            setupPreferences(preferences, builder);
+
             try {
                 builder.setContentTitle(String.format(getString(R.string.notification_title_summary), currentNotifications.length()))
                         .setContentText(truncateWithEllipses(joinNames(currentNotifications), 40));
@@ -212,6 +204,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE))).notify(NOTIFY_ID, builder.build());
+    }
+
+    private void setupPreferences(SharedPreferences preferences, NotificationCompat.Builder builder) {
+        if (preferences.getBoolean("notificationAlertSound", true)) {
+            builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+        }
+
+        if (preferences.getBoolean("notificationStyleVibrate", false)) {
+            builder.setVibrate(new long[] { 500, 500 });
+        }
+
+        if (preferences.getBoolean("notificationStyleLight", false)) {
+            builder.setLights(0xFF00FF8F, 300, 1000);
+        }
     }
 
     private String joinNames(JSONArray array) throws JSONException {

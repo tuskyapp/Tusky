@@ -20,8 +20,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
@@ -47,7 +48,6 @@ import retrofit2.Callback;
 public class SFragment extends Fragment {
     protected String loggedInAccountId;
     protected String loggedInUsername;
-    private MastodonAPI api;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +57,10 @@ public class SFragment extends Fragment {
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         loggedInAccountId = preferences.getString("loggedInAccountId", null);
         loggedInUsername = preferences.getString("loggedInAccountUsername", null);
-        api = ((BaseActivity) getActivity()).mastodonAPI;
+    }
+
+    public MastodonAPI getApi() {
+        return ((BaseActivity) getActivity()).mastodonAPI;
     }
 
     protected void reply(Status status) {
@@ -85,6 +88,11 @@ public class SFragment extends Fragment {
             public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
                     status.reblogged = reblog;
+
+                    if (status.reblog != null) {
+                        status.reblog.reblogged = reblog;
+                    }
+
                     adapter.notifyItemChanged(position);
                 }
             }
@@ -96,9 +104,9 @@ public class SFragment extends Fragment {
         };
 
         if (reblog) {
-            api.reblogStatus(id).enqueue(cb);
+            getApi().reblogStatus(id).enqueue(cb);
         } else {
-            api.unreblogStatus(id).enqueue(cb);
+            getApi().unreblogStatus(id).enqueue(cb);
         }
     }
 
@@ -111,6 +119,11 @@ public class SFragment extends Fragment {
             public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
                     status.favourited = favourite;
+
+                    if (status.reblog != null) {
+                        status.reblog.favourited = favourite;
+                    }
+
                     adapter.notifyItemChanged(position);
                 }
             }
@@ -122,14 +135,14 @@ public class SFragment extends Fragment {
         };
 
         if (favourite) {
-            api.favouriteStatus(id).enqueue(cb);
+            getApi().favouriteStatus(id).enqueue(cb);
         } else {
-            api.unfavouriteStatus(id).enqueue(cb);
+            getApi().unfavouriteStatus(id).enqueue(cb);
         }
     }
 
     private void block(String id) {
-        api.blockAccount(id).enqueue(new Callback<Relationship>() {
+        getApi().blockAccount(id).enqueue(new Callback<Relationship>() {
             @Override
             public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
 
@@ -143,7 +156,7 @@ public class SFragment extends Fragment {
     }
 
     private void delete(String id) {
-        api.deleteStatus(id).enqueue(new Callback<ResponseBody>() {
+        getApi().deleteStatus(id).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
 
@@ -206,13 +219,9 @@ public class SFragment extends Fragment {
     protected void viewMedia(String url, Status.MediaAttachment.Type type) {
         switch (type) {
             case IMAGE: {
-                Fragment newFragment = ViewMediaFragment.newInstance(url);
-
-                FragmentManager manager = getFragmentManager();
-                manager.beginTransaction()
-                        .add(R.id.overlay_fragment_container, newFragment)
-                        .addToBackStack(null)
-                        .commit();
+                DialogFragment newFragment = ViewMediaFragment.newInstance(url);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                newFragment.show(ft, "view_media");
                 break;
             }
             case GIFV:

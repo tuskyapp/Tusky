@@ -16,20 +16,26 @@
 package com.keylesspalace.tusky;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class ViewMediaFragment extends Fragment {
+public class ViewMediaFragment extends DialogFragment {
 
     private PhotoViewAttacher attacher;
+
+    @BindView(R.id.view_media_image) PhotoView photoView;
 
     public static ViewMediaFragment newInstance(String url) {
         Bundle arguments = new Bundle();
@@ -40,13 +46,28 @@ public class ViewMediaFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+    }
+
+    @Override
+    public void onResume() {
+        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.MATCH_PARENT;
+        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+        super.onResume();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_view_media, container, false);
+        ButterKnife.bind(this, rootView);
 
         Bundle arguments = getArguments();
         String url = arguments.getString("url");
-        PhotoView photoView = (PhotoView) rootView.findViewById(R.id.view_media_image);
 
         attacher = new PhotoViewAttacher(photoView);
 
@@ -83,9 +104,5 @@ public class ViewMediaFragment extends Fragment {
     public void onDestroyView() {
         attacher.cleanup();
         super.onDestroyView();
-    }
-
-    private void dismiss() {
-        getFragmentManager().popBackStack();
     }
 }
