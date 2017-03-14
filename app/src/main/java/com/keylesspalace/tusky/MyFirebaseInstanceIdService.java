@@ -13,6 +13,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
+    private static final String TAG = "MyFirebaseInstanceIdService";
 
     private TuskyAPI tuskyAPI;
 
@@ -37,23 +38,23 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
             tuskyAPI.unregister("https://" + domain, accessToken).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
+                    Log.d(TAG, response.message());
                 }
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                    Log.d(TAG, t.getMessage());
                 }
             });
             tuskyAPI.register("https://" + domain, accessToken, refreshedToken).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
+                    Log.d(TAG, response.message());
                 }
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                    Log.d(TAG, t.getMessage());
                 }
             });
         }

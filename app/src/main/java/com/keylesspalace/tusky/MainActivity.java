@@ -177,12 +177,12 @@ public class MainActivity extends BaseActivity {
         tuskyAPI.register(getBaseUrl(), getAccessToken(), FirebaseInstanceId.getInstance().getToken()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
+                Log.d(TAG, "tusky-api reponse: " + response.message());
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                Log.d(TAG, "tusky-api failure: " + t.getMessage());
             }
         });
     }
