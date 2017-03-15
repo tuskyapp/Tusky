@@ -1,10 +1,20 @@
 # Tusky
 
-This is an android client for [Mastodon, a GNU Social-compatible microblogging server](https://mastodon.social). Presently, it is in active development and its current state does not represent the features or design of the final program.
+![](https://lh3.googleusercontent.com/6Ctl3PXaQi19qMaipWwzHAoKS9M9zy328cuulNZNAmRbjsPkSXs2xJ2OcyQNpOy23hI=w100)
 
-It is currently available for alpha testing on the Tusky [Google Play store page](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky). You can also find it on F-Droid or at its [F-Droid page](https://f-droid.org/repository/browse/?fdid=com.keylesspalace.tusky).
+Tusky is a beautiful Android client for [Mastodon](https://github.com/tootsuite/mastodon). Mastodon is a GNU social-compatible federated social network. That means not one entity controls the whole network, rather, like e-mail, volunteers and organisations operate their own independent servers, users from which can all interact with each other seamlessly.
 
-Also, [my mastodon account is Vavassor@mastodon.social](https://mastodon.social/users/Vavassor).
+It is currently available for alpha testing on [Google Play](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky). You can also find it on F-Droid or at its [F-Droid page](https://f-droid.org/repository/browse/?fdid=com.keylesspalace.tusky).
+
+## Features
+
+- Material Design
+- Most Mastodon APIs implemented
+- Push notifications
+
+#### Head of development
+
+My Mastodon account is [Vavassor@mastodon.social](https://mastodon.social/users/Vavassor).
 
 ## Building
 
