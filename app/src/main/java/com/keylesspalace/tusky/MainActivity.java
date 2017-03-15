@@ -39,7 +39,6 @@ import android.widget.TextView;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.keylesspalace.tusky.entity.Account;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -61,7 +60,6 @@ import java.util.Stack;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -175,17 +173,7 @@ public class MainActivity extends BaseActivity {
         }
 
         // Setup push notifications
-        tuskyAPI.register(getBaseUrl(), getAccessToken(), FirebaseInstanceId.getInstance().getToken()).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d(TAG, "tusky-api reponse: " + response.message());
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d(TAG, "tusky-api failure: " + t.getMessage());
-            }
-        });
+        if (arePushNotificationsEnabled()) enablePushNotifications();
     }
 
     @Override
@@ -277,17 +265,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void logout() {
-        tuskyAPI.unregister(getBaseUrl(), getAccessToken()).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
+        if (arePushNotificationsEnabled()) disablePushNotifications();
 
         SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();

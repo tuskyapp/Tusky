@@ -56,10 +56,6 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.button_login) Button button;
     @BindView(R.id.no_account) TextView noAccount;
 
-    protected void createMastodonAPI() {
-        // Don't do this in this activity, since we don't know a domain yet
-    }
-
     /**
      * Chain together the key-value pairs into a query string, for either appending to a URL or
      * as the content of an HTTP request.

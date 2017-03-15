@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <item
+        android:id="@+id/status_share"
+        android:title="@string/action_share"/>
     <item android:title="@string/action_delete"
         android:id="@+id/status_delete" />
 </menu>
