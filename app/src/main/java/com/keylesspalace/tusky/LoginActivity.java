@@ -56,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.button_login) Button button;
     @BindView(R.id.no_account) TextView noAccount;
 
-    @Override
     protected void createMastodonAPI() {
         // Don't do this in this activity, since we don't know a domain yet
     }
