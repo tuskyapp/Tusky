@@ -56,6 +56,11 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.button_login) Button button;
     @BindView(R.id.no_account) TextView noAccount;
 
+    @Override
+    protected void createMastodonAPI() {
+        // Don't do this in this activity, since we don't know a domain yet
+    }
+
     /**
      * Chain together the key-value pairs into a query string, for either appending to a URL or
      * as the content of an HTTP request.
@@ -77,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
     private String validateDomain(String s) {
         s = s.replaceFirst("http://", "");
         s = s.replaceFirst("https://", "");
-        return s;
+        return s.trim();
     }
 
     private String getOauthRedirectUri() {
@@ -242,6 +247,17 @@ public class LoginActivity extends AppCompatActivity {
         Uri uri = getIntent().getData();
         String redirectUri = getOauthRedirectUri();
 
+        preferences = getSharedPreferences(
+                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+
+        if (preferences.getString("accessToken", null) != null && preferences.getString("domain", null) != null) {
+            // We are already logged in, go to MainActivity
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         if (uri != null && uri.toString().startsWith(redirectUri)) {
             // This should either have returned an authorization code or an error.
             String code = uri.getQueryParameter("code");
@@ -251,8 +267,6 @@ public class LoginActivity extends AppCompatActivity {
                 /* During the redirect roundtrip this Activity usually dies, which wipes out the
                  * instance variables, so they have to be recovered from where they were saved in
                  * SharedPreferences. */
-                preferences = getSharedPreferences(
-                        getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
                 domain = preferences.getString("domain", null);
                 clientId = preferences.getString("clientId", null);
                 clientSecret = preferences.getString("clientSecret", null);

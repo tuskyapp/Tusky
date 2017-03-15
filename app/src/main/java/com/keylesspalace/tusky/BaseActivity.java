@@ -22,7 +22,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spanned;
@@ -68,7 +67,7 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        mastodonApiDispatcher.cancelAll();
+        if(mastodonApiDispatcher != null) mastodonApiDispatcher.cancelAll();
         super.onDestroy();
     }
 
