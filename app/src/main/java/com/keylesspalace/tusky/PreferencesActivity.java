@@ -68,6 +68,14 @@ public class PreferencesActivity extends BaseActivity
             startActivity(intent);
             finish();
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        } else if (key.equals("notificationsEnabled")) {
+            boolean notificationsEnabled = sharedPreferences.getBoolean("notificationsEnabled", true);
+
+            if (notificationsEnabled) {
+                enablePushNotifications();
+            } else {
+                disablePushNotifications();
+            }
         }
     }
 

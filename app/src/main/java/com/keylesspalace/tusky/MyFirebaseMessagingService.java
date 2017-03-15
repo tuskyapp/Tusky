@@ -55,6 +55,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Log.d(TAG, notificationId);
 
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        boolean enabled = preferences.getBoolean("notificationsEnabled", true);
+
+        if (!enabled) {
+            return;
+        }
+
         createMastodonAPI();
 
         mastodonAPI.notification(notificationId).enqueue(new Callback<Notification>() {
@@ -152,9 +159,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        Intent deleteIntent = new Intent(this, NotificationClearBroadcastReceiver.class);
+        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(this, 0, deleteIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_notify)
                 .setContentIntent(resultPendingIntent)
+                .setDeleteIntent(deletePendingIntent)
                 .setDefaults(0); // So it doesn't ring twice, notify only in Target callback
 
         if (currentNotifications.length() == 1) {
