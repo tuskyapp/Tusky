@@ -35,6 +35,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class ViewThreadFragment extends SFragment implements StatusActionListener {
+    private static final String TAG = "ViewThreadFragment";
+
     private RecyclerView recyclerView;
     private ThreadAdapter adapter;
     private String thisThreadsStatusId;
@@ -136,6 +138,8 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
                         }
                     })
                     .show();
+        } else {
+            Log.e(TAG, "Couldn't display thread fetch error message");
         }
     }
 
