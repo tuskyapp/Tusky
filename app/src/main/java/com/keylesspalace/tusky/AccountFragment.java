@@ -37,7 +37,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class AccountFragment extends Fragment implements AccountActionListener {
+public class AccountFragment extends BaseFragment implements AccountActionListener {
     private static final String TAG = "Account"; // logging tag
 
     private Call<List<Account>> listCall;
@@ -176,25 +176,23 @@ public class AccountFragment extends Fragment implements AccountActionListener {
             default:
             case FOLLOWS: {
                 listCall = api.accountFollowing(accountId, fromId, uptoId, null);
-                listCall.enqueue(cb);
                 break;
             }
             case FOLLOWERS: {
                 listCall = api.accountFollowers(accountId, fromId, uptoId, null);
-                listCall.enqueue(cb);
                 break;
             }
             case BLOCKS: {
                 listCall = api.blocks(fromId, uptoId, null);
-                listCall.enqueue(cb);
                 break;
             }
             case MUTES: {
                 listCall = api.mutes(fromId, uptoId, null);
-                listCall.enqueue(cb);
                 break;
             }
         }
+        callList.add(listCall);
+        listCall.enqueue(cb);
     }
 
     private void fetchAccounts() {
@@ -264,11 +262,14 @@ public class AccountFragment extends Fragment implements AccountActionListener {
             }
         };
 
+        Call<Relationship> call;
         if (!block) {
-            api.unblockAccount(id).enqueue(cb);
+            call = api.unblockAccount(id);
         } else {
-            api.blockAccount(id).enqueue(cb);
+            call = api.blockAccount(id);
         }
+        callList.add(call);
+        call.enqueue(cb);
     }
 
     private void onBlockSuccess(boolean blocked, int position) {

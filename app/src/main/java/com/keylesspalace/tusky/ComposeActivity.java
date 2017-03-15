@@ -72,7 +72,6 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -822,12 +821,8 @@ public class ComposeActivity extends BaseActivity {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(side, side);
         layoutParams.setMargins(margin, 0, margin, marginBottom);
         view.setLayoutParams(layoutParams);
-
-        Picasso.with(this)
-                .load(uri)
-                .resize(side, side)
-                .centerCrop()
-                .into(view);
+        view.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        view.setImageBitmap(preview);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -986,20 +981,24 @@ public class ComposeActivity extends BaseActivity {
                     waitForMediaLatch.countDown();
                 } else {
                     Log.d(TAG, "Upload request failed. " + response.message());
-                    onUploadFailure(item);
+                    onUploadFailure(item, call.isCanceled());
                 }
             }
 
             @Override
             public void onFailure(Call<Media> call, Throwable t) {
                 Log.d(TAG, t.getMessage());
-                onUploadFailure(item);
+                onUploadFailure(item, false);
             }
         });
     }
 
-    private void onUploadFailure(QueuedMedia item) {
-        displayTransientError(R.string.error_media_upload_sending);
+    private void onUploadFailure(QueuedMedia item, boolean isCanceled) {
+        if (isCanceled) {
+            /* if the upload was voluntarily cancelled, such as if the user clicked on it to remove
+             * it from the queue, then don't display this error message. */
+            displayTransientError(R.string.error_media_upload_sending);
+        }
         if (finishingUploadDialog != null) {
             finishingUploadDialog.cancel();
         }
@@ -1059,7 +1058,7 @@ public class ComposeActivity extends BaseActivity {
                     MediaMetadataRetriever retriever = new MediaMetadataRetriever();
                     retriever.setDataSource(this, uri);
                     Bitmap source = retriever.getFrameAtTime();
-                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, 96, 96);
+                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, 128, 128);
                     source.recycle();
                     addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize);
                     break;
@@ -1073,7 +1072,7 @@ public class ComposeActivity extends BaseActivity {
                         return;
                     }
                     Bitmap source = BitmapFactory.decodeStream(stream);
-                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, 96, 96);
+                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, 128, 128);
                     source.recycle();
                     try {
                         if (stream != null) {

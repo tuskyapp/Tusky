@@ -34,6 +34,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 
+import okhttp3.Dispatcher;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -48,6 +49,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class BaseActivity extends AppCompatActivity {
     protected MastodonAPI mastodonAPI;
     protected TuskyAPI tuskyAPI;
+    protected Dispatcher mastodonApiDispatcher;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,6 +64,12 @@ public class BaseActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme_Light);
         }
         */
+    }
+
+    @Override
+    protected void onDestroy() {
+        mastodonApiDispatcher.cancelAll();
+        super.onDestroy();
     }
 
     @Override
@@ -95,6 +103,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void createMastodonAPI() {
+        mastodonApiDispatcher = new Dispatcher();
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
                     @Override
@@ -111,6 +121,7 @@ public class BaseActivity extends AppCompatActivity {
                         return chain.proceed(newRequest);
                     }
                 })
+                .dispatcher(mastodonApiDispatcher)
                 .build();
 
         Gson gson = new GsonBuilder()

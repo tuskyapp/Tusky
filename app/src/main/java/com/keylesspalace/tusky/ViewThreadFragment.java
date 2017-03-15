@@ -79,7 +79,8 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
     private void sendStatusRequest(final String id) {
         MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
 
-        api.status(id).enqueue(new Callback<Status>() {
+        Call<Status> call = api.status(id);
+        call.enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
@@ -95,12 +96,14 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
                 onThreadRequestFailure(id);
             }
         });
+        callList.add(call);
     }
 
     private void sendThreadRequest(final String id) {
         MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
 
-        api.statusContext(id).enqueue(new Callback<StatusContext>() {
+        Call<StatusContext> call = api.statusContext(id);
+        call.enqueue(new Callback<StatusContext>() {
             @Override
             public void onResponse(Call<StatusContext> call, retrofit2.Response<StatusContext> response) {
                 if (response.isSuccessful()) {
@@ -118,6 +121,7 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
                 onThreadRequestFailure(id);
             }
         });
+        callList.add(call);
     }
 
     private void onThreadRequestFailure(final String id) {

@@ -193,30 +193,27 @@ public class TimelineFragment extends SFragment implements
             default:
             case HOME: {
                 listCall = api.homeTimeline(fromId, uptoId, null);
-                listCall.enqueue(cb);
                 break;
             }
             case PUBLIC: {
                 listCall = api.publicTimeline(null, fromId, uptoId, null);
-                listCall.enqueue(cb);
                 break;
             }
             case TAG: {
                 listCall = api.hashtagTimeline(hashtagOrId, null, fromId, uptoId, null);
-                listCall.enqueue(cb);
                 break;
             }
             case USER: {
                 listCall = api.accountStatuses(hashtagOrId, fromId, uptoId, null);
-                listCall.enqueue(cb);
                 break;
             }
             case FAVOURITES: {
                 listCall = api.favourites(fromId, uptoId, null);
-                listCall.enqueue(cb);
                 break;
             }
         }
+        callList.add(listCall);
+        listCall.enqueue(cb);
     }
 
     private void sendFetchTimelineRequest() {

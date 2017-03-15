@@ -161,6 +161,7 @@ public class NotificationsFragment extends SFragment implements
                 onFetchNotificationsFailure((Exception) t);
             }
         });
+        callList.add(listCall);
     }
 
     private void sendFetchNotificationsRequest() {

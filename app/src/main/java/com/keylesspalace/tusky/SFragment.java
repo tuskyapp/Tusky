@@ -19,9 +19,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -45,7 +45,7 @@ import retrofit2.Callback;
  * adapters. I feel like the profile pages and thread viewer, which I haven't made yet, will also
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
-public class SFragment extends Fragment {
+public class SFragment extends BaseFragment {
     protected String loggedInAccountId;
     protected String loggedInUsername;
 
@@ -103,11 +103,14 @@ public class SFragment extends Fragment {
             }
         };
 
+        Call<Status> call;
         if (reblog) {
-            getApi().reblogStatus(id).enqueue(cb);
+            call = getApi().reblogStatus(id);
         } else {
-            getApi().unreblogStatus(id).enqueue(cb);
+            call = getApi().unreblogStatus(id);
         }
+        call.enqueue(cb);
+        callList.add(call);
     }
 
     protected void favourite(final Status status, final boolean favourite,
@@ -134,15 +137,19 @@ public class SFragment extends Fragment {
             }
         };
 
+        Call<Status> call;
         if (favourite) {
-            getApi().favouriteStatus(id).enqueue(cb);
+            call = getApi().favouriteStatus(id);
         } else {
-            getApi().unfavouriteStatus(id).enqueue(cb);
+            call = getApi().unfavouriteStatus(id);
         }
+        call.enqueue(cb);
+        callList.add(call);
     }
 
     private void block(String id) {
-        getApi().blockAccount(id).enqueue(new Callback<Relationship>() {
+        Call<Relationship> call = getApi().blockAccount(id);
+        call.enqueue(new Callback<Relationship>() {
             @Override
             public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
 
@@ -153,10 +160,12 @@ public class SFragment extends Fragment {
 
             }
         });
+        callList.add(call);
     }
 
     private void delete(String id) {
-        getApi().deleteStatus(id).enqueue(new Callback<ResponseBody>() {
+        Call<ResponseBody> call = getApi().deleteStatus(id);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
 
@@ -167,6 +176,7 @@ public class SFragment extends Fragment {
 
             }
         });
+        callList.add(call);
     }
 
     protected void more(Status status, View view, final AdapterItemRemover adapter,
