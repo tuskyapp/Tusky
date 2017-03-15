@@ -114,11 +114,8 @@ public class ComposeActivity extends BaseActivity {
     private int currentFlags;
     private ProgressDialog finishingUploadDialog;
     private EditText contentWarningEditor;
-    private boolean mediaPickEnabled;
     private ImageButton pickBtn;
     private Button nsfwBtn;
-    private ImageButton visibilityBtn;
-    private Button floatingBtn;
 
     private static class QueuedMedia {
         enum Type {
@@ -333,12 +330,10 @@ public class ComposeActivity extends BaseActivity {
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
 
-        mediaPickEnabled = true;
-
-        floatingBtn = (Button) findViewById(R.id.floating_btn);
+        Button floatingBtn = (Button) findViewById(R.id.floating_btn);
         pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
         nsfwBtn = (Button) findViewById(R.id.action_toggle_nsfw);
-        visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
+        ImageButton visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
 
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -801,12 +796,10 @@ public class ComposeActivity extends BaseActivity {
     }
 
     private void enableMediaPicking() {
-        mediaPickEnabled = true;
         pickBtn.setEnabled(true);
     }
 
     private void disableMediaPicking() {
-        mediaPickEnabled = false;
         pickBtn.setEnabled(false);
     }
 
@@ -994,7 +987,7 @@ public class ComposeActivity extends BaseActivity {
     }
 
     private void onUploadFailure(QueuedMedia item, boolean isCanceled) {
-        if (isCanceled) {
+        if (!isCanceled) {
             /* if the upload was voluntarily cancelled, such as if the user clicked on it to remove
              * it from the queue, then don't display this error message. */
             displayTransientError(R.string.error_media_upload_sending);
