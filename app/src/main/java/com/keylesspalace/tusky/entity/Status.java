@@ -77,6 +77,10 @@ public class Status {
 
     public Visibility visibility;
 
+    public Visibility getVisibility() {
+        return visibility == null ? Visibility.UNLISTED : visibility;
+    }
+
     @SerializedName("media_attachments")
     public MediaAttachment[] attachments;
 

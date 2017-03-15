@@ -19,7 +19,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
@@ -74,7 +73,7 @@ public class SFragment extends BaseFragment {
         mentionedUsernames.remove(loggedInUsername);
         Intent intent = new Intent(getContext(), ComposeActivity.class);
         intent.putExtra("in_reply_to_id", inReplyToId);
-        intent.putExtra("reply_visibility", status.visibility.toString().toLowerCase());
+        intent.putExtra("reply_visibility", status.getVisibility().toString().toLowerCase());
         intent.putExtra("mentioned_usernames", mentionedUsernames.toArray(new String[0]));
         startActivity(intent);
     }
