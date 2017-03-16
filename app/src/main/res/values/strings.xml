@@ -92,8 +92,9 @@
 
     <string name="dialog_no_account">
         Similar to an email address, a Mastodon account can be provided by any one of many
-        websites.\n\nSo, find the address of one you\'d like to join and enter it here. This will
-        direct you there to either make an account or log in.
+        websites.\n\nSo the address of any instance can be entered here, which will direct you
+        there to either make an account or log in.\n\nMore can be found at
+        <a href="https://mastodon.social/about">mastodon.social</a>.
     </string>
     <string name="dialog_title_finishing_media_upload">Finishing Media Upload</string>
     <string name="dialog_message_uploading_media">Uploading…</string>

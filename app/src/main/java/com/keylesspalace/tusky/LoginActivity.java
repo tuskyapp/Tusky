@@ -23,6 +23,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -191,7 +192,7 @@ public class LoginActivity extends AppCompatActivity {
         noAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(context)
+                AlertDialog dialog = new AlertDialog.Builder(context)
                         .setMessage(R.string.dialog_no_account)
                         .setPositiveButton(R.string.action_close,
                                 new DialogInterface.OnClickListener() {
@@ -201,6 +202,8 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 })
                         .show();
+                TextView textView = (TextView) dialog.findViewById(android.R.id.message);
+                textView.setMovementMethod(LinkMovementMethod.getInstance());
             }
         });
     }
