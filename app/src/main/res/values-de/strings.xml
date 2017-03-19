@@ -92,8 +92,8 @@
 
     <string name="dialog_no_account">
         Wie bei E-Mailadressen auch, so kann eine Mastodon-Adresse von verschiedenen Websites
-        angeboten werden.\n\nHier kannst du eine Adresse einer Instanz eingeben, wo du dir ein
-        entweder ein Benutzerkonto erstellen kannst oder dich einloggst.\n\nWeitere Informationen unter
+        angeboten werden.\n\nHier kannst du eine Adresse einer Instanz eingeben, wo du dir entweder
+        ein Benutzerkonto erstellen kannst oder dich einloggst.\n\nWeitere Informationen unter
         <a href="https://mastodon.social/about">mastodon.social</a>.
     </string>
     <string name="dialog_title_finishing_media_upload">Stelle Medienupload fertig</string>
