@@ -1,0 +1,138 @@
+<resources>
+    <string name="app_name">Tusky</string>
+    <string name="app_website">http://tusky.keylesspalace.com</string>
+
+    <string name="oauth_scheme">com.keylesspalace.tusky</string>
+    <string name="oauth_redirect_host">oauth2redirect</string>
+    <string name="preferences_file_key">com.keylesspalace.tusky.PREFERENCES</string>
+
+    <string name="error_authorization_unknown">Ein undefinierbarer Autorisierungsfehler ist aufgetreten.</string>
+    <string name="error_fetching_notifications">Benachrichtigungen konnten nicht empfangen werden.</string>
+    <string name="error_compose_character_limit">Der Status ist zu lang!</string>
+    <string name="error_sending_status">Der Status konnte nicht gesendet werden.</string>
+    <string name="error_media_upload_size">Die Datei muss kleiner als 4MB sein.</string>
+    <string name="error_media_upload_type">Dieser Dateityp darf nicht hochgeladen werden.</string>
+    <string name="error_media_upload_opening">Die Datei konnte nicht geöffnet werden.</string>
+    <string name="error_media_upload_permission">Eine Leseberechtigung wird für das Hochladen der Mediendatei benötigt.</string>
+    <string name="error_media_upload_image_or_video">Bilder und Videos können beide nicht an den Status angehängt werden.</string>
+    <string name="error_media_upload_sending">Die Mediendatei konnte nicht hochgeladen werden.</string>
+    <string name="error_following">Diesem Benutzer wurde nie gefolgt.</string>
+    <string name="error_unfollowing">Dieser Benutzer war nie entfolgt.</string>
+    <string name="error_blocking">Dieser Benutzer war nie blockiert.</string>
+    <string name="error_unblocking">Dieser Benutzer war nie freigegeben.</string>
+    <string name="error_view_thread">Konnte diese Unterhaltung nicht empfangen.</string>
+    <string name="error_obtain_account">Fehler beim Laden des Accounts.</string>
+    <string name="error_report_unsent">Dieser Bericht konnte nicht gesendet werden.</string>
+    <string name="error_report_too_few_statuses">Mindestens ein Status muss berichtet werden.</string>
+
+    <string name="title_home">Start</string>
+    <string name="title_notifications">Benachrichtigungen</string>
+    <string name="title_public">Öffentlich</string>
+    <string name="title_thread">Unterhaltung</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">Posts</string>
+    <string name="title_follows">Follows</string>
+    <string name="title_followers">Follower</string>
+    <string name="title_favourites">Favoriten</string>
+    <string name="title_blocks">Blockierte Nutzer</string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s teilte</string>
+    <string name="status_sensitive_media_title">Sensible Medien</string>
+    <string name="status_sensitive_media_directions">Tippe um zu zeigen</string>
+    <string name="status_content_warning_show_more">Zeige mehr</string>
+    <string name="status_content_warning_show_less">Zeige weniger</string>
+
+    <string name="footer_retry_statuses">Konnte den Rest der Statuse nicht laden.</string>
+    <string name="footer_retry_notifications">Konnte den Rest der Benachrichtigungen nicht laden.</string>
+    <string name="footer_retry_accounts">Konnte den Rest der Accounts nicht laden.</string>
+    <string name="footer_end_of_statuses">Ende der Statuse</string>
+    <string name="footer_end_of_notifications">Ende der Benachrichtigungen</string>
+    <string name="footer_end_of_accounts">Ende der Accounts</string>
+
+    <string name="notification_reblog_format">%s teilte deinen Status</string>
+    <string name="notification_favourite_format">%s favorisierte deinen Status</string>
+    <string name="notification_follow_format">%s ist dir gefolgt</string>
+
+    <string name="report_username_format">@%s melden</string>
+    <string name="report_comment_hint">Irgendwelche Anmerkungen?</string>
+
+    <string name="action_compose">Schreiben</string>
+    <string name="action_login">Anmelden mit Mastodon</string>
+    <string name="action_logout">Ausloggen</string>
+    <string name="action_follow">Folgen</string>
+    <string name="action_unfollow">Entfolgen</string>
+    <string name="action_block">Blockieren</string>
+    <string name="action_unblock">Freigeben</string>
+    <string name="action_report">Melden</string>
+    <string name="action_delete">Löschen</string>
+    <string name="action_send">TOOT</string>
+    <string name="action_retry">Erneut versuchen</string>
+    <string name="action_mark_sensitive">Markiere Mediendatei als sensibel</string>
+    <string name="action_hide_text">Verstecke Text hinter Warnung</string>
+    <string name="action_ok">Ok</string>
+    <string name="action_cancel">Abbrechen</string>
+    <string name="action_close">Schließen</string>
+    <string name="action_back">Zurück</string>
+    <string name="action_view_profile">Profil</string>
+    <string name="action_view_preferences">Einstellungen</string>
+    <string name="action_view_favourites">Favoriten</string>
+    <string name="action_view_blocks">Blockierte Nutzer</string>
+    <string name="action_open_in_web">Im Browser öffnen</string>
+    <string name="action_set_time">Setzen</string>
+
+    <string name="confirmation_send">Toot!</string>
+    <string name="confirmation_reported">Gesendet!</string>
+
+    <string name="hint_domain">Welche Instanz?</string>
+    <string name="hint_compose">Was passiert gerade?</string>
+    <string name="hint_content_warning">Inhaltswarnung</string>
+
+    <string name="link_no_account">Noch keinen Account?</string>
+
+    <string name="dialog_no_account">
+        Wie bei E-Mailadressen auch, so kann eine Mastodon-Adresse von verschiedenen Websites
+        angeboten werden.\n\nHier kannst du eine Adresse einer Instanz eingeben, wo du dir ein
+        entweder ein Benutzerkonto erstellen kannst oder dich einloggst.\n\nWeitere Informationen unter
+        <a href="https://mastodon.social/about">mastodon.social</a>.
+    </string>
+    <string name="dialog_title_finishing_media_upload">Stelle Medienupload fertig</string>
+    <string name="dialog_message_uploading_media">Lädt hoch…</string>
+
+    <string name="visibility_public">Jeder darf sehen</string>
+    <string name="visibility_unlisted">Jeder darf sehen, aber nicht in der öffentlichen Timeline</string>
+    <string name="visibility_private">Nur Follower und Erwähnte dürfen sehen</string>
+
+    <string name="pref_title_notification_settings">Benachrichtigungen</string>
+    <string name="pref_title_pull_notifications">Aktiviere Pull-Benachrichtigungen</string>
+    <string name="pref_summary_pull_notifications">Prüfe auf Benachrichtigungen nach Intervall</string>
+    <string name="pref_title_pull_notification_check_interval">Intervall</string>
+    <string name="pref_summary_pull_notification_check_interval">Wie oft heruntergeladen werden soll</string>
+    <string name="pref_title_notification_alert_sound">Benachrichtige mit Sound</string>
+    <string name="pref_title_notification_style_vibrate">Benachrichtige mit Vibration</string>
+    <string name="pref_title_notification_style_light">Benachrichtige mit Licht</string>
+    <string name="pref_title_appearance_settings">Aussehen</string>
+    <string name="pref_title_light_theme">Benutze helles Theme</string>
+    <string name="action_submit">Senden</string>
+    <string name="action_photo_pick">Füge Medien hinzu</string>
+    <string name="action_compose_options">Privatsphären-Optionen</string>
+    <string name="login_success">Willkommen zurück!</string>
+    <string name="action_share">Teilen</string>
+    <string name="send_status_to">Teile Toot-URL zu…</string>
+    <string name="action_mute">Stummschalten</string>
+    <string name="action_unmute">Lautschalten</string>
+    <string name="error_unmuting">Dieser Benutzer war nie lautgeschaltet.</string>
+    <string name="error_muting">Dieser Benutzer war nie stummgeschaltet.</string>
+    <string name="search">Suche Accounts…</string>
+    <string name="toggle_nsfw">NSFW</string>
+    <string name="action_mention">Erwähnen</string>
+    <string name="tusky_api_url">https://tuskynotifier.keylesspalace.com</string>
+    <string name="notification_mention_format">%s hat dich erwähnt</string>
+    <string name="error_invalid_domain">Ungültige Domain angegeben</string>
+    <string name="error_failed_app_registration">Diese App konnte sich auf dem Server nicht authentifizieren.</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s und %4$d andere</string>
+    <string name="notification_summary_medium">%1$s, %2$s, und %3$s</string>
+    <string name="notification_summary_small">%1$s und %2$s</string>
+    <string name="notification_title_summary">%d neue Interaktionen</string>
+    <string name="pref_title_notifications_enabled">Push-Benachrichtigungen</string>
+</resources>
