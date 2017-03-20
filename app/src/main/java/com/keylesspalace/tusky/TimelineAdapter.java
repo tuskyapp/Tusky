@@ -32,13 +32,11 @@ class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover
 
     private List<Status> statuses;
     private StatusActionListener statusListener;
-    private FooterViewHolder.State footerState;
 
     TimelineAdapter(StatusActionListener statusListener) {
         super();
         statuses = new ArrayList<>();
         this.statusListener = statusListener;
-        footerState = FooterViewHolder.State.LOADING;
     }
 
     @Override
@@ -64,9 +62,6 @@ class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             Status status = statuses.get(position);
             holder.setupWithStatus(status, statusListener);
-        } else {
-            FooterViewHolder holder = (FooterViewHolder) viewHolder;
-            holder.setState(footerState);
         }
     }
 
@@ -84,25 +79,25 @@ class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover
         }
     }
 
-    int update(List<Status> newStatuses) {
-        int scrollToPosition;
+    void update(List<Status> newStatuses) {
+        if (newStatuses == null || newStatuses.isEmpty()) {
+            return;
+        }
         if (statuses.isEmpty()) {
-            if (newStatuses != null) {
-                statuses = newStatuses;
-            }
-            scrollToPosition = 0;
+            statuses = newStatuses;
         } else {
-            int index = newStatuses.indexOf(statuses.get(0));
-            if (index == -1) {
+            int index = statuses.indexOf(newStatuses.get(newStatuses.size() - 1));
+            for (int i = 0; i < index; i++) {
+                statuses.remove(0);
+            }
+            int newIndex = newStatuses.indexOf(statuses.get(0));
+            if (newIndex == -1) {
                 statuses.addAll(0, newStatuses);
-                scrollToPosition = 0;
             } else {
-                statuses.addAll(0, newStatuses.subList(0, index));
-                scrollToPosition = index;
+                statuses.addAll(0, newStatuses.subList(0, newIndex));
             }
         }
         notifyDataSetChanged();
-        return scrollToPosition;
     }
 
     void addItems(List<Status> newStatuses) {
@@ -122,9 +117,5 @@ class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover
             return statuses.get(position);
         }
         return null;
-    }
-
-    void setFooterState(FooterViewHolder.State state) {
-        footerState = state;
     }
 }

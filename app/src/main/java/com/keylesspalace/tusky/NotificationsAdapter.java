@@ -44,14 +44,12 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
     private List<Notification> notifications;
     private StatusActionListener statusListener;
     private FollowListener followListener;
-    private FooterViewHolder.State footerState;
 
     NotificationsAdapter(StatusActionListener statusListener, FollowListener followListener) {
         super();
         notifications = new ArrayList<>();
         this.statusListener = statusListener;
         this.followListener = followListener;
-        footerState = FooterViewHolder.State.LOADING;
     }
 
     @Override
@@ -108,9 +106,6 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
                     break;
                 }
             }
-        } else {
-            FooterViewHolder holder = (FooterViewHolder) viewHolder;
-            holder.setState(footerState);
         }
     }
 
@@ -148,23 +143,25 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
         return null;
     }
 
-    int update(List<Notification> new_notifications) {
-        int scrollToPosition;
-        if (notifications == null || notifications.isEmpty()) {
-            notifications = new_notifications;
-            scrollToPosition = 0;
+    void update(List<Notification> newNotifications) {
+        if (newNotifications == null || newNotifications.isEmpty()) {
+            return;
+        }
+        if (notifications.isEmpty()) {
+            notifications = newNotifications;
         } else {
-            int index = new_notifications.indexOf(notifications.get(0));
-            if (index == -1) {
-                notifications.addAll(0, new_notifications);
-                scrollToPosition = 0;
+            int index = notifications.indexOf(newNotifications.get(newNotifications.size() - 1));
+            for (int i = 0; i < index; i++) {
+                notifications.remove(0);
+            }
+            int newIndex = newNotifications.indexOf(notifications.get(0));
+            if (newIndex == -1) {
+                notifications.addAll(0, newNotifications);
             } else {
-                notifications.addAll(0, new_notifications.subList(0, index));
-                scrollToPosition = index;
+                notifications.addAll(0, newNotifications.subList(0, newIndex));
             }
         }
         notifyDataSetChanged();
-        return scrollToPosition;
     }
 
     void addItems(List<Notification> new_notifications) {
@@ -176,10 +173,6 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
     public void removeItem(int position) {
         notifications.remove(position);
         notifyItemChanged(position);
-    }
-
-    void setFooterState(FooterViewHolder.State state) {
-        footerState = state;
     }
 
     interface FollowListener {

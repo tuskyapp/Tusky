@@ -50,7 +50,6 @@ public class TimelineFragment extends SFragment implements
     }
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView recyclerView;
     private TimelineAdapter adapter;
     private Kind kind;
     private String hashtagOrId;
@@ -92,7 +91,7 @@ public class TimelineFragment extends SFragment implements
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         // Setup the RecyclerView.
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -135,15 +134,7 @@ public class TimelineFragment extends SFragment implements
             layout.addOnTabSelectedListener(onTabSelectedListener);
         }
 
-        sendFetchTimelineRequest();
-
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        sendFetchTimelineRequest();
     }
 
     @Override
@@ -232,10 +223,7 @@ public class TimelineFragment extends SFragment implements
     public void onFetchTimelineSuccess(List<Status> statuses, String fromId) {
         if (fromId != null) {
             if (statuses.size() > 0 && !findStatus(statuses, fromId)) {
-                setFetchTimelineState(FooterViewHolder.State.LOADING);
                 adapter.addItems(statuses);
-            } else {
-                setFetchTimelineState(FooterViewHolder.State.END_OF_TIMELINE);
             }
         } else {
             adapter.update(statuses);
@@ -244,19 +232,8 @@ public class TimelineFragment extends SFragment implements
     }
 
     public void onFetchTimelineFailure(Exception exception) {
-        setFetchTimelineState(FooterViewHolder.State.RETRY);
         swipeRefreshLayout.setRefreshing(false);
         Log.e(TAG, "Fetch Failure: " + exception.getMessage());
-    }
-
-    private void setFetchTimelineState(FooterViewHolder.State state) {
-        adapter.setFooterState(state);
-        RecyclerView.ViewHolder viewHolder =
-                recyclerView.findViewHolderForAdapterPosition(adapter.getItemCount() - 1);
-        if (viewHolder != null) {
-            FooterViewHolder holder = (FooterViewHolder) viewHolder;
-            holder.setState(state);
-        }
     }
 
     public void onRefresh() {

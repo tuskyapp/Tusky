@@ -50,7 +50,6 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
 
     private Type type;
     private String accountId;
-    private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private AccountAdapter adapter;
@@ -91,7 +90,7 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
         View rootView = inflater.inflate(R.layout.fragment_account, container, false);
 
         Context context = getContext();
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -210,36 +209,15 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
     private void onFetchAccountsSuccess(List<Account> accounts, String fromId) {
         if (fromId != null) {
             if (accounts.size() > 0 && !findAccount(accounts, fromId)) {
-                setFetchTimelineState(FooterViewHolder.State.LOADING);
                 adapter.addItems(accounts);
-            } else {
-                setFetchTimelineState(FooterViewHolder.State.END_OF_TIMELINE);
             }
         } else {
-            if (accounts.size() > 0) {
-                setFetchTimelineState(FooterViewHolder.State.LOADING);
-                adapter.update(accounts);
-            } else {
-                setFetchTimelineState(FooterViewHolder.State.END_OF_TIMELINE);
-            }
+            adapter.update(accounts);
         }
     }
 
     private void onFetchAccountsFailure(Exception exception) {
-        setFetchTimelineState(FooterViewHolder.State.RETRY);
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
-    }
-
-    private void setFetchTimelineState(FooterViewHolder.State state) {
-        // Set the adapter to set its state when it's bound, if the current Footer is offscreen.
-        adapter.setFooterState(state);
-        // Check if it's onscreen, and update it directly if it is.
-        RecyclerView.ViewHolder viewHolder =
-                recyclerView.findViewHolderForAdapterPosition(adapter.getItemCount() - 1);
-        if (viewHolder != null) {
-            FooterViewHolder holder = (FooterViewHolder) viewHolder;
-            holder.setState(state);
-        }
     }
 
     public void onViewAccount(String id) {

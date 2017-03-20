@@ -20,14 +20,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.Account;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
-
-import butterknife.ButterKnife;
 
 /** Both for follows and following lists. */
 class FollowAdapter extends AccountAdapter {
@@ -61,9 +58,6 @@ class FollowAdapter extends AccountAdapter {
             AccountViewHolder holder = (AccountViewHolder) viewHolder;
             holder.setupWithAccount(accountList.get(position));
             holder.setupActionListener(accountActionListener);
-        } else {
-            FooterViewHolder holder = (FooterViewHolder) viewHolder;
-            holder.setState(footerState);
         }
     }
 

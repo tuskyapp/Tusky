@@ -36,6 +36,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener,
@@ -43,7 +44,6 @@ public class NotificationsFragment extends SFragment implements
     private static final String TAG = "Notifications"; // logging tag
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private NotificationsAdapter adapter;
@@ -73,7 +73,7 @@ public class NotificationsFragment extends SFragment implements
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         // Setup the RecyclerView.
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -148,7 +148,7 @@ public class NotificationsFragment extends SFragment implements
 
         listCall.enqueue(new Callback<List<Notification>>() {
             @Override
-            public void onResponse(Call<List<Notification>> call, retrofit2.Response<List<Notification>> response) {
+            public void onResponse(Call<List<Notification>> call, Response<List<Notification>> response) {
                 if (response.isSuccessful()) {
                     onFetchNotificationsSuccess(response.body(), fromId);
                 } else {
@@ -180,7 +180,6 @@ public class NotificationsFragment extends SFragment implements
     private void onFetchNotificationsSuccess(List<Notification> notifications, String fromId) {
         if (fromId != null) {
             if (notifications.size() > 0 && !findNotification(notifications, fromId)) {
-                setFetchTimelineState(FooterViewHolder.State.LOADING);
                 adapter.addItems(notifications);
 
                 // Set last update id for pull notifications so that we don't get notified
@@ -189,8 +188,6 @@ public class NotificationsFragment extends SFragment implements
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("lastUpdateId", notifications.get(0).id);
                 editor.apply();
-            } else {
-                setFetchTimelineState(FooterViewHolder.State.END_OF_TIMELINE);
             }
         } else {
             adapter.update(notifications);
@@ -199,19 +196,8 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void onFetchNotificationsFailure(Exception exception) {
-        setFetchTimelineState(FooterViewHolder.State.RETRY);
         swipeRefreshLayout.setRefreshing(false);
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
-    }
-
-    private void setFetchTimelineState(FooterViewHolder.State state) {
-        adapter.setFooterState(state);
-        RecyclerView.ViewHolder viewHolder =
-                recyclerView.findViewHolderForAdapterPosition(adapter.getItemCount() - 1);
-        if (viewHolder != null) {
-            FooterViewHolder holder = (FooterViewHolder) viewHolder;
-            holder.setState(state);
-        }
     }
 
     public void onRefresh() {

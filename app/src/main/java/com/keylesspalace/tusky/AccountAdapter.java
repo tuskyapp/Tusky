@@ -25,13 +25,11 @@ import java.util.List;
 abstract class AccountAdapter extends RecyclerView.Adapter {
     List<Account> accountList;
     AccountActionListener accountActionListener;
-    FooterViewHolder.State footerState;
 
     AccountAdapter(AccountActionListener accountActionListener) {
         super();
         accountList = new ArrayList<>();
         this.accountActionListener = accountActionListener;
-        footerState = FooterViewHolder.State.LOADING;
     }
 
     @Override
@@ -40,14 +38,21 @@ abstract class AccountAdapter extends RecyclerView.Adapter {
     }
 
     void update(List<Account> newAccounts) {
-        if (accountList == null || accountList.isEmpty()) {
+        if (newAccounts == null || newAccounts.isEmpty()) {
+            return;
+        }
+        if (accountList.isEmpty()) {
             accountList = newAccounts;
         } else {
-            int index = newAccounts.indexOf(accountList.get(0));
-            if (index == -1) {
+            int index = accountList.indexOf(newAccounts.get(newAccounts.size() - 1));
+            for (int i = 0; i < index; i++) {
+                accountList.remove(0);
+            }
+            int newIndex = newAccounts.indexOf(accountList.get(0));
+            if (newIndex == -1) {
                 accountList.addAll(0, newAccounts);
             } else {
-                accountList.addAll(0, newAccounts.subList(0, index));
+                accountList.addAll(0, newAccounts.subList(0, newIndex));
             }
         }
         notifyDataSetChanged();
@@ -64,9 +69,5 @@ abstract class AccountAdapter extends RecyclerView.Adapter {
             return accountList.get(position);
         }
         return null;
-    }
-
-    void setFooterState(FooterViewHolder.State state) {
-        this.footerState = state;
     }
 }

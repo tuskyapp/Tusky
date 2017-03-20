@@ -17,39 +17,12 @@ package com.keylesspalace.tusky;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 class FooterViewHolder extends RecyclerView.ViewHolder {
-    private ProgressBar progressBar;
-
-    enum State {
-        LOADING,
-        RETRY,
-        END_OF_TIMELINE,
-    }
-
     FooterViewHolder(View itemView) {
         super(itemView);
-        progressBar = (ProgressBar) itemView.findViewById(R.id.footer_progress_bar);
+        ProgressBar progressBar = (ProgressBar) itemView.findViewById(R.id.footer_progress_bar);
         progressBar.setIndeterminate(true);
-    }
-
-    void setState(State state) {
-        switch (state) {
-            case LOADING: {
-                progressBar.setVisibility(View.VISIBLE);
-                break;
-            }
-            case RETRY: {
-                progressBar.setVisibility(View.GONE);
-                break;
-            }
-            case END_OF_TIMELINE: {
-                progressBar.setVisibility(View.GONE);
-                break;
-            }
-        }
     }
 }
