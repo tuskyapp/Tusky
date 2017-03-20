@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
      * Chain together the key-value pairs into a query string, for either appending to a URL or
      * as the content of an HTTP request.
      */
-    private String toQueryString(Map<String, String> parameters) {
+    private static String toQueryString(Map<String, String> parameters) {
         StringBuilder s = new StringBuilder();
         String between = "";
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /** Make sure the user-entered text is just a fully-qualified domain name. */
-    private String validateDomain(String s) {
+    private static String validateDomain(String s) {
         s = s.replaceFirst("http://", "");
         s = s.replaceFirst("https://", "");
         return s.trim();
@@ -248,7 +248,8 @@ public class LoginActivity extends AppCompatActivity {
         preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
 
-        if (preferences.getString("accessToken", null) != null && preferences.getString("domain", null) != null) {
+        if (preferences.getString("accessToken", null) != null
+                && preferences.getString("domain", null) != null) {
             // We are already logged in, go to MainActivity
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -276,13 +277,19 @@ public class LoginActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             onLoginSuccess(response.body().accessToken);
                         } else {
-                            editText.setError(response.message());
+                            editText.setError(getString(R.string.error_retrieving_oauth_token));
+                            Log.e(TAG, String.format("%s %s",
+                                    getString(R.string.error_retrieving_oauth_token),
+                                    response.message()));
                         }
                     }
 
                     @Override
                     public void onFailure(Call<AccessToken> call, Throwable t) {
-                        editText.setError(t.getMessage());
+                        editText.setError(getString(R.string.error_retrieving_oauth_token));
+                        Log.e(TAG, String.format("%s %s",
+                                getString(R.string.error_retrieving_oauth_token),
+                                t.getMessage()));
                     }
                 };
 
@@ -291,7 +298,8 @@ public class LoginActivity extends AppCompatActivity {
             } else if (error != null) {
                 /* Authorization failed. Put the error response where the user can read it and they
                  * can try again. */
-                editText.setError(error);
+                editText.setError(getString(R.string.error_authorization_denied));
+                Log.e(TAG, getString(R.string.error_authorization_denied) + error);
             } else {
                 // This case means a junk response was received somehow.
                 editText.setError(getString(R.string.error_authorization_unknown));

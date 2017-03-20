@@ -7,6 +7,8 @@
     <string name="preferences_file_key">com.keylesspalace.tusky.PREFERENCES</string>
 
     <string name="error_authorization_unknown">An unidentified authorization error occurred.</string>
+    <string name="error_authorization_denied">Authorization was denied.</string>
+    <string name="error_retrieving_oauth_token">Failed getting a login token.</string>
     <string name="error_fetching_notifications">Notifications could not be fetched.</string>
     <string name="error_compose_character_limit">The status is too long!</string>
     <string name="error_sending_status">The status failed to be sent.</string>

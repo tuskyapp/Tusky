@@ -4,7 +4,7 @@
 
 Tusky is a beautiful Android client for [Mastodon](https://github.com/tootsuite/mastodon). Mastodon is a GNU social-compatible federated social network. That means not one entity controls the whole network, rather, like e-mail, volunteers and organisations operate their own independent servers, users from which can all interact with each other seamlessly.
 
-It is currently available for alpha testing on [Google Play](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky). You can also find it on F-Droid or at its [F-Droid page](https://f-droid.org/repository/browse/?fdid=com.keylesspalace.tusky).
+It is currently available on [Google Play](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky).
 
 ## Features
 
