@@ -85,13 +85,13 @@ public class ViewMediaFragment extends DialogFragment {
             }
         });
 
-        /* An upward swipe motion also closes the viewer. This is especially useful when the photo
+        /* A vertical swipe motion also closes the viewer. This is especially useful when the photo
          * mostly fills the screen so clicking outside is difficult. */
         attacher.setOnSingleFlingListener(new PhotoViewAttacher.OnSingleFlingListener() {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                     float velocityY) {
-                if (velocityY < 0.0 && Math.abs(velocityY) > Math.abs(velocityX)) {
+                if (Math.abs(velocityY) > Math.abs(velocityX)) {
                     dismiss();
                     return true;
                 }

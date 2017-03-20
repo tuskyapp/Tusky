@@ -40,7 +40,7 @@ import retrofit2.Response;
 
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener,
-        NotificationsAdapter.FollowListener {
+        NotificationsAdapter.NotificationActionListener {
     private static final String TAG = "Notifications"; // logging tag
 
     private SwipeRefreshLayout swipeRefreshLayout;

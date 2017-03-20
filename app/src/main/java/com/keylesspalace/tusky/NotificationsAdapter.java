@@ -43,13 +43,14 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
 
     private List<Notification> notifications;
     private StatusActionListener statusListener;
-    private FollowListener followListener;
+    private NotificationActionListener notificationActionListener;
 
-    NotificationsAdapter(StatusActionListener statusListener, FollowListener followListener) {
+    NotificationsAdapter(StatusActionListener statusListener,
+            NotificationActionListener notificationActionListener) {
         super();
         notifications = new ArrayList<>();
         this.statusListener = statusListener;
-        this.followListener = followListener;
+        this.notificationActionListener = notificationActionListener;
     }
 
     @Override
@@ -96,13 +97,14 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
                     StatusNotificationViewHolder holder = (StatusNotificationViewHolder) viewHolder;
                     holder.setMessage(type, notification.account.getDisplayName(),
                             notification.status);
+                    holder.setupButtons(notificationActionListener, notification.account.id);
                     break;
                 }
                 case FOLLOW: {
                     FollowViewHolder holder = (FollowViewHolder) viewHolder;
                     holder.setMessage(notification.account.getDisplayName(), notification.account.username,
                             notification.account.avatar);
-                    holder.setupButtons(followListener, notification.account.id);
+                    holder.setupButtons(notificationActionListener, notification.account.id);
                     break;
                 }
             }
@@ -175,7 +177,7 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
         notifyItemChanged(position);
     }
 
-    interface FollowListener {
+    interface NotificationActionListener {
         void onViewAccount(String id);
     }
 
@@ -213,7 +215,7 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
                     .into(avatar);
         }
 
-        void setupButtons(final FollowListener listener, final String accountId) {
+        void setupButtons(final NotificationActionListener listener, final String accountId) {
             avatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -227,12 +229,14 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
         private TextView message;
         private ImageView icon;
         private TextView statusContent;
+        private ViewGroup container;
 
         StatusNotificationViewHolder(View itemView) {
             super(itemView);
             message = (TextView) itemView.findViewById(R.id.notification_text);
             icon = (ImageView) itemView.findViewById(R.id.notification_icon);
             statusContent = (TextView) itemView.findViewById(R.id.notification_content);
+            container = (ViewGroup) itemView.findViewById(R.id.notification_container);
         }
 
         void setMessage(Notification.Type type, String displayName, Status status) {
@@ -261,6 +265,15 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             message.setText(str);
             statusContent.setText(status.content);
+        }
+
+        void setupButtons(final NotificationActionListener listener, final String accountId) {
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onViewAccount(accountId);
+                }
+            });
         }
     }
 }
