@@ -306,25 +306,37 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         replyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onReply(getAdapterPosition());
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onReply(position);
+                }
             }
         });
         reblogButton.setEventListener(new SparkEventListener() {
             @Override
             public void onEvent(ImageView button, boolean buttonState) {
-                listener.onReblog(!reblogged, getAdapterPosition());
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onReblog(!reblogged, position);
+                }
             }
         });
         favouriteButton.setEventListener(new SparkEventListener() {
             @Override
             public void onEvent(ImageView button, boolean buttonState) {
-                listener.onFavourite(!favourited, getAdapterPosition());
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onFavourite(!favourited, position);
+                }
             }
         });
         moreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onMore(v, getAdapterPosition());
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onMore(v, position);
+                }
             }
         });
         /* Even though the content TextView is a child of the container, it won't respond to clicks
@@ -334,7 +346,10 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         View.OnClickListener viewThreadListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onViewThread(getAdapterPosition());
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onViewThread(position);
+                }
             }
         };
         content.setOnClickListener(viewThreadListener);

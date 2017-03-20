@@ -20,6 +20,7 @@ import android.text.Spanned;
 
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.google.gson.annotations.SerializedName;
+import com.keylesspalace.tusky.HtmlUtils;
 
 public class Account implements SearchSuggestion {
     public String id;
@@ -88,7 +89,18 @@ public class Account implements SearchSuggestion {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeString(id);
+        dest.writeString(localUsername);
+        dest.writeString(username);
+        dest.writeString(displayName);
+        dest.writeString(HtmlUtils.toHtml(note));
+        dest.writeString(url);
+        dest.writeString(avatar);
+        dest.writeString(header);
+        dest.writeBooleanArray(new boolean[] { locked });
+        dest.writeString(followersCount);
+        dest.writeString(followingCount);
+        dest.writeString(statusesCount);
     }
 
     public Account() {
@@ -96,7 +108,20 @@ public class Account implements SearchSuggestion {
     }
 
     protected Account(Parcel in) {
-
+        id = in.readString();
+        localUsername = in.readString();
+        username = in.readString();
+        displayName = in.readString();
+        note = HtmlUtils.fromHtml(in.readString());
+        url = in.readString();
+        avatar = in.readString();
+        header = in.readString();
+        boolean[] lockedArray = new boolean[1];
+        in.readBooleanArray(lockedArray);
+        locked = lockedArray[0];
+        followersCount = in.readString();
+        followingCount = in.readString();
+        statusesCount = in.readString();
     }
 
     public static final Creator<Account> CREATOR = new Creator<Account>() {

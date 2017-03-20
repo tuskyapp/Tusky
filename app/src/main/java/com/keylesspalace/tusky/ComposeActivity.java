@@ -422,7 +422,7 @@ public class ComposeActivity extends BaseActivity {
         TextWatcher textEditorWatcher = new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                int left = STATUS_CHARACTER_LIMIT - s.length();
+                int left = STATUS_CHARACTER_LIMIT - s.length() - contentWarningEditor.length();
                 charactersLeft.setText(String.format(Locale.getDefault(), "%d", left));
             }
 
@@ -453,6 +453,19 @@ public class ComposeActivity extends BaseActivity {
 
         contentWarningBar = findViewById(R.id.compose_content_warning_bar);
         contentWarningEditor = (EditText) findViewById(R.id.field_content_warning);
+        contentWarningEditor.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int left = STATUS_CHARACTER_LIMIT - s.length() - textEditor.length();
+                charactersLeft.setText(String.format(Locale.getDefault(), "%d", left));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
         showContentWarning(false);
 
         statusAlreadyInFlight = false;
@@ -504,15 +517,14 @@ public class ComposeActivity extends BaseActivity {
         if (statusAlreadyInFlight) {
             return;
         }
-        Editable editable = textEditor.getText();
-        if (editable.length() <= STATUS_CHARACTER_LIMIT) {
+        String contentText = textEditor.getText().toString();
+        String spoilerText = "";
+        if (statusHideText) {
+            spoilerText = contentWarningEditor.getText().toString();
+        }
+        if (contentText.length() + spoilerText.length() <= STATUS_CHARACTER_LIMIT) {
             statusAlreadyInFlight = true;
-            String spoilerText = "";
-            if (statusHideText) {
-                spoilerText = contentWarningEditor.getText().toString();
-            }
-            readyStatus(editable.toString(), statusVisibility, statusMarkSensitive,
-                    spoilerText);
+            readyStatus(contentText, statusVisibility, statusMarkSensitive, spoilerText);
         } else {
             textEditor.setError(getString(R.string.error_compose_character_limit));
         }

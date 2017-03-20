@@ -55,9 +55,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Log.d(TAG, notificationId);
 
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
+                getApplicationContext());
         boolean enabled = preferences.getBoolean("notificationsEnabled", true);
-
         if (!enabled) {
             return;
         }

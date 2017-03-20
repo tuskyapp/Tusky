@@ -61,7 +61,6 @@ public class AccountActivity extends BaseActivity {
     private boolean blocking = false;
     private boolean muting = false;
     private boolean isSelf;
-    private String openInWebUrl;
     private TabLayout tabLayout;
     private Account loadedAccount;
 
@@ -214,7 +213,6 @@ public class AccountActivity extends BaseActivity {
                 .placeholder(R.drawable.account_header_missing)
                 .into(header);
 
-        openInWebUrl = account.url;
         java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
 
         // Add counts to the tabs in the TabLayout.
@@ -489,7 +487,10 @@ public class AccountActivity extends BaseActivity {
                 return true;
             }
             case R.id.action_open_in_web: {
-                Uri uri = Uri.parse(openInWebUrl);
+                if (loadedAccount == null) {
+                    return false;
+                }
+                Uri uri = Uri.parse(loadedAccount.url);
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
                 return true;

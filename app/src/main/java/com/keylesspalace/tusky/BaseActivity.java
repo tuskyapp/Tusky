@@ -22,6 +22,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spanned;
@@ -50,6 +51,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * the most expedient way to accomplish this was to put it in a base class and just have every
  * activity extend from it. */
 public class BaseActivity extends AppCompatActivity {
+    private static final String TAG = "BaseActivity"; // logging tag
+
     protected MastodonAPI mastodonAPI;
     protected TuskyAPI tuskyAPI;
     protected Dispatcher mastodonApiDispatcher;
@@ -101,7 +104,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected boolean arePushNotificationsEnabled() {
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         return preferences.getBoolean("notificationsEnabled", true);
     }
 
@@ -175,12 +178,12 @@ public class BaseActivity extends AppCompatActivity {
         tuskyAPI.register(getBaseUrl(), getAccessToken(), FirebaseInstanceId.getInstance().getToken()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-
+                Log.d(TAG, "Enable push notifications response: " + response.message());
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                Log.d(TAG, "Enable push notifications failed: " + t.getMessage());
             }
         });
     }
@@ -189,12 +192,12 @@ public class BaseActivity extends AppCompatActivity {
         tuskyAPI.unregister(getBaseUrl(), getAccessToken()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-
+                Log.d(TAG, "Disable push notifications response: " + response.message());
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                Log.d(TAG, "Disable push notifications failed: " + t.getMessage());
             }
         });
     }
