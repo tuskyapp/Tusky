@@ -93,9 +93,6 @@ public class MainActivity extends BaseActivity {
 
         ButterKnife.bind(this);
 
-        // Fetch user info while we're doing other things.
-        fetchUserInfo();
-
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,6 +103,10 @@ public class MainActivity extends BaseActivity {
 
         setupDrawer();
         setupSearchView();
+
+        /* Fetch user info while we're doing other things. This has to be after setting up the
+         * drawer, though, because its callback touches the header in the drawer. */
+        fetchUserInfo();
 
         // Setup the tabs and timeline pager.
         TimelinePagerAdapter adapter = new TimelinePagerAdapter(getSupportFragmentManager());

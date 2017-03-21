@@ -35,6 +35,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AccountFragment extends BaseFragment implements AccountActionListener {
     private static final String TAG = "Account"; // logging tag
@@ -160,8 +161,12 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
     private void fetchAccounts(final String fromId, String uptoId) {
         Callback<List<Account>> cb = new Callback<List<Account>>() {
             @Override
-            public void onResponse(Call<List<Account>> call, retrofit2.Response<List<Account>> response) {
-                onFetchAccountsSuccess(response.body(), fromId);
+            public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
+                if (response.isSuccessful()) {
+                    onFetchAccountsSuccess(response.body(), fromId);
+                } else {
+                    onFetchAccountsFailure(new Exception(response.message()));
+                }
             }
 
             @Override
@@ -229,8 +234,12 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
     public void onBlock(final boolean block, final String id, final int position) {
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
-            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
-                onBlockSuccess(block, position);
+            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
+                if (response.isSuccessful()) {
+                    onBlockSuccess(block, position);
+                } else {
+                    onBlockFailure(block, id);
+                }
             }
 
             @Override
