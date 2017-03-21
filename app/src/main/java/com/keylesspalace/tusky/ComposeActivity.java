@@ -417,9 +417,10 @@ public class ComposeActivity extends BaseActivity {
          * when media previews are added in front of the editor, they can receive click events
          * without the text editor stealing the events from behind them. */
         editArea.addView(textEditor, 0);
+        contentWarningEditor = (EditText) findViewById(R.id.field_content_warning);
         final TextView charactersLeft = (TextView) findViewById(R.id.characters_left);
         final int mentionColour = ThemeUtils.getColor(this, R.attr.compose_mention_color);
-        TextWatcher textEditorWatcher = new TextWatcher() {
+        textEditor.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int left = STATUS_CHARACTER_LIMIT - s.length() - contentWarningEditor.length();
@@ -433,8 +434,7 @@ public class ComposeActivity extends BaseActivity {
             public void afterTextChanged(Editable editable) {
                 highlightSpans(editable, mentionColour);
             }
-        };
-        textEditor.addTextChangedListener(textEditorWatcher);
+        });
 
         if (mentionedUsernames != null) {
             StringBuilder builder = new StringBuilder();
@@ -452,7 +452,6 @@ public class ComposeActivity extends BaseActivity {
         waitForMediaLatch = new CountUpDownLatch();
 
         contentWarningBar = findViewById(R.id.compose_content_warning_bar);
-        contentWarningEditor = (EditText) findViewById(R.id.field_content_warning);
         contentWarningEditor.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
