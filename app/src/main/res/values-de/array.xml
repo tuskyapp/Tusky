@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     
-    <string-array name="pull_notification_check_interval_names" tools:ignore="MissingTranslation">
+    <string-array name="pull_notification_check_interval_names">
         <item>5 Minuten</item>
         <item>10 Minuten</item>
         <item>15 Minuten</item>
