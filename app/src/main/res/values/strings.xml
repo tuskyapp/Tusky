@@ -1,14 +1,8 @@
-<resources>
-    <string name="app_name">Tusky</string>
-    <string name="app_website">http://tusky.keylesspalace.com</string>
-
-    <string name="oauth_scheme">com.keylesspalace.tusky</string>
-    <string name="oauth_redirect_host">oauth2redirect</string>
-    <string name="preferences_file_key">com.keylesspalace.tusky.PREFERENCES</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="error_authorization_unknown">An unidentified authorization error occurred.</string>
-    <string name="error_authorization_denied">Authorization was denied.</string>
-    <string name="error_retrieving_oauth_token">Failed getting a login token.</string>
+    <string name="error_authorization_denied" tools:ignore="MissingTranslation">Authorization was denied.</string>
+    <string name="error_retrieving_oauth_token" tools:ignore="MissingTranslation">Failed getting a login token.</string>
     <string name="error_fetching_notifications">Notifications could not be fetched.</string>
     <string name="error_compose_character_limit">The status is too long!</string>
     <string name="error_sending_status">The status failed to be sent.</string>
@@ -128,7 +122,6 @@
     <string name="search">Search accounts…</string>
     <string name="toggle_nsfw">NSFW</string>
     <string name="action_mention">Mention</string>
-    <string name="tusky_api_url">https://tuskynotifier.keylesspalace.com</string>
     <string name="notification_mention_format">%s mentioned you</string>
     <string name="error_invalid_domain">Invalid domain entered</string>
     <string name="error_failed_app_registration">This app could not obtain authentication from that server instance.</string>

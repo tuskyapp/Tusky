@@ -1,11 +1,4 @@
 <resources>
-    <string name="app_name">Tusky</string>
-    <string name="app_website">http://tusky.keylesspalace.com</string>
-
-    <string name="oauth_scheme">com.keylesspalace.tusky</string>
-    <string name="oauth_redirect_host">oauth2redirect</string>
-    <string name="preferences_file_key">com.keylesspalace.tusky.PREFERENCES</string>
-
     <string name="error_authorization_unknown">Ein undefinierbarer Autorisierungsfehler ist aufgetreten.</string>
     <string name="error_fetching_notifications">Benachrichtigungen konnten nicht empfangen werden.</string>
     <string name="error_compose_character_limit">Der Status ist zu lang!</string>
@@ -54,7 +47,7 @@
     <string name="notification_favourite_format">%s favorisierte deinen Status</string>
     <string name="notification_follow_format">%s ist dir gefolgt</string>
 
-    <string name="report_username_format">@%s melden</string>
+    <string name="report_username_format">\@%s melden</string>
     <string name="report_comment_hint">Irgendwelche Anmerkungen?</string>
 
     <string name="action_compose">Schreiben</string>
@@ -126,7 +119,6 @@
     <string name="search">Suche Accounts…</string>
     <string name="toggle_nsfw">NSFW</string>
     <string name="action_mention">Erwähnen</string>
-    <string name="tusky_api_url">https://tuskynotifier.keylesspalace.com</string>
     <string name="notification_mention_format">%s hat dich erwähnt</string>
     <string name="error_invalid_domain">Ungültige Domain angegeben</string>
     <string name="error_failed_app_registration">Diese App konnte sich auf dem Server nicht authentifizieren.</string>
