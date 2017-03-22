@@ -64,12 +64,9 @@ public class BaseActivity extends AppCompatActivity {
         createMastodonAPI();
         createTuskyAPI();
 
-        /* Note from Andrew March 13, 2017: Keep this and restore it when the light theme is no
-           longer bugged.
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("lightTheme", false)) {
             setTheme(R.style.AppTheme_Light);
         }
-        */
     }
 
     @Override

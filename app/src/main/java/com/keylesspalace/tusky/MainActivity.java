@@ -153,9 +153,7 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabReselected(TabLayout.Tab tab) {}
         });
 
         Intent intent = getIntent();

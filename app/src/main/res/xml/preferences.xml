@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="@string/preferences_file_key">
+
     <PreferenceCategory android:title="@string/pref_title_notification_settings">
+
         <CheckBoxPreference
             android:key="notificationsEnabled"
             android:title="@string/pref_title_notifications_enabled"
@@ -24,5 +26,16 @@
             android:key="notificationStyleLight"
             android:title="@string/pref_title_notification_style_light"
             android:defaultValue="true" />
+
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_title_appearance_settings">
+
+        <CheckBoxPreference
+            android:key="lightTheme"
+            android:title="@string/pref_title_light_theme"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
