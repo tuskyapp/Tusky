@@ -390,6 +390,7 @@ public class ComposeActivity extends BaseActivity {
 
         Intent intent = getIntent();
         String[] mentionedUsernames = null;
+        inReplyToId = null;
         if (intent != null) {
             inReplyToId = intent.getStringExtra("in_reply_to_id");
             String replyVisibility = intent.getStringExtra("reply_visibility");
@@ -410,7 +411,7 @@ public class ComposeActivity extends BaseActivity {
 
         textEditor = createEditText(null); // new String[] { "image/gif", "image/webp" }
         if (savedInstanceState != null) {
-            textEditor.onRestoreInstanceState(savedInstanceState.getParcelable("textEditorState"));
+            restoreTextEditorState(savedInstanceState.getParcelable("textEditorState"));
         }
         RelativeLayout editArea = (RelativeLayout) findViewById(R.id.compose_edit_area);
         /* Adding this at index zero because it implicitly gives it the lowest input priority. So,
@@ -541,7 +542,7 @@ public class ComposeActivity extends BaseActivity {
         outState.putString("statusVisibility", statusVisibility);
         outState.putBoolean("statusMarkSensitive", statusMarkSensitive);
         outState.putBoolean("statusHideText", statusHideText);
-        outState.putParcelable("textEditorState", textEditor.onSaveInstanceState());
+        outState.putParcelable("textEditorState", saveTextEditorState());
         if (currentInputContentInfo != null) {
             outState.putParcelable("commitContentInputContentInfo",
                     (Parcelable) currentInputContentInfo.unwrap());
@@ -550,6 +551,28 @@ public class ComposeActivity extends BaseActivity {
         currentInputContentInfo = null;
         currentFlags = 0;
         super.onSaveInstanceState(outState);
+    }
+
+    private Parcelable saveTextEditorState() {
+        Bundle bundle = new Bundle();
+        bundle.putString("text", HtmlUtils.toHtml(textEditor.getText()));
+        bundle.putInt("selectionStart", textEditor.getSelectionStart());
+        bundle.putInt("selectionEnd", textEditor.getSelectionEnd());
+        return bundle;
+    }
+
+    private void restoreTextEditorState(Parcelable state) {
+        Bundle bundle = (Bundle) state;
+        textEditor.setText(HtmlUtils.fromHtml(bundle.getString("text")));
+        int start = bundle.getInt("selectionStart");
+        int end = bundle.getInt("selectionEnd");
+        if (start != -1) {
+            if (end != -1) {
+                textEditor.setSelection(start, end);
+            } else {
+                textEditor.setSelection(start);
+            }
+        }
     }
 
     @Override
