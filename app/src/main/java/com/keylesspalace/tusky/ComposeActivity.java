@@ -363,12 +363,13 @@ public class ComposeActivity extends BaseActivity {
         });
 
         String startingVisibility;
+        boolean startingHideText;
         ArrayList<SavedQueuedMedia> savedMediaQueued = null;
         if (savedInstanceState != null) {
             showMarkSensitive = savedInstanceState.getBoolean("showMarkSensitive");
             startingVisibility = savedInstanceState.getString("statusVisibility");
             statusMarkSensitive = savedInstanceState.getBoolean("statusMarkSensitive");
-            statusHideText = savedInstanceState.getBoolean("statusHideText");
+            startingHideText = savedInstanceState.getBoolean("statusHideText");
             // Keep these until everything needed to put them in the queue is finished initializing.
             savedMediaQueued = savedInstanceState.getParcelableArrayList("savedMediaQueued");
             // These are for restoring an in-progress commit content operation.
@@ -382,7 +383,7 @@ public class ComposeActivity extends BaseActivity {
             showMarkSensitive = false;
             startingVisibility = preferences.getString("rememberedVisibility", "public");
             statusMarkSensitive = false;
-            statusHideText = false;
+            startingHideText = false;
         }
 
         if (statusMarkSensitive) {
@@ -472,7 +473,7 @@ public class ComposeActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {}
         });
-        showContentWarning(false);
+        showContentWarning(startingHideText);
 
         statusAlreadyInFlight = false;
 
