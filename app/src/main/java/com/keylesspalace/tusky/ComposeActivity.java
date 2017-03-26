@@ -29,6 +29,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -114,6 +115,7 @@ public class ComposeActivity extends BaseActivity {
     private int currentFlags;
     private ProgressDialog finishingUploadDialog;
     private EditText contentWarningEditor;
+    private Button floatingBtn;
     private ImageButton pickBtn;
     private Button nsfwBtn;
 
@@ -330,7 +332,7 @@ public class ComposeActivity extends BaseActivity {
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
 
-        Button floatingBtn = (Button) findViewById(R.id.floating_btn);
+        floatingBtn = (Button) findViewById(R.id.floating_btn);
         pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
         nsfwBtn = (Button) findViewById(R.id.action_toggle_nsfw);
         ImageButton visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
@@ -360,10 +362,11 @@ public class ComposeActivity extends BaseActivity {
             }
         });
 
+        String startingVisibility;
         ArrayList<SavedQueuedMedia> savedMediaQueued = null;
         if (savedInstanceState != null) {
             showMarkSensitive = savedInstanceState.getBoolean("showMarkSensitive");
-            statusVisibility = savedInstanceState.getString("statusVisibility");
+            startingVisibility = savedInstanceState.getString("statusVisibility");
             statusMarkSensitive = savedInstanceState.getBoolean("statusMarkSensitive");
             statusHideText = savedInstanceState.getBoolean("statusHideText");
             // Keep these until everything needed to put them in the queue is finished initializing.
@@ -377,7 +380,7 @@ public class ComposeActivity extends BaseActivity {
             }
         } else {
             showMarkSensitive = false;
-            statusVisibility = preferences.getString("rememberedVisibility", "public");
+            startingVisibility = preferences.getString("rememberedVisibility", "public");
             statusMarkSensitive = false;
             statusHideText = false;
         }
@@ -395,19 +398,22 @@ public class ComposeActivity extends BaseActivity {
             inReplyToId = intent.getStringExtra("in_reply_to_id");
             String replyVisibility = intent.getStringExtra("reply_visibility");
 
-            if (replyVisibility != null) {
+            if (replyVisibility != null && startingVisibility != null) {
                 // Lowest possible visibility setting in response
-                if (statusVisibility.equals("private") || replyVisibility.equals("private")) {
-                    statusVisibility = "private";
-                } else if (statusVisibility.equals("unlisted") || replyVisibility.equals("unlisted")) {
-                    statusVisibility = "unlisted";
+                if (startingVisibility.equals("private") || replyVisibility.equals("private")) {
+                    startingVisibility = "private";
+                } else if (startingVisibility.equals("unlisted") || replyVisibility.equals("unlisted")) {
+                    startingVisibility = "unlisted";
                 } else {
-                    statusVisibility = replyVisibility;
+                    startingVisibility = replyVisibility;
                 }
             }
 
             mentionedUsernames = intent.getStringArrayExtra("mentioned_usernames");
         }
+        /* Only after the starting visibility is determined and the send button is initialised can
+         * the status visibility be set. */
+        setStatusVisibility(startingVisibility);
 
         textEditor = createEditText(null); // new String[] { "image/gif", "image/webp" }
         if (savedInstanceState != null) {
@@ -488,6 +494,30 @@ public class ComposeActivity extends BaseActivity {
         }
     }
 
+    private void setStatusVisibility(String visibility) {
+        statusVisibility = visibility;
+        switch (visibility) {
+            case "public": {
+                floatingBtn.setText(R.string.action_send_public);
+                floatingBtn.setCompoundDrawables(null, null, null, null);
+                break;
+            }
+            case "private": {
+                floatingBtn.setText(R.string.action_send);
+                Drawable lock = ThemeUtils.getDrawable(this, R.attr.compose_send_private_drawable,
+                        R.drawable.send_private_dark);
+                lock.setBounds(0, 0, lock.getIntrinsicWidth(), lock.getIntrinsicHeight());
+                floatingBtn.setCompoundDrawables(null, null, lock, null);
+                break;
+            }
+            default: {
+                floatingBtn.setText(R.string.action_send);
+                floatingBtn.setCompoundDrawables(null, null, null, null);
+                break;
+            }
+        }
+    }
+
     private void showComposeOptions() {
         ComposeOptionsFragment fragment = ComposeOptionsFragment.newInstance(
                 statusVisibility, statusHideText, inReplyToId != null,
@@ -502,7 +532,7 @@ public class ComposeActivity extends BaseActivity {
 
                     @Override
                     public void onVisibilityChanged(String visibility) {
-                        statusVisibility = visibility;
+                        setStatusVisibility(visibility);
                     }
 
                     @Override

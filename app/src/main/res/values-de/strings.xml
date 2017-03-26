@@ -60,6 +60,7 @@
     <string name="action_report">Melden</string>
     <string name="action_delete">Löschen</string>
     <string name="action_send">TOOT</string>
+    <string name="action_send_public">TOOT!</string>
     <string name="action_retry">Erneut versuchen</string>
     <string name="action_mark_sensitive">Markiere Mediendatei als sensibel</string>
     <string name="action_hide_text">Verstecke Text hinter Warnung</string>

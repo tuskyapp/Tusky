@@ -63,6 +63,7 @@
     <string name="action_report">Report</string>
     <string name="action_delete">Delete</string>
     <string name="action_send">TOOT</string>
+    <string name="action_send_public">TOOT!</string>
     <string name="action_retry">Retry</string>
     <string name="action_mark_sensitive">Mark media sensitive</string>
     <string name="action_hide_text">Hide text behind warning</string>
