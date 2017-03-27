@@ -47,9 +47,6 @@ public class ReportActivity extends BaseActivity {
     private ReportAdapter adapter;
     private boolean reportAlreadyInFlight;
     private String accountId;
-    private String accountUsername;
-    private String statusId;
-    private String statusContent;
     private EditText comment;
 
     @Override
@@ -59,9 +56,9 @@ public class ReportActivity extends BaseActivity {
 
         Intent intent = getIntent();
         accountId = intent.getStringExtra("account_id");
-        accountUsername = intent.getStringExtra("account_username");
-        statusId = intent.getStringExtra("status_id");
-        statusContent = intent.getStringExtra("status_content");
+        String accountUsername = intent.getStringExtra("account_username");
+        String statusId = intent.getStringExtra("status_id");
+        String statusContent = intent.getStringExtra("status_content");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -164,7 +161,7 @@ public class ReportActivity extends BaseActivity {
                 List<Status> statusList = response.body();
                 List<ReportAdapter.ReportStatus> itemList = new ArrayList<>();
                 for (Status status : statusList) {
-                    if (status.reblog != null) {
+                    if (status.reblog == null) {
                         ReportAdapter.ReportStatus item = new ReportAdapter.ReportStatus(
                                 status.id, status.content, false);
                         itemList.add(item);
