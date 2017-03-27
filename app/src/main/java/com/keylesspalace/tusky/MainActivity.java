@@ -19,7 +19,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -27,7 +26,6 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -158,17 +156,19 @@ public class MainActivity extends BaseActivity {
 
         Intent intent = getIntent();
 
+        int tabSelected = 0;
         if (intent != null) {
             int tabPosition = intent.getIntExtra("tab_position", 0);
-
             if (tabPosition != 0) {
-                tabLayout.getTabAt(tabPosition).select();
-                tintTab(tabLayout.getTabAt(tabPosition), true);
-            } else {
-                tintTab(tabLayout.getTabAt(0), true);
+                TabLayout.Tab tab = tabLayout.getTabAt(tabPosition);
+                if (tab != null) {
+                    tab.select();
+                    tabSelected = tabPosition;
+                }
             }
-        } else {
-            tintTab(tabLayout.getTabAt(0), true);
+        }
+        for (int i = 0; i < 3; i++) {
+            tintTab(tabLayout.getTabAt(i), i == tabSelected);
         }
 
         // Setup push notifications
@@ -196,7 +196,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void tintTab(TabLayout.Tab tab, boolean tinted) {
-        tab.getIcon().setColorFilter(ContextCompat.getColor(this, tinted ? R.color.color_accent_dark : R.color.toolbar_icon_dark), PorterDuff.Mode.SRC_IN);
+        int color = (tinted) ? R.attr.tab_icon_selected_tint : R.attr.toolbar_icon_tint;
+        ThemeUtils.setDrawableTint(this, tab.getIcon(), color);
     }
 
     private void setupDrawer() {

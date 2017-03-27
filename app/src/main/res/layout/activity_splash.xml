@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/color_background_dark"
+    android:background="?attr/splash_background_color"
     android:layout_height="match_parent">
     <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
         android:id="@+id/circularFillableLoaders"
@@ -15,5 +15,5 @@
         app:cfl_border_width="4dp"
         app:cfl_progress="80"
         app:cfl_wave_amplitude="0.08"
-        app:cfl_wave_color="@color/color_primary_dark" />
+        app:cfl_wave_color="?attr/splash_wave_color" />
 </LinearLayout>
