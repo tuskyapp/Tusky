@@ -52,6 +52,7 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
     private Type type;
     private String accountId;
     private LinearLayoutManager layoutManager;
+    private RecyclerView recyclerView;
     private EndlessOnScrollListener scrollListener;
     private AccountAdapter adapter;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
@@ -80,7 +81,7 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
         Bundle arguments = getArguments();
         type = Type.valueOf(arguments.getString("type"));
         accountId = arguments.getString("accountId");
-        api = ((BaseActivity) getActivity()).mastodonAPI;
+        api = null;
     }
 
     @Nullable
@@ -91,7 +92,7 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
         View rootView = inflater.inflate(R.layout.fragment_account, container, false);
 
         Context context = getContext();
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -101,19 +102,7 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
                 R.drawable.status_divider_dark);
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
-        scrollListener = new EndlessOnScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                AccountAdapter adapter = (AccountAdapter) view.getAdapter();
-                Account account = adapter.getItem(adapter.getItemCount() - 2);
-                if (account != null) {
-                    fetchAccounts(account.id, null);
-                } else {
-                    fetchAccounts();
-                }
-            }
-        };
-        recyclerView.addOnScrollListener(scrollListener);
+        scrollListener = null;
         if (type == Type.BLOCKS) {
             adapter = new BlocksAdapter(this);
         } else {
@@ -141,6 +130,28 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        /* MastodonAPI on the base activity is only guaranteed to be initialised after the parent
+         * activity is created, so everything needing to access the api object has to be delayed
+         * until here. */
+        api = ((BaseActivity) getActivity()).mastodonAPI;
+        scrollListener = new EndlessOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                AccountAdapter adapter = (AccountAdapter) view.getAdapter();
+                Account account = adapter.getItem(adapter.getItemCount() - 2);
+                if (account != null) {
+                    fetchAccounts(account.id, null);
+                } else {
+                    fetchAccounts();
+                }
+            }
+        };
+        recyclerView.addOnScrollListener(scrollListener);
     }
 
     @Override
@@ -232,6 +243,14 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
     }
 
     public void onBlock(final boolean block, final String id, final int position) {
+        if (api == null) {
+            /* If somehow an unblock button is clicked after onCreateView but before
+             * onActivityCreated, then this would get called with a null api object, so this eats
+             * that input. */
+            Log.d(TAG, "MastodonAPI isn't initialised so this block can't occur.");
+            return;
+        }
+
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
             public void onResponse(Call<Relationship> call, Response<Relationship> response) {
