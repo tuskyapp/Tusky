@@ -121,9 +121,32 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+    private static boolean filterNotification(SharedPreferences preferences,
+            Notification notification) {
+        switch (notification.type) {
+            default:
+            case MENTION: {
+                return preferences.getBoolean("notificationFilterMentions", true);
+            }
+            case FOLLOW: {
+                return preferences.getBoolean("notificationFilterFollows", true);
+            }
+            case REBLOG: {
+                return preferences.getBoolean("notificationFilterReblogs", true);
+            }
+            case FAVOURITE: {
+                return preferences.getBoolean("notificationFilterFavourites", true);
+            }
+        }
+    }
+
     private void buildNotification(Notification body) {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences notificationPreferences = getApplicationContext().getSharedPreferences("Notifications", MODE_PRIVATE);
+
+        if (!filterNotification(preferences, body)) {
+            return;
+        }
 
         String rawCurrentNotifications = notificationPreferences.getString("current", "[]");
         JSONArray currentNotifications;
@@ -146,7 +169,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }
         }
 
-        if (!alreadyContains) currentNotifications.put(body.account.displayName);
+        if (!alreadyContains) {
+            currentNotifications.put(body.account.displayName);
+        }
 
         SharedPreferences.Editor editor = notificationPreferences.edit();
         editor.putString("current", currentNotifications.toString());
@@ -222,11 +247,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
         }
 
-        if (preferences.getBoolean("notificationStyleVibrate", false)) {
+        if (preferences.getBoolean("notificationAlertVibrate", false)) {
             builder.setVibrate(new long[] { 500, 500 });
         }
 
-        if (preferences.getBoolean("notificationStyleLight", false)) {
+        if (preferences.getBoolean("notificationAlertLight", false)) {
             builder.setLights(0xFF00FF8F, 300, 1000);
         }
     }

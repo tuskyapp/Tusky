@@ -101,13 +101,15 @@
     <string name="visibility_private">Only followers and mentions can see</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
-    <string name="pref_title_pull_notifications">Enable pull notifications</string>
-    <string name="pref_summary_pull_notifications">Check for notifications periodically</string>
-    <string name="pref_title_pull_notification_check_interval">Check interval</string>
-    <string name="pref_summary_pull_notification_check_interval">How often to pull</string>
+    <string name="pref_title_notification_alerts">Alerts</string>
     <string name="pref_title_notification_alert_sound">Notify with a sound</string>
-    <string name="pref_title_notification_style_vibrate">Notify with vibration</string>
-    <string name="pref_title_notification_style_light">Notify with light</string>
+    <string name="pref_title_notification_alert_vibrate">Notify with vibration</string>
+    <string name="pref_title_notification_alert_light">Notify with light</string>
+    <string name="pref_title_notification_filters">Notify me when</string>
+    <string name="pref_title_notification_filter_mentions">mentioned</string>
+    <string name="pref_title_notification_filter_follows">followed</string>
+    <string name="pref_title_notification_filter_reblogs">my posts are boosted</string>
+    <string name="pref_title_notification_filter_favourites">my posts are favourited</string>
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_light_theme">Use the Light Theme</string>
     <string name="action_submit">Submit</string>

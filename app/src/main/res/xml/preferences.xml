@@ -2,33 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="@string/preferences_file_key">
 
-    <PreferenceCategory android:title="@string/pref_title_notification_settings">
-
-        <CheckBoxPreference
-            android:key="notificationsEnabled"
-            android:title="@string/pref_title_notifications_enabled"
-            android:defaultValue="true" />
-
-        <CheckBoxPreference
-            android:dependency="notificationsEnabled"
-            android:key="notificationAlertSound"
-            android:title="@string/pref_title_notification_alert_sound"
-            android:defaultValue="true" />
-
-        <CheckBoxPreference
-            android:dependency="notificationsEnabled"
-            android:key="notificationStyleVibrate"
-            android:title="@string/pref_title_notification_style_vibrate"
-            android:defaultValue="true" />
-
-        <CheckBoxPreference
-            android:dependency="notificationsEnabled"
-            android:key="notificationStyleLight"
-            android:title="@string/pref_title_notification_style_light"
-            android:defaultValue="true" />
-
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/pref_title_appearance_settings">
 
         <CheckBoxPreference
@@ -37,5 +10,61 @@
             android:defaultValue="false" />
 
     </PreferenceCategory>
+
+    <PreferenceScreen android:title="@string/pref_title_notification_settings">
+
+        <CheckBoxPreference
+            android:key="notificationsEnabled"
+            android:title="@string/pref_title_notifications_enabled"
+            android:defaultValue="true" />
+
+        <PreferenceCategory
+            android:dependency="notificationsEnabled"
+            android:title="@string/pref_title_notification_filters">
+
+            <CheckBoxPreference
+                android:key="notificationFilterMentions"
+                android:title="@string/pref_title_notification_filter_mentions"
+                android:defaultValue="true" />
+
+            <CheckBoxPreference
+                android:key="notificationFilterFollows"
+                android:title="@string/pref_title_notification_filter_follows"
+                android:defaultValue="true" />
+
+            <CheckBoxPreference
+                android:key="notificationFilterReblogs"
+                android:title="@string/pref_title_notification_filter_reblogs"
+                android:defaultValue="true" />
+
+            <CheckBoxPreference
+                android:key="notificationFilterFavourites"
+                android:title="@string/pref_title_notification_filter_favourites"
+                android:defaultValue="true" />
+
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:dependency="notificationsEnabled"
+            android:title="@string/pref_title_notification_alerts">
+
+            <CheckBoxPreference
+                android:key="notificationAlertSound"
+                android:title="@string/pref_title_notification_alert_sound"
+                android:defaultValue="true" />
+
+            <CheckBoxPreference
+                android:key="notificationAlertVibrate"
+                android:title="@string/pref_title_notification_alert_vibrate"
+                android:defaultValue="true" />
+
+            <CheckBoxPreference
+                android:key="notificationAlertLight"
+                android:title="@string/pref_title_notification_alert_light"
+                android:defaultValue="true" />
+
+        </PreferenceCategory>
+
+    </PreferenceScreen>
 
 </PreferenceScreen>
