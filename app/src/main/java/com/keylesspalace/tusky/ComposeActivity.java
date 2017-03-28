@@ -607,8 +607,8 @@ public class ComposeActivity extends BaseActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         if (inReplyToId != null) {
             /* Don't save the visibility setting for replies because they adopt the visibility of
              * the status they reply to and that behaviour needs to be kept separate. */
