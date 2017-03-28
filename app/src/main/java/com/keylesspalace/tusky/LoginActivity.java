@@ -217,8 +217,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("domain", domain);
         editor.putString("clientId", clientId);
@@ -238,8 +238,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         /* Check if we are resuming during authorization by seeing if the intent contains the
          * redirect that was given to the server. If so, its response is here! */
         Uri uri = getIntent().getData();

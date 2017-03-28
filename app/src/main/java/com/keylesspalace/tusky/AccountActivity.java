@@ -481,6 +481,10 @@ public class AccountActivity extends BaseActivity {
                 return true;
             }
             case R.id.action_mention: {
+                if (loadedAccount == null) {
+                    // If the account isn't loaded yet, eat the input.
+                    return false;
+                }
                 Intent intent = new Intent(this, ComposeActivity.class);
                 intent.putExtra("mentioned_usernames", new String[] { loadedAccount.username });
                 startActivity(intent);
@@ -488,6 +492,7 @@ public class AccountActivity extends BaseActivity {
             }
             case R.id.action_open_in_web: {
                 if (loadedAccount == null) {
+                    // If the account isn't loaded yet, eat the input.
                     return false;
                 }
                 Uri uri = Uri.parse(loadedAccount.url);
