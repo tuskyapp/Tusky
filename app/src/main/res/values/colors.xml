@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--These colors are not affected by themes.-->
-    <color name="splash_background">#4F4F4F</color>
     <color name="view_video_background">#000000</color>
     <!--Dark Theme Colors-->
     <color name="color_primary_dark">#4c5368</color>
@@ -27,7 +26,6 @@
     <color name="status_favourite_button_marked_dark">#ca8f04</color>
     <color name="sensitive_media_warning_background_dark">#303030</color>
     <color name="media_preview_unloaded_background_dark">#2F2F2F</color>
-    <color name="status_text_secondary_dark">#A4B4BC</color>
     <color name="status_divider_dark">#2f3441</color>
     <color name="tab_page_margin_dark">#4C534B</color>
     <color name="account_toolbar_icon_collapsed_dark">#FFFFFF</color>
@@ -35,44 +33,39 @@
     <color name="compose_media_button_dark">#FFFFFF</color>
     <color name="compose_media_button_disabled_dark">#8F8F8F</color>
     <color name="compose_mention_dark">#AFBFCF</color>
-    <color name="notification_content_faded_dark">#9F9F9F</color>
-    <color name="notification_icon_tint_dark">#CFCFCF</color>
     <color name="report_status_background_dark">#000000</color>
     <color name="report_status_divider_dark">#2F2F2F</color>
     <!--Light Theme Colors-->
-    <color name="color_primary_light">#44A673</color>
-    <color name="color_primary_dark_light">#2C996E</color>
-    <color name="color_accent_light">#3F8A65</color>
-    <color name="button_light">#79daa8</color>
-    <color name="color_background_light">#FFFFFF</color>
-    <color name="window_background_light">#FFFFFF</color>
+    <color name="color_primary_light">#dfdfdf</color>
+    <color name="color_primary_dark_light">#8f8f8f</color>
+    <color name="color_accent_light">#2b90d9</color>
+    <color name="button_light">#52a5e0</color>
+    <color name="color_background_light">#f4f4f4</color>
+    <color name="window_background_light">#f4f4f4</color>
     <color name="edit_text_color_light">#000000</color>
     <color name="text_color_primary_light">#000000</color>
-    <color name="text_color_secondary_light">#000000</color>
-    <color name="text_color_tertiary_light">#4f5f5f</color>
-    <color name="text_color_primary_inverse_light">#FFFFFF</color>
-    <color name="text_color_secondary_inverse_light">#FFFFFF</color>
-    <color name="text_color_tertiary_inverse_light">#FFFFFF</color>
+    <color name="text_color_secondary_light">#3c3c3c</color>
+    <color name="text_color_tertiary_light">#5f636f</color>
+    <color name="text_color_primary_inverse_light">#ffffff</color>
+    <color name="text_color_secondary_inverse_light">#ffffff</color>
+    <color name="text_color_tertiary_inverse_light">#ffffff</color>
     <color name="toolbar_background_light">#f6f7f7</color>
     <color name="toolbar_icon_light">#000000</color>
-    <color name="image_button_light">#4F4F4F</color>
-    <color name="status_reblog_button_light">#4F4F4F</color>
+    <color name="image_button_light">#4f4f4f</color>
+    <color name="status_reblog_button_light">#4f4f4f</color>
     <color name="status_reblog_button_marked_light">#56a7e1</color>
     <color name="status_reblog_button_disabled_light">#BFBFBF</color>
-    <color name="status_favourite_button_light">#4F4F4F</color>
+    <color name="status_favourite_button_light">#4f4f4f</color>
     <color name="status_favourite_button_marked_light">#fab207</color>
-    <color name="sensitive_media_warning_background_light">#B0B0B0</color>
-    <color name="media_preview_unloaded_background_light">#CFCFCF</color>
-    <color name="status_text_secondary_light">#34444C</color>
-    <color name="status_divider_light">#CFCFCF</color>
+    <color name="sensitive_media_warning_background_light">#b0b0b0</color>
+    <color name="media_preview_unloaded_background_light">#cfcfcf</color>
+    <color name="status_divider_light">#cfcfcf</color>
     <color name="tab_page_margin_light">#9F9F9F</color>
     <color name="account_toolbar_icon_collapsed_light">#000000</color>
     <color name="account_header_background_light">#EFEFEF</color>
     <color name="compose_media_button_light">#000000</color>
     <color name="compose_media_button_disabled_light">#8F8F8F</color>
     <color name="compose_mention_light">#2F5F6F</color>
-    <color name="notification_content_faded_light">#7F7F7F</color>
-    <color name="notification_icon_tint_light">#1F1F1F</color>
     <color name="report_status_background_light">#EFEFEF</color>
     <color name="report_status_divider_light">#9F9F9F</color>
 </resources>

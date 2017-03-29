@@ -326,7 +326,9 @@ public class ComposeActivity extends BaseActivity {
             actionBar.setTitle(null);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_close_24dp);
+            Drawable closeIcon = ContextCompat.getDrawable(this, R.drawable.ic_close_24dp);
+            ThemeUtils.setDrawableTint(this, closeIcon, R.attr.compose_close_button_tint);
+            actionBar.setHomeAsUpIndicator(closeIcon);
         }
 
         SharedPreferences preferences = getSharedPreferences(
@@ -386,11 +388,7 @@ public class ComposeActivity extends BaseActivity {
             startingHideText = false;
         }
 
-        if (statusMarkSensitive) {
-            nsfwBtn.setTextColor(ContextCompat.getColor(this, R.color.color_accent_dark));
-        } else {
-            nsfwBtn.setTextColor(ContextCompat.getColor(this, R.color.image_button_dark));
-        }
+        updateNsfwButtonColor();
 
         Intent intent = getIntent();
         String[] mentionedUsernames = null;
@@ -487,11 +485,14 @@ public class ComposeActivity extends BaseActivity {
 
     private void toggleNsfw() {
         statusMarkSensitive = !statusMarkSensitive;
+        updateNsfwButtonColor();
+    }
 
+    private void updateNsfwButtonColor() {
         if (statusMarkSensitive) {
-            nsfwBtn.setTextColor(ContextCompat.getColor(this, R.color.color_accent_dark));
+            nsfwBtn.setTextColor(ThemeUtils.getColor(this, R.attr.compose_nsfw_button_selected_color));
         } else {
-            nsfwBtn.setTextColor(ContextCompat.getColor(this, R.color.image_button_dark));
+            nsfwBtn.setTextColor(ThemeUtils.getColor(this, R.attr.compose_nsfw_button_color));
         }
     }
 
@@ -862,10 +863,14 @@ public class ComposeActivity extends BaseActivity {
 
     private void enableMediaPicking() {
         pickBtn.setEnabled(true);
+        ThemeUtils.setDrawableTint(this, pickBtn.getDrawable(),
+                R.attr.compose_media_button_tint);
     }
 
     private void disableMediaPicking() {
         pickBtn.setEnabled(false);
+        ThemeUtils.setDrawableTint(this, pickBtn.getDrawable(),
+                R.attr.compose_media_button_disabled_tint);
     }
 
     private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize) {
@@ -1159,7 +1164,7 @@ public class ComposeActivity extends BaseActivity {
 
         if(!showMarkSensitive) {
             statusMarkSensitive = false;
-            nsfwBtn.setTextColor(ContextCompat.getColor(this, R.color.image_button_dark));
+            nsfwBtn.setTextColor(ThemeUtils.getColor(this, R.attr.compose_nsfw_button_color));
         }
 
         if(show) {

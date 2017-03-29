@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_compose"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -17,9 +16,7 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_marginBottom="8dp"
             android:background="@android:color/transparent"
-            android:elevation="4dp"
-            android:theme="@style/AppTheme.Account.AppBarLayout"
-            app:popupTheme="@style/AppTheme.Account.ToolbarPopupTheme.Dark" />
+            android:elevation="4dp" />
 
         <LinearLayout
             android:id="@+id/compose_content_warning_bar"
@@ -110,7 +107,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:visibility="gone"
-                android:textColor="@color/image_button_dark"
+                android:textColor="?attr/compose_nsfw_button_color"
                 android:text="@string/toggle_nsfw" />
 
             <android.support.v4.widget.Space

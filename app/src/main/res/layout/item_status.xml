@@ -267,12 +267,12 @@
         <com.varunest.sparkbutton.SparkButton
             android:layout_width="32dp"
             android:layout_height="32dp"
-            app:sparkbutton_activeImage="@drawable/favourite_active"
+            app:sparkbutton_activeImage="?attr/status_favourite_active_drawable"
             app:sparkbutton_inActiveImage="?attr/status_favourite_inactive_drawable"
             app:sparkbutton_iconSize="28dp"
             android:layout_gravity="center"
-            app:sparkbutton_primaryColor="@color/status_favourite_button_marked_light"
-            app:sparkbutton_secondaryColor="?attr/status_favourite_button_marked_tint"
+            app:sparkbutton_primaryColor="@color/status_favourite_button_marked_dark"
+            app:sparkbutton_secondaryColor="@color/status_favourite_button_marked_light"
             android:id="@+id/status_favourite" />
 
         <Space

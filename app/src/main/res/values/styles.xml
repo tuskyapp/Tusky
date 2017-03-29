@@ -10,6 +10,11 @@
         <item name="android:textColorTertiary">@color/text_color_tertiary_dark</item>
     </style>
 
+    <style name="Dialog.FullScreen" parent="Theme.AppCompat.Dialog">
+        <item name="android:padding">0dp</item>
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+
     <!--Base Application Theme Styles (Dark)-->
 
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
@@ -38,8 +43,8 @@
         <item name="image_button_style">@style/AppTheme.ImageButton.Dark</item>
         <item name="status_reblog_inactive_drawable">@drawable/reblog_inactive_dark</item>
         <item name="status_reblog_disabled_drawable">@drawable/reblog_disabled_dark</item>
+        <item name="status_favourite_active_drawable">@drawable/favourite_active_dark</item>
         <item name="status_favourite_inactive_drawable">@drawable/favourite_inactive_dark</item>
-        <item name="status_favourite_button_marked_tint">@color/status_favourite_button_marked_dark</item>
         <item name="content_warning_button">@drawable/toggle_small</item>
         <item name="sensitive_media_warning_background_color">@color/color_background_dark</item>
         <item name="media_preview_unloaded_drawable">@drawable/media_preview_unloaded_dark</item>
@@ -50,13 +55,14 @@
         <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark</item>
         <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_dark</item>
         <item name="account_toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Dark</item>
+        <item name="compose_close_button_tint">@color/toolbar_icon_dark</item>
         <item name="compose_media_button_tint">@color/compose_media_button_dark</item>
         <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_dark</item>
         <item name="compose_mention_color">@color/color_accent_dark</item>
         <item name="compose_content_warning_bar_background">@drawable/border_background_dark</item>
         <item name="compose_send_private_drawable">@drawable/send_private_dark</item>
-        <item name="notification_content">@color/notification_content_faded_dark</item>
-        <item name="notification_icon_tint">@color/notification_icon_tint_dark</item>
+        <item name="compose_nsfw_button_color">@color/image_button_dark</item>
+        <item name="compose_nsfw_button_selected_color">@color/color_accent_dark</item>
         <item name="report_status_background_color">@color/color_background_dark</item>
         <item name="report_status_divider_drawable">@drawable/status_divider_dark</item>
 
@@ -96,11 +102,6 @@
         <item name="windowActionBarOverlay">true</item>
     </style>
 
-    <style name="Dialog.FullScreen" parent="Theme.AppCompat.Dialog">
-        <item name="android:padding">0dp</item>
-        <item name="android:windowBackground">@android:color/black</item>
-    </style>
-
     <!--Light Application Theme Styles-->
 
     <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
@@ -129,25 +130,26 @@
         <item name="image_button_style">@style/AppTheme.ImageButton.Light</item>
         <item name="status_reblog_inactive_drawable">@drawable/reblog_inactive_light</item>
         <item name="status_reblog_disabled_drawable">@drawable/reblog_disabled_light</item>
+        <item name="status_favourite_active_drawable">@drawable/favourite_active_light</item>
         <item name="status_favourite_inactive_drawable">@drawable/favourite_inactive_light</item>
-        <item name="status_favourite_button_marked_tint">@color/status_favourite_button_marked_light</item>
         <item name="content_warning_button">@drawable/toggle_small_light</item>
         <item name="sensitive_media_warning_background_color">@color/sensitive_media_warning_background_light</item>
         <item name="media_preview_unloaded_drawable">@drawable/media_preview_unloaded_light</item>
         <item name="status_divider_drawable">@drawable/status_divider_light</item>
         <item name="tab_icon_selected_tint">@color/color_accent_light</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_light</item>
+        <item name="account_header_background_color">@color/account_header_background_light</item>
         <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark</item> <!--Default to dark on purpose, because header backgrounds with gradients are always dark.-->
         <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_light</item>
         <item name="account_toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Light</item>
-        <item name="account_header_background_color">@color/account_header_background_light</item>
+        <item name="compose_close_button_tint">@color/toolbar_icon_light</item>
         <item name="compose_media_button_tint">@color/compose_media_button_light</item>
         <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_light</item>
         <item name="compose_mention_color">@color/compose_mention_light</item>
         <item name="compose_content_warning_bar_background">@drawable/border_background_light</item>
         <item name="compose_send_private_drawable">@drawable/send_private_light</item>
-        <item name="notification_content">@color/notification_content_faded_light</item>
-        <item name="notification_icon_tint">@color/notification_icon_tint_light</item>
+        <item name="compose_nsfw_button_color">@color/image_button_light</item>
+        <item name="compose_nsfw_button_selected_color">@color/color_accent_light</item>
         <item name="report_status_background_color">@color/report_status_background_light</item>
         <item name="report_status_divider_drawable">@drawable/report_status_divider_light</item>
 

@@ -274,6 +274,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         contentWarningDescription.setText(spoilerText);
         contentWarningBar.setVisibility(View.VISIBLE);
         content.setVisibility(View.GONE);
+        contentWarningButton.setChecked(false);
         contentWarningButton.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {
                     @Override
