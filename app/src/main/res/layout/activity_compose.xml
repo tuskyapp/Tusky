@@ -127,7 +127,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="@string/action_send" />
+                android:text="@string/action_send"
+                android:textColor="@android:color/white" />
         </LinearLayout>
     </LinearLayout>
 

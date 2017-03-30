@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:elevation="0dp"
+            android:textColor="@android:color/white"
             android:text="@string/action_login" />
 
         <TextView

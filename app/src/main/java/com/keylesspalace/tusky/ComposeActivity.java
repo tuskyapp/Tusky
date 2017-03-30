@@ -506,8 +506,7 @@ public class ComposeActivity extends BaseActivity {
             }
             case "private": {
                 floatingBtn.setText(R.string.action_send);
-                Drawable lock = ThemeUtils.getDrawable(this, R.attr.compose_send_private_drawable,
-                        R.drawable.send_private_dark);
+                Drawable lock = ContextCompat.getDrawable(this, R.drawable.send_private);
                 lock.setBounds(0, 0, lock.getIntrinsicWidth(), lock.getIntrinsicHeight());
                 floatingBtn.setCompoundDrawables(null, null, lock, null);
                 break;
