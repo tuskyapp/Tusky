@@ -40,7 +40,10 @@ class TimelinePagerAdapter extends FragmentPagerAdapter {
                 return NotificationsFragment.newInstance();
             }
             case 2: {
-                return TimelineFragment.newInstance(TimelineFragment.Kind.PUBLIC);
+                return TimelineFragment.newInstance(TimelineFragment.Kind.PUBLIC_LOCAL);
+            }
+            case 3: {
+                return TimelineFragment.newInstance(TimelineFragment.Kind.PUBLIC_FEDERATED);
             }
             default: {
                 return null;
@@ -50,7 +53,7 @@ class TimelinePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Override

@@ -111,7 +111,8 @@ public class MainActivity extends BaseActivity {
         String[] pageTitles = {
                 getString(R.string.title_home),
                 getString(R.string.title_notifications),
-                getString(R.string.title_public)
+                getString(R.string.title_public_federated),
+                getString(R.string.title_public_local),
         };
         adapter.setPageTitles(pageTitles);
 
@@ -126,7 +127,8 @@ public class MainActivity extends BaseActivity {
 
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_home_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_notifications_24dp);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_public_24dp);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_local_24dp);
+        tabLayout.getTabAt(3).setIcon(R.drawable.ic_public_24dp);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -167,7 +169,7 @@ public class MainActivity extends BaseActivity {
                 }
             }
         }
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             tintTab(tabLayout.getTabAt(i), i == tabSelected);
         }
 

@@ -43,7 +43,8 @@ public class TimelineFragment extends SFragment implements
 
     enum Kind {
         HOME,
-        PUBLIC,
+        PUBLIC_LOCAL,
+        PUBLIC_FEDERATED,
         TAG,
         USER,
         FAVOURITES
@@ -186,8 +187,12 @@ public class TimelineFragment extends SFragment implements
                 listCall = api.homeTimeline(fromId, uptoId, null);
                 break;
             }
-            case PUBLIC: {
+            case PUBLIC_FEDERATED: {
                 listCall = api.publicTimeline(null, fromId, uptoId, null);
+                break;
+            }
+            case PUBLIC_LOCAL: {
+                listCall = api.publicTimeline(true, fromId, uptoId, null);
                 break;
             }
             case TAG: {
