@@ -33,6 +33,8 @@ import android.widget.TextView;
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.AppCredentials;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,6 +60,14 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.button_login) Button button;
     @BindView(R.id.no_account) TextView noAccount;
 
+    private static String urlEncode(String string) {
+        try {
+            return URLEncoder.encode(string, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalArgumentException("Failed to encode the string.", e);
+        }
+    }
+
     /**
      * Chain together the key-value pairs into a query string, for either appending to a URL or
      * as the content of an HTTP request.
@@ -67,9 +77,9 @@ public class LoginActivity extends AppCompatActivity {
         String between = "";
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
             s.append(between);
-            s.append(entry.getKey());
+            s.append(urlEncode(entry.getKey()));
             s.append("=");
-            s.append(entry.getValue());
+            s.append(urlEncode(entry.getValue()));
             between = "&";
         }
         return s.toString();
@@ -162,7 +172,6 @@ public class LoginActivity extends AppCompatActivity {
             } catch (IllegalArgumentException e) {
                 editText.setError(getString(R.string.error_invalid_domain));
             }
-
         }
     }
 
@@ -181,6 +190,10 @@ public class LoginActivity extends AppCompatActivity {
             domain = savedInstanceState.getString("domain");
             clientId = savedInstanceState.getString("clientId");
             clientSecret = savedInstanceState.getString("clientSecret");
+        } else {
+            domain = null;
+            clientId = null;
+            clientSecret = null;
         }
 
         preferences = getSharedPreferences(
@@ -222,25 +235,26 @@ public class LoginActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
+    private void onLoginSuccess(String accessToken) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("domain", domain);
-        editor.putString("clientId", clientId);
-        editor.putString("clientSecret", clientSecret);
-        editor.apply();
-    }
-
-    private void onLoginSuccess(String accessToken) {
-        preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
         editor.putString("accessToken", accessToken);
-        editor.apply();
+        editor.commit();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (domain != null) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("domain", domain);
+            editor.putString("clientId", clientId);
+            editor.putString("clientSecret", clientSecret);
+            editor.apply();
+        }
     }
 
     @Override
