@@ -15,35 +15,63 @@
 
 package com.keylesspalace.tusky;
 
+import android.content.ContentResolver;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-class DownsizeImageTask extends AsyncTask<Bitmap, Void, Boolean> {
-    private Listener listener;
+class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
     private int sizeLimit;
+    private ContentResolver contentResolver;
+    private Listener listener;
     private List<byte[]> resultList;
 
-    DownsizeImageTask(int sizeLimit, Listener listener) {
-        this.listener = listener;
+    DownsizeImageTask(int sizeLimit, ContentResolver contentResolver, Listener listener) {
         this.sizeLimit = sizeLimit;
+        this.contentResolver = contentResolver;
+        this.listener = listener;
     }
 
-    private static Bitmap scaleDown(Bitmap source, float maxImageSize, boolean filter) {
-        float ratio = Math.min(maxImageSize / source.getWidth(), maxImageSize / source.getHeight());
-        int width = Math.round(ratio * source.getWidth());
-        int height = Math.round(ratio * source.getHeight());
-        return Bitmap.createScaledBitmap(source, width, height, filter);
+    private static int calculateInSampleSize(int width, int height, int requiredScale) {
+        int inSampleSize = 1;
+        if (height > requiredScale || width > requiredScale) {
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while (halfHeight / inSampleSize >= requiredScale
+                    && halfWidth / inSampleSize >= requiredScale) {
+                inSampleSize *= 2;
+            }
+        }
+        return inSampleSize;
     }
 
     @Override
-    protected Boolean doInBackground(Bitmap... bitmaps) {
-        final int count = bitmaps.length;
-        resultList = new ArrayList<>(count);
-        for (Bitmap bitmap : bitmaps) {
+    protected Boolean doInBackground(Uri... uris) {
+        resultList = new ArrayList<>();
+        for (Uri uri : uris) {
+            InputStream inputStream;
+            try {
+                inputStream = contentResolver.openInputStream(uri);
+            } catch (FileNotFoundException e) {
+                return false;
+            }
+            // Initially, just get the image dimensions.
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(inputStream, null, options);
+            int beforeWidth = options.outWidth;
+            int beforeHeight = options.outHeight;
+            IOUtils.closeQuietly(inputStream);
+            // Then use that information to determine how much to compress.
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             /* Unfortunately, there isn't a determined worst case compression ratio for image
              * formats. So, the only way to tell if they're too big is to compress them and
@@ -54,7 +82,25 @@ class DownsizeImageTask extends AsyncTask<Bitmap, Void, Boolean> {
             int scaledImageSize = 4096;
             do {
                 stream.reset();
-                Bitmap scaledBitmap = scaleDown(bitmap, scaledImageSize, true);
+                try {
+                    inputStream = contentResolver.openInputStream(uri);
+                } catch (FileNotFoundException e) {
+                    return false;
+                }
+                options.inSampleSize = calculateInSampleSize(beforeWidth, beforeHeight,
+                        scaledImageSize);
+                options.inJustDecodeBounds = false;
+                Bitmap scaledBitmap;
+                try {
+                    scaledBitmap = BitmapFactory.decodeStream(inputStream, null, options);
+                } catch (OutOfMemoryError error) {
+                    return false;
+                } finally {
+                    IOUtils.closeQuietly(inputStream);
+                }
+                if (scaledBitmap == null) {
+                    return false;
+                }
                 Bitmap.CompressFormat format;
                 /* It's not likely the user will give transparent images over the upload limit, but
                  * if they do, make sure the transparency is retained. */
@@ -64,6 +110,7 @@ class DownsizeImageTask extends AsyncTask<Bitmap, Void, Boolean> {
                     format = Bitmap.CompressFormat.PNG;
                 }
                 scaledBitmap.compress(format, 75, stream);
+                scaledBitmap.recycle();
                 scaledImageSize /= 2;
                 iterations++;
             } while (stream.size() > sizeLimit);
@@ -86,7 +133,7 @@ class DownsizeImageTask extends AsyncTask<Bitmap, Void, Boolean> {
         super.onPostExecute(successful);
     }
 
-    public interface Listener {
+    interface Listener {
         void onSuccess(List<byte[]> contentList);
         void onFailure();
     }

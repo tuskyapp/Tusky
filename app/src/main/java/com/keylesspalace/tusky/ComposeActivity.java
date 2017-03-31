@@ -945,27 +945,20 @@ public class ComposeActivity extends BaseActivity {
 
     private void downsizeMedia(final QueuedMedia item) {
         item.readyStage = QueuedMedia.ReadyStage.DOWNSIZING;
-        InputStream stream;
-        try {
-            stream = getContentResolver().openInputStream(item.uri);
-        } catch (FileNotFoundException e) {
-            onMediaDownsizeFailure(item);
-            return;
-        }
-        Bitmap bitmap = BitmapFactory.decodeStream(stream);
-        IOUtils.closeQuietly(stream);
-        new DownsizeImageTask(STATUS_MEDIA_SIZE_LIMIT, new DownsizeImageTask.Listener() {
-            @Override
-            public void onSuccess(List<byte[]> contentList) {
-                item.content = contentList.get(0);
-                uploadMedia(item);
-            }
 
-            @Override
-            public void onFailure() {
-                onMediaDownsizeFailure(item);
-            }
-        }).execute(bitmap);
+        new DownsizeImageTask(STATUS_MEDIA_SIZE_LIMIT, getContentResolver(),
+                new DownsizeImageTask.Listener() {
+                    @Override
+                    public void onSuccess(List<byte[]> contentList) {
+                        item.content = contentList.get(0);
+                        uploadMedia(item);
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        onMediaDownsizeFailure(item);
+                    }
+        }).execute(item.uri);
     }
 
     private void onMediaDownsizeFailure(QueuedMedia item) {
