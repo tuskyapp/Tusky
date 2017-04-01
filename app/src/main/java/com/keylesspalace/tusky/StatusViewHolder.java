@@ -382,7 +382,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
             hideSensitiveMediaWarning();
         }
         setupButtons(listener, realStatus.account.id);
-        setRebloggingEnabled(realStatus.visibility != Status.Visibility.PRIVATE);
+        setRebloggingEnabled(status.rebloggingAllowed());
         if (realStatus.spoilerText.isEmpty()) {
             hideSpoilerText();
         } else {

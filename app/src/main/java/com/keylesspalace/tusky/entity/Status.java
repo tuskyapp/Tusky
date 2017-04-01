@@ -47,12 +47,15 @@ public class Status {
     }
 
     public enum Visibility {
+        UNKNOWN,
         @SerializedName("public")
         PUBLIC,
         @SerializedName("unlisted")
         UNLISTED,
         @SerializedName("private")
         PRIVATE,
+        @SerializedName("direct")
+        DIRECT,
     }
 
     public String id;
@@ -79,6 +82,13 @@ public class Status {
 
     public Visibility getVisibility() {
         return visibility == null ? Visibility.UNLISTED : visibility;
+    }
+
+    public boolean rebloggingAllowed() {
+        return visibility != null
+                && visibility != Visibility.PRIVATE
+                && visibility != Visibility.DIRECT
+                && visibility != Visibility.UNKNOWN;
     }
 
     @SerializedName("media_attachments")
