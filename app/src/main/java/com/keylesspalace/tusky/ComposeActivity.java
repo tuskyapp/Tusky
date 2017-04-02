@@ -49,6 +49,7 @@ import android.support.v13.view.inputmethod.InputContentInfoCompat;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
@@ -326,7 +327,7 @@ public class ComposeActivity extends BaseActivity {
             actionBar.setTitle(null);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
-            Drawable closeIcon = ContextCompat.getDrawable(this, R.drawable.ic_close_24dp);
+            Drawable closeIcon = AppCompatResources.getDrawable(this, R.drawable.ic_close_24dp);
             ThemeUtils.setDrawableTint(this, closeIcon, R.attr.compose_close_button_tint);
             actionBar.setHomeAsUpIndicator(closeIcon);
         }
@@ -506,9 +507,11 @@ public class ComposeActivity extends BaseActivity {
             }
             case "private": {
                 floatingBtn.setText(R.string.action_send);
-                Drawable lock = ContextCompat.getDrawable(this, R.drawable.send_private);
-                lock.setBounds(0, 0, lock.getIntrinsicWidth(), lock.getIntrinsicHeight());
-                floatingBtn.setCompoundDrawables(null, null, lock, null);
+                Drawable lock = AppCompatResources.getDrawable(this, R.drawable.send_private);
+                if (lock != null) {
+                    lock.setBounds(0, 0, lock.getIntrinsicWidth(), lock.getIntrinsicHeight());
+                    floatingBtn.setCompoundDrawables(null, null, lock, null);
+                }
                 break;
             }
             default: {
