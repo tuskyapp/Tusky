@@ -49,8 +49,10 @@
         <TextView
             android:layout_width="250dp"
             android:layout_height="wrap_content"
+            android:paddingTop="5dp"
             android:textAlignment="center"
-            android:id="@+id/no_account"
-            android:text="@string/link_no_account" />
+            android:id="@+id/whats_an_instance"
+            android:text="@string/link_whats_an_instance" />
+
     </LinearLayout>
 </ScrollView>

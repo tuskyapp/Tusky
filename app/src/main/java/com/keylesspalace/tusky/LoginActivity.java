@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.edit_text_domain) EditText editText;
     @BindView(R.id.button_login) Button button;
-    @BindView(R.id.no_account) TextView noAccount;
+    @BindView(R.id.whats_an_instance) TextView whatsAnInstance;
 
     private static String urlEncode(String string) {
         try {
@@ -208,11 +208,11 @@ public class LoginActivity extends AppCompatActivity {
 
         final Context context = this;
 
-        noAccount.setOnClickListener(new View.OnClickListener() {
+        whatsAnInstance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog dialog = new AlertDialog.Builder(context)
-                        .setMessage(R.string.dialog_no_account)
+                        .setMessage(R.string.dialog_whats_an_instance)
                         .setPositiveButton(R.string.action_close,
                                 new DialogInterface.OnClickListener() {
                                     @Override
