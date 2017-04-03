@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.keylesspalace.tusky">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -62,6 +63,17 @@
         </service>
 
         <receiver android:name=".NotificationClearBroadcastReceiver" />
+
+        <service
+            tools:targetApi="24"
+            android:name="com.keylesspalace.tusky.TuskyTileService"
+            android:icon="@drawable/ic_send_24dp"
+            android:label="Compose Toot"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+    </service>
     </application>
 
 </manifest>
