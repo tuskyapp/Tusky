@@ -20,7 +20,6 @@
 
     <string name="title_home">Start</string>
     <string name="title_notifications">Benachrichtigungen</string>
-    <string name="title_public">Öffentlich</string>
     <string name="title_thread">Unterhaltung</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Posts</string>
@@ -82,9 +81,9 @@
     <string name="hint_compose">Was passiert gerade?</string>
     <string name="hint_content_warning">Inhaltswarnung</string>
 
-    <string name="link_no_account">Noch keinen Account?</string>
+    <string name="link_whats_an_instance">Was ist ein Instanz?</string>
 
-    <string name="dialog_no_account">
+    <string name="dialog_whats_an_instance">
         Wie bei E-Mailadressen auch, so kann eine Mastodon-Adresse von verschiedenen Websites
         angeboten werden.\n\nHier kannst du eine Adresse einer Instanz eingeben, wo du dir entweder
         ein Benutzerkonto erstellen kannst oder dich einloggst.\n\nWeitere Informationen unter
@@ -98,13 +97,9 @@
     <string name="visibility_private">Nur Follower und Erwähnte dürfen sehen</string>
 
     <string name="pref_title_notification_settings">Benachrichtigungen</string>
-    <string name="pref_title_pull_notifications">Aktiviere Pull-Benachrichtigungen</string>
-    <string name="pref_summary_pull_notifications">Prüfe auf Benachrichtigungen nach Intervall</string>
-    <string name="pref_title_pull_notification_check_interval">Intervall</string>
-    <string name="pref_summary_pull_notification_check_interval">Wie oft heruntergeladen werden soll</string>
     <string name="pref_title_notification_alert_sound">Benachrichtige mit Sound</string>
-    <string name="pref_title_notification_style_vibrate">Benachrichtige mit Vibration</string>
-    <string name="pref_title_notification_style_light">Benachrichtige mit Licht</string>
+    <string name="pref_title_notification_alert_vibrate">Benachrichtige mit Vibration</string>
+    <string name="pref_title_notification_alert_light">Benachrichtige mit Licht</string>
     <string name="pref_title_appearance_settings">Aussehen</string>
     <string name="pref_title_light_theme">Benutze helles Theme</string>
     <string name="action_submit">Senden</string>

@@ -111,8 +111,8 @@ public class MainActivity extends BaseActivity {
         String[] pageTitles = {
                 getString(R.string.title_home),
                 getString(R.string.title_notifications),
-                getString(R.string.title_public_federated),
                 getString(R.string.title_public_local),
+                getString(R.string.title_public_federated),
         };
         adapter.setPageTitles(pageTitles);
 
