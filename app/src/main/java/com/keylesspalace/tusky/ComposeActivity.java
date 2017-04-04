@@ -416,8 +416,10 @@ public class ComposeActivity extends BaseActivity {
         setStatusVisibility(startingVisibility);
 
         textEditor = createEditText(null); // new String[] { "image/gif", "image/webp" }
+        final int mentionColour = ThemeUtils.getColor(this, R.attr.compose_mention_color);
         if (savedInstanceState != null) {
             restoreTextEditorState(savedInstanceState.getParcelable("textEditorState"));
+            highlightSpans(textEditor.getText(), mentionColour);
         }
         RelativeLayout editArea = (RelativeLayout) findViewById(R.id.compose_edit_area);
         /* Adding this at index zero because it implicitly gives it the lowest input priority. So,
@@ -426,7 +428,6 @@ public class ComposeActivity extends BaseActivity {
         editArea.addView(textEditor, 0);
         contentWarningEditor = (EditText) findViewById(R.id.field_content_warning);
         final TextView charactersLeft = (TextView) findViewById(R.id.characters_left);
-        final int mentionColour = ThemeUtils.getColor(this, R.attr.compose_mention_color);
         textEditor.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -589,7 +590,7 @@ public class ComposeActivity extends BaseActivity {
 
     private Parcelable saveTextEditorState() {
         Bundle bundle = new Bundle();
-        bundle.putString("text", HtmlUtils.toHtml(textEditor.getText()));
+        bundle.putString("text", textEditor.getText().toString());
         bundle.putInt("selectionStart", textEditor.getSelectionStart());
         bundle.putInt("selectionEnd", textEditor.getSelectionEnd());
         return bundle;
@@ -597,7 +598,7 @@ public class ComposeActivity extends BaseActivity {
 
     private void restoreTextEditorState(Parcelable state) {
         Bundle bundle = (Bundle) state;
-        textEditor.setText(HtmlUtils.fromHtml(bundle.getString("text")));
+        textEditor.setText(bundle.getString("text"));
         int start = bundle.getInt("selectionStart");
         int end = bundle.getInt("selectionEnd");
         if (start != -1) {
