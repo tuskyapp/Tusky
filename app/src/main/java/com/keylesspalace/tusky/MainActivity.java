@@ -30,6 +30,7 @@ import android.support.v4.view.ViewPager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -346,7 +347,7 @@ public class MainActivity extends BaseActivity {
                 String searchStr = accountSuggestion.getDisplayName() + " " + accountSuggestion.username;
                 final SpannableStringBuilder str = new SpannableStringBuilder(searchStr);
 
-                str.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), 0, accountSuggestion.getDisplayName().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                str.setSpan(new StyleSpan(Typeface.BOLD), 0, accountSuggestion.getDisplayName().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 textView.setText(str);
                 textView.setMaxLines(1);
                 textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -368,7 +369,7 @@ public class MainActivity extends BaseActivity {
 
         mastodonAPI.accountVerifyCredentials().enqueue(new Callback<Account>() {
             @Override
-            public void onResponse(Call<Account> call, retrofit2.Response<Account> response) {
+            public void onResponse(Call<Account> call, Response<Account> response) {
                 if (!response.isSuccessful()) {
                     onFetchUserInfoFailure(new Exception(response.message()));
                     return;
@@ -376,11 +377,20 @@ public class MainActivity extends BaseActivity {
 
                 Account me = response.body();
                 ImageView background = headerResult.getHeaderBackgroundView();
+                int backgroundWidth = background.getWidth();
+                int backgroundHeight = background.getHeight();
+                if (backgroundWidth == 0 || backgroundHeight == 0) {
+                    /* The header ImageView may not be layed out when the verify credentials call
+                     * returns so measure the dimensions and use those. */
+                    background.measure(View.MeasureSpec.EXACTLY, View.MeasureSpec.EXACTLY);
+                    backgroundWidth = background.getMeasuredWidth();
+                    backgroundHeight = background.getMeasuredHeight();
+                }
 
                 Picasso.with(MainActivity.this)
                         .load(me.header)
                         .placeholder(R.drawable.account_header_missing)
-                        .resize(background.getWidth(), background.getHeight())
+                        .resize(backgroundWidth, backgroundHeight)
                         .centerCrop()
                         .into(background);
 
