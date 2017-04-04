@@ -22,6 +22,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -261,7 +262,7 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
             }
             String wholeMessage = String.format(format, displayName);
             final SpannableStringBuilder str = new SpannableStringBuilder(wholeMessage);
-            str.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), 0, displayName.length(),
+            str.setSpan(new StyleSpan(Typeface.BOLD), 0, displayName.length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             message.setText(str);
             statusContent.setText(status.content);

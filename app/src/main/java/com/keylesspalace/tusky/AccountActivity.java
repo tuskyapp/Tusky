@@ -44,6 +44,7 @@ import com.keylesspalace.tusky.entity.Relationship;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,8 +73,12 @@ public class AccountActivity extends BaseActivity {
         setContentView(R.layout.activity_account);
         ButterKnife.bind(this);
 
-        Intent intent = getIntent();
-        accountId = intent.getStringExtra("id");
+        if (savedInstanceState != null) {
+            accountId = savedInstanceState.getString("accountId");
+        } else {
+            Intent intent = getIntent();
+            accountId = intent.getStringExtra("id");
+        }
 
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
@@ -178,6 +183,12 @@ public class AccountActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("accountId", accountId);
+        super.onSaveInstanceState(outState);
+    }
+
     private void onObtainAccountSuccess(Account account) {
         loadedAccount = account;
 
@@ -213,7 +224,7 @@ public class AccountActivity extends BaseActivity {
                 .placeholder(R.drawable.account_header_missing)
                 .into(header);
 
-        java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
+        NumberFormat nf = NumberFormat.getInstance();
 
         // Add counts to the tabs in the TabLayout.
         String[] counts = {

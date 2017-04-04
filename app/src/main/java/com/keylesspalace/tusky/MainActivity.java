@@ -243,9 +243,11 @@ public class MainActivity extends BaseActivity {
                             long drawerItemIdentifier = drawerItem.getIdentifier();
 
                             if (drawerItemIdentifier == 0) {
-                                Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-                                intent.putExtra("id", loggedInAccountId);
-                                startActivity(intent);
+                                if (loggedInAccountId != null) {
+                                    Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+                                    intent.putExtra("id", loggedInAccountId);
+                                    startActivity(intent);
+                                }
                             } else if (drawerItemIdentifier == 1) {
                                 Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
                                 startActivity(intent);
