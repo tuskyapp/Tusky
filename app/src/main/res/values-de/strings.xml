@@ -81,7 +81,7 @@
     <string name="hint_compose">Was passiert gerade?</string>
     <string name="hint_content_warning">Inhaltswarnung</string>
 
-    <string name="link_whats_an_instance">Was ist ein Instanz?</string>
+    <string name="link_whats_an_instance">Was ist eine Instanz?</string>
 
     <string name="dialog_whats_an_instance">
         Wie bei E-Mailadressen auch, so kann eine Mastodon-Adresse von verschiedenen Websites
