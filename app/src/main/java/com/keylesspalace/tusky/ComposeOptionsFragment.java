@@ -1,5 +1,6 @@
 package com.keylesspalace.tusky;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -12,24 +13,33 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import java.util.List;
+
 public class ComposeOptionsFragment extends BottomSheetDialogFragment {
-    public interface Listener extends Parcelable {
+    interface Listener {
         void onVisibilityChanged(String visibility);
         void onContentWarningChanged(boolean hideText);
     }
 
+    private RadioGroup radio;
+    private CheckBox hideText;
     private Listener listener;
 
-    public static ComposeOptionsFragment newInstance(String visibility,
-            boolean hideText, boolean isReply, Listener listener) {
+    public static ComposeOptionsFragment newInstance(String visibility, boolean hideText,
+            boolean isReply) {
         Bundle arguments = new Bundle();
         ComposeOptionsFragment fragment = new ComposeOptionsFragment();
-        arguments.putParcelable("listener", listener);
         arguments.putString("visibility", visibility);
         arguments.putBoolean("hideText", hideText);
         arguments.putBoolean("isReply", isReply);
         fragment.setArguments(arguments);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        listener = (Listener) context;
     }
 
     @Nullable
@@ -39,12 +49,11 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
         View rootView = inflater.inflate(R.layout.fragment_compose_options, container, false);
 
         Bundle arguments = getArguments();
-        listener = arguments.getParcelable("listener");
         String statusVisibility = arguments.getString("visibility");
         boolean statusHideText = arguments.getBoolean("hideText");
         boolean isReply = arguments.getBoolean("isReply");
 
-        RadioGroup radio = (RadioGroup) rootView.findViewById(R.id.radio_visibility);
+        radio = (RadioGroup) rootView.findViewById(R.id.radio_visibility);
         int radioCheckedId;
         if (!isReply) {
             radioCheckedId = R.id.radio_public;
@@ -59,6 +68,21 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
             }
         }
         radio.check(radioCheckedId);
+
+        if (isReply) {
+            RadioButton publicButton = (RadioButton) rootView.findViewById(R.id.radio_public);
+            publicButton.setEnabled(false);
+        }
+
+        hideText = (CheckBox) rootView.findViewById(R.id.compose_hide_text);
+        hideText.setChecked(statusHideText);
+
+        return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -81,20 +105,11 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
                 listener.onVisibilityChanged(visibility);
             }
         });
-        if (isReply) {
-            RadioButton publicButton = (RadioButton) rootView.findViewById(R.id.radio_public);
-            publicButton.setEnabled(false);
-        }
-
-        CheckBox hideText = (CheckBox) rootView.findViewById(R.id.compose_hide_text);
-        hideText.setChecked(statusHideText);
         hideText.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 listener.onContentWarningChanged(isChecked);
             }
         });
-
-        return rootView;
     }
 }

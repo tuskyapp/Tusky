@@ -4,7 +4,7 @@
     <string name="app_website">http://tusky.keylesspalace.com</string>
     <string name="tusky_api_url">https://tuskynotifier.keylesspalace.com</string>
 
-    <string name="oauth_scheme">com.keylesspalace.tusky</string>
-    <string name="oauth_redirect_host">oauth2redirect</string>
+    <string name="oauth_scheme">oauth2redirect</string>
+    <string name="oauth_redirect_host">com.keylesspalace.tusky</string>
     <string name="preferences_file_key">com.keylesspalace.tusky.PREFERENCES</string>
 </resources>

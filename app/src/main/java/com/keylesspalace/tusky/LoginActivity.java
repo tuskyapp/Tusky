@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -33,8 +34,6 @@ import android.widget.TextView;
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.AppCredentials;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,14 +59,6 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.button_login) Button button;
     @BindView(R.id.whats_an_instance) TextView whatsAnInstance;
 
-    private static String urlEncode(String string) {
-        try {
-            return URLEncoder.encode(string, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new IllegalArgumentException("Failed to encode the string.", e);
-        }
-    }
-
     /**
      * Chain together the key-value pairs into a query string, for either appending to a URL or
      * as the content of an HTTP request.
@@ -77,9 +68,9 @@ public class LoginActivity extends AppCompatActivity {
         String between = "";
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
             s.append(between);
-            s.append(urlEncode(entry.getKey()));
+            s.append(Uri.encode(entry.getKey()));
             s.append("=");
-            s.append(urlEncode(entry.getValue()));
+            s.append(Uri.encode(entry.getValue()));
             between = "&";
         }
         return s.toString();
@@ -98,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         return scheme + "://" + host + "/";
     }
 
-    private void redirectUserToAuthorizeAndLogin() {
+    private void redirectUserToAuthorizeAndLogin(EditText editText) {
         /* To authorize this app and log in it's necessary to redirect to the domain given,
          * activity_login there, and the server will redirect back to the app with its response. */
         String endpoint = MastodonAPI.ENDPOINT_AUTHORIZE;
@@ -109,8 +100,12 @@ public class LoginActivity extends AppCompatActivity {
         parameters.put("response_type", "code");
         parameters.put("scope", OAUTH_SCOPES);
         String url = "https://" + domain + endpoint + "?" + toQueryString(parameters);
-        Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(url));
-        startActivity(viewIntent);
+        Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        if (viewIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(viewIntent);
+        } else {
+            editText.setError(getString(R.string.error_no_web_browser_found));
+        }
     }
 
     private MastodonAPI getApiFor(String domain) {
@@ -139,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
         if (prefClientId != null && prefClientSecret != null) {
             clientId = prefClientId;
             clientSecret = prefClientSecret;
-            redirectUserToAuthorizeAndLogin();
+            redirectUserToAuthorizeAndLogin(editText);
         } else {
             Callback<AppCredentials> callback = new Callback<AppCredentials>() {
                 @Override
@@ -156,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString(domain + "/client_id", clientId);
                     editor.putString(domain + "/client_secret", clientSecret);
                     editor.apply();
-                    redirectUserToAuthorizeAndLogin();
+                    redirectUserToAuthorizeAndLogin(editText);
                 }
 
                 @Override
@@ -225,6 +220,26 @@ public class LoginActivity extends AppCompatActivity {
                 textView.setMovementMethod(LinkMovementMethod.getInstance());
             }
         });
+
+        // Apply any updates needed.
+        int versionCode = 1;
+        try {
+            versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(TAG, "The app version was not found. " + e.getMessage());
+        }
+        if (preferences.getInt("lastUpdate", 0) != versionCode) {
+            SharedPreferences.Editor editor = preferences.edit();
+            if (versionCode == 14) {
+                /* This version switches the order of scheme and host in the OAuth redirect URI.
+                 * But to fix it requires forcing the app to re-authenticate with servers. So, clear
+                 * out the stored client id/secret pairs. The only other things that are lost are
+                 * "rememberedVisibility", "loggedInUsername", and "loggedInAccountId". */
+                editor.clear();
+            }
+            editor.putInt("lastUpdate", versionCode);
+            editor.apply();
+        }
     }
 
     @Override

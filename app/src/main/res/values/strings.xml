@@ -1,8 +1,9 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
+    <string name="error_no_web_browser_found">Couldn\'t find a web browser to use.</string>
     <string name="error_authorization_unknown">An unidentified authorization error occurred.</string>
-    <string name="error_authorization_denied" tools:ignore="MissingTranslation">Authorization was denied.</string>
-    <string name="error_retrieving_oauth_token" tools:ignore="MissingTranslation">Failed getting a login token.</string>
+    <string name="error_authorization_denied">Authorization was denied.</string>
+    <string name="error_retrieving_oauth_token">Failed getting a login token.</string>
     <string name="error_fetching_notifications">Notifications could not be fetched.</string>
     <string name="error_compose_character_limit">The status is too long!</string>
     <string name="error_sending_status">The status failed to be sent.</string>

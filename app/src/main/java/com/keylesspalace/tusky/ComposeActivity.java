@@ -93,7 +93,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class ComposeActivity extends BaseActivity {
+public class  ComposeActivity extends BaseActivity implements ComposeOptionsFragment.Listener {
     private static final String TAG = "ComposeActivity"; // logging tag
     private static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 4000000; // 4MB
@@ -525,27 +525,16 @@ public class ComposeActivity extends BaseActivity {
 
     private void showComposeOptions() {
         ComposeOptionsFragment fragment = ComposeOptionsFragment.newInstance(
-                statusVisibility, statusHideText, inReplyToId != null,
-                new ComposeOptionsFragment.Listener() {
-                    @Override
-                    public int describeContents() {
-                        return 0;
-                    }
-
-                    @Override
-                    public void writeToParcel(Parcel dest, int flags) {}
-
-                    @Override
-                    public void onVisibilityChanged(String visibility) {
-                        setStatusVisibility(visibility);
-                    }
-
-                    @Override
-                    public void onContentWarningChanged(boolean hideText) {
-                        showContentWarning(hideText);
-                    }
-                });
+                statusVisibility, statusHideText, inReplyToId != null);
         fragment.show(getSupportFragmentManager(), null);
+    }
+
+    public void onVisibilityChanged(String visibility) {
+        setStatusVisibility(visibility);
+    }
+
+    public void onContentWarningChanged(boolean hideText) {
+        showContentWarning(hideText);
     }
 
     private void sendStatus() {
