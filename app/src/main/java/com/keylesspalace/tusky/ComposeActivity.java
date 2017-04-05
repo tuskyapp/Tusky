@@ -81,6 +81,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -365,6 +366,8 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             }
         });
 
+        Intent intent = getIntent();
+
         String startingVisibility;
         boolean startingHideText;
         ArrayList<SavedQueuedMedia> savedMediaQueued = null;
@@ -391,7 +394,6 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
 
         updateNsfwButtonColor();
 
-        Intent intent = getIntent();
         String[] mentionedUsernames = null;
         inReplyToId = null;
         if (intent != null) {
@@ -481,6 +483,39 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         if (savedMediaQueued != null) {
             for (SavedQueuedMedia item : savedMediaQueued) {
                 addMediaToQueue(item.type, item.preview, item.uri, item.mediaSize);
+            }
+        } else if (savedInstanceState == null) {
+            /* Get incoming images being sent through a share action from another app. Only do this
+             * when savedInstanceState is null, otherwise both the images from the intent and the
+             * instance state will be re-queued. */
+            String type = intent.getType();
+            if (type != null && type.startsWith("image/")) {
+                List<Uri> uriList = new ArrayList<>();
+                switch (intent.getAction()) {
+                    case Intent.ACTION_SEND: {
+                        Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                        if (uri != null) {
+                            uriList.add(uri);
+                        }
+                        break;
+                    }
+                    case Intent.ACTION_SEND_MULTIPLE: {
+                        ArrayList<Uri> list = intent.getParcelableArrayListExtra(
+                                Intent.EXTRA_STREAM);
+                        if (list != null) {
+                            for (Uri uri : list) {
+                                if (uri != null) {
+                                    uriList.add(uri);
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+                for (Uri uri : uriList) {
+                    long mediaSize = getMediaSize(getContentResolver(), uri);
+                    pickMedia(uri, mediaSize);
+                }
             }
         }
     }
@@ -1064,21 +1099,26 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         }
     }
 
+    private static long getMediaSize(ContentResolver contentResolver, Uri uri) {
+        long mediaSize;
+        Cursor cursor = contentResolver.query(uri, null, null, null, null);
+        if (cursor != null) {
+            int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
+            cursor.moveToFirst();
+            mediaSize = cursor.getLong(sizeIndex);
+            cursor.close();
+        } else {
+            mediaSize = MEDIA_SIZE_UNKNOWN;
+        }
+        return mediaSize;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == MEDIA_PICK_RESULT && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
-            long mediaSize;
-            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-            if (cursor != null) {
-                int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
-                cursor.moveToFirst();
-                mediaSize = cursor.getLong(sizeIndex);
-                cursor.close();
-            } else {
-                mediaSize = MEDIA_SIZE_UNKNOWN;
-            }
+            long mediaSize = getMediaSize(getContentResolver(), uri);
             pickMedia(uri, mediaSize);
         }
     }

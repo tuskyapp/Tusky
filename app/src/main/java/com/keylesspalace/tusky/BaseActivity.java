@@ -159,8 +159,8 @@ public class BaseActivity extends AppCompatActivity {
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         String domain = preferences.getString("domain", null);
         String accessToken = preferences.getString("accessToken", null);
-        if (domain != null && accessToken != null) {
-            Intent intent = new Intent(this, MainActivity.class);
+        if (domain == null || accessToken == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
