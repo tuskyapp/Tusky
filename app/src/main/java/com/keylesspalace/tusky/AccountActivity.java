@@ -292,7 +292,7 @@ public class AccountActivity extends BaseActivity {
     private void updateButtons() {
         invalidateOptionsMenu();
 
-        FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
+        final FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
 
         if(!isSelf && !blocking && !following) {
             floatingBtn.show();
@@ -301,6 +301,7 @@ public class AccountActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     follow(accountId);
+                    floatingBtn.hide();
                 }
             });
         }
