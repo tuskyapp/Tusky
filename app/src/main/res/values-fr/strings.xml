@@ -11,7 +11,7 @@
     <string name="error_media_upload_size">Le fichier doit faire moins de 4Mo.</string>
     <string name="error_media_upload_type">Ce type de fichier n\'est pas accepté.</string>
     <string name="error_media_upload_opening">Le fichier ne peut être ouvert.</string>
-    <string name="error_media_upload_permission">Permission to read media is required to upload it.</string>
+    <string name="error_media_upload_permission">Une permision pour lire ce média est requis pour l'uploader.</string>
     <string name="error_media_upload_image_or_video">Impossible de mettre une vidéo et une image sur le même pouet.</string>
     <string name="error_media_upload_sending">Ce média ne peut être uploadé.</string>
     <string name="error_report_too_few_statuses">Au moins un pouet a été reporté.</string>
