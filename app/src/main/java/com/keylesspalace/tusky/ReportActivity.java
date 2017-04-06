@@ -139,7 +139,7 @@ public class ReportActivity extends BaseActivity {
 
     private void onSendFailure(final String accountId, final String[] statusIds,
             final String comment) {
-        Snackbar.make(anyView, R.string.error_report_unsent, Snackbar.LENGTH_LONG)
+        Snackbar.make(anyView, R.string.error_generic, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_retry, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

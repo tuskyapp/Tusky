@@ -246,7 +246,7 @@ public class AccountActivity extends BaseActivity {
     }
 
     private void onObtainAccountFailure() {
-        Snackbar.make(tabLayout, R.string.error_obtain_account, Snackbar.LENGTH_LONG)
+        Snackbar.make(tabLayout, R.string.error_generic, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_retry, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -377,19 +377,14 @@ public class AccountActivity extends BaseActivity {
     }
 
     private void onFollowFailure(final String id) {
-        int messageId;
-        if (following) {
-            messageId = R.string.error_unfollowing;
-        } else {
-            messageId = R.string.error_following;
-        }
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 follow(id);
             }
         };
-        Snackbar.make(findViewById(R.id.activity_account), messageId, Snackbar.LENGTH_LONG)
+        View anyView = findViewById(R.id.activity_account);
+        Snackbar.make(anyView, R.string.error_generic, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_retry, listener)
                 .show();
     }
@@ -419,19 +414,14 @@ public class AccountActivity extends BaseActivity {
     }
 
     private void onBlockFailure(final String id) {
-        int messageId;
-        if (blocking) {
-            messageId = R.string.error_unblocking;
-        } else {
-            messageId = R.string.error_blocking;
-        }
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 block(id);
             }
         };
-        Snackbar.make(findViewById(R.id.activity_account), messageId, Snackbar.LENGTH_LONG)
+        View anyView = findViewById(R.id.activity_account);
+        Snackbar.make(anyView, R.string.error_generic, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_retry, listener)
                 .show();
     }
@@ -463,22 +453,14 @@ public class AccountActivity extends BaseActivity {
     }
 
     private void onMuteFailure(final String id) {
-        int messageId;
-
-        if (muting) {
-            messageId = R.string.error_unmuting;
-        } else {
-            messageId = R.string.error_muting;
-        }
-
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mute(id);
             }
         };
-
-        Snackbar.make(findViewById(R.id.activity_account), messageId, Snackbar.LENGTH_LONG)
+        View anyView = findViewById(R.id.activity_account);
+        Snackbar.make(anyView, R.string.error_generic, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_retry, listener)
                 .show();
     }

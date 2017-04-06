@@ -790,7 +790,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     }
 
     private void onSendFailure() {
-        textEditor.setError(getString(R.string.error_sending_status));
+        textEditor.setError(getString(R.string.error_generic));
         statusAlreadyInFlight = false;
     }
 

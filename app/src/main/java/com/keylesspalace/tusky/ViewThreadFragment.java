@@ -129,7 +129,7 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
     private void onThreadRequestFailure(final String id) {
         View view = getView();
         if (view != null) {
-            Snackbar.make(view, R.string.error_view_thread, Snackbar.LENGTH_LONG)
+            Snackbar.make(view, R.string.error_generic, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_retry, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

@@ -1,21 +1,14 @@
 <resources>
+    <string name="error_invalid_domain">Ungültige Domain angegeben</string>
+    <string name="error_failed_app_registration">Diese App konnte sich auf dem Server nicht authentifizieren.</string>
     <string name="error_authorization_unknown">Ein undefinierbarer Autorisierungsfehler ist aufgetreten.</string>
-    <string name="error_fetching_notifications">Benachrichtigungen konnten nicht empfangen werden.</string>
     <string name="error_compose_character_limit">Der Status ist zu lang!</string>
-    <string name="error_sending_status">Der Status konnte nicht gesendet werden.</string>
     <string name="error_media_upload_size">Die Datei muss kleiner als 4MB sein.</string>
     <string name="error_media_upload_type">Dieser Dateityp darf nicht hochgeladen werden.</string>
     <string name="error_media_upload_opening">Die Datei konnte nicht geöffnet werden.</string>
     <string name="error_media_upload_permission">Eine Leseberechtigung wird für das Hochladen der Mediendatei benötigt.</string>
     <string name="error_media_upload_image_or_video">Bilder und Videos können beide nicht an den Status angehängt werden.</string>
     <string name="error_media_upload_sending">Die Mediendatei konnte nicht hochgeladen werden.</string>
-    <string name="error_following">Dem Benutzer wurde nicht gefolgt.</string>
-    <string name="error_unfollowing">Dieser Benutzer wurde nicht entfolgt.</string>
-    <string name="error_blocking">Dieser Benutzer wurde nicht blockiert.</string>
-    <string name="error_unblocking">Dieser Benutzer wurde nicht entblockt.</string>
-    <string name="error_view_thread">Konnte diese Unterhaltung nicht empfangen.</string>
-    <string name="error_obtain_account">Fehler beim Laden des Accounts.</string>
-    <string name="error_report_unsent">Dieser Bericht konnte nicht gesendet werden.</string>
     <string name="error_report_too_few_statuses">Mindestens ein Status muss berichtet werden.</string>
 
     <string name="title_home">Start</string>
@@ -35,9 +28,6 @@
     <string name="status_content_warning_show_more">Zeige mehr</string>
     <string name="status_content_warning_show_less">Zeige weniger</string>
 
-    <string name="footer_retry_statuses">Konnte den Rest der Status nicht laden.</string>
-    <string name="footer_retry_notifications">Konnte den Rest der Benachrichtigungen nicht laden.</string>
-    <string name="footer_retry_accounts">Konnte den Rest der Accounts nicht laden.</string>
     <string name="footer_end_of_statuses">Ende der Status</string>
     <string name="footer_end_of_notifications">Ende der Benachrichtigungen</string>
     <string name="footer_end_of_accounts">Ende der Accounts</string>
@@ -72,7 +62,17 @@
     <string name="action_view_favourites">Favoriten</string>
     <string name="action_view_blocks">Blockierte Nutzer</string>
     <string name="action_open_in_web">Im Browser öffnen</string>
-    <string name="action_set_time">Setzen</string>
+    <string name="action_submit">Senden</string>
+    <string name="action_photo_pick">Füge Medien hinzu</string>
+    <string name="action_share">Teilen</string>
+    <string name="action_mute">Stummschalten</string>
+    <string name="action_unmute">Lautschalten</string>
+    <string name="action_mention">Erwähnen</string>
+    <string name="toggle_nsfw">NSFW</string>
+
+    <string name="send_status_to">Teile Toot-URL zu…</string>
+
+    <string name="search">Suche Accounts…</string>
 
     <string name="confirmation_send">Toot!</string>
     <string name="confirmation_reported">Gesendet!</string>
@@ -97,30 +97,17 @@
     <string name="visibility_private">Nur für Follower und Erwähnte sichtbar</string>
 
     <string name="pref_title_notification_settings">Benachrichtigungen</string>
+    <string name="pref_title_notifications_enabled">Push-Benachrichtigungen</string>
     <string name="pref_title_notification_alert_sound">Benachrichtige mit Sound</string>
     <string name="pref_title_notification_alert_vibrate">Benachrichtige mit Vibration</string>
     <string name="pref_title_notification_alert_light">Benachrichtige mit Licht</string>
     <string name="pref_title_appearance_settings">Aussehen</string>
     <string name="pref_title_light_theme">Benutze helles Theme</string>
-    <string name="action_submit">Senden</string>
-    <string name="action_photo_pick">Füge Medien hinzu</string>
-    <string name="action_compose_options">Privatsphären-Optionen</string>
-    <string name="login_success">Willkommen zurück!</string>
-    <string name="action_share">Teilen</string>
-    <string name="send_status_to">Teile Toot-URL zu…</string>
-    <string name="action_mute">Stummschalten</string>
-    <string name="action_unmute">Lautschalten</string>
-    <string name="error_unmuting">Dieser Benutzer wurde nicht lautgeschaltet.</string>
-    <string name="error_muting">Dieser Benutzer wurde nicht stummgeschaltet.</string>
-    <string name="search">Suche Accounts…</string>
-    <string name="toggle_nsfw">NSFW</string>
-    <string name="action_mention">Erwähnen</string>
+
     <string name="notification_mention_format">%s hat dich erwähnt</string>
-    <string name="error_invalid_domain">Ungültige Domain angegeben</string>
-    <string name="error_failed_app_registration">Diese App konnte sich auf dem Server nicht authentifizieren.</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s und %4$d andere</string>
     <string name="notification_summary_medium">%1$s, %2$s, und %3$s</string>
     <string name="notification_summary_small">%1$s und %2$s</string>
     <string name="notification_title_summary">%d neue Interaktionen</string>
-    <string name="pref_title_notifications_enabled">Push-Benachrichtigungen</string>
+
 </resources>
