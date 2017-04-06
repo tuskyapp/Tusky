@@ -1,0 +1,139 @@
+<resources>
+
+    <string name="error_no_web_browser_found">Impossible de trouver un navigateur web.</string>
+    <string name="error_authorization_unknown">Une erreur d'authorisation inconnu s'est produite.</string>
+    <string name="error_authorization_denied">Vous ne pouvez pas vous authentifier.</string>
+    <string name="error_retrieving_oauth_token">Impossible de récupérer le jeton d\'authentification.</string>
+    <string name="error_fetching_notifications">Impossible d\'actualiser les notifications.</string>
+    <string name="error_compose_character_limit">Votre pouet est trop long!</string>
+    <string name="error_sending_status">Impossible d\'envoyer le pouet.</string>
+    <string name="error_media_upload_size">Le fichier doit faire moins de 4Mo.</string>
+    <string name="error_media_upload_type">Ce type de fichier n\'est pas accepté.</string>
+    <string name="error_media_upload_opening">Le fichier ne peut être ouvert.</string>
+    <string name="error_media_upload_permission">Permission to read media is required to upload it.</string>
+    <string name="error_media_upload_image_or_video">Impossible de mettre une vidéo et une image sur le même pouet.</string>
+    <string name="error_media_upload_sending">Ce média ne peut être uploadé.</string>
+    <string name="error_following">Vous n\'avez pas suivit cet utilisateur.</string>
+    <string name="error_unfollowing">Vous suivez toujours cet utilisateur.</string>
+    <string name="error_blocking">Vous n\'avez pas bloqué cet utilisateur.</string>
+    <string name="error_unblocking">Cet utilisateur est toujours bloqué.</string>
+    <string name="error_view_thread">Impossible de voir ce pouet.</string>
+    <string name="error_obtain_account">Impossible de voir ce compte.</string>
+    <string name="error_report_unsent">Le signalement n\'a pas été envoyé.</string>
+    <string name="error_report_too_few_statuses">Au moins un pouet a été reporté.</string>
+
+    <string name="title_home">Accueil</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_public_local">Local</string>
+    <string name="title_public_federated">Fédéré</string>
+    <string name="title_thread">Thread</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">Pouets</string>
+    <string name="title_follows">Follows</string>
+    <string name="title_followers">Followers</string>
+    <string name="title_favourites">Favoris</string>
+    <string name="title_blocks">Utilisateur bloqués</string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s boosté</string>
+    <string name="status_sensitive_media_title">Média sensible</string>
+    <string name="status_sensitive_media_directions">Cliquer pour voir</string>
+    <string name="status_content_warning_show_more">Voir plus</string>
+    <string name="status_content_warning_show_less">Voir moins</string>
+
+    <string name="footer_retry_statuses">Impossible de charger le reste de ce pouet.</string>
+    <string name="footer_retry_notifications">Impossible d\'afficher plus de notification.</string>
+    <string name="footer_retry_accounts">Impossible de charger plus de comptes.</string>
+    <string name="footer_end_of_statuses">fin du pouet</string>
+    <string name="footer_end_of_notifications">fin des notifications</string>
+    <string name="footer_end_of_accounts">fin des comptes</string>
+
+    <string name="notification_reblog_format">%s à boosté votre pouet</string>
+    <string name="notification_favourite_format">%s à ajouter votre pouet en favoris</string>
+    <string name="notification_follow_format">%s vous suit</string>
+
+    <string name="report_username_format">Signaler @%s</string>
+    <string name="report_comment_hint">Plus de commentaire ?</string>
+
+    <string name="action_compose">Écrire</string>
+    <string name="action_login">Se connecter avec Mastodon</string>
+    <string name="action_logout">Deconnexion</string>
+    <string name="action_follow">Follow</string>
+    <string name="action_unfollow">Unfollow</string>
+    <string name="action_block">Bloquer</string>
+    <string name="action_unblock">Débloquer</string>
+    <string name="action_report">Signaler</string>
+    <string name="action_delete">Supprimer</string>
+    <string name="action_send">POUET</string>
+    <string name="action_send_public">POUET!</string>
+    <string name="action_retry">Ré-essayer</string>
+    <string name="action_mark_sensitive">Définir le média comme sensible</string>
+    <string name="action_hide_text">Masquer le texte par une mise en garde</string>
+    <string name="action_ok">Ok</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="action_close">Fermer</string>
+    <string name="action_back">Retour</string>
+    <string name="action_view_profile">Profil</string>
+    <string name="action_view_preferences">Préferences</string>
+    <string name="action_view_favourites">Favoris</string>
+    <string name="action_view_blocks">Utilisateurs bloqués</string>
+    <string name="action_open_in_web">Ouvrir avec votre navigateur</string>
+    <string name="action_set_time">Définir</string>
+
+    <string name="confirmation_send">Toot!</string>
+    <string name="confirmation_reported">Envoyer!</string>
+
+    <string name="hint_domain">Quelle instance?</string>
+    <string name="hint_compose">Quoi de neuf ?</string>
+    <string name="hint_content_warning">Contenu mis en garde</string>
+
+    <string name="link_whats_an_instance">Qu'est ce qu\'une instance?</string>
+
+    <string name="dialog_whats_an_instance">L'adresse ou le domaine d'une instance peut être entré
+         Ici, comme mastodon.social, icosahedron.website, social.tchncs.de, et
+        <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">plus (en anglais)!</a>
+        \n\nSi vous n\'avez pas de compte, Vous pouvez entrer le nom de l\'instance que vous voulez rejoindre et créer un compte ici.\n\n Une instance est l\'endroit où votre compte est 
+        stocké, mais vous pouvez facilement communiquer et suivre d\'autre personne sur d\'autre instance bien que vous soyez sur le même site
+        \n\nPlus d\'info <a href="https://mastodon.social/about">mastodon.social</a> (anglais).
+    </string>
+    <string name="dialog_title_finishing_media_upload">Média uploadé avec succès</string>
+    <string name="dialog_message_uploading_media">Téléversement…</string>
+
+    <string name="visibility_public">Tout le monde peut voir</string>
+    <string name="visibility_unlisted">Tout le monde peut voir, mais cela ne sera pas listé sur votre timeline public</string>
+    <string name="visibility_private">Uniquement les followers et les mentionnés peuvent voir</string>
+
+    <string name="pref_title_notification_settings">Notifications</string>
+    <string name="pref_title_notification_alerts">Alertes</string>
+    <string name="pref_title_notification_alert_sound">Sonner pour notifier</string>
+    <string name="pref_title_notification_alert_vibrate">Vibrer pour notifier</string>
+    <string name="pref_title_notification_alert_light">Notifier avec une LED</string>
+    <string name="pref_title_notification_filters">Me notifier quand</string>
+    <string name="pref_title_notification_filter_mentions">mentionné</string>
+    <string name="pref_title_notification_filter_follows">suivit</string>
+    <string name="pref_title_notification_filter_reblogs">mes pouets boostés</string>
+    <string name="pref_title_notification_filter_favourites">mes pouets mis en favoris</string>
+    <string name="pref_title_appearance_settings">Apparence</string>
+    <string name="pref_title_light_theme">Utiliser le thème clair</string>
+    <string name="action_submit">Envoyer</string>
+    <string name="action_photo_pick">Ajouter un média</string>
+    <string name="action_compose_options">Vie privée</string>
+    <string name="login_success">Content de vous revoir!</string>
+    <string name="action_share">Partager</string>
+    <string name="send_status_to">Partager l\'URL de votre pouet avec…</string>
+    <string name="action_mute">Rendre muet</string>
+    <string name="action_unmute">Redonner la parole</string>
+    <string name="error_unmuting">L\'utilisateur est toujours muet.</string>
+    <string name="error_muting">L\'utilisateur n\'est pas devenu muet.</string>
+    <string name="search">Rechercher un compte…</string>
+    <string name="toggle_nsfw">NSFW</string>
+    <string name="action_mention">Mention</string>
+    <string name="notification_mention_format">%s vous ont mentionnés</string>
+    <string name="error_invalid_domain">Le domaine est invalide</string>
+    <string name="error_failed_app_registration">L\'application n'a pu s'authentifier avec l\'instance.</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s et %4$d plus</string>
+    <string name="notification_summary_medium">%1$s, %2$s, et %3$s</string>
+    <string name="notification_summary_small">%1$s et %2$s</string>
+    <string name="notification_title_summary">%d nouvelles interactions</string>
+    <string name="pref_title_notifications_enabled">Notifications push</string>
+</resources>
