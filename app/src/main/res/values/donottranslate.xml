@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Tusky</string>
-    <string name="app_website">http://tusky.keylesspalace.com</string>
-    <string name="tusky_api_url">https://tuskynotifier.keylesspalace.com</string>
+    <string name="app_name" translatable="false">Tusky</string>
+    <string name="app_website" translatable="false">http://tusky.keylesspalace.com</string>
+    <string name="tusky_api_url" translatable="false">https://tuskynotifier.keylesspalace.com</string>
 
-    <string name="oauth_scheme">oauth2redirect</string>
-    <string name="oauth_redirect_host">com.keylesspalace.tusky</string>
-    <string name="preferences_file_key">com.keylesspalace.tusky.PREFERENCES</string>
+    <string name="oauth_scheme" translatable="false">oauth2redirect</string>
+    <string name="oauth_redirect_host" translatable="false">com.keylesspalace.tusky</string>
+    <string name="preferences_file_key" translatable="false">com.keylesspalace.tusky.PREFERENCES</string>
 </resources>
