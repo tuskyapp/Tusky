@@ -294,14 +294,27 @@ public class AccountActivity extends BaseActivity {
 
         final FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
 
-        if(!isSelf && !blocking && !following) {
+        if(!isSelf && !blocking) {
             floatingBtn.show();
-            floatingBtn.setImageResource(R.drawable.ic_person_add_24dp);
+
+            if (following) {
+                floatingBtn.setImageResource(R.drawable.ic_person_minus_24px);
+            } else {
+                floatingBtn.setImageResource(R.drawable.ic_person_add_24dp);
+            }
+
             floatingBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     follow(accountId);
-                    floatingBtn.hide();
+
+                    if (following) {
+                        floatingBtn.setImageResource(R.drawable.ic_person_minus_24px);
+                    } else {
+                        floatingBtn.setImageResource(R.drawable.ic_person_add_24dp);
+                    }
+
                 }
             });
         }
