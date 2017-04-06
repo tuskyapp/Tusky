@@ -81,7 +81,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -484,37 +483,51 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             for (SavedQueuedMedia item : savedMediaQueued) {
                 addMediaToQueue(item.type, item.preview, item.uri, item.mediaSize);
             }
-        } else if (savedInstanceState == null) {
+        } else if (intent != null && savedInstanceState == null) {
             /* Get incoming images being sent through a share action from another app. Only do this
              * when savedInstanceState is null, otherwise both the images from the intent and the
              * instance state will be re-queued. */
             String type = intent.getType();
-            if (type != null && type.startsWith("image/")) {
-                List<Uri> uriList = new ArrayList<>();
-                switch (intent.getAction()) {
-                    case Intent.ACTION_SEND: {
-                        Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-                        if (uri != null) {
-                            uriList.add(uri);
+            if (type != null) {
+                if (type.startsWith("image/")) {
+                    List<Uri> uriList = new ArrayList<>();
+                    switch (intent.getAction()) {
+                        case Intent.ACTION_SEND: {
+                            Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                            if (uri != null) {
+                                uriList.add(uri);
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    case Intent.ACTION_SEND_MULTIPLE: {
-                        ArrayList<Uri> list = intent.getParcelableArrayListExtra(
-                                Intent.EXTRA_STREAM);
-                        if (list != null) {
-                            for (Uri uri : list) {
-                                if (uri != null) {
-                                    uriList.add(uri);
+                        case Intent.ACTION_SEND_MULTIPLE: {
+                            ArrayList<Uri> list = intent.getParcelableArrayListExtra(
+                                    Intent.EXTRA_STREAM);
+                            if (list != null) {
+                                for (Uri uri : list) {
+                                    if (uri != null) {
+                                        uriList.add(uri);
+                                    }
                                 }
                             }
+                            break;
                         }
-                        break;
                     }
-                }
-                for (Uri uri : uriList) {
-                    long mediaSize = getMediaSize(getContentResolver(), uri);
-                    pickMedia(uri, mediaSize);
+                    for (Uri uri : uriList) {
+                        long mediaSize = getMediaSize(getContentResolver(), uri);
+                        pickMedia(uri, mediaSize);
+                    }
+                } else if (type.equals("text/plain")) {
+                    String action = intent.getAction();
+                    if (action != null && action.equals(Intent.ACTION_SEND)) {
+                        String text = intent.getStringExtra(Intent.EXTRA_TEXT);
+                        if (text != null) {
+                            int start = Math.max(textEditor.getSelectionStart(), 0);
+                            int end = Math.max(textEditor.getSelectionEnd(), 0);
+                            int left = Math.min(start, end);
+                            int right = Math.max(start, end);
+                            textEditor.getText().replace(left, right, text, 0, text.length());
+                        }
+                    }
                 }
             }
         }
