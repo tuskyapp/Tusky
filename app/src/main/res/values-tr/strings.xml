@@ -1,10 +1,10 @@
 <resources>
 
-    <string name="error_generic">An error occurred.</string>
-    <string name="error_invalid_domain">Invalid domain entered</string>
-    <string name="error_failed_app_registration">Failed authenticating with that instance.</string>
-    <string name="error_no_web_browser_found">Couldn\'t find a web browser to use.</string>
-    <string name="error_authorization_unknown">An unidentified authorization error occurred.</string>
+    <string name="error_generic">Bir hata oluştu.</string>
+    <string name="error_invalid_domain">Girilen etki alanı geçersiz.</string>
+    <string name="error_failed_app_registration">Kimliği bu sunucuda doğrulayamadı.</string>
+    <string name="error_no_web_browser_found">Kullanılabilecek tarayıcı bulunmadı.</string>
+    <string name="error_authorization_unknown">Açıklanmayan kimlik doğrulama hata oluştu.</string>
     <string name="error_authorization_denied">Authorization was denied.</string>
     <string name="error_retrieving_oauth_token">Failed getting a login token.</string>
     <string name="error_compose_character_limit">The status is too long!</string>
@@ -16,79 +16,79 @@
     <string name="error_media_upload_sending">The upload failed.</string>
     <string name="error_report_too_few_statuses">At least one status must be reported.</string>
 
-    <string name="title_home">Home</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">Ana sayfa</string>
+    <string name="title_notifications">Bildirimler</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Federated</string>
     <string name="title_thread">Thread</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Posts</string>
-    <string name="title_follows">Follows</string>
-    <string name="title_followers">Followers</string>
-    <string name="title_favourites">Favourites</string>
-    <string name="title_blocks">Blocked users</string>
+    <string name="title_follows">Takip edilenler</string>
+    <string name="title_followers">Takipçiler</string>
+    <string name="title_favourites">Favoriler</string>
+    <string name="title_blocks">Engellenmiş kullanıcılar</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s boosted</string>
-    <string name="status_sensitive_media_title">Sensitive Media</string>
-    <string name="status_sensitive_media_directions">Click to view</string>
-    <string name="status_content_warning_show_more">Show More</string>
-    <string name="status_content_warning_show_less">Show Less</string>
+    <string name="status_boosted_format">%s yükseltti</string>
+    <string name="status_sensitive_media_title">Hasas Medya</string>
+    <string name="status_sensitive_media_directions">Görmek için taklayın</string>
+    <string name="status_content_warning_show_more">Daha Fazla Göster</string>
+    <string name="status_content_warning_show_less">Daha Az Göster</string>
 
     <string name="footer_end_of_statuses">end of the statuses</string>
     <string name="footer_end_of_notifications">end of the notifications</string>
     <string name="footer_end_of_accounts">end of the accounts</string>
 
-    <string name="notification_reblog_format">%s boosted your toot</string>
-    <string name="notification_favourite_format">%s favourited your toot</string>
-    <string name="notification_follow_format">%s followed you</string>
+    <string name="notification_reblog_format">%s tootunu yükseltti</string>
+    <string name="notification_favourite_format">%s tootunu favori etti</string>
+    <string name="notification_follow_format">%s seni takip etti</string>
 
-    <string name="report_username_format">Report @%s</string>
-    <string name="report_comment_hint">Additional comments?</string>
+    <string name="report_username_format">@%s bildirin</string>
+    <string name="report_comment_hint">Daha fazla yorum?</string>
 
-    <string name="action_compose">Compose</string>
-    <string name="action_login">Login with Mastodon</string>
-    <string name="action_logout">Log Out</string>
-    <string name="action_follow">Follow</string>
-    <string name="action_unfollow">Unfollow</string>
-    <string name="action_block">Block</string>
+    <string name="action_compose">Oluştur</string>
+    <string name="action_login">Mastodon ile giriş yap</string>
+    <string name="action_logout">Çıkış Yap</string>
+    <string name="action_follow">Takip et</string>
+    <string name="action_unfollow">Takibi bırak</string>
+    <string name="action_block">Engele</string>
     <string name="action_unblock">Unblock</string>
-    <string name="action_report">Report</string>
-    <string name="action_delete">Delete</string>
+    <string name="action_report">Bildir</string>
+    <string name="action_delete">Sil</string>
     <string name="action_send">TOOT</string>
     <string name="action_send_public">TOOT!</string>
-    <string name="action_retry">Retry</string>
-    <string name="action_mark_sensitive">Mark media sensitive</string>
-    <string name="action_hide_text">Hide text behind warning</string>
-    <string name="action_ok">Ok</string>
-    <string name="action_cancel">Cancel</string>
-    <string name="action_close">Close</string>
-    <string name="action_back">Back</string>
-    <string name="action_view_profile">Profile</string>
-    <string name="action_view_preferences">Preferences</string>
-    <string name="action_view_favourites">Favourites</string>
-    <string name="action_view_blocks">Blocked users</string>
-    <string name="action_open_in_web">Open in browser</string>
-    <string name="action_submit">Submit</string>
+    <string name="action_retry">Tekrar dene</string>
+    <string name="action_mark_sensitive">Medyayı hassas olarak etiketleyin</string>
+    <string name="action_hide_text">Metini uyarı ile sakla</string>
+    <string name="action_ok">Tamam</string>
+    <string name="action_cancel">İptal</string>
+    <string name="action_close">Kapat</string>
+    <string name="action_back">Geri</string>
+    <string name="action_view_profile">Profil</string>
+    <string name="action_view_preferences">Ayarlar</string>
+    <string name="action_view_favourites">Favoriler</string>
+    <string name="action_view_blocks">Engellenmiş kullanıcılar</string>
+    <string name="action_open_in_web">Tarayıcıda aç</string>
+    <string name="action_submit">Gönder</string>
     <string name="action_photo_pick">Add media</string>
-    <string name="action_share">Share</string>
-    <string name="action_mute">Mute</string>
+    <string name="action_share">Paylaş</string>
+    <string name="action_mute">Sesize al</string>
     <string name="action_unmute">Unmute</string>
-    <string name="action_mention">Mention</string>
+    <string name="action_mention">Bahset</string>
     <string name="toggle_nsfw">NSFW</string>
 
     <string name="send_status_to">Share toot URL to…</string>
 
-    <string name="search">Search accounts…</string>
+    <string name="search">Hesaplarda ara…</string>
 
     <string name="confirmation_send">Toot!</string>
-    <string name="confirmation_reported">Sent!</string>
+    <string name="confirmation_reported">Gönderildi!</string>
 
-    <string name="hint_domain">Which instance?</string>
+    <string name="hint_domain">Hangi sunucu?</string>
     <string name="hint_compose">What\'s happening?</string>
-    <string name="hint_content_warning">Content warning</string>
+    <string name="hint_content_warning">İçerik uyarı</string>
 
-    <string name="link_whats_an_instance">What\'s an instance?</string>
+    <string name="link_whats_an_instance">Sunucu nedir?</string>
 
     <string name="dialog_whats_an_instance">The address or domain of any instance can be entered
         here, such as mastodon.social, icosahedron.website, social.tchncs.de, and
@@ -100,30 +100,30 @@
         \n\nMore info can be found at <a href="https://mastodon.social/about">mastodon.social</a>.
     </string>
     <string name="dialog_title_finishing_media_upload">Finishing Media Upload</string>
-    <string name="dialog_message_uploading_media">Uploading…</string>
+    <string name="dialog_message_uploading_media">Yükleniyor…</string>
 
-    <string name="visibility_public">Everyone can see</string>
-    <string name="visibility_unlisted">Everyone can see, but not on public timelines</string>
-    <string name="visibility_private">Only followers and mentions can see</string>
+    <string name="visibility_public">Herkese açık</string>
+    <string name="visibility_unlisted">Kerkese açık ancak sosyal çizelgesinde çıkmaz</string>
+    <string name="visibility_private">Sadece takipçiler ve bahsedilenlere açık</string>
 
-    <string name="pref_title_notification_settings">Notifications</string>
-    <string name="pref_title_notifications_enabled">Push notifications</string>
-    <string name="pref_title_notification_alerts">Alerts</string>
-    <string name="pref_title_notification_alert_sound">Notify with a sound</string>
-    <string name="pref_title_notification_alert_vibrate">Notify with vibration</string>
-    <string name="pref_title_notification_alert_light">Notify with light</string>
-    <string name="pref_title_notification_filters">Notify me when</string>
-    <string name="pref_title_notification_filter_mentions">mentioned</string>
-    <string name="pref_title_notification_filter_follows">followed</string>
+    <string name="pref_title_notification_settings">Bildirimler</string>
+    <string name="pref_title_notifications_enabled">Anlık bildirimler</string>
+    <string name="pref_title_notification_alerts">Uyarılar</string>
+    <string name="pref_title_notification_alert_sound">Sesle bildirin</string>
+    <string name="pref_title_notification_alert_vibrate">Titremeyle bildirin</string>
+    <string name="pref_title_notification_alert_light">Işığıyla bildirin</string>
+    <string name="pref_title_notification_filters">Beni bildirin</string>
+    <string name="pref_title_notification_filter_mentions">bahsedilince</string>
+    <string name="pref_title_notification_filter_follows">takip edilince</string>
     <string name="pref_title_notification_filter_reblogs">my posts are boosted</string>
     <string name="pref_title_notification_filter_favourites">my posts are favourited</string>
-    <string name="pref_title_appearance_settings">Appearance</string>
-    <string name="pref_title_light_theme">Use the Light Theme</string>
+    <string name="pref_title_appearance_settings">Görünüş</string>
+    <string name="pref_title_light_theme">Açık renkli temayı kullan</string>
 
-    <string name="notification_mention_format">%s mentioned you</string>
-    <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
-    <string name="notification_summary_medium">%1$s, %2$s, and %3$s</string>
-    <string name="notification_summary_small">%1$s and %2$s</string>
-    <string name="notification_title_summary">%d new interactions</string>
+    <string name="notification_mention_format">%s senden bahsetti</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s ve %4$d daha</string>
+    <string name="notification_summary_medium">%1$s, %2$s ve %3$s</string>
+    <string name="notification_summary_small">%1$s ve %2$s</string>
+    <string name="notification_title_summary">%d yeni etkileşim</string>
 
 </resources>
