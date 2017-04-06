@@ -109,5 +109,17 @@
     <string name="notification_summary_medium">%1$s, %2$s, und %3$s</string>
     <string name="notification_summary_small">%1$s und %2$s</string>
     <string name="notification_title_summary">%d neue Interaktionen</string>
+    <string name="title_public_local">Lokal</string>
+    <string name="title_public_federated">Föderiert</string>
+    <string name="pref_title_notification_alerts">Benachrichtigungen</string>
+    <string name="pref_title_notification_filter_favourites">Jemandem meine Posts gefallen</string>
+    <string name="pref_title_notification_filters">Benachrichtigen wenn</string>
+    <string name="pref_title_notification_filter_follows">Mir jemand folgt</string>
+    <string name="pref_title_notification_filter_mentions">Ich erwähnt werde</string>
+    <string name="pref_title_notification_filter_reblogs">Jemand meine Posts boostet</string>
+    <string name="error_authorization_denied">Authorisierung fehlgeschlagen.</string>
+    <string name="error_generic">Ein Fehler ist Aufgetreten.</string>
+    <string name="error_no_web_browser_found">Kein Webbrowser gefunden.</string>
+    <string name="error_retrieving_oauth_token">Es konnte kein Login-Token abgerufen werden.</string>
 
 </resources>
