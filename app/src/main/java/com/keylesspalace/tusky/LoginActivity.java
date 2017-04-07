@@ -78,8 +78,14 @@ public class LoginActivity extends AppCompatActivity {
 
     /** Make sure the user-entered text is just a fully-qualified domain name. */
     private static String validateDomain(String s) {
+        // Strip any schemes out.
         s = s.replaceFirst("http://", "");
         s = s.replaceFirst("https://", "");
+        // If a username was included (e.g. username@example.com), just take what's after the '@'.
+        int at = s.indexOf('@');
+        if (at != -1) {
+            s = s.substring(at + 1);
+        }
         return s.trim();
     }
 
