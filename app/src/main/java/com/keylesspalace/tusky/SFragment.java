@@ -66,6 +66,7 @@ public class SFragment extends BaseFragment {
         String inReplyToId = status.getActionableId();
         Status actionableStatus = status.getActionableStatus();
         String replyVisibility = actionableStatus.getVisibility().toString().toLowerCase();
+        String contentWarning = actionableStatus.spoilerText;
         Status.Mention[] mentions = actionableStatus.mentions;
         List<String> mentionedUsernames = new ArrayList<>();
         for (Status.Mention mention : mentions) {
@@ -76,6 +77,7 @@ public class SFragment extends BaseFragment {
         Intent intent = new Intent(getContext(), ComposeActivity.class);
         intent.putExtra("in_reply_to_id", inReplyToId);
         intent.putExtra("reply_visibility", replyVisibility);
+        intent.putExtra("content_warning", contentWarning);
         intent.putExtra("mentioned_usernames", mentionedUsernames.toArray(new String[0]));
         startActivity(intent);
     }

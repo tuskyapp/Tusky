@@ -369,6 +369,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
 
         String startingVisibility;
         boolean startingHideText;
+        String startingContentWarning = null;
         ArrayList<SavedQueuedMedia> savedMediaQueued = null;
         if (savedInstanceState != null) {
             showMarkSensitive = savedInstanceState.getBoolean("showMarkSensitive");
@@ -411,6 +412,13 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             }
 
             mentionedUsernames = intent.getStringArrayExtra("mentioned_usernames");
+
+            if(inReplyToId != null) {
+                startingHideText = !intent.getStringExtra("content_warning").equals("");
+                if(startingHideText){
+                    startingContentWarning = intent.getStringExtra("content_warning");
+                }
+            }
         }
         /* Only after the starting visibility is determined and the send button is initialised can
          * the status visibility be set. */
@@ -475,6 +483,10 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             public void afterTextChanged(Editable s) {}
         });
         showContentWarning(startingHideText);
+
+        if(startingContentWarning != null){
+            contentWarningEditor.setText(startingContentWarning);
+        }
 
         statusAlreadyInFlight = false;
 
