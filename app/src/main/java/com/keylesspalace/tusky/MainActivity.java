@@ -77,6 +77,8 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.tab_layout) TabLayout tabLayout;
     @BindView(R.id.pager) ViewPager viewPager;
 
+    static FloatingActionButton composeBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,6 +178,8 @@ public class MainActivity extends BaseActivity {
 
         // Setup push notifications
         if (arePushNotificationsEnabled()) enablePushNotifications();
+
+        composeBtn = floatingBtn;
     }
 
     @Override
