@@ -80,6 +80,24 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+         /* Determine whether the user is currently logged in, and if so go ahead and load the
+         * timeline. Otherwise, start the activity_login screen. */
+        SharedPreferences preferences = getSharedPreferences(
+                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        String domain = preferences.getString("domain", null);
+        String accessToken = preferences.getString("accessToken", null);
+
+        if (domain == null || accessToken == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+            finish();
+            return;
+        }
+
+
         setContentView(R.layout.activity_main);
 
         pageHistory = new Stack<>();

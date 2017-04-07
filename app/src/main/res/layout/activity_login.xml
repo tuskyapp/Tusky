@@ -4,7 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context="com.keylesspalace.tusky.LoginActivity">
+    tools:context="com.keylesspalace.tusky.LoginActivity"
+    android:focusableInTouchMode="true">
+
+    <requestFocus /> <!-- dont show keyboard on activity start -->
 
     <LinearLayout
         android:orientation="vertical"

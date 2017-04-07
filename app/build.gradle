@@ -35,7 +35,6 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.pkmmte.view:circularimageview:1.1'
     compile 'com.github.peter9870:sparkbutton:master'
-    compile 'com.mikhaellopez:circularfillableloaders:1.2.0'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.github.chrisbanes:PhotoView:1.3.1'
