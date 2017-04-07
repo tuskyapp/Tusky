@@ -49,6 +49,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
@@ -212,6 +213,23 @@ public class MainActivity extends BaseActivity {
                 .withActivity(this)
                 .withSelectionListEnabledForSingleProfile(false)
                 .withDividerBelowHeader(false)
+                .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
+                    @Override
+                    public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
+                        if (current && loggedInAccountId != null) {
+                            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+                            intent.putExtra("id", loggedInAccountId);
+                            startActivity(intent);
+                            return true;
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
+                        return false;
+                    }
+                })
                 .withCompactStyle(true)
                 .build();
 
