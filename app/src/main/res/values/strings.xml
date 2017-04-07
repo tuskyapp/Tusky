@@ -107,6 +107,7 @@
     <string name="visibility_private">Only followers and mentions can see</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
+    <string name="pref_title_edit_notification_settings">Edit Notifications</string>
     <string name="pref_title_notifications_enabled">Push notifications</string>
     <string name="pref_title_notification_alerts">Alerts</string>
     <string name="pref_title_notification_alert_sound">Notify with a sound</string>
@@ -119,6 +120,8 @@
     <string name="pref_title_notification_filter_favourites">my posts are favourited</string>
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_light_theme">Use the Light Theme</string>
+    <string name="pref_title_browser_settings">Browser</string>
+    <string name="pre_title_custom_tabs">Use Chrome Custom Tabs</string>
 
     <string name="notification_mention_format">%s mentioned you</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>

@@ -10,8 +10,14 @@
             android:defaultValue="false" />
 
     </PreferenceCategory>
-
-    <PreferenceScreen android:title="@string/pref_title_notification_settings">
+    <PreferenceCategory android:title="@string/pref_title_browser_settings">
+        <CheckBoxPreference
+            android:key="customTabs"
+            android:title="@string/pre_title_custom_tabs"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_title_notification_settings">
+    <PreferenceScreen android:title="@string/pref_title_edit_notification_settings">
 
         <CheckBoxPreference
             android:key="notificationsEnabled"
@@ -66,5 +72,5 @@
         </PreferenceCategory>
 
     </PreferenceScreen>
-
+    </PreferenceCategory>
 </PreferenceScreen>
