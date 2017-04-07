@@ -12,6 +12,8 @@
     <string name="error_media_upload_type">That type of file cannot be uploaded.</string>
     <string name="error_media_upload_opening">That file could not be opened.</string>
     <string name="error_media_upload_permission">Permission to read media is required.</string>
+    <string name="error_media_download_permission">Permission to store media is required.</string>
+
     <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same status.</string>
     <string name="error_media_upload_sending">The upload failed.</string>
     <string name="error_report_too_few_statuses">At least one status must be reported.</string>

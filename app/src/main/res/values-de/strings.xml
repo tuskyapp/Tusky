@@ -122,5 +122,6 @@
     <string name="error_no_web_browser_found">Kein Webbrowser gefunden.</string>
     <string name="error_retrieving_oauth_token">Es konnte kein Login-Token abgerufen werden.</string>
     <string name="dialog_download_image">Herunterladen</string>
+    <string name="error_media_download_permission">Eine Berechtigung wird zum Speichern des Mediums benötigt.</string>
 
 </resources>
