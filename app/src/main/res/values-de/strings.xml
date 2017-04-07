@@ -121,5 +121,6 @@
     <string name="error_generic">Ein Fehler ist Aufgetreten.</string>
     <string name="error_no_web_browser_found">Kein Webbrowser gefunden.</string>
     <string name="error_retrieving_oauth_token">Es konnte kein Login-Token abgerufen werden.</string>
+    <string name="dialog_download_image">Herunterladen</string>
 
 </resources>

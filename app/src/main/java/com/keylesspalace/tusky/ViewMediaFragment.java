@@ -15,7 +15,13 @@
 
 package com.keylesspalace.tusky;
 
+import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -27,6 +33,8 @@ import android.view.WindowManager;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.senab.photoview.PhotoView;
@@ -35,7 +43,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 public class ViewMediaFragment extends DialogFragment {
 
     private PhotoViewAttacher attacher;
-
+    private DownloadManager downloadManager;
     @BindView(R.id.view_media_image) PhotoView photoView;
 
     public static ViewMediaFragment newInstance(String url) {
@@ -95,6 +103,37 @@ public class ViewMediaFragment extends DialogFragment {
                     dismiss();
                     return true;
                 }
+                return false;
+            }
+        });
+
+        attacher.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                AlertDialog downloadDialog = new AlertDialog.Builder(getContext()).create();
+
+                downloadDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.dialog_download_image),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+
+                                String url = getArguments().getString("url");
+                                Uri uri = Uri.parse(url);
+
+                                String filename = new File(url).getName();
+
+                                downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+
+                                DownloadManager.Request request = new DownloadManager.Request(uri);
+                                request.allowScanningByMediaScanner();
+                                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, getString(R.string.app_name) + "/" + filename);
+
+                                downloadManager.enqueue(request);
+                                System.out.println(url);
+                            }
+                        });
+                downloadDialog.show();
                 return false;
             }
         });

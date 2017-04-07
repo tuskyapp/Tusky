@@ -126,4 +126,5 @@
     <string name="notification_summary_small">%1$s and %2$s</string>
     <string name="notification_title_summary">%d new interactions</string>
 
+    <string name="dialog_download_image">Download</string>
 </resources>
