@@ -14,13 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data android:name="firebase_analytics_collection_enabled" android:value="false" />
-        <activity android:name=".SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".LoginActivity"
             android:windowSoftInputMode="adjustResize">
@@ -35,7 +28,13 @@
                     android:scheme="@string/oauth_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ComposeActivity"
             android:windowSoftInputMode="stateVisible|adjustResize">
