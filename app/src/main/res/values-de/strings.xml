@@ -2,22 +2,22 @@
     <string name="error_invalid_domain">Ungültige Domain angegeben</string>
     <string name="error_failed_app_registration">Diese App konnte sich auf dem Server nicht authentifizieren.</string>
     <string name="error_authorization_unknown">Ein undefinierbarer Autorisierungsfehler ist aufgetreten.</string>
-    <string name="error_compose_character_limit">Der Status ist zu lang!</string>
+    <string name="error_compose_character_limit">Der Beitrag ist zu lang!</string>
     <string name="error_media_upload_size">Die Datei muss kleiner als 4MB sein.</string>
     <string name="error_media_upload_type">Dieser Dateityp darf nicht hochgeladen werden.</string>
     <string name="error_media_upload_opening">Die Datei konnte nicht geöffnet werden.</string>
     <string name="error_media_upload_permission">Eine Leseberechtigung wird für das Hochladen der Mediendatei benötigt.</string>
-    <string name="error_media_upload_image_or_video">Bilder und Videos können beide nicht an den Status angehängt werden.</string>
+    <string name="error_media_upload_image_or_video">Bilder und Videos können beide nicht an den Beitrag angehängt werden.</string>
     <string name="error_media_upload_sending">Die Mediendatei konnte nicht hochgeladen werden.</string>
-    <string name="error_report_too_few_statuses">Mindestens ein Status muss berichtet werden.</string>
+    <string name="error_report_too_few_statuses">Mindestens ein Beitrag muss berichtet werden.</string>
 
     <string name="title_home">Start</string>
     <string name="title_notifications">Benachrichtigungen</string>
     <string name="title_thread">Unterhaltung</string>
     <string name="title_tag">#%s</string>
-    <string name="title_statuses">Posts</string>
-    <string name="title_follows">Follows</string>
-    <string name="title_followers">Follower</string>
+    <string name="title_statuses">Beiträge</string>
+    <string name="title_follows">Folgt</string>
+    <string name="title_followers">Folgende</string>
     <string name="title_favourites">Favoriten</string>
     <string name="title_blocks">Blockierte Nutzer</string>
 
@@ -28,12 +28,12 @@
     <string name="status_content_warning_show_more">Zeige mehr</string>
     <string name="status_content_warning_show_less">Zeige weniger</string>
 
-    <string name="footer_end_of_statuses">Ende der Status</string>
+    <string name="footer_end_of_statuses">Ende des Beitrages</string>
     <string name="footer_end_of_notifications">Ende der Benachrichtigungen</string>
     <string name="footer_end_of_accounts">Ende der Accounts</string>
 
-    <string name="notification_reblog_format">%s teilte deinen Status</string>
-    <string name="notification_favourite_format">%s favorisierte deinen Status</string>
+    <string name="notification_reblog_format">%s teilte deinen Beitrag</string>
+    <string name="notification_favourite_format">%s favorisierte deinen Beitrag</string>
     <string name="notification_follow_format">%s folgt dir</string>
 
     <string name="report_username_format">\@%s melden</string>
@@ -48,8 +48,8 @@
     <string name="action_unblock">Entblockieren</string>
     <string name="action_report">Melden</string>
     <string name="action_delete">Löschen</string>
-    <string name="action_send">TOOT</string>
-    <string name="action_send_public">TOOT!</string>
+    <string name="action_send">TRÖT</string>
+    <string name="action_send_public">TRÖT!</string>
     <string name="action_retry">Erneut versuchen</string>
     <string name="action_mark_sensitive">Markiere Mediendatei als heikel</string>
     <string name="action_hide_text">Verstecke Text hinter Warnung</string>
@@ -117,8 +117,8 @@
     <string name="pref_title_notification_filter_follows">Mir jemand folgt</string>
     <string name="pref_title_notification_filter_mentions">Ich erwähnt werde</string>
     <string name="pref_title_notification_filter_reblogs">Jemand meine Posts boostet</string>
-    <string name="error_authorization_denied">Authorisierung fehlgeschlagen.</string>
-    <string name="error_generic">Ein Fehler ist Aufgetreten.</string>
+    <string name="error_authorization_denied">Autorisierung fehlgeschlagen.</string>
+    <string name="error_generic">Ein Fehler ist aufgetreten.</string>
     <string name="error_no_web_browser_found">Kein Webbrowser gefunden.</string>
     <string name="error_retrieving_oauth_token">Es konnte kein Login-Token abgerufen werden.</string>
 
