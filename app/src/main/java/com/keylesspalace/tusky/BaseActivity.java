@@ -34,7 +34,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import okhttp3.ConnectionSpec;
 import okhttp3.Dispatcher;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -114,32 +117,13 @@ public class BaseActivity extends AppCompatActivity {
     protected void createMastodonAPI() {
         mastodonApiDispatcher = new Dispatcher();
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request originalRequest = chain.request();
-
-                        Request.Builder builder = originalRequest.newBuilder();
-                        String accessToken = getAccessToken();
-                        if (accessToken != null) {
-                            builder.header("Authorization", String.format("Bearer %s", accessToken));
-                        }
-                        Request newRequest = builder.build();
-
-                        return chain.proceed(newRequest);
-                    }
-                })
-                .dispatcher(mastodonApiDispatcher)
-                .build();
-
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getBaseUrl())
-                .client(okHttpClient)
+                .client(OkHttpUtils.getCompatibleClient())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
@@ -149,6 +133,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void createTuskyAPI() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.tusky_api_url))
+                .client(OkHttpUtils.getCompatibleClient())
                 .build();
 
         tuskyAPI = retrofit.create(TuskyAPI.class);

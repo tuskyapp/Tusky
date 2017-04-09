@@ -117,6 +117,7 @@ public class LoginActivity extends AppCompatActivity {
     private MastodonAPI getApiFor(String domain) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + domain)
+                .client(OkHttpUtils.getCompatibleClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -168,8 +169,10 @@ public class LoginActivity extends AppCompatActivity {
             };
 
             try {
-                getApiFor(domain).authenticateApp(getString(R.string.app_name), getOauthRedirectUri(), OAUTH_SCOPES,
-                        getString(R.string.app_website)).enqueue(callback);
+                getApiFor(domain)
+                        .authenticateApp(getString(R.string.app_name), getOauthRedirectUri(),
+                                OAUTH_SCOPES, getString(R.string.app_website))
+                        .enqueue(callback);
             } catch (IllegalArgumentException e) {
                 editText.setError(getString(R.string.error_invalid_domain));
             }
@@ -234,7 +237,7 @@ public class LoginActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, "The app version was not found. " + e.getMessage());
         }
-        if (preferences.getInt("lastUpdate", 0) != versionCode) {
+        if (preferences.getInt("lastUpdateVersion", 0) != versionCode) {
             SharedPreferences.Editor editor = preferences.edit();
             if (versionCode == 14) {
                 /* This version switches the order of scheme and host in the OAuth redirect URI.
@@ -243,7 +246,7 @@ public class LoginActivity extends AppCompatActivity {
                  * "rememberedVisibility", "loggedInUsername", and "loggedInAccountId". */
                 editor.clear();
             }
-            editor.putInt("lastUpdate", versionCode);
+            editor.putInt("lastUpdateVersion", versionCode);
             editor.apply();
         }
     }
