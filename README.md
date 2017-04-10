@@ -29,7 +29,7 @@ The project's gradle files describe its building needs more in-depth and depende
 
 ### Firebase
 
-This app uses Firebase's Cloud Messaging and Crash Reporting, so in order to build it, a Firebase project has to be made and associated with the build by including a ```google-services.json``` file in the ```app``` directory.
+This app uses Firebase's Cloud Messaging and Crash Reporting. So, in order to build with your own Firebase project, associate it with the build by replacing ```google-services.json``` file in the ```app``` directory with one from your Firebase console.
 
 ### Tusky-API
 
