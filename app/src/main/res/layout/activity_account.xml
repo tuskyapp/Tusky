@@ -166,6 +166,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <View
+        android:id="@+id/tab_bottom_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:layout_anchor="@id/tab_layout"
+        app:layout_anchorGravity="bottom"
+        android:background="@drawable/material_drawer_shadow_bottom"
+        android:visibility="visible" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floating_btn"
         android:layout_width="wrap_content"
