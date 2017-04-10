@@ -255,7 +255,7 @@ public class SFragment extends BaseFragment {
 
     protected void viewThread(Status status) {
         Intent intent = new Intent(getContext(), ViewThreadActivity.class);
-        intent.putExtra("id", status.id);
+        intent.putExtra("id", status.getActionableId());
         startActivity(intent);
     }
 
