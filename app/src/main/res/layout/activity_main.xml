@@ -55,6 +55,7 @@
             </android.support.design.widget.TabLayout>
 
         </android.support.v4.view.ViewPager>
+
     </LinearLayout>
 
     <com.arlib.floatingsearchview.FloatingSearchView
@@ -70,11 +71,15 @@
         app:floatingSearch_leftActionMode="showHamburger"
         app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
 
-    <FrameLayout
-        android:id="@+id/overlay_fragment_container"
+    <View
+        android:id="@+id/tab_bottom_shadow"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="2dp"
+        app:layout_anchor="@id/tab_layout"
+        app:layout_anchorGravity="bottom"
+        android:background="@drawable/material_drawer_shadow_bottom"
+        android:visibility="visible" />
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floating_btn"
@@ -85,4 +90,9 @@
         android:layout_margin="16dp"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_create_24dp"/>
+
+    <FrameLayout
+        android:id="@+id/overlay_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
 </android.support.design.widget.CoordinatorLayout>
