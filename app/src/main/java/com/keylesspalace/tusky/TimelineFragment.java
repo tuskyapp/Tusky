@@ -16,9 +16,12 @@
 package com.keylesspalace.tusky;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -85,7 +88,7 @@ public class TimelineFragment extends SFragment implements
             hashtagOrId = arguments.getString("hashtag_or_id");
         }
 
-        View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
 
         // Setup the SwipeRefreshLayout.
         Context context = getContext();
@@ -103,6 +106,20 @@ public class TimelineFragment extends SFragment implements
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
         scrollListener = new EndlessOnScrollListener(layoutManager) {
+            @Override
+            public void onScrolled(RecyclerView view, int dx, int dy) {
+                super.onScrolled(view, dx, dy);
+
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+                if (dy > 0 && prefs.getBoolean("fabHide", false) && MainActivity.composeBtn.isShown()) {
+                    MainActivity.composeBtn.hide(); // hides the button if we're scrolling down
+                } else if (dy < 0 && prefs.getBoolean("fabHide", false) && !MainActivity.composeBtn.isShown()) {
+                    MainActivity.composeBtn.show(); // shows it if we are scrolling up
+                }
+
+            }
+
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 TimelineAdapter adapter = (TimelineAdapter) view.getAdapter();

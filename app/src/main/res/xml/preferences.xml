@@ -9,6 +9,11 @@
             android:title="@string/pref_title_light_theme"
             android:defaultValue="false" />
 
+        <CheckBoxPreference
+            android:key="fabHide"
+            android:title="Hide FAB while scrolling"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_title_browser_settings">
         <CheckBoxPreference
