@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -52,6 +53,12 @@ public class ViewVideoActivity extends BaseActivity {
         controller.setMediaPlayer(videoView);
         videoView.setMediaController(controller);
         videoView.requestFocus();
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+            }
+        });
         videoView.start();
     }
 
