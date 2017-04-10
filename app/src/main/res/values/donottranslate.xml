@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Tusky</string>
-    <string name="app_website" translatable="false">http://tusky.keylesspalace.com</string>
+    <string name="app_website" translatable="false">https://tusky.keylesspalace.com</string>
     <string name="tusky_api_url" translatable="false">https://tuskynotifier.keylesspalace.com</string>
 
     <string name="oauth_scheme" translatable="false">oauth2redirect</string>
