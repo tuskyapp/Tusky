@@ -13,16 +13,16 @@
     <string name="action_mark_sensitive">Marcar media como sensible</string>
     <string name="confirmation_reported">Enviar</string>
     <string name="confirmation_send">Toot!</string>
-    <string name="dialog_message_uploading_media">Subiendo...</string>
-    <string name="action_mention">Mención</string>
+    <string name="dialog_message_uploading_media">Subiendo…</string>
+    <string name="action_mention">Mencionar</string>
     <string name="action_mute">Silenciar</string>
     <string name="action_ok">Ok</string>
     <string name="action_open_in_web">Abrir en el navegador</string>
     <string name="action_photo_pick">Subir multimedia</string>
     <string name="action_report">Reportar</string>
     <string name="action_retry">Reintentar</string>
-    <string name="action_send">TOOT!</string>
-    <string name="action_send_public">TOOT!</string>
+    <string name="action_send">TOOTEAR!</string>
+    <string name="action_send_public">TOOTEAR!</string>
     <string name="action_share">Compartir</string>
     <string name="action_submit">Enviar</string>
     <string name="action_unblock">Desbloquear</string>
@@ -42,7 +42,7 @@
     <string name="title_tag">#%s</string>
     <string name="toggle_nsfw">NSFW</string>
     <string name="title_thread">Hilo</string>
-    <string name="visibility_private">Sólo seguidores</string>
+    <string name="visibility_private">Sólo seguidores y mencionados</string>
     <string name="visibility_public">Público</string>
     <string name="visibility_unlisted">Público, no publicar en la historia pública</string>
     <string name="title_favourites">Favoritos</string>
@@ -57,4 +57,59 @@
     <string name="search">Buscar cuentas</string>
     <string name="report_username_format">Reportar @%s</string>
     <string name="report_comment_hint">Comentarios adicionales?</string>
+    <string name="dialog_title_finishing_media_upload">Finalizando subida</string>
+    <string name="dialog_whats_an_instance">Puedes ingresar el dominio de cualquier instancia
+        aquí, por ejemplo: mastodones.club, mastodon.social, icosahedron.website, and
+        <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">más!</a>
+        \n\nSi aún no tienes una cuenta, puedes ingresar el nombre de la instancia a la que quieres
+        unirte y crear una cuenta.  Una instancia es el lugar donde tu cuenta puede ser
+        alojada, pero puedes interactuar con usuarios de otras instancias
+        como si estuviesen en el mismo sitio.
+        \n\nPuedes encontrar más información en <a href="https://mastodon.social/about">mastodon.social</a>.</string>
+    <string name="error_authorization_denied">Autorización denegada.</string>
+    <string name="pref_title_notifications_enabled">Notificaciones Push</string>
+    <string name="pref_title_notification_settings">Notificaciones</string>
+    <string name="pref_title_notification_filters">Notificarme cuando</string>
+    <string name="pref_title_notification_filter_reblogs">mi publicación fue compartida</string>
+    <string name="pref_title_notification_filter_mentions">mencionado</string>
+    <string name="pref_title_notification_filter_follows">seguido</string>
+    <string name="pref_title_notification_filter_favourites">mi post ha sido marcado favorito</string>
+    <string name="pref_title_notification_alerts">Alertas</string>
+    <string name="pref_title_notification_alert_vibrate">Notificarme con vibración</string>
+    <string name="pref_title_notification_alert_sound">Notificarme con sonido</string>
+    <string name="pref_title_notification_alert_light">Notificarme con luz</string>
+    <string name="pref_title_light_theme">Usar tema claro</string>
+    <string name="pref_title_edit_notification_settings">Editar notificaciones</string>
+    <string name="pref_title_browser_settings">Navegador</string>
+    <string name="pref_title_appearance_settings">Apariencia</string>
+    <string name="pre_title_custom_tabs">Usar pestañas personalizadas de Chrome</string>
+    <string name="notification_title_summary">%d nuevas interacciones</string>
+    <string name="notification_summary_small">%1$s y %2$s</string>
+    <string name="notification_summary_medium">%1$s, %2$s, y %3$s</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s y otros %4$d</string>
+    <string name="notification_reblog_format">%s ha retooteado tu estado</string>
+    <string name="notification_mention_format">%s te ha mencionado</string>
+    <string name="notification_follow_format">%s ha empezado a seguirte</string>
+    <string name="notification_favourite_format">%s marcó tu estado como favorito</string>
+    <string name="link_whats_an_instance">¿Qué es una instancia?</string>
+    <string name="error_authorization_unknown">Error de autorización desconocido.</string>
+    <string name="error_compose_character_limit">El estado es muy largo</string>
+    <string name="error_failed_app_registration">Falló la autenticación con esta instancia.</string>
+    <string name="error_generic">Ha ocurrido un error.</string>
+    <string name="error_invalid_domain">Dominio inválido ingresado</string>
+    <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y videos al mismo tiempo</string>
+    <string name="error_media_upload_opening">Este archivo no puede ser abierto.</string>
+    <string name="error_media_upload_permission">Se necesitan permisos de lectura.</string>
+    <string name="error_media_upload_sending">La subida falló.</string>
+    <string name="error_media_upload_size">El archivo debe tener menos de 4MB de tamaño.</string>
+    <string name="error_media_upload_type">Este tipo de archivos no puede ser subido.</string>
+    <string name="error_no_web_browser_found">No se pudo encontrar un navegador web.</string>
+    <string name="error_report_too_few_statuses">Al menos un estado debe ser reportado.</string>
+    <string name="error_retrieving_oauth_token">Ha ocurrido un error obteniendo el token de inicio de sesión</string>
+    <string name="footer_end_of_accounts">fin de las cuentas</string>
+    <string name="footer_end_of_notifications">fin de las notificaciones</string>
+    <string name="footer_end_of_statuses">fin de los estados</string>
+    <string name="hint_compose">¿En qué estás pensando?</string>
+    <string name="hint_content_warning">Advertencia de contenido</string>
+    <string name="hint_domain">¿Cuál instancia?</string>
 </resources>
