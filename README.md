@@ -1,6 +1,6 @@
 # Tusky
 
-![](app/src/main/res/drawable/tusky-logo.png)
+![](app/src/main/res/drawable/tusky_logo.png)
 
 Tusky is a beautiful Android client for [Mastodon](https://github.com/tootsuite/mastodon). Mastodon is a GNU social-compatible federated social network. That means not one entity controls the whole network, rather, like e-mail, volunteers and organisations operate their own independent servers, users from which can all interact with each other seamlessly.
 
