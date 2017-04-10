@@ -116,6 +116,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private int currentFlags;
     private ProgressDialog finishingUploadDialog;
     private EditText contentWarningEditor;
+    private TextView charactersLeft;
     private Button floatingBtn;
     private ImageButton pickBtn;
     private Button nsfwBtn;
@@ -436,12 +437,11 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
          * without the text editor stealing the events from behind them. */
         editArea.addView(textEditor, 0);
         contentWarningEditor = (EditText) findViewById(R.id.field_content_warning);
-        final TextView charactersLeft = (TextView) findViewById(R.id.characters_left);
+        charactersLeft = (TextView) findViewById(R.id.characters_left);
         textEditor.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                int left = STATUS_CHARACTER_LIMIT - s.length() - contentWarningEditor.length();
-                charactersLeft.setText(String.format(Locale.getDefault(), "%d", left));
+                updateVisibleCharactersLeft();
             }
 
             @Override
@@ -475,8 +475,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                int left = STATUS_CHARACTER_LIMIT - s.length() - textEditor.length();
-                charactersLeft.setText(String.format(Locale.getDefault(), "%d", left));
+                updateVisibleCharactersLeft();
             }
 
             @Override
@@ -593,8 +592,17 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         setStatusVisibility(visibility);
     }
 
+    private void updateVisibleCharactersLeft() {
+        int left = STATUS_CHARACTER_LIMIT - textEditor.length();
+        if (statusHideText) {
+            left -= contentWarningEditor.length();
+        }
+        charactersLeft.setText(String.format(Locale.getDefault(), "%d", left));
+    }
+
     public void onContentWarningChanged(boolean hideText) {
         showContentWarning(hideText);
+        updateVisibleCharactersLeft();
     }
 
     private void sendStatus() {
