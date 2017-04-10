@@ -15,3 +15,39 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+## for okhttp
+-dontwarn okio.**
+
+## for picasso
+-dontwarn com.squareup.okhttp.**
+
+## for retrofit
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+-keepattributes *Annotation*
+
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+
+-keep class com.keylesspalace.tusky.entity.** { *; }
+
+-keep public enum com.keylesspalace.tusky.entity.*$** {
+    **[] $VALUES;
+    public *;
+}
+
+
+# preserve line numbers for crash reporting
+-keepattributes SourceFile,LineNumberTable
+
+# remove all logging from production apk
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** w(...);
+    public static *** v(...);
+    public static *** i(...);
+}
