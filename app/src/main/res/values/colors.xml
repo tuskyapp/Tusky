@@ -35,6 +35,7 @@
     <color name="compose_mention_dark">#AFBFCF</color>
     <color name="report_status_background_dark">#000000</color>
     <color name="report_status_divider_dark">#2F2F2F</color>
+    <color name="custom_tab_toolbar_dark">#363c4b</color>
     <!--Light Theme Colors-->
     <color name="color_primary_light">#dfdfdf</color>
     <color name="color_primary_dark_light">#8f8f8f</color>
@@ -68,4 +69,6 @@
     <color name="compose_mention_light">#2F5F6F</color>
     <color name="report_status_background_light">#EFEFEF</color>
     <color name="report_status_divider_light">#9F9F9F</color>
+    <color name="custom_tab_toolbar_light">#ffffff</color>
+
 </resources>

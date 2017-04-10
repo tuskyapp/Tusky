@@ -16,6 +16,8 @@
 package com.keylesspalace.tusky;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -105,6 +107,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         /* Redirect URLSpan's in the status content to the listener for viewing tag pages and
          * account pages. */
         SpannableStringBuilder builder = new SpannableStringBuilder(content);
+        boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(container.getContext()).getBoolean("customTabs", true);
         URLSpan[] urlSpans = content.getSpans(0, content.length(), URLSpan.class);
         for (URLSpan span : urlSpans) {
             int start = builder.getSpanStart(span);
@@ -140,6 +143,10 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
                     builder.removeSpan(span);
                     builder.setSpan(newSpan, start, end, flags);
                 }
+            } else if (useCustomTabs) {
+                ClickableSpan newSpan = new CustomTabURLSpan(span.getURL());
+                builder.removeSpan(span);
+                builder.setSpan(newSpan, start, end, flags);
             }
         }
         // Set the contents.
