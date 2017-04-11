@@ -34,10 +34,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import okhttp3.ConnectionSpec;
 import okhttp3.Dispatcher;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -121,9 +118,29 @@ public class BaseActivity extends AppCompatActivity {
                 .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
                 .create();
 
+        OkHttpClient okHttpClient = OkHttpUtils.getCompatibleClientBuilder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request originalRequest = chain.request();
+
+                        Request.Builder builder = originalRequest.newBuilder();
+                        String accessToken = getAccessToken();
+                        if (accessToken != null) {
+                            builder.header("Authorization", String.format("Bearer %s",
+                                    accessToken));
+                        }
+                        Request newRequest = builder.build();
+
+                        return chain.proceed(newRequest);
+                    }
+                })
+                .dispatcher(mastodonApiDispatcher)
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getBaseUrl())
-                .client(OkHttpUtils.getCompatibleClient())
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 

@@ -21,7 +21,6 @@ import android.support.annotation.NonNull;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -30,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.net.ssl.HandshakeCompletedEvent;
+import javax.net.ssl.HandshakeCompletedListener;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
@@ -39,11 +40,19 @@ import javax.net.ssl.X509TrustManager;
 
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 class OkHttpUtils {
-    private static final String TAG = "OkHttpUtils"; // logging tag
+    static final String TAG = "OkHttpUtils"; // logging tag
 
+    /**
+     * Makes a Builder with the maximum range of TLS versions and cipher suites enabled.
+     *
+     * It first tries the "approved" list of cipher suites given in OkHttp (the default in
+     * ConnectionSpec.MODERN_TLS) and if that doesn't work falls back to the set of ALL enabled,
+     * then falls back to plain http.
+     *
+     * TLS 1.1 and 1.2 have to be manually enabled on API levels 16-20.
+     */
     @NonNull
     static OkHttpClient.Builder getCompatibleClientBuilder() {
         ConnectionSpec fallback = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
@@ -56,12 +65,8 @@ class OkHttpUtils {
         specList.add(fallback);
         specList.add(ConnectionSpec.CLEARTEXT);
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .connectionSpecs(specList)
-                .addInterceptor(loggingInterceptor);
+                .connectionSpecs(specList);
 
         return enableHigherTlsOnPreLollipop(builder);
     }
@@ -72,7 +77,7 @@ class OkHttpUtils {
     }
 
     private static OkHttpClient.Builder enableHigherTlsOnPreLollipop(OkHttpClient.Builder builder) {
-        if (Build.VERSION.SDK_INT >= 16 && Build.VERSION.SDK_INT < 22) {
+        // if (Build.VERSION.SDK_INT >= 16 && Build.VERSION.SDK_INT < 22) {
             try {
                 TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(
                         TrustManagerFactory.getDefaultAlgorithm());
@@ -89,22 +94,23 @@ class OkHttpUtils {
                 sslContext.init(null, new TrustManager[] { trustManager }, null);
                 SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
-                builder.sslSocketFactory(new Tls11And12SocketFactory(sslSocketFactory),
+                builder.sslSocketFactory(new SSLSocketFactoryCompat(sslSocketFactory),
                         trustManager);
             } catch (NoSuchAlgorithmException|KeyStoreException|KeyManagementException e) {
                 Log.e(TAG, "Failed enabling TLS 1.1 & 1.2. " + e.getMessage());
             }
-        }
+        // }
 
         return builder;
     }
 
-    private static class Tls11And12SocketFactory extends SSLSocketFactory {
-        private static final String[] TLS_VERSIONS = { "TLSv1.1", "TLSv1.2" };
+    private static class SSLSocketFactoryCompat extends SSLSocketFactory {
+        private static final String[] DESIRED_TLS_VERSIONS = { "TLSv1", "TLSv1.1", "TLSv1.2",
+                "TLSv1.3" };
 
         final SSLSocketFactory delegate;
 
-        Tls11And12SocketFactory(SSLSocketFactory base) {
+        SSLSocketFactoryCompat(SSLSocketFactory base) {
             this.delegate = base;
         }
 
@@ -125,13 +131,13 @@ class OkHttpUtils {
         }
 
         @Override
-        public Socket createSocket(String host, int port) throws IOException, UnknownHostException {
+        public Socket createSocket(String host, int port) throws IOException {
             return patch(delegate.createSocket(host, port));
         }
 
         @Override
         public Socket createSocket(String host, int port, InetAddress localHost, int localPort)
-                throws IOException, UnknownHostException {
+                throws IOException {
             return patch(delegate.createSocket(host, port, localHost, localPort));
         }
 
@@ -146,10 +152,52 @@ class OkHttpUtils {
             return patch(delegate.createSocket(address, port, localAddress, localPort));
         }
 
+        @NonNull
+        private static String[] getMatches(String[] wanted, String[] have) {
+            List<String> a = new ArrayList<>(Arrays.asList(wanted));
+            List<String> b = Arrays.asList(have);
+            a.retainAll(b);
+            return a.toArray(new String[0]);
+        }
+
+        @NonNull
+        private static List<String> getDifferences(String[] wanted, String[] have) {
+            List<String> a = new ArrayList<>(Arrays.asList(wanted));
+            List<String> b = Arrays.asList(have);
+            a.removeAll(b);
+            return a;
+        }
+
         private Socket patch(Socket socket) {
             if (socket instanceof SSLSocket) {
                 SSLSocket sslSocket = (SSLSocket) socket;
-                sslSocket.setEnabledProtocols(TLS_VERSIONS);
+                String[] protocols = getMatches(DESIRED_TLS_VERSIONS,
+                        sslSocket.getSupportedProtocols());
+                sslSocket.setEnabledProtocols(protocols);
+
+                // Add a debug listener.
+                String[] enabledProtocols = sslSocket.getEnabledProtocols();
+                List<String> disabledProtocols = getDifferences(sslSocket.getSupportedProtocols(),
+                        enabledProtocols);
+                String[] enabledSuites = sslSocket.getEnabledCipherSuites();
+                List<String> disabledSuites = getDifferences(sslSocket.getSupportedCipherSuites(),
+                        enabledSuites);
+                Log.i(TAG, "Socket Created-----");
+                Log.i(TAG, "enabled protocols: " + Arrays.toString(enabledProtocols));
+                Log.i(TAG, "disabled protocols: " + disabledProtocols.toString());
+                Log.i(TAG, "enabled cipher suites: " + Arrays.toString(enabledSuites));
+                Log.i(TAG, "disabled cipher suites: " + disabledSuites.toString());
+
+                sslSocket.addHandshakeCompletedListener(new HandshakeCompletedListener() {
+                    @Override
+                    public void handshakeCompleted(HandshakeCompletedEvent event) {
+                        String host = event.getSession().getPeerHost();
+                        String protocol = event.getSession().getProtocol();
+                        String cipherSuite = event.getCipherSuite();
+                        Log.i(TAG, String.format("Handshake: %s %s %s", host, protocol,
+                                cipherSuite));
+                    }
+                });
             }
             return socket;
         }
