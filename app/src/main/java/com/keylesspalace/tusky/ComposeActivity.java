@@ -69,6 +69,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -120,6 +121,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private Button floatingBtn;
     private ImageButton pickBtn;
     private Button nsfwBtn;
+    private ProgressBar postProgress;
 
     private static class QueuedMedia {
         enum Type {
@@ -339,11 +341,17 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         floatingBtn = (Button) findViewById(R.id.floating_btn);
         pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
         nsfwBtn = (Button) findViewById(R.id.action_toggle_nsfw);
-        ImageButton visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
+        final ImageButton visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
 
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pickBtn.setClickable(false);
+                nsfwBtn.setClickable(false);
+                visibilityBtn.setClickable(false);
+                floatingBtn.setEnabled(false);
+
+                postProgress.setVisibility(View.VISIBLE);
                 sendStatus();
             }
         });
@@ -393,6 +401,8 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             startingHideText = false;
         }
 
+        postProgress = (ProgressBar) findViewById(R.id.postProgress);
+        postProgress.setVisibility(View.INVISIBLE);
         updateNsfwButtonColor();
 
         String[] mentionedUsernames = null;
@@ -810,6 +820,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     }
 
     private void onSendFailure() {
+        postProgress.setVisibility(View.INVISIBLE);
         textEditor.setError(getString(R.string.error_generic));
         statusAlreadyInFlight = false;
     }
