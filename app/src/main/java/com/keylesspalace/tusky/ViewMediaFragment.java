@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky;
 
-import android.*;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
@@ -29,7 +28,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
-import android.support.v13.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -42,7 +40,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.security.Permission;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -161,10 +158,6 @@ public class ViewMediaFragment extends DialogFragment {
         super.onDestroyView();
     }
 
-    /**
-     * Check permissions and download the thing at getArguments().getString("url") as image, listed in the systems gallery.
-     * This works in general, but when the permission is granted at runtime, the download button ha to be pressed again (see comment further down)
-     */
     private void downloadImage(){
 
         //Permission stuff
@@ -194,21 +187,15 @@ public class ViewMediaFragment extends DialogFragment {
         }
     }
 
-    /*
-     * took this from ComposeActivity.java (Media upload) to handle permission requests.
-     * However, onRequestPermissionResult seems not to be called.
-     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
                                            @NonNull int[] grantResults) {
-        System.out.println("Requestcode: " + requestCode);
         switch (requestCode) {
             case PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     downloadImage();
                 } else {
-                    System.out.println("not granted\n");
                     doErrorDialog(R.string.error_media_download_permission, R.string.action_retry,
                             new View.OnClickListener() {
                                 @Override
@@ -224,7 +211,7 @@ public class ViewMediaFragment extends DialogFragment {
 
     private void doErrorDialog(@StringRes int descriptionId, @StringRes int actionId,
                                View.OnClickListener listener) {
-        Snackbar bar = Snackbar.make(getActivity().findViewById(R.id.view_media_image), getString(descriptionId),
+        Snackbar bar = Snackbar.make(getView(), getString(descriptionId),
                 Snackbar.LENGTH_SHORT);
         bar.setAction(actionId, listener);
         bar.show();
