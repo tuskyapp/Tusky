@@ -46,6 +46,10 @@
     <string name="report_username_format">Report @%s</string>
     <string name="report_comment_hint">Additional comments?</string>
 
+    <string name="action_reply">Reply</string>
+    <string name="action_reblog">Boost</string>
+    <string name="action_favourite">Favourite</string>
+    <string name="action_more">More</string>
     <string name="action_compose">Compose</string>
     <string name="action_login">Login with Mastodon</string>
     <string name="action_logout">Log Out</string>
@@ -76,6 +80,7 @@
     <string name="action_unmute">Unmute</string>
     <string name="action_mention">Mention</string>
     <string name="toggle_nsfw">NSFW</string>
+    <string name="action_compose_options">Options</string>
 
     <string name="send_status_to">Share toot URL to…</string>
 
@@ -121,12 +126,16 @@
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_light_theme">Use the Light Theme</string>
     <string name="pref_title_browser_settings">Browser</string>
-    <string name="pre_title_custom_tabs">Use Chrome Custom Tabs</string>
+    <string name="pref_title_custom_tabs">Use Chrome Custom Tabs</string>
+    <string name="pref_title_hide_follow_button">Hide follow button while scrolling</string>
 
     <string name="notification_mention_format">%s mentioned you</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
     <string name="notification_summary_medium">%1$s, %2$s, and %3$s</string>
     <string name="notification_summary_small">%1$s and %2$s</string>
     <string name="notification_title_summary">%d new interactions</string>
+
+    <string name="description_elephant_friend">Elephant Friend</string>
+    <string name="description_account_locked">Locked Account</string>
 
 </resources>

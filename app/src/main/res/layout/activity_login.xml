@@ -17,7 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="50dp"
-            android:src="@drawable/elephant_friend"/>
+            android:src="@drawable/elephant_friend"
+            android:contentDescription="@string/description_elephant_friend" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_height="wrap_content"
@@ -36,7 +37,6 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:elevation="0dp"
             android:textColor="@android:color/white"
             android:text="@string/action_login" />
 

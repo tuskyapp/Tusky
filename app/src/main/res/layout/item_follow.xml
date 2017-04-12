@@ -24,7 +24,8 @@
             app:srcCompat="@drawable/ic_person_add_24dp"
             android:paddingRight="10dp"
             android:paddingLeft="24dp"
-            android:tint="?attr/colorAccent" />
+            android:tint="?attr/colorAccent"
+            android:contentDescription="@string/action_follow" />
 
         <TextView
             android:id="@+id/notification_text"
@@ -50,7 +51,8 @@
             android:scaleType="fitCenter"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="10dp"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:contentDescription="@null" />
 
         <LinearLayout
             android:layout_width="wrap_content"

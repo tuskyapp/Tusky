@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
@@ -80,7 +81,6 @@
         android:background="@drawable/material_drawer_shadow_bottom"
         android:visibility="visible" />
 
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floating_btn"
         android:layout_width="wrap_content"
@@ -89,10 +89,13 @@
         android:clickable="true"
         android:layout_margin="16dp"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_create_24dp"/>
+        app:srcCompat="@drawable/ic_create_24dp"
+        android:contentDescription="@string/action_compose" />
 
     <FrameLayout
         android:id="@+id/overlay_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

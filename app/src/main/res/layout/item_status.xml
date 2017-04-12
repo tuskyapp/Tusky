@@ -22,7 +22,8 @@
             android:id="@+id/status_reblogged_icon"
             android:paddingRight="10dp"
             android:paddingLeft="24dp"
-            android:tint="?android:textColorTertiary" />
+            android:tint="?android:textColorTertiary"
+            android:contentDescription="@null" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -41,7 +42,8 @@
         android:id="@+id/status_avatar"
         android:layout_below="@+id/status_reblogged_bar"
         android:layout_marginTop="11dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"
+        android:contentDescription="@null" />
 
     <RelativeLayout
         android:layout_height="wrap_content"
@@ -58,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="20m ago"
+            android:text="20m"
             android:textColor="?android:textColorSecondary" />
 
         <LinearLayout
@@ -147,6 +149,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -160,7 +163,8 @@
                     android:layout_weight="1"
                     android:layout_marginRight="2dp"
                     android:scaleType="centerCrop"
-                    android:layout_marginTop="@dimen/status_media_preview_top_margin" />
+                    android:layout_marginTop="@dimen/status_media_preview_top_margin"
+                    android:contentDescription="@null" />
 
                 <ImageView
                     android:id="@+id/status_media_preview_1"
@@ -169,7 +173,9 @@
                     android:layout_weight="1"
                     android:layout_marginLeft="2dp"
                     android:scaleType="centerCrop"
-                    android:layout_marginTop="@dimen/status_media_preview_top_margin" />
+                    android:layout_marginTop="@dimen/status_media_preview_top_margin"
+                    android:contentDescription="@null" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -184,7 +190,8 @@
                     android:layout_height="@dimen/status_media_preview_height"
                     android:layout_weight="1"
                     android:layout_marginRight="2dp"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@null" />
 
                 <ImageView
                     android:id="@+id/status_media_preview_3"
@@ -192,9 +199,11 @@
                     android:layout_height="@dimen/status_media_preview_height"
                     android:layout_marginLeft="2dp"
                     android:layout_weight="1"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@null" />
 
             </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -241,7 +250,8 @@
             android:id="@+id/status_reply"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            style="?attr/image_button_style" />
+            style="?attr/image_button_style"
+            android:contentDescription="@string/action_reply" />
 
         <Space
             android:layout_width="0dp"
@@ -257,7 +267,8 @@
             app:sparkbutton_primaryColor="@color/status_reblog_button_marked_dark"
             app:sparkbutton_secondaryColor="@color/status_reblog_button_marked_light"
             android:layout_width="32dp"
-            android:layout_height="32dp" />
+            android:layout_height="32dp"
+            android:contentDescription="@string/action_reblog" />
 
         <Space
             android:layout_width="0dp"
@@ -273,7 +284,8 @@
             android:layout_gravity="center"
             app:sparkbutton_primaryColor="@color/status_favourite_button_marked_dark"
             app:sparkbutton_secondaryColor="@color/status_favourite_button_marked_light"
-            android:id="@+id/status_favourite" />
+            android:id="@+id/status_favourite"
+            android:contentDescription="@string/action_favourite" />
 
         <Space
             android:layout_width="0dp"
@@ -285,7 +297,8 @@
             android:id="@+id/status_more"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            style="?attr/image_button_style" />
+            style="?attr/image_button_style"
+            android:contentDescription="@string/action_more" />
 
         <Space
             android:layout_width="0dp"

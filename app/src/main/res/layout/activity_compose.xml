@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_compose"
     android:layout_width="match_parent"
@@ -96,7 +97,8 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginRight="8dp"
-                app:srcCompat="@drawable/ic_attach_file_24dp" />
+                app:srcCompat="@drawable/ic_attach_file_24dp"
+                android:contentDescription="@string/action_photo_pick" />
 
             <ImageButton
                 android:id="@+id/action_toggle_visibility"
@@ -104,7 +106,8 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginRight="8dp"
-                app:srcCompat="@drawable/ic_public_24dp" />
+                app:srcCompat="@drawable/ic_public_24dp"
+                android:contentDescription="@string/action_compose_options" />
 
             <Button
                 android:id="@+id/action_toggle_nsfw"

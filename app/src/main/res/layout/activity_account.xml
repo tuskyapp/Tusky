@@ -36,7 +36,8 @@
                     app:layout_collapseMode="pin"
                     android:fitsSystemWindows="true"
                     android:layout_alignTop="@+id/account_header_info"
-                    android:layout_alignBottom="@id/account_header_info" />
+                    android:layout_alignBottom="@id/account_header_info"
+                    android:contentDescription="@null" />
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -101,7 +102,8 @@
                                     android:layout_toEndOf="@id/account_username"
                                     app:srcCompat="@drawable/reblog_disabled_light"
                                     android:tint="?android:textColorSecondary"
-                                    android:layout_toRightOf="@id/account_username" />
+                                    android:layout_toRightOf="@id/account_username"
+                                    android:contentDescription="@string/description_account_locked"/>
                             </RelativeLayout>
                         </LinearLayout>
 
@@ -181,6 +183,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_person_add_24dp"/>
+        app:srcCompat="@drawable/ic_person_add_24dp"
+        android:contentDescription="@string/action_follow" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -11,7 +11,7 @@
 
         <CheckBoxPreference
             android:key="fabHide"
-            android:title="Hide FAB while scrolling"
+            android:title="@string/pref_title_hide_follow_button"
             android:defaultValue="false" />
 
     </PreferenceCategory>

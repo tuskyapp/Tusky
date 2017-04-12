@@ -289,6 +289,16 @@ public class AccountActivity extends BaseActivity {
         updateButtons();
     }
 
+    private void updateFollowButton(FloatingActionButton button) {
+        if (following) {
+            button.setImageResource(R.drawable.ic_person_minus_24px);
+            button.setContentDescription(getString(R.string.action_unfollow));
+        } else {
+            button.setImageResource(R.drawable.ic_person_add_24dp);
+            button.setContentDescription(getString(R.string.action_follow));
+        }
+    }
+
     private void updateButtons() {
         invalidateOptionsMenu();
 
@@ -297,24 +307,13 @@ public class AccountActivity extends BaseActivity {
         if(!isSelf && !blocking) {
             floatingBtn.show();
 
-            if (following) {
-                floatingBtn.setImageResource(R.drawable.ic_person_minus_24px);
-            } else {
-                floatingBtn.setImageResource(R.drawable.ic_person_add_24dp);
-            }
+            updateFollowButton(floatingBtn);
 
             floatingBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     follow(accountId);
-
-                    if (following) {
-                        floatingBtn.setImageResource(R.drawable.ic_person_minus_24px);
-                    } else {
-                        floatingBtn.setImageResource(R.drawable.ic_person_add_24dp);
-                    }
-
+                    updateFollowButton(floatingBtn);
                 }
             });
         }

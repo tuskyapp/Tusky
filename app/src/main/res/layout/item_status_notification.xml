@@ -21,7 +21,8 @@
             android:id="@+id/notification_icon"
             android:paddingRight="10dp"
             android:paddingLeft="24dp"
-            app:srcCompat="@drawable/ic_repeat_24dp" />
+            app:srcCompat="@drawable/ic_repeat_24dp"
+            android:contentDescription="@null" />
 
         <TextView
             android:layout_width="wrap_content"
