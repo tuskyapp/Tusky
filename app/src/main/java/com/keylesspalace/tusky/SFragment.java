@@ -182,8 +182,8 @@ public class SFragment extends BaseFragment {
         callList.add(call);
     }
 
-    protected void more(Status status, View view, final AdapterItemRemover adapter,
-            final int position) {
+    protected void more(final Status status, View view, final AdapterItemRemover adapter,
+                        final int position) {
         final String id = status.getActionableId();
         final String accountId = status.getActionableStatus().account.id;
         final String accountUsename = status.getActionableStatus().account.username;
@@ -201,12 +201,25 @@ public class SFragment extends BaseFragment {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.status_share: {
+                            case R.id.status_share_content: {
+                                StringBuilder sb = new StringBuilder();
+                                sb.append(status.account.username);
+                                sb.append(" - ");
+                                sb.append(status.content.toString());
+
+                                Intent sendIntent = new Intent();
+                                sendIntent.setAction(Intent.ACTION_SEND);
+                                sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+                                sendIntent.setType("text/plain");
+                                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_content_to)));
+                                return true;
+                            }
+                            case R.id.status_share_link: {
                                 Intent sendIntent = new Intent();
                                 sendIntent.setAction(Intent.ACTION_SEND);
                                 sendIntent.putExtra(Intent.EXTRA_TEXT, statusUrl);
                                 sendIntent.setType("text/plain");
-                                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_to)));
+                                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_link_to)));
                                 return true;
                             }
                             case R.id.status_block: {
