@@ -243,14 +243,14 @@
         android:layout_toRightOf="@+id/status_avatar"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:paddingBottom="8dp"
-        android:paddingTop="6dp">
+        android:paddingBottom="2dp">
 
         <ImageButton
             app:srcCompat="@drawable/ic_reply_24dp"
             android:id="@+id/status_reply"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="4dp"
             style="?attr/image_button_style"
             android:contentDescription="@string/action_reply" />
 
@@ -267,8 +267,9 @@
             android:layout_gravity="center"
             app:sparkbutton_primaryColor="@color/status_reblog_button_marked_dark"
             app:sparkbutton_secondaryColor="@color/status_reblog_button_marked_light"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="4dp"
             android:contentDescription="@string/action_reblog" />
 
         <Space
@@ -277,8 +278,8 @@
             android:layout_weight="1" />
 
         <com.varunest.sparkbutton.SparkButton
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             app:sparkbutton_activeImage="?attr/status_favourite_active_drawable"
             app:sparkbutton_inActiveImage="?attr/status_favourite_inactive_drawable"
             app:sparkbutton_iconSize="28dp"
@@ -286,6 +287,7 @@
             app:sparkbutton_primaryColor="@color/status_favourite_button_marked_dark"
             app:sparkbutton_secondaryColor="@color/status_favourite_button_marked_light"
             android:id="@+id/status_favourite"
+            android:padding="4dp"
             android:contentDescription="@string/action_favourite" />
 
         <Space
@@ -298,6 +300,7 @@
             android:id="@+id/status_more"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:padding="4dp"
             style="?attr/image_button_style"
             android:contentDescription="@string/action_more" />
 
