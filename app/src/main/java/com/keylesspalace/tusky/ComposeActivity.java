@@ -103,6 +103,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private static final int MEDIA_SIZE_UNKNOWN = -1;
 
     private String inReplyToId;
+    private String inResponseTo;
     private EditText textEditor;
     private LinearLayout mediaPreviewBar;
     private ArrayList<QueuedMedia> mediaQueued;
@@ -121,6 +122,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private Button floatingBtn;
     private ImageButton pickBtn;
     private Button nsfwBtn;
+    private ImageButton showReplyBtn;
     private ProgressBar postProgress;
 
     private static class QueuedMedia {
@@ -338,6 +340,8 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
 
+        showReplyBtn = (ImageButton) findViewById(R.id.show_reply_text);
+        showReplyBtn.setVisibility(View.INVISIBLE);
         floatingBtn = (Button) findViewById(R.id.floating_btn);
         pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
         nsfwBtn = (Button) findViewById(R.id.action_toggle_nsfw);
@@ -349,6 +353,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                 pickBtn.setClickable(false);
                 nsfwBtn.setClickable(false);
                 visibilityBtn.setClickable(false);
+                showReplyBtn.setClickable(false);
                 floatingBtn.setEnabled(false);
 
                 postProgress.setVisibility(View.VISIBLE);
@@ -365,6 +370,23 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             @Override
             public void onClick(View v) {
                 toggleNsfw();
+            }
+        });
+        showReplyBtn.setOnClickListener(new View.OnClickListener() {
+            String userStatus;
+            boolean replyShown = false;
+
+            @Override
+            public void onClick(View v) {
+                if (!replyShown) {
+                    userStatus = textEditor.getText().toString();
+                    textEditor.setText(inResponseTo, TextView.BufferType.NORMAL);
+                    textEditor.setEnabled(false);
+                } else {
+                    textEditor.setEnabled(true);
+                    textEditor.setText(userStatus, TextView.BufferType.EDITABLE);
+                }
+                replyShown = !replyShown;
             }
         });
         visibilityBtn.setOnClickListener(new View.OnClickListener() {
@@ -425,6 +447,8 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             mentionedUsernames = intent.getStringArrayExtra("mentioned_usernames");
 
             if(inReplyToId != null) {
+                showReplyBtn.setVisibility(View.VISIBLE);
+                inResponseTo = intent.getStringExtra("in_reply_content");
                 startingHideText = !intent.getStringExtra("content_warning").equals("");
                 if(startingHideText){
                     startingContentWarning = intent.getStringExtra("content_warning");
