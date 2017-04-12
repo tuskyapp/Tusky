@@ -78,7 +78,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.tab_layout) TabLayout tabLayout;
     @BindView(R.id.pager) ViewPager viewPager;
 
-    static FloatingActionButton composeBtn;
+    FloatingActionButton composeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,13 +112,6 @@ public class MainActivity extends BaseActivity {
 
         // Setup the tabs and timeline pager.
         TimelinePagerAdapter adapter = new TimelinePagerAdapter(getSupportFragmentManager());
-        String[] pageTitles = {
-                getString(R.string.title_home),
-                getString(R.string.title_notifications),
-                getString(R.string.title_public_local),
-                getString(R.string.title_public_federated),
-        };
-        adapter.setPageTitles(pageTitles);
 
         int pageMargin = getResources().getDimensionPixelSize(R.dimen.tab_page_margin);
         viewPager.setPageMargin(pageMargin);
@@ -129,10 +122,23 @@ public class MainActivity extends BaseActivity {
 
         tabLayout.setupWithViewPager(viewPager);
 
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_home_24dp);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_notifications_24dp);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_local_24dp);
-        tabLayout.getTabAt(3).setIcon(R.drawable.ic_public_24dp);
+        int[] tabIcons = {
+                R.drawable.ic_home_24dp,
+                R.drawable.ic_notifications_24dp,
+                R.drawable.ic_local_24dp,
+                R.drawable.ic_public_24dp,
+        };
+        String[] pageTitles = {
+                getString(R.string.title_home),
+                getString(R.string.title_notifications),
+                getString(R.string.title_public_local),
+                getString(R.string.title_public_federated),
+        };
+        for (int i = 0; i < 4; i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            tab.setIcon(tabIcons[i]);
+            tab.setContentDescription(pageTitles[i]);
+        }
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -180,7 +186,7 @@ public class MainActivity extends BaseActivity {
         // Setup push notifications
         if (arePushNotificationsEnabled()) enablePushNotifications();
 
-        composeBtn = floatingBtn;
+        composeButton = floatingBtn;
     }
 
     @Override

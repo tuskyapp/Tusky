@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:id="@+id/status_container">
+    android:id="@+id/status_container"
+    android:contentDescription="@string/action_view_thread">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -43,7 +44,7 @@
         android:layout_below="@+id/status_reblogged_bar"
         android:layout_marginTop="11dp"
         android:layout_marginRight="10dp"
-        android:contentDescription="@null" />
+        android:contentDescription="@string/action_view_profile" />
 
     <RelativeLayout
         android:layout_height="wrap_content"

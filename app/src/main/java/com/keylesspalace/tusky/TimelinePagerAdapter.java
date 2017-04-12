@@ -20,14 +20,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 class TimelinePagerAdapter extends FragmentPagerAdapter {
-    private String[] pageTitles;
-
     TimelinePagerAdapter(FragmentManager manager) {
         super(manager);
-    }
-
-    void setPageTitles(String[] titles) {
-        pageTitles = titles;
     }
 
     @Override

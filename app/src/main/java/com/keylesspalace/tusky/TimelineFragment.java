@@ -57,6 +57,7 @@ public class TimelineFragment extends SFragment implements
     private TimelineAdapter adapter;
     private Kind kind;
     private String hashtagOrId;
+    private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
@@ -95,7 +96,7 @@ public class TimelineFragment extends SFragment implements
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         // Setup the RecyclerView.
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -105,33 +106,6 @@ public class TimelineFragment extends SFragment implements
                 R.drawable.status_divider_dark);
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
-        scrollListener = new EndlessOnScrollListener(layoutManager) {
-            @Override
-            public void onScrolled(RecyclerView view, int dx, int dy) {
-                super.onScrolled(view, dx, dy);
-
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-                if (dy > 0 && prefs.getBoolean("fabHide", false) && MainActivity.composeBtn.isShown()) {
-                    MainActivity.composeBtn.hide(); // hides the button if we're scrolling down
-                } else if (dy < 0 && prefs.getBoolean("fabHide", false) && !MainActivity.composeBtn.isShown()) {
-                    MainActivity.composeBtn.show(); // shows it if we are scrolling up
-                }
-
-            }
-
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                TimelineAdapter adapter = (TimelineAdapter) view.getAdapter();
-                Status status = adapter.getItem(adapter.getItemCount() - 2);
-                if (status != null) {
-                    sendFetchTimelineRequest(status.id, null);
-                } else {
-                    sendFetchTimelineRequest();
-                }
-            }
-        };
-        recyclerView.addOnScrollListener(scrollListener);
         adapter = new TimelineAdapter(this);
         recyclerView.setAdapter(adapter);
 
@@ -155,6 +129,60 @@ public class TimelineFragment extends SFragment implements
         return rootView;
     }
 
+    private void onLoadMore(RecyclerView view) {
+        TimelineAdapter adapter = (TimelineAdapter) view.getAdapter();
+        Status status = adapter.getItem(adapter.getItemCount() - 2);
+        if (status != null) {
+            sendFetchTimelineRequest(status.id, null);
+        } else {
+            sendFetchTimelineRequest();
+        }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
+         * guaranteed to be set until then. */
+        if (followButtonPresent()) {
+            /* Use a modified scroll listener that both loads more statuses as it goes, and hides
+             * the follow button on down-scroll. */
+            MainActivity activity = (MainActivity) getActivity();
+            final FloatingActionButton composeButton = activity.composeButton;
+            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
+                    activity);
+            scrollListener = new EndlessOnScrollListener(layoutManager) {
+                @Override
+                public void onScrolled(RecyclerView view, int dx, int dy) {
+                    super.onScrolled(view, dx, dy);
+
+                    if (preferences.getBoolean("fabHide", false)) {
+                        if (dy > 0 && composeButton.isShown()) {
+                            composeButton.hide(); // hides the button if we're scrolling down
+                        } else if (dy < 0 && !composeButton.isShown()) {
+                            composeButton.show(); // shows it if we are scrolling up
+                        }
+                    }
+                }
+
+                @Override
+                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                    TimelineFragment.this.onLoadMore(view);
+                }
+            };
+        } else {
+            // Just use the basic scroll listener to load more statuses.
+            scrollListener = new EndlessOnScrollListener(layoutManager) {
+                @Override
+                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                    TimelineFragment.this.onLoadMore(view);
+                }
+            };
+        }
+        recyclerView.addOnScrollListener(scrollListener);
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -171,6 +199,10 @@ public class TimelineFragment extends SFragment implements
     }
 
     private boolean jumpToTopAllowed() {
+        return kind != Kind.TAG && kind != Kind.FAVOURITES;
+    }
+
+    private boolean followButtonPresent() {
         return kind != Kind.TAG && kind != Kind.FAVOURITES;
     }
 

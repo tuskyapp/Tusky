@@ -18,7 +18,7 @@
     <PreferenceCategory android:title="@string/pref_title_browser_settings">
         <CheckBoxPreference
             android:key="customTabs"
-            android:title="@string/pre_title_custom_tabs"
+            android:title="@string/pref_title_custom_tabs"
             android:defaultValue="true" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_title_notification_settings">

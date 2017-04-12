@@ -72,6 +72,7 @@
     <string name="action_view_preferences">Preferences</string>
     <string name="action_view_favourites">Favourites</string>
     <string name="action_view_blocks">Blocked users</string>
+    <string name="action_view_thread">View thread</string>
     <string name="action_open_in_web">Open in browser</string>
     <string name="action_submit">Submit</string>
     <string name="action_photo_pick">Add media</string>
