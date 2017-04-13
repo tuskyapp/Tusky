@@ -114,7 +114,11 @@ public class BaseActivity extends AppCompatActivity {
     protected void createMastodonAPI() {
         mastodonApiDispatcher = new Dispatcher();
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
+                .create();
+
+        OkHttpClient okHttpClient = OkHttpUtils.getCompatibleClientBuilder()
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
@@ -123,7 +127,8 @@ public class BaseActivity extends AppCompatActivity {
                         Request.Builder builder = originalRequest.newBuilder();
                         String accessToken = getAccessToken();
                         if (accessToken != null) {
-                            builder.header("Authorization", String.format("Bearer %s", accessToken));
+                            builder.header("Authorization", String.format("Bearer %s",
+                                    accessToken));
                         }
                         Request newRequest = builder.build();
 
@@ -132,10 +137,6 @@ public class BaseActivity extends AppCompatActivity {
                 })
                 .dispatcher(mastodonApiDispatcher)
                 .build();
-
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
-                .create();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getBaseUrl())
@@ -149,6 +150,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void createTuskyAPI() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.tusky_api_url))
+                .client(OkHttpUtils.getCompatibleClient())
                 .build();
 
         tuskyAPI = retrofit.create(TuskyAPI.class);
