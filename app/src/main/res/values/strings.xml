@@ -20,6 +20,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Federated</string>
+    <string name="title_compose">Compose</string>
     <string name="title_thread">Thread</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Posts</string>
@@ -72,7 +73,8 @@
     <string name="action_view_preferences">Preferences</string>
     <string name="action_view_favourites">Favourites</string>
     <string name="action_view_blocks">Blocked users</string>
-    <string name="action_view_thread">View thread</string>
+    <string name="action_view_thread">Thread</string>
+    <string name="action_view_media">Media</string>
     <string name="action_open_in_web">Open in browser</string>
     <string name="action_submit">Submit</string>
     <string name="action_photo_pick">Add media</string>
@@ -82,6 +84,8 @@
     <string name="action_mention">Mention</string>
     <string name="toggle_nsfw">NSFW</string>
     <string name="action_compose_options">Options</string>
+    <string name="action_open_drawer">Open drawer</string>
+    <string name="action_clear">Clear</string>
 
     <string name="send_status_to">Share toot URL to…</string>
 
@@ -108,9 +112,9 @@
     <string name="dialog_title_finishing_media_upload">Finishing Media Upload</string>
     <string name="dialog_message_uploading_media">Uploading…</string>
 
-    <string name="visibility_public">Everyone can see</string>
-    <string name="visibility_unlisted">Everyone can see, but not on public timelines</string>
-    <string name="visibility_private">Only followers and mentions can see</string>
+    <string name="visibility_public">Everyone can view</string>
+    <string name="visibility_unlisted">Everyone can view, but not on public timelines</string>
+    <string name="visibility_private">Only followers and mentions can view</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
     <string name="pref_title_edit_notification_settings">Edit Notifications</string>

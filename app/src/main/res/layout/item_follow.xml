@@ -25,7 +25,7 @@
             android:paddingRight="10dp"
             android:paddingLeft="24dp"
             android:tint="?attr/colorAccent"
-            android:contentDescription="@string/action_follow" />
+            android:contentDescription="@null" />
 
         <TextView
             android:id="@+id/notification_text"
@@ -52,7 +52,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="10dp"
             android:layout_alignParentLeft="true"
-            android:contentDescription="@null" />
+            android:contentDescription="@string/action_view_profile" />
 
         <LinearLayout
             android:layout_width="wrap_content"

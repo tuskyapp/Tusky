@@ -203,7 +203,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private boolean followButtonPresent() {
-        return kind != Kind.TAG && kind != Kind.FAVOURITES;
+        return kind != Kind.TAG && kind != Kind.FAVOURITES && kind != Kind.USER;
     }
 
     private void jumpToTop() {

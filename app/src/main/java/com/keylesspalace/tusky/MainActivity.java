@@ -26,7 +26,9 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -313,6 +315,23 @@ public class MainActivity extends BaseActivity {
 
     private void setupSearchView() {
         searchView.attachNavigationDrawerToMenuButton(drawer.getDrawerLayout());
+
+        // Setup content descriptions for the different elements in the search view.
+        final View leftAction = searchView.findViewById(R.id.left_action);
+        leftAction.setContentDescription(getString(R.string.action_open_drawer));
+        searchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
+            @Override
+            public void onFocus() {
+                leftAction.setContentDescription(getString(R.string.action_close));
+            }
+
+            @Override
+            public void onFocusCleared() {
+                leftAction.setContentDescription(getString(R.string.action_open_drawer));
+            }
+        });
+        View clearButton = searchView.findViewById(R.id.clear_btn);
+        clearButton.setContentDescription(getString(R.string.action_clear));
 
         searchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
