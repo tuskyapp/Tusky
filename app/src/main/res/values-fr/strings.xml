@@ -123,5 +123,15 @@
     <string name="notification_summary_medium">%1$s, %2$s, et %3$s</string>
     <string name="notification_summary_small">%1$s et %2$s</string>
     <string name="notification_title_summary">%d nouvelles interactions</string>
+    <string name="action_more">Plus</string>
+    <string name="action_reply">Répondre</string>
+    <string name="description_account_locked">Compte bloqué</string>
+    <string name="pref_title_browser_settings">Navigateur</string>
+    <string name="pref_title_hide_follow_button">Cacher le bouton de suivi lors du défilement</string>
+    <string name="pref_title_edit_notification_settings">Modifier la notification</string>
+    <string name="action_view_media">Media</string>
+    <string name="action_favourite">Favori</string>
+    <string name="action_compose_options">Option</string>
+    <string name="action_clear">Nettoyer</string>
 
 </resources>
