@@ -49,10 +49,14 @@ class OkHttpUtils {
      * ConnectionSpec.MODERN_TLS) and if that doesn't work falls back to the set of ALL enabled,
      * then falls back to plain http.
      *
+     * API level 24 has a regression in elliptic curves where it only supports secp256r1, so this
+     * first tries a fallback without elliptic curves at all, and then tries them after.
+     *
      * TLS 1.1 and 1.2 have to be manually enabled on API levels 16-20.
      */
     @NonNull
     static OkHttpClient.Builder getCompatibleClientBuilder() {
+
         ConnectionSpec fallback = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
                 .allEnabledCipherSuites()
                 .supportsTlsExtensions(true)
@@ -60,6 +64,7 @@ class OkHttpUtils {
 
         List<ConnectionSpec> specList = new ArrayList<>();
         specList.add(ConnectionSpec.MODERN_TLS);
+        addNougatFixConnectionSpec(specList);
         specList.add(fallback);
         specList.add(ConnectionSpec.CLEARTEXT);
 
@@ -72,6 +77,36 @@ class OkHttpUtils {
     @NonNull
     static OkHttpClient getCompatibleClient() {
         return getCompatibleClientBuilder().build();
+    }
+
+    /**
+     * Android version Nougat has a regression where elliptic curve cipher suites are supported, but
+     * only the curve secp256r1 is allowed. So, first it's best to just disable all elliptic
+     * ciphers, try the connection, and fall back to the all cipher suites enabled list after.
+     */
+    private static void addNougatFixConnectionSpec(List<ConnectionSpec> specList) {
+        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.N) {
+            return;
+        }
+        SSLContext sslContext;
+        try {
+            sslContext = SSLContext.getInstance("TLS");
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, "Failed obtaining TLS Context.");
+            return;
+        }
+        String[] cipherSuites = sslContext.getSocketFactory().getDefaultCipherSuites();
+        ArrayList<String> allowedList = new ArrayList<>();
+        for (String suite : cipherSuites) {
+            if (!suite.contains("ECDH")) {
+                allowedList.add(suite);
+            }
+        }
+        ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+                .cipherSuites(allowedList.toArray(new String[0]))
+                .supportsTlsExtensions(true)
+                .build();
+        specList.add(spec);
     }
 
     private static OkHttpClient.Builder enableHigherTlsOnPreLollipop(OkHttpClient.Builder builder) {
