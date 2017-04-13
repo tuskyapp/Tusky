@@ -59,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.edit_text_domain) EditText editText;
     @BindView(R.id.button_login) Button button;
     @BindView(R.id.whats_an_instance) TextView whatsAnInstance;
-    @BindView(R.id.debug_log_display) TextView debugLogDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,14 +189,11 @@ public class LoginActivity extends AppCompatActivity {
             clientSecret = prefClientSecret;
             redirectUserToAuthorizeAndLogin(editText);
         } else {
-            Log.watchTag(OkHttpUtils.TAG);
-
             Callback<AppCredentials> callback = new Callback<AppCredentials>() {
                 @Override
                 public void onResponse(Call<AppCredentials> call,
                         Response<AppCredentials> response) {
                     if (!response.isSuccessful()) {
-                        debugLogDisplay.setText(Log.getWatchedMessages());
                         editText.setError(getString(R.string.error_failed_app_registration));
                         Log.e(TAG, "App authentication failed. " + response.message());
                         return;
@@ -209,13 +205,11 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString(domain + "/client_id", clientId);
                     editor.putString(domain + "/client_secret", clientSecret);
                     editor.apply();
-                    Log.watchTag(null);
                     redirectUserToAuthorizeAndLogin(editText);
                 }
 
                 @Override
                 public void onFailure(Call<AppCredentials> call, Throwable t) {
-                    debugLogDisplay.setText(Log.getWatchedMessages());
                     editText.setError(getString(R.string.error_failed_app_registration));
                     t.printStackTrace();
                 }

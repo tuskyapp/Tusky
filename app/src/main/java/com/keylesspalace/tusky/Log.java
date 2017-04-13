@@ -18,15 +18,10 @@ package com.keylesspalace.tusky;
 /**A wrapper for android.util.Log that allows for disabling logging, such as for release builds.*/
 public class Log {
     private static final boolean LOGGING_ENABLED = BuildConfig.DEBUG;
-    private static String longBoy;
-    private static String watchedTag;
 
     public static void i(String tag, String string) {
         if (LOGGING_ENABLED) {
             android.util.Log.i(tag, string);
-            if (tag.equals(watchedTag)) {
-                longBoy += string + '\n';
-            }
         }
     }
 
@@ -52,15 +47,5 @@ public class Log {
         if (LOGGING_ENABLED) {
             android.util.Log.w(tag, string);
         }
-    }
-
-    static void watchTag(String tag) {
-        longBoy = "";
-        watchedTag = tag;
-    }
-
-    static String getWatchedMessages() {
-        watchedTag = null;
-        return longBoy;
     }
 }

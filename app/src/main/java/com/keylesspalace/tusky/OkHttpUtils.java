@@ -29,8 +29,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.net.ssl.HandshakeCompletedEvent;
-import javax.net.ssl.HandshakeCompletedListener;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
@@ -77,7 +75,7 @@ class OkHttpUtils {
     }
 
     private static OkHttpClient.Builder enableHigherTlsOnPreLollipop(OkHttpClient.Builder builder) {
-        // if (Build.VERSION.SDK_INT >= 16 && Build.VERSION.SDK_INT < 22) {
+        if (Build.VERSION.SDK_INT >= 16 && Build.VERSION.SDK_INT < 22) {
             try {
                 TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(
                         TrustManagerFactory.getDefaultAlgorithm());
@@ -99,7 +97,7 @@ class OkHttpUtils {
             } catch (NoSuchAlgorithmException|KeyStoreException|KeyManagementException e) {
                 Log.e(TAG, "Failed enabling TLS 1.1 & 1.2. " + e.getMessage());
             }
-        // }
+        }
 
         return builder;
     }
@@ -160,44 +158,12 @@ class OkHttpUtils {
             return a.toArray(new String[0]);
         }
 
-        @NonNull
-        private static List<String> getDifferences(String[] wanted, String[] have) {
-            List<String> a = new ArrayList<>(Arrays.asList(wanted));
-            List<String> b = Arrays.asList(have);
-            a.removeAll(b);
-            return a;
-        }
-
         private Socket patch(Socket socket) {
             if (socket instanceof SSLSocket) {
                 SSLSocket sslSocket = (SSLSocket) socket;
                 String[] protocols = getMatches(DESIRED_TLS_VERSIONS,
                         sslSocket.getSupportedProtocols());
                 sslSocket.setEnabledProtocols(protocols);
-
-                // Add a debug listener.
-                String[] enabledProtocols = sslSocket.getEnabledProtocols();
-                List<String> disabledProtocols = getDifferences(sslSocket.getSupportedProtocols(),
-                        enabledProtocols);
-                String[] enabledSuites = sslSocket.getEnabledCipherSuites();
-                List<String> disabledSuites = getDifferences(sslSocket.getSupportedCipherSuites(),
-                        enabledSuites);
-                Log.i(TAG, "Socket Created-----");
-                Log.i(TAG, "enabled protocols: " + Arrays.toString(enabledProtocols));
-                Log.i(TAG, "disabled protocols: " + disabledProtocols.toString());
-                Log.i(TAG, "enabled cipher suites: " + Arrays.toString(enabledSuites));
-                Log.i(TAG, "disabled cipher suites: " + disabledSuites.toString());
-
-                sslSocket.addHandshakeCompletedListener(new HandshakeCompletedListener() {
-                    @Override
-                    public void handshakeCompleted(HandshakeCompletedEvent event) {
-                        String host = event.getSession().getPeerHost();
-                        String protocol = event.getSession().getProtocol();
-                        String cipherSuite = event.getCipherSuite();
-                        Log.i(TAG, String.format("Handshake: %s %s %s", host, protocol,
-                                cipherSuite));
-                    }
-                });
             }
             return socket;
         }
