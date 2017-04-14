@@ -26,9 +26,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -240,6 +238,9 @@ public class MainActivity extends BaseActivity {
                 })
                 .withCompactStyle(true)
                 .build();
+        headerResult.getView()
+                .findViewById(R.id.material_drawer_account_header_current)
+                .setContentDescription(getString(R.string.action_view_profile));
 
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override

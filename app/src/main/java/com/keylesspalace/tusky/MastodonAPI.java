@@ -34,6 +34,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
@@ -113,6 +114,12 @@ public interface MastodonAPI {
 
     @GET("api/v1/accounts/verify_credentials")
     Call<Account> accountVerifyCredentials();
+    @PATCH("api/v1/accounts/update_credentials")
+    Call<Account> accountUpdateCredentials(
+            @Field("display_name") String displayName,
+            @Field("note") String note,
+            @Field("avatar") String avatar,
+            @Field("header") String header);
     @GET("api/v1/accounts/search")
     Call<List<Account>> searchAccounts(
             @Query("q") String q,
