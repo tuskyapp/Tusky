@@ -79,7 +79,12 @@
     <string name="action_compose_options">Options</string>
     <string name="action_open_drawer">Ouvrir le menu</string>
     <string name="action_clear">Effacer</string>
-
+    <string name="action_reblog">Boost</string>
+    <string name="action_favourite">Favoris</string>
+    <string name="action_view_media">Média</string>
+    <string name="action_more">Plus</string>
++   <string name="action_reply">Répondre</string>
+    
     <string name="send_status_to">Partager l\'URL de votre pouet avec…</string>
 
     <string name="search">Rechercher un compte…</string>
@@ -123,7 +128,7 @@
     <string name="pref_title_light_theme">Utiliser le thème clair</string>
     <string name="pref_title_browser_settings">Navigateur</string>
     <string name="pref_title_custom_tabs">Utiliser le navigateur intégré</string>
-    <string name="pref_title_hide_follow_button">Cacher le bouton "s\'abonner" lorsque je parcours un profil</string>
+    <string name="pref_title_hide_follow_button">Cacher le bouton "s\'abonner" lors du défillement</string>
 
     <string name="notification_mention_format">%s vous ont mentionnés</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s et %4$d plus</string>
