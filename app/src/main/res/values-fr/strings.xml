@@ -133,5 +133,6 @@
     <string name="action_favourite">Favori</string>
     <string name="action_compose_options">Option</string>
     <string name="action_clear">Nettoyer</string>
+    <string name="action_reblog">Boost</string>
 
 </resources>
