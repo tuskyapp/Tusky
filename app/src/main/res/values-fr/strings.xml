@@ -40,7 +40,7 @@
     <string name="footer_end_of_accounts">fin des comptes</string>
 
     <string name="notification_reblog_format">%s a boosté votre pouet</string>
-    <string name="notification_favourite_format">%s a ajouté votre pouet en favoris</string>
+    <string name="notification_favourite_format">%s a ajouté votre pouet à ses favoris</string>
     <string name="notification_follow_format">%s vous suit</string>
 
     <string name="report_username_format">Signaler @%s</string>
