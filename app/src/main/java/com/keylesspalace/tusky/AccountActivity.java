@@ -107,8 +107,18 @@ public class AccountActivity extends BaseActivity {
                 @AttrRes int attribute;
                 if (collapsingToolbar.getHeight() + verticalOffset
                         < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
+                    if (getSupportActionBar() != null && loadedAccount != null) {
+                        getSupportActionBar().setTitle(loadedAccount.getDisplayName());
+                        getSupportActionBar().setSubtitle(
+                                String.format(getString(R.string.status_username_format),
+                                        loadedAccount.username));
+                    }
                     attribute = R.attr.account_toolbar_icon_tint_collapsed;
                 } else {
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().setTitle("");
+                        getSupportActionBar().setSubtitle("");
+                    }
                     attribute = R.attr.account_toolbar_icon_tint_uncollapsed;
                 }
                 if (attribute != priorAttribute) {
