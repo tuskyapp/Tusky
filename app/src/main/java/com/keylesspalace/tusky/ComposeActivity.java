@@ -122,6 +122,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private ImageButton pickBtn;
     private Button nsfwBtn;
     private ProgressBar postProgress;
+    private ImageButton visibilityBtn;
 
     private static class QueuedMedia {
         enum Type {
@@ -341,15 +342,12 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         floatingBtn = (Button) findViewById(R.id.floating_btn);
         pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
         nsfwBtn = (Button) findViewById(R.id.action_toggle_nsfw);
-        final ImageButton visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
+        visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
 
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pickBtn.setClickable(false);
-                nsfwBtn.setClickable(false);
-                visibilityBtn.setClickable(false);
-                floatingBtn.setEnabled(false);
+                disableButtons();
 
                 postProgress.setVisibility(View.VISIBLE);
                 sendStatus();
@@ -565,6 +563,20 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         } else {
             nsfwBtn.setTextColor(ThemeUtils.getColor(this, R.attr.compose_nsfw_button_color));
         }
+    }
+
+    private void disableButtons() {
+        pickBtn.setClickable(false);
+        nsfwBtn.setClickable(false);
+        visibilityBtn.setClickable(false);
+        floatingBtn.setEnabled(false);
+    }
+
+    private void enableButtons() {
+        pickBtn.setClickable(true);
+        nsfwBtn.setClickable(true);
+        visibilityBtn.setClickable(true);
+        floatingBtn.setEnabled(true);
     }
 
     private void setStatusVisibility(String visibility) {
@@ -823,6 +835,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         postProgress.setVisibility(View.INVISIBLE);
         textEditor.setError(getString(R.string.error_generic));
         statusAlreadyInFlight = false;
+        enableButtons();
     }
 
     private void readyStatus(final String content, final String visibility, final boolean sensitive,
