@@ -266,7 +266,8 @@ public class MainActivity extends BaseActivity {
                         new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block),
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem().withIdentifier(3).withName(getString(R.string.action_view_preferences)).withSelectable(false),
-                        new SecondaryDrawerItem().withIdentifier(4).withName(getString(R.string.action_logout)).withSelectable(false)
+                        new SecondaryDrawerItem().withIdentifier(4).withName(getString(R.string.about_title_activity)).withSelectable(false),
+                        new SecondaryDrawerItem().withIdentifier(5).withName(getString(R.string.action_logout)).withSelectable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -290,6 +291,9 @@ public class MainActivity extends BaseActivity {
                                 Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
                                 startActivity(intent);
                             } else if (drawerItemIdentifier == 4) {
+                                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                                startActivity(intent);
+                            } else if (drawerItemIdentifier == 5) {
                                 logout();
                             }
                         }

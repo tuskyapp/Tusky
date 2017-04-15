@@ -141,4 +141,7 @@
 
     <string name="description_account_locked">Locked Account</string>
 
+    <string name="about_title_activity">About</string>
+    <string name="about_application_version">App version:</string>
+
 </resources>
