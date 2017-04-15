@@ -18,10 +18,25 @@ package com.keylesspalace.tusky;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 class TimelinePagerAdapter extends FragmentPagerAdapter {
+    private Fragment currentFragment;
+
     TimelinePagerAdapter(FragmentManager manager) {
         super(manager);
+    }
+
+    public Fragment getCurrentFragment() {
+        return currentFragment;
+    }
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        if (getCurrentFragment() != object) {
+            currentFragment = ((Fragment) object);
+        }
+        super.setPrimaryItem(container, position, object);
     }
 
     @Override
