@@ -20,6 +20,7 @@
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:contentScrim="?attr/toolbar_background_color"
+            app:collapsedTitleTextAppearance="?attr/android:textColorPrimary"
             android:fitsSystemWindows="true"
             app:titleEnabled="false">
 
