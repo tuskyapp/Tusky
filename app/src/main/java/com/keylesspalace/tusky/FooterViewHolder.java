@@ -23,6 +23,8 @@ class FooterViewHolder extends RecyclerView.ViewHolder {
     FooterViewHolder(View itemView) {
         super(itemView);
         ProgressBar progressBar = (ProgressBar) itemView.findViewById(R.id.footer_progress_bar);
-        progressBar.setIndeterminate(true);
+        if (progressBar != null) {
+            progressBar.setIndeterminate(true);
+        }
     }
 }
