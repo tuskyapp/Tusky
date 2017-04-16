@@ -76,14 +76,14 @@
     <string name="action_unmute">Redonner la parole</string>
     <string name="action_mention">Mention</string>
     <string name="toggle_nsfw">NSFW</string>
-    <string name="action_compose_options">Options</string>
+    <string name="action_compose_options">Option</string>
     <string name="action_open_drawer">Ouvrir le menu</string>
-    <string name="action_clear">Effacer</string>
+    <string name="action_clear">Nettoyer</string>
     <string name="action_reblog">Boost</string>
-    <string name="action_favourite">Favoris</string>
-    <string name="action_view_media">Média</string>
+    <string name="action_favourite">Favori</string>
+    <string name="action_view_media">Media</string>
     <string name="action_more">Plus</string>
-+   <string name="action_reply">Répondre</string>
+    <string name="action_reply">Répondre</string>
     
     <string name="send_status_to">Partager l\'URL de votre pouet avec…</string>
 
@@ -113,7 +113,7 @@
     <string name="visibility_private">N’afficher que pour vos abonné⋅e⋅s</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
-    <string name="pref_title_edit_notification_settings">Paramètre des notifications</string>
+    <string name="pref_title_edit_notification_settings">Modifier la notification</string>
     <string name="pref_title_notifications_enabled">Notifications push</string>
     <string name="pref_title_notification_alerts">Alertes</string>
     <string name="pref_title_notification_alert_sound">Son</string>
@@ -121,31 +121,20 @@
     <string name="pref_title_notification_alert_light">LED</string>
     <string name="pref_title_notification_filters">Me notifier</string>
     <string name="pref_title_notification_filter_mentions">Quand je suis mentionné</string>
-    <string name="pref_title_notification_filter_follows">Lorsque quelqu'un suivit</string>
+    <string name="pref_title_notification_filter_follows">Lorsque quelqu\'un suivit</string>
     <string name="pref_title_notification_filter_reblogs">Lorsque mes pouets boostés</string>
     <string name="pref_title_notification_filter_favourites">Lorsque mes pouets sont boosté</string>
     <string name="pref_title_appearance_settings">Apparence</string>
     <string name="pref_title_light_theme">Utiliser le thème clair</string>
     <string name="pref_title_browser_settings">Navigateur</string>
     <string name="pref_title_custom_tabs">Utiliser le navigateur intégré</string>
-    <string name="pref_title_hide_follow_button">Cacher le bouton "s\'abonner" lors du défillement</string>
+    <string name="pref_title_hide_follow_button">Cacher le bouton de suivi lors du défilement</string>
 
     <string name="notification_mention_format">%s vous ont mentionnés</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s et %4$d plus</string>
     <string name="notification_summary_medium">%1$s, %2$s, et %3$s</string>
     <string name="notification_summary_small">%1$s et %2$s</string>
     <string name="notification_title_summary">%d nouvelles interactions</string>
-    <string name="action_more">Plus</string>
-    <string name="action_reply">Répondre</string>
-    <string name="description_account_locked">Compte bloqué</string>
-    <string name="pref_title_browser_settings">Navigateur</string>
-    <string name="pref_title_hide_follow_button">Cacher le bouton de suivi lors du défilement</string>
-    <string name="pref_title_edit_notification_settings">Modifier la notification</string>
-    <string name="action_view_media">Media</string>
-    <string name="action_favourite">Favori</string>
-    <string name="action_compose_options">Option</string>
-    <string name="action_clear">Nettoyer</string>
-    <string name="action_reblog">Boost</string>
 
     <string name="description_account_locked">Compte bloqué</string>
 </resources>    
