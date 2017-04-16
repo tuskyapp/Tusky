@@ -15,6 +15,7 @@
     <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same status.</string>
     <string name="error_media_upload_sending">The upload failed.</string>
     <string name="error_report_too_few_statuses">At least one status must be reported.</string>
+    <string name="error_empty">This cannot be empty.</string>
 
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifications</string>
@@ -85,6 +86,8 @@
     <string name="action_compose_options">Options</string>
     <string name="action_open_drawer">Open drawer</string>
     <string name="action_clear">Clear</string>
+    <string name="action_save">Save</string>
+    <string name="action_edit_profile">Edit profile</string>
 
     <string name="send_status_to">Share toot URL to…</string>
 
@@ -96,6 +99,11 @@
     <string name="hint_domain">Which instance?</string>
     <string name="hint_compose">What\'s happening?</string>
     <string name="hint_content_warning">Content warning</string>
+    <string name="hint_display_name">Display name</string>
+    <string name="hint_note">Bio</string>
+
+    <string name="label_avatar">Avatar</string>
+    <string name="label_header">Header</string>
 
     <string name="link_whats_an_instance">What\'s an instance?</string>
 

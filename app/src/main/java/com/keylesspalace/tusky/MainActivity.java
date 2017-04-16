@@ -261,7 +261,7 @@ public class MainActivity extends BaseActivity {
                 .withHasStableIds(true)
                 .withSelectedItem(-1)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withIdentifier(0).withName(R.string.action_view_profile).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person),
+                        new PrimaryDrawerItem().withIdentifier(0).withName(getString(R.string.action_edit_profile)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person),
                         new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.action_view_favourites)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_star),
                         new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block),
                         new DividerDrawerItem(),
@@ -275,11 +275,8 @@ public class MainActivity extends BaseActivity {
                             long drawerItemIdentifier = drawerItem.getIdentifier();
 
                             if (drawerItemIdentifier == 0) {
-                                if (loggedInAccountId != null) {
-                                    Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-                                    intent.putExtra("id", loggedInAccountId);
-                                    startActivity(intent);
-                                }
+                                Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+                                startActivity(intent);
                             } else if (drawerItemIdentifier == 1) {
                                 Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
                                 startActivity(intent);

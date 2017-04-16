@@ -110,26 +110,6 @@ public class LoginActivity extends AppCompatActivity {
                 textView.setMovementMethod(LinkMovementMethod.getInstance());
             }
         });
-
-        // Apply any updates needed.
-        int versionCode = 1;
-        try {
-            versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.e(TAG, "The app version was not found. " + e.getMessage());
-        }
-        if (preferences.getInt("lastUpdateVersion", 0) != versionCode) {
-            SharedPreferences.Editor editor = preferences.edit();
-            if (versionCode == 14) {
-                /* This version switches the order of scheme and host in the OAuth redirect URI.
-                 * But to fix it requires forcing the app to re-authenticate with servers. So, clear
-                 * out the stored client id/secret pairs. The only other things that are lost are
-                 * "rememberedVisibility", "loggedInUsername", and "loggedInAccountId". */
-                editor.clear();
-            }
-            editor.putInt("lastUpdateVersion", versionCode);
-            editor.apply();
-        }
     }
 
     @Override
