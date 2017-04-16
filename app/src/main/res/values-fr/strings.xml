@@ -1,8 +1,8 @@
 <resources>
 
     <string name="error_generic">Une erreur s\'est produite.</string>
-    <string name="error_invalid_domain">Le domaine est invalide</string>
-    <string name="error_failed_app_registration">L\'application n\'a pu s\'authentifier avec l\'instance.</string>
+    <string name="error_invalid_domain">Le domaine n\'est pas valide</string>
+    <string name="error_failed_app_registration">Impossible de s\'authentifier avec l\'instance.</string>
     <string name="error_no_web_browser_found">Impossible de trouver un navigateur web.</string>
     <string name="error_authorization_unknown">Une erreur d\'authorisation inconnu s\'est produite.</string>
     <string name="error_authorization_denied">Vous ne pouvez pas vous authentifier.</string>
@@ -39,24 +39,24 @@
     <string name="footer_end_of_notifications">fin des notifications</string>
     <string name="footer_end_of_accounts">fin des comptes</string>
 
-    <string name="notification_reblog_format">%s à boosté votre pouet</string>
-    <string name="notification_favourite_format">%s à ajouter votre pouet en favoris</string>
+    <string name="notification_reblog_format">%s a boosté votre pouet</string>
+    <string name="notification_favourite_format">%s a ajouté votre pouet à ses favoris</string>
     <string name="notification_follow_format">%s vous suit</string>
 
     <string name="report_username_format">Signaler @%s</string>
     <string name="report_comment_hint">Plus de commentaire ?</string>
 
-    <string name="action_compose">Écrire</string>
+    <string name="action_compose">Répondre</string>
     <string name="action_login">Se connecter avec Mastodon</string>
     <string name="action_logout">Deconnexion</string>
-    <string name="action_follow">Follow</string>
-    <string name="action_unfollow">Unfollow</string>
+    <string name="action_follow">S\'abonner</string>
+    <string name="action_unfollow">Se désabonner</string>
     <string name="action_block">Bloquer</string>
     <string name="action_unblock">Débloquer</string>
     <string name="action_report">Signaler</string>
     <string name="action_delete">Supprimer</string>
     <string name="action_send">POUET</string>
-    <string name="action_send_public">POUET!</string>
+    <string name="action_send_public">POUET !</string>
     <string name="action_retry">Ré-essayer</string>
     <string name="action_mark_sensitive">Définir le média comme sensible</string>
     <string name="action_hide_text">Masquer le texte par une mise en garde</string>
@@ -76,21 +76,29 @@
     <string name="action_unmute">Redonner la parole</string>
     <string name="action_mention">Mention</string>
     <string name="toggle_nsfw">NSFW</string>
-
+    <string name="action_compose_options">Options</string>
+    <string name="action_open_drawer">Ouvrir le menu</string>
+    <string name="action_clear">Effacer</string>
+    <string name="action_reblog">Boost</string>
+    <string name="action_favourite">Favoris</string>
+    <string name="action_view_media">Média</string>
+    <string name="action_more">Plus</string>
++   <string name="action_reply">Répondre</string>
+    
     <string name="send_status_to">Partager l\'URL de votre pouet avec…</string>
 
     <string name="search">Rechercher un compte…</string>
 
-    <string name="confirmation_send">Toot!</string>
-    <string name="confirmation_reported">Envoyer!</string>
+    <string name="confirmation_send">Pouet !</string>
+    <string name="confirmation_reported">Envoyer !</string>
 
-    <string name="hint_domain">Quelle instance?</string>
+    <string name="hint_domain">Quelle instance ?</string>
     <string name="hint_compose">Quoi de neuf ?</string>
-    <string name="hint_content_warning">Contenu mis en garde</string>
+    <string name="hint_content_warning">Contenu sensible</string>
 
     <string name="link_whats_an_instance">Qu\'est ce qu\'une instance?</string>
 
-    <string name="dialog_whats_an_instance">L\'adresse ou le domaine d\'une instance peut être entré
+    <string name="dialog_whats_an_instance">L\'adresse ou le domaine d\'une instance peut être entrée
          Ici, comme mastodon.social, icosahedron.website, social.tchncs.de, et
         <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">plus (en anglais)!</a>
         \n\nSi vous n\'avez pas de compte, Vous pouvez entrer le nom de l\'instance que vous voulez rejoindre et créer un compte ici.\n\n Une instance est l\'endroit où votre compte est 
@@ -98,25 +106,29 @@
         \n\nPlus d\'info <a href="https://mastodon.social/about">mastodon.social</a> (anglais).
     </string>
     <string name="dialog_title_finishing_media_upload">Média uploadé avec succès</string>
-    <string name="dialog_message_uploading_media">Téléversement…</string>
+    <string name="dialog_message_uploading_media">Envoie... </string>
 
-    <string name="visibility_public">Tout le monde peut voir</string>
-    <string name="visibility_unlisted">Tout le monde peut voir, mais cela ne sera pas listé sur votre timeline public</string>
-    <string name="visibility_private">Uniquement les followers et les mentionnés peuvent voir</string>
+    <string name="visibility_public">Afficher dans les fils publics</string>
+    <string name="visibility_unlisted">Ne pas afficher dans les fils publics</string>
+    <string name="visibility_private">N’afficher que pour vos abonné⋅e⋅s</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
+    <string name="pref_title_edit_notification_settings">Paramètre des notifications</string>
     <string name="pref_title_notifications_enabled">Notifications push</string>
     <string name="pref_title_notification_alerts">Alertes</string>
-    <string name="pref_title_notification_alert_sound">Sonner pour notifier</string>
-    <string name="pref_title_notification_alert_vibrate">Vibrer pour notifier</string>
-    <string name="pref_title_notification_alert_light">Notifier avec une LED</string>
-    <string name="pref_title_notification_filters">Me notifier quand</string>
-    <string name="pref_title_notification_filter_mentions">mentionné</string>
-    <string name="pref_title_notification_filter_follows">suivit</string>
-    <string name="pref_title_notification_filter_reblogs">mes pouets boostés</string>
-    <string name="pref_title_notification_filter_favourites">mes pouets mis en favoris</string>
+    <string name="pref_title_notification_alert_sound">Son</string>
+    <string name="pref_title_notification_alert_vibrate">Vibreur</string>
+    <string name="pref_title_notification_alert_light">LED</string>
+    <string name="pref_title_notification_filters">Me notifier</string>
+    <string name="pref_title_notification_filter_mentions">Quand je suis mentionné</string>
+    <string name="pref_title_notification_filter_follows">Lorsque quelqu'un suivit</string>
+    <string name="pref_title_notification_filter_reblogs">Lorsque mes pouets boostés</string>
+    <string name="pref_title_notification_filter_favourites">Lorsque mes pouets sont boosté</string>
     <string name="pref_title_appearance_settings">Apparence</string>
     <string name="pref_title_light_theme">Utiliser le thème clair</string>
+    <string name="pref_title_browser_settings">Navigateur</string>
+    <string name="pref_title_custom_tabs">Utiliser le navigateur intégré</string>
+    <string name="pref_title_hide_follow_button">Cacher le bouton "s\'abonner" lors du défillement</string>
 
     <string name="notification_mention_format">%s vous ont mentionnés</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s et %4$d plus</string>
@@ -135,4 +147,5 @@
     <string name="action_clear">Nettoyer</string>
     <string name="action_reblog">Boost</string>
 
-</resources>
+    <string name="description_account_locked">Compte bloqué</string>
+</resources>    
