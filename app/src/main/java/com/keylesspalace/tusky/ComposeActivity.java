@@ -348,8 +348,6 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                disableButtons();
-
                 postProgress.setVisibility(View.VISIBLE);
                 sendStatus();
             }
@@ -637,9 +635,13 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         if (statusHideText) {
             spoilerText = contentWarningEditor.getText().toString();
         }
-        if (contentText.length() + spoilerText.length() <= STATUS_CHARACTER_LIMIT) {
+        int characterCount = contentText.length() + spoilerText.length();
+        if (characterCount > 0 && characterCount <= STATUS_CHARACTER_LIMIT) {
             statusAlreadyInFlight = true;
+            disableButtons();
             readyStatus(contentText, statusVisibility, statusMarkSensitive, spoilerText);
+        } else if (characterCount <= 0) {
+            textEditor.setError(getString(R.string.error_empty));
         } else {
             textEditor.setError(getString(R.string.error_compose_character_limit));
         }
@@ -873,6 +875,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                     protected void onCancelled() {
                         removeAllMediaFromQueue();
                         statusAlreadyInFlight = false;
+                        enableButtons();
                         super.onCancelled();
                     }
                 };
@@ -898,6 +901,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                     }
                 });
         statusAlreadyInFlight = false;
+        enableButtons();
     }
 
     private void onMediaPick() {
