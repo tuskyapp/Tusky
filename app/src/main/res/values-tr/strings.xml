@@ -3,26 +3,26 @@
     <string name="error_generic">Bir hata oluştu.</string>
     <string name="error_invalid_domain">Girilen etki alanı geçersiz.</string>
     <string name="error_failed_app_registration">Kimliği bu sunucuda doğrulayamadı.</string>
-    <string name="error_no_web_browser_found">Kullanılabilecek tarayıcı bulunmadı.</string>
+    <string name="error_no_web_browser_found">Kullanılabilen tarayıcı bulunmadı.</string>
     <string name="error_authorization_unknown">Açıklanmayan kimlik doğrulama hata oluştu.</string>
-    <string name="error_authorization_denied">Authorization was denied.</string>
-    <string name="error_retrieving_oauth_token">Failed getting a login token.</string>
-    <string name="error_compose_character_limit">The status is too long!</string>
-    <string name="error_media_upload_size">The file must be less than 4MB.</string>
-    <string name="error_media_upload_type">That type of file cannot be uploaded.</string>
-    <string name="error_media_upload_opening">That file could not be opened.</string>
-    <string name="error_media_upload_permission">Permission to read media is required.</string>
-    <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same status.</string>
-    <string name="error_media_upload_sending">The upload failed.</string>
-    <string name="error_report_too_few_statuses">At least one status must be reported.</string>
+    <string name="error_authorization_denied">Kimlik doğrulama reddedildi.</string>
+    <string name="error_retrieving_oauth_token">Giriş jetonu alınamadı.</string>
+    <string name="error_compose_character_limit">İleti fazlasıyla uzun!</string>
+    <string name="error_media_upload_size">Dosya 4MB'ten küçük olmalı.</string>
+    <string name="error_media_upload_type">O biçim dosya yüklenmez.</string>
+    <string name="error_media_upload_opening">O dosya açılamadı.</string>
+    <string name="error_media_upload_permission">Medya okuma izni gerekiyor.</string>
+    <string name="error_media_upload_image_or_video">Aynı iletiye kem video hem resim eklenemez.</string>
+    <string name="error_media_upload_sending">Yükleme başarsız.</string>
+    <string name="error_report_too_few_statuses">Her bildirme en azından bir iletiyi işaret etmeli.</string>
 
     <string name="title_home">Ana sayfa</string>
     <string name="title_notifications">Bildirimler</string>
-    <string name="title_public_local">Local</string>
-    <string name="title_public_federated">Federated</string>
-    <string name="title_thread">Thread</string>
+    <string name="title_public_local">Yerel</string>
+    <string name="title_public_federated">Birleşmiş</string>
+    <string name="title_thread">Dizi</string>
     <string name="title_tag">#%s</string>
-    <string name="title_statuses">Posts</string>
+    <string name="title_statuses">İletiler</string>
     <string name="title_follows">Takip edilenler</string>
     <string name="title_followers">Takipçiler</string>
     <string name="title_favourites">Favoriler</string>
@@ -35,15 +35,15 @@
     <string name="status_content_warning_show_more">Daha Fazla Göster</string>
     <string name="status_content_warning_show_less">Daha Az Göster</string>
 
-    <string name="footer_end_of_statuses">end of the statuses</string>
-    <string name="footer_end_of_notifications">end of the notifications</string>
-    <string name="footer_end_of_accounts">end of the accounts</string>
+    <string name="footer_end_of_statuses">iletilerin sonu</string>
+    <string name="footer_end_of_notifications">bildirmelerin sonu</string>
+    <string name="footer_end_of_accounts">hesapların sonu</string>
 
-    <string name="notification_reblog_format">%s tootunu yükseltti</string>
-    <string name="notification_favourite_format">%s tootunu favori etti</string>
+    <string name="notification_reblog_format">%s iletini yükseltti</string>
+    <string name="notification_favourite_format">%s iletini favori etti</string>
     <string name="notification_follow_format">%s seni takip etti</string>
 
-    <string name="report_username_format">@%s bildirin</string>
+    <string name="report_username_format">@%s bildir</string>
     <string name="report_comment_hint">Daha fazla yorum?</string>
 
     <string name="action_compose">Oluştur</string>
@@ -51,14 +51,14 @@
     <string name="action_logout">Çıkış Yap</string>
     <string name="action_follow">Takip et</string>
     <string name="action_unfollow">Takibi bırak</string>
-    <string name="action_block">Engele</string>
-    <string name="action_unblock">Unblock</string>
+    <string name="action_block">Engelle</string>
+    <string name="action_unblock">Engeli kaldır</string>
     <string name="action_report">Bildir</string>
     <string name="action_delete">Sil</string>
-    <string name="action_send">TOOT</string>
-    <string name="action_send_public">TOOT!</string>
+    <string name="action_send">İLET</string>
+    <string name="action_send_public">İLET!</string>
     <string name="action_retry">Tekrar dene</string>
-    <string name="action_mark_sensitive">Medyayı hassas olarak etiketleyin</string>
+    <string name="action_mark_sensitive">Medyayı hassas olarak etiketle</string>
     <string name="action_hide_text">Metini uyarı ile sakla</string>
     <string name="action_ok">Tamam</string>
     <string name="action_cancel">İptal</string>
@@ -70,22 +70,22 @@
     <string name="action_view_blocks">Engellenmiş kullanıcılar</string>
     <string name="action_open_in_web">Tarayıcıda aç</string>
     <string name="action_submit">Gönder</string>
-    <string name="action_photo_pick">Add media</string>
+    <string name="action_photo_pick">Medya ekle</string>
     <string name="action_share">Paylaş</string>
     <string name="action_mute">Sesize al</string>
-    <string name="action_unmute">Unmute</string>
+    <string name="action_unmute">Sesizden kaldır</string>
     <string name="action_mention">Bahset</string>
-    <string name="toggle_nsfw">NSFW</string>
+    <string name="toggle_nsfw">UYARILI</string>
 
-    <string name="send_status_to">Share toot URL to…</string>
+    <string name="send_status_to">İletinin adresini paylaş...</string>
 
     <string name="search">Hesaplarda ara…</string>
 
-    <string name="confirmation_send">Toot!</string>
-    <string name="confirmation_reported">Gönderildi!</string>
+    <string name="confirmation_send">İlet!</string>
+    <string name="confirmation_reported">İletildi!</string>
 
     <string name="hint_domain">Hangi sunucu?</string>
-    <string name="hint_compose">What\'s happening?</string>
+    <string name="hint_compose">Neler oluyor?</string>
     <string name="hint_content_warning">İçerik uyarı</string>
 
     <string name="link_whats_an_instance">Sunucu nedir?</string>
@@ -99,7 +99,7 @@
         you were on the same site.
         \n\nMore info can be found at <a href="https://mastodon.social/about">mastodon.social</a>.
     </string>
-    <string name="dialog_title_finishing_media_upload">Finishing Media Upload</string>
+    <string name="dialog_title_finishing_media_upload">Medya Yükleme Bittiriliyor</string>
     <string name="dialog_message_uploading_media">Yükleniyor…</string>
 
     <string name="visibility_public">Herkese açık</string>
@@ -109,14 +109,14 @@
     <string name="pref_title_notification_settings">Bildirimler</string>
     <string name="pref_title_notifications_enabled">Anlık bildirimler</string>
     <string name="pref_title_notification_alerts">Uyarılar</string>
-    <string name="pref_title_notification_alert_sound">Sesle bildirin</string>
-    <string name="pref_title_notification_alert_vibrate">Titremeyle bildirin</string>
-    <string name="pref_title_notification_alert_light">Işığıyla bildirin</string>
-    <string name="pref_title_notification_filters">Beni bildirin</string>
+    <string name="pref_title_notification_alert_sound">Sesle bildir</string>
+    <string name="pref_title_notification_alert_vibrate">Titremeyle bildir</string>
+    <string name="pref_title_notification_alert_light">Işığıyla bildir</string>
+    <string name="pref_title_notification_filters">Beni bildir</string>
     <string name="pref_title_notification_filter_mentions">bahsedilince</string>
     <string name="pref_title_notification_filter_follows">takip edilince</string>
-    <string name="pref_title_notification_filter_reblogs">my posts are boosted</string>
-    <string name="pref_title_notification_filter_favourites">my posts are favourited</string>
+    <string name="pref_title_notification_filter_reblogs">iletilerim yüksetilince</string>
+    <string name="pref_title_notification_filter_favourites">iletilerim favori edilince</string>
     <string name="pref_title_appearance_settings">Görünüş</string>
     <string name="pref_title_light_theme">Açık renkli temayı kullan</string>
 
