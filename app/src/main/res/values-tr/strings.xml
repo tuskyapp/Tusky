@@ -8,7 +8,7 @@
     <string name="error_authorization_denied">Kimlik doğrulama reddedildi.</string>
     <string name="error_retrieving_oauth_token">Giriş jetonu alınamadı.</string>
     <string name="error_compose_character_limit">İleti fazlasıyla uzun!</string>
-    <string name="error_media_upload_size">Dosya 4MB'ten küçük olmalı.</string>
+    <string name="error_media_upload_size">Dosya 4MB\'ten küçük olmalı.</string>
     <string name="error_media_upload_type">O biçim dosya yüklenmez.</string>
     <string name="error_media_upload_opening">O dosya açılamadı.</string>
     <string name="error_media_upload_permission">Medya okuma izni gerekiyor.</string>
@@ -90,14 +90,11 @@
 
     <string name="link_whats_an_instance">Sunucu nedir?</string>
 
-    <string name="dialog_whats_an_instance">The address or domain of any instance can be entered
-        here, such as mastodon.social, icosahedron.website, social.tchncs.de, and
-        <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">more!</a>
-        \n\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to
-        join and create an account there.\n\nAn instance is a single place where your account is
-        hosted, but you can easily communicate with and follow folks on other instances as though
-        you were on the same site.
-        \n\nMore info can be found at <a href="https://mastodon.social/about">mastodon.social</a>.
+	<string name="dialog_whats_an_instance">Burada her hangi bir Mastodon sunucusunun adresi
+		(mastodon.social, icosahedron.website, social.tchncs.de, ve
+        <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">daha fazla!</a>) girilebiliri.
+		\n\nEğer hesabınız henüz yok ise katılmak istediğiniz sunucunun adresini girerek hesap yaratabilirsin.
+		\n\nDaha fazla bilgi için <a href="https://mastodon.social/about">mastodon.social</a>.
     </string>
     <string name="dialog_title_finishing_media_upload">Medya Yükleme Bittiriliyor</string>
     <string name="dialog_message_uploading_media">Yükleniyor…</string>
