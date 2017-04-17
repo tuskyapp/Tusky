@@ -101,6 +101,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private static final int MEDIA_PICK_RESULT = 1;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private static final int MEDIA_SIZE_UNKNOWN = -1;
+    private static final int COMPOSE_SUCCESS = -1;
 
     private String inReplyToId;
     private EditText textEditor;
@@ -816,6 +817,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private void onSendSuccess() {
         Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(R.string.confirmation_send), Snackbar.LENGTH_SHORT);
         bar.show();
+        setResult(COMPOSE_SUCCESS);
         finish();
     }
 

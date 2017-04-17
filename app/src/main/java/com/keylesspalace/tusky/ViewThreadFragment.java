@@ -155,6 +155,12 @@ public class ViewThreadFragment extends SFragment implements
         sendThreadRequest(thisThreadsStatusId);
     }
 
+    @Override
+    public void onSuccessfulStatus() {
+        onRefresh();
+        super.onSuccessfulStatus();
+    }
+
     public void onReply(int position) {
         super.reply(adapter.getItem(position));
     }

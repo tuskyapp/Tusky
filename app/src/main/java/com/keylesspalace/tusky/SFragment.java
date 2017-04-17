@@ -44,9 +44,10 @@ import retrofit2.Callback;
  * adapters. I feel like the profile pages and thread viewer, which I haven't made yet, will also
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
-public class SFragment extends BaseFragment {
+public abstract class SFragment extends BaseFragment {
     protected String loggedInAccountId;
     protected String loggedInUsername;
+    protected static int COMPOSE_RESULT = 1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,11 +80,23 @@ public class SFragment extends BaseFragment {
         intent.putExtra("reply_visibility", replyVisibility);
         intent.putExtra("content_warning", contentWarning);
         intent.putExtra("mentioned_usernames", mentionedUsernames.toArray(new String[0]));
-        startActivity(intent);
+        startActivityForResult(intent, COMPOSE_RESULT);
+    }
+
+    public void onSuccessfulStatus() {
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == COMPOSE_RESULT && resultCode == ComposeActivity.RESULT_OK) {
+            onSuccessfulStatus();
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     protected void reblog(final Status status, final boolean reblog,
-            final RecyclerView.Adapter adapter, final int position) {
+                          final RecyclerView.Adapter adapter, final int position) {
         String id = status.getActionableId();
 
         Callback<Status> cb = new Callback<Status>() {
