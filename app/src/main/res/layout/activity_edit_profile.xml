@@ -19,6 +19,11 @@
             android:background="@android:color/transparent"
             android:elevation="4dp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_profile_error" />
+
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
