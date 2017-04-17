@@ -66,6 +66,7 @@ import retrofit2.Response;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity"; // logging tag and Volley request tag
+    protected static int COMPOSE_RESULT = 1;
 
     private String loggedInAccountId;
     private String loggedInAccountUsername;
@@ -99,7 +100,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ComposeActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, COMPOSE_RESULT);
             }
         });
 
@@ -469,6 +470,17 @@ public class MainActivity extends BaseActivity {
 
     private void onFetchUserInfoFailure(Exception exception) {
         Log.e(TAG, "Failed to fetch user info. " + exception.getMessage());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == COMPOSE_RESULT && resultCode == ComposeActivity.RESULT_OK) {
+            TimelinePagerAdapter adapter = (TimelinePagerAdapter) viewPager.getAdapter();
+            if (adapter.getCurrentFragment() instanceof SFragment) {
+                ((SFragment) adapter.getCurrentFragment()).onSuccessfulStatus();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

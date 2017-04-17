@@ -101,6 +101,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private static final int MEDIA_PICK_RESULT = 1;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private static final int MEDIA_SIZE_UNKNOWN = -1;
+    private static final int COMPOSE_SUCCESS = -1;
 
     private String inReplyToId;
     private EditText textEditor;
@@ -122,6 +123,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private ImageButton pickBtn;
     private Button nsfwBtn;
     private ProgressBar postProgress;
+    private ImageButton visibilityBtn;
 
     private static class QueuedMedia {
         enum Type {
@@ -341,17 +343,11 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         floatingBtn = (Button) findViewById(R.id.floating_btn);
         pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
         nsfwBtn = (Button) findViewById(R.id.action_toggle_nsfw);
-        final ImageButton visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
+        visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
 
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pickBtn.setClickable(false);
-                nsfwBtn.setClickable(false);
-                visibilityBtn.setClickable(false);
-                floatingBtn.setEnabled(false);
-
-                postProgress.setVisibility(View.VISIBLE);
                 sendStatus();
             }
         });
@@ -567,6 +563,20 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         }
     }
 
+    private void disableButtons() {
+        pickBtn.setClickable(false);
+        nsfwBtn.setClickable(false);
+        visibilityBtn.setClickable(false);
+        floatingBtn.setEnabled(false);
+    }
+
+    private void enableButtons() {
+        pickBtn.setClickable(true);
+        nsfwBtn.setClickable(true);
+        visibilityBtn.setClickable(true);
+        floatingBtn.setEnabled(true);
+    }
+
     private void setStatusVisibility(String visibility) {
         statusVisibility = visibility;
         switch (visibility) {
@@ -615,6 +625,18 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         updateVisibleCharactersLeft();
     }
 
+    void setStateToReadying() {
+        statusAlreadyInFlight = true;
+        disableButtons();
+        postProgress.setVisibility(View.VISIBLE);
+    }
+
+    void setStateToNotReadying() {
+        postProgress.setVisibility(View.INVISIBLE);
+        statusAlreadyInFlight = false;
+        enableButtons();
+    }
+
     private void sendStatus() {
         if (statusAlreadyInFlight) {
             return;
@@ -624,9 +646,12 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         if (statusHideText) {
             spoilerText = contentWarningEditor.getText().toString();
         }
-        if (contentText.length() + spoilerText.length() <= STATUS_CHARACTER_LIMIT) {
-            statusAlreadyInFlight = true;
+        int characterCount = contentText.length() + spoilerText.length();
+        if (characterCount > 0 && characterCount <= STATUS_CHARACTER_LIMIT) {
+            setStateToReadying();
             readyStatus(contentText, statusVisibility, statusMarkSensitive, spoilerText);
+        } else if (characterCount <= 0) {
+            textEditor.setError(getString(R.string.error_empty));
         } else {
             textEditor.setError(getString(R.string.error_compose_character_limit));
         }
@@ -816,13 +841,13 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private void onSendSuccess() {
         Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(R.string.confirmation_send), Snackbar.LENGTH_SHORT);
         bar.show();
+        setResult(COMPOSE_SUCCESS);
         finish();
     }
 
     private void onSendFailure() {
-        postProgress.setVisibility(View.INVISIBLE);
         textEditor.setError(getString(R.string.error_generic));
-        statusAlreadyInFlight = false;
+        setStateToNotReadying();
     }
 
     private void readyStatus(final String content, final String visibility, final boolean sensitive,
@@ -857,7 +882,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                     @Override
                     protected void onCancelled() {
                         removeAllMediaFromQueue();
-                        statusAlreadyInFlight = false;
+                        setStateToNotReadying();
                         super.onCancelled();
                     }
                 };
@@ -882,7 +907,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                         readyStatus(content, visibility, sensitive, spoilerText);
                     }
                 });
-        statusAlreadyInFlight = false;
+        setStateToNotReadying();
     }
 
     private void onMediaPick() {

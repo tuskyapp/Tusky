@@ -44,9 +44,10 @@ import retrofit2.Callback;
  * adapters. I feel like the profile pages and thread viewer, which I haven't made yet, will also
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
-public class SFragment extends BaseFragment {
+public abstract class SFragment extends BaseFragment {
     protected String loggedInAccountId;
     protected String loggedInUsername;
+    protected static int COMPOSE_RESULT = 1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,11 +80,23 @@ public class SFragment extends BaseFragment {
         intent.putExtra("reply_visibility", replyVisibility);
         intent.putExtra("content_warning", contentWarning);
         intent.putExtra("mentioned_usernames", mentionedUsernames.toArray(new String[0]));
-        startActivity(intent);
+        startActivityForResult(intent, COMPOSE_RESULT);
+    }
+
+    public void onSuccessfulStatus() {
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == COMPOSE_RESULT && resultCode == ComposeActivity.RESULT_OK) {
+            onSuccessfulStatus();
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     protected void reblog(final Status status, final boolean reblog,
-            final RecyclerView.Adapter adapter, final int position) {
+                          final RecyclerView.Adapter adapter, final int position) {
         String id = status.getActionableId();
 
         Callback<Status> cb = new Callback<Status>() {
@@ -182,8 +195,8 @@ public class SFragment extends BaseFragment {
         callList.add(call);
     }
 
-    protected void more(Status status, View view, final AdapterItemRemover adapter,
-            final int position) {
+    protected void more(final Status status, View view, final AdapterItemRemover adapter,
+                        final int position) {
         final String id = status.getActionableId();
         final String accountId = status.getActionableStatus().account.id;
         final String accountUsename = status.getActionableStatus().account.username;
@@ -201,12 +214,25 @@ public class SFragment extends BaseFragment {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.status_share: {
+                            case R.id.status_share_content: {
+                                StringBuilder sb = new StringBuilder();
+                                sb.append(status.account.username);
+                                sb.append(" - ");
+                                sb.append(status.content.toString());
+
+                                Intent sendIntent = new Intent();
+                                sendIntent.setAction(Intent.ACTION_SEND);
+                                sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+                                sendIntent.setType("text/plain");
+                                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_content_to)));
+                                return true;
+                            }
+                            case R.id.status_share_link: {
                                 Intent sendIntent = new Intent();
                                 sendIntent.setAction(Intent.ACTION_SEND);
                                 sendIntent.putExtra(Intent.EXTRA_TEXT, statusUrl);
                                 sendIntent.setType("text/plain");
-                                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_to)));
+                                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_link_to)));
                                 return true;
                             }
                             case R.id.status_block: {

@@ -1,0 +1,121 @@
+<resources>
+
+    <string name="error_generic">وقع هناك خطأ.</string>
+    <string name="error_invalid_domain">اسم النطاق غير صالح</string>
+    <string name="error_failed_app_registration">اخفقت المصادقة مع مثيل الخادم هذا.</string>
+    <string name="error_no_web_browser_found">لم يتم العثور على متصفح قابل للإستعمال.</string>
+    <string name="error_authorization_denied">تم رفض التصريح.</string>
+    <string name="error_media_upload_size">يجب أن يكون حجم الملف أقل من 4 ميغابايت.</string>
+    <string name="error_media_upload_type">لا يمكن رفع هذا النوع من الملفات.</string>
+    <string name="error_media_upload_opening">تعذر فتح ذاك الملف.</string>
+    <string name="error_media_upload_sending">اخفقت عملية الرفع.</string>
+    <string name="title_home">الرئيسية</string>
+    <string name="title_notifications">الاشعارات</string>
+    <string name="title_public_local">المحلية</string>
+    <string name="title_public_federated">الفدرالية</string>
+    <string name="title_thread">الخيط</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">المشاركات</string>
+    <string name="title_follows">يتبع</string>
+    <string name="title_followers">المتابعون</string>
+    <string name="title_favourites">المفضلة</string>
+    <string name="title_blocks">المستخدمون المحظورون</string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s عزز</string>
+    <string name="status_sensitive_media_title">محتوى حساس</string>
+    <string name="status_sensitive_media_directions">اضغط للعرض</string>
+    <string name="status_content_warning_show_more">اعرض أكثر</string>
+    <string name="status_content_warning_show_less">اعرض أقل</string>
+
+    <string name="footer_end_of_statuses">نهاية الحالات</string>
+    <string name="footer_end_of_notifications">نهاية الاشعارات</string>
+    <string name="footer_end_of_accounts">نهاية الحسابات</string>
+
+    <string name="notification_reblog_format">%s عزز تبويقك</string>
+    <string name="notification_favourite_format">%s أعجب بتبويقك</string>
+    <string name="notification_follow_format">%s يتبعك</string>
+
+    <string name="report_username_format">أبلغ عن @%s</string>
+    <string name="report_comment_hint">تعليقات إضافية ؟</string>
+
+    <string name="action_reply">أجب</string>
+    <string name="action_reblog">عزز</string>
+    <string name="action_favourite">تفضيل</string>
+    <string name="action_more">المزيد</string>
+    <string name="action_compose">حرر</string>
+    <string name="action_login">التسجيل بواسطة ماستدون</string>
+    <string name="action_logout">خروج</string>
+    <string name="action_follow">إتبع</string>
+    <string name="action_unfollow">إلغاء التتبع</string>
+    <string name="action_block">حضر</string>
+    <string name="action_unblock">إلغاء الحظر</string>
+    <string name="action_report">أبلغ</string>
+    <string name="action_delete">إحذف</string>
+    <string name="action_send">تبويق</string>
+    <string name="action_send_public">بَوِّق</string>
+    <string name="action_retry">إعادة المحاولة</string>
+    <string name="action_hide_text">اخفي النص وراء تحذير</string>
+    <string name="action_ok">موافق</string>
+    <string name="action_cancel">إلغاء</string>
+    <string name="action_close">إغلاق</string>
+    <string name="action_back">عودة</string>
+    <string name="action_view_profile">الملف الشخصي</string>
+    <string name="action_view_preferences">التفضيلات</string>
+    <string name="action_view_favourites">المفضلة</string>
+    <string name="action_view_blocks">المستخدمون المحظورون</string>
+    <string name="action_view_thread">الخيط</string>
+    <string name="action_view_media">وسائط</string>
+    <string name="action_open_in_web">إفتح في متصفح</string>
+    <string name="action_submit">ارسل</string>
+    <string name="action_photo_pick">إضافة وسائط</string>
+    <string name="action_share">شارك</string>
+    <string name="action_mute">أكتم</string>
+    <string name="action_unmute">إلغاء الكتم</string>
+    <string name="action_mention">أذكر</string>
+    <string name="toggle_nsfw">NSFW</string>
+    <string name="action_compose_options">خيارات</string>
+    <string name="action_open_drawer">إفتح الدرج</string>
+    <string name="action_clear">إمسح</string>
+
+    <string name="send_status_to">شارك رابط التبويق إلى ...</string>
+
+    <string name="search">ابحث عن حسابات ...</string>
+
+    <string name="confirmation_send">بَوِّق</string>
+    <string name="confirmation_reported">تم الإرسال !</string>
+
+    <string name="hint_domain">أي سيرفر ؟</string>
+    <string name="hint_compose">ما الجديد ؟</string>
+    <string name="hint_content_warning">تحذير عن المحتوى</string>
+
+    <string name="link_whats_an_instance">ماذا نعني بمثيل الخادم ؟</string>
+
+    <string name="dialog_title_finishing_media_upload">تتمة رفع الوسائط</string>
+    <string name="dialog_message_uploading_media">جاري الرفع ...</string>
+
+    <string name="pref_title_notification_settings">الاشعارات</string>
+    <string name="pref_title_edit_notification_settings">تعديل الاشعارات</string>
+    <string name="pref_title_notifications_enabled">دفع الإخطارات</string>
+    <string name="pref_title_notification_alerts">التنبيهات</string>
+    <string name="pref_title_notification_alert_sound">إعلام بالصوت</string>
+    <string name="pref_title_notification_alert_vibrate">إعلام بالاهتزار</string>
+    <string name="pref_title_notification_alert_light">إعلام بالضوء</string>
+    <string name="pref_title_notification_filters">أخطرني عندما</string>
+    <string name="pref_title_notification_filter_mentions">يشار إلي</string>
+    <string name="pref_title_notification_filter_follows">يتبعني أحد</string>
+    <string name="pref_title_notification_filter_reblogs">تعزز وتدفع منشوراتي</string>
+    <string name="pref_title_notification_filter_favourites">يعجب أحد ما بمنشوراتي</string>
+    <string name="pref_title_appearance_settings">المظهر</string>
+    <string name="pref_title_light_theme">إستخدم سمةً فاتحة اللون</string>
+    <string name="pref_title_browser_settings">المتصفح</string>
+    <string name="pref_title_custom_tabs">إخفاء زر المتابعة أثناء تمرير الصفحة</string>
+    <string name="notification_mention_format">%s أشار إليك</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s و %4$d أخرى</string>
+    <string name="notification_summary_medium">%1$s, %2$s, و %3$s</string>
+    <string name="notification_summary_small">%1$s و %2$s</string>
+    <string name="notification_title_summary">%d تفاعلات جديدة</string>
+
+    <string name="description_account_locked">حساب مقفل</string>
+
+</resources>

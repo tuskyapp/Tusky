@@ -144,6 +144,10 @@ public class NotificationsFragment extends SFragment implements
     private void sendFetchNotificationsRequest(final String fromId, String uptoId) {
         MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
 
+        if (fromId != null || adapter.getItemCount() <= 1) {
+            adapter.setFooterState(NotificationsAdapter.FooterState.LOADING);
+        }
+
         listCall = api.notifications(fromId, uptoId, null);
 
         listCall.enqueue(new Callback<List<Notification>>() {
@@ -191,6 +195,11 @@ public class NotificationsFragment extends SFragment implements
             }
         } else {
             adapter.update(notifications);
+        }
+        if (notifications.size() == 0 && adapter.getItemCount() == 1) {
+            adapter.setFooterState(NotificationsAdapter.FooterState.EMPTY);
+        } else if (fromId != null) {
+            adapter.setFooterState(NotificationsAdapter.FooterState.END);
         }
         swipeRefreshLayout.setRefreshing(false);
     }

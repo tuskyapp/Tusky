@@ -1,6 +1,7 @@
 <resources>
 
     <string name="error_generic">An error occurred.</string>
+    <string name="error_empty">This cannot be empty.</string>
     <string name="error_invalid_domain">Invalid domain entered</string>
     <string name="error_failed_app_registration">Failed authenticating with that instance.</string>
     <string name="error_no_web_browser_found">Couldn\'t find a web browser to use.</string>
@@ -39,6 +40,7 @@
     <string name="footer_end_of_statuses">end of the statuses</string>
     <string name="footer_end_of_notifications">end of the notifications</string>
     <string name="footer_end_of_accounts">end of the accounts</string>
+    <string name="footer_empty">There are no toots here so far. Pull down to refresh!</string>
 
     <string name="notification_reblog_format">%s boosted your toot</string>
     <string name="notification_favourite_format">%s favourited your toot</string>
@@ -89,7 +91,8 @@
     <string name="action_save">Save</string>
     <string name="action_edit_profile">Edit profile</string>
 
-    <string name="send_status_to">Share toot URL to…</string>
+    <string name="send_status_link_to">Share toot URL to…</string>
+    <string name="send_status_content_to">Share toot to…</string>
 
     <string name="search">Search accounts…</string>
 
@@ -148,5 +151,7 @@
     <string name="notification_title_summary">%d new interactions</string>
 
     <string name="description_account_locked">Locked Account</string>
+    <string name="status_share_content">Share content of toot</string>
+    <string name="status_share_link">Share link to toot</string>
 
 </resources>
