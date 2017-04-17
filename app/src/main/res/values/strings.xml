@@ -38,6 +38,7 @@
     <string name="footer_end_of_statuses">end of the statuses</string>
     <string name="footer_end_of_notifications">end of the notifications</string>
     <string name="footer_end_of_accounts">end of the accounts</string>
+    <string name="footer_empty">There are no toots here so far. Pull down to refresh!</string>
 
     <string name="notification_reblog_format">%s boosted your toot</string>
     <string name="notification_favourite_format">%s favourited your toot</string>
