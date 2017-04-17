@@ -348,7 +348,6 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                postProgress.setVisibility(View.VISIBLE);
                 sendStatus();
             }
         });
@@ -626,6 +625,18 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         updateVisibleCharactersLeft();
     }
 
+    void setStateToReadying() {
+        statusAlreadyInFlight = true;
+        disableButtons();
+        postProgress.setVisibility(View.VISIBLE);
+    }
+
+    void setStateToNotReadying() {
+        postProgress.setVisibility(View.INVISIBLE);
+        statusAlreadyInFlight = false;
+        enableButtons();
+    }
+
     private void sendStatus() {
         if (statusAlreadyInFlight) {
             return;
@@ -637,8 +648,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         }
         int characterCount = contentText.length() + spoilerText.length();
         if (characterCount > 0 && characterCount <= STATUS_CHARACTER_LIMIT) {
-            statusAlreadyInFlight = true;
-            disableButtons();
+            setStateToReadying();
             readyStatus(contentText, statusVisibility, statusMarkSensitive, spoilerText);
         } else if (characterCount <= 0) {
             textEditor.setError(getString(R.string.error_empty));
@@ -836,10 +846,8 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     }
 
     private void onSendFailure() {
-        postProgress.setVisibility(View.INVISIBLE);
         textEditor.setError(getString(R.string.error_generic));
-        statusAlreadyInFlight = false;
-        enableButtons();
+        setStateToNotReadying();
     }
 
     private void readyStatus(final String content, final String visibility, final boolean sensitive,
@@ -874,8 +882,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                     @Override
                     protected void onCancelled() {
                         removeAllMediaFromQueue();
-                        statusAlreadyInFlight = false;
-                        enableButtons();
+                        setStateToNotReadying();
                         super.onCancelled();
                     }
                 };
@@ -900,8 +907,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                         readyStatus(content, visibility, sensitive, spoilerText);
                     }
                 });
-        statusAlreadyInFlight = false;
-        enableButtons();
+        setStateToNotReadying();
     }
 
     private void onMediaPick() {
