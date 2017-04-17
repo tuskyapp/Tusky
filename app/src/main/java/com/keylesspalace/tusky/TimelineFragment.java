@@ -299,6 +299,14 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
+    @Override
+    public void onSuccessfulStatus() {
+        if (kind == Kind.HOME || kind == Kind.PUBLIC_FEDERATED || kind == Kind.PUBLIC_LOCAL) {
+            onRefresh();
+        }
+        super.onSuccessfulStatus();
+    }
+
     public void onReply(int position) {
         super.reply(adapter.getItem(position));
     }
