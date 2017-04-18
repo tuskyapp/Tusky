@@ -100,9 +100,10 @@
     <string name="dialog_title_finishing_media_upload">Média uploadé avec succès</string>
     <string name="dialog_message_uploading_media">Téléversement…</string>
 
-    <string name="visibility_public">Tout le monde peut voir</string>
-    <string name="visibility_unlisted">Tout le monde peut voir, mais cela ne sera pas listé sur votre timeline public</string>
-    <string name="visibility_private">Uniquement les followers et les mentionnés peuvent voir</string>
+    <string name="visibility_public">Public: Afficher dans les fils publics</string>
+    <string name="visibility_unlisted">Non-listé: Ne pas afficher dans les fils publics</string>
+    <string name="visibility_private">Privé: N\'afficher que pour vos abonné⋅e⋅s</string>
+    <string name="visibility_direct">Direct: N\'afficher que pour les personnes mentionnées</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
     <string name="pref_title_notifications_enabled">Notifications push</string>
