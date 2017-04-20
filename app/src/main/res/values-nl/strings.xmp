@@ -111,7 +111,7 @@
 
     <string name="visibility_public">Openbaar</string>
     <string name="visibility_unlisted">Openbaar, maar niet op een openbare tijdlijn tonen</string>
-    <string name="visibility_private">Alleen aan volgers en vermeldingen tonen</string>
+    <string name="visibility_private">Alleen aan volgers (en vermeldingen) tonen</string>
 
     <string name="pref_title_notification_settings">Meldingen</string>
     <string name="pref_title_edit_notification_settings">Meldingen bewerken</string>
