@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky;
 
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -194,12 +193,24 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        SharedPreferences notificationPreferences = getApplicationContext().getSharedPreferences("Notifications", MODE_PRIVATE);
-        SharedPreferences.Editor editor = notificationPreferences.edit();
-        editor.putString("current", "[]");
-        editor.apply();
+        SharedPreferences notificationPreferences = getApplicationContext()
+                .getSharedPreferences("Notifications", MODE_PRIVATE);
+        notificationPreferences.edit()
+                .putString("current", "[]")
+                .apply();
 
-        ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE))).cancel(MyFirebaseMessagingService.NOTIFY_ID);
+        ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE)))
+                .cancel(MyFirebaseMessagingService.NOTIFY_ID);
+
+        /* After editing a profile, the profile header in the navigation drawer needs to be
+         * refreshed */
+        SharedPreferences preferences = getPrivatePreferences();
+        if (preferences.getBoolean("refreshProfileHeader", false)) {
+            fetchUserInfo();
+            preferences.edit()
+                    .putBoolean("refreshProfileHeader", false)
+                    .apply();
+        }
     }
 
     @Override
@@ -301,11 +312,10 @@ public class MainActivity extends BaseActivity {
     private void logout() {
         if (arePushNotificationsEnabled()) disablePushNotifications();
 
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.remove("domain");
-        editor.remove("accessToken");
-        editor.apply();
+        getPrivatePreferences().edit()
+                .remove("domain")
+                .remove("accessToken")
+                .apply();
 
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
@@ -375,9 +385,7 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onSearchAction(String currentQuery) {
-
-            }
+            public void onSearchAction(String currentQuery) {}
         });
 
         searchView.setOnBindSuggestionCallback(new SearchSuggestionsAdapter.OnBindSuggestionCallback() {
@@ -402,8 +410,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void fetchUserInfo() {
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = getPrivatePreferences();
         final String domain = preferences.getString("domain", null);
         String id = preferences.getString("loggedInAccountId", null);
         String username = preferences.getString("loggedInAccountUsername", null);
@@ -420,6 +427,8 @@ public class MainActivity extends BaseActivity {
                     onFetchUserInfoFailure(new Exception(response.message()));
                     return;
                 }
+
+                headerResult.clear();
 
                 Account me = response.body();
                 ImageView background = headerResult.getHeaderBackgroundView();
@@ -460,12 +469,10 @@ public class MainActivity extends BaseActivity {
     private void onFetchUserInfoSuccess(String id, String username) {
         loggedInAccountId = id;
         loggedInAccountUsername = username;
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("loggedInAccountId", loggedInAccountId);
-        editor.putString("loggedInAccountUsername", loggedInAccountUsername);
-        editor.apply();
+        getPrivatePreferences().edit()
+                .putString("loggedInAccountId", loggedInAccountId)
+                .putString("loggedInAccountUsername", loggedInAccountUsername)
+                .apply();
     }
 
     private void onFetchUserInfoFailure(Exception exception) {

@@ -9,9 +9,11 @@ public class Profile {
     @SerializedName("note")
     public String note;
 
+    /** Encoded in Base-64 */
     @SerializedName("avatar")
     public String avatar;
 
+    /** Encoded in Base-64 */
     @SerializedName("header")
     public String header;
 }

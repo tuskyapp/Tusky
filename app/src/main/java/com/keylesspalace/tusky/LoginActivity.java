@@ -20,7 +20,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -181,10 +180,10 @@ public class LoginActivity extends AppCompatActivity {
                     AppCredentials credentials = response.body();
                     clientId = credentials.clientId;
                     clientSecret = credentials.clientSecret;
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString(domain + "/client_id", clientId);
-                    editor.putString(domain + "/client_secret", clientSecret);
-                    editor.apply();
+                    preferences.edit()
+                            .putString(domain + "/client_id", clientId)
+                            .putString(domain + "/client_secret", clientSecret)
+                            .apply();
                     redirectUserToAuthorizeAndLogin(editText);
                 }
 
@@ -248,11 +247,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         if (domain != null) {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("domain", domain);
-            editor.putString("clientId", clientId);
-            editor.putString("clientSecret", clientSecret);
-            editor.apply();
+            preferences.edit()
+                    .putString("domain", domain)
+                    .putString("clientId", clientId)
+                    .putString("clientSecret", clientSecret)
+                    .apply();
         }
     }
 
@@ -327,10 +326,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onLoginSuccess(String accessToken) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("domain", domain);
-        editor.putString("accessToken", accessToken);
-        editor.commit();
+        boolean committed = preferences.edit()
+                .putString("domain", domain)
+                .putString("accessToken", accessToken)
+                .commit();
+        if (!committed) {
+            editText.setError(getString(R.string.error_retrieving_oauth_token));
+            return;
+        }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();

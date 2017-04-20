@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -24,7 +25,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Profile;
@@ -66,7 +66,7 @@ public class EditProfileActivity extends BaseActivity {
     @BindView(R.id.edit_profile_header) Button headerButton;
     @BindView(R.id.edit_profile_header_preview) ImageView headerPreview;
     @BindView(R.id.edit_profile_header_progress) ProgressBar headerProgress;
-    @BindView(R.id.edit_profile_error) TextView errorText;
+    @BindView(R.id.edit_profile_save_progress) ProgressBar saveProgress;
 
     private String priorDisplayName;
     private String priorNote;
@@ -131,7 +131,7 @@ public class EditProfileActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 headerPreview.setImageBitmap(null);
-                avatarPreview.setVisibility(View.GONE);
+                headerPreview.setVisibility(View.GONE);
                 headerBase64 = null;
             }
         });
@@ -173,7 +173,11 @@ public class EditProfileActivity extends BaseActivity {
     }
 
     private void onMediaPick(PickType pickType) {
-        beginMediaPicking(pickType);
+        if (currentlyPicking != PickType.NOTHING) {
+            // Ignore inputs if another pick operation is still occurring.
+            return;
+        }
+        currentlyPicking = pickType;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
@@ -195,7 +199,8 @@ public class EditProfileActivity extends BaseActivity {
                     initiateMediaPicking();
                 } else {
                     endMediaPicking();
-                    errorText.setText(R.string.error_media_upload_permission);
+                    Snackbar.make(avatarButton, R.string.error_media_upload_permission,
+                            Snackbar.LENGTH_LONG).show();
                 }
                 break;
             }
@@ -205,18 +210,11 @@ public class EditProfileActivity extends BaseActivity {
     private void initiateMediaPicking() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("*/*");
+        intent.setType("image/*");
         switch (currentlyPicking) {
-            case AVATAR: {
-                startActivityForResult(intent, AVATAR_PICK_RESULT);
-                break;
-            }
-            case HEADER: {
-                startActivityForResult(intent, HEADER_PICK_RESULT);
-                break;
-            }
+            case AVATAR: { startActivityForResult(intent, AVATAR_PICK_RESULT); break; }
+            case HEADER: { startActivityForResult(intent, HEADER_PICK_RESULT); break; }
         }
-
     }
 
     @Override
@@ -263,10 +261,15 @@ public class EditProfileActivity extends BaseActivity {
             // If it's not any different, don't patch it.
             newNote = null;
         }
+        if (newDisplayName == null && newNote == null && avatarBase64 == null
+                && headerBase64 == null) {
+            // If nothing is changed, then there's nothing to save.
+            return;
+        }
+
+        saveProgress.setVisibility(View.VISIBLE);
 
         isAlreadySaving = true;
-
-        Log.d(TAG, "avatar " + avatarBase64);
 
         Profile profile = new Profile();
         profile.displayName = newDisplayName;
@@ -280,6 +283,9 @@ public class EditProfileActivity extends BaseActivity {
                     onSaveFailure();
                     return;
                 }
+                getPrivatePreferences().edit()
+                        .putBoolean("refreshProfileHeader", true)
+                        .apply();
                 finish();
             }
 
@@ -292,21 +298,38 @@ public class EditProfileActivity extends BaseActivity {
 
     private void onSaveFailure() {
         isAlreadySaving = false;
-        errorText.setText(getString(R.string.error_media_upload_sending));
+        Snackbar.make(avatarButton, R.string.error_media_upload_sending, Snackbar.LENGTH_LONG)
+                .show();
+        saveProgress.setVisibility(View.GONE);
     }
 
-    private void beginMediaPicking(PickType pickType) {
-        currentlyPicking = pickType;
+    private void beginMediaPicking() {
         switch (currentlyPicking) {
-            case AVATAR: { avatarProgress.setVisibility(View.VISIBLE); break; }
-            case HEADER: { headerProgress.setVisibility(View.VISIBLE); break; }
+            case AVATAR: {
+                avatarProgress.setVisibility(View.VISIBLE);
+                avatarPreview.setVisibility(View.INVISIBLE);
+                break;
+            }
+            case HEADER: {
+                headerProgress.setVisibility(View.VISIBLE);
+                headerPreview.setVisibility(View.INVISIBLE);
+                break;
+            }
         }
     }
 
     private void endMediaPicking() {
         switch (currentlyPicking) {
-            case AVATAR: { avatarProgress.setVisibility(View.GONE); break; }
-            case HEADER: { headerProgress.setVisibility(View.GONE); break; }
+            case AVATAR: {
+                avatarProgress.setVisibility(View.GONE);
+                avatarPreview.setVisibility(View.GONE);
+                break;
+            }
+            case HEADER: {
+                headerProgress.setVisibility(View.GONE);
+                headerPreview.setVisibility(View.GONE);
+                break;
+            }
         }
         currentlyPicking = PickType.NOTHING;
     }
@@ -321,6 +344,8 @@ public class EditProfileActivity extends BaseActivity {
                             .setInitialCropWindowPaddingRatio(0)
                             .setAspectRatio(AVATAR_WIDTH, AVATAR_HEIGHT)
                             .start(this);
+                } else {
+                    endMediaPicking();
                 }
                 break;
             }
@@ -330,6 +355,8 @@ public class EditProfileActivity extends BaseActivity {
                             .setInitialCropWindowPaddingRatio(0)
                             .setAspectRatio(HEADER_WIDTH, HEADER_HEIGHT)
                             .start(this);
+                } else {
+                    endMediaPicking();
                 }
                 break;
             }
@@ -346,6 +373,7 @@ public class EditProfileActivity extends BaseActivity {
     }
 
     private void beginResize(Uri uri) {
+        beginMediaPicking();
         int width, height;
         switch (currentlyPicking) {
             default: {
@@ -366,7 +394,9 @@ public class EditProfileActivity extends BaseActivity {
                 @Override
                 public void onSuccess(List<Bitmap> contentList) {
                     Bitmap bitmap = contentList.get(0);
-                    switch (currentlyPicking) {
+                    PickType pickType = currentlyPicking;
+                    endMediaPicking();
+                    switch (pickType) {
                         case AVATAR: {
                             avatarPreview.setImageBitmap(bitmap);
                             avatarPreview.setVisibility(View.VISIBLE);
@@ -380,7 +410,6 @@ public class EditProfileActivity extends BaseActivity {
                             break;
                         }
                     }
-                    endMediaPicking();
                 }
 
                 @Override
@@ -391,7 +420,8 @@ public class EditProfileActivity extends BaseActivity {
     }
 
     private void onResizeFailure() {
-        errorText.setText(getString(R.string.error_media_upload_sending));
+        Snackbar.make(avatarButton, R.string.error_media_upload_sending, Snackbar.LENGTH_LONG)
+                .show();
         endMediaPicking();
     }
 
