@@ -169,15 +169,25 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setCreatedAt(@Nullable Date createdAt) {
+        // This is the visible timestamp.
         String readout;
+        /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
+         * as 17 meters instead of minutes. */
+        CharSequence readoutAloud;
         if (createdAt != null) {
             long then = createdAt.getTime();
             long now = new Date().getTime();
             readout = DateUtils.getRelativeTimeSpanString(then, now);
+            readoutAloud = android.text.format.DateUtils.getRelativeTimeSpanString(then, now,
+                    android.text.format.DateUtils.SECOND_IN_MILLIS,
+                    android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);
         } else {
-            readout = "?m"; // unknown minutes~
+            // unknown minutes~
+            readout = "?m";
+            readoutAloud = "? minutes";
         }
         sinceCreated.setText(readout);
+        sinceCreated.setContentDescription(readoutAloud);
     }
 
     private void setRebloggedByDisplayName(String name) {

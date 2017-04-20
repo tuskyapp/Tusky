@@ -26,9 +26,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -68,6 +66,7 @@ import retrofit2.Response;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity"; // logging tag and Volley request tag
+    protected static int COMPOSE_RESULT = 1;
 
     private String loggedInAccountId;
     private String loggedInAccountUsername;
@@ -101,7 +100,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ComposeActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, COMPOSE_RESULT);
             }
         });
 
@@ -240,6 +239,9 @@ public class MainActivity extends BaseActivity {
                 })
                 .withCompactStyle(true)
                 .build();
+        headerResult.getView()
+                .findViewById(R.id.material_drawer_account_header_current)
+                .setContentDescription(getString(R.string.action_view_profile));
 
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
@@ -471,6 +473,17 @@ public class MainActivity extends BaseActivity {
 
     private void onFetchUserInfoFailure(Exception exception) {
         Log.e(TAG, "Failed to fetch user info. " + exception.getMessage());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == COMPOSE_RESULT && resultCode == ComposeActivity.RESULT_OK) {
+            TimelinePagerAdapter adapter = (TimelinePagerAdapter) viewPager.getAdapter();
+            if (adapter.getCurrentFragment() instanceof SFragment) {
+                ((SFragment) adapter.getCurrentFragment()).onSuccessfulStatus();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

@@ -30,8 +30,15 @@ class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover
     private static final int VIEW_TYPE_STATUS = 0;
     private static final int VIEW_TYPE_FOOTER = 1;
 
+    enum FooterState {
+        EMPTY,
+        END,
+        LOADING
+    }
+
     private List<Status> statuses;
     private StatusActionListener statusListener;
+    private FooterState footerState = FooterState.END;
 
     TimelineAdapter(StatusActionListener statusListener) {
         super();
@@ -49,10 +56,34 @@ class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover
                 return new StatusViewHolder(view);
             }
             case VIEW_TYPE_FOOTER: {
-                View view = LayoutInflater.from(viewGroup.getContext())
-                        .inflate(R.layout.item_footer, viewGroup, false);
+                View view;
+                switch (footerState) {
+                    default:
+                    case LOADING:
+                        view = LayoutInflater.from(viewGroup.getContext())
+                                .inflate(R.layout.item_footer, viewGroup, false);
+                        break;
+                    case END: {
+                        view = LayoutInflater.from(viewGroup.getContext())
+                                .inflate(R.layout.item_footer_end, viewGroup, false);
+                        break;
+                    }
+                    case EMPTY: {
+                        view = LayoutInflater.from(viewGroup.getContext())
+                                .inflate(R.layout.item_footer_empty, viewGroup, false);
+                        break;
+                    }
+                }
                 return new FooterViewHolder(view);
             }
+        }
+    }
+
+    public void setFooterState(FooterState newFooterState) {
+        FooterState oldValue = footerState;
+        footerState = newFooterState;
+        if (footerState != oldValue) {
+            notifyItemChanged(statuses.size());
         }
     }
 

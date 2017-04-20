@@ -214,6 +214,10 @@ public class TimelineFragment extends SFragment implements
     private void sendFetchTimelineRequest(@Nullable final String fromId, @Nullable String uptoId) {
         MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
 
+        if (fromId != null || adapter.getItemCount() <= 1) {
+            adapter.setFooterState(TimelineAdapter.FooterState.LOADING);
+        }
+
         Callback<List<Status>> cb = new Callback<List<Status>>() {
             @Override
             public void onResponse(Call<List<Status>> call, retrofit2.Response<List<Status>> response) {
@@ -282,6 +286,11 @@ public class TimelineFragment extends SFragment implements
         } else {
             adapter.update(statuses);
         }
+        if (statuses.size() == 0 && adapter.getItemCount() == 1) {
+            adapter.setFooterState(TimelineAdapter.FooterState.EMPTY);
+        } else if(fromId != null) {
+            adapter.setFooterState(TimelineAdapter.FooterState.END);
+        }
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -297,6 +306,14 @@ public class TimelineFragment extends SFragment implements
         } else {
             sendFetchTimelineRequest();
         }
+    }
+
+    @Override
+    public void onSuccessfulStatus() {
+        if (kind == Kind.HOME || kind == Kind.PUBLIC_FEDERATED || kind == Kind.PUBLIC_LOCAL) {
+            onRefresh();
+        }
+        super.onSuccessfulStatus();
     }
 
     public void onReply(int position) {

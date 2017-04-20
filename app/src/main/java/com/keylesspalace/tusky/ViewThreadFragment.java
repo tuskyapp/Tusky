@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,9 +35,11 @@ import com.keylesspalace.tusky.entity.StatusContext;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class ViewThreadFragment extends SFragment implements StatusActionListener {
+public class ViewThreadFragment extends SFragment implements
+        SwipeRefreshLayout.OnRefreshListener, StatusActionListener {
     private static final String TAG = "ViewThreadFragment";
 
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private ThreadAdapter adapter;
     private String thisThreadsStatusId;
@@ -56,6 +59,9 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
         View rootView = inflater.inflate(R.layout.fragment_view_thread, container, false);
 
         Context context = getContext();
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -86,7 +92,7 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
             @Override
             public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
-                    int position = adapter.insertStatus(response.body());
+                    int position = adapter.setStatus(response.body());
                     recyclerView.scrollToPosition(position);
                 } else {
                     onThreadRequestFailure(id);
@@ -109,10 +115,10 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
             @Override
             public void onResponse(Call<StatusContext> call, retrofit2.Response<StatusContext> response) {
                 if (response.isSuccessful()) {
+                    swipeRefreshLayout.setRefreshing(false);
                     StatusContext context = response.body();
 
-                    adapter.addAncestors(context.ancestors);
-                    adapter.addDescendants(context.descendants);
+                    adapter.setContext(context.ancestors, context.descendants);
                 } else {
                     onThreadRequestFailure(id);
                 }
@@ -128,6 +134,7 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
 
     private void onThreadRequestFailure(final String id) {
         View view = getView();
+        swipeRefreshLayout.setRefreshing(false);
         if (view != null) {
             Snackbar.make(view, R.string.error_generic, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_retry, new View.OnClickListener() {
@@ -141,6 +148,17 @@ public class ViewThreadFragment extends SFragment implements StatusActionListene
         } else {
             Log.e(TAG, "Couldn't display thread fetch error message");
         }
+    }
+
+    public void onRefresh() {
+        sendStatusRequest(thisThreadsStatusId);
+        sendThreadRequest(thisThreadsStatusId);
+    }
+
+    @Override
+    public void onSuccessfulStatus() {
+        onRefresh();
+        super.onSuccessfulStatus();
     }
 
     public void onReply(int position) {
