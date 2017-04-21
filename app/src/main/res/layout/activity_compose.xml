@@ -92,6 +92,15 @@
             android:paddingTop="4dp">
 
             <ImageButton
+                android:id="@+id/compose_photo_take"
+                style="?attr/image_button_style"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="8dp"
+                app:srcCompat="@drawable/ic_camera_24dp"
+                android:contentDescription="@string/action_photo_take" />
+
+            <ImageButton
                 android:id="@+id/compose_photo_pick"
                 style="?attr/image_button_style"
                 android:layout_width="32dp"
