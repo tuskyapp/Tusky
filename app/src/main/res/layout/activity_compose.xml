@@ -19,6 +19,33 @@
             android:background="@android:color/transparent"
             android:elevation="4dp" />
 
+        <LinearLayout
+            android:id="@+id/compose_content_warning_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="8dp">
+
+            <EditText
+                android:id="@+id/field_content_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:maxLines="1"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:hint="@string/hint_content_warning"
+                android:inputType="text|textCapSentences" />
+
+            <View
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"/>
+
+        </LinearLayout>
+
         <RelativeLayout
             android:id="@+id/compose_edit_area"
             android:layout_width="match_parent"
@@ -55,32 +82,6 @@
                 android:layout_centerVertical="true" />
 
         </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/compose_content_warning_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="8dp">
-
-            <EditText
-                android:id="@+id/field_content_warning"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:ems="10"
-                android:maxLines="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:hint="@string/hint_content_warning"
-                android:inputType="text|textCapSentences" />
-
-            <View
-                android:layout_marginTop="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"/>
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

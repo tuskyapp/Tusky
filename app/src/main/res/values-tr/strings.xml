@@ -45,7 +45,7 @@
     <string name="notification_favourite_format">%s iletini favori etti</string>
     <string name="notification_follow_format">%s seni takip etti</string>
 
-    <string name="report_username_format">@%s bildir</string>
+    <string name="report_username_format">\@%s bildir</string>
     <string name="report_comment_hint">Daha fazla yorum?</string>
 
     <string name="action_reply">Yanıtla</string>
