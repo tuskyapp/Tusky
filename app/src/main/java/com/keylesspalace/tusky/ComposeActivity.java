@@ -18,7 +18,6 @@ package com.keylesspalace.tusky;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -108,7 +107,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private static final int MEDIA_SIZE_UNKNOWN = -1;
     private static final int COMPOSE_SUCCESS = -1;
-    private static final int THUMBNAIL_SIZE = 128;
+    private static final int THUMBNAIL_SIZE = 128; // pixels
 
     private String inReplyToId;
     private EditText textEditor;
@@ -346,8 +345,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             actionBar.setHomeAsUpIndicator(closeIcon);
         }
 
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = getPrivatePreferences();
 
         floatingBtn = (Button) findViewById(R.id.floating_btn);
         pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
@@ -595,26 +593,53 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         floatingBtn.setEnabled(true);
     }
 
+    private void addLockToSendButton() {
+        floatingBtn.setText(R.string.action_send);
+        Drawable lock = AppCompatResources.getDrawable(this, R.drawable.send_private);
+        if (lock != null) {
+            lock.setBounds(0, 0, lock.getIntrinsicWidth(), lock.getIntrinsicHeight());
+            floatingBtn.setCompoundDrawables(null, null, lock, null);
+        }
+    }
+
     private void setStatusVisibility(String visibility) {
         statusVisibility = visibility;
         switch (visibility) {
             case "public": {
                 floatingBtn.setText(R.string.action_send_public);
                 floatingBtn.setCompoundDrawables(null, null, null, null);
-                break;
-            }
-            case "private": {
-                floatingBtn.setText(R.string.action_send);
-                Drawable lock = AppCompatResources.getDrawable(this, R.drawable.send_private);
-                if (lock != null) {
-                    lock.setBounds(0, 0, lock.getIntrinsicWidth(), lock.getIntrinsicHeight());
-                    floatingBtn.setCompoundDrawables(null, null, lock, null);
+                Drawable globe = AppCompatResources.getDrawable(this, R.drawable.ic_public_24dp);
+                if (globe != null) {
+                    visibilityBtn.setImageDrawable(globe);
                 }
                 break;
             }
+            case "private": {
+                addLockToSendButton();
+                Drawable lock = AppCompatResources.getDrawable(this,
+                        R.drawable.ic_lock_outline_24dp);
+                if (lock != null) {
+                    visibilityBtn.setImageDrawable(lock);
+                }
+                break;
+            }
+            case "direct": {
+                addLockToSendButton();
+                Drawable envelope = AppCompatResources.getDrawable(this, R.drawable.ic_email_24dp);
+                if (envelope != null) {
+                    visibilityBtn.setImageDrawable(envelope);
+                }
+                break;
+            }
+            case "unlisted":
             default: {
                 floatingBtn.setText(R.string.action_send);
                 floatingBtn.setCompoundDrawables(null, null, null, null);
+                Drawable openLock = AppCompatResources.getDrawable(this,
+                        R.drawable.ic_lock_open_24dp);
+                if (openLock != null) {
+                    visibilityBtn.setImageDrawable(openLock);
+                }
                 break;
             }
         }
@@ -728,11 +753,9 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
              * the status they reply to and that behaviour needs to be kept separate. */
             return;
         }
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("rememberedVisibility", statusVisibility);
-        editor.apply();
+        getPrivatePreferences().edit()
+                .putString("rememberedVisibility", statusVisibility)
+                .apply();
     }
 
     private EditText createEditText(String[] contentMimeTypes) {
@@ -762,7 +785,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         editText.setLayoutParams(layoutParams);
-        editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         editText.setEms(10);
         editText.setBackgroundColor(0);
         editText.setGravity(Gravity.START | Gravity.TOP);
@@ -967,12 +990,11 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
         String imageFileName = "Tusky_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
+        return File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-        return image;
     }
 
     private void initiateCameraApp() {
@@ -1250,17 +1272,9 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             long mediaSize = getMediaSize(getContentResolver(), uri);
             pickMedia(uri, mediaSize);
         } else if (requestCode == MEDIA_TAKE_PHOTO_RESULT && resultCode == RESULT_OK) {
-            queueCameraResult();
+            long mediaSize = getMediaSize(getContentResolver(), photoUploadUri);
+            pickMedia(photoUploadUri, mediaSize);
         }
-    }
-
-    private void queueCameraResult() {
-        ContentResolver contentResolver = getContentResolver();
-
-        Cursor returnCursor = contentResolver.query(photoUploadUri, null, null, null, null);
-        int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
-        returnCursor.moveToFirst();
-        pickMedia(photoUploadUri, returnCursor.getLong(sizeIndex));
     }
 
     private void pickMedia(Uri uri, long mediaSize) {

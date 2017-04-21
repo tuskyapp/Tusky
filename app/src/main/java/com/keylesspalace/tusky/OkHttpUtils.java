@@ -37,7 +37,10 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.ConnectionSpec;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 class OkHttpUtils {
     static final String TAG = "OkHttpUtils"; // logging tag
@@ -69,6 +72,7 @@ class OkHttpUtils {
         specList.add(ConnectionSpec.CLEARTEXT);
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .addInterceptor(getUserAgentInterceptor())
                 .connectionSpecs(specList);
 
         return enableHigherTlsOnPreLollipop(builder);
@@ -78,6 +82,26 @@ class OkHttpUtils {
     static OkHttpClient getCompatibleClient() {
         return getCompatibleClientBuilder().build();
     }
+
+    /**
+     * Add a custom User-Agent that contains Tusky & Android Version to all requests
+     * Example:
+     * User-Agent: Tusky/1.1.2 Android/5.0.2
+     */
+    @NonNull
+    private static Interceptor getUserAgentInterceptor() {
+        return new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request originalRequest = chain.request();
+                Request requestWithUserAgent = originalRequest.newBuilder()
+                        .header("User-Agent", "Tusky/"+BuildConfig.VERSION_NAME+" Android/"+Build.VERSION.RELEASE)
+                        .build();
+                return chain.proceed(requestWithUserAgent);
+            }
+        };
+    }
+
 
     /**
      * Android version Nougat has a regression where elliptic curve cipher suites are supported, but
@@ -194,7 +218,7 @@ class OkHttpUtils {
 
         @Override
         public Socket createSocket(InetAddress address, int port, InetAddress localAddress,
-                int localPort) throws IOException {
+                                   int localPort) throws IOException {
             return patch(delegate.createSocket(address, port, localAddress, localPort));
         }
 
