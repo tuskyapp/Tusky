@@ -13,6 +13,8 @@
     <string name="error_media_upload_type">Bestandstype kan niet worden geüpload.</string>
     <string name="error_media_upload_opening">Bestand kan niet worden geopend.</string>
     <string name="error_media_upload_permission">Toestemming nodig om media te kunnen lezen.</string>
+    <!-- <string name="error_media_download_permission">Permission to store media is required.</string> -->
+
     <string name="error_media_upload_image_or_video">Afbeeldingen en video\'s kunnen niet allebei aan dezelfde toot worden toegevoegd.</string>
     <string name="error_media_upload_sending">Uploaden mislukt.</string>
     <string name="error_report_too_few_statuses">Tenminste één toot moet worden gerapporteerd.</string>
@@ -87,6 +89,8 @@
     <string name="action_compose_options">Opties</string>
     <string name="action_open_drawer">Menu openen</string>
     <string name="action_clear">Leegmaken</string>
+    <!-- <string name="action_save">Save</string> -->
+    <!-- <string name="action_edit_profile">Edit profile</string> -->
 
     <string name="send_status_link_to">Deel link van toot met…</string>
     <string name="send_status_content_to">Deel toot met…</string>
@@ -99,6 +103,11 @@
     <string name="hint_domain">Welke Mastodon-server?</string>
     <string name="hint_compose">Wat wil je kwijt?</string>
     <string name="hint_content_warning">Waarschuwingstekst</string>
+    <!-- <string name="hint_display_name">Display name</string> -->
+    <!-- <string name="hint_note">Bio</string> -->
+
+    <!-- <string name="label_avatar">Avatar</string> -->
+    <!-- <string name="label_header">Header</string> -->
 
     <string name="link_whats_an_instance">Wat is een Mastodon-server?</string>
 
@@ -108,10 +117,12 @@
     </string>
     <string name="dialog_title_finishing_media_upload">Uploaden media wordt voltooid</string>
     <string name="dialog_message_uploading_media">Uploaden…</string>
+    <!-- <string name="dialog_download_image">Download</string> -->
 
-    <string name="visibility_public">Openbaar</string>
+	<string name="visibility_public">Openbaar</string>
     <string name="visibility_unlisted">Openbaar, maar niet op een openbare tijdlijn tonen</string>
     <string name="visibility_private">Alleen aan volgers (en vermeldingen) tonen</string>
+    <!-- <string name="visibility_direct">Direct: Post to mentioned users only</string> -->
 
     <string name="pref_title_notification_settings">Meldingen</string>
     <string name="pref_title_edit_notification_settings">Meldingen bewerken</string>
@@ -140,5 +151,4 @@
     <string name="description_account_locked">Geblokkeerde account</string>
     <string name="status_share_content">Deel inhoud van toot</string>
     <string name="status_share_link">Deel link met toot</string>
-
 </resources>
