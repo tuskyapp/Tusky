@@ -13,7 +13,7 @@
     <string name="error_media_upload_type">O biçim dosya yüklenmez.</string>
     <string name="error_media_upload_opening">O dosya açılamadı.</string>
     <string name="error_media_upload_permission">Medya okuma izni gerekiyor.</string>
-    <string name="error_media_download_permission">Permission to store media is required.</string>
+    <string name="error_media_download_permission">Medya kaydetmek için izin gerekiyor.</string>
 
     <string name="error_media_upload_image_or_video">Aynı iletiye kem video hem resim eklenemez.</string>
     <string name="error_media_upload_sending">Yükleme başarsız.</string>
@@ -81,7 +81,7 @@
     <string name="action_open_in_web">Tarayıcıda aç</string>
     <string name="action_submit">Gönder</string>
     <string name="action_photo_pick">Medya ekle</string>
-    <string name="action_photo_take">Take photo</string>
+    <string name="action_photo_take">Resim çek</string>
     <string name="action_share">Paylaş</string>
     <string name="action_mute">Sesize al</string>
     <string name="action_unmute">Sesizden kaldır</string>
@@ -90,8 +90,8 @@
     <string name="action_compose_options">Seçenekler</string>
     <string name="action_open_drawer">Çekmece aç</string>
     <string name="action_clear">Temizle</string>
-    <string name="action_save">Save</string>
-    <string name="action_edit_profile">Edit profile</string>
+    <string name="action_save">Kaydet</string>
+    <string name="action_edit_profile">Profili düzelt</string>
 
     <string name="send_status_link_to">İletinin adresini paylaş…</string>
     <string name="send_status_content_to">İletiyi paylaş…</string>
@@ -104,11 +104,11 @@
     <string name="hint_domain">Hangi sunucu?</string>
     <string name="hint_compose">Neler oluyor?</string>
     <string name="hint_content_warning">İçerik uyarı</string>
-    <string name="hint_display_name">Display name</string>
-    <string name="hint_note">Bio</string>
+    <string name="hint_display_name">Görünen ad</string>
+    <string name="hint_note">Biyo</string>
 
-    <string name="label_avatar">Avatar</string>
-    <string name="label_header">Header</string>
+    <string name="label_avatar">Simge</string>
+    <string name="label_header">Üstlük</string>
 
     <string name="link_whats_an_instance">Sunucu nedir?</string>
 
@@ -122,12 +122,12 @@
     </string>
     <string name="dialog_title_finishing_media_upload">Medya Yükleme Bittiriliyor</string>
     <string name="dialog_message_uploading_media">Yükleniyor…</string>
-    <string name="dialog_download_image">Download</string>
+    <string name="dialog_download_image">İndir</string>
 
-    <string name="visibility_public">Herkese açık</string>
-    <string name="visibility_unlisted">Kerkese açık ancak sosyal çizelgesinde çıkmaz</string>
-    <string name="visibility_private">Sadece takipçiler ve bahsedilenlere açık</string>
-    <string name="visibility_direct">Direct: Post to mentioned users only</string>
+    <string name="visibility_public">Kamu: Herkese açık ve sosyal çizelgelerinde çıkar</string>
+    <string name="visibility_unlisted">Saklı: Herkese açık ancık sosyal çizelgesinde çıkmaz</string>
+    <string name="visibility_private">Özel: Sadece takipçiler ve bahsedilenlere açık</string>
+    <string name="visibility_direct">Direkt: Sadece bahsedilen kullanıcılara açık</string>
 
     <string name="pref_title_notification_settings">Bildirimler</string>
     <string name="pref_title_edit_notification_settings">Bildirimleri düzelt</string>
