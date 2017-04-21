@@ -102,7 +102,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setContent(Spanned content, Status.Mention[] mentions,
-            final StatusActionListener listener) {
+                            final StatusActionListener listener) {
         /* Redirect URLSpan's in the status content to the listener for viewing tag pages and
          * account pages. */
         SpannableStringBuilder builder = new SpannableStringBuilder(content);
@@ -230,7 +230,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setMediaPreviews(final Status.MediaAttachment[] attachments,
-                                 boolean sensitive, final StatusActionListener listener) {
+                                  boolean sensitive, final StatusActionListener listener) {
         final ImageView[] previews = {
                 mediaPreview0,
                 mediaPreview1,
@@ -249,20 +249,32 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
 
             previews[i].setVisibility(View.VISIBLE);
 
-            Picasso.with(context)
-                    .load(previewUrl)
-                    .placeholder(mediaPreviewUnloadedId)
-                    .into(previews[i]);
+            if(previewUrl == null || previewUrl.isEmpty()) {
+                Picasso.with(context)
+                        .load(mediaPreviewUnloadedId)
+                        .into(previews[i]);
+            } else {
+                Picasso.with(context)
+                        .load(previewUrl)
+                        .placeholder(mediaPreviewUnloadedId)
+                        .into(previews[i]);
+            }
 
             final String url = attachments[i].url;
             final Status.MediaAttachment.Type type = attachments[i].type;
 
-            previews[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onViewMedia(url, type);
-                }
-            });
+            if(url == null || url.isEmpty()) {
+                previews[i].setOnClickListener(null);
+            } else {
+                previews[i].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onViewMedia(url, type);
+                    }
+                });
+            }
+
+
         }
 
         if (sensitive) {
