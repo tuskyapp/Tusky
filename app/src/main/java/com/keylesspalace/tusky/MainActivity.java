@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -27,6 +28,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -41,10 +43,12 @@ import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.keylesspalace.tusky.entity.Account;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.typeface.GenericFont;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.icons.MaterialDrawerFont;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
@@ -268,6 +272,9 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        Drawable muteDrawable = ContextCompat.getDrawable(this, R.drawable.ic_mute_24dp);
+        ThemeUtils.setDrawableTint(this, muteDrawable, R.attr.toolbar_icon_tint);
+
         drawer = new DrawerBuilder()
                 .withActivity(this)
                 //.withToolbar(toolbar)
@@ -277,10 +284,11 @@ public class MainActivity extends BaseActivity {
                 .addDrawerItems(
                         new PrimaryDrawerItem().withIdentifier(0).withName(getString(R.string.action_edit_profile)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person),
                         new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.action_view_favourites)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_star),
-                        new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block),
+                        new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.action_view_mutes)).withSelectable(false).withIcon(muteDrawable),
+                        new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block),
                         new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withIdentifier(3).withName(getString(R.string.action_view_preferences)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings),
-                        new SecondaryDrawerItem().withIdentifier(4).withName(getString(R.string.action_logout)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_exit_to_app)
+                        new SecondaryDrawerItem().withIdentifier(4).withName(getString(R.string.action_view_preferences)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings),
+                        new SecondaryDrawerItem().withIdentifier(5).withName(getString(R.string.action_logout)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_exit_to_app)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -296,11 +304,16 @@ public class MainActivity extends BaseActivity {
                                 startActivity(intent);
                             } else if (drawerItemIdentifier == 2) {
                                 Intent intent = new Intent(MainActivity.this, BlocksActivity.class);
+                                intent.putExtra("type", BlocksActivity.Type.MUTES);
                                 startActivity(intent);
                             } else if (drawerItemIdentifier == 3) {
-                                Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
+                                Intent intent = new Intent(MainActivity.this, BlocksActivity.class);
+                                intent.putExtra("type", BlocksActivity.Type.BLOCKS);
                                 startActivity(intent);
                             } else if (drawerItemIdentifier == 4) {
+                                Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
+                                startActivity(intent);
+                            } else if (drawerItemIdentifier == 5) {
                                 logout();
                             }
                         }

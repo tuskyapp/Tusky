@@ -61,7 +61,7 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
     public static AccountFragment newInstance(Type type) {
         Bundle arguments = new Bundle();
         AccountFragment fragment = new AccountFragment();
-        arguments.putString("type", type.name());
+        arguments.putSerializable("type", type);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -69,7 +69,7 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
     public static AccountFragment newInstance(Type type, String accountId) {
         Bundle arguments = new Bundle();
         AccountFragment fragment = new AccountFragment();
-        arguments.putString("type", type.name());
+        arguments.putSerializable("type", type);
         arguments.putString("accountId", accountId);
         fragment.setArguments(arguments);
         return fragment;
@@ -79,7 +79,7 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle arguments = getArguments();
-        type = Type.valueOf(arguments.getString("type"));
+        type = (Type) arguments.getSerializable("type");
         accountId = arguments.getString("accountId");
         api = null;
     }
@@ -105,6 +105,8 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
         scrollListener = null;
         if (type == Type.BLOCKS) {
             adapter = new BlocksAdapter(this);
+        } else if (type == Type.MUTES) {
+            adapter = new MutesAdapter(this);
         } else {
             adapter = new FollowAdapter(this);
         }
@@ -242,6 +244,56 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
         startActivity(intent);
     }
 
+    public void onMute(final boolean mute, final String id, final int position) {
+        if (api == null) {
+            /* If somehow an unmute button is clicked after onCreateView but before
+             * onActivityCreated, then this would get called with a null api object, so this eats
+             * that input. */
+            Log.d(TAG, "MastodonAPI isn't initialised so this mute can't occur.");
+            return;
+        }
+
+        Callback<Relationship> callback = new Callback<Relationship>() {
+            @Override
+            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
+                if (response.isSuccessful()) {
+                    onMuteSuccess(mute, position);
+                } else {
+                    onMuteFailure(mute, id);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Relationship> call, Throwable t) {
+                onMuteFailure(mute, id);
+            }
+        };
+
+        Call<Relationship> call;
+        if (!mute) {
+            call = api.unblockAccount(id);
+        } else {
+            call = api.blockAccount(id);
+        }
+        callList.add(call);
+        call.enqueue(callback);
+    }
+
+    private void onMuteSuccess(boolean muted, int position) {
+        MutesAdapter mutesAdapter = (MutesAdapter) adapter;
+        mutesAdapter.setMuted(muted, position);
+    }
+
+    private void onMuteFailure(boolean mute, String id) {
+        String verb;
+        if (mute) {
+            verb = "mute";
+        } else {
+            verb = "unmute";
+        }
+        Log.e(TAG, String.format("Failed to %s account id %s", verb, id));
+    }
+
     public void onBlock(final boolean block, final String id, final int position) {
         if (api == null) {
             /* If somehow an unblock button is clicked after onCreateView but before
@@ -293,7 +345,7 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
     }
 
     private boolean jumpToTopAllowed() {
-        return type != Type.BLOCKS;
+        return type == Type.FOLLOWS || type == Type.FOLLOWERS;
     }
 
     private void jumpToTop() {
