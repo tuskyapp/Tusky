@@ -1,0 +1,144 @@
+<resources>
+
+    <string name="error_generic">Er ging iets verkeerd.</string>
+    <string name="error_empty">Dit kan niet leeg blijven.</string>
+    <string name="error_invalid_domain">Ongeldige domeinnaam ingevoerd</string>
+    <string name="error_failed_app_registration">Authenticatie met die server is mislukt.</string>
+    <string name="error_no_web_browser_found">Kon geen webbrowser vinden om te gebruiken.</string>
+    <string name="error_authorization_unknown">Onbekende autorisatiefout.</string>
+    <string name="error_authorization_denied">Autorisatie werd geweigerd.</string>
+    <string name="error_retrieving_oauth_token">Verkrijgen van inlogsleutel is mislukt.</string>
+    <string name="error_compose_character_limit">Tekst van deze toot is te lang!</string>
+    <string name="error_media_upload_size">Bestand moet kleiner zijn dan 4MB.</string>
+    <string name="error_media_upload_type">Bestandstype kan niet worden geüpload.</string>
+    <string name="error_media_upload_opening">Bestand kan niet worden geopend.</string>
+    <string name="error_media_upload_permission">Toestemming nodig om media te kunnen lezen.</string>
+    <string name="error_media_upload_image_or_video">Afbeeldingen en video's kunnen niet allebei aan dezelfde toot worden toegevoegd.</string>
+    <string name="error_media_upload_sending">Uploaden mislukt.</string>
+    <string name="error_report_too_few_statuses">Tenminste één toot moet worden gerapporteerd.</string>
+
+    <string name="title_home">Jouw tijdlijn</string>
+    <string name="title_notifications">Meldingen</string>
+    <string name="title_public_local">Lokale tijdlijn</string>
+    <string name="title_public_federated">Globale tijdlijn</string>
+    <string name="title_thread">Conversatie</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">Toots</string>
+    <string name="title_follows">Volgt</string>
+    <string name="title_followers">Volgers</string>
+    <string name="title_favourites">Favorieten</string>
+    <string name="title_blocks">Geblokkeerde</string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s boostte</string>
+    <string name="status_sensitive_media_title">Gevoelige inhoud</string>
+    <string name="status_sensitive_media_directions">Klik om te zien</string>
+    <string name="status_content_warning_show_more">Meer tonen</string>
+    <string name="status_content_warning_show_less">Minder tonen</string>
+
+    <string name="footer_end_of_statuses">einde van alle toots</string>
+    <string name="footer_end_of_notifications">einde van alle meldingen</string>
+    <string name="footer_end_of_accounts">einde van alle accounts</string>
+    <string name="footer_empty">Hier bevinden zich nog geen toots. Trek omlaag om te vernieuwen!</string>
+
+    <string name="notification_reblog_format">%s boostte jouw toot</string>
+    <string name="notification_favourite_format">%s markeerde jouw toot als favoriet</string>
+    <string name="notification_follow_format">%s volgt jou</string>
+
+    <string name="report_username_format">Rapporteer @%s</string>
+    <string name="report_comment_hint">Additional comments?</string>
+
+    <string name="action_reply">Reageren</string>
+    <string name="action_reblog">Boost</string>
+    <string name="action_favourite">Favoriet</string>
+    <string name="action_more">Meer</string>
+    <string name="action_compose">Schrijven</string>
+    <string name="action_login">Inloggen bij Mastodon</string>
+    <string name="action_logout">Uitloggen</string>
+    <string name="action_follow">Volgen</string>
+    <string name="action_unfollow">Ontvolgen</string>
+    <string name="action_block">Blokkeren</string>
+    <string name="action_unblock">Deblokkeren</string>
+    <string name="action_report">Rapporteren</string>
+    <string name="action_delete">Verwijderen</string>
+    <string name="action_send">Toot</string>
+    <string name="action_send_public">TOOT!</string>
+    <string name="action_retry">Opnieuw proberen</string>
+    <string name="action_mark_sensitive">Media als gevoelig markeren</string>
+    <string name="action_hide_text">Tekst achter waarschuwing verbergen</string>
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Annuleren</string>
+    <string name="action_close">Sluiten</string>
+    <string name="action_back">Terug</string>
+    <string name="action_view_profile">Profiel</string>
+    <string name="action_view_preferences">Voorkeuren</string>
+    <string name="action_view_favourites">Favorieten</string>
+    <string name="action_view_blocks">Geblokkeerde gebruikers</string>
+    <string name="action_view_thread">Conversatie</string>
+    <string name="action_view_media">Media</string>
+    <string name="action_open_in_web">Open in webbrowser</string>
+    <string name="action_submit">Opslaan</string>
+    <string name="action_photo_pick">Media toevoegen</string>
+    <string name="action_share">Delen</string>
+    <string name="action_mute">Negeren</string>
+    <string name="action_unmute">Niet meer negeren</string>
+    <string name="action_mention">Vermelden</string>
+    <string name="toggle_nsfw">Gevoelig (NSFW)</string>
+    <string name="action_compose_options">Opties</string>
+    <string name="action_open_drawer">Menu openen</string>
+    <string name="action_clear">Leegmaken</string>
+
+    <string name="send_status_link_to">Deel link van toot met…</string>
+    <string name="send_status_content_to">Deel toot met…</string>
+
+    <string name="search">Zoek accounts…</string>
+
+    <string name="confirmation_send">Toot!</string>
+    <string name="confirmation_reported">Verzenden!</string>
+
+    <string name="hint_domain">Welke Mastodon-server?</string>
+    <string name="hint_compose">Wat wil je kwijt?</string>
+    <string name="hint_content_warning">Waarschuwingstekst</string>
+
+    <string name="link_whats_an_instance">Wat is een Mastodon-server?</string>
+
+    <string name="dialog_whats_an_instance">Het adres of domein van elke Mastodon-server kan hier worden ingevoerd, zoals mastodon.social, octodon.social, mstdn.nl en <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">veel meer!</a>
+        \n\nWanneer je nog geen account hebt, kun je de naam van de Mastodon-server waar jij je graag wil registeren invoeren, waarna je daarna daar een account kunt aanmaken.\n\nEen Mastodon-server is een computerserver waar jouw account zich bevindt, maar je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten.
+        \n\nMeer informatie kun je vinden op <a href="https://mastodon.social/about">mastodon.social</a>.
+    </string>
+    <string name="dialog_title_finishing_media_upload">Uploaden media wordt voltooid</string>
+    <string name="dialog_message_uploading_media">Uploaden…</string>
+
+    <string name="visibility_public">Openbaar</string>
+    <string name="visibility_unlisted">Openbaar, maar niet op een openbare tijdlijn tonen</string>
+    <string name="visibility_private">Alleen aan volgers (en vermeldingen) tonen</string>
+
+    <string name="pref_title_notification_settings">Meldingen</string>
+    <string name="pref_title_edit_notification_settings">Meldingen bewerken</string>
+    <string name="pref_title_notifications_enabled">Meldingen pushen</string>
+    <string name="pref_title_notification_alerts">Waarschuwingen</string>
+    <string name="pref_title_notification_alert_sound">Geluid</string>
+    <string name="pref_title_notification_alert_vibrate">Trillen</string>
+    <string name="pref_title_notification_alert_light">LED</string>
+    <string name="pref_title_notification_filters">Geef een melding wanneer</string>
+    <string name="pref_title_notification_filter_mentions">ik werd vermeld</string>
+    <string name="pref_title_notification_filter_follows">ik werd gevolgd</string>
+    <string name="pref_title_notification_filter_reblogs">mijn toots werden geboost</string>
+    <string name="pref_title_notification_filter_favourites">mijn toots favoriet zijn</string>
+    <string name="pref_title_appearance_settings">Uiterlijk</string>
+    <string name="pref_title_light_theme">Gebruik het lichte thema</string>
+    <string name="pref_title_browser_settings">Webrowser</string>
+    <string name="pref_title_custom_tabs">Gebruik Chrome aangepaste tabbladen</string>
+    <string name="pref_title_hide_follow_button">Verberg volgknop tijdens scrollen</string>
+
+    <string name="notification_mention_format">%s vermeldde jou</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s en %4$d anderen</string>
+    <string name="notification_summary_medium">%1$s, %2$s en %3$s</string>
+    <string name="notification_summary_small">%1$s en %2$s</string>
+    <string name="notification_title_summary">%d nieuwe interacties</string>
+
+    <string name="description_account_locked">Geblokkeerde account</string>
+    <string name="status_share_content">Deel inhoud van toot</string>
+    <string name="status_share_link">Deel link met toot</string>
+
+</resources>
