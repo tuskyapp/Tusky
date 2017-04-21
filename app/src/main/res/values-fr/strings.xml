@@ -150,4 +150,9 @@
     <string name="send_status_link_to">Partager l’URL de votre pouet avec…</string>
     <string name="send_status_content_to">Partager le pouet avec…</string>
     <string name="status_share_link">Partager le lien du pouet</string>
+    <string name="status_share_content">Partager le conteunu du pouet</string>
+    <string name="hint_note">Bio</string>
+    <string name="label_header">En-tête</string>
+    <string name="label_avatar">Avatar</string>
+    <string name="action_view_thread">Thread</string>
 </resources>    
