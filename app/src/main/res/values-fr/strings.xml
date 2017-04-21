@@ -138,4 +138,15 @@
     <string name="notification_title_summary">%d nouvelles interactions</string>
 
     <string name="description_account_locked">Compte bloqué</string>
+    <string name="action_edit_profile">Modifier le profil</string>
+    <string name="action_photo_take">Prendre une photo</string>
+    <string name="action_save">Sauvegarder</string>
+    <string name="dialog_download_image">Télécharger</string>
+    <string name="error_empty">Ce champs ne peut pas être vide</string>
+    <string name="error_media_download_permission">Permission d\'enregistrer le fichier requise.</string>
+    <string name="footer_empty">Il n\'y à pas encore de pouet ici. Glissez vers le bas pour actualiser!</string>
+    <string name="hint_display_name">Afficher le nom</string>
+    <string name="send_status_link_to">Partager l’URL de votre pouet avec…</string>
+    <string name="send_status_content_to">Partager le pouet avec…</string>
+    <string name="status_share_link">Partager le lien du pouet</string>
 </resources>    
