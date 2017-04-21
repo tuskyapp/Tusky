@@ -36,8 +36,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -48,6 +50,7 @@ import android.support.v13.view.inputmethod.InputConnectionCompat;
 import android.support.v13.view.inputmethod.InputContentInfoCompat;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.Toolbar;
@@ -77,9 +80,11 @@ import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -99,9 +104,11 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 4000000; // 4MB
     private static final int MEDIA_PICK_RESULT = 1;
+    private static final int MEDIA_TAKE_PHOTO_RESULT = 2;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private static final int MEDIA_SIZE_UNKNOWN = -1;
     private static final int COMPOSE_SUCCESS = -1;
+    private static final int THUMBNAIL_SIZE = 128;
 
     private String inReplyToId;
     private EditText textEditor;
@@ -121,9 +128,11 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private TextView charactersLeft;
     private Button floatingBtn;
     private ImageButton pickBtn;
+    private ImageButton takeBtn;
     private Button nsfwBtn;
     private ProgressBar postProgress;
     private ImageButton visibilityBtn;
+    private Uri photoUploadUri;
 
     private static class QueuedMedia {
         enum Type {
@@ -342,6 +351,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
 
         floatingBtn = (Button) findViewById(R.id.floating_btn);
         pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
+        takeBtn = (ImageButton) findViewById(R.id.compose_photo_take);
         nsfwBtn = (Button) findViewById(R.id.action_toggle_nsfw);
         visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
 
@@ -355,6 +365,12 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             @Override
             public void onClick(View v) {
                 onMediaPick();
+            }
+        });
+        takeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initiateCameraApp();
             }
         });
         nsfwBtn.setOnClickListener(new View.OnClickListener() {
@@ -565,6 +581,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
 
     private void disableButtons() {
         pickBtn.setClickable(false);
+        takeBtn.setClickable(false);
         nsfwBtn.setClickable(false);
         visibilityBtn.setClickable(false);
         floatingBtn.setEnabled(false);
@@ -572,6 +589,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
 
     private void enableButtons() {
         pickBtn.setClickable(true);
+        takeBtn.setClickable(true);
         nsfwBtn.setClickable(true);
         visibilityBtn.setClickable(true);
         floatingBtn.setEnabled(true);
@@ -944,6 +962,42 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         }
     }
 
+    private File createNewImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        String imageFileName = "Tusky_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+        return image;
+    }
+
+    private void initiateCameraApp() {
+        // We don't need to ask for permission in this case, because the used calls require
+        // android.permission.WRITE_EXTERNAL_STORAGE only on SDKs *older* than Kitkat, which was
+        // way before permission dialogues have been introduced.
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createNewImageFile();
+            } catch (IOException ex) {
+                displayTransientError(R.string.error_media_upload_opening);
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                photoUploadUri = FileProvider.getUriForFile(this,
+                        "com.keylesspalace.tusky.fileprovider",
+                        photoFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUploadUri);
+                startActivityForResult(intent, MEDIA_TAKE_PHOTO_RESULT);
+            }
+        }
+    }
+
     private void initiateMediaPicking() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -957,15 +1011,21 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         startActivityForResult(intent, MEDIA_PICK_RESULT);
     }
 
-    private void enableMediaPicking() {
+    private void enableMediaButtons() {
         pickBtn.setEnabled(true);
         ThemeUtils.setDrawableTint(this, pickBtn.getDrawable(),
                 R.attr.compose_media_button_tint);
+        takeBtn.setEnabled(true);
+        ThemeUtils.setDrawableTint(this, takeBtn.getDrawable(),
+                R.attr.compose_media_button_tint);
     }
 
-    private void disableMediaPicking() {
+    private void disableMediaButtons() {
         pickBtn.setEnabled(false);
         ThemeUtils.setDrawableTint(this, pickBtn.getDrawable(),
+                R.attr.compose_media_button_disabled_tint);
+        takeBtn.setEnabled(false);
+        ThemeUtils.setDrawableTint(this, takeBtn.getDrawable(),
                 R.attr.compose_media_button_disabled_tint);
     }
 
@@ -1001,11 +1061,11 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                     textEditor.getPaddingRight(), totalHeight);
             // If there's one video in the queue it is full, so disable the button to queue more.
             if (item.type == QueuedMedia.Type.VIDEO) {
-                disableMediaPicking();
+                disableMediaButtons();
             }
         } else if (queuedCount >= Status.MAX_MEDIA_ATTACHMENTS) {
             // Limit the total media attachments, also.
-            disableMediaPicking();
+            disableMediaButtons();
         }
         if (queuedCount >= 1) {
             showMarkSensitive(true);
@@ -1028,7 +1088,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             textEditor.setPadding(textEditor.getPaddingLeft(), textEditor.getPaddingTop(),
                     textEditor.getPaddingRight(), 0);
         }
-        enableMediaPicking();
+        enableMediaButtons();
         cancelReadyingMedia(item);
     }
 
@@ -1189,7 +1249,18 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             Uri uri = data.getData();
             long mediaSize = getMediaSize(getContentResolver(), uri);
             pickMedia(uri, mediaSize);
+        } else if (requestCode == MEDIA_TAKE_PHOTO_RESULT && resultCode == RESULT_OK) {
+            queueCameraResult();
         }
+    }
+
+    private void queueCameraResult() {
+        ContentResolver contentResolver = getContentResolver();
+
+        Cursor returnCursor = contentResolver.query(photoUploadUri, null, null, null, null);
+        int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
+        returnCursor.moveToFirst();
+        pickMedia(photoUploadUri, returnCursor.getLong(sizeIndex));
     }
 
     private void pickMedia(Uri uri, long mediaSize) {
@@ -1215,7 +1286,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                     MediaMetadataRetriever retriever = new MediaMetadataRetriever();
                     retriever.setDataSource(this, uri);
                     Bitmap source = retriever.getFrameAtTime();
-                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, 128, 128);
+                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
                     source.recycle();
                     addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize);
                     break;
@@ -1228,8 +1299,9 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                         displayTransientError(R.string.error_media_upload_opening);
                         return;
                     }
+
                     Bitmap source = BitmapFactory.decodeStream(stream);
-                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, 128, 128);
+                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
                     source.recycle();
                     try {
                         if (stream != null) {

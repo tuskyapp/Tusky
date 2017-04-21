@@ -81,6 +81,7 @@
     <string name="action_open_in_web">Open in browser</string>
     <string name="action_submit">Submit</string>
     <string name="action_photo_pick">Add media</string>
+    <string name="action_photo_take">Take photo</string>
     <string name="action_share">Share</string>
     <string name="action_mute">Mute</string>
     <string name="action_unmute">Unmute</string>
