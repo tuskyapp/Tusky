@@ -13,7 +13,7 @@
     <string name="error_media_upload_type">Bestandstype kan niet worden geüpload.</string>
     <string name="error_media_upload_opening">Bestand kan niet worden geopend.</string>
     <string name="error_media_upload_permission">Toestemming nodig om media te kunnen lezen.</string>
-    <string name="error_media_upload_image_or_video">Afbeeldingen en video's kunnen niet allebei aan dezelfde toot worden toegevoegd.</string>
+    <string name="error_media_upload_image_or_video">Afbeeldingen en video\'s kunnen niet allebei aan dezelfde toot worden toegevoegd.</string>
     <string name="error_media_upload_sending">Uploaden mislukt.</string>
     <string name="error_report_too_few_statuses">Tenminste één toot moet worden gerapporteerd.</string>
 

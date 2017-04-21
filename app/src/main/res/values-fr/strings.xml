@@ -109,9 +109,10 @@
     <string name="dialog_title_finishing_media_upload">Média mis en ligne avec succès</string>
     <string name="dialog_message_uploading_media">Mise en ligne…</string>
 
-    <string name="visibility_public">Afficher dans les fils publics</string>
-    <string name="visibility_unlisted">Ne pas afficher dans les fils publics</string>
-    <string name="visibility_private">N’afficher que pour vos abonné⋅e⋅s</string>
+    <string name="visibility_public">Public: Afficher dans les fils publics</string>
+    <string name="visibility_unlisted">Non-listé: Ne pas afficher dans les fils publics</string>
+    <string name="visibility_private">Privé: N\'afficher que pour vos abonné⋅e⋅s</string>
+    <string name="visibility_direct">Direct: N\'afficher que pour les personnes mentionnées</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
     <string name="pref_title_edit_notification_settings">Modifier la notification</string>
