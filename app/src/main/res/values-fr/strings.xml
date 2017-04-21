@@ -11,7 +11,7 @@
     <string name="error_media_upload_size">Le fichier doit faire moins de 4Mo.</string>
     <string name="error_media_upload_type">Ce type de fichier n’est pas accepté.</string>
     <string name="error_media_upload_opening">Le fichier ne peut être ouvert.</string>
-    <string name="error_media_upload_permission">Une permission pour lire ce média est requis pour le mettre en ligne.</string>
+    <string name="error_media_upload_permission">Une permission pour lire ce média est requise pour le mettre en ligne.</string>
     <string name="error_media_upload_image_or_video">Impossible de mettre une vidéo et une image sur le même pouet.</string>
     <string name="error_media_upload_sending">Ce média ne peut être mis en ligne.</string>
     <string name="error_report_too_few_statuses">Au moins un pouet a été reporté.</string>
@@ -26,7 +26,7 @@
     <string name="title_follows">Abonnements</string>
     <string name="title_followers">Abonnés</string>
     <string name="title_favourites">Favoris</string>
-    <string name="title_blocks">Utilisateur bloqués</string>
+    <string name="title_blocks">Utilisateurs bloqués</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boosté</string>
@@ -40,7 +40,7 @@
     <string name="footer_end_of_accounts">fin des comptes</string>
 
     <string name="notification_reblog_format">%s a boosté votre pouet</string>
-    <string name="notification_favourite_format">%s a ajouté votre pouet à ses favoris</string>
+    <string name="notification_favourite_format">%s a ajouté votre pouet dans ses favoris</string>
     <string name="notification_follow_format">%s vous suit</string>
 
     <string name="report_username_format">Signaler @%s</string>
@@ -48,7 +48,7 @@
 
     <string name="action_compose">Répondre</string>
     <string name="action_login">Se connecter avec Mastodon</string>
-    <string name="action_logout">Deconnexion</string>
+    <string name="action_logout">Déconnexion</string>
 
     <string name="action_follow">Suivre</string>
     <string name="action_unfollow">Ne plus suivre</string>
@@ -84,7 +84,7 @@
     <string name="action_favourite">Favori</string>
     <string name="action_compose_options">Option</string>
     <string name="action_clear">Nettoyer</string>
-    <string name="action_reblog">Boost</string>
+    <string name="action_reblog">Booster</string>
 
     <string name="send_status_to">Partager l’URL de votre pouet avec…</string>
 
@@ -100,10 +100,10 @@
     <string name="link_whats_an_instance">Qu’est ce qu’une instance ?</string>
 
     <string name="dialog_whats_an_instance">L’adresse ou le domaine d’une instance peut être entré
-         Ici, comme mastodon.social, icosahedron.website, social.tchncs.de, et
+         ici, comme mastodon.social, icosahedron.website, social.tchncs.de, et
         <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">plus (en anglais)!</a>
-        \n\nSi vous n’avez pas de compte, Vous pouvez entrer le nom de l’instance que vous voulez rejoindre et créer un compte ici.\n\n Une instance est l’endroit où votre compte est 
-        stocké, mais vous pouvez facilement communiquer et suivre d’autre personne sur d’autres instances bien que vous soyez sur le même site
+        \n\nSi vous n’avez pas de compte, vous pouvez entrer le nom de l’instance que vous voulez rejoindre et créer un compte ici.\n\nUne instance est l’endroit où votre compte est 
+        stocké, mais vous pouvez facilement communiquer et suivre d’autres personnes sur d’autres instances bien que vous soyez sur le même site
         \n\nPlus d’info <a href="https://mastodon.social/about">mastodon.social</a> (anglais).
     </string>
     <string name="dialog_title_finishing_media_upload">Média mis en ligne avec succès</string>
@@ -123,8 +123,8 @@
     <string name="pref_title_notification_filters">Me notifier quand</string>
     <string name="pref_title_notification_filter_mentions">mentionné</string>
     <string name="pref_title_notification_filter_follows">suivi</string>
-    <string name="pref_title_notification_filter_reblogs">mes pouets boostés</string>
-    <string name="pref_title_notification_filter_favourites">mes pouets mis en favoris</string>
+    <string name="pref_title_notification_filter_reblogs">mes pouets sont boostés</string>
+    <string name="pref_title_notification_filter_favourites">mes pouets sont mis en favoris</string>
     <string name="pref_title_appearance_settings">Apparence</string>
     <string name="pref_title_light_theme">Utiliser le thème clair</string>
     <string name="pref_title_browser_settings">Navigateur</string>
