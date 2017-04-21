@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky;
 
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -24,8 +23,10 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -194,12 +195,24 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        SharedPreferences notificationPreferences = getApplicationContext().getSharedPreferences("Notifications", MODE_PRIVATE);
-        SharedPreferences.Editor editor = notificationPreferences.edit();
-        editor.putString("current", "[]");
-        editor.apply();
+        SharedPreferences notificationPreferences = getApplicationContext()
+                .getSharedPreferences("Notifications", MODE_PRIVATE);
+        notificationPreferences.edit()
+                .putString("current", "[]")
+                .apply();
 
-        ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE))).cancel(MyFirebaseMessagingService.NOTIFY_ID);
+        ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE)))
+                .cancel(MyFirebaseMessagingService.NOTIFY_ID);
+
+        /* After editing a profile, the profile header in the navigation drawer needs to be
+         * refreshed */
+        SharedPreferences preferences = getPrivatePreferences();
+        if (preferences.getBoolean("refreshProfileHeader", false)) {
+            fetchUserInfo();
+            preferences.edit()
+                    .putBoolean("refreshProfileHeader", false)
+                    .apply();
+        }
     }
 
     @Override
@@ -262,7 +275,7 @@ public class MainActivity extends BaseActivity {
                 .withHasStableIds(true)
                 .withSelectedItem(-1)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withIdentifier(0).withName(R.string.action_view_profile).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person),
+                        new PrimaryDrawerItem().withIdentifier(0).withName(getString(R.string.action_edit_profile)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person),
                         new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.action_view_favourites)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_star),
                         new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block),
                         new DividerDrawerItem(),
@@ -276,11 +289,8 @@ public class MainActivity extends BaseActivity {
                             long drawerItemIdentifier = drawerItem.getIdentifier();
 
                             if (drawerItemIdentifier == 0) {
-                                if (loggedInAccountId != null) {
-                                    Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-                                    intent.putExtra("id", loggedInAccountId);
-                                    startActivity(intent);
-                                }
+                                Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+                                startActivity(intent);
                             } else if (drawerItemIdentifier == 1) {
                                 Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
                                 startActivity(intent);
@@ -304,11 +314,10 @@ public class MainActivity extends BaseActivity {
     private void logout() {
         if (arePushNotificationsEnabled()) disablePushNotifications();
 
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.remove("domain");
-        editor.remove("accessToken");
-        editor.apply();
+        getPrivatePreferences().edit()
+                .remove("domain")
+                .remove("accessToken")
+                .apply();
 
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
@@ -378,9 +387,7 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onSearchAction(String currentQuery) {
-
-            }
+            public void onSearchAction(String currentQuery) {}
         });
 
         searchView.setOnBindSuggestionCallback(new SearchSuggestionsAdapter.OnBindSuggestionCallback() {
@@ -405,8 +412,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void fetchUserInfo() {
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = getPrivatePreferences();
         final String domain = preferences.getString("domain", null);
         String id = preferences.getString("loggedInAccountId", null);
         String username = preferences.getString("loggedInAccountUsername", null);
@@ -423,6 +429,8 @@ public class MainActivity extends BaseActivity {
                     onFetchUserInfoFailure(new Exception(response.message()));
                     return;
                 }
+
+                headerResult.clear();
 
                 Account me = response.body();
                 ImageView background = headerResult.getHeaderBackgroundView();
@@ -463,12 +471,10 @@ public class MainActivity extends BaseActivity {
     private void onFetchUserInfoSuccess(String id, String username) {
         loggedInAccountId = id;
         loggedInAccountUsername = username;
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("loggedInAccountId", loggedInAccountId);
-        editor.putString("loggedInAccountUsername", loggedInAccountUsername);
-        editor.apply();
+        getPrivatePreferences().edit()
+                .putString("loggedInAccountId", loggedInAccountId)
+                .putString("loggedInAccountUsername", loggedInAccountUsername)
+                .apply();
     }
 
     private void onFetchUserInfoFailure(Exception exception) {
@@ -495,6 +501,17 @@ public class MainActivity extends BaseActivity {
         } else {
             pageHistory.pop();
             viewPager.setCurrentItem(pageHistory.peek());
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (fragments != null) {
+            for (Fragment fragment : fragments) {
+                fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
         }
     }
 }

@@ -96,8 +96,12 @@ public class BaseActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 
+    protected SharedPreferences getPrivatePreferences() {
+        return getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+    }
+
     protected String getAccessToken() {
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = getPrivatePreferences();
         return preferences.getString("accessToken", null);
     }
 
@@ -107,7 +111,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected String getBaseUrl() {
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = getPrivatePreferences();
         return "https://" + preferences.getString("domain", null);
     }
 
@@ -157,8 +161,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void redirectIfNotLoggedIn() {
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = getPrivatePreferences();
         String domain = preferences.getString("domain", null);
         String accessToken = preferences.getString("accessToken", null);
         if (domain == null || accessToken == null) {
