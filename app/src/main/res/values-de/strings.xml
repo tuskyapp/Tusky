@@ -14,6 +14,7 @@
     <string name="error_generic">Ein Fehler ist aufgetreten.</string>
     <string name="error_no_web_browser_found">Kein Webbrowser gefunden.</string>
     <string name="error_retrieving_oauth_token">Es konnte kein Login-Token abgerufen werden.</string>
+    <string name="error_media_download_permission">Eine Berechtigung wird zum Speichern des Mediums benötigt.</string>
 
     <string name="title_home">Start</string>
     <string name="title_notifications">Benachrichtigungen</string>
@@ -107,6 +108,7 @@
     </string>
     <string name="dialog_title_finishing_media_upload">Stelle Medienupload fertig</string>
     <string name="dialog_message_uploading_media">Lade hoch…</string>
+    <string name="dialog_download_image">Herunterladen</string>
 
     <string name="visibility_public">Öffentlich sichtbar</string>
     <string name="visibility_unlisted">Öffentlich sichtbar, aber nicht in der öffentlichen Timeline</string>
@@ -126,6 +128,7 @@
     <string name="pref_title_notification_filters">Benachrichtigen wenn</string>
     <string name="pref_title_notification_filter_follows">Mir jemand folgt</string>
     <string name="pref_title_notification_filter_mentions">Ich erwähnt werde</string>
+
     <string name="pref_title_notification_filter_reblogs">Jemand meine Posts teilt</string>
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Öffne Links in der App</string>
