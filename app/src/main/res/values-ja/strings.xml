@@ -39,7 +39,7 @@
     <string name="footer_end_of_notifications">これ以降に通知はありません</string>
     <string name="footer_end_of_accounts">これ以降にアカウントはありません</string>
 
-    <string name="notification_reblog_format">%s があたなのトゥートをブーストしました</string>
+    <string name="notification_reblog_format">%s があなたのトゥートをブーストしました</string>
     <string name="notification_favourite_format">%s があなたのトゥートをお気に入りに追加しました</string>
     <string name="notification_follow_format">%s があなたをフォローしました</string>
 
