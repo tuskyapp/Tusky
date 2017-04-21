@@ -13,6 +13,8 @@
     <string name="error_media_upload_type">その形式のファイルはアップロードできません。</string>
     <string name="error_media_upload_opening">ファイルを開けませんでした。</string>
     <string name="error_media_upload_permission">メディアの読み取り許可が必要です。</string>
+    <!-- <string name="error_media_download_permission">Permission to store media is required.</string> -->
+
     <string name="error_media_upload_image_or_video">画像と動画を同時に投稿することはできません。</string>
     <string name="error_media_upload_sending">アップロードに失敗しました。</string>
     <string name="error_report_too_few_statuses">少なくとも1つの投稿を報告してください。</string>
@@ -79,6 +81,7 @@
     <string name="action_open_in_web">ブラウザで開く</string>
     <string name="action_submit">決定</string>
     <string name="action_photo_pick">メディアを追加</string>
+    <!-- <string name="action_photo_take">Take photo</string> -->
     <string name="action_share">共有</string>
     <string name="action_mute">ミュート</string>
     <string name="action_unmute">ミュート解除</string>
@@ -87,6 +90,8 @@
     <string name="action_compose_options">オプション</string>
     <string name="action_open_drawer">メニューを開く</string>
     <string name="action_clear">消去</string>
+    <!-- <string name="action_save">Save</string> -->
+    <!-- <string name="action_edit_profile">Edit profile</string> -->
 
     <string name="send_status_link_to">トゥートのURLを共有…</string>
     <string name="send_status_content_to">トゥートを共有…</string>
@@ -99,6 +104,11 @@
     <string name="hint_domain">どのインスタンス？</string>
     <string name="hint_compose">今なにしてる？</string>
     <string name="hint_content_warning">注意書き</string>
+    <!-- <string name="hint_display_name">Display name</string> -->
+    <!-- <string name="hint_note">Bio</string> -->
+
+    <!-- <string name="label_avatar">Avatar</string> -->
+    <!-- <string name="label_header">Header</string> -->
 
     <string name="link_whats_an_instance">インスタンスとは？</string>
 
@@ -112,10 +122,12 @@
     </string>
     <string name="dialog_title_finishing_media_upload">メディアをアップロードしています</string>
     <string name="dialog_message_uploading_media">アップロード中…</string>
+    <!-- <string name="dialog_download_image">Download</string> -->
 
     <string name="visibility_public">全体へ公開</string>
     <string name="visibility_unlisted">全体へ公開するが、公開タイムラインには表示しない</string>
     <string name="visibility_private">フォロワーと返信先にのみに表示</string>
+    <!-- <string name="visibility_direct">Direct: Post to mentioned users only</string> -->
 
     <string name="pref_title_notification_settings">通知</string>
     <string name="pref_title_edit_notification_settings">通知を設定</string>
@@ -144,5 +156,4 @@
     <string name="description_account_locked">非公開アカウント</string>
     <string name="status_share_content">トゥートの内容を共有</string>
     <string name="status_share_link">トゥートへのリンクを共有</string>
-
 </resources>
