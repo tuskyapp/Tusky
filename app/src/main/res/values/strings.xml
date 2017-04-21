@@ -125,9 +125,10 @@
     <string name="dialog_message_uploading_media">Uploading…</string>
     <string name="dialog_download_image">Download</string>
 
-    <string name="visibility_public">Everyone can view</string>
-    <string name="visibility_unlisted">Everyone can view, but not on public timelines</string>
-    <string name="visibility_private">Only followers and mentions can view</string>
+    <string name="visibility_public">Public: Post to public timelines</string>
+    <string name="visibility_unlisted">Unlisted: Do not show in public timelines</string>
+    <string name="visibility_private">Private: Post to followers only</string>
+    <string name="visibility_direct">Direct: Post to mentioned users only</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
     <string name="pref_title_edit_notification_settings">Edit Notifications</string>
