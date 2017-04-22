@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -257,7 +258,7 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
             @Override
             public void onResponse(Call<Relationship> call, Response<Relationship> response) {
                 if (response.isSuccessful()) {
-                    onMuteSuccess(mute, position);
+                    onMuteSuccess(mute, id, position);
                 } else {
                     onMuteFailure(mute, id);
                 }
@@ -279,9 +280,22 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
         call.enqueue(callback);
     }
 
-    private void onMuteSuccess(boolean muted, int position) {
-        MutesAdapter mutesAdapter = (MutesAdapter) adapter;
-        mutesAdapter.setMuted(muted, position);
+    private void onMuteSuccess(boolean muted, final String id, final int position) {
+        if (muted) {
+            return;
+        }
+        final MutesAdapter mutesAdapter = (MutesAdapter) adapter;
+        final Account unmutedUser = mutesAdapter.removeItem(position);
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mutesAdapter.addItem(unmutedUser, position);
+                onMute(true, id, position);
+            }
+        };
+        Snackbar.make(recyclerView, R.string.confirmation_unmuted, Snackbar.LENGTH_LONG)
+                .setAction(R.string.action_undo, listener)
+                .show();
     }
 
     private void onMuteFailure(boolean mute, String id) {
@@ -307,7 +321,7 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
             @Override
             public void onResponse(Call<Relationship> call, Response<Relationship> response) {
                 if (response.isSuccessful()) {
-                    onBlockSuccess(block, position);
+                    onBlockSuccess(block, id, position);
                 } else {
                     onBlockFailure(block, id);
                 }
@@ -329,9 +343,22 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
         call.enqueue(cb);
     }
 
-    private void onBlockSuccess(boolean blocked, int position) {
-        BlocksAdapter blocksAdapter = (BlocksAdapter) adapter;
-        blocksAdapter.setBlocked(blocked, position);
+    private void onBlockSuccess(boolean blocked, final String id, final int position) {
+        if (blocked) {
+            return;
+        }
+        final BlocksAdapter blocksAdapter = (BlocksAdapter) adapter;
+        final Account unblockedUser = blocksAdapter.removeItem(position);
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                blocksAdapter.addItem(unblockedUser, position);
+                onBlock(true, id, position);
+            }
+        };
+        Snackbar.make(recyclerView, R.string.confirmation_unblocked, Snackbar.LENGTH_LONG)
+                .setAction(R.string.action_undo, listener)
+                .show();
     }
 
     private void onBlockFailure(boolean block, String id) {

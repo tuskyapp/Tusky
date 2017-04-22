@@ -21,11 +21,8 @@ class MutesAdapter extends AccountAdapter {
     private static final int VIEW_TYPE_MUTED_USER = 0;
     private static final int VIEW_TYPE_FOOTER = 1;
 
-    private Set<Integer> unmutedAccountPositions;
-
     MutesAdapter(AccountActionListener accountActionListener) {
         super(accountActionListener);
-        unmutedAccountPositions = new HashSet<>();
     }
 
     @Override
@@ -50,8 +47,7 @@ class MutesAdapter extends AccountAdapter {
         if (position < accountList.size()) {
             MutedUserViewHolder holder = (MutedUserViewHolder) viewHolder;
             holder.setupWithAccount(accountList.get(position));
-            boolean muted = !unmutedAccountPositions.contains(position);
-            holder.setupActionListener(accountActionListener, muted, position);
+            holder.setupActionListener(accountActionListener, true, position);
         }
     }
 
@@ -62,15 +58,6 @@ class MutesAdapter extends AccountAdapter {
         } else {
             return VIEW_TYPE_MUTED_USER;
         }
-    }
-
-    void setMuted(boolean muted, int position) {
-        if (muted) {
-            unmutedAccountPositions.remove(position);
-        } else {
-            unmutedAccountPositions.add(position);
-        }
-        notifyItemChanged(position);
     }
 
     static class MutedUserViewHolder extends RecyclerView.ViewHolder {

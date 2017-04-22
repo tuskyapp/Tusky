@@ -94,6 +94,7 @@
     <string name="action_clear">Clear</string>
     <string name="action_save">Save</string>
     <string name="action_edit_profile">Edit profile</string>
+    <string name="action_undo">Undo</string>
 
     <string name="send_status_link_to">Share toot URL to…</string>
     <string name="send_status_content_to">Share toot to…</string>
@@ -102,6 +103,8 @@
 
     <string name="confirmation_send">Toot!</string>
     <string name="confirmation_reported">Sent!</string>
+    <string name="confirmation_unblocked">User unblocked</string>
+    <string name="confirmation_unmuted">User unmuted</string>
 
     <string name="hint_domain">Which instance?</string>
     <string name="hint_compose">What\'s happening?</string>
