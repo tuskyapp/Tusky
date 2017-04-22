@@ -153,6 +153,6 @@
     <string name="notification_title_summary">%d nouvelles interactions</string>
 
     <string name="description_account_locked">Compte bloqué</string>
-    <string name="status_share_content">Partager le conteunu du pouet</string>
+    <string name="status_share_content">Partager le contenu du pouet</string>
     <string name="status_share_link">Partager le lien du pouet</string>
 </resources>    
