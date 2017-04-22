@@ -20,14 +20,13 @@ import android.net.Uri;
 
 import com.squareup.picasso.Picasso;
 import com.jakewharton.picasso.OkHttp3Downloader;
-import okhttp3.OkHttpClient;
 
 public class TuskyApplication extends Application {
     @Override
     public void onCreate() {
         // Initialize Picasso configuration
         Picasso.Builder builder = new Picasso.Builder(this);
-        builder.downloader(new OkHttp3Downloader(new OkHttpClient()));
+        builder.downloader(new OkHttp3Downloader(this));
         if (BuildConfig.DEBUG) {
             builder.listener(new Picasso.Listener() {
                 @Override
