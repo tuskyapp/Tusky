@@ -79,7 +79,7 @@ class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover
         }
     }
 
-    public void setFooterState(FooterState newFooterState) {
+    void setFooterState(FooterState newFooterState) {
         FooterState oldValue = footerState;
         footerState = newFooterState;
         if (footerState != oldValue) {
@@ -140,6 +140,18 @@ class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover
     public void removeItem(int position) {
         statuses.remove(position);
         notifyItemRemoved(position);
+    }
+
+    public void removeAllByAccountId(String accountId) {
+        for (int i = 0; i < statuses.size();) {
+            Status status = statuses.get(i);
+            if (accountId.equals(status.account.id)) {
+                statuses.remove(i);
+                notifyItemRemoved(i);
+            } else {
+                i += 1;
+            }
+        }
     }
 
     @Nullable

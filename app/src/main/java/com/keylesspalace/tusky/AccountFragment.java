@@ -271,9 +271,9 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
 
         Call<Relationship> call;
         if (!mute) {
-            call = api.unblockAccount(id);
+            call = api.unmuteAccount(id);
         } else {
-            call = api.blockAccount(id);
+            call = api.muteAccount(id);
         }
         callList.add(call);
         call.enqueue(callback);

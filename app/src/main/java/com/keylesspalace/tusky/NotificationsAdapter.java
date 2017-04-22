@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.entity.Status;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
@@ -62,7 +63,7 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
     }
 
 
-    public void setFooterState(FooterState newFooterState) {
+    void setFooterState(FooterState newFooterState) {
         FooterState oldValue = footerState;
         footerState = newFooterState;
         if (footerState != oldValue) {
@@ -208,6 +209,18 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
     public void removeItem(int position) {
         notifications.remove(position);
         notifyItemChanged(position);
+    }
+
+    public void removeAllByAccountId(String id) {
+        for (int i = 0; i < notifications.size();) {
+            Notification notification = notifications.get(i);
+            if (id.equals(notification.account.id)) {
+                notifications.remove(i);
+                notifyItemRemoved(i);
+            } else {
+                i += 1;
+            }
+        }
     }
 
     interface NotificationActionListener {

@@ -37,6 +37,7 @@ import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
@@ -163,18 +164,26 @@ public abstract class SFragment extends BaseFragment {
         callList.add(call);
     }
 
+    private void mute(String id) {
+        Call<Relationship> call = getApi().muteAccount(id);
+        call.enqueue(new Callback<Relationship>() {
+            @Override
+            public void onResponse(Call<Relationship> call, Response<Relationship> response) {}
+
+            @Override
+            public void onFailure(Call<Relationship> call, Throwable t) {}
+        });
+        callList.add(call);
+    }
+
     private void block(String id) {
         Call<Relationship> call = getApi().blockAccount(id);
         call.enqueue(new Callback<Relationship>() {
             @Override
-            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
-
-            }
+            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {}
 
             @Override
-            public void onFailure(Call<Relationship> call, Throwable t) {
-
-            }
+            public void onFailure(Call<Relationship> call, Throwable t) {}
         });
         callList.add(call);
     }
@@ -183,14 +192,10 @@ public abstract class SFragment extends BaseFragment {
         Call<ResponseBody> call = getApi().deleteStatus(id);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-
-            }
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {}
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
+            public void onFailure(Call<ResponseBody> call, Throwable t) {}
         });
         callList.add(call);
     }
@@ -235,8 +240,14 @@ public abstract class SFragment extends BaseFragment {
                                 startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_link_to)));
                                 return true;
                             }
+                            case R.id.status_mute: {
+                                mute(accountId);
+                                adapter.removeAllByAccountId(accountId);
+                                return true;
+                            }
                             case R.id.status_block: {
                                 block(accountId);
+                                adapter.removeAllByAccountId(accountId);
                                 return true;
                             }
                             case R.id.status_report: {
