@@ -39,7 +39,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class NotificationsFragment extends SFragment implements
-        SwipeRefreshLayout.OnRefreshListener, StatusActionListener,
+        SwipeRefreshLayout.OnRefreshListener, StatusActionListener, StatusRemoveListener,
         NotificationsAdapter.NotificationActionListener {
     private static final String TAG = "Notifications"; // logging tag
 
@@ -55,11 +55,6 @@ public class NotificationsFragment extends SFragment implements
         Bundle arguments = new Bundle();
         fragment.setArguments(arguments);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Nullable
@@ -118,12 +113,6 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        sendFetchNotificationsRequest();
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         if (listCall != null) listCall.cancel();
@@ -142,13 +131,11 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void sendFetchNotificationsRequest(final String fromId, String uptoId) {
-        MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
-
         if (fromId != null || adapter.getItemCount() <= 1) {
             adapter.setFooterState(NotificationsAdapter.FooterState.LOADING);
         }
 
-        listCall = api.notifications(fromId, uptoId, null);
+        listCall = mastodonAPI.notifications(fromId, uptoId, null);
 
         listCall.enqueue(new Callback<List<Notification>>() {
             @Override
@@ -170,6 +157,10 @@ public class NotificationsFragment extends SFragment implements
 
     private void sendFetchNotificationsRequest() {
         sendFetchNotificationsRequest(null, null);
+    }
+
+    public void removePostsByUser(String accountId) {
+        adapter.removeAllByAccountId(accountId);
     }
 
     private static boolean findNotification(List<Notification> notifications, String id) {

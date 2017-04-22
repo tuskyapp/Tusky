@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -43,12 +42,10 @@ import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.keylesspalace.tusky.entity.Account;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
-import com.mikepenz.iconics.typeface.GenericFont;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.icons.MaterialDrawerFont;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
@@ -69,8 +66,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends BaseActivity {
-    private static final String TAG = "MainActivity"; // logging tag and Volley request tag
+public class MainActivity extends BaseActivity implements SFragment.OnUserRemovedListener {
+    private static final String TAG = "MainActivity"; // logging tag
     protected static int COMPOSE_RESULT = 1;
 
     private String loggedInAccountId;
@@ -518,12 +515,22 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        if (fragments != null) {
-            for (Fragment fragment : fragments) {
-                fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        TimelinePagerAdapter adapter = (TimelinePagerAdapter) viewPager.getAdapter();
+        for (Fragment fragment : adapter.getRegisteredFragments()) {
+            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
+    public void onUserRemoved(String accountId) {
+        TimelinePagerAdapter adapter = (TimelinePagerAdapter) viewPager.getAdapter();
+        for (Fragment fragment : adapter.getRegisteredFragments()) {
+            if (fragment instanceof StatusRemoveListener) {
+                StatusRemoveListener listener = (StatusRemoveListener) fragment;
+                listener.removePostsByUser(accountId);
             }
         }
     }

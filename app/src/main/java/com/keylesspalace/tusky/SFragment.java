@@ -46,8 +46,14 @@ import retrofit2.Response;
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
 public abstract class SFragment extends BaseFragment {
+    interface OnUserRemovedListener {
+        void onUserRemoved(String accountId);
+    }
+
     protected String loggedInAccountId;
     protected String loggedInUsername;
+    protected MastodonAPI mastodonAPI;
+    protected OnUserRemovedListener userRemovedListener;
     protected static int COMPOSE_RESULT = 1;
 
     @Override
@@ -60,8 +66,12 @@ public abstract class SFragment extends BaseFragment {
         loggedInUsername = preferences.getString("loggedInAccountUsername", null);
     }
 
-    public MastodonAPI getApi() {
-        return ((BaseActivity) getActivity()).mastodonAPI;
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        BaseActivity activity = (BaseActivity) getActivity();
+        mastodonAPI = activity.mastodonAPI;
+        userRemovedListener = (OnUserRemovedListener) activity;
     }
 
     protected void reply(Status status) {
@@ -84,8 +94,7 @@ public abstract class SFragment extends BaseFragment {
         startActivityForResult(intent, COMPOSE_RESULT);
     }
 
-    public void onSuccessfulStatus() {
-    }
+    public void onSuccessfulStatus() {}
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -115,16 +124,14 @@ public abstract class SFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<Status> call, Throwable t) {
-
-            }
+            public void onFailure(Call<Status> call, Throwable t) {}
         };
 
         Call<Status> call;
         if (reblog) {
-            call = getApi().reblogStatus(id);
+            call = mastodonAPI.reblogStatus(id);
         } else {
-            call = getApi().unreblogStatus(id);
+            call = mastodonAPI.unreblogStatus(id);
         }
         call.enqueue(cb);
         callList.add(call);
@@ -149,23 +156,21 @@ public abstract class SFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<Status> call, Throwable t) {
-
-            }
+            public void onFailure(Call<Status> call, Throwable t) {}
         };
 
         Call<Status> call;
         if (favourite) {
-            call = getApi().favouriteStatus(id);
+            call = mastodonAPI.favouriteStatus(id);
         } else {
-            call = getApi().unfavouriteStatus(id);
+            call = mastodonAPI.unfavouriteStatus(id);
         }
         call.enqueue(cb);
         callList.add(call);
     }
 
     private void mute(String id) {
-        Call<Relationship> call = getApi().muteAccount(id);
+        Call<Relationship> call = mastodonAPI.muteAccount(id);
         call.enqueue(new Callback<Relationship>() {
             @Override
             public void onResponse(Call<Relationship> call, Response<Relationship> response) {}
@@ -174,10 +179,11 @@ public abstract class SFragment extends BaseFragment {
             public void onFailure(Call<Relationship> call, Throwable t) {}
         });
         callList.add(call);
+        userRemovedListener.onUserRemoved(id);
     }
 
     private void block(String id) {
-        Call<Relationship> call = getApi().blockAccount(id);
+        Call<Relationship> call = mastodonAPI.blockAccount(id);
         call.enqueue(new Callback<Relationship>() {
             @Override
             public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {}
@@ -186,10 +192,11 @@ public abstract class SFragment extends BaseFragment {
             public void onFailure(Call<Relationship> call, Throwable t) {}
         });
         callList.add(call);
+        userRemovedListener.onUserRemoved(id);
     }
 
     private void delete(String id) {
-        Call<ResponseBody> call = getApi().deleteStatus(id);
+        Call<ResponseBody> call = mastodonAPI.deleteStatus(id);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {}
@@ -242,12 +249,10 @@ public abstract class SFragment extends BaseFragment {
                             }
                             case R.id.status_mute: {
                                 mute(accountId);
-                                adapter.removeAllByAccountId(accountId);
                                 return true;
                             }
                             case R.id.status_block: {
                                 block(accountId);
-                                adapter.removeAllByAccountId(accountId);
                                 return true;
                             }
                             case R.id.status_report: {

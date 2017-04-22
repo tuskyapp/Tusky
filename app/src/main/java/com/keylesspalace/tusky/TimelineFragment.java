@@ -39,7 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class TimelineFragment extends SFragment implements
-        SwipeRefreshLayout.OnRefreshListener, StatusActionListener {
+        SwipeRefreshLayout.OnRefreshListener, StatusActionListener, StatusRemoveListener {
     private static final String TAG = "Timeline"; // logging tag
 
     private Call<List<Status>> listCall;
@@ -145,7 +145,7 @@ public class TimelineFragment extends SFragment implements
 
         /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
          * guaranteed to be set until then. */
-        if (followButtonPresent()) {
+        if (composeButtonPresent()) {
             /* Use a modified scroll listener that both loads more statuses as it goes, and hides
              * the follow button on down-scroll. */
             MainActivity activity = (MainActivity) getActivity();
@@ -202,7 +202,7 @@ public class TimelineFragment extends SFragment implements
         return kind != Kind.TAG && kind != Kind.FAVOURITES;
     }
 
-    private boolean followButtonPresent() {
+    private boolean composeButtonPresent() {
         return kind != Kind.TAG && kind != Kind.FAVOURITES && kind != Kind.USER;
     }
 
@@ -212,8 +212,6 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void sendFetchTimelineRequest(@Nullable final String fromId, @Nullable String uptoId) {
-        MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
-
         if (fromId != null || adapter.getItemCount() <= 1) {
             adapter.setFooterState(TimelineAdapter.FooterState.LOADING);
         }
@@ -237,27 +235,27 @@ public class TimelineFragment extends SFragment implements
         switch (kind) {
             default:
             case HOME: {
-                listCall = api.homeTimeline(fromId, uptoId, null);
+                listCall = mastodonAPI.homeTimeline(fromId, uptoId, null);
                 break;
             }
             case PUBLIC_FEDERATED: {
-                listCall = api.publicTimeline(null, fromId, uptoId, null);
+                listCall = mastodonAPI.publicTimeline(null, fromId, uptoId, null);
                 break;
             }
             case PUBLIC_LOCAL: {
-                listCall = api.publicTimeline(true, fromId, uptoId, null);
+                listCall = mastodonAPI.publicTimeline(true, fromId, uptoId, null);
                 break;
             }
             case TAG: {
-                listCall = api.hashtagTimeline(hashtagOrId, null, fromId, uptoId, null);
+                listCall = mastodonAPI.hashtagTimeline(hashtagOrId, null, fromId, uptoId, null);
                 break;
             }
             case USER: {
-                listCall = api.accountStatuses(hashtagOrId, fromId, uptoId, null);
+                listCall = mastodonAPI.accountStatuses(hashtagOrId, fromId, uptoId, null);
                 break;
             }
             case FAVOURITES: {
-                listCall = api.favourites(fromId, uptoId, null);
+                listCall = mastodonAPI.favourites(fromId, uptoId, null);
                 break;
             }
         }
@@ -267,6 +265,10 @@ public class TimelineFragment extends SFragment implements
 
     private void sendFetchTimelineRequest() {
         sendFetchTimelineRequest(null, null);
+    }
+
+    public void removePostsByUser(String accountId) {
+        adapter.removeAllByAccountId(accountId);
     }
 
     private static boolean findStatus(List<Status> statuses, String id) {

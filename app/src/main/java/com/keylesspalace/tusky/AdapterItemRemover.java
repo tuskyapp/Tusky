@@ -17,5 +17,4 @@ package com.keylesspalace.tusky;
 
 interface AdapterItemRemover {
     void removeItem(int position);
-    void removeAllByAccountId(String accountId);
 }
