@@ -39,7 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class TimelineFragment extends SFragment implements
-        SwipeRefreshLayout.OnRefreshListener, StatusActionListener, StatusRemoveListener {
+        SwipeRefreshLayout.OnRefreshListener, StatusActionListener, StatusRemoveListener, SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "Timeline"; // logging tag
 
     private Call<List<Status>> listCall;
@@ -61,6 +61,7 @@ public class TimelineFragment extends SFragment implements
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
+    private boolean hideFab;
 
     public static TimelineFragment newInstance(Kind kind) {
         TimelineFragment fragment = new TimelineFragment();
@@ -152,17 +153,21 @@ public class TimelineFragment extends SFragment implements
             final FloatingActionButton composeButton = activity.composeButton;
             final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                     activity);
+            preferences.registerOnSharedPreferenceChangeListener(this);
+            hideFab = preferences.getBoolean("fabHide", false);
             scrollListener = new EndlessOnScrollListener(layoutManager) {
                 @Override
                 public void onScrolled(RecyclerView view, int dx, int dy) {
                     super.onScrolled(view, dx, dy);
 
-                    if (preferences.getBoolean("fabHide", false)) {
+                    if (hideFab) {
                         if (dy > 0 && composeButton.isShown()) {
                             composeButton.hide(); // hides the button if we're scrolling down
                         } else if (dy < 0 && !composeButton.isShown()) {
                             composeButton.show(); // shows it if we are scrolling up
                         }
+                    } else if (!composeButton.isShown()) {
+                        composeButton.show();
                     }
                 }
 
@@ -357,5 +362,12 @@ public class TimelineFragment extends SFragment implements
             return;
         }
         super.viewAccount(id);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals("fabHide")) {
+            hideFab = sharedPreferences.getBoolean("fabHide", false);
+        }
     }
 }
