@@ -1,6 +1,7 @@
 <resources>
 
     <string name="error_generic">Une erreur s’est produite.</string>
+    <string name="error_empty">Ce champs ne peut pas être vide</string>
     <string name="error_invalid_domain">Le domaine est invalide</string>
     <string name="error_failed_app_registration">L’application n’a pu s’authentifier avec l’instance.</string>
     <string name="error_no_web_browser_found">Impossible de trouver un navigateur web.</string>
@@ -12,6 +13,8 @@
     <string name="error_media_upload_type">Ce type de fichier n’est pas accepté.</string>
     <string name="error_media_upload_opening">Le fichier ne peut être ouvert.</string>
     <string name="error_media_upload_permission">Une permission pour lire ce média est requise pour le mettre en ligne.</string>
+    <string name="error_media_download_permission">Permission d\'enregistrer le fichier requise.</string>
+
     <string name="error_media_upload_image_or_video">Impossible de mettre une vidéo et une image sur le même pouet.</string>
     <string name="error_media_upload_sending">Ce média ne peut être mis en ligne.</string>
     <string name="error_report_too_few_statuses">Au moins un pouet a été reporté.</string>
@@ -38,6 +41,7 @@
     <string name="footer_end_of_statuses">fin du pouet</string>
     <string name="footer_end_of_notifications">fin des notifications</string>
     <string name="footer_end_of_accounts">fin des comptes</string>
+    <string name="footer_empty">Il n\'y à pas encore de pouet ici. Glissez vers le bas pour actualiser!</string>
 
     <string name="notification_reblog_format">%s a boosté votre pouet</string>
     <string name="notification_favourite_format">%s a ajouté votre pouet dans ses favoris</string>
@@ -46,10 +50,13 @@
     <string name="report_username_format">Signaler @%s</string>
     <string name="report_comment_hint">Davantage de commentaires ?</string>
 
+    <string name="action_reply">Répondre</string>
+    <string name="action_reblog">Booster</string>
+    <string name="action_favourite">Favori</string>
+    <string name="action_more">Plus</string>
     <string name="action_compose">Répondre</string>
     <string name="action_login">Se connecter avec Mastodon</string>
     <string name="action_logout">Déconnexion</string>
-
     <string name="action_follow">Suivre</string>
     <string name="action_unfollow">Ne plus suivre</string>
     <string name="action_block">Bloquer</string>
@@ -69,24 +76,25 @@
     <string name="action_view_preferences">Préferences</string>
     <string name="action_view_favourites">Favoris</string>
     <string name="action_view_blocks">Utilisateurs bloqués</string>
+    <string name="action_view_thread">Thread</string>
+    <string name="action_view_media">Media</string>
     <string name="action_open_in_web">Ouvrir avec votre navigateur</string>
     <string name="action_submit">Envoyer</string>
     <string name="action_photo_pick">Ajouter un média</string>
+    <string name="action_photo_take">Prendre une photo</string>
     <string name="action_share">Partager</string>
     <string name="action_mute">Rendre muet</string>
     <string name="action_unmute">Redonner la parole</string>
     <string name="action_mention">Mention</string>
     <string name="toggle_nsfw">NSFW</string>
-    <string name="action_open_drawer">Ouvrir le menu</string>
-    <string name="action_more">Plus</string>
-    <string name="action_reply">Répondre</string>
-    <string name="action_view_media">Media</string>
-    <string name="action_favourite">Favori</string>
     <string name="action_compose_options">Option</string>
+    <string name="action_open_drawer">Ouvrir le menu</string>
     <string name="action_clear">Nettoyer</string>
-    <string name="action_reblog">Booster</string>
+    <string name="action_save">Sauvegarder</string>
+    <string name="action_edit_profile">Modifier le profil</string>
 
-    <string name="send_status_to">Partager l’URL de votre pouet avec…</string>
+    <string name="send_status_link_to">Partager l’URL de votre pouet avec…</string>
+    <string name="send_status_content_to">Partager le pouet avec…</string>
 
     <string name="search">Rechercher un compte…</string>
 
@@ -96,6 +104,11 @@
     <string name="hint_domain">Quelle instance ?</string>
     <string name="hint_compose">Quoi de neuf ?</string>
     <string name="hint_content_warning">Contenu sensible</string>
+    <string name="hint_display_name">Afficher le nom</string>
+    <string name="hint_note">Bio</string>
+
+    <string name="label_avatar">Avatar</string>
+    <string name="label_header">En-tête</string>
 
     <string name="link_whats_an_instance">Qu’est ce qu’une instance ?</string>
 
@@ -108,6 +121,7 @@
     </string>
     <string name="dialog_title_finishing_media_upload">Média mis en ligne avec succès</string>
     <string name="dialog_message_uploading_media">Mise en ligne…</string>
+    <string name="dialog_download_image">Télécharger</string>
 
     <string name="visibility_public">Public: Afficher dans les fils publics</string>
     <string name="visibility_unlisted">Non-listé: Ne pas afficher dans les fils publics</string>
@@ -139,4 +153,6 @@
     <string name="notification_title_summary">%d nouvelles interactions</string>
 
     <string name="description_account_locked">Compte bloqué</string>
+    <string name="status_share_content">Partager le contenu du pouet</string>
+    <string name="status_share_link">Partager le lien du pouet</string>
 </resources>    
