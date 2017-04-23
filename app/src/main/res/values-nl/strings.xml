@@ -102,7 +102,7 @@
 
     <string name="link_whats_an_instance">Wat is een Mastodon-server?</string>
 
-    <string name="dialog_whats_an_instance">Het adres of domein van elke Mastodon-server kan hier worden ingevoerd, zoals mastodon.social, mastodon.cloud, octoton.social en <a href="https://instances.mastodon.xyz/">veel meer!</a>
+    <string name="dialog_whats_an_instance">Het adres of domein van elke Mastodon-server kan hier worden ingevoerd, zoals mastodon.social, mastodon.cloud, octodon.social en <a href="https://instances.mastodon.xyz/">veel meer!</a>
         \n\nWanneer je nog geen account hebt, kun je de naam van de Mastodon-server waar jij je graag wil registeren invoeren, waarna je daarna daar een account kunt aanmaken.\n\nEen Mastodon-server is een computerserver waar jouw account zich bevindt, maar je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten.
         \n\nMeer informatie kun je vinden op <a href="https://mastodon.social/about">mastodon.social</a>.
     </string>
