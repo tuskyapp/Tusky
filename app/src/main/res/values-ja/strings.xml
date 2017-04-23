@@ -13,6 +13,8 @@
     <string name="error_media_upload_type">その形式のファイルはアップロードできません。</string>
     <string name="error_media_upload_opening">ファイルを開けませんでした。</string>
     <string name="error_media_upload_permission">メディアの読み取り許可が必要です。</string>
+    <string name="error_media_download_permission">メディアの書き込み許可が必要です。</string>
+
     <string name="error_media_upload_image_or_video">画像と動画を同時に投稿することはできません。</string>
     <string name="error_media_upload_sending">アップロードに失敗しました。</string>
     <string name="error_report_too_few_statuses">少なくとも1つの投稿を報告してください。</string>
@@ -27,6 +29,7 @@
     <string name="title_follows">フォロー</string>
     <string name="title_followers">フォロワー</string>
     <string name="title_favourites">お気に入り</string>
+    <string name="title_mutes">ミュートしたユーザー</string>
     <string name="title_blocks">ブロックしたユーザー</string>
 
     <string name="status_username_format">\@%s</string>
@@ -73,12 +76,14 @@
     <string name="action_view_profile">プロフィール</string>
     <string name="action_view_preferences">設定</string>
     <string name="action_view_favourites">お気に入り</string>
+    <string name="action_view_mutes">ミュートしたユーザー</string>
     <string name="action_view_blocks">ブロックしたユーザー</string>
     <string name="action_view_thread">スレッド</string>
     <string name="action_view_media">メディア</string>
     <string name="action_open_in_web">ブラウザで開く</string>
     <string name="action_submit">決定</string>
     <string name="action_photo_pick">メディアを追加</string>
+    <string name="action_photo_take">写真を撮る</string>
     <string name="action_share">共有</string>
     <string name="action_mute">ミュート</string>
     <string name="action_unmute">ミュート解除</string>
@@ -87,6 +92,9 @@
     <string name="action_compose_options">オプション</string>
     <string name="action_open_drawer">メニューを開く</string>
     <string name="action_clear">消去</string>
+    <string name="action_save">保存</string>
+    <string name="action_edit_profile">プロフィールを編集</string>
+    <string name="action_undo">取り消す</string>
 
     <string name="send_status_link_to">トゥートのURLを共有…</string>
     <string name="send_status_content_to">トゥートを共有…</string>
@@ -95,10 +103,17 @@
 
     <string name="confirmation_send">トゥート！</string>
     <string name="confirmation_reported">送信しました！</string>
+    <string name="confirmation_unblocked">ブロックを解除しました</string>
+    <string name="confirmation_unmuted">ミュートを解除しました</string>
 
     <string name="hint_domain">どのインスタンス？</string>
     <string name="hint_compose">今なにしてる？</string>
     <string name="hint_content_warning">注意書き</string>
+    <string name="hint_display_name">表示名</string>
+    <string name="hint_note">プロフィール</string>
+
+    <string name="label_avatar">アイコン</string>
+    <string name="label_header">ヘッダー</string>
 
     <string name="link_whats_an_instance">インスタンスとは？</string>
 
@@ -112,10 +127,12 @@
     </string>
     <string name="dialog_title_finishing_media_upload">メディアをアップロードしています</string>
     <string name="dialog_message_uploading_media">アップロード中…</string>
+    <string name="dialog_download_image">ダウンロード</string>
 
-    <string name="visibility_public">全体へ公開</string>
-    <string name="visibility_unlisted">全体へ公開するが、公開タイムラインには表示しない</string>
-    <string name="visibility_private">フォロワーと返信先にのみに表示</string>
+    <string name="visibility_public">公開：公開タイムラインに投稿する</string>
+    <string name="visibility_unlisted">未収載：公開タイムラインには表示しない</string>
+    <string name="visibility_private">非公開：フォロワーだけに公開</string>
+    <string name="visibility_direct">ダイレクト：返信先のユーザーだけに公開</string>
 
     <string name="pref_title_notification_settings">通知</string>
     <string name="pref_title_edit_notification_settings">通知を設定</string>
