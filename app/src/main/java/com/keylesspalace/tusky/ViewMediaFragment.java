@@ -15,9 +15,21 @@
 
 package com.keylesspalace.tusky;
 
+import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +39,8 @@ import android.view.WindowManager;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.senab.photoview.PhotoView;
@@ -35,6 +49,9 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 public class ViewMediaFragment extends DialogFragment {
 
     private PhotoViewAttacher attacher;
+    private DownloadManager downloadManager;
+
+    private static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
     @BindView(R.id.view_media_image) PhotoView photoView;
 
@@ -99,6 +116,25 @@ public class ViewMediaFragment extends DialogFragment {
             }
         });
 
+        attacher.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                AlertDialog downloadDialog = new AlertDialog.Builder(getContext()).create();
+
+                downloadDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.dialog_download_image),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+
+                                downloadImage();
+                            }
+                        });
+                downloadDialog.show();
+                return false;
+            }
+        });
+
         Picasso.with(getContext())
                 .load(url)
                 .into(photoView, new Callback() {
@@ -120,5 +156,64 @@ public class ViewMediaFragment extends DialogFragment {
     public void onDestroyView() {
         attacher.cleanup();
         super.onDestroyView();
+    }
+
+    private void downloadImage(){
+
+        //Permission stuff
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN &&
+                ContextCompat.checkSelfPermission(this.getContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+            android.support.v4.app.ActivityCompat.requestPermissions(getActivity(),
+                    new String[] { android.Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+        } else {
+
+
+            //download stuff
+            String url = getArguments().getString("url");
+            Uri uri = Uri.parse(url);
+
+            String filename = new File(url).getName();
+
+            downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+
+            DownloadManager.Request request = new DownloadManager.Request(uri);
+            request.allowScanningByMediaScanner();
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, getString(R.string.app_name) + "/" + filename);
+
+            downloadManager.enqueue(request);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    downloadImage();
+                } else {
+                    doErrorDialog(R.string.error_media_download_permission, R.string.action_retry,
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    downloadImage();
+                                }
+                            });
+                }
+                break;
+            }
+        }
+    }
+
+    private void doErrorDialog(@StringRes int descriptionId, @StringRes int actionId,
+                               View.OnClickListener listener) {
+        Snackbar bar = Snackbar.make(getView(), getString(descriptionId),
+                Snackbar.LENGTH_SHORT);
+        bar.setAction(actionId, listener);
+        bar.show();
     }
 }

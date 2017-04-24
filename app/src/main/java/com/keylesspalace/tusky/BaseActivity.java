@@ -96,8 +96,12 @@ public class BaseActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 
+    protected SharedPreferences getPrivatePreferences() {
+        return getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+    }
+
     protected String getAccessToken() {
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = getPrivatePreferences();
         return preferences.getString("accessToken", null);
     }
 
@@ -107,14 +111,18 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected String getBaseUrl() {
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = getPrivatePreferences();
         return "https://" + preferences.getString("domain", null);
     }
 
     protected void createMastodonAPI() {
         mastodonApiDispatcher = new Dispatcher();
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
+                .create();
+
+        OkHttpClient okHttpClient = OkHttpUtils.getCompatibleClientBuilder()
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
@@ -123,7 +131,8 @@ public class BaseActivity extends AppCompatActivity {
                         Request.Builder builder = originalRequest.newBuilder();
                         String accessToken = getAccessToken();
                         if (accessToken != null) {
-                            builder.header("Authorization", String.format("Bearer %s", accessToken));
+                            builder.header("Authorization", String.format("Bearer %s",
+                                    accessToken));
                         }
                         Request newRequest = builder.build();
 
@@ -132,10 +141,6 @@ public class BaseActivity extends AppCompatActivity {
                 })
                 .dispatcher(mastodonApiDispatcher)
                 .build();
-
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
-                .create();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getBaseUrl())
@@ -149,14 +154,14 @@ public class BaseActivity extends AppCompatActivity {
     protected void createTuskyAPI() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.tusky_api_url))
+                .client(OkHttpUtils.getCompatibleClient())
                 .build();
 
         tuskyAPI = retrofit.create(TuskyAPI.class);
     }
 
     protected void redirectIfNotLoggedIn() {
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = getPrivatePreferences();
         String domain = preferences.getString("domain", null);
         String accessToken = preferences.getString("accessToken", null);
         if (domain == null || accessToken == null) {

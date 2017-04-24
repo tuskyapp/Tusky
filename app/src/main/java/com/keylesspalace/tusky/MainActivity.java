@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky;
 
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -24,8 +23,11 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -64,8 +66,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends BaseActivity {
-    private static final String TAG = "MainActivity"; // logging tag and Volley request tag
+public class MainActivity extends BaseActivity implements SFragment.OnUserRemovedListener {
+    private static final String TAG = "MainActivity"; // logging tag
+    protected static int COMPOSE_RESULT = 1;
 
     private String loggedInAccountId;
     private String loggedInAccountUsername;
@@ -99,7 +102,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ComposeActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, COMPOSE_RESULT);
             }
         });
 
@@ -193,12 +196,24 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        SharedPreferences notificationPreferences = getApplicationContext().getSharedPreferences("Notifications", MODE_PRIVATE);
-        SharedPreferences.Editor editor = notificationPreferences.edit();
-        editor.putString("current", "[]");
-        editor.apply();
+        SharedPreferences notificationPreferences = getApplicationContext()
+                .getSharedPreferences("Notifications", MODE_PRIVATE);
+        notificationPreferences.edit()
+                .putString("current", "[]")
+                .apply();
 
-        ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE))).cancel(MyFirebaseMessagingService.NOTIFY_ID);
+        ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE)))
+                .cancel(MyFirebaseMessagingService.NOTIFY_ID);
+
+        /* After editing a profile, the profile header in the navigation drawer needs to be
+         * refreshed */
+        SharedPreferences preferences = getPrivatePreferences();
+        if (preferences.getBoolean("refreshProfileHeader", false)) {
+            fetchUserInfo();
+            preferences.edit()
+                    .putBoolean("refreshProfileHeader", false)
+                    .apply();
+        }
     }
 
     @Override
@@ -238,6 +253,9 @@ public class MainActivity extends BaseActivity {
                 })
                 .withCompactStyle(true)
                 .build();
+        headerResult.getView()
+                .findViewById(R.id.material_drawer_account_header_current)
+                .setContentDescription(getString(R.string.action_view_profile));
 
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
@@ -251,6 +269,9 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        Drawable muteDrawable = ContextCompat.getDrawable(this, R.drawable.ic_mute_24dp);
+        ThemeUtils.setDrawableTint(this, muteDrawable, R.attr.toolbar_icon_tint);
+
         drawer = new DrawerBuilder()
                 .withActivity(this)
                 //.withToolbar(toolbar)
@@ -258,12 +279,13 @@ public class MainActivity extends BaseActivity {
                 .withHasStableIds(true)
                 .withSelectedItem(-1)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withIdentifier(0).withName(R.string.action_view_profile).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person),
+                        new PrimaryDrawerItem().withIdentifier(0).withName(getString(R.string.action_edit_profile)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person),
                         new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.action_view_favourites)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_star),
-                        new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block),
+                        new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.action_view_mutes)).withSelectable(false).withIcon(muteDrawable),
+                        new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block),
                         new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withIdentifier(3).withName(getString(R.string.action_view_preferences)).withSelectable(false),
-                        new SecondaryDrawerItem().withIdentifier(4).withName(getString(R.string.action_logout)).withSelectable(false)
+                        new SecondaryDrawerItem().withIdentifier(4).withName(getString(R.string.action_view_preferences)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings),
+                        new SecondaryDrawerItem().withIdentifier(5).withName(getString(R.string.action_logout)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_exit_to_app)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -272,21 +294,23 @@ public class MainActivity extends BaseActivity {
                             long drawerItemIdentifier = drawerItem.getIdentifier();
 
                             if (drawerItemIdentifier == 0) {
-                                if (loggedInAccountId != null) {
-                                    Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-                                    intent.putExtra("id", loggedInAccountId);
-                                    startActivity(intent);
-                                }
+                                Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+                                startActivity(intent);
                             } else if (drawerItemIdentifier == 1) {
                                 Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
                                 startActivity(intent);
                             } else if (drawerItemIdentifier == 2) {
                                 Intent intent = new Intent(MainActivity.this, BlocksActivity.class);
+                                intent.putExtra("type", BlocksActivity.Type.MUTES);
                                 startActivity(intent);
                             } else if (drawerItemIdentifier == 3) {
-                                Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
+                                Intent intent = new Intent(MainActivity.this, BlocksActivity.class);
+                                intent.putExtra("type", BlocksActivity.Type.BLOCKS);
                                 startActivity(intent);
                             } else if (drawerItemIdentifier == 4) {
+                                Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
+                                startActivity(intent);
+                            } else if (drawerItemIdentifier == 5) {
                                 logout();
                             }
                         }
@@ -300,11 +324,10 @@ public class MainActivity extends BaseActivity {
     private void logout() {
         if (arePushNotificationsEnabled()) disablePushNotifications();
 
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.remove("domain");
-        editor.remove("accessToken");
-        editor.apply();
+        getPrivatePreferences().edit()
+                .remove("domain")
+                .remove("accessToken")
+                .apply();
 
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
@@ -313,6 +336,23 @@ public class MainActivity extends BaseActivity {
 
     private void setupSearchView() {
         searchView.attachNavigationDrawerToMenuButton(drawer.getDrawerLayout());
+
+        // Setup content descriptions for the different elements in the search view.
+        final View leftAction = searchView.findViewById(R.id.left_action);
+        leftAction.setContentDescription(getString(R.string.action_open_drawer));
+        searchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
+            @Override
+            public void onFocus() {
+                leftAction.setContentDescription(getString(R.string.action_close));
+            }
+
+            @Override
+            public void onFocusCleared() {
+                leftAction.setContentDescription(getString(R.string.action_open_drawer));
+            }
+        });
+        View clearButton = searchView.findViewById(R.id.clear_btn);
+        clearButton.setContentDescription(getString(R.string.action_clear));
 
         searchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
@@ -357,9 +397,7 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onSearchAction(String currentQuery) {
-
-            }
+            public void onSearchAction(String currentQuery) {}
         });
 
         searchView.setOnBindSuggestionCallback(new SearchSuggestionsAdapter.OnBindSuggestionCallback() {
@@ -384,8 +422,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void fetchUserInfo() {
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = getPrivatePreferences();
         final String domain = preferences.getString("domain", null);
         String id = preferences.getString("loggedInAccountId", null);
         String username = preferences.getString("loggedInAccountUsername", null);
@@ -402,6 +439,8 @@ public class MainActivity extends BaseActivity {
                     onFetchUserInfoFailure(new Exception(response.message()));
                     return;
                 }
+
+                headerResult.clear();
 
                 Account me = response.body();
                 ImageView background = headerResult.getHeaderBackgroundView();
@@ -442,16 +481,25 @@ public class MainActivity extends BaseActivity {
     private void onFetchUserInfoSuccess(String id, String username) {
         loggedInAccountId = id;
         loggedInAccountUsername = username;
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("loggedInAccountId", loggedInAccountId);
-        editor.putString("loggedInAccountUsername", loggedInAccountUsername);
-        editor.apply();
+        getPrivatePreferences().edit()
+                .putString("loggedInAccountId", loggedInAccountId)
+                .putString("loggedInAccountUsername", loggedInAccountUsername)
+                .apply();
     }
 
     private void onFetchUserInfoFailure(Exception exception) {
         Log.e(TAG, "Failed to fetch user info. " + exception.getMessage());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == COMPOSE_RESULT && resultCode == ComposeActivity.RESULT_OK) {
+            TimelinePagerAdapter adapter = (TimelinePagerAdapter) viewPager.getAdapter();
+            if (adapter.getCurrentFragment() instanceof SFragment) {
+                ((SFragment) adapter.getCurrentFragment()).onSuccessfulStatus();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -463,6 +511,27 @@ public class MainActivity extends BaseActivity {
         } else {
             pageHistory.pop();
             viewPager.setCurrentItem(pageHistory.peek());
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        TimelinePagerAdapter adapter = (TimelinePagerAdapter) viewPager.getAdapter();
+        for (Fragment fragment : adapter.getRegisteredFragments()) {
+            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
+    public void onUserRemoved(String accountId) {
+        TimelinePagerAdapter adapter = (TimelinePagerAdapter) viewPager.getAdapter();
+        for (Fragment fragment : adapter.getRegisteredFragments()) {
+            if (fragment instanceof StatusRemoveListener) {
+                StatusRemoveListener listener = (StatusRemoveListener) fragment;
+                listener.removePostsByUser(accountId);
+            }
         }
     }
 }

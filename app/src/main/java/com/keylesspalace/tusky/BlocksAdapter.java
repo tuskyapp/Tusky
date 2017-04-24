@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky;
 
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,9 +27,6 @@ import com.keylesspalace.tusky.entity.Account;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -36,11 +34,8 @@ class BlocksAdapter extends AccountAdapter {
     private static final int VIEW_TYPE_BLOCKED_USER = 0;
     private static final int VIEW_TYPE_FOOTER = 1;
 
-    private Set<Integer> unblockedAccountPositions;
-
     BlocksAdapter(AccountActionListener accountActionListener) {
         super(accountActionListener);
-        unblockedAccountPositions = new HashSet<>();
     }
 
     @Override
@@ -65,8 +60,7 @@ class BlocksAdapter extends AccountAdapter {
         if (position < accountList.size()) {
             BlockedUserViewHolder holder = (BlockedUserViewHolder) viewHolder;
             holder.setupWithAccount(accountList.get(position));
-            boolean blocked = !unblockedAccountPositions.contains(position);
-            holder.setupActionListener(accountActionListener, blocked, position);
+            holder.setupActionListener(accountActionListener, true);
         }
     }
 
@@ -77,15 +71,6 @@ class BlocksAdapter extends AccountAdapter {
         } else {
             return VIEW_TYPE_BLOCKED_USER;
         }
-    }
-
-    void setBlocked(boolean blocked, int position) {
-        if (blocked) {
-            unblockedAccountPositions.remove(position);
-        } else {
-            unblockedAccountPositions.add(position);
-        }
-        notifyItemChanged(position);
     }
 
     static class BlockedUserViewHolder extends RecyclerView.ViewHolder {
@@ -114,12 +99,14 @@ class BlocksAdapter extends AccountAdapter {
                     .into(avatar);
         }
 
-        void setupActionListener(final AccountActionListener listener, final boolean blocked,
-                final int position) {
+        void setupActionListener(final AccountActionListener listener, final boolean blocked) {
             unblock.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onBlock(!blocked, id, position);
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onBlock(!blocked, id, position);
+                    }
                 }
             });
             avatar.setOnClickListener(new View.OnClickListener() {

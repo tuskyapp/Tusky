@@ -20,10 +20,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -58,123 +58,6 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.edit_text_domain) EditText editText;
     @BindView(R.id.button_login) Button button;
     @BindView(R.id.whats_an_instance) TextView whatsAnInstance;
-
-    /**
-     * Chain together the key-value pairs into a query string, for either appending to a URL or
-     * as the content of an HTTP request.
-     */
-    private static String toQueryString(Map<String, String> parameters) {
-        StringBuilder s = new StringBuilder();
-        String between = "";
-        for (Map.Entry<String, String> entry : parameters.entrySet()) {
-            s.append(between);
-            s.append(Uri.encode(entry.getKey()));
-            s.append("=");
-            s.append(Uri.encode(entry.getValue()));
-            between = "&";
-        }
-        return s.toString();
-    }
-
-    /** Make sure the user-entered text is just a fully-qualified domain name. */
-    private static String validateDomain(String s) {
-        // Strip any schemes out.
-        s = s.replaceFirst("http://", "");
-        s = s.replaceFirst("https://", "");
-        // If a username was included (e.g. username@example.com), just take what's after the '@'.
-        int at = s.indexOf('@');
-        if (at != -1) {
-            s = s.substring(at + 1);
-        }
-        return s.trim();
-    }
-
-    private String getOauthRedirectUri() {
-        String scheme = getString(R.string.oauth_scheme);
-        String host = getString(R.string.oauth_redirect_host);
-        return scheme + "://" + host + "/";
-    }
-
-    private void redirectUserToAuthorizeAndLogin(EditText editText) {
-        /* To authorize this app and log in it's necessary to redirect to the domain given,
-         * activity_login there, and the server will redirect back to the app with its response. */
-        String endpoint = MastodonAPI.ENDPOINT_AUTHORIZE;
-        String redirectUri = getOauthRedirectUri();
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("client_id", clientId);
-        parameters.put("redirect_uri", redirectUri);
-        parameters.put("response_type", "code");
-        parameters.put("scope", OAUTH_SCOPES);
-        String url = "https://" + domain + endpoint + "?" + toQueryString(parameters);
-        Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        if (viewIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(viewIntent);
-        } else {
-            editText.setError(getString(R.string.error_no_web_browser_found));
-        }
-    }
-
-    private MastodonAPI getApiFor(String domain) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + domain)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        return retrofit.create(MastodonAPI.class);
-    }
-
-    /**
-     * Obtain the oauth client credentials for this app. This is only necessary the first time the
-     * app is run on a given server instance. So, after the first authentication, they are
-     * saved in SharedPreferences and every subsequent run they are simply fetched from there.
-     */
-    private void onButtonClick(final EditText editText) {
-        domain = validateDomain(editText.getText().toString());
-        /* Attempt to get client credentials from SharedPreferences, and if not present
-         * (such as in the case that the domain has never been accessed before)
-         * authenticate with the server and store the received credentials to use next
-         * time. */
-        String prefClientId = preferences.getString(domain + "/client_id", null);
-        String prefClientSecret = preferences.getString(domain + "/client_secret", null);
-
-        if (prefClientId != null && prefClientSecret != null) {
-            clientId = prefClientId;
-            clientSecret = prefClientSecret;
-            redirectUserToAuthorizeAndLogin(editText);
-        } else {
-            Callback<AppCredentials> callback = new Callback<AppCredentials>() {
-                @Override
-                public void onResponse(Call<AppCredentials> call, Response<AppCredentials> response) {
-                    if (!response.isSuccessful()) {
-                        editText.setError(getString(R.string.error_failed_app_registration));
-                        Log.e(TAG, "App authentication failed. " + response.message());
-                        return;
-                    }
-                    AppCredentials credentials = response.body();
-                    clientId = credentials.clientId;
-                    clientSecret = credentials.clientSecret;
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString(domain + "/client_id", clientId);
-                    editor.putString(domain + "/client_secret", clientSecret);
-                    editor.apply();
-                    redirectUserToAuthorizeAndLogin(editText);
-                }
-
-                @Override
-                public void onFailure(Call<AppCredentials> call, Throwable t) {
-                    editText.setError(getString(R.string.error_failed_app_registration));
-                    t.printStackTrace();
-                }
-            };
-
-            try {
-                getApiFor(domain).authenticateApp(getString(R.string.app_name), getOauthRedirectUri(), OAUTH_SCOPES,
-                        getString(R.string.app_website)).enqueue(callback);
-            } catch (IllegalArgumentException e) {
-                editText.setError(getString(R.string.error_invalid_domain));
-            }
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,26 +109,6 @@ public class LoginActivity extends AppCompatActivity {
                 textView.setMovementMethod(LinkMovementMethod.getInstance());
             }
         });
-
-        // Apply any updates needed.
-        int versionCode = 1;
-        try {
-            versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.e(TAG, "The app version was not found. " + e.getMessage());
-        }
-        if (preferences.getInt("lastUpdate", 0) != versionCode) {
-            SharedPreferences.Editor editor = preferences.edit();
-            if (versionCode == 14) {
-                /* This version switches the order of scheme and host in the OAuth redirect URI.
-                 * But to fix it requires forcing the app to re-authenticate with servers. So, clear
-                 * out the stored client id/secret pairs. The only other things that are lost are
-                 * "rememberedVisibility", "loggedInUsername", and "loggedInAccountId". */
-                editor.clear();
-            }
-            editor.putInt("lastUpdate", versionCode);
-            editor.apply();
-        }
     }
 
     @Override
@@ -256,25 +119,139 @@ public class LoginActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-    private void onLoginSuccess(String accessToken) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("domain", domain);
-        editor.putString("accessToken", accessToken);
-        editor.commit();
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+    /** Make sure the user-entered text is just a fully-qualified domain name. */
+    @NonNull
+    private static String validateDomain(String s) {
+        // Strip any schemes out.
+        s = s.replaceFirst("http://", "");
+        s = s.replaceFirst("https://", "");
+        // If a username was included (e.g. username@example.com), just take what's after the '@'.
+        int at = s.indexOf('@');
+        if (at != -1) {
+            s = s.substring(at + 1);
+        }
+        return s.trim();
+    }
+
+    private String getOauthRedirectUri() {
+        String scheme = getString(R.string.oauth_scheme);
+        String host = getString(R.string.oauth_redirect_host);
+        return scheme + "://" + host + "/";
+    }
+
+    private MastodonAPI getApiFor(String domain) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + domain)
+                .client(OkHttpUtils.getCompatibleClient())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        return retrofit.create(MastodonAPI.class);
+    }
+
+    /**
+     * Obtain the oauth client credentials for this app. This is only necessary the first time the
+     * app is run on a given server instance. So, after the first authentication, they are
+     * saved in SharedPreferences and every subsequent run they are simply fetched from there.
+     */
+    private void onButtonClick(final EditText editText) {
+        domain = validateDomain(editText.getText().toString());
+        /* Attempt to get client credentials from SharedPreferences, and if not present
+         * (such as in the case that the domain has never been accessed before)
+         * authenticate with the server and store the received credentials to use next
+         * time. */
+        String prefClientId = preferences.getString(domain + "/client_id", null);
+        String prefClientSecret = preferences.getString(domain + "/client_secret", null);
+
+        if (prefClientId != null && prefClientSecret != null) {
+            clientId = prefClientId;
+            clientSecret = prefClientSecret;
+            redirectUserToAuthorizeAndLogin(editText);
+        } else {
+            Callback<AppCredentials> callback = new Callback<AppCredentials>() {
+                @Override
+                public void onResponse(Call<AppCredentials> call,
+                        Response<AppCredentials> response) {
+                    if (!response.isSuccessful()) {
+                        editText.setError(getString(R.string.error_failed_app_registration));
+                        Log.e(TAG, "App authentication failed. " + response.message());
+                        return;
+                    }
+                    AppCredentials credentials = response.body();
+                    clientId = credentials.clientId;
+                    clientSecret = credentials.clientSecret;
+                    preferences.edit()
+                            .putString(domain + "/client_id", clientId)
+                            .putString(domain + "/client_secret", clientSecret)
+                            .apply();
+                    redirectUserToAuthorizeAndLogin(editText);
+                }
+
+                @Override
+                public void onFailure(Call<AppCredentials> call, Throwable t) {
+                    editText.setError(getString(R.string.error_failed_app_registration));
+                    t.printStackTrace();
+                }
+            };
+
+            try {
+                getApiFor(domain)
+                        .authenticateApp(getString(R.string.app_name), getOauthRedirectUri(),
+                                OAUTH_SCOPES, getString(R.string.app_website))
+                        .enqueue(callback);
+            } catch (IllegalArgumentException e) {
+                editText.setError(getString(R.string.error_invalid_domain));
+            }
+        }
+    }
+
+
+    /**
+     * Chain together the key-value pairs into a query string, for either appending to a URL or
+     * as the content of an HTTP request.
+     */
+    @NonNull
+    private static String toQueryString(Map<String, String> parameters) {
+        StringBuilder s = new StringBuilder();
+        String between = "";
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
+            s.append(between);
+            s.append(Uri.encode(entry.getKey()));
+            s.append("=");
+            s.append(Uri.encode(entry.getValue()));
+            between = "&";
+        }
+        return s.toString();
+    }
+
+    private void redirectUserToAuthorizeAndLogin(EditText editText) {
+        /* To authorize this app and log in it's necessary to redirect to the domain given,
+         * activity_login there, and the server will redirect back to the app with its response. */
+        String endpoint = MastodonAPI.ENDPOINT_AUTHORIZE;
+        String redirectUri = getOauthRedirectUri();
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("client_id", clientId);
+        parameters.put("redirect_uri", redirectUri);
+        parameters.put("response_type", "code");
+        parameters.put("scope", OAUTH_SCOPES);
+        String url = "https://" + domain + endpoint + "?" + toQueryString(parameters);
+        Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        if (viewIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(viewIntent);
+        } else {
+            editText.setError(getString(R.string.error_no_web_browser_found));
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         if (domain != null) {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("domain", domain);
-            editor.putString("clientId", clientId);
-            editor.putString("clientSecret", clientSecret);
-            editor.apply();
+            preferences.edit()
+                    .putString("domain", domain)
+                    .putString("clientId", clientId)
+                    .putString("clientSecret", clientSecret)
+                    .apply();
         }
     }
 
@@ -346,5 +323,19 @@ public class LoginActivity extends AppCompatActivity {
                 editText.setError(getString(R.string.error_authorization_unknown));
             }
         }
+    }
+
+    private void onLoginSuccess(String accessToken) {
+        boolean committed = preferences.edit()
+                .putString("domain", domain)
+                .putString("accessToken", accessToken)
+                .commit();
+        if (!committed) {
+            editText.setError(getString(R.string.error_retrieving_oauth_token));
+            return;
+        }
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

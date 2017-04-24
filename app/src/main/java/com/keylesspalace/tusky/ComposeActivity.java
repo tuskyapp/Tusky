@@ -18,7 +18,6 @@ package com.keylesspalace.tusky;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,8 +35,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -48,6 +49,7 @@ import android.support.v13.view.inputmethod.InputConnectionCompat;
 import android.support.v13.view.inputmethod.InputContentInfoCompat;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.Toolbar;
@@ -77,9 +79,11 @@ import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -99,8 +103,11 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 4000000; // 4MB
     private static final int MEDIA_PICK_RESULT = 1;
+    private static final int MEDIA_TAKE_PHOTO_RESULT = 2;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private static final int MEDIA_SIZE_UNKNOWN = -1;
+    private static final int COMPOSE_SUCCESS = -1;
+    private static final int THUMBNAIL_SIZE = 128; // pixels
 
     private String inReplyToId;
     private String inResponseTo;
@@ -121,9 +128,12 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private TextView charactersLeft;
     private Button floatingBtn;
     private ImageButton pickBtn;
+    private ImageButton takeBtn;
     private Button nsfwBtn;
     private ImageButton showReplyBtn;
     private ProgressBar postProgress;
+    private ImageButton visibilityBtn;
+    private Uri photoUploadUri;
 
     private static class QueuedMedia {
         enum Type {
@@ -337,19 +347,20 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             actionBar.setHomeAsUpIndicator(closeIcon);
         }
 
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = getPrivatePreferences();
 
         showReplyBtn = (ImageButton) findViewById(R.id.show_reply_text);
         showReplyBtn.setVisibility(View.INVISIBLE);
         floatingBtn = (Button) findViewById(R.id.floating_btn);
         pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
+        takeBtn = (ImageButton) findViewById(R.id.compose_photo_take);
         nsfwBtn = (Button) findViewById(R.id.action_toggle_nsfw);
-        final ImageButton visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
+        visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
 
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
                 pickBtn.setClickable(false);
                 nsfwBtn.setClickable(false);
                 visibilityBtn.setClickable(false);
@@ -357,6 +368,8 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                 floatingBtn.setEnabled(false);
 
                 postProgress.setVisibility(View.VISIBLE);
+=======
+>>>>>>> f9722ac2c2b3578458476b3d8af13325434f8a96
                 sendStatus();
             }
         });
@@ -364,6 +377,12 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             @Override
             public void onClick(View v) {
                 onMediaPick();
+            }
+        });
+        takeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initiateCameraApp();
             }
         });
         nsfwBtn.setOnClickListener(new View.OnClickListener() {
@@ -591,26 +610,69 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         }
     }
 
+    private void disableButtons() {
+        pickBtn.setClickable(false);
+        takeBtn.setClickable(false);
+        nsfwBtn.setClickable(false);
+        visibilityBtn.setClickable(false);
+        floatingBtn.setEnabled(false);
+    }
+
+    private void enableButtons() {
+        pickBtn.setClickable(true);
+        takeBtn.setClickable(true);
+        nsfwBtn.setClickable(true);
+        visibilityBtn.setClickable(true);
+        floatingBtn.setEnabled(true);
+    }
+
+    private void addLockToSendButton() {
+        floatingBtn.setText(R.string.action_send);
+        Drawable lock = AppCompatResources.getDrawable(this, R.drawable.send_private);
+        if (lock != null) {
+            lock.setBounds(0, 0, lock.getIntrinsicWidth(), lock.getIntrinsicHeight());
+            floatingBtn.setCompoundDrawables(null, null, lock, null);
+        }
+    }
+
     private void setStatusVisibility(String visibility) {
         statusVisibility = visibility;
         switch (visibility) {
             case "public": {
                 floatingBtn.setText(R.string.action_send_public);
                 floatingBtn.setCompoundDrawables(null, null, null, null);
-                break;
-            }
-            case "private": {
-                floatingBtn.setText(R.string.action_send);
-                Drawable lock = AppCompatResources.getDrawable(this, R.drawable.send_private);
-                if (lock != null) {
-                    lock.setBounds(0, 0, lock.getIntrinsicWidth(), lock.getIntrinsicHeight());
-                    floatingBtn.setCompoundDrawables(null, null, lock, null);
+                Drawable globe = AppCompatResources.getDrawable(this, R.drawable.ic_public_24dp);
+                if (globe != null) {
+                    visibilityBtn.setImageDrawable(globe);
                 }
                 break;
             }
+            case "private": {
+                addLockToSendButton();
+                Drawable lock = AppCompatResources.getDrawable(this,
+                        R.drawable.ic_lock_outline_24dp);
+                if (lock != null) {
+                    visibilityBtn.setImageDrawable(lock);
+                }
+                break;
+            }
+            case "direct": {
+                addLockToSendButton();
+                Drawable envelope = AppCompatResources.getDrawable(this, R.drawable.ic_email_24dp);
+                if (envelope != null) {
+                    visibilityBtn.setImageDrawable(envelope);
+                }
+                break;
+            }
+            case "unlisted":
             default: {
                 floatingBtn.setText(R.string.action_send);
                 floatingBtn.setCompoundDrawables(null, null, null, null);
+                Drawable openLock = AppCompatResources.getDrawable(this,
+                        R.drawable.ic_lock_open_24dp);
+                if (openLock != null) {
+                    visibilityBtn.setImageDrawable(openLock);
+                }
                 break;
             }
         }
@@ -639,6 +701,18 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         updateVisibleCharactersLeft();
     }
 
+    void setStateToReadying() {
+        statusAlreadyInFlight = true;
+        disableButtons();
+        postProgress.setVisibility(View.VISIBLE);
+    }
+
+    void setStateToNotReadying() {
+        postProgress.setVisibility(View.INVISIBLE);
+        statusAlreadyInFlight = false;
+        enableButtons();
+    }
+
     private void sendStatus() {
         if (statusAlreadyInFlight) {
             return;
@@ -648,9 +722,12 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         if (statusHideText) {
             spoilerText = contentWarningEditor.getText().toString();
         }
-        if (contentText.length() + spoilerText.length() <= STATUS_CHARACTER_LIMIT) {
-            statusAlreadyInFlight = true;
+        int characterCount = contentText.length() + spoilerText.length();
+        if (characterCount > 0 && characterCount <= STATUS_CHARACTER_LIMIT) {
+            setStateToReadying();
             readyStatus(contentText, statusVisibility, statusMarkSensitive, spoilerText);
+        } else if (characterCount <= 0) {
+            textEditor.setError(getString(R.string.error_empty));
         } else {
             textEditor.setError(getString(R.string.error_compose_character_limit));
         }
@@ -709,11 +786,9 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
              * the status they reply to and that behaviour needs to be kept separate. */
             return;
         }
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("rememberedVisibility", statusVisibility);
-        editor.apply();
+        getPrivatePreferences().edit()
+                .putString("rememberedVisibility", statusVisibility)
+                .apply();
     }
 
     private EditText createEditText(String[] contentMimeTypes) {
@@ -743,7 +818,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         editText.setLayoutParams(layoutParams);
-        editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         editText.setEms(10);
         editText.setBackgroundColor(0);
         editText.setGravity(Gravity.START | Gravity.TOP);
@@ -840,13 +915,13 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private void onSendSuccess() {
         Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(R.string.confirmation_send), Snackbar.LENGTH_SHORT);
         bar.show();
+        setResult(COMPOSE_SUCCESS);
         finish();
     }
 
     private void onSendFailure() {
-        postProgress.setVisibility(View.INVISIBLE);
         textEditor.setError(getString(R.string.error_generic));
-        statusAlreadyInFlight = false;
+        setStateToNotReadying();
     }
 
     private void readyStatus(final String content, final String visibility, final boolean sensitive,
@@ -881,7 +956,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                     @Override
                     protected void onCancelled() {
                         removeAllMediaFromQueue();
-                        statusAlreadyInFlight = false;
+                        setStateToNotReadying();
                         super.onCancelled();
                     }
                 };
@@ -906,7 +981,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                         readyStatus(content, visibility, sensitive, spoilerText);
                     }
                 });
-        statusAlreadyInFlight = false;
+        setStateToNotReadying();
     }
 
     private void onMediaPick() {
@@ -943,6 +1018,41 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         }
     }
 
+    private File createNewImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        String imageFileName = "Tusky_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        return File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+    }
+
+    private void initiateCameraApp() {
+        // We don't need to ask for permission in this case, because the used calls require
+        // android.permission.WRITE_EXTERNAL_STORAGE only on SDKs *older* than Kitkat, which was
+        // way before permission dialogues have been introduced.
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createNewImageFile();
+            } catch (IOException ex) {
+                displayTransientError(R.string.error_media_upload_opening);
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                photoUploadUri = FileProvider.getUriForFile(this,
+                        "com.keylesspalace.tusky.fileprovider",
+                        photoFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUploadUri);
+                startActivityForResult(intent, MEDIA_TAKE_PHOTO_RESULT);
+            }
+        }
+    }
+
     private void initiateMediaPicking() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -956,15 +1066,21 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         startActivityForResult(intent, MEDIA_PICK_RESULT);
     }
 
-    private void enableMediaPicking() {
+    private void enableMediaButtons() {
         pickBtn.setEnabled(true);
         ThemeUtils.setDrawableTint(this, pickBtn.getDrawable(),
                 R.attr.compose_media_button_tint);
+        takeBtn.setEnabled(true);
+        ThemeUtils.setDrawableTint(this, takeBtn.getDrawable(),
+                R.attr.compose_media_button_tint);
     }
 
-    private void disableMediaPicking() {
+    private void disableMediaButtons() {
         pickBtn.setEnabled(false);
         ThemeUtils.setDrawableTint(this, pickBtn.getDrawable(),
+                R.attr.compose_media_button_disabled_tint);
+        takeBtn.setEnabled(false);
+        ThemeUtils.setDrawableTint(this, takeBtn.getDrawable(),
                 R.attr.compose_media_button_disabled_tint);
     }
 
@@ -1000,11 +1116,11 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                     textEditor.getPaddingRight(), totalHeight);
             // If there's one video in the queue it is full, so disable the button to queue more.
             if (item.type == QueuedMedia.Type.VIDEO) {
-                disableMediaPicking();
+                disableMediaButtons();
             }
         } else if (queuedCount >= Status.MAX_MEDIA_ATTACHMENTS) {
             // Limit the total media attachments, also.
-            disableMediaPicking();
+            disableMediaButtons();
         }
         if (queuedCount >= 1) {
             showMarkSensitive(true);
@@ -1027,7 +1143,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             textEditor.setPadding(textEditor.getPaddingLeft(), textEditor.getPaddingTop(),
                     textEditor.getPaddingRight(), 0);
         }
-        enableMediaPicking();
+        enableMediaButtons();
         cancelReadyingMedia(item);
     }
 
@@ -1188,6 +1304,9 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             Uri uri = data.getData();
             long mediaSize = getMediaSize(getContentResolver(), uri);
             pickMedia(uri, mediaSize);
+        } else if (requestCode == MEDIA_TAKE_PHOTO_RESULT && resultCode == RESULT_OK) {
+            long mediaSize = getMediaSize(getContentResolver(), photoUploadUri);
+            pickMedia(photoUploadUri, mediaSize);
         }
     }
 
@@ -1214,7 +1333,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                     MediaMetadataRetriever retriever = new MediaMetadataRetriever();
                     retriever.setDataSource(this, uri);
                     Bitmap source = retriever.getFrameAtTime();
-                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, 128, 128);
+                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
                     source.recycle();
                     addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize);
                     break;
@@ -1227,8 +1346,9 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                         displayTransientError(R.string.error_media_upload_opening);
                         return;
                     }
+
                     Bitmap source = BitmapFactory.decodeStream(stream);
-                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, 128, 128);
+                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
                     source.recycle();
                     try {
                         if (stream != null) {

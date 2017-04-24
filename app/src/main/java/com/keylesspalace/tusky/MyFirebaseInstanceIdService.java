@@ -40,6 +40,7 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
     protected void createTuskyAPI() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.tusky_api_url))
+                .client(OkHttpUtils.getCompatibleClient())
                 .build();
 
         tuskyAPI = retrofit.create(TuskyAPI.class);

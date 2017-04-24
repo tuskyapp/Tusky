@@ -20,6 +20,7 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.AppCredentials;
 import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Notification;
+import com.keylesspalace.tusky.entity.Profile;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
@@ -29,11 +30,13 @@ import java.util.List;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
@@ -113,6 +116,8 @@ public interface MastodonAPI {
 
     @GET("api/v1/accounts/verify_credentials")
     Call<Account> accountVerifyCredentials();
+    @PATCH("api/v1/accounts/update_credentials")
+    Call<Account> accountUpdateCredentials(@Body Profile profile);
     @GET("api/v1/accounts/search")
     Call<List<Account>> searchAccounts(
             @Query("q") String q,
