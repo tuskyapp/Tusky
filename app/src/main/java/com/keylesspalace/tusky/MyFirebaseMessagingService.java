@@ -122,6 +122,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
+                .registerTypeAdapter(StringWithEmoji.class, new StringWithEmojiTypeAdapter())
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()

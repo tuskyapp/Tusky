@@ -21,6 +21,7 @@ import android.text.Spanned;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.google.gson.annotations.SerializedName;
 import com.keylesspalace.tusky.HtmlUtils;
+import com.keylesspalace.tusky.StringWithEmoji;
 
 public class Account implements SearchSuggestion {
     public String id;
@@ -32,7 +33,7 @@ public class Account implements SearchSuggestion {
     public String username;
 
     @SerializedName("display_name")
-    public String displayName;
+    public StringWithEmoji displayName;
 
     public Spanned note;
 
@@ -70,11 +71,10 @@ public class Account implements SearchSuggestion {
     }
 
     public String getDisplayName() {
-        if (displayName.length() == 0) {
+        if (displayName.value.length() == 0) {
             return localUsername;
         }
-
-        return displayName;
+        return displayName.value;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Account implements SearchSuggestion {
         dest.writeString(id);
         dest.writeString(localUsername);
         dest.writeString(username);
-        dest.writeString(displayName);
+        dest.writeString(displayName.value);
         dest.writeString(HtmlUtils.toHtml(note));
         dest.writeString(url);
         dest.writeString(avatar);
@@ -111,7 +111,7 @@ public class Account implements SearchSuggestion {
         id = in.readString();
         localUsername = in.readString();
         username = in.readString();
-        displayName = in.readString();
+        displayName = new StringWithEmoji(in.readString());
         note = HtmlUtils.fromHtml(in.readString());
         url = in.readString();
         avatar = in.readString();

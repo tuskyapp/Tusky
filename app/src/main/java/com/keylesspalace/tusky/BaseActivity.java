@@ -32,6 +32,7 @@ import android.view.Menu;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.keylesspalace.tusky.entity.Account;
 
 import java.io.IOException;
 
@@ -120,6 +121,7 @@ public class BaseActivity extends AppCompatActivity {
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
+                .registerTypeAdapter(StringWithEmoji.class, new StringWithEmojiTypeAdapter())
                 .create();
 
         OkHttpClient okHttpClient = OkHttpUtils.getCompatibleClientBuilder()

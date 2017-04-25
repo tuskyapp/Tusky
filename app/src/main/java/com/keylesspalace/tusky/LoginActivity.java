@@ -208,7 +208,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
     /**
      * Chain together the key-value pairs into a query string, for either appending to a URL or
      * as the content of an HTTP request.

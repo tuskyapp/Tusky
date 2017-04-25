@@ -16,14 +16,9 @@
 package com.keylesspalace.tusky;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
