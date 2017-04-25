@@ -1,9 +1,9 @@
 <resources>
 
     <string name="error_generic">Une erreur s’est produite.</string>
-    <string name="error_empty">Ce champs ne peut pas être vide</string>
+    <string name="error_empty">Ce champ ne peut pas être vide</string>
     <string name="error_invalid_domain">Le domaine est invalide</string>
-    <string name="error_failed_app_registration">L’application n’a pu s’authentifier avec l’instance.</string>
+    <string name="error_failed_app_registration">L’application n’a pu s’authentifier auprès de l’instance.</string>
     <string name="error_no_web_browser_found">Impossible de trouver un navigateur web.</string>
     <string name="error_authorization_unknown">Une erreur d’autorisation inconnue s’est produite.</string>
     <string name="error_authorization_denied">Vous ne pouvez pas vous authentifier.</string>
@@ -13,7 +13,7 @@
     <string name="error_media_upload_type">Ce type de fichier n’est pas accepté.</string>
     <string name="error_media_upload_opening">Le fichier ne peut être ouvert.</string>
     <string name="error_media_upload_permission">Une permission pour lire ce média est requise pour le mettre en ligne.</string>
-    <string name="error_media_download_permission">Permission d\'enregistrer le fichier requise.</string>
+    <string name="error_media_download_permission">Permission d’enregistrer le fichier requise.</string>
 
     <string name="error_media_upload_image_or_video">Impossible de mettre une vidéo et une image sur le même pouet.</string>
     <string name="error_media_upload_sending">Ce média ne peut être mis en ligne.</string>
@@ -41,7 +41,7 @@
     <string name="footer_end_of_statuses">fin du pouet</string>
     <string name="footer_end_of_notifications">fin des notifications</string>
     <string name="footer_end_of_accounts">fin des comptes</string>
-    <string name="footer_empty">Il n\'y à pas encore de pouet ici. Glissez vers le bas pour actualiser!</string>
+    <string name="footer_empty">Il n’y a pas encore de pouets ici. Glissez vers le bas pour actualiser !</string>
 
     <string name="notification_reblog_format">%s a boosté votre pouet</string>
     <string name="notification_favourite_format">%s a ajouté votre pouet dans ses favoris</string>
@@ -73,11 +73,11 @@
     <string name="action_close">Fermer</string>
     <string name="action_back">Retour</string>
     <string name="action_view_profile">Profil</string>
-    <string name="action_view_preferences">Préferences</string>
+    <string name="action_view_preferences">Préférences</string>
     <string name="action_view_favourites">Favoris</string>
     <string name="action_view_blocks">Utilisateurs bloqués</string>
-    <string name="action_view_thread">Thread</string>
-    <string name="action_view_media">Media</string>
+    <string name="action_view_thread">Fil</string>
+    <string name="action_view_media">Média</string>
     <string name="action_open_in_web">Ouvrir avec votre navigateur</string>
     <string name="action_submit">Envoyer</string>
     <string name="action_photo_pick">Ajouter un média</string>
@@ -98,8 +98,8 @@
 
     <string name="search">Rechercher un compte…</string>
 
-    <string name="confirmation_send">Toot!</string>
-    <string name="confirmation_reported">Envoyer !</string>
+    <string name="confirmation_send">Pouet !</string>
+    <string name="confirmation_reported">Envoyé !</string>
 
     <string name="hint_domain">Quelle instance ?</string>
     <string name="hint_compose">Quoi de neuf ?</string>
@@ -113,9 +113,9 @@
     <string name="link_whats_an_instance">Qu’est ce qu’une instance ?</string>
 
     <string name="dialog_whats_an_instance">L’adresse ou le domaine d’une instance peut être entré
-         ici, comme mastodon.social, icosahedron.website, social.tchncs.de, et
-        <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">plus (en anglais)!</a>
-        \n\nSi vous n’avez pas de compte, vous pouvez entrer le nom de l’instance que vous voulez rejoindre et créer un compte ici.\n\nUne instance est l’endroit où votre compte est 
+         ici, comme mastodon.social, icosahedron.website, social.tchncs.de,
+        <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">ou autre</a> (en anglais) !
+        \n\nSi vous n’avez pas de compte, vous pouvez entrer le nom de l’instance que vous voulez rejoindre et créer un compte ici.\n\nUne instance est l’endroit où votre compte est
         stocké, mais vous pouvez facilement communiquer et suivre d’autres personnes sur d’autres instances bien que vous soyez sur le même site
         \n\nPlus d’info <a href="https://mastodon.social/about">mastodon.social</a> (anglais).
     </string>
@@ -125,8 +125,8 @@
 
     <string name="visibility_public">Public: Afficher dans les fils publics</string>
     <string name="visibility_unlisted">Non-listé: Ne pas afficher dans les fils publics</string>
-    <string name="visibility_private">Privé: N\'afficher que pour vos abonné⋅e⋅s</string>
-    <string name="visibility_direct">Direct: N\'afficher que pour les personnes mentionnées</string>
+    <string name="visibility_private">Privé: N’afficher que pour vos abonné⋅e⋅s</string>
+    <string name="visibility_direct">Direct: N’afficher que pour les personnes mentionnées</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
     <string name="pref_title_edit_notification_settings">Modifier la notification</string>
@@ -146,7 +146,7 @@
     <string name="pref_title_custom_tabs">Utiliser le navigateur intégré</string>
     <string name="pref_title_hide_follow_button">Cacher le bouton de suivi lors du défilement</string>
 
-    <string name="notification_mention_format">%s vous ont mentionné⋅e</string>
+    <string name="notification_mention_format">%s vous ont mentionné</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s et %4$d plus</string>
     <string name="notification_summary_medium">%1$s, %2$s, et %3$s</string>
     <string name="notification_summary_small">%1$s et %2$s</string>
@@ -155,4 +155,4 @@
     <string name="description_account_locked">Compte bloqué</string>
     <string name="status_share_content">Partager le contenu du pouet</string>
     <string name="status_share_link">Partager le lien du pouet</string>
-</resources>    
+</resources>
