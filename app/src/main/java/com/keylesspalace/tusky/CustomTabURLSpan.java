@@ -54,7 +54,7 @@ class CustomTabURLSpan extends URLSpan {
                 customTabsIntent.launchUrl(context, uri);
             }
         } catch (ActivityNotFoundException e) {
-            android.util.Log.w("URLSpan", "Activity was not found for intent, " + customTabsIntent.toString());
+            Log.w("URLSpan", "Activity was not found for intent, " + customTabsIntent.toString());
         }
     }
 }

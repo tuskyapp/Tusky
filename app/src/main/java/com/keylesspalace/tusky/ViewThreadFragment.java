@@ -36,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class ViewThreadFragment extends SFragment implements
-        SwipeRefreshLayout.OnRefreshListener, StatusActionListener {
+        SwipeRefreshLayout.OnRefreshListener, StatusActionListener, StatusRemoveListener {
     private static final String TAG = "ViewThreadFragment";
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -148,6 +148,11 @@ public class ViewThreadFragment extends SFragment implements
         } else {
             Log.e(TAG, "Couldn't display thread fetch error message");
         }
+    }
+
+    @Override
+    public void removePostsByUser(String accountId) {
+        adapter.removeAllByAccountId(accountId);
     }
 
     public void onRefresh() {

@@ -39,7 +39,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class TimelineFragment extends SFragment implements
-        SwipeRefreshLayout.OnRefreshListener, StatusActionListener, StatusRemoveListener, SharedPreferences.OnSharedPreferenceChangeListener {
+        SwipeRefreshLayout.OnRefreshListener,
+        StatusActionListener,
+        StatusRemoveListener,
+        SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "Timeline"; // logging tag
 
     private Call<List<Status>> listCall;

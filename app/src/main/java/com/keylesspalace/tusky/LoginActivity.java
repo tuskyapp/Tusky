@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -224,6 +227,36 @@ public class LoginActivity extends AppCompatActivity {
         return s.toString();
     }
 
+    private static boolean openInCustomTab(Uri uri, Context context) {
+        boolean lightTheme = PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean("lightTheme", false);
+        int toolbarColorRes;
+        if (lightTheme) {
+            toolbarColorRes = R.color.custom_tab_toolbar_light;
+        } else {
+            toolbarColorRes = R.color.custom_tab_toolbar_dark;
+        }
+        int toolbarColor = ContextCompat.getColor(context, toolbarColorRes);
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setToolbarColor(toolbarColor);
+        CustomTabsIntent customTabsIntent = builder.build();
+        try {
+            String packageName = CustomTabsHelper.getPackageNameToUse(context);
+            /* If we cant find a package name, it means theres no browser that supports
+             * Chrome Custom Tabs installed. So, we fallback to the webview */
+            if (packageName == null) {
+                return false;
+            } else {
+                customTabsIntent.intent.setPackage(packageName);
+                customTabsIntent.launchUrl(context, uri);
+            }
+        } catch (ActivityNotFoundException e) {
+            Log.w("URLSpan", "Activity was not found for intent, " + customTabsIntent.toString());
+            return false;
+        }
+        return true;
+    }
+
     private void redirectUserToAuthorizeAndLogin(EditText editText) {
         /* To authorize this app and log in it's necessary to redirect to the domain given,
          * activity_login there, and the server will redirect back to the app with its response. */
@@ -235,11 +268,14 @@ public class LoginActivity extends AppCompatActivity {
         parameters.put("response_type", "code");
         parameters.put("scope", OAUTH_SCOPES);
         String url = "https://" + domain + endpoint + "?" + toQueryString(parameters);
-        Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        if (viewIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(viewIntent);
-        } else {
-            editText.setError(getString(R.string.error_no_web_browser_found));
+        Uri uri = Uri.parse(url);
+        if (!openInCustomTab(uri, this)) {
+            Intent viewIntent = new Intent(Intent.ACTION_VIEW, uri);
+            if (viewIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(viewIntent);
+            } else {
+                editText.setError(getString(R.string.error_no_web_browser_found));
+            }
         }
     }
 

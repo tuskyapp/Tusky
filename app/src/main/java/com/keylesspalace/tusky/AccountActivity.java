@@ -33,7 +33,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -206,9 +205,21 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
 
         displayName.setText(account.getDisplayName());
 
-        note.setText(account.note);
-        note.setLinksClickable(true);
-        note.setMovementMethod(LinkMovementMethod.getInstance());
+        LinkHelper.setClickableText(note, account.note, null, new LinkListener() {
+            @Override
+            public void onViewTag(String tag) {
+                Intent intent = new Intent(AccountActivity.this, ViewTagActivity.class);
+                intent.putExtra("hashtag", tag);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onViewAccount(String id) {
+                Intent intent = new Intent(AccountActivity.this, AccountActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+            }
+        });
 
         if (account.locked) {
             accountLockedView.setVisibility(View.VISIBLE);
