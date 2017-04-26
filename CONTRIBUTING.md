@@ -15,7 +15,7 @@ Each translation has a single file that contains all of the text. A given locale
 
 If you're starting a translation that doesn't already exist, you can just copy the english ```strings.xml``` to a new ```values``` directory and replace the english text inside each of the ```<string>``` ```</string>``` pairs.
 
-Strings follow XML rules, which means that apostropes and quotation marks have to be "escaped" with a backslash like: ```shouldn\'t``` and ```\"formidable\"```. Also, formatting is ignored when shown in the application, so things like new lines have to be explicitly expressed with codes like ```\n``` for a new line. See also: [String Resources](https://developer.android.com/guide/topics/resources/string-resource.html#FormattingAndStyling).
+Strings follow XML rules, which means that apostrophes and quotation marks have to be "escaped" with a backslash like: ```shouldn\'t``` and ```\"formidable\"```. Also, formatting is ignored when shown in the application, so things like new lines have to be explicitly expressed with codes like ```\n``` for a new line. See also: [String Resources](https://developer.android.com/guide/topics/resources/string-resource.html#FormattingAndStyling).
 
 Please keep the organization and ordering of each of the strings the same as in the default ```strings.xml``` file. It just helps to keep so many translation files straight and up-to-date.
 
@@ -40,7 +40,7 @@ git commit -m "Describe the changes in this commit here."
 git fetch
 git rebase origin/master
 ```
-It may refuse to start the rebase if there's changes that haven't been committed, so make sure you've added/committed everything. If there were changes on master to any of the parts of files you worked on, a conflict will arise when you rebase. [Resolving a merge conflict](https://help.github.com/articles/resolving-a-merge-conflict-using-the-command-line) is a good guide to help with this. After committing the resolution, you can run ```git rebase --continue``` to finish the rebase. If you want to cancel, because you make some mistake in resolving the conflict, you can always do ```git rebase --abort```.
+It may refuse to start the rebase if there's changes that haven't been committed, so make sure you've added and committed everything. If there were changes on master to any of the parts of files you worked on, a conflict will arise when you rebase. [Resolving a merge conflict](https://help.github.com/articles/resolving-a-merge-conflict-using-the-command-line) is a good guide to help with this. After committing the resolution, you can run ```git rebase --continue``` to finish the rebase. If you want to cancel, like if you make some mistake in resolving the conflict, you can always do ```git rebase --abort```.
 
-2. Push your local branch to your fork on Github by running ```git push origin <your-change-name>```.
+2. Push your local branch to your fork on Github by running ```git push origin your-change-name```.
 3. Then, go to the original project page and make a pull request. Select your fork/branch and use ```master``` as the base branch.
