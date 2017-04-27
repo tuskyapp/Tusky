@@ -121,7 +121,7 @@
 
 	<string name="visibility_public">Openbaar</string>
     <string name="visibility_unlisted">Openbaar, maar niet op een openbare tijdlijn tonen</string>
-    <string name="visibility_private">Alleen aan volgers (en vermeldingen) tonen</string>
+    <string name="visibility_private">Alleen aan volgers tonen</string>
     <!-- <string name="visibility_direct">Direct: Post to mentioned users only</string> -->
 
     <string name="pref_title_notification_settings">Meldingen</string>
