@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,10 +27,12 @@
                 android:layout_height="wrap_content"
                 android:background="?android:colorBackground"
                 android:paddingTop="?attr/actionBarSize"
-                app:tabTextAppearance="@style/TabLayoutTextStyle"
+                app:tabGravity="fill"
+                app:tabMaxWidth="0dp"
+                app:tabPaddingEnd="1dp"
                 app:tabPaddingStart="1dp"
                 app:tabPaddingTop="4dp"
-                app:tabPaddingEnd="1dp">
+                app:tabTextAppearance="@style/TabLayoutTextStyle">
 
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
@@ -63,34 +64,34 @@
         android:id="@+id/floating_search_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:floatingSearch_searchBarMarginLeft="6dp"
-        app:floatingSearch_searchBarMarginTop="4dp"
-        app:floatingSearch_searchBarMarginRight="6dp"
-        app:floatingSearch_searchHint="@string/search"
-        app:floatingSearch_suggestionsListAnimDuration="250"
-        app:floatingSearch_showSearchKey="false"
+        app:floatingSearch_close_search_on_keyboard_dismiss="true"
         app:floatingSearch_leftActionMode="showHamburger"
-        app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
+        app:floatingSearch_searchBarMarginLeft="6dp"
+        app:floatingSearch_searchBarMarginRight="6dp"
+        app:floatingSearch_searchBarMarginTop="4dp"
+        app:floatingSearch_searchHint="@string/search"
+        app:floatingSearch_showSearchKey="false"
+        app:floatingSearch_suggestionsListAnimDuration="250" />
 
     <View
         android:id="@+id/tab_bottom_shadow"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        app:layout_anchor="@id/tab_layout"
-        app:layout_anchorGravity="bottom"
         android:background="@drawable/material_drawer_shadow_bottom"
-        android:visibility="visible" />
+        android:visibility="visible"
+        app:layout_anchor="@id/tab_layout"
+        app:layout_anchorGravity="bottom" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floating_btn"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:contentDescription="@string/action_compose"
         app:layout_anchor="@id/pager"
         app:layout_anchorGravity="bottom|end"
-        android:clickable="true"
-        android:layout_margin="16dp"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_create_24dp"
-        android:contentDescription="@string/action_compose" />
+        app:srcCompat="@drawable/ic_create_24dp" />
 
     <FrameLayout
         android:id="@+id/overlay_fragment_container"
