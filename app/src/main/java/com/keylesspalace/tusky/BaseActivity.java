@@ -211,7 +211,7 @@ public class BaseActivity extends AppCompatActivity {
             });
         } else {
             // Start up the MessagingService on a repeating interval for "pull" notifications.
-            long checkInterval = 60 * 1000; // * 10;
+            long checkInterval = 60 * 1000 * 5;
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(this, MessagingService.class);
             final int SERVICE_REQUEST_CODE = 8574603; // This number is arbitrary.
