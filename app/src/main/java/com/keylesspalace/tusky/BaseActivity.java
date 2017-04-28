@@ -32,7 +32,6 @@ import android.text.Spanned;
 import android.util.TypedValue;
 import android.view.Menu;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -198,7 +197,8 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void enablePushNotifications() {
         if (BuildConfig.USES_PUSH_NOTIFICATIONS) {
-            tuskyAPI.register(getBaseUrl(), getAccessToken(), FirebaseInstanceId.getInstance().getToken()).enqueue(new Callback<ResponseBody>() {
+            String token = com.google.firebase.iid.FirebaseInstanceId.getInstance().getToken();
+            tuskyAPI.register(getBaseUrl(), getAccessToken(), token).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
                     Log.d(TAG, "Enable push notifications response: " + response.message());
