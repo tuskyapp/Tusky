@@ -42,7 +42,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-class OkHttpUtils {
+public class OkHttpUtils {
     static final String TAG = "OkHttpUtils"; // logging tag
 
     /**
@@ -58,8 +58,7 @@ class OkHttpUtils {
      * TLS 1.1 and 1.2 have to be manually enabled on API levels 16-20.
      */
     @NonNull
-    static OkHttpClient.Builder getCompatibleClientBuilder() {
-
+    public static OkHttpClient.Builder getCompatibleClientBuilder() {
         ConnectionSpec fallback = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
                 .allEnabledCipherSuites()
                 .supportsTlsExtensions(true)
@@ -79,7 +78,7 @@ class OkHttpUtils {
     }
 
     @NonNull
-    static OkHttpClient getCompatibleClient() {
+    public static OkHttpClient getCompatibleClient() {
         return getCompatibleClientBuilder().build();
     }
 

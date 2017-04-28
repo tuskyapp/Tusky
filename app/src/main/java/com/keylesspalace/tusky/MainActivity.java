@@ -187,7 +187,11 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
         }
 
         // Setup push notifications
-        if (arePushNotificationsEnabled()) enablePushNotifications();
+        if (arePushNotificationsEnabled()) {
+            enablePushNotifications();
+        } else {
+            disablePushNotifications();
+        }
 
         composeButton = floatingBtn;
     }
@@ -203,7 +207,7 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
                 .apply();
 
         ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE)))
-                .cancel(MyFirebaseMessagingService.NOTIFY_ID);
+                .cancel(MessagingService.NOTIFY_ID);
 
         /* After editing a profile, the profile header in the navigation drawer needs to be
          * refreshed */
