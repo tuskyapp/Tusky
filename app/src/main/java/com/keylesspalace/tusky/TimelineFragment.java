@@ -39,7 +39,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class TimelineFragment extends SFragment implements
-        SwipeRefreshLayout.OnRefreshListener, StatusActionListener {
+        SwipeRefreshLayout.OnRefreshListener,
+        StatusActionListener,
+        StatusRemoveListener,
+        SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "Timeline"; // logging tag
 
     private Call<List<Status>> listCall;
@@ -61,6 +64,7 @@ public class TimelineFragment extends SFragment implements
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
+    private boolean hideFab;
 
     public static TimelineFragment newInstance(Kind kind) {
         TimelineFragment fragment = new TimelineFragment();
@@ -145,24 +149,28 @@ public class TimelineFragment extends SFragment implements
 
         /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
          * guaranteed to be set until then. */
-        if (followButtonPresent()) {
+        if (composeButtonPresent()) {
             /* Use a modified scroll listener that both loads more statuses as it goes, and hides
              * the follow button on down-scroll. */
             MainActivity activity = (MainActivity) getActivity();
             final FloatingActionButton composeButton = activity.composeButton;
             final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                     activity);
+            preferences.registerOnSharedPreferenceChangeListener(this);
+            hideFab = preferences.getBoolean("fabHide", false);
             scrollListener = new EndlessOnScrollListener(layoutManager) {
                 @Override
                 public void onScrolled(RecyclerView view, int dx, int dy) {
                     super.onScrolled(view, dx, dy);
 
-                    if (preferences.getBoolean("fabHide", false)) {
+                    if (hideFab) {
                         if (dy > 0 && composeButton.isShown()) {
                             composeButton.hide(); // hides the button if we're scrolling down
                         } else if (dy < 0 && !composeButton.isShown()) {
                             composeButton.show(); // shows it if we are scrolling up
                         }
+                    } else if (!composeButton.isShown()) {
+                        composeButton.show();
                     }
                 }
 
@@ -202,7 +210,7 @@ public class TimelineFragment extends SFragment implements
         return kind != Kind.TAG && kind != Kind.FAVOURITES;
     }
 
-    private boolean followButtonPresent() {
+    private boolean composeButtonPresent() {
         return kind != Kind.TAG && kind != Kind.FAVOURITES && kind != Kind.USER;
     }
 
@@ -212,7 +220,9 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void sendFetchTimelineRequest(@Nullable final String fromId, @Nullable String uptoId) {
-        MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
+        if (fromId != null || adapter.getItemCount() <= 1) {
+            adapter.setFooterState(TimelineAdapter.FooterState.LOADING);
+        }
 
         Callback<List<Status>> cb = new Callback<List<Status>>() {
             @Override
@@ -233,27 +243,27 @@ public class TimelineFragment extends SFragment implements
         switch (kind) {
             default:
             case HOME: {
-                listCall = api.homeTimeline(fromId, uptoId, null);
+                listCall = mastodonAPI.homeTimeline(fromId, uptoId, null);
                 break;
             }
             case PUBLIC_FEDERATED: {
-                listCall = api.publicTimeline(null, fromId, uptoId, null);
+                listCall = mastodonAPI.publicTimeline(null, fromId, uptoId, null);
                 break;
             }
             case PUBLIC_LOCAL: {
-                listCall = api.publicTimeline(true, fromId, uptoId, null);
+                listCall = mastodonAPI.publicTimeline(true, fromId, uptoId, null);
                 break;
             }
             case TAG: {
-                listCall = api.hashtagTimeline(hashtagOrId, null, fromId, uptoId, null);
+                listCall = mastodonAPI.hashtagTimeline(hashtagOrId, null, fromId, uptoId, null);
                 break;
             }
             case USER: {
-                listCall = api.accountStatuses(hashtagOrId, fromId, uptoId, null);
+                listCall = mastodonAPI.accountStatuses(hashtagOrId, fromId, uptoId, null);
                 break;
             }
             case FAVOURITES: {
-                listCall = api.favourites(fromId, uptoId, null);
+                listCall = mastodonAPI.favourites(fromId, uptoId, null);
                 break;
             }
         }
@@ -263,6 +273,10 @@ public class TimelineFragment extends SFragment implements
 
     private void sendFetchTimelineRequest() {
         sendFetchTimelineRequest(null, null);
+    }
+
+    public void removePostsByUser(String accountId) {
+        adapter.removeAllByAccountId(accountId);
     }
 
     private static boolean findStatus(List<Status> statuses, String id) {
@@ -282,6 +296,11 @@ public class TimelineFragment extends SFragment implements
         } else {
             adapter.update(statuses);
         }
+        if (statuses.size() == 0 && adapter.getItemCount() == 1) {
+            adapter.setFooterState(TimelineAdapter.FooterState.EMPTY);
+        } else if(fromId != null) {
+            adapter.setFooterState(TimelineAdapter.FooterState.END);
+        }
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -297,6 +316,14 @@ public class TimelineFragment extends SFragment implements
         } else {
             sendFetchTimelineRequest();
         }
+    }
+
+    @Override
+    public void onSuccessfulStatus() {
+        if (kind == Kind.HOME || kind == Kind.PUBLIC_FEDERATED || kind == Kind.PUBLIC_LOCAL) {
+            onRefresh();
+        }
+        super.onSuccessfulStatus();
     }
 
     public void onReply(int position) {
@@ -338,5 +365,12 @@ public class TimelineFragment extends SFragment implements
             return;
         }
         super.viewAccount(id);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals("fabHide")) {
+            hideFab = sharedPreferences.getBoolean("fabHide", false);
+        }
     }
 }

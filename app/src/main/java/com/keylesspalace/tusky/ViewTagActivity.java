@@ -26,7 +26,9 @@ import android.view.MenuItem;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ViewTagActivity extends BaseActivity {
+public class ViewTagActivity extends BaseActivity implements SFragment.OnUserRemovedListener {
+    private Fragment timelineFragment;
+
     @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override
@@ -51,6 +53,8 @@ public class ViewTagActivity extends BaseActivity {
         Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.TAG, hashtag);
         fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
+
+        timelineFragment = fragment;
     }
 
     @Override
@@ -62,5 +66,11 @@ public class ViewTagActivity extends BaseActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onUserRemoved(String accountId) {
+        StatusRemoveListener listener = (StatusRemoveListener) timelineFragment;
+        listener.removePostsByUser(accountId);
     }
 }

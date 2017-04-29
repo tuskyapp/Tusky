@@ -146,5 +146,8 @@ public class Status {
 
         @SerializedName("acct")
         public String username;
+
+        @SerializedName("username")
+        public String localUsername;
     }
 }

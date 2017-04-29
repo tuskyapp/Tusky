@@ -65,20 +65,55 @@ class ThreadAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
         notifyItemRemoved(position);
     }
 
-    int insertStatus(Status status) {
+    public void removeAllByAccountId(String accountId) {
+        for (int i = 0; i < statuses.size();) {
+            Status status = statuses.get(i);
+            if (accountId.equals(status.account.id)) {
+                statuses.remove(i);
+                notifyItemRemoved(i);
+            } else {
+                i += 1;
+            }
+        }
+    }
+
+    int setStatus(Status status) {
+        if (statuses.size() > 0 && statuses.get(statusIndex).equals(status)) {
+            // Do not add this status on refresh, it's already in there.
+            statuses.set(statusIndex, status);
+            return statusIndex;
+        }
         int i = statusIndex;
         statuses.add(i, status);
         notifyItemInserted(i);
         return i;
     }
 
-    void addAncestors(List<Status> ancestors) {
+    void setContext(List<Status> ancestors, List<Status> descendants) {
+        Status mainStatus = null;
+
+        // In case of refresh, remove old ancestors and descendants first. We'll remove all blindly,
+        // as we have no guarantee on their order to be the same as before
+        int old_size = statuses.size();
+        if (old_size > 0) {
+            mainStatus = statuses.get(statusIndex);
+            statuses.clear();
+            notifyItemRangeRemoved(0, old_size);
+        }
+
+        // Insert newly fetched ancestors
         statusIndex = ancestors.size();
         statuses.addAll(0, ancestors);
         notifyItemRangeInserted(0, statusIndex);
-    }
 
-    void addDescendants(List<Status> descendants) {
+        if (mainStatus != null) {
+            // In case we needed to delete everything (which is way easier than deleting
+            // everything except one), re-insert the remaining status here.
+            statuses.add(statusIndex, mainStatus);
+            notifyItemInserted(statusIndex);
+        }
+
+        // Insert newly fetched descendants
         int end = statuses.size();
         statuses.addAll(descendants);
         notifyItemRangeInserted(end, descendants.size());

@@ -24,7 +24,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class ViewThreadActivity extends BaseActivity {
+public class ViewThreadActivity extends BaseActivity implements SFragment.OnUserRemovedListener {
+    Fragment viewThreadFragment;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,8 @@ public class ViewThreadActivity extends BaseActivity {
         Fragment fragment = ViewThreadFragment.newInstance(id);
         fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
+
+        viewThreadFragment = fragment;
     }
 
     @Override
@@ -61,5 +65,13 @@ public class ViewThreadActivity extends BaseActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onUserRemoved(String accountId) {
+        if (viewThreadFragment instanceof StatusRemoveListener) {
+            StatusRemoveListener listener = (StatusRemoveListener) viewThreadFragment;
+            listener.removePostsByUser(accountId);
+        }
     }
 }

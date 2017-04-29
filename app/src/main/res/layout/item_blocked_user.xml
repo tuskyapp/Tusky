@@ -13,7 +13,8 @@
         android:id="@+id/blocked_user_avatar"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="24dp"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/action_view_profile" />
 
     <ImageButton
         app:srcCompat="@drawable/ic_clear_24dp"

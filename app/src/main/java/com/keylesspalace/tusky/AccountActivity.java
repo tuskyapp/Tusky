@@ -28,11 +28,11 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,7 +54,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AccountActivity extends BaseActivity {
+public class AccountActivity extends BaseActivity implements SFragment.OnUserRemovedListener {
     private static final String TAG = "AccountActivity"; // logging tag
 
     private String accountId;
@@ -63,6 +63,7 @@ public class AccountActivity extends BaseActivity {
     private boolean muting = false;
     private boolean isSelf;
     private TabLayout tabLayout;
+    private AccountPagerAdapter pagerAdapter;
     private Account loadedAccount;
 
     @BindView(R.id.account_locked) ImageView accountLockedView;
@@ -80,8 +81,7 @@ public class AccountActivity extends BaseActivity {
             accountId = intent.getStringExtra("id");
         }
 
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = getPrivatePreferences();
         String loggedInAccountId = preferences.getString("loggedInAccountId", null);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -142,6 +142,7 @@ public class AccountActivity extends BaseActivity {
         // Setup the tabs and timeline pager.
         AccountPagerAdapter adapter = new AccountPagerAdapter(getSupportFragmentManager(), this,
                 accountId);
+        pagerAdapter = adapter;
         String[] pageTitles = {
             getString(R.string.title_statuses),
             getString(R.string.title_follows),
@@ -165,6 +166,12 @@ public class AccountActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("accountId", accountId);
+        super.onSaveInstanceState(outState);
+    }
+
     private void obtainAccount() {
         mastodonAPI.account(accountId).enqueue(new Callback<Account>() {
             @Override
@@ -183,12 +190,6 @@ public class AccountActivity extends BaseActivity {
         });
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putString("accountId", accountId);
-        super.onSaveInstanceState(outState);
-    }
-
     private void onObtainAccountSuccess(Account account) {
         loadedAccount = account;
 
@@ -204,9 +205,21 @@ public class AccountActivity extends BaseActivity {
 
         displayName.setText(account.getDisplayName());
 
-        note.setText(account.note);
-        note.setLinksClickable(true);
-        note.setMovementMethod(LinkMovementMethod.getInstance());
+        LinkHelper.setClickableText(note, account.note, null, new LinkListener() {
+            @Override
+            public void onViewTag(String tag) {
+                Intent intent = new Intent(AccountActivity.this, ViewTagActivity.class);
+                intent.putExtra("hashtag", tag);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onViewAccount(String id) {
+                Intent intent = new Intent(AccountActivity.this, AccountActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+            }
+        });
 
         if (account.locked) {
             accountLockedView.setVisibility(View.VISIBLE);
@@ -287,6 +300,16 @@ public class AccountActivity extends BaseActivity {
         }
 
         updateButtons();
+    }
+
+    @Override
+    public void onUserRemoved(String accountId) {
+        for (Fragment fragment : pagerAdapter.getRegisteredFragments()) {
+            if (fragment instanceof StatusRemoveListener) {
+                StatusRemoveListener listener = (StatusRemoveListener) fragment;
+                listener.removePostsByUser(accountId);
+            }
+        }
     }
 
     private void updateFollowButton(FloatingActionButton button) {

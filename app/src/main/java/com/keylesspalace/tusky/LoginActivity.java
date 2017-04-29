@@ -16,15 +16,17 @@
 package com.keylesspalace.tusky;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -110,26 +112,6 @@ public class LoginActivity extends AppCompatActivity {
                 textView.setMovementMethod(LinkMovementMethod.getInstance());
             }
         });
-
-        // Apply any updates needed.
-        int versionCode = 1;
-        try {
-            versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.e(TAG, "The app version was not found. " + e.getMessage());
-        }
-        if (preferences.getInt("lastUpdateVersion", 0) != versionCode) {
-            SharedPreferences.Editor editor = preferences.edit();
-            if (versionCode == 14) {
-                /* This version switches the order of scheme and host in the OAuth redirect URI.
-                 * But to fix it requires forcing the app to re-authenticate with servers. So, clear
-                 * out the stored client id/secret pairs. The only other things that are lost are
-                 * "rememberedVisibility", "loggedInUsername", and "loggedInAccountId". */
-                editor.clear();
-            }
-            editor.putInt("lastUpdateVersion", versionCode);
-            editor.apply();
-        }
     }
 
     @Override
@@ -201,10 +183,10 @@ public class LoginActivity extends AppCompatActivity {
                     AppCredentials credentials = response.body();
                     clientId = credentials.clientId;
                     clientSecret = credentials.clientSecret;
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString(domain + "/client_id", clientId);
-                    editor.putString(domain + "/client_secret", clientSecret);
-                    editor.apply();
+                    preferences.edit()
+                            .putString(domain + "/client_id", clientId)
+                            .putString(domain + "/client_secret", clientSecret)
+                            .apply();
                     redirectUserToAuthorizeAndLogin(editText);
                 }
 
@@ -226,7 +208,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
     /**
      * Chain together the key-value pairs into a query string, for either appending to a URL or
      * as the content of an HTTP request.
@@ -245,6 +226,36 @@ public class LoginActivity extends AppCompatActivity {
         return s.toString();
     }
 
+    private static boolean openInCustomTab(Uri uri, Context context) {
+        boolean lightTheme = PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean("lightTheme", false);
+        int toolbarColorRes;
+        if (lightTheme) {
+            toolbarColorRes = R.color.custom_tab_toolbar_light;
+        } else {
+            toolbarColorRes = R.color.custom_tab_toolbar_dark;
+        }
+        int toolbarColor = ContextCompat.getColor(context, toolbarColorRes);
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setToolbarColor(toolbarColor);
+        CustomTabsIntent customTabsIntent = builder.build();
+        try {
+            String packageName = CustomTabsHelper.getPackageNameToUse(context);
+            /* If we cant find a package name, it means theres no browser that supports
+             * Chrome Custom Tabs installed. So, we fallback to the webview */
+            if (packageName == null) {
+                return false;
+            } else {
+                customTabsIntent.intent.setPackage(packageName);
+                customTabsIntent.launchUrl(context, uri);
+            }
+        } catch (ActivityNotFoundException e) {
+            Log.w("URLSpan", "Activity was not found for intent, " + customTabsIntent.toString());
+            return false;
+        }
+        return true;
+    }
+
     private void redirectUserToAuthorizeAndLogin(EditText editText) {
         /* To authorize this app and log in it's necessary to redirect to the domain given,
          * activity_login there, and the server will redirect back to the app with its response. */
@@ -256,11 +267,14 @@ public class LoginActivity extends AppCompatActivity {
         parameters.put("response_type", "code");
         parameters.put("scope", OAUTH_SCOPES);
         String url = "https://" + domain + endpoint + "?" + toQueryString(parameters);
-        Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        if (viewIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(viewIntent);
-        } else {
-            editText.setError(getString(R.string.error_no_web_browser_found));
+        Uri uri = Uri.parse(url);
+        if (!openInCustomTab(uri, this)) {
+            Intent viewIntent = new Intent(Intent.ACTION_VIEW, uri);
+            if (viewIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(viewIntent);
+            } else {
+                editText.setError(getString(R.string.error_no_web_browser_found));
+            }
         }
     }
 
@@ -268,11 +282,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         if (domain != null) {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("domain", domain);
-            editor.putString("clientId", clientId);
-            editor.putString("clientSecret", clientSecret);
-            editor.apply();
+            preferences.edit()
+                    .putString("domain", domain)
+                    .putString("clientId", clientId)
+                    .putString("clientSecret", clientSecret)
+                    .apply();
         }
     }
 
@@ -347,10 +361,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onLoginSuccess(String accessToken) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("domain", domain);
-        editor.putString("accessToken", accessToken);
-        editor.commit();
+        boolean committed = preferences.edit()
+                .putString("domain", domain)
+                .putString("accessToken", accessToken)
+                .commit();
+        if (!committed) {
+            editText.setError(getString(R.string.error_retrieving_oauth_token));
+            return;
+        }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();

@@ -19,6 +19,33 @@
             android:background="@android:color/transparent"
             android:elevation="4dp" />
 
+        <LinearLayout
+            android:id="@+id/compose_content_warning_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="8dp">
+
+            <EditText
+                android:id="@+id/field_content_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:maxLines="1"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:hint="@string/hint_content_warning"
+                android:inputType="text|textCapSentences" />
+
+            <View
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"/>
+
+        </LinearLayout>
+
         <RelativeLayout
             android:id="@+id/compose_edit_area"
             android:layout_width="match_parent"
@@ -57,32 +84,6 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/compose_content_warning_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="8dp">
-
-            <EditText
-                android:id="@+id/field_content_warning"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:ems="10"
-                android:maxLines="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:hint="@string/hint_content_warning"
-                android:inputType="text|textCapSentences" />
-
-            <View
-                android:layout_marginTop="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"/>
-        </LinearLayout>
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -90,6 +91,15 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="4dp">
+
+            <ImageButton
+                android:id="@+id/compose_photo_take"
+                style="?attr/image_button_style"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="8dp"
+                app:srcCompat="@drawable/ic_camera_24dp"
+                android:contentDescription="@string/action_photo_take" />
 
             <ImageButton
                 android:id="@+id/compose_photo_pick"
