@@ -304,18 +304,22 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
                                 Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
                                 startActivity(intent);
                             } else if (drawerItemIdentifier == 2) {
-                                Intent intent = new Intent(MainActivity.this, BlocksActivity.class);
-                                intent.putExtra("type", BlocksActivity.Type.MUTES);
+                                Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
+                                intent.putExtra("type", AccountListActivity.Type.MUTES);
                                 startActivity(intent);
                             } else if (drawerItemIdentifier == 3) {
-                                Intent intent = new Intent(MainActivity.this, BlocksActivity.class);
-                                intent.putExtra("type", BlocksActivity.Type.BLOCKS);
+                                Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
+                                intent.putExtra("type", AccountListActivity.Type.BLOCKS);
                                 startActivity(intent);
                             } else if (drawerItemIdentifier == 4) {
                                 Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
                                 startActivity(intent);
                             } else if (drawerItemIdentifier == 5) {
                                 logout();
+                            } else if (drawerItemIdentifier == 6) {
+                                Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
+                                intent.putExtra("type", AccountListActivity.Type.FOLLOW_REQUESTS);
+                                startActivity(intent);
                             }
                         }
 
@@ -443,36 +447,7 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
                     onFetchUserInfoFailure(new Exception(response.message()));
                     return;
                 }
-
-                headerResult.clear();
-
-                Account me = response.body();
-                ImageView background = headerResult.getHeaderBackgroundView();
-                int backgroundWidth = background.getWidth();
-                int backgroundHeight = background.getHeight();
-                if (backgroundWidth == 0 || backgroundHeight == 0) {
-                    /* The header ImageView may not be layed out when the verify credentials call
-                     * returns so measure the dimensions and use those. */
-                    background.measure(View.MeasureSpec.EXACTLY, View.MeasureSpec.EXACTLY);
-                    backgroundWidth = background.getMeasuredWidth();
-                    backgroundHeight = background.getMeasuredHeight();
-                }
-
-                Picasso.with(MainActivity.this)
-                        .load(me.header)
-                        .placeholder(R.drawable.account_header_missing)
-                        .resize(backgroundWidth, backgroundHeight)
-                        .centerCrop()
-                        .into(background);
-
-                headerResult.addProfiles(
-                        new ProfileDrawerItem()
-                                .withName(me.getDisplayName())
-                                .withEmail(String.format("%s@%s", me.username, domain))
-                                .withIcon(me.avatar)
-                );
-
-                onFetchUserInfoSuccess(me.id, me.username);
+                onFetchUserInfoSuccess(response.body(), domain);
             }
 
             @Override
@@ -482,9 +457,48 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
         });
     }
 
-    private void onFetchUserInfoSuccess(String id, String username) {
-        loggedInAccountId = id;
-        loggedInAccountUsername = username;
+    private void onFetchUserInfoSuccess(Account me, String domain) {
+        // Add the header image and avatar from the account, into the navigation drawer header.
+        headerResult.clear();
+
+        ImageView background = headerResult.getHeaderBackgroundView();
+        int backgroundWidth = background.getWidth();
+        int backgroundHeight = background.getHeight();
+        if (backgroundWidth == 0 || backgroundHeight == 0) {
+            /* The header ImageView may not be layed out when the verify credentials call returns so
+             * measure the dimensions and use those. */
+            background.measure(View.MeasureSpec.EXACTLY, View.MeasureSpec.EXACTLY);
+            backgroundWidth = background.getMeasuredWidth();
+            backgroundHeight = background.getMeasuredHeight();
+        }
+
+        Picasso.with(MainActivity.this)
+                .load(me.header)
+                .placeholder(R.drawable.account_header_missing)
+                .resize(backgroundWidth, backgroundHeight)
+                .centerCrop()
+                .into(background);
+
+        headerResult.addProfiles(
+                new ProfileDrawerItem()
+                        .withName(me.getDisplayName())
+                        .withEmail(String.format("%s@%s", me.username, domain))
+                        .withIcon(me.avatar)
+        );
+
+        // Show follow requests in the menu, if this is a locked account.
+        if (me.locked) {
+            PrimaryDrawerItem followRequestsItem = new PrimaryDrawerItem()
+                    .withIdentifier(6)
+                    .withName(R.string.action_view_follow_requests)
+                    .withSelectable(false)
+                    .withIcon(GoogleMaterial.Icon.gmd_person_add);
+            drawer.addItemAtPosition(followRequestsItem, 3);
+        }
+
+        // Update the current login information.
+        loggedInAccountId = me.id;
+        loggedInAccountUsername = me.username;
         getPrivatePreferences().edit()
                 .putString("loggedInAccountId", loggedInAccountId)
                 .putString("loggedInAccountUsername", loggedInAccountUsername)

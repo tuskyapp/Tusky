@@ -24,16 +24,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-public class BlocksActivity extends BaseActivity {
+public class AccountListActivity extends BaseActivity {
     enum Type {
         BLOCKS,
-        MUTES
+        MUTES,
+        FOLLOW_REQUESTS,
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_blocks);
+        setContentView(R.layout.activity_account_list);
 
         Type type;
         Intent intent = getIntent();
@@ -48,21 +49,29 @@ public class BlocksActivity extends BaseActivity {
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
             switch (type) {
-                case MUTES:  { bar.setTitle(getString(R.string.title_mutes));  break; }
                 case BLOCKS: { bar.setTitle(getString(R.string.title_blocks)); break; }
+                case MUTES:  { bar.setTitle(getString(R.string.title_mutes));  break; }
+                case FOLLOW_REQUESTS: {
+                    bar.setTitle(getString(R.string.title_follow_requests));
+                    break;
+                }
             }
             bar.setDisplayHomeAsUpEnabled(true);
             bar.setDisplayShowHomeEnabled(true);
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        AccountFragment.Type fragmentType;
+        AccountListFragment.Type fragmentType;
         switch (type) {
-            case MUTES:  { fragmentType = AccountFragment.Type.MUTES;  break; }
             default:
-            case BLOCKS: { fragmentType = AccountFragment.Type.BLOCKS; break; }
+            case BLOCKS: { fragmentType = AccountListFragment.Type.BLOCKS; break; }
+            case MUTES:  { fragmentType = AccountListFragment.Type.MUTES;  break; }
+            case FOLLOW_REQUESTS: {
+                fragmentType = AccountListFragment.Type.FOLLOW_REQUESTS;
+                break;
+            }
         }
-        Fragment fragment = AccountFragment.newInstance(fragmentType);
+        Fragment fragment = AccountListFragment.newInstance(fragmentType);
         fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }

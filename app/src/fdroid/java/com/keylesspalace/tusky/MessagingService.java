@@ -21,14 +21,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.Spanned;
+import android.util.ArraySet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import com.keylesspalace.tusky.entity.Notification;
+
+import java.util.HashSet;
 import java.util.List;
 
 import java.io.IOException;
+import java.util.Set;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -64,10 +68,7 @@ public class MessagingService extends IntentService {
             public void onResponse(Call<List<Notification>> call,
                                    Response<List<Notification>> response) {
                 if (response.isSuccessful()) {
-                    List<Notification> notificationList = response.body();
-                    for (Notification notification : notificationList) {
-                        NotificationMaker.make(MessagingService.this, NOTIFY_ID, notification);
-                    }
+                    onNotificationsReceived(response.body());
                 }
             }
 
@@ -110,5 +111,22 @@ public class MessagingService extends IntentService {
                 .build();
 
         mastodonAPI = retrofit.create(MastodonAPI.class);
+    }
+
+    private void onNotificationsReceived(List<Notification> notificationList) {
+        SharedPreferences notificationsPreferences = getSharedPreferences(
+                "Notifications", Context.MODE_PRIVATE);
+        Set<String> currentIds = notificationsPreferences.getStringSet(
+                "current_ids", new HashSet<String>());
+        for (Notification notification : notificationList) {
+            String id = notification.id;
+            if (!currentIds.contains(id)) {
+                currentIds.add(id);
+                NotificationMaker.make(this, NOTIFY_ID, notification);
+            }
+        }
+        notificationsPreferences.edit()
+                .putStringSet("current_ids", currentIds)
+                .apply();
     }
 }

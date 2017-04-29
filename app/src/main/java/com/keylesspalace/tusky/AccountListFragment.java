@@ -38,16 +38,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AccountFragment extends BaseFragment implements AccountActionListener {
-    private static final String TAG = "Account"; // logging tag
-
-    private Call<List<Account>> listCall;
+public class AccountListFragment extends BaseFragment implements AccountActionListener {
+    private static final String TAG = "AccountList"; // logging tag
 
     public enum Type {
         FOLLOWS,
         FOLLOWERS,
         BLOCKS,
         MUTES,
+        FOLLOW_REQUESTS,
     }
 
     private Type type;
@@ -59,17 +58,17 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private MastodonAPI api;
 
-    public static AccountFragment newInstance(Type type) {
+    public static AccountListFragment newInstance(Type type) {
         Bundle arguments = new Bundle();
-        AccountFragment fragment = new AccountFragment();
+        AccountListFragment fragment = new AccountListFragment();
         arguments.putSerializable("type", type);
         fragment.setArguments(arguments);
         return fragment;
     }
 
-    public static AccountFragment newInstance(Type type, String accountId) {
+    public static AccountListFragment newInstance(Type type, String accountId) {
         Bundle arguments = new Bundle();
-        AccountFragment fragment = new AccountFragment();
+        AccountListFragment fragment = new AccountListFragment();
         arguments.putSerializable("type", type);
         arguments.putString("accountId", accountId);
         fragment.setArguments(arguments);
@@ -90,7 +89,7 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_account, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_account_list, container, false);
 
         Context context = getContext();
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
@@ -108,6 +107,8 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
             adapter = new BlocksAdapter(this);
         } else if (type == Type.MUTES) {
             adapter = new MutesAdapter(this);
+        } else if (type == Type.FOLLOW_REQUESTS) {
+            adapter = new FollowRequestsAdapter(this);
         } else {
             adapter = new FollowAdapter(this);
         }
@@ -158,12 +159,6 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (listCall != null) listCall.cancel();
-    }
-
-    @Override
     public void onDestroyView() {
         if (jumpToTopAllowed()) {
             TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
@@ -189,6 +184,7 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
             }
         };
 
+        Call<List<Account>> listCall;
         switch (type) {
             default:
             case FOLLOWS: {
@@ -205,6 +201,10 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
             }
             case MUTES: {
                 listCall = api.mutes(fromId, uptoId, null);
+                break;
+            }
+            case FOLLOW_REQUESTS: {
+                listCall = api.followRequests(fromId, uptoId, null);
                 break;
             }
         }
@@ -239,12 +239,14 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
     }
 
+    @Override
     public void onViewAccount(String id) {
         Intent intent = new Intent(getContext(), AccountActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);
     }
 
+    @Override
     public void onMute(final boolean mute, final String id, final int position) {
         if (api == null) {
             /* If somehow an unmute button is clicked after onCreateView but before
@@ -308,6 +310,7 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
         Log.e(TAG, String.format("Failed to %s account id %s", verb, id));
     }
 
+    @Override
     public void onBlock(final boolean block, final String id, final int position) {
         if (api == null) {
             /* If somehow an unblock button is clicked after onCreateView but before
@@ -369,6 +372,54 @@ public class AccountFragment extends BaseFragment implements AccountActionListen
             verb = "unblock";
         }
         Log.e(TAG, String.format("Failed to %s account id %s", verb, id));
+    }
+
+    @Override
+    public void onRespondToFollowRequest(final boolean accept, final String accountId,
+                                         final int position) {
+        if (api == null) {
+            /* If somehow an response button is clicked after onCreateView but before
+             * onActivityCreated, then this would get called with a null api object, so this eats
+             * that input. */
+            Log.d(TAG, "MastodonAPI isn't initialised, so follow requests can't be responded to.");
+            return;
+        }
+
+        Callback<Relationship> callback = new Callback<Relationship>() {
+            @Override
+            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
+                if (response.isSuccessful()) {
+                    onRespondToFollowRequestSuccess(position);
+                } else {
+                    onRespondToFollowRequestFailure(accept, accountId);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Relationship> call, Throwable t) {
+                onRespondToFollowRequestFailure(accept, accountId);
+            }
+        };
+
+        Call<Relationship> call;
+        if (accept) {
+            call = api.authorizeFollowRequest(accountId);
+        } else {
+            call = api.rejectFollowRequest(accountId);
+        }
+        callList.add(call);
+        call.enqueue(callback);
+    }
+
+    private void onRespondToFollowRequestSuccess(int position) {
+        FollowRequestsAdapter followRequestsAdapter = (FollowRequestsAdapter) adapter;
+        followRequestsAdapter.removeItem(position);
+    }
+
+    private void onRespondToFollowRequestFailure(boolean accept, String accountId) {
+        String verb = (accept) ? "accept" : "reject";
+        String message = String.format("Failed to %s account id %s.", verb, accountId);
+        Log.e(TAG, message);
     }
 
     private boolean jumpToTopAllowed() {

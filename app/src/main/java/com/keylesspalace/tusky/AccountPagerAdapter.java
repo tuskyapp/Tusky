@@ -51,10 +51,10 @@ class AccountPagerAdapter extends FragmentPagerAdapter {
                 return TimelineFragment.newInstance(TimelineFragment.Kind.USER, accountId);
             }
             case 1: {
-                return AccountFragment.newInstance(AccountFragment.Type.FOLLOWS, accountId);
+                return AccountListFragment.newInstance(AccountListFragment.Type.FOLLOWS, accountId);
             }
             case 2: {
-                return AccountFragment.newInstance(AccountFragment.Type.FOLLOWERS, accountId);
+                return AccountListFragment.newInstance(AccountListFragment.Type.FOLLOWERS, accountId);
             }
             default: {
                 return null;
