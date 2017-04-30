@@ -32,7 +32,7 @@
     <string name="title_blocks">Utilisateurs bloqués</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s boosté</string>
+    <string name="status_boosted_format">%s a boosté</string>
     <string name="status_sensitive_media_title">Média sensible</string>
     <string name="status_sensitive_media_directions">Cliquer pour voir</string>
     <string name="status_content_warning_show_more">Voir plus</string>
@@ -123,10 +123,10 @@
     <string name="dialog_message_uploading_media">Mise en ligne…</string>
     <string name="dialog_download_image">Télécharger</string>
 
-    <string name="visibility_public">Public: Afficher dans les fils publics</string>
-    <string name="visibility_unlisted">Non-listé: Ne pas afficher dans les fils publics</string>
-    <string name="visibility_private">Privé: N’afficher que pour vos abonné⋅e⋅s</string>
-    <string name="visibility_direct">Direct: N’afficher que pour les personnes mentionnées</string>
+    <string name="visibility_public">Public : Afficher dans les fils publics</string>
+    <string name="visibility_unlisted">Non-listé : Ne pas afficher dans les fils publics</string>
+    <string name="visibility_private">Privé : N’afficher que pour vos abonné⋅e⋅s</string>
+    <string name="visibility_direct">Direct : N’afficher que pour les personnes mentionnées</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
     <string name="pref_title_edit_notification_settings">Modifier la notification</string>
@@ -148,7 +148,7 @@
 
     <string name="notification_mention_format">%s vous ont mentionné</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s et %4$d plus</string>
-    <string name="notification_summary_medium">%1$s, %2$s, et %3$s</string>
+    <string name="notification_summary_medium">%1$s, %2$s et %3$s</string>
     <string name="notification_summary_small">%1$s et %2$s</string>
     <string name="notification_title_summary">%d nouvelles interactions</string>
 
