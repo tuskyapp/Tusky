@@ -38,6 +38,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -73,14 +74,14 @@ public class EditProfileActivity extends BaseActivity {
         HEADER
     }
 
-    @BindView(R.id.edit_profile_display_name) EditText displayNameEditText;
-    @BindView(R.id.edit_profile_note) EditText noteEditText;
-    @BindView(R.id.edit_profile_avatar) Button avatarButton;
-    @BindView(R.id.edit_profile_avatar_preview) ImageView avatarPreview;
-    @BindView(R.id.edit_profile_avatar_progress) ProgressBar avatarProgress;
-    @BindView(R.id.edit_profile_header) Button headerButton;
+    @BindView(R.id.edit_profile_header) ImageButton headerButton;
     @BindView(R.id.edit_profile_header_preview) ImageView headerPreview;
     @BindView(R.id.edit_profile_header_progress) ProgressBar headerProgress;
+    @BindView(R.id.edit_profile_avatar) ImageButton avatarButton;
+    @BindView(R.id.edit_profile_avatar_preview) ImageView avatarPreview;
+    @BindView(R.id.edit_profile_avatar_progress) ProgressBar avatarProgress;
+    @BindView(R.id.edit_profile_display_name) EditText displayNameEditText;
+    @BindView(R.id.edit_profile_note) EditText noteEditText;
     @BindView(R.id.edit_profile_save_progress) ProgressBar saveProgress;
 
     private String priorDisplayName;
@@ -100,7 +101,7 @@ public class EditProfileActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(null);
+            actionBar.setTitle(getString(R.string.title_edit_profile));
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
         }
@@ -120,6 +121,8 @@ public class EditProfileActivity extends BaseActivity {
             avatarBase64 = null;
             headerBase64 = null;
         }
+
+
 
         avatarButton.setOnClickListener(new View.OnClickListener() {
             @Override
