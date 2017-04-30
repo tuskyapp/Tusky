@@ -166,7 +166,10 @@
     <string name="description_account_locked">Locked Account</string>
 
     <string name="about_title_activity">About</string>
-    <string name="about_application_version">App version:</string>
+    <string name="about_application_version">App version: </string>
+    <string name="about_project_site">Project website: \n https://tusky.keylesspalace.com</string>
+    <string name="about_bug_feature_request_site">Bug reports &amp; feature requests: \n https://github.com/Vavassor/Tusky/issues</string>
+    <string name="about_tusky_account">Tusky\'s Profile</string>
 
     <string name="status_share_content">Share content of toot</string>
     <string name="status_share_link">Share link to toot</string>

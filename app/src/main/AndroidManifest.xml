@@ -43,64 +43,44 @@
             android:windowSoftInputMode="stateVisible|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="text/plain" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="image/*" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ViewVideoActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name=".ViewVideoActivity" android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".ViewThreadActivity" />
         <activity android:name=".ViewTagActivity" />
         <activity android:name=".AccountActivity" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".PreferencesActivity" />
         <activity android:name=".FavouritesActivity" />
-        <activity android:name=".BlocksActivity" />
+        <activity android:name=".AccountListActivity" />
         <activity android:name=".AboutActivity" />
         <activity
             android:name=".ReportActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-
-        <service
-            android:name=".MyFirebaseInstanceIdService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-        <service
-            android:name=".MyFirebaseMessagingService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
 
         <receiver android:name=".NotificationClearBroadcastReceiver" />
 
         <service
-            android:name=".TuskyTileService"
+            tools:targetApi="24"
+            android:name="com.keylesspalace.tusky.TuskyTileService"
             android:icon="@drawable/ic_send_24dp"
             android:label="Compose Toot"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            tools:targetApi="24">
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>

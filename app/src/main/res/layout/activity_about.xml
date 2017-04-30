@@ -27,7 +27,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/linearLayoutCompat">
 
         <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
             android:id="@+id/circularFillableLoaders"
@@ -42,13 +43,48 @@
             app:cfl_wave_color="?attr/splash_wave_color" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/versionTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:id="@+id/projectURL_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:autoLink="web"
+            android:padding="@dimen/text_content_margin"
+            android:text="@string/about_project_site"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <TextView
+            android:id="@+id/featuresURL_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:autoLink="web"
+            android:padding="@dimen/text_content_margin"
+            android:text="@string/about_bug_feature_request_site"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <Button
+            android:id="@+id/tusky_profile_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:padding="@dimen/text_content_margin"
+            android:text="@string/about_tusky_account"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
     </android.support.v7.widget.LinearLayoutCompat>
+
 
 
 </android.support.design.widget.CoordinatorLayout>
