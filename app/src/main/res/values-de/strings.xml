@@ -1,25 +1,35 @@
 <resources>
+
+    <string name="error_generic">Ein Fehler ist aufgetreten.</string>
+    <!-- <string name="error_empty">This cannot be empty.</string> -->
     <string name="error_invalid_domain">Ungültige Domain angegeben</string>
     <string name="error_failed_app_registration">Diese App konnte sich auf dem Server nicht authentifizieren.</string>
+    <string name="error_no_web_browser_found">Kein Webbrowser gefunden.</string>
     <string name="error_authorization_unknown">Ein undefinierbarer Autorisierungsfehler ist aufgetreten.</string>
+    <string name="error_authorization_denied">Autorisierung fehlgeschlagen.</string>
+    <string name="error_retrieving_oauth_token">Es konnte kein Login-Token abgerufen werden.</string>
     <string name="error_compose_character_limit">Der Beitrag ist zu lang!</string>
     <string name="error_media_upload_size">Die Datei muss kleiner als 4MB sein.</string>
     <string name="error_media_upload_type">Dieser Dateityp darf nicht hochgeladen werden.</string>
     <string name="error_media_upload_opening">Die Datei konnte nicht geöffnet werden.</string>
     <string name="error_media_upload_permission">Eine Leseberechtigung wird für das Hochladen der Mediendatei benötigt.</string>
+    <string name="error_media_download_permission">Eine Berechtigung wird zum Speichern des Mediums benötigt.</string>
+
     <string name="error_media_upload_image_or_video">Bilder und Videos können beide nicht an den Beitrag angehängt werden.</string>
     <string name="error_media_upload_sending">Die Mediendatei konnte nicht hochgeladen werden.</string>
     <string name="error_report_too_few_statuses">Mindestens ein Beitrag muss berichtet werden.</string>
 
     <string name="title_home">Start</string>
     <string name="title_notifications">Benachrichtigungen</string>
+    <string name="title_public_local">Lokal</string>
+    <string name="title_public_federated">Föderiert</string>
     <string name="title_thread">Unterhaltung</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Beiträge</string>
     <string name="title_follows">Folgt</string>
     <string name="title_followers">Folgende</string>
     <string name="title_favourites">Favoriten</string>
-    <string name="title_blocks">Blockierte Nutzer</string>
+    <string name="title_blocks">Blockierte Accounts</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s teilte</string>
@@ -31,6 +41,7 @@
     <string name="footer_end_of_statuses">Ende des Beitrages</string>
     <string name="footer_end_of_notifications">Ende der Benachrichtigungen</string>
     <string name="footer_end_of_accounts">Ende der Accounts</string>
+    <!-- <string name="footer_empty">There are no toots here so far. Pull down to refresh!</string> -->
 
     <string name="notification_reblog_format">%s teilte deinen Beitrag</string>
     <string name="notification_favourite_format">%s favorisierte deinen Beitrag</string>
@@ -39,6 +50,10 @@
     <string name="report_username_format">\@%s melden</string>
     <string name="report_comment_hint">Irgendwelche Anmerkungen?</string>
 
+    <string name="action_reply">Antworten</string>
+    <string name="action_reblog">Teilen</string>
+    <string name="action_favourite">Favorisieren</string>
+    <string name="action_more">Mehr</string>
     <string name="action_compose">Schreiben</string>
     <string name="action_login">Anmelden mit Mastodon</string>
     <string name="action_logout">Ausloggen</string>
@@ -61,16 +76,25 @@
     <string name="action_view_preferences">Einstellungen</string>
     <string name="action_view_favourites">Favoriten</string>
     <string name="action_view_blocks">Blockierte Nutzer</string>
+    <string name="action_view_thread">Thread</string>
+    <string name="action_view_media">Medien</string>
     <string name="action_open_in_web">Im Browser öffnen</string>
     <string name="action_submit">Senden</string>
     <string name="action_photo_pick">Füge Medien hinzu</string>
+    <!-- <string name="action_photo_take">Take photo</string> -->
     <string name="action_share">Teilen</string>
     <string name="action_mute">Stummschalten</string>
     <string name="action_unmute">Lautschalten</string>
     <string name="action_mention">Erwähnen</string>
     <string name="toggle_nsfw">NSFW</string>
+    <string name="action_compose_options">Einstellungen</string>
+    <string name="action_open_drawer">Drawer öffnen</string>
+    <string name="action_clear">Löschen</string>
+    <!-- <string name="action_save">Save</string> -->
+    <!-- <string name="action_edit_profile">Edit profile</string> -->
 
-    <string name="send_status_to">Teile Toot-URL zu…</string>
+    <string name="send_status_link_to">Teile Toot-URL zu…</string>
+    <!-- <string name="send_status_content_to">Share toot to…</string> -->
 
     <string name="search">Suche Accounts…</string>
 
@@ -80,6 +104,11 @@
     <string name="hint_domain">Welche Instanz?</string>
     <string name="hint_compose">Was passiert gerade?</string>
     <string name="hint_content_warning">Inhaltswarnung</string>
+    <!-- <string name="hint_display_name">Display name</string> -->
+    <!-- <string name="hint_note">Bio</string> -->
+
+    <!-- <string name="label_avatar">Avatar</string> -->
+    <!-- <string name="label_header">Header</string> -->
 
     <string name="link_whats_an_instance">Was ist eine Instanz?</string>
 
@@ -91,35 +120,38 @@
     </string>
     <string name="dialog_title_finishing_media_upload">Stelle Medienupload fertig</string>
     <string name="dialog_message_uploading_media">Lade hoch…</string>
+    <string name="dialog_download_image">Herunterladen</string>
 
     <string name="visibility_public">Öffentlich sichtbar</string>
     <string name="visibility_unlisted">Öffentlich sichtbar, aber nicht in der öffentlichen Timeline</string>
     <string name="visibility_private">Nur für Follower und Erwähnte sichtbar</string>
+    <!-- <string name="visibility_direct">Direct: Post to mentioned users only</string> -->
 
     <string name="pref_title_notification_settings">Benachrichtigungen</string>
+    <string name="pref_title_edit_notification_settings">Benachrichtigungseinstellungen</string>
     <string name="pref_title_notifications_enabled">Push-Benachrichtigungen</string>
+    <string name="pref_title_notification_alerts">Benachrichtigungen</string>
     <string name="pref_title_notification_alert_sound">Benachrichtige mit Sound</string>
     <string name="pref_title_notification_alert_vibrate">Benachrichtige mit Vibration</string>
     <string name="pref_title_notification_alert_light">Benachrichtige mit Licht</string>
+    <string name="pref_title_notification_filters">Benachrichtigen wenn</string>
+    <string name="pref_title_notification_filter_mentions">Ich erwähnt werde</string>
+    <string name="pref_title_notification_filter_follows">Mir jemand folgt</string>
+    <string name="pref_title_notification_filter_reblogs">Jemand meine Posts teilt</string>
+    <string name="pref_title_notification_filter_favourites">Jemandem meine Posts gefallen</string>
     <string name="pref_title_appearance_settings">Aussehen</string>
     <string name="pref_title_light_theme">Benutze helles Theme</string>
+    <string name="pref_title_browser_settings">Browser</string>
+    <string name="pref_title_custom_tabs">Öffne Links in der App</string>
+    <string name="pref_title_hide_follow_button">Verstecke Button bei Bildlauf </string>
 
     <string name="notification_mention_format">%s hat dich erwähnt</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s und %4$d andere</string>
     <string name="notification_summary_medium">%1$s, %2$s, und %3$s</string>
     <string name="notification_summary_small">%1$s und %2$s</string>
     <string name="notification_title_summary">%d neue Interaktionen</string>
-    <string name="title_public_local">Lokal</string>
-    <string name="title_public_federated">Föderiert</string>
-    <string name="pref_title_notification_alerts">Benachrichtigungen</string>
-    <string name="pref_title_notification_filter_favourites">Jemandem meine Posts gefallen</string>
-    <string name="pref_title_notification_filters">Benachrichtigen wenn</string>
-    <string name="pref_title_notification_filter_follows">Mir jemand folgt</string>
-    <string name="pref_title_notification_filter_mentions">Ich erwähnt werde</string>
-    <string name="pref_title_notification_filter_reblogs">Jemand meine Posts boostet</string>
-    <string name="error_authorization_denied">Autorisierung fehlgeschlagen.</string>
-    <string name="error_generic">Ein Fehler ist aufgetreten.</string>
-    <string name="error_no_web_browser_found">Kein Webbrowser gefunden.</string>
-    <string name="error_retrieving_oauth_token">Es konnte kein Login-Token abgerufen werden.</string>
 
+    <string name="description_account_locked">Gesperrter Account</string>
+    <!-- <string name="status_share_content">Share content of toot</string> -->
+    <!-- <string name="status_share_link">Share link to toot</string> -->
 </resources>

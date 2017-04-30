@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky;
 
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 
 import com.keylesspalace.tusky.entity.Account;
@@ -62,6 +63,24 @@ abstract class AccountAdapter extends RecyclerView.Adapter {
         int end = accountList.size();
         accountList.addAll(newAccounts);
         notifyItemRangeInserted(end, newAccounts.size());
+    }
+
+    @Nullable
+    Account removeItem(int position) {
+        if (position < 0 || position >= accountList.size()) {
+            return null;
+        }
+        Account account = accountList.remove(position);
+        notifyItemRemoved(position);
+        return account;
+    }
+
+    void addItem(Account account, int position) {
+        if (position < 0 || position > accountList.size()) {
+            return;
+        }
+        accountList.add(position, account);
+        notifyItemInserted(position);
     }
 
     public Account getItem(int position) {

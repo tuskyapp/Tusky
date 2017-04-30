@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.entity.Status;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
@@ -42,9 +43,16 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
     private static final int VIEW_TYPE_STATUS_NOTIFICATION = 2;
     private static final int VIEW_TYPE_FOLLOW = 3;
 
+    enum FooterState {
+        EMPTY,
+        END,
+        LOADING
+    }
+
     private List<Notification> notifications;
     private StatusActionListener statusListener;
     private NotificationActionListener notificationActionListener;
+    private FooterState footerState = FooterState.END;
 
     NotificationsAdapter(StatusActionListener statusListener,
             NotificationActionListener notificationActionListener) {
@@ -52,6 +60,15 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
         notifications = new ArrayList<>();
         this.statusListener = statusListener;
         this.notificationActionListener = notificationActionListener;
+    }
+
+
+    void setFooterState(FooterState newFooterState) {
+        FooterState oldValue = footerState;
+        footerState = newFooterState;
+        if (footerState != oldValue) {
+            notifyItemChanged(notifications.size());
+        }
     }
 
     @Override
@@ -64,8 +81,24 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
                 return new StatusViewHolder(view);
             }
             case VIEW_TYPE_FOOTER: {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_footer, parent, false);
+                View view;
+                switch (footerState) {
+                    default:
+                    case LOADING:
+                        view = LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.item_footer, parent, false);
+                        break;
+                    case END: {
+                        view = LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.item_footer_end, parent, false);
+                        break;
+                    }
+                    case EMPTY: {
+                        view = LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.item_footer_empty, parent, false);
+                        break;
+                    }
+                }
                 return new FooterViewHolder(view);
             }
             case VIEW_TYPE_STATUS_NOTIFICATION: {
@@ -176,6 +209,18 @@ class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRe
     public void removeItem(int position) {
         notifications.remove(position);
         notifyItemChanged(position);
+    }
+
+    public void removeAllByAccountId(String id) {
+        for (int i = 0; i < notifications.size();) {
+            Notification notification = notifications.get(i);
+            if (id.equals(notification.account.id)) {
+                notifications.remove(i);
+                notifyItemRemoved(i);
+            } else {
+                i += 1;
+            }
+        }
     }
 
     interface NotificationActionListener {

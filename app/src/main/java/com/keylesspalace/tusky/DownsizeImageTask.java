@@ -21,6 +21,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.media.ExifInterface;
 
 import java.io.ByteArrayOutputStream;
@@ -42,6 +43,7 @@ class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
         this.listener = listener;
     }
 
+    @Nullable
     private static Bitmap reorientBitmap(Bitmap bitmap, int orientation) {
         Matrix matrix = new Matrix();
         switch (orientation) {

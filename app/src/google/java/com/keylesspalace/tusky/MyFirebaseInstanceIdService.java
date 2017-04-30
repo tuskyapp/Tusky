@@ -33,7 +33,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
-    private static final String TAG = "MyFirebaseInstanceIdService";
+    private static final String TAG = "com.keylesspalace.tusky.MyFirebaseInstanceIdService";
 
     private TuskyAPI tuskyAPI;
 

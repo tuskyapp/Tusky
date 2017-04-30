@@ -19,7 +19,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -39,16 +41,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class NotificationsFragment extends SFragment implements
-        SwipeRefreshLayout.OnRefreshListener, StatusActionListener,
-        NotificationsAdapter.NotificationActionListener {
+        SwipeRefreshLayout.OnRefreshListener, StatusActionListener, StatusRemoveListener,
+        NotificationsAdapter.NotificationActionListener, SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "Notifications"; // logging tag
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayoutManager layoutManager;
+    private RecyclerView recyclerView;
     private EndlessOnScrollListener scrollListener;
     private NotificationsAdapter adapter;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private Call<List<Notification>> listCall;
+    private boolean hideFab;
 
     public static NotificationsFragment newInstance() {
         NotificationsFragment fragment = new NotificationsFragment();
@@ -57,15 +61,10 @@ public class NotificationsFragment extends SFragment implements
         return fragment;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-             @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
 
         // Setup the SwipeRefreshLayout.
@@ -73,7 +72,7 @@ public class NotificationsFragment extends SFragment implements
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         // Setup the RecyclerView.
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -83,19 +82,7 @@ public class NotificationsFragment extends SFragment implements
                 R.drawable.status_divider_dark);
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
-        scrollListener = new EndlessOnScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                NotificationsAdapter adapter = (NotificationsAdapter) view.getAdapter();
-                Notification notification = adapter.getItem(adapter.getItemCount() - 2);
-                if (notification != null) {
-                    sendFetchNotificationsRequest(notification.id, null);
-                } else {
-                    sendFetchNotificationsRequest();
-                }
-            }
-        };
-        recyclerView.addOnScrollListener(scrollListener);
+
         adapter = new NotificationsAdapter(this, this);
         recyclerView.setAdapter(adapter);
 
@@ -118,9 +105,48 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        sendFetchNotificationsRequest();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
+         * guaranteed to be set until then.
+         * Use a modified scroll listener that both loads more notifications as it goes, and hides
+         * the compose button on down-scroll. */
+        MainActivity activity = (MainActivity) getActivity();
+        final FloatingActionButton composeButton = activity.composeButton;
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
+                activity);
+        preferences.registerOnSharedPreferenceChangeListener(this);
+        hideFab = preferences.getBoolean("fabHide", false);
+        scrollListener = new EndlessOnScrollListener(layoutManager) {
+            @Override
+            public void onScrolled(RecyclerView view, int dx, int dy) {
+                super.onScrolled(view, dx, dy);
+
+                if (hideFab) {
+                    if (dy > 0 && composeButton.isShown()) {
+                        composeButton.hide(); // hides the button if we're scrolling down
+                    } else if (dy < 0 && !composeButton.isShown()) {
+                        composeButton.show(); // shows it if we are scrolling up
+                    }
+                } else if (!composeButton.isShown()) {
+                    composeButton.show();
+                }
+            }
+
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                NotificationsAdapter adapter = (NotificationsAdapter) view.getAdapter();
+                Notification notification = adapter.getItem(adapter.getItemCount() - 2);
+                if (notification != null) {
+                    sendFetchNotificationsRequest(notification.id, null);
+                } else {
+                    sendFetchNotificationsRequest();
+                }
+            }
+        };
+
+        recyclerView.addOnScrollListener(scrollListener);
     }
 
     @Override
@@ -142,9 +168,11 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void sendFetchNotificationsRequest(final String fromId, String uptoId) {
-        MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
+        if (fromId != null || adapter.getItemCount() <= 1) {
+            adapter.setFooterState(NotificationsAdapter.FooterState.LOADING);
+        }
 
-        listCall = api.notifications(fromId, uptoId, null);
+        listCall = mastodonAPI.notifications(fromId, uptoId, null);
 
         listCall.enqueue(new Callback<List<Notification>>() {
             @Override
@@ -166,6 +194,10 @@ public class NotificationsFragment extends SFragment implements
 
     private void sendFetchNotificationsRequest() {
         sendFetchNotificationsRequest(null, null);
+    }
+
+    public void removePostsByUser(String accountId) {
+        adapter.removeAllByAccountId(accountId);
     }
 
     private static boolean findNotification(List<Notification> notifications, String id) {
@@ -191,6 +223,11 @@ public class NotificationsFragment extends SFragment implements
             }
         } else {
             adapter.update(notifications);
+        }
+        if (notifications.size() == 0 && adapter.getItemCount() == 1) {
+            adapter.setFooterState(NotificationsAdapter.FooterState.EMPTY);
+        } else if (fromId != null) {
+            adapter.setFooterState(NotificationsAdapter.FooterState.END);
         }
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -244,5 +281,12 @@ public class NotificationsFragment extends SFragment implements
 
     public void onViewAccount(String id) {
         super.viewAccount(id);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals("fabHide")) {
+            hideFab = sharedPreferences.getBoolean("fabHide", false);
+        }
     }
 }
