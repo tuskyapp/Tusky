@@ -19,9 +19,20 @@ import android.support.annotation.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 class IOUtils {
     static void closeQuietly(@Nullable InputStream stream) {
+        try {
+            if (stream != null) {
+                stream.close();
+            }
+        } catch (IOException e) {
+            // intentionally unhandled
+        }
+    }
+
+    static void closeQuietly(@Nullable OutputStream stream) {
         try {
             if (stream != null) {
                 stream.close();

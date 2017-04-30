@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,23 +24,54 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-public class BlocksActivity extends BaseActivity {
+public class AccountListActivity extends BaseActivity {
+    enum Type {
+        BLOCKS,
+        MUTES,
+        FOLLOW_REQUESTS,
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_blocks);
+        setContentView(R.layout.activity_account_list);
+
+        Type type;
+        Intent intent = getIntent();
+        if (intent != null) {
+            type = (Type) intent.getSerializableExtra("type");
+        } else {
+            type = Type.BLOCKS;
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
-            bar.setTitle(getString(R.string.title_blocks));
+            switch (type) {
+                case BLOCKS: { bar.setTitle(getString(R.string.title_blocks)); break; }
+                case MUTES:  { bar.setTitle(getString(R.string.title_mutes));  break; }
+                case FOLLOW_REQUESTS: {
+                    bar.setTitle(getString(R.string.title_follow_requests));
+                    break;
+                }
+            }
             bar.setDisplayHomeAsUpEnabled(true);
             bar.setDisplayShowHomeEnabled(true);
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = AccountFragment.newInstance(AccountFragment.Type.BLOCKS);
+        AccountListFragment.Type fragmentType;
+        switch (type) {
+            default:
+            case BLOCKS: { fragmentType = AccountListFragment.Type.BLOCKS; break; }
+            case MUTES:  { fragmentType = AccountListFragment.Type.MUTES;  break; }
+            case FOLLOW_REQUESTS: {
+                fragmentType = AccountListFragment.Type.FOLLOW_REQUESTS;
+                break;
+            }
+        }
+        Fragment fragment = AccountListFragment.newInstance(fragmentType);
         fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }

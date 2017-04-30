@@ -24,15 +24,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class AccountPagerAdapter extends FragmentPagerAdapter {
     private Context context;
     private String accountId;
     private String[] pageTitles;
+    private List<Fragment> registeredFragments;
 
     AccountPagerAdapter(FragmentManager manager, Context context, String accountId) {
         super(manager);
         this.context = context;
         this.accountId = accountId;
+        registeredFragments = new ArrayList<>();
     }
 
     void setPageTitles(String[] titles) {
@@ -46,10 +51,10 @@ class AccountPagerAdapter extends FragmentPagerAdapter {
                 return TimelineFragment.newInstance(TimelineFragment.Kind.USER, accountId);
             }
             case 1: {
-                return AccountFragment.newInstance(AccountFragment.Type.FOLLOWS, accountId);
+                return AccountListFragment.newInstance(AccountListFragment.Type.FOLLOWS, accountId);
             }
             case 2: {
-                return AccountFragment.newInstance(AccountFragment.Type.FOLLOWERS, accountId);
+                return AccountListFragment.newInstance(AccountListFragment.Type.FOLLOWERS, accountId);
             }
             default: {
                 return null;
@@ -72,5 +77,22 @@ class AccountPagerAdapter extends FragmentPagerAdapter {
         TextView title = (TextView) view.findViewById(R.id.title);
         title.setText(pageTitles[position]);
         return view;
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        registeredFragments.add(fragment);
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        registeredFragments.remove((Fragment) object);
+        super.destroyItem(container, position, object);
+    }
+
+    List<Fragment> getRegisteredFragments() {
+        return registeredFragments;
     }
 }

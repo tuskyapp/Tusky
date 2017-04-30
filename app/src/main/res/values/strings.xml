@@ -1,6 +1,7 @@
 <resources>
 
     <string name="error_generic">An error occurred.</string>
+    <string name="error_empty">This cannot be empty.</string>
     <string name="error_invalid_domain">Invalid domain entered</string>
     <string name="error_failed_app_registration">Failed authenticating with that instance.</string>
     <string name="error_no_web_browser_found">Couldn\'t find a web browser to use.</string>
@@ -12,6 +13,8 @@
     <string name="error_media_upload_type">That type of file cannot be uploaded.</string>
     <string name="error_media_upload_opening">That file could not be opened.</string>
     <string name="error_media_upload_permission">Permission to read media is required.</string>
+    <string name="error_media_download_permission">Permission to store media is required.</string>
+
     <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same status.</string>
     <string name="error_media_upload_sending">The upload failed.</string>
     <string name="error_report_too_few_statuses">At least one status must be reported.</string>
@@ -26,7 +29,9 @@
     <string name="title_follows">Follows</string>
     <string name="title_followers">Followers</string>
     <string name="title_favourites">Favourites</string>
+    <string name="title_mutes">Muted users</string>
     <string name="title_blocks">Blocked users</string>
+    <string name="title_follow_requests">Follow Requests</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boosted</string>
@@ -38,6 +43,7 @@
     <string name="footer_end_of_statuses">end of the statuses</string>
     <string name="footer_end_of_notifications">end of the notifications</string>
     <string name="footer_end_of_accounts">end of the accounts</string>
+    <string name="footer_empty">There are no toots here so far. Pull down to refresh!</string>
 
     <string name="notification_reblog_format">%s boosted your toot</string>
     <string name="notification_favourite_format">%s favourited your toot</string>
@@ -71,12 +77,15 @@
     <string name="action_view_profile">Profile</string>
     <string name="action_view_preferences">Preferences</string>
     <string name="action_view_favourites">Favourites</string>
+    <string name="action_view_mutes">Muted users</string>
     <string name="action_view_blocks">Blocked users</string>
+    <string name="action_view_follow_requests">Follow Requests</string>
     <string name="action_view_thread">Thread</string>
     <string name="action_view_media">Media</string>
     <string name="action_open_in_web">Open in browser</string>
     <string name="action_submit">Submit</string>
     <string name="action_photo_pick">Add media</string>
+    <string name="action_photo_take">Take photo</string>
     <string name="action_share">Share</string>
     <string name="action_mute">Mute</string>
     <string name="action_unmute">Unmute</string>
@@ -85,17 +94,30 @@
     <string name="action_compose_options">Options</string>
     <string name="action_open_drawer">Open drawer</string>
     <string name="action_clear">Clear</string>
+    <string name="action_save">Save</string>
+    <string name="action_edit_profile">Edit profile</string>
+    <string name="action_undo">Undo</string>
+    <string name="action_accept">Accept</string>
+    <string name="action_reject">Reject</string>
 
-    <string name="send_status_to">Share toot URL to…</string>
+    <string name="send_status_link_to">Share toot URL to…</string>
+    <string name="send_status_content_to">Share toot to…</string>
 
     <string name="search">Search accounts…</string>
 
     <string name="confirmation_send">Toot!</string>
     <string name="confirmation_reported">Sent!</string>
+    <string name="confirmation_unblocked">User unblocked</string>
+    <string name="confirmation_unmuted">User unmuted</string>
 
     <string name="hint_domain">Which instance?</string>
     <string name="hint_compose">What\'s happening?</string>
     <string name="hint_content_warning">Content warning</string>
+    <string name="hint_display_name">Display name</string>
+    <string name="hint_note">Bio</string>
+
+    <string name="label_avatar">Avatar</string>
+    <string name="label_header">Header</string>
 
     <string name="link_whats_an_instance">What\'s an instance?</string>
 
@@ -110,10 +132,12 @@
     </string>
     <string name="dialog_title_finishing_media_upload">Finishing Media Upload</string>
     <string name="dialog_message_uploading_media">Uploading…</string>
+    <string name="dialog_download_image">Download</string>
 
-    <string name="visibility_public">Everyone can view</string>
-    <string name="visibility_unlisted">Everyone can view, but not on public timelines</string>
-    <string name="visibility_private">Only followers and mentions can view</string>
+    <string name="visibility_public">Public: Post to public timelines</string>
+    <string name="visibility_unlisted">Unlisted: Do not show in public timelines</string>
+    <string name="visibility_private">Private: Post to followers only</string>
+    <string name="visibility_direct">Direct: Post to mentioned users only</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
     <string name="pref_title_edit_notification_settings">Edit Notifications</string>
@@ -144,5 +168,6 @@
     <string name="notification_title_summary">%d new interactions</string>
 
     <string name="description_account_locked">Locked Account</string>
-
+    <string name="status_share_content">Share content of toot</string>
+    <string name="status_share_link">Share link to toot</string>
 </resources>

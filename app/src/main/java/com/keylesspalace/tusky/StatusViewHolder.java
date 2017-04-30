@@ -16,14 +16,9 @@
 package com.keylesspalace.tusky;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -102,57 +97,10 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setContent(Spanned content, Status.Mention[] mentions,
-            final StatusActionListener listener) {
+                            StatusActionListener listener) {
         /* Redirect URLSpan's in the status content to the listener for viewing tag pages and
          * account pages. */
-        SpannableStringBuilder builder = new SpannableStringBuilder(content);
-        boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(container.getContext()).getBoolean("customTabs", true);
-        URLSpan[] urlSpans = content.getSpans(0, content.length(), URLSpan.class);
-        for (URLSpan span : urlSpans) {
-            int start = builder.getSpanStart(span);
-            int end = builder.getSpanEnd(span);
-            int flags = builder.getSpanFlags(span);
-            CharSequence text = builder.subSequence(start, end);
-            if (text.charAt(0) == '#') {
-                final String tag = text.subSequence(1, text.length()).toString();
-                ClickableSpan newSpan = new ClickableSpan() {
-                    @Override
-                    public void onClick(View widget) {
-                        listener.onViewTag(tag);
-                    }
-                };
-                builder.removeSpan(span);
-                builder.setSpan(newSpan, start, end, flags);
-            } else if (text.charAt(0) == '@') {
-                final String accountUsername = text.subSequence(1, text.length()).toString();
-                String id = null;
-                for (Status.Mention mention: mentions) {
-                    if (mention.username.equals(accountUsername)) {
-                        id = mention.id;
-                    }
-                }
-                if (id != null) {
-                    final String accountId = id;
-                    ClickableSpan newSpan = new ClickableSpan() {
-                        @Override
-                        public void onClick(View widget) {
-                            listener.onViewAccount(accountId);
-                        }
-                    };
-                    builder.removeSpan(span);
-                    builder.setSpan(newSpan, start, end, flags);
-                }
-            } else if (useCustomTabs) {
-                ClickableSpan newSpan = new CustomTabURLSpan(span.getURL());
-                builder.removeSpan(span);
-                builder.setSpan(newSpan, start, end, flags);
-            }
-        }
-        // Set the contents.
-        this.content.setText(builder);
-        // Make links clickable.
-        this.content.setLinksClickable(true);
-        this.content.setMovementMethod(LinkMovementMethod.getInstance());
+        LinkHelper.setClickableText(this.content, content, mentions, listener);
     }
 
     private void setAvatar(String url) {
@@ -230,7 +178,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setMediaPreviews(final Status.MediaAttachment[] attachments,
-                                 boolean sensitive, final StatusActionListener listener) {
+                                  boolean sensitive, final StatusActionListener listener) {
         final ImageView[] previews = {
                 mediaPreview0,
                 mediaPreview1,
@@ -249,20 +197,32 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
 
             previews[i].setVisibility(View.VISIBLE);
 
-            Picasso.with(context)
-                    .load(previewUrl)
-                    .placeholder(mediaPreviewUnloadedId)
-                    .into(previews[i]);
+            if(previewUrl == null || previewUrl.isEmpty()) {
+                Picasso.with(context)
+                        .load(mediaPreviewUnloadedId)
+                        .into(previews[i]);
+            } else {
+                Picasso.with(context)
+                        .load(previewUrl)
+                        .placeholder(mediaPreviewUnloadedId)
+                        .into(previews[i]);
+            }
 
             final String url = attachments[i].url;
             final Status.MediaAttachment.Type type = attachments[i].type;
 
-            previews[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onViewMedia(url, type);
-                }
-            });
+            if(url == null || url.isEmpty()) {
+                previews[i].setOnClickListener(null);
+            } else {
+                previews[i].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onViewMedia(url, type);
+                    }
+                });
+            }
+
+
         }
 
         if (sensitive) {

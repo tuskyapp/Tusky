@@ -23,7 +23,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-public class FavouritesActivity extends BaseActivity {
+public class FavouritesActivity extends BaseActivity implements SFragment.OnUserRemovedListener {
+    private StatusRemoveListener statusRemoveListener;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,8 @@ public class FavouritesActivity extends BaseActivity {
         Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.FAVOURITES);
         fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
+
+        statusRemoveListener = (StatusRemoveListener) fragment;
     }
 
     @Override
@@ -53,5 +57,10 @@ public class FavouritesActivity extends BaseActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onUserRemoved(String accountId) {
+        statusRemoveListener.removePostsByUser(accountId);
     }
 }

@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -37,6 +36,7 @@ import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
@@ -44,22 +44,32 @@ import retrofit2.Callback;
  * adapters. I feel like the profile pages and thread viewer, which I haven't made yet, will also
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
-public class SFragment extends BaseFragment {
+public abstract class SFragment extends BaseFragment {
+    interface OnUserRemovedListener {
+        void onUserRemoved(String accountId);
+    }
+
     protected String loggedInAccountId;
     protected String loggedInUsername;
+    protected MastodonAPI mastodonAPI;
+    protected OnUserRemovedListener userRemovedListener;
+    protected static int COMPOSE_RESULT = 1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences preferences = getContext().getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = getPrivatePreferences();
         loggedInAccountId = preferences.getString("loggedInAccountId", null);
         loggedInUsername = preferences.getString("loggedInAccountUsername", null);
     }
 
-    public MastodonAPI getApi() {
-        return ((BaseActivity) getActivity()).mastodonAPI;
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        BaseActivity activity = (BaseActivity) getActivity();
+        mastodonAPI = activity.mastodonAPI;
+        userRemovedListener = (OnUserRemovedListener) activity;
     }
 
     protected void reply(Status status) {
@@ -79,11 +89,22 @@ public class SFragment extends BaseFragment {
         intent.putExtra("reply_visibility", replyVisibility);
         intent.putExtra("content_warning", contentWarning);
         intent.putExtra("mentioned_usernames", mentionedUsernames.toArray(new String[0]));
-        startActivity(intent);
+        startActivityForResult(intent, COMPOSE_RESULT);
+    }
+
+    public void onSuccessfulStatus() {}
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == COMPOSE_RESULT && resultCode == ComposeActivity.RESULT_OK) {
+            onSuccessfulStatus();
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     protected void reblog(final Status status, final boolean reblog,
-            final RecyclerView.Adapter adapter, final int position) {
+                          final RecyclerView.Adapter adapter, final int position) {
         String id = status.getActionableId();
 
         Callback<Status> cb = new Callback<Status>() {
@@ -101,16 +122,14 @@ public class SFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<Status> call, Throwable t) {
-
-            }
+            public void onFailure(Call<Status> call, Throwable t) {}
         };
 
         Call<Status> call;
         if (reblog) {
-            call = getApi().reblogStatus(id);
+            call = mastodonAPI.reblogStatus(id);
         } else {
-            call = getApi().unreblogStatus(id);
+            call = mastodonAPI.unreblogStatus(id);
         }
         call.enqueue(cb);
         callList.add(call);
@@ -135,55 +154,59 @@ public class SFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<Status> call, Throwable t) {
-
-            }
+            public void onFailure(Call<Status> call, Throwable t) {}
         };
 
         Call<Status> call;
         if (favourite) {
-            call = getApi().favouriteStatus(id);
+            call = mastodonAPI.favouriteStatus(id);
         } else {
-            call = getApi().unfavouriteStatus(id);
+            call = mastodonAPI.unfavouriteStatus(id);
         }
         call.enqueue(cb);
         callList.add(call);
     }
 
-    private void block(String id) {
-        Call<Relationship> call = getApi().blockAccount(id);
+    private void mute(String id) {
+        Call<Relationship> call = mastodonAPI.muteAccount(id);
         call.enqueue(new Callback<Relationship>() {
             @Override
-            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
-
-            }
+            public void onResponse(Call<Relationship> call, Response<Relationship> response) {}
 
             @Override
-            public void onFailure(Call<Relationship> call, Throwable t) {
-
-            }
+            public void onFailure(Call<Relationship> call, Throwable t) {}
         });
         callList.add(call);
+        userRemovedListener.onUserRemoved(id);
+    }
+
+    private void block(String id) {
+        Call<Relationship> call = mastodonAPI.blockAccount(id);
+        call.enqueue(new Callback<Relationship>() {
+            @Override
+            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {}
+
+            @Override
+            public void onFailure(Call<Relationship> call, Throwable t) {}
+        });
+        callList.add(call);
+        userRemovedListener.onUserRemoved(id);
     }
 
     private void delete(String id) {
-        Call<ResponseBody> call = getApi().deleteStatus(id);
+        Call<ResponseBody> call = mastodonAPI.deleteStatus(id);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-
-            }
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {}
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
+            public void onFailure(Call<ResponseBody> call, Throwable t) {}
         });
         callList.add(call);
     }
 
-    protected void more(Status status, View view, final AdapterItemRemover adapter,
-            final int position) {
+    protected void more(final Status status, View view, final AdapterItemRemover adapter,
+                        final int position) {
         final String id = status.getActionableId();
         final String accountId = status.getActionableStatus().account.id;
         final String accountUsename = status.getActionableStatus().account.username;
@@ -201,12 +224,29 @@ public class SFragment extends BaseFragment {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.status_share: {
+                            case R.id.status_share_content: {
+                                StringBuilder sb = new StringBuilder();
+                                sb.append(status.account.username);
+                                sb.append(" - ");
+                                sb.append(status.content.toString());
+
+                                Intent sendIntent = new Intent();
+                                sendIntent.setAction(Intent.ACTION_SEND);
+                                sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+                                sendIntent.setType("text/plain");
+                                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_content_to)));
+                                return true;
+                            }
+                            case R.id.status_share_link: {
                                 Intent sendIntent = new Intent();
                                 sendIntent.setAction(Intent.ACTION_SEND);
                                 sendIntent.putExtra(Intent.EXTRA_TEXT, statusUrl);
                                 sendIntent.setType("text/plain");
-                                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_to)));
+                                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_link_to)));
+                                return true;
+                            }
+                            case R.id.status_mute: {
+                                mute(accountId);
                                 return true;
                             }
                             case R.id.status_block: {
