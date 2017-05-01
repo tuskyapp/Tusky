@@ -19,32 +19,15 @@
             android:background="?attr/toolbar_background_color"
             android:elevation="4dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_header"
-            android:labelFor="@+id/edit_profile_header"
-            android:visibility="gone"/>
-
-        <ImageButton
-            android:layout_width="match_parent"
-            android:layout_height="125dp"
-            android:id="@id/edit_profile_header"
-            app:srcCompat="@drawable/ic_add_a_photo_32dp"
-            android:text="@string/action_photo_pick"
-            android:textColor="@color/text_color_primary_dark" />
-
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="16dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="125dp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
                 android:id="@+id/edit_profile_header_preview"
-                android:contentDescription="@null"
-                android:visibility="gone" />
+                android:contentDescription="@null" />
 
             <ProgressBar
                 android:layout_width="wrap_content"
@@ -54,39 +37,34 @@
                 android:indeterminate="true"
                 android:visibility="gone" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_header"
+                android:labelFor="@+id/edit_profile_header"
+                android:visibility="gone"/>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@id/edit_profile_header"
+                app:srcCompat="@drawable/ic_add_a_photo_32dp"
+                android:text="@string/action_photo_pick"
+                android:textColor="@color/text_color_primary_dark"
+                android:background="#66000000"/>
         </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_avatar"
-            android:labelFor="@+id/edit_profile_avatar"
-            android:layout_marginLeft="16dp"
-            android:visibility="gone"/>
-
-        <ImageButton
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:id="@id/edit_profile_avatar"
-            app:srcCompat="@drawable/ic_add_a_photo_32dp"
-            android:text="@string/action_photo_pick"
-            android:textColor="@color/text_color_primary_dark"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="-40dp"
-            android:elevation="10dp"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp">
+            android:paddingLeft="16dp"
+            android:layout_marginTop="-40dp">
 
-            <ImageView
+            <com.pkmmte.view.CircularImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:id="@+id/edit_profile_avatar_preview"
-                android:contentDescription="@null"
-                android:visibility="gone" />
+                android:contentDescription="@null" />
 
             <ProgressBar
                 android:layout_width="wrap_content"
@@ -96,13 +74,29 @@
                 android:indeterminate="true"
                 android:visibility="gone" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_avatar"
+                android:labelFor="@+id/edit_profile_avatar"
+                android:visibility="gone"/>
+
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@id/edit_profile_avatar"
+                app:srcCompat="@drawable/ic_add_a_photo_32dp"
+                android:text="@string/action_photo_pick"
+                android:textColor="@color/text_color_primary_dark"
+                android:elevation="4dp"
+                android:background="@drawable/round_button"/>
         </RelativeLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/layout_edit_profile_display_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="30dp">
 
             <EditText
                 android:layout_width="match_parent"
@@ -119,7 +113,7 @@
             android:id="@+id/layout_edit_profile_note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="30dp">
 
             <EditText
                 android:layout_width="match_parent"
