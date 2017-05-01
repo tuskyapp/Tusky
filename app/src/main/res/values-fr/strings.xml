@@ -3,20 +3,20 @@
     <string name="error_generic">Une erreur s’est produite.</string>
     <string name="error_empty">Ce champ ne peut pas être vide</string>
     <string name="error_invalid_domain">Le domaine est invalide</string>
-    <string name="error_failed_app_registration">L’application n’a pu s’authentifier auprès de l’instance.</string>
+    <string name="error_failed_app_registration">L’application n’a pas pu s’authentifier auprès de l’instance.</string>
     <string name="error_no_web_browser_found">Impossible de trouver un navigateur web.</string>
     <string name="error_authorization_unknown">Une erreur d’autorisation inconnue s’est produite.</string>
     <string name="error_authorization_denied">Vous ne pouvez pas vous authentifier.</string>
     <string name="error_retrieving_oauth_token">Impossible de récupérer le jeton d’authentification.</string>
-    <string name="error_compose_character_limit">Votre pouet est trop long!</string>
+    <string name="error_compose_character_limit">Votre pouet est trop long !</string>
     <string name="error_media_upload_size">Le fichier doit faire moins de 4Mo.</string>
     <string name="error_media_upload_type">Ce type de fichier n’est pas accepté.</string>
-    <string name="error_media_upload_opening">Le fichier ne peut être ouvert.</string>
+    <string name="error_media_upload_opening">Le fichier ne peut pas être ouvert.</string>
     <string name="error_media_upload_permission">Une permission pour lire ce média est requise pour le mettre en ligne.</string>
     <string name="error_media_download_permission">Permission d’enregistrer le fichier requise.</string>
 
     <string name="error_media_upload_image_or_video">Impossible de mettre une vidéo et une image sur le même pouet.</string>
-    <string name="error_media_upload_sending">Ce média ne peut être mis en ligne.</string>
+    <string name="error_media_upload_sending">Ce média ne peut pas être mis en ligne.</string>
     <string name="error_report_too_few_statuses">Au moins un pouet a été reporté.</string>
 
     <string name="title_home">Accueil</string>
@@ -116,7 +116,7 @@
          ici, comme mastodon.social, icosahedron.website, social.tchncs.de,
         <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">ou autre</a> (en anglais) !
         \n\nSi vous n’avez pas de compte, vous pouvez entrer le nom de l’instance que vous voulez rejoindre et créer un compte ici.\n\nUne instance est l’endroit où votre compte est
-        stocké, mais vous pouvez facilement communiquer et suivre d’autres personnes sur d’autres instances bien que vous soyez sur le même site
+        stocké, mais vous pouvez facilement communiquer et suivre d’autres personnes sur d’autres instances bien que vous soyez sur le même site.
         \n\nPlus d’info <a href="https://mastodon.social/about">mastodon.social</a> (anglais).
     </string>
     <string name="dialog_title_finishing_media_upload">Média mis en ligne avec succès</string>
