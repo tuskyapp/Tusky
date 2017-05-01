@@ -8,7 +8,7 @@
     <string name="error_authorization_unknown">Une erreur d’autorisation inconnue s’est produite.</string>
     <string name="error_authorization_denied">Vous ne pouvez pas vous authentifier.</string>
     <string name="error_retrieving_oauth_token">Impossible de récupérer le jeton d’authentification.</string>
-    <string name="error_compose_character_limit">Votre pouet est trop long!</string>
+    <string name="error_compose_character_limit">Votre pouet est trop long !</string>
     <string name="error_media_upload_size">Le fichier doit faire moins de 4Mo.</string>
     <string name="error_media_upload_type">Ce type de fichier n’est pas accepté.</string>
     <string name="error_media_upload_opening">Le fichier ne peut être ouvert.</string>
@@ -65,7 +65,7 @@
     <string name="action_delete">Supprimer</string>
     <string name="action_send">POUET</string>
     <string name="action_send_public">POUET !</string>
-    <string name="action_retry">Essayer encore</string>
+    <string name="action_retry">Essayer de nouveau</string>
     <string name="action_mark_sensitive">Définir le média comme sensible</string>
     <string name="action_hide_text">Masquer le texte par une mise en garde</string>
     <string name="action_ok">Ok</string>
@@ -117,16 +117,16 @@
         <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">ou autre</a> (en anglais) !
         \n\nSi vous n’avez pas de compte, vous pouvez entrer le nom de l’instance que vous voulez rejoindre et créer un compte ici.\n\nUne instance est l’endroit où votre compte est
         stocké, mais vous pouvez facilement communiquer et suivre d’autres personnes sur d’autres instances bien que vous soyez sur le même site
-        \n\nPlus d’info <a href="https://mastodon.social/about">mastodon.social</a> (anglais).
+        \n\nPlus d’info sur <a href="https://mastodon.social/about">mastodon.social</a> (anglais).
     </string>
     <string name="dialog_title_finishing_media_upload">Média mis en ligne avec succès</string>
     <string name="dialog_message_uploading_media">Mise en ligne…</string>
     <string name="dialog_download_image">Télécharger</string>
 
-    <string name="visibility_public">Public: Afficher dans les fils publics</string>
-    <string name="visibility_unlisted">Non-listé: Ne pas afficher dans les fils publics</string>
-    <string name="visibility_private">Privé: N’afficher que pour vos abonné⋅e⋅s</string>
-    <string name="visibility_direct">Direct: N’afficher que pour les personnes mentionnées</string>
+    <string name="visibility_public">Public : Afficher dans les fils publics</string>
+    <string name="visibility_unlisted">Non-listé : Ne pas afficher dans les fils publics</string>
+    <string name="visibility_private">Privé : N’afficher que pour vos abonné⋅e⋅s</string>
+    <string name="visibility_direct">Direct : N’afficher que pour les personnes mentionnées</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
     <string name="pref_title_edit_notification_settings">Modifier la notification</string>
