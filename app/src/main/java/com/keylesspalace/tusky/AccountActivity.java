@@ -15,7 +15,9 @@
 
 package com.keylesspalace.tusky;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -57,16 +59,26 @@ import retrofit2.Response;
 public class AccountActivity extends BaseActivity implements SFragment.OnUserRemovedListener {
     private static final String TAG = "AccountActivity"; // logging tag
 
+    private enum FollowState {
+        NOT_FOLLOWING,
+        FOLLOWING,
+        REQUESTED,
+    }
+
     private String accountId;
-    private boolean following = false;
-    private boolean blocking = false;
-    private boolean muting = false;
+    private FollowState followState;
+    private boolean blocking;
+    private boolean muting;
     private boolean isSelf;
-    private TabLayout tabLayout;
     private AccountPagerAdapter pagerAdapter;
     private Account loadedAccount;
 
+    @BindView(R.id.account_avatar) CircularImageView avatar;
+    @BindView(R.id.account_header) ImageView header;
+    @BindView(R.id.floating_btn) FloatingActionButton floatingBtn;
+    @BindView(R.id.tab_layout) TabLayout tabLayout;
     @BindView(R.id.account_locked) ImageView accountLockedView;
+    @BindView(R.id.activity_account) View container;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,19 +88,25 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
 
         if (savedInstanceState != null) {
             accountId = savedInstanceState.getString("accountId");
+            followState = (FollowState) savedInstanceState.getSerializable("followState");
+            blocking = savedInstanceState.getBoolean("blocking");
+            muting = savedInstanceState.getBoolean("muting");
         } else {
             Intent intent = getIntent();
             accountId = intent.getStringExtra("id");
+            followState = FollowState.NOT_FOLLOWING;
+            blocking = false;
+            muting = false;
         }
+        loadedAccount = null;
 
         SharedPreferences preferences = getPrivatePreferences();
         String loggedInAccountId = preferences.getString("loggedInAccountId", null);
 
+        // Setup the toolbar.
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         ActionBar actionBar = getSupportActionBar();
-
         if (actionBar != null) {
             actionBar.setTitle(null);
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -120,14 +138,13 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
             }
         });
 
-        FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
+        // Initialise the default UI states.
         floatingBtn.hide();
 
-        CircularImageView avatar = (CircularImageView) findViewById(R.id.account_avatar);
-        ImageView header = (ImageView) findViewById(R.id.account_header);
         avatar.setImageResource(R.drawable.avatar_default);
         header.setImageResource(R.drawable.account_header_default);
 
+        // Obtain information to fill out the profile.
         obtainAccount();
         if (!accountId.equals(loggedInAccountId)) {
             isSelf = false;
@@ -156,7 +173,6 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
                 R.drawable.tab_page_margin_dark);
         viewPager.setPageMarginDrawable(pageMarginDrawable);
         viewPager.setAdapter(adapter);
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
@@ -169,13 +185,16 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString("accountId", accountId);
+        outState.putSerializable("followState", followState);
+        outState.putBoolean("blocking", blocking);
+        outState.putBoolean("muting", muting);
         super.onSaveInstanceState(outState);
     }
 
     private void obtainAccount() {
         mastodonAPI.account(accountId).enqueue(new Callback<Account>() {
             @Override
-            public void onResponse(Call<Account> call, retrofit2.Response<Account> response) {
+            public void onResponse(Call<Account> call, Response<Account> response) {
                 if (response.isSuccessful()) {
                     onObtainAccountSuccess(response.body());
                 } else {
@@ -196,8 +215,6 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
         TextView username = (TextView) findViewById(R.id.account_username);
         TextView displayName = (TextView) findViewById(R.id.account_display_name);
         TextView note = (TextView) findViewById(R.id.account_note);
-        CircularImageView avatar = (CircularImageView) findViewById(R.id.account_avatar);
-        ImageView header = (ImageView) findViewById(R.id.account_header);
 
         String usernameFormatted = String.format(
                 getString(R.string.status_username_format), account.username);
@@ -274,10 +291,12 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
         ids.add(accountId);
         mastodonAPI.relationships(ids).enqueue(new Callback<List<Relationship>>() {
             @Override
-            public void onResponse(Call<List<Relationship>> call, retrofit2.Response<List<Relationship>> response) {
+            public void onResponse(Call<List<Relationship>> call,
+                                   Response<List<Relationship>> response) {
                 if (response.isSuccessful()) {
                     Relationship relationship = response.body().get(0);
-                    onObtainRelationshipsSuccess(relationship.following, relationship.blocking, relationship.muting);
+                    onObtainRelationshipsSuccess(relationship.requested, relationship.following,
+                            relationship.blocking, relationship.muting);
                 } else {
                     onObtainRelationshipsFailure(new Exception(response.message()));
                 }
@@ -290,12 +309,19 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
         });
     }
 
-    private void onObtainRelationshipsSuccess(boolean following, boolean blocking, boolean muting) {
-        this.following = following;
+    private void onObtainRelationshipsSuccess(boolean followRequested, boolean following,
+                                              boolean blocking, boolean muting) {
+        if (following) {
+            followState = FollowState.FOLLOWING;
+        } else if (followRequested) {
+            followState = FollowState.REQUESTED;
+        } else {
+            followState = FollowState.NOT_FOLLOWING;
+        }
         this.blocking = blocking;
         this.muting = muting;
 
-        if (!following || !blocking || !muting) {
+        if (followState != FollowState.NOT_FOLLOWING || !blocking || !muting) {
             invalidateOptionsMenu();
         }
 
@@ -313,19 +339,27 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
     }
 
     private void updateFollowButton(FloatingActionButton button) {
-        if (following) {
-            button.setImageResource(R.drawable.ic_person_minus_24px);
-            button.setContentDescription(getString(R.string.action_unfollow));
-        } else {
-            button.setImageResource(R.drawable.ic_person_add_24dp);
-            button.setContentDescription(getString(R.string.action_follow));
+        switch (followState) {
+            case NOT_FOLLOWING: {
+                button.setImageResource(R.drawable.ic_person_add_24dp);
+                button.setContentDescription(getString(R.string.action_follow));
+                break;
+            }
+            case REQUESTED: {
+                button.setImageResource(R.drawable.ic_hourglass_24dp);
+                button.setContentDescription(getString(R.string.state_follow_requested));
+                break;
+            }
+            case FOLLOWING: {
+                button.setImageResource(R.drawable.ic_person_minus_24px);
+                button.setContentDescription(getString(R.string.action_unfollow));
+                break;
+            }
         }
     }
 
     private void updateButtons() {
         invalidateOptionsMenu();
-
-        final FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
 
         if(!isSelf && !blocking) {
             floatingBtn.show();
@@ -335,7 +369,11 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
             floatingBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    follow(accountId);
+                    if (followState != FollowState.REQUESTED) {
+                        follow(accountId);
+                    } else {
+                        showFollowRequestPendingDialog(accountId);
+                    }
                     updateFollowButton(floatingBtn);
                 }
             });
@@ -352,18 +390,24 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
         return super.onCreateOptionsMenu(menu);
     }
 
+    private String getFollowAction() {
+        switch (followState) {
+            default:
+            case NOT_FOLLOWING: return getString(R.string.action_follow);
+            case REQUESTED:
+            case FOLLOWING: return getString(R.string.action_unfollow);
+        }
+    }
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (!isSelf) {
             MenuItem follow = menu.findItem(R.id.action_follow);
-            String title;
-            if (following) {
-                title = getString(R.string.action_unfollow);
-            } else {
-                title = getString(R.string.action_follow);
-            }
-            follow.setTitle(title);
+            follow.setTitle(getFollowAction());
+            follow.setVisible(followState != FollowState.REQUESTED);
+
             MenuItem block = menu.findItem(R.id.action_block);
+            String title;
             if (blocking) {
                 title = getString(R.string.action_unblock);
             } else {
@@ -389,10 +433,18 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
     private void follow(final String id) {
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
-            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
+            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
                 if (response.isSuccessful()) {
-                    following = response.body().following;
-                    // TODO: display message/indicator when "requested" is true (i.e. when the follow is awaiting approval)
+                    Relationship relationship = response.body();
+                    if (relationship.following) {
+                        followState = FollowState.FOLLOWING;
+                    } else if (relationship.requested) {
+                        followState = FollowState.REQUESTED;
+                        Snackbar.make(container, R.string.state_follow_requested,
+                                Snackbar.LENGTH_LONG).show();
+                    } else {
+                        followState = FollowState.NOT_FOLLOWING;
+                    }
                     updateButtons();
                 } else {
                     onFollowFailure(id);
@@ -405,10 +457,10 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
             }
         };
 
-        if (following) {
-            mastodonAPI.unfollowAccount(id).enqueue(cb);
-        } else {
-            mastodonAPI.followAccount(id).enqueue(cb);
+        Assert.expect(followState != FollowState.REQUESTED);
+        switch (followState) {
+            case NOT_FOLLOWING: { mastodonAPI.followAccount(id).enqueue(cb);   break; }
+            case FOLLOWING:     { mastodonAPI.unfollowAccount(id).enqueue(cb); break; }
         }
     }
 
@@ -419,16 +471,28 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
                 follow(id);
             }
         };
-        View anyView = findViewById(R.id.activity_account);
-        Snackbar.make(anyView, R.string.error_generic, Snackbar.LENGTH_LONG)
+        Snackbar.make(container, R.string.error_generic, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_retry, listener)
+                .show();
+    }
+
+    private void showFollowRequestPendingDialog(final String id) {
+        DialogInterface.OnClickListener waitListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        };
+        new AlertDialog.Builder(AccountActivity.this)
+                .setMessage(R.string.dialog_message_follow_request)
+                .setPositiveButton(R.string.action_ok, waitListener)
                 .show();
     }
 
     private void block(final String id) {
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
-            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
+            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
                 if (response.isSuccessful()) {
                     blocking = response.body().blocking;
                     updateButtons();
@@ -456,8 +520,7 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
                 block(id);
             }
         };
-        View anyView = findViewById(R.id.activity_account);
-        Snackbar.make(anyView, R.string.error_generic, Snackbar.LENGTH_LONG)
+        Snackbar.make(container, R.string.error_generic, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_retry, listener)
                 .show();
     }
@@ -495,8 +558,7 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
                 mute(id);
             }
         };
-        View anyView = findViewById(R.id.activity_account);
-        Snackbar.make(anyView, R.string.error_generic, Snackbar.LENGTH_LONG)
+        Snackbar.make(container, R.string.error_generic, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_retry, listener)
                 .show();
     }

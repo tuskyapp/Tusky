@@ -14,7 +14,6 @@
     <string name="error_media_upload_opening">That file could not be opened.</string>
     <string name="error_media_upload_permission">Permission to read media is required.</string>
     <string name="error_media_download_permission">Permission to store media is required.</string>
-
     <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same status.</string>
     <string name="error_media_upload_sending">The upload failed.</string>
     <string name="error_report_too_few_statuses">At least one status must be reported.</string>
@@ -133,6 +132,7 @@
     <string name="dialog_title_finishing_media_upload">Finishing Media Upload</string>
     <string name="dialog_message_uploading_media">Uploading…</string>
     <string name="dialog_download_image">Download</string>
+    <string name="dialog_message_follow_request">Follow request pending: awaiting their response</string>
 
     <string name="visibility_public">Public: Post to public timelines</string>
     <string name="visibility_unlisted">Unlisted: Do not show in public timelines</string>
@@ -166,4 +166,6 @@
     <string name="description_account_locked">Locked Account</string>
     <string name="status_share_content">Share content of toot</string>
     <string name="status_share_link">Share link to toot</string>
+
+    <string name="state_follow_requested">Follow requested</string>
 </resources>
