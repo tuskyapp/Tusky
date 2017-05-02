@@ -502,6 +502,7 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
         getPrivatePreferences().edit()
                 .putString("loggedInAccountId", loggedInAccountId)
                 .putString("loggedInAccountUsername", loggedInAccountUsername)
+                .putBoolean("loggedInAccountLocked", me.locked)
                 .apply();
     }
 

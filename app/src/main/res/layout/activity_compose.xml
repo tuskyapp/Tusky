@@ -47,7 +47,6 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:id="@+id/compose_edit_area"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -55,8 +54,15 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
-            <!--An special EditText is created at runtime here, because it has to be a modified
-             * anonymous class to support image/GIF picking from the soft keyboard.-->
+            <com.keylesspalace.tusky.EditTextTyped
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/compose_edit_field"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="@string/hint_compose"
+                android:inputType="text|textMultiLine|textCapSentences" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"

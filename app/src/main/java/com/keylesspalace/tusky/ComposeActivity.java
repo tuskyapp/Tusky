@@ -40,11 +40,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
-import android.support.v13.view.inputmethod.EditorInfoCompat;
 import android.support.v13.view.inputmethod.InputConnectionCompat;
 import android.support.v13.view.inputmethod.InputContentInfoCompat;
 import android.support.v4.app.ActivityCompat;
@@ -54,17 +54,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.InputType;
-import android.text.Spannable;
-import android.text.Spanned;
 import android.text.TextWatcher;
-import android.text.style.ForegroundColorSpan;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputConnection;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
@@ -72,7 +64,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.Media;
@@ -92,6 +83,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -110,28 +103,29 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private static final int THUMBNAIL_SIZE = 128; // pixels
 
     private String inReplyToId;
-    private EditText textEditor;
-    private LinearLayout mediaPreviewBar;
     private ArrayList<QueuedMedia> mediaQueued;
     private CountUpDownLatch waitForMediaLatch;
     private boolean showMarkSensitive;
     private String statusVisibility;     // The current values of the options that will be applied
     private boolean statusMarkSensitive; // to the status being composed.
     private boolean statusHideText;      //
-    private View contentWarningBar;
     private boolean statusAlreadyInFlight; // to prevent duplicate sends by mashing the send button
     private InputContentInfoCompat currentInputContentInfo;
     private int currentFlags;
-    private ProgressDialog finishingUploadDialog;
-    private EditText contentWarningEditor;
-    private TextView charactersLeft;
-    private Button floatingBtn;
-    private ImageButton pickBtn;
-    private ImageButton takeBtn;
-    private Button nsfwBtn;
-    private ProgressBar postProgress;
-    private ImageButton visibilityBtn;
     private Uri photoUploadUri;
+    // this only exists when a status is trying to be sent, but uploads are still occurring
+    private ProgressDialog finishingUploadDialog;
+    @BindView(R.id.compose_edit_field) EditTextTyped textEditor;
+    @BindView(R.id.compose_media_preview_bar) LinearLayout mediaPreviewBar;
+    @BindView(R.id.compose_content_warning_bar) View contentWarningBar;
+    @BindView(R.id.field_content_warning) EditText contentWarningEditor;
+    @BindView(R.id.characters_left) TextView charactersLeft;
+    @BindView(R.id.floating_btn) Button floatingBtn;
+    @BindView(R.id.compose_photo_pick) ImageButton pickBtn;
+    @BindView(R.id.compose_photo_take) ImageButton takeBtn;
+    @BindView(R.id.action_toggle_nsfw) Button nsfwBtn;
+    @BindView(R.id.postProgress) ProgressBar postProgress;
+    @BindView(R.id.action_toggle_visibility) ImageButton visibilityBtn;
 
     private static class QueuedMedia {
         enum Type {
@@ -207,135 +201,16 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         };
     }
 
-    private void doErrorDialog(@StringRes int descriptionId, @StringRes int actionId,
-            View.OnClickListener listener) {
-        Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(descriptionId),
-                Snackbar.LENGTH_SHORT);
-        bar.setAction(actionId, listener);
-        bar.show();
-    }
-
-    private void displayTransientError(@StringRes int stringId) {
-        Snackbar.make(findViewById(R.id.activity_compose), stringId, Snackbar.LENGTH_LONG).show();
-    }
-
-    private static class FindCharsResult {
-        int charIndex;
-        int stringIndex;
-
-        FindCharsResult() {
-            charIndex = -1;
-            stringIndex = -1;
-        }
-    }
-
-    private static FindCharsResult findChars(String string, int fromIndex, char[] chars) {
-        FindCharsResult result = new FindCharsResult();
-        final int length = string.length();
-        for (int i = fromIndex; i < length; i++) {
-            char c = string.charAt(i);
-            for (int j = 0; j < chars.length; j++) {
-                if (chars[j] == c) {
-                    result.charIndex = j;
-                    result.stringIndex = i;
-                    return result;
-                }
-            }
-        }
-        return result;
-    }
-
-    private static FindCharsResult findStart(String string, int fromIndex, char[] chars) {
-        final int length = string.length();
-        while (fromIndex < length) {
-            FindCharsResult found = findChars(string, fromIndex, chars);
-            int i = found.stringIndex;
-            if (i < 0) {
-                break;
-            } else if (i == 0 || i >= 1 && Character.isWhitespace(string.codePointBefore(i))) {
-                return found;
-            } else {
-                fromIndex = i + 1;
-            }
-        }
-        return new FindCharsResult();
-    }
-
-    private static int findEndOfHashtag(String string, int fromIndex) {
-        final int length = string.length();
-        for (int i = fromIndex + 1; i < length;) {
-            int codepoint = string.codePointAt(i);
-            if (Character.isWhitespace(codepoint)) {
-                return i;
-            } else if (codepoint == '#') {
-                return -1;
-            }
-            i += Character.charCount(codepoint);
-        }
-        return length;
-    }
-
-    private static int findEndOfMention(String string, int fromIndex) {
-        int atCount = 0;
-        final int length = string.length();
-        for (int i = fromIndex + 1; i < length;) {
-            int codepoint = string.codePointAt(i);
-            if (Character.isWhitespace(codepoint)) {
-                return i;
-            } else if (codepoint == '@') {
-                atCount += 1;
-                if (atCount >= 2) {
-                    return -1;
-                }
-            }
-            i += Character.charCount(codepoint);
-        }
-        return length;
-    }
-
-    private static void highlightSpans(Spannable text, int colour) {
-        // Strip all existing colour spans.
-        int n = text.length();
-        ForegroundColorSpan[] oldSpans = text.getSpans(0, n, ForegroundColorSpan.class);
-        for (int i = oldSpans.length - 1; i >= 0; i--) {
-            text.removeSpan(oldSpans[i]);
-        }
-        // Colour the mentions and hashtags.
-        String string = text.toString();
-        int start;
-        int end = 0;
-        while (end < n) {
-            char[] chars = { '#', '@' };
-            FindCharsResult found = findStart(string, end, chars);
-            start = found.stringIndex;
-            if (start < 0) {
-                break;
-            }
-            if (found.charIndex == 0) {
-                end = findEndOfHashtag(string, start);
-            } else if (found.charIndex == 1) {
-                end = findEndOfMention(string, start);
-            } else {
-                break;
-            }
-            if (end < 0) {
-                break;
-            }
-            text.setSpan(new ForegroundColorSpan(colour), start, end,
-                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        }
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
+        ButterKnife.bind(this);
 
+        // Setup the toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         ActionBar actionBar = getSupportActionBar();
-
         if (actionBar != null) {
             actionBar.setTitle(null);
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -345,18 +220,11 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             actionBar.setHomeAsUpIndicator(closeIcon);
         }
 
-        SharedPreferences preferences = getPrivatePreferences();
-
-        floatingBtn = (Button) findViewById(R.id.floating_btn);
-        pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
-        takeBtn = (ImageButton) findViewById(R.id.compose_photo_take);
-        nsfwBtn = (Button) findViewById(R.id.action_toggle_nsfw);
-        visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
-
+        // Setup the interface buttons.
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendStatus();
+                prepareStatus();
             }
         });
         pickBtn.setOnClickListener(new View.OnClickListener() {
@@ -384,7 +252,9 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             }
         });
 
-        Intent intent = getIntent();
+        /* Initialise all the state, or restore it from a previous run, to determine a "starting"
+         * state. */
+        SharedPreferences preferences = getPrivatePreferences();
 
         String startingVisibility;
         boolean startingHideText;
@@ -411,9 +281,9 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             startingHideText = false;
         }
 
-        postProgress = (ProgressBar) findViewById(R.id.postProgress);
-        postProgress.setVisibility(View.INVISIBLE);
-        updateNsfwButtonColor();
+        /* If the composer is started up as a reply to another post, override the "starting" state
+         * based on what the intent from the reply request passes. */
+        Intent intent = getIntent();
 
         String[] mentionedUsernames = null;
         inReplyToId = null;
@@ -434,30 +304,29 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
 
             mentionedUsernames = intent.getStringArrayExtra("mentioned_usernames");
 
-            if(inReplyToId != null) {
+            if (inReplyToId != null) {
                 startingHideText = !intent.getStringExtra("content_warning").equals("");
-                if(startingHideText){
+                if (startingHideText) {
                     startingContentWarning = intent.getStringExtra("content_warning");
                 }
             }
         }
-        /* Only after the starting visibility is determined and the send button is initialised can
-         * the status visibility be set. */
-        setStatusVisibility(startingVisibility);
 
-        textEditor = createEditText(null); // new String[] { "image/gif", "image/webp" }
-        final int mentionColour = ThemeUtils.getColor(this, R.attr.compose_mention_color);
-        if (savedInstanceState != null) {
-            restoreTextEditorState(savedInstanceState.getParcelable("textEditorState"));
-            highlightSpans(textEditor.getText(), mentionColour);
+        /* If the currently logged in account is locked, its posts should default to private. This
+         * should override even the reply settings, so this must be done after those are set up. */
+        if (preferences.getBoolean("loggedInAccountLocked", false)) {
+            startingVisibility = "private";
         }
-        RelativeLayout editArea = (RelativeLayout) findViewById(R.id.compose_edit_area);
-        /* Adding this at index zero because it implicitly gives it the lowest input priority. So,
-         * when media previews are added in front of the editor, they can receive click events
-         * without the text editor stealing the events from behind them. */
-        editArea.addView(textEditor, 0);
-        contentWarningEditor = (EditText) findViewById(R.id.field_content_warning);
-        charactersLeft = (TextView) findViewById(R.id.characters_left);
+
+        // After the starting state is finalised, the interface can be set to reflect this state.
+        setStatusVisibility(startingVisibility);
+        postProgress.setVisibility(View.INVISIBLE);
+        updateNsfwButtonColor();
+
+        // Setup the main text field.
+        setEditTextMimeTypes(null); // new String[] { "image/gif", "image/webp" }
+        final int mentionColour = ThemeUtils.getColor(this, R.attr.compose_mention_color);
+        SpanUtils.highlightSpans(textEditor.getText(), mentionColour);
         textEditor.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -469,10 +338,11 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
 
             @Override
             public void afterTextChanged(Editable editable) {
-                highlightSpans(editable, mentionColour);
+                SpanUtils.highlightSpans(editable, mentionColour);
             }
         });
 
+        // Add any mentions to the text field when a reply is first composed.
         if (mentionedUsernames != null) {
             StringBuilder builder = new StringBuilder();
             for (String name : mentionedUsernames) {
@@ -484,11 +354,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             textEditor.setSelection(textEditor.length());
         }
 
-        mediaPreviewBar = (LinearLayout) findViewById(R.id.compose_media_preview_bar);
-        mediaQueued = new ArrayList<>();
-        waitForMediaLatch = new CountUpDownLatch();
-
-        contentWarningBar = findViewById(R.id.compose_content_warning_bar);
+        // Initialise the content warning editor.
         contentWarningEditor.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -502,11 +368,13 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             public void afterTextChanged(Editable s) {}
         });
         showContentWarning(startingHideText);
-
         if(startingContentWarning != null){
             contentWarningEditor.setText(startingContentWarning);
         }
 
+        // Initialise the empty media queue state.
+        mediaQueued = new ArrayList<>();
+        waitForMediaLatch = new CountUpDownLatch();
         statusAlreadyInFlight = false;
 
         // These can only be added after everything affected by the media queue is initialized.
@@ -564,17 +432,53 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        ArrayList<SavedQueuedMedia> savedMediaQueued = new ArrayList<>();
+        for (QueuedMedia item : mediaQueued) {
+            savedMediaQueued.add(new SavedQueuedMedia(item.type, item.uri, item.preview,
+                    item.mediaSize));
+        }
+        outState.putParcelableArrayList("savedMediaQueued", savedMediaQueued);
+        outState.putBoolean("showMarkSensitive", showMarkSensitive);
+        outState.putString("statusVisibility", statusVisibility);
+        outState.putBoolean("statusMarkSensitive", statusMarkSensitive);
+        outState.putBoolean("statusHideText", statusHideText);
+        if (currentInputContentInfo != null) {
+            outState.putParcelable("commitContentInputContentInfo",
+                    (Parcelable) currentInputContentInfo.unwrap());
+            outState.putInt("commitContentFlags", currentFlags);
+        }
+        currentInputContentInfo = null;
+        currentFlags = 0;
+        super.onSaveInstanceState(outState);
+    }
+
+    private void doErrorDialog(@StringRes int descriptionId, @StringRes int actionId,
+                               View.OnClickListener listener) {
+        Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(descriptionId),
+                Snackbar.LENGTH_SHORT);
+        bar.setAction(actionId, listener);
+        bar.show();
+    }
+
+    private void displayTransientError(@StringRes int stringId) {
+        Snackbar.make(findViewById(R.id.activity_compose), stringId, Snackbar.LENGTH_LONG).show();
+    }
+
     private void toggleNsfw() {
         statusMarkSensitive = !statusMarkSensitive;
         updateNsfwButtonColor();
     }
 
     private void updateNsfwButtonColor() {
+        @AttrRes int attribute;
         if (statusMarkSensitive) {
-            nsfwBtn.setTextColor(ThemeUtils.getColor(this, R.attr.compose_nsfw_button_selected_color));
+            attribute = R.attr.compose_nsfw_button_selected_color;
         } else {
-            nsfwBtn.setTextColor(ThemeUtils.getColor(this, R.attr.compose_nsfw_button_color));
+            attribute = R.attr.compose_nsfw_button_color;
         }
+        nsfwBtn.setTextColor(ThemeUtils.getColor(this, attribute));
     }
 
     private void disableButtons() {
@@ -680,7 +584,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         enableButtons();
     }
 
-    private void sendStatus() {
+    private void prepareStatus() {
         if (statusAlreadyInFlight) {
             return;
         }
@@ -701,51 +605,6 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        ArrayList<SavedQueuedMedia> savedMediaQueued = new ArrayList<>();
-        for (QueuedMedia item : mediaQueued) {
-            savedMediaQueued.add(new SavedQueuedMedia(item.type, item.uri, item.preview,
-                    item.mediaSize));
-        }
-        outState.putParcelableArrayList("savedMediaQueued", savedMediaQueued);
-        outState.putBoolean("showMarkSensitive", showMarkSensitive);
-        outState.putString("statusVisibility", statusVisibility);
-        outState.putBoolean("statusMarkSensitive", statusMarkSensitive);
-        outState.putBoolean("statusHideText", statusHideText);
-        outState.putParcelable("textEditorState", saveTextEditorState());
-        if (currentInputContentInfo != null) {
-            outState.putParcelable("commitContentInputContentInfo",
-                    (Parcelable) currentInputContentInfo.unwrap());
-            outState.putInt("commitContentFlags", currentFlags);
-        }
-        currentInputContentInfo = null;
-        currentFlags = 0;
-        super.onSaveInstanceState(outState);
-    }
-
-    private Parcelable saveTextEditorState() {
-        Bundle bundle = new Bundle();
-        bundle.putString("text", textEditor.getText().toString());
-        bundle.putInt("selectionStart", textEditor.getSelectionStart());
-        bundle.putInt("selectionEnd", textEditor.getSelectionEnd());
-        return bundle;
-    }
-
-    private void restoreTextEditorState(Parcelable state) {
-        Bundle bundle = (Bundle) state;
-        textEditor.setText(bundle.getString("text"));
-        int start = bundle.getInt("selectionStart");
-        int end = bundle.getInt("selectionEnd");
-        if (start != -1) {
-            if (end != -1) {
-                textEditor.setSelection(start, end);
-            } else {
-                textEditor.setSelection(start);
-            }
-        }
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         if (inReplyToId != null) {
@@ -758,39 +617,21 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                 .apply();
     }
 
-    private EditText createEditText(String[] contentMimeTypes) {
+    private void setEditTextMimeTypes(String[] contentMimeTypes) {
         final String[] mimeTypes;
         if (contentMimeTypes == null || contentMimeTypes.length == 0) {
             mimeTypes = new String[0];
         } else {
             mimeTypes = Arrays.copyOf(contentMimeTypes, contentMimeTypes.length);
         }
-        EditText editText = new android.support.v7.widget.AppCompatEditText(this) {
+        textEditor.setMimeTypes(mimeTypes, new InputConnectionCompat.OnCommitContentListener() {
             @Override
-            public InputConnection onCreateInputConnection(EditorInfo editorInfo) {
-                final InputConnection ic = super.onCreateInputConnection(editorInfo);
-                EditorInfoCompat.setContentMimeTypes(editorInfo, mimeTypes);
-                final InputConnectionCompat.OnCommitContentListener callback =
-                        new InputConnectionCompat.OnCommitContentListener() {
-                            @Override
-                            public boolean onCommitContent(InputContentInfoCompat inputContentInfo,
-                                    int flags, Bundle opts) {
-                                return ComposeActivity.this.onCommitContent(inputContentInfo, flags,
-                                        mimeTypes);
-                            }
-                        };
-                return InputConnectionCompat.createWrapper(ic, editorInfo, callback);
+            public boolean onCommitContent(InputContentInfoCompat inputContentInfo,
+                                           int flags, Bundle opts) {
+                return ComposeActivity.this.onCommitContent(inputContentInfo, flags,
+                        mimeTypes);
             }
-        };
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        editText.setLayoutParams(layoutParams);
-        editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-        editText.setEms(10);
-        editText.setBackgroundColor(0);
-        editText.setGravity(Gravity.START | Gravity.TOP);
-        editText.setHint(R.string.hint_compose);
-        return editText;
+        });
     }
 
     private boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags,
