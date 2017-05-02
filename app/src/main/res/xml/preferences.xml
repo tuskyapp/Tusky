@@ -21,6 +21,26 @@
             android:title="@string/pref_title_custom_tabs"
             android:defaultValue="true" />
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_title_status_filter">
+        <PreferenceScreen android:title="@string/pref_title_status_tabs">
+
+            <PreferenceCategory
+                android:dependency="notificationsEnabled"
+                android:title="@string/title_home">
+                <CheckBoxPreference
+                    android:key="tabFilterHomeBoosts"
+                    android:title="@string/pref_title_show_boosts"
+                    android:defaultValue="true" />
+                <CheckBoxPreference
+                    android:key="tabFilterHomeReplies"
+                    android:title="@string/pref_title_show_replies"
+                    android:defaultValue="true" />
+            </PreferenceCategory>
+
+        </PreferenceScreen>
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_title_notification_settings">
     <PreferenceScreen android:title="@string/pref_title_edit_notification_settings">
 

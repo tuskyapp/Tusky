@@ -142,6 +142,11 @@ class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover
         notifyItemRemoved(position);
     }
 
+    public void clear() {
+        statuses.clear();
+        notifyDataSetChanged();
+    }
+
     void removeAllByAccountId(String accountId) {
         for (int i = 0; i < statuses.size();) {
             Status status = statuses.get(i);
