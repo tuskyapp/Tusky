@@ -38,11 +38,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Profile;
+import com.pkmmte.view.CircularImageView;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
@@ -73,14 +76,14 @@ public class EditProfileActivity extends BaseActivity {
         HEADER
     }
 
-    @BindView(R.id.edit_profile_display_name) EditText displayNameEditText;
-    @BindView(R.id.edit_profile_note) EditText noteEditText;
-    @BindView(R.id.edit_profile_avatar) Button avatarButton;
-    @BindView(R.id.edit_profile_avatar_preview) ImageView avatarPreview;
-    @BindView(R.id.edit_profile_avatar_progress) ProgressBar avatarProgress;
-    @BindView(R.id.edit_profile_header) Button headerButton;
+    @BindView(R.id.edit_profile_header) ImageButton headerButton;
     @BindView(R.id.edit_profile_header_preview) ImageView headerPreview;
     @BindView(R.id.edit_profile_header_progress) ProgressBar headerProgress;
+    @BindView(R.id.edit_profile_avatar) ImageButton avatarButton;
+    @BindView(R.id.edit_profile_avatar_preview) ImageView avatarPreview;
+    @BindView(R.id.edit_profile_avatar_progress) ProgressBar avatarProgress;
+    @BindView(R.id.edit_profile_display_name) EditText displayNameEditText;
+    @BindView(R.id.edit_profile_note) EditText noteEditText;
     @BindView(R.id.edit_profile_save_progress) ProgressBar saveProgress;
 
     private String priorDisplayName;
@@ -100,7 +103,7 @@ public class EditProfileActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(null);
+            actionBar.setTitle(getString(R.string.title_edit_profile));
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
         }
@@ -121,6 +124,8 @@ public class EditProfileActivity extends BaseActivity {
             headerBase64 = null;
         }
 
+
+
         avatarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +143,7 @@ public class EditProfileActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 avatarPreview.setImageBitmap(null);
-                avatarPreview.setVisibility(View.GONE);
+                avatarPreview.setVisibility(View.INVISIBLE);
                 avatarBase64 = null;
             }
         });
@@ -146,7 +151,7 @@ public class EditProfileActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 headerPreview.setImageBitmap(null);
-                headerPreview.setVisibility(View.GONE);
+                headerPreview.setVisibility(View.INVISIBLE);
                 headerBase64 = null;
             }
         });
@@ -161,8 +166,20 @@ public class EditProfileActivity extends BaseActivity {
                 Account me = response.body();
                 priorDisplayName = me.getDisplayName();
                 priorNote = me.note.toString();
+                CircularImageView avatar = (CircularImageView) findViewById(R.id.edit_profile_avatar_preview);
+                ImageView header = (ImageView) findViewById(R.id.edit_profile_header_preview);
+
                 displayNameEditText.setText(priorDisplayName);
                 noteEditText.setText(priorNote);
+                Picasso.with(avatar.getContext())
+                        .load(me.avatar)
+                        .placeholder(R.drawable.avatar_default)
+                        .error(R.drawable.avatar_error)
+                        .into(avatar);
+                Picasso.with(header.getContext())
+                        .load(me.header)
+                        .placeholder(R.drawable.account_header_missing)
+                        .into(header);
             }
 
             @Override
@@ -337,12 +354,10 @@ public class EditProfileActivity extends BaseActivity {
         switch (currentlyPicking) {
             case AVATAR: {
                 avatarProgress.setVisibility(View.GONE);
-                avatarPreview.setVisibility(View.GONE);
                 break;
             }
             case HEADER: {
                 headerProgress.setVisibility(View.GONE);
-                headerPreview.setVisibility(View.GONE);
                 break;
             }
         }
