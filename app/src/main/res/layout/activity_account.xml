@@ -103,7 +103,7 @@
                                     app:srcCompat="@drawable/reblog_disabled_light"
                                     android:tint="?android:textColorSecondary"
                                     android:layout_toRightOf="@id/account_username"
-                                    android:contentDescription="@string/description_account_locked"/>
+                                    android:contentDescription="@string/description_account_locked" />
                             </RelativeLayout>
                         </LinearLayout>
 
@@ -115,7 +115,7 @@
                         android:id="@+id/account_note"
                         android:textColor="?android:textColorTertiary"
                         android:padding="16dp"
-                        android:paddingTop="10dp"/>
+                        android:paddingTop="10dp" />
 
                 </LinearLayout>
 

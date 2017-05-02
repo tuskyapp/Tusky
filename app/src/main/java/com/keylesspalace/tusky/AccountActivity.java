@@ -125,8 +125,23 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
                 @AttrRes int attribute;
                 if (collapsingToolbar.getHeight() + verticalOffset
                         < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
+                    if (getSupportActionBar() != null && loadedAccount != null) {
+                        getSupportActionBar().setTitle(loadedAccount.getDisplayName());
+                        toolbar.setTitleTextColor(ThemeUtils.getColor(toolbar.getContext(),
+                                android.R.attr.textColorPrimary));
+
+                        String subtitle = String.format(getString(R.string.status_username_format),
+                                loadedAccount.username);
+                        getSupportActionBar().setSubtitle(subtitle);
+                        toolbar.setSubtitleTextColor(ThemeUtils.getColor(toolbar.getContext(),
+                                android.R.attr.textColorSecondary));
+                    }
                     attribute = R.attr.account_toolbar_icon_tint_collapsed;
                 } else {
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().setTitle("");
+                        getSupportActionBar().setSubtitle("");
+                    }
                     attribute = R.attr.account_toolbar_icon_tint_uncollapsed;
                 }
                 if (attribute != priorAttribute) {
