@@ -109,9 +109,14 @@ public class AccountActivity extends BaseActivity {
                         < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
                     if (getSupportActionBar() != null && loadedAccount != null) {
                         getSupportActionBar().setTitle(loadedAccount.getDisplayName());
-                        getSupportActionBar().setSubtitle(
-                                String.format(getString(R.string.status_username_format),
-                                        loadedAccount.username));
+                        toolbar.setTitleTextColor(ThemeUtils.getColor(toolbar.getContext(),
+                                android.R.attr.textColorPrimary));
+
+                        String subtitle = String.format(getString(R.string.status_username_format),
+                                loadedAccount.username);
+                        getSupportActionBar().setSubtitle(subtitle);
+                        toolbar.setSubtitleTextColor(ThemeUtils.getColor(toolbar.getContext(),
+                                android.R.attr.textColorSecondary));
                     }
                     attribute = R.attr.account_toolbar_icon_tint_collapsed;
                 } else {
