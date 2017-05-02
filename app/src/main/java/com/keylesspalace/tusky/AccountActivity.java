@@ -127,13 +127,13 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
                         < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
                     if (getSupportActionBar() != null && loadedAccount != null) {
                         getSupportActionBar().setTitle(loadedAccount.getDisplayName());
-                        toolbar.setTitleTextColor(ThemeUtils.getColor(toolbar.getContext(),
+                        toolbar.setTitleTextColor(ThemeUtils.getColor(AccountActivity.this,
                                 android.R.attr.textColorPrimary));
 
                         String subtitle = String.format(getString(R.string.status_username_format),
                                 loadedAccount.username);
                         getSupportActionBar().setSubtitle(subtitle);
-                        toolbar.setSubtitleTextColor(ThemeUtils.getColor(toolbar.getContext(),
+                        toolbar.setSubtitleTextColor(ThemeUtils.getColor(AccountActivity.this,
                                 android.R.attr.textColorSecondary));
                     }
                     attribute = R.attr.account_toolbar_icon_tint_collapsed;
