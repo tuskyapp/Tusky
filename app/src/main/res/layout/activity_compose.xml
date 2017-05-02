@@ -131,6 +131,14 @@
                 android:textColor="?attr/compose_nsfw_button_color"
                 android:text="@string/toggle_nsfw" />
 
+            <ImageButton
+                android:id="@+id/show_reply_text"
+                style="?attr/image_button_style"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="Show Original Message"
+                app:srcCompat="@drawable/ic_reply_24dp" />
+
             <android.support.v4.widget.Space
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

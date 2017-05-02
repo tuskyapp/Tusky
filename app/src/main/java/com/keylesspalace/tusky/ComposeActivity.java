@@ -110,6 +110,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private static final int THUMBNAIL_SIZE = 128; // pixels
 
     private String inReplyToId;
+    private String inResponseTo;
     private EditText textEditor;
     private LinearLayout mediaPreviewBar;
     private ArrayList<QueuedMedia> mediaQueued;
@@ -129,6 +130,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private ImageButton pickBtn;
     private ImageButton takeBtn;
     private Button nsfwBtn;
+    private ImageButton showReplyBtn;
     private ProgressBar postProgress;
     private ImageButton visibilityBtn;
     private Uri photoUploadUri;
@@ -347,6 +349,8 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
 
         SharedPreferences preferences = getPrivatePreferences();
 
+        showReplyBtn = (ImageButton) findViewById(R.id.show_reply_text);
+        showReplyBtn.setVisibility(View.INVISIBLE);
         floatingBtn = (Button) findViewById(R.id.floating_btn);
         pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
         takeBtn = (ImageButton) findViewById(R.id.compose_photo_take);
@@ -356,6 +360,16 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
+                pickBtn.setClickable(false);
+                nsfwBtn.setClickable(false);
+                visibilityBtn.setClickable(false);
+                showReplyBtn.setClickable(false);
+                floatingBtn.setEnabled(false);
+
+                postProgress.setVisibility(View.VISIBLE);
+=======
+>>>>>>> f9722ac2c2b3578458476b3d8af13325434f8a96
                 sendStatus();
             }
         });
@@ -375,6 +389,23 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             @Override
             public void onClick(View v) {
                 toggleNsfw();
+            }
+        });
+        showReplyBtn.setOnClickListener(new View.OnClickListener() {
+            String userStatus;
+            boolean replyShown = false;
+
+            @Override
+            public void onClick(View v) {
+                if (!replyShown) {
+                    userStatus = textEditor.getText().toString();
+                    textEditor.setText(inResponseTo, TextView.BufferType.NORMAL);
+                    textEditor.setEnabled(false);
+                } else {
+                    textEditor.setEnabled(true);
+                    textEditor.setText(userStatus, TextView.BufferType.EDITABLE);
+                }
+                replyShown = !replyShown;
             }
         });
         visibilityBtn.setOnClickListener(new View.OnClickListener() {
@@ -435,6 +466,8 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             mentionedUsernames = intent.getStringArrayExtra("mentioned_usernames");
 
             if(inReplyToId != null) {
+                showReplyBtn.setVisibility(View.VISIBLE);
+                inResponseTo = intent.getStringExtra("in_reply_content");
                 startingHideText = !intent.getStringExtra("content_warning").equals("");
                 if(startingHideText){
                     startingContentWarning = intent.getStringExtra("content_warning");

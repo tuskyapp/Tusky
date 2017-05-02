@@ -73,6 +73,7 @@ public abstract class SFragment extends BaseFragment {
     }
 
     protected void reply(Status status) {
+        String inReplyContent = status.content.toString();
         String inReplyToId = status.getActionableId();
         Status actionableStatus = status.getActionableStatus();
         String replyVisibility = actionableStatus.getVisibility().toString().toLowerCase();
@@ -85,6 +86,7 @@ public abstract class SFragment extends BaseFragment {
         mentionedUsernames.add(actionableStatus.account.username);
         mentionedUsernames.remove(loggedInUsername);
         Intent intent = new Intent(getContext(), ComposeActivity.class);
+        intent.putExtra("in_reply_content", inReplyContent);
         intent.putExtra("in_reply_to_id", inReplyToId);
         intent.putExtra("reply_visibility", replyVisibility);
         intent.putExtra("content_warning", contentWarning);
