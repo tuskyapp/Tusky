@@ -24,6 +24,7 @@ import com.jakewharton.picasso.OkHttp3Downloader;
 public class TuskyApplication extends Application {
     @Override
     public void onCreate() {
+        super.onCreate();
         // Initialize Picasso configuration
         Picasso.Builder builder = new Picasso.Builder(this);
         builder.downloader(new OkHttp3Downloader(this));
