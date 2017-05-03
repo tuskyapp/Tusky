@@ -86,7 +86,9 @@ class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
         try {
             Bitmap result = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
                     bitmap.getHeight(), matrix, true);
-            bitmap.recycle();
+            if (!bitmap.sameAs(result)) {
+                bitmap.recycle();
+            }
             return result;
         } catch (OutOfMemoryError e) {
             return null;
@@ -180,17 +182,21 @@ class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
                 if (scaledBitmap == null) {
                     return false;
                 }
-                reorientBitmap(scaledBitmap, orientation);
+                Bitmap reorientedBitmap = reorientBitmap(scaledBitmap, orientation);
+                if (reorientedBitmap == null) {
+                    scaledBitmap.recycle();
+                    return false;
+                }
                 Bitmap.CompressFormat format;
                 /* It's not likely the user will give transparent images over the upload limit, but
                  * if they do, make sure the transparency is retained. */
-                if (!scaledBitmap.hasAlpha()) {
+                if (!reorientedBitmap.hasAlpha()) {
                     format = Bitmap.CompressFormat.JPEG;
                 } else {
                     format = Bitmap.CompressFormat.PNG;
                 }
-                scaledBitmap.compress(format, 75, stream);
-                scaledBitmap.recycle();
+                reorientedBitmap.compress(format, 75, stream);
+                reorientedBitmap.recycle();
                 scaledImageSize /= 2;
                 iterations++;
             } while (stream.size() > sizeLimit);
