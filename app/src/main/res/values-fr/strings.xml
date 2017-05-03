@@ -1,7 +1,7 @@
 <resources>
 
     <string name="error_generic">Une erreur s’est produite.</string>
-    <string name="error_empty">Ce champ ne peut être vide.</string>
+    <string name="error_empty">Ce champ ne peut pas être vide.</string>
     <string name="error_invalid_domain">Le domaine est invalide.</string>
     <string name="error_failed_app_registration">Échec d’authentification auprès de l’instance.</string>
     <string name="error_no_web_browser_found">Impossible de trouver un navigateur web.</string>
@@ -11,10 +11,9 @@
     <string name="error_compose_character_limit">Votre pouet est trop long !</string>
     <string name="error_media_upload_size">Le fichier doit peser moins de 4 Mo.</string>
     <string name="error_media_upload_type">Ce type de fichier n’est pas accepté.</string>
-    <string name="error_media_upload_opening">Le fichier ne peut être ouvert.</string>
+    <string name="error_media_upload_opening">Le fichier ne peut pas être ouvert.</string>
     <string name="error_media_upload_permission">Permission requise pour lire ce média.</string>
     <string name="error_media_download_permission">Permission requise pour enregistrer le média.</string>
-
     <string name="error_media_upload_image_or_video">Un même pouet ne peut contenir à la fois une vidéo et une image.</string>
     <string name="error_media_upload_sending">Échec d’envoi du média.</string>
     <string name="error_report_too_few_statuses">Au moins un pouet a été reporté.</string>
