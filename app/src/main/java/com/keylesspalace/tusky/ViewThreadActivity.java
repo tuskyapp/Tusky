@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -73,5 +74,12 @@ public class ViewThreadActivity extends BaseActivity implements SFragment.OnUser
             StatusRemoveListener listener = (StatusRemoveListener) viewThreadFragment;
             listener.removePostsByUser(accountId);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        /* Provide a stub to ignore configuration changes so the thread isn't reloaded when the
+         * the activity is reoriented or resized. */
     }
 }

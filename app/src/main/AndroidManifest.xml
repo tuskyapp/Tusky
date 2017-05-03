@@ -38,7 +38,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity" android:configChanges="orientation|screenSize|keyboardHidden">
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden">
         </activity>
         <activity
             android:name=".ComposeActivity"
@@ -59,8 +60,12 @@
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
-        <activity android:name=".ViewVideoActivity" android:configChanges="orientation|keyboardHidden|screenSize" />
-        <activity android:name=".ViewThreadActivity" />
+        <activity
+            android:name=".ViewVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".ViewThreadActivity"
+            android:configChanges="orientation|screenSize" />
         <activity android:name=".ViewTagActivity" />
         <activity android:name=".AccountActivity" />
         <activity android:name=".EditProfileActivity" />

@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.entity.StatusContext;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ViewThreadFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, StatusRemoveListener {
@@ -42,6 +43,7 @@ public class ViewThreadFragment extends SFragment implements
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private ThreadAdapter adapter;
+    private MastodonAPI mastodonApi;
     private String thisThreadsStatusId;
 
     public static ViewThreadFragment newInstance(String id) {
@@ -72,25 +74,34 @@ public class ViewThreadFragment extends SFragment implements
                 R.drawable.status_divider_dark);
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
-        recyclerView.addItemDecoration(new ConversationLineItemDecoration(context, ContextCompat.getDrawable(context, R.drawable.conversation_divider_dark)));
+        recyclerView.addItemDecoration(new ConversationLineItemDecoration(context,
+                ContextCompat.getDrawable(context, R.drawable.conversation_divider_dark)));
         adapter = new ThreadAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        String id = getArguments().getString("id");
-        sendStatusRequest(id);
-        sendThreadRequest(id);
-        thisThreadsStatusId = id;
+        mastodonApi = null;
+        thisThreadsStatusId = null;
 
         return rootView;
     }
 
-    private void sendStatusRequest(final String id) {
-        MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        Call<Status> call = api.status(id);
+        /* BaseActivity's MastodonAPI object isn't guaranteed to be valid until after its onCreate
+         * is run, so all calls that need it can't be done until here. */
+        mastodonApi = ((BaseActivity) getActivity()).mastodonAPI;
+
+        thisThreadsStatusId = getArguments().getString("id");
+        onRefresh();
+    }
+
+    private void sendStatusRequest(final String id) {
+        Call<Status> call = mastodonApi.status(id);
         call.enqueue(new Callback<Status>() {
             @Override
-            public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
+            public void onResponse(Call<Status> call, Response<Status> response) {
                 if (response.isSuccessful()) {
                     int position = adapter.setStatus(response.body());
                     recyclerView.scrollToPosition(position);
@@ -108,12 +119,10 @@ public class ViewThreadFragment extends SFragment implements
     }
 
     private void sendThreadRequest(final String id) {
-        MastodonAPI api = ((BaseActivity) getActivity()).mastodonAPI;
-
-        Call<StatusContext> call = api.statusContext(id);
+        Call<StatusContext> call = mastodonApi.statusContext(id);
         call.enqueue(new Callback<StatusContext>() {
             @Override
-            public void onResponse(Call<StatusContext> call, retrofit2.Response<StatusContext> response) {
+            public void onResponse(Call<StatusContext> call, Response<StatusContext> response) {
                 if (response.isSuccessful()) {
                     swipeRefreshLayout.setRefreshing(false);
                     StatusContext context = response.body();

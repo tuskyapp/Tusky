@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky;
 
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,11 +93,11 @@ class ThreadAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
 
         // In case of refresh, remove old ancestors and descendants first. We'll remove all blindly,
         // as we have no guarantee on their order to be the same as before
-        int old_size = statuses.size();
-        if (old_size > 0) {
+        int oldSize = statuses.size();
+        if (oldSize > 0) {
             mainStatus = statuses.get(statusIndex);
             statuses.clear();
-            notifyItemRangeRemoved(0, old_size);
+            notifyItemRangeRemoved(0, oldSize);
         }
 
         // Insert newly fetched ancestors
