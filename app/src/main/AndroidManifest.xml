@@ -37,7 +37,9 @@
                     android:scheme="@string/oauth_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainActivity" android:configChanges="orientation|screenSize|keyboardHidden">
+        </activity>
         <activity
             android:name=".ComposeActivity"
             android:windowSoftInputMode="stateVisible|adjustResize">
