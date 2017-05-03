@@ -1,21 +1,21 @@
 <resources>
 
     <string name="error_generic">وقع هناك خطأ.</string>
-    <!-- <string name="error_empty">This cannot be empty.</string> -->
+    <string name="error_empty">لا يجب أن يترك فارغا.</string>
     <string name="error_invalid_domain">اسم النطاق غير صالح</string>
     <string name="error_failed_app_registration">اخفقت المصادقة مع مثيل الخادم هذا.</string>
     <string name="error_no_web_browser_found">لم يتم العثور على متصفح قابل للإستعمال.</string>
     <!-- <string name="error_authorization_unknown">An unidentified authorization error occurred.</string> -->
     <string name="error_authorization_denied">تم رفض التصريح.</string>
     <!-- <string name="error_retrieving_oauth_token">Failed getting a login token.</string> -->
-    <!-- <string name="error_compose_character_limit">The status is too long!</string> -->
+    <string name="error_compose_character_limit">المنشور طويل جدا !</string>
     <string name="error_media_upload_size">يجب أن يكون حجم الملف أقل من 4 ميغابايت.</string>
     <string name="error_media_upload_type">لا يمكن رفع هذا النوع من الملفات.</string>
     <string name="error_media_upload_opening">تعذر فتح ذاك الملف.</string>
     <!-- <string name="error_media_upload_permission">Permission to read media is required.</string> -->
     <!-- <string name="error_media_download_permission">Permission to store media is required.</string> -->
 
-    <!-- <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same status.</string> -->
+    <string name="error_media_upload_image_or_video">لا يمكنك إرفاق كلا من الصور و الفيديوهات في نفس المنشور.</string>
     <string name="error_media_upload_sending">اخفقت عملية الرفع.</string>
     <!-- <string name="error_report_too_few_statuses">At least one status must be reported.</string> -->
 
@@ -32,7 +32,7 @@
     <string name="title_blocks">المستخدمون المحظورون</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s عزز</string>
+    <string name="status_boosted_format">%s رقّي</string>
     <string name="status_sensitive_media_title">محتوى حساس</string>
     <string name="status_sensitive_media_directions">اضغط للعرض</string>
     <string name="status_content_warning_show_more">اعرض أكثر</string>
@@ -41,7 +41,7 @@
     <string name="footer_end_of_statuses">نهاية الحالات</string>
     <string name="footer_end_of_notifications">نهاية الاشعارات</string>
     <string name="footer_end_of_accounts">نهاية الحسابات</string>
-    <!-- <string name="footer_empty">There are no toots here so far. Pull down to refresh!</string> -->
+    <string name="footer_empty">لا توجد تبويقات هنا بعد. اسحب للأسفل للتحديث !</string>
 
     <string name="notification_reblog_format">%s عزز تبويقك</string>
     <string name="notification_favourite_format">%s أعجب بتبويقك</string>
@@ -51,7 +51,7 @@
     <string name="report_comment_hint">تعليقات إضافية ؟</string>
 
     <string name="action_reply">أجب</string>
-    <string name="action_reblog">عزز</string>
+    <string name="action_reblog">رقّي</string>
     <string name="action_favourite">تفضيل</string>
     <string name="action_more">المزيد</string>
     <string name="action_compose">حرر</string>
@@ -64,9 +64,9 @@
     <string name="action_report">أبلغ</string>
     <string name="action_delete">إحذف</string>
     <string name="action_send">تبويق</string>
-    <string name="action_send_public">بَوِّق</string>
+    <string name="action_send_public">بوّق</string>
     <string name="action_retry">إعادة المحاولة</string>
-    <!-- <string name="action_mark_sensitive">Mark media sensitive</string> -->
+    <string name="action_mark_sensitive">ضع علامة على الوسيط باعتباره حسّاس</string>
     <string name="action_hide_text">اخفي النص وراء تحذير</string>
     <string name="action_ok">موافق</string>
     <string name="action_cancel">إلغاء</string>
@@ -81,7 +81,7 @@
     <string name="action_open_in_web">إفتح في متصفح</string>
     <string name="action_submit">ارسل</string>
     <string name="action_photo_pick">إضافة وسائط</string>
-    <!-- <string name="action_photo_take">Take photo</string> -->
+    <string name="action_photo_take">أخذ صورة</string>
     <string name="action_share">شارك</string>
     <string name="action_mute">أكتم</string>
     <string name="action_unmute">إلغاء الكتم</string>
@@ -90,11 +90,11 @@
     <string name="action_compose_options">خيارات</string>
     <string name="action_open_drawer">إفتح الدرج</string>
     <string name="action_clear">إمسح</string>
-    <!-- <string name="action_save">Save</string> -->
-    <!-- <string name="action_edit_profile">Edit profile</string> -->
+    <string name="action_save">إحفظ</string>
+    <string name="action_edit_profile">تعديل الملف الشخصي</string>
 
-    <string name="send_status_link_to">شارك رابط التبويق إلى ...</string>
-    <!-- <string name="send_status_content_to">Share toot to…</string> -->
+    <string name="send_status_link_to">شارك رابط التبويق على ...</string>
+    <string name="send_status_content_to">شارك التبويق على …</string>
 
     <string name="search">ابحث عن حسابات ...</string>
 
@@ -104,11 +104,11 @@
     <string name="hint_domain">أي سيرفر ؟</string>
     <string name="hint_compose">ما الجديد ؟</string>
     <string name="hint_content_warning">تحذير عن المحتوى</string>
-    <!-- <string name="hint_display_name">Display name</string> -->
-    <!-- <string name="hint_note">Bio</string> -->
+    <string name="hint_display_name">الإسم العلني</string>
+    <string name="hint_note">السيرة</string>
 
-    <!-- <string name="label_avatar">Avatar</string> -->
-    <!-- <string name="label_header">Header</string> -->
+    <string name="label_avatar">الصورة الرمزية</string>
+    <string name="label_header">رأس الصفحة</string>
 
     <string name="link_whats_an_instance">ماذا نعني بمثيل الخادم ؟</string>
 
@@ -123,12 +123,12 @@
     <!-- </string> -->
     <string name="dialog_title_finishing_media_upload">تتمة رفع الوسائط</string>
     <string name="dialog_message_uploading_media">جاري الرفع ...</string>
-    <!-- <string name="dialog_download_image">Download</string> -->
+    <string name="dialog_download_image">تنزيل</string>
 
-    <!-- <string name="visibility_public">Public: Post to public timelines</string> -->
-    <!-- <string name="visibility_unlisted">Unlisted: Do not show in public timelines</string> -->
-    <!-- <string name="visibility_private">Private: Post to followers only</string> -->
-    <!-- <string name="visibility_direct">Direct: Post to mentioned users only</string> -->
+    <!-- <string name="visibility_public">للعامة : Post to public timelines</string> -->
+    <!-- <string name="visibility_unlisted">غير مدرج : Do not show in public timelines</string> -->
+    <!-- <string name="visibility_private"> خاص: Post to followers only</string> -->
+    <!-- <string name="visibility_direct">مباشر : Post to mentioned users only</string> -->
 
     <string name="pref_title_notification_settings">الاشعارات</string>
     <string name="pref_title_edit_notification_settings">تعديل الاشعارات</string>
@@ -146,7 +146,7 @@
     <string name="pref_title_light_theme">إستخدم سمةً فاتحة اللون</string>
     <string name="pref_title_browser_settings">المتصفح</string>
     <string name="pref_title_custom_tabs">إخفاء زر المتابعة أثناء تمرير الصفحة</string>
-    <!-- <string name="pref_title_hide_follow_button">Hide follow button while scrolling</string> -->
+    <string name="pref_title_hide_follow_button">إخفاء زر المتابعة عند التمرير إلى أسفل</string>
 
     <string name="notification_mention_format">%s أشار إليك</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s و %4$d أخرى</string>
@@ -155,6 +155,6 @@
     <string name="notification_title_summary">%d تفاعلات جديدة</string>
 
     <string name="description_account_locked">حساب مقفل</string>
-    <!-- <string name="status_share_content">Share content of toot</string> -->
-    <!-- <string name="status_share_link">Share link to toot</string> -->
+    <string name="status_share_content">شارك محتوى التبويق</string>
+    <string name="status_share_link">شارك الرابط إلى التبويق</string>
 </resources>
