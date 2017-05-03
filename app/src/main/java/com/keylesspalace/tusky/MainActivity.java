@@ -18,6 +18,7 @@ package com.keylesspalace.tusky;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -552,5 +553,11 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
                 listener.removePostsByUser(accountId);
             }
         }
+    }
+
+    // Fix for GitHub issues #190, #259 (MainActivity won't restart on screen rotation.)
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 }
