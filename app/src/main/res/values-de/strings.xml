@@ -75,7 +75,7 @@
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Einstellungen</string>
     <string name="action_view_favourites">Favoriten</string>
-    <string name="action_view_blocks">Blockierte Nutzer</string>
+    <string name="action_view_blocks">Blockierte Accounts</string>
     <string name="action_view_thread">Thread</string>
     <string name="action_view_media">Medien</string>
     <string name="action_open_in_web">Im Browser öffnen</string>
@@ -93,7 +93,7 @@
     <!-- <string name="action_save">Save</string> -->
     <!-- <string name="action_edit_profile">Edit profile</string> -->
 
-    <string name="send_status_link_to">Teile Toot-URL zu…</string>
+    <string name="send_status_link_to">Toot-Link teilen</string>
     <!-- <string name="send_status_content_to">Share toot to…</string> -->
 
     <string name="search">Suche Accounts…</string>
@@ -125,7 +125,6 @@
     <string name="visibility_public">Öffentlich sichtbar</string>
     <string name="visibility_unlisted">Öffentlich sichtbar, aber nicht in der öffentlichen Timeline</string>
     <string name="visibility_private">Nur für Follower und Erwähnte sichtbar</string>
-    <!-- <string name="visibility_direct">Direct: Post to mentioned users only</string> -->
 
     <string name="pref_title_notification_settings">Benachrichtigungen</string>
     <string name="pref_title_edit_notification_settings">Benachrichtigungseinstellungen</string>
@@ -152,6 +151,29 @@
     <string name="notification_title_summary">%d neue Interaktionen</string>
 
     <string name="description_account_locked">Gesperrter Account</string>
-    <!-- <string name="status_share_content">Share content of toot</string> -->
-    <!-- <string name="status_share_link">Share link to toot</string> -->
+    <string name="action_edit_profile">Profil bearbeiten</string>
+    <string name="action_photo_take">Foto machen</string>
+    <string name="action_save">Speichern</string>
+    <string name="action_undo">rückgängig machen</string>
+    <string name="action_view_mutes">Stummgeschaltene Accounts</string>
+    <string name="confirmation_unblocked">entblockt</string>
+    <string name="label_avatar">Avatar</string>
+    <string name="label_header">Titelbild</string>
+    <string name="hint_note">Bio</string>
+    <string name="visibility_direct">Nur für Erwähnte sichtbar</string>
+    <string name="title_mutes">Stummgeschaltene Nutzer</string>
+    <string name="title_follow_requests">Followanfragen</string>
+    <string name="status_share_link">Link teilen</string>
+    <string name="status_share_content">Inhalt teilen</string>
+    <string name="action_accept">Akzeptieren</string>
+    <string name="action_reject">Ablehnen</string>
+    <string name="action_view_follow_requests">Followanfragen</string>
+    <string name="state_follow_requested">Followanfrage gesendet</string>
+    <string name="send_status_content_to">Toot-Inhalt teilen</string>
+    <string name="confirmation_unmuted">Stummschaltung aufgehoben</string>
+    <string name="dialog_message_follow_request">Followanfrage gesendet: Warten auf Antwort</string>
+    <string name="footer_empty">Noch keine Toots hier! Ziehe nach unten um zu aktualisieren!</string>
+    <string name="error_empty">Das darf nicht leer sein.</string>
+    <string name="hint_display_name">Name</string>
+
 </resources>
