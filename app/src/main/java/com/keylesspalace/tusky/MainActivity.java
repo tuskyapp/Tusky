@@ -27,8 +27,8 @@ import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -274,7 +274,8 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
             }
         });
 
-        Drawable muteDrawable = ContextCompat.getDrawable(this, R.drawable.ic_mute_24dp);
+        VectorDrawableCompat muteDrawable = VectorDrawableCompat.create(getResources(),
+                R.drawable.ic_mute_24dp, getTheme());
         ThemeUtils.setDrawableTint(this, muteDrawable, R.attr.toolbar_icon_tint);
 
         drawer = new DrawerBuilder()

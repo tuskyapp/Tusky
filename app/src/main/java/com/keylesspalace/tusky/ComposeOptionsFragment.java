@@ -16,9 +16,15 @@
 package com.keylesspalace.tusky;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,8 +91,16 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
         }
         radio.check(radioCheckedId);
 
+        RadioButton publicButton = (RadioButton) rootView.findViewById(R.id.radio_public);
+        RadioButton unlistedButton = (RadioButton) rootView.findViewById(R.id.radio_unlisted);
+        RadioButton privateButton = (RadioButton) rootView.findViewById(R.id.radio_private);
+        RadioButton directButton = (RadioButton) rootView.findViewById(R.id.radio_direct);
+        setRadioButtonDrawable(getContext(), publicButton, R.drawable.ic_public_24dp);
+        setRadioButtonDrawable(getContext(), unlistedButton, R.drawable.ic_lock_open_24dp);
+        setRadioButtonDrawable(getContext(), privateButton, R.drawable.ic_lock_outline_24dp);
+        setRadioButtonDrawable(getContext(), directButton, R.drawable.ic_email_24dp);
+
         if (isReply) {
-            RadioButton publicButton = (RadioButton) rootView.findViewById(R.id.radio_public);
             publicButton.setEnabled(false);
         }
 
@@ -131,5 +145,28 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
                 listener.onContentWarningChanged(isChecked);
             }
         });
+    }
+
+    private static void setRadioButtonDrawable(Context context, RadioButton button,
+                                               @DrawableRes int id) {
+        ColorStateList list = new ColorStateList(new int[][] {
+                new int[] { -android.R.attr.state_checked },
+                new int[] { android.R.attr.state_checked }
+        }, new int[] {
+                ThemeUtils.getColor(context, R.attr.compose_image_button_tint),
+                ThemeUtils.getColor(context, R.attr.colorAccent)
+        });
+        Drawable drawable = VectorDrawableCompat.create(context.getResources(), id,
+                context.getTheme());
+        if (drawable == null) {
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            button.setButtonTintList(list);
+        } else {
+            drawable = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTintList(drawable, list);
+        }
+        button.setButtonDrawable(drawable);
     }
 }
