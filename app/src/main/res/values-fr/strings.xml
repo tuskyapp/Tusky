@@ -1,22 +1,22 @@
 <resources>
 
     <string name="error_generic">Une erreur s’est produite.</string>
-    <string name="error_empty">Ce champ ne peut pas être vide</string>
-    <string name="error_invalid_domain">Le domaine est invalide</string>
-    <string name="error_failed_app_registration">L’application n’a pu s’authentifier auprès de l’instance.</string>
+    <string name="error_empty">Ce champ ne peut être vide.</string>
+    <string name="error_invalid_domain">Le domaine est invalide.</string>
+    <string name="error_failed_app_registration">Échec d’authentification auprès de l’instance.</string>
     <string name="error_no_web_browser_found">Impossible de trouver un navigateur web.</string>
     <string name="error_authorization_unknown">Une erreur d’autorisation inconnue s’est produite.</string>
-    <string name="error_authorization_denied">Vous ne pouvez pas vous authentifier.</string>
+    <string name="error_authorization_denied">Authentification refusée.</string>
     <string name="error_retrieving_oauth_token">Impossible de récupérer le jeton d’authentification.</string>
-    <string name="error_compose_character_limit">Votre pouet est trop long!</string>
-    <string name="error_media_upload_size">Le fichier doit faire moins de 4Mo.</string>
+    <string name="error_compose_character_limit">Votre pouet est trop long !</string>
+    <string name="error_media_upload_size">Le fichier doit peser moins de 4 Mo.</string>
     <string name="error_media_upload_type">Ce type de fichier n’est pas accepté.</string>
     <string name="error_media_upload_opening">Le fichier ne peut être ouvert.</string>
-    <string name="error_media_upload_permission">Une permission pour lire ce média est requise pour le mettre en ligne.</string>
-    <string name="error_media_download_permission">Permission d’enregistrer le fichier requise.</string>
+    <string name="error_media_upload_permission">Permission requise pour lire ce média.</string>
+    <string name="error_media_download_permission">Permission requise pour enregistrer le média.</string>
 
-    <string name="error_media_upload_image_or_video">Impossible de mettre une vidéo et une image sur le même pouet.</string>
-    <string name="error_media_upload_sending">Ce média ne peut être mis en ligne.</string>
+    <string name="error_media_upload_image_or_video">Un même pouet ne peut contenir à la fois une vidéo et une image.</string>
+    <string name="error_media_upload_sending">Échec d’envoi du média.</string>
     <string name="error_report_too_few_statuses">Au moins un pouet a été reporté.</string>
 
     <string name="title_home">Accueil</string>
@@ -38,14 +38,14 @@
     <string name="status_content_warning_show_more">Voir plus</string>
     <string name="status_content_warning_show_less">Voir moins</string>
 
-    <string name="footer_end_of_statuses">fin du pouet</string>
-    <string name="footer_end_of_notifications">fin des notifications</string>
-    <string name="footer_end_of_accounts">fin des comptes</string>
-    <string name="footer_empty">Il n’y a pas encore de pouets ici. Glissez vers le bas pour actualiser !</string>
+    <string name="footer_end_of_statuses">Fin du pouet</string>
+    <string name="footer_end_of_notifications">Fin des notifications</string>
+    <string name="footer_end_of_accounts">Fin des comptes</string>
+    <string name="footer_empty">Il n’y a aucun pouet pour le moment.\nGlissez vers le bas pour actualiser !</string>
 
-    <string name="notification_reblog_format">%s a boosté votre pouet</string>
-    <string name="notification_favourite_format">%s a ajouté votre pouet dans ses favoris</string>
-    <string name="notification_follow_format">%s vous suit</string>
+    <string name="notification_reblog_format">%s a boosté votre pouet.</string>
+    <string name="notification_favourite_format">%s a ajouté votre pouet à ses favoris.</string>
+    <string name="notification_follow_format">%s vous suit.</string>
 
     <string name="report_username_format">Signaler @%s</string>
     <string name="report_comment_hint">Davantage de commentaires ?</string>
@@ -55,7 +55,7 @@
     <string name="action_favourite">Favori</string>
     <string name="action_more">Plus</string>
     <string name="action_compose">Répondre</string>
-    <string name="action_login">Se connecter avec Mastodon</string>
+    <string name="action_login">Se connecter à Mastodon</string>
     <string name="action_logout">Déconnexion</string>
     <string name="action_follow">Suivre</string>
     <string name="action_unfollow">Ne plus suivre</string>
@@ -65,10 +65,10 @@
     <string name="action_delete">Supprimer</string>
     <string name="action_send">POUET</string>
     <string name="action_send_public">POUET !</string>
-    <string name="action_retry">Essayer encore</string>
-    <string name="action_mark_sensitive">Définir le média comme sensible</string>
-    <string name="action_hide_text">Masquer le texte par une mise en garde</string>
-    <string name="action_ok">Ok</string>
+    <string name="action_retry">Réessayer</string>
+    <string name="action_mark_sensitive">Définir le média comme sensible.</string>
+    <string name="action_hide_text">Masquer le texte par une mise en garde.</string>
+    <string name="action_ok">O.K.</string>
     <string name="action_cancel">Annuler</string>
     <string name="action_close">Fermer</string>
     <string name="action_back">Retour</string>
@@ -78,7 +78,7 @@
     <string name="action_view_blocks">Utilisateurs bloqués</string>
     <string name="action_view_thread">Fil</string>
     <string name="action_view_media">Média</string>
-    <string name="action_open_in_web">Ouvrir avec votre navigateur</string>
+    <string name="action_open_in_web">Ouvrir dans votre navigateur</string>
     <string name="action_submit">Envoyer</string>
     <string name="action_photo_pick">Ajouter un média</string>
     <string name="action_photo_take">Prendre une photo</string>
@@ -87,7 +87,7 @@
     <string name="action_unmute">Redonner la parole</string>
     <string name="action_mention">Mention</string>
     <string name="toggle_nsfw">NSFW</string>
-    <string name="action_compose_options">Option</string>
+    <string name="action_compose_options">Options</string>
     <string name="action_open_drawer">Ouvrir le menu</string>
     <string name="action_clear">Nettoyer</string>
     <string name="action_save">Sauvegarder</string>
@@ -98,11 +98,11 @@
 
     <string name="search">Rechercher un compte…</string>
 
-    <string name="confirmation_send">Pouet !</string>
-    <string name="confirmation_reported">Envoyé !</string>
+    <string name="confirmation_send">Pouet !</string>
+    <string name="confirmation_reported">Envoyé !</string>
 
     <string name="hint_domain">Quelle instance ?</string>
-    <string name="hint_compose">Quoi de neuf ?</string>
+    <string name="hint_compose">Quoi de neuf ?</string>
     <string name="hint_content_warning">Contenu sensible</string>
     <string name="hint_display_name">Afficher le nom</string>
     <string name="hint_note">Bio</string>
@@ -110,49 +110,48 @@
     <string name="label_avatar">Avatar</string>
     <string name="label_header">En-tête</string>
 
-    <string name="link_whats_an_instance">Qu’est ce qu’une instance ?</string>
+    <string name="link_whats_an_instance">Qu’est-ce qu’une instance ?</string>
 
-    <string name="dialog_whats_an_instance">L’adresse ou le domaine d’une instance peut être entré
-         ici, comme mastodon.social, icosahedron.website, social.tchncs.de,
-        <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">ou autre</a> (en anglais) !
-        \n\nSi vous n’avez pas de compte, vous pouvez entrer le nom de l’instance que vous voulez rejoindre et créer un compte ici.\n\nUne instance est l’endroit où votre compte est
-        stocké, mais vous pouvez facilement communiquer et suivre d’autres personnes sur d’autres instances bien que vous soyez sur le même site
-        \n\nPlus d’info <a href="https://mastodon.social/about">mastodon.social</a> (anglais).
+    <string name="dialog_whats_an_instance">Indiquer ici l’adresse ou le domaine d’une instance, comme mastodon.social, icosahedron.website, social.tchncs.de,
+        <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">et bien d’autres encore</a> (en anglais) !
+        \n\nSi vous ne disposez d’aucun compte, vous pouvez renseigner le nom de l’instance que vous souhaitez rejoindre et y créer un compte.\n\nUne instance est l’endroit où votre compte est
+        stocké, mais vous pouvez facilement suivre des personnes d’autres instances et communiquer avec elles comme si vous étiez sur le même site.
+        \n\nPour plus d’informations, consultez <a href="https://mastodon.social/about">mastodon.social</a> (anglais).
     </string>
-    <string name="dialog_title_finishing_media_upload">Média mis en ligne avec succès</string>
+    <string name="dialog_title_finishing_media_upload">Média mis en ligne avec succès.</string>
     <string name="dialog_message_uploading_media">Mise en ligne…</string>
     <string name="dialog_download_image">Télécharger</string>
 
-    <string name="visibility_public">Public: Afficher dans les fils publics</string>
-    <string name="visibility_unlisted">Non-listé: Ne pas afficher dans les fils publics</string>
-    <string name="visibility_private">Privé: N’afficher que pour vos abonné⋅e⋅s</string>
-    <string name="visibility_direct">Direct: N’afficher que pour les personnes mentionnées</string>
+    <string name="visibility_public">Public : afficher dans les fils publics.</string>
+    <string name="visibility_unlisted">Non listé : ne pas afficher dans les fils publics.</string>
+    <string name="visibility_private">Privé : n’afficher que pour les personnes qui vous suivent.</string>
+    <string name="visibility_direct">Direct : n’afficher que pour les personnes mentionnées.</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
-    <string name="pref_title_edit_notification_settings">Modifier la notification</string>
-    <string name="pref_title_notifications_enabled">Notifications push</string>
+    <string name="pref_title_edit_notification_settings">Modifier la notification.</string>
+    <string name="pref_title_notifications_enabled">Notifications push.</string>
     <string name="pref_title_notification_alerts">Alertes</string>
-    <string name="pref_title_notification_alert_sound">Émettre un son pour notifier</string>
-    <string name="pref_title_notification_alert_vibrate">Vibrer pour notifier</string>
-    <string name="pref_title_notification_alert_light">Notifier avec une LED</string>
-    <string name="pref_title_notification_filters">Me notifier quand</string>
-    <string name="pref_title_notification_filter_mentions">mentionné</string>
-    <string name="pref_title_notification_filter_follows">suivi</string>
-    <string name="pref_title_notification_filter_reblogs">mes pouets sont boostés</string>
-    <string name="pref_title_notification_filter_favourites">mes pouets sont mis en favoris</string>
+    <string name="pref_title_notification_alert_sound">Émettre un son pour notifier.</string>
+    <string name="pref_title_notification_alert_vibrate">Vibrer pour notifier.</string>
+    <string name="pref_title_notification_alert_light">Notifier avec une LED.</string>
+    <string name="pref_title_notification_filters">Me notifier quand…</string>
+    <string name="pref_title_notification_filter_mentions">on me mentionne.</string>
+    <string name="pref_title_notification_filter_follows">on me suit.</string>
+    <string name="pref_title_notification_filter_reblogs">mes pouets sont boostés.</string>
+    <string name="pref_title_notification_filter_favourites">mes pouets sont mis en favoris.</string>
     <string name="pref_title_appearance_settings">Apparence</string>
-    <string name="pref_title_light_theme">Utiliser le thème clair</string>
+    <string name="pref_title_light_theme">Utiliser le thème clair.</string>
     <string name="pref_title_browser_settings">Navigateur</string>
-    <string name="pref_title_custom_tabs">Utiliser le navigateur intégré</string>
-    <string name="pref_title_hide_follow_button">Cacher le bouton de suivi lors du défilement</string>
+    <string name="pref_title_custom_tabs">Utiliser le navigateur intégré.</string>
+    <string name="pref_title_hide_follow_button">Masquer le bouton de suivi lors du défilement.</string>
 
-    <string name="notification_mention_format">%s vous ont mentionné</string>
+    <string name="notification_mention_format">%s a mentionné votre nom.</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s et %4$d plus</string>
     <string name="notification_summary_medium">%1$s, %2$s, et %3$s</string>
     <string name="notification_summary_small">%1$s et %2$s</string>
-    <string name="notification_title_summary">%d nouvelles interactions</string>
+    <string name="notification_title_summary">%d nouvelles interactions.</string>
 
-    <string name="description_account_locked">Compte bloqué</string>
-    <string name="status_share_content">Partager le contenu du pouet</string>
-    <string name="status_share_link">Partager le lien du pouet</string>
+    <string name="description_account_locked">Compte bloqué.</string>
+    <string name="status_share_content">Partager le contenu du pouet.</string>
+    <string name="status_share_link">Partager le lien du pouet.</string>
 </resources>
