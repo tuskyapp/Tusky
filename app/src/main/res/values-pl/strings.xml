@@ -1,0 +1,168 @@
+<resources>
+
+    <string name="error_generic">Wystąpił błąd.</string>
+    <string name="error_empty">To nie może pozostać puste.</string>
+    <string name="error_invalid_domain">Wprowadzono nieprawidłową domenę</string>
+    <string name="error_failed_app_registration">Nie udało się uwierzytelnić z tą instancją.</string>
+    <string name="error_no_web_browser_found">Nie znaleziono przeglądarki internetowej.</string>
+    <string name="error_authorization_unknown">Wystąpił nieokreślony błąd podczas próby autoryzacji.</string>
+    <string name="error_authorization_denied">Odmówiono autoryzacji.</string>
+    <string name="error_retrieving_oauth_token">Nie udało się uzyskać tokenu logowania.</string>
+    <string name="error_compose_character_limit">Zbyt długi status!</string>
+    <string name="error_media_upload_size">Plik może mieć maksymalnie 4MB.</string>
+    <string name="error_media_upload_type">Ten format pliku nie może zostać wysłany.</string>
+    <string name="error_media_upload_opening">Nie można otworzyć tego pliku.</string>
+    <string name="error_media_upload_permission">Wymagane jest pozwolenie na dostęp do plików z urządzenia.</string>
+    <string name="error_media_download_permission">Wymagane jest pozwolenie na przechowywanie plików na urządzeniu.</string>
+    <string name="error_media_upload_image_or_video">Do statusu nie mogą być dołączone jednocześnie obrazy i pliki wideo.</string>
+    <string name="error_media_upload_sending">Wysyłanie nie powiodło się.</string>
+    <string name="error_report_too_few_statuses">Musisz zgłosić przynajmniej jeden status.</string>
+
+    <string name="title_home">Strona główna</string>
+    <string name="title_notifications">Powiadomienia</string>
+    <string name="title_public_local">Lokalne</string>
+    <string name="title_public_federated">Globalne</string>
+    <string name="title_thread">Wątek</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">Posty</string>
+    <string name="title_follows">Obserwacje</string>
+    <string name="title_followers">Obsereujący</string>
+    <string name="title_favourites">Ulubione</string>
+    <string name="title_mutes">Wyciszeni użytkownicy</string>
+    <string name="title_blocks">Zablokowani użytkownicy</string>
+    <string name="title_follow_requests">Prośby o obserwację</string>
+    <string name="title_edit_profile">Edytuj profil</string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s podbito</string>
+    <string name="status_sensitive_media_title">Wrażliwe treści</string>
+    <string name="status_sensitive_media_directions">Dotknij, aby wyświetlić</string>
+    <string name="status_content_warning_show_more">Pokaż więcej</string>
+    <string name="status_content_warning_show_less">Ukryj</string>
+
+    <string name="footer_end_of_statuses">koniec statusów</string>
+    <string name="footer_end_of_notifications">koniec powiadomień</string>
+    <string name="footer_end_of_accounts">koniec listy kont</string>
+    <string name="footer_empty">Brak wpisów! Pociągnij, aby odświeżyć.</string>
+
+    <string name="notification_reblog_format">%s podbił twój post</string>
+    <string name="notification_favourite_format">%s dodał twój post do ulubionych</string>
+    <string name="notification_follow_format">%s zaobserwował cię</string>
+
+    <string name="report_username_format">Zgłoś @%s</string>
+    <string name="report_comment_hint">Dodatkowe komentarze?</string>
+
+    <string name="action_reply">Odpowiedz</string>
+    <string name="action_reblog">Podbij</string>
+    <string name="action_favourite">Dodaj do ulubionych</string>
+    <string name="action_more">Więcej</string>
+    <string name="action_compose">Napisz</string>
+    <string name="action_login">Zaloguj z Mastodon</string>
+    <string name="action_logout">Wyloguj</string>
+    <string name="action_follow">Obserwuj</string>
+    <string name="action_unfollow">Przestań obserwować</string>
+    <string name="action_block">Zablokuj</string>
+    <string name="action_unblock">Odblokuj</string>
+    <string name="action_report">Zgłoś</string>
+    <string name="action_delete">Usuń</string>
+    <string name="action_send">Wyślij</string>
+    <string name="action_send_public">Wyślij!</string>
+    <string name="action_retry">Spróbuj ponownie</string>
+    <string name="action_mark_sensitive">Oznacz wrażliwe treści</string>
+    <string name="action_hide_text">Ukryj tekst przed ostrzeżeniem</string>
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Anuluj</string>
+    <string name="action_close">Zamknij</string>
+    <string name="action_back">Wró</string>
+    <string name="action_view_profile">Profil</string>
+    <string name="action_view_preferences">Preferencje</string>
+    <string name="action_view_favourites">Ulunione</string>
+    <string name="action_view_mutes">Wyciszeni użytkownicy</string>
+    <string name="action_view_blocks">Zablokowani użytkownicy</string>
+    <string name="action_view_follow_requests">Prośby o obserwację</string>
+    <string name="action_view_thread">Wątek</string>
+    <string name="action_view_media">Treści multimedialne</string>
+    <string name="action_open_in_web">Otwórz w przeglądarce</string>
+    <string name="action_submit">Wyślij</string>
+    <string name="action_photo_pick">Dodaj treści multimedialne</string>
+    <string name="action_photo_take">Wykonaj zdjęcie</string>
+    <string name="action_share">Udostępnij</string>
+    <string name="action_mute">Wycisz</string>
+    <string name="action_unmute">Cofnij wyciszenie</string>
+    <string name="action_mention">Wspomnij</string>
+    <string name="toggle_nsfw">NSFW</string>
+    <string name="action_compose_options">Opcje</string>
+    <string name="action_open_drawer">Otwórz szufladę</string>
+    <string name="action_clear">Wyczyść</string>
+    <string name="action_save">Zapisz</string>
+    <string name="action_edit_profile">Edytuj profil</string>
+    <string name="action_undo">Cofnij</string>
+    <string name="action_accept">Akceptuj</string>
+    <string name="action_reject">Odrzuć</string>
+
+    <string name="send_status_link_to">Udostępnij link do wpisu do…</string>
+    <string name="send_status_content_to">Udostępnij wpis do…</string>
+
+    <string name="search">Szukaj konta…</string>
+
+    <string name="confirmation_send">Wyślij!</string>
+    <string name="confirmation_reported">Wyślij!</string>
+    <string name="confirmation_unblocked">Odblokowano użytkownika</string>
+    <string name="confirmation_unmuted">Cofnięto wyciszenie użytkownika</string>
+
+    <string name="hint_domain">Jaka instancja?</string>
+    <string name="hint_compose">Opowiedz o czymś…</string>
+    <string name="hint_content_warning">Ostrzeenie o zawartości</string>
+    <string name="hint_display_name">Nazwa wyświetlana</string>
+    <string name="hint_note">Biografia</string>
+
+    <string name="label_avatar">Obraz profilowy</string>
+    <string name="label_header">Nagłówek</string>
+
+    <string name="link_whats_an_instance">Czym jest instancja?</string>
+
+    <string name="dialog_whats_an_instance">Wprowadź tu domenę lub adres instancji, np. mastodon.social, icosahedron.website, social.tchncs.de, i
+        <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">wiele więcej!</a>
+        \n\nJeżeli nie posiadasz jeszcze konta, wprowadź tu nazwę instancji, na której chcesz się zarejestrowa.\n\nInstancja jest miejscem, na którym znajduje się twoje konto, lecz komunikując się z innymi serwerami, działa tak, jakby były jednym portalem.
+        \n\nMożesz znaleźć więcej informacji na <a href="https://mastodon.social/about">mastodon.social</a>.
+    </string>
+    <string name="dialog_title_finishing_media_upload">Kończenie wysyłania treści</string>
+    <string name="dialog_message_uploading_media">Wysyłanie…</string>
+    <string name="dialog_download_image">Pobierz</string>
+    <string name="dialog_message_follow_request">Oczekująca prośba o obserwację: oczekiwanie na odpowiedź</string>
+
+    <string name="visibility_public">Publiczne: Opublikuj na publicznych osiach czasu</string>
+    <string name="visibility_unlisted">Niepubliczne: Nie wyświetlaj na publicznych osiach czasu</string>
+    <string name="visibility_private">Tylko obserwowani: Wyświetlaj tylko obserwowanym</string>
+    <string name="visibility_direct">Bezpośrednio: Widoczne tylko dla wspomnianych</string>
+
+    <string name="pref_title_notification_settings">Powiadomienia</string>
+    <string name="pref_title_edit_notification_settings">Edytuj powiadomienia</string>
+    <string name="pref_title_notifications_enabled">Powiadomienia natychmiastowe</string>
+    <string name="pref_title_notification_alerts">Alerty</string>
+    <string name="pref_title_notification_alert_sound">Powiadamiaj dźwiękiem</string>
+    <string name="pref_title_notification_alert_vibrate">Powiadamiaj wibracją</string>
+    <string name="pref_title_notification_alert_light">Powiadamiaj diodą</string>
+    <string name="pref_title_notification_filters">Powiadom mnie, gdy</string>
+    <string name="pref_title_notification_filter_mentions">wspomniano o mnie</string>
+    <string name="pref_title_notification_filter_follows">zaobserwowano mnie</string>
+    <string name="pref_title_notification_filter_reblogs">moje posty zostaną podbite</string>
+    <string name="pref_title_notification_filter_favourites">moje posty zostaną dodane do ulubionych</string>
+    <string name="pref_title_appearance_settings">Wygląd</string>
+    <string name="pref_title_light_theme">Użyj jasnego motywu</string>
+    <string name="pref_title_browser_settings">Przeglądarka</string>
+    <string name="pref_title_custom_tabs">Używaj kart Chrome</string>
+    <string name="pref_title_hide_follow_button">Ukryj przycisk obserwacji podczas przewijania</string>
+
+    <string name="notification_mention_format">%s wspomniał o tobie</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s i %4$d innych</string>
+    <string name="notification_summary_medium">%1$s, %2$s, i %3$s</string>
+    <string name="notification_summary_small">%1$s i %2$s</string>
+    <string name="notification_title_summary">%d nowych powiadomień</string>
+
+    <string name="description_account_locked">Konto zablokowane</string>
+    <string name="status_share_content">Udostępnij zawartość postu</string>
+    <string name="status_share_link">Udostępnij link do postu</string>
+
+    <string name="state_follow_requested">Wysłano prośbę o obserwację</string>
+</resources>
