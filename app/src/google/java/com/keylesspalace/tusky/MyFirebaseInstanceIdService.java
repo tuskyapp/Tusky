@@ -25,6 +25,9 @@ import android.content.SharedPreferences;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.keylesspalace.tusky.network.TuskyAPI;
+import com.keylesspalace.tusky.util.Log;
+import com.keylesspalace.tusky.util.OkHttpUtils;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
