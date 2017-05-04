@@ -36,7 +36,6 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,6 +43,8 @@ import android.widget.ProgressBar;
 
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Profile;
+import com.keylesspalace.tusky.util.IOUtils;
+import com.keylesspalace.tusky.util.Log;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;

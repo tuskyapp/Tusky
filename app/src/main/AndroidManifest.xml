@@ -79,11 +79,11 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
 
-        <receiver android:name=".NotificationClearBroadcastReceiver" />
+        <receiver android:name=".util.NotificationClearBroadcastReceiver" />
 
         <service
             tools:targetApi="24"
-            android:name="com.keylesspalace.tusky.TuskyTileService"
+            android:name="com.keylesspalace.tusky.service.TuskyTileService"
             android:icon="@drawable/ic_send_24dp"
             android:label="Compose Toot"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">

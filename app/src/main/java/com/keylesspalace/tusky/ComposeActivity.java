@@ -71,6 +71,14 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.fragment.ComposeOptionsFragment;
+import com.keylesspalace.tusky.util.DownsizeImageTask;
+import com.keylesspalace.tusky.util.EditTextTyped;
+import com.keylesspalace.tusky.util.CountUpDownLatch;
+import com.keylesspalace.tusky.util.IOUtils;
+import com.keylesspalace.tusky.util.Log;
+import com.keylesspalace.tusky.util.SpanUtils;
+import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -119,7 +127,8 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private Uri photoUploadUri;
     // this only exists when a status is trying to be sent, but uploads are still occurring
     private ProgressDialog finishingUploadDialog;
-    @BindView(R.id.compose_edit_field) EditTextTyped textEditor;
+    @BindView(R.id.compose_edit_field)
+    EditTextTyped textEditor;
     @BindView(R.id.compose_media_preview_bar) LinearLayout mediaPreviewBar;
     @BindView(R.id.compose_content_warning_bar) View contentWarningBar;
     @BindView(R.id.field_content_warning) EditText contentWarningEditor;

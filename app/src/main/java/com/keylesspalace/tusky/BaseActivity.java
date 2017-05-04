@@ -34,6 +34,13 @@ import android.view.Menu;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.keylesspalace.tusky.json.SpannedTypeAdapter;
+import com.keylesspalace.tusky.json.StringWithEmoji;
+import com.keylesspalace.tusky.json.StringWithEmojiTypeAdapter;
+import com.keylesspalace.tusky.network.MastodonAPI;
+import com.keylesspalace.tusky.network.TuskyAPI;
+import com.keylesspalace.tusky.util.Log;
+import com.keylesspalace.tusky.util.OkHttpUtils;
 
 import java.io.IOException;
 
@@ -51,7 +58,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity"; // logging tag
 
-    protected MastodonAPI mastodonAPI;
+    public MastodonAPI mastodonAPI;
     protected TuskyAPI tuskyAPI;
     protected Dispatcher mastodonApiDispatcher;
     protected PendingIntent serviceAlarmIntent;

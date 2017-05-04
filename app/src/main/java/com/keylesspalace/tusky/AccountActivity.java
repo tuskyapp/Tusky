@@ -23,6 +23,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.AttrRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -43,6 +44,14 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
+import com.keylesspalace.tusky.fragment.SFragment;
+import com.keylesspalace.tusky.interfaces.LinkListener;
+import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
+import com.keylesspalace.tusky.pager.AccountPagerAdapter;
+import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.util.Assert;
+import com.keylesspalace.tusky.util.Log;
+import com.keylesspalace.tusky.util.ThemeUtils;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -237,7 +246,9 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
 
         displayName.setText(account.getDisplayName());
 
-        LinkHelper.setClickableText(note, account.note, null, new LinkListener() {
+        boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("customTabs", true);
+        LinkHelper.setClickableText(note, account.note, null, useCustomTabs, new LinkListener() {
             @Override
             public void onViewTag(String tag) {
                 Intent intent = new Intent(AccountActivity.this, ViewTagActivity.class);

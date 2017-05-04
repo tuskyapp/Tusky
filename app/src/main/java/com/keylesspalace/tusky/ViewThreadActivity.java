@@ -25,6 +25,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.keylesspalace.tusky.fragment.SFragment;
+import com.keylesspalace.tusky.fragment.ViewThreadFragment;
+import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
+
 public class ViewThreadActivity extends BaseActivity implements SFragment.OnUserRemovedListener {
     Fragment viewThreadFragment;
 

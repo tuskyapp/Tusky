@@ -23,6 +23,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.keylesspalace.tusky.fragment.SFragment;
+import com.keylesspalace.tusky.fragment.TimelineFragment;
+import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
+
 public class FavouritesActivity extends BaseActivity implements SFragment.OnUserRemovedListener {
     private StatusRemoveListener statusRemoveListener;
 

@@ -42,6 +42,11 @@ import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.keylesspalace.tusky.entity.Account;
+import com.keylesspalace.tusky.fragment.SFragment;
+import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
+import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
+import com.keylesspalace.tusky.util.Log;
+import com.keylesspalace.tusky.util.ThemeUtils;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -82,7 +87,7 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
     @BindView(R.id.tab_layout) TabLayout tabLayout;
     @BindView(R.id.pager) ViewPager viewPager;
 
-    FloatingActionButton composeButton;
+    public FloatingActionButton composeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

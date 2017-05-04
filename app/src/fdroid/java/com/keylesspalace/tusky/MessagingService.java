@@ -21,12 +21,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.Spanned;
-import android.util.ArraySet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import com.keylesspalace.tusky.entity.Notification;
+import com.keylesspalace.tusky.json.SpannedTypeAdapter;
+import com.keylesspalace.tusky.json.StringWithEmoji;
+import com.keylesspalace.tusky.json.StringWithEmojiTypeAdapter;
+import com.keylesspalace.tusky.network.MastodonAPI;
+import com.keylesspalace.tusky.util.NotificationMaker;
+import com.keylesspalace.tusky.util.OkHttpUtils;
 
 import java.util.HashSet;
 import java.util.List;

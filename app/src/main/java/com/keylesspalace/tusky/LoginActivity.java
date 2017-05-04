@@ -36,6 +36,10 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.AppCredentials;
+import com.keylesspalace.tusky.network.MastodonAPI;
+import com.keylesspalace.tusky.util.CustomTabsHelper;
+import com.keylesspalace.tusky.util.Log;
+import com.keylesspalace.tusky.util.OkHttpUtils;
 
 import java.util.HashMap;
 import java.util.Map;
