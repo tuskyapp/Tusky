@@ -17,6 +17,10 @@ package com.keylesspalace.tusky.entity;
 
 import android.text.Spanned;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -115,6 +119,7 @@ public class Status {
     }
 
     public static class MediaAttachment {
+        @com.google.gson.annotations.JsonAdapter(MediaTypeDeserializer.class)
         public enum Type {
             @SerializedName("image")
             IMAGE,
@@ -122,7 +127,7 @@ public class Status {
             GIFV,
             @SerializedName("video")
             VIDEO,
-            UNKNOWN,
+            UNKNOWN
         }
 
         public String url;
@@ -137,6 +142,23 @@ public class Status {
         public String remoteUrl;
 
         public Type type;
+
+        static class MediaTypeDeserializer implements JsonDeserializer<Type> {
+            @Override
+            public Type deserialize(JsonElement json, java.lang.reflect.Type classOfT, JsonDeserializationContext context)
+                    throws JsonParseException {
+                switch(json.toString()) {
+                    case "image":
+                        return Type.IMAGE;
+                    case "gifv":
+                        return Type.GIFV;
+                    case "video":
+                        return Type.VIDEO;
+                    default:
+                        return Type.UNKNOWN;
+                }
+            }
+        }
     }
 
     public static class Mention {
@@ -150,4 +172,6 @@ public class Status {
         @SerializedName("username")
         public String localUsername;
     }
+
+
 }
