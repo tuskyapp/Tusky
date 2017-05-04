@@ -148,11 +148,11 @@ public class Status {
             public Type deserialize(JsonElement json, java.lang.reflect.Type classOfT, JsonDeserializationContext context)
                     throws JsonParseException {
                 switch(json.toString()) {
-                    case "image":
+                    case "\"image\"":
                         return Type.IMAGE;
-                    case "gifv":
+                    case "\"gifv\"":
                         return Type.GIFV;
-                    case "video":
+                    case "\"video\"":
                         return Type.VIDEO;
                     default:
                         return Type.UNKNOWN;
