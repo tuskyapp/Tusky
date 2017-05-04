@@ -36,7 +36,6 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -178,7 +177,7 @@ public class EditProfileActivity extends BaseActivity {
                         .into(avatar);
                 Picasso.with(header.getContext())
                         .load(me.header)
-                        .placeholder(R.drawable.account_header_missing)
+                        .placeholder(R.drawable.account_header_default)
                         .into(header);
             }
 

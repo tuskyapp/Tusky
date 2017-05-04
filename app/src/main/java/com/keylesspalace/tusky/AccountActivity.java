@@ -156,9 +156,6 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
         // Initialise the default UI states.
         floatingBtn.hide();
 
-        avatar.setImageResource(R.drawable.avatar_default);
-        header.setImageResource(R.drawable.account_header_default);
-
         // Obtain information to fill out the profile.
         obtainAccount();
         if (!accountId.equals(loggedInAccountId)) {
@@ -266,7 +263,7 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
                 .into(avatar);
         Picasso.with(this)
                 .load(account.header)
-                .placeholder(R.drawable.account_header_missing)
+                .placeholder(R.drawable.account_header_default)
                 .into(header);
 
         NumberFormat nf = NumberFormat.getInstance();

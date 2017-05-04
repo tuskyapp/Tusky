@@ -476,7 +476,7 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
 
         Picasso.with(MainActivity.this)
                 .load(me.header)
-                .placeholder(R.drawable.account_header_missing)
+                .placeholder(R.drawable.account_header_default)
                 .resize(backgroundWidth, backgroundHeight)
                 .centerCrop()
                 .into(background);
