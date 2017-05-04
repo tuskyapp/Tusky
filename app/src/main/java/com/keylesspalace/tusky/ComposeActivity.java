@@ -54,7 +54,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.style.URLSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -90,6 +93,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class  ComposeActivity extends BaseActivity implements ComposeOptionsFragment.Listener {
     private static final String TAG = "ComposeActivity"; // logging tag
@@ -143,6 +147,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         Uri uri;
         String id;
         Call<Media> uploadRequest;
+        URLSpan uploadUrl;
         ReadyStage readyStage;
         byte[] content;
         long mediaSize;
@@ -224,7 +229,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                prepareStatus();
+                onSendClicked();
             }
         });
         pickBtn.setOnClickListener(new View.OnClickListener() {
@@ -584,24 +589,12 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         enableButtons();
     }
 
-    private void prepareStatus() {
+    private void onSendClicked() {
         if (statusAlreadyInFlight) {
             return;
         }
-        String contentText = textEditor.getText().toString();
-        String spoilerText = "";
-        if (statusHideText) {
-            spoilerText = contentWarningEditor.getText().toString();
-        }
-        int characterCount = contentText.length() + spoilerText.length();
-        if (characterCount > 0 && characterCount <= STATUS_CHARACTER_LIMIT) {
-            setStateToReadying();
-            readyStatus(contentText, statusVisibility, statusMarkSensitive, spoilerText);
-        } else if (characterCount <= 0) {
-            textEditor.setError(getString(R.string.error_empty));
-        } else {
-            textEditor.setError(getString(R.string.error_compose_character_limit));
-        }
+        setStateToReadying();
+        readyStatus(statusVisibility, statusMarkSensitive);
     }
 
     @Override
@@ -705,7 +698,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
 
         mastodonAPI.createStatus(content, inReplyToId, spoilerText, visibility, sensitive, mediaIds).enqueue(new Callback<Status>() {
             @Override
-            public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
+            public void onResponse(Call<Status> call, Response<Status> response) {
                 if (response.isSuccessful()) {
                     onSendSuccess();
                 } else {
@@ -732,8 +725,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         setStateToNotReadying();
     }
 
-    private void readyStatus(final String content, final String visibility, final boolean sensitive,
-            final String spoilerText) {
+    private void readyStatus(final String visibility, final boolean sensitive) {
         finishingUploadDialog = ProgressDialog.show(
                 this, getString(R.string.dialog_title_finishing_media_upload),
                 getString(R.string.dialog_message_uploading_media), true, true);
@@ -755,9 +747,9 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                         finishingUploadDialog.dismiss();
                         finishingUploadDialog = null;
                         if (successful) {
-                            sendStatus(content, visibility, sensitive, spoilerText);
+                            onReadySuccess(visibility, sensitive);
                         } else {
-                            onReadyFailure(content, visibility, sensitive, spoilerText);
+                            onReadyFailure(visibility, sensitive);
                         }
                     }
 
@@ -780,13 +772,33 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         waitForMediaTask.execute();
     }
 
-    private void onReadyFailure(final String content, final String visibility,
-            final boolean sensitive, final String spoilerText) {
+    private void onReadySuccess(String visibility, boolean sensitive) {
+        /* Validate the status meets the character limit. This has to be delayed until after all
+         * uploads finish because their links are added when the upload succeeds and that affects
+         * whether the limit is met or not. */
+        String contentText = textEditor.getText().toString();
+        String spoilerText = "";
+        if (statusHideText) {
+            spoilerText = contentWarningEditor.getText().toString();
+        }
+        int characterCount = contentText.length() + spoilerText.length();
+        if (characterCount > 0 && characterCount <= STATUS_CHARACTER_LIMIT) {
+            sendStatus(contentText, visibility, sensitive, spoilerText);
+        } else if (characterCount <= 0) {
+            textEditor.setError(getString(R.string.error_empty));
+            setStateToNotReadying();
+        } else {
+            textEditor.setError(getString(R.string.error_compose_character_limit));
+            setStateToNotReadying();
+        }
+    }
+
+    private void onReadyFailure(final String visibility, final boolean sensitive) {
         doErrorDialog(R.string.error_media_upload_sending, R.string.action_retry,
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        readyStatus(content, visibility, sensitive, spoilerText);
+                        readyStatus(visibility, sensitive);
                     }
                 });
         setStateToNotReadying();
@@ -951,6 +963,15 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             textEditor.setPadding(textEditor.getPaddingLeft(), textEditor.getPaddingTop(),
                     textEditor.getPaddingRight(), 0);
         }
+        // Remove the text URL associated with this media.
+        if (item.uploadUrl != null) {
+            Editable text = textEditor.getText();
+            int start = text.getSpanStart(item.uploadUrl);
+            int end = text.getSpanEnd(item.uploadUrl);
+            if (start != -1 && end != -1) {
+                text.delete(start, end);
+            }
+        }
         enableMediaButtons();
         cancelReadyingMedia(item);
     }
@@ -1052,8 +1073,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             @Override
             public void onResponse(Call<Media> call, retrofit2.Response<Media> response) {
                 if (response.isSuccessful()) {
-                    item.id = response.body().id;
-                    waitForMediaLatch.countDown();
+                    onUploadSuccess(item, response.body());
                 } else {
                     Log.d(TAG, "Upload request failed. " + response.message());
                     onUploadFailure(item, call.isCanceled());
@@ -1066,6 +1086,22 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                 onUploadFailure(item, false);
             }
         });
+    }
+
+    private void onUploadSuccess(final QueuedMedia item, Media media) {
+        item.id = media.id;
+
+        /* Add the upload URL to the text field. Also, keep a reference to the span so if the user
+         * chooses to remove the media, the URL is also automatically removed. */
+        item.uploadUrl = new URLSpan(media.textUrl);
+        int end = 1 + media.textUrl.length();
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.append(' ');
+        builder.append(media.textUrl);
+        builder.setSpan(item.uploadUrl, 0, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textEditor.append(builder);
+
+        waitForMediaLatch.countDown();
     }
 
     private void onUploadFailure(QueuedMedia item, boolean isCanceled) {
