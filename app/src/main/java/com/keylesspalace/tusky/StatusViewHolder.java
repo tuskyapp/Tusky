@@ -290,14 +290,20 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
             }
         });
         reblogButton.setEventListener(new SparkEventListener() {
-            @Override
-            public void onEvent(ImageView button, boolean buttonState) {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    listener.onReblog(!reblogged, position);
-                }
-            }
-        });
+                                          @Override
+                                          public void onEvent(ImageView button, boolean buttonState) {
+                                              int position = getAdapterPosition();
+                                              if (position != RecyclerView.NO_POSITION) {
+                                                  listener.onReblog(!reblogged, position);
+                                              }
+                                          }
+
+                                          @Override
+                                          public void onEventAnimationEnd(ImageView button, boolean buttonState) {}
+
+                                          @Override
+                                          public void onEventAnimationStart(ImageView button, boolean buttonState) {}
+                                      });
         favouriteButton.setEventListener(new SparkEventListener() {
             @Override
             public void onEvent(ImageView button, boolean buttonState) {
@@ -306,6 +312,12 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
                     listener.onFavourite(!favourited, position);
                 }
             }
+
+            @Override
+            public void onEventAnimationEnd(ImageView button, boolean buttonState) {}
+
+            @Override
+            public void onEventAnimationStart(ImageView button, boolean buttonState) {}
         });
         moreButton.setOnClickListener(new View.OnClickListener() {
             @Override
