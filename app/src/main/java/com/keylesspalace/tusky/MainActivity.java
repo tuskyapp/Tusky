@@ -29,6 +29,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -478,6 +479,8 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
             backgroundWidth = background.getMeasuredWidth();
             backgroundHeight = background.getMeasuredHeight();
         }
+
+        background.setBackgroundColor(ContextCompat.getColor(this, R.color.window_background_dark));
 
         Picasso.with(MainActivity.this)
                 .load(me.header)
