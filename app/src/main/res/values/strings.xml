@@ -59,6 +59,7 @@
     <string name="action_compose">Compose</string>
     <string name="action_login">Login with Mastodon</string>
     <string name="action_logout">Log Out</string>
+    <string name="action_logout_confirm">Do you wish to logout</string>
     <string name="action_follow">Follow</string>
     <string name="action_unfollow">Unfollow</string>
     <string name="action_block">Block</string>
