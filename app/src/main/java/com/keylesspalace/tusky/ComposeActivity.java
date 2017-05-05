@@ -38,6 +38,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.annotation.AttrRes;
@@ -60,6 +61,7 @@ import android.text.TextWatcher;
 import android.text.style.URLSpan;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
@@ -72,6 +74,7 @@ import android.widget.TextView;
 import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.fragment.ComposeOptionsFragment;
+import com.keylesspalace.tusky.util.CheckPreference;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
 import com.keylesspalace.tusky.util.EditTextTyped;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
@@ -219,6 +222,19 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        CheckPreference pref = new CheckPreference(preferences);
+
+        if (pref.getBoolPref("keepScreen")) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+
+        // Make sure to clear KEEP_SCREEN_ON flag!
+        else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
         ButterKnife.bind(this);
 
         // Setup the toolbar.
@@ -268,7 +284,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
 
         /* Initialise all the state, or restore it from a previous run, to determine a "starting"
          * state. */
-        SharedPreferences preferences = getPrivatePreferences();
+        preferences = getPrivatePreferences();
 
         String startingVisibility;
         boolean startingHideText;

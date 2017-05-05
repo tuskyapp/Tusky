@@ -26,15 +26,18 @@ import com.keylesspalace.tusky.fragment.PreferencesFragment;
 public class PreferencesActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
     private boolean themeSwitched;
+    private boolean screenKeep;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             themeSwitched = savedInstanceState.getBoolean("themeSwitched");
+            screenKeep = savedInstanceState.getBoolean("keepScreen");
         } else {
             Bundle extras = getIntent().getExtras();
             themeSwitched = extras != null && extras.getBoolean("themeSwitched");
+            screenKeep = extras != null && extras.getBoolean("keepScreen");
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -50,6 +53,7 @@ public class PreferencesActivity extends BaseActivity
 
     private void saveInstanceState(Bundle outState) {
         outState.putBoolean("themeSwitched", themeSwitched);
+        outState.putBoolean("keepScreen", screenKeep);
     }
 
     @Override
@@ -79,6 +83,10 @@ public class PreferencesActivity extends BaseActivity
                 disablePushNotifications();
             }
         }
+
+        else if (key.equals("keepScreen")) {
+            screenKeep = sharedPreferences.getBoolean("keepScreen", false);
+        }
     }
 
     @Override
@@ -87,7 +95,7 @@ public class PreferencesActivity extends BaseActivity
          * Either the back stack activities need to all be recreated, or do the easier thing, which
          * is hijack the back button press and use it to launch a new MainActivity and clear the
          * back stack. */
-        if (themeSwitched) {
+        if (themeSwitched || (screenKeep || !screenKeep)) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

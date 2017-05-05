@@ -143,6 +143,7 @@
     <string name="pref_title_browser_settings">Navigateur</string>
     <string name="pref_title_custom_tabs">Utiliser le navigateur intégré.</string>
     <string name="pref_title_hide_follow_button">Masquer le bouton de suivi lors du défilement.</string>
+    <string name="pref_title_keep_screen_on">Gardez l\'écran allumé</string>
 
     <string name="notification_mention_format">%s a mentionné votre nom.</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s et %4$d plus</string>

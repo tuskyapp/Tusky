@@ -151,6 +151,7 @@
     <string name="pref_title_browser_settings">ブラウザ</string>
     <string name="pref_title_custom_tabs">Chrome Custom Tabsを使用する</string>
     <string name="pref_title_hide_follow_button">スクロール中はフォローボタンを隠す</string>
+    <string name="pref_title_keep_screen_on">画面をオンにする</string>
 
     <string name="notification_mention_format">%sさんが返信しました</string>
     <string name="notification_summary_large">%1$sさん、%2$sさん、%3$sさんと他%4$d人</string>

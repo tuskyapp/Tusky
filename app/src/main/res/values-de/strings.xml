@@ -143,6 +143,7 @@
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Öffne Links in der App</string>
     <string name="pref_title_hide_follow_button">Verstecke Button bei Bildlauf </string>
+    <string name="pref_title_keep_screen_on">Halten Sie den Bildschirm an</string>
 
     <string name="notification_mention_format">%s hat dich erwähnt</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s und %4$d andere</string>

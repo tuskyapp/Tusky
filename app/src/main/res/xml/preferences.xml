@@ -14,6 +14,11 @@
             android:title="@string/pref_title_hide_follow_button"
             android:defaultValue="false" />
 
+        <CheckBoxPreference
+            android:key="keepScreen"
+            android:title="@string/pref_title_keep_screen_on"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_title_browser_settings">
         <CheckBoxPreference

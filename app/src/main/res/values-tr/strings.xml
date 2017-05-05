@@ -146,6 +146,7 @@
     <string name="pref_title_browser_settings">Tarayacı</string>
     <string name="pref_title_custom_tabs">Chrome Özel Şekmelerini Kullan</string>
     <string name="pref_title_hide_follow_button">Kaydırırken takip düğmesi gizlensin</string>
+    <string name="pref_title_keep_screen_on">Ekranını açık tut</string>
 
     <string name="notification_mention_format">%s senden bahsetti</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s ve %4$d daha</string>
