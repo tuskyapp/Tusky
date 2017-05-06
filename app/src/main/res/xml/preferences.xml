@@ -15,7 +15,7 @@
             android:defaultValue="false" />
 
         <CheckBoxPreference
-            android:key="keepScreen"
+            android:key="screenKeep"
             android:title="@string/pref_title_keep_screen_on"
             android:defaultValue="false" />
 

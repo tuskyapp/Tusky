@@ -31,6 +31,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Spanned;
 import android.util.TypedValue;
 import android.view.Menu;
+import android.view.WindowManager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -74,8 +75,20 @@ public class BaseActivity extends AppCompatActivity {
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
          * views are created. */
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("lightTheme", false)) {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (preferences.getBoolean("lightTheme", false)) {
             setTheme(R.style.AppTheme_Light);
+        }
+
+        if (preferences.getBoolean("screenKeep", false)) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+
+        // Make sure to clear KEEP_SCREEN_ON flag!
+        else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
     }
 

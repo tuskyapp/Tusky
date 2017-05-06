@@ -33,11 +33,9 @@ public class PreferencesActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             themeSwitched = savedInstanceState.getBoolean("themeSwitched");
-            screenKeep = savedInstanceState.getBoolean("keepScreen");
         } else {
             Bundle extras = getIntent().getExtras();
             themeSwitched = extras != null && extras.getBoolean("themeSwitched");
-            screenKeep = extras != null && extras.getBoolean("keepScreen");
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -53,7 +51,6 @@ public class PreferencesActivity extends BaseActivity
 
     private void saveInstanceState(Bundle outState) {
         outState.putBoolean("themeSwitched", themeSwitched);
-        outState.putBoolean("keepScreen", screenKeep);
     }
 
     @Override
@@ -84,8 +81,8 @@ public class PreferencesActivity extends BaseActivity
             }
         }
 
-        else if (key.equals("keepScreen")) {
-            screenKeep = sharedPreferences.getBoolean("keepScreen", false);
+        else if (key.equals("screenKeep")) {
+            screenKeep = sharedPreferences.getBoolean("screenKeep", true);
         }
     }
 
