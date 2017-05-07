@@ -26,7 +26,7 @@ import com.keylesspalace.tusky.fragment.PreferencesFragment;
 public class PreferencesActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
     private boolean themeSwitched;
-    private boolean screenKeep;
+    private boolean keepChanged;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,7 +82,7 @@ public class PreferencesActivity extends BaseActivity
         }
 
         else if (key.equals("screenKeep")) {
-            screenKeep = sharedPreferences.getBoolean("screenKeep", true);
+            keepChanged = true;
         }
     }
 
@@ -91,8 +91,12 @@ public class PreferencesActivity extends BaseActivity
         /* Switching themes won't actually change the theme of activities on the back stack.
          * Either the back stack activities need to all be recreated, or do the easier thing, which
          * is hijack the back button press and use it to launch a new MainActivity and clear the
-         * back stack. */
-        if (themeSwitched || (screenKeep || !screenKeep)) {
+         * back stack.
+         *
+         * Additionally, if user has changed 'Keep Screen on' setting we also need to launch a new
+         * MainActivity
+         * */
+        if (themeSwitched || keepChanged) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
