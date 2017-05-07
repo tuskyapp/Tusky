@@ -20,13 +20,16 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.VideoView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ViewVideoActivity extends BaseActivity {
+    @BindView(R.id.video_progress) ProgressBar progressBar;
     @BindView(R.id.video_player) VideoView videoView;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
@@ -56,6 +59,7 @@ public class ViewVideoActivity extends BaseActivity {
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                progressBar.setVisibility(View.GONE);
                 mp.setLooping(true);
             }
         });

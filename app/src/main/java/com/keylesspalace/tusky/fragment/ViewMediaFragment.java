@@ -82,7 +82,7 @@ public class ViewMediaFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_view_media, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_view_media, container, false);
         ButterKnife.bind(this, rootView);
 
         Bundle arguments = getArguments();
@@ -141,6 +141,7 @@ public class ViewMediaFragment extends DialogFragment {
                 .into(photoView, new Callback() {
                     @Override
                     public void onSuccess() {
+                        rootView.findViewById(R.id.view_media_progress).setVisibility(View.GONE);
                         attacher.update();
                     }
 
