@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:id="@+id/activity_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/activity_account"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/account_app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.Account.AppBarLayout"
-        android:id="@+id/account_app_bar_layout">
+        android:theme="@style/AppTheme.Account.AppBarLayout">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="?attr/toolbar_background_color"
             android:fitsSystemWindows="true"
+            app:contentScrim="?attr/toolbar_background_color"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="false">
 
             <RelativeLayout
@@ -29,93 +28,96 @@
                 android:background="?attr/account_header_background_color">
 
                 <ImageView
+                    android:id="@+id/account_header"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/account_header"
-                    android:scaleType="centerCrop"
-                    app:layout_collapseMode="pin"
-                    android:fitsSystemWindows="true"
+                    android:layout_alignBottom="@+id/account_header_info"
                     android:layout_alignTop="@+id/account_header_info"
-                    android:layout_alignBottom="@id/account_header_info"
-                    android:contentDescription="@null" />
+                    android:background="@drawable/account_header_default"
+                    android:contentDescription="@null"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="pin" />
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:id="@+id/account_header_info"
-                    android:paddingTop="?attr/actionBarSize"
-                    android:background="@drawable/account_header_gradient"
                     android:layout_width="match_parent"
-                    app:layout_collapseMode="parallax"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/account_header_gradient"
+                    android:orientation="vertical"
+                    android:paddingTop="?attr/actionBarSize"
+                    app:layout_collapseMode="parallax">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="16dp"
-                        android:layout_height="wrap_content">
+                        android:paddingTop="16dp">
 
                         <com.pkmmte.view.CircularImageView
+                            android:id="@+id/account_avatar"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:layout_marginRight="10dp"
-                            app:shadow="true"
-                            android:id="@+id/account_avatar" />
+                            android:src="@drawable/avatar_default"
+                            app:shadow="true" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
+                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_toRightOf="@id/account_avatar"
-                            android:layout_alignParentRight="true">
+                            android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/account_display_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/account_display_name"
-                                android:maxLines="1"
                                 android:ellipsize="end"
-                                android:textStyle="normal|bold"
+                                android:maxLines="1"
                                 android:textColor="?android:textColorPrimary"
-                                android:textSize="18sp" />
+                                android:textSize="18sp"
+                                android:textStyle="normal|bold" />
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
+
                                 <TextView
+                                    android:id="@+id/account_username"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:maxLines="1"
                                     android:ellipsize="end"
-                                    android:textColor="?android:textColorSecondary"
-                                    android:id="@+id/account_username" />
+                                    android:maxLines="1"
+                                    android:textColor="?android:textColorSecondary" />
 
                                 <ImageView
                                     android:id="@+id/account_locked"
-                                    android:visibility="gone"
-                                    android:layout_centerVertical="true"
                                     android:layout_width="16sp"
                                     android:layout_height="16sp"
+                                    android:layout_centerVertical="true"
                                     android:layout_marginLeft="4dp"
                                     android:layout_marginStart="4dp"
                                     android:layout_toEndOf="@id/account_username"
-                                    app:srcCompat="@drawable/reblog_disabled_light"
-                                    android:tint="?android:textColorSecondary"
                                     android:layout_toRightOf="@id/account_username"
-                                    android:contentDescription="@string/description_account_locked" />
+                                    android:contentDescription="@string/description_account_locked"
+                                    android:tint="?android:textColorSecondary"
+                                    android:visibility="gone"
+                                    app:srcCompat="@drawable/reblog_disabled_light" />
                             </RelativeLayout>
                         </LinearLayout>
 
                     </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/account_note"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/account_note"
-                        android:textColor="?android:textColorTertiary"
                         android:padding="16dp"
-                        android:paddingTop="10dp" />
+                        android:paddingTop="10dp"
+                        android:textColor="?android:textColorTertiary" />
 
                 </LinearLayout>
 
@@ -125,9 +127,9 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@android:color/transparent"
-                android:layout_gravity="top"
                 android:layout_alignParentTop="true"
+                android:layout_gravity="top"
+                android:background="@android:color/transparent"
                 app:layout_collapseMode="pin"
                 app:popupTheme="?attr/account_toolbar_popup_theme" />
 
@@ -136,16 +138,16 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/pager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
-            app:tabBackground="?android:colorBackground"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:tabBackground="?android:colorBackground">
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
@@ -172,18 +174,18 @@
         android:id="@+id/tab_bottom_shadow"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        app:layout_anchor="@id/tab_layout"
-        app:layout_anchorGravity="bottom"
         android:background="@drawable/material_drawer_shadow_bottom"
-        android:visibility="visible" />
+        android:visibility="visible"
+        app:layout_anchor="@id/tab_layout"
+        app:layout_anchorGravity="bottom" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floating_btn"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_person_add_24dp"
-        android:contentDescription="@string/action_follow" />
+        android:contentDescription="@string/action_follow"
+        app:srcCompat="@drawable/ic_person_add_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>
