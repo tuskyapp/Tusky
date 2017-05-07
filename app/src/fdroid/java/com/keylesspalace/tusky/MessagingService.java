@@ -134,4 +134,9 @@ public class MessagingService extends IntentService {
                 .putStringSet("current_ids", currentIds)
                 .apply();
     }
+
+    public static String getInstanceToken() {
+        // This is only used for the "google" build flavor, so this version is just a stub method.
+        return null;
+    }
 }

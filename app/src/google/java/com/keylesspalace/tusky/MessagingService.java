@@ -25,6 +25,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.Spanned;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
@@ -124,5 +125,9 @@ public class MessagingService extends FirebaseMessagingService {
                 .build();
 
         mastodonAPI = retrofit.create(MastodonAPI.class);
+    }
+
+    public static String getInstanceToken() {
+        return FirebaseInstanceId.getInstance().getToken();
     }
 }

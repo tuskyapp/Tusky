@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky;
 
 import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -30,6 +31,7 @@ import android.support.design.widget.TabLayout;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -337,16 +339,26 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
     }
 
     private void logout() {
-        if (arePushNotificationsEnabled()) disablePushNotifications();
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.action_logout)
+                .setMessage(R.string.action_logout_confirm)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (arePushNotificationsEnabled()) disablePushNotifications();
 
-        getPrivatePreferences().edit()
-                .remove("domain")
-                .remove("accessToken")
-                .apply();
+                        getPrivatePreferences().edit()
+                                .remove("domain")
+                                .remove("accessToken")
+                                .apply();
 
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
     }
 
     private void setupSearchView() {

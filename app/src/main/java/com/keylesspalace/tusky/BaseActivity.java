@@ -204,7 +204,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void enablePushNotifications() {
         if (BuildConfig.USES_PUSH_NOTIFICATIONS) {
-            String token = com.google.firebase.iid.FirebaseInstanceId.getInstance().getToken();
+            String token = MessagingService.getInstanceToken();
             tuskyAPI.register(getBaseUrl(), getAccessToken(), token).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
