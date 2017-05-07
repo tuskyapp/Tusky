@@ -35,8 +35,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.keylesspalace.tusky.R;
+import com.github.chrisbanes.photoview.OnOutsidePhotoTapListener;
+import com.github.chrisbanes.photoview.OnSingleFlingListener;
+import com.github.chrisbanes.photoview.PhotoView;
+import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -44,17 +49,15 @@ import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class ViewMediaFragment extends DialogFragment {
 
     private PhotoViewAttacher attacher;
-    private DownloadManager downloadManager;
 
     private static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
-    @BindView(R.id.view_media_image) PhotoView photoView;
+    @BindView(R.id.view_media_image)
+    PhotoView photoView;
 
     public static ViewMediaFragment newInstance(String url) {
         Bundle arguments = new Bundle();
@@ -91,24 +94,19 @@ public class ViewMediaFragment extends DialogFragment {
         attacher = new PhotoViewAttacher(photoView);
 
         // Clicking outside the photo closes the viewer.
-        attacher.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+        attacher.setOnOutsidePhotoTapListener(new OnOutsidePhotoTapListener() {
             @Override
-            public void onPhotoTap(View view, float x, float y) {
-
-            }
-
-            @Override
-            public void onOutsidePhotoTap() {
+            public void onOutsidePhotoTap(ImageView imageView) {
                 dismiss();
             }
         });
 
         /* A vertical swipe motion also closes the viewer. This is especially useful when the photo
          * mostly fills the screen so clicking outside is difficult. */
-        attacher.setOnSingleFlingListener(new PhotoViewAttacher.OnSingleFlingListener() {
+        attacher.setOnSingleFlingListener(new OnSingleFlingListener() {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-                    float velocityY) {
+                                   float velocityY) {
                 if (Math.abs(velocityY) > Math.abs(velocityX)) {
                     dismiss();
                     return true;
@@ -154,12 +152,6 @@ public class ViewMediaFragment extends DialogFragment {
         return rootView;
     }
 
-    @Override
-    public void onDestroyView() {
-        attacher.cleanup();
-        super.onDestroyView();
-    }
-
     private void downloadImage(){
 
         //Permission stuff
@@ -172,14 +164,13 @@ public class ViewMediaFragment extends DialogFragment {
                     PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         } else {
 
-
             //download stuff
             String url = getArguments().getString("url");
             Uri uri = Uri.parse(url);
 
             String filename = new File(url).getName();
 
-            downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+            DownloadManager downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
 
             DownloadManager.Request request = new DownloadManager.Request(uri);
             request.allowScanningByMediaScanner();

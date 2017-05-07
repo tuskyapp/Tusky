@@ -5,13 +5,16 @@
     android:clickable="true"
     android:layout_gravity="center"
     android:background="@android:color/black">
+
     <ProgressBar
         android:id="@+id/view_media_progress"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <uk.co.senab.photoview.PhotoView
+
+    <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/view_media_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </FrameLayout>
