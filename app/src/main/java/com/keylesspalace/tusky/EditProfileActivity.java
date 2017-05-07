@@ -179,7 +179,7 @@ public class EditProfileActivity extends BaseActivity {
                         .into(avatar);
                 Picasso.with(header.getContext())
                         .load(me.header)
-                        .placeholder(R.drawable.account_header_missing)
+                        .placeholder(R.drawable.account_header_default)
                         .into(header);
             }
 
