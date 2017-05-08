@@ -355,6 +355,7 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
                         getPrivatePreferences().edit()
                                 .remove("domain")
                                 .remove("accessToken")
+                                .remove("appAccountId")
                                 .apply();
 
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
