@@ -240,6 +240,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         }
 
         if (sensitive) {
+
             sensitiveMediaWarning.setVisibility(View.VISIBLE);
 
             sensitiveMediaWarning.setOnLongClickListener(new View.OnLongClickListener() {
@@ -269,7 +270,6 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
 
                         public  void onFinish(){
                             vi.setVisibility(View.VISIBLE);
-                            vi.setOnClickListener(null);
                         }
 
                     }.start();
