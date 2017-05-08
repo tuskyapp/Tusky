@@ -26,10 +26,13 @@
     <string name="title_thread">الخيط</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">المشاركات</string>
-    <string name="title_follows">يتبع</string>
-    <string name="title_followers">المتابعون</string>
+    <string name="title_follows">المتابَعون</string>
+    <string name="title_followers">المتابِعون</string>
     <string name="title_favourites">المفضلة</string>
-    <string name="title_blocks">المستخدمون المحظورون</string>
+    <string name="title_mutes">الحسابات المكتومة</string>
+    <string name="title_blocks">الحسابات المحظورة</string>
+    <string name="title_follow_requests">طلبات المتابعة</string>
+    <string name="title_edit_profile">عدل ملفك الشخصي</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s رقّي</string>
@@ -59,7 +62,7 @@
     <string name="action_logout">خروج</string>
     <string name="action_follow">إتبع</string>
     <string name="action_unfollow">إلغاء التتبع</string>
-    <string name="action_block">حضر</string>
+    <string name="action_block">قم بحظره</string>
     <string name="action_unblock">إلغاء الحظر</string>
     <string name="action_report">أبلغ</string>
     <string name="action_delete">إحذف</string>
@@ -92,6 +95,9 @@
     <string name="action_clear">إمسح</string>
     <string name="action_save">إحفظ</string>
     <string name="action_edit_profile">تعديل الملف الشخصي</string>
+    <string name="action_undo">إلغاء</string>
+    <string name="action_accept">موافقة</string>
+    <string name="action_reject">رفض</string>
 
     <string name="send_status_link_to">شارك رابط التبويق على ...</string>
     <string name="send_status_content_to">شارك التبويق على …</string>
@@ -100,6 +106,8 @@
 
     <string name="confirmation_send">بَوِّق</string>
     <string name="confirmation_reported">تم الإرسال !</string>
+    <string name="confirmation_unblocked">تم فك الحجب عن الحساب</string>
+    <string name="confirmation_unmuted">تم فك الكتم عن الحساب</string>
 
     <string name="hint_domain">أي سيرفر ؟</string>
     <string name="hint_compose">ما الجديد ؟</string>
@@ -140,7 +148,7 @@
     <string name="pref_title_notification_filters">أخطرني عندما</string>
     <string name="pref_title_notification_filter_mentions">يشار إلي</string>
     <string name="pref_title_notification_filter_follows">يتبعني أحد</string>
-    <string name="pref_title_notification_filter_reblogs">تعزز وتدفع منشوراتي</string>
+    <string name="pref_title_notification_filter_reblogs">تُرقّى منشوراتي</string>
     <string name="pref_title_notification_filter_favourites">يعجب أحد ما بمنشوراتي</string>
     <string name="pref_title_appearance_settings">المظهر</string>
     <string name="pref_title_light_theme">إستخدم سمةً فاتحة اللون</string>
@@ -158,4 +166,6 @@
     <string name="description_account_locked">حساب مقفل</string>
     <string name="status_share_content">شارك محتوى التبويق</string>
     <string name="status_share_link">شارك الرابط إلى التبويق</string>
+    
+    <string name="state_follow_requested">طلب متابعة</string>
 </resources>
