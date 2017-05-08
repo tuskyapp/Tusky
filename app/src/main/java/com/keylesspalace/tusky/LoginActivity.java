@@ -32,6 +32,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.AccessToken;
@@ -61,6 +62,9 @@ public class LoginActivity extends AppCompatActivity {
     private String domain;
     private String clientId;
     private String clientSecret;
+
+    @BindView(R.id.login_input) LinearLayout input;
+    @BindView(R.id.login_loading) LinearLayout loading;
 
     @BindView(R.id.edit_text_domain) EditText editText;
     @BindView(R.id.button_login) Button button;
@@ -326,6 +330,8 @@ public class LoginActivity extends AppCompatActivity {
                 domain = preferences.getString("domain", null);
                 clientId = preferences.getString("clientId", null);
                 clientSecret = preferences.getString("clientSecret", null);
+
+                setLoading(true);
                 /* Since authorization has succeeded, the final step to log in is to exchange
                  * the authorization code for an access token. */
                 Callback<AccessToken> callback = new Callback<AccessToken>() {
@@ -334,6 +340,8 @@ public class LoginActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             onLoginSuccess(response.body().accessToken);
                         } else {
+                            setLoading(false);
+
                             editText.setError(getString(R.string.error_retrieving_oauth_token));
                             Log.e(TAG, String.format("%s %s",
                                     getString(R.string.error_retrieving_oauth_token),
@@ -343,6 +351,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<AccessToken> call, Throwable t) {
+                        setLoading(false);
                         editText.setError(getString(R.string.error_retrieving_oauth_token));
                         Log.e(TAG, String.format("%s %s",
                                 getString(R.string.error_retrieving_oauth_token),
@@ -355,12 +364,24 @@ public class LoginActivity extends AppCompatActivity {
             } else if (error != null) {
                 /* Authorization failed. Put the error response where the user can read it and they
                  * can try again. */
+                setLoading(false);
                 editText.setError(getString(R.string.error_authorization_denied));
                 Log.e(TAG, getString(R.string.error_authorization_denied) + error);
             } else {
+                setLoading(false);
                 // This case means a junk response was received somehow.
                 editText.setError(getString(R.string.error_authorization_unknown));
             }
+        }
+    }
+
+    private void setLoading(boolean loadingState) {
+        if (loadingState) {
+            loading.setVisibility(View.VISIBLE);
+            input.setVisibility(View.GONE);
+        } else {
+            loading.setVisibility(View.GONE);
+            input.setVisibility(View.VISIBLE);
         }
     }
 
@@ -370,6 +391,7 @@ public class LoginActivity extends AppCompatActivity {
                 .putString("accessToken", accessToken)
                 .commit();
         if (!committed) {
+            setLoading(false);
             editText.setError(getString(R.string.error_retrieving_oauth_token));
             return;
         }
