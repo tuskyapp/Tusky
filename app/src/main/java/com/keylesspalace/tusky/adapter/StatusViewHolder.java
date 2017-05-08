@@ -20,12 +20,15 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import android.os.CountDownTimer;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.util.RoundedTransformation;
@@ -195,6 +198,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
                 mediaPreview2,
                 mediaPreview3
         };
+
         Context context = mediaPreview0.getContext();
 
         int mediaPreviewUnloadedId = ThemeUtils.getDrawableId(itemView.getContext(),
@@ -237,11 +241,38 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
 
         if (sensitive) {
             sensitiveMediaWarning.setVisibility(View.VISIBLE);
+
+            sensitiveMediaWarning.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+                    v.setVisibility(View.GONE);
+                    v.setOnLongClickListener(null);
+
+                    return true;
+                }
+            });
+
             sensitiveMediaWarning.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    v.setVisibility(View.GONE);
-                    v.setOnClickListener(null);
+
+                    final View vi = v;
+
+                    vi.setVisibility(View.GONE);
+
+                    new CountDownTimer(10000, 1000){
+
+                        public void onTick(long millisUntilFinished){
+
+                        }
+
+                        public  void onFinish(){
+                            vi.setVisibility(View.VISIBLE);
+                            vi.setOnClickListener(null);
+                        }
+
+                    }.start();
                 }
             });
         }
