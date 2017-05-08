@@ -15,7 +15,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" />
+            android:background="?attr/toolbar_background_color"
+            android:elevation="4dp" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -45,6 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="8dp"
+                    android:textIsSelectable="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <TextView
@@ -52,6 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:autoLink="web"
+                    android:textIsSelectable="true"
                     android:padding="@dimen/text_content_margin"
                     android:text="@string/about_project_site"
                     android:textAlignment="center"
@@ -62,6 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:autoLink="web"
+                    android:textIsSelectable="true"
                     android:padding="@dimen/text_content_margin"
                     android:text="@string/about_bug_feature_request_site"
                     android:textAlignment="center"
