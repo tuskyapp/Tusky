@@ -30,8 +30,7 @@
         <item name="android:textColorSecondary">@color/text_color_secondary_dark</item>
         <item name="android:textColorTertiary">@color/text_color_tertiary_dark</item>
         <item name="android:textColorPrimaryInverse">@color/text_color_primary_inverse_dark</item>
-        <item name="android:textColorSecondaryInverse">@color/text_color_secondary_inverse_dark
-        </item>
+        <item name="android:textColorSecondaryInverse">@color/text_color_secondary_inverse_dark</item>
         <item name="android:textColorTertiaryInverse">@color/text_color_tertiary_inverse_dark</item>
         <item name="android:actionMenuTextColor">@color/text_color_primary_dark</item>
 
@@ -54,15 +53,11 @@
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_dark</item>
         <item name="account_header_background_color">@color/account_header_background_dark</item>
         <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark</item>
-        <item name="account_toolbar_icon_tint_collapsed">
-            @color/account_toolbar_icon_collapsed_dark
-        </item>
-        <item name="account_toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Dark
-        </item>
+        <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_dark</item>
+        <item name="account_toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Dark</item>
         <item name="compose_close_button_tint">@color/toolbar_icon_dark</item>
         <item name="compose_media_button_tint">@color/compose_media_button_dark</item>
-        <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_dark
-        </item>
+        <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_dark</item>
         <item name="compose_mention_color">@color/color_accent_dark</item>
         <item name="compose_content_warning_bar_background">@drawable/border_background_dark</item>
         <item name="compose_nsfw_button_color">@color/image_button_dark</item>
@@ -122,10 +117,8 @@
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
         <item name="android:textColorTertiary">@color/text_color_tertiary_light</item>
         <item name="android:textColorPrimaryInverse">@color/text_color_primary_inverse_light</item>
-        <item name="android:textColorSecondaryInverse">@color/text_color_secondary_inverse_light
-        </item>
-        <item name="android:textColorTertiaryInverse">@color/text_color_tertiary_inverse_light
-        </item>
+        <item name="android:textColorSecondaryInverse">@color/text_color_secondary_inverse_light</item>
+        <item name="android:textColorTertiaryInverse">@color/text_color_tertiary_inverse_light</item>
         <item name="android:actionMenuTextColor">@color/text_color_primary_light</item>
 
         <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheetDialog.Light</item>
@@ -140,25 +133,18 @@
         <item name="status_favourite_active_drawable">@drawable/favourite_active_light</item>
         <item name="status_favourite_inactive_drawable">@drawable/favourite_inactive_light</item>
         <item name="content_warning_button">@drawable/toggle_small_light</item>
-        <item name="sensitive_media_warning_background_color">
-            @color/sensitive_media_warning_background_light
-        </item>
+        <item name="sensitive_media_warning_background_color">@color/sensitive_media_warning_background_light</item>
         <item name="media_preview_unloaded_drawable">@drawable/media_preview_unloaded_light</item>
         <item name="status_divider_drawable">@drawable/status_divider_light</item>
         <item name="tab_icon_selected_tint">@color/color_accent_light</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_light</item>
         <item name="account_header_background_color">@color/account_header_background_light</item>
-        <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark
-        </item> <!--Default to dark on purpose, because header backgrounds with gradients are always dark.-->
-        <item name="account_toolbar_icon_tint_collapsed">
-            @color/account_toolbar_icon_collapsed_light
-        </item>
-        <item name="account_toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Light
-        </item>
+        <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark</item> <!--Default to dark on purpose, because header backgrounds with gradients are always dark.-->
+        <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_light</item>
+        <item name="account_toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Light</item>
         <item name="compose_close_button_tint">@color/toolbar_icon_light</item>
         <item name="compose_media_button_tint">@color/compose_media_button_light</item>
-        <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_light
-        </item>
+        <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_light</item>
         <item name="compose_mention_color">@color/compose_mention_light</item>
         <item name="compose_content_warning_bar_background">@drawable/border_background_light</item>
         <item name="compose_nsfw_button_color">@color/image_button_light</item>
@@ -175,8 +161,7 @@
         <item name="material_drawer_divider">@color/color_primary_dark_light</item>
         <item name="material_drawer_selected">@color/color_primary_light</item>
         <item name="material_drawer_selected_text">@color/text_color_primary_light</item>
-        <item name="material_drawer_header_selection_text">@color/text_color_primary_dark
-        </item> <!--Intentionally dark so it can be overlayed over the account's header image.-->
+        <item name="material_drawer_header_selection_text">@color/text_color_primary_dark</item> <!--Intentionally dark so it can be overlayed over the account's header image.-->
 
         <item name="floatingSearch_backgroundColor">@color/toolbar_background_light</item>
         <item name="floatingSearch_viewTextColor">@color/text_color_secondary_light</item>
@@ -203,9 +188,5 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="windowActionBarOverlay">true</item>
     </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

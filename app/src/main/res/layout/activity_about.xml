@@ -4,87 +4,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/material_drawer_item_padding"
     tools:context="com.keylesspalace.tusky.AboutActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:background="?attr/colorPrimary" />
 
-    </android.support.design.widget.AppBarLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
 
-    <android.support.v7.widget.LinearLayoutCompat
+                <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
+                    android:id="@+id/circularFillableLoaders"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:src="@mipmap/ic_logo"
+                    app:cfl_border="true"
+                    app:cfl_border_width="4dp"
+                    app:cfl_progress="80"
+                    app:cfl_wave_amplitude="0.08"
+                    app:cfl_wave_color="?attr/splash_wave_color" />
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:id="@+id/linearLayoutCompat">
+                <TextView
+                    android:id="@+id/versionTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-        <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
-            android:id="@+id/circularFillableLoaders"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:src="@mipmap/ic_logo"
-            app:cfl_border="true"
-            app:cfl_border_width="4dp"
-            app:cfl_progress="80"
-            app:cfl_wave_amplitude="0.08"
-            app:cfl_wave_color="?attr/splash_wave_color" />
+                <TextView
+                    android:id="@+id/projectURL_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:padding="@dimen/text_content_margin"
+                    android:text="@string/about_project_site"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-        <TextView
-            android:id="@+id/versionTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="TextView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                <TextView
+                    android:id="@+id/featuresURL_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:padding="@dimen/text_content_margin"
+                    android:text="@string/about_bug_feature_request_site"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-        <TextView
-            android:id="@+id/projectURL_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:autoLink="web"
-            android:padding="@dimen/text_content_margin"
-            android:text="@string/about_project_site"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                <Button
+                    android:id="@+id/tusky_profile_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:padding="@dimen/text_content_margin"
+                    android:text="@string/about_tusky_account"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@android:color/white" />
 
-        <TextView
-            android:id="@+id/featuresURL_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:autoLink="web"
-            android:padding="@dimen/text_content_margin"
-            android:text="@string/about_bug_feature_request_site"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/tusky_profile_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:clickable="true"
-            android:padding="@dimen/text_content_margin"
-            android:text="@string/about_tusky_account"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
-    </android.support.v7.widget.LinearLayoutCompat>
+        </ScrollView>
 
-
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
