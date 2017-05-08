@@ -72,6 +72,7 @@
         <activity android:name=".PreferencesActivity" />
         <activity android:name=".FavouritesActivity" />
         <activity android:name=".AccountListActivity" />
+        <activity android:name=".AboutActivity" />
         <activity
             android:name=".ReportActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
