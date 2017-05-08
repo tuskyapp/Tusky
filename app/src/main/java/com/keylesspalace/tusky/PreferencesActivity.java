@@ -61,7 +61,8 @@ public class PreferencesActivity extends BaseActivity
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key) {
-            case "lightTheme":
+
+            case "lightTheme" :
             {
                 themeSwitched = true;
                 // recreate() could be used instead, but it doesn't have an animation B).
