@@ -122,6 +122,8 @@
 
     <string name="link_whats_an_instance">What\'s an instance?</string>
 
+    <string name="login_connection">Connecting…</string>
+
     <string name="dialog_whats_an_instance">The address or domain of any instance can be entered
         here, such as mastodon.social, icosahedron.website, social.tchncs.de, and
         <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">more!</a>
