@@ -29,7 +29,10 @@
     <string name="title_follows">Takip edilenler</string>
     <string name="title_followers">Takipçiler</string>
     <string name="title_favourites">Favoriler</string>
+    <string name="title_mutes">Sesize alınmış kullanıcılar</string>
     <string name="title_blocks">Engellenmiş kullanıcılar</string>
+    <string name="title_follow_requests">Takip Etme İstekler</string>
+    <string name="title_edit_profile">Profili düzeltme</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s yükseltti</string>
@@ -67,7 +70,7 @@
     <string name="action_send_public">İLET!</string>
     <string name="action_retry">Tekrar dene</string>
     <string name="action_mark_sensitive">Medyayı hassas olarak etiketle</string>
-    <string name="action_hide_text">Metini uyarı ile sakla</string>
+    <string name="action_hide_text">İçerik uyarıyla gizlensin</string>
     <string name="action_ok">Tamam</string>
     <string name="action_cancel">İptal</string>
     <string name="action_close">Kapat</string>
@@ -75,6 +78,7 @@
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Ayarlar</string>
     <string name="action_view_favourites">Favoriler</string>
+    <string name="action_view_mutes">Sesize alınmış kullanıcılar</string>
     <string name="action_view_blocks">Engellenmiş kullanıcılar</string>
     <string name="action_view_thread">Dizi</string>
     <string name="action_view_media">Medya</string>
@@ -92,6 +96,9 @@
     <string name="action_clear">Temizle</string>
     <string name="action_save">Kaydet</string>
     <string name="action_edit_profile">Profili düzelt</string>
+    <string name="action_undo">Geri al</string>
+    <string name="action_accept">Kabul et</string>
+    <string name="action_reject">Reddet</string>
 
     <string name="send_status_link_to">İletinin adresini paylaş…</string>
     <string name="send_status_content_to">İletiyi paylaş…</string>
@@ -123,9 +130,10 @@
     <string name="dialog_title_finishing_media_upload">Medya Yükleme Bittiriliyor</string>
     <string name="dialog_message_uploading_media">Yükleniyor…</string>
     <string name="dialog_download_image">İndir</string>
+    <string name="dialog_message_follow_request">Takip etme istekleri: yanıt bekleniyor</string>
 
     <string name="visibility_public">Kamu: Herkese açık ve sosyal çizelgelerinde çıkar</string>
-    <string name="visibility_unlisted">Saklı: Herkese açık ancık sosyal çizelgesinde çıkmaz</string>
+    <string name="visibility_unlisted">Saklı: Herkese açık ancak sosyal çizelgesinde çıkmaz</string>
     <string name="visibility_private">Özel: Sadece takipçiler ve bahsedilenlere açık</string>
     <string name="visibility_direct">Direkt: Sadece bahsedilen kullanıcılara açık</string>
 
@@ -156,4 +164,6 @@
     <string name="description_account_locked">Kitli Hesap</string>
     <string name="status_share_content">İletinin içeriğini paylaş</string>
     <string name="status_share_link">İletinin adresini paylaş</string>
+
+    <string name="state_follow_requested">Takip edebilme istendi</string>
 </resources>

@@ -21,12 +21,12 @@
     <string name="title_home">Strona główna</string>
     <string name="title_notifications">Powiadomienia</string>
     <string name="title_public_local">Lokalne</string>
-    <string name="title_public_federated">Globalne</string>
+    <string name="title_public_federated">Federalne</string>
     <string name="title_thread">Wątek</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Posty</string>
     <string name="title_follows">Obserwacje</string>
-    <string name="title_followers">Obsereujący</string>
+    <string name="title_followers">Obserwujący</string>
     <string name="title_favourites">Ulubione</string>
     <string name="title_mutes">Wyciszeni użytkownicy</string>
     <string name="title_blocks">Zablokowani użytkownicy</string>
@@ -73,10 +73,10 @@
     <string name="action_ok">OK</string>
     <string name="action_cancel">Anuluj</string>
     <string name="action_close">Zamknij</string>
-    <string name="action_back">Wró</string>
+    <string name="action_back">Wróć</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Preferencje</string>
-    <string name="action_view_favourites">Ulunione</string>
+    <string name="action_view_favourites">Ulubione</string>
     <string name="action_view_mutes">Wyciszeni użytkownicy</string>
     <string name="action_view_blocks">Zablokowani użytkownicy</string>
     <string name="action_view_follow_requests">Prośby o obserwację</string>
@@ -111,7 +111,7 @@
     <string name="confirmation_unmuted">Cofnięto wyciszenie użytkownika</string>
 
     <string name="hint_domain">Jaka instancja?</string>
-    <string name="hint_compose">Opowiedz o czymś…</string>
+    <string name="hint_compose">Co ci chodzi po głowie?</string>
     <string name="hint_content_warning">Ostrzeenie o zawartości</string>
     <string name="hint_display_name">Nazwa wyświetlana</string>
     <string name="hint_note">Biografia</string>
