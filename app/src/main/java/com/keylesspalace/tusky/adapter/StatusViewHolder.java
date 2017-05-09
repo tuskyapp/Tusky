@@ -260,7 +260,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
 
                     vi.setVisibility(View.GONE);
 
-                    new CountDownTimer(15000, 1000){
+                    new CountDownTimer(10000, 1000){
 
                         public void onTick(long millisUntilFinished){
 
