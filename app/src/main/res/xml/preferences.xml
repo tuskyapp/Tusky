@@ -14,6 +14,12 @@
             android:title="@string/pref_title_hide_follow_button"
             android:defaultValue="false" />
 
+        <EditTextPreference
+            android:key="nsfwTimeout"
+            android:title="@string/pref_title_nsfw_timeout"
+            android:inputType="number"
+            android:defaultValue="5" />
+
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_title_browser_settings">
         <CheckBoxPreference

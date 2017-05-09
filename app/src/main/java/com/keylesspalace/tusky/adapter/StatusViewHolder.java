@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -238,19 +239,14 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
 
         if (sensitive) {
 
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+            String tout = prefs.getString("nsfwTimeout", "10");
+
+            final long timeout = Integer.parseInt(tout);
+
             sensitiveMediaWarning.setVisibility(View.VISIBLE);
-/*
-            sensitiveMediaWarning.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
 
-                    v.setVisibility(View.GONE);
-                    v.setOnLongClickListener(null);
-
-                    return true;
-                }
-            });
-*/
             sensitiveMediaWarning.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -259,7 +255,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
 
                     vi.setVisibility(View.GONE);
 
-                    new CountDownTimer(10000, 1000){
+                    new CountDownTimer((timeout * 1000), 1000){
 
                         public void onTick(long millisUntilFinished){
 
@@ -267,7 +263,6 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
 
                         public  void onFinish(){
                             vi.setVisibility(View.VISIBLE);
-                            vi.setOnClickListener(null);
                         }
 
                     }.start();

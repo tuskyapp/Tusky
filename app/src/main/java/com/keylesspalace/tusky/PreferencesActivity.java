@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.fragment.PreferencesFragment;
 public class PreferencesActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
     private boolean themeSwitched;
+    private boolean timeoutChanged;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +80,25 @@ public class PreferencesActivity extends BaseActivity
                 disablePushNotifications();
             }
         }
+
+        else if (key.equals("nsfwTimeout")) {
+
+            int timeout = Integer.parseInt(sharedPreferences.getString("nsfwTimeout", "10"));
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            if (timeout < 5 ) {
+                editor.putString("nsfwTimeout", "5");
+            }
+
+            else if (timeout > 30) {
+                editor.putString("nsfwTimeout", "30");
+            }
+
+            timeoutChanged = true;
+
+            editor.apply();
+        }
     }
 
     @Override
@@ -87,7 +107,10 @@ public class PreferencesActivity extends BaseActivity
          * Either the back stack activities need to all be recreated, or do the easier thing, which
          * is hijack the back button press and use it to launch a new MainActivity and clear the
          * back stack. */
-        if (themeSwitched) {
+
+        /* Also re-launch MainActivity if timeout has been changed.
+         */
+        if (themeSwitched || timeoutChanged) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
