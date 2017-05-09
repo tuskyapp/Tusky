@@ -267,7 +267,6 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
 
                         public  void onFinish(){
                             vi.setVisibility(View.VISIBLE);
-                            vi.setOnClickListener(null);
                         }
 
                     }.start();
