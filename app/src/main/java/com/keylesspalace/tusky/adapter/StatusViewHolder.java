@@ -20,7 +20,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -240,7 +239,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         if (sensitive) {
 
             sensitiveMediaWarning.setVisibility(View.VISIBLE);
-
+/*
             sensitiveMediaWarning.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -251,7 +250,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
                     return true;
                 }
             });
-
+*/
             sensitiveMediaWarning.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -268,6 +267,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
 
                         public  void onFinish(){
                             vi.setVisibility(View.VISIBLE);
+                            vi.setOnClickListener(null);
                         }
 
                     }.start();
