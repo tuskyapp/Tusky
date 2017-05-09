@@ -155,6 +155,7 @@
     <string name="pref_title_browser_settings">المتصفح</string>
     <string name="pref_title_custom_tabs">إخفاء زر المتابعة أثناء تمرير الصفحة</string>
     <string name="pref_title_hide_follow_button">إخفاء زر المتابعة عند التمرير إلى أسفل</string>
+    <string name="pref_title_nsfw_timeout">مهلة عرض الصورة</string>
 
     <string name="notification_mention_format">%s أشار إليك</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s و %4$d أخرى</string>

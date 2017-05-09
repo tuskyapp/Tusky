@@ -141,6 +141,7 @@
     <string name="pref_title_browser_settings">Webrowser</string>
     <string name="pref_title_custom_tabs">Gebruik Chrome aangepaste tabbladen</string>
     <string name="pref_title_hide_follow_button">Verberg volgknop tijdens scrollen</string>
+    <string name="pref_title_nsfw_timeout">NSFW Beeldweergave time-out (secs)</string>
 
     <string name="notification_mention_format">%s vermeldde jou</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s en %4$d anderen</string>

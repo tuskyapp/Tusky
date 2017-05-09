@@ -153,6 +153,7 @@
     <string name="pref_title_browser_settings">Przeglądarka</string>
     <string name="pref_title_custom_tabs">Używaj kart Chrome</string>
     <string name="pref_title_hide_follow_button">Ukryj przycisk obserwacji podczas przewijania</string>
+    <string name="pref_title_nsfw_timeout">NSFW Limit czasu wyświetlania obrazu (secs)</string>
 
     <string name="notification_mention_format">%s wspomniał o tobie</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s i %4$d innych</string>
