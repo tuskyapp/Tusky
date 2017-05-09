@@ -240,7 +240,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         if (sensitive) {
 
             sensitiveMediaWarning.setVisibility(View.VISIBLE);
-
+/*
             sensitiveMediaWarning.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -251,7 +251,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
                     return true;
                 }
             });
-
+*/
             sensitiveMediaWarning.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -260,7 +260,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
 
                     vi.setVisibility(View.GONE);
 
-                    new CountDownTimer(10000, 1000){
+                    new CountDownTimer(15000, 1000){
 
                         public void onTick(long millisUntilFinished){
 
@@ -268,6 +268,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
 
                         public  void onFinish(){
                             vi.setVisibility(View.VISIBLE);
+                            vi.setOnClickListener(null);
                         }
 
                     }.start();
