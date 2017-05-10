@@ -45,6 +45,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TimelineFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
@@ -52,8 +53,6 @@ public class TimelineFragment extends SFragment implements
         StatusRemoveListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "Timeline"; // logging tag
-
-    private Call<List<Status>> listCall;
 
     public enum Kind {
         HOME,
@@ -121,6 +120,23 @@ public class TimelineFragment extends SFragment implements
         adapter = new TimelineAdapter(this);
         recyclerView.setAdapter(adapter);
 
+        return rootView;
+    }
+
+    private void onLoadMore(RecyclerView view) {
+        TimelineAdapter adapter = (TimelineAdapter) view.getAdapter();
+        Status status = adapter.getItem(adapter.getItemCount() - 2);
+        if (status != null) {
+            sendFetchTimelineRequest(status.id, null);
+        } else {
+            sendFetchTimelineRequest(null, null);
+        }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         if (jumpToTopAllowed()) {
             TabLayout layout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
             onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
@@ -137,23 +153,6 @@ public class TimelineFragment extends SFragment implements
             };
             layout.addOnTabSelectedListener(onTabSelectedListener);
         }
-
-        return rootView;
-    }
-
-    private void onLoadMore(RecyclerView view) {
-        TimelineAdapter adapter = (TimelineAdapter) view.getAdapter();
-        Status status = adapter.getItem(adapter.getItemCount() - 2);
-        if (status != null) {
-            sendFetchTimelineRequest(status.id, null);
-        } else {
-            sendFetchTimelineRequest();
-        }
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
 
         /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
          * guaranteed to be set until then. */
@@ -200,12 +199,6 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (listCall != null) listCall.cancel();
-    }
-
-    @Override
     public void onDestroyView() {
         if (jumpToTopAllowed()) {
             TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
@@ -232,9 +225,9 @@ public class TimelineFragment extends SFragment implements
             adapter.setFooterState(TimelineAdapter.FooterState.LOADING);
         }
 
-        Callback<List<Status>> cb = new Callback<List<Status>>() {
+        Callback<List<Status>> callback = new Callback<List<Status>>() {
             @Override
-            public void onResponse(Call<List<Status>> call, retrofit2.Response<List<Status>> response) {
+            public void onResponse(Call<List<Status>> call, Response<List<Status>> response) {
                 if (response.isSuccessful()) {
                     onFetchTimelineSuccess(response.body(), fromId);
                 } else {
@@ -248,6 +241,7 @@ public class TimelineFragment extends SFragment implements
             }
         };
 
+        Call<List<Status>> listCall;
         switch (kind) {
             default:
             case HOME: {
@@ -276,11 +270,7 @@ public class TimelineFragment extends SFragment implements
             }
         }
         callList.add(listCall);
-        listCall.enqueue(cb);
-    }
-
-    private void sendFetchTimelineRequest() {
-        sendFetchTimelineRequest(null, null);
+        listCall.enqueue(callback);
     }
 
     public void removePostsByUser(String accountId) {
@@ -322,7 +312,7 @@ public class TimelineFragment extends SFragment implements
         if (status != null) {
             sendFetchTimelineRequest(null, status.id);
         } else {
-            sendFetchTimelineRequest();
+            sendFetchTimelineRequest(null, null);
         }
     }
 
