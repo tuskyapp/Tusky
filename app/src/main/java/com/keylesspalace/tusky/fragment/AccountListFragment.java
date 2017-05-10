@@ -128,16 +128,22 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         }
         recyclerView.setAdapter(adapter);
 
+        return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        BaseActivity activity = (BaseActivity) getActivity();
+
         if (jumpToTopAllowed()) {
-            TabLayout layout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
+            TabLayout layout = (TabLayout) activity.findViewById(R.id.tab_layout);
             onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
                 @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-                }
+                public void onTabSelected(TabLayout.Tab tab) {}
 
                 @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
-                }
+                public void onTabUnselected(TabLayout.Tab tab) {}
 
                 @Override
                 public void onTabReselected(TabLayout.Tab tab) {
@@ -147,16 +153,10 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
             layout.addOnTabSelectedListener(onTabSelectedListener);
         }
 
-        return rootView;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         /* MastodonAPI on the base activity is only guaranteed to be initialised after the parent
          * activity is created, so everything needing to access the api object has to be delayed
          * until here. */
-        api = ((BaseActivity) getActivity()).mastodonAPI;
+        api = activity.mastodonAPI;
         scrollListener = new EndlessOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
