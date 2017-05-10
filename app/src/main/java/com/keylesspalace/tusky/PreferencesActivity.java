@@ -60,44 +60,58 @@ public class PreferencesActivity extends BaseActivity
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals("lightTheme")) {
-            themeSwitched = true;
-            // recreate() could be used instead, but it doesn't have an animation B).
-            Intent intent = getIntent();
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            Bundle savedInstanceState = new Bundle();
-            saveInstanceState(savedInstanceState);
-            intent.putExtras(savedInstanceState);
-            startActivity(intent);
-            finish();
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        } else if (key.equals("notificationsEnabled")) {
-            boolean notificationsEnabled = sharedPreferences.getBoolean("notificationsEnabled", true);
 
-            if (notificationsEnabled) {
-                enablePushNotifications();
-            } else {
-                disablePushNotifications();
-            }
-        }
+        switch (key) {
 
-        else if (key.equals("nsfwTimeout")) {
+            case "lightTheme": {
 
-            int timeout = Integer.parseInt(sharedPreferences.getString("nsfwTimeout", "10"));
+                themeSwitched = true;
+                // recreate() could be used instead, but it doesn't have an animation B).
+                Intent intent = getIntent();
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                Bundle savedInstanceState = new Bundle();
+                saveInstanceState(savedInstanceState);
+                intent.putExtras(savedInstanceState);
+                startActivity(intent);
+                finish();
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-
-            if (timeout < 5 ) {
-                editor.putString("nsfwTimeout", "5");
+                break;
             }
 
-            else if (timeout > 30) {
-                editor.putString("nsfwTimeout", "30");
+            case "notificationsEnabled": {
+
+                boolean notificationsEnabled = sharedPreferences.getBoolean("notificationsEnabled", true);
+
+                if (notificationsEnabled) {
+                    enablePushNotifications();
+                } else {
+                    disablePushNotifications();
+                }
+
+                break;
             }
 
-            timeoutChanged = true;
+            case "nsfwTimeout": {
 
-            editor.apply();
+                int timeout = Integer.parseInt(sharedPreferences.getString("nsfwTimeout", "10"));
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                if (timeout < 5) {
+                    editor.putString("nsfwTimeout", "5");
+                }
+
+                else if (timeout > 30) {
+                    editor.putString("nsfwTimeout", "30");
+                }
+
+                timeoutChanged = true;
+
+                editor.apply();
+
+                break;
+            }
         }
     }
 
