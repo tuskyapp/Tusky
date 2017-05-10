@@ -14,6 +14,11 @@
         <item name="android:padding">0dp</item>
         <item name="android:windowBackground">@android:color/black</item>
     </style>
+    
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 
     <!--Base Application Theme Styles (Dark)-->
 
