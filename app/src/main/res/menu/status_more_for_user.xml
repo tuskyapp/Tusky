@@ -2,7 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/status_share"
-        android:title="@string/action_share"/>
+        android:title="@string/action_share">
+        <menu>
+            <item
+                android:id="@+id/status_share_link"
+                android:title="@string/status_share_link" />
+            <item
+                android:id="@+id/status_share_content"
+                android:title="@string/status_share_content"/>
+        </menu>
+    </item>
     <item android:title="@string/action_delete"
         android:id="@+id/status_delete" />
 </menu>
