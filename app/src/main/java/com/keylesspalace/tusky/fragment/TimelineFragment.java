@@ -43,6 +43,7 @@ import com.keylesspalace.tusky.util.Log;
 import com.keylesspalace.tusky.util.TimelineReceiver;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -73,6 +74,9 @@ public class TimelineFragment extends SFragment implements
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
+    private SharedPreferences preferences;
+    private boolean filterRemoveReplies;
+    private boolean filterRemoveReblogs;
     private boolean hideFab;
     private TimelineReceiver timelineReceiver;
 
@@ -201,6 +205,8 @@ public class TimelineFragment extends SFragment implements
             };
         }
         recyclerView.addOnScrollListener(scrollListener);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
     @Override
@@ -292,7 +298,36 @@ public class TimelineFragment extends SFragment implements
         return false;
     }
 
+    protected void filterStatuses(List<Status> statuses) {
+        Iterator<Status> it = statuses.iterator();
+        while (it.hasNext()) {
+            Status status = it.next();
+            if ((status.inReplyToId != null && filterRemoveReplies) || (status.reblog != null && filterRemoveReblogs)) {
+                it.remove();
+            }
+        }
+    }
+
+    protected void setFiltersFromSettings() {
+        boolean oldRemoveReplies = filterRemoveReplies;
+        boolean oldRemoveReblogs = filterRemoveReblogs;
+        filterRemoveReplies = (kind == Kind.HOME && !preferences.getBoolean("tabFilterHomeReplies", true));
+        filterRemoveReblogs = (kind == Kind.HOME && !preferences.getBoolean("tabFilterHomeBoosts", true));
+
+        if (adapter.getItemCount() > 1 && (oldRemoveReblogs != filterRemoveReblogs || oldRemoveReplies != filterRemoveReplies)) {
+            adapter.clear();
+            sendFetchTimelineRequest(null, null);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setFiltersFromSettings();
+    }
+
     public void onFetchTimelineSuccess(List<Status> statuses, String fromId) {
+        filterStatuses(statuses);
         if (fromId != null) {
             if (statuses.size() > 0 && !findStatus(statuses, fromId)) {
                 adapter.addItems(statuses);
