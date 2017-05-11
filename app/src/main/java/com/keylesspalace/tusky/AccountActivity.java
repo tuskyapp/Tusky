@@ -32,6 +32,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -51,6 +52,7 @@ import com.keylesspalace.tusky.pager.AccountPagerAdapter;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.Assert;
 import com.keylesspalace.tusky.util.Log;
+import com.keylesspalace.tusky.util.TimelineReceiver;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
@@ -467,6 +469,7 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
                                 Snackbar.LENGTH_LONG).show();
                     } else {
                         followState = FollowState.NOT_FOLLOWING;
+                        broadcast(TimelineReceiver.Types.UNFOLLOW_ACCOUNT, id);
                     }
                     updateButtons();
                 } else {
@@ -517,6 +520,7 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
             @Override
             public void onResponse(Call<Relationship> call, Response<Relationship> response) {
                 if (response.isSuccessful()) {
+                    broadcast(TimelineReceiver.Types.BLOCK_ACCOUNT, id);
                     blocking = response.body().blocking;
                     updateButtons();
                 } else {
@@ -554,6 +558,7 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
             @Override
             public void onResponse(Call<Relationship> call, Response<Relationship> response) {
                 if (response.isSuccessful()) {
+                    broadcast(TimelineReceiver.Types.MUTE_ACCOUNT, id);
                     muting = response.body().muting;
                     updateButtons();
                 } else {
@@ -586,6 +591,11 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
                 .show();
     }
 
+    private void broadcast(String action, String id) {
+        Intent intent = new Intent(action);
+        intent.putExtra("id", id);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

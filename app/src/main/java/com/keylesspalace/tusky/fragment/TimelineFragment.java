@@ -23,6 +23,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,6 +40,7 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
 import com.keylesspalace.tusky.util.EndlessOnScrollListener;
 import com.keylesspalace.tusky.util.Log;
+import com.keylesspalace.tusky.util.TimelineReceiver;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.List;
@@ -72,6 +74,7 @@ public class TimelineFragment extends SFragment implements
     private EndlessOnScrollListener scrollListener;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private boolean hideFab;
+    private TimelineReceiver timelineReceiver;
 
     public static TimelineFragment newInstance(Kind kind) {
         TimelineFragment fragment = new TimelineFragment();
@@ -120,6 +123,8 @@ public class TimelineFragment extends SFragment implements
         adapter = new TimelineAdapter(this);
         recyclerView.setAdapter(adapter);
 
+        timelineReceiver = new TimelineReceiver(adapter);
+        LocalBroadcastManager.getInstance(context.getApplicationContext()).registerReceiver(timelineReceiver, TimelineReceiver.getFilter(kind));
         return rootView;
     }
 
@@ -204,6 +209,7 @@ public class TimelineFragment extends SFragment implements
             TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
             tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
         }
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(timelineReceiver);
         super.onDestroyView();
     }
 
