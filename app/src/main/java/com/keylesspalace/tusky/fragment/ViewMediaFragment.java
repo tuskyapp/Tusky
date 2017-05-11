@@ -15,10 +15,8 @@
 
 package com.keylesspalace.tusky.fragment;
 
-import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -30,18 +28,20 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.keylesspalace.tusky.R;
 import com.github.chrisbanes.photoview.OnOutsidePhotoTapListener;
 import com.github.chrisbanes.photoview.OnSingleFlingListener;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
+import com.keylesspalace.tusky.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -50,7 +50,7 @@ import java.io.File;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ViewMediaFragment extends DialogFragment {
+public class ViewMediaFragment extends DialogFragment implements Toolbar.OnMenuItemClickListener {
 
     private PhotoViewAttacher attacher;
 
@@ -58,6 +58,9 @@ public class ViewMediaFragment extends DialogFragment {
 
     @BindView(R.id.view_media_image)
     PhotoView photoView;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     public static ViewMediaFragment newInstance(String url) {
         Bundle arguments = new Bundle();
@@ -115,22 +118,10 @@ public class ViewMediaFragment extends DialogFragment {
             }
         });
 
-        attacher.setOnLongClickListener(new View.OnLongClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-
-                AlertDialog downloadDialog = new AlertDialog.Builder(getContext()).create();
-
-                downloadDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.dialog_download_image),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-
-                                downloadImage();
-                            }
-                        });
-                downloadDialog.show();
-                return false;
+            public void onClick(View v) {
+                dismiss();
             }
         });
 
@@ -140,6 +131,9 @@ public class ViewMediaFragment extends DialogFragment {
                     @Override
                     public void onSuccess() {
                         rootView.findViewById(R.id.view_media_progress).setVisibility(View.GONE);
+                        toolbar.setOnMenuItemClickListener(ViewMediaFragment.this);
+                        toolbar.inflateMenu(R.menu.view_media_tooblar);
+
                         attacher.update();
                     }
 
@@ -204,9 +198,24 @@ public class ViewMediaFragment extends DialogFragment {
 
     private void doErrorDialog(@StringRes int descriptionId, @StringRes int actionId,
                                View.OnClickListener listener) {
-        Snackbar bar = Snackbar.make(getView(), getString(descriptionId),
-                Snackbar.LENGTH_SHORT);
-        bar.setAction(actionId, listener);
-        bar.show();
+        if(getView() != null) {
+            Snackbar bar = Snackbar.make(getView(), getString(descriptionId),
+                    Snackbar.LENGTH_SHORT);
+            bar.setAction(actionId, listener);
+            bar.show();
+        }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_download:
+                downloadImage();
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 }
