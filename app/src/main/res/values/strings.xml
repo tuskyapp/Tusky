@@ -164,7 +164,6 @@
     <string name="pref_title_status_tabs">Tabs</string>
     <string name="pref_title_show_boosts">Show boosts</string>
     <string name="pref_title_show_replies">Show replies</string>
-
     <string name="pref_title_keep_screen_on">Keep screen on</string>
 
     <string name="notification_mention_format">%s mentioned you</string>
