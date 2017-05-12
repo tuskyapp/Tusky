@@ -10,14 +10,13 @@
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/view_media_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar" />
+        android:layout_height="match_parent" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/toolbar_view_media"
         app:navigationIcon="?attr/homeAsUpIndicator" />
 
     <ProgressBar
