@@ -160,6 +160,10 @@
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Use Chrome Custom Tabs</string>
     <string name="pref_title_hide_follow_button">Hide follow button while scrolling</string>
+    <string name="pref_title_status_filter">Timeline filtering</string>
+    <string name="pref_title_status_tabs">Tabs</string>
+    <string name="pref_title_show_boosts">Show boosts</string>
+    <string name="pref_title_show_replies">Show replies</string>
     <string name="pref_title_nsfw_timeout">NSFW image display timeout (secs)</string>
 
     <string name="notification_mention_format">%s mentioned you</string>
