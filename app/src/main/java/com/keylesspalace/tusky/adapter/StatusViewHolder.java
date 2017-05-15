@@ -28,7 +28,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.util.RoundedTransformation;
+import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.util.DateUtils;

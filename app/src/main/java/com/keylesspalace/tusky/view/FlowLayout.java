@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.util;
+package com.keylesspalace.tusky.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.util.Assert;
 
 public class FlowLayout extends ViewGroup {
     private int paddingHorizontal; // internal padding between child views

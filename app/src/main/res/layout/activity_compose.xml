@@ -54,7 +54,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
-            <com.keylesspalace.tusky.util.EditTextTyped
+            <com.keylesspalace.tusky.view.EditTextTyped
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/compose_edit_field"

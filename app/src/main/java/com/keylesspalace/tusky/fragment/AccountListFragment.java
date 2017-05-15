@@ -42,7 +42,7 @@ import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.network.MastodonAPI;
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.util.EndlessOnScrollListener;
+import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.util.Log;
 import com.keylesspalace.tusky.util.ThemeUtils;
 

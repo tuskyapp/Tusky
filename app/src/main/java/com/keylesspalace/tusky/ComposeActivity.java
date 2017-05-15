@@ -73,7 +73,7 @@ import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.fragment.ComposeOptionsFragment;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
-import com.keylesspalace.tusky.util.EditTextTyped;
+import com.keylesspalace.tusky.view.EditTextTyped;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.IOUtils;
 import com.keylesspalace.tusky.util.Log;
