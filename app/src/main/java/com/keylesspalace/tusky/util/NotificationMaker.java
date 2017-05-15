@@ -32,6 +32,8 @@ import android.support.v4.app.TaskStackBuilder;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Notification;
+import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver;
+import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 

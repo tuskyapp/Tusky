@@ -38,9 +38,9 @@ import com.keylesspalace.tusky.adapter.TimelineAdapter;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
-import com.keylesspalace.tusky.util.EndlessOnScrollListener;
+import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.util.Log;
-import com.keylesspalace.tusky.util.TimelineReceiver;
+import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.Iterator;

@@ -52,7 +52,7 @@ import com.keylesspalace.tusky.pager.AccountPagerAdapter;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.Assert;
 import com.keylesspalace.tusky.util.Log;
-import com.keylesspalace.tusky.util.TimelineReceiver;
+import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
