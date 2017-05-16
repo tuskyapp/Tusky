@@ -43,6 +43,12 @@ public class ParserUtils {
         return null;
     }
 
+    public void putInClipboardManager(Context context, String string) {
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("", string);
+        clipboard.setPrimaryClip(clip);
+    }
+
     // parse the HTML page
     private HeaderInfo parsePageHeaderInfo(String urlStr) throws Exception {
         Connection con = Jsoup.connect(urlStr);

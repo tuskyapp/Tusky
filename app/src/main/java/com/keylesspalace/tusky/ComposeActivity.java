@@ -390,6 +390,9 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                             int left = Math.min(start, end);
                             int right = Math.max(start, end);
                             textEditor.getText().replace(left, right, text, 0, text.length());
+
+                            parser.putInClipboardManager(this, text);
+                            textEditor.onPaste();
                         }
                     }
                 }
