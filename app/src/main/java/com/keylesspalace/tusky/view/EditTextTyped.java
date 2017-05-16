@@ -26,8 +26,10 @@ import android.view.inputmethod.InputConnection;
 import com.keylesspalace.tusky.util.Assert;
 
 public class EditTextTyped extends AppCompatEditText {
+
     InputConnectionCompat.OnCommitContentListener onCommitContentListener;
     String[] mimeTypes;
+    private OnPasteListener mOnPasteListener;
 
     public EditTextTyped(Context context) {
         super(context);
@@ -35,6 +37,10 @@ public class EditTextTyped extends AppCompatEditText {
 
     public EditTextTyped(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
+    }
+
+    public void addOnPasteListener(OnPasteListener mOnPasteListener) {
+        this.mOnPasteListener = mOnPasteListener;
     }
 
     public void setMimeTypes(String[] types,
@@ -54,5 +60,27 @@ public class EditTextTyped extends AppCompatEditText {
         } else {
             return connection;
         }
+    }
+
+    @Override
+    public boolean onTextContextMenuItem(int id) {
+        boolean consumed = super.onTextContextMenuItem(id);
+        switch (id) {
+            case android.R.id.paste:
+                onPaste();
+        }
+        return consumed;
+    }
+
+    /**
+     * Text was pasted into the EditText.
+     */
+    public void onPaste() {
+        if (mOnPasteListener != null)
+            mOnPasteListener.onPaste();
+    }
+
+    public interface OnPasteListener {
+        void onPaste();
     }
 }
