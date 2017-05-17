@@ -13,6 +13,8 @@ import org.jsoup.helper.HttpConnection;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.util.List;
+
 import static com.keylesspalace.tusky.util.StringUtils.QUOTE;
 
 /**
@@ -35,9 +37,13 @@ public class ParserUtils {
             ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
             pasteData = item.getText().toString();
 
-            // we have to find an url for start it
-            if (URLUtil.isValidUrl(pasteData)) {
-                new ThreadHeaderInfo().execute(pasteData);
+            // If we share with an app, it's not only an url
+            List<String> strings = StringUtils.extractUrl(pasteData);
+            String url = strings.get(0); // we assume that the first url is the good one
+            if (strings.size() > 0) {
+                if (URLUtil.isValidUrl(url)) {
+                    new ThreadHeaderInfo().execute(url);
+                }
             }
         }
         return null;
@@ -77,9 +83,7 @@ public class ParserUtils {
             headerInfo.title = QUOTE + text.toUpperCase() + QUOTE;
         }
         if (!TextUtils.isEmpty(imageUrl)) {
-            if (URLUtil.isValidUrl(imageUrl)) {
-                headerInfo.image = (imageUrl);
-            }
+            headerInfo.image = (imageUrl);
         }
         return headerInfo;
     }

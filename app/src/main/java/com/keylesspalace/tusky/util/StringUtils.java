@@ -1,6 +1,11 @@
 package com.keylesspalace.tusky.util;
 
+import android.util.Patterns;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
 
 public class StringUtils {
 
@@ -15,5 +20,15 @@ public class StringUtils {
             chars[i] = POSSIBLE_CHARS.charAt(random.nextInt(POSSIBLE_CHARS.length()));
         }
         return new String(chars);
+    }
+
+    static List<String> extractUrl(String text) {
+        List<String> links = new ArrayList<>();
+        Matcher m = Patterns.WEB_URL.matcher(text);
+        while (m.find()) {
+            String url = m.group();
+            links.add(url);
+        }
+        return links;
     }
 }
