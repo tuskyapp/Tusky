@@ -63,6 +63,10 @@ dependencies {
     googleCompile 'com.google.firebase:firebase-crash:10.2.4'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
+    compile('org.eclipse.paho:org.eclipse.paho.android.service:1.1.1') {
+        exclude module: 'support-v4'
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -38,9 +38,8 @@ import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.json.StringWithEmoji;
 import com.keylesspalace.tusky.json.StringWithEmojiTypeAdapter;
 import com.keylesspalace.tusky.network.MastodonAPI;
-import com.keylesspalace.tusky.network.TuskyAPI;
-import com.keylesspalace.tusky.util.Log;
 import com.keylesspalace.tusky.util.OkHttpUtils;
+import com.keylesspalace.tusky.util.PushNotificationClient;
 
 import java.io.IOException;
 
@@ -49,17 +48,12 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BaseActivity extends AppCompatActivity {
-    private static final String TAG = "BaseActivity"; // logging tag
-
     public MastodonAPI mastodonAPI;
-    protected TuskyAPI tuskyAPI;
+    protected PushNotificationClient pushNotificationClient;
     protected Dispatcher mastodonApiDispatcher;
     protected PendingIntent serviceAlarmIntent;
 
@@ -163,12 +157,8 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void createTuskyAPI() {
         if (BuildConfig.USES_PUSH_NOTIFICATIONS) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(getString(R.string.tusky_api_url))
-                    .client(OkHttpUtils.getCompatibleClient())
-                    .build();
-
-            tuskyAPI = retrofit.create(TuskyAPI.class);
+            // TODO: Remove this test broker address.
+            pushNotificationClient = new PushNotificationClient(this, "tcp://104.236.116.199:1883");
         }
     }
 
@@ -204,18 +194,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void enablePushNotifications() {
         if (BuildConfig.USES_PUSH_NOTIFICATIONS) {
-            String token = MessagingService.getInstanceToken();
-            tuskyAPI.register(getBaseUrl(), getAccessToken(), token).enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                    Log.d(TAG, "Enable push notifications response: " + response.message());
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Log.d(TAG, "Enable push notifications failed: " + t.getMessage());
-                }
-            });
+            pushNotificationClient.subscribeToTopic();
         } else {
             // Start up the MessagingService on a repeating interval for "pull" notifications.
             long checkInterval = 60 * 1000 * 5;
@@ -231,17 +210,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void disablePushNotifications() {
         if (BuildConfig.USES_PUSH_NOTIFICATIONS) {
-            tuskyAPI.unregister(getBaseUrl(), getAccessToken()).enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                    Log.d(TAG, "Disable push notifications response: " + response.message());
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Log.d(TAG, "Disable push notifications failed: " + t.getMessage());
-                }
-            });
+            pushNotificationClient.unsubscribeToTopic();
         } else if (serviceAlarmIntent != null) {
             // Cancel the repeating call for "pull" notifications.
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
