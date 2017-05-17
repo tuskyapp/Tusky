@@ -80,6 +80,7 @@ import com.keylesspalace.tusky.util.SpanUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EditTextTyped;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -153,6 +154,11 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     // this only exists when a status is trying to be sent, but uploads are still occurring
     private ProgressDialog finishingUploadDialog;
 
+    /**
+     * The Target object must be stored as a member field or method and cannot be an anonymous class otherwise this won't work as expected. The reason is that Picasso accepts this parameter as a weak memory reference. Because anonymous classes are eligible for garbage collection when there are no more references, the network request to fetch the image may finish after this anonymous class has already been reclaimed. See this Stack Overflow discussion for more details.
+     */
+    @SuppressWarnings("FieldCanBeLocal")
+    private Target target;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -1184,7 +1190,15 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             textEditor.append(headerInfo.baseUrl);
         }
         if (!TextUtils.isEmpty(headerInfo.image)) {
-            Picasso.with(this).load(headerInfo.image).into(MediaUtils.picassoImageTarget(getApplicationContext(), new MediaUtils.MediaListener() {
+            Picasso.Builder builder = new Picasso.Builder(getApplicationContext());
+            builder.listener(new Picasso.Listener() {
+                @Override
+                public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+                    exception.printStackTrace();
+                }
+            });
+
+            target = MediaUtils.picassoImageTarget(ComposeActivity.this, new MediaUtils.MediaListener() {
                 @Override
                 public void onCallback(final Uri headerInfo) {
                     if (headerInfo != null) {
@@ -1197,9 +1211,11 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                         });
                     }
                 }
-            }));
+            });
+            Picasso.with(this).load(headerInfo.image).into(target);
         }
     }
+
 
     // remove the precedent paste from the edit text
     private void cleanBaseUrl(ParserUtils.HeaderInfo headerInfo) {
