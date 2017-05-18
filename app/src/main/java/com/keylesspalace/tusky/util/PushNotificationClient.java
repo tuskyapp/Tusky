@@ -26,6 +26,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayDeque;
 
 import okhttp3.Interceptor;
@@ -88,20 +89,24 @@ public class PushNotificationClient {
         options.setAutomaticReconnect(true);
         options.setCleanSession(false);
         try {
-            /* TLS connection stuffs
-            InputStream input = context.getResources().openRawResource(R.raw.keystore_tusky_api);
+            /*
             String password = context.getString(R.string.tusky_api_keystore_password);
-            options.setSocketFactory(mqttAndroidClient.getSSLSocketFactory(input, password));
+            InputStream keystore = context.getResources().openRawResource(R.raw.keystore_tusky_api);
+            try {
+                options.setSocketFactory(mqttAndroidClient.getSSLSocketFactory(keystore, password));
+            } finally {
+                IOUtils.closeQuietly(keystore);
+            }
             */
             mqttAndroidClient.connect(options).setActionCallback(new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-                    DisconnectedBufferOptions options = new DisconnectedBufferOptions();
-                    options.setBufferEnabled(true);
-                    options.setBufferSize(100);
-                    options.setPersistBuffer(false);
-                    options.setDeleteOldestMessages(false);
-                    mqttAndroidClient.setBufferOpts(options);
+                    DisconnectedBufferOptions bufferOptions = new DisconnectedBufferOptions();
+                    bufferOptions.setBufferEnabled(true);
+                    bufferOptions.setBufferSize(100);
+                    bufferOptions.setPersistBuffer(false);
+                    bufferOptions.setDeleteOldestMessages(false);
+                    mqttAndroidClient.setBufferOpts(bufferOptions);
                     onConnectionSuccess();
                     connected = true;
                     flushQueuedActions();
@@ -252,5 +257,9 @@ public class PushNotificationClient {
                 .build();
 
         mastodonApi = retrofit.create(MastodonAPI.class);
+    }
+
+    public void clearNotifications() {
+        // TODO: make it happen
     }
 }

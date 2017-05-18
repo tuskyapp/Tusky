@@ -15,8 +15,6 @@
 
 package com.keylesspalace.tusky;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,7 +22,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -55,7 +52,6 @@ public class BaseActivity extends AppCompatActivity {
     public MastodonAPI mastodonAPI;
     protected PushNotificationClient pushNotificationClient;
     protected Dispatcher mastodonApiDispatcher;
-    protected PendingIntent serviceAlarmIntent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -156,10 +152,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void createTuskyAPI() {
-        if (BuildConfig.USES_PUSH_NOTIFICATIONS) {
-            // TODO: Remove this test broker address.
-            pushNotificationClient = new PushNotificationClient(this, "tcp://104.236.116.199:1883");
-        }
+        pushNotificationClient = new PushNotificationClient(this,
+                getString(R.string.tusky_api_url));
     }
 
     protected void redirectIfNotLoggedIn() {
@@ -193,28 +187,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void enablePushNotifications() {
-        if (BuildConfig.USES_PUSH_NOTIFICATIONS) {
-            pushNotificationClient.subscribeToTopic();
-        } else {
-            // Start up the MessagingService on a repeating interval for "pull" notifications.
-            long checkInterval = 60 * 1000 * 5;
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(this, MessagingService.class);
-            final int SERVICE_REQUEST_CODE = 8574603; // This number is arbitrary.
-            serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE, intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime(), checkInterval, serviceAlarmIntent);
-        }
+        pushNotificationClient.subscribeToTopic();
     }
 
     protected void disablePushNotifications() {
-        if (BuildConfig.USES_PUSH_NOTIFICATIONS) {
-            pushNotificationClient.unsubscribeToTopic();
-        } else if (serviceAlarmIntent != null) {
-            // Cancel the repeating call for "pull" notifications.
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            alarmManager.cancel(serviceAlarmIntent);
-        }
+        pushNotificationClient.unsubscribeToTopic();
     }
 }

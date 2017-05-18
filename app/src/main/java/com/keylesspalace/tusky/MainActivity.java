@@ -215,8 +215,7 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
                 .putString("current", "[]")
                 .apply();
 
-        ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE)))
-                .cancel(MessagingService.NOTIFY_ID);
+        pushNotificationClient.clearNotifications();
 
         /* After editing a profile, the profile header in the navigation drawer needs to be
          * refreshed */
