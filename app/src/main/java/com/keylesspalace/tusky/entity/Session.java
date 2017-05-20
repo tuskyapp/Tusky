@@ -13,18 +13,16 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.network;
+package com.keylesspalace.tusky.entity;
 
-import com.keylesspalace.tusky.entity.Session;
+public class Session {
+    public String instanceUrl;
+    public String accessToken;
+    public String deviceToken;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.POST;
-
-public interface TuskyApi {
-    @POST("/register")
-    Call<ResponseBody> register(@Body Session session);
-    @POST("/unregister")
-    Call<ResponseBody> unregister(@Body Session session);
+    public Session(String instanceUrl, String accessToken, String deviceToken) {
+        this.instanceUrl = instanceUrl;
+        this.accessToken = accessToken;
+        this.deviceToken = deviceToken;
+    }
 }

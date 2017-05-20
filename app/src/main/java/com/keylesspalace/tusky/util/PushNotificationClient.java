@@ -105,8 +105,21 @@ public class PushNotificationClient {
                 // This client is read-only, so this is unused.
             }
         });
+    }
 
-        // Open the MQTT connection.
+    private void flushQueuedActions() {
+        while (!queuedActions.isEmpty()) {
+            QueuedAction action = queuedActions.pop();
+            switch (action.type) {
+                case SUBSCRIBE:   subscribeToTopic(action.topic);   break;
+                case UNSUBSCRIBE: unsubscribeToTopic(action.topic); break;
+                case DISCONNECT:  disconnect();                     break;
+            }
+        }
+    }
+
+    /** Connect to the MQTT broker. */
+    public void connect() {
         MqttConnectOptions options = new MqttConnectOptions();
         options.setAutomaticReconnect(true);
         options.setCleanSession(false);
@@ -140,20 +153,21 @@ public class PushNotificationClient {
                 }
             });
         } catch (MqttException e) {
-            Log.e(TAG, "An exception occurred while connecting. " + e.getMessage());
+            Log.e(TAG, "An exception occurred while connecpting. " + e.getMessage());
             onConnectionFailure();
         }
     }
 
-    private void flushQueuedActions() {
-        while (!queuedActions.isEmpty()) {
-            QueuedAction action = queuedActions.pop();
-            switch (action.type) {
-                case SUBSCRIBE:   subscribeToTopic(action.topic);   break;
-                case UNSUBSCRIBE: unsubscribeToTopic(action.topic); break;
-                case DISCONNECT:  disconnect();                     break;
-            }
-        }
+    private void onConnectionSuccess() {
+        Log.v(TAG, "The connection succeeded.");
+    }
+
+    private void onConnectionFailure() {
+        Log.v(TAG, "The connection failed.");
+    }
+
+    private void onConnectionLost() {
+        Log.v(TAG, "The connection was lost.");
     }
 
     /** Disconnect from the MQTT broker. */
@@ -213,18 +227,6 @@ public class PushNotificationClient {
             Log.e(TAG, "An exception occurred while unsubscribing." + e.getMessage());
             onConnectionFailure();
         }
-    }
-
-    private void onConnectionSuccess() {
-        Log.v(TAG, "The connection succeeded.");
-    }
-
-    private void onConnectionFailure() {
-        Log.v(TAG, "The connection failed.");
-    }
-
-    private void onConnectionLost() {
-        Log.v(TAG, "The connection was lost.");
     }
 
     private void onMessageReceived(final Context context, String message) {

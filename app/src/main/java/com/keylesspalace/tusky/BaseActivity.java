@@ -31,6 +31,7 @@ import android.view.Menu;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.keylesspalace.tusky.entity.Session;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.json.StringWithEmoji;
 import com.keylesspalace.tusky.json.StringWithEmojiTypeAdapter;
@@ -162,8 +163,9 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void createTuskyApi() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + getString(R.string.tusky_api_domain))
+                .baseUrl("http://" + getString(R.string.tusky_api_domain) + ":8080")
                 .client(OkHttpUtils.getCompatibleClient())
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         tuskyApi = retrofit.create(TuskyApi.class);
@@ -172,7 +174,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void createPushNotificationClient() {
         // TODO: Switch to ssl:// when TLS support is added.
         pushNotificationClient = new PushNotificationClient(getApplicationContext(),
-                "tcp://" + getString(R.string.tusky_api_domain));
+                "tcp://" + getString(R.string.tusky_api_domain) + ":8000");
     }
 
     protected void redirectIfNotLoggedIn() {
@@ -212,6 +214,7 @@ public class BaseActivity extends AppCompatActivity {
                                    retrofit2.Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     pushNotificationClient.subscribeToTopic(getPushNotificationTopic());
+                    pushNotificationClient.connect();
                 } else {
                     onEnablePushNotificationsFailure();
                 }
@@ -222,7 +225,9 @@ public class BaseActivity extends AppCompatActivity {
                 onEnablePushNotificationsFailure();
             }
         };
-        tuskyApi.register(getBaseUrl(), getAccessToken(), pushNotificationClient.getDeviceToken())
+        String deviceToken = pushNotificationClient.getDeviceToken();
+        Session session = new Session(getDomain(), getAccessToken(), deviceToken);
+        tuskyApi.register(session)
                 .enqueue(callback);
     }
 
@@ -247,7 +252,9 @@ public class BaseActivity extends AppCompatActivity {
                 onDisablePushNotificationsFailure();
             }
         };
-        tuskyApi.unregister(getBaseUrl(), getAccessToken(), pushNotificationClient.getDeviceToken())
+        String deviceToken = pushNotificationClient.getDeviceToken();
+        Session session = new Session(getDomain(), getAccessToken(), deviceToken);
+        tuskyApi.unregister(session)
                 .enqueue(callback);
     }
 
@@ -256,7 +263,11 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private String getPushNotificationTopic() {
-        return String.format("%s/%s/%s", getBaseUrl(), getAccessToken(),
-                pushNotificationClient.getDeviceToken());
+        return String.format("%s/%s/#", getDomain(), getAccessToken());
+    }
+
+    private String getDomain() {
+        return getPrivatePreferences()
+                .getString("domain", null);
     }
 }
