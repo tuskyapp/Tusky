@@ -152,7 +152,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void createTuskyAPI() {
-        pushNotificationClient = new PushNotificationClient(this,
+        pushNotificationClient = new PushNotificationClient(getApplicationContext(),
                 getString(R.string.tusky_api_url));
     }
 

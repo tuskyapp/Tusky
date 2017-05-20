@@ -1,5 +1,6 @@
 package com.keylesspalace.tusky.util;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -38,6 +39,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
+
 public class PushNotificationClient {
     private static final String TAG = "PushNotificationClient";
     private static final String TOPIC = "tusky/notification";
@@ -51,20 +54,24 @@ public class PushNotificationClient {
 
     private MqttAndroidClient mqttAndroidClient;
     private MastodonAPI mastodonApi;
-    private boolean connected;
     private ArrayDeque<QueuedAction> queuedActions;
+    private boolean subscribed;
 
-    public PushNotificationClient(final @NonNull Context context, @NonNull String serverUri) {
+    public PushNotificationClient(final @NonNull Context applicationContext,
+                                  @NonNull String serverUri) {
         queuedActions = new ArrayDeque<>();
 
         // Create the MQTT client.
         String clientId = MqttClient.generateClientId();
-        mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
+        mqttAndroidClient = new MqttAndroidClient(applicationContext, serverUri, clientId);
         mqttAndroidClient.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
                 if (reconnect) {
                     flushQueuedActions();
+                    if (subscribed) {
+                        subscribeToTopic();
+                    }
                 }
             }
 
@@ -75,7 +82,7 @@ public class PushNotificationClient {
 
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
-                onMessageReceived(context, new String(message.getPayload()));
+                onMessageReceived(applicationContext, new String(message.getPayload()));
             }
 
             @Override
@@ -108,7 +115,6 @@ public class PushNotificationClient {
                     bufferOptions.setDeleteOldestMessages(false);
                     mqttAndroidClient.setBufferOpts(bufferOptions);
                     onConnectionSuccess();
-                    connected = true;
                     flushQueuedActions();
                 }
 
@@ -125,7 +131,8 @@ public class PushNotificationClient {
     }
 
     private void flushQueuedActions() {
-        for (QueuedAction action : queuedActions) {
+        while (!queuedActions.isEmpty()) {
+            QueuedAction action = queuedActions.pop();
             switch (action) {
                 case SUBSCRIBE:   subscribeToTopic();   break;
                 case UNSUBSCRIBE: unsubscribeToTopic(); break;
@@ -136,7 +143,7 @@ public class PushNotificationClient {
 
     /** Disconnect from the MQTT broker. */
     public void disconnect() {
-        if (!connected) {
+        if (!mqttAndroidClient.isConnected()) {
             queuedActions.add(QueuedAction.DISCONNECT);
             return;
         }
@@ -154,7 +161,7 @@ public class PushNotificationClient {
 
     /** Subscribe to the push notification topic. */
     public void subscribeToTopic() {
-        if (!connected) {
+        if (!mqttAndroidClient.isConnected()) {
             queuedActions.add(QueuedAction.SUBSCRIBE);
             return;
         }
@@ -162,6 +169,7 @@ public class PushNotificationClient {
             mqttAndroidClient.subscribe(TOPIC, 0, null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
+                    subscribed = true;
                     onConnectionSuccess();
                 }
 
@@ -179,12 +187,13 @@ public class PushNotificationClient {
 
     /** Unsubscribe from the push notification topic. */
     public void unsubscribeToTopic() {
-        if (!connected) {
+        if (!mqttAndroidClient.isConnected()) {
             queuedActions.add(QueuedAction.UNSUBSCRIBE);
             return;
         }
         try {
             mqttAndroidClient.unsubscribe(TOPIC);
+            subscribed = false;
         } catch (MqttException e) {
             Log.e(TAG, "An exception occurred while unsubscribing." + e.getMessage());
             onConnectionFailure();
@@ -259,7 +268,7 @@ public class PushNotificationClient {
         mastodonApi = retrofit.create(MastodonAPI.class);
     }
 
-    public void clearNotifications() {
-        // TODO: make it happen
+    public void clearNotifications(Context context) {
+        ((NotificationManager) (context.getSystemService(NOTIFICATION_SERVICE))).cancel(NOTIFY_ID);
     }
 }
