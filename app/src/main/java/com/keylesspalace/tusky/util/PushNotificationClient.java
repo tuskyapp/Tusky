@@ -29,6 +29,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -43,23 +44,37 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class PushNotificationClient {
     private static final String TAG = "PushNotificationClient";
-    private static final String TOPIC = "tusky/notification";
     private static final int NOTIFY_ID = 666;
 
-    private enum QueuedAction {
-        SUBSCRIBE,
-        UNSUBSCRIBE,
-        DISCONNECT,
+    private static class QueuedAction {
+        enum Type {
+            SUBSCRIBE,
+            UNSUBSCRIBE,
+            DISCONNECT,
+        }
+
+        Type type;
+        String topic;
+
+        QueuedAction(Type type) {
+            this.type = type;
+        }
+
+        QueuedAction(Type type, String topic) {
+            this.type = type;
+            this.topic = topic;
+        }
     }
 
     private MqttAndroidClient mqttAndroidClient;
     private MastodonAPI mastodonApi;
     private ArrayDeque<QueuedAction> queuedActions;
-    private boolean subscribed;
+    private ArrayList<String> subscribedTopics;
 
     public PushNotificationClient(final @NonNull Context applicationContext,
                                   @NonNull String serverUri) {
         queuedActions = new ArrayDeque<>();
+        subscribedTopics = new ArrayList<>();
 
         // Create the MQTT client.
         String clientId = MqttClient.generateClientId();
@@ -69,8 +84,8 @@ public class PushNotificationClient {
             public void connectComplete(boolean reconnect, String serverURI) {
                 if (reconnect) {
                     flushQueuedActions();
-                    if (subscribed) {
-                        subscribeToTopic();
+                    for (String topic : subscribedTopics) {
+                        subscribeToTopic(topic);
                     }
                 }
             }
@@ -133,10 +148,10 @@ public class PushNotificationClient {
     private void flushQueuedActions() {
         while (!queuedActions.isEmpty()) {
             QueuedAction action = queuedActions.pop();
-            switch (action) {
-                case SUBSCRIBE:   subscribeToTopic();   break;
-                case UNSUBSCRIBE: unsubscribeToTopic(); break;
-                case DISCONNECT:  disconnect();         break;
+            switch (action.type) {
+                case SUBSCRIBE:   subscribeToTopic(action.topic);   break;
+                case UNSUBSCRIBE: unsubscribeToTopic(action.topic); break;
+                case DISCONNECT:  disconnect();                     break;
             }
         }
     }
@@ -144,7 +159,7 @@ public class PushNotificationClient {
     /** Disconnect from the MQTT broker. */
     public void disconnect() {
         if (!mqttAndroidClient.isConnected()) {
-            queuedActions.add(QueuedAction.DISCONNECT);
+            queuedActions.add(new QueuedAction(QueuedAction.Type.DISCONNECT));
             return;
         }
         try {
@@ -160,16 +175,16 @@ public class PushNotificationClient {
     }
 
     /** Subscribe to the push notification topic. */
-    public void subscribeToTopic() {
+    public void subscribeToTopic(final String topic) {
         if (!mqttAndroidClient.isConnected()) {
-            queuedActions.add(QueuedAction.SUBSCRIBE);
+            queuedActions.add(new QueuedAction(QueuedAction.Type.SUBSCRIBE, topic));
             return;
         }
         try {
-            mqttAndroidClient.subscribe(TOPIC, 0, null, new IMqttActionListener() {
+            mqttAndroidClient.subscribe(topic, 0, null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-                    subscribed = true;
+                    subscribedTopics.add(topic);
                     onConnectionSuccess();
                 }
 
@@ -186,14 +201,14 @@ public class PushNotificationClient {
     }
 
     /** Unsubscribe from the push notification topic. */
-    public void unsubscribeToTopic() {
+    public void unsubscribeToTopic(String topic) {
         if (!mqttAndroidClient.isConnected()) {
-            queuedActions.add(QueuedAction.UNSUBSCRIBE);
+            queuedActions.add(new QueuedAction(QueuedAction.Type.UNSUBSCRIBE, topic));
             return;
         }
         try {
-            mqttAndroidClient.unsubscribe(TOPIC);
-            subscribed = false;
+            mqttAndroidClient.unsubscribe(topic);
+            subscribedTopics.remove(topic);
         } catch (MqttException e) {
             Log.e(TAG, "An exception occurred while unsubscribing." + e.getMessage());
             onConnectionFailure();
@@ -270,5 +285,9 @@ public class PushNotificationClient {
 
     public void clearNotifications(Context context) {
         ((NotificationManager) (context.getSystemService(NOTIFICATION_SERVICE))).cancel(NOTIFY_ID);
+    }
+
+    public String getDeviceToken() {
+        return mqttAndroidClient.getClientId();
     }
 }

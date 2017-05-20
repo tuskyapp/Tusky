@@ -35,6 +35,8 @@ import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.json.StringWithEmoji;
 import com.keylesspalace.tusky.json.StringWithEmojiTypeAdapter;
 import com.keylesspalace.tusky.network.MastodonAPI;
+import com.keylesspalace.tusky.network.TuskyApi;
+import com.keylesspalace.tusky.util.Log;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 import com.keylesspalace.tusky.util.PushNotificationClient;
 
@@ -45,11 +47,17 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BaseActivity extends AppCompatActivity {
+    private static final String TAG = "BaseActivity"; // logging tag
+
     public MastodonAPI mastodonAPI;
+    public TuskyApi tuskyApi;
     protected PushNotificationClient pushNotificationClient;
     protected Dispatcher mastodonApiDispatcher;
 
@@ -59,7 +67,8 @@ public class BaseActivity extends AppCompatActivity {
 
         redirectIfNotLoggedIn();
         createMastodonAPI();
-        createTuskyAPI();
+        createTuskyApi();
+        createPushNotificationClient();
 
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
@@ -151,9 +160,19 @@ public class BaseActivity extends AppCompatActivity {
         mastodonAPI = retrofit.create(MastodonAPI.class);
     }
 
-    protected void createTuskyAPI() {
+    protected void createTuskyApi() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + getString(R.string.tusky_api_domain))
+                .client(OkHttpUtils.getCompatibleClient())
+                .build();
+
+        tuskyApi = retrofit.create(TuskyApi.class);
+    }
+
+    protected void createPushNotificationClient() {
+        // TODO: Switch to ssl:// when TLS support is added.
         pushNotificationClient = new PushNotificationClient(getApplicationContext(),
-                getString(R.string.tusky_api_url));
+                "tcp://" + getString(R.string.tusky_api_domain));
     }
 
     protected void redirectIfNotLoggedIn() {
@@ -187,10 +206,57 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void enablePushNotifications() {
-        pushNotificationClient.subscribeToTopic();
+        Callback<ResponseBody> callback = new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call,
+                                   retrofit2.Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    pushNotificationClient.subscribeToTopic(getPushNotificationTopic());
+                } else {
+                    onEnablePushNotificationsFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                onEnablePushNotificationsFailure();
+            }
+        };
+        tuskyApi.register(getBaseUrl(), getAccessToken(), pushNotificationClient.getDeviceToken())
+                .enqueue(callback);
+    }
+
+    private void onEnablePushNotificationsFailure() {
+        Log.e(TAG, "Enabling push notifications failed.");
     }
 
     protected void disablePushNotifications() {
-        pushNotificationClient.unsubscribeToTopic();
+        Callback<ResponseBody> callback = new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call,
+                                   retrofit2.Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    pushNotificationClient.unsubscribeToTopic(getPushNotificationTopic());
+                } else {
+                    onDisablePushNotificationsFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                onDisablePushNotificationsFailure();
+            }
+        };
+        tuskyApi.unregister(getBaseUrl(), getAccessToken(), pushNotificationClient.getDeviceToken())
+                .enqueue(callback);
+    }
+
+    private void onDisablePushNotificationsFailure() {
+        Log.e(TAG, "Disabling push notifications failed.");
+    }
+
+    private String getPushNotificationTopic() {
+        return String.format("%s/%s/%s", getBaseUrl(), getAccessToken(),
+                pushNotificationClient.getDeviceToken());
     }
 }
