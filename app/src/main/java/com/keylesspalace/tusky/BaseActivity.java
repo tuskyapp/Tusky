@@ -174,7 +174,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void createPushNotificationClient() {
         // TODO: Switch to ssl:// when TLS support is added.
         pushNotificationClient = new PushNotificationClient(getApplicationContext(),
-                "tcp://" + getString(R.string.tusky_api_domain) + ":8000");
+                "tcp://" + getString(R.string.tusky_api_domain) + ":1883");
     }
 
     protected void redirectIfNotLoggedIn() {

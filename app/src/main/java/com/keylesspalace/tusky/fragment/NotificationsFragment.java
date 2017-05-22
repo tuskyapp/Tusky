@@ -233,9 +233,6 @@ public class NotificationsFragment extends SFragment implements
         } else {
             adapter.update(notifications);
         }
-        for (Notification notification : notifications) {
-            Log.d(TAG, "id: " + notification.id);
-        }
         if (notifications.size() == 0 && adapter.getItemCount() == 1) {
             adapter.setFooterState(NotificationsAdapter.FooterState.EMPTY);
         } else if (fromId != null) {

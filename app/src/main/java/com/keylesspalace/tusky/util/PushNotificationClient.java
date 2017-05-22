@@ -2,18 +2,15 @@ package com.keylesspalace.tusky.util;
 
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.text.Spanned;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.json.StringWithEmoji;
 import com.keylesspalace.tusky.json.StringWithEmojiTypeAdapter;
-import com.keylesspalace.tusky.network.MastodonAPI;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
@@ -26,19 +23,8 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -67,7 +53,6 @@ public class PushNotificationClient {
     }
 
     private MqttAndroidClient mqttAndroidClient;
-    private MastodonAPI mastodonApi;
     private ArrayDeque<QueuedAction> queuedActions;
     private ArrayList<String> subscribedTopics;
 
@@ -148,7 +133,8 @@ public class PushNotificationClient {
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.e(TAG, "An exception occurred while connecting. " + exception.getMessage());
+                    Log.e(TAG, "An exception occurred while connecting. " + exception.getMessage()
+                            + " " + exception.getCause());
                     onConnectionFailure();
                 }
             });
@@ -230,59 +216,15 @@ public class PushNotificationClient {
     }
 
     private void onMessageReceived(final Context context, String message) {
-        String notificationId = message; // TODO: finalize the form the messages will be received
-
-        Log.v(TAG, "Notification received: " + notificationId);
-
-        createMastodonAPI(context);
-
-        mastodonApi.notification(notificationId).enqueue(new Callback<Notification>() {
-            @Override
-            public void onResponse(Call<Notification> call, Response<Notification> response) {
-                if (response.isSuccessful()) {
-                    NotificationMaker.make(context, NOTIFY_ID, response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Notification> call, Throwable t) {}
-        });
-    }
-
-    private void createMastodonAPI(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences(
-                context.getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        final String domain = preferences.getString("domain", null);
-        final String accessToken = preferences.getString("accessToken", null);
-
-        OkHttpClient okHttpClient = OkHttpUtils.getCompatibleClientBuilder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public okhttp3.Response intercept(Chain chain) throws IOException {
-                        Request originalRequest = chain.request();
-
-                        Request.Builder builder = originalRequest.newBuilder()
-                                .header("Authorization", String.format("Bearer %s", accessToken));
-
-                        Request newRequest = builder.build();
-
-                        return chain.proceed(newRequest);
-                    }
-                })
-                .build();
+        Log.v(TAG, "Notification received: " + message);
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
                 .registerTypeAdapter(StringWithEmoji.class, new StringWithEmojiTypeAdapter())
                 .create();
+        Notification notification = gson.fromJson(message, Notification.class);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + domain)
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        mastodonApi = retrofit.create(MastodonAPI.class);
+        NotificationMaker.make(context, NOTIFY_ID, notification);
     }
 
     public void clearNotifications(Context context) {
