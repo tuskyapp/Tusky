@@ -163,7 +163,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void createTuskyApi() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://" + getString(R.string.tusky_api_domain) + ":8080")
+                .baseUrl("https://" + getString(R.string.tusky_api_domain) + ":8080")
                 .client(OkHttpUtils.getCompatibleClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -172,9 +172,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void createPushNotificationClient() {
-        // TODO: Switch to ssl:// when TLS support is added.
         pushNotificationClient = new PushNotificationClient(getApplicationContext(),
-                "tcp://" + getString(R.string.tusky_api_domain) + ":1883");
+                "ssl://" + getString(R.string.tusky_api_domain) + ":8883");
     }
 
     protected void redirectIfNotLoggedIn() {
@@ -214,15 +213,15 @@ public class BaseActivity extends AppCompatActivity {
                                    retrofit2.Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     pushNotificationClient.subscribeToTopic(getPushNotificationTopic());
-                    pushNotificationClient.connect();
+                    pushNotificationClient.connect(BaseActivity.this);
                 } else {
-                    onEnablePushNotificationsFailure();
+                    onEnablePushNotificationsFailure(response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                onEnablePushNotificationsFailure();
+                onEnablePushNotificationsFailure(t.getMessage());
             }
         };
         String deviceToken = pushNotificationClient.getDeviceToken();
@@ -231,8 +230,8 @@ public class BaseActivity extends AppCompatActivity {
                 .enqueue(callback);
     }
 
-    private void onEnablePushNotificationsFailure() {
-        Log.e(TAG, "Enabling push notifications failed.");
+    private void onEnablePushNotificationsFailure(String message) {
+        Log.e(TAG, "Enabling push notifications failed. " + message);
     }
 
     protected void disablePushNotifications() {

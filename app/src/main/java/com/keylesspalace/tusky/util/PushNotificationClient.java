@@ -7,6 +7,7 @@ import android.text.Spanned;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.json.StringWithEmoji;
@@ -23,6 +24,7 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.io.InputStream;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
@@ -104,12 +106,11 @@ public class PushNotificationClient {
     }
 
     /** Connect to the MQTT broker. */
-    public void connect() {
+    public void connect(Context context) {
         MqttConnectOptions options = new MqttConnectOptions();
         options.setAutomaticReconnect(true);
         options.setCleanSession(false);
         try {
-            /*
             String password = context.getString(R.string.tusky_api_keystore_password);
             InputStream keystore = context.getResources().openRawResource(R.raw.keystore_tusky_api);
             try {
@@ -117,7 +118,6 @@ public class PushNotificationClient {
             } finally {
                 IOUtils.closeQuietly(keystore);
             }
-            */
             mqttAndroidClient.connect(options).setActionCallback(new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
