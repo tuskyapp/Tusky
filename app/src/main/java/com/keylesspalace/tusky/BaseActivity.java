@@ -163,7 +163,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void createTuskyApi() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + getString(R.string.tusky_api_domain) + ":8080")
+                .baseUrl("https://" + getString(R.string.tusky_api_url))
                 .client(OkHttpUtils.getCompatibleClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -173,7 +173,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void createPushNotificationClient() {
         pushNotificationClient = new PushNotificationClient(getApplicationContext(),
-                "ssl://" + getString(R.string.tusky_api_domain) + ":8883");
+                "ssl://" + getString(R.string.tusky_api_url) + ":8883");
     }
 
     protected void redirectIfNotLoggedIn() {
