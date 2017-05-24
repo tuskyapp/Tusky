@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.VIBRATE" /> <!--For notifications-->
     <uses-permission android:name="android.permission.WAKE_LOCK" />  <!--Required by Eclipse Paho-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!--Required by Eclipse Paho-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!--Required by Eclipse Paho-->
 
     <application
         android:allowBackup="true"
