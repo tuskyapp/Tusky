@@ -486,12 +486,14 @@ public class EditProfileActivity extends BaseActivity {
                 try {
                     inputStream = contentResolver.openInputStream(uri);
                 } catch (FileNotFoundException e) {
+                    Log.d(TAG, Log.getStackTraceString(e));
                     return false;
                 }
                 Bitmap sourceBitmap;
                 try {
                     sourceBitmap = BitmapFactory.decodeStream(inputStream, null, null);
                 } catch (OutOfMemoryError error) {
+                    Log.d(TAG, Log.getStackTraceString(error));
                     return false;
                 } finally {
                     IOUtils.closeQuietly(inputStream);
