@@ -7,18 +7,10 @@ android {
         applicationId "com.keylesspalace.tusky"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 16
-        versionName "1.1.3"
+        versionCode 17
+        versionName "1.1.4-beta.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
-    }
-    productFlavors {
-        google {
-            buildConfigField "boolean", "USES_PUSH_NOTIFICATIONS", "true"
-        }
-        fdroid {
-            buildConfigField "boolean", "USES_PUSH_NOTIFICATIONS", "false"
-        }
     }
     buildTypes {
         release {
@@ -59,10 +51,10 @@ dependencies {
     compile 'com.github.arimorty:floatingsearchview:2.0.4'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.4.3'
     compile 'com.jakewharton:butterknife:8.5.1'
-    googleCompile 'com.google.firebase:firebase-messaging:10.2.4'
-    googleCompile 'com.google.firebase:firebase-crash:10.2.4'
+    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
+    compile('org.eclipse.paho:org.eclipse.paho.android.service:1.1.1') {
+        exclude module: 'support-v4'
+    }
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
-
-apply plugin: 'com.google.gms.google-services'
