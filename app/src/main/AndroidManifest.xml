@@ -6,20 +6,23 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.VIBRATE" /> <!--For notifications-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />  <!--Required by Eclipse Paho-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!--Required by Eclipse Paho-->
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name=".TuskyApplication"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".TuskyApplication">
+        android:theme="@style/AppTheme">
 
-        <activity android:name=".SplashActivity">
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -37,7 +40,10 @@
                     android:scheme="@string/oauth_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+        </activity>
         <activity
             android:name=".ComposeActivity"
             android:windowSoftInputMode="stateVisible|adjustResize">
@@ -57,14 +63,19 @@
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
-        <activity android:name=".ViewVideoActivity" android:configChanges="orientation|keyboardHidden|screenSize" />
-        <activity android:name=".ViewThreadActivity" />
+        <activity
+            android:name=".ViewVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".ViewThreadActivity"
+            android:configChanges="orientation|screenSize" />
         <activity android:name=".ViewTagActivity" />
         <activity android:name=".AccountActivity" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".PreferencesActivity" />
         <activity android:name=".FavouritesActivity" />
         <activity android:name=".AccountListActivity" />
+        <activity android:name=".AboutActivity" />
         <activity
             android:name=".ReportActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
@@ -72,11 +83,12 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
 
-        <receiver android:name=".NotificationClearBroadcastReceiver" />
+        <receiver android:name=".util.NotificationClearBroadcastReceiver" />
 
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
         <service
             tools:targetApi="24"
-            android:name="com.keylesspalace.tusky.TuskyTileService"
+            android:name="com.keylesspalace.tusky.service.TuskyTileService"
             android:icon="@drawable/ic_send_24dp"
             android:label="Compose Toot"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">

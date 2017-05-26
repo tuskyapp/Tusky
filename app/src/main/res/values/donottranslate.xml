@@ -2,7 +2,8 @@
 <resources>
     <string name="app_name" translatable="false">Tusky</string>
     <string name="app_website" translatable="false">https://tusky.keylesspalace.com</string>
-    <string name="tusky_api_url" translatable="false">https://tuskynotifier.keylesspalace.com</string>
+    <string name="tusky_api_url" translatable="false">apitusky.keylesspalace.com</string>
+    <string name="tusky_api_keystore_password" translatable="false">your_password_here</string>
 
     <string name="oauth_scheme" translatable="false">oauth2redirect</string>
     <string name="oauth_redirect_host" translatable="false">com.keylesspalace.tusky</string>

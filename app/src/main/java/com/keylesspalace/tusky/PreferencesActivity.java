@@ -21,6 +21,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
+import com.keylesspalace.tusky.fragment.PreferencesFragment;
+
 public class PreferencesActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
     private boolean themeSwitched;

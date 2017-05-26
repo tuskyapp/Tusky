@@ -20,8 +20,8 @@ import android.text.Spanned;
 
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.google.gson.annotations.SerializedName;
-import com.keylesspalace.tusky.HtmlUtils;
-import com.keylesspalace.tusky.StringWithEmoji;
+import com.keylesspalace.tusky.util.HtmlUtils;
+import com.keylesspalace.tusky.json.StringWithEmoji;
 
 public class Account implements SearchSuggestion {
     public String id;

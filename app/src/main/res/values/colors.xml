@@ -2,6 +2,7 @@
 <resources>
     <!--These colors are not affected by themes.-->
     <color name="view_video_background">#000000</color>
+    <color name="toolbar_view_media">#8f000000</color>
     <!--Dark Theme Colors-->
     <color name="color_primary_dark">#4c5368</color>
     <color name="color_primary_dark_dark">#363c4b</color> <!--Dark Dark-->

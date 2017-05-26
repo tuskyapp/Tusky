@@ -30,7 +30,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.keylesspalace.tusky.adapter.ReportAdapter;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.util.HtmlUtils;
+import com.keylesspalace.tusky.util.Log;
+import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

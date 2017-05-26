@@ -15,9 +15,10 @@
 
 package com.keylesspalace.tusky;
 
-import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -26,9 +27,11 @@ import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -41,6 +44,11 @@ import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.keylesspalace.tusky.entity.Account;
+import com.keylesspalace.tusky.fragment.SFragment;
+import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
+import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
+import com.keylesspalace.tusky.util.Log;
+import com.keylesspalace.tusky.util.ThemeUtils;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -81,7 +89,7 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
     @BindView(R.id.tab_layout) TabLayout tabLayout;
     @BindView(R.id.pager) ViewPager viewPager;
 
-    FloatingActionButton composeButton;
+    public FloatingActionButton composeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,8 +214,7 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
                 .putString("current", "[]")
                 .apply();
 
-        ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE)))
-                .cancel(MessagingService.NOTIFY_ID);
+        pushNotificationClient.clearNotifications(this);
 
         /* After editing a profile, the profile header in the navigation drawer needs to be
          * refreshed */
@@ -273,7 +280,8 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
             }
         });
 
-        Drawable muteDrawable = ContextCompat.getDrawable(this, R.drawable.ic_mute_24dp);
+        VectorDrawableCompat muteDrawable = VectorDrawableCompat.create(getResources(),
+                R.drawable.ic_mute_24dp, getTheme());
         ThemeUtils.setDrawableTint(this, muteDrawable, R.attr.toolbar_icon_tint);
 
         drawer = new DrawerBuilder()
@@ -289,7 +297,8 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
                         new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block),
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem().withIdentifier(4).withName(getString(R.string.action_view_preferences)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings),
-                        new SecondaryDrawerItem().withIdentifier(5).withName(getString(R.string.action_logout)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_exit_to_app)
+                        new SecondaryDrawerItem().withIdentifier(5).withName(getString(R.string.about_title_activity)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_info),
+                        new SecondaryDrawerItem().withIdentifier(6).withName(getString(R.string.action_logout)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_exit_to_app)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -315,8 +324,11 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
                                 Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
                                 startActivity(intent);
                             } else if (drawerItemIdentifier == 5) {
-                                logout();
+                                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                                startActivity(intent);
                             } else if (drawerItemIdentifier == 6) {
+                                logout();
+                            } else if (drawerItemIdentifier == 7) {
                                 Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
                                 intent.putExtra("type", AccountListActivity.Type.FOLLOW_REQUESTS);
                                 startActivity(intent);
@@ -330,16 +342,27 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
     }
 
     private void logout() {
-        if (arePushNotificationsEnabled()) disablePushNotifications();
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.action_logout)
+                .setMessage(R.string.action_logout_confirm)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (arePushNotificationsEnabled()) disablePushNotifications();
 
-        getPrivatePreferences().edit()
-                .remove("domain")
-                .remove("accessToken")
-                .apply();
+                        getPrivatePreferences().edit()
+                                .remove("domain")
+                                .remove("accessToken")
+                                .remove("appAccountId")
+                                .apply();
 
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
     }
 
     private void setupSearchView() {
@@ -472,9 +495,11 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
             backgroundHeight = background.getMeasuredHeight();
         }
 
+        background.setBackgroundColor(ContextCompat.getColor(this, R.color.window_background_dark));
+
         Picasso.with(MainActivity.this)
                 .load(me.header)
-                .placeholder(R.drawable.account_header_missing)
+                .placeholder(R.drawable.account_header_default)
                 .resize(backgroundWidth, backgroundHeight)
                 .centerCrop()
                 .into(background);
@@ -552,5 +577,11 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
                 listener.removePostsByUser(accountId);
             }
         }
+    }
+
+    // Fix for GitHub issues #190, #259 (MainActivity won't restart on screen rotation.)
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 }

@@ -23,6 +23,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.AttrRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -31,6 +32,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -43,6 +45,15 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
+import com.keylesspalace.tusky.fragment.SFragment;
+import com.keylesspalace.tusky.interfaces.LinkListener;
+import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
+import com.keylesspalace.tusky.pager.AccountPagerAdapter;
+import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.util.Assert;
+import com.keylesspalace.tusky.util.Log;
+import com.keylesspalace.tusky.util.TimelineReceiver;
+import com.keylesspalace.tusky.util.ThemeUtils;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -156,9 +167,6 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
         // Initialise the default UI states.
         floatingBtn.hide();
 
-        avatar.setImageResource(R.drawable.avatar_default);
-        header.setImageResource(R.drawable.account_header_default);
-
         // Obtain information to fill out the profile.
         obtainAccount();
         if (!accountId.equals(loggedInAccountId)) {
@@ -237,7 +245,9 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
 
         displayName.setText(account.getDisplayName());
 
-        LinkHelper.setClickableText(note, account.note, null, new LinkListener() {
+        boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("customTabs", true);
+        LinkHelper.setClickableText(note, account.note, null, useCustomTabs, new LinkListener() {
             @Override
             public void onViewTag(String tag) {
                 Intent intent = new Intent(AccountActivity.this, ViewTagActivity.class);
@@ -266,7 +276,7 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
                 .into(avatar);
         Picasso.with(this)
                 .load(account.header)
-                .placeholder(R.drawable.account_header_missing)
+                .placeholder(R.drawable.account_header_default)
                 .into(header);
 
         NumberFormat nf = NumberFormat.getInstance();
@@ -459,6 +469,7 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
                                 Snackbar.LENGTH_LONG).show();
                     } else {
                         followState = FollowState.NOT_FOLLOWING;
+                        broadcast(TimelineReceiver.Types.UNFOLLOW_ACCOUNT, id);
                     }
                     updateButtons();
                 } else {
@@ -509,6 +520,7 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
             @Override
             public void onResponse(Call<Relationship> call, Response<Relationship> response) {
                 if (response.isSuccessful()) {
+                    broadcast(TimelineReceiver.Types.BLOCK_ACCOUNT, id);
                     blocking = response.body().blocking;
                     updateButtons();
                 } else {
@@ -546,6 +558,7 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
             @Override
             public void onResponse(Call<Relationship> call, Response<Relationship> response) {
                 if (response.isSuccessful()) {
+                    broadcast(TimelineReceiver.Types.MUTE_ACCOUNT, id);
                     muting = response.body().muting;
                     updateButtons();
                 } else {
@@ -578,6 +591,11 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
                 .show();
     }
 
+    private void broadcast(String action, String id) {
+        Intent intent = new Intent(action);
+        intent.putExtra("id", id);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

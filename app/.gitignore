@@ -1,2 +1,4 @@
 /build
 app-release.apk
+app-google-release.apk
+src/main/res/raw/keystore_tusky_api.bks

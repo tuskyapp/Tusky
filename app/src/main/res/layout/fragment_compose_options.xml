@@ -15,48 +15,40 @@
 
         <RadioButton
             android:text="@string/visibility_public"
-            android:button="@drawable/ic_public_24dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/radio_public"
             android:layout_marginBottom="5dp"
             android:paddingLeft="10dp"
-            android:buttonTint="@color/drawer_visibility_panel_item"
             android:layout_weight="1" />
 
         <RadioButton
             android:text="@string/visibility_unlisted"
-            android:button="@drawable/ic_lock_open_24dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/radio_unlisted"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:paddingLeft="10dp"
-            android:buttonTint="@color/drawer_visibility_panel_item"
             android:layout_weight="1" />
 
         <RadioButton
             android:text="@string/visibility_private"
-            android:button="@drawable/ic_lock_outline_24dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/radio_private"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:paddingLeft="10dp"
-            android:buttonTint="@color/drawer_visibility_panel_item"
             android:layout_weight="1" />
 
         <RadioButton
             android:text="@string/visibility_direct"
-            android:button="@drawable/ic_email_24dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/radio_direct"
             android:layout_marginTop="5dp"
             android:paddingLeft="10dp"
-            android:buttonTint="@color/drawer_visibility_panel_item"
             android:layout_weight="1" />
 
     </RadioGroup>
