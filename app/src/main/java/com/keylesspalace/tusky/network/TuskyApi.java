@@ -15,17 +15,16 @@
 
 package com.keylesspalace.tusky.network;
 
+import com.keylesspalace.tusky.entity.Session;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-public interface TuskyAPI {
-    @FormUrlEncoded
+public interface TuskyApi {
     @POST("/register")
-    Call<ResponseBody> register(@Field("instance_url") String instanceUrl, @Field("access_token") String accessToken, @Field("device_token") String deviceToken);
-    @FormUrlEncoded
+    Call<ResponseBody> register(@Body Session session);
     @POST("/unregister")
-    Call<ResponseBody> unregister(@Field("instance_url") String instanceUrl, @Field("access_token") String accessToken);
+    Call<ResponseBody> unregister(@Body Session session);
 }

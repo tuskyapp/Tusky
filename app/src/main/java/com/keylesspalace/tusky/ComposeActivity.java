@@ -252,7 +252,9 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
             if (replyVisibility != null && startingVisibility != null) {
                 // Lowest possible visibility setting in response
-                if (startingVisibility.equals("private") || replyVisibility.equals("private")) {
+                if (startingVisibility.equals("direct") || replyVisibility.equals("direct")) {
+                    startingVisibility = "direct";
+                } else if (startingVisibility.equals("private") || replyVisibility.equals("private")) {
                     startingVisibility = "private";
                 } else if (startingVisibility.equals("unlisted") || replyVisibility.equals("unlisted")) {
                     startingVisibility = "unlisted";
