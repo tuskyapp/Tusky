@@ -30,16 +30,12 @@
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp">
 
-                <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
-                    android:id="@+id/circularFillableLoaders"
+                <ImageView
+                    android:id="@+id/logo"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:src="@mipmap/ic_logo"
-                    app:cfl_border="true"
-                    app:cfl_border_width="4dp"
-                    app:cfl_progress="80"
-                    app:cfl_wave_amplitude="0.08"
-                    app:cfl_wave_color="?attr/splash_wave_color" />
+                    android:contentDescription="@null" />
 
                 <TextView
                     android:id="@+id/versionTV"

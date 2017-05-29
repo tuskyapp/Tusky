@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky;
 
-import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,6 +36,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,7 +48,6 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.fragment.SFragment;
 import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
-import com.keylesspalace.tusky.util.Log;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -215,8 +214,7 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
                 .putString("current", "[]")
                 .apply();
 
-        ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE)))
-                .cancel(MessagingService.NOTIFY_ID);
+        pushNotificationClient.clearNotifications(this);
 
         /* After editing a profile, the profile header in the navigation drawer needs to be
          * refreshed */

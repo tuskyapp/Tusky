@@ -56,6 +56,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -73,7 +74,6 @@ import com.keylesspalace.tusky.fragment.ComposeOptionsFragment;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
 import com.keylesspalace.tusky.util.IOUtils;
-import com.keylesspalace.tusky.util.Log;
 import com.keylesspalace.tusky.util.MediaUtils;
 import com.keylesspalace.tusky.util.ParserUtils;
 import com.keylesspalace.tusky.util.SpanUtils;
@@ -252,7 +252,9 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
             if (replyVisibility != null && startingVisibility != null) {
                 // Lowest possible visibility setting in response
-                if (startingVisibility.equals("private") || replyVisibility.equals("private")) {
+                if (startingVisibility.equals("direct") || replyVisibility.equals("direct")) {
+                    startingVisibility = "direct";
+                } else if (startingVisibility.equals("private") || replyVisibility.equals("private")) {
                     startingVisibility = "private";
                 } else if (startingVisibility.equals("unlisted") || replyVisibility.equals("unlisted")) {
                     startingVisibility = "unlisted";
@@ -637,6 +639,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         try {
             descriptor = getContentResolver().openAssetFileDescriptor(uri, "r");
         } catch (FileNotFoundException e) {
+            Log.d(TAG, Log.getStackTraceString(e));
             // Eat this exception, having the descriptor be null is sufficient.
         }
         if (descriptor != null) {
@@ -996,6 +999,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             try {
                 stream = getContentResolver().openInputStream(item.uri);
             } catch (FileNotFoundException e) {
+                Log.d(TAG, Log.getStackTraceString(e));
                 return;
             }
 

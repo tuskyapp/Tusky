@@ -25,6 +25,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,7 +34,6 @@ import android.widget.EditText;
 import com.keylesspalace.tusky.adapter.ReportAdapter;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.util.HtmlUtils;
-import com.keylesspalace.tusky.util.Log;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.ArrayList;

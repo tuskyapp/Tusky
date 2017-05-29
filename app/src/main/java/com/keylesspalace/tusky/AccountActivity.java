@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,10 +51,9 @@ import com.keylesspalace.tusky.fragment.SFragment;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
 import com.keylesspalace.tusky.pager.AccountPagerAdapter;
+import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.Assert;
-import com.keylesspalace.tusky.util.Log;
-import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
@@ -136,23 +137,17 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
                 @AttrRes int attribute;
                 if (collapsingToolbar.getHeight() + verticalOffset
                         < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
-                    if (getSupportActionBar() != null && loadedAccount != null) {
-                        getSupportActionBar().setTitle(loadedAccount.getDisplayName());
+
                         toolbar.setTitleTextColor(ThemeUtils.getColor(AccountActivity.this,
                                 android.R.attr.textColorPrimary));
-
-                        String subtitle = String.format(getString(R.string.status_username_format),
-                                loadedAccount.username);
-                        getSupportActionBar().setSubtitle(subtitle);
                         toolbar.setSubtitleTextColor(ThemeUtils.getColor(AccountActivity.this,
                                 android.R.attr.textColorSecondary));
-                    }
+
                     attribute = R.attr.account_toolbar_icon_tint_collapsed;
                 } else {
-                    if (getSupportActionBar() != null) {
-                        getSupportActionBar().setTitle("");
-                        getSupportActionBar().setSubtitle("");
-                    }
+                    toolbar.setTitleTextColor(Color.TRANSPARENT);
+                    toolbar.setSubtitleTextColor(Color.TRANSPARENT);
+
                     attribute = R.attr.account_toolbar_icon_tint_uncollapsed;
                 }
                 if (attribute != priorAttribute) {
@@ -244,6 +239,15 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
         username.setText(usernameFormatted);
 
         displayName.setText(account.getDisplayName());
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(account.getDisplayName());
+
+            String subtitle = String.format(getString(R.string.status_username_format),
+                    account.username);
+            getSupportActionBar().setSubtitle(subtitle);
+
+        }
 
         boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("customTabs", true);

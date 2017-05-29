@@ -29,6 +29,7 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,7 +40,6 @@ import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.AppCredentials;
 import com.keylesspalace.tusky.network.MastodonAPI;
 import com.keylesspalace.tusky.util.CustomTabsHelper;
-import com.keylesspalace.tusky.util.Log;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 
 import java.util.HashMap;
@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
         s = s.replaceFirst("http://", "");
         s = s.replaceFirst("https://", "");
         // If a username was included (e.g. username@example.com), just take what's after the '@'.
-        int at = s.indexOf('@');
+        int at = s.lastIndexOf('@');
         if (at != -1) {
             s = s.substring(at + 1);
         }
@@ -201,7 +201,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<AppCredentials> call, Throwable t) {
                     editText.setError(getString(R.string.error_failed_app_registration));
-                    t.printStackTrace();
+                    Log.e(TAG, Log.getStackTraceString(t));
                 }
             };
 

@@ -15,8 +15,6 @@
 
 package com.keylesspalace.tusky;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,23 +22,24 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spanned;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.keylesspalace.tusky.entity.Session;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.json.StringWithEmoji;
 import com.keylesspalace.tusky.json.StringWithEmojiTypeAdapter;
 import com.keylesspalace.tusky.network.MastodonAPI;
-import com.keylesspalace.tusky.network.TuskyAPI;
-import com.keylesspalace.tusky.util.Log;
+import com.keylesspalace.tusky.network.TuskyApi;
 import com.keylesspalace.tusky.util.OkHttpUtils;
+import com.keylesspalace.tusky.util.PushNotificationClient;
 
 import java.io.IOException;
 
@@ -59,9 +58,9 @@ public class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity"; // logging tag
 
     public MastodonAPI mastodonAPI;
-    protected TuskyAPI tuskyAPI;
+    public TuskyApi tuskyApi;
+    protected PushNotificationClient pushNotificationClient;
     protected Dispatcher mastodonApiDispatcher;
-    protected PendingIntent serviceAlarmIntent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +68,8 @@ public class BaseActivity extends AppCompatActivity {
 
         redirectIfNotLoggedIn();
         createMastodonAPI();
-        createTuskyAPI();
+        createTuskyApi();
+        createPushNotificationClient();
 
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
@@ -161,15 +161,19 @@ public class BaseActivity extends AppCompatActivity {
         mastodonAPI = retrofit.create(MastodonAPI.class);
     }
 
-    protected void createTuskyAPI() {
-        if (BuildConfig.USES_PUSH_NOTIFICATIONS) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(getString(R.string.tusky_api_url))
-                    .client(OkHttpUtils.getCompatibleClient())
-                    .build();
+    protected void createTuskyApi() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + getString(R.string.tusky_api_url))
+                .client(OkHttpUtils.getCompatibleClient())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-            tuskyAPI = retrofit.create(TuskyAPI.class);
-        }
+        tuskyApi = retrofit.create(TuskyApi.class);
+    }
+
+    protected void createPushNotificationClient() {
+        pushNotificationClient = new PushNotificationClient(getApplicationContext(),
+                "ssl://" + getString(R.string.tusky_api_url) + ":8883");
     }
 
     protected void redirectIfNotLoggedIn() {
@@ -203,49 +207,66 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void enablePushNotifications() {
-        if (BuildConfig.USES_PUSH_NOTIFICATIONS) {
-            String token = MessagingService.getInstanceToken();
-            tuskyAPI.register(getBaseUrl(), getAccessToken(), token).enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                    Log.d(TAG, "Enable push notifications response: " + response.message());
+        Callback<ResponseBody> callback = new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call,
+                                   retrofit2.Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    pushNotificationClient.subscribeToTopic(getPushNotificationTopic());
+                    pushNotificationClient.connect(BaseActivity.this);
+                } else {
+                    onEnablePushNotificationsFailure(response.message());
                 }
+            }
 
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Log.d(TAG, "Enable push notifications failed: " + t.getMessage());
-                }
-            });
-        } else {
-            // Start up the MessagingService on a repeating interval for "pull" notifications.
-            long checkInterval = 60 * 1000 * 5;
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(this, MessagingService.class);
-            final int SERVICE_REQUEST_CODE = 8574603; // This number is arbitrary.
-            serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE, intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime(), checkInterval, serviceAlarmIntent);
-        }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                onEnablePushNotificationsFailure(t.getMessage());
+            }
+        };
+        String deviceToken = pushNotificationClient.getDeviceToken();
+        Session session = new Session(getDomain(), getAccessToken(), deviceToken);
+        tuskyApi.register(session)
+                .enqueue(callback);
+    }
+
+    private void onEnablePushNotificationsFailure(String message) {
+        Log.e(TAG, "Enabling push notifications failed. " + message);
     }
 
     protected void disablePushNotifications() {
-        if (BuildConfig.USES_PUSH_NOTIFICATIONS) {
-            tuskyAPI.unregister(getBaseUrl(), getAccessToken()).enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                    Log.d(TAG, "Disable push notifications response: " + response.message());
+        Callback<ResponseBody> callback = new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call,
+                                   retrofit2.Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    pushNotificationClient.unsubscribeToTopic(getPushNotificationTopic());
+                } else {
+                    onDisablePushNotificationsFailure();
                 }
+            }
 
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Log.d(TAG, "Disable push notifications failed: " + t.getMessage());
-                }
-            });
-        } else if (serviceAlarmIntent != null) {
-            // Cancel the repeating call for "pull" notifications.
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            alarmManager.cancel(serviceAlarmIntent);
-        }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                onDisablePushNotificationsFailure();
+            }
+        };
+        String deviceToken = pushNotificationClient.getDeviceToken();
+        Session session = new Session(getDomain(), getAccessToken(), deviceToken);
+        tuskyApi.unregister(session)
+                .enqueue(callback);
+    }
+
+    private void onDisablePushNotificationsFailure() {
+        Log.e(TAG, "Disabling push notifications failed.");
+    }
+
+    private String getPushNotificationTopic() {
+        return String.format("%s/%s/#", getDomain(), getAccessToken());
+    }
+
+    private String getDomain() {
+        return getPrivatePreferences()
+                .getString("domain", null);
     }
 }

@@ -27,7 +27,6 @@ import com.keylesspalace.tusky.util.Assert;
 public class FlowLayout extends ViewGroup {
     private int paddingHorizontal; // internal padding between child views
     private int paddingVertical;   //
-    private int totalHeight;
 
     public FlowLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -35,11 +34,10 @@ public class FlowLayout extends ViewGroup {
 
     public FlowLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs, R.styleable.FlowLayout, 0, 0);
+        TypedArray a = context.getTheme()
+                .obtainStyledAttributes(attrs, R.styleable.FlowLayout, 0, 0);
         try {
-            paddingHorizontal = a.getDimensionPixelSize(
-                    R.styleable.FlowLayout_paddingHorizontal, 0);
+            paddingHorizontal = a.getDimensionPixelSize(R.styleable.FlowLayout_paddingHorizontal, 0);
             paddingVertical = a.getDimensionPixelSize(R.styleable.FlowLayout_paddingVertical, 0);
         } finally {
             a.recycle();
@@ -60,26 +58,29 @@ public class FlowLayout extends ViewGroup {
         } else {
             childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
         }
-        totalHeight = 0;
+        int rowHeight = 0;
         for (int i = 0; i < count; i++) {
             View child = getChildAt(i);
             if (child.getVisibility() != GONE) {
-                child.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST),
-                        childHeightMeasureSpec);
+                int widthSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST);
+                child.measure(widthSpec, childHeightMeasureSpec);
                 int childwidth = child.getMeasuredWidth();
-                totalHeight = Math.max(totalHeight, child.getMeasuredHeight() + paddingVertical);
+                int childHeight = child.getMeasuredHeight();
                 if (x + childwidth > width) {
                     x = getPaddingLeft();
-                    y += totalHeight;
+                    y += rowHeight;
+                    rowHeight = childHeight + paddingVertical;
+                } else {
+                    rowHeight = Math.max(rowHeight, childHeight + paddingVertical);
                 }
                 x += childwidth + paddingHorizontal;
             }
         }
         if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.UNSPECIFIED) {
-            height = y + totalHeight;
+            height = y + rowHeight;
         } else if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.AT_MOST) {
-            if (y + totalHeight < height) {
-                height = y + totalHeight;
+            if (y + rowHeight < height) {
+                height = y + rowHeight;
             }
         }
         height += 5; // Fudge to avoid clipping bottom of last row.
@@ -91,6 +92,7 @@ public class FlowLayout extends ViewGroup {
         final int width = r - l;
         int x = getPaddingLeft();
         int y = getPaddingTop();
+        int rowHeight = 0;
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
             if (child.getVisibility() != GONE) {
@@ -98,7 +100,10 @@ public class FlowLayout extends ViewGroup {
                 int childHeight = child.getMeasuredHeight();
                 if (x + childWidth > width) {
                     x = getPaddingLeft();
-                    y += totalHeight;
+                    y += rowHeight;
+                    rowHeight = childHeight + paddingVertical;
+                } else {
+                    rowHeight = Math.max(childHeight, rowHeight);
                 }
                 child.layout(x, y, x + childWidth, y + childHeight);
                 x += childWidth + paddingHorizontal;

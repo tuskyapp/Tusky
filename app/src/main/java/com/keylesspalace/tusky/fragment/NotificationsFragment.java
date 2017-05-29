@@ -27,6 +27,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,9 +40,8 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
-import com.keylesspalace.tusky.view.EndlessOnScrollListener;
-import com.keylesspalace.tusky.util.Log;
 import com.keylesspalace.tusky.util.ThemeUtils;
+import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 
 import java.util.List;
 

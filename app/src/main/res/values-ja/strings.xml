@@ -31,6 +31,8 @@
     <string name="title_favourites">お気に入り</string>
     <string name="title_mutes">ミュートしたユーザー</string>
     <string name="title_blocks">ブロックしたユーザー</string>
+    <string name="title_follow_requests">フォローリクエスト</string>
+    <string name="title_edit_profile">プロフィールを編集</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%sさんがブーストしました</string>
@@ -58,6 +60,7 @@
     <string name="action_compose">新規投稿</string>
     <string name="action_login">Mastodonでログイン</string>
     <string name="action_logout">ログアウト</string>
+    <string name="action_logout_confirm">ログアウトしますか？</string>
     <string name="action_follow">フォローする</string>
     <string name="action_unfollow">フォロー解除</string>
     <string name="action_block">ブロック</string>
@@ -78,6 +81,7 @@
     <string name="action_view_favourites">お気に入り</string>
     <string name="action_view_mutes">ミュートしたユーザー</string>
     <string name="action_view_blocks">ブロックしたユーザー</string>
+    <string name="action_view_follow_requests">フォローリクエスト</string>
     <string name="action_view_thread">スレッド</string>
     <string name="action_view_media">メディア</string>
     <string name="action_open_in_web">ブラウザで開く</string>
@@ -95,6 +99,8 @@
     <string name="action_save">保存</string>
     <string name="action_edit_profile">プロフィールを編集</string>
     <string name="action_undo">取り消す</string>
+    <string name="action_accept">許可</string>
+    <string name="action_reject">拒否</string>
 
     <string name="send_status_link_to">トゥートのURLを共有…</string>
     <string name="send_status_content_to">トゥートを共有…</string>
@@ -117,6 +123,8 @@
 
     <string name="link_whats_an_instance">インスタンスとは？</string>
 
+    <string name="login_connection">接続中…</string>
+
     <string name="dialog_whats_an_instance">mastodon.social, mstdn.jp, pawoo.net や
         <a href="https://github.com/tootsuite/documentation/blob/master/Using-Mastodon/List-of-Mastodon-instances.md">その他</a>
         のような、あらゆるインスタンスのアドレスやドメインを入力できます。
@@ -128,10 +136,11 @@
     <string name="dialog_title_finishing_media_upload">メディアをアップロードしています</string>
     <string name="dialog_message_uploading_media">アップロード中…</string>
     <string name="dialog_download_image">ダウンロード</string>
+    <string name="dialog_message_follow_request">フォローリクエストの承認待ち：返答を待っています</string>
 
     <string name="visibility_public">公開：公開タイムラインに投稿する</string>
     <string name="visibility_unlisted">未収載：公開タイムラインには表示しない</string>
-    <string name="visibility_private">非公開：フォロワーだけに公開</string>
+    <string name="visibility_private">フォロワー限定：フォロワーだけに公開</string>
     <string name="visibility_direct">ダイレクト：返信先のユーザーだけに公開</string>
 
     <string name="pref_title_notification_settings">通知</string>
@@ -151,6 +160,10 @@
     <string name="pref_title_browser_settings">ブラウザ</string>
     <string name="pref_title_custom_tabs">Chrome Custom Tabsを使用する</string>
     <string name="pref_title_hide_follow_button">スクロール中はフォローボタンを隠す</string>
+    <string name="pref_title_status_filter">タイムラインのフィルタリング</string>
+    <string name="pref_title_status_tabs">タブ</string>
+    <string name="pref_title_show_boosts">ブーストを表示</string>
+    <string name="pref_title_show_replies">返信を表示</string>
 
     <string name="notification_mention_format">%sさんが返信しました</string>
     <string name="notification_summary_large">%1$sさん、%2$sさん、%3$sさんと他%4$d人</string>
@@ -159,6 +172,21 @@
     <string name="notification_title_summary">%d件の新しい通知</string>
 
     <string name="description_account_locked">非公開アカウント</string>
+
+    <string name="about_title_activity">このアプリについて</string>
+    <!--<string name="about_application_version">アプリのバージョン：%s</string>-->
+    <!--<string name="about_project_site">
+        プロジェクトのWebサイト：\n
+        https://tusky.keylesspalace.com
+    </string>-->
+    <!--<string name="about_bug_feature_request_site">
+        バグ報告 &amp; 機能リクエスト：\n
+        https://github.com/Vavassor/Tusky/issues
+    </string>-->
+    <!--<string name="about_tusky_account">Tusky\'s Profile</string>-->
+
     <string name="status_share_content">トゥートの内容を共有</string>
     <string name="status_share_link">トゥートへのリンクを共有</string>
+
+    <string name="state_follow_requested">フォローリクエスト中</string>
 </resources>

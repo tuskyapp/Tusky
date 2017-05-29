@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.View;
 
 import com.keylesspalace.tusky.R;

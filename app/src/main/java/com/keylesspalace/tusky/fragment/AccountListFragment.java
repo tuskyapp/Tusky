@@ -25,6 +25,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,9 +43,8 @@ import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.network.MastodonAPI;
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.view.EndlessOnScrollListener;
-import com.keylesspalace.tusky.util.Log;
 import com.keylesspalace.tusky.util.ThemeUtils;
+import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 
 import java.util.List;
 
