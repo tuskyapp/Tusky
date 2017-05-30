@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.util;
 
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.keylesspalace.tusky.BuildConfig;
 

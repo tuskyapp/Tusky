@@ -58,6 +58,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -76,7 +77,6 @@ import com.keylesspalace.tusky.util.DownsizeImageTask;
 import com.keylesspalace.tusky.util.EditTextTyped;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.IOUtils;
-import com.keylesspalace.tusky.util.Log;
 import com.keylesspalace.tusky.util.SpanUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
@@ -679,6 +679,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         try {
             descriptor = getContentResolver().openAssetFileDescriptor(uri, "r");
         } catch (FileNotFoundException e) {
+            Log.d(TAG, Log.getStackTraceString(e));
             // Eat this exception, having the descriptor be null is sufficient.
         }
         if (descriptor != null) {
@@ -1039,6 +1040,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             }
             buffer.flush();
         } catch (IOException e) {
+            Log.d(TAG, Log.getStackTraceString(e));
             return null;
         }
         return buffer.toByteArray();
@@ -1064,6 +1066,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             try {
                 stream = getContentResolver().openInputStream(item.uri);
             } catch (FileNotFoundException e) {
+                Log.d(TAG, Log.getStackTraceString(e));
                 return;
             }
 
