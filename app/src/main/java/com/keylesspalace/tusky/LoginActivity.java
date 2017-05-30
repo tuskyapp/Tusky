@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
         s = s.replaceFirst("http://", "");
         s = s.replaceFirst("https://", "");
         // If a username was included (e.g. username@example.com), just take what's after the '@'.
-        int at = s.indexOf('@');
+        int at = s.lastIndexOf('@');
         if (at != -1) {
             s = s.substring(at + 1);
         }
