@@ -37,7 +37,7 @@ import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.json.StringWithEmoji;
 import com.keylesspalace.tusky.json.StringWithEmojiTypeAdapter;
 import com.keylesspalace.tusky.network.MastodonAPI;
-import com.keylesspalace.tusky.network.TuskyAPI;
+import com.keylesspalace.tusky.network.TuskyApi;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 import com.keylesspalace.tusky.util.PushNotificationClient;
 

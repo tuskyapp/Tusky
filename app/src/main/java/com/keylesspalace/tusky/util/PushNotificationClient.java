@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.Spanned;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
