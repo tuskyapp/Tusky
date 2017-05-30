@@ -29,9 +29,12 @@
     <string name="title_followers">Abonnés</string>
     <string name="title_favourites">Favoris</string>
     <string name="title_blocks">Utilisateurs bloqués</string>
+    <string name="title_mutes">Utilisateurs muets</string>
+    <string name="title_edit_profile">Editer votre profil</string>
+    <string name="title_follow_requests">Demande de follow</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s boosté</string>
+    <string name="status_boosted_format">%s a boosté</string>
     <string name="status_sensitive_media_title">Média sensible</string>
     <string name="status_sensitive_media_directions">Cliquer pour voir</string>
     <string name="status_content_warning_show_more">Voir plus</string>
@@ -91,7 +94,12 @@
     <string name="action_clear">Nettoyer</string>
     <string name="action_save">Sauvegarder</string>
     <string name="action_edit_profile">Modifier le profil</string>
-
+    <string name="action_accept">Accepter</string>
+    <string name="action_logout_confirm">Voulez-vous vous déconnectez ?</string>
+    <string name="action_reject">Rejeter</string>
+    <string name="action_undo">Annuler</string>
+    <string name="action_view_follow_requests">Demandes de follow</string>
+    <string name="action_view_mutes">Utilisateurs muets</string>
     <string name="send_status_link_to">Partager l’URL de votre pouet avec…</string>
     <string name="send_status_content_to">Partager le pouet avec…</string>
 
@@ -122,6 +130,7 @@
     <string name="dialog_title_finishing_media_upload">Média mis en ligne avec succès.</string>
     <string name="dialog_message_uploading_media">Mise en ligne…</string>
     <string name="dialog_download_image">Télécharger</string>
+    <string name="dialog_message_follow_request">Demande de follow en attente d\'une réponse</string>
 
     <string name="visibility_public">Public : afficher dans les fils publics.</string>
     <string name="visibility_unlisted">Non listé : ne pas afficher dans les fils publics.</string>
@@ -145,6 +154,10 @@
     <string name="pref_title_browser_settings">Navigateur</string>
     <string name="pref_title_custom_tabs">Utiliser le navigateur intégré.</string>
     <string name="pref_title_hide_follow_button">Masquer le bouton de suivi lors du défilement.</string>
+    <string name="pref_title_show_boosts">Montrer les boosts</string>
+    <string name="pref_title_show_replies">Montrer les réponses</string>
+    <string name="pref_title_status_tabs">Onglets</string>
+    <string name="pref_title_status_filter">Filtrage de fil</string>
 
     <string name="notification_mention_format">%s a mentionné votre nom.</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s et %4$d plus</string>
@@ -155,4 +168,15 @@
     <string name="description_account_locked">Compte bloqué.</string>
     <string name="status_share_content">Partager le contenu du pouet.</string>
     <string name="status_share_link">Partager le lien du pouet.</string>
+
+    <string name="about_tusky_account">Compte officiel de Tusky</string>
+    <string name="about_title_activity">À propos</string>
+    <string name="about_project_site">Site du projet :          https://tusky.keylesspalace.com</string>
+    <string name="about_bug_feature_request_site">Rapport de bugs &amp; demande de fonctionnalités :      https://github.com/Vavassor/Tusky/issues</string>
+    <string name="about_application_version">Version : %s</string>
+
+
+    <string name="state_follow_requested">Demande effectuée</string>
+
+    <string name="confirmation_unblocked">Utilisateur débloqué</string>
 </resources>
