@@ -26,6 +26,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spanned;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 
@@ -36,8 +37,7 @@ import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.json.StringWithEmoji;
 import com.keylesspalace.tusky.json.StringWithEmojiTypeAdapter;
 import com.keylesspalace.tusky.network.MastodonAPI;
-import com.keylesspalace.tusky.network.TuskyApi;
-import com.keylesspalace.tusky.util.Log;
+import com.keylesspalace.tusky.network.TuskyAPI;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 import com.keylesspalace.tusky.util.PushNotificationClient;
 

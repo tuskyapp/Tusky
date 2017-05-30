@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.media.ExifInterface;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
+    private static final String TAG = "DownsizeImageTask";
     private int sizeLimit;
     private ContentResolver contentResolver;
     private Listener listener;
@@ -100,6 +102,7 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
         try {
             inputStream = contentResolver.openInputStream(uri);
         } catch (FileNotFoundException e) {
+            Log.d(TAG, Log.getStackTraceString(e));
             return ExifInterface.ORIENTATION_UNDEFINED;
         }
         if (inputStream == null) {
@@ -109,6 +112,7 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
         try {
             exifInterface = new ExifInterface(inputStream);
         } catch (IOException e) {
+            Log.d(TAG, Log.getStackTraceString(e));
             IOUtils.closeQuietly(inputStream);
             return ExifInterface.ORIENTATION_UNDEFINED;
         }

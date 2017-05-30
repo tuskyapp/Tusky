@@ -33,6 +33,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,7 +45,6 @@ import android.widget.ProgressBar;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Profile;
 import com.keylesspalace.tusky.util.IOUtils;
-import com.keylesspalace.tusky.util.Log;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -486,12 +486,14 @@ public class EditProfileActivity extends BaseActivity {
                 try {
                     inputStream = contentResolver.openInputStream(uri);
                 } catch (FileNotFoundException e) {
+                    Log.d(TAG, Log.getStackTraceString(e));
                     return false;
                 }
                 Bitmap sourceBitmap;
                 try {
                     sourceBitmap = BitmapFactory.decodeStream(inputStream, null, null);
                 } catch (OutOfMemoryError error) {
+                    Log.d(TAG, Log.getStackTraceString(error));
                     return false;
                 } finally {
                     IOUtils.closeQuietly(inputStream);

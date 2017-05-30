@@ -46,6 +46,7 @@
 
 # remove all logging from production apk
 -assumenosideeffects class android.util.Log {
+    public static *** getStackTraceString(...);
     public static *** d(...);
     public static *** w(...);
     public static *** v(...);
