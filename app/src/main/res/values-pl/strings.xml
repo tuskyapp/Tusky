@@ -59,6 +59,7 @@
     <string name="action_compose">Napisz</string>
     <string name="action_login">Zaloguj z Mastodon</string>
     <string name="action_logout">Wyloguj</string>
+    <string name="action_logout_confirm">Czy chcesz wylogować się?</string>
     <string name="action_follow">Obserwuj</string>
     <string name="action_unfollow">Przestań obserwować</string>
     <string name="action_block">Zablokuj</string>
@@ -121,10 +122,16 @@
 
     <string name="link_whats_an_instance">Czym jest instancja?</string>
 
-    <string name="dialog_whats_an_instance">Wprowadź tu domenę lub adres instancji, np. mastodon.social, icosahedron.website, social.tchncs.de, i
+    <string name="login_connection">Łączenie…</string>
+
+    <string name="dialog_whats_an_instance">Domenę lub adres instancji może zostać wprowadzona tutaj,
+        np. mastodon.social, icosahedron.website, social.tchncs.de, i
         <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">wiele więcej!</a>
-        \n\nJeżeli nie posiadasz jeszcze konta, wprowadź tu nazwę instancji, na której chcesz się zarejestrowa.\n\nInstancja jest miejscem, na którym znajduje się twoje konto, lecz komunikując się z innymi serwerami, działa tak, jakby były jednym portalem.
-        \n\nMożesz znaleźć więcej informacji na <a href="https://mastodon.social/about">mastodon.social</a>.
+        \n\nJeżeli nie posiadasz jeszcze konta, wprowadź tu nazwę instancji, na której chcesz się zarejestrowa.
+        Instancja jest miejscem, na którym znajduje się twoje konto,
+        lecz komunikując się z innymi serwerami, działa tak,
+        jakby były jednym portalem.
+        Możesz znaleźć więcej informacji na <a href="https://mastodon.social/about">mastodon.social</a>.
     </string>
     <string name="dialog_title_finishing_media_upload">Kończenie wysyłania treści</string>
     <string name="dialog_message_uploading_media">Wysyłanie…</string>
@@ -151,8 +158,12 @@
     <string name="pref_title_appearance_settings">Wygląd</string>
     <string name="pref_title_light_theme">Użyj jasnego motywu</string>
     <string name="pref_title_browser_settings">Przeglądarka</string>
-    <string name="pref_title_custom_tabs">Używaj kart Chrome</string>
+    <string name="pref_title_custom_tabs">Używaj niestandardowych kart Chrome</string>
     <string name="pref_title_hide_follow_button">Ukryj przycisk obserwacji podczas przewijania</string>
+    <string name="pref_title_status_filter">Filtrowanie osi czasu</string>
+    <string name="pref_title_status_tabs">Karty</string>
+    <string name="pref_title_show_boosts">Pokazuj podbicia</string>
+    <string name="pref_title_show_replies">Pokazuj odpowiedzi</string>
 
     <string name="notification_mention_format">%s wspomniał o tobie</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s i %4$d innych</string>
@@ -161,6 +172,19 @@
     <string name="notification_title_summary">%d nowych powiadomień</string>
 
     <string name="description_account_locked">Konto zablokowane</string>
+
+    <string name="about_title_activity">O programie</string>
+    <string name="about_application_version">Wersja aplikacji: %s</string>
+    <string name="about_project_site">
+        Strona projektu:\n
+        https://tusky.keylesspalace.com
+    </string>
+    <string name="about_bug_feature_request_site">
+        Zgłoszenia błędów i propozycje funkcji:\n
+        https://github.com/Vavassor/Tusky/issues
+    </string>
+    <string name="about_tusky_account">Profil Tusky\'ego</string>
+
     <string name="status_share_content">Udostępnij zawartość postu</string>
     <string name="status_share_link">Udostępnij link do postu</string>
 
