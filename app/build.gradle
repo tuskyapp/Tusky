@@ -45,7 +45,6 @@ dependencies {
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
     compile 'com.pkmmte.view:circularimageview:1.1'
     compile 'com.github.varunest:sparkbutton:1.0.5'
-    compile 'com.mikhaellopez:circularfillableloaders:1.2.0'
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
     compile 'com.mikepenz:google-material-typeface:3.0.1.0.original@aar'
     compile 'com.github.arimorty:floatingsearchview:2.0.4'
