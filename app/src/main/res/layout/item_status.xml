@@ -95,7 +95,7 @@
 
     </RelativeLayout>
 
-    <com.keylesspalace.tusky.util.FlowLayout
+    <com.keylesspalace.tusky.view.FlowLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/status_content_warning_bar"
@@ -127,7 +127,7 @@
             android:textAllCaps="true"
             android:background="?attr/content_warning_button" />
 
-    </com.keylesspalace.tusky.util.FlowLayout>
+    </com.keylesspalace.tusky.view.FlowLayout>
 
     <TextView
         android:id="@+id/status_content"

@@ -39,8 +39,8 @@ import com.keylesspalace.tusky.network.MastodonAPI;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
-import com.keylesspalace.tusky.util.ConversationLineItemDecoration;
 import com.keylesspalace.tusky.util.ThemeUtils;
+import com.keylesspalace.tusky.view.ConversationLineItemDecoration;
 
 import retrofit2.Call;
 import retrofit2.Callback;
