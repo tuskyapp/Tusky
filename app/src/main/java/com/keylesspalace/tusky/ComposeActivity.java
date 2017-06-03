@@ -24,7 +24,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -39,10 +38,8 @@ import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.provider.OpenableColumns;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v13.view.inputmethod.InputConnectionCompat;
@@ -56,6 +53,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.URLSpan;
 import android.util.Log;
@@ -73,14 +71,17 @@ import android.widget.TextView;
 import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.fragment.ComposeOptionsFragment;
-import com.keylesspalace.tusky.util.DownsizeImageTask;
-import com.keylesspalace.tusky.util.EditTextTyped;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
+import com.keylesspalace.tusky.util.DownsizeImageTask;
 import com.keylesspalace.tusky.util.IOUtils;
+import com.keylesspalace.tusky.util.MediaUtils;
+import com.keylesspalace.tusky.util.ParserUtils;
 import com.keylesspalace.tusky.util.SpanUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
+import com.keylesspalace.tusky.view.EditTextTyped;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -92,7 +93,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -103,17 +103,43 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class  ComposeActivity extends BaseActivity implements ComposeOptionsFragment.Listener {
+import static com.keylesspalace.tusky.util.MediaUtils.MEDIA_SIZE_UNKNOWN;
+import static com.keylesspalace.tusky.util.MediaUtils.getMediaSize;
+import static com.keylesspalace.tusky.util.MediaUtils.inputStreamGetBytes;
+import static com.keylesspalace.tusky.util.StringUtils.carriageReturn;
+import static com.keylesspalace.tusky.util.StringUtils.randomAlphanumericString;
+
+public class ComposeActivity extends BaseActivity implements ComposeOptionsFragment.Listener, ParserUtils.ParserListener {
     private static final String TAG = "ComposeActivity"; // logging tag
     private static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 4000000; // 4MB
     private static final int MEDIA_PICK_RESULT = 1;
     private static final int MEDIA_TAKE_PHOTO_RESULT = 2;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-    private static final int MEDIA_SIZE_UNKNOWN = -1;
     private static final int COMPOSE_SUCCESS = -1;
     private static final int THUMBNAIL_SIZE = 128; // pixels
-
+    @BindView(R.id.compose_edit_field)
+    EditTextTyped textEditor;
+    @BindView(R.id.compose_media_preview_bar)
+    LinearLayout mediaPreviewBar;
+    @BindView(R.id.compose_content_warning_bar)
+    View contentWarningBar;
+    @BindView(R.id.field_content_warning)
+    EditText contentWarningEditor;
+    @BindView(R.id.characters_left)
+    TextView charactersLeft;
+    @BindView(R.id.floating_btn)
+    Button floatingBtn;
+    @BindView(R.id.compose_photo_pick)
+    ImageButton pickBtn;
+    @BindView(R.id.compose_photo_take)
+    ImageButton takeBtn;
+    @BindView(R.id.action_toggle_nsfw)
+    Button nsfwBtn;
+    @BindView(R.id.postProgress)
+    ProgressBar postProgress;
+    @BindView(R.id.action_toggle_visibility)
+    ImageButton visibilityBtn;
     private String inReplyToId;
     private ArrayList<QueuedMedia> mediaQueued;
     private CountUpDownLatch waitForMediaLatch;
@@ -127,93 +153,12 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private Uri photoUploadUri;
     // this only exists when a status is trying to be sent, but uploads are still occurring
     private ProgressDialog finishingUploadDialog;
-    @BindView(R.id.compose_edit_field)
-    EditTextTyped textEditor;
-    @BindView(R.id.compose_media_preview_bar) LinearLayout mediaPreviewBar;
-    @BindView(R.id.compose_content_warning_bar) View contentWarningBar;
-    @BindView(R.id.field_content_warning) EditText contentWarningEditor;
-    @BindView(R.id.characters_left) TextView charactersLeft;
-    @BindView(R.id.floating_btn) Button floatingBtn;
-    @BindView(R.id.compose_photo_pick) ImageButton pickBtn;
-    @BindView(R.id.compose_photo_take) ImageButton takeBtn;
-    @BindView(R.id.action_toggle_nsfw) Button nsfwBtn;
-    @BindView(R.id.postProgress) ProgressBar postProgress;
-    @BindView(R.id.action_toggle_visibility) ImageButton visibilityBtn;
 
-    private static class QueuedMedia {
-        enum Type {
-            IMAGE,
-            VIDEO
-        }
-
-        enum ReadyStage {
-            DOWNSIZING,
-            UPLOADING
-        }
-
-        Type type;
-        ImageView preview;
-        Uri uri;
-        String id;
-        Call<Media> uploadRequest;
-        URLSpan uploadUrl;
-        ReadyStage readyStage;
-        byte[] content;
-        long mediaSize;
-
-        QueuedMedia(Type type, Uri uri, ImageView preview, long mediaSize) {
-            this.type = type;
-            this.uri = uri;
-            this.preview = preview;
-            this.mediaSize = mediaSize;
-        }
-    }
-
-    /**This saves enough information to re-enqueue an attachment when restoring the activity. */
-    private static class SavedQueuedMedia implements Parcelable {
-        QueuedMedia.Type type;
-        Uri uri;
-        Bitmap preview;
-        long mediaSize;
-
-        SavedQueuedMedia(QueuedMedia.Type type, Uri uri, ImageView view, long mediaSize) {
-            this.type = type;
-            this.uri = uri;
-            this.preview = ((BitmapDrawable) view.getDrawable()).getBitmap();
-            this.mediaSize = mediaSize;
-        }
-
-        SavedQueuedMedia(Parcel parcel) {
-            type = (QueuedMedia.Type) parcel.readSerializable();
-            uri = parcel.readParcelable(Uri.class.getClassLoader());
-            preview = parcel.readParcelable(Bitmap.class.getClassLoader());
-            mediaSize = parcel.readLong();
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeSerializable(type);
-            dest.writeParcelable(uri, flags);
-            dest.writeParcelable(preview, flags);
-            dest.writeLong(mediaSize);
-        }
-
-        public static final Parcelable.Creator<SavedQueuedMedia> CREATOR
-                = new Parcelable.Creator<SavedQueuedMedia>() {
-            public SavedQueuedMedia createFromParcel(Parcel in) {
-                return new SavedQueuedMedia(in);
-            }
-
-            public SavedQueuedMedia[] newArray(int size) {
-                return new SavedQueuedMedia[size];
-            }
-        };
-    }
+    /**
+     * The Target object must be stored as a member field or method and cannot be an anonymous class otherwise this won't work as expected. The reason is that Picasso accepts this parameter as a weak memory reference. Because anonymous classes are eligible for garbage collection when there are no more references, the network request to fetch the image may finish after this anonymous class has already been reclaimed. See this Stack Overflow discussion for more details.
+     */
+    @SuppressWarnings("FieldCanBeLocal")
+    private Target target;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -339,6 +284,8 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         postProgress.setVisibility(View.INVISIBLE);
         updateNsfwButtonColor();
 
+        final ParserUtils parser = new ParserUtils(this);
+
         // Setup the main text field.
         setEditTextMimeTypes(null); // new String[] { "image/gif", "image/webp" }
         final int mentionColour = ThemeUtils.getColor(this, R.attr.compose_mention_color);
@@ -350,11 +297,19 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             }
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
                 SpanUtils.highlightSpans(editable, mentionColour);
+            }
+        });
+
+        textEditor.addOnPasteListener(new EditTextTyped.OnPasteListener() {
+            @Override
+            public void onPaste() {
+                parser.getPastedURLText(ComposeActivity.this);
             }
         });
 
@@ -373,7 +328,8 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         // Initialise the content warning editor.
         contentWarningEditor.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -381,10 +337,11 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
         showContentWarning(startingHideText);
-        if(startingContentWarning != null){
+        if (startingContentWarning != null) {
             contentWarningEditor.setText(startingContentWarning);
         }
 
@@ -441,6 +398,9 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                             int left = Math.min(start, end);
                             int right = Math.max(start, end);
                             textEditor.getText().replace(left, right, text, 0, text.length());
+
+                            parser.putInClipboardManager(this, text);
+                            textEditor.onPaste();
                         }
                     }
                 }
@@ -639,7 +599,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     }
 
     private boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags,
-            String[] mimeTypes) {
+                                    String[] mimeTypes) {
         try {
             if (currentInputContentInfo != null) {
                 currentInputContentInfo.releasePermission();
@@ -819,9 +779,9 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     private void onMediaPick() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+                        != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
-                    new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
         } else {
             initiateMediaPicking();
@@ -830,7 +790,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
-            @NonNull int[] grantResults) {
+                                           @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0
@@ -891,7 +851,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             intent.setType("image/* video/*");
         } else {
-            String[] mimeTypes = new String[] { "image/*", "video/*" };
+            String[] mimeTypes = new String[]{"image/*", "video/*"};
             intent.setType("*/*");
             intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
         }
@@ -989,7 +949,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     }
 
     private void removeAllMediaFromQueue() {
-        for (Iterator<QueuedMedia> it = mediaQueued.iterator(); it.hasNext();) {
+        for (Iterator<QueuedMedia> it = mediaQueued.iterator(); it.hasNext(); ) {
             QueuedMedia item = it.next();
             it.remove();
             removeMediaFromQueue(item);
@@ -1011,39 +971,12 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                     public void onFailure() {
                         onMediaDownsizeFailure(item);
                     }
-        }).execute(item.uri);
+                }).execute(item.uri);
     }
 
     private void onMediaDownsizeFailure(QueuedMedia item) {
         displayTransientError(R.string.error_media_upload_size);
         removeMediaFromQueue(item);
-    }
-
-    private static String randomAlphanumericString(int count) {
-        char[] chars = new char[count];
-        Random random = new Random();
-        final String POSSIBLE_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        for (int i = 0; i < count; i++) {
-            chars[i] = POSSIBLE_CHARS.charAt(random.nextInt(POSSIBLE_CHARS.length()));
-        }
-        return new String(chars);
-    }
-
-    @Nullable
-    private static byte[] inputStreamGetBytes(InputStream stream) {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        int read;
-        byte[] data = new byte[16384];
-        try {
-            while ((read = stream.read(data, 0, data.length)) != -1) {
-                buffer.write(data, 0, read);
-            }
-            buffer.flush();
-        } catch (IOException e) {
-            Log.d(TAG, Log.getStackTraceString(e));
-            return null;
-        }
-        return buffer.toByteArray();
     }
 
     private void uploadMedia(final QueuedMedia item) {
@@ -1141,20 +1074,6 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         }
     }
 
-    private static long getMediaSize(ContentResolver contentResolver, Uri uri) {
-        long mediaSize;
-        Cursor cursor = contentResolver.query(uri, null, null, null, null);
-        if (cursor != null) {
-            int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
-            cursor.moveToFirst();
-            mediaSize = cursor.getLong(sizeIndex);
-            cursor.close();
-        } else {
-            mediaSize = MEDIA_SIZE_UNKNOWN;
-        }
-        return mediaSize;
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -1233,12 +1152,12 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
     void showMarkSensitive(boolean show) {
         showMarkSensitive = show;
 
-        if(!showMarkSensitive) {
+        if (!showMarkSensitive) {
             statusMarkSensitive = false;
             nsfwBtn.setTextColor(ThemeUtils.getColor(this, R.attr.compose_nsfw_button_color));
         }
 
-        if(show) {
+        if (show) {
             nsfwBtn.setVisibility(View.VISIBLE);
         } else {
             nsfwBtn.setVisibility(View.GONE);
@@ -1264,5 +1183,132 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onReceiveHeaderInfo(ParserUtils.HeaderInfo headerInfo) {
+        if (!TextUtils.isEmpty(headerInfo.title)) {
+            cleanBaseUrl(headerInfo);
+            textEditor.append(headerInfo.title);
+            textEditor.append(carriageReturn);
+            textEditor.append(headerInfo.baseUrl);
+        }
+        if (!TextUtils.isEmpty(headerInfo.image)) {
+            Picasso.Builder builder = new Picasso.Builder(getApplicationContext());
+            builder.listener(new Picasso.Listener() {
+                @Override
+                public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+                    exception.printStackTrace();
+                }
+            });
+
+            target = MediaUtils.picassoImageTarget(ComposeActivity.this, new MediaUtils.MediaListener() {
+                @Override
+                public void onCallback(final Uri headerInfo) {
+                    if (headerInfo != null) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                long mediaSize = getMediaSize(getContentResolver(), headerInfo);
+                                pickMedia(headerInfo, mediaSize);
+                            }
+                        });
+                    }
+                }
+            });
+            Picasso.with(this).load(headerInfo.image).into(target);
+        }
+    }
+
+
+    // remove the precedent paste from the edit text
+    private void cleanBaseUrl(ParserUtils.HeaderInfo headerInfo) {
+        int lengthBaseUrl = headerInfo.baseUrl.length();
+        int total = textEditor.getText().length();
+        int indexSubString = total - lengthBaseUrl;
+        String text = textEditor.getText().toString();
+        text = text.substring(0, indexSubString);
+        textEditor.setText(text);
+    }
+
+    @Override
+    public void onErrorHeaderInfo() {
+        displayTransientError(R.string.error_generic);
+    }
+
+    private static class QueuedMedia {
+        Type type;
+        ImageView preview;
+        Uri uri;
+        String id;
+        Call<Media> uploadRequest;
+        URLSpan uploadUrl;
+        ReadyStage readyStage;
+        byte[] content;
+        long mediaSize;
+
+        QueuedMedia(Type type, Uri uri, ImageView preview, long mediaSize) {
+            this.type = type;
+            this.uri = uri;
+            this.preview = preview;
+            this.mediaSize = mediaSize;
+        }
+
+        enum Type {
+            IMAGE,
+            VIDEO
+        }
+
+        enum ReadyStage {
+            DOWNSIZING,
+            UPLOADING
+        }
+    }
+
+    /**
+     * This saves enough information to re-enqueue an attachment when restoring the activity.
+     */
+    private static class SavedQueuedMedia implements Parcelable {
+        public static final Parcelable.Creator<SavedQueuedMedia> CREATOR
+                = new Parcelable.Creator<SavedQueuedMedia>() {
+            public SavedQueuedMedia createFromParcel(Parcel in) {
+                return new SavedQueuedMedia(in);
+            }
+
+            public SavedQueuedMedia[] newArray(int size) {
+                return new SavedQueuedMedia[size];
+            }
+        };
+        QueuedMedia.Type type;
+        Uri uri;
+        Bitmap preview;
+        long mediaSize;
+
+        SavedQueuedMedia(QueuedMedia.Type type, Uri uri, ImageView view, long mediaSize) {
+            this.type = type;
+            this.uri = uri;
+            this.preview = ((BitmapDrawable) view.getDrawable()).getBitmap();
+            this.mediaSize = mediaSize;
+        }
+
+        SavedQueuedMedia(Parcel parcel) {
+            type = (QueuedMedia.Type) parcel.readSerializable();
+            uri = parcel.readParcelable(Uri.class.getClassLoader());
+            preview = parcel.readParcelable(Bitmap.class.getClassLoader());
+            mediaSize = parcel.readLong();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeSerializable(type);
+            dest.writeParcelable(uri, flags);
+            dest.writeParcelable(preview, flags);
+            dest.writeLong(mediaSize);
+        }
     }
 }

@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.util;
+package com.keylesspalace.tusky.view;
 
 import android.content.Context;
 import android.support.v13.view.inputmethod.EditorInfoCompat;
@@ -23,9 +23,13 @@ import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 
+import com.keylesspalace.tusky.util.Assert;
+
 public class EditTextTyped extends AppCompatEditText {
+
     InputConnectionCompat.OnCommitContentListener onCommitContentListener;
     String[] mimeTypes;
+    private OnPasteListener mOnPasteListener;
 
     public EditTextTyped(Context context) {
         super(context);
@@ -33,6 +37,10 @@ public class EditTextTyped extends AppCompatEditText {
 
     public EditTextTyped(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
+    }
+
+    public void addOnPasteListener(OnPasteListener mOnPasteListener) {
+        this.mOnPasteListener = mOnPasteListener;
     }
 
     public void setMimeTypes(String[] types,
@@ -52,5 +60,27 @@ public class EditTextTyped extends AppCompatEditText {
         } else {
             return connection;
         }
+    }
+
+    @Override
+    public boolean onTextContextMenuItem(int id) {
+        boolean consumed = super.onTextContextMenuItem(id);
+        switch (id) {
+            case android.R.id.paste:
+                onPaste();
+        }
+        return consumed;
+    }
+
+    /**
+     * Text was pasted into the EditText.
+     */
+    public void onPaste() {
+        if (mOnPasteListener != null)
+            mOnPasteListener.onPaste();
+    }
+
+    public interface OnPasteListener {
+        void onPaste();
     }
 }

@@ -83,7 +83,7 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
 
-        <receiver android:name=".util.NotificationClearBroadcastReceiver" />
+        <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
         <service

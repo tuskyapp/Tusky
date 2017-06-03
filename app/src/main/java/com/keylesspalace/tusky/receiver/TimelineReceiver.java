@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.util;
+package com.keylesspalace.tusky.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
