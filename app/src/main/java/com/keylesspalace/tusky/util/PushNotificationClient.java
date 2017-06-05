@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.util;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.util.ArraySet;
 import android.text.Spanned;
 import android.util.Log;
 
@@ -27,7 +28,6 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.io.InputStream;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -45,10 +45,6 @@ public class PushNotificationClient {
         Type type;
         String topic;
 
-        QueuedAction(Type type) {
-            this.type = type;
-        }
-
         QueuedAction(Type type, String topic) {
             this.type = type;
             this.topic = topic;
@@ -57,12 +53,12 @@ public class PushNotificationClient {
 
     private MqttAndroidClient mqttAndroidClient;
     private ArrayDeque<QueuedAction> queuedActions;
-    private ArrayList<String> subscribedTopics;
+    private ArraySet<String> subscribedTopics;
 
     public PushNotificationClient(final @NonNull Context applicationContext,
                                   @NonNull String serverUri) {
         queuedActions = new ArrayDeque<>();
-        subscribedTopics = new ArrayList<>();
+        subscribedTopics = new ArraySet<>();
 
         // Create the MQTT client.
         String clientId = MqttClient.generateClientId();
@@ -93,6 +89,26 @@ public class PushNotificationClient {
                 // This client is read-only, so this is unused.
             }
         });
+    }
+
+    private void queueAction(QueuedAction.Type type, String topic) {
+        // Search queue for duplicates and if one is found, return before it's added to the queue.
+        for (QueuedAction action : queuedActions) {
+            if (action.type == type) {
+                switch (type) {
+                    case SUBSCRIBE:
+                    case UNSUBSCRIBE:
+                        if (!action.topic.equals(topic)) {
+                            return;
+                        }
+                        break;
+                    case DISCONNECT:
+                        return;
+                }
+            }
+        }
+        // Add the new unique action.
+        queuedActions.add(new QueuedAction(type, topic));
     }
 
     private void flushQueuedActions() {
@@ -160,7 +176,7 @@ public class PushNotificationClient {
     /** Disconnect from the MQTT broker. */
     public void disconnect() {
         if (!mqttAndroidClient.isConnected()) {
-            queuedActions.add(new QueuedAction(QueuedAction.Type.DISCONNECT));
+            queueAction(QueuedAction.Type.DISCONNECT, null);
             return;
         }
         try {
@@ -178,7 +194,10 @@ public class PushNotificationClient {
     /** Subscribe to the push notification topic. */
     public void subscribeToTopic(final String topic) {
         if (!mqttAndroidClient.isConnected()) {
-            queuedActions.add(new QueuedAction(QueuedAction.Type.SUBSCRIBE, topic));
+            queueAction(QueuedAction.Type.SUBSCRIBE, topic);
+            return;
+        }
+        if (subscribedTopics.contains(topic)) {
             return;
         }
         try {
@@ -204,7 +223,7 @@ public class PushNotificationClient {
     /** Unsubscribe from the push notification topic. */
     public void unsubscribeToTopic(String topic) {
         if (!mqttAndroidClient.isConnected()) {
-            queuedActions.add(new QueuedAction(QueuedAction.Type.UNSUBSCRIBE, topic));
+            queueAction(QueuedAction.Type.UNSUBSCRIBE, topic);
             return;
         }
         try {
