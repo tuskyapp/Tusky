@@ -209,11 +209,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         notifyItemRangeInserted(end, new_notifications.size());
     }
 
+    @Override
     public void removeItem(int position) {
         notifications.remove(position);
         notifyItemChanged(position);
     }
 
+    @Override
     public void removeAllByAccountId(String id) {
         for (int i = 0; i < notifications.size();) {
             Notification notification = notifications.get(i);

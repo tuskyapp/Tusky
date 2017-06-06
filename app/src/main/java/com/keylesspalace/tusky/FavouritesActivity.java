@@ -23,13 +23,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.keylesspalace.tusky.fragment.SFragment;
 import com.keylesspalace.tusky.fragment.TimelineFragment;
-import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
 
-public class FavouritesActivity extends BaseActivity implements SFragment.OnUserRemovedListener {
-    private StatusRemoveListener statusRemoveListener;
-
+public class FavouritesActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +44,6 @@ public class FavouritesActivity extends BaseActivity implements SFragment.OnUser
         Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.FAVOURITES);
         fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
-
-        statusRemoveListener = (StatusRemoveListener) fragment;
     }
 
     @Override
@@ -61,10 +55,5 @@ public class FavouritesActivity extends BaseActivity implements SFragment.OnUser
             }
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onUserRemoved(String accountId) {
-        statusRemoveListener.removePostsByUser(accountId);
     }
 }

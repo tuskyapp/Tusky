@@ -23,16 +23,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.keylesspalace.tusky.fragment.SFragment;
 import com.keylesspalace.tusky.fragment.TimelineFragment;
-import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ViewTagActivity extends BaseActivity implements SFragment.OnUserRemovedListener {
-    private Fragment timelineFragment;
-
+public class ViewTagActivity extends BaseActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override
@@ -57,8 +53,6 @@ public class ViewTagActivity extends BaseActivity implements SFragment.OnUserRem
         Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.TAG, hashtag);
         fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
-
-        timelineFragment = fragment;
     }
 
     @Override
@@ -70,11 +64,5 @@ public class ViewTagActivity extends BaseActivity implements SFragment.OnUserRem
             }
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onUserRemoved(String accountId) {
-        StatusRemoveListener listener = (StatusRemoveListener) timelineFragment;
-        listener.removePostsByUser(accountId);
     }
 }

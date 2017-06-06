@@ -140,16 +140,13 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
         notifyItemRangeInserted(end, newStatuses.size());
     }
 
+    @Override
     public void removeItem(int position) {
         statuses.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void clear() {
-        statuses.clear();
-        notifyDataSetChanged();
-    }
-
+    @Override
     public void removeAllByAccountId(String accountId) {
         for (int i = 0; i < statuses.size();) {
             Status status = statuses.get(i);
@@ -160,6 +157,11 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
                 i += 1;
             }
         }
+    }
+
+    public void clear() {
+        statuses.clear();
+        notifyDataSetChanged();
     }
 
     @Nullable

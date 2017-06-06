@@ -32,7 +32,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
@@ -47,9 +46,7 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
-import com.keylesspalace.tusky.fragment.SFragment;
 import com.keylesspalace.tusky.interfaces.LinkListener;
-import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
 import com.keylesspalace.tusky.pager.AccountPagerAdapter;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.LinkHelper;
@@ -68,7 +65,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AccountActivity extends BaseActivity implements SFragment.OnUserRemovedListener {
+public class AccountActivity extends BaseActivity {
     private static final String TAG = "AccountActivity"; // logging tag
 
     private enum FollowState {
@@ -82,7 +79,6 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
     private boolean blocking;
     private boolean muting;
     private boolean isSelf;
-    private AccountPagerAdapter pagerAdapter;
     private Account loadedAccount;
 
     @BindView(R.id.account_avatar) CircularImageView avatar;
@@ -177,7 +173,6 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
         // Setup the tabs and timeline pager.
         AccountPagerAdapter adapter = new AccountPagerAdapter(getSupportFragmentManager(), this,
                 accountId);
-        pagerAdapter = adapter;
         String[] pageTitles = {
             getString(R.string.title_statuses),
             getString(R.string.title_follows),
@@ -355,16 +350,6 @@ public class AccountActivity extends BaseActivity implements SFragment.OnUserRem
         }
 
         updateButtons();
-    }
-
-    @Override
-    public void onUserRemoved(String accountId) {
-        for (Fragment fragment : pagerAdapter.getRegisteredFragments()) {
-            if (fragment instanceof StatusRemoveListener) {
-                StatusRemoveListener listener = (StatusRemoveListener) fragment;
-                listener.removePostsByUser(accountId);
-            }
-        }
     }
 
     private void updateFollowButton(FloatingActionButton button) {

@@ -38,7 +38,6 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
@@ -53,7 +52,6 @@ import retrofit2.Response;
 public class TimelineFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
         StatusActionListener,
-        StatusRemoveListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "Timeline"; // logging tag
 
@@ -128,7 +126,8 @@ public class TimelineFragment extends SFragment implements
         recyclerView.setAdapter(adapter);
 
         timelineReceiver = new TimelineReceiver(adapter);
-        LocalBroadcastManager.getInstance(context.getApplicationContext()).registerReceiver(timelineReceiver, TimelineReceiver.getFilter(kind));
+        LocalBroadcastManager.getInstance(context.getApplicationContext())
+                .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(kind));
         return rootView;
     }
 
@@ -283,10 +282,6 @@ public class TimelineFragment extends SFragment implements
         }
         callList.add(listCall);
         listCall.enqueue(callback);
-    }
-
-    public void removePostsByUser(String accountId) {
-        adapter.removeAllByAccountId(accountId);
     }
 
     private static boolean findStatus(List<Status> statuses, String id) {

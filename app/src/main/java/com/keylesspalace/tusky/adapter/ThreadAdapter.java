@@ -62,11 +62,13 @@ public class ThreadAdapter extends RecyclerView.Adapter implements AdapterItemRe
         return statuses.get(position);
     }
 
+    @Override
     public void removeItem(int position) {
         statuses.remove(position);
         notifyItemRemoved(position);
     }
 
+    @Override
     public void removeAllByAccountId(String accountId) {
         for (int i = 0; i < statuses.size();) {
             Status status = statuses.get(i);

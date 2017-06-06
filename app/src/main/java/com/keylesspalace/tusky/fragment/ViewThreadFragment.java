@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,7 +39,7 @@ import com.keylesspalace.tusky.entity.StatusContext;
 import com.keylesspalace.tusky.network.MastodonAPI;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
+import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.ConversationLineItemDecoration;
 
@@ -47,7 +48,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ViewThreadFragment extends SFragment implements
-        SwipeRefreshLayout.OnRefreshListener, StatusActionListener, StatusRemoveListener {
+        SwipeRefreshLayout.OnRefreshListener, StatusActionListener {
     private static final String TAG = "ViewThreadFragment";
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -55,6 +56,7 @@ public class ViewThreadFragment extends SFragment implements
     private ThreadAdapter adapter;
     private MastodonAPI mastodonApi;
     private String thisThreadsStatusId;
+    private TimelineReceiver timelineReceiver;
 
     public static ViewThreadFragment newInstance(String id) {
         Bundle arguments = new Bundle();
@@ -92,7 +94,18 @@ public class ViewThreadFragment extends SFragment implements
         mastodonApi = null;
         thisThreadsStatusId = null;
 
+        timelineReceiver = new TimelineReceiver(adapter);
+        LocalBroadcastManager.getInstance(context.getApplicationContext())
+                .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(null));
+
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        LocalBroadcastManager.getInstance(getContext())
+                .unregisterReceiver(timelineReceiver);
+        super.onDestroyView();
     }
 
     @Override
@@ -167,11 +180,6 @@ public class ViewThreadFragment extends SFragment implements
         } else {
             Log.e(TAG, "Couldn't display thread fetch error message");
         }
-    }
-
-    @Override
-    public void removePostsByUser(String accountId) {
-        adapter.removeAllByAccountId(accountId);
     }
 
     public void onRefresh() {

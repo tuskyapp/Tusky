@@ -4,9 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.annotation.Nullable;
 
-import com.keylesspalace.tusky.adapter.TimelineAdapter;
 import com.keylesspalace.tusky.fragment.TimelineFragment;
+import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
 
 public class TimelineReceiver extends BroadcastReceiver {
     public static final class Types {
@@ -15,9 +16,9 @@ public class TimelineReceiver extends BroadcastReceiver {
         public static final String MUTE_ACCOUNT = "MUTE_ACCOUNT";
     }
 
-    TimelineAdapter adapter;
+    AdapterItemRemover adapter;
 
-    public TimelineReceiver(TimelineAdapter adapter) {
+    public TimelineReceiver(AdapterItemRemover adapter) {
         super();
         this.adapter = adapter;
     }
@@ -28,7 +29,7 @@ public class TimelineReceiver extends BroadcastReceiver {
         adapter.removeAllByAccountId(id);
     }
 
-    public static IntentFilter getFilter(TimelineFragment.Kind kind) {
+    public static IntentFilter getFilter(@Nullable TimelineFragment.Kind kind) {
         IntentFilter intentFilter = new IntentFilter();
         if (kind == TimelineFragment.Kind.HOME) {
             intentFilter.addAction(Types.UNFOLLOW_ACCOUNT);

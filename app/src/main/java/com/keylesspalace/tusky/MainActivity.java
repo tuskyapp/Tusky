@@ -46,7 +46,6 @@ import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.fragment.SFragment;
-import com.keylesspalace.tusky.interfaces.StatusRemoveListener;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -74,7 +73,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends BaseActivity implements SFragment.OnUserRemovedListener {
+public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity"; // logging tag
     protected static int COMPOSE_RESULT = 1;
 
@@ -565,17 +564,6 @@ public class MainActivity extends BaseActivity implements SFragment.OnUserRemove
         TimelinePagerAdapter adapter = (TimelinePagerAdapter) viewPager.getAdapter();
         for (Fragment fragment : adapter.getRegisteredFragments()) {
             fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
-    @Override
-    public void onUserRemoved(String accountId) {
-        TimelinePagerAdapter adapter = (TimelinePagerAdapter) viewPager.getAdapter();
-        for (Fragment fragment : adapter.getRegisteredFragments()) {
-            if (fragment instanceof StatusRemoveListener) {
-                StatusRemoveListener listener = (StatusRemoveListener) fragment;
-                listener.removePostsByUser(accountId);
-            }
         }
     }
 
