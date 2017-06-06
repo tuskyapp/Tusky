@@ -99,17 +99,6 @@ public abstract class SFragment extends BaseFragment {
         startActivityForResult(intent, COMPOSE_RESULT);
     }
 
-    public void onSuccessfulStatus() {}
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == COMPOSE_RESULT && resultCode == ComposeActivity.RESULT_OK) {
-            onSuccessfulStatus();
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
     protected void reblog(final Status status, final boolean reblog,
                           final RecyclerView.Adapter adapter, final int position) {
         String id = status.getActionableId();

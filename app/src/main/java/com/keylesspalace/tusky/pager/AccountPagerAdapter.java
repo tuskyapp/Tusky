@@ -28,20 +28,15 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.fragment.AccountListFragment;
 import com.keylesspalace.tusky.fragment.TimelineFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AccountPagerAdapter extends FragmentPagerAdapter {
     private Context context;
     private String accountId;
     private String[] pageTitles;
-    private List<Fragment> registeredFragments;
 
     public AccountPagerAdapter(FragmentManager manager, Context context, String accountId) {
         super(manager);
         this.context = context;
         this.accountId = accountId;
-        registeredFragments = new ArrayList<>();
     }
 
     public void setPageTitles(String[] titles) {
@@ -81,22 +76,5 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
         TextView title = (TextView) view.findViewById(R.id.title);
         title.setText(pageTitles[position]);
         return view;
-    }
-
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        Fragment fragment = (Fragment) super.instantiateItem(container, position);
-        registeredFragments.add(fragment);
-        return fragment;
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        registeredFragments.remove((Fragment) object);
-        super.destroyItem(container, position, object);
-    }
-
-    public List<Fragment> getRegisteredFragments() {
-        return registeredFragments;
     }
 }

@@ -125,7 +125,7 @@ public class TimelineFragment extends SFragment implements
         adapter = new TimelineAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        timelineReceiver = new TimelineReceiver(adapter);
+        timelineReceiver = new TimelineReceiver(adapter, this);
         LocalBroadcastManager.getInstance(context.getApplicationContext())
                 .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(kind));
         return rootView;
@@ -350,14 +350,6 @@ public class TimelineFragment extends SFragment implements
         } else {
             sendFetchTimelineRequest(null, null);
         }
-    }
-
-    @Override
-    public void onSuccessfulStatus() {
-        if (kind == Kind.HOME || kind == Kind.PUBLIC_FEDERATED || kind == Kind.PUBLIC_LOCAL) {
-            onRefresh();
-        }
-        super.onSuccessfulStatus();
     }
 
     public void onReply(int position) {

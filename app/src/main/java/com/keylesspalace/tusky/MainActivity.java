@@ -24,12 +24,11 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.text.SpannableStringBuilder;
@@ -45,8 +44,8 @@ import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.keylesspalace.tusky.entity.Account;
-import com.keylesspalace.tusky.fragment.SFragment;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
+import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -537,10 +536,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == COMPOSE_RESULT && resultCode == ComposeActivity.RESULT_OK) {
-            TimelinePagerAdapter adapter = (TimelinePagerAdapter) viewPager.getAdapter();
-            if (adapter.getCurrentFragment() instanceof SFragment) {
-                ((SFragment) adapter.getCurrentFragment()).onSuccessfulStatus();
-            }
+            Intent intent = new Intent(TimelineReceiver.Types.STATUS_COMPOSED);
+            LocalBroadcastManager.getInstance(getApplicationContext())
+                    .sendBroadcast(intent);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -554,16 +552,6 @@ public class MainActivity extends BaseActivity {
         } else {
             pageHistory.pop();
             viewPager.setCurrentItem(pageHistory.peek());
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-            @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        TimelinePagerAdapter adapter = (TimelinePagerAdapter) viewPager.getAdapter();
-        for (Fragment fragment : adapter.getRegisteredFragments()) {
-            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 

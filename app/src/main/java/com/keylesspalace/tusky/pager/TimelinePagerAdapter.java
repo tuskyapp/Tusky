@@ -18,38 +18,13 @@ package com.keylesspalace.tusky.pager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.fragment.NotificationsFragment;
 import com.keylesspalace.tusky.fragment.TimelineFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TimelinePagerAdapter extends FragmentPagerAdapter {
-    private int currentFragmentIndex;
-    private List<Fragment> registeredFragments;
-
     public TimelinePagerAdapter(FragmentManager manager) {
         super(manager);
-        currentFragmentIndex = 0;
-        registeredFragments = new ArrayList<>();
-    }
-
-    public Fragment getCurrentFragment() {
-        return registeredFragments.get(currentFragmentIndex);
-    }
-
-    public List<Fragment> getRegisteredFragments() {
-        return registeredFragments;
-    }
-
-    @Override
-    public void setPrimaryItem(ViewGroup container, int position, Object object) {
-        if (position != currentFragmentIndex) {
-            currentFragmentIndex = position;
-        }
-        super.setPrimaryItem(container, position, object);
     }
 
     @Override
@@ -81,18 +56,5 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return null;
-    }
-
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        Fragment fragment = (Fragment) super.instantiateItem(container, position);
-        registeredFragments.add(fragment);
-        return fragment;
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        registeredFragments.remove((Fragment) object);
-        super.destroyItem(container, position, object);
     }
 }

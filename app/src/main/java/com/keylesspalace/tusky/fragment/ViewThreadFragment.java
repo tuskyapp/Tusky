@@ -94,7 +94,7 @@ public class ViewThreadFragment extends SFragment implements
         mastodonApi = null;
         thisThreadsStatusId = null;
 
-        timelineReceiver = new TimelineReceiver(adapter);
+        timelineReceiver = new TimelineReceiver(adapter, this);
         LocalBroadcastManager.getInstance(context.getApplicationContext())
                 .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(null));
 
@@ -185,12 +185,6 @@ public class ViewThreadFragment extends SFragment implements
     public void onRefresh() {
         sendStatusRequest(thisThreadsStatusId);
         sendThreadRequest(thisThreadsStatusId);
-    }
-
-    @Override
-    public void onSuccessfulStatus() {
-        onRefresh();
-        super.onSuccessfulStatus();
     }
 
     public void onReply(int position) {

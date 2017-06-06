@@ -33,7 +33,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.R;
@@ -44,7 +43,6 @@ import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 
-import java.sql.Time;
 import java.util.List;
 
 import retrofit2.Call;
