@@ -17,7 +17,7 @@
             android:layout_width="147dp"
             android:layout_height="160dp"
             android:layout_marginBottom="50dp"
-            android:src="@drawable/elephant_friend"
+            android:src="@drawable/mastodon_illustration"
             android:contentDescription="@null" />
 
         <LinearLayout
