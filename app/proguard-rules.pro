@@ -52,3 +52,8 @@
     public static *** v(...);
     public static *** i(...);
 }
+
+# for jsoup
+-keep public class org.jsoup.** {
+public *;
+}
