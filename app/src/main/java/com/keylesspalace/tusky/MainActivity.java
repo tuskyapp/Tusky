@@ -512,7 +512,7 @@ public class MainActivity extends BaseActivity {
         // Show follow requests in the menu, if this is a locked account.
         if (me.locked) {
             PrimaryDrawerItem followRequestsItem = new PrimaryDrawerItem()
-                    .withIdentifier(6)
+                    .withIdentifier(7)
                     .withName(R.string.action_view_follow_requests)
                     .withSelectable(false)
                     .withIcon(GoogleMaterial.Icon.gmd_person_add);
