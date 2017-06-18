@@ -18,6 +18,7 @@ package com.keylesspalace.tusky;
 import android.app.Application;
 import android.net.Uri;
 
+import com.keylesspalace.tusky.util.OkHttpUtils;
 import com.squareup.picasso.Picasso;
 import com.jakewharton.picasso.OkHttp3Downloader;
 
@@ -27,7 +28,7 @@ public class TuskyApplication extends Application {
         super.onCreate();
         // Initialize Picasso configuration
         Picasso.Builder builder = new Picasso.Builder(this);
-        builder.downloader(new OkHttp3Downloader(this));
+        builder.downloader(new OkHttp3Downloader(OkHttpUtils.getCompatibleClient()));
         if (BuildConfig.DEBUG) {
             builder.listener(new Picasso.Listener() {
                 @Override
