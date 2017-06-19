@@ -100,6 +100,7 @@
     <string name="action_undo">Undo</string>
     <string name="action_accept">Accept</string>
     <string name="action_reject">Reject</string>
+    <string name="action_search">Search</string>
 
     <string name="send_status_link_to">Share toot URL to…</string>
     <string name="send_status_content_to">Share toot to…</string>
@@ -116,6 +117,9 @@
     <string name="hint_content_warning">Content warning</string>
     <string name="hint_display_name">Display name</string>
     <string name="hint_note">Bio</string>
+    <string name="hint_search">Search accounts and tags…</string>
+
+    <string name="search_no_results">No results</string>
 
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Header</string>

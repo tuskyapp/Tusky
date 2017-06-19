@@ -22,6 +22,7 @@ import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Profile;
 import com.keylesspalace.tusky.entity.Relationship;
+import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
 
@@ -190,6 +191,9 @@ public interface MastodonAPI {
     @FormUrlEncoded
     @POST("api/v1/reports")
     Call<ResponseBody> report(@Field("account_id") String accountId, @Field("status_ids[]") List<String> statusIds, @Field("comment") String comment);
+
+    @GET("api/v1/search")
+    Call<SearchResults> search(@Query("q") String q, @Query("resolve") Boolean resolve);
 
     @FormUrlEncoded
     @POST("api/v1/apps")
