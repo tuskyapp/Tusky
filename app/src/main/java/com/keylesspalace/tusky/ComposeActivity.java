@@ -42,6 +42,7 @@ import android.provider.MediaStore;
 import android.support.annotation.AttrRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v13.view.inputmethod.InputConnectionCompat;
@@ -59,8 +60,10 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.URLSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -86,6 +89,7 @@ import com.keylesspalace.tusky.util.ParserUtils;
 import com.keylesspalace.tusky.util.SpanUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EditTextTyped;
+import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -320,8 +324,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             }
         });
 
-        textEditor.setAdapter(new MentionAutoCompleteAdapter(this,
-                android.R.layout.simple_dropdown_item_1line));
+        textEditor.setAdapter(new MentionAutoCompleteAdapter(this, R.layout.item_autocomplete));
         textEditor.setTokenizer(new MentionTokenizer());
 
         // Add any mentions to the text field when a reply is first composed.
@@ -1247,20 +1250,16 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     /**
-     * Does a synchronous search request for usernames fulfilling the given partial mention text.
+     * Does a synchronous search request for accounts fulfilling the given partial mention text.
      */
-    private ArrayList<String> autocompleteMention(String mention) {
-        ArrayList<String> resultList = new ArrayList<>();
+    private ArrayList<Account> autocompleteMention(String mention) {
+        ArrayList<Account> resultList = new ArrayList<>();
         try {
-            List<Account> accountList = mastodonAPI.searchAccounts(mention, false, 5)
+            List<Account> accountList = mastodonAPI.searchAccounts(mention, false, 40)
                     .execute()
                     .body();
-            /* Match only accounts whose username contains the partial mention text, because
-               searches also return matches for display names, which aren't relevant here. */
-            for (Account account : accountList) {
-                if (account.username.toLowerCase().contains(mention.toLowerCase())) {
-                    resultList.add(account.username);
-                }
+            if (accountList != null) {
+                resultList.addAll(accountList);
             }
         } catch (IOException e) {
             Log.e(TAG, String.format("Autocomplete search for %s failed.", mention));
@@ -1344,11 +1343,13 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         }
     }
 
-    private class MentionAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
-        private ArrayList<String> resultList;
+    private class MentionAutoCompleteAdapter extends ArrayAdapter<Account> implements Filterable {
+        private ArrayList<Account> resultList;
+        private @LayoutRes int layoutId;
 
         MentionAutoCompleteAdapter(Context context, @LayoutRes int resource) {
             super(context, resource);
+            layoutId = resource;
         }
 
         @Override
@@ -1357,13 +1358,18 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         }
 
         @Override
-        public String getItem(int index) {
+        public Account getItem(int index) {
             return resultList.get(index);
         }
 
         @Override @NonNull
         public Filter getFilter() {
             return new Filter() {
+                @Override
+                public CharSequence convertResultToString(Object resultValue) {
+                    return ((Account) resultValue).username;
+                }
+
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults filterResults = new FilterResults();
@@ -1384,6 +1390,41 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                     }
                 }
             };
+        }
+
+
+        @Override @NonNull
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            View view = convertView;
+
+            Context context = getContext();
+
+            if (convertView == null) {
+                LayoutInflater layoutInflater =
+                        (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = layoutInflater.inflate(layoutId, null);
+            }
+
+            Account account = getItem(position);
+            if (account != null) {
+                TextView username = (TextView) view.findViewById(R.id.username);
+                TextView displayName = (TextView) view.findViewById(R.id.display_name);
+                ImageView avatar = (ImageView) view.findViewById(R.id.avatar);
+                String format = getContext().getString(R.string.status_username_format);
+                String formattedUsername = String.format(format, account.username);
+                username.setText(formattedUsername);
+                displayName.setText(account.getDisplayName());
+                if (!account.avatar.isEmpty()) {
+                    Picasso.with(context)
+                            .load(account.avatar)
+                            .placeholder(R.drawable.avatar_default)
+                            .error(R.drawable.avatar_error)
+                            .transform(new RoundedTransformation(7, 0))
+                            .into(avatar);
+                }
+            }
+
+            return view;
         }
     }
 }
