@@ -34,7 +34,7 @@
     <string name="title_edit_profile">Edytuj profil</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s podbito</string>
+    <string name="status_boosted_format">%s podbił</string>
     <string name="status_sensitive_media_title">Wrażliwe treści</string>
     <string name="status_sensitive_media_directions">Dotknij, aby wyświetlić</string>
     <string name="status_content_warning_show_more">Pokaż więcej</string>
