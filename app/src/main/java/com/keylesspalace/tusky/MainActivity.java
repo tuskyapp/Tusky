@@ -75,6 +75,15 @@ import retrofit2.Response;
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity"; // logging tag
     protected static int COMPOSE_RESULT = 1;
+    private static final long DRAWER_ITEM_EDIT_PROFILE = 0;
+    private static final long DRAWER_ITEM_FAVOURITES = 1;
+    private static final long DRAWER_ITEM_MUTED_USERS = 2;
+    private static final long DRAWER_ITEM_BLOCKED_USERS = 3;
+    private static final long DRAWER_ITEM_SEARCH = 4;
+    private static final long DRAWER_ITEM_PREFERENCES = 5;
+    private static final long DRAWER_ITEM_ABOUT = 6;
+    private static final long DRAWER_ITEM_LOG_OUT = 7;
+    private static final long DRAWER_ITEM_FOLLOW_REQUESTS = 8;
 
     private String loggedInAccountId;
     private String loggedInAccountUsername;
@@ -289,15 +298,15 @@ public class MainActivity extends BaseActivity {
                 .withHasStableIds(true)
                 .withSelectedItem(-1)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withIdentifier(0).withName(getString(R.string.action_edit_profile)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person),
-                        new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.action_view_favourites)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_star),
-                        new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.action_view_mutes)).withSelectable(false).withIcon(muteDrawable),
-                        new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block),
-                        new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.action_search)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_search),
+                        new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_EDIT_PROFILE).withName(getString(R.string.action_edit_profile)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person),
+                        new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_FAVOURITES).withName(getString(R.string.action_view_favourites)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_star),
+                        new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_MUTED_USERS).withName(getString(R.string.action_view_mutes)).withSelectable(false).withIcon(muteDrawable),
+                        new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_BLOCKED_USERS).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block),
+                        new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SEARCH).withName(getString(R.string.action_search)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_search),
                         new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withIdentifier(5).withName(getString(R.string.action_view_preferences)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings),
-                        new SecondaryDrawerItem().withIdentifier(6).withName(getString(R.string.about_title_activity)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_info),
-                        new SecondaryDrawerItem().withIdentifier(7).withName(getString(R.string.action_logout)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_exit_to_app)
+                        new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_PREFERENCES).withName(getString(R.string.action_view_preferences)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings),
+                        new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_ABOUT).withName(getString(R.string.about_title_activity)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_info),
+                        new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_LOG_OUT).withName(getString(R.string.action_logout)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_exit_to_app)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -305,32 +314,32 @@ public class MainActivity extends BaseActivity {
                         if (drawerItem != null) {
                             long drawerItemIdentifier = drawerItem.getIdentifier();
 
-                            if (drawerItemIdentifier == 0) {
+                            if (drawerItemIdentifier == DRAWER_ITEM_EDIT_PROFILE) {
                                 Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
                                 startActivity(intent);
-                            } else if (drawerItemIdentifier == 1) {
+                            } else if (drawerItemIdentifier == DRAWER_ITEM_FAVOURITES) {
                                 Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
                                 startActivity(intent);
-                            } else if (drawerItemIdentifier == 2) {
+                            } else if (drawerItemIdentifier == DRAWER_ITEM_MUTED_USERS) {
                                 Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
                                 intent.putExtra("type", AccountListActivity.Type.MUTES);
                                 startActivity(intent);
-                            } else if (drawerItemIdentifier == 3) {
+                            } else if (drawerItemIdentifier == DRAWER_ITEM_BLOCKED_USERS) {
                                 Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
                                 intent.putExtra("type", AccountListActivity.Type.BLOCKS);
                                 startActivity(intent);
-                            } else if (drawerItemIdentifier == 4) {
+                            } else if (drawerItemIdentifier == DRAWER_ITEM_SEARCH) {
                                 Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                                 startActivity(intent);
-                            } else if (drawerItemIdentifier == 5) {
+                            } else if (drawerItemIdentifier == DRAWER_ITEM_PREFERENCES) {
                                 Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
                                 startActivity(intent);
-                            } else if (drawerItemIdentifier == 6) {
+                            } else if (drawerItemIdentifier == DRAWER_ITEM_ABOUT) {
                                 Intent intent = new Intent(MainActivity.this, AboutActivity.class);
                                 startActivity(intent);
-                            } else if (drawerItemIdentifier == 7) {
+                            } else if (drawerItemIdentifier == DRAWER_ITEM_LOG_OUT) {
                                 logout();
-                            } else if (drawerItemIdentifier == 8) {
+                            } else if (drawerItemIdentifier == DRAWER_ITEM_FOLLOW_REQUESTS) {
                                 Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
                                 intent.putExtra("type", AccountListActivity.Type.FOLLOW_REQUESTS);
                                 startActivity(intent);
@@ -516,7 +525,7 @@ public class MainActivity extends BaseActivity {
         // Show follow requests in the menu, if this is a locked account.
         if (me.locked) {
             PrimaryDrawerItem followRequestsItem = new PrimaryDrawerItem()
-                    .withIdentifier(8)
+                    .withIdentifier(DRAWER_ITEM_FOLLOW_REQUESTS)
                     .withName(R.string.action_view_follow_requests)
                     .withSelectable(false)
                     .withIcon(GoogleMaterial.Icon.gmd_person_add);

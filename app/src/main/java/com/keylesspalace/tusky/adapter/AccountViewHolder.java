@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
+import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -41,6 +42,15 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
     }
 
     void setupActionListener(final AccountActionListener listener) {
+        container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onViewAccount(id);
+            }
+        });
+    }
+
+    void setupLinkListener(final LinkListener listener) {
         container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

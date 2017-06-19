@@ -35,20 +35,20 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.adapter.SearchResultsAdapter;
 import com.keylesspalace.tusky.entity.SearchResults;
+import com.keylesspalace.tusky.interfaces.LinkListener;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchActivity extends BaseActivity implements SearchView.OnQueryTextListener {
+public class SearchActivity extends BaseActivity implements SearchView.OnQueryTextListener,
+        LinkListener {
     private static final String TAG = "SearchActivity"; // logging tag
 
-    @BindView(R.id.progress_bar) ProgressBar progressBar;
-    @BindView(R.id.message_no_results) TextView messageNoResults;
+    private ProgressBar progressBar;
+    private TextView messageNoResults;
     private SearchResultsAdapter adapter;
     private String currentQuery;
 
@@ -56,7 +56,9 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        ButterKnife.bind(this);
+
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        messageNoResults = (TextView) findViewById(R.id.message_no_results);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -69,7 +71,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new SearchResultsAdapter();
+        adapter = new SearchResultsAdapter(this);
         recyclerView.setAdapter(adapter);
 
         handleIntent(getIntent());
@@ -115,6 +117,20 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
+    }
+
+    @Override
+    public void onViewAccount(String id) {
+        Intent intent = new Intent(this, AccountActivity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onViewTag(String tag) {
+        Intent intent = new Intent(this, ViewTagActivity.class);
+        intent.putExtra("hashtag", tag);
+        startActivity(intent);
     }
 
     private void handleIntent(Intent intent) {

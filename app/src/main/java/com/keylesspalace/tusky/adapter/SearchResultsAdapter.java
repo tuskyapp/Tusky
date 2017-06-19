@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.SearchResults;
+import com.keylesspalace.tusky.interfaces.LinkListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,11 +36,13 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
 
     private List<Account> accountList;
     private List<String> hashtagList;
+    private LinkListener linkListener;
 
-    public SearchResultsAdapter() {
+    public SearchResultsAdapter(LinkListener listener) {
         super();
         accountList = new ArrayList<>();
         hashtagList = new ArrayList<>();
+        linkListener = listener;
     }
 
     @Override
@@ -64,10 +67,11 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
         if (position < accountList.size()) {
             AccountViewHolder holder = (AccountViewHolder) viewHolder;
             holder.setupWithAccount(accountList.get(position));
+            holder.setupLinkListener(linkListener);
         } else {
             HashtagViewHolder holder = (HashtagViewHolder) viewHolder;
             int index = position - accountList.size();
-            holder.setHashtag(hashtagList.get(index));
+            holder.setup(hashtagList.get(index), linkListener);
         }
     }
 
@@ -108,8 +112,14 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
             hashtag = (TextView) itemView.findViewById(R.id.hashtag);
         }
 
-        void setHashtag(String tag) {
+        void setup(final String tag, final LinkListener listener) {
             hashtag.setText(String.format("#%s", tag));
+            hashtag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onViewTag(tag);
+                }
+            });
         }
     }
 }
