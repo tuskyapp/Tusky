@@ -18,6 +18,7 @@ package com.keylesspalace.tusky;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,6 +40,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.AttrRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
@@ -60,14 +62,18 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.fragment.ComposeOptionsFragment;
@@ -75,6 +81,7 @@ import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
 import com.keylesspalace.tusky.util.IOUtils;
 import com.keylesspalace.tusky.util.MediaUtils;
+import com.keylesspalace.tusky.util.MentionTokenizer;
 import com.keylesspalace.tusky.util.ParserUtils;
 import com.keylesspalace.tusky.util.SpanUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
@@ -312,6 +319,10 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 parser.getPastedURLText(ComposeActivity.this);
             }
         });
+
+        textEditor.setAdapter(new MentionAutoCompleteAdapter(this,
+                android.R.layout.simple_dropdown_item_1line));
+        textEditor.setTokenizer(new MentionTokenizer());
 
         // Add any mentions to the text field when a reply is first composed.
         if (mentionedUsernames != null) {
@@ -1220,7 +1231,6 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         }
     }
 
-
     // remove the precedent paste from the edit text
     private void cleanBaseUrl(ParserUtils.HeaderInfo headerInfo) {
         int lengthBaseUrl = headerInfo.baseUrl.length();
@@ -1234,6 +1244,28 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     @Override
     public void onErrorHeaderInfo() {
         displayTransientError(R.string.error_generic);
+    }
+
+    /**
+     * Does a synchronous search request for usernames fulfilling the given partial mention text.
+     */
+    private ArrayList<String> autocompleteMention(String mention) {
+        ArrayList<String> resultList = new ArrayList<>();
+        try {
+            List<Account> accountList = mastodonAPI.searchAccounts(mention, false, 5)
+                    .execute()
+                    .body();
+            /* Match only accounts whose username contains the partial mention text, because
+               searches also return matches for display names, which aren't relevant here. */
+            for (Account account : accountList) {
+                if (account.username.toLowerCase().contains(mention.toLowerCase())) {
+                    resultList.add(account.username);
+                }
+            }
+        } catch (IOException e) {
+            Log.e(TAG, String.format("Autocomplete search for %s failed.", mention));
+        }
+        return resultList;
     }
 
     private static class QueuedMedia {
@@ -1309,6 +1341,49 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             dest.writeParcelable(uri, flags);
             dest.writeParcelable(preview, flags);
             dest.writeLong(mediaSize);
+        }
+    }
+
+    private class MentionAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
+        private ArrayList<String> resultList;
+
+        MentionAutoCompleteAdapter(Context context, @LayoutRes int resource) {
+            super(context, resource);
+        }
+
+        @Override
+        public int getCount() {
+            return resultList.size();
+        }
+
+        @Override
+        public String getItem(int index) {
+            return resultList.get(index);
+        }
+
+        @Override @NonNull
+        public Filter getFilter() {
+            return new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    FilterResults filterResults = new FilterResults();
+                    if (constraint != null) {
+                        resultList = autocompleteMention(constraint.toString());
+                        filterResults.values = resultList;
+                        filterResults.count = resultList.size();
+                    }
+                    return filterResults;
+                }
+
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    if (results != null && results.count > 0) {
+                        notifyDataSetChanged();
+                    } else {
+                        notifyDataSetInvalidated();
+                    }
+                }
+            };
         }
     }
 }
