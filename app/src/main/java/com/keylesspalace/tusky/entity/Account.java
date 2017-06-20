@@ -16,14 +16,14 @@
 package com.keylesspalace.tusky.entity;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.Spanned;
 
-import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.google.gson.annotations.SerializedName;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.json.StringWithEmoji;
 
-public class Account implements SearchSuggestion {
+public class Account implements Parcelable {
     public String id;
 
     @SerializedName("username")
@@ -78,11 +78,6 @@ public class Account implements SearchSuggestion {
     }
 
     @Override
-    public String getBody() {
-        return username;
-    }
-
-    @Override
     public int describeContents() {
         return 0;
     }
@@ -103,9 +98,7 @@ public class Account implements SearchSuggestion {
         dest.writeString(statusesCount);
     }
 
-    public Account() {
-
-    }
+    public Account() {}
 
     protected Account(Parcel in) {
         id = in.readString();

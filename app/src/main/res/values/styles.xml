@@ -80,16 +80,6 @@
         <item name="material_drawer_selected">@color/color_primary_dark</item>
         <item name="material_drawer_selected_text">@color/text_color_primary_dark</item>
         <item name="material_drawer_header_selection_text">@color/text_color_primary_dark</item>
-
-        <item name="floatingSearch_backgroundColor">@color/toolbar_background_dark</item>
-        <item name="floatingSearch_viewTextColor">@color/text_color_secondary_dark</item>
-        <item name="floatingSearch_hintTextColor">@color/text_color_tertiary_dark</item>
-        <item name="floatingSearch_dividerColor">@color/status_divider_dark</item>
-        <item name="floatingSearch_clearBtnColor">@color/toolbar_icon_dark</item>
-        <item name="floatingSearch_leftActionColor">@color/toolbar_icon_dark</item>
-        <item name="floatingSearch_menuItemIconColor">@color/toolbar_icon_dark</item>
-        <item name="floatingSearch_suggestionRightIconColor">@color/toolbar_icon_dark</item>
-        <item name="floatingSearch_actionMenuOverflowColor">@color/toolbar_icon_dark</item>
     </style>
 
     <style name="AppTheme.ImageButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
@@ -167,16 +157,6 @@
         <item name="material_drawer_selected">@color/color_primary_light</item>
         <item name="material_drawer_selected_text">@color/text_color_primary_light</item>
         <item name="material_drawer_header_selection_text">@color/text_color_primary_dark</item> <!--Intentionally dark so it can be overlayed over the account's header image.-->
-
-        <item name="floatingSearch_backgroundColor">@color/toolbar_background_light</item>
-        <item name="floatingSearch_viewTextColor">@color/text_color_secondary_light</item>
-        <item name="floatingSearch_hintTextColor">@color/text_color_tertiary_light</item>
-        <item name="floatingSearch_dividerColor">@color/status_divider_light</item>
-        <item name="floatingSearch_clearBtnColor">@color/toolbar_icon_light</item>
-        <item name="floatingSearch_leftActionColor">@color/toolbar_icon_light</item>
-        <item name="floatingSearch_menuItemIconColor">@color/toolbar_icon_light</item>
-        <item name="floatingSearch_suggestionRightIconColor">@color/toolbar_icon_light</item>
-        <item name="floatingSearch_actionMenuOverflowColor">@color/toolbar_icon_light</item>
     </style>
 
     <style name="AppTheme.ImageButton.Light" parent="Widget.AppCompat.Button.Borderless.Colored">

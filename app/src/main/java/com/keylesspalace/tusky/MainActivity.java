@@ -19,7 +19,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,18 +30,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.TextUtils;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.arlib.floatingsearchview.FloatingSearchView;
-import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
-import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
@@ -91,8 +83,8 @@ public class MainActivity extends BaseActivity {
     private AccountHeader headerResult;
     private Drawer drawer;
 
-    @BindView(R.id.floating_search_view) FloatingSearchView searchView;
     @BindView(R.id.floating_btn) FloatingActionButton floatingBtn;
+    @BindView(R.id.drawer_toggle) ImageButton drawerToggle;
     @BindView(R.id.tab_layout) TabLayout tabLayout;
     @BindView(R.id.pager) ViewPager viewPager;
 
@@ -122,7 +114,15 @@ public class MainActivity extends BaseActivity {
         });
 
         setupDrawer();
-        setupSearchView();
+
+        // Setup the navigation drawer toggle button.
+        ThemeUtils.setDrawableTint(this, drawerToggle.getDrawable(), R.attr.toolbar_icon_tint);
+        drawerToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer();
+            }
+        });
 
         /* Fetch user info while we're doing other things. This has to be after setting up the
          * drawer, though, because its callback touches the header in the drawer. */
@@ -374,93 +374,6 @@ public class MainActivity extends BaseActivity {
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .show();
-    }
-
-    private void setupSearchView() {
-        searchView.attachNavigationDrawerToMenuButton(drawer.getDrawerLayout());
-
-        // Setup content descriptions for the different elements in the search view.
-        final View leftAction = searchView.findViewById(R.id.left_action);
-        leftAction.setContentDescription(getString(R.string.action_open_drawer));
-        searchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
-            @Override
-            public void onFocus() {
-                leftAction.setContentDescription(getString(R.string.action_close));
-            }
-
-            @Override
-            public void onFocusCleared() {
-                leftAction.setContentDescription(getString(R.string.action_open_drawer));
-            }
-        });
-        View clearButton = searchView.findViewById(R.id.clear_btn);
-        clearButton.setContentDescription(getString(R.string.action_clear));
-
-        searchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
-            @Override
-            public void onSearchTextChanged(String oldQuery, String newQuery) {
-                if (!oldQuery.equals("") && newQuery.equals("")) {
-                    searchView.clearSuggestions();
-                    return;
-                }
-
-                if (newQuery.length() < 3) {
-                    return;
-                }
-
-                searchView.showProgress();
-
-                mastodonAPI.searchAccounts(newQuery, false, 5).enqueue(new Callback<List<Account>>() {
-                    @Override
-                    public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
-                        if (response.isSuccessful()) {
-                            searchView.swapSuggestions(response.body());
-                            searchView.hideProgress();
-                        } else {
-                            searchView.hideProgress();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Account>> call, Throwable t) {
-                        searchView.hideProgress();
-                    }
-                });
-            }
-        });
-
-        searchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
-            @Override
-            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
-                Account accountSuggestion = (Account) searchSuggestion;
-                Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-                intent.putExtra("id", accountSuggestion.id);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onSearchAction(String currentQuery) {}
-        });
-
-        searchView.setOnBindSuggestionCallback(new SearchSuggestionsAdapter.OnBindSuggestionCallback() {
-            @Override
-            public void onBindSuggestion(View suggestionView, ImageView leftIcon, TextView textView, SearchSuggestion item, int itemPosition) {
-                Account accountSuggestion = ((Account) item);
-
-                Picasso.with(MainActivity.this)
-                        .load(accountSuggestion.avatar)
-                        .placeholder(R.drawable.avatar_default)
-                        .into(leftIcon);
-
-                String searchStr = accountSuggestion.getDisplayName() + " " + accountSuggestion.username;
-                final SpannableStringBuilder str = new SpannableStringBuilder(searchStr);
-
-                str.setSpan(new StyleSpan(Typeface.BOLD), 0, accountSuggestion.getDisplayName().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                textView.setText(str);
-                textView.setMaxLines(1);
-                textView.setEllipsize(TextUtils.TruncateAt.END);
-            }
-        });
     }
 
     private void fetchUserInfo() {

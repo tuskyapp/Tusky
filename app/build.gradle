@@ -47,7 +47,6 @@ dependencies {
     compile 'com.github.varunest:sparkbutton:1.0.5'
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
     compile 'com.mikepenz:google-material-typeface:3.0.1.0.original@aar'
-    compile 'com.github.arimorty:floatingsearchview:2.0.4'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.4.3'
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'org.jsoup:jsoup:1.10.2'
