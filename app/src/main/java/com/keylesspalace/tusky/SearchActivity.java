@@ -66,6 +66,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         if (bar != null) {
             bar.setDisplayHomeAsUpEnabled(true);
             bar.setDisplayShowHomeEnabled(true);
+            bar.setDisplayShowTitleEnabled(false);
         }
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);

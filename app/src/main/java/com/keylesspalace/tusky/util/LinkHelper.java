@@ -27,7 +27,25 @@ import android.widget.TextView;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 public class LinkHelper {
+    private static String getDomain(String urlString) {
+        URI uri;
+        try {
+            uri = new URI(urlString);
+        } catch (URISyntaxException e) {
+            return "";
+        }
+        String host = uri.getHost();
+        if (host.startsWith("www.")) {
+            return host.substring(4);
+        } else {
+            return host;
+        }
+    }
+
     public static void setClickableText(TextView view, Spanned content,
                                         @Nullable Status.Mention[] mentions, boolean useCustomTabs,
                                         final LinkListener listener) {
@@ -49,11 +67,17 @@ public class LinkHelper {
                 builder.removeSpan(span);
                 builder.setSpan(newSpan, start, end, flags);
             } else if (text.charAt(0) == '@' && mentions != null) {
-                final String accountUsername = text.subSequence(1, text.length()).toString();
+                String accountUsername = text.subSequence(1, text.length()).toString();
+                /* There may be multiple matches for users on different instances with the same
+                 * username. If a match has the same domain we know it's for sure the same, but if
+                 * that can't be found then just go with whichever one matched last. */
                 String id = null;
                 for (Status.Mention mention : mentions) {
                     if (mention.localUsername.equals(accountUsername)) {
                         id = mention.id;
+                        if (mention.url.contains(getDomain(span.getURL()))) {
+                            break;
+                        }
                     }
                 }
                 if (id != null) {

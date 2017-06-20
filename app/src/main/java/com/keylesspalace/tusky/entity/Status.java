@@ -172,6 +172,4 @@ public class Status {
         @SerializedName("username")
         public String localUsername;
     }
-
-
 }

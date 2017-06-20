@@ -231,8 +231,6 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
                     }
                 });
             }
-
-
         }
 
         if (sensitive) {
