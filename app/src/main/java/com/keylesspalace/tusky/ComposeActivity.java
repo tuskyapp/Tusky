@@ -682,7 +682,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             mediaIds.add(item.id);
         }
 
-        mastodonAPI.createStatus(content, inReplyToId, spoilerText, visibility, sensitive, mediaIds).enqueue(new Callback<Status>() {
+        Callback<Status> callback = new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
                 if (response.isSuccessful()) {
@@ -696,11 +696,14 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             public void onFailure(Call<Status> call, Throwable t) {
                 onSendFailure();
             }
-        });
+        };
+        mastodonAPI.createStatus(content, inReplyToId, spoilerText, visibility, sensitive, mediaIds)
+                .enqueue(callback);
     }
 
     private void onSendSuccess() {
-        Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(R.string.confirmation_send), Snackbar.LENGTH_SHORT);
+        Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose),
+                getString(R.string.confirmation_send), Snackbar.LENGTH_SHORT);
         bar.show();
         setResult(COMPOSE_SUCCESS);
         finish();
@@ -1059,8 +1062,12 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append(' ');
         builder.append(media.textUrl);
-        builder.setSpan(item.uploadUrl, 0, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(item.uploadUrl, 1, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        int cursorStart = textEditor.getSelectionStart();
         textEditor.append(builder);
+        if (cursorStart == textEditor.getText().length()) {
+            textEditor.setSelection(cursorStart);
+        }
 
         waitForMediaLatch.countDown();
     }
