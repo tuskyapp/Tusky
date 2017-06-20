@@ -91,7 +91,7 @@
     <string name="action_mute">Mute</string>
     <string name="action_unmute">Unmute</string>
     <string name="action_mention">Mention</string>
-    <string name="toggle_nsfw">NSFW</string>
+    <string name="action_hide_media">Hide media</string>
     <string name="action_compose_options">Options</string>
     <string name="action_open_drawer">Open drawer</string>
     <string name="action_clear">Clear</string>

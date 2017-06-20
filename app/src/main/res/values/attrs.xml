@@ -35,8 +35,8 @@
     <attr name="compose_media_button_disabled_tint" format="reference|color" />
     <attr name="compose_mention_color" format="reference|color" />
     <attr name="compose_content_warning_bar_background" format="reference" />
-    <attr name="compose_nsfw_button_color" format="reference|color" />
-    <attr name="compose_nsfw_button_selected_color" format="reference|color" />
+    <attr name="compose_hide_media_button_color" format="reference|color" />
+    <attr name="compose_hide_media_button_selected_color" format="reference|color" />
     <attr name="compose_image_button_tint" format="reference|color" />
     <attr name="report_status_background_color" format="reference|color" />
     <attr name="report_status_divider_drawable" format="reference" />

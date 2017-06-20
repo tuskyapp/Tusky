@@ -145,8 +145,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     ImageButton pickBtn;
     @BindView(R.id.compose_photo_take)
     ImageButton takeBtn;
-    @BindView(R.id.action_toggle_nsfw)
-    Button nsfwBtn;
+    @BindView(R.id.action_hide_media)
+    ImageButton hideMediaToggle;
     @BindView(R.id.postProgress)
     ProgressBar postProgress;
     @BindView(R.id.action_toggle_visibility)
@@ -209,10 +209,10 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 initiateCameraApp();
             }
         });
-        nsfwBtn.setOnClickListener(new View.OnClickListener() {
+        hideMediaToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toggleNsfw();
+                toggleHideMedia();
             }
         });
         visibilityBtn.setOnClickListener(new View.OnClickListener() {
@@ -293,7 +293,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         // After the starting state is finalised, the interface can be set to reflect this state.
         setStatusVisibility(startingVisibility);
         postProgress.setVisibility(View.INVISIBLE);
-        updateNsfwButtonColor();
+        updateHideMediaToggleColor();
 
         final ParserUtils parser = new ParserUtils(this);
 
@@ -456,25 +456,25 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         Snackbar.make(findViewById(R.id.activity_compose), stringId, Snackbar.LENGTH_LONG).show();
     }
 
-    private void toggleNsfw() {
+    private void toggleHideMedia() {
         statusMarkSensitive = !statusMarkSensitive;
-        updateNsfwButtonColor();
+        updateHideMediaToggleColor();
     }
 
-    private void updateNsfwButtonColor() {
+    private void updateHideMediaToggleColor() {
         @AttrRes int attribute;
         if (statusMarkSensitive) {
-            attribute = R.attr.compose_nsfw_button_selected_color;
+            attribute = R.attr.compose_hide_media_button_selected_color;
         } else {
-            attribute = R.attr.compose_nsfw_button_color;
+            attribute = R.attr.compose_hide_media_button_color;
         }
-        nsfwBtn.setTextColor(ThemeUtils.getColor(this, attribute));
+        ThemeUtils.setDrawableTint(this, hideMediaToggle.getDrawable(), attribute);
     }
 
     private void disableButtons() {
         pickBtn.setClickable(false);
         takeBtn.setClickable(false);
-        nsfwBtn.setClickable(false);
+        hideMediaToggle.setClickable(false);
         visibilityBtn.setClickable(false);
         floatingBtn.setEnabled(false);
     }
@@ -482,7 +482,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private void enableButtons() {
         pickBtn.setClickable(true);
         takeBtn.setClickable(true);
-        nsfwBtn.setClickable(true);
+        hideMediaToggle.setClickable(true);
         visibilityBtn.setClickable(true);
         floatingBtn.setEnabled(true);
     }
@@ -1168,13 +1168,14 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
         if (!showMarkSensitive) {
             statusMarkSensitive = false;
-            nsfwBtn.setTextColor(ThemeUtils.getColor(this, R.attr.compose_nsfw_button_color));
+            ThemeUtils.setDrawableTint(this, hideMediaToggle.getDrawable(),
+                    R.attr.compose_hide_media_button_color);
         }
 
         if (show) {
-            nsfwBtn.setVisibility(View.VISIBLE);
+            hideMediaToggle.setVisibility(View.VISIBLE);
         } else {
-            nsfwBtn.setVisibility(View.GONE);
+            hideMediaToggle.setVisibility(View.GONE);
         }
     }
 

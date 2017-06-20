@@ -127,17 +127,16 @@
                 app:srcCompat="@drawable/ic_public_24dp"
                 android:contentDescription="@string/action_compose_options" />
 
-            <Button
-                android:id="@+id/action_toggle_nsfw"
+            <ImageButton
+                android:id="@+id/action_hide_media"
                 style="?attr/image_button_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="0dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:visibility="gone"
-                android:textColor="?attr/compose_nsfw_button_color"
-                android:text="@string/toggle_nsfw" />
+                app:srcCompat="@drawable/ic_hide_media_24dp"
+                android:contentDescription="@string/action_hide_media"
+                android:visibility="gone" />
 
             <android.support.v4.widget.Space
                 android:layout_width="0dp"
