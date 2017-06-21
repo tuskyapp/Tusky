@@ -100,6 +100,7 @@
     <string name="action_undo">Cofnij</string>
     <string name="action_accept">Akceptuj</string>
     <string name="action_reject">Odrzuć</string>
+    <string name="action_search">Szukaj</string>
 
     <string name="send_status_link_to">Udostępnij link do wpisu do…</string>
     <string name="send_status_content_to">Udostępnij wpis do…</string>
@@ -116,6 +117,9 @@
     <string name="hint_content_warning">Ostrzeenie o zawartości</string>
     <string name="hint_display_name">Nazwa wyświetlana</string>
     <string name="hint_note">Biografia</string>
+    <string name="hint_search">Szukaj kont i tagów…</string>
+
+    <string name="search_no_results">Brak wyników</string>
 
     <string name="label_avatar">Obraz profilowy</string>
     <string name="label_header">Nagłówek</string>
