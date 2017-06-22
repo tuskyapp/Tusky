@@ -36,7 +36,7 @@ import com.keylesspalace.tusky.entity.Session;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.json.StringWithEmoji;
 import com.keylesspalace.tusky.json.StringWithEmojiTypeAdapter;
-import com.keylesspalace.tusky.network.MastodonAPI;
+import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TuskyApi;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 import com.keylesspalace.tusky.util.PushNotificationClient;
@@ -57,7 +57,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity"; // logging tag
 
-    public MastodonAPI mastodonAPI;
+    public MastodonApi mastodonApi;
     public TuskyApi tuskyApi;
     protected PushNotificationClient pushNotificationClient;
     protected Dispatcher mastodonApiDispatcher;
@@ -67,7 +67,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         redirectIfNotLoggedIn();
-        createMastodonAPI();
+        createMastodonApi();
         createTuskyApi();
         createPushNotificationClient();
 
@@ -81,7 +81,9 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if(mastodonApiDispatcher != null) mastodonApiDispatcher.cancelAll();
+        if (mastodonApiDispatcher != null) {
+            mastodonApiDispatcher.cancelAll();
+        }
         super.onDestroy();
     }
 
@@ -124,7 +126,7 @@ public class BaseActivity extends AppCompatActivity {
         return "https://" + preferences.getString("domain", null);
     }
 
-    protected void createMastodonAPI() {
+    protected void createMastodonApi() {
         mastodonApiDispatcher = new Dispatcher();
 
         Gson gson = new GsonBuilder()
@@ -158,7 +160,7 @@ public class BaseActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-        mastodonAPI = retrofit.create(MastodonAPI.class);
+        mastodonApi = retrofit.create(MastodonApi.class);
     }
 
     protected void createTuskyApi() {

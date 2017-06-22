@@ -387,7 +387,7 @@ public class MainActivity extends BaseActivity {
             loggedInAccountUsername = username;
         }
 
-        mastodonAPI.accountVerifyCredentials().enqueue(new Callback<Account>() {
+        mastodonApi.accountVerifyCredentials().enqueue(new Callback<Account>() {
             @Override
             public void onResponse(Call<Account> call, Response<Account> response) {
                 if (!response.isSuccessful()) {

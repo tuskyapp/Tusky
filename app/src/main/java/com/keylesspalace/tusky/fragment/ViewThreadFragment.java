@@ -36,7 +36,7 @@ import com.keylesspalace.tusky.adapter.ThreadAdapter;
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
-import com.keylesspalace.tusky.network.MastodonAPI;
+import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
@@ -54,7 +54,7 @@ public class ViewThreadFragment extends SFragment implements
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private ThreadAdapter adapter;
-    private MastodonAPI mastodonApi;
+    private MastodonApi mastodonApi;
     private String thisThreadsStatusId;
     private TimelineReceiver timelineReceiver;
 
@@ -112,9 +112,9 @@ public class ViewThreadFragment extends SFragment implements
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        /* BaseActivity's MastodonAPI object isn't guaranteed to be valid until after its onCreate
+        /* BaseActivity's MastodonApi object isn't guaranteed to be valid until after its onCreate
          * is run, so all calls that need it can't be done until here. */
-        mastodonApi = ((BaseActivity) getActivity()).mastodonAPI;
+        mastodonApi = ((BaseActivity) getActivity()).mastodonApi;
 
         thisThreadsStatusId = getArguments().getString("id");
         onRefresh();

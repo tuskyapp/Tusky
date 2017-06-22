@@ -157,7 +157,7 @@ public class EditProfileActivity extends BaseActivity {
             }
         });
 
-        mastodonAPI.accountVerifyCredentials().enqueue(new Callback<Account>() {
+        mastodonApi.accountVerifyCredentials().enqueue(new Callback<Account>() {
             @Override
             public void onResponse(Call<Account> call, Response<Account> response) {
                 if (!response.isSuccessful()) {
@@ -309,7 +309,7 @@ public class EditProfileActivity extends BaseActivity {
         profile.note = newNote;
         profile.avatar = avatarBase64;
         profile.header = headerBase64;
-        mastodonAPI.accountUpdateCredentials(profile).enqueue(new Callback<Account>() {
+        mastodonApi.accountUpdateCredentials(profile).enqueue(new Callback<Account>() {
             @Override
             public void onResponse(Call<Account> call, Response<Account> response) {
                 if (!response.isSuccessful()) {

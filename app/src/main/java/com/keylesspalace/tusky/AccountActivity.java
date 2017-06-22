@@ -205,7 +205,7 @@ public class AccountActivity extends BaseActivity {
     }
 
     private void obtainAccount() {
-        mastodonAPI.account(accountId).enqueue(new Callback<Account>() {
+        mastodonApi.account(accountId).enqueue(new Callback<Account>() {
             @Override
             public void onResponse(Call<Account> call, Response<Account> response) {
                 if (response.isSuccessful()) {
@@ -313,7 +313,7 @@ public class AccountActivity extends BaseActivity {
     private void obtainRelationships() {
         List<String> ids = new ArrayList<>(1);
         ids.add(accountId);
-        mastodonAPI.relationships(ids).enqueue(new Callback<List<Relationship>>() {
+        mastodonApi.relationships(ids).enqueue(new Callback<List<Relationship>>() {
             @Override
             public void onResponse(Call<List<Relationship>> call,
                                    Response<List<Relationship>> response) {
@@ -474,8 +474,8 @@ public class AccountActivity extends BaseActivity {
 
         Assert.expect(followState != FollowState.REQUESTED);
         switch (followState) {
-            case NOT_FOLLOWING: { mastodonAPI.followAccount(id).enqueue(cb);   break; }
-            case FOLLOWING:     { mastodonAPI.unfollowAccount(id).enqueue(cb); break; }
+            case NOT_FOLLOWING: { mastodonApi.followAccount(id).enqueue(cb);   break; }
+            case FOLLOWING:     { mastodonApi.unfollowAccount(id).enqueue(cb); break; }
         }
     }
 
@@ -523,9 +523,9 @@ public class AccountActivity extends BaseActivity {
             }
         };
         if (blocking) {
-            mastodonAPI.unblockAccount(id).enqueue(cb);
+            mastodonApi.unblockAccount(id).enqueue(cb);
         } else {
-            mastodonAPI.blockAccount(id).enqueue(cb);
+            mastodonApi.blockAccount(id).enqueue(cb);
         }
     }
 
@@ -562,9 +562,9 @@ public class AccountActivity extends BaseActivity {
         };
 
         if (muting) {
-            mastodonAPI.unmuteAccount(id).enqueue(cb);
+            mastodonApi.unmuteAccount(id).enqueue(cb);
         } else {
-            mastodonAPI.muteAccount(id).enqueue(cb);
+            mastodonApi.muteAccount(id).enqueue(cb);
         }
     }
 

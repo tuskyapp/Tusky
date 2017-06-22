@@ -118,7 +118,7 @@ public class ReportActivity extends BaseActivity {
 
     private void sendReport(final String accountId, final String[] statusIds,
             final String comment) {
-        mastodonAPI.report(accountId, Arrays.asList(statusIds), comment).enqueue(new Callback<ResponseBody>() {
+        mastodonApi.report(accountId, Arrays.asList(statusIds), comment).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
@@ -155,7 +155,7 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void fetchRecentStatuses(String accountId) {
-        mastodonAPI.accountStatuses(accountId, null, null, null).enqueue(new Callback<List<Status>>() {
+        mastodonApi.accountStatuses(accountId, null, null, null).enqueue(new Callback<List<Status>>() {
             @Override
             public void onResponse(Call<List<Status>> call, retrofit2.Response<List<Status>> response) {
                 if (!response.isSuccessful()) {

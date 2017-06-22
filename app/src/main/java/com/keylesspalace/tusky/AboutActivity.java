@@ -88,7 +88,7 @@ public class AboutActivity extends BaseActivity {
                 onSearchFailed();
             }
         };
-        mastodonAPI.searchAccounts("Tusky@mastodon.social", true, null).enqueue(callback);
+        mastodonApi.searchAccounts("Tusky@mastodon.social", true, null).enqueue(callback);
     }
 
     private void onSearchFailed() {

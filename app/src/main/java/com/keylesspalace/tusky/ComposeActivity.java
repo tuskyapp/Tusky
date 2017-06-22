@@ -697,7 +697,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 onSendFailure();
             }
         };
-        mastodonAPI.createStatus(content, inReplyToId, spoilerText, visibility, sensitive, mediaIds)
+        mastodonApi.createStatus(content, inReplyToId, spoilerText, visibility, sensitive, mediaIds)
                 .enqueue(callback);
     }
 
@@ -1031,7 +1031,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         RequestBody requestFile = RequestBody.create(MediaType.parse(mimeType), content);
         MultipartBody.Part body = MultipartBody.Part.createFormData("file", filename, requestFile);
 
-        item.uploadRequest = mastodonAPI.uploadMedia(body);
+        item.uploadRequest = mastodonApi.uploadMedia(body);
 
         item.uploadRequest.enqueue(new Callback<Media>() {
             @Override
@@ -1263,7 +1263,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private ArrayList<Account> autocompleteMention(String mention) {
         ArrayList<Account> resultList = new ArrayList<>();
         try {
-            List<Account> accountList = mastodonAPI.searchAccounts(mention, false, 40)
+            List<Account> accountList = mastodonApi.searchAccounts(mention, false, 40)
                     .execute()
                     .body();
             if (accountList != null) {

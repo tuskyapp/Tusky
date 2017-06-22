@@ -38,7 +38,7 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.AppCredentials;
-import com.keylesspalace.tusky.network.MastodonAPI;
+import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.CustomTabsHelper;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 
@@ -150,14 +150,14 @@ public class LoginActivity extends AppCompatActivity {
         return scheme + "://" + host + "/";
     }
 
-    private MastodonAPI getApiFor(String domain) {
+    private MastodonApi getApiFor(String domain) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + domain)
                 .client(OkHttpUtils.getCompatibleClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        return retrofit.create(MastodonAPI.class);
+        return retrofit.create(MastodonApi.class);
     }
 
     /**
@@ -267,7 +267,7 @@ public class LoginActivity extends AppCompatActivity {
     private void redirectUserToAuthorizeAndLogin(EditText editText) {
         /* To authorize this app and log in it's necessary to redirect to the domain given,
          * activity_login there, and the server will redirect back to the app with its response. */
-        String endpoint = MastodonAPI.ENDPOINT_AUTHORIZE;
+        String endpoint = MastodonApi.ENDPOINT_AUTHORIZE;
         String redirectUri = getOauthRedirectUri();
         Map<String, String> parameters = new HashMap<>();
         parameters.put("client_id", clientId);

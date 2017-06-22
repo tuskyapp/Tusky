@@ -39,7 +39,7 @@ import com.keylesspalace.tusky.ViewVideoActivity;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
-import com.keylesspalace.tusky.network.MastodonAPI;
+import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.HtmlUtils;
 
@@ -60,7 +60,7 @@ import retrofit2.Response;
 public abstract class SFragment extends BaseFragment {
     protected String loggedInAccountId;
     protected String loggedInUsername;
-    protected MastodonAPI mastodonAPI;
+    protected MastodonApi mastodonAPI;
     protected static int COMPOSE_RESULT = 1;
 
     @Override
@@ -76,7 +76,7 @@ public abstract class SFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         BaseActivity activity = (BaseActivity) getActivity();
-        mastodonAPI = activity.mastodonAPI;
+        mastodonAPI = activity.mastodonApi;
     }
 
     protected void reply(Status status) {

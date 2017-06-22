@@ -188,7 +188,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
                 onSearchFailure();
             }
         };
-        mastodonAPI.search(query, false)
+        mastodonApi.search(query, false)
                 .enqueue(callback);
     }
 

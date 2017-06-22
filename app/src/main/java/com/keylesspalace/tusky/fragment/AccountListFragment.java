@@ -41,7 +41,7 @@ import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
-import com.keylesspalace.tusky.network.MastodonAPI;
+import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
@@ -70,7 +70,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
     private EndlessOnScrollListener scrollListener;
     private AccountAdapter adapter;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
-    private MastodonAPI api;
+    private MastodonApi api;
 
     public static AccountListFragment newInstance(Type type) {
         Bundle arguments = new Bundle();
@@ -153,10 +153,10 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
             layout.addOnTabSelectedListener(onTabSelectedListener);
         }
 
-        /* MastodonAPI on the base activity is only guaranteed to be initialised after the parent
+        /* MastodonApi on the base activity is only guaranteed to be initialised after the parent
          * activity is created, so everything needing to access the api object has to be delayed
          * until here. */
-        api = activity.mastodonAPI;
+        api = activity.mastodonApi;
         scrollListener = new EndlessOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -266,7 +266,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
             /* If somehow an unmute button is clicked after onCreateView but before
              * onActivityCreated, then this would get called with a null api object, so this eats
              * that input. */
-            Log.d(TAG, "MastodonAPI isn't initialised so this mute can't occur.");
+            Log.d(TAG, "MastodonApi isn't initialised so this mute can't occur.");
             return;
         }
 
@@ -330,7 +330,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
             /* If somehow an unblock button is clicked after onCreateView but before
              * onActivityCreated, then this would get called with a null api object, so this eats
              * that input. */
-            Log.d(TAG, "MastodonAPI isn't initialised so this block can't occur.");
+            Log.d(TAG, "MastodonApi isn't initialised so this block can't occur.");
             return;
         }
 
@@ -395,7 +395,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
             /* If somehow an response button is clicked after onCreateView but before
              * onActivityCreated, then this would get called with a null api object, so this eats
              * that input. */
-            Log.d(TAG, "MastodonAPI isn't initialised, so follow requests can't be responded to.");
+            Log.d(TAG, "MastodonApi isn't initialised, so follow requests can't be responded to.");
             return;
         }
 
