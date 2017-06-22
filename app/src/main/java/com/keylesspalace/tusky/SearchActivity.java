@@ -89,7 +89,8 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         super.onCreateOptionsMenu(menu);
 
         getMenuInflater().inflate(R.menu.search_toolbar, menu);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search)
+                .getActionView();
         setupSearchView(searchView);
 
         if (currentQuery != null) {
@@ -160,6 +161,8 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         searchView.setOnQueryTextListener(this);
         searchView.setFocusable(false);
         searchView.setFocusableInTouchMode(false);
+
+        searchView.setMaxWidth(Integer.MAX_VALUE);
     }
 
     private void search(String query) {
