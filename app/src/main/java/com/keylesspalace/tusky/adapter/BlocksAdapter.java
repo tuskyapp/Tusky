@@ -28,9 +28,6 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class BlocksAdapter extends AccountAdapter {
     private static final int VIEW_TYPE_BLOCKED_USER = 0;
     private static final int VIEW_TYPE_FOOTER = 1;
@@ -75,16 +72,18 @@ public class BlocksAdapter extends AccountAdapter {
     }
 
     static class BlockedUserViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.blocked_user_avatar) CircularImageView avatar;
-        @BindView(R.id.blocked_user_username) TextView username;
-        @BindView(R.id.blocked_user_display_name) TextView displayName;
-        @BindView(R.id.blocked_user_unblock) ImageButton unblock;
-
+        private CircularImageView avatar;
+        private TextView username;
+        private TextView displayName;
+        private ImageButton unblock;
         private String id;
 
         BlockedUserViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            avatar = (CircularImageView) itemView.findViewById(R.id.blocked_user_avatar);
+            username = (TextView) itemView.findViewById(R.id.blocked_user_username);
+            displayName = (TextView) itemView.findViewById(R.id.blocked_user_display_name);
+            unblock = (ImageButton) itemView.findViewById(R.id.blocked_user_unblock);
         }
 
         void setupWithAccount(Account account) {

@@ -105,8 +105,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -129,28 +127,20 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private static final int COMPOSE_SUCCESS = -1;
     private static final int THUMBNAIL_SIZE = 128; // pixels
-    @BindView(R.id.compose_edit_field)
-    EditTextTyped textEditor;
-    @BindView(R.id.compose_media_preview_bar)
-    LinearLayout mediaPreviewBar;
-    @BindView(R.id.compose_content_warning_bar)
-    View contentWarningBar;
-    @BindView(R.id.field_content_warning)
-    EditText contentWarningEditor;
-    @BindView(R.id.characters_left)
-    TextView charactersLeft;
-    @BindView(R.id.floating_btn)
-    Button floatingBtn;
-    @BindView(R.id.compose_photo_pick)
-    ImageButton pickBtn;
-    @BindView(R.id.compose_photo_take)
-    ImageButton takeBtn;
-    @BindView(R.id.action_hide_media)
-    ImageButton hideMediaToggle;
-    @BindView(R.id.postProgress)
-    ProgressBar postProgress;
-    @BindView(R.id.action_toggle_visibility)
-    ImageButton visibilityBtn;
+
+    private EditTextTyped textEditor;
+    private LinearLayout mediaPreviewBar;
+    private View contentWarningBar;
+    private EditText contentWarningEditor;
+    private TextView charactersLeft;
+    private Button floatingBtn;
+    private ImageButton pickBtn;
+    private ImageButton takeBtn;
+    private ImageButton hideMediaToggle;
+    private ImageButton visibilityBtn;
+    private ProgressBar postProgress;
+    // this only exists when a status is trying to be sent, but uploads are still occurring
+    private ProgressDialog finishingUploadDialog;
     private String inReplyToId;
     private ArrayList<QueuedMedia> mediaQueued;
     private CountUpDownLatch waitForMediaLatch;
@@ -162,8 +152,6 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private InputContentInfoCompat currentInputContentInfo;
     private int currentFlags;
     private Uri photoUploadUri;
-    // this only exists when a status is trying to be sent, but uploads are still occurring
-    private ProgressDialog finishingUploadDialog;
 
     /**
      * The Target object must be stored as a member field or method and cannot be an anonymous class otherwise this won't work as expected. The reason is that Picasso accepts this parameter as a weak memory reference. Because anonymous classes are eligible for garbage collection when there are no more references, the network request to fetch the image may finish after this anonymous class has already been reclaimed. See this Stack Overflow discussion for more details.
@@ -175,7 +163,18 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
-        ButterKnife.bind(this);
+
+        textEditor = (EditTextTyped) findViewById(R.id.compose_edit_field);
+        mediaPreviewBar = (LinearLayout) findViewById(R.id.compose_media_preview_bar);
+        contentWarningBar = findViewById(R.id.compose_content_warning_bar);
+        contentWarningEditor = (EditText) findViewById(R.id.field_content_warning);
+        charactersLeft = (TextView) findViewById(R.id.characters_left);
+        floatingBtn = (Button) findViewById(R.id.floating_btn);
+        pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
+        takeBtn = (ImageButton) findViewById(R.id.compose_photo_take);
+        hideMediaToggle = (ImageButton) findViewById(R.id.action_hide_media);
+        visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
+        postProgress = (ProgressBar) findViewById(R.id.postProgress);
 
         // Setup the toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

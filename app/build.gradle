@@ -48,12 +48,10 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
     compile 'com.mikepenz:google-material-typeface:3.0.1.0.original@aar'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.4.3'
-    compile 'com.jakewharton:butterknife:8.5.1'
     compile 'org.jsoup:jsoup:1.10.2'
     compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
     compile('org.eclipse.paho:org.eclipse.paho.android.service:1.1.1') {
         exclude module: 'support-v4'
     }
     testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

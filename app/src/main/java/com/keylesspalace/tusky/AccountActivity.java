@@ -59,8 +59,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -80,19 +78,24 @@ public class AccountActivity extends BaseActivity {
     private boolean muting;
     private boolean isSelf;
     private Account loadedAccount;
-
-    @BindView(R.id.account_avatar) CircularImageView avatar;
-    @BindView(R.id.account_header) ImageView header;
-    @BindView(R.id.floating_btn) FloatingActionButton floatingBtn;
-    @BindView(R.id.tab_layout) TabLayout tabLayout;
-    @BindView(R.id.account_locked) ImageView accountLockedView;
-    @BindView(R.id.activity_account) View container;
+    private CircularImageView avatar;
+    private ImageView header;
+    private FloatingActionButton floatingBtn;
+    private TabLayout tabLayout;
+    private ImageView accountLockedView;
+    private View container;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        ButterKnife.bind(this);
+
+        avatar = (CircularImageView) findViewById(R.id.account_avatar);
+        header = (ImageView) findViewById(R.id.account_header);
+        floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        accountLockedView = (ImageView) findViewById(R.id.account_locked);
+        container = findViewById(R.id.activity_account);
 
         if (savedInstanceState != null) {
             accountId = savedInstanceState.getString("accountId");

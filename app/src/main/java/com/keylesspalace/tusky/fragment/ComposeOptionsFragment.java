@@ -82,14 +82,11 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
             radioCheckedId = R.id.radio_unlisted;
         }
         if (statusVisibility != null) {
-            if (statusVisibility.equals("public")) {
-                radioCheckedId = R.id.radio_public;
-            } else if (statusVisibility.equals("private")) {
-                radioCheckedId = R.id.radio_private;
-            } else if (statusVisibility.equals("unlisted")) {
-                radioCheckedId = R.id.radio_unlisted;
-            } else if (statusVisibility.equals("direct")) {
-                radioCheckedId = R.id.radio_direct;
+            switch (statusVisibility) {
+                case "public":   radioCheckedId = R.id.radio_public;   break;
+                case "private":  radioCheckedId = R.id.radio_private;  break;
+                case "unlisted": radioCheckedId = R.id.radio_unlisted; break;
+                case "direct":   radioCheckedId = R.id.radio_direct;   break;
             }
         }
         radio.check(radioCheckedId);

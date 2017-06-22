@@ -55,8 +55,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -77,16 +75,14 @@ public class EditProfileActivity extends BaseActivity {
         HEADER
     }
 
-    @BindView(R.id.edit_profile_header) ImageButton headerButton;
-    @BindView(R.id.edit_profile_header_preview) ImageView headerPreview;
-    @BindView(R.id.edit_profile_header_progress) ProgressBar headerProgress;
-    @BindView(R.id.edit_profile_avatar) ImageButton avatarButton;
-    @BindView(R.id.edit_profile_avatar_preview) ImageView avatarPreview;
-    @BindView(R.id.edit_profile_avatar_progress) ProgressBar avatarProgress;
-    @BindView(R.id.edit_profile_display_name) EditText displayNameEditText;
-    @BindView(R.id.edit_profile_note) EditText noteEditText;
-    @BindView(R.id.edit_profile_save_progress) ProgressBar saveProgress;
-
+    private ImageView headerPreview;
+    private ProgressBar headerProgress;
+    private ImageButton avatarButton;
+    private ImageView avatarPreview;
+    private ProgressBar avatarProgress;
+    private EditText displayNameEditText;
+    private EditText noteEditText;
+    private ProgressBar saveProgress;
     private String priorDisplayName;
     private String priorNote;
     private boolean isAlreadySaving;
@@ -98,7 +94,16 @@ public class EditProfileActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-        ButterKnife.bind(this);
+
+        ImageButton headerButton = (ImageButton) findViewById(R.id.edit_profile_header);
+        headerPreview = (ImageView) findViewById(R.id.edit_profile_header_preview);
+        headerProgress = (ProgressBar) findViewById(R.id.edit_profile_header_progress);
+        avatarButton = (ImageButton) findViewById(R.id.edit_profile_avatar);
+        avatarPreview = (ImageView) findViewById(R.id.edit_profile_avatar_preview);
+        avatarProgress = (ProgressBar) findViewById(R.id.edit_profile_avatar_progress);
+        displayNameEditText = (EditText) findViewById(R.id.edit_profile_display_name);
+        noteEditText = (EditText) findViewById(R.id.edit_profile_note);
+        saveProgress = (ProgressBar) findViewById(R.id.edit_profile_save_progress);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -124,8 +129,6 @@ public class EditProfileActivity extends BaseActivity {
             avatarBase64 = null;
             headerBase64 = null;
         }
-
-
 
         avatarButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import android.Manifest;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -26,6 +27,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
@@ -47,20 +49,10 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class ViewMediaFragment extends DialogFragment implements Toolbar.OnMenuItemClickListener {
-
     private PhotoViewAttacher attacher;
 
     private static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
-
-    @BindView(R.id.view_media_image)
-    PhotoView photoView;
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
 
     public static ViewMediaFragment newInstance(String url) {
         Bundle arguments = new Bundle();
@@ -89,7 +81,9 @@ public class ViewMediaFragment extends DialogFragment implements Toolbar.OnMenuI
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_view_media, container, false);
-        ButterKnife.bind(this, rootView);
+
+        final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        PhotoView photoView = (PhotoView) rootView.findViewById(R.id.view_media_image);
 
         Bundle arguments = getArguments();
         String url = arguments.getString("url");
@@ -138,37 +132,34 @@ public class ViewMediaFragment extends DialogFragment implements Toolbar.OnMenuI
                     }
 
                     @Override
-                    public void onError() {
-
-                    }
+                    public void onError() {}
                 });
 
         return rootView;
     }
 
-    private void downloadImage(){
-
+    private void downloadImage() {
         //Permission stuff
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN &&
-                ContextCompat.checkSelfPermission(this.getContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
+                && ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
-            android.support.v4.app.ActivityCompat.requestPermissions(getActivity(),
-                    new String[] { android.Manifest.permission.WRITE_EXTERNAL_STORAGE },
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
                     PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         } else {
-
             //download stuff
             String url = getArguments().getString("url");
             Uri uri = Uri.parse(url);
 
             String filename = new File(url).getName();
 
-            DownloadManager downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+            DownloadManager downloadManager = (DownloadManager) getContext()
+                    .getSystemService(Context.DOWNLOAD_SERVICE);
 
             DownloadManager.Request request = new DownloadManager.Request(uri);
             request.allowScanningByMediaScanner();
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, getString(R.string.app_name) + "/" + filename);
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES,
+                    getString(R.string.app_name) + "/" + filename);
 
             downloadManager.enqueue(request);
         }
@@ -197,8 +188,8 @@ public class ViewMediaFragment extends DialogFragment implements Toolbar.OnMenuI
     }
 
     private void doErrorDialog(@StringRes int descriptionId, @StringRes int actionId,
-                               View.OnClickListener listener) {
-        if(getView() != null) {
+            View.OnClickListener listener) {
+        if (getView() != null) {
             Snackbar bar = Snackbar.make(getView(), getString(descriptionId),
                     Snackbar.LENGTH_SHORT);
             bar.setAction(actionId, listener);

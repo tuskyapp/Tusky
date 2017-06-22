@@ -58,8 +58,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -82,11 +80,7 @@ public class MainActivity extends BaseActivity {
     private Stack<Integer> pageHistory;
     private AccountHeader headerResult;
     private Drawer drawer;
-
-    @BindView(R.id.floating_btn) FloatingActionButton floatingBtn;
-    @BindView(R.id.drawer_toggle) ImageButton drawerToggle;
-    @BindView(R.id.tab_layout) TabLayout tabLayout;
-    @BindView(R.id.pager) ViewPager viewPager;
+    private ViewPager viewPager;
 
     public FloatingActionButton composeButton;
 
@@ -103,7 +97,10 @@ public class MainActivity extends BaseActivity {
             }
         }
 
-        ButterKnife.bind(this);
+        FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
+        ImageButton drawerToggle = (ImageButton) findViewById(R.id.drawer_toggle);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        viewPager = (ViewPager) findViewById(R.id.pager);
 
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override

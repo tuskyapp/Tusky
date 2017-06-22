@@ -13,9 +13,6 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class MutesAdapter extends AccountAdapter {
     private static final int VIEW_TYPE_MUTED_USER = 0;
     private static final int VIEW_TYPE_FOOTER = 1;
@@ -60,16 +57,18 @@ public class MutesAdapter extends AccountAdapter {
     }
 
     static class MutedUserViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.muted_user_avatar) CircularImageView avatar;
-        @BindView(R.id.muted_user_username) TextView username;
-        @BindView(R.id.muted_user_display_name) TextView displayName;
-        @BindView(R.id.muted_user_unmute) ImageButton unmute;
-
+        private CircularImageView avatar;
+        private TextView username;
+        private TextView displayName;
+        private ImageButton unmute;
         private String id;
 
         MutedUserViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            avatar = (CircularImageView) itemView.findViewById(R.id.muted_user_avatar);
+            username = (TextView) itemView.findViewById(R.id.muted_user_username);
+            displayName = (TextView) itemView.findViewById(R.id.muted_user_display_name);
+            unmute = (ImageButton) itemView.findViewById(R.id.muted_user_unmute);
         }
 
         void setupWithAccount(Account account) {

@@ -45,8 +45,6 @@ import com.keylesspalace.tusky.util.OkHttpUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,18 +55,13 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity"; // logging tag
     private static String OAUTH_SCOPES = "read write follow";
 
+    private LinearLayout input;
+    private LinearLayout loading;
+    private EditText editText;
     private SharedPreferences preferences;
-
     private String domain;
     private String clientId;
     private String clientSecret;
-
-    @BindView(R.id.login_input) LinearLayout input;
-    @BindView(R.id.login_loading) LinearLayout loading;
-
-    @BindView(R.id.edit_text_domain) EditText editText;
-    @BindView(R.id.button_login) Button button;
-    @BindView(R.id.whats_an_instance) TextView whatsAnInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +72,12 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
+
+        input = (LinearLayout) findViewById(R.id.login_input);
+        loading = (LinearLayout) findViewById(R.id.login_loading);
+        editText = (EditText) findViewById(R.id.edit_text_domain);
+        Button button = (Button) findViewById(R.id.button_login);
+        TextView whatsAnInstance = (TextView) findViewById(R.id.whats_an_instance);
 
         if (savedInstanceState != null) {
             domain = savedInstanceState.getString("domain");

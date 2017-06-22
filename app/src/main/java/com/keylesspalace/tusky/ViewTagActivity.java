@@ -25,21 +25,15 @@ import android.view.MenuItem;
 
 import com.keylesspalace.tusky.fragment.TimelineFragment;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class ViewTagActivity extends BaseActivity {
-    @BindView(R.id.toolbar) Toolbar toolbar;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_tag);
 
-        ButterKnife.bind(this);
-
         String hashtag = getIntent().getStringExtra("hashtag");
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
 

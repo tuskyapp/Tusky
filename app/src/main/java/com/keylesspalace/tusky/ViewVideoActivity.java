@@ -25,24 +25,18 @@ import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.VideoView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class ViewVideoActivity extends BaseActivity {
-    @BindView(R.id.video_progress) ProgressBar progressBar;
-    @BindView(R.id.video_player) VideoView videoView;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_video);
-        ButterKnife.bind(this);
 
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.video_progress);
+        VideoView videoView = (VideoView) findViewById(R.id.video_player);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         ActionBar bar = getSupportActionBar();
-
         if (bar != null) {
             bar.setTitle(null);
             bar.setDisplayHomeAsUpEnabled(true);
