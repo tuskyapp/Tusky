@@ -40,8 +40,8 @@ public class ParserUtils {
 
             // If we share with an app, it's not only an url
             List<String> strings = StringUtils.extractUrl(pasteData);
-            String url = strings.get(0); // we assume that the first url is the good one
             if (strings.size() > 0) {
+                String url = strings.get(0); // we assume that the first url is the good one
                 if (URLUtil.isValidUrl(url)) {
                     new ThreadHeaderInfo().execute(url);
                 }
