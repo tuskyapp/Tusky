@@ -92,7 +92,7 @@
     <string name="action_mute">ミュート</string>
     <string name="action_unmute">ミュート解除</string>
     <string name="action_mention">返信</string>
-    <string name="toggle_nsfw">NSFW</string>
+    <!--<string name="action_mark_sensitive">Mark media sensitive</string>-->
     <string name="action_compose_options">オプション</string>
     <string name="action_open_drawer">メニューを開く</string>
     <string name="action_clear">消去</string>

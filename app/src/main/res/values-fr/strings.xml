@@ -88,7 +88,7 @@
     <string name="action_mute">Rendre muet</string>
     <string name="action_unmute">Redonner la parole</string>
     <string name="action_mention">Mention</string>
-    <string name="toggle_nsfw">NSFW</string>
+    <!--<string name="action_mark_sensitive">Mark media sensitive</string>-->
     <string name="action_compose_options">Options</string>
     <string name="action_open_drawer">Ouvrir le menu</string>
     <string name="action_clear">Nettoyer</string>

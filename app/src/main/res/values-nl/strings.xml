@@ -85,7 +85,7 @@
     <string name="action_mute">Negeren</string>
     <string name="action_unmute">Niet meer negeren</string>
     <string name="action_mention">Vermelden</string>
-    <string name="toggle_nsfw">Gevoelig (NSFW)</string>
+    <!--<string name="action_mark_sensitive">Mark media sensitive</string>-->
     <string name="action_compose_options">Opties</string>
     <string name="action_open_drawer">Menu openen</string>
     <string name="action_clear">Leegmaken</string>

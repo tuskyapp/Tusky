@@ -86,7 +86,6 @@
     <string name="action_mute">Stummschalten</string>
     <string name="action_unmute">Lautschalten</string>
     <string name="action_mention">Erwähnen</string>
-    <string name="toggle_nsfw">NSFW</string>
     <string name="action_compose_options">Einstellungen</string>
     <string name="action_open_drawer">Drawer öffnen</string>
     <string name="action_clear">Löschen</string>

@@ -91,7 +91,7 @@
     <string name="action_mute">Wycisz</string>
     <string name="action_unmute">Cofnij wyciszenie</string>
     <string name="action_mention">Wspomnij</string>
-    <string name="toggle_nsfw">NSFW</string>
+    <!--<string name="action_mark_sensitive">Mark media sensitive</string>-->
     <string name="action_compose_options">Opcje</string>
     <string name="action_open_drawer">Otwórz szufladę</string>
     <string name="action_clear">Wyczyść</string>

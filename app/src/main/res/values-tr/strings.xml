@@ -90,7 +90,7 @@
     <string name="action_mute">Sesize al</string>
     <string name="action_unmute">Sesizden kaldır</string>
     <string name="action_mention">Bahset</string>
-    <string name="toggle_nsfw">UYARILI</string>
+    <!--<string name="action_mark_sensitive">Mark media sensitive</string>-->
     <string name="action_compose_options">Seçenekler</string>
     <string name="action_open_drawer">Çekmece aç</string>
     <string name="action_clear">Temizle</string>

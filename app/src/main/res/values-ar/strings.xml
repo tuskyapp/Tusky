@@ -89,7 +89,7 @@
     <string name="action_mute">أكتم</string>
     <string name="action_unmute">إلغاء الكتم</string>
     <string name="action_mention">أذكر</string>
-    <string name="toggle_nsfw">NSFW</string>
+    <!--<string name="action_mark_sensitive">Mark media sensitive</string>-->
     <string name="action_compose_options">خيارات</string>
     <string name="action_open_drawer">إفتح الدرج</string>
     <string name="action_clear">إمسح</string>
