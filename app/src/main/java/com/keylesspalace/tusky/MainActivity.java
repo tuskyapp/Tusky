@@ -31,6 +31,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -476,6 +477,25 @@ public class MainActivity extends BaseActivity {
             pageHistory.pop();
             viewPager.setCurrentItem(pageHistory.peek());
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MENU: {
+                if (drawer.isDrawerOpen()) {
+                    drawer.closeDrawer();
+                } else {
+                    drawer.openDrawer();
+                }
+                return true;
+            }
+            case KeyEvent.KEYCODE_SEARCH: {
+                startActivity(new Intent(this, SearchActivity.class));
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     // Fix for GitHub issues #190, #259 (MainActivity won't restart on screen rotation.)
