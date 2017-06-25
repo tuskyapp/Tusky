@@ -343,6 +343,7 @@ public class TimelineFragment extends SFragment implements
         Log.e(TAG, "Fetch Failure: " + exception.getMessage());
     }
 
+    @Override
     public void onRefresh() {
         Status status = adapter.getItem(0);
         if (status != null) {
@@ -352,30 +353,37 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
+    @Override
     public void onReply(int position) {
         super.reply(adapter.getItem(position));
     }
 
+    @Override
     public void onReblog(final boolean reblog, final int position) {
         super.reblog(adapter.getItem(position), reblog, adapter, position);
     }
 
+    @Override
     public void onFavourite(final boolean favourite, final int position) {
         super.favourite(adapter.getItem(position), favourite, adapter, position);
     }
 
+    @Override
     public void onMore(View view, final int position) {
         super.more(adapter.getItem(position), view, adapter, position);
     }
 
-    public void onViewMedia(String url, Status.MediaAttachment.Type type) {
-        super.viewMedia(url, type);
+    @Override
+    public void onViewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type) {
+        super.viewMedia(urls, urlIndex, type);
     }
 
+    @Override
     public void onViewThread(int position) {
         super.viewThread(adapter.getItem(position));
     }
 
+    @Override
     public void onViewTag(String tag) {
         if (kind == Kind.TAG && hashtagOrId.equals(tag)) {
             // If already viewing a tag page, then ignore any request to view that tag again.
@@ -384,6 +392,7 @@ public class TimelineFragment extends SFragment implements
         super.viewTag(tag);
     }
 
+    @Override
     public void onViewAccount(String id) {
         if (kind == Kind.USER && hashtagOrId.equals(id)) {
             /* If already viewing an account page, then any requests to view that account page

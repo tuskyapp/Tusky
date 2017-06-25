@@ -202,6 +202,11 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
 
         final int n = Math.min(attachments.length, Status.MAX_MEDIA_ATTACHMENTS);
 
+        final String[] urls = new String[n];
+        for (int i = 0; i < n; i++) {
+            urls[i] = attachments[i].url;
+        }
+
         for (int i = 0; i < n; i++) {
             String previewUrl = attachments[i].previewUrl;
 
@@ -218,16 +223,15 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
                         .into(previews[i]);
             }
 
-            final String url = attachments[i].url;
-            final Status.MediaAttachment.Type type = attachments[i].type;
-
-            if(url == null || url.isEmpty()) {
+            if (urls[i] == null || urls[i].isEmpty()) {
                 previews[i].setOnClickListener(null);
             } else {
+                final int urlIndex = i;
+                final Status.MediaAttachment.Type type = attachments[i].type;
                 previews[i].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onViewMedia(url, type);
+                        listener.onViewMedia(urls, urlIndex, type);
                     }
                 });
             }

@@ -19,8 +19,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +31,7 @@ import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ReportActivity;
+import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
 import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.ViewVideoActivity;
@@ -271,18 +270,19 @@ public abstract class SFragment extends BaseFragment {
         popup.show();
     }
 
-    protected void viewMedia(String url, Status.MediaAttachment.Type type) {
+    protected void viewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type) {
         switch (type) {
             case IMAGE: {
-                DialogFragment newFragment = ViewMediaFragment.newInstance(url);
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                newFragment.show(ft, "view_media");
+                Intent intent = new Intent(getContext(), ViewMediaActivity.class);
+                intent.putExtra("urls", urls);
+                intent.putExtra("urlIndex", urlIndex);
+                startActivity(intent);
                 break;
             }
             case GIFV:
             case VIDEO: {
                 Intent intent = new Intent(getContext(), ViewVideoActivity.class);
-                intent.putExtra("url", url);
+                intent.putExtra("url", urls[urlIndex]);
                 startActivity(intent);
                 break;
             }

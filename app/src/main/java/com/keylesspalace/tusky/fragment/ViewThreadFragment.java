@@ -182,31 +182,38 @@ public class ViewThreadFragment extends SFragment implements
         }
     }
 
+    @Override
     public void onRefresh() {
         sendStatusRequest(thisThreadsStatusId);
         sendThreadRequest(thisThreadsStatusId);
     }
 
+    @Override
     public void onReply(int position) {
         super.reply(adapter.getItem(position));
     }
 
+    @Override
     public void onReblog(boolean reblog, int position) {
         super.reblog(adapter.getItem(position), reblog, adapter, position);
     }
 
+    @Override
     public void onFavourite(boolean favourite, int position) {
         super.favourite(adapter.getItem(position), favourite, adapter, position);
     }
 
+    @Override
     public void onMore(View view, int position) {
         super.more(adapter.getItem(position), view, adapter, position);
     }
 
-    public void onViewMedia(String url, Status.MediaAttachment.Type type) {
-        super.viewMedia(url, type);
+    @Override
+    public void onViewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type) {
+        super.viewMedia(urls, urlIndex, type);
     }
 
+    @Override
     public void onViewThread(int position) {
         Status status = adapter.getItem(position);
         if (thisThreadsStatusId.equals(status.id)) {
@@ -216,10 +223,12 @@ public class ViewThreadFragment extends SFragment implements
         super.viewThread(status);
     }
 
+    @Override
     public void onViewTag(String tag) {
         super.viewTag(tag);
     }
 
+    @Override
     public void onViewAccount(String id) {
         super.viewAccount(id);
     }

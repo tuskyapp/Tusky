@@ -252,6 +252,7 @@ public class NotificationsFragment extends SFragment implements
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
     }
 
+    @Override
     public void onRefresh() {
         Notification notification = adapter.getItem(0);
         if (notification != null) {
@@ -261,39 +262,47 @@ public class NotificationsFragment extends SFragment implements
         }
     }
 
+    @Override
     public void onReply(int position) {
         Notification notification = adapter.getItem(position);
         super.reply(notification.status);
     }
 
+    @Override
     public void onReblog(boolean reblog, int position) {
         Notification notification = adapter.getItem(position);
         super.reblog(notification.status, reblog, adapter, position);
     }
 
+    @Override
     public void onFavourite(boolean favourite, int position) {
         Notification notification = adapter.getItem(position);
         super.favourite(notification.status, favourite, adapter, position);
     }
 
+    @Override
     public void onMore(View view, int position) {
         Notification notification = adapter.getItem(position);
         super.more(notification.status, view, adapter, position);
     }
 
-    public void onViewMedia(String url, Status.MediaAttachment.Type type) {
-        super.viewMedia(url, type);
+    @Override
+    public void onViewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type) {
+        super.viewMedia(urls, urlIndex, type);
     }
 
+    @Override
     public void onViewThread(int position) {
         Notification notification = adapter.getItem(position);
         super.viewThread(notification.status);
     }
 
+    @Override
     public void onViewTag(String tag) {
         super.viewTag(tag);
     }
 
+    @Override
     public void onViewAccount(String id) {
         super.viewAccount(id);
     }
