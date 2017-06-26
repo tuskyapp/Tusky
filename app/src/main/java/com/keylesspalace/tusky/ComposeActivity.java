@@ -64,7 +64,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -541,7 +540,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     private void showComposeOptions() {
         ComposeOptionsFragment fragment = ComposeOptionsFragment.newInstance(
-                statusVisibility, statusHideText, inReplyToId != null);
+                statusVisibility, statusHideText);
         fragment.show(getSupportFragmentManager(), null);
     }
 

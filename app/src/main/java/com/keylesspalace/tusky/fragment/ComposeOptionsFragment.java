@@ -46,13 +46,11 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
     private CheckBox hideText;
     private Listener listener;
 
-    public static ComposeOptionsFragment newInstance(String visibility, boolean hideText,
-            boolean isReply) {
+    public static ComposeOptionsFragment newInstance(String visibility, boolean hideText) {
         Bundle arguments = new Bundle();
         ComposeOptionsFragment fragment = new ComposeOptionsFragment();
         arguments.putString("visibility", visibility);
         arguments.putBoolean("hideText", hideText);
-        arguments.putBoolean("isReply", isReply);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -72,15 +70,9 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
         Bundle arguments = getArguments();
         String statusVisibility = arguments.getString("visibility");
         boolean statusHideText = arguments.getBoolean("hideText");
-        boolean isReply = arguments.getBoolean("isReply");
 
         radio = (RadioGroup) rootView.findViewById(R.id.radio_visibility);
-        int radioCheckedId;
-        if (!isReply) {
-            radioCheckedId = R.id.radio_public;
-        } else {
-            radioCheckedId = R.id.radio_unlisted;
-        }
+        int radioCheckedId = R.id.radio_public;
         if (statusVisibility != null) {
             switch (statusVisibility) {
                 case "public":   radioCheckedId = R.id.radio_public;   break;
@@ -99,10 +91,6 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
         setRadioButtonDrawable(getContext(), unlistedButton, R.drawable.ic_lock_open_24dp);
         setRadioButtonDrawable(getContext(), privateButton, R.drawable.ic_lock_outline_24dp);
         setRadioButtonDrawable(getContext(), directButton, R.drawable.ic_email_24dp);
-
-        if (isReply) {
-            publicButton.setEnabled(false);
-        }
 
         hideText = (CheckBox) rootView.findViewById(R.id.compose_hide_text);
         hideText.setChecked(statusHideText);
