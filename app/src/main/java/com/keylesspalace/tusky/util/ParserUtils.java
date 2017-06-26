@@ -81,7 +81,7 @@ public class ParserUtils {
         // set info
         headerInfo.baseUrl = urlStr;
         if (!TextUtils.isEmpty(text)) {
-            headerInfo.title = QUOTE + text.toUpperCase() + QUOTE;
+            headerInfo.title = QUOTE + text + QUOTE;
         }
         if (!TextUtils.isEmpty(imageUrl)) {
             headerInfo.image = (imageUrl);
