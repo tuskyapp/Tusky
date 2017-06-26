@@ -63,6 +63,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     private ImageView mediaPreview2;
     private ImageView mediaPreview3;
     private View sensitiveMediaWarning;
+    private View videoIndicator;
     private TextView mediaLabel;
     private View contentWarningBar;
     private TextView contentWarningDescription;
@@ -89,6 +90,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         mediaPreview2 = (ImageView) itemView.findViewById(R.id.status_media_preview_2);
         mediaPreview3 = (ImageView) itemView.findViewById(R.id.status_media_preview_3);
         sensitiveMediaWarning = itemView.findViewById(R.id.status_sensitive_media_warning);
+        videoIndicator = itemView.findViewById(R.id.status_video_indicator);
         mediaLabel = (TextView) itemView.findViewById(R.id.status_media_label);
         contentWarningBar = itemView.findViewById(R.id.status_content_warning_bar);
         contentWarningDescription =
@@ -228,11 +230,16 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
                         .into(previews[i]);
             }
 
+            final Status.MediaAttachment.Type type = attachments[i].type;
+            if (type == Status.MediaAttachment.Type.VIDEO
+                    | type == Status.MediaAttachment.Type.GIFV) {
+                videoIndicator.setVisibility(View.VISIBLE);
+            }
+
             if (urls[i] == null || urls[i].isEmpty()) {
                 previews[i].setOnClickListener(null);
             } else {
                 final int urlIndex = i;
-                final Status.MediaAttachment.Type type = attachments[i].type;
                 previews[i].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -444,6 +451,9 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
             if (!sensitive || attachments.length == 0) {
                 hideSensitiveMediaWarning();
             }
+            if (attachments.length == 0) {
+                videoIndicator.setVisibility(View.GONE);
+            }
             // Hide the unused label.
             mediaLabel.setVisibility(View.GONE);
         } else {
@@ -454,6 +464,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
             mediaPreview2.setVisibility(View.GONE);
             mediaPreview3.setVisibility(View.GONE);
             hideSensitiveMediaWarning();
+            videoIndicator.setVisibility(View.GONE);
         }
 
         setupButtons(listener, realStatus.account.id);

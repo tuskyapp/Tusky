@@ -208,6 +208,22 @@
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/status_video_indicator"
+                app:srcCompat="@drawable/ic_play_48dp"
+                android:alpha="0.5"
+                android:layout_centerInParent="true"
+                android:contentDescription="@null"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/status_sensitive_media_warning"
             android:layout_width="match_parent"
