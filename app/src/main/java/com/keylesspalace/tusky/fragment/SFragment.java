@@ -85,10 +85,10 @@ public abstract class SFragment extends BaseFragment {
         String contentWarning = actionableStatus.spoilerText;
         Status.Mention[] mentions = actionableStatus.mentions;
         List<String> mentionedUsernames = new ArrayList<>();
+        mentionedUsernames.add(actionableStatus.account.username);
         for (Status.Mention mention : mentions) {
             mentionedUsernames.add(mention.username);
         }
-        mentionedUsernames.add(actionableStatus.account.username);
         mentionedUsernames.remove(loggedInUsername);
         Intent intent = new Intent(getContext(), ComposeActivity.class);
         intent.putExtra("in_reply_to_id", inReplyToId);
