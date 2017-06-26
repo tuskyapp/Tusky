@@ -64,6 +64,7 @@
                 android:hint="@string/hint_compose"
                 android:inputType="text|textMultiLine|textCapSentences"
                 android:dropDownWidth="wrap_content"
+                android:dropDownHeight="58dp"
                 android:completionThreshold="2" />
 
             <HorizontalScrollView

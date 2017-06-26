@@ -64,6 +64,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -1369,7 +1370,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             return resultList.get(index);
         }
 
-        @Override @NonNull
+        @Override
+        @NonNull
         public Filter getFilter() {
             return new Filter() {
                 @Override
@@ -1399,8 +1401,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             };
         }
 
-
-        @Override @NonNull
+        @Override
+        @NonNull
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             View view = convertView;
 
