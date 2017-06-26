@@ -240,7 +240,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/status_media_label"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false" />
 
     </FrameLayout>
 

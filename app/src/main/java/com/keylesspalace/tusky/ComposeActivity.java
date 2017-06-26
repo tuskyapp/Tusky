@@ -444,7 +444,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private void doErrorDialog(@StringRes int descriptionId, @StringRes int actionId,
-                               View.OnClickListener listener) {
+            View.OnClickListener listener) {
         Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(descriptionId),
                 Snackbar.LENGTH_SHORT);
         bar.setAction(actionId, listener);
