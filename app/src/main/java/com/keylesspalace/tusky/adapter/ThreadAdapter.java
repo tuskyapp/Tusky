@@ -32,11 +32,13 @@ public class ThreadAdapter extends RecyclerView.Adapter implements AdapterItemRe
     private List<Status> statuses;
     private StatusActionListener statusActionListener;
     private int statusIndex;
+    private boolean mediaPreviewEnabled;
 
     public ThreadAdapter(StatusActionListener listener) {
         this.statusActionListener = listener;
         this.statuses = new ArrayList<>();
         this.statusIndex = 0;
+        mediaPreviewEnabled = true;
     }
 
     @Override
@@ -50,16 +52,12 @@ public class ThreadAdapter extends RecyclerView.Adapter implements AdapterItemRe
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         StatusViewHolder holder = (StatusViewHolder) viewHolder;
         Status status = statuses.get(position);
-        holder.setupWithStatus(status, statusActionListener);
+        holder.setupWithStatus(status, statusActionListener, mediaPreviewEnabled);
     }
 
     @Override
     public int getItemCount() {
         return statuses.size();
-    }
-
-    public Status getItem(int position) {
-        return statuses.get(position);
     }
 
     @Override
@@ -79,6 +77,10 @@ public class ThreadAdapter extends RecyclerView.Adapter implements AdapterItemRe
                 i += 1;
             }
         }
+    }
+
+    public Status getItem(int position) {
+        return statuses.get(position);
     }
 
     public int setStatus(Status status) {
@@ -123,5 +125,15 @@ public class ThreadAdapter extends RecyclerView.Adapter implements AdapterItemRe
         int end = statuses.size();
         statuses.addAll(descendants);
         notifyItemRangeInserted(end, descendants.size());
+    }
+
+    public void clear() {
+        statuses.clear();
+        notifyDataSetChanged();
+        statusIndex = 0;
+    }
+
+    public void setMediaPreviewEnabled(boolean enabled) {
+        mediaPreviewEnabled = enabled;
     }
 }

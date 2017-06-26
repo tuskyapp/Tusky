@@ -42,11 +42,13 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
     private List<Status> statuses;
     private StatusActionListener statusListener;
     private FooterState footerState = FooterState.END;
+    private boolean mediaPreviewEnabled;
 
     public TimelineAdapter(StatusActionListener statusListener) {
         super();
         statuses = new ArrayList<>();
         this.statusListener = statusListener;
+        mediaPreviewEnabled = true;
     }
 
     @Override
@@ -82,20 +84,12 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
         }
     }
 
-    public void setFooterState(FooterState newFooterState) {
-        FooterState oldValue = footerState;
-        footerState = newFooterState;
-        if (footerState != oldValue) {
-            notifyItemChanged(statuses.size());
-        }
-    }
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (position < statuses.size()) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             Status status = statuses.get(position);
-            holder.setupWithStatus(status, statusListener);
+            holder.setupWithStatus(status, statusListener, mediaPreviewEnabled);
         }
     }
 
@@ -110,6 +104,25 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
             return VIEW_TYPE_FOOTER;
         } else {
             return VIEW_TYPE_STATUS;
+        }
+    }
+
+    @Override
+    public void removeItem(int position) {
+        statuses.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    @Override
+    public void removeAllByAccountId(String accountId) {
+        for (int i = 0; i < statuses.size();) {
+            Status status = statuses.get(i);
+            if (accountId.equals(status.account.id)) {
+                statuses.remove(i);
+                notifyItemRemoved(i);
+            } else {
+                i += 1;
+            }
         }
     }
 
@@ -140,25 +153,6 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
         notifyItemRangeInserted(end, newStatuses.size());
     }
 
-    @Override
-    public void removeItem(int position) {
-        statuses.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    @Override
-    public void removeAllByAccountId(String accountId) {
-        for (int i = 0; i < statuses.size();) {
-            Status status = statuses.get(i);
-            if (accountId.equals(status.account.id)) {
-                statuses.remove(i);
-                notifyItemRemoved(i);
-            } else {
-                i += 1;
-            }
-        }
-    }
-
     public void clear() {
         statuses.clear();
         notifyDataSetChanged();
@@ -170,5 +164,17 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
             return statuses.get(position);
         }
         return null;
+    }
+
+    public void setFooterState(FooterState newFooterState) {
+        FooterState oldValue = footerState;
+        footerState = newFooterState;
+        if (footerState != oldValue) {
+            notifyItemChanged(statuses.size());
+        }
+    }
+
+    public void setMediaPreviewEnabled(boolean enabled) {
+        mediaPreviewEnabled = enabled;
     }
 }

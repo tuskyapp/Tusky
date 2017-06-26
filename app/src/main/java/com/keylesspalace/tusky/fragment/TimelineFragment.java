@@ -98,7 +98,6 @@ public class TimelineFragment extends SFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
              Bundle savedInstanceState) {
-
         Bundle arguments = getArguments();
         kind = Kind.valueOf(arguments.getString("kind"));
         if (kind == Kind.TAG || kind == Kind.USER) {
@@ -123,22 +122,18 @@ public class TimelineFragment extends SFragment implements
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
         adapter = new TimelineAdapter(this);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
+                getActivity());
+        preferences.registerOnSharedPreferenceChangeListener(this);
+        boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
+        adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         recyclerView.setAdapter(adapter);
 
         timelineReceiver = new TimelineReceiver(adapter, this);
         LocalBroadcastManager.getInstance(context.getApplicationContext())
                 .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(kind));
-        return rootView;
-    }
 
-    private void onLoadMore(RecyclerView view) {
-        TimelineAdapter adapter = (TimelineAdapter) view.getAdapter();
-        Status status = adapter.getItem(adapter.getItemCount() - 2);
-        if (status != null) {
-            sendFetchTimelineRequest(status.id, null);
-        } else {
-            sendFetchTimelineRequest(null, null);
-        }
+        return rootView;
     }
 
     @Override
@@ -171,7 +166,6 @@ public class TimelineFragment extends SFragment implements
             final FloatingActionButton composeButton = activity.composeButton;
             final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                     activity);
-            preferences.registerOnSharedPreferenceChangeListener(this);
             hideFab = preferences.getBoolean("fabHide", false);
             scrollListener = new EndlessOnScrollListener(layoutManager) {
                 @Override
@@ -216,6 +210,102 @@ public class TimelineFragment extends SFragment implements
         }
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(timelineReceiver);
         super.onDestroyView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setFiltersFromSettings();
+    }
+
+    @Override
+    public void onRefresh() {
+        Status status = adapter.getItem(0);
+        if (status != null) {
+            sendFetchTimelineRequest(null, status.id);
+        } else {
+            sendFetchTimelineRequest(null, null);
+        }
+    }
+
+    @Override
+    public void onReply(int position) {
+        super.reply(adapter.getItem(position));
+    }
+
+    @Override
+    public void onReblog(final boolean reblog, final int position) {
+        super.reblog(adapter.getItem(position), reblog, adapter, position);
+    }
+
+    @Override
+    public void onFavourite(final boolean favourite, final int position) {
+        super.favourite(adapter.getItem(position), favourite, adapter, position);
+    }
+
+    @Override
+    public void onMore(View view, final int position) {
+        super.more(adapter.getItem(position), view, adapter, position);
+    }
+
+    @Override
+    public void onViewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type) {
+        super.viewMedia(urls, urlIndex, type);
+    }
+
+    @Override
+    public void onViewThread(int position) {
+        super.viewThread(adapter.getItem(position));
+    }
+
+    @Override
+    public void onViewTag(String tag) {
+        if (kind == Kind.TAG && hashtagOrId.equals(tag)) {
+            // If already viewing a tag page, then ignore any request to view that tag again.
+            return;
+        }
+        super.viewTag(tag);
+    }
+
+    @Override
+    public void onViewAccount(String id) {
+        if (kind == Kind.USER && hashtagOrId.equals(id)) {
+            /* If already viewing an account page, then any requests to view that account page
+             * should be ignored. */
+            return;
+        }
+        super.viewAccount(id);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        switch (key) {
+            case "fabHide": {
+                hideFab = sharedPreferences.getBoolean("fabHide", false);
+                break;
+            }
+            case "mediaPreviewEnabled": {
+                boolean enabled = sharedPreferences.getBoolean("mediaPreviewEnabled", true);
+                adapter.setMediaPreviewEnabled(enabled);
+                fullyRefresh();
+                break;
+            }
+        }
+    }
+
+    private void onLoadMore(RecyclerView view) {
+        TimelineAdapter adapter = (TimelineAdapter) view.getAdapter();
+        Status status = adapter.getItem(adapter.getItemCount() - 2);
+        if (status != null) {
+            sendFetchTimelineRequest(status.id, null);
+        } else {
+            sendFetchTimelineRequest(null, null);
+        }
+    }
+
+    private void fullyRefresh() {
+        adapter.clear();
+        sendFetchTimelineRequest(null, null);
     }
 
     private boolean jumpToTopAllowed() {
@@ -310,15 +400,8 @@ public class TimelineFragment extends SFragment implements
         filterRemoveReblogs = (kind == Kind.HOME && !preferences.getBoolean("tabFilterHomeBoosts", true));
 
         if (adapter.getItemCount() > 1 && (oldRemoveReblogs != filterRemoveReblogs || oldRemoveReplies != filterRemoveReplies)) {
-            adapter.clear();
-            sendFetchTimelineRequest(null, null);
+            fullyRefresh();
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        setFiltersFromSettings();
     }
 
     public void onFetchTimelineSuccess(List<Status> statuses, String fromId) {
@@ -341,71 +424,5 @@ public class TimelineFragment extends SFragment implements
     public void onFetchTimelineFailure(Exception exception) {
         swipeRefreshLayout.setRefreshing(false);
         Log.e(TAG, "Fetch Failure: " + exception.getMessage());
-    }
-
-    @Override
-    public void onRefresh() {
-        Status status = adapter.getItem(0);
-        if (status != null) {
-            sendFetchTimelineRequest(null, status.id);
-        } else {
-            sendFetchTimelineRequest(null, null);
-        }
-    }
-
-    @Override
-    public void onReply(int position) {
-        super.reply(adapter.getItem(position));
-    }
-
-    @Override
-    public void onReblog(final boolean reblog, final int position) {
-        super.reblog(adapter.getItem(position), reblog, adapter, position);
-    }
-
-    @Override
-    public void onFavourite(final boolean favourite, final int position) {
-        super.favourite(adapter.getItem(position), favourite, adapter, position);
-    }
-
-    @Override
-    public void onMore(View view, final int position) {
-        super.more(adapter.getItem(position), view, adapter, position);
-    }
-
-    @Override
-    public void onViewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type) {
-        super.viewMedia(urls, urlIndex, type);
-    }
-
-    @Override
-    public void onViewThread(int position) {
-        super.viewThread(adapter.getItem(position));
-    }
-
-    @Override
-    public void onViewTag(String tag) {
-        if (kind == Kind.TAG && hashtagOrId.equals(tag)) {
-            // If already viewing a tag page, then ignore any request to view that tag again.
-            return;
-        }
-        super.viewTag(tag);
-    }
-
-    @Override
-    public void onViewAccount(String id) {
-        if (kind == Kind.USER && hashtagOrId.equals(id)) {
-            /* If already viewing an account page, then any requests to view that account page
-             * should be ignored. */
-            return;
-        }
-        super.viewAccount(id);
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equals("fabHide")) {
-            hideFab = sharedPreferences.getBoolean("fabHide", false);
-        }
     }
 }

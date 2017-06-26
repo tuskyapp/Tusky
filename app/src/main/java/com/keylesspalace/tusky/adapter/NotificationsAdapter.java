@@ -37,7 +37,6 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
@@ -56,6 +55,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
     private StatusActionListener statusListener;
     private NotificationActionListener notificationActionListener;
     private FooterState footerState = FooterState.END;
+    private boolean mediaPreviewEnabled;
 
     public NotificationsAdapter(StatusActionListener statusListener,
             NotificationActionListener notificationActionListener) {
@@ -63,15 +63,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         notifications = new ArrayList<>();
         this.statusListener = statusListener;
         this.notificationActionListener = notificationActionListener;
-    }
-
-
-    public void setFooterState(FooterState newFooterState) {
-        FooterState oldValue = footerState;
-        footerState = newFooterState;
-        if (footerState != oldValue) {
-            notifyItemChanged(notifications.size());
-        }
+        mediaPreviewEnabled = true;
     }
 
     @Override
@@ -126,7 +118,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
                 case MENTION: {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
                     Status status = notification.status;
-                    holder.setupWithStatus(status, statusListener);
+                    holder.setupWithStatus(status, statusListener, mediaPreviewEnabled);
                     break;
                 }
                 case FAVOURITE:
@@ -139,8 +131,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
                 }
                 case FOLLOW: {
                     FollowViewHolder holder = (FollowViewHolder) viewHolder;
-                    holder.setMessage(notification.account.getDisplayName(), notification.account.username,
-                            notification.account.avatar);
+                    holder.setMessage(notification.account.getDisplayName(),
+                            notification.account.username, notification.account.avatar);
                     holder.setupButtons(notificationActionListener, notification.account.id);
                     break;
                 }
@@ -171,6 +163,25 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
                 case FOLLOW: {
                     return VIEW_TYPE_FOLLOW;
                 }
+            }
+        }
+    }
+
+    @Override
+    public void removeItem(int position) {
+        notifications.remove(position);
+        notifyItemChanged(position);
+    }
+
+    @Override
+    public void removeAllByAccountId(String id) {
+        for (int i = 0; i < notifications.size();) {
+            Notification notification = notifications.get(i);
+            if (id.equals(notification.account.id)) {
+                notifications.remove(i);
+                notifyItemRemoved(i);
+            } else {
+                i += 1;
             }
         }
     }
@@ -209,23 +220,21 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         notifyItemRangeInserted(end, new_notifications.size());
     }
 
-    @Override
-    public void removeItem(int position) {
-        notifications.remove(position);
-        notifyItemChanged(position);
+    public void clear() {
+        notifications.clear();
+        notifyDataSetChanged();
     }
 
-    @Override
-    public void removeAllByAccountId(String id) {
-        for (int i = 0; i < notifications.size();) {
-            Notification notification = notifications.get(i);
-            if (id.equals(notification.account.id)) {
-                notifications.remove(i);
-                notifyItemRemoved(i);
-            } else {
-                i += 1;
-            }
+    public void setFooterState(FooterState newFooterState) {
+        FooterState oldValue = footerState;
+        footerState = newFooterState;
+        if (footerState != oldValue) {
+            notifyItemChanged(notifications.size());
         }
+    }
+
+    public void setMediaPreviewEnabled(boolean enabled) {
+        mediaPreviewEnabled = enabled;
     }
 
     public interface NotificationActionListener {

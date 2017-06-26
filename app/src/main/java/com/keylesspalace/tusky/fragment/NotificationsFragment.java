@@ -95,9 +95,27 @@ public class NotificationsFragment extends SFragment implements
         recyclerView.addItemDecoration(divider);
 
         adapter = new NotificationsAdapter(this, this);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
+                getActivity());
+        boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
+        adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         recyclerView.setAdapter(adapter);
 
-        TabLayout layout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
+        timelineReceiver = new TimelineReceiver(adapter);
+        LocalBroadcastManager.getInstance(context.getApplicationContext())
+                .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(null));
+
+        return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        MainActivity activity = (MainActivity) getActivity();
+
+        // MainActivity's layout is guaranteed to be inflated until onCreate returns.
+        TabLayout layout = (TabLayout) activity.findViewById(R.id.tab_layout);
         onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {}
@@ -112,22 +130,10 @@ public class NotificationsFragment extends SFragment implements
         };
         layout.addOnTabSelectedListener(onTabSelectedListener);
 
-        timelineReceiver = new TimelineReceiver(adapter);
-        LocalBroadcastManager.getInstance(context.getApplicationContext())
-                .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(null));
-
-        return rootView;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
         /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
          * guaranteed to be set until then.
          * Use a modified scroll listener that both loads more notifications as it goes, and hides
          * the compose button on down-scroll. */
-        MainActivity activity = (MainActivity) getActivity();
         final FloatingActionButton composeButton = activity.composeButton;
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                 activity);
@@ -167,7 +173,9 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (listCall != null) listCall.cancel();
+        if (listCall != null) {
+            listCall.cancel();
+        }
     }
 
     @Override
@@ -195,7 +203,8 @@ public class NotificationsFragment extends SFragment implements
 
         listCall.enqueue(new Callback<List<Notification>>() {
             @Override
-            public void onResponse(Call<List<Notification>> call, Response<List<Notification>> response) {
+            public void onResponse(Call<List<Notification>> call,
+                    Response<List<Notification>> response) {
                 if (response.isSuccessful()) {
                     onFetchNotificationsSuccess(response.body(), fromId);
                 } else {
@@ -231,7 +240,9 @@ public class NotificationsFragment extends SFragment implements
 
                 // Set last update id for pull notifications so that we don't get notified
                 // about things we already loaded here
-                SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+                SharedPreferences preferences = getActivity()
+                        .getSharedPreferences(getString(R.string.preferences_file_key),
+                                Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("lastUpdateId", notifications.get(0).id);
                 editor.apply();
@@ -309,8 +320,22 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equals("fabHide")) {
-            hideFab = sharedPreferences.getBoolean("fabHide", false);
+        switch (key) {
+            case "fabHide": {
+                hideFab = sharedPreferences.getBoolean("fabHide", false);
+                break;
+            }
+            case "mediaPreviewEnabled": {
+                boolean enabled = sharedPreferences.getBoolean("mediaPreviewEnabled", true);
+                adapter.setMediaPreviewEnabled(enabled);
+                fullyRefresh();
+                break;
+            }
         }
+    }
+
+    private void fullyRefresh() {
+        adapter.clear();
+        sendFetchNotificationsRequest(null, null);
     }
 }

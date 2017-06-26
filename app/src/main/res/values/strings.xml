@@ -105,8 +105,6 @@
     <string name="send_status_link_to">Share toot URL to…</string>
     <string name="send_status_content_to">Share toot to…</string>
 
-    <string name="search">Search accounts…</string>
-
     <string name="confirmation_send">Toot!</string>
     <string name="confirmation_reported">Sent!</string>
     <string name="confirmation_unblocked">User unblocked</string>
@@ -168,6 +166,7 @@
     <string name="pref_title_status_tabs">Tabs</string>
     <string name="pref_title_show_boosts">Show boosts</string>
     <string name="pref_title_show_replies">Show replies</string>
+    <string name="pref_title_show_media_preview">Show media previews</string>
 
     <string name="notification_mention_format">%s mentioned you</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
@@ -191,6 +190,8 @@
 
     <string name="status_share_content">Share content of toot</string>
     <string name="status_share_link">Share link to toot</string>
+    <string name="status_media_images">Images</string>
+    <string name="status_media_video">Video</string>
 
     <string name="state_follow_requested">Follow requested</string>
 </resources>

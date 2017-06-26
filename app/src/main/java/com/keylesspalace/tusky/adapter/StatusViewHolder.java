@@ -16,8 +16,11 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
 import android.view.View;
@@ -60,6 +63,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     private ImageView mediaPreview2;
     private ImageView mediaPreview3;
     private View sensitiveMediaWarning;
+    private TextView mediaLabel;
     private View contentWarningBar;
     private TextView contentWarningDescription;
     private ToggleButton contentWarningButton;
@@ -85,6 +89,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         mediaPreview2 = (ImageView) itemView.findViewById(R.id.status_media_preview_2);
         mediaPreview3 = (ImageView) itemView.findViewById(R.id.status_media_preview_3);
         sensitiveMediaWarning = itemView.findViewById(R.id.status_sensitive_media_warning);
+        mediaLabel = (TextView) itemView.findViewById(R.id.status_media_label);
         contentWarningBar = itemView.findViewById(R.id.status_content_warning_bar);
         contentWarningDescription =
                 (TextView) itemView.findViewById(R.id.status_content_warning_description);
@@ -187,8 +192,8 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         favouriteButton.setChecked(favourited);
     }
 
-    private void setMediaPreviews(final Status.MediaAttachment[] attachments,
-                                  boolean sensitive, final StatusActionListener listener) {
+    private void setMediaPreviews(final Status.MediaAttachment[] attachments, boolean sensitive,
+            final StatusActionListener listener) {
         final ImageView[] previews = {
                 mediaPreview0,
                 mediaPreview1,
@@ -212,7 +217,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
 
             previews[i].setVisibility(View.VISIBLE);
 
-            if(previewUrl == null || previewUrl.isEmpty()) {
+            if (previewUrl == null || previewUrl.isEmpty()) {
                 Picasso.with(context)
                         .load(mediaPreviewUnloadedId)
                         .into(previews[i]);
@@ -252,6 +257,62 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         for (int i = n; i < Status.MAX_MEDIA_ATTACHMENTS; i++) {
             previews[i].setVisibility(View.GONE);
         }
+    }
+
+    private static String getLabelTypeText(Context context, Status.MediaAttachment.Type type) {
+        switch (type) {
+            default:
+            case IMAGE: return context.getString(R.string.status_media_images);
+            case GIFV:
+            case VIDEO: return context.getString(R.string.status_media_video);
+        }
+    }
+
+    private static @DrawableRes int getLabelIcon(Status.MediaAttachment.Type type) {
+        switch (type) {
+            default:
+            case IMAGE: return R.drawable.ic_photo_24dp;
+            case GIFV:
+            case VIDEO: return R.drawable.ic_videocam_24dp;
+        }
+    }
+
+    private void setMediaLabel(Status.MediaAttachment[] attachments, boolean sensitive,
+            final StatusActionListener listener) {
+        if (attachments.length == 0) {
+            mediaLabel.setVisibility(View.GONE);
+            return;
+        }
+        mediaLabel.setVisibility(View.VISIBLE);
+
+        // Set the label's text.
+        Context context = itemView.getContext();
+        String labelText = getLabelTypeText(context, attachments[0].type);
+        if (sensitive) {
+            String sensitiveText = context.getString(R.string.status_sensitive_media_title);
+            labelText += String.format(" (%s)", sensitiveText);
+        }
+        mediaLabel.setText(labelText);
+
+        // Set the icon next to the label.
+        int drawableId = getLabelIcon(attachments[0].type);
+        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+        ThemeUtils.setDrawableTint(context, drawable, android.R.attr.textColorTertiary);
+        mediaLabel.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+
+        // Set the listener for the media view action.
+        int n = Math.min(attachments.length, Status.MAX_MEDIA_ATTACHMENTS);
+        final String[] urls = new String[n];
+        for (int i = 0; i < n; i++) {
+            urls[i] = attachments[i].url;
+        }
+        final Status.MediaAttachment.Type type = attachments[0].type;
+        mediaLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onViewMedia(urls, 0, type);
+            }
+        });
     }
 
     private void hideSensitiveMediaWarning() {
@@ -302,20 +363,20 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
             }
         });
         reblogButton.setEventListener(new SparkEventListener() {
-                                          @Override
-                                          public void onEvent(ImageView button, boolean buttonState) {
-                                              int position = getAdapterPosition();
-                                              if (position != RecyclerView.NO_POSITION) {
-                                                  listener.onReblog(!reblogged, position);
-                                              }
-                                          }
+                @Override
+                public void onEvent(ImageView button, boolean buttonState) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onReblog(!reblogged, position);
+                    }
+                }
 
-                                          @Override
-                                          public void onEventAnimationEnd(ImageView button, boolean buttonState) {}
+                @Override
+                public void onEventAnimationEnd(ImageView button, boolean buttonState) {}
 
-                                          @Override
-                                          public void onEventAnimationStart(ImageView button, boolean buttonState) {}
-                                      });
+                @Override
+                public void onEventAnimationStart(ImageView button, boolean buttonState) {}
+        });
         favouriteButton.setEventListener(new SparkEventListener() {
             @Override
             public void onEvent(ImageView button, boolean buttonState) {
@@ -357,7 +418,8 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         container.setOnClickListener(viewThreadListener);
     }
 
-    void setupWithStatus(Status status, StatusActionListener listener) {
+    void setupWithStatus(Status status, StatusActionListener listener,
+            boolean mediaPreviewEnabled) {
         Status realStatus = status.getActionableStatus();
 
         setDisplayName(realStatus.account.getDisplayName());
@@ -375,12 +437,25 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         }
         Status.MediaAttachment[] attachments = realStatus.attachments;
         boolean sensitive = realStatus.sensitive;
-        setMediaPreviews(attachments, sensitive, listener);
-        /* A status without attachments is sometimes still marked sensitive, so it's necessary to
-         * check both whether there are any attachments and if it's marked sensitive. */
-        if (!sensitive || attachments.length == 0) {
+        if (mediaPreviewEnabled) {
+            setMediaPreviews(attachments, sensitive, listener);
+            /* A status without attachments is sometimes still marked sensitive, so it's necessary
+             * to check both whether there are any attachments and if it's marked sensitive. */
+            if (!sensitive || attachments.length == 0) {
+                hideSensitiveMediaWarning();
+            }
+            // Hide the unused label.
+            mediaLabel.setVisibility(View.GONE);
+        } else {
+            setMediaLabel(attachments, sensitive, listener);
+            // Hide all unused views.
+            mediaPreview0.setVisibility(View.GONE);
+            mediaPreview1.setVisibility(View.GONE);
+            mediaPreview2.setVisibility(View.GONE);
+            mediaPreview3.setVisibility(View.GONE);
             hideSensitiveMediaWarning();
         }
+
         setupButtons(listener, realStatus.account.id);
         setRebloggingEnabled(status.rebloggingAllowed());
         if (realStatus.spoilerText.isEmpty()) {

@@ -233,7 +233,15 @@
                 android:textAlignment="center"
                 android:text="@string/status_sensitive_media_directions"
                 android:textColor="@android:color/white" />
+
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/status_media_label"
+            android:visibility="gone" />
+
     </FrameLayout>
 
     <LinearLayout

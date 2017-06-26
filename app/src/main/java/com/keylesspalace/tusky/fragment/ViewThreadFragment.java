@@ -16,8 +16,10 @@
 package com.keylesspalace.tusky.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -89,6 +91,10 @@ public class ViewThreadFragment extends SFragment implements
         recyclerView.addItemDecoration(new ConversationLineItemDecoration(context,
                 ContextCompat.getDrawable(context, R.drawable.conversation_divider_dark)));
         adapter = new ThreadAdapter(this);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
+                getActivity());
+        boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
+        adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         recyclerView.setAdapter(adapter);
 
         mastodonApi = null;

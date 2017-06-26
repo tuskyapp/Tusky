@@ -14,6 +14,11 @@
             android:title="@string/pref_title_hide_follow_button"
             android:defaultValue="false" />
 
+        <CheckBoxPreference
+            android:key="mediaPreviewEnabled"
+            android:title="@string/pref_title_show_media_preview"
+            android:defaultValue="true" />
+
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_title_browser_settings">
         <CheckBoxPreference
