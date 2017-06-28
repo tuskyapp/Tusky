@@ -76,6 +76,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.keylesspalace.tusky.db.TootDao;
+import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
@@ -153,6 +155,9 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private int currentFlags;
     private Uri photoUploadUri;
 
+    private TootDao tootDao = TuskyApplication.getDB().tootDao();
+
+
     /**
      * The Target object must be stored as a member field or method and cannot be an anonymous class otherwise this won't work as expected. The reason is that Picasso accepts this parameter as a weak memory reference. Because anonymous classes are eligible for garbage collection when there are no more references, the network request to fetch the image may finish after this anonymous class has already been reclaimed. See this Stack Overflow discussion for more details.
      */
@@ -175,6 +180,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         hideMediaToggle = (ImageButton) findViewById(R.id.action_hide_media);
         visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
         postProgress = (ProgressBar) findViewById(R.id.postProgress);
+
+        getTheToot();
 
         // Setup the toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -444,7 +451,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private void doErrorDialog(@StringRes int descriptionId, @StringRes int actionId,
-            View.OnClickListener listener) {
+                               View.OnClickListener listener) {
         Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(descriptionId),
                 Snackbar.LENGTH_SHORT);
         bar.setAction(actionId, listener);
@@ -1206,6 +1213,51 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    public void onBackPressed() {
+        saveTheToot();
+        super.onBackPressed();
+    }
+
+    private void getTheToot() {
+        new AsyncTask<Void, Void, List<TootEntity>>() {
+            @Override
+            protected List<TootEntity> doInBackground(Void... params) {
+                return tootDao.loadAll();
+            }
+
+            @Override
+            protected void onPostExecute(List<TootEntity> tootEntities) {
+                super.onPostExecute(tootEntities);
+                for (TootEntity t : tootEntities) {
+                    Log.e("toot", "id=" + t.getUid() + "text=" + t.getText());
+                }
+            }
+        }.execute();
+    }
+
+    private void saveTheToot() {
+        final TootEntity toot = new TootEntity();
+        toot.setText(textEditor.getText().toString());
+        new AsyncTask<Void, Void, Long>() {
+            @Override
+            protected Long doInBackground(Void... params) {
+                long tootId = tootDao.insert(toot);
+                if(!mediaQueued.isEmpty()){
+
+                }
+                return -1L;
+            }
+
+            @Override
+            protected void onPostExecute(Long aLong) {
+                super.onPostExecute(aLong);
+
+            }
+        }.execute();
+    }
+
     @Override
     public void onReceiveHeaderInfo(ParserUtils.HeaderInfo headerInfo) {
         if (!TextUtils.isEmpty(headerInfo.title)) {
@@ -1352,7 +1404,9 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     private class MentionAutoCompleteAdapter extends ArrayAdapter<Account> implements Filterable {
         private ArrayList<Account> resultList;
-        private @LayoutRes int layoutId;
+        private
+        @LayoutRes
+        int layoutId;
 
         MentionAutoCompleteAdapter(Context context, @LayoutRes int resource) {
             super(context, resource);

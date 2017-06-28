@@ -16,13 +16,18 @@
 package com.keylesspalace.tusky;
 
 import android.app.Application;
+import android.arch.persistence.room.Room;
 import android.net.Uri;
 
+import com.jakewharton.picasso.OkHttp3Downloader;
+import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 import com.squareup.picasso.Picasso;
-import com.jakewharton.picasso.OkHttp3Downloader;
 
 public class TuskyApplication extends Application {
+
+    private static AppDatabase db;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -47,5 +52,12 @@ public class TuskyApplication extends Application {
         if (BuildConfig.DEBUG) {
             Picasso.with(this).setLoggingEnabled(true);
         }
+
+        db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "tuskyDB").build();
+    }
+
+    public static AppDatabase getDB() {
+        return db;
     }
 }
