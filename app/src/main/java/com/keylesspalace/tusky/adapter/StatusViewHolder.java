@@ -425,8 +425,8 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         container.setOnClickListener(viewThreadListener);
     }
 
-    void setupWithStatus(Status status, StatusActionListener listener,
-            boolean mediaPreviewEnabled) {
+    void setupWithStatus(Status status, final StatusActionListener listener,
+                         boolean mediaPreviewEnabled) {
         Status realStatus = status.getActionableStatus();
 
         setDisplayName(realStatus.account.getDisplayName());
@@ -474,5 +474,15 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         } else {
             setSpoilerText(realStatus.spoilerText);
         }
+
+        // I think it's not efficient to create new object every time we bind a holder.
+        // More efficient approach would be creating View.OnClickListener during holder creation
+        // and storing StatusActionListener in a variable after binding.
+        rebloggedBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onOpenReblog(getAdapterPosition());
+            }
+        });
     }
 }
