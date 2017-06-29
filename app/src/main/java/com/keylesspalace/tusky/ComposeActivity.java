@@ -76,8 +76,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.keylesspalace.tusky.db.TootDao;
-import com.keylesspalace.tusky.db.TootEntity;
+import com.keylesspalace.tusky.db.TootAction;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
@@ -155,7 +154,6 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private int currentFlags;
     private Uri photoUploadUri;
 
-    private TootDao tootDao = TuskyApplication.getDB().tootDao();
 
 
     /**
@@ -181,7 +179,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
         postProgress = (ProgressBar) findViewById(R.id.postProgress);
 
-        getTheToot();
+        TootAction.getAllToot();
 
         // Setup the toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -1216,47 +1214,11 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     @Override
     public void onBackPressed() {
-        saveTheToot();
+        TootAction.saveTheToot(textEditor.getText().toString());
         super.onBackPressed();
     }
 
-    private void getTheToot() {
-        new AsyncTask<Void, Void, List<TootEntity>>() {
-            @Override
-            protected List<TootEntity> doInBackground(Void... params) {
-                return tootDao.loadAll();
-            }
 
-            @Override
-            protected void onPostExecute(List<TootEntity> tootEntities) {
-                super.onPostExecute(tootEntities);
-                for (TootEntity t : tootEntities) {
-                    Log.e("toot", "id=" + t.getUid() + "text=" + t.getText());
-                }
-            }
-        }.execute();
-    }
-
-    private void saveTheToot() {
-        final TootEntity toot = new TootEntity();
-        toot.setText(textEditor.getText().toString());
-        new AsyncTask<Void, Void, Long>() {
-            @Override
-            protected Long doInBackground(Void... params) {
-                long tootId = tootDao.insert(toot);
-                if(!mediaQueued.isEmpty()){
-
-                }
-                return -1L;
-            }
-
-            @Override
-            protected void onPostExecute(Long aLong) {
-                super.onPostExecute(aLong);
-
-            }
-        }.execute();
-    }
 
     @Override
     public void onReceiveHeaderInfo(ParserUtils.HeaderInfo headerInfo) {

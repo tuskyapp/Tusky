@@ -5,7 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
 /**
- * Created by cto3543 on 28/06/2017.
+ * toot model
  */
 
 @Entity
@@ -16,7 +16,7 @@ public class TootEntity {
     @ColumnInfo(name = "text")
     private String text;
 
-    // set get
+    // getter setter
     public String getText() {
         return text;
     }

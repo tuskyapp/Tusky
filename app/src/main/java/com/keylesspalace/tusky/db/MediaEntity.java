@@ -2,17 +2,46 @@ package com.keylesspalace.tusky.db;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
 /**
- * Created by cto3543 on 28/06/2017.
+ * Media model
  */
 
-@Entity
+@Entity(foreignKeys = @ForeignKey(entity = TootEntity.class,
+        parentColumns = "uid",
+        childColumns = "toot_id"))
 public class MediaEntity {
-    @PrimaryKey
+    @ColumnInfo(name = "toot_id")
+    private int toot_id;
+    @PrimaryKey(autoGenerate = true)
     private int uid;
-
     @ColumnInfo(name = "url")
-    private String text;
+    private String url;
+
+    // getter setter
+    public int getToot_id() {
+        return toot_id;
+    }
+
+    public void setToot_id(int toot_id) {
+        this.toot_id = toot_id;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }
