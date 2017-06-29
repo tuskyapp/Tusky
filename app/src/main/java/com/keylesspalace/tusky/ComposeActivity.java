@@ -75,8 +75,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.keylesspalace.tusky.db.TootAction;
+import com.keylesspalace.tusky.db.TootDao;
+import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
@@ -128,6 +130,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private static final int COMPOSE_SUCCESS = -1;
     private static final int THUMBNAIL_SIZE = 128; // pixels
+    private static TootDao tootDao = TuskyApplication.getDB().tootDao();
 
     private EditTextTyped textEditor;
     private LinearLayout mediaPreviewBar;
@@ -155,7 +158,6 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private Uri photoUploadUri;
 
 
-
     /**
      * The Target object must be stored as a member field or method and cannot be an anonymous class otherwise this won't work as expected. The reason is that Picasso accepts this parameter as a weak memory reference. Because anonymous classes are eligible for garbage collection when there are no more references, the network request to fetch the image may finish after this anonymous class has already been reclaimed. See this Stack Overflow discussion for more details.
      */
@@ -179,8 +181,6 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
         postProgress = (ProgressBar) findViewById(R.id.postProgress);
 
-        TootAction.getAllToot();
-
         // Setup the toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -199,6 +199,16 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             @Override
             public void onClick(View v) {
                 onSendClicked();
+            }
+        });
+        floatingBtn.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                boolean b = saveTheToot(textEditor.getText().toString());
+                if (b) {
+                    Toast.makeText(ComposeActivity.this, "Toot saved !", Toast.LENGTH_SHORT).show();
+                }
+                return b;
             }
         });
         pickBtn.setOnClickListener(new View.OnClickListener() {
@@ -497,6 +507,23 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         if (lock != null) {
             lock.setBounds(0, 0, lock.getIntrinsicWidth(), lock.getIntrinsicHeight());
             floatingBtn.setCompoundDrawables(null, null, lock, null);
+        }
+    }
+
+    public boolean saveTheToot(String s) {
+        if (TextUtils.isEmpty(s)) {
+            return false;
+        } else {
+            final TootEntity toot = new TootEntity();
+            toot.setText(s);
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    tootDao.insert(toot);
+                    return null;
+                }
+            }.execute();
+            return true;
         }
     }
 
@@ -1214,10 +1241,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     @Override
     public void onBackPressed() {
-        TootAction.saveTheToot(textEditor.getText().toString());
         super.onBackPressed();
     }
-
 
 
     @Override
