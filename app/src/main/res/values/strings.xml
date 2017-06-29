@@ -101,6 +101,7 @@
     <string name="action_accept">Accept</string>
     <string name="action_reject">Reject</string>
     <string name="action_search">Search</string>
+    <string name="action_access_saved_toot">Saved Toot</string>
 
     <string name="send_status_link_to">Share toot URL to…</string>
     <string name="send_status_content_to">Share toot to…</string>
@@ -194,4 +195,7 @@
     <string name="status_media_video">Video</string>
 
     <string name="state_follow_requested">Follow requested</string>
+
+    <string name="combine_s1_s2">%1$s %2$s</string>
+
 </resources>
