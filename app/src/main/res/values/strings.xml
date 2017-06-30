@@ -115,7 +115,7 @@
     <string name="hint_content_warning">Content warning</string>
     <string name="hint_display_name">Display name</string>
     <string name="hint_note">Bio</string>
-    <string name="hint_search">Search accounts and tags…</string>
+    <string name="hint_search">Search…</string>
 
     <string name="search_no_results">No results</string>
 

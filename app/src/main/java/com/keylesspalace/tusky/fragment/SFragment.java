@@ -57,10 +57,11 @@ import retrofit2.Response;
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
 public abstract class SFragment extends BaseFragment {
+    protected static final int COMPOSE_RESULT = 1;
+
     protected String loggedInAccountId;
     protected String loggedInUsername;
-    protected MastodonApi mastodonAPI;
-    protected static int COMPOSE_RESULT = 1;
+    protected MastodonApi mastodonApi;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,7 +76,13 @@ public abstract class SFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         BaseActivity activity = (BaseActivity) getActivity();
-        mastodonAPI = activity.mastodonApi;
+        mastodonApi = activity.mastodonApi;
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     protected void reply(Status status) {
@@ -122,9 +129,9 @@ public abstract class SFragment extends BaseFragment {
 
         Call<Status> call;
         if (reblog) {
-            call = mastodonAPI.reblogStatus(id);
+            call = mastodonApi.reblogStatus(id);
         } else {
-            call = mastodonAPI.unreblogStatus(id);
+            call = mastodonApi.unreblogStatus(id);
         }
         call.enqueue(cb);
         callList.add(call);
@@ -154,16 +161,16 @@ public abstract class SFragment extends BaseFragment {
 
         Call<Status> call;
         if (favourite) {
-            call = mastodonAPI.favouriteStatus(id);
+            call = mastodonApi.favouriteStatus(id);
         } else {
-            call = mastodonAPI.unfavouriteStatus(id);
+            call = mastodonApi.unfavouriteStatus(id);
         }
         call.enqueue(cb);
         callList.add(call);
     }
 
     private void mute(String id) {
-        Call<Relationship> call = mastodonAPI.muteAccount(id);
+        Call<Relationship> call = mastodonApi.muteAccount(id);
         call.enqueue(new Callback<Relationship>() {
             @Override
             public void onResponse(Call<Relationship> call, Response<Relationship> response) {}
@@ -179,7 +186,7 @@ public abstract class SFragment extends BaseFragment {
     }
 
     private void block(String id) {
-        Call<Relationship> call = mastodonAPI.blockAccount(id);
+        Call<Relationship> call = mastodonApi.blockAccount(id);
         call.enqueue(new Callback<Relationship>() {
             @Override
             public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {}
@@ -195,7 +202,7 @@ public abstract class SFragment extends BaseFragment {
     }
 
     private void delete(String id) {
-        Call<ResponseBody> call = mastodonAPI.deleteStatus(id);
+        Call<ResponseBody> call = mastodonApi.deleteStatus(id);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {}
@@ -313,14 +320,8 @@ public abstract class SFragment extends BaseFragment {
         startActivity(intent);
     }
 
-    @Override
-    public void startActivity(Intent intent) {
-        super.startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-    }
-
     protected void openReportPage(String accountId, String accountUsername, String statusId,
-                                  Spanned statusContent) {
+            Spanned statusContent) {
         Intent intent = new Intent(getContext(), ReportActivity.class);
         intent.putExtra("account_id", accountId);
         intent.putExtra("account_username", accountUsername);

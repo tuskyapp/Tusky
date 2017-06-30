@@ -43,6 +43,7 @@ import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.util.HttpHeaderLink;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 
@@ -71,6 +72,10 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
     private AccountAdapter adapter;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private MastodonApi api;
+    private boolean bottomLoading;
+    private int bottomFetches;
+    private boolean topLoading;
+    private int topFetches;
 
     public static AccountListFragment newInstance(Type type) {
         Bundle arguments = new Bundle();
@@ -160,13 +165,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         scrollListener = new EndlessOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                AccountAdapter adapter = (AccountAdapter) view.getAdapter();
-                Account account = adapter.getItem(adapter.getItemCount() - 2);
-                if (account != null) {
-                    fetchAccounts(account.id, null);
-                } else {
-                    fetchAccounts();
-                }
+                AccountListFragment.this.onLoadMore(view);
             }
         };
         recyclerView.addOnScrollListener(scrollListener);
@@ -179,78 +178,6 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
             tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
         }
         super.onDestroyView();
-    }
-
-    private void fetchAccounts(final String fromId, String uptoId) {
-        Callback<List<Account>> cb = new Callback<List<Account>>() {
-            @Override
-            public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
-                if (response.isSuccessful()) {
-                    onFetchAccountsSuccess(response.body(), fromId);
-                } else {
-                    onFetchAccountsFailure(new Exception(response.message()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Account>> call, Throwable t) {
-                onFetchAccountsFailure((Exception) t);
-            }
-        };
-
-        Call<List<Account>> listCall;
-        switch (type) {
-            default:
-            case FOLLOWS: {
-                listCall = api.accountFollowing(accountId, fromId, uptoId, null);
-                break;
-            }
-            case FOLLOWERS: {
-                listCall = api.accountFollowers(accountId, fromId, uptoId, null);
-                break;
-            }
-            case BLOCKS: {
-                listCall = api.blocks(fromId, uptoId, null);
-                break;
-            }
-            case MUTES: {
-                listCall = api.mutes(fromId, uptoId, null);
-                break;
-            }
-            case FOLLOW_REQUESTS: {
-                listCall = api.followRequests(fromId, uptoId, null);
-                break;
-            }
-        }
-        callList.add(listCall);
-        listCall.enqueue(cb);
-    }
-
-    private void fetchAccounts() {
-        fetchAccounts(null, null);
-    }
-
-    private static boolean findAccount(List<Account> accounts, String id) {
-        for (Account account : accounts) {
-            if (account.id.equals(id)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void onFetchAccountsSuccess(List<Account> accounts, String fromId) {
-        if (fromId != null) {
-            if (accounts.size() > 0 && !findAccount(accounts, fromId)) {
-                adapter.addItems(accounts);
-            }
-        } else {
-            adapter.update(accounts);
-        }
-    }
-
-    private void onFetchAccountsFailure(Exception exception) {
-        Log.e(TAG, "Fetch failure: " + exception.getMessage());
     }
 
     @Override
@@ -443,5 +370,127 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
     private void jumpToTop() {
         layoutManager.scrollToPositionWithOffset(0, 0);
         scrollListener.reset();
+    }
+
+    private enum FetchEnd {
+        TOP,
+        BOTTOM
+    }
+
+    private Call<List<Account>> getFetchCallByListType(Type type, String fromId, String uptoId) {
+        switch (type) {
+            default:
+            case FOLLOWS:         return api.accountFollowing(accountId, fromId, uptoId, null);
+            case FOLLOWERS:       return api.accountFollowers(accountId, fromId, uptoId, null);
+            case BLOCKS:          return api.blocks(fromId, uptoId, null);
+            case MUTES:           return api.mutes(fromId, uptoId, null);
+            case FOLLOW_REQUESTS: return api.followRequests(fromId, uptoId, null);
+        }
+    }
+
+    private void fetchAccounts(String fromId, String uptoId, final FetchEnd fetchEnd) {
+        /* If there is a fetch already ongoing, record however many fetches are requested and
+         * fulfill them after it's complete. */
+        if (fetchEnd == FetchEnd.TOP && topLoading) {
+            topFetches++;
+            return;
+        }
+        if (fetchEnd == FetchEnd.BOTTOM && bottomLoading) {
+            bottomFetches++;
+            return;
+        }
+        Callback<List<Account>> cb = new Callback<List<Account>>() {
+            @Override
+            public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
+                if (response.isSuccessful()) {
+                    String linkHeader = response.headers().get("Link");
+                    onFetchAccountsSuccess(response.body(), linkHeader, fetchEnd);
+                } else {
+                    onFetchAccountsFailure(new Exception(response.message()), fetchEnd);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Account>> call, Throwable t) {
+                onFetchAccountsFailure((Exception) t, fetchEnd);
+            }
+        };
+        Call<List<Account>> listCall = getFetchCallByListType(type, fromId, uptoId);
+        callList.add(listCall);
+        listCall.enqueue(cb);
+    }
+
+    private void onFetchAccountsSuccess(List<Account> accounts, String linkHeader,
+            FetchEnd fetchEnd) {
+        List<HttpHeaderLink> links = HttpHeaderLink.parse(linkHeader);
+        switch (fetchEnd) {
+            case TOP: {
+                HttpHeaderLink previous = HttpHeaderLink.findByRelationType(links, "prev");
+                String uptoId = null;
+                if (previous != null) {
+                    uptoId = previous.uri.getQueryParameter("since_id");
+                }
+                adapter.update(accounts, null, uptoId);
+                break;
+            }
+            case BOTTOM: {
+                HttpHeaderLink next = HttpHeaderLink.findByRelationType(links, "next");
+                String fromId = null;
+                if (next != null) {
+                    fromId = next.uri.getQueryParameter("max_id");
+                }
+                if (adapter.getItemCount() > 1) {
+                    adapter.addItems(accounts, fromId);
+                } else {
+                    /* If this is the first fetch, also save the id from the "previous" link and
+                     * treat this operation as a refresh so the scroll position doesn't get pushed
+                     * down to the end. */
+                    HttpHeaderLink previous = HttpHeaderLink.findByRelationType(links, "prev");
+                    String uptoId = null;
+                    if (previous != null) {
+                        uptoId = previous.uri.getQueryParameter("since_id");
+                    }
+                    adapter.update(accounts, fromId, uptoId);
+                }
+                break;
+            }
+        }
+        fulfillAnyQueuedFetches(fetchEnd);
+    }
+
+    private void onFetchAccountsFailure(Exception exception, FetchEnd fetchEnd) {
+        Log.e(TAG, "Fetch failure: " + exception.getMessage());
+        fulfillAnyQueuedFetches(fetchEnd);
+    }
+
+    private void onRefresh() {
+        fetchAccounts(null, adapter.getTopId(), FetchEnd.TOP);
+    }
+
+    private void onLoadMore(RecyclerView recyclerView) {
+        AccountAdapter adapter = (AccountAdapter) recyclerView.getAdapter();
+        fetchAccounts(adapter.getBottomId(), null, FetchEnd.BOTTOM);
+    }
+
+    private void fulfillAnyQueuedFetches(FetchEnd fetchEnd) {
+        switch (fetchEnd) {
+            case BOTTOM: {
+                bottomLoading = false;
+                if (bottomFetches > 0) {
+                    bottomFetches--;
+                    Log.d(TAG, "extra fetchos " + bottomFetches);
+                    onLoadMore(recyclerView);
+                }
+                break;
+            }
+            case TOP: {
+                topLoading = false;
+                if (topFetches > 0) {
+                    topFetches--;
+                    onRefresh();
+                }
+                break;
+            }
+        }
     }
 }

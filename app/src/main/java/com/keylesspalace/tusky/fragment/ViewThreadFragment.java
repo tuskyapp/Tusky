@@ -35,10 +35,8 @@ import android.view.ViewGroup;
 
 
 import com.keylesspalace.tusky.adapter.ThreadAdapter;
-import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
-import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
@@ -56,7 +54,6 @@ public class ViewThreadFragment extends SFragment implements
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private ThreadAdapter adapter;
-    private MastodonApi mastodonApi;
     private String thisThreadsStatusId;
     private TimelineReceiver timelineReceiver;
 
@@ -97,7 +94,6 @@ public class ViewThreadFragment extends SFragment implements
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         recyclerView.setAdapter(adapter);
 
-        mastodonApi = null;
         thisThreadsStatusId = null;
 
         timelineReceiver = new TimelineReceiver(adapter, this);
@@ -117,75 +113,8 @@ public class ViewThreadFragment extends SFragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        /* BaseActivity's MastodonApi object isn't guaranteed to be valid until after its onCreate
-         * is run, so all calls that need it can't be done until here. */
-        mastodonApi = ((BaseActivity) getActivity()).mastodonApi;
-
         thisThreadsStatusId = getArguments().getString("id");
         onRefresh();
-    }
-
-    private void sendStatusRequest(final String id) {
-        Call<Status> call = mastodonApi.status(id);
-        call.enqueue(new Callback<Status>() {
-            @Override
-            public void onResponse(Call<Status> call, Response<Status> response) {
-                if (response.isSuccessful()) {
-                    int position = adapter.setStatus(response.body());
-                    recyclerView.scrollToPosition(position);
-                } else {
-                    onThreadRequestFailure(id);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Status> call, Throwable t) {
-                onThreadRequestFailure(id);
-            }
-        });
-        callList.add(call);
-    }
-
-    private void sendThreadRequest(final String id) {
-        Call<StatusContext> call = mastodonApi.statusContext(id);
-        call.enqueue(new Callback<StatusContext>() {
-            @Override
-            public void onResponse(Call<StatusContext> call, Response<StatusContext> response) {
-                if (response.isSuccessful()) {
-                    swipeRefreshLayout.setRefreshing(false);
-                    StatusContext context = response.body();
-
-                    adapter.setContext(context.ancestors, context.descendants);
-                } else {
-                    onThreadRequestFailure(id);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<StatusContext> call, Throwable t) {
-                onThreadRequestFailure(id);
-            }
-        });
-        callList.add(call);
-    }
-
-    private void onThreadRequestFailure(final String id) {
-        View view = getView();
-        swipeRefreshLayout.setRefreshing(false);
-        if (view != null) {
-            Snackbar.make(view, R.string.error_generic, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.action_retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            sendThreadRequest(id);
-                            sendStatusRequest(id);
-                        }
-                    })
-                    .show();
-        } else {
-            Log.e(TAG, "Couldn't display thread fetch error message");
-        }
     }
 
     @Override
@@ -237,5 +166,66 @@ public class ViewThreadFragment extends SFragment implements
     @Override
     public void onViewAccount(String id) {
         super.viewAccount(id);
+    }
+
+    private void sendStatusRequest(final String id) {
+        Call<Status> call = mastodonApi.status(id);
+        call.enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+                if (response.isSuccessful()) {
+                    int position = adapter.setStatus(response.body());
+                    recyclerView.scrollToPosition(position);
+                } else {
+                    onThreadRequestFailure(id);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+                onThreadRequestFailure(id);
+            }
+        });
+        callList.add(call);
+    }
+
+    private void sendThreadRequest(final String id) {
+        Call<StatusContext> call = mastodonApi.statusContext(id);
+        call.enqueue(new Callback<StatusContext>() {
+            @Override
+            public void onResponse(Call<StatusContext> call, Response<StatusContext> response) {
+                if (response.isSuccessful()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    StatusContext context = response.body();
+                    adapter.setContext(context.ancestors, context.descendants);
+                } else {
+                    onThreadRequestFailure(id);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StatusContext> call, Throwable t) {
+                onThreadRequestFailure(id);
+            }
+        });
+        callList.add(call);
+    }
+
+    private void onThreadRequestFailure(final String id) {
+        View view = getView();
+        swipeRefreshLayout.setRefreshing(false);
+        if (view != null) {
+            Snackbar.make(view, R.string.error_generic, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.action_retry, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            sendThreadRequest(id);
+                            sendStatusRequest(id);
+                        }
+                    })
+                    .show();
+        } else {
+            Log.e(TAG, "Couldn't display thread fetch error message");
+        }
     }
 }

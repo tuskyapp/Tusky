@@ -40,6 +40,7 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
+import com.keylesspalace.tusky.util.HttpHeaderLink;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 
@@ -55,15 +56,23 @@ public class NotificationsFragment extends SFragment implements
         SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "Notifications"; // logging tag
 
+    private enum FetchEnd {
+        TOP,
+        BOTTOM,
+    }
+
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private EndlessOnScrollListener scrollListener;
     private NotificationsAdapter adapter;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
-    private Call<List<Notification>> listCall;
     private boolean hideFab;
     private TimelineReceiver timelineReceiver;
+    private boolean topLoading;
+    private int topFetches;
+    private boolean bottomLoading;
+    private int bottomFetches;
 
     public static NotificationsFragment newInstance() {
         NotificationsFragment fragment = new NotificationsFragment();
@@ -157,25 +166,11 @@ public class NotificationsFragment extends SFragment implements
 
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                NotificationsAdapter adapter = (NotificationsAdapter) view.getAdapter();
-                Notification notification = adapter.getItem(adapter.getItemCount() - 2);
-                if (notification != null) {
-                    sendFetchNotificationsRequest(notification.id, null);
-                } else {
-                    sendFetchNotificationsRequest();
-                }
+                NotificationsFragment.this.onLoadMore(view);
             }
         };
 
         recyclerView.addOnScrollListener(scrollListener);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (listCall != null) {
-            listCall.cancel();
-        }
     }
 
     @Override
@@ -189,88 +184,9 @@ public class NotificationsFragment extends SFragment implements
         super.onDestroyView();
     }
 
-    private void jumpToTop() {
-        layoutManager.scrollToPosition(0);
-        scrollListener.reset();
-    }
-
-    private void sendFetchNotificationsRequest(final String fromId, String uptoId) {
-        if (fromId != null || adapter.getItemCount() <= 1) {
-            adapter.setFooterState(NotificationsAdapter.FooterState.LOADING);
-        }
-
-        listCall = mastodonAPI.notifications(fromId, uptoId, null);
-
-        listCall.enqueue(new Callback<List<Notification>>() {
-            @Override
-            public void onResponse(Call<List<Notification>> call,
-                    Response<List<Notification>> response) {
-                if (response.isSuccessful()) {
-                    onFetchNotificationsSuccess(response.body(), fromId);
-                } else {
-                    onFetchNotificationsFailure(new Exception(response.message()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Notification>> call, Throwable t) {
-                onFetchNotificationsFailure((Exception) t);
-            }
-        });
-        callList.add(listCall);
-    }
-
-    private void sendFetchNotificationsRequest() {
-        sendFetchNotificationsRequest(null, null);
-    }
-
-    private static boolean findNotification(List<Notification> notifications, String id) {
-        for (Notification notification : notifications) {
-            if (notification.id.equals(id)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void onFetchNotificationsSuccess(List<Notification> notifications, String fromId) {
-        if (fromId != null) {
-            if (notifications.size() > 0 && !findNotification(notifications, fromId)) {
-                adapter.addItems(notifications);
-
-                // Set last update id for pull notifications so that we don't get notified
-                // about things we already loaded here
-                SharedPreferences preferences = getActivity()
-                        .getSharedPreferences(getString(R.string.preferences_file_key),
-                                Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("lastUpdateId", notifications.get(0).id);
-                editor.apply();
-            }
-        } else {
-            adapter.update(notifications);
-        }
-        if (notifications.size() == 0 && adapter.getItemCount() == 1) {
-            adapter.setFooterState(NotificationsAdapter.FooterState.EMPTY);
-        } else if (fromId != null) {
-            adapter.setFooterState(NotificationsAdapter.FooterState.END);
-        }
-        swipeRefreshLayout.setRefreshing(false);
-    }
-
-    private void onFetchNotificationsFailure(Exception exception) {
-        swipeRefreshLayout.setRefreshing(false);
-        Log.e(TAG, "Fetch failure: " + exception.getMessage());
-    }
-
     @Override
     public void onRefresh() {
-        Notification notification = adapter.getItem(0);
-        if (notification != null) {
-            sendFetchNotificationsRequest(null, notification.id);
-        } else {
-            sendFetchNotificationsRequest();
-        }
+        sendFetchNotificationsRequest(null, adapter.getTopId(), FetchEnd.TOP);
     }
 
     @Override
@@ -334,8 +250,133 @@ public class NotificationsFragment extends SFragment implements
         }
     }
 
+    private void onLoadMore(RecyclerView view) {
+        NotificationsAdapter adapter = (NotificationsAdapter) view.getAdapter();
+        sendFetchNotificationsRequest(adapter.getBottomId(), null, FetchEnd.BOTTOM);
+    }
+
+    private void jumpToTop() {
+        layoutManager.scrollToPosition(0);
+        scrollListener.reset();
+    }
+
+    private void sendFetchNotificationsRequest(String fromId, String uptoId,
+            final FetchEnd fetchEnd) {
+        /* If there is a fetch already ongoing, record however many fetches are requested and
+         * fulfill them after it's complete. */
+        if (fetchEnd == FetchEnd.TOP && topLoading) {
+            topFetches++;
+            return;
+        }
+        if (fetchEnd == FetchEnd.BOTTOM && bottomLoading) {
+            bottomFetches++;
+            return;
+        }
+
+        if (fromId != null || adapter.getItemCount() <= 1) {
+            adapter.setFooterState(NotificationsAdapter.FooterState.LOADING);
+        }
+
+        Call<List<Notification>> call = mastodonApi.notifications(fromId, uptoId, null);
+
+        call.enqueue(new Callback<List<Notification>>() {
+            @Override
+            public void onResponse(Call<List<Notification>> call,
+                    Response<List<Notification>> response) {
+                if (response.isSuccessful()) {
+                    String linkHeader = response.headers().get("Link");
+                    onFetchNotificationsSuccess(response.body(), linkHeader, fetchEnd);
+                } else {
+                    onFetchNotificationsFailure(new Exception(response.message()), fetchEnd);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Notification>> call, Throwable t) {
+                onFetchNotificationsFailure((Exception) t, fetchEnd);
+            }
+        });
+        callList.add(call);
+    }
+
+    private void onFetchNotificationsSuccess(List<Notification> notifications, String linkHeader,
+            FetchEnd fetchEnd) {
+        List<HttpHeaderLink> links = HttpHeaderLink.parse(linkHeader);
+        switch (fetchEnd) {
+            case TOP: {
+                HttpHeaderLink previous = HttpHeaderLink.findByRelationType(links, "prev");
+                String uptoId = null;
+                if (previous != null) {
+                    uptoId = previous.uri.getQueryParameter("since_id");
+                }
+                adapter.update(notifications, null, uptoId);
+                break;
+            }
+            case BOTTOM: {
+                HttpHeaderLink next = HttpHeaderLink.findByRelationType(links, "next");
+                String fromId = null;
+                if (next != null) {
+                    fromId = next.uri.getQueryParameter("max_id");
+                }
+                if (adapter.getItemCount() > 1) {
+                    adapter.addItems(notifications, fromId);
+                } else {
+                    /* If this is the first fetch, also save the id from the "previous" link and
+                     * treat this operation as a refresh so the scroll position doesn't get pushed
+                     * down to the end. */
+                    HttpHeaderLink previous = HttpHeaderLink.findByRelationType(links, "prev");
+                    String uptoId = null;
+                    if (previous != null) {
+                        uptoId = previous.uri.getQueryParameter("since_id");
+                    }
+                    adapter.update(notifications, fromId, uptoId);
+                }
+                /* Set last update id for pull notifications so that we don't get notified
+                 * about things we already loaded here */
+                getPrivatePreferences().edit()
+                        .putString("lastUpdateId", fromId)
+                        .apply();
+                break;
+            }
+        }
+        fulfillAnyQueuedFetches(fetchEnd);
+        if (notifications.size() == 0 && adapter.getItemCount() == 1) {
+            adapter.setFooterState(NotificationsAdapter.FooterState.EMPTY);
+        } else {
+            adapter.setFooterState(NotificationsAdapter.FooterState.END);
+        }
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    private void onFetchNotificationsFailure(Exception exception, FetchEnd fetchEnd) {
+        swipeRefreshLayout.setRefreshing(false);
+        Log.e(TAG, "Fetch failure: " + exception.getMessage());
+        fulfillAnyQueuedFetches(fetchEnd);
+    }
+
+    private void fulfillAnyQueuedFetches(FetchEnd fetchEnd) {
+        switch (fetchEnd) {
+            case BOTTOM: {
+                bottomLoading = false;
+                if (bottomFetches > 0) {
+                    bottomFetches--;
+                    onLoadMore(recyclerView);
+                }
+                break;
+            }
+            case TOP: {
+                topLoading = false;
+                if (topFetches > 0) {
+                    topFetches--;
+                    onRefresh();
+                }
+                break;
+            }
+        }
+    }
+
     private void fullyRefresh() {
         adapter.clear();
-        sendFetchNotificationsRequest(null, null);
+        sendFetchNotificationsRequest(null, null, FetchEnd.TOP);
     }
 }

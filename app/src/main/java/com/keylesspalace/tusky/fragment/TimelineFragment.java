@@ -38,7 +38,9 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
+import com.keylesspalace.tusky.util.HttpHeaderLink;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 
@@ -64,6 +66,11 @@ public class TimelineFragment extends SFragment implements
         FAVOURITES
     }
 
+    private enum FetchEnd {
+        TOP,
+        BOTTOM,
+    }
+
     private SwipeRefreshLayout swipeRefreshLayout;
     private TimelineAdapter adapter;
     private Kind kind;
@@ -72,11 +79,14 @@ public class TimelineFragment extends SFragment implements
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
-    private SharedPreferences preferences;
     private boolean filterRemoveReplies;
     private boolean filterRemoveReblogs;
     private boolean hideFab;
     private TimelineReceiver timelineReceiver;
+    private boolean topLoading;
+    private int topFetches;
+    private boolean bottomLoading;
+    private int bottomFetches;
 
     public static TimelineFragment newInstance(Kind kind) {
         TimelineFragment fragment = new TimelineFragment();
@@ -198,8 +208,6 @@ public class TimelineFragment extends SFragment implements
             };
         }
         recyclerView.addOnScrollListener(scrollListener);
-
-        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
     @Override
@@ -213,19 +221,8 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        setFiltersFromSettings();
-    }
-
-    @Override
     public void onRefresh() {
-        Status status = adapter.getItem(0);
-        if (status != null) {
-            sendFetchTimelineRequest(null, status.id);
-        } else {
-            sendFetchTimelineRequest(null, null);
-        }
+        sendFetchTimelineRequest(null, adapter.getTopId(), FetchEnd.TOP);
     }
 
     @Override
@@ -290,22 +287,35 @@ public class TimelineFragment extends SFragment implements
                 fullyRefresh();
                 break;
             }
+            case "tabFilterHomeReplies": {
+                boolean filter = sharedPreferences.getBoolean("tabFilterHomeReplies", true);
+                boolean oldRemoveReplies = filterRemoveReplies;
+                filterRemoveReplies = kind == Kind.HOME && !filter;
+                if (adapter.getItemCount() > 1 && oldRemoveReplies != filterRemoveReplies) {
+                    fullyRefresh();
+                }
+                break;
+            }
+            case "tabFilterHomeBoosts": {
+                boolean filter = sharedPreferences.getBoolean("tabFilterHomeBoosts", true);
+                boolean oldRemoveReblogs = filterRemoveReblogs;
+                filterRemoveReblogs = kind == Kind.HOME && !filter;
+                if (adapter.getItemCount() > 1 && oldRemoveReblogs != filterRemoveReblogs) {
+                    fullyRefresh();
+                }
+                break;
+            }
         }
     }
 
     private void onLoadMore(RecyclerView view) {
         TimelineAdapter adapter = (TimelineAdapter) view.getAdapter();
-        Status status = adapter.getItem(adapter.getItemCount() - 2);
-        if (status != null) {
-            sendFetchTimelineRequest(status.id, null);
-        } else {
-            sendFetchTimelineRequest(null, null);
-        }
+        sendFetchTimelineRequest(adapter.getBottomId(), null, FetchEnd.BOTTOM);
     }
 
     private void fullyRefresh() {
         adapter.clear();
-        sendFetchTimelineRequest(null, null);
+        sendFetchTimelineRequest(null, null, FetchEnd.TOP);
     }
 
     private boolean jumpToTopAllowed() {
@@ -321,7 +331,33 @@ public class TimelineFragment extends SFragment implements
         scrollListener.reset();
     }
 
-    private void sendFetchTimelineRequest(@Nullable final String fromId, @Nullable String uptoId) {
+    private Call<List<Status>> getFetchCallByTimelineType(Kind kind, String tagOrId, String fromId,
+            String uptoId) {
+        MastodonApi api = mastodonApi;
+        switch (kind) {
+            default:
+            case HOME:             return api.homeTimeline(fromId, uptoId, null);
+            case PUBLIC_FEDERATED: return api.publicTimeline(null, fromId, uptoId, null);
+            case PUBLIC_LOCAL:     return api.publicTimeline(true, fromId, uptoId, null);
+            case TAG:              return api.hashtagTimeline(tagOrId, null, fromId, uptoId, null);
+            case USER:             return api.accountStatuses(tagOrId, fromId, uptoId, null);
+            case FAVOURITES:       return api.favourites(fromId, uptoId, null);
+        }
+    }
+
+    private void sendFetchTimelineRequest(@Nullable String fromId, @Nullable String uptoId,
+            final FetchEnd fetchEnd) {
+        /* If there is a fetch already ongoing, record however many fetches are requested and
+         * fulfill them after it's complete. */
+        if (fetchEnd == FetchEnd.TOP && topLoading) {
+            topFetches++;
+            return;
+        }
+        if (fetchEnd == FetchEnd.BOTTOM && bottomLoading) {
+            bottomFetches++;
+            return;
+        }
+
         if (fromId != null || adapter.getItemCount() <= 1) {
             adapter.setFooterState(TimelineAdapter.FooterState.LOADING);
         }
@@ -330,99 +366,104 @@ public class TimelineFragment extends SFragment implements
             @Override
             public void onResponse(Call<List<Status>> call, Response<List<Status>> response) {
                 if (response.isSuccessful()) {
-                    onFetchTimelineSuccess(response.body(), fromId);
+                    String linkHeader = response.headers().get("Link");
+                    onFetchTimelineSuccess(response.body(), linkHeader, fetchEnd);
                 } else {
-                    onFetchTimelineFailure(new Exception(response.message()));
+                    onFetchTimelineFailure(new Exception(response.message()), fetchEnd);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Status>> call, Throwable t) {
-                onFetchTimelineFailure((Exception) t);
+                onFetchTimelineFailure((Exception) t, fetchEnd);
             }
         };
 
-        Call<List<Status>> listCall;
-        switch (kind) {
-            default:
-            case HOME: {
-                listCall = mastodonAPI.homeTimeline(fromId, uptoId, null);
-                break;
-            }
-            case PUBLIC_FEDERATED: {
-                listCall = mastodonAPI.publicTimeline(null, fromId, uptoId, null);
-                break;
-            }
-            case PUBLIC_LOCAL: {
-                listCall = mastodonAPI.publicTimeline(true, fromId, uptoId, null);
-                break;
-            }
-            case TAG: {
-                listCall = mastodonAPI.hashtagTimeline(hashtagOrId, null, fromId, uptoId, null);
-                break;
-            }
-            case USER: {
-                listCall = mastodonAPI.accountStatuses(hashtagOrId, fromId, uptoId, null);
-                break;
-            }
-            case FAVOURITES: {
-                listCall = mastodonAPI.favourites(fromId, uptoId, null);
-                break;
-            }
-        }
+        Call<List<Status>> listCall = getFetchCallByTimelineType(kind, hashtagOrId, fromId, uptoId);
         callList.add(listCall);
         listCall.enqueue(callback);
     }
 
-    private static boolean findStatus(List<Status> statuses, String id) {
-        for (Status status : statuses) {
-            if (status.id.equals(id)) {
-                return true;
+    public void onFetchTimelineSuccess(List<Status> statuses, String linkHeader,
+            FetchEnd fetchEnd) {
+        filterStatuses(statuses);
+        List<HttpHeaderLink> links = HttpHeaderLink.parse(linkHeader);
+        switch (fetchEnd) {
+            case TOP: {
+                HttpHeaderLink previous = HttpHeaderLink.findByRelationType(links, "prev");
+                String uptoId = null;
+                if (previous != null) {
+                    uptoId = previous.uri.getQueryParameter("since_id");
+                }
+                adapter.update(statuses, null, uptoId);
+                break;
+            }
+            case BOTTOM: {
+                HttpHeaderLink next = HttpHeaderLink.findByRelationType(links, "next");
+                String fromId = null;
+                if (next != null) {
+                    fromId = next.uri.getQueryParameter("max_id");
+                }
+                if (adapter.getItemCount() > 1) {
+                    adapter.addItems(statuses, fromId);
+                } else {
+                    /* If this is the first fetch, also save the id from the "previous" link and
+                     * treat this operation as a refresh so the scroll position doesn't get pushed
+                     * down to the end. */
+                    HttpHeaderLink previous = HttpHeaderLink.findByRelationType(links, "prev");
+                    String uptoId = null;
+                    if (previous != null) {
+                        uptoId = previous.uri.getQueryParameter("since_id");
+                    }
+                    adapter.update(statuses, fromId, uptoId);
+                }
+                break;
             }
         }
-        return false;
+        fulfillAnyQueuedFetches(fetchEnd);
+        if (statuses.size() == 0 && adapter.getItemCount() == 1) {
+            adapter.setFooterState(TimelineAdapter.FooterState.EMPTY);
+        } else {
+            adapter.setFooterState(TimelineAdapter.FooterState.END);
+        }
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    public void onFetchTimelineFailure(Exception exception, FetchEnd fetchEnd) {
+        swipeRefreshLayout.setRefreshing(false);
+        Log.e(TAG, "Fetch Failure: " + exception.getMessage());
+        fulfillAnyQueuedFetches(fetchEnd);
+    }
+
+    private void fulfillAnyQueuedFetches(FetchEnd fetchEnd) {
+        switch (fetchEnd) {
+            case BOTTOM: {
+                bottomLoading = false;
+                if (bottomFetches > 0) {
+                    bottomFetches--;
+                    onLoadMore(recyclerView);
+                }
+                break;
+            }
+            case TOP: {
+                topLoading = false;
+                if (topFetches > 0) {
+                    topFetches--;
+                    onRefresh();
+                }
+                break;
+            }
+        }
     }
 
     protected void filterStatuses(List<Status> statuses) {
         Iterator<Status> it = statuses.iterator();
         while (it.hasNext()) {
             Status status = it.next();
-            if ((status.inReplyToId != null && filterRemoveReplies) || (status.reblog != null && filterRemoveReblogs)) {
+            if ((status.inReplyToId != null && filterRemoveReplies)
+                    || (status.reblog != null && filterRemoveReblogs)) {
                 it.remove();
             }
         }
-    }
-
-    protected void setFiltersFromSettings() {
-        boolean oldRemoveReplies = filterRemoveReplies;
-        boolean oldRemoveReblogs = filterRemoveReblogs;
-        filterRemoveReplies = (kind == Kind.HOME && !preferences.getBoolean("tabFilterHomeReplies", true));
-        filterRemoveReblogs = (kind == Kind.HOME && !preferences.getBoolean("tabFilterHomeBoosts", true));
-
-        if (adapter.getItemCount() > 1 && (oldRemoveReblogs != filterRemoveReblogs || oldRemoveReplies != filterRemoveReplies)) {
-            fullyRefresh();
-        }
-    }
-
-    public void onFetchTimelineSuccess(List<Status> statuses, String fromId) {
-        filterStatuses(statuses);
-        if (fromId != null) {
-            if (statuses.size() > 0 && !findStatus(statuses, fromId)) {
-                adapter.addItems(statuses);
-            }
-        } else {
-            adapter.update(statuses);
-        }
-        if (statuses.size() == 0 && adapter.getItemCount() == 1) {
-            adapter.setFooterState(TimelineAdapter.FooterState.EMPTY);
-        } else if(fromId != null) {
-            adapter.setFooterState(TimelineAdapter.FooterState.END);
-        }
-        swipeRefreshLayout.setRefreshing(false);
-    }
-
-    public void onFetchTimelineFailure(Exception exception) {
-        swipeRefreshLayout.setRefreshing(false);
-        Log.e(TAG, "Fetch Failure: " + exception.getMessage());
     }
 }

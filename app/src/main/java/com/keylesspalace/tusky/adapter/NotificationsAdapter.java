@@ -37,6 +37,7 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
@@ -56,6 +57,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
     private NotificationActionListener notificationActionListener;
     private FooterState footerState = FooterState.END;
     private boolean mediaPreviewEnabled;
+    private String bottomId;
+    private String topId;
 
     public NotificationsAdapter(StatusActionListener statusListener,
             NotificationActionListener notificationActionListener) {
@@ -186,19 +189,28 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         }
     }
 
-    public @Nullable Notification getItem(int position) {
+    @Nullable
+    public Notification getItem(int position) {
         if (position >= 0 && position < notifications.size()) {
             return notifications.get(position);
         }
         return null;
     }
 
-    public void update(List<Notification> newNotifications) {
+    public void update(@Nullable List<Notification> newNotifications, @Nullable String fromId,
+            @Nullable String uptoId) {
         if (newNotifications == null || newNotifications.isEmpty()) {
             return;
         }
+        if (fromId != null) {
+            bottomId = fromId;
+        }
+        if (uptoId != null) {
+            topId = uptoId;
+        }
         if (notifications.isEmpty()) {
-            notifications = newNotifications;
+            // This construction removes duplicates.
+            notifications = new ArrayList<>(new HashSet<>(newNotifications));
         } else {
             int index = notifications.indexOf(newNotifications.get(newNotifications.size() - 1));
             for (int i = 0; i < index; i++) {
@@ -214,10 +226,25 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         notifyDataSetChanged();
     }
 
-    public void addItems(List<Notification> new_notifications) {
+    public void addItems(List<Notification> newNotifications, @Nullable String fromId) {
+        if (fromId != null) {
+            bottomId = fromId;
+        }
         int end = notifications.size();
-        notifications.addAll(new_notifications);
-        notifyItemRangeInserted(end, new_notifications.size());
+        Notification last = notifications.get(end - 1);
+        if (last != null && !findNotification(notifications, last.id)) {
+            notifications.addAll(newNotifications);
+            notifyItemRangeInserted(end, newNotifications.size());
+        }
+    }
+
+    private static boolean findNotification(List<Notification> notifications, String id) {
+        for (Notification notification : notifications) {
+            if (notification.id.equals(id)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void clear() {
@@ -231,6 +258,16 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         if (footerState != oldValue) {
             notifyItemChanged(notifications.size());
         }
+    }
+
+    @Nullable
+    public String getBottomId() {
+        return bottomId;
+    }
+
+    @Nullable
+    public String getTopId() {
+        return topId;
     }
 
     public void setMediaPreviewEnabled(boolean enabled) {
