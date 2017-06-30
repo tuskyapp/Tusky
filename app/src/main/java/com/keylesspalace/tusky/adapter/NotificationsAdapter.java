@@ -214,7 +214,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         }
         int end = notifications.size();
         Notification last = notifications.get(end - 1);
-        if (last != null && !findNotification(notifications, last.id)) {
+        if (last != null && !findNotification(newNotifications, last.id)) {
             notifications.addAll(newNotifications);
             notifyItemRangeInserted(end, newNotifications.size());
         }

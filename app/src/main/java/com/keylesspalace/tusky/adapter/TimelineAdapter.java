@@ -146,7 +146,7 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
         }
         int end = statuses.size();
         Status last = statuses.get(end - 1);
-        if (last != null && !findStatus(statuses, last.id)) {
+        if (last != null && !findStatus(newStatuses, last.id)) {
             statuses.addAll(newStatuses);
             notifyItemRangeInserted(end, newStatuses.size());
         }
