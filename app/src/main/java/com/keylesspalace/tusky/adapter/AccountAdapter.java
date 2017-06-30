@@ -21,7 +21,6 @@ import android.support.v7.widget.RecyclerView;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +28,8 @@ import java.util.List;
 public abstract class AccountAdapter extends RecyclerView.Adapter {
     List<Account> accountList;
     AccountActionListener accountActionListener;
+    FooterViewHolder.State footerState;
+
     private String topId;
     private String bottomId;
 
@@ -36,6 +37,7 @@ public abstract class AccountAdapter extends RecyclerView.Adapter {
         super();
         accountList = new ArrayList<>();
         this.accountActionListener = accountActionListener;
+        footerState = FooterViewHolder.State.END;
     }
 
     @Override
@@ -117,6 +119,10 @@ public abstract class AccountAdapter extends RecyclerView.Adapter {
             return accountList.get(position);
         }
         return null;
+    }
+
+    public void setFooterState(FooterViewHolder.State newFooterState) {
+        footerState = newFooterState;
     }
 
     @Nullable

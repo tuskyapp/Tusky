@@ -34,15 +34,9 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
     private static final int VIEW_TYPE_STATUS = 0;
     private static final int VIEW_TYPE_FOOTER = 1;
 
-    public enum FooterState {
-        EMPTY,
-        END,
-        LOADING
-    }
-
     private List<Status> statuses;
     private StatusActionListener statusListener;
-    private FooterState footerState = FooterState.END;
+    private FooterViewHolder.State footerState;
     private boolean mediaPreviewEnabled;
     private String topId;
     private String bottomId;
@@ -51,6 +45,7 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
         super();
         statuses = new ArrayList<>();
         this.statusListener = statusListener;
+        footerState = FooterViewHolder.State.END;
         mediaPreviewEnabled = true;
     }
 
@@ -64,24 +59,8 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
                 return new StatusViewHolder(view);
             }
             case VIEW_TYPE_FOOTER: {
-                View view;
-                switch (footerState) {
-                    default:
-                    case LOADING:
-                        view = LayoutInflater.from(viewGroup.getContext())
-                                .inflate(R.layout.item_footer, viewGroup, false);
-                        break;
-                    case END: {
-                        view = LayoutInflater.from(viewGroup.getContext())
-                                .inflate(R.layout.item_footer_end, viewGroup, false);
-                        break;
-                    }
-                    case EMPTY: {
-                        view = LayoutInflater.from(viewGroup.getContext())
-                                .inflate(R.layout.item_footer_empty, viewGroup, false);
-                        break;
-                    }
-                }
+                View view = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.item_footer, viewGroup, false);
                 return new FooterViewHolder(view);
             }
         }
@@ -93,6 +72,9 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             Status status = statuses.get(position);
             holder.setupWithStatus(status, statusListener, mediaPreviewEnabled);
+        } else {
+            FooterViewHolder holder = (FooterViewHolder) viewHolder;
+            holder.setState(footerState);
         }
     }
 
@@ -192,12 +174,8 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
         return null;
     }
 
-    public void setFooterState(FooterState newFooterState) {
-        FooterState oldValue = footerState;
+    public void setFooterState(FooterViewHolder.State newFooterState) {
         footerState = newFooterState;
-        if (footerState != oldValue) {
-            notifyItemChanged(statuses.size());
-        }
     }
 
     public void setMediaPreviewEnabled(boolean enabled) {

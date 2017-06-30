@@ -55,6 +55,9 @@ public class FollowAdapter extends AccountAdapter {
             AccountViewHolder holder = (AccountViewHolder) viewHolder;
             holder.setupWithAccount(accountList.get(position));
             holder.setupActionListener(accountActionListener);
+        } else {
+            FooterViewHolder holder = (FooterViewHolder) viewHolder;
+            holder.setState(footerState);
         }
     }
 

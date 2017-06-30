@@ -36,6 +36,7 @@ import com.keylesspalace.tusky.adapter.AccountAdapter;
 import com.keylesspalace.tusky.adapter.BlocksAdapter;
 import com.keylesspalace.tusky.adapter.FollowAdapter;
 import com.keylesspalace.tusky.adapter.FollowRequestsAdapter;
+import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.MutesAdapter;
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.entity.Account;
@@ -358,7 +359,12 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
     }
 
     private void onRespondToFollowRequestFailure(boolean accept, String accountId) {
-        String verb = (accept) ? "accept" : "reject";
+        String verb;
+        if (accept) {
+            verb = "accept";
+        } else {
+            verb = "reject";
+        }
         String message = String.format("Failed to %s account id %s.", verb, accountId);
         Log.e(TAG, message);
     }
@@ -399,6 +405,11 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
             bottomFetches++;
             return;
         }
+
+        if (fromId != null || adapter.getItemCount() <= 1) {
+            setFooterState(FooterViewHolder.State.LOADING);
+        }
+
         Callback<List<Account>> cb = new Callback<List<Account>>() {
             @Override
             public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
@@ -456,11 +467,30 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
             }
         }
         fulfillAnyQueuedFetches(fetchEnd);
+        if (accounts.size() == 0 && adapter.getItemCount() == 1) {
+            setFooterState(FooterViewHolder.State.EMPTY);
+        } else {
+            setFooterState(FooterViewHolder.State.END);
+        }
     }
 
     private void onFetchAccountsFailure(Exception exception, FetchEnd fetchEnd) {
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
         fulfillAnyQueuedFetches(fetchEnd);
+    }
+
+    /* This needs to be called from the endless scroll listener, which does not allow notifying the
+     * adapter during the callback. So, this is the workaround. */
+    private void setFooterState(FooterViewHolder.State state) {
+        // Set the adapter to set its state when it's bound, if the current Footer is offscreen.
+        adapter.setFooterState(state);
+        // Check if it's onscreen, and update it directly if it is.
+        RecyclerView.ViewHolder viewHolder =
+                recyclerView.findViewHolderForAdapterPosition(adapter.getItemCount() - 1);
+        if (viewHolder != null) {
+            FooterViewHolder holder = (FooterViewHolder) viewHolder;
+            holder.setState(state);
+        }
     }
 
     private void onRefresh() {
@@ -478,7 +508,6 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
                 bottomLoading = false;
                 if (bottomFetches > 0) {
                     bottomFetches--;
-                    Log.d(TAG, "extra fetchos " + bottomFetches);
                     onLoadMore(recyclerView);
                 }
                 break;

@@ -46,16 +46,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
     private static final int VIEW_TYPE_STATUS_NOTIFICATION = 2;
     private static final int VIEW_TYPE_FOLLOW = 3;
 
-    public enum FooterState {
-        EMPTY,
-        END,
-        LOADING
-    }
-
     private List<Notification> notifications;
     private StatusActionListener statusListener;
     private NotificationActionListener notificationActionListener;
-    private FooterState footerState = FooterState.END;
+    private FooterViewHolder.State footerState;
     private boolean mediaPreviewEnabled;
     private String bottomId;
     private String topId;
@@ -66,6 +60,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         notifications = new ArrayList<>();
         this.statusListener = statusListener;
         this.notificationActionListener = notificationActionListener;
+        footerState = FooterViewHolder.State.END;
         mediaPreviewEnabled = true;
     }
 
@@ -79,24 +74,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
                 return new StatusViewHolder(view);
             }
             case VIEW_TYPE_FOOTER: {
-                View view;
-                switch (footerState) {
-                    default:
-                    case LOADING:
-                        view = LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.item_footer, parent, false);
-                        break;
-                    case END: {
-                        view = LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.item_footer_end, parent, false);
-                        break;
-                    }
-                    case EMPTY: {
-                        view = LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.item_footer_empty, parent, false);
-                        break;
-                    }
-                }
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_footer, parent, false);
                 return new FooterViewHolder(view);
             }
             case VIEW_TYPE_STATUS_NOTIFICATION: {
@@ -140,6 +119,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
                     break;
                 }
             }
+        } else {
+            FooterViewHolder holder = (FooterViewHolder) viewHolder;
+            holder.setState(footerState);
         }
     }
 
@@ -252,12 +234,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         notifyDataSetChanged();
     }
 
-    public void setFooterState(FooterState newFooterState) {
-        FooterState oldValue = footerState;
+    public void setFooterState(FooterViewHolder.State newFooterState) {
         footerState = newFooterState;
-        if (footerState != oldValue) {
-            notifyItemChanged(notifications.size());
-        }
     }
 
     @Nullable

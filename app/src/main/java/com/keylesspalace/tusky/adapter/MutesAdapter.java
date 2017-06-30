@@ -44,6 +44,9 @@ public class MutesAdapter extends AccountAdapter {
             MutedUserViewHolder holder = (MutedUserViewHolder) viewHolder;
             holder.setupWithAccount(accountList.get(position));
             holder.setupActionListener(accountActionListener, true, position);
+        } else {
+            FooterViewHolder holder = (FooterViewHolder) viewHolder;
+            holder.setState(footerState);
         }
     }
 

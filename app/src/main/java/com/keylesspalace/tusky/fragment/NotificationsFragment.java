@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.MainActivity;
+import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Notification;
@@ -274,7 +275,7 @@ public class NotificationsFragment extends SFragment implements
         }
 
         if (fromId != null || adapter.getItemCount() <= 1) {
-            adapter.setFooterState(NotificationsAdapter.FooterState.LOADING);
+            setFooterState(FooterViewHolder.State.LOADING);
         }
 
         Call<List<Notification>> call = mastodonApi.notifications(fromId, uptoId, null);
@@ -341,9 +342,9 @@ public class NotificationsFragment extends SFragment implements
         }
         fulfillAnyQueuedFetches(fetchEnd);
         if (notifications.size() == 0 && adapter.getItemCount() == 1) {
-            adapter.setFooterState(NotificationsAdapter.FooterState.EMPTY);
+            setFooterState(FooterViewHolder.State.EMPTY);
         } else {
-            adapter.setFooterState(NotificationsAdapter.FooterState.END);
+            setFooterState(FooterViewHolder.State.END);
         }
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -352,6 +353,20 @@ public class NotificationsFragment extends SFragment implements
         swipeRefreshLayout.setRefreshing(false);
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
         fulfillAnyQueuedFetches(fetchEnd);
+    }
+
+    /* This needs to be called from the endless scroll listener, which does not allow notifying the
+     * adapter during the callback. So, this is the workaround. */
+    private void setFooterState(FooterViewHolder.State state) {
+        // Set the adapter to set its state when it's bound, if the current Footer is offscreen.
+        adapter.setFooterState(state);
+        // Check if it's onscreen, and update it directly if it is.
+        RecyclerView.ViewHolder viewHolder =
+                recyclerView.findViewHolderForAdapterPosition(adapter.getItemCount() - 1);
+        if (viewHolder != null) {
+            FooterViewHolder holder = (FooterViewHolder) viewHolder;
+            holder.setState(state);
+        }
     }
 
     private void fulfillAnyQueuedFetches(FetchEnd fetchEnd) {

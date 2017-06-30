@@ -59,6 +59,9 @@ public class BlocksAdapter extends AccountAdapter {
             BlockedUserViewHolder holder = (BlockedUserViewHolder) viewHolder;
             holder.setupWithAccount(accountList.get(position));
             holder.setupActionListener(accountActionListener, true);
+        } else {
+            FooterViewHolder holder = (FooterViewHolder) viewHolder;
+            holder.setState(footerState);
         }
     }
 
