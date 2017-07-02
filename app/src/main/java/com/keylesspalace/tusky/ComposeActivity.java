@@ -1044,8 +1044,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
             @Override
             public void onFailure(Call<Media> call, Throwable t) {
-                Log.d(TAG, t.getMessage());
-                onUploadFailure(item, false);
+                Log.d(TAG, "Upload request failed. " + t.getMessage());
+                onUploadFailure(item, call.isCanceled());
             }
         });
     }
@@ -1079,7 +1079,10 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         if (finishingUploadDialog != null) {
             finishingUploadDialog.cancel();
         }
-        removeMediaFromQueue(item);
+        if (!isCanceled) {
+            // If it is canceled, it's already been removed, otherwise do it.
+            removeMediaFromQueue(item);
+        }
     }
 
     private void cancelReadyingMedia(QueuedMedia item) {
