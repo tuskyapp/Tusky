@@ -275,7 +275,15 @@ public class NotificationsFragment extends SFragment implements
         }
 
         if (fromId != null || adapter.getItemCount() <= 1) {
-            setFooterState(FooterViewHolder.State.LOADING);
+            /* When this is called by the EndlessScrollListener it cannot refresh the footer state
+             * using adapter.notifyItemChanged. So its necessary to postpone doing so until a
+             * convenient time for the UI thread using a Runnable. */
+            recyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.setFooterState(FooterViewHolder.State.LOADING);
+                }
+            });
         }
 
         Call<List<Notification>> call = mastodonApi.notifications(fromId, uptoId, null);
@@ -342,9 +350,9 @@ public class NotificationsFragment extends SFragment implements
         }
         fulfillAnyQueuedFetches(fetchEnd);
         if (notifications.size() == 0 && adapter.getItemCount() == 1) {
-            setFooterState(FooterViewHolder.State.EMPTY);
+            adapter.setFooterState(FooterViewHolder.State.EMPTY);
         } else {
-            setFooterState(FooterViewHolder.State.END);
+            adapter.setFooterState(FooterViewHolder.State.END);
         }
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -353,20 +361,6 @@ public class NotificationsFragment extends SFragment implements
         swipeRefreshLayout.setRefreshing(false);
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
         fulfillAnyQueuedFetches(fetchEnd);
-    }
-
-    /* This needs to be called from the endless scroll listener, which does not allow notifying the
-     * adapter during the callback. So, this is the workaround. */
-    private void setFooterState(FooterViewHolder.State state) {
-        // Set the adapter to set its state when it's bound, if the current Footer is offscreen.
-        adapter.setFooterState(state);
-        // Check if it's onscreen, and update it directly if it is.
-        RecyclerView.ViewHolder viewHolder =
-                recyclerView.findViewHolderForAdapterPosition(adapter.getItemCount() - 1);
-        if (viewHolder != null) {
-            FooterViewHolder holder = (FooterViewHolder) viewHolder;
-            holder.setState(state);
-        }
     }
 
     private void fulfillAnyQueuedFetches(FetchEnd fetchEnd) {

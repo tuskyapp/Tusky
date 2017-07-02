@@ -175,7 +175,11 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
     }
 
     public void setFooterState(FooterViewHolder.State newFooterState) {
+        FooterViewHolder.State oldValue = footerState;
         footerState = newFooterState;
+        if (footerState != oldValue) {
+            notifyItemChanged(statuses.size());
+        }
     }
 
     public void setMediaPreviewEnabled(boolean enabled) {

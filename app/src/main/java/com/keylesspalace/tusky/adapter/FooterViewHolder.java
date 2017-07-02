@@ -21,6 +21,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.support.v7.widget.RecyclerView.LayoutParams;
 
 import com.keylesspalace.tusky.R;
 
@@ -51,18 +52,27 @@ public class FooterViewHolder extends RecyclerView.ViewHolder {
     public void setState(State state) {
         switch (state) {
             case LOADING: {
+                RecyclerView.LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
+                        LayoutParams.MATCH_PARENT);
+                container.setLayoutParams(layoutParams);
                 container.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.VISIBLE);
                 endMessage.setVisibility(View.GONE);
                 break;
             }
             case END: {
+                RecyclerView.LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
+                        LayoutParams.WRAP_CONTENT);
+                container.setLayoutParams(layoutParams);
                 container.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
                 endMessage.setVisibility(View.GONE);
                 break;
             }
             case EMPTY: {
+                RecyclerView.LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
+                        LayoutParams.MATCH_PARENT);
+                container.setLayoutParams(layoutParams);
                 container.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
                 endMessage.setVisibility(View.VISIBLE);
