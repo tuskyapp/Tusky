@@ -238,11 +238,13 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             if (previousInputContentInfo != null) {
                 onCommitContentInternal(previousInputContentInfo, previousFlags);
             }
+            photoUploadUri = savedInstanceState.getParcelable("photoUploadUri");
         } else {
             showMarkSensitive = false;
             startingVisibility = preferences.getString("rememberedVisibility", "public");
             statusMarkSensitive = false;
             startingHideText = false;
+            photoUploadUri = null;
         }
 
         /* If the composer is started up as a reply to another post, override the "starting" state
@@ -435,6 +437,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         }
         currentInputContentInfo = null;
         currentFlags = 0;
+        outState.putParcelable("photoUploadUri", photoUploadUri);
         super.onSaveInstanceState(outState);
     }
 
@@ -821,6 +824,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         }
     }
 
+    @NonNull
     private File createNewImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
@@ -1092,11 +1096,11 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == MEDIA_PICK_RESULT && resultCode == RESULT_OK && data != null) {
+        if (resultCode == RESULT_OK && requestCode == MEDIA_PICK_RESULT && data != null) {
             Uri uri = data.getData();
             long mediaSize = MediaUtils.getMediaSize(getContentResolver(), uri);
             pickMedia(uri, mediaSize);
-        } else if (requestCode == MEDIA_TAKE_PHOTO_RESULT && resultCode == RESULT_OK) {
+        } else if (resultCode == RESULT_OK && requestCode == MEDIA_TAKE_PHOTO_RESULT) {
             long mediaSize = MediaUtils.getMediaSize(getContentResolver(), photoUploadUri);
             pickMedia(photoUploadUri, mediaSize);
         }
