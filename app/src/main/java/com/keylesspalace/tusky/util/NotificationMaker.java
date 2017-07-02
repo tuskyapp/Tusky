@@ -41,7 +41,7 @@ import com.squareup.picasso.Target;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class NotificationMaker {
+class NotificationMaker {
 
     public static final String TAG = "NotificationMaker";
 
@@ -89,10 +89,12 @@ public class NotificationMaker {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent deleteIntent = new Intent(context, NotificationClearBroadcastReceiver.class);
-        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, 0, deleteIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_notify)
@@ -104,15 +106,16 @@ public class NotificationMaker {
             builder.setContentTitle(titleForType(context, body))
                     .setContentText(truncateWithEllipses(bodyForType(body), 40));
 
-            Target mTarget = new Target() {
+            Target target = new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                     builder.setLargeIcon(bitmap);
 
                     setupPreferences(preferences, builder);
 
-                    ((NotificationManager) (context.getSystemService(Context.NOTIFICATION_SERVICE)))
-                            .notify(notifyId, builder.build());
+                    NotificationManager notificationManager = (NotificationManager)
+                            context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    notificationManager.notify(notifyId, builder.build());
                 }
 
                 @Override
@@ -126,12 +129,15 @@ public class NotificationMaker {
                     .load(body.account.avatar)
                     .placeholder(R.drawable.avatar_default)
                     .transform(new RoundedTransformation(7, 0))
-                    .into(mTarget);
+                    .into(target);
         } else {
             setupPreferences(preferences, builder);
             try {
-                builder.setContentTitle(String.format(context.getString(R.string.notification_title_summary), currentNotifications.length()))
-                        .setContentText(truncateWithEllipses(joinNames(context, currentNotifications), 40));
+                String format = context.getString(R.string.notification_title_summary);
+                String title = String.format(format, currentNotifications.length());
+                String text = truncateWithEllipses(joinNames(context, currentNotifications), 40);
+                builder.setContentTitle(title)
+                        .setContentText(text);
             } catch (JSONException e) {
                 Log.d(TAG, Log.getStackTraceString(e));
             }
@@ -142,26 +148,23 @@ public class NotificationMaker {
             builder.setCategory(android.app.Notification.CATEGORY_SOCIAL);
         }
 
-        ((NotificationManager) (context.getSystemService(Context.NOTIFICATION_SERVICE)))
-                .notify(notifyId, builder.build());
+        NotificationManager notificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(notifyId, builder.build());
     }
 
     private static boolean filterNotification(SharedPreferences preferences,
-                                              Notification notification) {
+            Notification notification) {
         switch (notification.type) {
             default:
-            case MENTION: {
+            case MENTION:
                 return preferences.getBoolean("notificationFilterMentions", true);
-            }
-            case FOLLOW: {
+            case FOLLOW:
                 return preferences.getBoolean("notificationFilterFollows", true);
-            }
-            case REBLOG: {
+            case REBLOG:
                 return preferences.getBoolean("notificationFilterReblogs", true);
-            }
-            case FAVOURITE: {
+            case FAVOURITE:
                 return preferences.getBoolean("notificationFilterFavourites", true);
-            }
         }
     }
 
@@ -174,7 +177,7 @@ public class NotificationMaker {
     }
 
     private static void setupPreferences(SharedPreferences preferences,
-                                         NotificationCompat.Builder builder) {
+            NotificationCompat.Builder builder) {
         if (preferences.getBoolean("notificationAlertSound", true)) {
             builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
         }
@@ -191,11 +194,14 @@ public class NotificationMaker {
     @Nullable
     private static String joinNames(Context context, JSONArray array) throws JSONException {
         if (array.length() > 3) {
-            return String.format(context.getString(R.string.notification_summary_large), array.get(0), array.get(1), array.get(2), array.length() - 3);
+            return String.format(context.getString(R.string.notification_summary_large),
+                    array.get(0), array.get(1), array.get(2), array.length() - 3);
         } else if (array.length() == 3) {
-            return String.format(context.getString(R.string.notification_summary_medium), array.get(0), array.get(1), array.get(2));
+            return String.format(context.getString(R.string.notification_summary_medium),
+                    array.get(0), array.get(1), array.get(2));
         } else if (array.length() == 2) {
-            return String.format(context.getString(R.string.notification_summary_small), array.get(0), array.get(1));
+            return String.format(context.getString(R.string.notification_summary_small),
+                    array.get(0), array.get(1));
         }
 
         return null;
@@ -205,13 +211,17 @@ public class NotificationMaker {
     private static String titleForType(Context context, Notification notification) {
         switch (notification.type) {
             case MENTION:
-                return String.format(context.getString(R.string.notification_mention_format), notification.account.getDisplayName());
+                return String.format(context.getString(R.string.notification_mention_format),
+                        notification.account.getDisplayName());
             case FOLLOW:
-                return String.format(context.getString(R.string.notification_follow_format), notification.account.getDisplayName());
+                return String.format(context.getString(R.string.notification_follow_format),
+                        notification.account.getDisplayName());
             case FAVOURITE:
-                return String.format(context.getString(R.string.notification_favourite_format), notification.account.getDisplayName());
+                return String.format(context.getString(R.string.notification_favourite_format),
+                        notification.account.getDisplayName());
             case REBLOG:
-                return String.format(context.getString(R.string.notification_reblog_format), notification.account.getDisplayName());
+                return String.format(context.getString(R.string.notification_reblog_format),
+                        notification.account.getDisplayName());
         }
         return null;
     }
@@ -226,7 +236,6 @@ public class NotificationMaker {
             case REBLOG:
                 return notification.status.content.toString();
         }
-
         return null;
     }
 }

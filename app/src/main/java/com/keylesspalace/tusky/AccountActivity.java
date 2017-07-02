@@ -244,7 +244,6 @@ public class AccountActivity extends BaseActivity {
             String subtitle = String.format(getString(R.string.status_username_format),
                     account.username);
             getSupportActionBar().setSubtitle(subtitle);
-
         }
 
         boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(this)

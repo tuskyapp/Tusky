@@ -47,8 +47,8 @@ public class LinkHelper {
     }
 
     public static void setClickableText(TextView view, Spanned content,
-                                        @Nullable Status.Mention[] mentions, boolean useCustomTabs,
-                                        final LinkListener listener) {
+            @Nullable Status.Mention[] mentions, boolean useCustomTabs,
+            final LinkListener listener) {
         SpannableStringBuilder builder = new SpannableStringBuilder(content);
         URLSpan[] urlSpans = content.getSpans(0, content.length(), URLSpan.class);
         for (URLSpan span : urlSpans) {
