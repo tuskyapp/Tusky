@@ -17,7 +17,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
     private TextView username;
     private TextView displayName;
     private CircularImageView avatar;
-    private String id;
+    private String accountId;
 
     AccountViewHolder(View itemView) {
         super(itemView);
@@ -28,7 +28,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
     }
 
     void setupWithAccount(Account account) {
-        id = account.id;
+        accountId = account.id;
         String format = username.getContext().getString(R.string.status_username_format);
         String formattedUsername = String.format(format, account.username);
         username.setText(formattedUsername);
@@ -45,7 +45,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
         container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onViewAccount(id);
+                listener.onViewAccount(accountId);
             }
         });
     }
@@ -54,7 +54,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
         container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onViewAccount(id);
+                listener.onViewAccount(accountId);
             }
         });
     }
