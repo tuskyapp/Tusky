@@ -91,7 +91,7 @@
     <string name="action_mute">Wycisz</string>
     <string name="action_unmute">Cofnij wyciszenie</string>
     <string name="action_mention">Wspomnij</string>
-    <!--<string name="action_mark_sensitive">Mark media sensitive</string>-->
+    <string name="action_hide_media">Ukryj zawartość multimedialną</string>
     <string name="action_compose_options">Opcje</string>
     <string name="action_open_drawer">Otwórz szufladę</string>
     <string name="action_clear">Wyczyść</string>
@@ -168,6 +168,7 @@
     <string name="pref_title_status_tabs">Karty</string>
     <string name="pref_title_show_boosts">Pokazuj podbicia</string>
     <string name="pref_title_show_replies">Pokazuj odpowiedzi</string>
+    <string name="pref_title_show_media_preview">Pokazuj podgląd zawartości multimedialnej</string>
 
     <string name="notification_mention_format">%s wspomniał o tobie</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s i %4$d innych</string>
@@ -191,6 +192,8 @@
 
     <string name="status_share_content">Udostępnij zawartość postu</string>
     <string name="status_share_link">Udostępnij link do postu</string>
+    <string name="status_media_images">Obrazy</string>
+    <string name="status_media_video">Wideo</string>
 
     <string name="state_follow_requested">Wysłano prośbę o obserwację</string>
 </resources>
