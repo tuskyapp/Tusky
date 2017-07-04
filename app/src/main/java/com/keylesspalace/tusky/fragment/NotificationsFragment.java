@@ -226,6 +226,12 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
+    public void onOpenReblog(int position) {
+        Notification notification = adapter.getItem(position);
+        if (notification != null) onViewAccount(notification.account.id);
+    }
+
+    @Override
     public void onViewTag(String tag) {
         super.viewTag(tag);
     }

@@ -247,6 +247,11 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
+    public void onOpenReblog(int position) {
+        super.openReblog(adapter.getItem(position));
+    }
+
+    @Override
     public void onViewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type) {
         super.viewMedia(urls, urlIndex, type);
     }

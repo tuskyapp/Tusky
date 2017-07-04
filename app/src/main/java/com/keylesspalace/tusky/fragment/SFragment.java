@@ -169,6 +169,11 @@ public abstract class SFragment extends BaseFragment {
         callList.add(call);
     }
 
+    protected void openReblog(@Nullable final Status status) {
+        if (status == null) return;
+        viewAccount(status.account.id);
+    }
+
     private void mute(String id) {
         Call<Relationship> call = mastodonApi.muteAccount(id);
         call.enqueue(new Callback<Relationship>() {
