@@ -40,10 +40,7 @@
     <string name="status_content_warning_show_more">Pokaż więcej</string>
     <string name="status_content_warning_show_less">Ukryj</string>
 
-    <string name="footer_end_of_statuses">koniec statusów</string>
-    <string name="footer_end_of_notifications">koniec powiadomień</string>
-    <string name="footer_end_of_accounts">koniec listy kont</string>
-    <string name="footer_empty">Brak wpisów! Pociągnij, aby odświeżyć.</string>
+    <string name="footer_empty">Pusto! Pociągnij, aby odświeżyć.</string>
 
     <string name="notification_reblog_format">%s podbił twój post</string>
     <string name="notification_favourite_format">%s dodał twój post do ulubionych</string>
@@ -117,7 +114,7 @@
     <string name="hint_content_warning">Ostrzeenie o zawartości</string>
     <string name="hint_display_name">Nazwa wyświetlana</string>
     <string name="hint_note">Biografia</string>
-    <string name="hint_search">Szukaj kont i tagów…</string>
+    <string name="hint_search">Szukaj…</string>
 
     <string name="search_no_results">Brak wyników</string>
 
