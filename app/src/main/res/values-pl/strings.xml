@@ -111,7 +111,7 @@
 
     <string name="hint_domain">Jaka instancja?</string>
     <string name="hint_compose">Co ci chodzi po głowie?</string>
-    <string name="hint_content_warning">Ostrzeenie o zawartości</string>
+    <string name="hint_content_warning">Ostrzeżenie o zawartości</string>
     <string name="hint_display_name">Nazwa wyświetlana</string>
     <string name="hint_note">Biografia</string>
     <string name="hint_search">Szukaj…</string>
