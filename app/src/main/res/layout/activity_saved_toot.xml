@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.keylesspalace.tusky.AccountListActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -18,11 +18,21 @@
             android:background="?attr/toolbar_background_color"
             android:elevation="4dp" />
 
+        <TextView
+            android:id="@+id/no_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/no_content"
+            android:visibility="invisible" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar" />
 
-    </LinearLayout>
+
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
