@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.adapter;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -32,10 +33,12 @@ import java.util.List;
 
 public class SavedTootAdapter extends RecyclerView.Adapter {
     private List<TootEntity> list;
+    private SavedTootAction handler;
 
-    public SavedTootAdapter() {
+    public SavedTootAdapter(Context context) {
         super();
         list = new ArrayList<>();
+        handler = (SavedTootAction) context;
     }
 
     @Override
@@ -48,33 +51,12 @@ public class SavedTootAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         TootViewHolder holder = (TootViewHolder) viewHolder;
-        holder.bind(getItem(position));
+        holder.bind(position, getItem(position));
     }
 
     @Override
     public int getItemCount() {
-        return list.size() + 1;
-    }
-
-    public void update(List<TootEntity> newToot) {
-        if (newToot == null || newToot.isEmpty()) {
-            return;
-        }
-        if (list.isEmpty()) {
-            list = newToot;
-        } else {
-            int index = list.indexOf(newToot.get(newToot.size() - 1));
-            for (int i = 0; i < index; i++) {
-                list.remove(0);
-            }
-            int newIndex = newToot.indexOf(list.get(0));
-            if (newIndex == -1) {
-                list.addAll(0, newToot);
-            } else {
-                list.addAll(0, newToot.subList(0, newIndex));
-            }
-        }
-        notifyDataSetChanged();
+        return list.size();
     }
 
     public void addItems(List<TootEntity> newToot) {
@@ -93,19 +75,18 @@ public class SavedTootAdapter extends RecyclerView.Adapter {
         return toot;
     }
 
-    public void addItem(TootEntity toot, int position) {
-        if (position < 0 || position > list.size()) {
-            return;
-        }
-        list.add(position, toot);
-        notifyItemInserted(position);
-    }
-
     public TootEntity getItem(int position) {
         if (position >= 0 && position < list.size()) {
             return list.get(position);
         }
         return null;
+    }
+
+    // handler saved toot
+    public interface SavedTootAction {
+        void delete(int position, TootEntity item);
+
+        void click(int position, TootEntity item);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -117,21 +98,37 @@ public class SavedTootAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private static class TootViewHolder extends RecyclerView.ViewHolder {
-        public TextView content;
-        public ImageButton suppr;
+    private class TootViewHolder extends RecyclerView.ViewHolder {
+        View view;
+        TextView content;
+        ImageButton suppr;
 
         TootViewHolder(View view) {
             super(view);
-            content = (TextView) view.findViewById(R.id.content);
-            suppr = (ImageButton) view.findViewById(R.id.suppr);
+            this.view = view;
+            this.content = (TextView) view.findViewById(R.id.content);
+            this.suppr = (ImageButton) view.findViewById(R.id.suppr);
         }
 
-        public void bind(TootEntity item) {
-            if (item != null && !TextUtils.isEmpty(item.getText()))
-                content.setText(item.getText());
-            else
-                content.setText("");
+        void bind(final int position, final TootEntity item) {
+            if (item != null) {
+                if (!TextUtils.isEmpty(item.getText()))
+                    content.setText(item.getText());
+                else
+                    content.setText("");
+                suppr.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        handler.delete(position, item);
+                    }
+                });
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        handler.click(position, item);
+                    }
+                });
+            }
         }
     }
 }

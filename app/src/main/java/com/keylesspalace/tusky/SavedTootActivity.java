@@ -15,14 +15,19 @@
 
 package com.keylesspalace.tusky;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.keylesspalace.tusky.adapter.SavedTootAdapter;
 import com.keylesspalace.tusky.db.TootDao;
@@ -31,13 +36,14 @@ import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.List;
 
-public class SavedTootActivity extends BaseActivity {
+public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.SavedTootAction {
 
     // dao
     private static TootDao tootDao = TuskyApplication.getDB().tootDao();
 
     // ui
     private SavedTootAdapter adapter;
+    private TextView noContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +52,15 @@ public class SavedTootActivity extends BaseActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar bar = getSupportActionBar();
+        if (bar != null) {
+            bar.setTitle(getString(R.string.title_saved_toot));
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setDisplayShowHomeEnabled(true);
+        }
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        noContent = (TextView) findViewById(R.id.no_content);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -57,10 +70,22 @@ public class SavedTootActivity extends BaseActivity {
                 R.drawable.status_divider_dark);
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
-        adapter = new SavedTootAdapter();
+        adapter = new SavedTootAdapter(this);
         recyclerView.setAdapter(adapter);
 
+        // req
         getAllToot();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                onBackPressed();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void getAllToot() {
@@ -76,9 +101,38 @@ public class SavedTootActivity extends BaseActivity {
                 for (TootEntity t : tootEntities) {
                     Log.e("toot", "id=" + t.getUid() + "text=" + t.getText());
                 }
+
+                // set ui
+                setNoContent(tootEntities.size());
                 adapter.addItems(tootEntities);
             }
         }.execute();
     }
 
+    private void setNoContent(int size) {
+        if (size == 0) {
+            noContent.setVisibility(View.VISIBLE);
+        } else {
+            noContent.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void delete(int position, TootEntity item) {
+        // update DB
+        tootDao.delete(item);
+        // update adapter
+        if (adapter != null) {
+            adapter.removeItem(position);
+            setNoContent(adapter.getItemCount());
+        }
+    }
+
+    @Override
+    public void click(int position, TootEntity item) {
+        Intent intent = new Intent(this, ComposeActivity.class);
+        intent.putExtra("saved_toot_text", item.getText());
+        intent.putExtra("saved_json_urls", item.getUrls());
+        startActivity(intent);
+    }
 }

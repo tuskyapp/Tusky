@@ -7,7 +7,8 @@ import android.arch.persistence.room.RoomDatabase;
  * DB version & declare DAO
  */
 
-@Database(entities = {TootEntity.class}, version = 2, exportSchema = false)
-abstract public class AppDatabase extends RoomDatabase {
+@Database(entities = {TootEntity.class}, version = 3, exportSchema = false)
+public abstract class AppDatabase extends RoomDatabase {
+
     public abstract TootDao tootDao();
 }

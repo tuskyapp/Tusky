@@ -77,6 +77,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.entity.Account;
@@ -295,6 +297,22 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 if (startingHideText) {
                     startingContentWarning = intent.getStringExtra("content_warning");
                 }
+            }
+
+            /* If come from SavedTootActivity
+            * */
+            String savedTootText = intent.getStringExtra("saved_toot_text");
+            if (!TextUtils.isEmpty(savedTootText)) {
+                textEditor.append(savedTootText);
+            }
+
+            String savedJsonUrls = intent.getStringExtra("saved_json_urls");
+            if (!TextUtils.isEmpty(savedJsonUrls)) {
+                // try to redo a list of media
+                ArrayList<String> playersList = new Gson().fromJson(savedJsonUrls,
+                        new TypeToken<ArrayList<String>>() {
+                }.getType());
+
             }
         }
 
@@ -516,6 +534,17 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         } else {
             final TootEntity toot = new TootEntity();
             toot.setText(s);
+            if (mediaQueued != null && mediaQueued.size() > 0) {
+                List<String> list = new ArrayList<>();
+                for (QueuedMedia q :
+                        mediaQueued) {
+                    Log.d("list", "" + q.uri);
+                    list.add(q.uri.toString());
+                }
+                String json = new Gson().toJson(list);
+                toot.setUrls(json);
+            }
+
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {

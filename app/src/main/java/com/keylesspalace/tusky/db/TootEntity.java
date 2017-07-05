@@ -16,6 +16,9 @@ public class TootEntity {
     @ColumnInfo(name = "text")
     private String text;
 
+    @ColumnInfo(name = "urls")
+    private String urls;
+
     // getter setter
     public String getText() {
         return text;
@@ -31,5 +34,13 @@ public class TootEntity {
 
     public void setUid(int uid) {
         this.uid = uid;
+    }
+
+    public String getUrls() {
+        return urls;
+    }
+
+    public void setUrls(String urls) {
+        this.urls = urls;
     }
 }

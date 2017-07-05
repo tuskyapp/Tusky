@@ -18,7 +18,9 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
+        android:padding="16dp"
         android:layout_margin="16dp"
+
         android:contentDescription="@string/action_unmute"
         app:srcCompat="@drawable/ic_clear_24dp" />
 </LinearLayout>
