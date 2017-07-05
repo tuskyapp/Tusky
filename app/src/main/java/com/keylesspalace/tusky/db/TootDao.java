@@ -32,5 +32,5 @@ public interface TootDao {
 
     // d
     @Delete
-    void delete(TootEntity user);
+    int delete(TootEntity user);
 }
