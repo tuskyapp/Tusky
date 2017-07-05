@@ -28,6 +28,10 @@ public class TuskyApplication extends Application {
 
     private static AppDatabase db;
 
+    public static AppDatabase getDB() {
+        return db;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -54,10 +58,6 @@ public class TuskyApplication extends Application {
         }
 
         db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "tuskyDB").build();
-    }
-
-    public static AppDatabase getDB() {
-        return db;
+                AppDatabase.class, "tuskyDB").allowMainThreadQueries().build();
     }
 }
