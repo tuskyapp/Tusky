@@ -32,6 +32,7 @@
     <string name="title_blocks">Blocked users</string>
     <string name="title_follow_requests">Follow Requests</string>
     <string name="title_edit_profile">Edit your profile</string>
+    <string name="title_saved_toot">Saved Toot</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boosted</string>
@@ -197,5 +198,6 @@
     <string name="state_follow_requested">Follow requested</string>
 
     <string name="combine_s1_s2">%1$s %2$s</string>
+    <string name="no_content">no content</string>
 
 </resources>
