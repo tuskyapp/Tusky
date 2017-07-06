@@ -208,7 +208,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             public boolean onLongClick(View v) {
                 boolean b = saveTheToot(textEditor.getText().toString());
                 if (b) {
-                    Toast.makeText(ComposeActivity.this, "Toot saved !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ComposeActivity.this, R.string.action_save_one_toot, Toast.LENGTH_SHORT).show();
                 }
                 return b;
             }
@@ -538,7 +538,6 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 List<String> list = new ArrayList<>();
                 for (QueuedMedia q :
                         mediaQueued) {
-                    Log.d("list", "" + q.uri);
                     list.add(q.uri.toString());
                 }
                 String json = new Gson().toJson(list);
@@ -1266,13 +1265,6 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
         return super.onOptionsItemSelected(item);
     }
-
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
 
     @Override
     public void onReceiveHeaderInfo(ParserUtils.HeaderInfo headerInfo) {

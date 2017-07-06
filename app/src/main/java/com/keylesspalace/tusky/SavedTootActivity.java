@@ -24,7 +24,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -98,10 +97,6 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
             @Override
             protected void onPostExecute(List<TootEntity> tootEntities) {
                 super.onPostExecute(tootEntities);
-                for (TootEntity t : tootEntities) {
-                    Log.e("toot", "id=" + t.getUid() + "text=" + t.getText());
-                }
-
                 // set ui
                 setNoContent(tootEntities.size());
                 adapter.addItems(tootEntities);
