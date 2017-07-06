@@ -64,7 +64,7 @@ public class TuskyApplication extends Application {
             try {
                 Security.addProvider(new BouncyCastleProvider());
             } catch (SecurityException e) {
-                Log.d(TAG, "Permission to replace the security provider was denied.");
+                Log.e(TAG, "Permission to add the security provider was denied.");
             }
         } else {
             Provider replacement = new BouncyCastleProvider();
@@ -80,7 +80,7 @@ public class TuskyApplication extends Application {
                     Security.removeProvider(providerName);
                     Security.insertProviderAt(replacement, priority);
                 } catch (SecurityException e) {
-                    Log.d(TAG, "Permission to replace the security provider was denied.");
+                    Log.e(TAG, "Permission to update a security provider was denied.");
                 }
             }
         }
