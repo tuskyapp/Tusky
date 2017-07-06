@@ -53,5 +53,6 @@ dependencies {
     compile('org.eclipse.paho:org.eclipse.paho.android.service:1.1.1') {
         exclude module: 'support-v4'
     }
+    compile 'org.bouncycastle:bcprov-jdk15on:1.57'
     testCompile 'junit:junit:4.12'
 }

@@ -17,12 +17,20 @@ package com.keylesspalace.tusky;
 
 import android.app.Application;
 import android.net.Uri;
+import android.util.Log;
 
 import com.keylesspalace.tusky.util.OkHttpUtils;
 import com.squareup.picasso.Picasso;
 import com.jakewharton.picasso.OkHttp3Downloader;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
+import java.security.Provider;
+import java.security.Security;
+
 public class TuskyApplication extends Application {
+    private static final String TAG = "TuskyApplication"; // logging tag
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -46,6 +54,35 @@ public class TuskyApplication extends Application {
 
         if (BuildConfig.DEBUG) {
             Picasso.with(this).setLoggingEnabled(true);
+        }
+
+        /* Install the new provider or, if there's a pre-existing older version, replace the
+         * existing version of it. */
+        final String providerName = "BC";
+        Provider existingProvider = Security.getProvider(providerName);
+        if (existingProvider == null) {
+            try {
+                Security.addProvider(new BouncyCastleProvider());
+            } catch (SecurityException e) {
+                Log.d(TAG, "Permission to replace the security provider was denied.");
+            }
+        } else {
+            Provider replacement = new BouncyCastleProvider();
+            if (existingProvider.getVersion() < replacement.getVersion()) {
+                Provider[] providers = Security.getProviders();
+                int priority = 1;
+                for (int i = 0; i < providers.length; i++) {
+                    if (providers[i].getName().equals(providerName)) {
+                        priority = i + 1;
+                    }
+                }
+                try {
+                    Security.removeProvider(providerName);
+                    Security.insertProviderAt(replacement, priority);
+                } catch (SecurityException e) {
+                    Log.d(TAG, "Permission to replace the security provider was denied.");
+                }
+            }
         }
     }
 }
