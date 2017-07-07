@@ -72,6 +72,12 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
         adapter = new SavedTootAdapter(this);
         recyclerView.setAdapter(adapter);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         // req
         getAllToot();
     }
@@ -99,7 +105,10 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
                 super.onPostExecute(tootEntities);
                 // set ui
                 setNoContent(tootEntities.size());
-                adapter.addItems(tootEntities);
+                if (adapter != null) {
+                    adapter.setItems(tootEntities);
+                    adapter.notifyDataSetChanged();
+                }
             }
         }.execute();
     }
@@ -126,6 +135,7 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
     @Override
     public void click(int position, TootEntity item) {
         Intent intent = new Intent(this, ComposeActivity.class);
+        intent.putExtra("saved_toot_uid", item.getUid());
         intent.putExtra("saved_toot_text", item.getText());
         intent.putExtra("saved_json_urls", item.getUrls());
         startActivity(intent);

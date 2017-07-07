@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.db;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
@@ -23,12 +24,9 @@ public interface TootDao {
     @Query("SELECT * FROM TootEntity")
     List<TootEntity> loadAll();
 
-    @Query("SELECT * FROM TootEntity WHERE uid IN (:uid)")
-    List<TootEntity> loadAllByTootId(int... uid);
-
     // u
     @Update
-    void updateToot(TootEntity... toot);
+    void updateToot(TootEntity toot);
 
     // d
     @Delete
