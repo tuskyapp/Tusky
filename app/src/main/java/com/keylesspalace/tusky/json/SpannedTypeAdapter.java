@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.json;
 
 import android.text.Spanned;
+import android.text.SpannedString;
 
 import com.emojione.Emojione;
 import com.google.gson.JsonDeserializationContext;
@@ -28,7 +29,13 @@ import java.lang.reflect.Type;
 
 public class SpannedTypeAdapter implements JsonDeserializer<Spanned> {
     @Override
-    public Spanned deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return HtmlUtils.fromHtml(Emojione.shortnameToUnicode(json.getAsString(), false));
+    public Spanned deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+            throws JsonParseException {
+        String string = json.getAsString();
+        if (string != null) {
+            return HtmlUtils.fromHtml(Emojione.shortnameToUnicode(string, false));
+        } else {
+            return new SpannedString("");
+        }
     }
 }

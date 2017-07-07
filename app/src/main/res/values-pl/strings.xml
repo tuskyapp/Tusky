@@ -40,10 +40,7 @@
     <string name="status_content_warning_show_more">Pokaż więcej</string>
     <string name="status_content_warning_show_less">Ukryj</string>
 
-    <string name="footer_end_of_statuses">koniec statusów</string>
-    <string name="footer_end_of_notifications">koniec powiadomień</string>
-    <string name="footer_end_of_accounts">koniec listy kont</string>
-    <string name="footer_empty">Brak wpisów! Pociągnij, aby odświeżyć.</string>
+    <string name="footer_empty">Pusto! Pociągnij, aby odświeżyć.</string>
 
     <string name="notification_reblog_format">%s podbił twój post</string>
     <string name="notification_favourite_format">%s dodał twój post do ulubionych</string>
@@ -91,7 +88,7 @@
     <string name="action_mute">Wycisz</string>
     <string name="action_unmute">Cofnij wyciszenie</string>
     <string name="action_mention">Wspomnij</string>
-    <!--<string name="action_mark_sensitive">Mark media sensitive</string>-->
+    <string name="action_hide_media">Ukryj zawartość multimedialną</string>
     <string name="action_compose_options">Opcje</string>
     <string name="action_open_drawer">Otwórz szufladę</string>
     <string name="action_clear">Wyczyść</string>
@@ -114,10 +111,10 @@
 
     <string name="hint_domain">Jaka instancja?</string>
     <string name="hint_compose">Co ci chodzi po głowie?</string>
-    <string name="hint_content_warning">Ostrzeenie o zawartości</string>
+    <string name="hint_content_warning">Ostrzeżenie o zawartości</string>
     <string name="hint_display_name">Nazwa wyświetlana</string>
     <string name="hint_note">Biografia</string>
-    <string name="hint_search">Szukaj kont i tagów…</string>
+    <string name="hint_search">Szukaj…</string>
 
     <string name="search_no_results">Brak wyników</string>
 
@@ -168,6 +165,7 @@
     <string name="pref_title_status_tabs">Karty</string>
     <string name="pref_title_show_boosts">Pokazuj podbicia</string>
     <string name="pref_title_show_replies">Pokazuj odpowiedzi</string>
+    <string name="pref_title_show_media_preview">Pokazuj podgląd zawartości multimedialnej</string>
 
     <string name="notification_mention_format">%s wspomniał o tobie</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s i %4$d innych</string>
@@ -191,6 +189,8 @@
 
     <string name="status_share_content">Udostępnij zawartość postu</string>
     <string name="status_share_link">Udostępnij link do postu</string>
+    <string name="status_media_images">Obrazy</string>
+    <string name="status_media_video">Wideo</string>
 
     <string name="state_follow_requested">Wysłano prośbę o obserwację</string>
 </resources>

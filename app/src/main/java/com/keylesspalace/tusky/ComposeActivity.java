@@ -92,6 +92,7 @@ import com.keylesspalace.tusky.util.MediaUtils;
 import com.keylesspalace.tusky.util.MentionTokenizer;
 import com.keylesspalace.tusky.util.ParserUtils;
 import com.keylesspalace.tusky.util.SpanUtils;
+import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EditTextTyped;
 import com.keylesspalace.tusky.view.RoundedTransformation;
@@ -116,12 +117,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.keylesspalace.tusky.util.MediaUtils.MEDIA_SIZE_UNKNOWN;
-import static com.keylesspalace.tusky.util.MediaUtils.getMediaSize;
-import static com.keylesspalace.tusky.util.MediaUtils.inputStreamGetBytes;
-import static com.keylesspalace.tusky.util.StringUtils.carriageReturn;
-import static com.keylesspalace.tusky.util.StringUtils.randomAlphanumericString;
 
 public class ComposeActivity extends BaseActivity implements ComposeOptionsFragment.Listener, ParserUtils.ParserListener {
     private static final String TAG = "ComposeActivity"; // logging tag
@@ -260,11 +255,13 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             if (previousInputContentInfo != null) {
                 onCommitContentInternal(previousInputContentInfo, previousFlags);
             }
+            photoUploadUri = savedInstanceState.getParcelable("photoUploadUri");
         } else {
             showMarkSensitive = false;
             startingVisibility = preferences.getString("rememberedVisibility", "public");
             statusMarkSensitive = false;
             startingHideText = false;
+            photoUploadUri = null;
         }
 
         /* If the composer is started up as a reply to another post, override the "starting" state
@@ -435,7 +432,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                         }
                     }
                     for (Uri uri : uriList) {
-                        long mediaSize = getMediaSize(getContentResolver(), uri);
+                        long mediaSize = MediaUtils.getMediaSize(getContentResolver(), uri);
                         pickMedia(uri, mediaSize);
                     }
                 } else if (type.equals("text/plain")) {
@@ -477,6 +474,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         }
         currentInputContentInfo = null;
         currentFlags = 0;
+        outState.putParcelable("photoUploadUri", photoUploadUri);
         super.onSaveInstanceState(outState);
     }
 
@@ -732,7 +730,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 // Just eat this exception.
             }
         } else {
-            mediaSize = MEDIA_SIZE_UNKNOWN;
+            mediaSize = MediaUtils.MEDIA_SIZE_UNKNOWN;
         }
         pickMedia(uri, mediaSize);
 
@@ -875,7 +873,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
+            @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0
@@ -895,6 +893,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         }
     }
 
+    @NonNull
     private File createNewImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
@@ -1073,7 +1072,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         final String filename = String.format("%s_%s_%s.%s",
                 getString(R.string.app_name),
                 String.valueOf(new Date().getTime()),
-                randomAlphanumericString(10),
+                StringUtils.randomAlphanumericString(10),
                 fileExtension);
 
         byte[] content = item.content;
@@ -1088,7 +1087,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 return;
             }
 
-            content = inputStreamGetBytes(stream);
+            content = MediaUtils.inputStreamGetBytes(stream);
             IOUtils.closeQuietly(stream);
 
             if (content == null) {
@@ -1114,8 +1113,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
             @Override
             public void onFailure(Call<Media> call, Throwable t) {
-                Log.d(TAG, t.getMessage());
-                onUploadFailure(item, false);
+                Log.d(TAG, "Upload request failed. " + t.getMessage());
+                onUploadFailure(item, call.isCanceled());
             }
         });
     }
@@ -1149,7 +1148,10 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         if (finishingUploadDialog != null) {
             finishingUploadDialog.cancel();
         }
-        removeMediaFromQueue(item);
+        if (!isCanceled) {
+            // If it is canceled, it's already been removed, otherwise do it.
+            removeMediaFromQueue(item);
+        }
     }
 
     private void cancelReadyingMedia(QueuedMedia item) {
@@ -1166,19 +1168,19 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == MEDIA_PICK_RESULT && resultCode == RESULT_OK && data != null) {
+        if (resultCode == RESULT_OK && requestCode == MEDIA_PICK_RESULT && data != null) {
             Uri uri = data.getData();
-            long mediaSize = getMediaSize(getContentResolver(), uri);
+            long mediaSize = MediaUtils.getMediaSize(getContentResolver(), uri);
             pickMedia(uri, mediaSize);
-        } else if (requestCode == MEDIA_TAKE_PHOTO_RESULT && resultCode == RESULT_OK) {
-            long mediaSize = getMediaSize(getContentResolver(), photoUploadUri);
+        } else if (resultCode == RESULT_OK && requestCode == MEDIA_TAKE_PHOTO_RESULT) {
+            long mediaSize = MediaUtils.getMediaSize(getContentResolver(), photoUploadUri);
             pickMedia(photoUploadUri, mediaSize);
         }
     }
 
     private void pickMedia(Uri uri, long mediaSize) {
         ContentResolver contentResolver = getContentResolver();
-        if (mediaSize == MEDIA_SIZE_UNKNOWN) {
+        if (mediaSize == MediaUtils.MEDIA_SIZE_UNKNOWN) {
             displayTransientError(R.string.error_media_upload_opening);
             return;
         }
@@ -1280,7 +1282,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         if (!TextUtils.isEmpty(headerInfo.title)) {
             cleanBaseUrl(headerInfo);
             textEditor.append(headerInfo.title);
-            textEditor.append(carriageReturn);
+            textEditor.append(StringUtils.carriageReturn);
             textEditor.append(headerInfo.baseUrl);
         }
         if (!TextUtils.isEmpty(headerInfo.image)) {
@@ -1299,7 +1301,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                long mediaSize = getMediaSize(getContentResolver(), headerInfo);
+                                long mediaSize = MediaUtils.getMediaSize(getContentResolver(),
+                                        headerInfo);
                                 pickMedia(headerInfo, mediaSize);
                             }
                         });

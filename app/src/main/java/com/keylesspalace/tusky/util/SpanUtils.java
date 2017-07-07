@@ -19,7 +19,17 @@ import android.text.Spannable;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SpanUtils {
+    private static final String TAG_REGEX = "(?:^|[^/)\\w])#([\\w_]*[\\p{Alpha}_][\\w_]*)";
+    private static Pattern TAG_PATTERN = Pattern.compile(TAG_REGEX, Pattern.CASE_INSENSITIVE);
+    private static final String MENTION_REGEX =
+            "(?:^|[^/[:word:]])@([a-z0-9_]+(?:@[a-z0-9\\.\\-]+[a-z0-9]+)?)";
+    private static Pattern MENTION_PATTERN =
+            Pattern.compile(MENTION_REGEX, Pattern.CASE_INSENSITIVE);
+
     private static class FindCharsResult {
         int charIndex;
         int stringIndex;
@@ -63,35 +73,29 @@ public class SpanUtils {
     }
 
     private static int findEndOfHashtag(String string, int fromIndex) {
-        final int length = string.length();
-        for (int i = fromIndex + 1; i < length;) {
-            int codepoint = string.codePointAt(i);
-            if (Character.isWhitespace(codepoint)) {
-                return i;
-            } else if (codepoint == '#') {
-                return -1;
-            }
-            i += Character.charCount(codepoint);
+        Matcher matcher = TAG_PATTERN.matcher(string);
+        if (fromIndex >= 1) {
+            fromIndex--;
         }
-        return length;
+        boolean found = matcher.find(fromIndex);
+        if (found) {
+            return matcher.end();
+        } else {
+            return -1;
+        }
     }
 
     private static int findEndOfMention(String string, int fromIndex) {
-        int atCount = 0;
-        final int length = string.length();
-        for (int i = fromIndex + 1; i < length;) {
-            int codepoint = string.codePointAt(i);
-            if (Character.isWhitespace(codepoint)) {
-                return i;
-            } else if (codepoint == '@') {
-                atCount += 1;
-                if (atCount >= 2) {
-                    return -1;
-                }
-            }
-            i += Character.charCount(codepoint);
+        Matcher matcher = MENTION_PATTERN.matcher(string);
+        if (fromIndex >= 1) {
+            fromIndex--;
         }
-        return length;
+        boolean found = matcher.find(fromIndex);
+        if (found) {
+            return matcher.end();
+        } else {
+            return -1;
+        }
     }
 
     public static void highlightSpans(Spannable text, int colour) {

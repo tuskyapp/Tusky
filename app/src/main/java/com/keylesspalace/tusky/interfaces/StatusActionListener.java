@@ -26,4 +26,5 @@ public interface StatusActionListener extends LinkListener {
     void onMore(View view, final int position);
     void onViewMedia(String[] urls, int index, Status.MediaAttachment.Type type);
     void onViewThread(int position);
+    void onOpenReblog(int position);
 }

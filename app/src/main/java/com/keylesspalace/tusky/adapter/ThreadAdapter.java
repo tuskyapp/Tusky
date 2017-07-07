@@ -103,7 +103,7 @@ public class ThreadAdapter extends RecyclerView.Adapter implements AdapterItemRe
         // In case of refresh, remove old ancestors and descendants first. We'll remove all blindly,
         // as we have no guarantee on their order to be the same as before
         int oldSize = statuses.size();
-        if (oldSize > 0) {
+        if (oldSize > 1) {
             mainStatus = statuses.get(statusIndex);
             statuses.clear();
             notifyItemRangeRemoved(0, oldSize);

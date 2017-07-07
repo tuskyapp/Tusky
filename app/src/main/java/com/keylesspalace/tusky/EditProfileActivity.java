@@ -170,7 +170,8 @@ public class EditProfileActivity extends BaseActivity {
                 Account me = response.body();
                 priorDisplayName = me.getDisplayName();
                 priorNote = me.note.toString();
-                CircularImageView avatar = (CircularImageView) findViewById(R.id.edit_profile_avatar_preview);
+                CircularImageView avatar =
+                        (CircularImageView) findViewById(R.id.edit_profile_avatar_preview);
                 ImageView header = (ImageView) findViewById(R.id.edit_profile_header_preview);
 
                 displayNameEditText.setText(priorDisplayName);
