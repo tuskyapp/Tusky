@@ -59,6 +59,11 @@ public class SavedTootAdapter extends RecyclerView.Adapter {
         return list.size();
     }
 
+    public void setItems(List<TootEntity> newToot) {
+        list = new ArrayList<>();
+        list.addAll(newToot);
+    }
+
     public void addItems(List<TootEntity> newToot) {
         int end = list.size();
         list.addAll(newToot);
