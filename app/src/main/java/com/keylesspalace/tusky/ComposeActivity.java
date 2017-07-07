@@ -75,7 +75,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.keylesspalace.tusky.db.TootDao;
+import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
@@ -122,6 +127,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private static final int COMPOSE_SUCCESS = -1;
     private static final int THUMBNAIL_SIZE = 128; // pixels
+    private static TootDao tootDao = TuskyApplication.getDB().tootDao();
 
     private EditTextTyped textEditor;
     private LinearLayout mediaPreviewBar;
@@ -147,6 +153,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private InputContentInfoCompat currentInputContentInfo;
     private int currentFlags;
     private Uri photoUploadUri;
+
 
     /**
      * The Target object must be stored as a member field or method and cannot be an anonymous class otherwise this won't work as expected. The reason is that Picasso accepts this parameter as a weak memory reference. Because anonymous classes are eligible for garbage collection when there are no more references, the network request to fetch the image may finish after this anonymous class has already been reclaimed. See this Stack Overflow discussion for more details.
@@ -189,6 +196,16 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             @Override
             public void onClick(View v) {
                 onSendClicked();
+            }
+        });
+        floatingBtn.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                boolean b = saveTheToot(textEditor.getText().toString());
+                if (b) {
+                    Toast.makeText(ComposeActivity.this, R.string.action_save_one_toot, Toast.LENGTH_SHORT).show();
+                }
+                return b;
             }
         });
         pickBtn.setOnClickListener(new View.OnClickListener() {
@@ -277,6 +294,22 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 if (startingHideText) {
                     startingContentWarning = intent.getStringExtra("content_warning");
                 }
+            }
+
+            /* If come from SavedTootActivity
+            * */
+            String savedTootText = intent.getStringExtra("saved_toot_text");
+            if (!TextUtils.isEmpty(savedTootText)) {
+                textEditor.append(savedTootText);
+            }
+
+            String savedJsonUrls = intent.getStringExtra("saved_json_urls");
+            if (!TextUtils.isEmpty(savedJsonUrls)) {
+                // try to redo a list of media
+                ArrayList<String> playersList = new Gson().fromJson(savedJsonUrls,
+                        new TypeToken<ArrayList<String>>() {
+                }.getType());
+
             }
         }
 
@@ -442,7 +475,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private void doErrorDialog(@StringRes int descriptionId, @StringRes int actionId,
-            View.OnClickListener listener) {
+                               View.OnClickListener listener) {
         Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(descriptionId),
                 Snackbar.LENGTH_SHORT);
         bar.setAction(actionId, listener);
@@ -490,6 +523,33 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         if (lock != null) {
             lock.setBounds(0, 0, lock.getIntrinsicWidth(), lock.getIntrinsicHeight());
             floatingBtn.setCompoundDrawables(null, null, lock, null);
+        }
+    }
+
+    public boolean saveTheToot(String s) {
+        if (TextUtils.isEmpty(s)) {
+            return false;
+        } else {
+            final TootEntity toot = new TootEntity();
+            toot.setText(s);
+            if (mediaQueued != null && mediaQueued.size() > 0) {
+                List<String> list = new ArrayList<>();
+                for (QueuedMedia q :
+                        mediaQueued) {
+                    list.add(q.uri.toString());
+                }
+                String json = new Gson().toJson(list);
+                toot.setUrls(json);
+            }
+
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    tootDao.insert(toot);
+                    return null;
+                }
+            }.execute();
+            return true;
         }
     }
 
@@ -1355,7 +1415,9 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     private class MentionAutoCompleteAdapter extends ArrayAdapter<Account> implements Filterable {
         private ArrayList<Account> resultList;
-        private @LayoutRes int layoutId;
+        private
+        @LayoutRes
+        int layoutId;
 
         MentionAutoCompleteAdapter(Context context, @LayoutRes int resource) {
             super(context, resource);

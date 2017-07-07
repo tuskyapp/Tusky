@@ -65,7 +65,6 @@ import retrofit2.Response;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity"; // logging tag
-    protected static int COMPOSE_RESULT = 1;
     private static final long DRAWER_ITEM_EDIT_PROFILE = 0;
     private static final long DRAWER_ITEM_FAVOURITES = 1;
     private static final long DRAWER_ITEM_MUTED_USERS = 2;
@@ -75,15 +74,16 @@ public class MainActivity extends BaseActivity {
     private static final long DRAWER_ITEM_ABOUT = 6;
     private static final long DRAWER_ITEM_LOG_OUT = 7;
     private static final long DRAWER_ITEM_FOLLOW_REQUESTS = 8;
+    private static final long DRAWER_ITEM_SAVED_TOOT = 9;
 
+    protected static int COMPOSE_RESULT = 1;
+    public FloatingActionButton composeButton;
     private String loggedInAccountId;
     private String loggedInAccountUsername;
     private Stack<Integer> pageHistory;
     private AccountHeader headerResult;
     private Drawer drawer;
     private ViewPager viewPager;
-
-    public FloatingActionButton composeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,7 +179,8 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
         });
 
         Intent intent = getIntent();
@@ -289,23 +290,28 @@ public class MainActivity extends BaseActivity {
                 R.drawable.ic_mute_24dp, getTheme());
         ThemeUtils.setDrawableTint(this, muteDrawable, R.attr.toolbar_icon_tint);
 
+        List<IDrawerItem> listItem = new ArrayList<>();
+        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_EDIT_PROFILE).withName(getString(R.string.action_edit_profile)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person));
+        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_FAVOURITES).withName(getString(R.string.action_view_favourites)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_star));
+        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_MUTED_USERS).withName(getString(R.string.action_view_mutes)).withSelectable(false).withIcon(muteDrawable));
+        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_BLOCKED_USERS).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block));
+        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SEARCH).withName(getString(R.string.action_search)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_search));
+        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SAVED_TOOT).withName(getString(R.string.action_access_saved_toot)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_save));
+        listItem.add(new DividerDrawerItem());
+        listItem.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_PREFERENCES).withName(getString(R.string.action_view_preferences)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings));
+        listItem.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_ABOUT).withName(getString(R.string.about_title_activity)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_info));
+        listItem.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_LOG_OUT).withName(getString(R.string.action_logout)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_exit_to_app));
+
+        IDrawerItem[] array = new IDrawerItem[listItem.size()];
+        listItem.toArray(array); // fill the array
+
         drawer = new DrawerBuilder()
                 .withActivity(this)
                 //.withToolbar(toolbar)
                 .withAccountHeader(headerResult)
                 .withHasStableIds(true)
                 .withSelectedItem(-1)
-                .addDrawerItems(
-                        new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_EDIT_PROFILE).withName(getString(R.string.action_edit_profile)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person),
-                        new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_FAVOURITES).withName(getString(R.string.action_view_favourites)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_star),
-                        new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_MUTED_USERS).withName(getString(R.string.action_view_mutes)).withSelectable(false).withIcon(muteDrawable),
-                        new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_BLOCKED_USERS).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block),
-                        new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SEARCH).withName(getString(R.string.action_search)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_search),
-                        new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_PREFERENCES).withName(getString(R.string.action_view_preferences)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings),
-                        new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_ABOUT).withName(getString(R.string.about_title_activity)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_info),
-                        new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_LOG_OUT).withName(getString(R.string.action_logout)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_exit_to_app)
-                )
+                .addDrawerItems(array)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -340,6 +346,9 @@ public class MainActivity extends BaseActivity {
                             } else if (drawerItemIdentifier == DRAWER_ITEM_FOLLOW_REQUESTS) {
                                 Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
                                 intent.putExtra("type", AccountListActivity.Type.FOLLOW_REQUESTS);
+                                startActivity(intent);
+                            } else if (drawerItemIdentifier == DRAWER_ITEM_SAVED_TOOT) {
+                                Intent intent = new Intent(MainActivity.this, SavedTootActivity.class);
                                 startActivity(intent);
                             }
                         }
@@ -469,9 +478,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if(drawer != null && drawer.isDrawerOpen()) {
+        if (drawer != null && drawer.isDrawerOpen()) {
             drawer.closeDrawer();
-        } else if(pageHistory.size() < 2) {
+        } else if (pageHistory.size() < 2) {
             super.onBackPressed();
         } else {
             pageHistory.pop();

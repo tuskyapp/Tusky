@@ -55,4 +55,10 @@ dependencies {
     }
     compile 'org.bouncycastle:bcprov-jdk15on:1.57'
     testCompile 'junit:junit:4.12'
+
+    //room
+    compile "android.arch.persistence.room:runtime:1.0.0-alpha3"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha3"
+    compile "android.arch.persistence.room:rxjava2:1.0.0-alpha2"
+
 }
