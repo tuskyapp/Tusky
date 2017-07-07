@@ -158,7 +158,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private InputContentInfoCompat currentInputContentInfo;
     private int currentFlags;
     private Uri photoUploadUri;
-
+    private int savedTootUid = 0;
 
     /**
      * The Target object must be stored as a member field or method and cannot be an anonymous class otherwise this won't work as expected. The reason is that Picasso accepts this parameter as a weak memory reference. Because anonymous classes are eligible for garbage collection when there are no more references, the network request to fetch the image may finish after this anonymous class has already been reclaimed. See this Stack Overflow discussion for more details.
@@ -311,8 +311,12 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 // try to redo a list of media
                 ArrayList<String> playersList = new Gson().fromJson(savedJsonUrls,
                         new TypeToken<ArrayList<String>>() {
-                }.getType());
+                        }.getType());
+            }
 
+            int savedTootUid = intent.getIntExtra("saved_toot_uid", 0);
+            if (savedTootUid != 0) {
+                this.savedTootUid = savedTootUid;
             }
         }
 
@@ -547,7 +551,12 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
-                    tootDao.insert(toot);
+                    if (savedTootUid != 0) {
+                        toot.setUid(savedTootUid);
+                        tootDao.updateToot(toot);
+                    } else {
+                        tootDao.insert(toot);
+                    }
                     return null;
                 }
             }.execute();
