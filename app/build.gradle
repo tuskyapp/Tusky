@@ -59,6 +59,5 @@ dependencies {
     //room
     compile "android.arch.persistence.room:runtime:1.0.0-alpha3"
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha3"
-    compile "android.arch.persistence.room:rxjava2:1.0.0-alpha2"
 
 }
