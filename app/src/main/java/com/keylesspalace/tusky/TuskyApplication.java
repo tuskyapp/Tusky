@@ -16,12 +16,14 @@
 package com.keylesspalace.tusky;
 
 import android.app.Application;
+import android.arch.persistence.room.Room;
 import android.net.Uri;
 import android.util.Log;
 
+import com.jakewharton.picasso.OkHttp3Downloader;
+import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 import com.squareup.picasso.Picasso;
-import com.jakewharton.picasso.OkHttp3Downloader;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
@@ -30,6 +32,11 @@ import java.security.Security;
 
 public class TuskyApplication extends Application {
     private static final String TAG = "TuskyApplication"; // logging tag
+    private static AppDatabase db;
+
+    public static AppDatabase getDB() {
+        return db;
+    }
 
     @Override
     public void onCreate() {
@@ -84,5 +91,8 @@ public class TuskyApplication extends Application {
                 }
             }
         }
+
+        db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "tuskyDB").allowMainThreadQueries().build();
     }
 }
