@@ -137,6 +137,7 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
         Intent intent = new Intent(this, ComposeActivity.class);
         intent.putExtra("saved_toot_uid", item.getUid());
         intent.putExtra("saved_toot_text", item.getText());
+        intent.putExtra("saved_toot_content_warning", item.getContentWarning());
         intent.putExtra("saved_json_urls", item.getUrls());
         startActivity(intent);
     }

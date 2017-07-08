@@ -201,7 +201,11 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         floatingBtn.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                boolean b = saveTheToot(textEditor.getText().toString());
+                String contentWarning = null;
+                if (statusHideText) {
+                    contentWarning = contentWarningEditor.getText().toString();
+                }
+                boolean b = saveTheToot(textEditor.getText().toString(), contentWarning);
                 if (b) {
                     Toast.makeText(ComposeActivity.this, R.string.action_save_one_toot, Toast.LENGTH_SHORT).show();
                 }
@@ -269,6 +273,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         Intent intent = getIntent();
 
         String[] mentionedUsernames = null;
+        ArrayList<String> loadedDraftMediaUris = null;
         inReplyToId = null;
         if (intent != null) {
             inReplyToId = intent.getStringExtra("in_reply_to_id");
@@ -294,10 +299,15 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 if (startingHideText) {
                     startingContentWarning = intent.getStringExtra("content_warning");
                 }
+            } else {
+                String contentWarning = intent.getStringExtra("saved_toot_content_warning");
+                startingHideText = !TextUtils.isEmpty(contentWarning);
+                if (startingHideText) {
+                    startingContentWarning = contentWarning;
+                }
             }
 
-            /* If come from SavedTootActivity
-            * */
+            // If come from SavedTootActivity
             String savedTootText = intent.getStringExtra("saved_toot_text");
             if (!TextUtils.isEmpty(savedTootText)) {
                 textEditor.append(savedTootText);
@@ -306,7 +316,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             String savedJsonUrls = intent.getStringExtra("saved_json_urls");
             if (!TextUtils.isEmpty(savedJsonUrls)) {
                 // try to redo a list of media
-                ArrayList<String> playersList = new Gson().fromJson(savedJsonUrls,
+                loadedDraftMediaUris = new Gson().fromJson(savedJsonUrls,
                         new TypeToken<ArrayList<String>>() {
                         }.getType());
             }
@@ -398,6 +408,13 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         statusAlreadyInFlight = false;
 
         // These can only be added after everything affected by the media queue is initialized.
+        /* if (loadedDraftMediaUris != null && !loadedDraftMediaUris.isEmpty()) {
+            for (String uriString : loadedDraftMediaUris) {
+                Uri uri = Uri.parse(uriString);
+                long mediaSize = MediaUtils.getMediaSize(getContentResolver(), uri);
+                pickMedia(uri, mediaSize);
+            }
+        } else */
         if (savedMediaQueued != null) {
             for (SavedQueuedMedia item : savedMediaQueued) {
                 addMediaToQueue(item.type, item.preview, item.uri, item.mediaSize);
@@ -530,16 +547,16 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         }
     }
 
-    public boolean saveTheToot(String s) {
+    public boolean saveTheToot(String s, @Nullable String contentWarning) {
         if (TextUtils.isEmpty(s)) {
             return false;
         } else {
             final TootEntity toot = new TootEntity();
             toot.setText(s);
+            toot.setContentWarning(contentWarning);
             if (mediaQueued != null && mediaQueued.size() > 0) {
                 List<String> list = new ArrayList<>();
-                for (QueuedMedia q :
-                        mediaQueued) {
+                for (QueuedMedia q : mediaQueued) {
                     list.add(q.uri.toString());
                 }
                 String json = new Gson().toJson(list);
@@ -679,7 +696,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags,
-                                    String[] mimeTypes) {
+            String[] mimeTypes) {
         try {
             if (currentInputContentInfo != null) {
                 currentInputContentInfo.releasePermission();
@@ -741,7 +758,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private void sendStatus(String content, String visibility, boolean sensitive,
-                            String spoilerText) {
+            String spoilerText) {
         ArrayList<String> mediaIds = new ArrayList<>();
 
         for (QueuedMedia item : mediaQueued) {
@@ -1240,7 +1257,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         }
     }
 
-    void showMarkSensitive(boolean show) {
+    private void showMarkSensitive(boolean show) {
         showMarkSensitive = show;
 
         if (!showMarkSensitive) {
@@ -1256,7 +1273,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         }
     }
 
-    void showContentWarning(boolean show) {
+    private void showContentWarning(boolean show) {
         statusHideText = show;
         if (show) {
             contentWarningBar.setVisibility(View.VISIBLE);

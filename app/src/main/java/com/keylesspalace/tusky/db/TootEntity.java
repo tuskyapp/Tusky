@@ -19,6 +19,9 @@ public class TootEntity {
     @ColumnInfo(name = "urls")
     private String urls;
 
+    @ColumnInfo(name = "contentWarning")
+    private String contentWarning;
+
     // getter setter
     public String getText() {
         return text;
@@ -26,6 +29,14 @@ public class TootEntity {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getContentWarning() {
+        return contentWarning;
+    }
+
+    public void setContentWarning(String contentWarning) {
+        this.contentWarning = contentWarning;
     }
 
     public int getUid() {
