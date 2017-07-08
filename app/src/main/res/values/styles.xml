@@ -48,6 +48,7 @@
         <item name="image_button_style">@style/AppTheme.ImageButton.Dark</item>
         <item name="status_reblog_inactive_drawable">@drawable/reblog_inactive_dark</item>
         <item name="status_reblog_disabled_drawable">@drawable/reblog_disabled_dark</item>
+        <item name="status_reblog_direct_drawable">@drawable/reblog_direct_dark</item>
         <item name="status_favourite_active_drawable">@drawable/favourite_active_dark</item>
         <item name="status_favourite_inactive_drawable">@drawable/favourite_inactive_dark</item>
         <item name="content_warning_button">@drawable/toggle_small</item>
@@ -125,6 +126,7 @@
         <item name="image_button_style">@style/AppTheme.ImageButton.Light</item>
         <item name="status_reblog_inactive_drawable">@drawable/reblog_inactive_light</item>
         <item name="status_reblog_disabled_drawable">@drawable/reblog_disabled_light</item>
+        <item name="status_reblog_direct_drawable">@drawable/reblog_direct_light</item>
         <item name="status_favourite_active_drawable">@drawable/favourite_active_light</item>
         <item name="status_favourite_inactive_drawable">@drawable/favourite_inactive_light</item>
         <item name="content_warning_button">@drawable/toggle_small_light</item>

@@ -19,6 +19,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -173,7 +174,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     }
 
     /** This should only be called after setReblogged, in order to override the tint correctly. */
-    private void setRebloggingEnabled(boolean enabled) {
+    private void setRebloggingEnabled(boolean enabled, Status.Visibility visibility) {
         reblogButton.setEnabled(enabled);
 
         if (enabled) {
@@ -182,8 +183,14 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
             reblogButton.setInactiveImage(inactiveId);
             reblogButton.setActiveImage(R.drawable.reblog_active);
         } else {
-            int disabledId = ThemeUtils.getDrawableId(reblogButton.getContext(),
-                    R.attr.status_reblog_disabled_drawable, R.drawable.reblog_disabled_dark);
+            int disabledId;
+            if (visibility == Status.Visibility.DIRECT) {
+                disabledId = ThemeUtils.getDrawableId(reblogButton.getContext(),
+                        R.attr.status_reblog_direct_drawable, R.drawable.reblog_direct_dark);
+            } else {
+                disabledId = ThemeUtils.getDrawableId(reblogButton.getContext(),
+                        R.attr.status_reblog_disabled_drawable, R.drawable.reblog_disabled_dark);
+            }
             reblogButton.setInactiveImage(disabledId);
             reblogButton.setActiveImage(disabledId);
         }
@@ -266,6 +273,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
+    @NonNull
     private static String getLabelTypeText(Context context, Status.MediaAttachment.Type type) {
         switch (type) {
             default:
@@ -468,7 +476,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         }
 
         setupButtons(listener, realStatus.account.id);
-        setRebloggingEnabled(status.rebloggingAllowed());
+        setRebloggingEnabled(status.rebloggingAllowed(), status.getVisibility());
         if (realStatus.spoilerText.isEmpty()) {
             hideSpoilerText();
         } else {
