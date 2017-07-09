@@ -54,6 +54,12 @@
             android:title="@string/pref_title_notifications_enabled"
             android:defaultValue="true" />
 
+        <ListPreference android:key="pullNotificationCheckInterval"
+            android:title="@string/pref_title_pull_notification_check_interval"
+            android:entries="@array/pull_notification_check_interval_names"
+            android:entryValues="@array/pull_notification_check_intervals"
+            android:defaultValue="15" />
+
         <PreferenceCategory
             android:dependency="notificationsEnabled"
             android:title="@string/pref_title_notification_filters">

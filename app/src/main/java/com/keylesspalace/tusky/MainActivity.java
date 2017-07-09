@@ -211,16 +211,18 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        ArrayList<Integer> pageHistoryList = new ArrayList<>();
+        pageHistoryList.addAll(pageHistory);
+        outState.putIntegerArrayList("pageHistory", pageHistoryList);
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
-        SharedPreferences notificationPreferences = getApplicationContext()
-                .getSharedPreferences("Notifications", MODE_PRIVATE);
-        notificationPreferences.edit()
-                .putString("current", "[]")
-                .apply();
-
-        pushNotificationClient.clearNotifications(this);
+        clearNotifications();
 
         /* After editing a profile, the profile header in the navigation drawer needs to be
          * refreshed */
@@ -234,11 +236,50 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        ArrayList<Integer> pageHistoryList = new ArrayList<>();
-        pageHistoryList.addAll(pageHistory);
-        outState.putIntegerArrayList("pageHistory", pageHistoryList);
-        super.onSaveInstanceState(outState, outPersistentState);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == COMPOSE_RESULT && resultCode == ComposeActivity.RESULT_OK) {
+            Intent intent = new Intent(TimelineReceiver.Types.STATUS_COMPOSED);
+            LocalBroadcastManager.getInstance(getApplicationContext())
+                    .sendBroadcast(intent);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer != null && drawer.isDrawerOpen()) {
+            drawer.closeDrawer();
+        } else if (pageHistory.size() < 2) {
+            super.onBackPressed();
+        } else {
+            pageHistory.pop();
+            viewPager.setCurrentItem(pageHistory.peek());
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MENU: {
+                if (drawer.isDrawerOpen()) {
+                    drawer.closeDrawer();
+                } else {
+                    drawer.openDrawer();
+                }
+                return true;
+            }
+            case KeyEvent.KEYCODE_SEARCH: {
+                startActivity(new Intent(this, SearchActivity.class));
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    // Fix for GitHub issues #190, #259 (MainActivity won't restart on screen rotation.)
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     private void tintTab(TabLayout.Tab tab, boolean tinted) {
@@ -464,52 +505,5 @@ public class MainActivity extends BaseActivity {
 
     private void onFetchUserInfoFailure(Exception exception) {
         Log.e(TAG, "Failed to fetch user info. " + exception.getMessage());
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == COMPOSE_RESULT && resultCode == ComposeActivity.RESULT_OK) {
-            Intent intent = new Intent(TimelineReceiver.Types.STATUS_COMPOSED);
-            LocalBroadcastManager.getInstance(getApplicationContext())
-                    .sendBroadcast(intent);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawer != null && drawer.isDrawerOpen()) {
-            drawer.closeDrawer();
-        } else if (pageHistory.size() < 2) {
-            super.onBackPressed();
-        } else {
-            pageHistory.pop();
-            viewPager.setCurrentItem(pageHistory.peek());
-        }
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_MENU: {
-                if (drawer.isDrawerOpen()) {
-                    drawer.closeDrawer();
-                } else {
-                    drawer.openDrawer();
-                }
-                return true;
-            }
-            case KeyEvent.KEYCODE_SEARCH: {
-                startActivity(new Intent(this, SearchActivity.class));
-                return true;
-            }
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    // Fix for GitHub issues #190, #259 (MainActivity won't restart on screen rotation.)
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
     }
 }

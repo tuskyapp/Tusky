@@ -15,6 +15,9 @@
 
 package com.keylesspalace.tusky;
 
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,24 +25,23 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spanned;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.keylesspalace.tusky.entity.Session;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.json.StringWithEmoji;
 import com.keylesspalace.tusky.json.StringWithEmojiTypeAdapter;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TuskyApi;
+import com.keylesspalace.tusky.service.PullNotificationService;
 import com.keylesspalace.tusky.util.OkHttpUtils;
-import com.keylesspalace.tusky.util.PushNotificationClient;
 
 import java.io.IOException;
 
@@ -48,18 +50,14 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BaseActivity extends AppCompatActivity {
-    private static final String TAG = "BaseActivity"; // logging tag
+    protected static final int SERVICE_REQUEST_CODE = 8574603; // This number is arbitrary.
 
     public MastodonApi mastodonApi;
     public TuskyApi tuskyApi;
-    protected PushNotificationClient pushNotificationClient;
     protected Dispatcher mastodonApiDispatcher;
 
     @Override
@@ -69,7 +67,6 @@ public class BaseActivity extends AppCompatActivity {
         redirectIfNotLoggedIn();
         createMastodonApi();
         createTuskyApi();
-        createPushNotificationClient();
 
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
@@ -173,11 +170,6 @@ public class BaseActivity extends AppCompatActivity {
         tuskyApi = retrofit.create(TuskyApi.class);
     }
 
-    protected void createPushNotificationClient() {
-        pushNotificationClient = new PushNotificationClient(getApplicationContext(),
-                "ssl://" + getString(R.string.tusky_api_url) + ":8883");
-    }
-
     protected void redirectIfNotLoggedIn() {
         SharedPreferences preferences = getPrivatePreferences();
         String domain = preferences.getString("domain", null);
@@ -209,66 +201,47 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void enablePushNotifications() {
-        Callback<ResponseBody> callback = new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call,
-                                   retrofit2.Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    pushNotificationClient.subscribeToTopic(getPushNotificationTopic());
-                    pushNotificationClient.connect(BaseActivity.this);
-                } else {
-                    onEnablePushNotificationsFailure(response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                onEnablePushNotificationsFailure(t.getMessage());
-            }
-        };
-        String deviceToken = pushNotificationClient.getDeviceToken();
-        Session session = new Session(getDomain(), getAccessToken(), deviceToken);
-        tuskyApi.register(session)
-                .enqueue(callback);
-    }
-
-    private void onEnablePushNotificationsFailure(String message) {
-        Log.e(TAG, "Enabling push notifications failed. " + message);
+        // Start up the PullNotificationService on a repeating interval.
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String minutesString = preferences.getString("pullNotificationCheckInterval", "15");
+        long minutes = Long.valueOf(minutesString);
+        long checkInterval = 1000 * 60 * minutes;
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, PullNotificationService.class);
+        PendingIntent serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime(), checkInterval, serviceAlarmIntent);
     }
 
     protected void disablePushNotifications() {
-        Callback<ResponseBody> callback = new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call,
-                                   retrofit2.Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    pushNotificationClient.unsubscribeToTopic(getPushNotificationTopic());
-                } else {
-                    onDisablePushNotificationsFailure();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                onDisablePushNotificationsFailure();
-            }
-        };
-        String deviceToken = pushNotificationClient.getDeviceToken();
-        Session session = new Session(getDomain(), getAccessToken(), deviceToken);
-        tuskyApi.unregister(session)
-                .enqueue(callback);
+        // Cancel the repeating call for "pull" notifications.
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, PullNotificationService.class);
+        PendingIntent serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(serviceAlarmIntent);
     }
 
-    private void onDisablePushNotificationsFailure() {
-        Log.e(TAG, "Disabling push notifications failed.");
+    protected void clearNotifications() {
+        SharedPreferences notificationPreferences = getApplicationContext()
+                .getSharedPreferences("Notifications", MODE_PRIVATE);
+        notificationPreferences.edit()
+                .putString("current", "[]")
+                .apply();
+
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        manager.cancel(PullNotificationService.NOTIFY_ID);
     }
 
-    private String getPushNotificationTopic() {
-        return String.format("%s/%s/#", getDomain(), getAccessToken());
-    }
-
-    private String getDomain() {
-        return getPrivatePreferences()
-                .getString("domain", null);
+    protected void setPullNotificationCheckInterval(long minutes) {
+        long checkInterval = 1000 * 60 * minutes;
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, PullNotificationService.class);
+        PendingIntent serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(serviceAlarmIntent);
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime(), checkInterval, serviceAlarmIntent);
     }
 }

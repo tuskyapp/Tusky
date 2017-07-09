@@ -59,24 +59,34 @@ public class PreferencesActivity extends BaseActivity
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals("lightTheme")) {
-            themeSwitched = true;
-            // recreate() could be used instead, but it doesn't have an animation B).
-            Intent intent = getIntent();
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            Bundle savedInstanceState = new Bundle();
-            saveInstanceState(savedInstanceState);
-            intent.putExtras(savedInstanceState);
-            startActivity(intent);
-            finish();
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        } else if (key.equals("notificationsEnabled")) {
-            boolean notificationsEnabled = sharedPreferences.getBoolean("notificationsEnabled", true);
-
-            if (notificationsEnabled) {
-                enablePushNotifications();
-            } else {
-                disablePushNotifications();
+        switch (key) {
+            case "lightTheme": {
+                themeSwitched = true;
+                // recreate() could be used instead, but it doesn't have an animation B).
+                Intent intent = getIntent();
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                Bundle savedInstanceState = new Bundle();
+                saveInstanceState(savedInstanceState);
+                intent.putExtras(savedInstanceState);
+                startActivity(intent);
+                finish();
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                break;
+            }
+            case "notificationsEnabled": {
+                boolean enabled = sharedPreferences.getBoolean("notificationsEnabled", true);
+                if (enabled) {
+                    enablePushNotifications();
+                } else {
+                    disablePushNotifications();
+                }
+                break;
+            }
+            case "pullNotificationCheckInterval": {
+                String s = sharedPreferences.getString("pullNotificationCheckInterval", "15");
+                long minutes = Long.valueOf(s);
+                setPullNotificationCheckInterval(minutes);
+                break;
             }
         }
     }

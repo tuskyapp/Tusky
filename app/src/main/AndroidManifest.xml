@@ -98,7 +98,7 @@
 
         <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
 
-        <service android:name="org.eclipse.paho.android.service.MqttService" />
+        <service android:name=".service.PullNotificationService" />
         <service
             tools:targetApi="24"
             android:name="com.keylesspalace.tusky.service.TuskyTileService"

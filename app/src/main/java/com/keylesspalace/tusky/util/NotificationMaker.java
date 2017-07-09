@@ -41,7 +41,7 @@ import com.squareup.picasso.Target;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-class NotificationMaker {
+public class NotificationMaker {
 
     public static final String TAG = "NotificationMaker";
 
