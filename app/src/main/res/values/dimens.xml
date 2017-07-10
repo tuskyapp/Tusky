@@ -20,4 +20,8 @@
     <dimen name="tab_page_margin">8dp</dimen>
     <dimen name="status_left_line_margin">38dp</dimen>
     <dimen name="text_content_margin">16dp</dimen>
+
+    <dimen name="standard_55">55dp</dimen>
+    <dimen name="standard_100">100dp</dimen>
+    <dimen name="standard_145">145dp</dimen>
 </resources>

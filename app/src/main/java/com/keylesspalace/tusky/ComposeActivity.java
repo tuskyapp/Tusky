@@ -95,6 +95,7 @@ import com.keylesspalace.tusky.util.SpanUtils;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EditTextTyped;
+import com.keylesspalace.tusky.view.MenuFabView;
 import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -198,7 +199,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 onSendClicked();
             }
         });
-        floatingBtn.setOnLongClickListener(new View.OnLongClickListener() {
+        /*floatingBtn.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 String contentWarning = null;
@@ -211,7 +212,10 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 }
                 return b;
             }
-        });
+        });*/
+        MenuFabView menuFabView = new MenuFabView(this);
+        menuFabView.attachView(floatingBtn);
+
         pickBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -696,7 +700,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags,
-            String[] mimeTypes) {
+                                    String[] mimeTypes) {
         try {
             if (currentInputContentInfo != null) {
                 currentInputContentInfo.releasePermission();
@@ -758,7 +762,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private void sendStatus(String content, String visibility, boolean sensitive,
-            String spoilerText) {
+                            String spoilerText) {
         ArrayList<String> mediaIds = new ArrayList<>();
 
         for (QueuedMedia item : mediaQueued) {
@@ -890,7 +894,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
-            @NonNull int[] grantResults) {
+                                           @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0
