@@ -6,24 +6,26 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.interfaces.MenuFabViewListener;
 
 /**
  * Created by torrentcome on 10/07/2017.
- * motivation : specific and adaptable fab menu layout
+ * specific and adaptable fab menu layout
  */
 
 public class MenuFabView extends RelativeLayout {
 
-    boolean isFABOpen = false;
-    private View attachView;
-    private FloatingActionButton fab, fab1, fab2, fab3;
-    private LinearLayout fabLayout1, fabLayout2, fabLayout3;
+    private boolean isFABOpen = false;
+    private FloatingActionButton fab1, fab2;
+    private LinearLayout fabLayout1, fabLayout2;
     private View fabBackground;
+    private MenuFabViewListener handler;
 
     public MenuFabView(Context context) {
         super(context);
@@ -52,23 +54,28 @@ public class MenuFabView extends RelativeLayout {
 
     private void init() {
         inflate(getContext(), R.layout.view_menu_fab, this);
+
         fab1 = (FloatingActionButton) findViewById(R.id.fab1);
         fab2 = (FloatingActionButton) findViewById(R.id.fab2);
-        fab3 = (FloatingActionButton) findViewById(R.id.fab3);
         fabLayout1 = (LinearLayout) findViewById(R.id.fabLayout1);
         fabLayout2 = (LinearLayout) findViewById(R.id.fabLayout2);
-        fabLayout3 = (LinearLayout) findViewById(R.id.fabLayout3);
         fabBackground = findViewById(R.id.fabbackground);
     }
 
-    public void attachView(View v) {
+    public void attachView(Context context, View v) {
+        if (context == null) {
+            Log.e("error", "handler null");
+        } else {
+            this.handler = (MenuFabViewListener) context;
+        }
         if (v != null) {
-            attachView = v;
-            attachView.setOnLongClickListener(new OnLongClickListener() {
+            v.setOnLongClickListener(new OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     if (!isFABOpen) {
                         showFABMenu();
+                    } else {
+                        closeFABMenu();
                     }
                     return false;
                 }
@@ -80,29 +87,45 @@ public class MenuFabView extends RelativeLayout {
                     closeFABMenu();
                 }
             });
+            fab1.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    handler.menuFabSaveToot();
+                }
+            });
+            fab2.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    handler.menuFabCopy();
+                }
+            });
         }
     }
 
     private void showFABMenu() {
         isFABOpen = true;
-        fabLayout1.setVisibility(View.VISIBLE);
-        fabLayout2.setVisibility(View.VISIBLE);
-        fabLayout3.setVisibility(View.VISIBLE);
         fabBackground.setVisibility(View.VISIBLE);
 
-        fab.animate().rotationBy(180);
-        fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        //1
+        fabLayout1.setVisibility(View.VISIBLE);
+        fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.standard_50));
+        fabLayout1.animate().alpha(1);
+        //2
+        fabLayout2.setVisibility(View.VISIBLE);
         fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
-        fabLayout3.animate().translationY(-getResources().getDimension(R.dimen.standard_145));
+        fabLayout2.animate().alpha(1);
     }
 
-    private void closeFABMenu() {
+    public void closeFABMenu() {
         isFABOpen = false;
         fabBackground.setVisibility(View.GONE);
-        fab.animate().rotationBy(-180);
+
+        //1
+        fabLayout1.animate().alpha(0);
         fabLayout1.animate().translationY(0);
-        fabLayout2.animate().translationY(0);
-        fabLayout3.animate().translationY(0).setListener(new Animator.AnimatorListener() {
+        //2
+        fabLayout2.animate().alpha(0);
+        fabLayout2.animate().translationY(0).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
 
@@ -113,9 +136,7 @@ public class MenuFabView extends RelativeLayout {
                 if (!isFABOpen) {
                     fabLayout1.setVisibility(View.GONE);
                     fabLayout2.setVisibility(View.GONE);
-                    fabLayout3.setVisibility(View.GONE);
                 }
-
             }
 
             @Override
@@ -130,5 +151,7 @@ public class MenuFabView extends RelativeLayout {
         });
     }
 
-
+    public boolean isFABOpen() {
+        return isFABOpen;
+    }
 }
