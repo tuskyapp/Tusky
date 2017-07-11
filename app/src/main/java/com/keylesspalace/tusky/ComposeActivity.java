@@ -1382,6 +1382,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         boolean b = saveTheToot(textEditor.getText().toString(), contentWarning);
         if (b) {
             Toast.makeText(ComposeActivity.this, R.string.action_end_save_one_toot, Toast.LENGTH_SHORT).show();
+            onBackPressed();
         }
     }
 
@@ -1393,6 +1394,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         if (!TextUtils.isEmpty(textEditor.getText().toString())) {
             parser.putInClipboardManager(this, textEditor.getText().toString());
             Toast.makeText(ComposeActivity.this, R.string.action_copy_toot, Toast.LENGTH_SHORT).show();
+            onBackPressed();
         } else {
             textEditor.setError(getString(R.string.error_empty));
         }

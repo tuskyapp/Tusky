@@ -16,7 +16,7 @@ import com.keylesspalace.tusky.interfaces.MenuFabViewListener;
 
 /**
  * Created by torrentcome on 10/07/2017.
- * specific and adaptable fab menu layout
+ * custom fab menu layout
  */
 
 public class MenuFabView extends RelativeLayout {
@@ -77,7 +77,7 @@ public class MenuFabView extends RelativeLayout {
                     } else {
                         closeFABMenu();
                     }
-                    return false;
+                    return true;
                 }
             });
 
