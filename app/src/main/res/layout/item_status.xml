@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/status_reblogged_bar"
         android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="@dimen/status_reblogged_bar_top_padding">
 
@@ -20,8 +21,12 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_repeat_24dp"
             android:id="@+id/status_reblogged_icon"
-            android:paddingRight="10dp"
+            android:paddingStart="24dp"
             android:paddingLeft="24dp"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:tint="?android:textColorTertiary"
             android:contentDescription="@null" />
 
@@ -31,6 +36,7 @@
             android:id="@+id/status_reblogged"
             android:textColor="?android:textColorTertiary"
             android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/status_reblogged_icon"
             android:layout_toRightOf="@id/status_reblogged_icon" />
 
     </RelativeLayout>
@@ -42,6 +48,7 @@
         android:id="@+id/status_avatar"
         android:layout_below="@+id/status_reblogged_bar"
         android:layout_marginTop="11dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:contentDescription="@string/action_view_profile" />
 
@@ -59,6 +66,7 @@
             android:id="@+id/status_since_created"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:text="20m"
             android:textColor="?android:textColorSecondary" />
@@ -67,7 +75,9 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
+            android:layout_toStartOf="@id/status_since_created"
             android:layout_toLeftOf="@id/status_since_created">
 
             <TextView
@@ -80,6 +90,9 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="Name"
+                android:paddingStart="0dp"
+                android:paddingLeft="0dp"
+                android:paddingEnd="@dimen/status_display_name_right_padding"
                 android:paddingRight="@dimen/status_display_name_right_padding" />
 
             <TextView
@@ -112,6 +125,9 @@
             android:id="@+id/status_content_warning_description"
             android:text="Hello world"
             android:textColor="?android:textColorPrimary"
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp"
+            android:paddingEnd="8dp"
             android:paddingRight="8dp" />
 
         <ToggleButton
@@ -137,6 +153,8 @@
         android:layout_marginBottom="4dp"
         android:layout_toRightOf="@+id/status_avatar"
         android:layout_toEndOf="@+id/status_avatar"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/status_content_warning_bar"
         android:focusable="true" />
 
@@ -145,6 +163,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/status_content"
+        android:layout_toEndOf="@+id/status_avatar"
         android:layout_toRightOf="@+id/status_avatar">
 
         <LinearLayout
@@ -163,6 +182,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/status_media_preview_height"
                     android:layout_weight="1"
+                    android:layout_marginEnd="2dp"
                     android:layout_marginRight="2dp"
                     android:scaleType="centerCrop"
                     android:layout_marginTop="@dimen/status_media_preview_top_margin"
@@ -173,6 +193,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/status_media_preview_height"
                     android:layout_weight="1"
+                    android:layout_marginStart="2dp"
                     android:layout_marginLeft="2dp"
                     android:scaleType="centerCrop"
                     android:layout_marginTop="@dimen/status_media_preview_top_margin"
@@ -191,6 +212,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/status_media_preview_height"
                     android:layout_weight="1"
+                    android:layout_marginEnd="2dp"
                     android:layout_marginRight="2dp"
                     android:scaleType="centerCrop"
                     android:contentDescription="@string/action_view_media" />
@@ -199,6 +221,7 @@
                     android:id="@+id/status_media_preview_3"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/status_media_preview_height"
+                    android:layout_marginStart="2dp"
                     android:layout_marginLeft="2dp"
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
@@ -267,6 +290,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/status_media_preview_container"
+        android:layout_toEndOf="@+id/status_avatar"
         android:layout_toRightOf="@+id/status_avatar"
         android:clipChildren="false"
         android:clipToPadding="false"

@@ -19,8 +19,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/notification_icon"
-            android:paddingRight="10dp"
+            android:paddingStart="24dp"
             android:paddingLeft="24dp"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
             app:srcCompat="@drawable/ic_repeat_24dp"
             android:contentDescription="@null" />
 
@@ -33,6 +35,7 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:text="Someone favourited your status"
+            android:layout_toEndOf="@id/notification_icon"
             android:layout_toRightOf="@id/notification_icon" />
 
     </RelativeLayout>
@@ -41,9 +44,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/notification_content"
+        android:paddingStart="58dp"
         android:paddingLeft="58dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="10dp"
         android:text="Example status here"
-        android:textColor="?android:textColorTertiary"
-        android:paddingBottom="10dp" />
+        android:textColor="?android:textColorTertiary" />
 
 </LinearLayout>

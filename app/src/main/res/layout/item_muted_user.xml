@@ -11,7 +11,9 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:id="@+id/muted_user_avatar"
+        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:layout_centerVertical="true"
         android:contentDescription="@string/action_view_profile" />
@@ -23,7 +25,9 @@
         android:id="@+id/muted_user_unmute"
         android:layout_gravity="center_vertical"
         style="?attr/image_button_style"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_centerVertical="true"
         android:contentDescription="@string/action_unmute" />
@@ -33,7 +37,9 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:orientation="vertical"
+        android:layout_toEndOf="@id/muted_user_avatar"
         android:layout_toRightOf="@id/muted_user_avatar"
+        android:layout_toStartOf="@id/muted_user_unmute"
         android:layout_toLeftOf="@id/muted_user_unmute">
 
         <TextView

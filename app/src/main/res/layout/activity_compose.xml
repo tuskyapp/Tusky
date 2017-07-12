@@ -81,6 +81,7 @@
                     <!--This is filled at runtime with ImageView's for each preview in the upload queue.-->
 
                 </LinearLayout>
+
             </HorizontalScrollView>
 
             <ProgressBar
@@ -106,6 +107,7 @@
                 style="?attr/image_button_style"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 app:srcCompat="@drawable/ic_camera_24dp"
                 android:contentDescription="@string/action_photo_take" />
@@ -115,6 +117,7 @@
                 style="?attr/image_button_style"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 app:srcCompat="@drawable/ic_attach_file_24dp"
                 android:contentDescription="@string/action_photo_pick" />
@@ -124,6 +127,7 @@
                 style="?attr/image_button_style"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 app:srcCompat="@drawable/ic_public_24dp"
                 android:contentDescription="@string/action_compose_options" />
@@ -156,11 +160,13 @@
                 android:background="@drawable/compose_button_colors"
                 android:layout_width="80dp"
                 android:layout_height="35dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:text="@string/action_send"
                 android:textColor="@android:color/white" />
-        </LinearLayout>
-    </LinearLayout>
 
+        </LinearLayout>
+
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

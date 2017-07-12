@@ -546,15 +546,6 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         floatingBtn.setEnabled(true);
     }
 
-    private void addLockToSendButton() {
-        floatingBtn.setText(R.string.action_send);
-        Drawable lock = AppCompatResources.getDrawable(this, R.drawable.send_private);
-        if (lock != null) {
-            lock.setBounds(0, 0, lock.getIntrinsicWidth(), lock.getIntrinsicHeight());
-            floatingBtn.setCompoundDrawables(null, null, lock, null);
-        }
-    }
-
     private static boolean copyToFile(ContentResolver contentResolver, Uri uri, File file) {
         InputStream from;
         FileOutputStream to;
@@ -707,6 +698,15 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             }
         }.execute();
         return true;
+    }
+
+    private void addLockToSendButton() {
+        floatingBtn.setText(R.string.action_send);
+        Drawable lock = AppCompatResources.getDrawable(this, R.drawable.send_private);
+        if (lock != null) {
+            lock.setBounds(0, 0, lock.getIntrinsicWidth(), lock.getIntrinsicHeight());
+            floatingBtn.setCompoundDrawables(null, null, lock, null);
+        }
     }
 
     private void setStatusVisibility(String visibility) {
