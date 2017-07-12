@@ -2,7 +2,8 @@
         android:width="24dp"
         android:height="24dp"
         android:viewportWidth="24.0"
-        android:viewportHeight="24.0">
+        android:viewportHeight="24.0"
+        android:autoMirrored="true">
     <path
         android:fillColor="@color/toolbar_icon_dark"
         android:pathData="M2.01,21L23,12 2.01,3 2,10l15,2 -15,2z"/>

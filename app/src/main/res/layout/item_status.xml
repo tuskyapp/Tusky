@@ -68,6 +68,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
             android:text="20m"
             android:textColor="?android:textColorSecondary" />
 
@@ -117,6 +119,7 @@
         android:layout_toEndOf="@+id/status_avatar"
         android:layout_below="@+id/status_name_bar"
         android:layout_marginBottom="4dp"
+        app:paddingHorizontal="4dp"
         android:focusable="true">
 
         <TextView
@@ -124,11 +127,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/status_content_warning_description"
             android:text="Hello world"
-            android:textColor="?android:textColorPrimary"
-            android:paddingStart="0dp"
-            android:paddingLeft="0dp"
-            android:paddingEnd="8dp"
-            android:paddingRight="8dp" />
+            android:textColor="?android:textColorPrimary" />
 
         <ToggleButton
             android:layout_width="wrap_content"

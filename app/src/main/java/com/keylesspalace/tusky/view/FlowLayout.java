@@ -64,16 +64,17 @@ public class FlowLayout extends ViewGroup {
             if (child.getVisibility() != GONE) {
                 int widthSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST);
                 child.measure(widthSpec, childHeightMeasureSpec);
-                int childwidth = child.getMeasuredWidth();
+                child.getLayoutParams();
+                int childWidth = child.getMeasuredWidth();
                 int childHeight = child.getMeasuredHeight();
-                if (x + childwidth > width) {
+                if (x + childWidth > width) {
                     x = getPaddingLeft();
                     y += rowHeight;
                     rowHeight = childHeight + paddingVertical;
                 } else {
                     rowHeight = Math.max(rowHeight, childHeight + paddingVertical);
                 }
-                x += childwidth + paddingHorizontal;
+                x += childWidth + paddingHorizontal;
             }
         }
         if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.UNSPECIFIED) {
