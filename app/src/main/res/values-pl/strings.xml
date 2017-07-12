@@ -147,6 +147,7 @@
     <string name="visibility_direct">Bezpośrednio: Widoczne tylko dla wspomnianych</string>
 
     <string name="pref_title_notification_settings">Powiadomienia</string>
+    <string name="pref_title_pull_notification_check_interval">Częstotliwość sprawdzania</string>
     <string name="pref_title_edit_notification_settings">Edytuj powiadomienia</string>
     <string name="pref_title_notifications_enabled">Powiadomienia natychmiastowe</string>
     <string name="pref_title_notification_alerts">Alerty</string>
