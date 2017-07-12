@@ -20,6 +20,7 @@
             app:layout_anchor="@id/pager"
             app:layout_anchorGravity="top|left"
             android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             style="?attr/image_button_style"
             android:background="?android:colorBackground"
@@ -37,7 +38,9 @@
             app:tabPaddingTop="4dp"
             app:tabTextAppearance="@style/TabLayoutTextStyle"
             android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_toEndOf="@id/drawer_toggle"
             android:layout_toRightOf="@id/drawer_toggle">
 
             <android.support.design.widget.TabItem

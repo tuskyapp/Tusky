@@ -89,6 +89,7 @@ import com.keylesspalace.tusky.interfaces.MenuFabViewListener;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
 import com.keylesspalace.tusky.util.IOUtils;
+import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.MediaUtils;
 import com.keylesspalace.tusky.util.MentionTokenizer;
 import com.keylesspalace.tusky.util.ParserUtils;
@@ -103,6 +104,7 @@ import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -201,20 +203,6 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 onSendClicked();
             }
         });
-        /*floatingBtn.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                String contentWarning = null;
-                if (statusHideText) {
-                    contentWarning = contentWarningEditor.getText().toString();
-                }
-                boolean b = saveTheToot(textEditor.getText().toString(), contentWarning);
-                if (b) {
-                    Toast.makeText(ComposeActivity.this, R.string.action_save_one_toot, Toast.LENGTH_SHORT).show();
-                }
-                return b;
-            }
-        });*/
         menuFabView = (MenuFabView) findViewById(R.id.menufab);
         menuFabView.attachView(this, floatingBtn);
 
@@ -323,8 +311,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             if (!TextUtils.isEmpty(savedJsonUrls)) {
                 // try to redo a list of media
                 loadedDraftMediaUris = new Gson().fromJson(savedJsonUrls,
-                        new TypeToken<ArrayList<String>>() {
-                        }.getType());
+                        new TypeToken<ArrayList<String>>() {}.getType());
             }
 
             int savedTootUid = intent.getIntExtra("saved_toot_uid", 0);
@@ -414,14 +401,13 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         statusAlreadyInFlight = false;
 
         // These can only be added after everything affected by the media queue is initialized.
-        /* if (loadedDraftMediaUris != null && !loadedDraftMediaUris.isEmpty()) {
+         if (!ListUtils.isEmpty(loadedDraftMediaUris)) {
             for (String uriString : loadedDraftMediaUris) {
                 Uri uri = Uri.parse(uriString);
                 long mediaSize = MediaUtils.getMediaSize(getContentResolver(), uri);
                 pickMedia(uri, mediaSize);
             }
-        } else */
-        if (savedMediaQueued != null) {
+        } else if (savedMediaQueued != null) {
             for (SavedQueuedMedia item : savedMediaQueued) {
                 addMediaToQueue(item.type, item.preview, item.uri, item.mediaSize);
             }
@@ -484,6 +470,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         for (QueuedMedia item : mediaQueued) {
             savedMediaQueued.add(new SavedQueuedMedia(item.type, item.uri, item.preview,
                     item.mediaSize));
+            removeUrlFromEditable(textEditor.getEditableText(), item.uploadUrl);
         }
         outState.putParcelableArrayList("savedMediaQueued", savedMediaQueued);
         outState.putBoolean("showMarkSensitive", showMarkSensitive);
@@ -502,7 +489,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private void doErrorDialog(@StringRes int descriptionId, @StringRes int actionId,
-                               View.OnClickListener listener) {
+            View.OnClickListener listener) {
         Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(descriptionId),
                 Snackbar.LENGTH_SHORT);
         bar.setAction(actionId, listener);
@@ -544,45 +531,167 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         floatingBtn.setEnabled(true);
     }
 
-    private void addLockToSendButton() {
-        floatingBtn.setText(R.string.action_send);
-        Drawable lock = AppCompatResources.getDrawable(this, R.drawable.send_private);
-        if (lock != null) {
-            lock.setBounds(0, 0, lock.getIntrinsicWidth(), lock.getIntrinsicHeight());
-            floatingBtn.setCompoundDrawables(null, null, lock, null);
+    private static boolean copyToFile(ContentResolver contentResolver, Uri uri, File file) {
+        InputStream from;
+        FileOutputStream to;
+        try {
+            from = contentResolver.openInputStream(uri);
+            to = new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            return false;
         }
+        if (from == null) {
+            return false;
+        }
+        byte[] chunk = new byte[16384];
+        try {
+            while (true) {
+                int bytes = from.read(chunk, 0, chunk.length);
+                if (bytes < 0) {
+                    break;
+                }
+                to.write(chunk, 0, bytes);
+            }
+        } catch (IOException e) {
+            return false;
+        }
+        IOUtils.closeQuietly(from);
+        IOUtils.closeQuietly(to);
+        return true;
+    }
+
+    @Nullable
+    private List<String> saveMedia(@Nullable ArrayList<String> existingUris) {
+        File imageDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File videoDirectory = getExternalFilesDir(Environment.DIRECTORY_MOVIES);
+        if (imageDirectory == null || !(imageDirectory.exists() || imageDirectory.mkdirs())) {
+            Log.e(TAG, "Image directory is not created.");
+            return null;
+        }
+        if (videoDirectory == null || !(videoDirectory.exists() || videoDirectory.mkdirs())) {
+            Log.e(TAG, "Video directory is not created.");
+            return null;
+        }
+        ContentResolver contentResolver = getContentResolver();
+        ArrayList<File> filesSoFar = new ArrayList<>();
+        ArrayList<String> results = new ArrayList<>();
+        for (QueuedMedia item : mediaQueued) {
+            /* If the media was already saved in a previous draft, there's no need to save another
+             * copy, just add the existing URI to the results. */
+            if (existingUris != null) {
+                String uri = item.uri.toString();
+                int index = existingUris.indexOf(uri);
+                if (index != -1) {
+                    results.add(uri);
+                    continue;
+                }
+            }
+            // Otherwise, save the media.
+            File directory;
+            switch (item.type) {
+                default:
+                case IMAGE: directory = imageDirectory; break;
+                case VIDEO: directory = videoDirectory; break;
+            }
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
+                    .format(new Date());
+            String mimeType = contentResolver.getType(item.uri);
+            MimeTypeMap map = MimeTypeMap.getSingleton();
+            String fileExtension = map.getExtensionFromMimeType(mimeType);
+            String filename = String.format("Tusky_Draft_Media_%s.%s", timeStamp, fileExtension);
+            File file = new File(directory, filename);
+            filesSoFar.add(file);
+            boolean copied = copyToFile(contentResolver, item.uri, file);
+            if (!copied) {
+                /* If any media files were created in prior iterations, delete those before
+                 * returning. */
+                for (File earlierFile : filesSoFar) {
+                    boolean deleted = earlierFile.delete();
+                    if (!deleted) {
+                        Log.i(TAG, "Could not delete the file " + earlierFile.toString());
+                    }
+                }
+                return null;
+            }
+            Uri uri = FileProvider.getUriForFile(this, "com.keylesspalace.tusky.fileprovider",
+                    file);
+            results.add(uri.toString());
+        }
+        return results;
+    }
+
+    private void deleteMedia(List<String> mediaUris) {
+        for (String uriString : mediaUris) {
+            Uri uri = Uri.parse(uriString);
+            if (getContentResolver().delete(uri, null, null) == 0) {
+                Log.e(TAG, String.format("Did not delete file %s.", uriString));
+            }
+        }
+    }
+
+    private static List<String> setDifference(List<String> a, List<String> b) {
+        List<String> c = new ArrayList<>();
+        for (String s : a) {
+            if (!b.contains(s)) {
+                c.add(s);
+            }
+        }
+        return c;
     }
 
     public boolean saveTheToot(String s, @Nullable String contentWarning) {
         if (TextUtils.isEmpty(s)) {
             textEditor.setError(getString(R.string.error_empty));
             return false;
-        } else {
-            final TootEntity toot = new TootEntity();
-            toot.setText(s);
-            toot.setContentWarning(contentWarning);
-            if (mediaQueued != null && mediaQueued.size() > 0) {
-                List<String> list = new ArrayList<>();
-                for (QueuedMedia q : mediaQueued) {
-                    list.add(q.uri.toString());
-                }
-                String json = new Gson().toJson(list);
-                toot.setUrls(json);
-            }
+        }
 
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    if (savedTootUid != 0) {
-                        toot.setUid(savedTootUid);
-                        tootDao.updateToot(toot);
-                    } else {
-                        tootDao.insert(toot);
-                    }
-                    return null;
+        // Get any existing file's URIs.
+        ArrayList<String> existingUris = null;
+        String savedJsonUrls = getIntent().getStringExtra("saved_json_urls");
+        if (!TextUtils.isEmpty(savedJsonUrls)) {
+            existingUris = new Gson().fromJson(savedJsonUrls,
+                    new TypeToken<ArrayList<String>>() {}.getType());
+        }
+
+        final TootEntity toot = new TootEntity();
+        toot.setText(s);
+        toot.setContentWarning(contentWarning);
+        if (!ListUtils.isEmpty(mediaQueued)) {
+            List<String> savedList = saveMedia(existingUris);
+            if (!ListUtils.isEmpty(savedList)) {
+                String json = new Gson().toJson(savedList);
+                toot.setUrls(json);
+                deleteMedia(setDifference(existingUris, savedList));
+            } else {
+                return false;
+            }
+        } else if (!ListUtils.isEmpty(existingUris)) {
+            /* If there were URIs in the previous draft, but they've now been removed, those files
+             * can be deleted. */
+            deleteMedia(existingUris);
+        }
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                if (savedTootUid != 0) {
+                    toot.setUid(savedTootUid);
+                    tootDao.updateToot(toot);
+                } else {
+                    tootDao.insert(toot);
                 }
-            }.execute();
-            return true;
+                return null;
+            }
+        }.execute();
+        return true;
+    }
+
+    private void addLockToSendButton() {
+        floatingBtn.setText(R.string.action_send);
+        Drawable lock = AppCompatResources.getDrawable(this, R.drawable.send_private);
+        if (lock != null) {
+            lock.setBounds(0, 0, lock.getIntrinsicWidth(), lock.getIntrinsicHeight());
+            floatingBtn.setCompoundDrawables(null, null, lock, null);
         }
     }
 
@@ -792,6 +901,17 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private void onSendSuccess() {
+        // If the status was loaded from a draft, delete the draft and associated media files.
+        if (savedTootUid != 0) {
+            TootEntity status = new TootEntity();
+            status.setUid(savedTootUid);
+            tootDao.delete(status);
+            for (QueuedMedia item : mediaQueued) {
+                if (getContentResolver().delete(item.uri, null, null) == 0) {
+                    Log.e(TAG, String.format("Did not delete file %s.", item.uri.toString()));
+                }
+            }
+        }
         Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose),
                 getString(R.string.confirmation_send), Snackbar.LENGTH_SHORT);
         bar.show();
@@ -1043,15 +1163,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             textEditor.setPadding(textEditor.getPaddingLeft(), textEditor.getPaddingTop(),
                     textEditor.getPaddingRight(), 0);
         }
-        // Remove the text URL associated with this media.
-        if (item.uploadUrl != null) {
-            Editable text = textEditor.getText();
-            int start = text.getSpanStart(item.uploadUrl);
-            int end = text.getSpanEnd(item.uploadUrl);
-            if (start != -1 && end != -1) {
-                text.delete(start, end);
-            }
-        }
+        removeUrlFromEditable(textEditor.getEditableText(), item.uploadUrl);
         enableMediaButtons();
         cancelReadyingMedia(item);
     }
@@ -1061,6 +1173,17 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             QueuedMedia item = it.next();
             it.remove();
             removeMediaFromQueue(item);
+        }
+    }
+
+    private static void removeUrlFromEditable(Editable editable, @Nullable URLSpan urlSpan) {
+        if (urlSpan == null) {
+            return;
+        }
+        int start = editable.getSpanStart(urlSpan);
+        int end = editable.getSpanEnd(urlSpan);
+        if (start != -1 && end != -1) {
+            editable.delete(start, end);
         }
     }
 

@@ -14,11 +14,6 @@ import android.widget.RelativeLayout;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.MenuFabViewListener;
 
-/**
- * Created by torrentcome on 10/07/2017.
- * custom fab menu layout
- */
-
 public class MenuFabView extends RelativeLayout {
 
     private boolean isFABOpen = false;
