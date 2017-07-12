@@ -23,6 +23,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -41,6 +42,7 @@ import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.HtmlUtils;
+import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,9 +109,7 @@ public abstract class SFragment extends BaseFragment {
 
     protected void reblog(final Status status, final boolean reblog,
                           final RecyclerView.Adapter adapter, final int position) {
-        String id = status.getActionableId();
-
-        Callback<Status> cb = new Callback<Status>() {
+        reblogWithCallback(status, reblog, new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
@@ -124,8 +124,16 @@ public abstract class SFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<Status> call, Throwable t) {}
-        };
+            public void onFailure(Call<Status> call, Throwable t) {
+                Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.id);
+                t.printStackTrace();
+            }
+        });
+    }
+
+    protected void reblogWithCallback(final Status status, final boolean reblog,
+                                      Callback<Status> callback) {
+        String id = status.getActionableId();
 
         Call<Status> call;
         if (reblog) {
@@ -133,15 +141,12 @@ public abstract class SFragment extends BaseFragment {
         } else {
             call = mastodonApi.unreblogStatus(id);
         }
-        call.enqueue(cb);
-        callList.add(call);
+        call.enqueue(callback);
     }
 
     protected void favourite(final Status status, final boolean favourite,
             final RecyclerView.Adapter adapter, final int position) {
-        String id = status.getActionableId();
-
-        Callback<Status> cb = new Callback<Status>() {
+        favouriteWithCallback(status, favourite, new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
@@ -156,8 +161,16 @@ public abstract class SFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<Status> call, Throwable t) {}
-        };
+            public void onFailure(Call<Status> call, Throwable t) {
+                Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.id);
+                t.printStackTrace();
+            }
+        });
+    }
+
+    protected void favouriteWithCallback(final Status status, final boolean favourite,
+                                         final Callback<Status> callback) {
+        String id = status.getActionableId();
 
         Call<Status> call;
         if (favourite) {
@@ -165,7 +178,7 @@ public abstract class SFragment extends BaseFragment {
         } else {
             call = mastodonApi.unfavouriteStatus(id);
         }
-        call.enqueue(cb);
+        call.enqueue(callback);
         callList.add(call);
     }
 

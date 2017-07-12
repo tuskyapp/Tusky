@@ -38,13 +38,14 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.util.DateUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
+import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
 import com.varunest.sparkbutton.SparkButton;
 import com.varunest.sparkbutton.SparkEventListener;
 
 import java.util.Date;
 
-class StatusViewHolder extends RecyclerView.ViewHolder {
+public class StatusViewHolder extends RecyclerView.ViewHolder {
     private View container;
     private TextView displayName;
     private TextView username;
@@ -173,7 +174,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         reblogButton.setChecked(reblogged);
     }
 
-    /** This should only be called after setReblogged, in order to override the tint correctly. */
+    // This should only be called after setReblogged, in order to override the tint correctly.
     private void setRebloggingEnabled(boolean enabled, Status.Visibility visibility) {
         reblogButton.setEnabled(enabled);
 
@@ -202,7 +203,7 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setMediaPreviews(final Status.MediaAttachment[] attachments, boolean sensitive,
-            final StatusActionListener listener) {
+                                  final StatusActionListener listener, boolean showingSensitive) {
         final ImageView[] previews = {
                 mediaPreview0,
                 mediaPreview1,
@@ -257,10 +258,13 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         }
 
         if (sensitive) {
-            sensitiveMediaWarning.setVisibility(View.VISIBLE);
+            sensitiveMediaWarning.setVisibility(showingSensitive ? View.GONE : View.VISIBLE);
             sensitiveMediaWarning.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                        listener.onContentHiddenChange(true, getAdapterPosition());
+                    }
                     v.setVisibility(View.GONE);
                     v.setOnClickListener(null);
                 }
@@ -277,23 +281,29 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
     private static String getLabelTypeText(Context context, Status.MediaAttachment.Type type) {
         switch (type) {
             default:
-            case IMAGE: return context.getString(R.string.status_media_images);
+            case IMAGE:
+                return context.getString(R.string.status_media_images);
             case GIFV:
-            case VIDEO: return context.getString(R.string.status_media_video);
+            case VIDEO:
+                return context.getString(R.string.status_media_video);
         }
     }
 
-    private static @DrawableRes int getLabelIcon(Status.MediaAttachment.Type type) {
+    private static
+    @DrawableRes
+    int getLabelIcon(Status.MediaAttachment.Type type) {
         switch (type) {
             default:
-            case IMAGE: return R.drawable.ic_photo_24dp;
+            case IMAGE:
+                return R.drawable.ic_photo_24dp;
             case GIFV:
-            case VIDEO: return R.drawable.ic_videocam_24dp;
+            case VIDEO:
+                return R.drawable.ic_videocam_24dp;
         }
     }
 
     private void setMediaLabel(Status.MediaAttachment[] attachments, boolean sensitive,
-            final StatusActionListener listener) {
+                               final StatusActionListener listener) {
         if (attachments.length == 0) {
             mediaLabel.setVisibility(View.GONE);
             return;
@@ -334,15 +344,17 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         sensitiveMediaWarning.setVisibility(View.GONE);
     }
 
-    private void setSpoilerText(String spoilerText) {
+    private void setSpoilerText(String spoilerText, final boolean expanded, final StatusActionListener listener) {
         contentWarningDescription.setText(spoilerText);
         contentWarningBar.setVisibility(View.VISIBLE);
-        content.setVisibility(View.GONE);
-        contentWarningButton.setChecked(false);
+        contentWarningButton.setChecked(expanded);
         contentWarningButton.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                            listener.onExpandedChange(isChecked, getAdapterPosition());
+                        }
                         if (isChecked) {
                             content.setVisibility(View.VISIBLE);
                         } else {
@@ -350,6 +362,11 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
                         }
                     }
                 });
+        if (expanded) {
+            content.setVisibility(View.VISIBLE);
+        } else {
+            content.setVisibility(View.GONE);
+        }
     }
 
     private void hideSpoilerText() {
@@ -378,19 +395,21 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
             }
         });
         reblogButton.setEventListener(new SparkEventListener() {
-                @Override
-                public void onEvent(ImageView button, boolean buttonState) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onReblog(!reblogged, position);
-                    }
+            @Override
+            public void onEvent(ImageView button, boolean buttonState) {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onReblog(!reblogged, position);
                 }
+            }
 
-                @Override
-                public void onEventAnimationEnd(ImageView button, boolean buttonState) {}
+            @Override
+            public void onEventAnimationEnd(ImageView button, boolean buttonState) {
+            }
 
-                @Override
-                public void onEventAnimationStart(ImageView button, boolean buttonState) {}
+            @Override
+            public void onEventAnimationStart(ImageView button, boolean buttonState) {
+            }
         });
         favouriteButton.setEventListener(new SparkEventListener() {
             @Override
@@ -402,10 +421,12 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
             }
 
             @Override
-            public void onEventAnimationEnd(ImageView button, boolean buttonState) {}
+            public void onEventAnimationEnd(ImageView button, boolean buttonState) {
+            }
 
             @Override
-            public void onEventAnimationStart(ImageView button, boolean buttonState) {}
+            public void onEventAnimationStart(ImageView button, boolean buttonState) {
+            }
         });
         moreButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -433,27 +454,25 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
         container.setOnClickListener(viewThreadListener);
     }
 
-    void setupWithStatus(Status status, final StatusActionListener listener,
+    void setupWithStatus(StatusViewData status, final StatusActionListener listener,
                          boolean mediaPreviewEnabled) {
-        Status realStatus = status.getActionableStatus();
-
-        setDisplayName(realStatus.account.getDisplayName());
-        setUsername(realStatus.account.username);
-        setCreatedAt(realStatus.createdAt);
-        setContent(realStatus.content, realStatus.mentions, listener);
-        setAvatar(realStatus.account.avatar);
-        setReblogged(realStatus.reblogged);
-        setFavourited(realStatus.favourited);
-        String rebloggedByDisplayName = status.account.getDisplayName();
-        if (status.reblog == null) {
+        setDisplayName(status.getUserFullName());
+        setUsername(status.getNickname());
+        setCreatedAt(status.getCreatedAt());
+        setContent(status.getContent(), status.getMentions(), listener);
+        setAvatar(status.getAvatar());
+        setReblogged(status.isReblogged());
+        setFavourited(status.isFavourited());
+        String rebloggedByDisplayName = status.getRebloggedByUsername();
+        if (rebloggedByDisplayName == null) {
             hideRebloggedByDisplayName();
         } else {
             setRebloggedByDisplayName(rebloggedByDisplayName);
         }
-        Status.MediaAttachment[] attachments = realStatus.attachments;
-        boolean sensitive = realStatus.sensitive;
+        Status.MediaAttachment[] attachments = status.getAttachments();
+        boolean sensitive = status.isSensitive();
         if (mediaPreviewEnabled) {
-            setMediaPreviews(attachments, sensitive, listener);
+            setMediaPreviews(attachments, sensitive, listener, status.isShowingSensitiveContent());
             /* A status without attachments is sometimes still marked sensitive, so it's necessary
              * to check both whether there are any attachments and if it's marked sensitive. */
             if (!sensitive || attachments.length == 0) {
@@ -475,12 +494,12 @@ class StatusViewHolder extends RecyclerView.ViewHolder {
             videoIndicator.setVisibility(View.GONE);
         }
 
-        setupButtons(listener, realStatus.account.id);
-        setRebloggingEnabled(status.rebloggingAllowed(), status.getVisibility());
-        if (realStatus.spoilerText.isEmpty()) {
+        setupButtons(listener, status.getSenderId());
+        setRebloggingEnabled(status.getRebloggingEnabled(), status.getVisibility());
+        if (status.getSpoilerText() == null || status.getSpoilerText().isEmpty()) {
             hideSpoilerText();
         } else {
-            setSpoilerText(realStatus.spoilerText);
+            setSpoilerText(status.getSpoilerText(), status.isExpanded(), listener);
         }
 
         // I think it's not efficient to create new object every time we bind a holder.
