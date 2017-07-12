@@ -98,6 +98,7 @@
     <string name="action_accept">Akceptuj</string>
     <string name="action_reject">Odrzuć</string>
     <string name="action_search">Szukaj</string>
+    <string name="action_access_saved_toot">Zapisany wpis</string>
 
     <string name="send_status_link_to">Udostępnij link do wpisu do…</string>
     <string name="send_status_content_to">Udostępnij wpis do…</string>
@@ -193,4 +194,7 @@
     <string name="status_media_video">Wideo</string>
 
     <string name="state_follow_requested">Wysłano prośbę o obserwację</string>
+
+    <string name="combine_s1_s2">%1$s %2$s</string>
+
 </resources>
