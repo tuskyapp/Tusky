@@ -197,6 +197,18 @@
 
     <string name="combine_s1_s2">%1$s %2$s</string>
     <string name="no_content">no content</string>
-    <string name="action_save_one_toot">Toot saved !</string>
+    <string name="action_save_one_toot">Toot saved!</string>
+
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">in %dy</string>
+    <string name="abbreviated_in_days">in %dd</string>
+    <string name="abbreviated_in_hours">in %dh</string>
+    <string name="abbreviated_in_minutes">in %dm</string>
+    <string name="abbreviated_in_seconds">in %ds</string>
+    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
 
 </resources>

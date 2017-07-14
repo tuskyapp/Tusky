@@ -15,38 +15,60 @@
 
 package com.keylesspalace.tusky.util;
 
-import java.text.NumberFormat;
+import android.content.Context;
+
+import com.keylesspalace.tusky.R;
 
 public class DateUtils {
     /* This is a rough duplicate of android.text.format.DateUtils.getRelativeTimeSpanString,
      * but even with the FORMAT_ABBREV_RELATIVE flag it wasn't abbreviating enough. */
-    public static String getRelativeTimeSpanString(long then, long now) {
+    public static String getRelativeTimeSpanString(Context context, long then, long now) {
         final long MINUTE = 60;
         final long HOUR = 60 * MINUTE;
         final long DAY = 24 * HOUR;
         final long YEAR = 365 * DAY;
         long span = (now - then) / 1000;
-        String prefix = "";
+        boolean future = false;
         if (span < 0) {
-            prefix = "in ";
+            future = true;
             span = -span;
         }
-        String unit;
+        String format;
         if (span < MINUTE) {
-            unit = "s";
+            if (future) {
+                format = context.getString(R.string.abbreviated_in_seconds);
+            } else {
+                format = context.getString(R.string.abbreviated_seconds_ago);
+            }
         } else if (span < HOUR) {
             span /= MINUTE;
-            unit = "m";
+            if (future) {
+                format = context.getString(R.string.abbreviated_in_minutes);
+            } else {
+                format = context.getString(R.string.abbreviated_minutes_ago);
+            }
         } else if (span < DAY) {
             span /= HOUR;
-            unit = "h";
+            if (future) {
+                format = context.getString(R.string.abbreviated_in_hours);
+            } else {
+                format = context.getString(R.string.abbreviated_hours_ago);
+            }
         } else if (span < YEAR) {
             span /= DAY;
-            unit = "d";
+            if (future) {
+                format = context.getString(R.string.abbreviated_in_days);
+            } else {
+                format = context.getString(R.string.abbreviated_days_ago);
+            }
         } else {
             span /= YEAR;
-            unit = "y";
+            if (future) {
+                format = context.getString(R.string.abbreviated_in_years);
+            } else {
+                format = context.getString(R.string.abbreviated_years_ago);
+            }
         }
-        return prefix + NumberFormat.getIntegerInstance().format(span) + unit;
+        return String.format(format, span);
     }
 }

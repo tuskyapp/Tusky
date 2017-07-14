@@ -169,7 +169,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         if (createdAt != null) {
             long then = createdAt.getTime();
             long now = new Date().getTime();
-            readout = DateUtils.getRelativeTimeSpanString(then, now);
+            readout = DateUtils.getRelativeTimeSpanString(sinceCreated.getContext(), then, now);
             readoutAloud = android.text.format.DateUtils.getRelativeTimeSpanString(then, now,
                     android.text.format.DateUtils.SECOND_IN_MILLIS,
                     android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);
