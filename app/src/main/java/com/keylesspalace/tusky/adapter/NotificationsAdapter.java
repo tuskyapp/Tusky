@@ -16,6 +16,8 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -32,9 +34,11 @@ import android.widget.TextView;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
+import com.varunest.sparkbutton.helpers.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,6 +111,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     holder.setMessage(type, notification.getAccount().getDisplayName(),
                             notification.getStatusViewData());
                     holder.setupButtons(notificationActionListener, notification.getAccount().id);
+                    holder.setAvatars(notification.getStatusViewData().getAvatar(),
+                            notification.getAccount().avatar);
                     break;
                 }
                 case FOLLOW: {
@@ -216,6 +222,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
             Picasso.with(context)
                     .load(avatarUrl)
+                    .fit()
+                    .transform(new RoundedTransformation(7, 0))
                     .placeholder(R.drawable.avatar_default)
                     .error(R.drawable.avatar_error)
                     .into(avatar);
@@ -236,6 +244,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private ImageView icon;
         private TextView statusContent;
         private ViewGroup container;
+        private ImageView statusAvatar;
+        private ImageView notificationAvatar;
 
         StatusNotificationViewHolder(View itemView) {
             super(itemView);
@@ -243,6 +253,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             icon = (ImageView) itemView.findViewById(R.id.notification_icon);
             statusContent = (TextView) itemView.findViewById(R.id.notification_content);
             container = (ViewGroup) itemView.findViewById(R.id.notification_container);
+            statusAvatar = (ImageView) itemView.findViewById(R.id.notification_status_avatar);
+            notificationAvatar = (ImageView)
+                    itemView.findViewById(R.id.notification_notification_avatar);
+            int darkerFilter = Color.rgb(123, 123, 123);
+            statusAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
+            notificationAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
         }
 
         void setMessage(Notification.Type type, String displayName, StatusViewData status) {
@@ -280,6 +296,32 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     listener.onViewAccount(accountId);
                 }
             });
+        }
+
+        void setAvatars(@Nullable String statusAvatarUrl, @Nullable String notificationAvatarUrl) {
+            Context context = statusAvatar.getContext();
+
+            if (statusAvatarUrl == null || statusAvatarUrl.isEmpty()) {
+                statusAvatar.setImageResource(R.drawable.avatar_default);
+            } else {
+                Picasso.with(context)
+                        .load(statusAvatarUrl)
+                        .placeholder(R.drawable.avatar_default)
+                        .error(R.drawable.avatar_error)
+                        .transform(new RoundedTransformation(7, 0))
+                        .into(statusAvatar);
+            }
+
+            if (notificationAvatarUrl == null || notificationAvatarUrl.isEmpty()) {
+                notificationAvatar.setVisibility(View.GONE);
+            } else {
+                notificationAvatar.setVisibility(View.VISIBLE);
+                Picasso.with(context)
+                        .load(notificationAvatarUrl)
+                        .fit()
+                        .transform(new RoundedTransformation(7, 0))
+                        .into(notificationAvatar);
+            }
         }
     }
 }

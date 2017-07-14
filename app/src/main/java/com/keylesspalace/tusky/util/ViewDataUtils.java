@@ -32,7 +32,7 @@ public final class ViewDataUtils {
                 .setIsShowingSensitiveContent(false)
                 .setMentions(visibleStatus.mentions)
                 .setNickname(visibleStatus.account.username)
-                .setRebloggedAvatar(visibleStatus.account.avatar)
+                .setRebloggedAvatar(status.reblog == null ? null : status.account.avatar)
                 .setSensitive(visibleStatus.sensitive)
                 .setSpoilerText(visibleStatus.spoilerText)
                 .setRebloggedByUsername(status.reblog == null ? null : status.account.username)

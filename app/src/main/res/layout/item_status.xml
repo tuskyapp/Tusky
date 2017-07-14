@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:id="@+id/status_container">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:id="@+id/status_container">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -50,7 +51,19 @@
         android:layout_marginTop="11dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
-        android:contentDescription="@string/action_view_profile" />
+        android:contentDescription="@string/action_view_profile"
+        tools:src="@drawable/avatar_default"/>
+
+    <ImageView
+        android:id="@+id/status_avatar_reblog"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignBottom="@+id/status_avatar"
+        android:layout_alignEnd="@id/status_avatar"
+        android:layout_alignRight="@id/status_avatar"
+        android:visibility="gone"
+        tools:src="@color/accent"
+        tools:visibility="visible"/>
 
     <RelativeLayout
         android:layout_height="wrap_content"
