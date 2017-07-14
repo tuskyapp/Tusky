@@ -104,7 +104,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case FAVOURITE:
                 case REBLOG: {
                     StatusNotificationViewHolder holder = (StatusNotificationViewHolder) viewHolder;
-                    holder.setMessage(type, notification.getStatusViewData().getUserFullName(),
+                    holder.setMessage(type, notification.getAccount().getDisplayName(),
                             notification.getStatusViewData());
                     holder.setupButtons(notificationActionListener, notification.getAccount().id);
                     break;
