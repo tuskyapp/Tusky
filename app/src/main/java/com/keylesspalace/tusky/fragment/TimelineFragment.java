@@ -100,7 +100,7 @@ public class TimelineFragment extends SFragment implements
     @Nullable
     private String bottomId;
     @Nullable
-    private String upToId;
+    private String topId;
     private PairedList<Status, StatusViewData> statuses =
             new PairedList<>(ViewDataUtils.statusMapper());
 
@@ -158,6 +158,13 @@ public class TimelineFragment extends SFragment implements
         timelineReceiver = new TimelineReceiver(this, this);
         LocalBroadcastManager.getInstance(context.getApplicationContext())
                 .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(kind));
+
+        topLoading = false;
+        topFetches = 0;
+        bottomLoading = false;
+        bottomFetches = 0;
+        bottomId = null;
+        topId = null;
 
         return rootView;
     }
@@ -240,7 +247,7 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onRefresh() {
-        sendFetchTimelineRequest(null, upToId, FetchEnd.TOP);
+        sendFetchTimelineRequest(null, topId, FetchEnd.TOP);
     }
 
     @Override
@@ -597,7 +604,7 @@ public class TimelineFragment extends SFragment implements
             bottomId = fromId;
         }
         if (toId != null) {
-            upToId = toId;
+            topId = toId;
         }
         if (statuses.isEmpty()) {
             // This construction removes duplicates while preserving order.
@@ -619,6 +626,9 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void addItems(List<Status> newStatuses, @Nullable String fromId) {
+        if (ListUtils.isEmpty(newStatuses)) {
+            return;
+        }
         int end = statuses.size();
         Status last = statuses.get(end - 1);
         if (last != null && !findStatus(newStatuses, last.id)) {

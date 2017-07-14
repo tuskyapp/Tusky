@@ -134,6 +134,11 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         }
         recyclerView.setAdapter(adapter);
 
+        bottomLoading = false;
+        bottomFetches = 0;
+        topLoading = false;
+        topFetches = 0;
+
         return rootView;
     }
 

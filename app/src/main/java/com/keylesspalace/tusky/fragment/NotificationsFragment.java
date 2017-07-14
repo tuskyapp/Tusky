@@ -133,6 +133,13 @@ public class NotificationsFragment extends SFragment implements
         LocalBroadcastManager.getInstance(context.getApplicationContext())
                 .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(null));
 
+        topLoading = false;
+        topFetches = 0;
+        bottomLoading = false;
+        bottomFetches = 0;
+        bottomId = null;
+        topId = null;
+
         return rootView;
     }
 
