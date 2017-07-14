@@ -43,14 +43,15 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
+import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -589,7 +590,7 @@ public class TimelineFragment extends SFragment implements
 
     private void updateStatuses(List<Status> newStatuses, @Nullable String fromId,
                                 @Nullable String toId) {
-        if (newStatuses == null || newStatuses.isEmpty()) {
+        if (ListUtils.isEmpty(newStatuses)) {
             return;
         }
         if (fromId != null) {
@@ -599,8 +600,8 @@ public class TimelineFragment extends SFragment implements
             upToId = toId;
         }
         if (statuses.isEmpty()) {
-            // This construction removes duplicates.
-            statuses.addAll(new HashSet<>(newStatuses));
+            // This construction removes duplicates while preserving order.
+            statuses.addAll(new LinkedHashSet<>(newStatuses));
         } else {
             Status lastOfNew = newStatuses.get(newStatuses.size() - 1);
             int index = statuses.indexOf(lastOfNew);

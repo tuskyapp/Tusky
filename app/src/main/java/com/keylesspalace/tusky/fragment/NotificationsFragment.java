@@ -40,7 +40,6 @@ import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
-import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
@@ -51,8 +50,8 @@ import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import retrofit2.Call;
@@ -440,8 +439,8 @@ public class NotificationsFragment extends SFragment implements
             topId = uptoId;
         }
         if (notifications.isEmpty()) {
-            // This construction removes duplicates.
-            notifications.addAll(new HashSet<>(newNotifications));
+            // This construction removes duplicates while preserving order.
+            notifications.addAll(new LinkedHashSet<>(newNotifications));
         } else {
             int index = notifications.indexOf(newNotifications.get(newNotifications.size() - 1));
             for (int i = 0; i < index; i++) {
