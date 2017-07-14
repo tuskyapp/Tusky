@@ -59,10 +59,6 @@ public class TuskyApplication extends Application {
             throw new RuntimeException(e);
         }
 
-        if (BuildConfig.DEBUG) {
-            Picasso.with(this).setLoggingEnabled(true);
-        }
-
         /* Install the new provider or, if there's a pre-existing older version, replace the
          * existing version of it. */
         final String providerName = "BC";

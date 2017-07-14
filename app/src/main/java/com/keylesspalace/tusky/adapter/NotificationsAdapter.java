@@ -31,31 +31,28 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Notification;
-import com.keylesspalace.tusky.entity.Status;
-import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.util.ListUtils;
+import com.keylesspalace.tusky.viewdata.NotificationViewData;
+import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
+public class NotificationsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_MENTION = 0;
     private static final int VIEW_TYPE_FOOTER = 1;
     private static final int VIEW_TYPE_STATUS_NOTIFICATION = 2;
     private static final int VIEW_TYPE_FOLLOW = 3;
 
-    private List<Notification> notifications;
+    private List<NotificationViewData> notifications;
     private StatusActionListener statusListener;
     private NotificationActionListener notificationActionListener;
     private FooterViewHolder.State footerState;
     private boolean mediaPreviewEnabled;
-    private String bottomId;
-    private String topId;
 
     public NotificationsAdapter(StatusActionListener statusListener,
-            NotificationActionListener notificationActionListener) {
+                                NotificationActionListener notificationActionListener) {
         super();
         notifications = new ArrayList<>();
         this.statusListener = statusListener;
@@ -94,28 +91,29 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (position < notifications.size()) {
-            Notification notification = notifications.get(position);
-            Notification.Type type = notification.type;
+            NotificationViewData notification = notifications.get(position);
+            Notification.Type type = notification.getType();
             switch (type) {
                 case MENTION: {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
-                    Status status = notification.status;
-                    holder.setupWithStatus(status, statusListener, mediaPreviewEnabled);
+                    StatusViewData status = notification.getStatusViewData();
+                    holder.setupWithStatus(status,
+                            statusListener, mediaPreviewEnabled);
                     break;
                 }
                 case FAVOURITE:
                 case REBLOG: {
                     StatusNotificationViewHolder holder = (StatusNotificationViewHolder) viewHolder;
-                    holder.setMessage(type, notification.account.getDisplayName(),
-                            notification.status);
-                    holder.setupButtons(notificationActionListener, notification.account.id);
+                    holder.setMessage(type, notification.getStatusViewData().getUserFullName(),
+                            notification.getStatusViewData());
+                    holder.setupButtons(notificationActionListener, notification.getAccount().id);
                     break;
                 }
                 case FOLLOW: {
                     FollowViewHolder holder = (FollowViewHolder) viewHolder;
-                    holder.setMessage(notification.account.getDisplayName(),
-                            notification.account.username, notification.account.avatar);
-                    holder.setupButtons(notificationActionListener, notification.account.id);
+                    holder.setMessage(notification.getAccount().getDisplayName(),
+                            notification.getAccount().username, notification.getAccount().avatar);
+                    holder.setupButtons(notificationActionListener, notification.getAccount().id);
                     break;
                 }
             }
@@ -135,8 +133,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         if (position == notifications.size()) {
             return VIEW_TYPE_FOOTER;
         } else {
-            Notification notification = notifications.get(position);
-            switch (notification.type) {
+            NotificationViewData notification = notifications.get(position);
+            switch (notification.getType()) {
                 default:
                 case MENTION: {
                     return VIEW_TYPE_MENTION;
@@ -152,80 +150,24 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
         }
     }
 
-    @Override
-    public void removeItem(int position) {
-        notifications.remove(position);
-        notifyItemChanged(position);
-    }
-
-    @Override
-    public void removeAllByAccountId(String id) {
-        for (int i = 0; i < notifications.size();) {
-            Notification notification = notifications.get(i);
-            if (id.equals(notification.account.id)) {
-                notifications.remove(i);
-                notifyItemRemoved(i);
-            } else {
-                i += 1;
-            }
-        }
-    }
-
-    @Nullable
-    public Notification getItem(int position) {
-        if (position >= 0 && position < notifications.size()) {
-            return notifications.get(position);
-        }
-        return null;
-    }
-
-    public void update(@Nullable List<Notification> newNotifications, @Nullable String fromId,
-            @Nullable String uptoId) {
-        if (ListUtils.isEmpty(newNotifications)) {
+    public void update(@Nullable List<NotificationViewData> newNotifications) {
+        if (newNotifications == null || newNotifications.isEmpty()) {
             return;
         }
-        if (fromId != null) {
-            bottomId = fromId;
-        }
-        if (uptoId != null) {
-            topId = uptoId;
-        }
-        if (notifications.isEmpty()) {
-            notifications = ListUtils.removeDuplicates(newNotifications);
-        } else {
-            int index = notifications.indexOf(newNotifications.get(newNotifications.size() - 1));
-            for (int i = 0; i < index; i++) {
-                notifications.remove(0);
-            }
-            int newIndex = newNotifications.indexOf(notifications.get(0));
-            if (newIndex == -1) {
-                notifications.addAll(0, newNotifications);
-            } else {
-                notifications.addAll(0, newNotifications.subList(0, newIndex));
-            }
-        }
+        notifications.clear();
+        notifications.addAll(newNotifications);
         notifyDataSetChanged();
     }
 
-    public void addItems(List<Notification> newNotifications, @Nullable String fromId) {
-        if (fromId != null) {
-            bottomId = fromId;
-        }
-        int end = notifications.size();
-        Notification last = notifications.get(end - 1);
-        if (last != null && !findNotification(newNotifications, last.id)) {
-            notifications.addAll(newNotifications);
-            notifyItemRangeInserted(end, newNotifications.size());
-        }
+    public void updateItemWithNotify(int position, NotificationViewData notification,
+                                     boolean notifyAdapter) {
+        notifications.set(position, notification);
+        if (notifyAdapter) notifyDataSetChanged();
     }
 
-    private static boolean findNotification(List<Notification> notifications, String id) {
-        for (Notification notification : notifications) {
-            if (notification.id.equals(id)) {
-                return true;
-            }
-        }
-        return false;
+    public void addItems(List<NotificationViewData> newNotifications) {
+        notifications.addAll(newNotifications);
+        notifyItemRangeInserted(notifications.size(), newNotifications.size());
     }
 
     public void clear() {
@@ -235,16 +177,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
 
     public void setFooterState(FooterViewHolder.State newFooterState) {
         footerState = newFooterState;
-    }
-
-    @Nullable
-    public String getBottomId() {
-        return bottomId;
-    }
-
-    @Nullable
-    public String getTopId() {
-        return topId;
     }
 
     public void setMediaPreviewEnabled(boolean enabled) {
@@ -313,7 +245,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
             container = (ViewGroup) itemView.findViewById(R.id.notification_container);
         }
 
-        void setMessage(Notification.Type type, String displayName, Status status) {
+        void setMessage(Notification.Type type, String displayName, StatusViewData status) {
             Context context = message.getContext();
             String format;
             switch (type) {
@@ -338,7 +270,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
             str.setSpan(new StyleSpan(Typeface.BOLD), 0, displayName.length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             message.setText(str);
-            statusContent.setText(status.content);
+            statusContent.setText(status.getContent());
         }
 
         void setupButtons(final NotificationActionListener listener, final String accountId) {
