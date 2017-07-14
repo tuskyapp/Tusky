@@ -1,55 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--This applies only to favourite and reblog notifications.-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/notification_container"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/notification_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
     <RelativeLayout
+        android:id="@+id/notification_top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:id="@+id/notification_top_bar">
+        android:layout_marginTop="8dp">
 
         <ImageView
+            android:id="@+id/notification_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/notification_icon"
-            android:paddingStart="24dp"
-            android:paddingLeft="24dp"
+            android:contentDescription="@null"
             android:paddingEnd="10dp"
+            android:paddingLeft="24dp"
             android:paddingRight="10dp"
-            app:srcCompat="@drawable/ic_repeat_24dp"
-            android:contentDescription="@null" />
+            android:paddingStart="24dp"
+            app:srcCompat="@drawable/ic_repeat_24dp"/>
 
         <TextView
+            android:id="@+id/notification_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/notification_text"
-            android:textColor="?android:textColorSecondary"
             android:layout_centerVertical="true"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="Someone favourited your status"
             android:layout_toEndOf="@id/notification_icon"
-            android:layout_toRightOf="@id/notification_icon" />
+            android:layout_toRightOf="@id/notification_icon"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Someone favourited your status"
+            android:textColor="?android:textColorSecondary"/>
 
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/notification_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/notification_content"
-        android:paddingStart="58dp"
-        android:paddingLeft="58dp"
-        android:paddingEnd="0dp"
-        android:paddingRight="0dp"
+        android:layout_below="@id/notification_top_bar"
         android:paddingBottom="10dp"
-        android:text="Example status here"
-        android:textColor="?android:textColorTertiary" />
+        android:paddingEnd="0dp"
+        android:paddingLeft="58dp"
+        android:paddingRight="0dp"
+        android:paddingStart="58dp"
+        android:textColor="?android:textColorTertiary"
+        tools:text="Example status here"/>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/notification_status_avatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignTop="@id/notification_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="11dp"
+        android:contentDescription="@string/action_view_profile"
+        android:paddingBottom="12dp"
+        android:paddingRight="12dp"
+        android:scaleType="fitCenter"
+        tools:ignore="RtlHardcoded,RtlSymmetry"
+        tools:src="@drawable/avatar_default"/>
+
+    <ImageView
+        android:id="@+id/notification_notification_avatar"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignBottom="@+id/notification_status_avatar"
+        android:layout_alignEnd="@id/notification_status_avatar"
+        android:layout_alignRight="@id/notification_status_avatar"
+        android:visibility="gone"
+        tools:src="@color/accent"
+        tools:visibility="visible"/>
+
+</RelativeLayout>
