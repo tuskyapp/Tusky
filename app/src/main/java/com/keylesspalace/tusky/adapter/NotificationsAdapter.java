@@ -34,10 +34,10 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.util.ListUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class NotificationsAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
@@ -181,7 +181,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
 
     public void update(@Nullable List<Notification> newNotifications, @Nullable String fromId,
             @Nullable String uptoId) {
-        if (newNotifications == null || newNotifications.isEmpty()) {
+        if (ListUtils.isEmpty(newNotifications)) {
             return;
         }
         if (fromId != null) {
@@ -191,8 +191,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter implements Adapte
             topId = uptoId;
         }
         if (notifications.isEmpty()) {
-            // This construction removes duplicates.
-            notifications = new ArrayList<>(new HashSet<>(newNotifications));
+            notifications = ListUtils.removeDuplicates(newNotifications);
         } else {
             int index = notifications.indexOf(newNotifications.get(newNotifications.size() - 1));
             for (int i = 0; i < index; i++) {

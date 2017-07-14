@@ -17,6 +17,8 @@ package com.keylesspalace.tusky.util;
 
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class ListUtils {
@@ -32,5 +34,12 @@ public class ListUtils {
         } else {
             return list.size();
         }
+    }
+
+    /** @return a new ArrayList containing the elements without duplicates in the same order */
+    public static <T> ArrayList<T> removeDuplicates(List<T> list) {
+        LinkedHashSet<T> set = new LinkedHashSet<>();
+        set.addAll(list);
+        return new ArrayList<>(set);
     }
 }

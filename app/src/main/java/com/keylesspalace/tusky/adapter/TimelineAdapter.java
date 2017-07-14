@@ -25,9 +25,9 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.util.ListUtils;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
@@ -113,7 +113,7 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
 
     public void update(@Nullable List<Status> newStatuses, @Nullable String fromId,
             @Nullable String uptoId) {
-        if (newStatuses == null || newStatuses.isEmpty()) {
+        if (ListUtils.isEmpty(newStatuses)) {
             return;
         }
         if (fromId != null) {
@@ -123,8 +123,7 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
             topId = uptoId;
         }
         if (statuses.isEmpty()) {
-            // This construction removes duplicates.
-            statuses = new ArrayList<>(new HashSet<>(newStatuses));
+            statuses = ListUtils.removeDuplicates(newStatuses);
         } else {
             int index = statuses.indexOf(newStatuses.get(newStatuses.size() - 1));
             for (int i = 0; i < index; i++) {

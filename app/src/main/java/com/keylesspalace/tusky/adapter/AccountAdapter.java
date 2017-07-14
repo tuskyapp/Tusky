@@ -20,9 +20,9 @@ import android.support.v7.widget.RecyclerView;
 
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
+import com.keylesspalace.tusky.util.ListUtils;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public abstract class AccountAdapter extends RecyclerView.Adapter {
@@ -57,8 +57,7 @@ public abstract class AccountAdapter extends RecyclerView.Adapter {
             topId = uptoId;
         }
         if (accountList.isEmpty()) {
-            // This construction removes duplicates.
-            accountList = new ArrayList<>(new HashSet<>(newAccounts));
+            accountList = ListUtils.removeDuplicates(newAccounts);
         } else {
             int index = accountList.indexOf(newAccounts.get(newAccounts.size() - 1));
             for (int i = 0; i < index; i++) {
