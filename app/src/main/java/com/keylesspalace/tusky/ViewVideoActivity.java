@@ -15,17 +15,28 @@
 
 package com.keylesspalace.tusky;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.VideoView;
 
 public class ViewVideoActivity extends BaseActivity {
+
+    Handler handler = new Handler(Looper.getMainLooper());
+    Toolbar toolbar;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +45,7 @@ public class ViewVideoActivity extends BaseActivity {
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.video_progress);
         VideoView videoView = (VideoView) findViewById(R.id.video_player);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
@@ -55,9 +66,28 @@ public class ViewVideoActivity extends BaseActivity {
             public void onPrepared(MediaPlayer mp) {
                 progressBar.setVisibility(View.GONE);
                 mp.setLooping(true);
+                hideToolbarAfterDelay();
             }
         });
         videoView.start();
+
+        videoView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    handler.removeCallbacksAndMessages(null);
+                    toolbar.animate().cancel();
+                    toolbar.setAlpha(1);
+                    toolbar.setVisibility(View.VISIBLE);
+                    hideToolbarAfterDelay();
+                }
+                return false;
+            }
+        });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.BLACK);
+        }
     }
 
     @Override
@@ -69,5 +99,23 @@ public class ViewVideoActivity extends BaseActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    void hideToolbarAfterDelay() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                toolbar.animate().alpha(0).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        View decorView = getWindow().getDecorView();
+                        int uiOptions = View.SYSTEM_UI_FLAG_LOW_PROFILE;
+                        decorView.setSystemUiVisibility(uiOptions);
+                        toolbar.setVisibility(View.INVISIBLE);
+                        animation.removeListener(this);
+                    }
+                });
+            }
+        }, 3000);
     }
 }

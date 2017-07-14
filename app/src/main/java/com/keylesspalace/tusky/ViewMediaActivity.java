@@ -16,10 +16,13 @@
 package com.keylesspalace.tusky;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -45,20 +48,25 @@ import com.keylesspalace.tusky.view.ImageViewPager;
 
 import java.io.File;
 
-public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment.OnDismissListener {
+public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment.PhotoActionsListener {
     private static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
     private ImageViewPager viewPager;
     private View anyView;
     private String[] imageUrls;
+    private Toolbar toolbar;
+
+    private boolean isToolbarVisible = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_media);
 
+        supportPostponeEnterTransition();
+
         // Obtain the views.
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         viewPager = (ImageViewPager) findViewById(R.id.view_pager);
         anyView = toolbar;
 
@@ -69,13 +77,14 @@ public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment
 
         // Setup the view pager.
         final ImagePagerAdapter adapter = new ImagePagerAdapter(getSupportFragmentManager(),
-                imageUrls);
+                imageUrls, initialPosition);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(initialPosition);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset,
-                int positionOffsetPixels) {}
+                                       int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(int position) {
@@ -84,7 +93,8 @@ public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
         });
 
         // Setup the toolbar.
@@ -98,7 +108,7 @@ public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                supportFinishAfterTransition();
             }
         });
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -113,6 +123,13 @@ public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment
                 return true;
             }
         });
+
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        decorView.setSystemUiVisibility(uiOptions);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.BLACK);
+        }
     }
 
     @Override
@@ -132,12 +149,28 @@ public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment
 
     @Override
     public void onDismiss() {
-        finish();
+        supportFinishAfterTransition();
+    }
+
+    @Override
+    public void onPhotoTap() {
+        isToolbarVisible = !isToolbarVisible;
+        final int visibility = isToolbarVisible ? View.VISIBLE : View.INVISIBLE;
+        int alpha = isToolbarVisible ? 1 : 0;
+        toolbar.animate().alpha(alpha)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        toolbar.setVisibility(visibility);
+                        animation.removeListener(this);
+                    }
+                })
+                .start();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
-            @NonNull int[] grantResults) {
+                                           @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0
@@ -158,7 +191,7 @@ public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment
     }
 
     private void doErrorDialog(@StringRes int descriptionId, @StringRes int actionId,
-            View.OnClickListener listener) {
+                               View.OnClickListener listener) {
         if (anyView != null) {
             Snackbar bar = Snackbar.make(anyView, getString(descriptionId),
                     Snackbar.LENGTH_SHORT);
@@ -170,9 +203,9 @@ public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment
     private void downloadImage() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+                        != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
-                    new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         } else {
             String url = imageUrls[viewPager.getCurrentItem()];

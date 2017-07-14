@@ -243,8 +243,9 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onViewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type) {
-        super.viewMedia(urls, urlIndex, type);
+    public void onViewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type,
+                            View view) {
+        super.viewMedia(urls, urlIndex, type, view);
     }
 
     @Override
