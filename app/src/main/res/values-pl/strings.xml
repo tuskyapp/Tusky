@@ -32,6 +32,7 @@
     <string name="title_blocks">Zablokowani użytkownicy</string>
     <string name="title_follow_requests">Prośby o obserwację</string>
     <string name="title_edit_profile">Edytuj profil</string>
+    <string name="title_saved_toot">Zapisany wpis</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s podbił</string>
@@ -98,6 +99,7 @@
     <string name="action_accept">Akceptuj</string>
     <string name="action_reject">Odrzuć</string>
     <string name="action_search">Szukaj</string>
+    <string name="action_access_saved_toot">Szkice</string>
 
     <string name="send_status_link_to">Udostępnij link do wpisu do…</string>
     <string name="send_status_content_to">Udostępnij wpis do…</string>
@@ -145,6 +147,7 @@
     <string name="visibility_direct">Bezpośrednio: Widoczne tylko dla wspomnianych</string>
 
     <string name="pref_title_notification_settings">Powiadomienia</string>
+    <string name="pref_title_pull_notification_check_interval">Częstotliwość sprawdzania</string>
     <string name="pref_title_edit_notification_settings">Edytuj powiadomienia</string>
     <string name="pref_title_notifications_enabled">Powiadomienia natychmiastowe</string>
     <string name="pref_title_notification_alerts">Alerty</string>
@@ -193,4 +196,9 @@
     <string name="status_media_video">Wideo</string>
 
     <string name="state_follow_requested">Wysłano prośbę o obserwację</string>
+
+    <string name="combine_s1_s2">%1$s %2$s</string>
+    <string name="no_content">brak zawartości</string>
+    <string name="action_save_one_toot">Zapisano wpis!</string>
+
 </resources>
