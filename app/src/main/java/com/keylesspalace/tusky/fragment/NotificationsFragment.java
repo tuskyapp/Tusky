@@ -463,7 +463,7 @@ public class NotificationsFragment extends SFragment implements
         }
         int end = notifications.size();
         Notification last = notifications.get(end - 1);
-        if (last != null && !findNotification(newNotifications, last.id)) {
+        if (last != null && !findNotification(newNotifications, last.id) && newNotifications.size() > 0) {
             notifications.addAll(newNotifications);
             List<NotificationViewData> newViewDatas = notifications.getPairedCopy()
                     .subList(notifications.size() - newNotifications.size(),
