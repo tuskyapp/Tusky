@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.interfaces;
 
 import android.view.View;
 
+import com.keylesspalace.tusky.adapter.StatusViewHolder;
 import com.keylesspalace.tusky.entity.Status;
 
 public interface StatusActionListener extends LinkListener {
@@ -27,4 +28,6 @@ public interface StatusActionListener extends LinkListener {
     void onViewMedia(String[] urls, int index, Status.MediaAttachment.Type type);
     void onViewThread(int position);
     void onOpenReblog(int position);
+    void onExpandedChange(boolean expanded, int position);
+    void onContentHiddenChange(boolean isShowing, int position);
 }

@@ -320,7 +320,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="4dp"
-            android:contentDescription="@string/action_reblog" />
+            android:contentDescription="@string/action_reblog"
+            android:clipToPadding="false"/>
 
         <Space
             android:layout_width="0dp"
@@ -338,7 +339,8 @@
             app:sparkbutton_secondaryColor="@color/status_favourite_button_marked_light"
             android:id="@+id/status_favourite"
             android:padding="4dp"
-            android:contentDescription="@string/action_favourite" />
+            android:contentDescription="@string/action_favourite"
+            android:clipToPadding="false"/>
 
         <Space
             android:layout_width="0dp"

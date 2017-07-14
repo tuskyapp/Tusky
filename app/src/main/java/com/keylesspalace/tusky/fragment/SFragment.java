@@ -23,6 +23,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -56,7 +57,7 @@ import retrofit2.Response;
  * adapters. I feel like the profile pages and thread viewer, which I haven't made yet, will also
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
-public abstract class SFragment extends BaseFragment {
+public abstract class SFragment extends BaseFragment implements AdapterItemRemover {
     protected static final int COMPOSE_RESULT = 1;
 
     protected String loggedInAccountId;
@@ -107,9 +108,7 @@ public abstract class SFragment extends BaseFragment {
 
     protected void reblog(final Status status, final boolean reblog,
                           final RecyclerView.Adapter adapter, final int position) {
-        String id = status.getActionableId();
-
-        Callback<Status> cb = new Callback<Status>() {
+        reblogWithCallback(status, reblog, new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
@@ -124,8 +123,16 @@ public abstract class SFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<Status> call, Throwable t) {}
-        };
+            public void onFailure(Call<Status> call, Throwable t) {
+                Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.id);
+                t.printStackTrace();
+            }
+        });
+    }
+
+    protected void reblogWithCallback(final Status status, final boolean reblog,
+                                      Callback<Status> callback) {
+        String id = status.getActionableId();
 
         Call<Status> call;
         if (reblog) {
@@ -133,15 +140,12 @@ public abstract class SFragment extends BaseFragment {
         } else {
             call = mastodonApi.unreblogStatus(id);
         }
-        call.enqueue(cb);
-        callList.add(call);
+        call.enqueue(callback);
     }
 
     protected void favourite(final Status status, final boolean favourite,
             final RecyclerView.Adapter adapter, final int position) {
-        String id = status.getActionableId();
-
-        Callback<Status> cb = new Callback<Status>() {
+        favouriteWithCallback(status, favourite, new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
@@ -156,8 +160,16 @@ public abstract class SFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<Status> call, Throwable t) {}
-        };
+            public void onFailure(Call<Status> call, Throwable t) {
+                Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.id);
+                t.printStackTrace();
+            }
+        });
+    }
+
+    protected void favouriteWithCallback(final Status status, final boolean favourite,
+                                         final Callback<Status> callback) {
+        String id = status.getActionableId();
 
         Call<Status> call;
         if (favourite) {
@@ -165,7 +177,7 @@ public abstract class SFragment extends BaseFragment {
         } else {
             call = mastodonApi.unfavouriteStatus(id);
         }
-        call.enqueue(cb);
+        call.enqueue(callback);
         callList.add(call);
     }
 
@@ -218,8 +230,7 @@ public abstract class SFragment extends BaseFragment {
         callList.add(call);
     }
 
-    protected void more(final Status status, View view, final AdapterItemRemover adapter,
-                        final int position) {
+    protected void more(final Status status, View view, final int position) {
         final String id = status.getActionableId();
         final String accountId = status.getActionableStatus().account.id;
         final String accountUsename = status.getActionableStatus().account.username;
@@ -272,7 +283,7 @@ public abstract class SFragment extends BaseFragment {
                             }
                             case R.id.status_delete: {
                                 delete(id);
-                                adapter.removeItem(position);
+                                removeItem(position);
                                 return true;
                             }
                         }

@@ -22,24 +22,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.entity.Status;
-import com.keylesspalace.tusky.util.ListUtils;
+import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
+public class TimelineAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_STATUS = 0;
     private static final int VIEW_TYPE_FOOTER = 1;
 
-    private List<Status> statuses;
+    private List<StatusViewData> statuses;
     private StatusActionListener statusListener;
     private FooterViewHolder.State footerState;
     private boolean mediaPreviewEnabled;
-    private String topId;
-    private String bottomId;
 
     public TimelineAdapter(StatusActionListener statusListener) {
         super();
@@ -70,7 +66,7 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (position < statuses.size()) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
-            Status status = statuses.get(position);
+            StatusViewData status = statuses.get(position);
             holder.setupWithStatus(status, statusListener, mediaPreviewEnabled);
         } else {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
@@ -92,85 +88,28 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
         }
     }
 
-    @Override
-    public void removeItem(int position) {
-        statuses.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    @Override
-    public void removeAllByAccountId(String accountId) {
-        for (int i = 0; i < statuses.size();) {
-            Status status = statuses.get(i);
-            if (accountId.equals(status.account.id)) {
-                statuses.remove(i);
-                notifyItemRemoved(i);
-            } else {
-                i += 1;
-            }
-        }
-    }
-
-    public void update(@Nullable List<Status> newStatuses, @Nullable String fromId,
-            @Nullable String uptoId) {
-        if (ListUtils.isEmpty(newStatuses)) {
+    public void update(@Nullable List<StatusViewData> newStatuses) {
+        if (newStatuses == null || newStatuses.isEmpty()) {
             return;
         }
-        if (fromId != null) {
-            bottomId = fromId;
-        }
-        if (uptoId != null) {
-            topId = uptoId;
-        }
-        if (statuses.isEmpty()) {
-            statuses = ListUtils.removeDuplicates(newStatuses);
-        } else {
-            int index = statuses.indexOf(newStatuses.get(newStatuses.size() - 1));
-            for (int i = 0; i < index; i++) {
-                statuses.remove(0);
-            }
-            int newIndex = newStatuses.indexOf(statuses.get(0));
-            if (newIndex == -1) {
-                statuses.addAll(0, newStatuses);
-            } else {
-                statuses.addAll(0, newStatuses.subList(0, newIndex));
-            }
-        }
+        statuses.clear();
+        statuses.addAll(newStatuses);
         notifyDataSetChanged();
     }
 
-    public void addItems(List<Status> newStatuses, @Nullable String fromId) {
-        if (fromId != null) {
-            bottomId = fromId;
-        }
-        int end = statuses.size();
-        Status last = statuses.get(end - 1);
-        if (last != null && !findStatus(newStatuses, last.id)) {
-            statuses.addAll(newStatuses);
-            notifyItemRangeInserted(end, newStatuses.size());
-        }
+    public void addItems(List<StatusViewData> newStatuses) {
+        statuses.addAll(newStatuses);
+        notifyItemRangeInserted(statuses.size(), newStatuses.size());
     }
 
-    private static boolean findStatus(List<Status> statuses, String id) {
-        for (Status status : statuses) {
-            if (status.id.equals(id)) {
-                return true;
-            }
-        }
-        return false;
+    public void changeItem(int position, StatusViewData newData, boolean notifyAdapter) {
+        statuses.set(position, newData);
+        if (notifyAdapter) notifyDataSetChanged();
     }
 
     public void clear() {
         statuses.clear();
         notifyDataSetChanged();
-    }
-
-    @Nullable
-    public Status getItem(int position) {
-        if (position >= 0 && position < statuses.size()) {
-            return statuses.get(position);
-        }
-        return null;
     }
 
     public void setFooterState(FooterViewHolder.State newFooterState) {
@@ -183,15 +122,5 @@ public class TimelineAdapter extends RecyclerView.Adapter implements AdapterItem
 
     public void setMediaPreviewEnabled(boolean enabled) {
         mediaPreviewEnabled = enabled;
-    }
-
-    @Nullable
-    public String getBottomId() {
-        return bottomId;
-    }
-
-    @Nullable
-    public String getTopId() {
-        return topId;
     }
 }

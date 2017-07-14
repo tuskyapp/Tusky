@@ -21,23 +21,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ThreadAdapter extends RecyclerView.Adapter implements AdapterItemRemover {
-    private List<Status> statuses;
+public class ThreadAdapter extends RecyclerView.Adapter {
+    private List<StatusViewData> statuses;
     private StatusActionListener statusActionListener;
-    private int statusIndex;
     private boolean mediaPreviewEnabled;
 
     public ThreadAdapter(StatusActionListener listener) {
         this.statusActionListener = listener;
         this.statuses = new ArrayList<>();
-        this.statusIndex = 0;
         mediaPreviewEnabled = true;
     }
 
@@ -51,8 +48,9 @@ public class ThreadAdapter extends RecyclerView.Adapter implements AdapterItemRe
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         StatusViewHolder holder = (StatusViewHolder) viewHolder;
-        Status status = statuses.get(position);
-        holder.setupWithStatus(status, statusActionListener, mediaPreviewEnabled);
+        StatusViewData status = statuses.get(position);
+        holder.setupWithStatus(status,
+                statusActionListener, mediaPreviewEnabled);
     }
 
     @Override
@@ -60,77 +58,42 @@ public class ThreadAdapter extends RecyclerView.Adapter implements AdapterItemRe
         return statuses.size();
     }
 
-    @Override
-    public void removeItem(int position) {
-        statuses.remove(position);
-        notifyItemRemoved(position);
+    public void setStatuses(List<StatusViewData> statuses) {
+        this.statuses.clear();
+        this.statuses.addAll(statuses);
+        notifyDataSetChanged();
     }
 
-    @Override
-    public void removeAllByAccountId(String accountId) {
-        for (int i = 0; i < statuses.size();) {
-            Status status = statuses.get(i);
-            if (accountId.equals(status.account.id)) {
-                statuses.remove(i);
-                notifyItemRemoved(i);
-            } else {
-                i += 1;
-            }
-        }
+    public void addItem(int position, StatusViewData statusViewData) {
+        statuses.add(position, statusViewData);
+        notifyItemInserted(position);
     }
 
-    public Status getItem(int position) {
-        return statuses.get(position);
-    }
-
-    public int setStatus(Status status) {
-        if (statuses.size() > 0
-                && statusIndex < statuses.size()
-                && statuses.get(statusIndex).equals(status)) {
-            // Do not add this status on refresh, it's already in there.
-            statuses.set(statusIndex, status);
-            return statusIndex;
-        }
-        int i = statusIndex;
-        statuses.add(i, status);
-        notifyItemInserted(i);
-        return i;
-    }
-
-    public void setContext(List<Status> ancestors, List<Status> descendants) {
-        Status mainStatus = null;
-
-        // In case of refresh, remove old ancestors and descendants first. We'll remove all blindly,
-        // as we have no guarantee on their order to be the same as before
+    public void clearItems() {
         int oldSize = statuses.size();
-        if (oldSize > 1) {
-            mainStatus = statuses.get(statusIndex);
-            statuses.clear();
-            notifyItemRangeRemoved(0, oldSize);
-        }
+        statuses.clear();
+        notifyItemRangeRemoved(0, oldSize);
+    }
 
-        // Insert newly fetched ancestors
-        statusIndex = ancestors.size();
-        statuses.addAll(0, ancestors);
-        notifyItemRangeInserted(0, statusIndex);
+    public void addAll(int position, List<StatusViewData> statuses) {
+        this.statuses.addAll(position, statuses);
+        notifyItemRangeInserted(position, statuses.size());
+    }
 
-        if (mainStatus != null) {
-            // In case we needed to delete everything (which is way easier than deleting
-            // everything except one), re-insert the remaining status here.
-            statuses.add(statusIndex, mainStatus);
-            notifyItemInserted(statusIndex);
-        }
-
-        // Insert newly fetched descendants
+    public void addAll(List<StatusViewData> statuses) {
         int end = statuses.size();
-        statuses.addAll(descendants);
-        notifyItemRangeInserted(end, descendants.size());
+        this.statuses.addAll(statuses);
+        notifyItemRangeInserted(end, statuses.size());
     }
 
     public void clear() {
         statuses.clear();
         notifyDataSetChanged();
-        statusIndex = 0;
+    }
+
+    public void setItem(int position, StatusViewData status, boolean notifyAdapter) {
+        statuses.set(position, status);
+        if (notifyAdapter) notifyItemChanged(position);
     }
 
     public void setMediaPreviewEnabled(boolean enabled) {
