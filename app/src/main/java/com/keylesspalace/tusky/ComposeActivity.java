@@ -85,6 +85,7 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.fragment.ComposeOptionsFragment;
+import com.keylesspalace.tusky.interfaces.MenuFabViewListener;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
 import com.keylesspalace.tusky.util.IOUtils;
@@ -96,6 +97,7 @@ import com.keylesspalace.tusky.util.SpanUtils;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EditTextTyped;
+import com.keylesspalace.tusky.view.MenuFabView;
 import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -120,7 +122,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ComposeActivity extends BaseActivity implements ComposeOptionsFragment.Listener, ParserUtils.ParserListener {
+public class ComposeActivity extends BaseActivity implements ComposeOptionsFragment.Listener, ParserUtils.ParserListener, MenuFabViewListener {
     private static final String TAG = "ComposeActivity"; // logging tag
     private static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 4000000; // 4MB
@@ -156,7 +158,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private int currentFlags;
     private Uri photoUploadUri;
     private int savedTootUid = 0;
-
+    private ParserUtils parser;
+    private MenuFabView menuFabView;
     /**
      * The Target object must be stored as a member field or method and cannot be an anonymous class otherwise this won't work as expected. The reason is that Picasso accepts this parameter as a weak memory reference. Because anonymous classes are eligible for garbage collection when there are no more references, the network request to fetch the image may finish after this anonymous class has already been reclaimed. See this Stack Overflow discussion for more details.
      */
@@ -200,27 +203,9 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 onSendClicked();
             }
         });
-        floatingBtn.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                String contentWarning = null;
-                if (statusHideText) {
-                    contentWarning = contentWarningEditor.getText().toString();
-                }
-                /* Discard any upload URLs embedded in the text because they'll be re-uploaded when
-                 * the draft is loaded and replaced with new URLs. */
-                if (mediaQueued != null) {
-                    for (QueuedMedia item : mediaQueued) {
-                        removeUrlFromEditable(textEditor.getEditableText(), item.uploadUrl);
-                    }
-                }
-                boolean b = saveTheToot(textEditor.getText().toString(), contentWarning);
-                if (b) {
-                    Toast.makeText(ComposeActivity.this, R.string.action_save_one_toot, Toast.LENGTH_SHORT).show();
-                }
-                return b;
-            }
-        });
+        menuFabView = (MenuFabView) findViewById(R.id.menufab);
+        menuFabView.attachView(this, floatingBtn);
+
         pickBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -346,7 +331,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         postProgress.setVisibility(View.INVISIBLE);
         updateHideMediaToggleColor();
 
-        final ParserUtils parser = new ParserUtils(this);
+        parser = new ParserUtils(this);
 
         // Setup the main text field.
         setEditTextMimeTypes(null); // new String[] { "image/gif", "image/webp" }
@@ -656,6 +641,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     public boolean saveTheToot(String s, @Nullable String contentWarning) {
         if (TextUtils.isEmpty(s)) {
+            textEditor.setError(getString(R.string.error_empty));
             return false;
         }
 
@@ -826,7 +812,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags,
-            String[] mimeTypes) {
+                                    String[] mimeTypes) {
         try {
             if (currentInputContentInfo != null) {
                 currentInputContentInfo.releasePermission();
@@ -888,7 +874,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private void sendStatus(String content, String visibility, boolean sensitive,
-            String spoilerText) {
+                            String spoilerText) {
         ArrayList<String> mediaIds = new ArrayList<>();
 
         for (QueuedMedia item : mediaQueued) {
@@ -1031,7 +1017,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
-            @NonNull int[] grantResults) {
+                                           @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0
@@ -1505,6 +1491,45 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             Log.e(TAG, String.format("Autocomplete search for %s failed.", mention));
         }
         return resultList;
+    }
+
+    /*
+    * @MenuFabViewListener
+    * */
+    @Override
+    public void menuFabSaveToot() {
+        String contentWarning = null;
+        if (statusHideText) {
+            contentWarning = contentWarningEditor.getText().toString();
+        }
+        boolean b = saveTheToot(textEditor.getText().toString(), contentWarning);
+        if (b) {
+            Toast.makeText(ComposeActivity.this, R.string.action_end_save_one_toot, Toast.LENGTH_SHORT).show();
+            onBackPressed();
+        }
+    }
+
+    /*
+    * @MenuFabViewListener
+    * */
+    @Override
+    public void menuFabCopy() {
+        if (!TextUtils.isEmpty(textEditor.getText().toString())) {
+            parser.putInClipboardManager(this, textEditor.getText().toString());
+            Toast.makeText(ComposeActivity.this, R.string.action_copy_toot, Toast.LENGTH_SHORT).show();
+            onBackPressed();
+        } else {
+            textEditor.setError(getString(R.string.error_empty));
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (menuFabView != null && menuFabView.isFABOpen()) {
+            menuFabView.closeFABMenu();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private static class QueuedMedia {
