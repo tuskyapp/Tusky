@@ -52,7 +52,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:contentDescription="@string/action_view_profile"
-        tools:src="@drawable/avatar_default"/>
+        tools:src="@drawable/avatar_default" />
 
     <ImageView
         android:id="@+id/status_avatar_reblog"
@@ -61,9 +61,10 @@
         android:layout_alignBottom="@+id/status_avatar"
         android:layout_alignEnd="@id/status_avatar"
         android:layout_alignRight="@id/status_avatar"
+        android:contentDescription="@null"
         android:visibility="gone"
         tools:src="@color/accent"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
     <RelativeLayout
         android:layout_height="wrap_content"

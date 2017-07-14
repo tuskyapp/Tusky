@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky.util;
 
+import java.text.NumberFormat;
+
 public class DateUtils {
     /* This is a rough duplicate of android.text.format.DateUtils.getRelativeTimeSpanString,
      * but even with the FORMAT_ABBREV_RELATIVE flag it wasn't abbreviating enough. */
@@ -45,6 +47,6 @@ public class DateUtils {
             span /= YEAR;
             unit = "y";
         }
-        return prefix + span + unit;
+        return prefix + NumberFormat.getIntegerInstance().format(span) + unit;
     }
 }

@@ -152,7 +152,6 @@
                 android:id="@+id/characters_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="500"
                 android:textColor="?android:textColorPrimary" />
 
             <Button

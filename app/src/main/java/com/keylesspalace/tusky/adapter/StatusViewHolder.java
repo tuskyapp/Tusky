@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -129,7 +130,12 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         Context context = avatar.getContext();
         boolean hasReblog = rebloggedUrl != null && !rebloggedUrl.isEmpty();
         int padding = hasReblog ? Utils.dpToPx(context, 12) : 0;
-        avatar.setPadding(0, 0, padding, padding);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
+                avatar.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+            avatar.setPadding(padding, 0, 0, padding);
+        } else {
+            avatar.setPadding(0, 0, padding, padding);
+        }
 
         if (url.isEmpty()) {
             avatar.setImageResource(R.drawable.avatar_default);

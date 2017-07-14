@@ -345,6 +345,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         setStatusVisibility(startingVisibility);
         postProgress.setVisibility(View.INVISIBLE);
         updateHideMediaToggleColor();
+        updateVisibleCharactersLeft();
 
         final ParserUtils parser = new ParserUtils(this);
 
