@@ -7,21 +7,17 @@
     android:layout_height="match_parent"
     tools:context="com.keylesspalace.tusky.EditProfileActivity">
 
+    <include layout="@layout/toolbar_basic" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/toolbar_background_color"
-                android:elevation="4dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -81,6 +77,7 @@
                     android:elevation="4dp"
                     android:background="@drawable/round_button"
                     android:contentDescription="@string/label_avatar" />
+
             </RelativeLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -121,6 +118,8 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <include layout="@layout/toolbar_shadow_shim" />
 
     <ProgressBar
         android:id="@+id/edit_profile_save_progress"

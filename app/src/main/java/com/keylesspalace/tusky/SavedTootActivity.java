@@ -131,10 +131,12 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
         // Delete any media files associated with the status.
         ArrayList<String> uris = new Gson().fromJson(item.getUrls(),
                 new TypeToken<ArrayList<String>>() {}.getType());
-        for (String uriString : uris) {
-            Uri uri = Uri.parse(uriString);
-            if (getContentResolver().delete(uri, null, null) == 0) {
-                Log.e(TAG, String.format("Did not delete file %s.", uriString));
+        if (uris != null) {
+            for (String uriString : uris) {
+                Uri uri = Uri.parse(uriString);
+                if (getContentResolver().delete(uri, null, null) == 0) {
+                    Log.e(TAG, String.format("Did not delete file %s.", uriString));
+                }
             }
         }
         // update DB
