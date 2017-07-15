@@ -130,9 +130,8 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         Context context = avatar.getContext();
         boolean hasReblog = rebloggedUrl != null && !rebloggedUrl.isEmpty();
         int padding = hasReblog ? Utils.dpToPx(context, 12) : 0;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
-                avatar.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-            avatar.setPadding(padding, 0, 0, padding);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            avatar.setPaddingRelative(0, 0, padding, padding);
         } else {
             avatar.setPadding(0, 0, padding, padding);
         }
@@ -369,7 +368,8 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         sensitiveMediaWarning.setVisibility(View.GONE);
     }
 
-    private void setSpoilerText(String spoilerText, final boolean expanded, final StatusActionListener listener) {
+    private void setSpoilerText(String spoilerText, final boolean expanded,
+                                final StatusActionListener listener) {
         contentWarningDescription.setText(spoilerText);
         contentWarningBar.setVisibility(View.VISIBLE);
         contentWarningButton.setChecked(expanded);

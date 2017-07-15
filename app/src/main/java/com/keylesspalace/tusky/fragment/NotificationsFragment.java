@@ -43,6 +43,7 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
+import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
@@ -436,7 +437,7 @@ public class NotificationsFragment extends SFragment implements
 
     public void update(@Nullable List<Notification> newNotifications, @Nullable String fromId,
                        @Nullable String uptoId) {
-        if (newNotifications == null || newNotifications.isEmpty()) {
+        if (ListUtils.isEmpty(newNotifications)) {
             return;
         }
         if (fromId != null) {
@@ -465,12 +466,15 @@ public class NotificationsFragment extends SFragment implements
     }
 
     public void addItems(List<Notification> newNotifications, @Nullable String fromId) {
+        if (ListUtils.isEmpty(newNotifications)) {
+            return;
+        }
         if (fromId != null) {
             bottomId = fromId;
         }
         int end = notifications.size();
         Notification last = notifications.get(end - 1);
-        if (last != null && !findNotification(newNotifications, last.id) && newNotifications.size() > 0) {
+        if (last != null && !findNotification(newNotifications, last.id)) {
             notifications.addAll(newNotifications);
             List<NotificationViewData> newViewDatas = notifications.getPairedCopy()
                     .subList(notifications.size() - newNotifications.size(),

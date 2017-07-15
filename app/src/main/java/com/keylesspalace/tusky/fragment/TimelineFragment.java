@@ -642,7 +642,9 @@ public class TimelineFragment extends SFragment implements
                         newStatuses.size(), newViewDatas.size(), statuses.size());
                 throw new AssertionError(error);
             }
-            if (fromId != null) bottomId = fromId;
+            if (fromId != null) {
+                bottomId = fromId;
+            }
             adapter.addItems(newViewDatas);
         }
     }
