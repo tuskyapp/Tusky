@@ -40,9 +40,6 @@
     <string name="status_content_warning_show_more">Voir plus</string>
     <string name="status_content_warning_show_less">Voir moins</string>
 
-    <string name="footer_end_of_statuses">Fin du pouet</string>
-    <string name="footer_end_of_notifications">Fin des notifications</string>
-    <string name="footer_end_of_accounts">Fin des comptes</string>
     <string name="footer_empty">Il n’y a aucun pouet pour le moment.\nGlissez vers le bas pour actualiser !</string>
 
     <string name="notification_reblog_format">%s a boosté votre pouet.</string>
@@ -103,8 +100,6 @@
     <string name="send_status_link_to">Partager l’URL de votre pouet avec…</string>
     <string name="send_status_content_to">Partager le pouet avec…</string>
 
-    <string name="search">Rechercher un compte…</string>
-
     <string name="confirmation_send">Pouet !</string>
     <string name="confirmation_reported">Envoyé !</string>
 
@@ -113,6 +108,7 @@
     <string name="hint_content_warning">Contenu sensible</string>
     <string name="hint_display_name">Afficher le nom</string>
     <string name="hint_note">Bio</string>
+    <string name="hint_search">Rechercher un compte…</string>
 
     <string name="label_avatar">Avatar</string>
     <string name="label_header">En-tête</string>

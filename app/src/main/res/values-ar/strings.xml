@@ -41,9 +41,6 @@
     <string name="status_content_warning_show_more">اعرض أكثر</string>
     <string name="status_content_warning_show_less">اعرض أقل</string>
 
-    <string name="footer_end_of_statuses">نهاية الحالات</string>
-    <string name="footer_end_of_notifications">نهاية الاشعارات</string>
-    <string name="footer_end_of_accounts">نهاية الحسابات</string>
     <string name="footer_empty">لا توجد تبويقات هنا بعد. اسحب للأسفل للتحديث !</string>
 
     <string name="notification_reblog_format">%s عزز تبويقك</string>
@@ -102,8 +99,6 @@
     <string name="send_status_link_to">شارك رابط التبويق على ...</string>
     <string name="send_status_content_to">شارك التبويق على …</string>
 
-    <string name="search">ابحث عن حسابات ...</string>
-
     <string name="confirmation_send">بَوِّق</string>
     <string name="confirmation_reported">تم الإرسال !</string>
     <string name="confirmation_unblocked">تم فك الحجب عن الحساب</string>
@@ -114,6 +109,7 @@
     <string name="hint_content_warning">تحذير عن المحتوى</string>
     <string name="hint_display_name">الإسم العلني</string>
     <string name="hint_note">السيرة</string>
+    <string name="hint_search">ابحث عن حسابات ...</string>
 
     <string name="label_avatar">الصورة الرمزية</string>
     <string name="label_header">رأس الصفحة</string>

@@ -57,3 +57,6 @@
 -keep public class org.jsoup.** {
 public *;
 }
+
+# for bouncycastle
+-dontwarn org.bouncycastle.**

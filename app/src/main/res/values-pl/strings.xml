@@ -104,8 +104,6 @@
     <string name="send_status_link_to">Udostępnij link do wpisu do…</string>
     <string name="send_status_content_to">Udostępnij wpis do…</string>
 
-    <string name="search">Szukaj konta…</string>
-
     <string name="confirmation_send">Wyślij!</string>
     <string name="confirmation_reported">Wyślij!</string>
     <string name="confirmation_unblocked">Odblokowano użytkownika</string>

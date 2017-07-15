@@ -38,9 +38,6 @@
     <string name="status_content_warning_show_more">Zeige mehr</string>
     <string name="status_content_warning_show_less">Zeige weniger</string>
 
-    <string name="footer_end_of_statuses">Ende des Beitrages</string>
-    <string name="footer_end_of_notifications">Ende der Benachrichtigungen</string>
-    <string name="footer_end_of_accounts">Ende der Accounts</string>
     <!-- <string name="footer_empty">There are no toots here so far. Pull down to refresh!</string> -->
 
     <string name="notification_reblog_format">%s teilte deinen Beitrag</string>
@@ -95,8 +92,6 @@
     <string name="send_status_link_to">Toot-Link teilen</string>
     <!-- <string name="send_status_content_to">Share toot to…</string> -->
 
-    <string name="search">Suche Accounts…</string>
-
     <string name="confirmation_send">Toot!</string>
     <string name="confirmation_reported">Gesendet!</string>
 
@@ -105,6 +100,7 @@
     <string name="hint_content_warning">Inhaltswarnung</string>
     <!-- <string name="hint_display_name">Display name</string> -->
     <!-- <string name="hint_note">Bio</string> -->
+    <string name="hint_search">Suche Accounts…</string>
 
     <!-- <string name="label_avatar">Avatar</string> -->
     <!-- <string name="label_header">Header</string> -->

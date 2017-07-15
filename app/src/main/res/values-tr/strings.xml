@@ -41,9 +41,6 @@
     <string name="status_content_warning_show_more">Daha Fazla Göster</string>
     <string name="status_content_warning_show_less">Daha Az Göster</string>
 
-    <string name="footer_end_of_statuses">iletilerin sonu</string>
-    <string name="footer_end_of_notifications">bildirmelerin sonu</string>
-    <string name="footer_end_of_accounts">hesapların sonu</string>
     <string name="footer_empty">Henüz hiç ileti yoktur. Yenilemek için aşağıya çek!</string>
 
     <string name="notification_reblog_format">%s iletini yükseltti</string>
@@ -103,8 +100,6 @@
     <string name="send_status_link_to">İletinin adresini paylaş…</string>
     <string name="send_status_content_to">İletiyi paylaş…</string>
 
-    <string name="search">Hesaplarda ara…</string>
-
     <string name="confirmation_send">İlet!</string>
     <string name="confirmation_reported">İletildi!</string>
 
@@ -113,6 +108,7 @@
     <string name="hint_content_warning">İçerik uyarı</string>
     <string name="hint_display_name">Görünen ad</string>
     <string name="hint_note">Biyo</string>
+    <string name="hint_search">Hesaplarda ara…</string>
 
     <string name="label_avatar">Simge</string>
     <string name="label_header">Üstlük</string>

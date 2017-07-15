@@ -41,9 +41,6 @@
     <string name="status_content_warning_show_more">続きを表示</string>
     <string name="status_content_warning_show_less">続きを隠す</string>
 
-    <string name="footer_end_of_statuses">これ以降に投稿はありません</string>
-    <string name="footer_end_of_notifications">これ以降に通知はありません</string>
-    <string name="footer_end_of_accounts">これ以降にアカウントはありません</string>
     <string name="footer_empty">現在トゥートはありません。更新するにはプルダウンしてください！</string>
 
     <string name="notification_reblog_format">%sさんがトゥートをブーストしました</string>
@@ -105,8 +102,6 @@
     <string name="send_status_link_to">トゥートのURLを共有…</string>
     <string name="send_status_content_to">トゥートを共有…</string>
 
-    <string name="search">ユーザーを検索…</string>
-
     <string name="confirmation_send">トゥート！</string>
     <string name="confirmation_reported">送信しました！</string>
     <string name="confirmation_unblocked">ブロックを解除しました</string>
@@ -117,6 +112,7 @@
     <string name="hint_content_warning">注意書き</string>
     <string name="hint_display_name">表示名</string>
     <string name="hint_note">プロフィール</string>
+    <string name="hint_search">ユーザーを検索…</string>
 
     <string name="label_avatar">アイコン</string>
     <string name="label_header">ヘッダー</string>
