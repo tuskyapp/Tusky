@@ -19,6 +19,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        google {}
+        fdroid {}
+    }
     lintOptions {
         disable 'MissingTranslation'
     }
@@ -60,4 +64,7 @@ dependencies {
     compile "android.arch.persistence.room:runtime:1.0.0-alpha3"
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha3"
 
+    googleCompile 'com.google.firebase:firebase-crash:10.0.1'
 }
+
+apply plugin: 'com.google.gms.google-services'
