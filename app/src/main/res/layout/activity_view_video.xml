@@ -10,10 +10,9 @@
     tools:context=".ViewVideoActivity">
     <VideoView
         android:id="@+id/video_player"
-        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true" />
+        android:layout_gravity="center" />
     <ProgressBar
         android:id="@+id/video_progress"
         android:layout_gravity="center"

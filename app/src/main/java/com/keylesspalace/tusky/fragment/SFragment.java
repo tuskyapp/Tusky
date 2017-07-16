@@ -19,7 +19,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
@@ -293,13 +295,23 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         popup.show();
     }
 
-    protected void viewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type) {
+    protected void viewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type,
+                             @Nullable View view) {
         switch (type) {
             case IMAGE: {
                 Intent intent = new Intent(getContext(), ViewMediaActivity.class);
                 intent.putExtra("urls", urls);
                 intent.putExtra("urlIndex", urlIndex);
-                startActivity(intent);
+                if (view != null) {
+                    String url = urls[urlIndex];
+                    ViewCompat.setTransitionName(view, url);
+                    ActivityOptionsCompat options =
+                            ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+                            view, url);
+                    startActivity(intent, options.toBundle());
+                } else {
+                    startActivity(intent);
+                }
                 break;
             }
             case GIFV:

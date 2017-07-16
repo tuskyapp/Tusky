@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,20 +30,30 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.keylesspalace.tusky.R;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 public class ViewMediaFragment extends BaseFragment {
-    public interface OnDismissListener {
+    public interface PhotoActionsListener {
         void onDismiss();
+
+        void onPhotoTap();
     }
 
     private PhotoViewAttacher attacher;
-    private OnDismissListener onDismissListener;
+    private PhotoActionsListener photoActionsListener;
+    View rootView;
+    PhotoView photoView;
 
-    public static ViewMediaFragment newInstance(String url) {
+    private static final String ARG_URL = "url";
+    private static final String ARG_START_POSTPONED_TRANSITION = "startPostponedTransition";
+
+    public static ViewMediaFragment newInstance(String url, boolean shouldStartPostponedTransition) {
         Bundle arguments = new Bundle();
         ViewMediaFragment fragment = new ViewMediaFragment();
         arguments.putString("url", url);
+        arguments.putBoolean(ARG_START_POSTPONED_TRANSITION, shouldStartPostponedTransition);
+
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -50,18 +61,17 @@ public class ViewMediaFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        onDismissListener = (OnDismissListener) context;
+        photoActionsListener = (PhotoActionsListener) context;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
-            Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_view_media, container, false);
+                             Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.fragment_view_media, container, false);
+        photoView = (PhotoView) rootView.findViewById(R.id.view_media_image);
 
-        PhotoView photoView = (PhotoView) rootView.findViewById(R.id.view_media_image);
-
-        Bundle arguments = getArguments();
-        String url = arguments.getString("url");
+        final Bundle arguments = getArguments();
+        final String url = arguments.getString("url");
 
         attacher = new PhotoViewAttacher(photoView);
 
@@ -69,7 +79,14 @@ public class ViewMediaFragment extends BaseFragment {
         attacher.setOnOutsidePhotoTapListener(new OnOutsidePhotoTapListener() {
             @Override
             public void onOutsidePhotoTap(ImageView imageView) {
-                onDismissListener.onDismiss();
+                photoActionsListener.onDismiss();
+            }
+        });
+
+        attacher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                photoActionsListener.onPhotoTap();
             }
         });
 
@@ -80,26 +97,82 @@ public class ViewMediaFragment extends BaseFragment {
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                                    float velocityY) {
                 if (Math.abs(velocityY) > Math.abs(velocityX)) {
-                    onDismissListener.onDismiss();
+                    photoActionsListener.onDismiss();
                     return true;
                 }
                 return false;
             }
         });
 
+        ViewCompat.setTransitionName(photoView, url);
+
+        // If we are the view to be shown initially...
+        if (arguments.getBoolean(ARG_START_POSTPONED_TRANSITION)) {
+            // Try to load image from disk.
+            Picasso.with(getContext())
+                    .load(url)
+                    .noFade()
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(photoView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            // if we loaded image from disk, we should check that view is attached.
+                            if (ViewCompat.isAttachedToWindow(photoView)) {
+                                finishLoadingSuccessfully();
+                            } else {
+                                // if view is not attached yet, wait for an attachment and
+                                // start transition when it's finally ready.
+                                photoView.addOnAttachStateChangeListener(
+                                        new View.OnAttachStateChangeListener() {
+                                            @Override
+                                            public void onViewAttachedToWindow(View v) {
+                                                finishLoadingSuccessfully();
+                                                photoView.removeOnAttachStateChangeListener(this);
+                                            }
+
+                                            @Override
+                                            public void onViewDetachedFromWindow(View v) {
+                                            }
+                                        });
+                            }
+                        }
+
+                        @Override
+                        public void onError() {
+                            // if there's no image in cache, load from network and start trnasition
+                            // immediately.
+                            getActivity().supportStartPostponedEnterTransition();
+                            loadImageFromNetwork(url, photoView);
+                        }
+                    });
+        } else {
+            // if we're not initial page, don't bother.
+            loadImageFromNetwork(url, photoView);
+        }
+
+        return rootView;
+    }
+
+    private void loadImageFromNetwork(String url, ImageView photoView) {
         Picasso.with(getContext())
                 .load(url)
+                .noPlaceholder()
                 .into(photoView, new Callback() {
                     @Override
                     public void onSuccess() {
-                        rootView.findViewById(R.id.view_media_progress).setVisibility(View.GONE);
-                        attacher.update();
+                        finishLoadingSuccessfully();
                     }
 
                     @Override
-                    public void onError() {}
+                    public void onError() {
+                        rootView.findViewById(R.id.view_media_progress).setVisibility(View.GONE);
+                    }
                 });
+    }
 
-        return rootView;
+    private void finishLoadingSuccessfully() {
+        rootView.findViewById(R.id.view_media_progress).setVisibility(View.GONE);
+        attacher.update();
+        getActivity().supportStartPostponedEnterTransition();
     }
 }

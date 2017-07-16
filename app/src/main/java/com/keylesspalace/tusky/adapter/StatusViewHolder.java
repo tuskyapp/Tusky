@@ -275,7 +275,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
                 previews[i].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onViewMedia(urls, urlIndex, type);
+                        listener.onViewMedia(urls, urlIndex, type, v);
                     }
                 });
             }
@@ -359,7 +359,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         mediaLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onViewMedia(urls, 0, type);
+                listener.onViewMedia(urls, 0, type, null);
             }
         });
     }
