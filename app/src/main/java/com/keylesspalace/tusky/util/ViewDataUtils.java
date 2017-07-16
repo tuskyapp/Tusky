@@ -22,7 +22,7 @@ public final class ViewDataUtils {
         Status visibleStatus = status.reblog == null ? status : status.reblog;
         return new StatusViewData.Builder()
                 .setId(status.id)
-                .setAttachments(status.attachments)
+                .setAttachments(visibleStatus.attachments)
                 .setAvatar(visibleStatus.account.avatar)
                 .setContent(visibleStatus.content)
                 .setCreatedAt(visibleStatus.createdAt)
@@ -37,7 +37,7 @@ public final class ViewDataUtils {
                 .setSpoilerText(visibleStatus.spoilerText)
                 .setRebloggedByUsername(status.reblog == null ? null : status.account.username)
                 .setUserFullName(visibleStatus.account.getDisplayName())
-                .setSenderId(status.account.id)
+                .setSenderId(visibleStatus.account.id)
                 .setRebloggingEnabled(visibleStatus.rebloggingAllowed())
                 .createStatusViewData();
     }
