@@ -65,7 +65,9 @@ public class TuskyApplication extends Application {
         Provider existingProvider = Security.getProvider(providerName);
         if (existingProvider == null) {
             try {
-                Security.addProvider(new BouncyCastleProvider());
+                int priority = Security.addProvider(new BouncyCastleProvider());
+                Log.i(TAG, String.format("BouncyCastleProvider was added with priority %d.",
+                        priority));
             } catch (SecurityException e) {
                 Log.e(TAG, "Permission to add the security provider was denied.");
             }
@@ -82,13 +84,17 @@ public class TuskyApplication extends Application {
                 try {
                     Security.removeProvider(providerName);
                     Security.insertProviderAt(replacement, priority);
+                    Log.i(TAG, String.format(
+                            "BouncyCastleProvider version %f was updated to version %f.",
+                            existingProvider.getVersion(), replacement.getVersion()));
                 } catch (SecurityException e) {
                     Log.e(TAG, "Permission to update a security provider was denied.");
                 }
             }
         }
 
-        db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "tuskyDB").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
+                .allowMainThreadQueries()
+                .build();
     }
 }

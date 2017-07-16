@@ -1,14 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.keylesspalace.tusky"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 21
-        versionName "1.1.4-beta.5"
+        versionCode 22
+        versionName "1.1.4-beta.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
     }
@@ -59,11 +62,9 @@ dependencies {
     }
     compile 'org.bouncycastle:bcprov-jdk15on:1.57'
     testCompile 'junit:junit:4.12'
-
     //room
-    compile "android.arch.persistence.room:runtime:1.0.0-alpha3"
+    compile 'android.arch.persistence.room:runtime:1.0.0-alpha3'
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha3"
-
     googleCompile 'com.google.firebase:firebase-crash:10.0.1'
 }
 
