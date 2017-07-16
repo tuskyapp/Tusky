@@ -37,6 +37,7 @@ public final class ViewDataUtils {
                 .setSpoilerText(visibleStatus.spoilerText)
                 .setRebloggedByUsername(status.reblog == null ? null : status.account.username)
                 .setUserFullName(visibleStatus.account.getDisplayName())
+                .setVisibility(visibleStatus.visibility)
                 .setSenderId(visibleStatus.account.id)
                 .setRebloggingEnabled(visibleStatus.rebloggingAllowed())
                 .createStatusViewData();

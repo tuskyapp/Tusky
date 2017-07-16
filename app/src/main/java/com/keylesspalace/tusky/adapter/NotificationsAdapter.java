@@ -38,7 +38,6 @@ import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
-import com.varunest.sparkbutton.helpers.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
