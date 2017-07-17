@@ -10,16 +10,20 @@ import java.util.Locale;
 
 public class ImagePagerAdapter extends FragmentPagerAdapter {
     private String[] urls;
+    private FragmentManager fragmentManager;
+    private int initialPosition;
 
-    public ImagePagerAdapter(FragmentManager fragmentManager, String[] urls) {
+    public ImagePagerAdapter(FragmentManager fragmentManager, String[] urls, int initialPosition) {
         super(fragmentManager);
         this.urls = urls;
+        this.fragmentManager = fragmentManager;
+        this.initialPosition = initialPosition;
     }
 
     @Override
     public Fragment getItem(int position) {
         if (position >= 0 && position < urls.length) {
-            return ViewMediaFragment.newInstance(urls[position]);
+            return ViewMediaFragment.newInstance(urls[position], position == initialPosition);
         } else {
             return null;
         }
