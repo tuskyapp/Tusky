@@ -310,9 +310,11 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 }
             } else {
                 String contentWarning = intent.getStringExtra("saved_toot_content_warning");
-                startingHideText = !TextUtils.isEmpty(contentWarning);
-                if (startingHideText) {
-                    startingContentWarning = contentWarning;
+                if (contentWarning != null) {
+                    startingHideText = !contentWarning.isEmpty();
+                    if (startingHideText) {
+                        startingContentWarning = contentWarning;
+                    }
                 }
             }
 

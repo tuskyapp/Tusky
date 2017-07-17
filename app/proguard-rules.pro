@@ -59,5 +59,5 @@ public *;
 }
 
 # for bouncycastle
--keep class org.bouncycastle.jce.provider.**
+-keep class org.bouncycastle.**
 -dontwarn javax.naming.**
