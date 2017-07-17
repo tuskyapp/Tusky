@@ -1,9 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-
-    }
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {

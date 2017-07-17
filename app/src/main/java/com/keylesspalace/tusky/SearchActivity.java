@@ -147,14 +147,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         if (searchManager != null) {
-            List<SearchableInfo> searchables = searchManager.getSearchablesInGlobalSearch();
             SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
-            for (SearchableInfo info : searchables) {
-                if (info.getSuggestAuthority() != null
-                        && info.getSuggestAuthority().startsWith("applications")) {
-                    searchableInfo = info;
-                }
-            }
             searchView.setSearchableInfo(searchableInfo);
         }
 
