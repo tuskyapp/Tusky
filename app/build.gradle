@@ -7,8 +7,8 @@ android {
         applicationId "com.keylesspalace.tusky"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 22
-        versionName "1.1.4-beta.6"
+        versionCode 23
+        versionName "1.1.4-beta.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
     }
@@ -57,7 +57,6 @@ dependencies {
     compile('org.eclipse.paho:org.eclipse.paho.android.service:1.1.1') {
         exclude module: 'support-v4'
     }
-    compile 'org.bouncycastle:bcprov-jdk15on:1.57'
     testCompile 'junit:junit:4.12'
     //room
     compile 'android.arch.persistence.room:runtime:1.0.0-alpha3'

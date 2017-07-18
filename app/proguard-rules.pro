@@ -45,19 +45,15 @@
 -keepattributes SourceFile,LineNumberTable
 
 # remove all logging from production apk
--assumenosideeffects class android.util.Log {
-    public static *** getStackTraceString(...);
-    public static *** d(...);
-    public static *** w(...);
-    public static *** v(...);
-    public static *** i(...);
-}
+#-assumenosideeffects class android.util.Log {
+#    public static *** getStackTraceString(...);
+#    public static *** d(...);
+#    public static *** w(...);
+#    public static *** v(...);
+#    public static *** i(...);
+#}
 
 # for jsoup
 -keep public class org.jsoup.** {
 public *;
 }
-
-# for bouncycastle
--keep class org.bouncycastle.**
--dontwarn javax.naming.**
