@@ -58,6 +58,7 @@
             android:title="@string/pref_title_pull_notification_check_interval"
             android:entries="@array/pull_notification_check_interval_names"
             android:entryValues="@array/pull_notification_check_intervals"
+            android:summary="%s"
             android:defaultValue="15" />
 
         <PreferenceCategory
