@@ -37,8 +37,6 @@ import com.keylesspalace.tusky.adapter.SearchResultsAdapter;
 import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -165,7 +163,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
             public void onResponse(Call<SearchResults> call, Response<SearchResults> response) {
                 if (response.isSuccessful()) {
                     SearchResults results = response.body();
-                    if (results.accounts != null || results.hashtags != null) {
+                    if (results.accounts != null && results.accounts.length > 0 || results.hashtags != null && results.hashtags.length > 0) {
                         adapter.updateSearchResults(results);
                         hideFeedback();
                     } else {
