@@ -201,7 +201,7 @@ public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment
     }
 
     private void downloadImage() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN &&
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
