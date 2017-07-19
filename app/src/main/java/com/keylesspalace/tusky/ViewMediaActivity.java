@@ -148,6 +148,11 @@ public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment
     }
 
     @Override
+    public void onBringUp() {
+        supportStartPostponedEnterTransition();
+    }
+
+    @Override
     public void onDismiss() {
         supportFinishAfterTransition();
     }

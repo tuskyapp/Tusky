@@ -35,8 +35,8 @@ import com.squareup.picasso.Picasso;
 
 public class ViewMediaFragment extends BaseFragment {
     public interface PhotoActionsListener {
+        void onBringUp();
         void onDismiss();
-
         void onPhotoTap();
     }
 
@@ -45,7 +45,6 @@ public class ViewMediaFragment extends BaseFragment {
     View rootView;
     PhotoView photoView;
 
-    private static final String ARG_URL = "url";
     private static final String ARG_START_POSTPONED_TRANSITION = "startPostponedTransition";
 
     public static ViewMediaFragment newInstance(String url, boolean shouldStartPostponedTransition) {
@@ -141,7 +140,8 @@ public class ViewMediaFragment extends BaseFragment {
                         public void onError() {
                             // if there's no image in cache, load from network and start trnasition
                             // immediately.
-                            getActivity().supportStartPostponedEnterTransition();
+                            photoActionsListener.onBringUp();
+
                             loadImageFromNetwork(url, photoView);
                         }
                     });
@@ -173,6 +173,6 @@ public class ViewMediaFragment extends BaseFragment {
     private void finishLoadingSuccessfully() {
         rootView.findViewById(R.id.view_media_progress).setVisibility(View.GONE);
         attacher.update();
-        getActivity().supportStartPostponedEnterTransition();
+        photoActionsListener.onBringUp();
     }
 }
