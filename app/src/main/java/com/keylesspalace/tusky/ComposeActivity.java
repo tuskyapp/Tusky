@@ -1365,6 +1365,10 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                     MediaMetadataRetriever retriever = new MediaMetadataRetriever();
                     retriever.setDataSource(this, uri);
                     Bitmap source = retriever.getFrameAtTime();
+                    if (source == null) {
+                        displayTransientError(R.string.error_media_upload_opening);
+                        return;
+                    }
                     Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
                     source.recycle();
                     addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize);
@@ -1378,8 +1382,12 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                         displayTransientError(R.string.error_media_upload_opening);
                         return;
                     }
-
                     Bitmap source = BitmapFactory.decodeStream(stream);
+                    if (source == null) {
+                        IOUtils.closeQuietly(stream);
+                        displayTransientError(R.string.error_media_upload_opening);
+                        return;
+                    }
                     Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
                     source.recycle();
                     try {
