@@ -292,6 +292,7 @@ public class MainActivity extends BaseActivity {
                 .withActivity(this)
                 .withSelectionListEnabledForSingleProfile(false)
                 .withDividerBelowHeader(false)
+                .withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP)
                 .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
                     @Override
                     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
@@ -438,11 +439,11 @@ public class MainActivity extends BaseActivity {
         mastodonApi.accountVerifyCredentials().enqueue(new Callback<Account>() {
             @Override
             public void onResponse(Call<Account> call, Response<Account> response) {
-                if (!response.isSuccessful()) {
+                if (response.isSuccessful()) {
+                    onFetchUserInfoSuccess(response.body(), domain);
+                } else {
                     onFetchUserInfoFailure(new Exception(response.message()));
-                    return;
                 }
-                onFetchUserInfoSuccess(response.body(), domain);
             }
 
             @Override
@@ -454,28 +455,14 @@ public class MainActivity extends BaseActivity {
 
     private void onFetchUserInfoSuccess(Account me, String domain) {
         // Add the header image and avatar from the account, into the navigation drawer header.
-        headerResult.clear();
-
         ImageView background = headerResult.getHeaderBackgroundView();
-        int backgroundWidth = background.getWidth();
-        int backgroundHeight = background.getHeight();
-        if (backgroundWidth == 0 || backgroundHeight == 0) {
-            /* The header ImageView may not be layed out when the verify credentials call returns so
-             * measure the dimensions and use those. */
-            background.measure(View.MeasureSpec.EXACTLY, View.MeasureSpec.EXACTLY);
-            backgroundWidth = background.getMeasuredWidth();
-            backgroundHeight = background.getMeasuredHeight();
-        }
-
         background.setBackgroundColor(ContextCompat.getColor(this, R.color.window_background_dark));
-
         Picasso.with(MainActivity.this)
                 .load(me.header)
                 .placeholder(R.drawable.account_header_default)
-                .resize(backgroundWidth, backgroundHeight)
-                .centerCrop()
                 .into(background);
 
+        headerResult.clear();
         headerResult.addProfiles(
                 new ProfileDrawerItem()
                         .withName(me.getDisplayName())
