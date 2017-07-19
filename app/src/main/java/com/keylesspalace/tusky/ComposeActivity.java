@@ -1134,13 +1134,13 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         view.setLayoutParams(layoutParams);
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
         view.setImageBitmap(preview);
-
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 removeMediaFromQueue(item);
             }
         });
+        view.setContentDescription(getString(R.string.action_delete));
         mediaPreviewBar.addView(view);
         mediaQueued.add(item);
         int queuedCount = mediaQueued.size();
