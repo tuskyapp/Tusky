@@ -1342,6 +1342,45 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         }
     }
 
+    @Nullable
+    private static Bitmap getImageThumbnail(ContentResolver contentResolver, Uri uri) {
+        InputStream stream;
+        try {
+            stream = contentResolver.openInputStream(uri);
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+        Bitmap source = BitmapFactory.decodeStream(stream);
+        if (source == null) {
+            IOUtils.closeQuietly(stream);
+            return null;
+        }
+        Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+        source.recycle();
+        try {
+            if (stream != null) {
+                stream.close();
+            }
+        } catch (IOException e) {
+            bitmap.recycle();
+            return null;
+        }
+        return bitmap;
+    }
+
+    @Nullable
+    private static Bitmap getVideoThumbnail(Context context, Uri uri) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(context, uri);
+        Bitmap source = retriever.getFrameAtTime();
+        if (source == null) {
+            return null;
+        }
+        Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+        source.recycle();
+        return bitmap;
+    }
+
     private void pickMedia(Uri uri, long mediaSize) {
         ContentResolver contentResolver = getContentResolver();
         if (mediaSize == MediaUtils.MEDIA_SIZE_UNKNOWN) {
@@ -1362,44 +1401,21 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                         displayTransientError(R.string.error_media_upload_image_or_video);
                         return;
                     }
-                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-                    retriever.setDataSource(this, uri);
-                    Bitmap source = retriever.getFrameAtTime();
-                    if (source == null) {
+                    Bitmap bitmap = getVideoThumbnail(this, uri);
+                    if (bitmap != null) {
+                        addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize);
+                    } else {
                         displayTransientError(R.string.error_media_upload_opening);
-                        return;
                     }
-                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-                    source.recycle();
-                    addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize);
                     break;
                 }
                 case "image": {
-                    InputStream stream;
-                    try {
-                        stream = contentResolver.openInputStream(uri);
-                    } catch (FileNotFoundException e) {
+                    Bitmap bitmap = getImageThumbnail(contentResolver, uri);
+                    if (bitmap != null) {
+                        addMediaToQueue(QueuedMedia.Type.IMAGE, bitmap, uri, mediaSize);
+                    } else {
                         displayTransientError(R.string.error_media_upload_opening);
-                        return;
                     }
-                    Bitmap source = BitmapFactory.decodeStream(stream);
-                    if (source == null) {
-                        IOUtils.closeQuietly(stream);
-                        displayTransientError(R.string.error_media_upload_opening);
-                        return;
-                    }
-                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-                    source.recycle();
-                    try {
-                        if (stream != null) {
-                            stream.close();
-                        }
-                    } catch (IOException e) {
-                        bitmap.recycle();
-                        displayTransientError(R.string.error_media_upload_opening);
-                        return;
-                    }
-                    addMediaToQueue(QueuedMedia.Type.IMAGE, bitmap, uri, mediaSize);
                     break;
                 }
                 default: {
@@ -1596,13 +1612,13 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     private class MentionAutoCompleteAdapter extends ArrayAdapter<Account> implements Filterable {
         private ArrayList<Account> resultList;
-        private
         @LayoutRes
-        int layoutId;
+        private int layoutId;
 
         MentionAutoCompleteAdapter(Context context, @LayoutRes int resource) {
             super(context, resource);
             layoutId = resource;
+            resultList = new ArrayList<>();
         }
 
         @Override
@@ -1628,9 +1644,13 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults filterResults = new FilterResults();
                     if (constraint != null) {
-                        resultList = autocompleteMention(constraint.toString());
-                        filterResults.values = resultList;
-                        filterResults.count = resultList.size();
+                        ArrayList<Account> accounts = autocompleteMention(constraint.toString());
+                        synchronized (this) {
+                            resultList.clear();
+                            resultList.addAll(accounts);
+                        }
+                        filterResults.values = accounts;
+                        filterResults.count = accounts.size();
                     }
                     return filterResults;
                 }
