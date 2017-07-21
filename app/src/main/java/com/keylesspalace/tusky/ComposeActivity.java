@@ -647,6 +647,10 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         }
     }
 
+    /**
+     * A∖B={x∈A|x∉B}
+     * @return all elements of set A that are not in set B.
+     */
     private static List<String> setDifference(List<String> a, List<String> b) {
         List<String> c = new ArrayList<>();
         for (String s : a) {
