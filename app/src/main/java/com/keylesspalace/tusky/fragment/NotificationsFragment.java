@@ -71,7 +71,6 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private SwipeRefreshLayout swipeRefreshLayout;
-
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private EndlessOnScrollListener scrollListener;
@@ -134,6 +133,7 @@ public class NotificationsFragment extends SFragment implements
         LocalBroadcastManager.getInstance(context.getApplicationContext())
                 .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(null));
 
+        notifications.clear();
         topLoading = false;
         topFetches = 0;
         bottomLoading = false;

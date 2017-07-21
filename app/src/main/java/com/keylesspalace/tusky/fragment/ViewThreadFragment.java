@@ -106,6 +106,7 @@ public class ViewThreadFragment extends SFragment implements
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         recyclerView.setAdapter(adapter);
 
+        statuses.clear();
         thisThreadsStatusId = null;
 
         timelineReceiver = new TimelineReceiver(this, this);

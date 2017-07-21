@@ -159,6 +159,7 @@ public class TimelineFragment extends SFragment implements
         LocalBroadcastManager.getInstance(context.getApplicationContext())
                 .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(kind));
 
+        statuses.clear();
         topLoading = false;
         topFetches = 0;
         bottomLoading = false;

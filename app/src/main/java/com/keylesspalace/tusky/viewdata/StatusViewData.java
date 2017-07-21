@@ -37,7 +37,7 @@ public final class StatusViewData {
     private final String senderId;
     private final boolean rebloggingEnabled;
 
-    public StatusViewData(String id, Spanned contnet, boolean reblogged, boolean favourited,
+    public StatusViewData(String id, Spanned content, boolean reblogged, boolean favourited,
                           String spoilerText, Status.Visibility visibility,
                           Status.MediaAttachment[] attachments, String rebloggedByUsername,
                           String rebloggedAvatar, boolean sensitive, boolean isExpanded,
@@ -45,7 +45,7 @@ public final class StatusViewData {
                           String avatar, Date createdAt, Status.Mention[] mentions,
                           String senderId, boolean rebloggingEnabled) {
         this.id = id;
-        this.content = contnet;
+        this.content = content;
         this.reblogged = reblogged;
         this.favourited = favourited;
         this.spoilerText = spoilerText;
@@ -147,7 +147,7 @@ public final class StatusViewData {
 
     public static class Builder {
         private String id;
-        private Spanned contnet;
+        private Spanned content;
         private boolean reblogged;
         private boolean favourited;
         private String spoilerText;
@@ -171,7 +171,7 @@ public final class StatusViewData {
 
         public Builder(final StatusViewData viewData) {
             id = viewData.id;
-            contnet = viewData.content;
+            content = viewData.content;
             reblogged = viewData.reblogged;
             favourited = viewData.favourited;
             spoilerText = viewData.spoilerText;
@@ -197,7 +197,7 @@ public final class StatusViewData {
         }
 
         public Builder setContent(Spanned content) {
-            this.contnet = content;
+            this.content = content;
             return this;
         }
 
@@ -287,7 +287,7 @@ public final class StatusViewData {
         }
 
         public StatusViewData createStatusViewData() {
-            return new StatusViewData(id, contnet, reblogged, favourited, spoilerText, visibility,
+            return new StatusViewData(id, content, reblogged, favourited, spoilerText, visibility,
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
                     isShowingSensitiveContent, userFullName, nickname, avatar, createdAt, mentions,
                     senderId, rebloggingEnabled);

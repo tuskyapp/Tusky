@@ -313,9 +313,8 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private static
     @DrawableRes
-    int getLabelIcon(Status.MediaAttachment.Type type) {
+    private static int getLabelIcon(Status.MediaAttachment.Type type) {
         switch (type) {
             default:
             case IMAGE:
