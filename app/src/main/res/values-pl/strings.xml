@@ -32,7 +32,7 @@
     <string name="title_blocks">Zablokowani użytkownicy</string>
     <string name="title_follow_requests">Prośby o obserwację</string>
     <string name="title_edit_profile">Edytuj profil</string>
-    <string name="title_saved_toot">Zapisany wpis</string>
+    <string name="title_saved_toot">Szkice</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s podbił</string>
@@ -127,12 +127,12 @@
 
     <string name="dialog_whats_an_instance">Domenę lub adres instancji może zostać wprowadzona tutaj,
         np. mastodon.social, icosahedron.website, social.tchncs.de, i
-        <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">wiele więcej!</a>
+        <a href="https://instances.social">wiele więcej!</a>
         \n\nJeżeli nie posiadasz jeszcze konta, wprowadź tu nazwę instancji, na której chcesz się zarejestrowa.
         Instancja jest miejscem, na którym znajduje się twoje konto,
         lecz komunikując się z innymi serwerami, działa tak,
         jakby były jednym portalem.
-        Możesz znaleźć więcej informacji na <a href="https://mastodon.social/about">mastodon.social</a>.
+        Możesz znaleźć więcej informacji na <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
     <string name="dialog_title_finishing_media_upload">Kończenie wysyłania treści</string>
     <string name="dialog_message_uploading_media">Wysyłanie…</string>
