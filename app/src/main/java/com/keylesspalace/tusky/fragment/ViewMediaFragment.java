@@ -138,7 +138,7 @@ public class ViewMediaFragment extends BaseFragment {
 
                         @Override
                         public void onError() {
-                            // if there's no image in cache, load from network and start trnasition
+                            // if there's no image in cache, load from network and start transition
                             // immediately.
                             photoActionsListener.onBringUp();
 
@@ -151,6 +151,13 @@ public class ViewMediaFragment extends BaseFragment {
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Picasso.with(getContext())
+                .cancelRequest(photoView);
     }
 
     private void loadImageFromNetwork(String url, ImageView photoView) {
