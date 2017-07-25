@@ -1472,10 +1472,12 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     @Override
     public void onReceiveHeaderInfo(ParserUtils.HeaderInfo headerInfo) {
         if (!TextUtils.isEmpty(headerInfo.title)) {
-            cleanBaseUrl(headerInfo);
-            textEditor.append(headerInfo.title);
-            textEditor.append(StringUtils.carriageReturn);
-            textEditor.append(headerInfo.baseUrl);
+            Editable text = textEditor.getText();
+            int index = text.toString().indexOf(headerInfo.baseUrl);
+            if (index < 0) {
+                index = 0;
+            }
+            text.insert(index, headerInfo.title + StringUtils.carriageReturn);
         }
         if (!TextUtils.isEmpty(headerInfo.image)) {
             Picasso.Builder builder = new Picasso.Builder(getApplicationContext());
@@ -1503,16 +1505,6 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             });
             Picasso.with(this).load(headerInfo.image).into(target);
         }
-    }
-
-    // remove the precedent paste from the edit text
-    private void cleanBaseUrl(ParserUtils.HeaderInfo headerInfo) {
-        int lengthBaseUrl = headerInfo.baseUrl.length();
-        int total = textEditor.getText().length();
-        int indexSubString = total - lengthBaseUrl;
-        String text = textEditor.getText().toString();
-        text = text.substring(0, indexSubString);
-        textEditor.setText(text);
     }
 
     @Override
