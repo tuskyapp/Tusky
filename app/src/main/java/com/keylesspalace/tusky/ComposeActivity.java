@@ -123,7 +123,7 @@ import retrofit2.Response;
 public class ComposeActivity extends BaseActivity implements ComposeOptionsFragment.Listener, ParserUtils.ParserListener {
     private static final String TAG = "ComposeActivity"; // logging tag
     private static final int STATUS_CHARACTER_LIMIT = 500;
-    private static final int STATUS_MEDIA_SIZE_LIMIT = 4000000; // 4MB
+    private static final int STATUS_MEDIA_SIZE_LIMIT = 8388608; // 8MiB
     private static final int MEDIA_PICK_RESULT = 1;
     private static final int MEDIA_TAKE_PHOTO_RESULT = 2;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
