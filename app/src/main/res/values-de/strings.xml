@@ -1,7 +1,7 @@
 <resources>
 
     <string name="error_generic">Ein Fehler ist aufgetreten.</string>
-    <!-- <string name="error_empty">This cannot be empty.</string> -->
+    <string name="error_empty">Dies darf nicht leer sein.</string>
     <string name="error_invalid_domain">Ungültige Domain angegeben</string>
     <string name="error_failed_app_registration">Diese App konnte sich auf dem Server nicht authentifizieren.</string>
     <string name="error_no_web_browser_found">Kein Webbrowser gefunden.</string>
@@ -38,7 +38,7 @@
     <string name="status_content_warning_show_more">Zeige mehr</string>
     <string name="status_content_warning_show_less">Zeige weniger</string>
 
-    <!-- <string name="footer_empty">There are no toots here so far. Pull down to refresh!</string> -->
+    <string name="footer_empty">Bis jetzt sind keine Toots vorhanden. Herunterziehen zum Aktualisieren!</string>
 
     <string name="notification_reblog_format">%s teilte deinen Beitrag</string>
     <string name="notification_favourite_format">%s favorisierte deinen Beitrag</string>
@@ -78,7 +78,7 @@
     <string name="action_open_in_web">Im Browser öffnen</string>
     <string name="action_submit">Senden</string>
     <string name="action_photo_pick">Füge Medien hinzu</string>
-    <!-- <string name="action_photo_take">Take photo</string> -->
+    <string name="action_photo_take">Foto aufnehmen</string>
     <string name="action_share">Teilen</string>
     <string name="action_mute">Stummschalten</string>
     <string name="action_unmute">Lautschalten</string>
@@ -86,11 +86,13 @@
     <string name="action_compose_options">Einstellungen</string>
     <string name="action_open_drawer">Drawer öffnen</string>
     <string name="action_clear">Löschen</string>
-    <!-- <string name="action_save">Save</string> -->
-    <!-- <string name="action_edit_profile">Edit profile</string> -->
+    <string name="action_search">Suchen</string>
+    <string name="action_access_saved_toot">Entwürfe</string>
+    <string name="action_save">Speichern</string>
+    <string name="action_edit_profile">Profil bearbeiten</string>
 
     <string name="send_status_link_to">Toot-Link teilen</string>
-    <!-- <string name="send_status_content_to">Share toot to…</string> -->
+    <string name="send_status_content_to">Teile Toot an…</string>
 
     <string name="confirmation_send">Toot!</string>
     <string name="confirmation_reported">Gesendet!</string>
@@ -98,12 +100,12 @@
     <string name="hint_domain">Welche Instanz?</string>
     <string name="hint_compose">Was passiert gerade?</string>
     <string name="hint_content_warning">Inhaltswarnung</string>
-    <!-- <string name="hint_display_name">Display name</string> -->
-    <!-- <string name="hint_note">Bio</string> -->
+    <string name="hint_display_name">Anzeigename</string>
+    <string name="hint_note">Bio</string>
     <string name="hint_search">Mastodon durchsuchen</string>
 
-    <!-- <string name="label_avatar">Avatar</string> -->
-    <!-- <string name="label_header">Header</string> -->
+    <string name="label_avatar">Avatar</string>
+    <string name="label_header">Header</string>
 
     <string name="link_whats_an_instance">Was ist eine Instanz?</string>
 
@@ -170,7 +172,7 @@
     <string name="footer_empty">Noch keine Toots hier! Ziehe nach unten um zu aktualisieren!</string>
     <string name="error_empty">Das darf nicht leer sein.</string>
     <string name="hint_display_name">Name</string>
-    <string name="title_edit_profile">Profil bearbeiten</string>
+    <string name="title_edit_profile">Dein Profil bearbeiten</string>
     <string name="login_connection">Verbinden…</string>
 
     <string name="about_title_activity">Über</string>
