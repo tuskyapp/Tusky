@@ -131,6 +131,16 @@
                 android:contentDescription="@string/action_compose_options" />
 
             <ImageButton
+                android:id="@+id/compose_save_draft"
+                style="?attr/image_button_style"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                app:srcCompat="@drawable/ic_save_24dp"
+                android:contentDescription="@string/action_save" />
+
+            <ImageButton
                 android:id="@+id/action_hide_media"
                 style="?attr/image_button_style"
                 android:layout_width="32dp"

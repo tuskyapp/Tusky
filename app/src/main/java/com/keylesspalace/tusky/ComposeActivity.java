@@ -137,10 +137,11 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private EditText contentWarningEditor;
     private TextView charactersLeft;
     private Button floatingBtn;
-    private ImageButton pickBtn;
     private ImageButton takeBtn;
-    private ImageButton hideMediaToggle;
+    private ImageButton pickBtn;
     private ImageButton visibilityBtn;
+    private ImageButton saveButton;
+    private ImageButton hideMediaToggle;
     private ProgressBar postProgress;
     // this only exists when a status is trying to be sent, but uploads are still occurring
     private ProgressDialog finishingUploadDialog;
@@ -174,10 +175,11 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         contentWarningEditor = (EditText) findViewById(R.id.field_content_warning);
         charactersLeft = (TextView) findViewById(R.id.characters_left);
         floatingBtn = (Button) findViewById(R.id.floating_btn);
-        pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
         takeBtn = (ImageButton) findViewById(R.id.compose_photo_take);
-        hideMediaToggle = (ImageButton) findViewById(R.id.action_hide_media);
+        pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
         visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
+        saveButton = (ImageButton) findViewById(R.id.compose_save_draft);
+        hideMediaToggle = (ImageButton) findViewById(R.id.action_hide_media);
         postProgress = (ProgressBar) findViewById(R.id.postProgress);
 
         // Setup the toolbar.
@@ -203,28 +205,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         floatingBtn.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String contentWarning = null;
-                if (statusHideText) {
-                    contentWarning = contentWarningEditor.getText().toString();
-                }
-                /* Discard any upload URLs embedded in the text because they'll be re-uploaded when
-                 * the draft is loaded and replaced with new URLs. */
-                if (mediaQueued != null) {
-                    for (QueuedMedia item : mediaQueued) {
-                        removeUrlFromEditable(textEditor.getEditableText(), item.uploadUrl);
-                    }
-                }
-                boolean b = saveTheToot(textEditor.getText().toString(), contentWarning);
-                if (b) {
-                    Toast.makeText(ComposeActivity.this, R.string.action_save_one_toot, Toast.LENGTH_SHORT).show();
-                }
-                return b;
-            }
-        });
-        pickBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onMediaPick();
+                return saveDraft();
             }
         });
         takeBtn.setOnClickListener(new View.OnClickListener() {
@@ -233,16 +214,28 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 initiateCameraApp();
             }
         });
-        hideMediaToggle.setOnClickListener(new View.OnClickListener() {
+        pickBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toggleHideMedia();
+                onMediaPick();
             }
         });
         visibilityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showComposeOptions();
+            }
+        });
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveDraft();
+            }
+        });
+        hideMediaToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleHideMedia();
             }
         });
 
@@ -534,19 +527,41 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private void disableButtons() {
-        pickBtn.setClickable(false);
         takeBtn.setClickable(false);
-        hideMediaToggle.setClickable(false);
+        pickBtn.setClickable(false);
         visibilityBtn.setClickable(false);
+        saveButton.setClickable(false);
+        hideMediaToggle.setClickable(false);
         floatingBtn.setEnabled(false);
     }
 
     private void enableButtons() {
-        pickBtn.setClickable(true);
         takeBtn.setClickable(true);
-        hideMediaToggle.setClickable(true);
+        pickBtn.setClickable(true);
         visibilityBtn.setClickable(true);
+        saveButton.setClickable(true);
+        hideMediaToggle.setClickable(true);
         floatingBtn.setEnabled(true);
+    }
+
+    private boolean saveDraft() {
+        String contentWarning = null;
+        if (statusHideText) {
+            contentWarning = contentWarningEditor.getText().toString();
+        }
+        /* Discard any upload URLs embedded in the text because they'll be re-uploaded when
+         * the draft is loaded and replaced with new URLs. */
+        if (mediaQueued != null) {
+            for (QueuedMedia item : mediaQueued) {
+                removeUrlFromEditable(textEditor.getEditableText(), item.uploadUrl);
+            }
+        }
+        boolean b = saveTheToot(textEditor.getText().toString(), contentWarning);
+        if (b) {
+            Toast.makeText(ComposeActivity.this, R.string.action_save_one_toot, Toast.LENGTH_SHORT)
+                    .show();
+        }
+        return b;
     }
 
     private static boolean copyToFile(ContentResolver contentResolver, Uri uri, File file) {
