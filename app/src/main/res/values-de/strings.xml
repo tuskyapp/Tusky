@@ -38,7 +38,7 @@
     <string name="status_content_warning_show_more">Zeige mehr</string>
     <string name="status_content_warning_show_less">Zeige weniger</string>
 
-    <string name="footer_empty">Bis jetzt sind keine Toots vorhanden. Herunterziehen zum Aktualisieren!</string>
+    <string name="footer_empty">Noch keine Toots hier! Ziehe nach unten um zu aktualisieren!</string>
 
     <string name="notification_reblog_format">%s teilte deinen Beitrag</string>
     <string name="notification_favourite_format">%s favorisierte deinen Beitrag</string>
@@ -78,7 +78,7 @@
     <string name="action_open_in_web">Im Browser öffnen</string>
     <string name="action_submit">Senden</string>
     <string name="action_photo_pick">Füge Medien hinzu</string>
-    <string name="action_photo_take">Foto aufnehmen</string>
+    <string name="action_photo_take">Foto machen</string>
     <string name="action_share">Teilen</string>
     <string name="action_mute">Stummschalten</string>
     <string name="action_unmute">Lautschalten</string>
@@ -86,13 +86,13 @@
     <string name="action_compose_options">Einstellungen</string>
     <string name="action_open_drawer">Drawer öffnen</string>
     <string name="action_clear">Löschen</string>
-    <string name="action_search">Suchen</string>
+    <string name="action_search">Suche</string>
     <string name="action_access_saved_toot">Entwürfe</string>
     <string name="action_save">Speichern</string>
     <string name="action_edit_profile">Profil bearbeiten</string>
 
     <string name="send_status_link_to">Toot-Link teilen</string>
-    <string name="send_status_content_to">Teile Toot an…</string>
+    <string name="send_status_content_to">Toot-Inhalt teilen</string>
 
     <string name="confirmation_send">Toot!</string>
     <string name="confirmation_reported">Gesendet!</string>
@@ -105,7 +105,7 @@
     <string name="hint_search">Mastodon durchsuchen</string>
 
     <string name="label_avatar">Avatar</string>
-    <string name="label_header">Header</string>
+    <string name="label_header">Titelbild</string>
 
     <string name="link_whats_an_instance">Was ist eine Instanz?</string>
 
@@ -148,15 +148,9 @@
     <string name="notification_title_summary">%d neue Interaktionen</string>
 
     <string name="description_account_locked">Gesperrter Account</string>
-    <string name="action_edit_profile">Profil bearbeiten</string>
-    <string name="action_photo_take">Foto machen</string>
-    <string name="action_save">Speichern</string>
     <string name="action_undo">rückgängig machen</string>
     <string name="action_view_mutes">Stummgeschaltene Accounts</string>
     <string name="confirmation_unblocked">entblockt</string>
-    <string name="label_avatar">Avatar</string>
-    <string name="label_header">Titelbild</string>
-    <string name="hint_note">Bio</string>
     <string name="visibility_direct">Nur für Erwähnte sichtbar</string>
     <string name="title_mutes">Stummgeschaltene Nutzer</string>
     <string name="title_follow_requests">Followanfragen</string>
@@ -166,12 +160,8 @@
     <string name="action_reject">Ablehnen</string>
     <string name="action_view_follow_requests">Followanfragen</string>
     <string name="state_follow_requested">Followanfrage gesendet</string>
-    <string name="send_status_content_to">Toot-Inhalt teilen</string>
     <string name="confirmation_unmuted">Stummschaltung aufgehoben</string>
     <string name="dialog_message_follow_request">Followanfrage gesendet: Warten auf Antwort</string>
-    <string name="footer_empty">Noch keine Toots hier! Ziehe nach unten um zu aktualisieren!</string>
-    <string name="error_empty">Das darf nicht leer sein.</string>
-    <string name="hint_display_name">Name</string>
     <string name="title_edit_profile">Dein Profil bearbeiten</string>
     <string name="login_connection">Verbinden…</string>
 
@@ -186,7 +176,7 @@
         https://github.com/Vavassor/Tusky/issues
     </string>
     <string name="about_tusky_account">Tuskys Profil</string>
-    <string name="action_search">Suche</string>
+
     <string name="action_save_one_toot">Toot gespeichert</string>
     <string name="search_no_results">Keine Ergebnisse</string>
     <string name="status_media_images">Bilder</string>
@@ -199,7 +189,6 @@
     <string name="no_content">leer</string>
     <string name="action_logout_confirm">Willst du dich wirklich ausloggen?</string>
     <string name="action_hide_media">Verstecke Medien</string>
-    <string name="action_access_saved_toot">Entwürfe</string>
     <string name="pref_title_status_filter">Timeline-Filter</string>
     <string name="title_saved_toot">Gespeicherte Tröts</string>
 
