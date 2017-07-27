@@ -31,8 +31,5 @@ The project's gradle files describe its building needs more in-depth and depende
 
 ### Firebase
 
-This app uses Firebase's Cloud Messaging and Crash Reporting. So, in order to build with your own Firebase project, associate it with the build by replacing ```google-services.json``` file in the ```app``` directory with one from your Firebase console.
+This app uses Firebase's Crash Reporting. So, in order to build with your own Firebase project, associate it with the build by replacing ```google-services.json``` file in the ```app``` directory with one from your Firebase console.
 
-### Tusky-API
-
-Tusky uses its own server for push notifications, the [tusky-api server](https://github.com/Gargron/tusky-api). This system works with Firebase and the Tusky-API server in tandem. After that is set up as per its directions, the only thing needed to call the server in this project is to give its URL to the string ```tusky_web_url``` in the file ```app/src/main/res/values/donottranslate.xml```.
