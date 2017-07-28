@@ -45,7 +45,7 @@ public class ViewTagActivity extends BaseActivity {
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.TAG, hashtag);
-        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }
 

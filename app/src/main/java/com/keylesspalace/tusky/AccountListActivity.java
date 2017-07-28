@@ -74,7 +74,7 @@ public class AccountListActivity extends BaseActivity {
             }
         }
         Fragment fragment = AccountListFragment.newInstance(fragmentType);
-        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }
 
