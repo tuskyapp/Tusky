@@ -22,7 +22,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
@@ -123,7 +122,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
          * account pages. */
         Context context = this.content.getContext();
         boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean("useCustomTabs", true);
+                .getBoolean("customTabs", true);
         LinkHelper.setClickableText(this.content, content, mentions, useCustomTabs, listener);
     }
 
