@@ -1663,24 +1663,25 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                     return ((Account) resultValue).username;
                 }
 
+                // This method is invoked in a worker thread.
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults filterResults = new FilterResults();
                     if (constraint != null) {
                         ArrayList<Account> accounts = autocompleteMention(constraint.toString());
-                        synchronized (this) {
-                            resultList.clear();
-                            resultList.addAll(accounts);
-                        }
                         filterResults.values = accounts;
                         filterResults.count = accounts.size();
                     }
                     return filterResults;
                 }
 
+                @SuppressWarnings("unchecked")
                 @Override
                 protected void publishResults(CharSequence constraint, FilterResults results) {
                     if (results != null && results.count > 0) {
+                        resultList.clear();
+                        ArrayList<Account> newResults = (ArrayList<Account>) results.values;
+                        resultList.addAll(newResults);
                         notifyDataSetChanged();
                     } else {
                         notifyDataSetInvalidated();
