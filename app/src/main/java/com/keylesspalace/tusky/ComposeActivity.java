@@ -51,6 +51,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -137,8 +138,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private EditText contentWarningEditor;
     private TextView charactersLeft;
     private Button floatingBtn;
-    private ImageButton takeBtn;
-    private ImageButton pickBtn;
+    private ImageButton pickButton;
     private ImageButton visibilityBtn;
     private ImageButton saveButton;
     private ImageButton hideMediaToggle;
@@ -175,8 +175,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         contentWarningEditor = (EditText) findViewById(R.id.field_content_warning);
         charactersLeft = (TextView) findViewById(R.id.characters_left);
         floatingBtn = (Button) findViewById(R.id.floating_btn);
-        takeBtn = (ImageButton) findViewById(R.id.compose_photo_take);
-        pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
+        pickButton = (ImageButton) findViewById(R.id.compose_photo_pick);
         visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
         saveButton = (ImageButton) findViewById(R.id.compose_save_draft);
         hideMediaToggle = (ImageButton) findViewById(R.id.action_hide_media);
@@ -208,16 +207,10 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 return saveDraft();
             }
         });
-        takeBtn.setOnClickListener(new View.OnClickListener() {
+        pickButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initiateCameraApp();
-            }
-        });
-        pickBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onMediaPick();
+                openPickDialog();
             }
         });
         visibilityBtn.setOnClickListener(new View.OnClickListener() {
@@ -527,8 +520,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private void disableButtons() {
-        takeBtn.setClickable(false);
-        pickBtn.setClickable(false);
+        pickButton.setClickable(false);
         visibilityBtn.setClickable(false);
         saveButton.setClickable(false);
         hideMediaToggle.setClickable(false);
@@ -536,8 +528,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private void enableButtons() {
-        takeBtn.setClickable(true);
-        pickBtn.setClickable(true);
+        pickButton.setClickable(true);
         visibilityBtn.setClickable(true);
         saveButton.setClickable(true);
         hideMediaToggle.setClickable(true);
@@ -1039,6 +1030,33 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         setStateToNotReadying();
     }
 
+    private void openPickDialog() {
+        final int CHOICE_TAKE = 0;
+        final int CHOICE_PICK = 1;
+        CharSequence[] choices = new CharSequence[2];
+        choices[CHOICE_TAKE] = getString(R.string.action_photo_take);
+        choices[CHOICE_PICK] = getString(R.string.action_photo_pick);
+        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case CHOICE_TAKE: {
+                        initiateCameraApp();
+                        break;
+                    }
+                    case CHOICE_PICK: {
+                        onMediaPick();
+                        break;
+                    }
+                }
+            }
+        };
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setItems(choices, listener)
+                .create();
+        dialog.show();
+    }
+
     private void onMediaPick() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -1123,20 +1141,14 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private void enableMediaButtons() {
-        pickBtn.setEnabled(true);
-        ThemeUtils.setDrawableTint(this, pickBtn.getDrawable(),
-                R.attr.compose_media_button_tint);
-        takeBtn.setEnabled(true);
-        ThemeUtils.setDrawableTint(this, takeBtn.getDrawable(),
+        pickButton.setEnabled(true);
+        ThemeUtils.setDrawableTint(this, pickButton.getDrawable(),
                 R.attr.compose_media_button_tint);
     }
 
     private void disableMediaButtons() {
-        pickBtn.setEnabled(false);
-        ThemeUtils.setDrawableTint(this, pickBtn.getDrawable(),
-                R.attr.compose_media_button_disabled_tint);
-        takeBtn.setEnabled(false);
-        ThemeUtils.setDrawableTint(this, takeBtn.getDrawable(),
+        pickButton.setEnabled(false);
+        ThemeUtils.setDrawableTint(this, pickButton.getDrawable(),
                 R.attr.compose_media_button_disabled_tint);
     }
 
