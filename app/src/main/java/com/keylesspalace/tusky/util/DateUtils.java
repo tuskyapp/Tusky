@@ -20,8 +20,10 @@ import android.content.Context;
 import com.keylesspalace.tusky.R;
 
 public class DateUtils {
-    /* This is a rough duplicate of android.text.format.DateUtils.getRelativeTimeSpanString,
-     * but even with the FORMAT_ABBREV_RELATIVE flag it wasn't abbreviating enough. */
+    /**
+     * This is a rough duplicate of {@link android.text.format.DateUtils#getRelativeTimeSpanString},
+     * but even with the FORMAT_ABBREV_RELATIVE flag it wasn't abbreviating enough.
+     */
     public static String getRelativeTimeSpanString(Context context, long then, long now) {
         final long MINUTE = 60;
         final long HOUR = 60 * MINUTE;

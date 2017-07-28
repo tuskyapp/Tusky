@@ -46,6 +46,16 @@ public class LinkHelper {
         }
     }
 
+    /**
+     * Finds links, mentions, and hashtags in a piece of text and makes them clickable, associating
+     * them with callbacks to notify when they're clicked.
+     *
+     * @param view the returned text will be put in
+     * @param content containing text with mentions, links, or hashtags
+     * @param mentions any '@' mentions which are known to be in the content
+     * @param useCustomTabs whether to use custom tabs when opening web links
+     * @param listener to notify about particular spans that are clicked
+     */
     public static void setClickableText(TextView view, Spanned content,
             @Nullable Status.Mention[] mentions, boolean useCustomTabs,
             final LinkListener listener) {

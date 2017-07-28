@@ -19,7 +19,7 @@ import java.util.List;
 import static com.keylesspalace.tusky.util.StringUtils.QUOTE;
 
 /**
- * Inspect and Get the information from an URL
+ * Inspect and get the information from a URL.
  */
 public class ParserUtils {
     private static final String TAG = "ParserUtils";
@@ -56,7 +56,7 @@ public class ParserUtils {
         clipboard.setPrimaryClip(clip);
     }
 
-    // parse the HTML page
+    /** parse the HTML page */
     private HeaderInfo parsePageHeaderInfo(String urlStr) throws Exception {
         Connection con = Jsoup.connect(urlStr);
         HeaderInfo headerInfo = new HeaderInfo();

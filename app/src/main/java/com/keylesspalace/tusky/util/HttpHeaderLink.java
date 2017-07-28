@@ -15,6 +15,11 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents one link and its parameters from the link header of an HTTP message.
+ *
+ * @see <a href="https://tools.ietf.org/html/rfc5988">RFC5988</a>
+ */
 public class HttpHeaderLink {
     private static class Parameter {
         public String name;
@@ -114,6 +119,10 @@ public class HttpHeaderLink {
         return -1;
     }
 
+    /**
+     * @param line the entire link header, not including the initial "Link:"
+     * @return all links found in the header
+     */
     public static List<HttpHeaderLink> parse(@Nullable String line) {
         List<HttpHeaderLink> linkList = new ArrayList<>();
         if (line != null) {
@@ -133,6 +142,11 @@ public class HttpHeaderLink {
         return linkList;
     }
 
+    /**
+     * @param links intended to be those returned by parse()
+     * @param relationType of the parameter "rel", commonly "next" or "prev"
+     * @return the link matching the given relation type
+     */
     @Nullable
     public static HttpHeaderLink findByRelationType(List<HttpHeaderLink> links,
             String relationType) {

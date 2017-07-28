@@ -23,8 +23,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SpanUtils {
+    /**
+     * @see <a href="https://github.com/tootsuite/mastodon/blob/master/app/models/tag.rb">
+     *     Tag#HASHTAG_RE</a>.
+     */
     private static final String TAG_REGEX = "(?:^|[^/)\\w])#([\\w_]*[\\p{Alpha}_][\\w_]*)";
     private static Pattern TAG_PATTERN = Pattern.compile(TAG_REGEX, Pattern.CASE_INSENSITIVE);
+    /**
+     * @see <a href="https://github.com/tootsuite/mastodon/blob/master/app/models/account.rb">
+     *     Account#MENTION_RE</a>
+     */
     private static final String MENTION_REGEX =
             "(?:^|[^/[:word:]])@([a-z0-9_]+(?:@[a-z0-9\\.\\-]+[a-z0-9]+)?)";
     private static Pattern MENTION_PATTERN =
@@ -98,6 +106,7 @@ public class SpanUtils {
         }
     }
 
+    /** Takes text containing mentions and hashtags and makes them the given colour. */
     public static void highlightSpans(Spannable text, int colour) {
         // Strip all existing colour spans.
         int n = text.length();

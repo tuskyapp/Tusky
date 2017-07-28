@@ -42,9 +42,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 public class NotificationMaker {
-
     public static final String TAG = "NotificationMaker";
 
+    /**
+     * Takes a given Mastodon notification and either creates a new Android notification or updates
+     * the state of the existing notification to reflect the new interaction.
+     *
+     * @param context to access application preferences and services
+     * @param notifyId an arbitrary number to reference this notification for any future action
+     * @param body a new Mastodon notification
+     */
     public static void make(final Context context, final int notifyId, Notification body) {
         final SharedPreferences preferences =
                 PreferenceManager.getDefaultSharedPreferences(context);

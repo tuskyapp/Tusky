@@ -46,18 +46,18 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class OkHttpUtils {
-    static final String TAG = "OkHttpUtils"; // logging tag
+    private static final String TAG = "OkHttpUtils"; // logging tag
 
     /**
      * Makes a Builder with the maximum range of TLS versions and cipher suites enabled.
-     *
+     * <p>
      * It first tries the "approved" list of cipher suites given in OkHttp (the default in
      * ConnectionSpec.MODERN_TLS) and if that doesn't work falls back to the set of ALL enabled,
      * then falls back to plain http.
-     *
+     * <p>
      * API level 24 has a regression in elliptic curves where it only supports secp256r1, so this
      * first tries a fallback without elliptic curves at all, and then tries them after.
-     *
+     * <p>
      * TLS 1.1 and 1.2 have to be manually enabled on API levels 16-20.
      */
     @NonNull
@@ -103,7 +103,6 @@ public class OkHttpUtils {
             }
         };
     }
-
 
     /**
      * Android version Nougat has a regression where elliptic curve cipher suites are supported, but

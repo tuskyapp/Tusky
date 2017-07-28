@@ -32,6 +32,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Reduces the file size of images to fit under a given limit by resizing them, maintaining both
+ * aspect ratio and orientation.
+ */
 public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
     private static final String TAG = "DownsizeImageTask";
     private int sizeLimit;
@@ -39,6 +43,11 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
     private Listener listener;
     private List<byte[]> resultList;
 
+    /**
+     * @param sizeLimit the maximum number of bytes each image can take
+     * @param contentResolver to resolve the specified images' URIs
+     * @param listener to whom the results are given
+     */
     public DownsizeImageTask(int sizeLimit, ContentResolver contentResolver, Listener listener) {
         this.sizeLimit = sizeLimit;
         this.contentResolver = contentResolver;
@@ -223,6 +232,7 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
         super.onPostExecute(successful);
     }
 
+    /** Used to communicate the results of the task. */
     public interface Listener {
         void onSuccess(List<byte[]> contentList);
         void onFailure();

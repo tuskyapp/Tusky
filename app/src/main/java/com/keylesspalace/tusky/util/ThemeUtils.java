@@ -26,6 +26,10 @@ import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.widget.ImageView;
 
+/**
+ * Provides runtime compatibility to obtain theme information and re-theme views, especially where
+ * the ability to do so is not supported in resource files.
+ */
 public class ThemeUtils {
     public static Drawable getDrawable(Context context, @AttrRes int attribute,
             @DrawableRes int fallbackDrawable) {

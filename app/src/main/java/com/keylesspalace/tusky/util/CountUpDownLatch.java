@@ -15,6 +15,13 @@
 
 package com.keylesspalace.tusky.util;
 
+/**
+ * This is a synchronization primitive related to {@link java.util.concurrent.CountDownLatch}
+ * except that it starts at zero and can count upward.
+ * <p>
+ * The intended use case is for waiting for all tasks to be finished when the number of tasks isn't
+ * known ahead of time, or may change while waiting.
+ */
 public class CountUpDownLatch {
     private int count;
 

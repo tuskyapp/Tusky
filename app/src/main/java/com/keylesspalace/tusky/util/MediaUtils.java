@@ -43,6 +43,10 @@ import java.io.InputStream;
 public class MediaUtils {
     public static final int MEDIA_SIZE_UNKNOWN = -1;
 
+    /**
+     * Copies the entire contents of the given stream into a byte array and returns it. Beware of
+     * OutOfMemoryError for streams of unknown size.
+     */
     @Nullable
     public static byte[] inputStreamGetBytes(InputStream stream) {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -59,6 +63,12 @@ public class MediaUtils {
         return buffer.toByteArray();
     }
 
+    /**
+     * Fetches the size of the media represented by the given URI, assuming it is openable and
+     * the ContentResolver is able to resolve it.
+     *
+     * @return the size of the media or {@link MediaUtils#MEDIA_SIZE_UNKNOWN}
+     */
     public static long getMediaSize(ContentResolver contentResolver, Uri uri) {
         long mediaSize;
         Cursor cursor = contentResolver.query(uri, null, null, null, null);
@@ -73,7 +83,7 @@ public class MediaUtils {
         return mediaSize;
     }
 
-    // Download an image with picasso
+    /** Download an image with picasso asynchronously and call the given listener when completed. */
     public static Target picassoImageTarget(final Context context, final MediaListener mediaListener) {
         final String imageName = "temp";
         return new Target() {
