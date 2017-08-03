@@ -150,7 +150,8 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabBackground="?android:colorBackground">
+            app:tabBackground="?android:colorBackground"
+            app:tabGravity="fill">
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
