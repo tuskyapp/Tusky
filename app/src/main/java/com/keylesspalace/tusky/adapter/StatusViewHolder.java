@@ -51,7 +51,6 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
     private View container;
     private TextView displayName;
     private TextView username;
-    private TextView sinceCreated;
     private TextView content;
     private ImageView avatar;
     private ImageView avatarReblog;
@@ -74,12 +73,14 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
     private TextView contentWarningDescription;
     private ToggleButton contentWarningButton;
 
+    TextView timestamp;
+
     StatusViewHolder(View itemView) {
         super(itemView);
         container = itemView.findViewById(R.id.status_container);
         displayName = (TextView) itemView.findViewById(R.id.status_display_name);
         username = (TextView) itemView.findViewById(R.id.status_username);
-        sinceCreated = (TextView) itemView.findViewById(R.id.status_since_created);
+        timestamp = (TextView) itemView.findViewById(R.id.status_timestamp);
         content = (TextView) itemView.findViewById(R.id.status_content);
         avatar = (ImageView) itemView.findViewById(R.id.status_avatar);
         avatarReblog = (ImageView) itemView.findViewById(R.id.status_avatar_reblog);
@@ -147,19 +148,21 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
                     .into(avatar);
         }
 
-        if (hasReblog) {
-            avatarReblog.setVisibility(View.VISIBLE);
-            Picasso.with(context)
-                    .load(rebloggedUrl)
-                    .fit()
-                    .transform(new RoundedTransformation(7, 0))
-                    .into(avatarReblog);
-        } else {
-            avatarReblog.setVisibility(View.GONE);
+        if (avatarReblog != null) {
+            if (hasReblog) {
+                avatarReblog.setVisibility(View.VISIBLE);
+                Picasso.with(context)
+                        .load(rebloggedUrl)
+                        .fit()
+                        .transform(new RoundedTransformation(7, 0))
+                        .into(avatarReblog);
+            } else {
+                avatarReblog.setVisibility(View.GONE);
+            }
         }
     }
 
-    private void setCreatedAt(@Nullable Date createdAt) {
+    protected void setCreatedAt(@Nullable Date createdAt) {
         // This is the visible timestamp.
         String readout;
         /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
@@ -168,7 +171,7 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         if (createdAt != null) {
             long then = createdAt.getTime();
             long now = new Date().getTime();
-            readout = DateUtils.getRelativeTimeSpanString(sinceCreated.getContext(), then, now);
+            readout = DateUtils.getRelativeTimeSpanString(timestamp.getContext(), then, now);
             readoutAloud = android.text.format.DateUtils.getRelativeTimeSpanString(then, now,
                     android.text.format.DateUtils.SECOND_IN_MILLIS,
                     android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);
@@ -177,11 +180,14 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
             readout = "?m";
             readoutAloud = "? minutes";
         }
-        sinceCreated.setText(readout);
-        sinceCreated.setContentDescription(readoutAloud);
+        timestamp.setText(readout);
+        timestamp.setContentDescription(readoutAloud);
     }
 
     private void setRebloggedByDisplayName(String name) {
+        if (rebloggedByDisplayName == null || rebloggedBar == null) {
+            return;
+        }
         Context context = rebloggedByDisplayName.getContext();
         String format = context.getString(R.string.status_boosted_format);
         String boostedText = String.format(format, name);
@@ -190,6 +196,9 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void hideRebloggedByDisplayName() {
+        if (rebloggedBar == null) {
+            return;
+        }
         rebloggedBar.setVisibility(View.GONE);
     }
 
@@ -529,11 +538,13 @@ public class StatusViewHolder extends RecyclerView.ViewHolder {
         // I think it's not efficient to create new object every time we bind a holder.
         // More efficient approach would be creating View.OnClickListener during holder creation
         // and storing StatusActionListener in a variable after binding.
-        rebloggedBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onOpenReblog(getAdapterPosition());
-            }
-        });
+        if (rebloggedBar != null) {
+            rebloggedBar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onOpenReblog(getAdapterPosition());
+                }
+            });
+        }
     }
 }

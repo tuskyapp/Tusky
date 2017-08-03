@@ -1,128 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:id="@+id/status_container">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/status_reblogged_bar"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="@dimen/status_reblogged_bar_top_padding">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_repeat_24dp"
-            android:id="@+id/status_reblogged_icon"
-            android:paddingStart="24dp"
-            android:paddingLeft="24dp"
-            android:paddingEnd="10dp"
-            android:paddingRight="10dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:tint="?android:textColorTertiary"
-            android:contentDescription="@null" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/status_reblogged"
-            android:textColor="?android:textColorTertiary"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/status_reblogged_icon"
-            android:layout_toRightOf="@id/status_reblogged_icon" />
-
-    </RelativeLayout>
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/status_container"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
     <ImageView
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:scaleType="fitCenter"
         android:id="@+id/status_avatar"
-        android:layout_below="@+id/status_reblogged_bar"
         android:layout_marginTop="11dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:contentDescription="@string/action_view_profile"
         tools:src="@drawable/avatar_default" />
 
-    <ImageView
-        android:id="@+id/status_avatar_reblog"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_alignBottom="@+id/status_avatar"
-        android:layout_alignEnd="@id/status_avatar"
-        android:layout_alignRight="@id/status_avatar"
-        android:contentDescription="@null"
-        android:visibility="gone"
-        tools:src="@color/accent"
-        tools:visibility="visible" />
-
-    <RelativeLayout
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:id="@+id/status_name_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
         android:layout_toRightOf="@+id/status_avatar"
         android:layout_toEndOf="@+id/status_avatar"
-        android:id="@+id/status_name_bar"
-        android:layout_below="@+id/status_reblogged_bar"
-        android:layout_width="match_parent"
-        android:paddingBottom="4dp"
-        android:paddingTop="@dimen/status_avatar_padding">
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="11dp"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/status_timestamp"
+            android:id="@+id/status_display_name"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+            android:textColor="?android:textColorPrimary"
+            android:textStyle="normal|bold"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Name" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/status_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="4dp"
-            android:layout_marginLeft="4dp"
-            android:text="20m"
-            android:textColor="?android:textColorSecondary" />
+            android:textColor="?android:textColorSecondary"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="Username is the slongest thing ever i am totally going" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_toStartOf="@id/status_timestamp"
-            android:layout_toLeftOf="@id/status_timestamp">
-
-            <TextView
-                android:id="@+id/status_display_name"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-                android:textColor="?android:textColorPrimary"
-                android:textStyle="normal|bold"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="Name"
-                android:paddingStart="0dp"
-                android:paddingLeft="0dp"
-                android:paddingEnd="@dimen/status_display_name_right_padding"
-                android:paddingRight="@dimen/status_display_name_right_padding" />
-
-            <TextView
-                android:id="@+id/status_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="?android:textColorSecondary"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:text="Username is the slongest thing ever i am totally going" />
-
-        </LinearLayout>
-
-    </RelativeLayout>
+    </LinearLayout>
 
     <com.keylesspalace.tusky.view.FlowLayout
         android:layout_width="wrap_content"
@@ -141,7 +73,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/status_content_warning_description"
             android:text="Hello world"
-            android:textColor="?android:textColorPrimary" />
+            android:textColor="?android:textColorPrimary"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
         <ToggleButton
             android:layout_width="wrap_content"
@@ -152,7 +85,6 @@
             android:textOn="@string/status_content_warning_show_less"
             android:textOff="@string/status_content_warning_show_more"
             android:padding="3dp"
-            android:textSize="12sp"
             android:textAllCaps="true"
             android:background="?attr/content_warning_button" />
 
@@ -162,7 +94,9 @@
         android:id="@+id/status_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Streaming from the shop, while I work on upcoming videos about electronics and reverse engineering."
         android:textColor="?android:textColorPrimary"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
         android:layout_marginBottom="4dp"
         android:layout_toRightOf="@+id/status_avatar"
         android:layout_toEndOf="@+id/status_avatar"
@@ -299,14 +233,40 @@
     </FrameLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/status_info_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/status_media_preview_container"
-        android:layout_toEndOf="@+id/status_avatar"
-        android:layout_toRightOf="@+id/status_avatar"
+        android:layout_toEndOf="@id/status_avatar"
+        android:layout_toRightOf="@id/status_avatar"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/status_timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?android:textColorTertiary" />
+
+        <TextView
+            android:id="@+id/status_application"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/status_info_bar"
+        android:layout_toEndOf="@id/status_avatar"
+        android:layout_toRightOf="@id/status_avatar"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:gravity="center_vertical"
         android:paddingBottom="2dp">
 
         <ImageButton
@@ -328,7 +288,6 @@
             app:sparkbutton_activeImage="@drawable/reblog_active"
             app:sparkbutton_inActiveImage="?attr/status_reblog_inactive_drawable"
             app:sparkbutton_iconSize="28dp"
-            android:layout_gravity="center"
             app:sparkbutton_primaryColor="@color/status_reblog_button_marked_dark"
             app:sparkbutton_secondaryColor="@color/status_reblog_button_marked_light"
             android:layout_width="40dp"
@@ -336,6 +295,12 @@
             android:padding="4dp"
             android:contentDescription="@string/action_reblog"
             android:clipToPadding="false"/>
+
+        <TextView
+            android:id="@+id/status_reblogs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="19" />
 
         <Space
             android:layout_width="0dp"
@@ -348,13 +313,18 @@
             app:sparkbutton_activeImage="?attr/status_favourite_active_drawable"
             app:sparkbutton_inActiveImage="?attr/status_favourite_inactive_drawable"
             app:sparkbutton_iconSize="28dp"
-            android:layout_gravity="center"
             app:sparkbutton_primaryColor="@color/status_favourite_button_marked_dark"
             app:sparkbutton_secondaryColor="@color/status_favourite_button_marked_light"
             android:id="@+id/status_favourite"
             android:padding="4dp"
             android:contentDescription="@string/action_favourite"
             android:clipToPadding="false"/>
+
+        <TextView
+            android:id="@+id/status_favourites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20" />
 
         <Space
             android:layout_width="0dp"

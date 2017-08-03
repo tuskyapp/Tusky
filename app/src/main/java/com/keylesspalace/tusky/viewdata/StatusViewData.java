@@ -31,19 +31,23 @@ public final class StatusViewData {
     private final String nickname;
     private final String avatar;
     private final Date createdAt;
+    private final String reblogsCount;
+    private final String favouritesCount;
     // I would rather have something else but it would be too much of a rewrite
     @Nullable
     private final Status.Mention[] mentions;
     private final String senderId;
     private final boolean rebloggingEnabled;
+    private final Status.Application application;
 
     public StatusViewData(String id, Spanned content, boolean reblogged, boolean favourited,
                           String spoilerText, Status.Visibility visibility,
                           Status.MediaAttachment[] attachments, String rebloggedByUsername,
                           String rebloggedAvatar, boolean sensitive, boolean isExpanded,
                           boolean isShowingSensitiveWarning, String userFullName, String nickname,
-                          String avatar, Date createdAt, Status.Mention[] mentions,
-                          String senderId, boolean rebloggingEnabled) {
+                          String avatar, Date createdAt, String reblogsCount,
+                          String favouritesCount, Status.Mention[] mentions, String senderId,
+                          boolean rebloggingEnabled, Status.Application application) {
         this.id = id;
         this.content = content;
         this.reblogged = reblogged;
@@ -60,9 +64,12 @@ public final class StatusViewData {
         this.nickname = nickname;
         this.avatar = avatar;
         this.createdAt = createdAt;
+        this.reblogsCount = reblogsCount;
+        this.favouritesCount = favouritesCount;
         this.mentions = mentions;
         this.senderId = senderId;
         this.rebloggingEnabled = rebloggingEnabled;
+        this.application = application;
     }
 
     public String getId() {
@@ -132,6 +139,14 @@ public final class StatusViewData {
         return createdAt;
     }
 
+    public String getReblogsCount() {
+        return reblogsCount;
+    }
+
+    public String getFavouritesCount() {
+        return favouritesCount;
+    }
+
     public String getSenderId() {
         return senderId;
     }
@@ -143,6 +158,10 @@ public final class StatusViewData {
     @Nullable
     public Status.Mention[] getMentions() {
         return mentions;
+    }
+
+    public Status.Application getApplication() {
+        return application;
     }
 
     public static class Builder {
@@ -162,9 +181,12 @@ public final class StatusViewData {
         private String nickname;
         private String avatar;
         private Date createdAt;
+        private String reblogsCount;
+        private String favouritesCount;
         private Status.Mention[] mentions;
         private String senderId;
         private boolean rebloggingEnabled;
+        private Status.Application application;
 
         public Builder() {
         }
@@ -186,9 +208,12 @@ public final class StatusViewData {
             nickname = viewData.nickname;
             avatar = viewData.avatar;
             createdAt = new Date(viewData.createdAt.getTime());
+            reblogsCount = viewData.reblogsCount;
+            favouritesCount = viewData.favouritesCount;
             mentions = viewData.mentions == null ? null : viewData.mentions.clone();
             senderId = viewData.senderId;
             rebloggingEnabled = viewData.rebloggingEnabled;
+            application = viewData.application;
         }
 
         public Builder setId(String id) {
@@ -271,6 +296,16 @@ public final class StatusViewData {
             return this;
         }
 
+        public Builder setReblogsCount(String reblogsCount) {
+            this.reblogsCount = reblogsCount;
+            return this;
+        }
+
+        public Builder setFavouritesCount(String favouritesCount) {
+            this.favouritesCount = favouritesCount;
+            return this;
+        }
+
         public Builder setMentions(Status.Mention[] mentions) {
             this.mentions = mentions;
             return this;
@@ -286,11 +321,17 @@ public final class StatusViewData {
             return this;
         }
 
+        public Builder setApplication(Status.Application application) {
+            this.application = application;
+            return this;
+        }
+
         public StatusViewData createStatusViewData() {
             return new StatusViewData(id, content, reblogged, favourited, spoilerText, visibility,
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
-                    isShowingSensitiveContent, userFullName, nickname, avatar, createdAt, mentions,
-                    senderId, rebloggingEnabled);
+                    isShowingSensitiveContent, userFullName, nickname, avatar, createdAt,
+                    reblogsCount, favouritesCount, mentions, senderId, rebloggingEnabled,
+                    application);
         }
     }
 }

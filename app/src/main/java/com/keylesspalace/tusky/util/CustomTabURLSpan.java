@@ -14,8 +14,8 @@ import android.view.View;
 
 import com.keylesspalace.tusky.R;
 
-class CustomTabURLSpan extends URLSpan {
-    CustomTabURLSpan(String url) {
+public class CustomTabURLSpan extends URLSpan {
+    public CustomTabURLSpan(String url) {
         super(url);
     }
 

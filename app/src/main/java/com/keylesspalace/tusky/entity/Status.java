@@ -100,6 +100,8 @@ public class Status {
 
     public Mention[] mentions;
 
+    public Application application;
+
     public static final int MAX_MEDIA_ATTACHMENTS = 4;
 
     @Override
@@ -171,5 +173,10 @@ public class Status {
 
         @SerializedName("username")
         public String localUsername;
+    }
+
+    public static class Application {
+        public String name;
+        public String website;
     }
 }

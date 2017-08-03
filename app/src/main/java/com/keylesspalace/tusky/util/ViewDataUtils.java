@@ -26,6 +26,8 @@ public final class ViewDataUtils {
                 .setAvatar(visibleStatus.account.avatar)
                 .setContent(visibleStatus.content)
                 .setCreatedAt(visibleStatus.createdAt)
+                .setReblogsCount(visibleStatus.reblogsCount)
+                .setFavouritesCount(visibleStatus.favouritesCount)
                 .setFavourited(visibleStatus.favourited)
                 .setReblogged(visibleStatus.reblogged)
                 .setIsExpanded(false)
@@ -40,6 +42,7 @@ public final class ViewDataUtils {
                 .setVisibility(visibleStatus.visibility)
                 .setSenderId(visibleStatus.account.id)
                 .setRebloggingEnabled(visibleStatus.rebloggingAllowed())
+                .setApplication(visibleStatus.application)
                 .createStatusViewData();
     }
 
