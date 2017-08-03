@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/status_container"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingRight="16dp"
+    android:background="?attr/colorPrimaryDark">
 
     <ImageView
         android:layout_width="48dp"
@@ -37,8 +38,7 @@
             android:textColor="?android:textColorPrimary"
             android:textStyle="normal|bold"
             android:ellipsize="end"
-            android:maxLines="1"
-            android:text="Name" />
+            android:maxLines="1" />
 
         <Space
             android:layout_width="match_parent"
@@ -51,8 +51,7 @@
             android:layout_height="wrap_content"
             android:textColor="?android:textColorSecondary"
             android:maxLines="1"
-            android:ellipsize="end"
-            android:text="Username is the slongest thing ever i am totally going" />
+            android:ellipsize="end" />
 
     </LinearLayout>
 
@@ -72,7 +71,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/status_content_warning_description"
-            android:text="Hello world"
             android:textColor="?android:textColorPrimary"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
@@ -94,7 +92,6 @@
         android:id="@+id/status_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Streaming from the shop, while I work on upcoming videos about electronics and reverse engineering."
         android:textColor="?android:textColorPrimary"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
         android:layout_marginBottom="4dp"
@@ -253,6 +250,7 @@
             android:id="@+id/status_application"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp" />
 
     </LinearLayout>
@@ -299,8 +297,7 @@
         <TextView
             android:id="@+id/status_reblogs"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="19" />
+            android:layout_height="wrap_content" />
 
         <Space
             android:layout_width="0dp"
@@ -323,8 +320,7 @@
         <TextView
             android:id="@+id/status_favourites"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="20" />
+            android:layout_height="wrap_content" />
 
         <Space
             android:layout_width="0dp"

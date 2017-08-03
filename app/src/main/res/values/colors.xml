@@ -6,7 +6,7 @@
     <color name="semi_transparent">#33000000</color>
     <!--Dark Theme Colors-->
     <color name="color_primary_dark">#4c5368</color>
-    <color name="color_primary_dark_dark">#363c4b</color> <!--Dark Dark-->
+    <color name="color_primary_dark_dark">#313543</color> <!--Dark Dark-->
     <color name="color_accent_dark">#2b90d9</color>
     <color name="button_dark">#2b90d9</color>
     <color name="color_background_dark">#1a1c23</color>
@@ -20,11 +20,11 @@
     <color name="text_color_tertiary_inverse_dark">#000000</color>
     <color name="toolbar_background_dark">#4c5368</color>
     <color name="toolbar_icon_dark">#d9e1e8</color>
-    <color name="image_button_dark">#68738f</color>
-    <color name="status_reblog_button_dark">#68738f</color>
+    <color name="image_button_dark">#606984</color>
+    <color name="status_reblog_button_dark">#606984</color>
     <color name="status_reblog_button_marked_dark">#2b90d9</color>
-    <color name="status_reblog_button_disabled_dark">#363c4b</color>
-    <color name="status_favourite_button_dark">#68738f</color>
+    <color name="status_reblog_button_disabled_dark">#444b5d</color>
+    <color name="status_favourite_button_dark">#606984</color>
     <color name="status_favourite_button_marked_dark">#ca8f04</color>
     <color name="sensitive_media_warning_background_dark">#303030</color>
     <color name="media_preview_unloaded_background_dark">#2F2F2F</color>
@@ -37,7 +37,7 @@
     <color name="compose_mention_dark">#AFBFCF</color>
     <color name="report_status_background_dark">#000000</color>
     <color name="report_status_divider_dark">#2F2F2F</color>
-    <color name="custom_tab_toolbar_dark">#363c4b</color>
+    <color name="custom_tab_toolbar_dark">#313543</color>
     <!--Light Theme Colors-->
     <color name="color_primary_light">#dfdfdf</color>
     <color name="color_primary_dark_light">#8f8f8f</color>

@@ -8,14 +8,16 @@
                 android:paddingRight="16dp"
                 android:id="@+id/status_container">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/status_reblogged_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/status_reblogged_bar"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="@dimen/status_reblogged_bar_top_padding">
+        android:layout_marginTop="@dimen/status_reblogged_bar_top_padding"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -26,8 +28,6 @@
             android:paddingLeft="24dp"
             android:paddingEnd="10dp"
             android:paddingRight="10dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
             android:tint="?android:textColorTertiary"
             android:contentDescription="@null" />
 
@@ -35,12 +35,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/status_reblogged"
-            android:textColor="?android:textColorTertiary"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/status_reblogged_icon"
-            android:layout_toRightOf="@id/status_reblogged_icon" />
+            android:textColor="?android:textColorTertiary" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <ImageView
         android:layout_width="48dp"
@@ -84,7 +81,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
-            android:text="20m"
             android:textColor="?android:textColorSecondary" />
 
         <LinearLayout
@@ -105,7 +101,6 @@
                 android:textStyle="normal|bold"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Name"
                 android:paddingStart="0dp"
                 android:paddingLeft="0dp"
                 android:paddingEnd="@dimen/status_display_name_right_padding"
@@ -117,8 +112,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="?android:textColorSecondary"
                 android:maxLines="1"
-                android:ellipsize="end"
-                android:text="Username is the slongest thing ever i am totally going" />
+                android:ellipsize="end" />
 
         </LinearLayout>
 
@@ -140,7 +134,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/status_content_warning_description"
-            android:text="Hello world"
             android:textColor="?android:textColorPrimary" />
 
         <ToggleButton
