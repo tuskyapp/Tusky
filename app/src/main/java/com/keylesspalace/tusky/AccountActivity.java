@@ -32,6 +32,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.text.emoji.EmojiCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
@@ -239,7 +240,7 @@ public class AccountActivity extends BaseActivity {
         displayName.setText(account.getDisplayName());
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(account.getDisplayName());
+            getSupportActionBar().setTitle(EmojiCompat.get().process(account.getDisplayName()));
 
             String subtitle = String.format(getString(R.string.status_username_format),
                     account.username);

@@ -30,7 +30,7 @@
         android:layout_marginTop="11dp"
         android:orientation="vertical">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/status_display_name"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
 
     </com.keylesspalace.tusky.view.FlowLayout>
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/status_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
