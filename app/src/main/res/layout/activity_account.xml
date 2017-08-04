@@ -52,8 +52,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp">
+                        android:paddingRight="16dp">
 
                         <com.pkmmte.view.CircularImageView
                             android:id="@+id/account_avatar"
@@ -62,16 +61,24 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginRight="10dp"
                             android:src="@drawable/avatar_default"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_toLeftOf="@+id/follow_btn"
+                            android:layout_toStartOf="@+id/follow_btn"
                             app:shadow="true" />
 
-                        <LinearLayout
+                        <Button
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_toEndOf="@id/account_avatar"
-                            android:layout_toRightOf="@id/account_avatar"
+                            android:layout_marginTop="6dp"
+                            android:id="@+id/follow_btn"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/account_avatar"
                             android:orientation="vertical">
 
                             <TextView
@@ -189,7 +196,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:contentDescription="@string/action_follow"
-        app:srcCompat="@drawable/ic_person_add_24dp" />
+        android:contentDescription="@string/action_mention"
+        app:srcCompat="@drawable/ic_create_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>

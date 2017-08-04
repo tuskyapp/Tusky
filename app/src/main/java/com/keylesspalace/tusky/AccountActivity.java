@@ -41,6 +41,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -81,6 +82,7 @@ public class AccountActivity extends BaseActivity {
     private CircularImageView avatar;
     private ImageView header;
     private FloatingActionButton floatingBtn;
+    private Button followBtn;
     private TabLayout tabLayout;
     private ImageView accountLockedView;
     private View container;
@@ -93,6 +95,7 @@ public class AccountActivity extends BaseActivity {
         avatar = (CircularImageView) findViewById(R.id.account_avatar);
         header = (ImageView) findViewById(R.id.account_header);
         floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
+        followBtn = (Button) findViewById(R.id.follow_btn);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         accountLockedView = (ImageView) findViewById(R.id.account_locked);
         container = findViewById(R.id.activity_account);
@@ -160,6 +163,7 @@ public class AccountActivity extends BaseActivity {
 
         // Initialise the default UI states.
         floatingBtn.hide();
+        followBtn.setVisibility(View.GONE);
 
         // Obtain information to fill out the profile.
         obtainAccount();
@@ -354,21 +358,18 @@ public class AccountActivity extends BaseActivity {
         updateButtons();
     }
 
-    private void updateFollowButton(FloatingActionButton button) {
+    private void updateFollowButton(Button button) {
         switch (followState) {
             case NOT_FOLLOWING: {
-                button.setImageResource(R.drawable.ic_person_add_24dp);
-                button.setContentDescription(getString(R.string.action_follow));
+                button.setText(getString(R.string.action_follow));
                 break;
             }
             case REQUESTED: {
-                button.setImageResource(R.drawable.ic_hourglass_24dp);
-                button.setContentDescription(getString(R.string.state_follow_requested));
+                button.setText(getString(R.string.state_follow_requested));
                 break;
             }
             case FOLLOWING: {
-                button.setImageResource(R.drawable.ic_person_minus_24px);
-                button.setContentDescription(getString(R.string.action_unfollow));
+                button.setText(getString(R.string.action_unfollow));
                 break;
             }
         }
@@ -379,18 +380,26 @@ public class AccountActivity extends BaseActivity {
 
         if(!isSelf && !blocking) {
             floatingBtn.show();
+            followBtn.setVisibility(View.VISIBLE);
 
-            updateFollowButton(floatingBtn);
+            updateFollowButton(followBtn);
 
             floatingBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (followState != FollowState.REQUESTED) {
+                    mention();
+                }
+            });
+
+            followBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                     if (followState != FollowState.REQUESTED) {
                         follow(accountId);
                     } else {
                         showFollowRequestPendingDialog(accountId);
                     }
-                    updateFollowButton(floatingBtn);
+                    updateFollowButton(followBtn);
                 }
             });
         }
@@ -543,7 +552,6 @@ public class AccountActivity extends BaseActivity {
                 .show();
     }
 
-
     private void mute(final String id) {
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
@@ -582,6 +590,17 @@ public class AccountActivity extends BaseActivity {
                 .show();
     }
 
+    private boolean mention() {
+        if (loadedAccount == null) {
+            // If the account isn't loaded yet, eat the input.
+            return false;
+        }
+        Intent intent = new Intent(this, ComposeActivity.class);
+        intent.putExtra("mentioned_usernames", new String[] { loadedAccount.username });
+        startActivity(intent);
+        return true;
+    }
+
     private void broadcast(String action, String id) {
         Intent intent = new Intent(action);
         intent.putExtra("id", id);
@@ -596,14 +615,7 @@ public class AccountActivity extends BaseActivity {
                 return true;
             }
             case R.id.action_mention: {
-                if (loadedAccount == null) {
-                    // If the account isn't loaded yet, eat the input.
-                    return false;
-                }
-                Intent intent = new Intent(this, ComposeActivity.class);
-                intent.putExtra("mentioned_usernames", new String[] { loadedAccount.username });
-                startActivity(intent);
-                return true;
+                return mention();
             }
             case R.id.action_open_in_web: {
                 if (loadedAccount == null) {
