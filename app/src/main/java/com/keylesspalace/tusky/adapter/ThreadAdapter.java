@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.adapter;
 
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -126,6 +127,15 @@ public class ThreadAdapter extends RecyclerView.Adapter {
         statuses.set(position, status);
         if (notifyAdapter) {
             notifyItemChanged(position);
+        }
+    }
+
+    @Nullable
+    public StatusViewData getItem(int position) {
+        if (position != RecyclerView.NO_POSITION && position >= 0 && position < statuses.size()) {
+            return statuses.get(position);
+        } else {
+            return null;
         }
     }
 

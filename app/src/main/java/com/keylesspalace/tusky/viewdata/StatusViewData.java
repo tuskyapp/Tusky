@@ -33,6 +33,8 @@ public final class StatusViewData {
     private final Date createdAt;
     private final String reblogsCount;
     private final String favouritesCount;
+    @Nullable
+    private final String inReplyToId;
     // I would rather have something else but it would be too much of a rewrite
     @Nullable
     private final Status.Mention[] mentions;
@@ -46,8 +48,9 @@ public final class StatusViewData {
                           String rebloggedAvatar, boolean sensitive, boolean isExpanded,
                           boolean isShowingSensitiveWarning, String userFullName, String nickname,
                           String avatar, Date createdAt, String reblogsCount,
-                          String favouritesCount, Status.Mention[] mentions, String senderId,
-                          boolean rebloggingEnabled, Status.Application application) {
+                          String favouritesCount, String inReplyToId, Status.Mention[] mentions,
+                          String senderId, boolean rebloggingEnabled,
+                          Status.Application application) {
         this.id = id;
         this.content = content;
         this.reblogged = reblogged;
@@ -66,6 +69,7 @@ public final class StatusViewData {
         this.createdAt = createdAt;
         this.reblogsCount = reblogsCount;
         this.favouritesCount = favouritesCount;
+        this.inReplyToId = inReplyToId;
         this.mentions = mentions;
         this.senderId = senderId;
         this.rebloggingEnabled = rebloggingEnabled;
@@ -147,6 +151,11 @@ public final class StatusViewData {
         return favouritesCount;
     }
 
+    @Nullable
+    public String getInReplyToId() {
+        return inReplyToId;
+    }
+
     public String getSenderId() {
         return senderId;
     }
@@ -183,6 +192,7 @@ public final class StatusViewData {
         private Date createdAt;
         private String reblogsCount;
         private String favouritesCount;
+        private String inReplyToId;
         private Status.Mention[] mentions;
         private String senderId;
         private boolean rebloggingEnabled;
@@ -210,6 +220,7 @@ public final class StatusViewData {
             createdAt = new Date(viewData.createdAt.getTime());
             reblogsCount = viewData.reblogsCount;
             favouritesCount = viewData.favouritesCount;
+            inReplyToId = viewData.inReplyToId;
             mentions = viewData.mentions == null ? null : viewData.mentions.clone();
             senderId = viewData.senderId;
             rebloggingEnabled = viewData.rebloggingEnabled;
@@ -306,6 +317,11 @@ public final class StatusViewData {
             return this;
         }
 
+        public Builder setInReplyToId(String inReplyToId) {
+            this.inReplyToId = inReplyToId;
+            return this;
+        }
+
         public Builder setMentions(Status.Mention[] mentions) {
             this.mentions = mentions;
             return this;
@@ -330,8 +346,8 @@ public final class StatusViewData {
             return new StatusViewData(id, content, reblogged, favourited, spoilerText, visibility,
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
                     isShowingSensitiveContent, userFullName, nickname, avatar, createdAt,
-                    reblogsCount, favouritesCount, mentions, senderId, rebloggingEnabled,
-                    application);
+                    reblogsCount, favouritesCount, inReplyToId, mentions, senderId,
+                    rebloggingEnabled, application);
         }
     }
 }
