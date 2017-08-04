@@ -17,9 +17,12 @@ package com.keylesspalace.tusky.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -42,6 +45,7 @@ import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
+import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
@@ -77,6 +81,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
     private int bottomFetches;
     private boolean topLoading;
     private int topFetches;
+    private boolean hideFab;
 
     public static AccountListFragment newInstance(Type type) {
         Bundle arguments = new Bundle();
@@ -168,13 +173,53 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
          * activity is created, so everything needing to access the api object has to be delayed
          * until here. */
         api = activity.mastodonApi;
-        scrollListener = new EndlessOnScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                AccountListFragment.this.onLoadMore(view);
-            }
-        };
+
+
+        if (actionButtonPresent()) {
+            /* Use a modified scroll listener that both loads more statuses as it goes, and hides
+             * the follow button on down-scroll. */
+            ActionButtonActivity actionButtonActivity = (ActionButtonActivity) getActivity();
+            final FloatingActionButton composeButton = actionButtonActivity.getActionButton();
+            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            hideFab = preferences.getBoolean("fabHide", false);
+            scrollListener = new EndlessOnScrollListener(layoutManager) {
+                @Override
+                public void onScrolled(RecyclerView view, int dx, int dy) {
+                    super.onScrolled(view, dx, dy);
+
+                    if (composeButton != null) {
+                        if (hideFab) {
+                            if (dy > 0 && composeButton.isShown()) {
+                                composeButton.hide(); // hides the button if we're scrolling down
+                            } else if (dy < 0 && !composeButton.isShown()) {
+                                composeButton.show(); // shows it if we are scrolling up
+                            }
+                        } else if (!composeButton.isShown()) {
+                            composeButton.show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                    AccountListFragment.this.onLoadMore(view);
+                }
+            };
+        } else {
+            // Just use the basic scroll listener to load more accounts.
+            scrollListener = new EndlessOnScrollListener(layoutManager) {
+                @Override
+                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                    AccountListFragment.this.onLoadMore(view);
+                }
+            };
+        }
+
         recyclerView.addOnScrollListener(scrollListener);
+    }
+
+    private boolean actionButtonPresent() {
+        return type == Type.FOLLOWS || type == Type.FOLLOWERS;
     }
 
     @Override

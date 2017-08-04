@@ -47,6 +47,7 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
+import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.pager.AccountPagerAdapter;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
@@ -64,7 +65,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AccountActivity extends BaseActivity {
+public class AccountActivity extends BaseActivity implements ActionButtonActivity {
     private static final String TAG = "AccountActivity"; // logging tag
 
     private enum FollowState {
@@ -86,6 +87,8 @@ public class AccountActivity extends BaseActivity {
     private TabLayout tabLayout;
     private ImageView accountLockedView;
     private View container;
+    private boolean hideFab;
+    private int oldOffset;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -127,6 +130,8 @@ public class AccountActivity extends BaseActivity {
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
+        hideFab = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("fabHide", false);
+
         // Add a listener to change the toolbar icon color when it enters/exits its collapsed state.
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.account_app_bar_layout);
         final CollapsingToolbarLayout collapsingToolbar =
@@ -158,6 +163,16 @@ public class AccountActivity extends BaseActivity {
                     ThemeUtils.setDrawableTint(context, toolbar.getNavigationIcon(), attribute);
                     ThemeUtils.setDrawableTint(context, toolbar.getOverflowIcon(), attribute);
                 }
+
+                if(floatingBtn != null && hideFab) {
+                    if (verticalOffset > oldOffset) {
+                        floatingBtn.show();
+                    }
+                    if (verticalOffset < oldOffset) {
+                        floatingBtn.hide();
+                    }
+                }
+                oldOffset = verticalOffset;
             }
         });
 
@@ -642,4 +657,11 @@ public class AccountActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Nullable
+    @Override
+    public FloatingActionButton getActionButton() {
+        return floatingBtn;
+    }
+
 }
