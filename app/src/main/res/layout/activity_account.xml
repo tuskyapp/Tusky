@@ -84,52 +84,43 @@
                             android:layout_below="@id/follow_btn"
                             android:layout_marginEnd="10dp"
                             android:layout_marginRight="10dp"
-                            android:text="Follows you"
+                            android:text="@string/follows_you"
                             android:textColor="?android:textColorPrimary" />
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/account_display_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/account_avatar"
-                            android:orientation="vertical">
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="18sp"
+                            android:textStyle="normal|bold" />
 
-                            <TextView
-                                android:id="@+id/account_display_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:textColor="?android:textColorPrimary"
-                                android:textSize="18sp"
-                                android:textStyle="normal|bold" />
+                        <TextView
+                            android:id="@+id/account_username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/account_display_name"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textColor="?android:textColorSecondary" />
 
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:id="@+id/account_username"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:ellipsize="end"
-                                    android:maxLines="1"
-                                    android:textColor="?android:textColorSecondary" />
-
-                                <ImageView
-                                    android:id="@+id/account_locked"
-                                    android:layout_width="16sp"
-                                    android:layout_height="16sp"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginLeft="4dp"
-                                    android:layout_marginStart="4dp"
-                                    android:layout_toEndOf="@id/account_username"
-                                    android:layout_toRightOf="@id/account_username"
-                                    android:contentDescription="@string/description_account_locked"
-                                    android:tint="?android:textColorSecondary"
-                                    android:visibility="gone"
-                                    app:srcCompat="@drawable/reblog_disabled_light" />
-                            </RelativeLayout>
-                        </LinearLayout>
+                        <ImageView
+                            android:id="@+id/account_locked"
+                            android:layout_width="16sp"
+                            android:layout_height="16sp"
+                            android:layout_alignBaseline="@+id/account_username"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_toEndOf="@id/account_username"
+                            android:layout_toRightOf="@id/account_username"
+                            android:contentDescription="@string/description_account_locked"
+                            android:tint="?android:textColorSecondary"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/reblog_disabled_light" />
 
                     </RelativeLayout>
 
