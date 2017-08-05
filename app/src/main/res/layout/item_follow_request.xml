@@ -1,80 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="72dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_vertical"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:gravity="center_vertical">
+    android:paddingRight="16dp">
 
     <com.pkmmte.view.CircularImageView
+        android:id="@+id/follow_request_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:id="@+id/follow_request_avatar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginRight="24dp"
-        android:layout_marginEnd="24dp"
         android:layout_centerVertical="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
         android:contentDescription="@string/action_view_profile" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:layout_toRightOf="@id/follow_request_avatar"
         android:layout_toEndOf="@id/follow_request_avatar"
         android:layout_toLeftOf="@+id/follow_request_accept"
-        android:layout_toStartOf="@id/follow_request_accept">
+        android:layout_toRightOf="@id/follow_request_avatar"
+        android:layout_toStartOf="@id/follow_request_accept"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/follow_request_display_name"
-            android:text="Display name"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textSize="16sp"
-            android:textColor="?android:textColorPrimary"
-            android:textStyle="normal|bold" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="\@username"
-            android:maxLines="1"
             android:ellipsize="end"
-            android:textSize="14sp"
+            android:maxLines="1"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="normal|bold"
+            tools:text="Display name" />
+
+        <TextView
             android:id="@+id/follow_request_username"
-            android:textColor="?android:textColorSecondary" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="14sp"
+            tools:text="\@username" />
 
     </LinearLayout>
 
     <ImageButton
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        style="?attr/image_button_style"
         android:id="@+id/follow_request_accept"
-        app:srcCompat="@drawable/ic_check_24dp"
+        style="?attr/image_button_style"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
         android:layout_toLeftOf="@+id/follow_request_reject"
         android:layout_toStartOf="@id/follow_request_reject"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_centerVertical="true"
-        android:contentDescription="@string/action_accept" />
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/action_accept"
+        android:padding="4dp"
+        app:srcCompat="@drawable/ic_check_24dp" />
 
     <ImageButton
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        style="?attr/image_button_style"
         android:id="@id/follow_request_reject"
-        app:srcCompat="@drawable/ic_reject_24dp"
-        android:layout_alignParentRight="true"
+        style="?attr/image_button_style"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:contentDescription="@string/action_reject" />
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/action_reject"
+        android:padding="4dp"
+        app:srcCompat="@drawable/ic_reject_24dp" />
 
 </RelativeLayout>
