@@ -178,14 +178,15 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         if (actionButtonPresent()) {
             /* Use a modified scroll listener that both loads more statuses as it goes, and hides
              * the follow button on down-scroll. */
-            ActionButtonActivity actionButtonActivity = (ActionButtonActivity) getActivity();
-            final FloatingActionButton composeButton = actionButtonActivity.getActionButton();
-            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             hideFab = preferences.getBoolean("fabHide", false);
             scrollListener = new EndlessOnScrollListener(layoutManager) {
                 @Override
                 public void onScrolled(RecyclerView view, int dx, int dy) {
                     super.onScrolled(view, dx, dy);
+
+                    ActionButtonActivity actionButtonActivity = (ActionButtonActivity) getActivity();
+                    FloatingActionButton composeButton = actionButtonActivity.getActionButton();
 
                     if (composeButton != null) {
                         if (hideFab) {

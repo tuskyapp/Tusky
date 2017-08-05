@@ -198,14 +198,15 @@ public class TimelineFragment extends SFragment implements
         if (actionButtonPresent()) {
             /* Use a modified scroll listener that both loads more statuses as it goes, and hides
              * the follow button on down-scroll. */
-            ActionButtonActivity activity = (ActionButtonActivity) getActivity();
-            final FloatingActionButton composeButton = activity.getActionButton();
-            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             hideFab = preferences.getBoolean("fabHide", false);
             scrollListener = new EndlessOnScrollListener(layoutManager) {
                 @Override
                 public void onScrolled(RecyclerView view, int dx, int dy) {
                     super.onScrolled(view, dx, dy);
+
+                    ActionButtonActivity activity = (ActionButtonActivity) getActivity();
+                    FloatingActionButton composeButton = activity.getActionButton();
 
                     if (composeButton != null) {
                         if (hideFab) {

@@ -166,7 +166,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
                     ThemeUtils.setDrawableTint(context, toolbar.getOverflowIcon(), attribute);
                 }
 
-                if(floatingBtn != null && hideFab) {
+                if(floatingBtn != null && hideFab && !isSelf && !blocking) {
                     if (verticalOffset > oldOffset) {
                         floatingBtn.show();
                     }
@@ -367,10 +367,6 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
         this.blocking = relation.blocking;
         this.muting = relation.muting;
 
-        if (followState != FollowState.NOT_FOLLOWING || !blocking || !muting) {
-            invalidateOptionsMenu();
-        }
-
         if(relation.followedBy) {
             followsYouView.setVisibility(View.VISIBLE);
         } else {
@@ -424,6 +420,9 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
                     updateFollowButton(followBtn);
                 }
             });
+        } else {
+            floatingBtn.hide();
+            followBtn.setVisibility(View.GONE);
         }
     }
 
@@ -668,7 +667,10 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
     @Nullable
     @Override
     public FloatingActionButton getActionButton() {
-        return floatingBtn;
+        if(!isSelf && !blocking) {
+            return floatingBtn;
+        }
+        return null;
     }
 
 }
