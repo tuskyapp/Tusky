@@ -58,22 +58,34 @@
                             android:id="@+id/account_avatar"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
                             android:layout_marginEnd="10dp"
                             android:layout_marginRight="10dp"
-                            android:src="@drawable/avatar_default"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentLeft="true"
                             android:layout_toLeftOf="@+id/follow_btn"
                             android:layout_toStartOf="@+id/follow_btn"
+                            android:src="@drawable/avatar_default"
                             app:shadow="true" />
 
                         <Button
+                            android:id="@+id/follow_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
-                            android:layout_marginTop="6dp"
-                            android:id="@+id/follow_btn"/>
+                            android:layout_marginTop="6dp" />
+
+                        <TextView
+                            android:id="@+id/account_follows_you"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/follow_btn"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:text="Follows you"
+                            android:textColor="?android:textColorPrimary" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

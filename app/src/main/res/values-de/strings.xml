@@ -192,5 +192,8 @@
     <string name="pref_title_status_filter">Timeline-Filter</string>
     <string name="title_saved_toot">Gespeicherte Tröts</string>
 
+    <string name="follows_you">Folgt dir</string>
+
+
 
 </resources>

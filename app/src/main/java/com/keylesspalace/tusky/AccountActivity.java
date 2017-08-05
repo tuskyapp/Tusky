@@ -84,6 +84,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
     private ImageView header;
     private FloatingActionButton floatingBtn;
     private Button followBtn;
+    private TextView followsYouView;
     private TabLayout tabLayout;
     private ImageView accountLockedView;
     private View container;
@@ -99,6 +100,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
         header = (ImageView) findViewById(R.id.account_header);
         floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
         followBtn = (Button) findViewById(R.id.follow_btn);
+        followsYouView = (TextView) findViewById(R.id.account_follows_you);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         accountLockedView = (ImageView) findViewById(R.id.account_locked);
         container = findViewById(R.id.activity_account);
@@ -179,6 +181,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
         // Initialise the default UI states.
         floatingBtn.hide();
         followBtn.setVisibility(View.GONE);
+        followsYouView.setVisibility(View.GONE);
 
         // Obtain information to fill out the profile.
         obtainAccount();
@@ -340,8 +343,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
                                    Response<List<Relationship>> response) {
                 if (response.isSuccessful()) {
                     Relationship relationship = response.body().get(0);
-                    onObtainRelationshipsSuccess(relationship.requested, relationship.following,
-                            relationship.blocking, relationship.muting);
+                    onObtainRelationshipsSuccess(relationship);
                 } else {
                     onObtainRelationshipsFailure(new Exception(response.message()));
                 }
@@ -354,20 +356,25 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
         });
     }
 
-    private void onObtainRelationshipsSuccess(boolean followRequested, boolean following,
-                                              boolean blocking, boolean muting) {
-        if (following) {
+    private void onObtainRelationshipsSuccess(Relationship relation) {
+        if (relation.following) {
             followState = FollowState.FOLLOWING;
-        } else if (followRequested) {
+        } else if (relation.requested) {
             followState = FollowState.REQUESTED;
         } else {
             followState = FollowState.NOT_FOLLOWING;
         }
-        this.blocking = blocking;
-        this.muting = muting;
+        this.blocking = relation.blocking;
+        this.muting = relation.muting;
 
         if (followState != FollowState.NOT_FOLLOWING || !blocking || !muting) {
             invalidateOptionsMenu();
+        }
+
+        if(relation.followedBy) {
+            followsYouView.setVisibility(View.VISIBLE);
+        } else {
+            followsYouView.setVisibility(View.GONE);
         }
 
         updateButtons();

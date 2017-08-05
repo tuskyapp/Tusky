@@ -211,4 +211,7 @@
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%ds</string>
 
+    <string name="follows_you">Follows you</string>
+
+
 </resources>
