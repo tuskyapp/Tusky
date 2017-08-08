@@ -41,7 +41,7 @@
         android:layout_toLeftOf="@id/blocked_user_unblock"
         android:layout_toEndOf="@id/blocked_user_avatar"
         android:layout_toRightOf="@id/blocked_user_avatar">
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/blocked_user_display_name"

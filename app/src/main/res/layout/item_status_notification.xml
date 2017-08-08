@@ -27,7 +27,7 @@
             android:paddingStart="24dp"
             app:srcCompat="@drawable/ic_repeat_24dp"/>
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/notification_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
 
     </RelativeLayout>
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/notification_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

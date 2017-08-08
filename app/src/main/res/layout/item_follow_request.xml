@@ -28,7 +28,7 @@
         android:layout_toLeftOf="@+id/follow_request_accept"
         android:layout_toStartOf="@id/follow_request_accept">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/follow_request_display_name"

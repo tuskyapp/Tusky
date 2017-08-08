@@ -23,7 +23,7 @@
         android:layout_toEndOf="@id/account_avatar"
         android:layout_toRightOf="@id/account_avatar">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/account_display_name"
