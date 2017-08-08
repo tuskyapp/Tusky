@@ -45,7 +45,7 @@ public class ViewThreadActivity extends BaseActivity {
         String id = getIntent().getStringExtra("id");
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment fragment = ViewThreadFragment.newInstance(id);
-        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }
 
