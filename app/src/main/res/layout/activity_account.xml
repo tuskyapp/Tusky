@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -39,90 +40,97 @@
                     android:scaleType="centerCrop"
                     app:layout_collapseMode="pin" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/account_header_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/account_header_gradient"
-                    android:orientation="vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
                     android:paddingTop="?attr/actionBarSize"
                     app:layout_collapseMode="parallax">
 
-                    <RelativeLayout
+                    <com.pkmmte.view.CircularImageView
+                        android:id="@+id/account_avatar"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@+id/follow_btn"
+                        android:layout_toStartOf="@+id/follow_btn"
+                        android:src="@drawable/avatar_default"
+                        app:shadow="true" />
+
+                    <Button
+                        android:id="@+id/follow_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="6dp" />
+
+                    <TextView
+                        android:id="@+id/account_follows_you"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/follow_btn"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/follows_you"
+                        android:textColor="?android:textColorPrimary" />
+
+                    <TextView
+                        android:id="@+id/account_display_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp">
+                        android:layout_below="@id/account_avatar"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="18sp"
+                        android:textStyle="normal|bold"
+                        tools:text="Tusky Mastodon Client" />
 
-                        <com.pkmmte.view.CircularImageView
-                            android:id="@+id/account_avatar"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:src="@drawable/avatar_default"
-                            app:shadow="true" />
+                    <TextView
+                        android:id="@+id/account_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/account_display_name"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="?android:textColorSecondary"
+                        tools:text="\@Tusky" />
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_toEndOf="@id/account_avatar"
-                            android:layout_toRightOf="@id/account_avatar"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/account_display_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:textColor="?android:textColorPrimary"
-                                android:textSize="18sp"
-                                android:textStyle="normal|bold" />
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:id="@+id/account_username"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:ellipsize="end"
-                                    android:maxLines="1"
-                                    android:textColor="?android:textColorSecondary" />
-
-                                <ImageView
-                                    android:id="@+id/account_locked"
-                                    android:layout_width="16sp"
-                                    android:layout_height="16sp"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginLeft="4dp"
-                                    android:layout_marginStart="4dp"
-                                    android:layout_toEndOf="@id/account_username"
-                                    android:layout_toRightOf="@id/account_username"
-                                    android:contentDescription="@string/description_account_locked"
-                                    android:tint="?android:textColorSecondary"
-                                    android:visibility="gone"
-                                    app:srcCompat="@drawable/reblog_disabled_light" />
-                            </RelativeLayout>
-                        </LinearLayout>
-
-                    </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/account_locked"
+                        android:layout_width="16sp"
+                        android:layout_height="16sp"
+                        android:layout_alignBottom="@id/account_username"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_toEndOf="@id/account_username"
+                        android:layout_toRightOf="@id/account_username"
+                        android:contentDescription="@string/description_account_locked"
+                        android:tint="?android:textColorSecondary"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/reblog_disabled_light" />
 
                     <TextView
                         android:id="@+id/account_note"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
+                        android:layout_below="@id/account_username"
+                        android:paddingBottom="16dp"
                         android:paddingTop="10dp"
-                        android:textColor="?android:textColorTertiary" />
+                        android:textColor="?android:textColorTertiary"
+                        tools:text="This is a test description" />
 
-                </LinearLayout>
+                </RelativeLayout>
 
             </RelativeLayout>
 
@@ -150,7 +158,8 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabBackground="?android:colorBackground">
+            app:tabBackground="?android:colorBackground"
+            app:tabGravity="fill">
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
@@ -168,11 +177,6 @@
 
     </android.support.v4.view.ViewPager>
 
-    <FrameLayout
-        android:id="@+id/overlay_fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <View
         android:id="@+id/tab_bottom_shadow"
         android:layout_width="match_parent"
@@ -188,7 +192,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:contentDescription="@string/action_follow"
-        app:srcCompat="@drawable/ic_person_add_24dp" />
+        android:contentDescription="@string/action_mention"
+        app:srcCompat="@drawable/ic_create_24dp" />
+
+    <FrameLayout
+        android:id="@+id/overlay_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </android.support.design.widget.CoordinatorLayout>

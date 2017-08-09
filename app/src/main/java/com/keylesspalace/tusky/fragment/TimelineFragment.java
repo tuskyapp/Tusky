@@ -34,11 +34,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.BuildConfig;
-import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
@@ -195,28 +195,30 @@ public class TimelineFragment extends SFragment implements
 
         /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
          * guaranteed to be set until then. */
-        if (composeButtonPresent()) {
+        if (actionButtonPresent()) {
             /* Use a modified scroll listener that both loads more statuses as it goes, and hides
              * the follow button on down-scroll. */
-            MainActivity activity = (MainActivity) getActivity();
-            final FloatingActionButton composeButton = activity.composeButton;
-            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
-                    activity);
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             hideFab = preferences.getBoolean("fabHide", false);
             scrollListener = new EndlessOnScrollListener(layoutManager) {
                 @Override
                 public void onScrolled(RecyclerView view, int dx, int dy) {
                     super.onScrolled(view, dx, dy);
 
-                    if (hideFab) {
-                        if (dy > 0 && composeButton.isShown()) {
-                            composeButton.hide(); // hides the button if we're scrolling down
-                        } else if (dy < 0 && !composeButton.isShown()) {
-                            composeButton.show(); // shows it if we are scrolling up
+                    ActionButtonActivity activity = (ActionButtonActivity) getActivity();
+                    FloatingActionButton composeButton = activity.getActionButton();
+
+                    if (composeButton != null) {
+                        if (hideFab) {
+                            if (dy > 0 && composeButton.isShown()) {
+                                composeButton.hide(); // hides the button if we're scrolling down
+                            } else if (dy < 0 && !composeButton.isShown()) {
+                                composeButton.show(); // shows it if we are scrolling up
+                            }
+                        } else if (!composeButton.isShown()) {
+                            composeButton.show();
                         }
-                    } else if (!composeButton.isShown()) {
-                        composeButton.show();
-                    }
+                }
                 }
 
                 @Override
@@ -438,8 +440,8 @@ public class TimelineFragment extends SFragment implements
         return kind != Kind.TAG && kind != Kind.FAVOURITES;
     }
 
-    private boolean composeButtonPresent() {
-        return kind != Kind.TAG && kind != Kind.FAVOURITES && kind != Kind.USER;
+    private boolean actionButtonPresent() {
+        return kind != Kind.TAG && kind != Kind.FAVOURITES;
     }
 
     private void jumpToTop() {

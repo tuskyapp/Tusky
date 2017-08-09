@@ -41,11 +41,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
+import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.pager.AccountPagerAdapter;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
@@ -63,7 +65,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AccountActivity extends BaseActivity {
+public class AccountActivity extends BaseActivity implements ActionButtonActivity {
     private static final String TAG = "AccountActivity"; // logging tag
 
     private enum FollowState {
@@ -81,9 +83,13 @@ public class AccountActivity extends BaseActivity {
     private CircularImageView avatar;
     private ImageView header;
     private FloatingActionButton floatingBtn;
+    private Button followBtn;
+    private TextView followsYouView;
     private TabLayout tabLayout;
     private ImageView accountLockedView;
     private View container;
+    private boolean hideFab;
+    private int oldOffset;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,6 +99,8 @@ public class AccountActivity extends BaseActivity {
         avatar = (CircularImageView) findViewById(R.id.account_avatar);
         header = (ImageView) findViewById(R.id.account_header);
         floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
+        followBtn = (Button) findViewById(R.id.follow_btn);
+        followsYouView = (TextView) findViewById(R.id.account_follows_you);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         accountLockedView = (ImageView) findViewById(R.id.account_locked);
         container = findViewById(R.id.activity_account);
@@ -123,6 +131,8 @@ public class AccountActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
         }
+
+        hideFab = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("fabHide", false);
 
         // Add a listener to change the toolbar icon color when it enters/exits its collapsed state.
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.account_app_bar_layout);
@@ -155,11 +165,23 @@ public class AccountActivity extends BaseActivity {
                     ThemeUtils.setDrawableTint(context, toolbar.getNavigationIcon(), attribute);
                     ThemeUtils.setDrawableTint(context, toolbar.getOverflowIcon(), attribute);
                 }
+
+                if(floatingBtn != null && hideFab && !isSelf && !blocking) {
+                    if (verticalOffset > oldOffset) {
+                        floatingBtn.show();
+                    }
+                    if (verticalOffset < oldOffset) {
+                        floatingBtn.hide();
+                    }
+                }
+                oldOffset = verticalOffset;
             }
         });
 
         // Initialise the default UI states.
         floatingBtn.hide();
+        followBtn.setVisibility(View.GONE);
+        followsYouView.setVisibility(View.GONE);
 
         // Obtain information to fill out the profile.
         obtainAccount();
@@ -321,8 +343,7 @@ public class AccountActivity extends BaseActivity {
                                    Response<List<Relationship>> response) {
                 if (response.isSuccessful()) {
                     Relationship relationship = response.body().get(0);
-                    onObtainRelationshipsSuccess(relationship.requested, relationship.following,
-                            relationship.blocking, relationship.muting);
+                    onObtainRelationshipsSuccess(relationship);
                 } else {
                     onObtainRelationshipsFailure(new Exception(response.message()));
                 }
@@ -335,40 +356,38 @@ public class AccountActivity extends BaseActivity {
         });
     }
 
-    private void onObtainRelationshipsSuccess(boolean followRequested, boolean following,
-                                              boolean blocking, boolean muting) {
-        if (following) {
+    private void onObtainRelationshipsSuccess(Relationship relation) {
+        if (relation.following) {
             followState = FollowState.FOLLOWING;
-        } else if (followRequested) {
+        } else if (relation.requested) {
             followState = FollowState.REQUESTED;
         } else {
             followState = FollowState.NOT_FOLLOWING;
         }
-        this.blocking = blocking;
-        this.muting = muting;
+        this.blocking = relation.blocking;
+        this.muting = relation.muting;
 
-        if (followState != FollowState.NOT_FOLLOWING || !blocking || !muting) {
-            invalidateOptionsMenu();
+        if(relation.followedBy) {
+            followsYouView.setVisibility(View.VISIBLE);
+        } else {
+            followsYouView.setVisibility(View.GONE);
         }
 
         updateButtons();
     }
 
-    private void updateFollowButton(FloatingActionButton button) {
+    private void updateFollowButton(Button button) {
         switch (followState) {
             case NOT_FOLLOWING: {
-                button.setImageResource(R.drawable.ic_person_add_24dp);
-                button.setContentDescription(getString(R.string.action_follow));
+                button.setText(getString(R.string.action_follow));
                 break;
             }
             case REQUESTED: {
-                button.setImageResource(R.drawable.ic_hourglass_24dp);
-                button.setContentDescription(getString(R.string.state_follow_requested));
+                button.setText(getString(R.string.state_follow_requested));
                 break;
             }
             case FOLLOWING: {
-                button.setImageResource(R.drawable.ic_person_minus_24px);
-                button.setContentDescription(getString(R.string.action_unfollow));
+                button.setText(getString(R.string.action_unfollow));
                 break;
             }
         }
@@ -379,20 +398,31 @@ public class AccountActivity extends BaseActivity {
 
         if(!isSelf && !blocking) {
             floatingBtn.show();
+            followBtn.setVisibility(View.VISIBLE);
 
-            updateFollowButton(floatingBtn);
+            updateFollowButton(followBtn);
 
             floatingBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (followState != FollowState.REQUESTED) {
+                    mention();
+                }
+            });
+
+            followBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                     if (followState != FollowState.REQUESTED) {
                         follow(accountId);
                     } else {
                         showFollowRequestPendingDialog(accountId);
                     }
-                    updateFollowButton(floatingBtn);
+                    updateFollowButton(followBtn);
                 }
             });
+        } else {
+            floatingBtn.hide();
+            followBtn.setVisibility(View.GONE);
         }
     }
 
@@ -543,7 +573,6 @@ public class AccountActivity extends BaseActivity {
                 .show();
     }
 
-
     private void mute(final String id) {
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
@@ -582,6 +611,17 @@ public class AccountActivity extends BaseActivity {
                 .show();
     }
 
+    private boolean mention() {
+        if (loadedAccount == null) {
+            // If the account isn't loaded yet, eat the input.
+            return false;
+        }
+        Intent intent = new Intent(this, ComposeActivity.class);
+        intent.putExtra("mentioned_usernames", new String[] { loadedAccount.username });
+        startActivity(intent);
+        return true;
+    }
+
     private void broadcast(String action, String id) {
         Intent intent = new Intent(action);
         intent.putExtra("id", id);
@@ -596,14 +636,7 @@ public class AccountActivity extends BaseActivity {
                 return true;
             }
             case R.id.action_mention: {
-                if (loadedAccount == null) {
-                    // If the account isn't loaded yet, eat the input.
-                    return false;
-                }
-                Intent intent = new Intent(this, ComposeActivity.class);
-                intent.putExtra("mentioned_usernames", new String[] { loadedAccount.username });
-                startActivity(intent);
-                return true;
+                return mention();
             }
             case R.id.action_open_in_web: {
                 if (loadedAccount == null) {
@@ -630,4 +663,14 @@ public class AccountActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Nullable
+    @Override
+    public FloatingActionButton getActionButton() {
+        if(!isSelf && !blocking) {
+            return floatingBtn;
+        }
+        return null;
+    }
+
 }
