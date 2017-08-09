@@ -15,12 +15,13 @@
     <ImageButton
         android:id="@+id/suppr"
         style="?attr/image_button_style"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_gravity="center_vertical"
-        android:padding="16dp"
-        android:layout_margin="16dp"
+        android:layout_margin="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_delete"
+        android:padding="4dp"
         app:srcCompat="@drawable/ic_clear_24dp" />
 
 </LinearLayout>
