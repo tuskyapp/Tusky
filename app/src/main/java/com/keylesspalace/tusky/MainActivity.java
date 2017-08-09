@@ -23,6 +23,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -37,6 +38,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.keylesspalace.tusky.entity.Account;
+import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.ThemeUtils;
@@ -63,7 +65,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements ActionButtonActivity {
     private static final String TAG = "MainActivity"; // logging tag
     private static final long DRAWER_ITEM_EDIT_PROFILE = 0;
     private static final long DRAWER_ITEM_FAVOURITES = 1;
@@ -77,7 +79,8 @@ public class MainActivity extends BaseActivity {
     private static final long DRAWER_ITEM_SAVED_TOOT = 9;
 
     protected static int COMPOSE_RESULT = 1;
-    public FloatingActionButton composeButton;
+
+    private FloatingActionButton composeButton;
     private String loggedInAccountId;
     private String loggedInAccountUsername;
     private Stack<Integer> pageHistory;
@@ -492,5 +495,11 @@ public class MainActivity extends BaseActivity {
 
     private void onFetchUserInfoFailure(Exception exception) {
         Log.e(TAG, "Failed to fetch user info. " + exception.getMessage());
+    }
+
+    @Nullable
+    @Override
+    public FloatingActionButton getActionButton() {
+        return composeButton;
     }
 }

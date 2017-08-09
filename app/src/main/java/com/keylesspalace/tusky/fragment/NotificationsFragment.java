@@ -40,6 +40,7 @@ import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
@@ -172,9 +173,7 @@ public class NotificationsFragment extends SFragment implements
          * guaranteed to be set until then.
          * Use a modified scroll listener that both loads more notifications as it goes, and hides
          * the compose button on down-scroll. */
-        final FloatingActionButton composeButton = activity.composeButton;
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
-                activity);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
         preferences.registerOnSharedPreferenceChangeListener(this);
         hideFab = preferences.getBoolean("fabHide", false);
         scrollListener = new EndlessOnScrollListener(layoutManager) {
@@ -182,14 +181,19 @@ public class NotificationsFragment extends SFragment implements
             public void onScrolled(RecyclerView view, int dx, int dy) {
                 super.onScrolled(view, dx, dy);
 
-                if (hideFab) {
-                    if (dy > 0 && composeButton.isShown()) {
-                        composeButton.hide(); // hides the button if we're scrolling down
-                    } else if (dy < 0 && !composeButton.isShown()) {
-                        composeButton.show(); // shows it if we are scrolling up
+                ActionButtonActivity activity = (ActionButtonActivity) getActivity();
+                FloatingActionButton composeButton = activity.getActionButton();
+
+                if(composeButton != null) {
+                    if (hideFab) {
+                        if (dy > 0 && composeButton.isShown()) {
+                            composeButton.hide(); // hides the button if we're scrolling down
+                        } else if (dy < 0 && !composeButton.isShown()) {
+                            composeButton.show(); // shows it if we are scrolling up
+                        }
+                    } else if (!composeButton.isShown()) {
+                        composeButton.show();
                     }
-                } else if (!composeButton.isShown()) {
-                    composeButton.show();
                 }
             }
 
