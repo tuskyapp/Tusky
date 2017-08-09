@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.AttrRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -96,13 +97,13 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        avatar = (CircularImageView) findViewById(R.id.account_avatar);
-        header = (ImageView) findViewById(R.id.account_header);
-        floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
-        followBtn = (Button) findViewById(R.id.follow_btn);
-        followsYouView = (TextView) findViewById(R.id.account_follows_you);
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        accountLockedView = (ImageView) findViewById(R.id.account_locked);
+        avatar = findViewById(R.id.account_avatar);
+        header = findViewById(R.id.account_header);
+        floatingBtn = findViewById(R.id.floating_btn);
+        followBtn = findViewById(R.id.follow_btn);
+        followsYouView = findViewById(R.id.account_follows_you);
+        tabLayout = findViewById(R.id.tab_layout);
+        accountLockedView = findViewById(R.id.account_locked);
         container = findViewById(R.id.activity_account);
 
         if (savedInstanceState != null) {
@@ -123,7 +124,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
         String loggedInAccountId = preferences.getString("loggedInAccountId", null);
 
         // Setup the toolbar.
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -135,9 +136,8 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
         hideFab = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("fabHide", false);
 
         // Add a listener to change the toolbar icon color when it enters/exits its collapsed state.
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.account_app_bar_layout);
-        final CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        AppBarLayout appBarLayout = findViewById(R.id.account_app_bar_layout);
+        final CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsing_toolbar);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @AttrRes int priorAttribute = R.attr.account_toolbar_icon_tint_uncollapsed;
 
@@ -204,7 +204,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
             getString(R.string.title_followers)
         };
         adapter.setPageTitles(pageTitles);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        ViewPager viewPager = findViewById(R.id.pager);
         int pageMargin = getResources().getDimensionPixelSize(R.dimen.tab_page_margin);
         viewPager.setPageMargin(pageMargin);
         Drawable pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
@@ -232,7 +232,8 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
     private void obtainAccount() {
         mastodonApi.account(accountId).enqueue(new Callback<Account>() {
             @Override
-            public void onResponse(Call<Account> call, Response<Account> response) {
+            public void onResponse(@NonNull Call<Account> call,
+                                   @NonNull Response<Account> response) {
                 if (response.isSuccessful()) {
                     onObtainAccountSuccess(response.body());
                 } else {
@@ -241,7 +242,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
             }
 
             @Override
-            public void onFailure(Call<Account> call, Throwable t) {
+            public void onFailure(@NonNull Call<Account> call, @NonNull Throwable t) {
                 onObtainAccountFailure();
             }
         });
@@ -250,9 +251,9 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
     private void onObtainAccountSuccess(Account account) {
         loadedAccount = account;
 
-        TextView username = (TextView) findViewById(R.id.account_username);
-        TextView displayName = (TextView) findViewById(R.id.account_display_name);
-        TextView note = (TextView) findViewById(R.id.account_note);
+        TextView username = findViewById(R.id.account_username);
+        TextView displayName = findViewById(R.id.account_display_name);
+        TextView note = findViewById(R.id.account_note);
 
         String usernameFormatted = String.format(
                 getString(R.string.status_username_format), account.username);
@@ -316,7 +317,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
             if (tab != null) {
                 View view = tab.getCustomView();
                 if (view != null) {
-                    TextView total = (TextView) view.findViewById(R.id.total);
+                    TextView total = view.findViewById(R.id.total);
                     total.setText(counts[i]);
                 }
             }
@@ -339,10 +340,11 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
         ids.add(accountId);
         mastodonApi.relationships(ids).enqueue(new Callback<List<Relationship>>() {
             @Override
-            public void onResponse(Call<List<Relationship>> call,
-                                   Response<List<Relationship>> response) {
-                if (response.isSuccessful()) {
-                    Relationship relationship = response.body().get(0);
+            public void onResponse(@NonNull Call<List<Relationship>> call,
+                                   @NonNull Response<List<Relationship>> response) {
+                List<Relationship> relationships = response.body();
+                if (response.isSuccessful() && relationships != null) {
+                    Relationship relationship = relationships.get(0);
                     onObtainRelationshipsSuccess(relationship);
                 } else {
                     onObtainRelationshipsFailure(new Exception(response.message()));
@@ -350,7 +352,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
             }
 
             @Override
-            public void onFailure(Call<List<Relationship>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Relationship>> call, @NonNull Throwable t) {
                 onObtainRelationshipsFailure((Exception) t);
             }
         });
@@ -367,7 +369,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
         this.blocking = relation.blocking;
         this.muting = relation.muting;
 
-        if(relation.followedBy) {
+        if (relation.followedBy) {
             followsYouView.setVisibility(View.VISIBLE);
         } else {
             followsYouView.setVisibility(View.GONE);
@@ -412,10 +414,19 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
             followBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                     if (followState != FollowState.REQUESTED) {
-                        follow(accountId);
-                    } else {
-                        showFollowRequestPendingDialog(accountId);
+                    switch (followState) {
+                        case NOT_FOLLOWING: {
+                            follow(accountId);
+                            break;
+                        }
+                        case REQUESTED: {
+                            showFollowRequestPendingDialog();
+                            break;
+                        }
+                        case FOLLOWING: {
+                            showUnfollowWarningDialog();
+                            break;
+                        }
                     }
                     updateFollowButton(followBtn);
                 }
@@ -479,9 +490,10 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
     private void follow(final String id) {
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
-            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
-                if (response.isSuccessful()) {
-                    Relationship relationship = response.body();
+            public void onResponse(@NonNull Call<Relationship> call,
+                                   @NonNull Response<Relationship> response) {
+                Relationship relationship = response.body();
+                if (response.isSuccessful() && relationship != null) {
                     if (relationship.following) {
                         followState = FollowState.FOLLOWING;
                     } else if (relationship.requested) {
@@ -499,7 +511,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
             }
 
             @Override
-            public void onFailure(Call<Relationship> call, Throwable t) {
+            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {
                 onFollowFailure(id);
             }
         };
@@ -523,26 +535,48 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
                 .show();
     }
 
-    private void showFollowRequestPendingDialog(final String id) {
+    private void showFollowRequestPendingDialog() {
         DialogInterface.OnClickListener waitListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         };
-        new AlertDialog.Builder(AccountActivity.this)
+        new AlertDialog.Builder(this)
                 .setMessage(R.string.dialog_message_follow_request)
-                .setPositiveButton(R.string.action_ok, waitListener)
+                .setPositiveButton(android.R.string.ok, waitListener)
+                .show();
+    }
+
+    private void showUnfollowWarningDialog() {
+        DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        };
+        DialogInterface.OnClickListener unfollowListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                follow(accountId);
+            }
+        };
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.dialog_unfollow_warning)
+                .setPositiveButton(android.R.string.ok, unfollowListener)
+                .setNegativeButton(android.R.string.cancel, cancelListener)
                 .show();
     }
 
     private void block(final String id) {
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
-            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
-                if (response.isSuccessful()) {
+            public void onResponse(@NonNull Call<Relationship> call,
+                                   @NonNull Response<Relationship> response) {
+                Relationship relationship = response.body();
+                if (response.isSuccessful() && relationship != null) {
                     broadcast(TimelineReceiver.Types.BLOCK_ACCOUNT, id);
-                    blocking = response.body().blocking;
+                    blocking = relationship.blocking;
                     updateButtons();
                 } else {
                     onBlockFailure(id);
@@ -550,7 +584,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
             }
 
             @Override
-            public void onFailure(Call<Relationship> call, Throwable t) {
+            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {
                 onBlockFailure(id);
             }
         };
@@ -576,10 +610,12 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
     private void mute(final String id) {
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
-            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
-                if (response.isSuccessful()) {
+            public void onResponse(@NonNull Call<Relationship> call,
+                                   @NonNull Response<Relationship> response) {
+                Relationship relationship = response.body();
+                if (response.isSuccessful() && relationship != null) {
                     broadcast(TimelineReceiver.Types.MUTE_ACCOUNT, id);
-                    muting = response.body().muting;
+                    muting = relationship.muting;
                     updateButtons();
                 } else {
                     onMuteFailure(id);
@@ -587,7 +623,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
             }
 
             @Override
-            public void onFailure(Call<Relationship> call, Throwable t) {
+            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {
                 onMuteFailure(id);
             }
         };
@@ -667,7 +703,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
     @Nullable
     @Override
     public FloatingActionButton getActionButton() {
-        if(!isSelf && !blocking) {
+        if (!isSelf && !blocking) {
             return floatingBtn;
         }
         return null;
