@@ -14,7 +14,6 @@
     <string name="error_media_upload_opening">ファイルを開けませんでした。</string>
     <string name="error_media_upload_permission">メディアの読み取り許可が必要です。</string>
     <string name="error_media_download_permission">メディアの書き込み許可が必要です。</string>
-
     <string name="error_media_upload_image_or_video">画像と動画を同時に投稿することはできません。</string>
     <string name="error_media_upload_sending">アップロードに失敗しました。</string>
     <string name="error_report_too_few_statuses">少なくとも1つの投稿を報告してください。</string>
@@ -33,10 +32,11 @@
     <string name="title_blocks">ブロックしたユーザー</string>
     <string name="title_follow_requests">フォローリクエスト</string>
     <string name="title_edit_profile">プロフィールを編集</string>
+    <string name="title_saved_toot">下書き</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%sさんがブーストしました</string>
-    <string name="status_sensitive_media_title">不適切なコンテンツ</string>
+    <string name="status_sensitive_media_title">閲覧注意</string>
     <string name="status_sensitive_media_directions">タップして表示</string>
     <string name="status_content_warning_show_more">続きを表示</string>
     <string name="status_content_warning_show_less">続きを隠す</string>
@@ -67,8 +67,8 @@
     <string name="action_send">トゥート</string>
     <string name="action_send_public">トゥート！</string>
     <string name="action_retry">再試行</string>
-    <string name="action_mark_sensitive">不適切なコンテンツとして設定</string>
-    <string name="action_hide_text">投稿文を注意書きで隠す</string>
+    <string name="action_mark_sensitive">閲覧注意としてマークする</string>
+    <string name="action_hide_text">テキストを注意書きで隠す</string>
     <string name="action_ok">OK</string>
     <string name="action_cancel">キャンセル</string>
     <string name="action_close">閉じる</string>
@@ -89,7 +89,7 @@
     <string name="action_mute">ミュート</string>
     <string name="action_unmute">ミュート解除</string>
     <string name="action_mention">返信</string>
-    <!--<string name="action_mark_sensitive">Mark media sensitive</string>-->
+    <string name="action_hide_media">メディアを隠す</string>
     <string name="action_compose_options">オプション</string>
     <string name="action_open_drawer">メニューを開く</string>
     <string name="action_clear">消去</string>
@@ -98,6 +98,8 @@
     <string name="action_undo">取り消す</string>
     <string name="action_accept">許可</string>
     <string name="action_reject">拒否</string>
+    <string name="action_search">検索</string>
+    <string name="action_access_saved_toot">下書き</string>
 
     <string name="send_status_link_to">トゥートのURLを共有…</string>
     <string name="send_status_content_to">トゥートを共有…</string>
@@ -114,6 +116,8 @@
     <string name="hint_note">プロフィール</string>
     <string name="hint_search">ユーザーを検索…</string>
 
+    <string name="search_no_results">見つかりませんでした</string>
+
     <string name="label_avatar">アイコン</string>
     <string name="label_header">ヘッダー</string>
 
@@ -122,17 +126,18 @@
     <string name="login_connection">接続中…</string>
 
     <string name="dialog_whats_an_instance">mastodon.social, mstdn.jp, pawoo.net や
-        <a href="https://github.com/tootsuite/documentation/blob/master/Using-Mastodon/List-of-Mastodon-instances.md">その他</a>
+        <a href="https://instances.social">その他</a>
         のような、あらゆるインスタンスのアドレスやドメインを入力できます。
         \n\nまだアカウントをお持ちでない場合は、参加したいインスタンスの名前を入力することで
         そのインスタンスにアカウントを作成できます。\n\nインスタンスはあなたのアカウントが提供される単独の場所ですが、
         他のインスタンスのユーザーとあたかも同じ場所にいるように簡単にコミュニケーションをとったりフォローしたりできます。
-        \n\nさらに詳しい情報は<a href="https://mastodon.social/about">mastodon.social</a>でご覧いただけます。
+        \n\nさらに詳しい情報は<a href="https://joinmastodon.org">joinmastodon.org</a>でご覧いただけます。
     </string>
     <string name="dialog_title_finishing_media_upload">メディアをアップロードしています</string>
     <string name="dialog_message_uploading_media">アップロード中…</string>
     <string name="dialog_download_image">ダウンロード</string>
     <string name="dialog_message_follow_request">フォローリクエストの承認待ち：返答を待っています</string>
+    <string name="dialog_unfollow_warning">このアカウントをフォロー解除しますか？</string>
 
     <string name="visibility_public">公開：公開タイムラインに投稿する</string>
     <string name="visibility_unlisted">未収載：公開タイムラインには表示しない</string>
@@ -142,6 +147,7 @@
     <string name="pref_title_notification_settings">通知</string>
     <string name="pref_title_edit_notification_settings">通知を設定</string>
     <string name="pref_title_notifications_enabled">プッシュ通知</string>
+    <string name="pref_title_pull_notification_check_interval">通知の取得間隔</string>
     <string name="pref_title_notification_alerts">通知時の動作</string>
     <string name="pref_title_notification_alert_sound">着信音を鳴らす</string>
     <string name="pref_title_notification_alert_vibrate">バイブレーションする</string>
@@ -160,6 +166,7 @@
     <string name="pref_title_status_tabs">タブ</string>
     <string name="pref_title_show_boosts">ブーストを表示</string>
     <string name="pref_title_show_replies">返信を表示</string>
+    <string name="pref_title_show_media_preview">メディアのプレビューを表示する</string>
 
     <string name="notification_mention_format">%sさんが返信しました</string>
     <string name="notification_summary_large">%1$sさん、%2$sさん、%3$sさんと他%4$d人</string>
@@ -170,19 +177,27 @@
     <string name="description_account_locked">非公開アカウント</string>
 
     <string name="about_title_activity">このアプリについて</string>
-    <!--<string name="about_application_version">アプリのバージョン：%s</string>-->
-    <!--<string name="about_project_site">
+    <string name="about_application_version">アプリのバージョン：%s</string>
+    <string name="about_project_site">
         プロジェクトのWebサイト：\n
         https://tusky.keylesspalace.com
     </string>-->
-    <!--<string name="about_bug_feature_request_site">
+    <string name="about_bug_feature_request_site">
         バグ報告 &amp; 機能リクエスト：\n
         https://github.com/Vavassor/Tusky/issues
-    </string>-->
-    <!--<string name="about_tusky_account">Tusky\'s Profile</string>-->
+    </string>
+    <string name="about_tusky_account">Tusky公式アカウント</string>
 
     <string name="status_share_content">トゥートの内容を共有</string>
     <string name="status_share_link">トゥートへのリンクを共有</string>
+    <string name="status_media_images">画像</string>
+    <string name="status_media_video">動画</string>
 
     <string name="state_follow_requested">フォローリクエスト中</string>
+    
+    <string name="no_content">下書きはありません</string>
+    <string name="action_save_one_toot">下書きに保存しました！</string>
+    
+    <string name="follows_you">あなたをフォロー中</string>
+
 </resources>
