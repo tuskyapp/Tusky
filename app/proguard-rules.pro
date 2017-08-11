@@ -18,9 +18,15 @@
 
 ## for okhttp
 -dontwarn okio.**
+-dontwarn javax.annotation.Nullable
+-dontwarn javax.annotation.ParametersAreNonnullByDefault
 
 ## for picasso
 -dontwarn com.squareup.okhttp.**
+
+##for keep
+-dontwarn android.arch.util.paging.CountedDataSource
+-dontwarn android.arch.persistence.room.paging.LimitOffsetDataSource
 
 ## for retrofit
 -dontwarn retrofit2.**
@@ -45,13 +51,13 @@
 -keepattributes SourceFile,LineNumberTable
 
 # remove all logging from production apk
-#-assumenosideeffects class android.util.Log {
-#    public static *** getStackTraceString(...);
-#    public static *** d(...);
-#    public static *** w(...);
-#    public static *** v(...);
-#    public static *** i(...);
-#}
+-assumenosideeffects class android.util.Log {
+    public static *** getStackTraceString(...);
+    public static *** d(...);
+    public static *** w(...);
+    public static *** v(...);
+    public static *** i(...);
+}
 
 # for jsoup
 -keep public class org.jsoup.** {
