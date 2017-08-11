@@ -26,6 +26,11 @@ android {
     lintOptions {
         disable 'MissingTranslation'
     }
+    packagingOptions { //remove metadata files of jsoup library from final build
+        exclude 'META-INF/CHANGES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/README.md'
+    }
 }
 
 ext.supportLibraryVersion = '26.0.0'
