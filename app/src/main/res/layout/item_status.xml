@@ -119,35 +119,34 @@
     </RelativeLayout>
 
     <com.keylesspalace.tusky.view.FlowLayout
+        android:id="@+id/status_content_warning_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/status_content_warning_bar"
-        android:visibility="gone"
-        android:layout_toRightOf="@+id/status_avatar"
-        android:layout_toEndOf="@+id/status_avatar"
         android:layout_below="@+id/status_name_bar"
         android:layout_marginBottom="4dp"
-        app:paddingHorizontal="4dp"
-        android:focusable="true">
+        android:layout_toEndOf="@+id/status_avatar"
+        android:layout_toRightOf="@+id/status_avatar"
+        android:focusable="true"
+        android:visibility="gone"
+        app:paddingHorizontal="4dp">
 
         <TextView
+            android:id="@+id/status_content_warning_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/status_content_warning_description"
             android:textColor="?android:textColorPrimary" />
 
         <ToggleButton
+            android:id="@+id/status_content_warning_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="0dp"
+            android:background="?attr/content_warning_button"
             android:minHeight="0dp"
-            android:id="@+id/status_content_warning_button"
-            android:textOn="@string/status_content_warning_show_less"
-            android:textOff="@string/status_content_warning_show_more"
-            android:padding="3dp"
-            android:textSize="12sp"
+            android:minWidth="0dp"
             android:textAllCaps="true"
-            android:background="?attr/content_warning_button" />
+            android:textOff="@string/status_content_warning_show_more"
+            android:textOn="@string/status_content_warning_show_less"
+            android:textSize="12sp" />
 
     </com.keylesspalace.tusky.view.FlowLayout>
 
