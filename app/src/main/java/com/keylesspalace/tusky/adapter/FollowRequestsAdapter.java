@@ -99,7 +99,6 @@ public class FollowRequestsAdapter extends AccountAdapter {
             username.setText(formattedUsername);
             Picasso.with(avatar.getContext())
                     .load(account.avatar)
-                    .error(R.drawable.avatar_error)
                     .placeholder(R.drawable.avatar_default)
                     .into(avatar);
         }
