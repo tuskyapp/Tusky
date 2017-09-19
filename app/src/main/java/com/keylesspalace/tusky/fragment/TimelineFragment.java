@@ -270,7 +270,6 @@ public class TimelineFragment extends SFragment implements
                     if (status.reblog != null) {
                         status.reblog.reblogged = reblog;
                     }
-
                     StatusViewData newViewData =
                             new StatusViewData.Builder(statuses.getPairedItem(position))
                                     .setReblogged(reblog)
