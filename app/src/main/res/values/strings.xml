@@ -100,6 +100,7 @@
     <string name="action_reject">Reject</string>
     <string name="action_search">Search</string>
     <string name="action_access_saved_toot">Drafts</string>
+    <string name="download_image">Downloading %1$s</string>
 
     <string name="send_status_link_to">Share toot URL to…</string>
     <string name="send_status_content_to">Share toot to…</string>

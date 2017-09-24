@@ -99,6 +99,7 @@
     <string name="action_view_mutes">Utilisateurs muets</string>
     <string name="send_status_link_to">Partager l’URL de votre pouet avec…</string>
     <string name="send_status_content_to">Partager le pouet avec…</string>
+    <string name="download_image">Téléchargement de %1$s</string>
 
     <string name="confirmation_send">Pouet !</string>
     <string name="confirmation_reported">Envoyé !</string>
