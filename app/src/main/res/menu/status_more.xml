@@ -12,6 +12,8 @@
                 android:title="@string/status_share_content"/>
         </menu>
     </item>
+    <item android:title="@string/action_copy_link"
+        android:id="@+id/status_copy_link" />
     <item android:title="@string/action_mute"
         android:id="@+id/status_mute" />
     <item android:title="@string/action_block"
