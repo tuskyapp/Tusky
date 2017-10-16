@@ -224,7 +224,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     .fit()
                     .transform(new RoundedTransformation(7, 0))
                     .placeholder(R.drawable.avatar_default)
-                    .error(R.drawable.avatar_error)
                     .into(avatar);
         }
 
@@ -306,7 +305,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 Picasso.with(context)
                         .load(statusAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
-                        .error(R.drawable.avatar_error)
                         .transform(new RoundedTransformation(7, 0))
                         .into(statusAvatar);
             }

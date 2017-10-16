@@ -179,7 +179,6 @@ public class EditProfileActivity extends BaseActivity {
                 Picasso.with(avatar.getContext())
                         .load(me.avatar)
                         .placeholder(R.drawable.avatar_default)
-                        .error(R.drawable.avatar_error)
                         .into(avatar);
                 Picasso.with(header.getContext())
                         .load(me.header)

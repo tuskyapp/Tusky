@@ -296,7 +296,6 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
         Picasso.with(this)
                 .load(account.avatar)
                 .placeholder(R.drawable.avatar_default)
-                .error(R.drawable.avatar_error)
                 .into(avatar);
         Picasso.with(this)
                 .load(account.header)
