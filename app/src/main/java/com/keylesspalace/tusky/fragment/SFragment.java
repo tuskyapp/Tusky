@@ -15,6 +15,9 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -269,6 +272,13 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
                                 sendIntent.putExtra(Intent.EXTRA_TEXT, statusUrl);
                                 sendIntent.setType("text/plain");
                                 startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_link_to)));
+                                return true;
+                            }
+                            case R.id.status_copy_link: {
+                                ClipboardManager clipboard = (ClipboardManager)
+                                        getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText(null, statusUrl);
+                                clipboard.setPrimaryClip(clip);
                                 return true;
                             }
                             case R.id.status_mute: {

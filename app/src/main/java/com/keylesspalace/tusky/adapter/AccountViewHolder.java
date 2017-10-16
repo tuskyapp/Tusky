@@ -37,7 +37,6 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
         Picasso.with(context)
                 .load(account.avatar)
                 .placeholder(R.drawable.avatar_default)
-                .error(R.drawable.avatar_error)
                 .into(avatar);
     }
 
