@@ -41,6 +41,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.keylesspalace.tusky.fragment.ViewMediaFragment;
 import com.keylesspalace.tusky.pager.ImagePagerAdapter;
@@ -217,6 +218,10 @@ public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment
             Uri uri = Uri.parse(url);
 
             String filename = new File(url).getName();
+
+            String toastText = String.format(getResources().getString(R.string.download_image),
+                    filename);
+            Toast.makeText(this.getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
 
             DownloadManager downloadManager =
                     (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
