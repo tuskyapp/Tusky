@@ -19,6 +19,11 @@
             android:title="@string/pref_title_show_media_preview"
             android:defaultValue="true" />
 
+        <CheckBoxPreference
+            android:key="alwayShowSensitiveMedia"
+            android:title="@string/pref_title_alway_show_sensitive_media"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_title_browser_settings">
         <CheckBoxPreference
