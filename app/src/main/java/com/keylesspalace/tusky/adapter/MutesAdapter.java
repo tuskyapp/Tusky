@@ -68,10 +68,10 @@ public class MutesAdapter extends AccountAdapter {
 
         MutedUserViewHolder(View itemView) {
             super(itemView);
-            avatar = (CircularImageView) itemView.findViewById(R.id.muted_user_avatar);
-            username = (TextView) itemView.findViewById(R.id.muted_user_username);
-            displayName = (TextView) itemView.findViewById(R.id.muted_user_display_name);
-            unmute = (ImageButton) itemView.findViewById(R.id.muted_user_unmute);
+            avatar = itemView.findViewById(R.id.muted_user_avatar);
+            username = itemView.findViewById(R.id.muted_user_username);
+            displayName = itemView.findViewById(R.id.muted_user_display_name);
+            unmute = itemView.findViewById(R.id.muted_user_unmute);
         }
 
         void setupWithAccount(Account account) {

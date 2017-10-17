@@ -71,7 +71,7 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
         String statusVisibility = arguments.getString("visibility");
         boolean statusHideText = arguments.getBoolean("hideText");
 
-        radio = (RadioGroup) rootView.findViewById(R.id.radio_visibility);
+        radio = rootView.findViewById(R.id.radio_visibility);
         int radioCheckedId = R.id.radio_public;
         if (statusVisibility != null) {
             switch (statusVisibility) {
@@ -83,16 +83,16 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
         }
         radio.check(radioCheckedId);
 
-        RadioButton publicButton = (RadioButton) rootView.findViewById(R.id.radio_public);
-        RadioButton unlistedButton = (RadioButton) rootView.findViewById(R.id.radio_unlisted);
-        RadioButton privateButton = (RadioButton) rootView.findViewById(R.id.radio_private);
-        RadioButton directButton = (RadioButton) rootView.findViewById(R.id.radio_direct);
+        RadioButton publicButton = rootView.findViewById(R.id.radio_public);
+        RadioButton unlistedButton = rootView.findViewById(R.id.radio_unlisted);
+        RadioButton privateButton = rootView.findViewById(R.id.radio_private);
+        RadioButton directButton = rootView.findViewById(R.id.radio_direct);
         setRadioButtonDrawable(getContext(), publicButton, R.drawable.ic_public_24dp);
         setRadioButtonDrawable(getContext(), unlistedButton, R.drawable.ic_lock_open_24dp);
         setRadioButtonDrawable(getContext(), privateButton, R.drawable.ic_lock_outline_24dp);
         setRadioButtonDrawable(getContext(), directButton, R.drawable.ic_email_24dp);
 
-        hideText = (CheckBox) rootView.findViewById(R.id.compose_hide_text);
+        hideText = rootView.findViewById(R.id.compose_hide_text);
         hideText.setChecked(statusHideText);
 
         return rootView;

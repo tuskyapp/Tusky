@@ -27,8 +27,8 @@ import com.keylesspalace.tusky.util.Assert;
 
 public class EditTextTyped extends AppCompatMultiAutoCompleteTextView {
 
-    InputConnectionCompat.OnCommitContentListener onCommitContentListener;
-    String[] mimeTypes;
+    private InputConnectionCompat.OnCommitContentListener onCommitContentListener;
+    private String[] mimeTypes;
     private OnPasteListener onPasteListener;
 
     public EditTextTyped(Context context) {

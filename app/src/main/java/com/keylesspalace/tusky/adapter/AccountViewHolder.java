@@ -22,9 +22,9 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
     AccountViewHolder(View itemView) {
         super(itemView);
         container = itemView.findViewById(R.id.account_container);
-        username = (TextView) itemView.findViewById(R.id.account_username);
-        displayName = (TextView) itemView.findViewById(R.id.account_display_name);
-        avatar = (CircularImageView) itemView.findViewById(R.id.account_avatar);
+        username = itemView.findViewById(R.id.account_username);
+        displayName = itemView.findViewById(R.id.account_display_name);
+        avatar = itemView.findViewById(R.id.account_avatar);
     }
 
     void setupWithAccount(Account account) {

@@ -134,10 +134,10 @@ public class TimelineFragment extends SFragment implements
 
         // Setup the SwipeRefreshLayout.
         Context context = getContext();
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         // Setup the RecyclerView.
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -175,7 +175,7 @@ public class TimelineFragment extends SFragment implements
         super.onActivityCreated(savedInstanceState);
 
         if (jumpToTopAllowed()) {
-            TabLayout layout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
+            TabLayout layout = getActivity().findViewById(R.id.tab_layout);
             onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
@@ -241,7 +241,7 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void onDestroyView() {
         if (jumpToTopAllowed()) {
-            TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
+            TabLayout tabLayout = getActivity().findViewById(R.id.tab_layout);
             tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
         }
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(timelineReceiver);

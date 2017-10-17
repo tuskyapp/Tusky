@@ -109,7 +109,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
 
         HashtagViewHolder(View itemView) {
             super(itemView);
-            hashtag = (TextView) itemView.findViewById(R.id.hashtag);
+            hashtag = itemView.findViewById(R.id.hashtag);
         }
 
         void setup(final String tag, final LinkListener listener) {

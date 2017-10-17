@@ -120,8 +120,8 @@ public class ReportAdapter extends RecyclerView.Adapter {
 
         ReportStatusViewHolder(View view) {
             super(view);
-            content = (TextView) view.findViewById(R.id.report_status_content);
-            checkBox = (CheckBox) view.findViewById(R.id.report_status_check_box);
+            content = view.findViewById(R.id.report_status_content);
+            checkBox = view.findViewById(R.id.report_status_check_box);
         }
 
         void setupWithStatus(final ReportStatus status) {

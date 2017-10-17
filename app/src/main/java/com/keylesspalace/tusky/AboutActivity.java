@@ -26,7 +26,7 @@ public class AboutActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
@@ -34,12 +34,12 @@ public class AboutActivity extends BaseActivity {
             bar.setDisplayShowHomeEnabled(true);
         }
 
-        TextView versionTextView = (TextView) findViewById(R.id.versionTV);
+        TextView versionTextView = findViewById(R.id.versionTV);
         String versionName = BuildConfig.VERSION_NAME;
         String versionFormat = getString(R.string.about_application_version);
         versionTextView.setText(String.format(versionFormat, versionName));
 
-        appAccountButton = (Button) findViewById(R.id.tusky_profile_button);
+        appAccountButton = findViewById(R.id.tusky_profile_button);
         appAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

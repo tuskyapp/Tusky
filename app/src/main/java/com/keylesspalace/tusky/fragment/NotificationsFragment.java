@@ -109,10 +109,10 @@ public class NotificationsFragment extends SFragment implements
 
         // Setup the SwipeRefreshLayout.
         Context context = getContext();
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         // Setup the RecyclerView.
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -152,7 +152,7 @@ public class NotificationsFragment extends SFragment implements
         MainActivity activity = (MainActivity) getActivity();
 
         // MainActivity's layout is guaranteed to be inflated until onCreate returns.
-        TabLayout layout = (TabLayout) activity.findViewById(R.id.tab_layout);
+        TabLayout layout = activity.findViewById(R.id.tab_layout);
         onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -208,7 +208,7 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onDestroyView() {
-        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
+        TabLayout tabLayout = getActivity().findViewById(R.id.tab_layout);
         tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
 
         LocalBroadcastManager.getInstance(getContext())

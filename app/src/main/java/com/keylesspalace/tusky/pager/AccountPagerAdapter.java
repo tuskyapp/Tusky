@@ -73,7 +73,7 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
 
     public View getTabView(int position, ViewGroup root) {
         View view = LayoutInflater.from(context).inflate(R.layout.tab_account, root, false);
-        TextView title = (TextView) view.findViewById(R.id.title);
+        TextView title = view.findViewById(R.id.title);
         title.setText(pageTitles[position]);
         return view;
     }

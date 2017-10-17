@@ -1,14 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--This applies only to favourite and reblog notifications.-->
+<?xml version="1.0" encoding="utf-8"?><!--This applies only to favourite and reblog notifications.-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/notification_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/notification_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
     <RelativeLayout
         android:id="@+id/notification_top_bar"
@@ -25,7 +24,7 @@
             android:paddingLeft="24dp"
             android:paddingRight="10dp"
             android:paddingStart="24dp"
-            app:srcCompat="@drawable/ic_repeat_24dp"/>
+            app:srcCompat="@drawable/ic_repeat_24dp" />
 
         <TextView
             android:id="@+id/notification_text"
@@ -36,8 +35,8 @@
             android:layout_toRightOf="@id/notification_icon"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Someone favourited your status"
-            android:textColor="?android:textColorSecondary"/>
+            android:textColor="?android:textColorSecondary"
+            tools:text="Someone favourited your status" />
 
     </RelativeLayout>
 
@@ -52,7 +51,7 @@
         android:paddingRight="0dp"
         android:paddingStart="58dp"
         android:textColor="?android:textColorTertiary"
-        tools:text="Example status here"/>
+        tools:text="Example status here" />
 
     <ImageView
         android:id="@+id/notification_status_avatar"
@@ -68,7 +67,7 @@
         android:paddingRight="12dp"
         android:scaleType="fitCenter"
         tools:ignore="RtlHardcoded,RtlSymmetry"
-        tools:src="@drawable/avatar_default"/>
+        tools:src="@drawable/avatar_default" />
 
     <ImageView
         android:id="@+id/notification_notification_avatar"
@@ -79,6 +78,6 @@
         android:layout_alignRight="@id/notification_status_avatar"
         android:visibility="gone"
         tools:src="@color/accent"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
 </RelativeLayout>

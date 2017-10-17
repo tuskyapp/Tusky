@@ -80,7 +80,7 @@ public class SavedTootAdapter extends RecyclerView.Adapter {
         return toot;
     }
 
-    public TootEntity getItem(int position) {
+    private TootEntity getItem(int position) {
         if (position >= 0 && position < list.size()) {
             return list.get(position);
         }
@@ -111,8 +111,8 @@ public class SavedTootAdapter extends RecyclerView.Adapter {
         TootViewHolder(View view) {
             super(view);
             this.view = view;
-            this.content = (TextView) view.findViewById(R.id.content);
-            this.suppr = (ImageButton) view.findViewById(R.id.suppr);
+            this.content = view.findViewById(R.id.content);
+            this.suppr = view.findViewById(R.id.suppr);
         }
 
         void bind(final int position, final TootEntity item) {

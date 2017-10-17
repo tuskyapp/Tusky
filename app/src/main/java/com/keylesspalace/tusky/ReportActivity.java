@@ -65,7 +65,7 @@ public class ReportActivity extends BaseActivity {
         String statusId = intent.getStringExtra("status_id");
         String statusContent = intent.getStringExtra("status_content");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
@@ -77,7 +77,7 @@ public class ReportActivity extends BaseActivity {
         }
         anyView = toolbar;
 
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.report_recycler_view);
+        final RecyclerView recyclerView = findViewById(R.id.report_recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -95,7 +95,7 @@ public class ReportActivity extends BaseActivity {
                 HtmlUtils.fromHtml(statusContent), true);
         adapter.addItem(reportStatus);
 
-        comment = (EditText) findViewById(R.id.report_comment);
+        comment = findViewById(R.id.report_comment);
 
         reportAlreadyInFlight = false;
 

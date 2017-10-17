@@ -73,11 +73,11 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-        input = (LinearLayout) findViewById(R.id.login_input);
-        loading = (LinearLayout) findViewById(R.id.login_loading);
-        editText = (EditText) findViewById(R.id.edit_text_domain);
-        Button button = (Button) findViewById(R.id.button_login);
-        TextView whatsAnInstance = (TextView) findViewById(R.id.whats_an_instance);
+        input = findViewById(R.id.login_input);
+        loading = findViewById(R.id.login_loading);
+        editText = findViewById(R.id.edit_text_domain);
+        Button button = findViewById(R.id.button_login);
+        TextView whatsAnInstance = findViewById(R.id.whats_an_instance);
 
         if (savedInstanceState != null) {
             domain = savedInstanceState.getString("domain");
@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 })
                         .show();
-                TextView textView = (TextView) dialog.findViewById(android.R.id.message);
+                TextView textView = dialog.findViewById(android.R.id.message);
                 textView.setMovementMethod(LinkMovementMethod.getInstance());
             }
         });

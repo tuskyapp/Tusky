@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.interfaces;
 
 import android.view.View;
 
-import com.keylesspalace.tusky.adapter.StatusViewHolder;
 import com.keylesspalace.tusky.entity.Status;
 
 public interface StatusActionListener extends LinkListener {

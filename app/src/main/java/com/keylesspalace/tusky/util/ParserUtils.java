@@ -30,7 +30,7 @@ public class ParserUtils {
     }
 
     // ComposeActivity : EditText inside the onTextChanged
-    public String getPastedURLText(Context context) {
+    public void getPastedURLText(Context context) {
         ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         String pasteData;
         if (clipboard.hasPrimaryClip()) {
@@ -47,7 +47,6 @@ public class ParserUtils {
                 }
             }
         }
-        return null;
     }
 
     public void putInClipboardManager(Context context, String string) {

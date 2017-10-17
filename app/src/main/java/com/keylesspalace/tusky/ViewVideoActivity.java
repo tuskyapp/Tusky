@@ -42,10 +42,10 @@ public class ViewVideoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_video);
 
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.video_progress);
-        VideoView videoView = (VideoView) findViewById(R.id.video_player);
+        final ProgressBar progressBar = findViewById(R.id.video_progress);
+        VideoView videoView = findViewById(R.id.video_player);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
         if (bar != null) {

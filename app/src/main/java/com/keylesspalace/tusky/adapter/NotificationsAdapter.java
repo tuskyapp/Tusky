@@ -200,10 +200,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
         FollowViewHolder(View itemView) {
             super(itemView);
-            message = (TextView) itemView.findViewById(R.id.notification_text);
-            usernameView = (TextView) itemView.findViewById(R.id.notification_username);
-            displayNameView = (TextView) itemView.findViewById(R.id.notification_display_name);
-            avatar = (ImageView) itemView.findViewById(R.id.notification_avatar);
+            message = itemView.findViewById(R.id.notification_text);
+            usernameView = itemView.findViewById(R.id.notification_username);
+            displayNameView = itemView.findViewById(R.id.notification_display_name);
+            avatar = itemView.findViewById(R.id.notification_avatar);
         }
 
         void setMessage(String displayName, String username, String avatarUrl) {
@@ -247,13 +247,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
         StatusNotificationViewHolder(View itemView) {
             super(itemView);
-            message = (TextView) itemView.findViewById(R.id.notification_text);
-            icon = (ImageView) itemView.findViewById(R.id.notification_icon);
-            statusContent = (TextView) itemView.findViewById(R.id.notification_content);
-            container = (ViewGroup) itemView.findViewById(R.id.notification_container);
-            statusAvatar = (ImageView) itemView.findViewById(R.id.notification_status_avatar);
-            notificationAvatar = (ImageView)
-                    itemView.findViewById(R.id.notification_notification_avatar);
+            message = itemView.findViewById(R.id.notification_text);
+            icon = itemView.findViewById(R.id.notification_icon);
+            statusContent = itemView.findViewById(R.id.notification_content);
+            container = itemView.findViewById(R.id.notification_container);
+            statusAvatar = itemView.findViewById(R.id.notification_status_avatar);
+            notificationAvatar = itemView.findViewById(R.id.notification_notification_avatar);
             int darkerFilter = Color.rgb(123, 123, 123);
             statusAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
             notificationAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);

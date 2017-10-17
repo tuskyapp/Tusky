@@ -55,10 +55,10 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-        messageNoResults = (TextView) findViewById(R.id.message_no_results);
+        progressBar = findViewById(R.id.progress_bar);
+        messageNoResults = findViewById(R.id.message_no_results);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
@@ -67,7 +67,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
             bar.setDisplayShowTitleEnabled(false);
         }
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SearchResultsAdapter(this);

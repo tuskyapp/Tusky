@@ -26,9 +26,9 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
     StatusDetailedViewHolder(View view) {
         super(view);
-        reblogs = (TextView) view.findViewById(R.id.status_reblogs);
-        favourites = (TextView) view.findViewById(R.id.status_favourites);
-        application = (TextView) view.findViewById(R.id.status_application);
+        reblogs = view.findViewById(R.id.status_reblogs);
+        favourites = view.findViewById(R.id.status_favourites);
+        application = view.findViewById(R.id.status_application);
     }
 
     @Override

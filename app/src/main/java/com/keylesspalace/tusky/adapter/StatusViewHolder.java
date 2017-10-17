@@ -36,9 +36,9 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
     StatusViewHolder(View itemView) {
         super(itemView);
-        avatarReblog = (ImageView) itemView.findViewById(R.id.status_avatar_reblog);
+        avatarReblog = itemView.findViewById(R.id.status_avatar_reblog);
         rebloggedBar = itemView.findViewById(R.id.status_reblogged_bar);
-        rebloggedByDisplayName = (TextView) itemView.findViewById(R.id.status_reblogged);
+        rebloggedByDisplayName = itemView.findViewById(R.id.status_reblogged);
     }
 
     @Override

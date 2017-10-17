@@ -67,8 +67,8 @@ public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment
         supportPostponeEnterTransition();
 
         // Obtain the views.
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        viewPager = (ImageViewPager) findViewById(R.id.view_pager);
+        toolbar = findViewById(R.id.toolbar);
+        viewPager = findViewById(R.id.view_pager);
         anyView = toolbar;
 
         // Gather the parameters.

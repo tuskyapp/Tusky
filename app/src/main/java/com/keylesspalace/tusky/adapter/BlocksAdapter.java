@@ -83,10 +83,10 @@ public class BlocksAdapter extends AccountAdapter {
 
         BlockedUserViewHolder(View itemView) {
             super(itemView);
-            avatar = (CircularImageView) itemView.findViewById(R.id.blocked_user_avatar);
-            username = (TextView) itemView.findViewById(R.id.blocked_user_username);
-            displayName = (TextView) itemView.findViewById(R.id.blocked_user_display_name);
-            unblock = (ImageButton) itemView.findViewById(R.id.blocked_user_unblock);
+            avatar = itemView.findViewById(R.id.blocked_user_avatar);
+            username = itemView.findViewById(R.id.blocked_user_username);
+            displayName = itemView.findViewById(R.id.blocked_user_display_name);
+            unblock = itemView.findViewById(R.id.blocked_user_unblock);
         }
 
         void setupWithAccount(Account account) {

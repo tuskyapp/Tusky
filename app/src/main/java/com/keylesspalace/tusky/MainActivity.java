@@ -78,7 +78,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     private static final long DRAWER_ITEM_FOLLOW_REQUESTS = 8;
     private static final long DRAWER_ITEM_SAVED_TOOT = 9;
 
-    protected static int COMPOSE_RESULT = 1;
+    private static int COMPOSE_RESULT = 1;
 
     private FloatingActionButton composeButton;
     private String loggedInAccountId;
@@ -101,10 +101,10 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
             }
         }
 
-        FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
-        ImageButton drawerToggle = (ImageButton) findViewById(R.id.drawer_toggle);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        viewPager = (ViewPager) findViewById(R.id.pager);
+        FloatingActionButton floatingBtn = findViewById(R.id.floating_btn);
+        ImageButton drawerToggle = findViewById(R.id.drawer_toggle);
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        viewPager = findViewById(R.id.pager);
 
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override

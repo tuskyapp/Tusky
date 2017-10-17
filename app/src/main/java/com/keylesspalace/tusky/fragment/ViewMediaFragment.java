@@ -42,8 +42,8 @@ public class ViewMediaFragment extends BaseFragment {
 
     private PhotoViewAttacher attacher;
     private PhotoActionsListener photoActionsListener;
-    View rootView;
-    PhotoView photoView;
+    private View rootView;
+    private PhotoView photoView;
 
     private static final String ARG_START_POSTPONED_TRANSITION = "startPostponedTransition";
 
@@ -67,7 +67,7 @@ public class ViewMediaFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_view_media, container, false);
-        photoView = (PhotoView) rootView.findViewById(R.id.view_media_image);
+        photoView = rootView.findViewById(R.id.view_media_image);
 
         final Bundle arguments = getArguments();
         final String url = arguments.getString("url");

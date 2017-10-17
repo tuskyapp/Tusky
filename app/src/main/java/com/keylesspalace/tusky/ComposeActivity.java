@@ -169,20 +169,20 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
-        textEditor = (EditTextTyped) findViewById(R.id.compose_edit_field);
-        mediaPreviewBar = (LinearLayout) findViewById(R.id.compose_media_preview_bar);
+        textEditor = findViewById(R.id.compose_edit_field);
+        mediaPreviewBar = findViewById(R.id.compose_media_preview_bar);
         contentWarningBar = findViewById(R.id.compose_content_warning_bar);
-        contentWarningEditor = (EditText) findViewById(R.id.field_content_warning);
-        charactersLeft = (TextView) findViewById(R.id.characters_left);
-        floatingBtn = (Button) findViewById(R.id.floating_btn);
-        pickButton = (ImageButton) findViewById(R.id.compose_photo_pick);
-        visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
-        saveButton = (ImageButton) findViewById(R.id.compose_save_draft);
-        hideMediaToggle = (ImageButton) findViewById(R.id.action_hide_media);
-        postProgress = (ProgressBar) findViewById(R.id.postProgress);
+        contentWarningEditor = findViewById(R.id.field_content_warning);
+        charactersLeft = findViewById(R.id.characters_left);
+        floatingBtn = findViewById(R.id.floating_btn);
+        pickButton = findViewById(R.id.compose_photo_pick);
+        visibilityBtn = findViewById(R.id.action_toggle_visibility);
+        saveButton = findViewById(R.id.compose_save_draft);
+        hideMediaToggle = findViewById(R.id.action_hide_media);
+        postProgress = findViewById(R.id.postProgress);
 
         // Setup the toolbar.
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -666,7 +666,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         return c;
     }
 
-    public boolean saveTheToot(String s, @Nullable String contentWarning) {
+    private boolean saveTheToot(String s, @Nullable String contentWarning) {
         if (TextUtils.isEmpty(s)) {
             return false;
         }
@@ -789,13 +789,13 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         updateVisibleCharactersLeft();
     }
 
-    void setStateToReadying() {
+    private void setStateToReadying() {
         statusAlreadyInFlight = true;
         disableButtons();
         postProgress.setVisibility(View.VISIBLE);
     }
 
-    void setStateToNotReadying() {
+    private void setStateToNotReadying() {
         postProgress.setVisibility(View.INVISIBLE);
         statusAlreadyInFlight = false;
         enableButtons();
@@ -1706,9 +1706,9 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
             Account account = getItem(position);
             if (account != null) {
-                TextView username = (TextView) view.findViewById(R.id.username);
-                TextView displayName = (TextView) view.findViewById(R.id.display_name);
-                ImageView avatar = (ImageView) view.findViewById(R.id.avatar);
+                TextView username = view.findViewById(R.id.username);
+                TextView displayName = view.findViewById(R.id.display_name);
+                ImageView avatar = view.findViewById(R.id.avatar);
                 String format = getContext().getString(R.string.status_username_format);
                 String formattedUsername = String.format(format, account.username);
                 username.setText(formattedUsername);

@@ -33,7 +33,7 @@ public class ViewTagActivity extends BaseActivity {
 
         String hashtag = getIntent().getStringExtra("hashtag");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
 

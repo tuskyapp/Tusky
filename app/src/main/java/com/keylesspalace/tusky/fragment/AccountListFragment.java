@@ -117,7 +117,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         View rootView = inflater.inflate(R.layout.fragment_account_list, container, false);
 
         Context context = getContext();
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -153,7 +153,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         BaseActivity activity = (BaseActivity) getActivity();
 
         if (jumpToTopAllowed()) {
-            TabLayout layout = (TabLayout) activity.findViewById(R.id.tab_layout);
+            TabLayout layout = activity.findViewById(R.id.tab_layout);
             onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {}
@@ -226,7 +226,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
     @Override
     public void onDestroyView() {
         if (jumpToTopAllowed()) {
-            TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
+            TabLayout tabLayout = getActivity().findViewById(R.id.tab_layout);
             tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
         }
         super.onDestroyView();

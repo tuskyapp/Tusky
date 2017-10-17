@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.SavedTootAction {
-    public static final String TAG = "SavedTootActivity"; // logging tag
+    private static final String TAG = "SavedTootActivity"; // logging tag
 
     // dao
     private static TootDao tootDao = TuskyApplication.getDB().tootDao();
@@ -55,7 +55,7 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_toot);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
@@ -64,8 +64,8 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
             bar.setDisplayShowHomeEnabled(true);
         }
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        noContent = (TextView) findViewById(R.id.no_content);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        noContent = findViewById(R.id.no_content);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -98,7 +98,7 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
         return super.onOptionsItemSelected(item);
     }
 
-    public void getAllToot() {
+    private void getAllToot() {
         new AsyncTask<Void, Void, List<TootEntity>>() {
             @Override
             protected List<TootEntity> doInBackground(Void... params) {

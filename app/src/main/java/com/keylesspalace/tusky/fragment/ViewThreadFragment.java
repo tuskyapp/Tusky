@@ -64,7 +64,7 @@ public class ViewThreadFragment extends SFragment implements
     private String thisThreadsStatusId;
     private TimelineReceiver timelineReceiver;
 
-    int statusIndex = 0;
+    private int statusIndex = 0;
 
     private final PairedList<Status, StatusViewData> statuses =
             new PairedList<>(ViewDataUtils.statusMapper());
@@ -84,10 +84,10 @@ public class ViewThreadFragment extends SFragment implements
         View rootView = inflater.inflate(R.layout.fragment_view_thread, container, false);
 
         Context context = getContext();
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -335,7 +335,7 @@ public class ViewThreadFragment extends SFragment implements
         }
     }
 
-    public int setStatus(Status status) {
+    private int setStatus(Status status) {
         if (statuses.size() > 0
                 && statusIndex < statuses.size()
                 && statuses.get(statusIndex).equals(status)) {
@@ -350,7 +350,7 @@ public class ViewThreadFragment extends SFragment implements
         return i;
     }
 
-    public void setContext(List<Status> ancestors, List<Status> descendants) {
+    private void setContext(List<Status> ancestors, List<Status> descendants) {
         Status mainStatus = null;
 
         // In case of refresh, remove old ancestors and descendants first. We'll remove all blindly,

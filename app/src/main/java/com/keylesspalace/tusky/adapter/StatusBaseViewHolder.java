@@ -60,30 +60,30 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     StatusBaseViewHolder(View itemView) {
         super(itemView);
         container = itemView.findViewById(R.id.status_container);
-        displayName = (TextView) itemView.findViewById(R.id.status_display_name);
-        username = (TextView) itemView.findViewById(R.id.status_username);
-        timestamp = (TextView) itemView.findViewById(R.id.status_timestamp);
-        content = (TextView) itemView.findViewById(R.id.status_content);
-        avatar = (ImageView) itemView.findViewById(R.id.status_avatar);
-        replyButton = (ImageButton) itemView.findViewById(R.id.status_reply);
-        reblogButton = (SparkButton) itemView.findViewById(R.id.status_reblog);
-        favouriteButton = (SparkButton) itemView.findViewById(R.id.status_favourite);
-        moreButton = (ImageButton) itemView.findViewById(R.id.status_more);
+        displayName = itemView.findViewById(R.id.status_display_name);
+        username = itemView.findViewById(R.id.status_username);
+        timestamp = itemView.findViewById(R.id.status_timestamp);
+        content = itemView.findViewById(R.id.status_content);
+        avatar = itemView.findViewById(R.id.status_avatar);
+        replyButton = itemView.findViewById(R.id.status_reply);
+        reblogButton = itemView.findViewById(R.id.status_reblog);
+        favouriteButton = itemView.findViewById(R.id.status_favourite);
+        moreButton = itemView.findViewById(R.id.status_more);
         reblogged = false;
         favourited = false;
-        mediaPreview0 = (ImageView) itemView.findViewById(R.id.status_media_preview_0);
-        mediaPreview1 = (ImageView) itemView.findViewById(R.id.status_media_preview_1);
-        mediaPreview2 = (ImageView) itemView.findViewById(R.id.status_media_preview_2);
-        mediaPreview3 = (ImageView) itemView.findViewById(R.id.status_media_preview_3);
+        mediaPreview0 = itemView.findViewById(R.id.status_media_preview_0);
+        mediaPreview1 = itemView.findViewById(R.id.status_media_preview_1);
+        mediaPreview2 = itemView.findViewById(R.id.status_media_preview_2);
+        mediaPreview3 = itemView.findViewById(R.id.status_media_preview_3);
         sensitiveMediaWarning = itemView.findViewById(R.id.status_sensitive_media_warning);
         sensitiveMediaShow = itemView.findViewById(R.id.status_sensitive_media_button);
         videoIndicator = itemView.findViewById(R.id.status_video_indicator);
-        mediaLabel = (TextView) itemView.findViewById(R.id.status_media_label);
+        mediaLabel = itemView.findViewById(R.id.status_media_label);
         contentWarningBar = itemView.findViewById(R.id.status_content_warning_bar);
         contentWarningDescription =
-                (TextView) itemView.findViewById(R.id.status_content_warning_description);
+                itemView.findViewById(R.id.status_content_warning_description);
         contentWarningButton =
-                (ToggleButton) itemView.findViewById(R.id.status_content_warning_button);
+                itemView.findViewById(R.id.status_content_warning_button);
     }
 
     private void setDisplayName(String name) {

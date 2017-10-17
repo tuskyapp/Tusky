@@ -95,17 +95,17 @@ public class EditProfileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        ImageButton headerButton = (ImageButton) findViewById(R.id.edit_profile_header);
-        headerPreview = (ImageView) findViewById(R.id.edit_profile_header_preview);
-        headerProgress = (ProgressBar) findViewById(R.id.edit_profile_header_progress);
-        avatarButton = (ImageButton) findViewById(R.id.edit_profile_avatar);
-        avatarPreview = (ImageView) findViewById(R.id.edit_profile_avatar_preview);
-        avatarProgress = (ProgressBar) findViewById(R.id.edit_profile_avatar_progress);
-        displayNameEditText = (EditText) findViewById(R.id.edit_profile_display_name);
-        noteEditText = (EditText) findViewById(R.id.edit_profile_note);
-        saveProgress = (ProgressBar) findViewById(R.id.edit_profile_save_progress);
+        ImageButton headerButton = findViewById(R.id.edit_profile_header);
+        headerPreview = findViewById(R.id.edit_profile_header_preview);
+        headerProgress = findViewById(R.id.edit_profile_header_progress);
+        avatarButton = findViewById(R.id.edit_profile_avatar);
+        avatarPreview = findViewById(R.id.edit_profile_avatar_preview);
+        avatarProgress = findViewById(R.id.edit_profile_avatar_progress);
+        displayNameEditText = findViewById(R.id.edit_profile_display_name);
+        noteEditText = findViewById(R.id.edit_profile_note);
+        saveProgress = findViewById(R.id.edit_profile_save_progress);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -171,8 +171,8 @@ public class EditProfileActivity extends BaseActivity {
                 priorDisplayName = me.getDisplayName();
                 priorNote = me.note.toString();
                 CircularImageView avatar =
-                        (CircularImageView) findViewById(R.id.edit_profile_avatar_preview);
-                ImageView header = (ImageView) findViewById(R.id.edit_profile_header_preview);
+                        findViewById(R.id.edit_profile_avatar_preview);
+                ImageView header = findViewById(R.id.edit_profile_header_preview);
 
                 displayNameEditText.setText(priorDisplayName);
                 noteEditText.setText(priorNote);
