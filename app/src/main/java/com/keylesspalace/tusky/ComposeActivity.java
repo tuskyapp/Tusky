@@ -687,7 +687,9 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             if (!ListUtils.isEmpty(savedList)) {
                 String json = new Gson().toJson(savedList);
                 toot.setUrls(json);
-                deleteMedia(setDifference(existingUris, savedList));
+                if(!ListUtils.isEmpty(existingUris)) {
+                    deleteMedia(setDifference(existingUris, savedList));
+                }
             } else {
                 return false;
             }
