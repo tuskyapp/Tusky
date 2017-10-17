@@ -20,4 +20,5 @@
     <dimen name="tab_page_margin">8dp</dimen>
     <dimen name="status_left_line_margin">38dp</dimen>
     <dimen name="text_content_margin">16dp</dimen>
+    <dimen name="status_sensitive_media_button_padding">5dp</dimen>
 </resources>

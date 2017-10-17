@@ -47,6 +47,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private ImageView mediaPreview2;
     private ImageView mediaPreview3;
     private View sensitiveMediaWarning;
+    private View sensitiveMediaShow;
     private View videoIndicator;
     private TextView mediaLabel;
     private View contentWarningBar;
@@ -75,6 +76,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         mediaPreview2 = (ImageView) itemView.findViewById(R.id.status_media_preview_2);
         mediaPreview3 = (ImageView) itemView.findViewById(R.id.status_media_preview_3);
         sensitiveMediaWarning = itemView.findViewById(R.id.status_sensitive_media_warning);
+        sensitiveMediaShow = itemView.findViewById(R.id.status_sensitive_media_button);
         videoIndicator = itemView.findViewById(R.id.status_video_indicator);
         mediaLabel = (TextView) itemView.findViewById(R.id.status_media_label);
         contentWarningBar = itemView.findViewById(R.id.status_content_warning_bar);
@@ -230,6 +232,14 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         Boolean isAlwayShowSensitive = pm.getBoolean("alwayShowSensitiveMedia",false);
         if (sensitive && (!isAlwayShowSensitive)) {
             sensitiveMediaWarning.setVisibility(showingSensitive ? View.GONE : View.VISIBLE);
+            sensitiveMediaShow.setVisibility(showingSensitive ? View.VISIBLE : View.GONE);
+            sensitiveMediaShow.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    v.setVisibility(View.GONE);
+                    sensitiveMediaWarning.setVisibility(View.VISIBLE);
+                }
+            });
             sensitiveMediaWarning.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -237,7 +247,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                         listener.onContentHiddenChange(true, getAdapterPosition());
                     }
                     v.setVisibility(View.GONE);
-                    v.setOnClickListener(null);
+                    sensitiveMediaShow.setVisibility(View.VISIBLE);
                 }
             });
         }
@@ -312,6 +322,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private void hideSensitiveMediaWarning() {
         sensitiveMediaWarning.setVisibility(View.GONE);
+        sensitiveMediaShow.setVisibility(View.GONE);
     }
 
     private void setSpoilerText(String spoilerText, final boolean expanded,
