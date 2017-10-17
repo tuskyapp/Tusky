@@ -100,6 +100,8 @@
     <string name="action_reject">拒否</string>
     <string name="action_search">検索</string>
     <string name="action_access_saved_toot">下書き</string>
+    <string name="action_copy_link">リンクをコピー</string>
+    <string name="download_image">%1$s をダウンロードしています</string>
 
     <string name="send_status_link_to">トゥートのURLを共有…</string>
     <string name="send_status_content_to">トゥートを共有…</string>
@@ -199,5 +201,6 @@
     <string name="action_save_one_toot">下書きに保存しました！</string>
     
     <string name="follows_you">あなたをフォロー中</string>
+    <string name="pref_title_alway_show_sensitive_media">常にすべての閲覧注意なコンテンツを表示する</string>
 
 </resources>
