@@ -97,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/button_dark"
-                android:text="Paste link info?"
+                android:text="@string/action_add_link_info"
                 android:textAllCaps="false"
                 android:gravity="start|center_vertical"
                 android:paddingLeft="16dp"
