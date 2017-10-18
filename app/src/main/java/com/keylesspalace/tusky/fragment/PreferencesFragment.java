@@ -15,9 +15,14 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
 
+import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
 
 public class PreferencesFragment extends PreferenceFragment {
@@ -25,5 +30,26 @@ public class PreferencesFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
+
+
+        //on Android O and newer, launch the system notification settings instead of the app settings
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            PreferenceScreen notificationPreferences  = (PreferenceScreen) findPreference("notificationSettings");
+            notificationPreferences.removeAll();
+            notificationPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent();
+                    intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+
+                    intent.putExtra("android.provider.extra.APP_PACKAGE", BuildConfig.APPLICATION_ID);
+
+                    startActivity(intent);
+                    return true;
+                }
+            });
+
+
+        }
     }
 }

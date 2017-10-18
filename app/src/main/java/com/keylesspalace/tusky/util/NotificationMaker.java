@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.util;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -28,6 +29,7 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.keylesspalace.tusky.MainActivity;
@@ -41,8 +43,17 @@ import com.squareup.picasso.Target;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NotificationMaker {
     public static final String TAG = "NotificationMaker";
+
+    /** notification channels used on Android O+ **/
+    private static final String CHANNEL_MENTION = "CHANNEL_MENTION";
+    private static final String CHANNEL_FOLLOW = "CHANNEL_FOLLOW";
+    private static final String CHANNEL_BOOST = "CHANNEL_BOOST";
+    private static final String CHANNEL_FAVOURITE =" CHANNEL_FAVOURITE";
 
     /**
      * Takes a given Mastodon notification and either creates a new Android notification or updates
@@ -61,6 +72,8 @@ public class NotificationMaker {
         if (!filterNotification(preferences, body)) {
             return;
         }
+
+        createNotificationChannels(context);
 
         String rawCurrentNotifications = notificationPreferences.getString("current", "[]");
         JSONArray currentNotifications;
@@ -103,11 +116,14 @@ public class NotificationMaker {
         PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, 0, deleteIntent,
                 PendingIntent.FLAG_CANCEL_CURRENT);
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, getChannelId(body))
                 .setSmallIcon(R.drawable.ic_notify)
                 .setContentIntent(resultPendingIntent)
                 .setDeleteIntent(deletePendingIntent)
+                .setColor(ContextCompat.getColor(context, (R.color.primary)))
                 .setDefaults(0); // So it doesn't ring twice, notify only in Target callback
+
+        setupPreferences(preferences, builder);
 
         if (currentNotifications.length() == 1) {
             builder.setContentTitle(titleForType(context, body))
@@ -117,8 +133,6 @@ public class NotificationMaker {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                     builder.setLargeIcon(bitmap);
-
-                    setupPreferences(preferences, builder);
 
                     NotificationManager notificationManager = (NotificationManager)
                             context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -138,7 +152,6 @@ public class NotificationMaker {
                     .transform(new RoundedTransformation(7, 0))
                     .into(target);
         } else {
-            setupPreferences(preferences, builder);
             try {
                 String format = context.getString(R.string.notification_title_summary);
                 String title = String.format(format, currentNotifications.length());
@@ -160,9 +173,55 @@ public class NotificationMaker {
         notificationManager.notify(notifyId, builder.build());
     }
 
+    private static void createNotificationChannels(Context context) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            String[] channelIds = new String[]{CHANNEL_MENTION, CHANNEL_FOLLOW, CHANNEL_BOOST, CHANNEL_FAVOURITE};
+            int[] channelNames = {
+                    R.string.notification_channel_mention_name,
+                    R.string.notification_channel_follow_name,
+                    R.string.notification_channel_boost_name,
+                    R.string.notification_channel_favourite_name
+            };
+            int[] channelDescriptions = {
+                    R.string.notification_channel_mention_descriptions,
+                    R.string.notification_channel_follow_description,
+                    R.string.notification_channel_boost_description,
+                    R.string.notification_channel_favourite_description
+            };
+
+            List<NotificationChannel> channels = new ArrayList<>(4);
+
+            for(int i=0; i<channelIds.length; i++) {
+                String id = channelIds[i];
+                String name = context.getString(channelNames[i]);
+                String description = context.getString(channelDescriptions[i]);
+                int importance = NotificationManager.IMPORTANCE_DEFAULT;
+                NotificationChannel channel = new NotificationChannel(id, name, importance);
+
+                channel.setDescription(description);
+                channel.enableLights(true);
+                channel.enableVibration(true);
+                channel.setShowBadge(true);
+                channels.add(channel);
+            }
+
+            mNotificationManager.createNotificationChannels(channels);
+
+        }
+    }
+
     private static boolean filterNotification(SharedPreferences preferences,
             Notification notification) {
-        switch (notification.type) {
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return true;  //do not filter on Android O or newer, the system does it for us
+        }
+
+            switch (notification.type) {
             default:
             case MENTION:
                 return preferences.getBoolean("notificationFilterMentions", true);
@@ -175,6 +234,21 @@ public class NotificationMaker {
         }
     }
 
+    private static String getChannelId(Notification notification) {
+            switch (notification.type) {
+                default:
+                case MENTION:
+                    return CHANNEL_MENTION;
+                case FOLLOW:
+                    return CHANNEL_FOLLOW;
+                case REBLOG:
+                    return CHANNEL_BOOST;
+                case FAVOURITE:
+                    return CHANNEL_FAVOURITE;
+            }
+
+    }
+
     private static String truncateWithEllipses(String string, int limit) {
         if (string.length() < limit) {
             return string;
@@ -185,6 +259,11 @@ public class NotificationMaker {
 
     private static void setupPreferences(SharedPreferences preferences,
             NotificationCompat.Builder builder) {
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return;  //do nothing on Android O or newer, the system uses the channel settings anyway
+        }
+
         if (preferences.getBoolean("notificationAlertSound", true)) {
             builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
         }
@@ -245,4 +324,5 @@ public class NotificationMaker {
         }
         return null;
     }
+
 }

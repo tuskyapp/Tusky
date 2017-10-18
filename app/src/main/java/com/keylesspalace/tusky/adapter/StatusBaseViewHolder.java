@@ -229,7 +229,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
         }
         SharedPreferences pm = PreferenceManager.getDefaultSharedPreferences(context);
-        Boolean isAlwayShowSensitive = pm.getBoolean("alwayShowSensitiveMedia",false);
+        Boolean isAlwayShowSensitive = pm.getBoolean("alwayShowSensitiveMedia", false);
         if (sensitive && (!isAlwayShowSensitive)) {
             sensitiveMediaWarning.setVisibility(showingSensitive ? View.GONE : View.VISIBLE);
             sensitiveMediaShow.setVisibility(showingSensitive ? View.VISIBLE : View.GONE);

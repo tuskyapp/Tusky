@@ -46,6 +46,8 @@ public class PreferencesActivity extends BaseActivity
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new PreferencesFragment())
                 .commit();
+
+
     }
 
     private void saveInstanceState(Bundle outState) {

@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.Spanned;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -58,6 +59,9 @@ public class PullNotificationService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+
+        Log.d("PullNotifications", "pulling for notification");
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                 getApplicationContext());
         boolean enabled = preferences.getBoolean("notificationsEnabled", true);

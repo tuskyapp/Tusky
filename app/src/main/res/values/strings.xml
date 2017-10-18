@@ -173,6 +173,16 @@
     <string name="pref_title_show_replies">Show replies</string>
     <string name="pref_title_show_media_preview">Show media previews</string>
 
+    <string name="notification_channel_mention_name">New Mentions</string>
+    <string name="notification_channel_mention_descriptions">Notifications about new mentions</string>
+    <string name="notification_channel_follow_name">New Followers</string>
+    <string name="notification_channel_follow_description">Notifications about new followers</string>
+    <string name="notification_channel_boost_name">Boosts</string>
+    <string name="notification_channel_boost_description">Notifications when your toots get boosted</string>
+    <string name="notification_channel_favourite_name">Favourites</string>
+    <string name="notification_channel_favourite_description">Notifications when your toots get mark as favourite</string>
+
+
     <string name="notification_mention_format">%s mentioned you</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
     <string name="notification_summary_medium">%1$s, %2$s, and %3$s</string>
