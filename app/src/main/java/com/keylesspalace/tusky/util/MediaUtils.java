@@ -113,6 +113,7 @@ public class MediaUtils {
                             mediaListener.onCallback(uriForFile);
                         } catch (IOException e) {
                             e.printStackTrace();
+                            mediaListener.onError();
                         } finally {
                             try {
                                 if (fos != null) {
@@ -128,6 +129,7 @@ public class MediaUtils {
 
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
+                mediaListener.onError();
             }
 
             @Override
@@ -138,5 +140,6 @@ public class MediaUtils {
 
     public interface MediaListener {
         void onCallback(Uri headerInfo);
+        void onError();
     }
 }

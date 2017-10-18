@@ -15,15 +15,22 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:layout_marginBottom="8dp"
             android:background="@android:color/transparent" />
+
+        <ProgressBar
+            android:id="@+id/postProgress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"/>
 
         <LinearLayout
             android:id="@+id/compose_content_warning_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="4dp">
 
             <EditText
                 android:id="@+id/field_content_warning"
@@ -84,13 +91,6 @@
                 </LinearLayout>
 
             </HorizontalScrollView>
-
-            <ProgressBar
-                android:id="@+id/postProgress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true" />
 
             <Button
                 android:id="@+id/btn_add_link_info"

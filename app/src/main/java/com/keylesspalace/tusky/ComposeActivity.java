@@ -394,6 +394,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 addLinkInfoView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        postProgress.setVisibility(View.VISIBLE);
                         ParserUtils.getUrlInfo(maybeUrl, ComposeActivity.this);
                         addLinkInfoView.setAlpha(0);
                         addLinkInfoView.setVisibility(View.GONE);
@@ -1559,28 +1560,49 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 }
             });
 
-            target = MediaUtils.picassoImageTarget(ComposeActivity.this, new MediaUtils.MediaListener() {
-                @Override
-                public void onCallback(final Uri headerInfo) {
-                    if (headerInfo != null) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                long mediaSize = MediaUtils.getMediaSize(getContentResolver(),
-                                        headerInfo);
-                                pickMedia(headerInfo, mediaSize);
+            target = MediaUtils.picassoImageTarget(ComposeActivity.this,
+                    new MediaUtils.MediaListener() {
+                        @Override
+                        public void onCallback(final Uri headerInfo) {
+                            if (headerInfo != null) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        long mediaSize = MediaUtils
+                                                .getMediaSize(getContentResolver(), headerInfo);
+                                        pickMedia(headerInfo, mediaSize);
+                                        hideProgressIfStatusIsNotInFlight();
+                                    }
+                                });
                             }
-                        });
-                    }
-                }
-            });
+                        }
+
+                        @Override
+                        public void onError() {
+                            hideProgressIfStatusIsNotInFlight();
+                        }
+                    });
             Picasso.with(this).load(headerInfo.image).into(target);
+        } else {
+            hideProgressIfStatusIsNotInFlight();
         }
     }
 
     @Override
     public void onErrorHeaderInfo() {
+        hideProgressIfStatusIsNotInFlight();
         displayTransientError(R.string.error_generic);
+    }
+
+    private void hideProgressIfStatusIsNotInFlight() {
+        if (!statusAlreadyInFlight) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    postProgress.setVisibility(View.INVISIBLE);
+                }
+            });
+        }
     }
 
     /**
