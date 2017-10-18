@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_compose"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -22,8 +22,8 @@
             android:id="@+id/compose_content_warning_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/field_content_warning"
@@ -31,44 +31,47 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:ems="10"
+                android:hint="@string/hint_content_warning"
+                android:inputType="text|textCapSentences"
                 android:maxLines="1"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:hint="@string/hint_content_warning"
-                android:inputType="text|textCapSentences" />
+                android:paddingRight="16dp" />
 
             <View
-                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="8dp"
                 android:background="?android:attr/listDivider" />
 
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/container_compose_field"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:paddingBottom="4dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:paddingBottom="4dp">
 
             <com.keylesspalace.tusky.view.EditTextTyped
+                android:id="@+id/compose_edit_field"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/compose_edit_field"
                 android:background="@android:color/transparent"
+                android:completionThreshold="2"
+                android:dropDownWidth="wrap_content"
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="@string/hint_compose"
                 android:inputType="text|textMultiLine|textCapSentences"
-                android:dropDownWidth="wrap_content"
-                android:completionThreshold="2" />
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"/>
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true">
+                android:layout_alignParentBottom="true"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
                 <LinearLayout
                     android:id="@+id/compose_media_preview_bar"
@@ -89,6 +92,23 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true" />
 
+            <Button
+                android:id="@+id/btn_add_link_info"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/button_dark"
+                android:text="Paste link info?"
+                android:textAllCaps="false"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:alpha="0"
+                tools:alpha="1"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:layout_alignParentBottom="true"
+                />
+
         </RelativeLayout>
 
         <LinearLayout
@@ -96,10 +116,10 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:paddingBottom="8dp"
-            android:paddingStart="8dp"
-            android:paddingLeft="8dp"
             android:paddingEnd="16dp"
+            android:paddingLeft="8dp"
             android:paddingRight="16dp"
+            android:paddingStart="8dp"
             android:paddingTop="4dp">
 
             <ImageButton
@@ -107,57 +127,57 @@
                 style="?attr/image_button_style"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:paddingStart="4dp"
-                android:paddingLeft="4dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="4dp"
-                android:paddingRight="4dp"
+                android:contentDescription="@string/action_photo_pick"
                 android:paddingBottom="4dp"
-                app:srcCompat="@drawable/ic_attach_file_24dp"
-                android:contentDescription="@string/action_photo_pick" />
+                android:paddingEnd="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingStart="4dp"
+                android:paddingTop="4dp"
+                app:srcCompat="@drawable/ic_attach_file_24dp" />
 
             <ImageButton
                 android:id="@+id/action_toggle_visibility"
                 style="?attr/image_button_style"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:paddingStart="4dp"
-                android:paddingLeft="4dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="4dp"
-                android:paddingRight="4dp"
+                android:contentDescription="@string/action_compose_options"
                 android:paddingBottom="4dp"
-                app:srcCompat="@drawable/ic_public_24dp"
-                android:contentDescription="@string/action_compose_options" />
+                android:paddingEnd="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingStart="4dp"
+                android:paddingTop="4dp"
+                app:srcCompat="@drawable/ic_public_24dp" />
 
             <ImageButton
                 android:id="@+id/compose_save_draft"
                 style="?attr/image_button_style"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:paddingStart="4dp"
-                android:paddingLeft="4dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="4dp"
-                android:paddingRight="4dp"
+                android:contentDescription="@string/action_save"
                 android:paddingBottom="4dp"
-                app:srcCompat="@drawable/ic_save_24dp"
-                android:contentDescription="@string/action_save" />
+                android:paddingEnd="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingStart="4dp"
+                android:paddingTop="4dp"
+                app:srcCompat="@drawable/ic_save_24dp" />
 
             <ImageButton
                 android:id="@+id/action_hide_media"
                 style="?attr/image_button_style"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:paddingStart="4dp"
-                android:paddingLeft="4dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="4dp"
-                android:paddingRight="4dp"
-                android:paddingBottom="4dp"
-                app:srcCompat="@drawable/ic_hide_media_24dp"
                 android:contentDescription="@string/action_hide_media"
-                android:visibility="gone" />
+                android:paddingBottom="4dp"
+                android:paddingEnd="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingStart="4dp"
+                android:paddingTop="4dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_hide_media_24dp" />
 
             <android.support.v4.widget.Space
                 android:layout_width="0dp"
@@ -172,11 +192,11 @@
 
             <Button
                 android:id="@+id/floating_btn"
-                android:background="@drawable/compose_button_colors"
                 android:layout_width="80dp"
                 android:layout_height="35dp"
-                android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/compose_button_colors"
                 android:text="@string/action_send"
                 android:textColor="@android:color/white" />
 

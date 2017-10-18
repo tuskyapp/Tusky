@@ -16,6 +16,8 @@
 package com.keylesspalace.tusky;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -145,6 +147,9 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private ProgressBar postProgress;
     // this only exists when a status is trying to be sent, but uploads are still occurring
     private ProgressDialog finishingUploadDialog;
+    View rootView;
+    TextView addLinkInfoView;
+
     private String inReplyToId;
     private ArrayList<QueuedMedia> mediaQueued;
     private CountUpDownLatch waitForMediaLatch;
@@ -157,6 +162,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private int currentFlags;
     private Uri photoUploadUri;
     private int savedTootUid = 0;
+    private Runnable hideLinkInfoButtonRunnable;
 
     /**
      * The Target object must be stored as a member field or method and cannot be an anonymous class otherwise this won't work as expected. The reason is that Picasso accepts this parameter as a weak memory reference. Because anonymous classes are eligible for garbage collection when there are no more references, the network request to fetch the image may finish after this anonymous class has already been reclaimed. See this Stack Overflow discussion for more details.
@@ -169,6 +175,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
+        rootView = findViewById(R.id.activity_compose);
         textEditor = findViewById(R.id.compose_edit_field);
         mediaPreviewBar = findViewById(R.id.compose_media_preview_bar);
         contentWarningBar = findViewById(R.id.compose_content_warning_bar);
@@ -180,6 +187,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         saveButton = findViewById(R.id.compose_save_draft);
         hideMediaToggle = findViewById(R.id.action_hide_media);
         postProgress = findViewById(R.id.postProgress);
+        addLinkInfoView = findViewById(R.id.btn_add_link_info);
 
         // Setup the toolbar.
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -314,7 +322,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             if (!TextUtils.isEmpty(savedJsonUrls)) {
                 // try to redo a list of media
                 loadedDraftMediaUris = new Gson().fromJson(savedJsonUrls,
-                        new TypeToken<ArrayList<String>>() {}.getType());
+                        new TypeToken<ArrayList<String>>() {
+                        }.getType());
             }
 
             int savedTootUid = intent.getIntExtra("saved_toot_uid", 0);
@@ -334,8 +343,6 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         postProgress.setVisibility(View.INVISIBLE);
         updateHideMediaToggleColor();
         updateVisibleCharactersLeft();
-
-        final ParserUtils parser = new ParserUtils(this);
 
         // Setup the main text field.
         setEditTextMimeTypes(null); // new String[] { "image/gif", "image/webp" }
@@ -357,10 +364,42 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             }
         });
 
+        hideLinkInfoButtonRunnable = new Runnable() {
+            @Override
+            public void run() {
+                addLinkInfoView.animate().alpha(0)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                addLinkInfoView.setVisibility(View.GONE);
+                            }
+                        })
+                        .start();
+            }
+        };
+
         textEditor.addOnPasteListener(new EditTextTyped.OnPasteListener() {
             @Override
             public void onPaste() {
-                parser.getPastedURLText(ComposeActivity.this);
+                @Nullable final String maybeUrl =
+                        ParserUtils.getClipboardUrl(getApplicationContext());
+                if (maybeUrl == null) return;
+
+                addLinkInfoView.removeCallbacks(hideLinkInfoButtonRunnable);
+
+                addLinkInfoView.setAlpha(0);
+                addLinkInfoView.setVisibility(View.VISIBLE);
+                addLinkInfoView.animate().alpha(1).setListener(null).start();
+
+                addLinkInfoView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ParserUtils.getUrlInfo(maybeUrl, ComposeActivity.this);
+                        addLinkInfoView.setAlpha(0);
+                        addLinkInfoView.setVisibility(View.GONE);
+                    }
+                });
+                addLinkInfoView.postDelayed(hideLinkInfoButtonRunnable, 3500);
             }
         });
 
@@ -405,7 +444,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         statusAlreadyInFlight = false;
 
         // These can only be added after everything affected by the media queue is initialized.
-         if (!ListUtils.isEmpty(loadedDraftMediaUris)) {
+        if (!ListUtils.isEmpty(loadedDraftMediaUris)) {
             for (String uriString : loadedDraftMediaUris) {
                 Uri uri = Uri.parse(uriString);
                 long mediaSize = MediaUtils.getMediaSize(getContentResolver(), uri);
@@ -459,7 +498,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                             int right = Math.max(start, end);
                             textEditor.getText().replace(left, right, text, 0, text.length());
 
-                            parser.putInClipboardManager(this, text);
+                            ParserUtils.putInClipboardManager(this, text);
                             textEditor.onPaste();
                         }
                     }
@@ -493,14 +532,13 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     private void doErrorDialog(@StringRes int descriptionId, @StringRes int actionId,
                                View.OnClickListener listener) {
-        Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(descriptionId),
-                Snackbar.LENGTH_SHORT);
-        bar.setAction(actionId, listener);
-        bar.show();
+        Snackbar.make(rootView, getString(descriptionId), Snackbar.LENGTH_SHORT)
+                .setAction(actionId, listener)
+                .show();
     }
 
     private void displayTransientError(@StringRes int stringId) {
-        Snackbar.make(findViewById(R.id.activity_compose), stringId, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(rootView, stringId, Snackbar.LENGTH_LONG).show();
     }
 
     private void toggleHideMedia() {
@@ -613,8 +651,12 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             File directory;
             switch (item.type) {
                 default:
-                case IMAGE: directory = imageDirectory; break;
-                case VIDEO: directory = videoDirectory; break;
+                case IMAGE:
+                    directory = imageDirectory;
+                    break;
+                case VIDEO:
+                    directory = videoDirectory;
+                    break;
             }
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
                     .format(new Date());
@@ -654,6 +696,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     /**
      * A∖B={x∈A|x∉B}
+     *
      * @return all elements of set A that are not in set B.
      */
     private static List<String> setDifference(List<String> a, List<String> b) {
@@ -676,7 +719,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         String savedJsonUrls = getIntent().getStringExtra("saved_json_urls");
         if (!TextUtils.isEmpty(savedJsonUrls)) {
             existingUris = new Gson().fromJson(savedJsonUrls,
-                    new TypeToken<ArrayList<String>>() {}.getType());
+                    new TypeToken<ArrayList<String>>() {
+                    }.getType());
         }
 
         final TootEntity toot = new TootEntity();
@@ -687,7 +731,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             if (!ListUtils.isEmpty(savedList)) {
                 String json = new Gson().toJson(savedList);
                 toot.setUrls(json);
-                if(!ListUtils.isEmpty(existingUris)) {
+                if (!ListUtils.isEmpty(existingUris)) {
                     deleteMedia(setDifference(existingUris, savedList));
                 }
             } else {
@@ -840,7 +884,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags,
-            String[] mimeTypes) {
+                                    String[] mimeTypes) {
         try {
             if (currentInputContentInfo != null) {
                 currentInputContentInfo.releasePermission();
@@ -902,7 +946,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private void sendStatus(String content, String visibility, boolean sensitive,
-            String spoilerText) {
+                            String spoilerText) {
         ArrayList<String> mediaIds = new ArrayList<>();
 
         for (QueuedMedia item : mediaQueued) {
@@ -911,7 +955,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
         Callback<Status> callback = new Callback<Status>() {
             @Override
-            public void onResponse(Call<Status> call, Response<Status> response) {
+            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
                 if (response.isSuccessful()) {
                     onSendSuccess();
                 } else {
@@ -920,7 +964,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             }
 
             @Override
-            public void onFailure(Call<Status> call, Throwable t) {
+            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
                 onSendFailure();
             }
         };
@@ -940,8 +984,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 }
             }
         }
-        Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose),
-                getString(R.string.confirmation_send), Snackbar.LENGTH_SHORT);
+        Snackbar bar = Snackbar.make(rootView, getString(R.string.confirmation_send), Snackbar.LENGTH_SHORT);
         bar.show();
         setResult(COMPOSE_SUCCESS);
         finish();
@@ -1072,7 +1115,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
-            @NonNull int[] grantResults) {
+                                           @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0
@@ -1298,7 +1341,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
         item.uploadRequest.enqueue(new Callback<Media>() {
             @Override
-            public void onResponse(Call<Media> call, retrofit2.Response<Media> response) {
+            public void onResponse(@NonNull Call<Media> call, @NonNull retrofit2.Response<Media> response) {
                 if (response.isSuccessful()) {
                     onUploadSuccess(item, response.body());
                 } else {
@@ -1308,7 +1351,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             }
 
             @Override
-            public void onFailure(Call<Media> call, Throwable t) {
+            public void onFailure(@NonNull Call<Media> call, @NonNull Throwable t) {
                 Log.d(TAG, "Upload request failed. " + t.getMessage());
                 onUploadFailure(item, call.isCanceled());
             }
