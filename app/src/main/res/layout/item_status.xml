@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:id="@+id/status_container">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/status_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
     <LinearLayout
         android:id="@+id/status_reblogged_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/status_reblogged_bar_top_padding"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/status_reblogged_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_repeat_24dp"
-            android:id="@+id/status_reblogged_icon"
-            android:paddingStart="24dp"
-            android:paddingLeft="24dp"
+            android:contentDescription="@null"
             android:paddingEnd="10dp"
+            android:paddingLeft="24dp"
             android:paddingRight="10dp"
+            android:paddingStart="24dp"
             android:tint="?android:textColorTertiary"
-            android:contentDescription="@null" />
+            app:srcCompat="@drawable/ic_repeat_24dp" />
 
         <TextView
+            android:id="@+id/status_reblogged"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/status_reblogged"
             android:textColor="?android:textColorTertiary" />
 
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/status_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:scaleType="fitCenter"
-        android:id="@+id/status_avatar"
         android:layout_below="@+id/status_reblogged_bar"
-        android:layout_marginTop="11dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="11dp"
         android:contentDescription="@string/action_view_profile"
+        android:scaleType="fitCenter"
         tools:src="@drawable/avatar_default" />
 
     <ImageView
@@ -64,12 +64,12 @@
         tools:visibility="visible" />
 
     <RelativeLayout
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/status_avatar"
-        android:layout_toEndOf="@+id/status_avatar"
         android:id="@+id/status_name_bar"
-        android:layout_below="@+id/status_reblogged_bar"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/status_reblogged_bar"
+        android:layout_toEndOf="@+id/status_avatar"
+        android:layout_toRightOf="@+id/status_avatar"
         android:paddingBottom="4dp"
         android:paddingTop="@dimen/status_avatar_padding">
 
@@ -79,40 +79,40 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
             android:textColor="?android:textColorSecondary" />
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@id/status_timestamp"
             android:layout_toStartOf="@id/status_timestamp"
-            android:layout_toLeftOf="@id/status_timestamp">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/status_display_name"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-                android:textColor="?android:textColorPrimary"
-                android:textStyle="normal|bold"
+                android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:paddingStart="0dp"
-                android:paddingLeft="0dp"
                 android:paddingEnd="@dimen/status_display_name_right_padding"
-                android:paddingRight="@dimen/status_display_name_right_padding" />
+                android:paddingLeft="0dp"
+                android:paddingRight="@dimen/status_display_name_right_padding"
+                android:paddingStart="0dp"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:textColor="?android:textColorPrimary"
+                android:textStyle="normal|bold" />
 
             <TextView
                 android:id="@+id/status_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?android:textColorSecondary"
+                android:ellipsize="end"
                 android:maxLines="1"
-                android:ellipsize="end" />
+                android:textColor="?android:textColorSecondary" />
 
         </LinearLayout>
 
@@ -140,9 +140,14 @@
             android:id="@+id/status_content_warning_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
             android:background="?attr/content_warning_button"
             android:minHeight="0dp"
             android:minWidth="0dp"
+            android:paddingBottom="3dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:paddingTop="3dp"
             android:textAllCaps="true"
             android:textOff="@string/status_content_warning_show_more"
             android:textOn="@string/status_content_warning_show_less"
@@ -154,14 +159,14 @@
         android:id="@+id/status_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="?android:textColorPrimary"
-        android:layout_marginBottom="4dp"
-        android:layout_toRightOf="@+id/status_avatar"
-        android:layout_toEndOf="@+id/status_avatar"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/status_content_warning_bar"
-        android:focusable="true" />
+        android:layout_marginBottom="4dp"
+        android:layout_toEndOf="@+id/status_avatar"
+        android:layout_toRightOf="@+id/status_avatar"
+        android:focusable="true"
+        android:textColor="?android:textColorPrimary" />
 
     <FrameLayout
         android:id="@+id/status_media_preview_container"
@@ -172,65 +177,65 @@
         android:layout_toRightOf="@+id/status_avatar">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/status_media_preview_0"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/status_media_preview_height"
-                    android:layout_weight="1"
                     android:layout_marginEnd="2dp"
                     android:layout_marginRight="2dp"
-                    android:scaleType="centerCrop"
                     android:layout_marginTop="@dimen/status_media_preview_top_margin"
-                    android:contentDescription="@string/action_view_media" />
+                    android:layout_weight="1"
+                    android:contentDescription="@string/action_view_media"
+                    android:scaleType="centerCrop" />
 
                 <ImageView
                     android:id="@+id/status_media_preview_1"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/status_media_preview_height"
-                    android:layout_weight="1"
-                    android:layout_marginStart="2dp"
                     android:layout_marginLeft="2dp"
-                    android:scaleType="centerCrop"
+                    android:layout_marginStart="2dp"
                     android:layout_marginTop="@dimen/status_media_preview_top_margin"
-                    android:contentDescription="@string/action_view_media" />
+                    android:layout_weight="1"
+                    android:contentDescription="@string/action_view_media"
+                    android:scaleType="centerCrop" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/status_media_preview_2"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/status_media_preview_height"
-                    android:layout_weight="1"
                     android:layout_marginEnd="2dp"
                     android:layout_marginRight="2dp"
-                    android:scaleType="centerCrop"
-                    android:contentDescription="@string/action_view_media" />
+                    android:layout_weight="1"
+                    android:contentDescription="@string/action_view_media"
+                    android:scaleType="centerCrop" />
 
                 <ImageView
                     android:id="@+id/status_media_preview_3"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/status_media_preview_height"
-                    android:layout_marginStart="2dp"
                     android:layout_marginLeft="2dp"
+                    android:layout_marginStart="2dp"
                     android:layout_weight="1"
-                    android:scaleType="centerCrop"
-                    android:contentDescription="@string/action_view_media" />
+                    android:contentDescription="@string/action_view_media"
+                    android:scaleType="centerCrop" />
 
             </LinearLayout>
 
@@ -241,25 +246,25 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/status_video_indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/status_video_indicator"
-                app:srcCompat="@drawable/ic_play_48dp"
-                android:alpha="0.5"
                 android:layout_centerInParent="true"
+                android:alpha="0.5"
                 android:contentDescription="@null"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_play_48dp" />
 
             <ImageView
+                android:id="@+id/status_sensitive_media_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/status_sensitive_media_button"
-                app:srcCompat="@drawable/ic_remove_red_eye_black_24dp"
-                android:alpha="0.7"
                 android:layout_alignParentTop="true"
+                android:alpha="0.7"
                 android:contentDescription="@null"
                 android:padding="@dimen/status_sensitive_media_button_padding"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_remove_red_eye_black_24dp" />
         </RelativeLayout>
 
         <LinearLayout
@@ -267,41 +272,40 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/status_media_preview_top_margin"
-            android:padding="8dp"
+            android:background="?attr/sensitive_media_warning_background_color"
             android:gravity="center"
             android:orientation="vertical"
-            android:background="?attr/sensitive_media_warning_background_color"
+            android:padding="8dp"
             android:visibility="gone">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
                 android:text="@string/status_sensitive_media_title"
+                android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
                 android:text="@string/status_sensitive_media_directions"
+                android:textAlignment="center"
                 android:textColor="@android:color/white" />
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/status_media_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/status_media_label"
-            android:visibility="gone"
             android:gravity="center_vertical"
-            android:includeFontPadding="false" />
+            android:includeFontPadding="false"
+            android:visibility="gone" />
 
     </FrameLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/status_media_preview_container"
@@ -309,16 +313,17 @@
         android:layout_toRightOf="@+id/status_avatar"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:orientation="horizontal"
         android:paddingBottom="2dp">
 
         <ImageButton
-            app:srcCompat="@drawable/ic_reply_24dp"
             android:id="@+id/status_reply"
+            style="?attr/image_button_style"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@string/action_reply"
             android:padding="4dp"
-            style="?attr/image_button_style"
-            android:contentDescription="@string/action_reply" />
+            app:srcCompat="@drawable/ic_reply_24dp" />
 
         <Space
             android:layout_width="0dp"
@@ -327,17 +332,17 @@
 
         <com.varunest.sparkbutton.SparkButton
             android:id="@+id/status_reblog"
-            app:sparkbutton_activeImage="@drawable/reblog_active"
-            app:sparkbutton_inActiveImage="?attr/status_reblog_inactive_drawable"
-            app:sparkbutton_iconSize="28dp"
-            android:layout_gravity="center"
-            app:sparkbutton_primaryColor="@color/status_reblog_button_marked_dark"
-            app:sparkbutton_secondaryColor="@color/status_reblog_button_marked_light"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:padding="4dp"
+            android:layout_gravity="center"
+            android:clipToPadding="false"
             android:contentDescription="@string/action_reblog"
-            android:clipToPadding="false"/>
+            android:padding="4dp"
+            app:sparkbutton_activeImage="@drawable/reblog_active"
+            app:sparkbutton_iconSize="28dp"
+            app:sparkbutton_inActiveImage="?attr/status_reblog_inactive_drawable"
+            app:sparkbutton_primaryColor="@color/status_reblog_button_marked_dark"
+            app:sparkbutton_secondaryColor="@color/status_reblog_button_marked_light" />
 
         <Space
             android:layout_width="0dp"
@@ -345,18 +350,18 @@
             android:layout_weight="1" />
 
         <com.varunest.sparkbutton.SparkButton
+            android:id="@+id/status_favourite"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:sparkbutton_activeImage="?attr/status_favourite_active_drawable"
-            app:sparkbutton_inActiveImage="?attr/status_favourite_inactive_drawable"
-            app:sparkbutton_iconSize="28dp"
             android:layout_gravity="center"
-            app:sparkbutton_primaryColor="@color/status_favourite_button_marked_dark"
-            app:sparkbutton_secondaryColor="@color/status_favourite_button_marked_light"
-            android:id="@+id/status_favourite"
-            android:padding="4dp"
+            android:clipToPadding="false"
             android:contentDescription="@string/action_favourite"
-            android:clipToPadding="false"/>
+            android:padding="4dp"
+            app:sparkbutton_activeImage="?attr/status_favourite_active_drawable"
+            app:sparkbutton_iconSize="28dp"
+            app:sparkbutton_inActiveImage="?attr/status_favourite_inactive_drawable"
+            app:sparkbutton_primaryColor="@color/status_favourite_button_marked_dark"
+            app:sparkbutton_secondaryColor="@color/status_favourite_button_marked_light" />
 
         <Space
             android:layout_width="0dp"
@@ -364,13 +369,13 @@
             android:layout_weight="1" />
 
         <ImageButton
-            app:srcCompat="@drawable/ic_more_horiz_24dp"
             android:id="@+id/status_more"
+            style="?attr/image_button_style"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:contentDescription="@string/action_more"
             android:padding="4dp"
-            style="?attr/image_button_style"
-            android:contentDescription="@string/action_more" />
+            app:srcCompat="@drawable/ic_more_horiz_24dp" />
 
         <Space
             android:layout_width="0dp"
