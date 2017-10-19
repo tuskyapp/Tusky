@@ -50,6 +50,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -126,13 +127,12 @@ public class BaseActivity extends AppCompatActivity {
     protected void createMastodonApi() {
         mastodonApiDispatcher = new Dispatcher();
 
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
+        Gson gson = new GsonBuilder().registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
                 .registerTypeAdapter(StringWithEmoji.class, new StringWithEmojiTypeAdapter())
                 .create();
 
-        OkHttpClient okHttpClient = OkHttpUtils.getCompatibleClientBuilder()
-                .addInterceptor(new Interceptor() {
+        OkHttpClient.Builder okBuilder =
+                OkHttpUtils.getCompatibleClientBuilder().addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
                         Request originalRequest = chain.request();
@@ -140,20 +140,21 @@ public class BaseActivity extends AppCompatActivity {
                         Request.Builder builder = originalRequest.newBuilder();
                         String accessToken = getAccessToken();
                         if (accessToken != null) {
-                            builder.header("Authorization", String.format("Bearer %s",
-                                    accessToken));
+                            builder.header("Authorization", String.format("Bearer %s", accessToken));
                         }
                         Request newRequest = builder.build();
 
                         return chain.proceed(newRequest);
                     }
-                })
-                .dispatcher(mastodonApiDispatcher)
-                .build();
+                }).dispatcher(mastodonApiDispatcher);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getBaseUrl())
-                .client(okHttpClient)
+        if (BuildConfig.DEBUG) {
+            okBuilder.addInterceptor(
+                    new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+        }
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(getBaseUrl())
+                .client(okBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
@@ -161,11 +162,11 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void createTuskyApi() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + getString(R.string.tusky_api_url))
-                .client(OkHttpUtils.getCompatibleClient())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit =
+                new Retrofit.Builder().baseUrl("https://" + getString(R.string.tusky_api_url))
+                        .client(OkHttpUtils.getCompatibleClient())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
 
         tuskyApi = retrofit.create(TuskyApi.class);
     }
@@ -208,27 +209,25 @@ public class BaseActivity extends AppCompatActivity {
         long checkInterval = 1000 * 60 * minutes;
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, PullNotificationService.class);
-        PendingIntent serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime(), checkInterval, serviceAlarmIntent);
+        PendingIntent serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(),
+                checkInterval, serviceAlarmIntent);
     }
 
     protected void disablePushNotifications() {
         // Cancel the repeating call for "pull" notifications.
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, PullNotificationService.class);
-        PendingIntent serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.cancel(serviceAlarmIntent);
     }
 
     protected void clearNotifications() {
-        SharedPreferences notificationPreferences = getApplicationContext()
-                .getSharedPreferences("Notifications", MODE_PRIVATE);
-        notificationPreferences.edit()
-                .putString("current", "[]")
-                .apply();
+        SharedPreferences notificationPreferences =
+                getApplicationContext().getSharedPreferences("Notifications", MODE_PRIVATE);
+        notificationPreferences.edit().putString("current", "[]").apply();
 
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(PullNotificationService.NOTIFY_ID);
@@ -238,10 +237,10 @@ public class BaseActivity extends AppCompatActivity {
         long checkInterval = 1000 * 60 * minutes;
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, PullNotificationService.class);
-        PendingIntent serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.cancel(serviceAlarmIntent);
-        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime(), checkInterval, serviceAlarmIntent);
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(),
+                checkInterval, serviceAlarmIntent);
     }
 }

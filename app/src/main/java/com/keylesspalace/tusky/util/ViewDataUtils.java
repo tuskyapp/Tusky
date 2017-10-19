@@ -20,8 +20,7 @@ public final class ViewDataUtils {
     public static StatusViewData statusToViewData(@Nullable Status status) {
         if (status == null) return null;
         Status visibleStatus = status.reblog == null ? status : status.reblog;
-        return new StatusViewData.Builder()
-                .setId(status.id)
+        return new StatusViewData.Builder().setId(status.id)
                 .setAttachments(visibleStatus.attachments)
                 .setAvatar(visibleStatus.account.avatar)
                 .setContent(visibleStatus.content)
@@ -44,6 +43,7 @@ public final class ViewDataUtils {
                 .setSenderId(visibleStatus.account.id)
                 .setRebloggingEnabled(visibleStatus.rebloggingAllowed())
                 .setApplication(visibleStatus.application)
+                .setEmojis(visibleStatus.emojis)
                 .createStatusViewData();
     }
 
@@ -64,8 +64,8 @@ public final class ViewDataUtils {
                 statusToViewData(notification.status));
     }
 
-    public static List<NotificationViewData>
-    notificationListToViewDataList(List<Notification> notifications) {
+    public static List<NotificationViewData> notificationListToViewDataList(
+            List<Notification> notifications) {
         List<NotificationViewData> viewDatas = new ArrayList<>(notifications.size());
         for (Notification n : notifications) {
             viewDatas.add(notificationToViewData(n));
