@@ -5,7 +5,9 @@ import android.text.Spanned;
 
 import com.keylesspalace.tusky.entity.Status;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by charlag on 11/07/2017.
@@ -41,16 +43,15 @@ public final class StatusViewData {
     private final String senderId;
     private final boolean rebloggingEnabled;
     private final Status.Application application;
+    private final List<Status.Emoji> emojis;
 
     public StatusViewData(String id, Spanned content, boolean reblogged, boolean favourited,
-                          String spoilerText, Status.Visibility visibility,
-                          Status.MediaAttachment[] attachments, String rebloggedByUsername,
-                          String rebloggedAvatar, boolean sensitive, boolean isExpanded,
-                          boolean isShowingSensitiveWarning, String userFullName, String nickname,
-                          String avatar, Date createdAt, String reblogsCount,
-                          String favouritesCount, String inReplyToId, Status.Mention[] mentions,
-                          String senderId, boolean rebloggingEnabled,
-                          Status.Application application) {
+                          String spoilerText, Status.Visibility visibility, Status.MediaAttachment[] attachments,
+                          String rebloggedByUsername, String rebloggedAvatar, boolean sensitive, boolean isExpanded,
+                          boolean isShowingSensitiveWarning, String userFullName, String nickname, String avatar,
+                          Date createdAt, String reblogsCount, String favouritesCount, String inReplyToId,
+                          Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
+                          Status.Application application, List<Status.Emoji> emojis) {
         this.id = id;
         this.content = content;
         this.reblogged = reblogged;
@@ -74,6 +75,7 @@ public final class StatusViewData {
         this.senderId = senderId;
         this.rebloggingEnabled = rebloggingEnabled;
         this.application = application;
+        this.emojis = emojis;
     }
 
     public String getId() {
@@ -173,6 +175,10 @@ public final class StatusViewData {
         return application;
     }
 
+    public List<Status.Emoji> getEmojis() {
+        return emojis;
+    }
+
     public static class Builder {
         private String id;
         private Spanned content;
@@ -197,6 +203,7 @@ public final class StatusViewData {
         private String senderId;
         private boolean rebloggingEnabled;
         private Status.Application application;
+        private List<Status.Emoji> emojis;
 
         public Builder() {
         }
@@ -225,6 +232,7 @@ public final class StatusViewData {
             senderId = viewData.senderId;
             rebloggingEnabled = viewData.rebloggingEnabled;
             application = viewData.application;
+            emojis = viewData.getEmojis();
         }
 
         public Builder setId(String id) {
@@ -342,12 +350,17 @@ public final class StatusViewData {
             return this;
         }
 
+        public Builder setEmojis(List<Status.Emoji> emojis) {
+            this.emojis = emojis;
+            return this;
+        }
+
         public StatusViewData createStatusViewData() {
+            if (this.emojis == null) emojis = Collections.emptyList();
             return new StatusViewData(id, content, reblogged, favourited, spoilerText, visibility,
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
-                    isShowingSensitiveContent, userFullName, nickname, avatar, createdAt,
-                    reblogsCount, favouritesCount, inReplyToId, mentions, senderId,
-                    rebloggingEnabled, application);
+                    isShowingSensitiveContent, userFullName, nickname, avatar, createdAt, reblogsCount,
+                    favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application, emojis);
         }
     }
 }

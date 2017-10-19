@@ -24,6 +24,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.List;
 
 public class Status {
     private Status actionableStatus;
@@ -78,6 +79,8 @@ public class Status {
     public boolean favourited;
 
     public boolean sensitive;
+
+    public List<Emoji> emojis;
 
     @SerializedName("spoiler_text")
     public String spoilerText;
@@ -178,5 +181,18 @@ public class Status {
     public static class Application {
         public String name;
         public String website;
+    }
+
+    public static class Emoji {
+        private String shortcode;
+        private String url;
+
+        public String getShortcode() {
+            return shortcode;
+        }
+
+        public String getUrl() {
+            return url;
+        }
     }
 }

@@ -2,6 +2,11 @@ package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.annotation.DrawableRes;
@@ -9,7 +14,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.ReplacementSpan;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -25,11 +32,17 @@ import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.varunest.sparkbutton.SparkButton;
 import com.varunest.sparkbutton.SparkEventListener;
 
+import java.lang.ref.WeakReference;
 import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private View container;
@@ -80,10 +93,8 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         videoIndicator = itemView.findViewById(R.id.status_video_indicator);
         mediaLabel = itemView.findViewById(R.id.status_media_label);
         contentWarningBar = itemView.findViewById(R.id.status_content_warning_bar);
-        contentWarningDescription =
-                itemView.findViewById(R.id.status_content_warning_description);
-        contentWarningButton =
-                itemView.findViewById(R.id.status_content_warning_button);
+        contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
+        contentWarningButton = itemView.findViewById(R.id.status_content_warning_button);
     }
 
     private void setDisplayName(String name) {
@@ -97,14 +108,43 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         username.setText(usernameText);
     }
 
-    private void setContent(Spanned content, Status.Mention[] mentions,
+    private Callback spanCallback = new Callback() {
+        @Override
+        public void onSuccess() {
+            content.invalidate();
+        }
+
+        @Override
+        public void onError() {
+        }
+    };
+
+    private void setContent(Spanned content, Status.Mention[] mentions, List<Status.Emoji> emojis,
                             StatusActionListener listener) {
+
+        SpannableStringBuilder builder = new SpannableStringBuilder(content);
+        if (!emojis.isEmpty()) {
+            CharSequence text = builder.subSequence(0, builder.length());
+            for (Status.Emoji emoji : emojis) {
+                CharSequence pattern = new StringBuilder(":").append(emoji.getShortcode()).append(':');
+                Matcher matcher = Pattern.compile(pattern.toString()).matcher(text);
+                while (matcher.find()) {
+                    EmojiSpan span = new EmojiSpan();
+                    span.setCallback(spanCallback);
+                    builder.setSpan(span, matcher.start(), matcher.end(), 0);
+                    Picasso.with(container.getContext())
+                            .load(emoji.getUrl())
+                            .into(span);
+                }
+            }
+        }
+
         /* Redirect URLSpan's in the status content to the listener for viewing tag pages and
          * account pages. */
         Context context = this.content.getContext();
-        boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean("customTabs", true);
-        LinkHelper.setClickableText(this.content, content, mentions, useCustomTabs, listener);
+        boolean useCustomTabs =
+                PreferenceManager.getDefaultSharedPreferences(context).getBoolean("customTabs", true);
+        LinkHelper.setClickableText(this.content, builder, mentions, useCustomTabs, listener);
     }
 
     void setAvatar(String url, @Nullable String rebloggedUrl) {
@@ -177,15 +217,13 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private void setMediaPreviews(final Status.MediaAttachment[] attachments, boolean sensitive,
                                   final StatusActionListener listener, boolean showingSensitive) {
         final ImageView[] previews = {
-                mediaPreview0,
-                mediaPreview1,
-                mediaPreview2,
-                mediaPreview3
+                mediaPreview0, mediaPreview1, mediaPreview2, mediaPreview3
         };
         Context context = mediaPreview0.getContext();
 
-        int mediaPreviewUnloadedId = ThemeUtils.getDrawableId(itemView.getContext(),
-                R.attr.media_preview_unloaded_drawable, android.R.color.black);
+        int mediaPreviewUnloadedId =
+                ThemeUtils.getDrawableId(itemView.getContext(), R.attr.media_preview_unloaded_drawable,
+                        android.R.color.black);
 
         final int n = Math.min(attachments.length, Status.MAX_MEDIA_ATTACHMENTS);
 
@@ -200,9 +238,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             previews[i].setVisibility(View.VISIBLE);
 
             if (previewUrl == null || previewUrl.isEmpty()) {
-                Picasso.with(context)
-                        .load(mediaPreviewUnloadedId)
-                        .into(previews[i]);
+                Picasso.with(context).load(mediaPreviewUnloadedId).into(previews[i]);
             } else {
                 Picasso.with(context)
                         .load(previewUrl)
@@ -211,8 +247,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
 
             final Status.MediaAttachment.Type type = attachments[i].type;
-            if (type == Status.MediaAttachment.Type.VIDEO
-                    | type == Status.MediaAttachment.Type.GIFV) {
+            if (type == Status.MediaAttachment.Type.VIDEO | type == Status.MediaAttachment.Type.GIFV) {
                 videoIndicator.setVisibility(View.VISIBLE);
             }
 
@@ -233,7 +268,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (sensitive && (!isAlwayShowSensitive)) {
             sensitiveMediaWarning.setVisibility(showingSensitive ? View.GONE : View.VISIBLE);
             sensitiveMediaShow.setVisibility(showingSensitive ? View.VISIBLE : View.GONE);
-            sensitiveMediaShow.setOnClickListener(new View.OnClickListener(){
+            sensitiveMediaShow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     v.setVisibility(View.GONE);
@@ -330,20 +365,19 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         contentWarningDescription.setText(spoilerText);
         contentWarningBar.setVisibility(View.VISIBLE);
         contentWarningButton.setChecked(expanded);
-        contentWarningButton.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (getAdapterPosition() != RecyclerView.NO_POSITION) {
-                            listener.onExpandedChange(isChecked, getAdapterPosition());
-                        }
-                        if (isChecked) {
-                            content.setVisibility(View.VISIBLE);
-                        } else {
-                            content.setVisibility(View.GONE);
-                        }
-                    }
-                });
+        contentWarningButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onExpandedChange(isChecked, getAdapterPosition());
+                }
+                if (isChecked) {
+                    content.setVisibility(View.VISIBLE);
+                } else {
+                    content.setVisibility(View.GONE);
+                }
+            }
+        });
         if (expanded) {
             content.setVisibility(View.VISIBLE);
         } else {
@@ -441,7 +475,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         setDisplayName(status.getUserFullName());
         setUsername(status.getNickname());
         setCreatedAt(status.getCreatedAt());
-        setContent(status.getContent(), status.getMentions(), listener);
+        setContent(status.getContent(), status.getMentions(), status.getEmojis(), listener);
         setAvatar(status.getAvatar(), status.getRebloggedAvatar());
         setReblogged(status.isReblogged());
         setFavourited(status.isFavourited());
@@ -476,6 +510,60 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             hideSpoilerText();
         } else {
             setSpoilerText(status.getSpoilerText(), status.isExpanded(), listener);
+        }
+    }
+
+    static class EmojiSpan extends ReplacementSpan implements Target {
+
+        private @Nullable
+        Drawable imageDrawable;
+        private WeakReference<Callback> callbackWeakReference;
+
+        public void setImageDrawable(@Nullable Drawable imageDrawable) {
+            this.imageDrawable = imageDrawable;
+        }
+
+        public void setCallback(Callback callback) {
+            this.callbackWeakReference = new WeakReference<Callback>(callback);
+        }
+
+        @Override
+        public int getSize(@NonNull Paint paint, CharSequence text, int start, int end,
+                           @Nullable Paint.FontMetricsInt fm) {
+            if (imageDrawable == null) return 0;
+            Rect sizeRect = imageDrawable.getBounds();
+            return sizeRect.right;
+        }
+
+        @Override
+        public void draw(@NonNull Canvas canvas, CharSequence text, int start, int end, float x,
+                         int top, int y, int bottom, @NonNull Paint paint) {
+            if (imageDrawable == null) return;
+            canvas.save();
+            int transY = bottom - imageDrawable.getBounds().bottom;
+            transY -= paint.getFontMetricsInt().descent;
+            canvas.translate(x, transY);
+            imageDrawable.draw(canvas);
+            canvas.restore();
+        }
+
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            imageDrawable = new BitmapDrawable(bitmap);
+            imageDrawable.setBounds(0, 0, imageDrawable.getIntrinsicWidth() + 10,
+                    imageDrawable.getIntrinsicHeight() + 10);
+            if (callbackWeakReference != null) {
+                Callback cb = callbackWeakReference.get();
+                if (cb != null) cb.onSuccess();
+            }
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
         }
     }
 }
