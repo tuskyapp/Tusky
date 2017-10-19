@@ -36,8 +36,6 @@ import android.view.Menu;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
-import com.keylesspalace.tusky.json.StringWithEmoji;
-import com.keylesspalace.tusky.json.StringWithEmojiTypeAdapter;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TuskyApi;
 import com.keylesspalace.tusky.service.PullNotificationService;
@@ -127,8 +125,8 @@ public class BaseActivity extends AppCompatActivity {
     protected void createMastodonApi() {
         mastodonApiDispatcher = new Dispatcher();
 
-        Gson gson = new GsonBuilder().registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
-                .registerTypeAdapter(StringWithEmoji.class, new StringWithEmojiTypeAdapter())
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
                 .create();
 
         OkHttpClient.Builder okBuilder =

@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.text.Spanned;
 import android.util.Log;
 
@@ -28,8 +29,6 @@ import com.google.gson.GsonBuilder;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
-import com.keylesspalace.tusky.json.StringWithEmoji;
-import com.keylesspalace.tusky.json.StringWithEmojiTypeAdapter;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 import com.keylesspalace.tusky.util.NotificationMaker;
@@ -73,15 +72,15 @@ public class PullNotificationService extends IntentService {
 
         mastodonApi.notifications(null, null, null).enqueue(new Callback<List<Notification>>() {
             @Override
-            public void onResponse(Call<List<Notification>> call,
-                                   Response<List<Notification>> response) {
+            public void onResponse(@NonNull Call<List<Notification>> call,
+                                   @NonNull Response<List<Notification>> response) {
                 if (response.isSuccessful()) {
                     onNotificationsReceived(response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Notification>> call, Throwable t) {}
+            public void onFailure(@NonNull Call<List<Notification>> call, @NonNull Throwable t) {}
         });
     }
 
@@ -94,7 +93,7 @@ public class PullNotificationService extends IntentService {
         OkHttpClient okHttpClient = OkHttpUtils.getCompatibleClientBuilder()
                 .addInterceptor(new Interceptor() {
                     @Override
-                    public okhttp3.Response intercept(Chain chain) throws IOException {
+                    public okhttp3.Response intercept(@NonNull Chain chain) throws IOException {
                         Request originalRequest = chain.request();
 
                         Request.Builder builder = originalRequest.newBuilder()
@@ -109,7 +108,6 @@ public class PullNotificationService extends IntentService {
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
-                .registerTypeAdapter(StringWithEmoji.class, new StringWithEmojiTypeAdapter())
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
