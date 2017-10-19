@@ -33,12 +33,9 @@ android {
     }
 }
 
-ext.supportLibraryVersion = '26.0.0'
+ext.supportLibraryVersion = '26.1.0'
 
 dependencies {
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     compile('com.mikepenz:materialdrawer:5.9.5@aar') {
         transitive = true
     }
@@ -51,24 +48,23 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:2.3.0"
     compile "com.squareup.retrofit2:converter-gson:2.3.0"
     compile "com.squareup.picasso:picasso:2.5.2"
-    compile "com.squareup.okhttp3:okhttp:3.8.1"
+    compile "com.squareup.okhttp3:okhttp:3.9.0"
+    compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
     compile "com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0"
     compile "com.pkmmte.view:circularimageview:1.1"
     compile "com.github.varunest:sparkbutton:1.0.5"
     compile "com.github.chrisbanes:PhotoView:2.1.3"
     compile "com.mikepenz:google-material-typeface:3.0.1.0.original@aar"
-    compile "com.theartofdev.edmodo:android-image-cropper:2.4.7"
+    compile "com.theartofdev.edmodo:android-image-cropper:2.5.1"
     compile "org.jsoup:jsoup:1.10.3"
-    compile "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.1"
-    compile("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1") {
-        exclude module: "support-v4"
-    }
-    testCompile "junit:junit:4.12"
-    //room
-    compile 'android.arch.persistence.room:runtime:1.0.0-alpha3'
-    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha3"
-    googleCompile 'com.google.firebase:firebase-crash:10.0.1'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
-}
 
-apply plugin: 'com.google.gms.google-services'
+    //room
+    compile "android.arch.persistence.room:runtime:1.0.0-beta2"
+    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0-beta2'
+
+    testCompile "junit:junit:4.12"
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+}
