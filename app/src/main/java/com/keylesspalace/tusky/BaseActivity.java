@@ -37,7 +37,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.network.MastodonApi;
-import com.keylesspalace.tusky.network.TuskyApi;
 import com.keylesspalace.tusky.service.PullNotificationService;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 
@@ -56,7 +55,6 @@ public class BaseActivity extends AppCompatActivity {
     protected static final int SERVICE_REQUEST_CODE = 8574603; // This number is arbitrary.
 
     public MastodonApi mastodonApi;
-    public TuskyApi tuskyApi;
     protected Dispatcher mastodonApiDispatcher;
 
     @Override
@@ -65,7 +63,6 @@ public class BaseActivity extends AppCompatActivity {
 
         redirectIfNotLoggedIn();
         createMastodonApi();
-        createTuskyApi();
 
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
@@ -157,16 +154,6 @@ public class BaseActivity extends AppCompatActivity {
                 .build();
 
         mastodonApi = retrofit.create(MastodonApi.class);
-    }
-
-    protected void createTuskyApi() {
-        Retrofit retrofit =
-                new Retrofit.Builder().baseUrl("https://" + getString(R.string.tusky_api_url))
-                        .client(OkHttpUtils.getCompatibleClient())
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-
-        tuskyApi = retrofit.create(TuskyApi.class);
     }
 
     protected void redirectIfNotLoggedIn() {
