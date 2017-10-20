@@ -193,7 +193,18 @@
     <string name="title_saved_toot">Gespeicherte Tröts</string>
 
     <string name="follows_you">Folgt dir</string>
-
+    <string name="action_copy_link">Link kopieren</string>
+    <string name="download_image">%1$s heruntergeladen</string>
+    <string name="dialog_unfollow_warning">Willst du diesem Account wirklich nicht mehr folgen?</string>
+    <string name="pref_title_alway_show_sensitive_media">NSFW_Inhalte immer anzeigen</string>
+    <string name="notification_channel_boost_name">Geteilte Beiträge</string>
+    <string name="notification_channel_boost_description">Benachrichtigungen wenn deine Beiträge geteilt werden</string>
+    <string name="notification_channel_favourite_description">Benachrichtigungen wenn deine Beiträge favorisiert werden</string>
+    <string name="notification_channel_favourite_name">Favorisierte Beiträge</string>
+    <string name="notification_channel_follow_description">Benachrichtigunen über neue Folgende</string>
+    <string name="notification_channel_follow_name">Neue Folgende</string>
+    <string name="notification_channel_mention_descriptions">Benachrichtigungen über neue Erwänungen</string>
+    <string name="notification_channel_mention_name">Neue Erwähnungen</string>
 
 
 </resources>
