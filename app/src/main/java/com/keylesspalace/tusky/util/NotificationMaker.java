@@ -173,7 +173,7 @@ public class NotificationMaker {
         notificationManager.notify(notifyId, builder.build());
     }
 
-    private static void createNotificationChannels(Context context) {
+    public static void createNotificationChannels(Context context) {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
         NotificationManager mNotificationManager =

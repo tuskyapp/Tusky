@@ -40,6 +40,7 @@ import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.AppCredentials;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.CustomTabsHelper;
+import com.keylesspalace.tusky.util.NotificationMaker;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 
 import java.util.HashMap;
@@ -179,8 +180,8 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Callback<AppCredentials> callback = new Callback<AppCredentials>() {
                 @Override
-                public void onResponse(Call<AppCredentials> call,
-                        Response<AppCredentials> response) {
+                public void onResponse(@NonNull Call<AppCredentials> call,
+                                       @NonNull Response<AppCredentials> response) {
                     if (!response.isSuccessful()) {
                         editText.setError(getString(R.string.error_failed_app_registration));
                         Log.e(TAG, "App authentication failed. " + response.message());
@@ -197,7 +198,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<AppCredentials> call, Throwable t) {
+                public void onFailure(@NonNull Call<AppCredentials> call, @NonNull Throwable t) {
                     editText.setError(getString(R.string.error_failed_app_registration));
                     Log.e(TAG, Log.getStackTraceString(t));
                 }
@@ -334,7 +335,7 @@ public class LoginActivity extends AppCompatActivity {
                  * the authorization code for an access token. */
                 Callback<AccessToken> callback = new Callback<AccessToken>() {
                     @Override
-                    public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
+                    public void onResponse(@NonNull Call<AccessToken> call, @NonNull Response<AccessToken> response) {
                         if (response.isSuccessful()) {
                             onLoginSuccess(response.body().accessToken);
                         } else {
@@ -348,7 +349,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<AccessToken> call, Throwable t) {
+                    public void onFailure(@NonNull Call<AccessToken> call, @NonNull Throwable t) {
                         setLoading(false);
                         editText.setError(getString(R.string.error_retrieving_oauth_token));
                         Log.e(TAG, String.format("%s %s",
@@ -393,6 +394,10 @@ public class LoginActivity extends AppCompatActivity {
             editText.setError(getString(R.string.error_retrieving_oauth_token));
             return;
         }
+
+        //create notification channels ahead of time so users can edit the settings
+        NotificationMaker.createNotificationChannels(this);
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
