@@ -182,4 +182,5 @@
     <string name="status_media_video">Видео</string>
 
     <string name="state_follow_requested">Запрошенные подписки</string>
+    <string name="action_add_link_info">Добавить информацию о ссылке</string>
 </resources>
