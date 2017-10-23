@@ -524,15 +524,16 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
 
         public void setCallback(Callback callback) {
-            this.callbackWeakReference = new WeakReference<Callback>(callback);
+            this.callbackWeakReference = new WeakReference<>(callback);
         }
 
         @Override
         public int getSize(@NonNull Paint paint, CharSequence text, int start, int end,
                            @Nullable Paint.FontMetricsInt fm) {
             if (imageDrawable == null) return 0;
-            Rect sizeRect = imageDrawable.getBounds();
-            return sizeRect.right;
+            int textSize = (int) paint.getTextSize();
+            imageDrawable.setBounds(0, 0, textSize, textSize);
+            return textSize;
         }
 
         @Override
@@ -550,8 +551,6 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             imageDrawable = new BitmapDrawable(bitmap);
-            imageDrawable.setBounds(0, 0, imageDrawable.getIntrinsicWidth() + 10,
-                    imageDrawable.getIntrinsicHeight() + 10);
             if (callbackWeakReference != null) {
                 Callback cb = callbackWeakReference.get();
                 if (cb != null) cb.onSuccess();
