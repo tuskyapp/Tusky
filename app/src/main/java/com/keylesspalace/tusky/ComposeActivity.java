@@ -55,6 +55,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -231,6 +232,10 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 toggleHideMedia();
             }
         });
+
+        //fix a bug with autocomplete and some keyboards
+        int newInputType = textEditor.getInputType() & (textEditor.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
+        textEditor.setInputType(newInputType);
 
         /* Initialise all the state, or restore it from a previous run, to determine a "starting"
          * state. */
