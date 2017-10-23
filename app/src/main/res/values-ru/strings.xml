@@ -1,4 +1,5 @@
 <resources>
+
     <string name="error_generic">Произошла ошибка.</string>
     <string name="error_empty">Не может быть пустым.</string>
     <string name="error_invalid_domain">Некорректный домен.</string>
@@ -31,6 +32,7 @@
     <string name="title_blocks">Список блокировки</string>
     <string name="title_follow_requests">Запросы на подписку</string>
     <string name="title_edit_profile">Редактировать профиль</string>
+	<string name="title_saved_toot">Черновики</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s продвинул(а)</string>
@@ -97,6 +99,11 @@
     <string name="action_accept">Принять</string>
     <string name="action_reject">Отклонить</string>
     <string name="action_search">Поиск</string>
+	<string name="action_access_saved_toot">Черновики</string>
+
+    <string name="download_image">Загрузка %1$s</string>
+
+    <string name="action_copy_link">Копировать ссылку</string>
 
     <string name="send_status_link_to">Поделиться ссылкой статуса</string>
     <string name="send_status_content_to">Поделиться статусом</string>
@@ -127,15 +134,17 @@
     <string name="dialog_message_uploading_media">Загружается…</string>
     <string name="dialog_download_image">Скачать</string>
     <string name="dialog_message_follow_request">Статус запроса на подписку: ожидается ответ</string>
+	<string name="dialog_unfollow_warning">Отписаться от этого аккаунта?</string>
 
     <string name="visibility_public">Публичный: Показать в публичных лентах</string>
     <string name="visibility_unlisted">Скрытый: Не показывать в лентах</string>
     <string name="visibility_private">Приватный: Показать только подписчикам</string>
     <string name="visibility_direct">Направленный: Показать только упомянутым</string>
-
+	
     <string name="pref_title_notification_settings">Уведомления</string>
     <string name="pref_title_edit_notification_settings">Изменить уведомления</string>
     <string name="pref_title_notifications_enabled">Push-уведомления</string>
+	<string name="pref_title_pull_notification_check_interval">Интервал проверки</string>
     <string name="pref_title_notification_alerts">Предупреждения</string>
     <string name="pref_title_notification_alert_sound">Звуковые уведомления</string>
     <string name="pref_title_notification_alert_vibrate">Использовать вибрацию</string>
@@ -155,6 +164,15 @@
     <string name="pref_title_show_boosts">Показывать продвижения</string>
     <string name="pref_title_show_replies">Показывать ответы</string>
     <string name="pref_title_show_media_preview">Предпросмотр медиаконтента</string>
+	
+    <string name="notification_channel_mention_name">Новые упоминания</string>
+    <string name="notification_channel_mention_descriptions">Уведомлять о новых упоминаниях</string>
+    <string name="notification_channel_follow_name">Новые подписчики</string>
+    <string name="notification_channel_follow_description">Уведомлять о новых подписчиках</string>
+    <string name="notification_channel_boost_name">Продвижения</string>
+    <string name="notification_channel_boost_description">Уведомлять, если кто-то продвинул ваши сообщения</string>
+    <string name="notification_channel_favourite_name">Избранное</string>
+    <string name="notification_channel_favourite_description">Уведомлять, когда ваши сообщения отмечают как «избранные»</string>
 
     <string name="notification_mention_format">%s упомянул(а) Вас</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s и %4$d других</string>
@@ -182,4 +200,25 @@
     <string name="status_media_video">Видео</string>
 
     <string name="state_follow_requested">Запрошенные подписки</string>
+
+	<string name="combine_s1_s2">%1$s %2$s</string>
+    <string name="no_content">ничего нет</string>
+    <string name="action_save_one_toot">Пост сохранён!</string>
+
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">через %dy</string>
+    <string name="abbreviated_in_days">через %dd</string>
+    <string name="abbreviated_in_hours">через %dh</string>
+    <string name="abbreviated_in_minutes">через %dm</string>
+    <string name="abbreviated_in_seconds">через %ds</string>
+    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
+
+    <string name="follows_you">Подписан(а) на вас</string>
+    <string name="pref_title_alway_show_sensitive_media">Всегда показывать NSFW-контент</string>
+
+
 </resources>
