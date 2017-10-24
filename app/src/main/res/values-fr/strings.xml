@@ -32,6 +32,7 @@
     <string name="title_mutes">Utilisateurs muets</string>
     <string name="title_edit_profile">Editer votre profil</string>
     <string name="title_follow_requests">Demande de suivi</string>
+    <string name="title_saved_toot">Pouet sauvegardés</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s a boosté</string>
@@ -98,6 +99,8 @@
     <string name="action_view_follow_requests">Demandes de suivi</string>
     <string name="action_view_mutes">Utilisateurs muets</string>
     <string name="action_copy_link">Copier le lien</string>
+    <string name="action_search">Rechercher</string>
+    <string name="action_access_saved_toot">Pouets sauvegardés</string>
 
     <string name="send_status_link_to">Partager l’URL de votre pouet avec…</string>
     <string name="send_status_content_to">Partager le pouet avec…</string>
