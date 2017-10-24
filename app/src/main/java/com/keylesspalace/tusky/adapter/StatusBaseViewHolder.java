@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
@@ -514,19 +513,15 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    static class EmojiSpan extends ReplacementSpan implements Target {
+    private static class EmojiSpan extends ReplacementSpan implements Target {
 
         private @Nullable
         Drawable imageDrawable;
         private WeakReference<Callback> callbackWeakReference;
         private Context context;
 
-        public EmojiSpan(Context context) {
+        EmojiSpan(Context context) {
             this.context = context.getApplicationContext();
-        }
-
-        public void setImageDrawable(@Nullable Drawable imageDrawable) {
-            this.imageDrawable = imageDrawable;
         }
 
         public void setCallback(Callback callback) {
@@ -536,10 +531,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         @Override
         public int getSize(@NonNull Paint paint, CharSequence text, int start, int end,
                            @Nullable Paint.FontMetricsInt fm) {
-            if (imageDrawable == null) return 0;
-            int textSize = (int) paint.getTextSize();
-            imageDrawable.setBounds(0, 0, textSize, textSize);
-            return textSize;
+            return (int) (paint.getTextSize()*1.2);
         }
 
         @Override
@@ -547,8 +539,12 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                          int top, int y, int bottom, @NonNull Paint paint) {
             if (imageDrawable == null) return;
             canvas.save();
+
+            int emojiSize = (int) (paint.getTextSize() * 1.1);
+            imageDrawable.setBounds(0, 0, emojiSize, emojiSize);
+
             int transY = bottom - imageDrawable.getBounds().bottom;
-            transY -= paint.getFontMetricsInt().descent;
+            transY -= paint.getFontMetricsInt().descent/2;
             canvas.translate(x, transY);
             imageDrawable.draw(canvas);
             canvas.restore();
