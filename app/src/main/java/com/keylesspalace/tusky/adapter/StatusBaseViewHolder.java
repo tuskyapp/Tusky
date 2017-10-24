@@ -121,7 +121,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private void setContent(Spanned content, Status.Mention[] mentions, List<Status.Emoji> emojis,
                             StatusActionListener listener) {
-
+        Context context = this.content.getContext();
         SpannableStringBuilder builder = new SpannableStringBuilder(content);
         if (!emojis.isEmpty()) {
             CharSequence text = builder.subSequence(0, builder.length());
@@ -129,7 +129,9 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 CharSequence pattern = new StringBuilder(":").append(emoji.getShortcode()).append(':');
                 Matcher matcher = Pattern.compile(pattern.toString()).matcher(text);
                 while (matcher.find()) {
-                    EmojiSpan span = new EmojiSpan();
+                    // We keep a span as a Picasso target, because Picasso keeps weak reference to
+                    // the target so an anonymous class would likely be garbage collected.
+                    EmojiSpan span = new EmojiSpan(context);
                     span.setCallback(spanCallback);
                     builder.setSpan(span, matcher.start(), matcher.end(), 0);
                     Picasso.with(container.getContext())
@@ -141,7 +143,6 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         /* Redirect URLSpan's in the status content to the listener for viewing tag pages and
          * account pages. */
-        Context context = this.content.getContext();
         boolean useCustomTabs =
                 PreferenceManager.getDefaultSharedPreferences(context).getBoolean("customTabs", true);
         LinkHelper.setClickableText(this.content, builder, mentions, useCustomTabs, listener);
@@ -518,6 +519,11 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         private @Nullable
         Drawable imageDrawable;
         private WeakReference<Callback> callbackWeakReference;
+        private Context context;
+
+        public EmojiSpan(Context context) {
+            this.context = context.getApplicationContext();
+        }
 
         public void setImageDrawable(@Nullable Drawable imageDrawable) {
             this.imageDrawable = imageDrawable;
@@ -550,7 +556,11 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            imageDrawable = new BitmapDrawable(bitmap);
+            // I hope using resources from application context is okay
+            // It's probably better than keeping activity alive. My assumption is that resources are
+            // only needed to look up the density which is really unlikely to change with
+            // configuration
+            imageDrawable = new BitmapDrawable(context.getResources(), bitmap);
             if (callbackWeakReference != null) {
                 Callback cb = callbackWeakReference.get();
                 if (cb != null) cb.onSuccess();
