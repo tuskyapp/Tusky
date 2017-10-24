@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -146,7 +147,7 @@ public class ViewThreadFragment extends SFragment implements
         final Status status = statuses.get(position);
         super.reblogWithCallback(statuses.get(position), reblog, new Callback<Status>() {
             @Override
-            public void onResponse(Call<Status> call, Response<Status> response) {
+            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
                 if (response.isSuccessful()) {
                     status.reblogged = reblog;
 
@@ -161,7 +162,7 @@ public class ViewThreadFragment extends SFragment implements
             }
 
             @Override
-            public void onFailure(Call<Status> call, Throwable t) {
+            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
                 Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.id);
                 t.printStackTrace();
             }
@@ -173,7 +174,7 @@ public class ViewThreadFragment extends SFragment implements
         final Status status = statuses.get(position);
         super.favouriteWithCallback(statuses.get(position), favourite, new Callback<Status>() {
             @Override
-            public void onResponse(Call<Status> call, Response<Status> response) {
+            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
                 if (response.isSuccessful()) {
                     status.favourited = favourite;
 
@@ -187,7 +188,7 @@ public class ViewThreadFragment extends SFragment implements
             }
 
             @Override
-            public void onFailure(Call<Status> call, Throwable t) {
+            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
                 Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.id);
                 t.printStackTrace();
             }
@@ -251,6 +252,10 @@ public class ViewThreadFragment extends SFragment implements
 
     @Override
     public void removeItem(int position) {
+        if(position == statusIndex) {
+            //the status got removed, close the activity
+            getActivity().finish();
+        }
         statuses.remove(position);
         adapter.setStatuses(statuses.getPairedCopy());
     }
@@ -270,6 +275,11 @@ public class ViewThreadFragment extends SFragment implements
             }
         }
         statusIndex = statuses.indexOf(status);
+        if(statusIndex == -1) {
+            //the status got removed, close the activity
+            getActivity().finish();
+            return;
+        }
         adapter.setDetailedStatusPosition(statusIndex);
         adapter.setStatuses(statuses.getPairedCopy());
     }
@@ -278,7 +288,7 @@ public class ViewThreadFragment extends SFragment implements
         Call<Status> call = mastodonApi.status(id);
         call.enqueue(new Callback<Status>() {
             @Override
-            public void onResponse(Call<Status> call, Response<Status> response) {
+            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
                 if (response.isSuccessful()) {
                     int position = setStatus(response.body());
                     recyclerView.scrollToPosition(position);
@@ -288,7 +298,7 @@ public class ViewThreadFragment extends SFragment implements
             }
 
             @Override
-            public void onFailure(Call<Status> call, Throwable t) {
+            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
                 onThreadRequestFailure(id);
             }
         });
@@ -299,7 +309,7 @@ public class ViewThreadFragment extends SFragment implements
         Call<StatusContext> call = mastodonApi.statusContext(id);
         call.enqueue(new Callback<StatusContext>() {
             @Override
-            public void onResponse(Call<StatusContext> call, Response<StatusContext> response) {
+            public void onResponse(@NonNull Call<StatusContext> call, @NonNull Response<StatusContext> response) {
                 if (response.isSuccessful()) {
                     swipeRefreshLayout.setRefreshing(false);
                     StatusContext context = response.body();
@@ -310,7 +320,7 @@ public class ViewThreadFragment extends SFragment implements
             }
 
             @Override
-            public void onFailure(Call<StatusContext> call, Throwable t) {
+            public void onFailure(@NonNull Call<StatusContext> call, @NonNull Throwable t) {
                 onThreadRequestFailure(id);
             }
         });
