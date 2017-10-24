@@ -25,6 +25,7 @@ public class MentionTokenizer implements MultiAutoCompleteTextView.Tokenizer {
     public int findTokenStart(CharSequence text, int cursor) {
         int i = cursor;
         while (i > 0 && text.charAt(i - 1) != '@') {
+            if (!Character.isLetterOrDigit(text.charAt(i - 1))) return cursor;
             i--;
         }
         if (i < 1 || text.charAt(i - 1) != '@') {
