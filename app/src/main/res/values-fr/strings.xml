@@ -31,7 +31,8 @@
     <string name="title_blocks">Utilisateurs bloqués</string>
     <string name="title_mutes">Utilisateurs muets</string>
     <string name="title_edit_profile">Editer votre profil</string>
-    <string name="title_follow_requests">Demande de follow</string>
+    <string name="title_follow_requests">Demande de suivi</string>
+    <string name="title_saved_toot">Pouet sauvegardés</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s a boosté</string>
@@ -95,9 +96,11 @@
     <string name="action_logout_confirm">Voulez-vous vous déconnectez ?</string>
     <string name="action_reject">Rejeter</string>
     <string name="action_undo">Annuler</string>
-    <string name="action_view_follow_requests">Demandes de follow</string>
+    <string name="action_view_follow_requests">Demandes de suivi</string>
     <string name="action_view_mutes">Utilisateurs muets</string>
     <string name="action_copy_link">Copier le lien</string>
+    <string name="action_search">Rechercher</string>
+    <string name="action_access_saved_toot">Pouets sauvegardés</string>
 
     <string name="send_status_link_to">Partager l’URL de votre pouet avec…</string>
     <string name="send_status_content_to">Partager le pouet avec…</string>
@@ -129,7 +132,7 @@
     <string name="dialog_title_finishing_media_upload">Média mis en ligne avec succès.</string>
     <string name="dialog_message_uploading_media">Mise en ligne…</string>
     <string name="dialog_download_image">Télécharger</string>
-    <string name="dialog_message_follow_request">Demande de follow en attente d\'une réponse</string>
+    <string name="dialog_message_follow_request">Demande de suivi en attente d\'une réponse</string>
 
     <string name="visibility_public">Public : afficher dans les fils publics.</string>
     <string name="visibility_unlisted">Non listé : ne pas afficher dans les fils publics.</string>
