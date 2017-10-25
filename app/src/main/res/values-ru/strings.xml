@@ -201,7 +201,6 @@
 
     <string name="state_follow_requested">Запрошенные подписки</string>
 
-	<string name="combine_s1_s2">%1$s %2$s</string>
     <string name="no_content">ничего нет</string>
     <string name="action_save_one_toot">Пост сохранён!</string>
 
