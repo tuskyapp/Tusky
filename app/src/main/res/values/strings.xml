@@ -210,7 +210,6 @@
 
     <string name="state_follow_requested">Follow requested</string>
 
-    <string name="combine_s1_s2">%1$s %2$s</string>
     <string name="no_content">no content</string>
     <string name="action_save_one_toot">Toot saved!</string>
 

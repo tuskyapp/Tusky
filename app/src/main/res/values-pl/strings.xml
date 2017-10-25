@@ -195,7 +195,6 @@
 
     <string name="state_follow_requested">Wysłano prośbę o obserwację</string>
 
-    <string name="combine_s1_s2">%1$s %2$s</string>
     <string name="no_content">brak zawartości</string>
     <string name="action_save_one_toot">Zapisano wpis!</string>
 
