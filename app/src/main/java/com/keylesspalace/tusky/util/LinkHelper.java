@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.util;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -111,4 +112,5 @@ public class LinkHelper {
         view.setLinksClickable(true);
         view.setMovementMethod(LinkMovementMethod.getInstance());
     }
+
 }

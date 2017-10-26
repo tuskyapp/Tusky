@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.ThreadAdapter;
+import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
@@ -64,6 +65,7 @@ public class ViewThreadFragment extends SFragment implements
     private ThreadAdapter adapter;
     private String thisThreadsStatusId;
     private TimelineReceiver timelineReceiver;
+    private Card card;
 
     private int statusIndex = 0;
 
@@ -135,6 +137,7 @@ public class ViewThreadFragment extends SFragment implements
     public void onRefresh() {
         sendStatusRequest(thisThreadsStatusId);
         sendThreadRequest(thisThreadsStatusId);
+        sendCardRequest(thisThreadsStatusId);
     }
 
     @Override
@@ -327,6 +330,26 @@ public class ViewThreadFragment extends SFragment implements
         callList.add(call);
     }
 
+    private void sendCardRequest(final String id) {
+        Call<Card> call = mastodonApi.statusCard(id);
+        call.enqueue(new Callback<Card>() {
+            @Override
+            public void onResponse(@NonNull Call<Card> call, @NonNull Response<Card> response) {
+                if (response.isSuccessful()) {
+                    showCard(response.body());
+                } else {
+                    onThreadRequestFailure(id);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Card> call, @NonNull Throwable t) {
+                onThreadRequestFailure(id);
+            }
+        });
+        callList.add(call);
+    }
+
     private void onThreadRequestFailure(final String id) {
         View view = getView();
         swipeRefreshLayout.setRefreshing(false);
@@ -356,7 +379,13 @@ public class ViewThreadFragment extends SFragment implements
         int i = statusIndex;
         statuses.add(i, status);
         adapter.setDetailedStatusPosition(i);
-        adapter.addItem(i, statuses.getPairedItem(i));
+        StatusViewData viewData = statuses.getPairedItem(i);
+        if(viewData.getCard() == null && card != null) {
+            viewData = new StatusViewData.Builder(viewData)
+                    .setCard(card)
+                    .createStatusViewData();
+        }
+        adapter.addItem(i, viewData);
         return i;
     }
 
@@ -391,7 +420,13 @@ public class ViewThreadFragment extends SFragment implements
             // In case we needed to delete everything (which is way easier than deleting
             // everything except one), re-insert the remaining status here.
             statuses.add(statusIndex, mainStatus);
-            adapter.addItem(statusIndex, statuses.getPairedItem(statusIndex));
+            StatusViewData viewData = statuses.getPairedItem(statusIndex);
+            if(viewData.getCard() == null && card != null) {
+                viewData = new StatusViewData.Builder(viewData)
+                        .setCard(card)
+                        .createStatusViewData();
+            }
+            adapter.addItem(statusIndex, viewData);
         }
 
         // Insert newly fetched descendants
@@ -408,6 +443,21 @@ public class ViewThreadFragment extends SFragment implements
             throw new AssertionError(error);
         }
         adapter.addAll(descendantsViewData);
+    }
+
+    private void showCard(Card card) {
+        this.card = card;
+        if(statuses.size() != 0) {
+            StatusViewData oldViewData = statuses.getPairedItem(statusIndex);
+                    if(oldViewData != null) {
+                        StatusViewData newViewData = new StatusViewData.Builder(statuses.getPairedItem(statusIndex))
+                                .setCard(card)
+                                .createStatusViewData();
+
+                        statuses.setPairedItem(statusIndex, newViewData);
+                        adapter.setItem(statusIndex, newViewData, true);
+                    }
+        }
     }
 
     public void clear() {

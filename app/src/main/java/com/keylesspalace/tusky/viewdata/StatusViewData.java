@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.viewdata;
 import android.support.annotation.Nullable;
 import android.text.Spanned;
 
+import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
 
 import java.util.Collections;
@@ -44,6 +45,8 @@ public final class StatusViewData {
     private final boolean rebloggingEnabled;
     private final Status.Application application;
     private final List<Status.Emoji> emojis;
+    @Nullable
+    private final Card card;
 
     public StatusViewData(String id, Spanned content, boolean reblogged, boolean favourited,
                           String spoilerText, Status.Visibility visibility, Status.MediaAttachment[] attachments,
@@ -51,7 +54,7 @@ public final class StatusViewData {
                           boolean isShowingSensitiveWarning, String userFullName, String nickname, String avatar,
                           Date createdAt, String reblogsCount, String favouritesCount, String inReplyToId,
                           Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
-                          Status.Application application, List<Status.Emoji> emojis) {
+                          Status.Application application, List<Status.Emoji> emojis, Card card) {
         this.id = id;
         this.content = content;
         this.reblogged = reblogged;
@@ -76,6 +79,7 @@ public final class StatusViewData {
         this.rebloggingEnabled = rebloggingEnabled;
         this.application = application;
         this.emojis = emojis;
+        this.card = card;
     }
 
     public String getId() {
@@ -179,6 +183,10 @@ public final class StatusViewData {
         return emojis;
     }
 
+    public Card getCard() {
+        return card;
+    }
+
     public static class Builder {
         private String id;
         private Spanned content;
@@ -204,6 +212,7 @@ public final class StatusViewData {
         private boolean rebloggingEnabled;
         private Status.Application application;
         private List<Status.Emoji> emojis;
+        private Card card;
 
         public Builder() {
         }
@@ -233,6 +242,8 @@ public final class StatusViewData {
             rebloggingEnabled = viewData.rebloggingEnabled;
             application = viewData.application;
             emojis = viewData.getEmojis();
+            card = viewData.getCard();
+
         }
 
         public Builder setId(String id) {
@@ -355,12 +366,17 @@ public final class StatusViewData {
             return this;
         }
 
+        public Builder setCard(Card card) {
+            this.card = card;
+            return this;
+        }
+
         public StatusViewData createStatusViewData() {
             if (this.emojis == null) emojis = Collections.emptyList();
             return new StatusViewData(id, content, reblogged, favourited, spoilerText, visibility,
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
                     isShowingSensitiveContent, userFullName, nickname, avatar, createdAt, reblogsCount,
-                    favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application, emojis);
+                    favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application, emojis, card);
         }
     }
 }

@@ -104,11 +104,72 @@
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
         android:textColor="?android:textColorPrimary" />
 
+    <LinearLayout
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/status_content"
+        android:layout_marginTop="4dp"
+        android:layout_toEndOf="@+id/status_avatar"
+        android:layout_toRightOf="@+id/status_avatar"
+        android:background="?attr/card_background"
+        android:clipChildren="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/card_image"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="?attr/card_image_background" />
+
+        <LinearLayout
+            android:id="@+id/card_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="6dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:paddingTop="6dp">
+
+            <TextView
+                android:id="@+id/card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:lines="1"
+                android:textColor="?android:textColorPrimary" />
+
+            <TextView
+                android:id="@+id/card_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:ellipsize="end"
+                android:lineSpacingMultiplier="1.1"
+                android:maxLines="2"
+                android:textColor="?android:textColorSecondary" />
+
+            <TextView
+                android:id="@+id/card_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="?android:textColorTertiary" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
     <FrameLayout
         android:id="@+id/status_media_preview_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/status_content"
+        android:layout_below="@+id/card_view"
         android:layout_toEndOf="@+id/status_avatar"
         android:layout_toRightOf="@+id/status_avatar">
 
