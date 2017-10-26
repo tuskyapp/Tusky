@@ -11,8 +11,6 @@
     </declare-styleable>
 
     <!--Themed Attributes-->
-    <attr name="splash_background_color" format="reference|color" />
-    <attr name="splash_wave_color" format="reference|color" />
     <attr name="toolbar_background_color" format="reference" />
     <attr name="toolbar_icon_tint" format="reference" />
     <attr name="image_button_style" format="reference" />

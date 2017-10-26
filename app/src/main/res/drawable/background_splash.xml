@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-        <bitmap
-            android:src="@drawable/splash_pattern"
-            android:tileMode="repeat" />
+        <color android:color="@color/color_primary_dark_dark"/>
     </item>
     <item>
         <bitmap
-            android:src="@mipmap/ic_logo"
-            android:gravity="center"
-            android:tileMode="disabled" />
+            android:src="@drawable/splash"
+            android:gravity="center" />
     </item>
 </layer-list>

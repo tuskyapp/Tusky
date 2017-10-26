@@ -17,6 +17,7 @@
     
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splash</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark_dark</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 
@@ -41,8 +42,6 @@
 
         <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheetDialog.Dark</item>
 
-        <item name="splash_background_color">@color/color_background_dark</item>
-        <item name="splash_wave_color">@color/color_primary_dark</item>
         <item name="toolbar_background_color">@color/toolbar_background_dark</item>
         <item name="toolbar_icon_tint">@color/toolbar_icon_dark</item>
         <item name="image_button_style">@style/AppTheme.ImageButton.Dark</item>
@@ -119,8 +118,6 @@
 
         <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheetDialog.Light</item>
 
-        <item name="splash_background_color">@color/color_background_light</item>
-        <item name="splash_wave_color">@color/color_primary_light</item>
         <item name="toolbar_background_color">@color/toolbar_background_light</item>
         <item name="toolbar_icon_tint">@color/toolbar_icon_light</item>
         <item name="image_button_style">@style/AppTheme.ImageButton.Light</item>
