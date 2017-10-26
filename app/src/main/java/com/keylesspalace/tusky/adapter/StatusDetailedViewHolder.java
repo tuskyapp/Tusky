@@ -1,21 +1,14 @@
 package com.keylesspalace.tusky.adapter;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.provider.Browser;
 import android.support.annotation.Nullable;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,7 +20,7 @@ import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomTabURLSpan;
-import com.keylesspalace.tusky.util.CustomTabsHelper;
+import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
 
@@ -103,20 +96,12 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
             final Card card = status.getCard();
             cardView.setVisibility(View.VISIBLE);
             cardTitle.setText(card.title);
-            if(TextUtils.isEmpty(card.description)) {
-                cardDescription.setVisibility(View.GONE);
-            } else {
-                cardDescription.setVisibility(View.VISIBLE);
-                cardDescription.setText(card.description);
-            }
+            cardDescription.setText(card.description);
+
             cardUrl.setText(card.url);
 
             if(card.width > 0 && card.height > 0 && !TextUtils.isEmpty(card.image)) {
                 cardImage.setVisibility(View.VISIBLE);
-
-                Log.d("CARDVIEW", cardView.getWidth()+"x"+cardView.getHeight());
-
-                Log.d("CARD", card.width+ "x"+card.height) ;
 
                 if(card.width > card.height) {
                     cardView.setOrientation(LinearLayout.VERTICAL);
@@ -142,59 +127,20 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                         .load(card.image)
                         .fit()
                         .centerCrop()
-                        //.placeholder(R.drawable.avatar_default)
-                        //.transform(new RoundedTransformation(7, 0))
                         .into(cardImage);
 
             } else {
                 cardImage.setVisibility(View.GONE);
             }
 
-
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Context context = v.getContext();
-                    Uri uri = Uri.parse(card.url);
 
-
-                    boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(context)
-                            .getBoolean("customTabs", true);
-                    if (useCustomTabs) {
-                        boolean lightTheme = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("lightTheme", false);
-                        int toolbarColor = ContextCompat.getColor(context, lightTheme ? R.color.custom_tab_toolbar_light : R.color.custom_tab_toolbar_dark);
-                        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                        builder.setToolbarColor(toolbarColor);
-                        CustomTabsIntent customTabsIntent = builder.build();
-                        try {
-                            String packageName = CustomTabsHelper.getPackageNameToUse(context);
-
-                            //If we cant find a package name, it means theres no browser that supports
-                            //Chrome Custom Tabs installed. So, we fallback to the webview
-                            if (packageName == null) {
-                                openLinkInBrowser(uri, context);
-                            } else {
-                                customTabsIntent.intent.setPackage(packageName);
-                                customTabsIntent.launchUrl(context, uri);
-                            }
-                        } catch (ActivityNotFoundException e) {
-                            Log.w("URLSpan", "Activity was not found for intent, " + customTabsIntent.toString());
-                        }
-                    } else {
-                        openLinkInBrowser(uri, context);
-                    }
+                    LinkHelper.openLink(card.url, v.getContext());
 
                 }
 
-                private void openLinkInBrowser(Uri uri, Context context) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    intent.putExtra(Browser.EXTRA_APPLICATION_ID, context.getPackageName());
-                    try {
-                        context.startActivity(intent);
-                    } catch (ActivityNotFoundException e) {
-                        Log.w("URLSpan", "Actvity was not found for intent, " + intent.toString());
-                    }
-                }
             });
 
         } else {
