@@ -71,6 +71,7 @@
     <string name="action_view_preferences">Voorkeuren</string>
     <string name="action_view_favourites">Favorieten</string>
     <string name="action_view_mutes">Genegeerde gebruikers</string>
+    <string name="action_view_follow_requests">Volgverzoeken</string>
     <string name="action_view_blocks">Geblokkeerde gebruikers</string>
     <string name="action_view_thread">Conversatie</string>
     <string name="action_view_media">Media</string>
@@ -93,8 +94,10 @@
     <string name="action_reject">Afwijzen</string>
     <string name="action_search">Zoeken</string>
     <string name="action_access_saved_toot">Concepten</string>
-    <string name="send_status_link_to">Deel link van toot</string>
-    <string name="send_status_content_to">Deel inhoud van toot</string>
+    <string name="download_image">%1$s aan het downloaden</string>
+    <string name="action_copy_link">Link kopiëren</string>
+    <string name="send_status_link_to">Link van toot delen</string>
+    <string name="send_status_content_to">Inhoud van toot delen</string>
     <string name="confirmation_send">Toot!</string>
     <string name="confirmation_reported">Verzenden!</string>
     <string name="confirmation_unblocked">Gebruiker is gedeblokkeerd</string>
@@ -118,6 +121,7 @@
     <string name="dialog_message_uploading_media">Aan het uploaden</string>
     <string name="dialog_download_image">Download</string>
     <string name="dialog_message_follow_request">In afwachting van reactie op volgverzoek</string>
+    <string name="dialog_unfollow_warning">Account ontvolgen?</string>
     <string name="visibility_public">Openbaar</string>
     <string name="visibility_unlisted">Openbaar, maar niet op openbare tijdlijn tonen</string>    
     <string name="visibility_private">Alleen aan volgers tonen</string>
@@ -145,6 +149,14 @@
     <string name="pref_title_show_boosts">Boosts tonen</string>
     <string name="pref_title_show_replies">Reacties tonen</string>
     <string name="pref_title_show_media_preview">Voorbeelden van media tonen</string>
+    <string name="notification_channel_mention_name">Nieuwe vermeldingen</string>
+    <string name="notification_channel_mention_descriptions">Meldingen over nieuwe vermeldingen</string>
+    <string name="notification_channel_follow_name">Nieuwe volgers</string>
+    <string name="notification_channel_follow_description">Meldingen over nieuwe volgers</string>
+    <string name="notification_channel_boost_name">Boosts</string>
+    <string name="notification_channel_boost_description">Meldingen wanneer jouw toots zijn geboost</string>
+    <string name="notification_channel_favourite_name">Favorieten</string>
+    <string name="notification_channel_favourite_description">Meldingen wanneer jouw toots als favoriet zijn gemarkeerd</string>
     <string name="notification_mention_format">%s vermeldde jou</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s en %4$d anderen</string>
     <string name="notification_summary_medium">%1$s, %2$s en %3$s</string>
@@ -170,4 +182,19 @@
     <string name="no_content">geen inhoud</string>
     <string name="action_save_one_toot">Toot opgeslagen!</string>
 
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">over %dj</string>
+    <string name="abbreviated_in_days">over %dd</string>
+    <string name="abbreviated_in_hours">over %du</string>
+    <string name="abbreviated_in_minutes">over %dm</string>
+    <string name="abbreviated_in_seconds">over %ds</string>
+    <string name="abbreviated_years_ago">%dj</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%du</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
+
+    <string name="follows_you">Volgt jou</string>
+    <string name="pref_title_alway_show_sensitive_media">Altijd gevoelige inhoud (nsfw) tonen</string>
+   
 </resources>
