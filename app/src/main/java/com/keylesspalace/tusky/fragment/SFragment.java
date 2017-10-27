@@ -111,30 +111,6 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         startActivityForResult(intent, COMPOSE_RESULT);
     }
 
-    protected void reblog(final Status status, final boolean reblog,
-                          final RecyclerView.Adapter adapter, final int position) {
-        reblogWithCallback(status, reblog, new Callback<Status>() {
-            @Override
-            public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
-                if (response.isSuccessful()) {
-                    status.reblogged = reblog;
-
-                    if (status.reblog != null) {
-                        status.reblog.reblogged = reblog;
-                    }
-
-                    adapter.notifyItemChanged(position);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Status> call, Throwable t) {
-                Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.id);
-                t.printStackTrace();
-            }
-        });
-    }
-
     protected void reblogWithCallback(final Status status, final boolean reblog,
                                       Callback<Status> callback) {
         String id = status.getActionableId();
@@ -146,30 +122,6 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
             call = mastodonApi.unreblogStatus(id);
         }
         call.enqueue(callback);
-    }
-
-    protected void favourite(final Status status, final boolean favourite,
-            final RecyclerView.Adapter adapter, final int position) {
-        favouriteWithCallback(status, favourite, new Callback<Status>() {
-            @Override
-            public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
-                if (response.isSuccessful()) {
-                    status.favourited = favourite;
-
-                    if (status.reblog != null) {
-                        status.reblog.favourited = favourite;
-                    }
-
-                    adapter.notifyItemChanged(position);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Status> call, Throwable t) {
-                Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.id);
-                t.printStackTrace();
-            }
-        });
     }
 
     protected void favouriteWithCallback(final Status status, final boolean favourite,

@@ -21,6 +21,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -229,15 +230,63 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onReblog(boolean reblog, int position) {
-        Notification notification = notifications.get(position);
-        super.reblog(notification.status, reblog, adapter, position);
+    public void onReblog(final boolean reblog, final int position) {
+        final Notification notification = notifications.get(position);
+        final Status status = notification.status;
+        reblogWithCallback(status, reblog, new Callback<Status>() {
+            @Override
+            public void onResponse(@NonNull Call<Status> call, @NonNull retrofit2.Response<Status> response) {
+                if (response.isSuccessful()) {
+                    status.reblogged = reblog;
+
+                    if (status.reblog != null) {
+                        status.reblog.reblogged = reblog;
+                    }
+                    notifications.set(position, notification);
+
+                    adapter.updateItemWithNotify(position, notifications.getPairedItem(position), true);
+
+                    adapter.notifyItemChanged(position);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
+                Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.id);
+                t.printStackTrace();
+            }
+        });
     }
 
+
     @Override
-    public void onFavourite(boolean favourite, int position) {
-        Notification notification = notifications.get(position);
-        super.favourite(notification.status, favourite, adapter, position);
+    public void onFavourite(final boolean favourite, final int position) {
+        final Notification notification = notifications.get(position);
+        final Status status = notification.status;
+        favouriteWithCallback(status, favourite, new Callback<Status>() {
+            @Override
+            public void onResponse(@NonNull Call<Status> call, @NonNull retrofit2.Response<Status> response) {
+                if (response.isSuccessful()) {
+                    status.favourited = favourite;
+
+                    if (status.reblog != null) {
+                        status.reblog.favourited = favourite;
+                    }
+
+                    notifications.set(position, notification);
+
+                    adapter.updateItemWithNotify(position, notifications.getPairedItem(position), true);
+
+                    adapter.notifyItemChanged(position);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
+                Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.id);
+                t.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -373,8 +422,8 @@ public class NotificationsFragment extends SFragment implements
 
         call.enqueue(new Callback<List<Notification>>() {
             @Override
-            public void onResponse(Call<List<Notification>> call,
-                                   Response<List<Notification>> response) {
+            public void onResponse(@NonNull Call<List<Notification>> call,
+                                   @NonNull Response<List<Notification>> response) {
                 if (response.isSuccessful()) {
                     String linkHeader = response.headers().get("Link");
                     onFetchNotificationsSuccess(response.body(), linkHeader, fetchEnd);
@@ -384,7 +433,7 @@ public class NotificationsFragment extends SFragment implements
             }
 
             @Override
-            public void onFailure(Call<List<Notification>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Notification>> call, @NonNull Throwable t) {
                 onFetchNotificationsFailure((Exception) t, fetchEnd);
             }
         });
