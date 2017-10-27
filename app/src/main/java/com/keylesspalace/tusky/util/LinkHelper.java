@@ -15,15 +15,25 @@
 
 package com.keylesspalace.tusky.util;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.provider.Browser;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 
@@ -111,4 +121,71 @@ public class LinkHelper {
         view.setLinksClickable(true);
         view.setMovementMethod(LinkMovementMethod.getInstance());
     }
+
+    /**
+     * Opens a link, depending on the settings, either in the browser or in a custom tab
+     *
+     * @param url a string containing the url to open
+     * @param context context
+     */
+    public static void openLink(String url, Context context) {
+        Uri uri = Uri.parse(url);
+
+        boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean("customTabs", true);
+        if (useCustomTabs) {
+            openLinkInCustomTab(uri, context);
+        } else {
+            openLinkInBrowser(uri, context);
+        }
+    }
+
+    /**
+     * opens a link in the browser via Intent.ACTION_VIEW
+     *
+     * @param uri the uri to open
+     * @param context context
+     */
+    public static void openLinkInBrowser(Uri uri, Context context) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.putExtra(Browser.EXTRA_APPLICATION_ID, context.getPackageName());
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Log.w("URLSpan", "Actvity was not found for intent, " + intent.toString());
+        }
+    }
+
+    /**
+     * tries to open a link in a custom tab
+     * falls back to browser if not possible
+     *
+     * @param uri the uri to open
+     * @param context context
+     */
+    public static void openLinkInCustomTab(Uri uri, Context context) {
+        boolean lightTheme = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("lightTheme", false);
+        int toolbarColor = ContextCompat.getColor(context, lightTheme ? R.color.custom_tab_toolbar_light : R.color.custom_tab_toolbar_dark);
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setToolbarColor(toolbarColor);
+        CustomTabsIntent customTabsIntent = builder.build();
+        try {
+            String packageName = CustomTabsHelper.getPackageNameToUse(context);
+
+            //If we cant find a package name, it means theres no browser that supports
+            //Chrome Custom Tabs installed. So, we fallback to the webview
+            if (packageName == null) {
+                openLinkInBrowser(uri, context);
+            } else {
+                customTabsIntent.intent.setPackage(packageName);
+                customTabsIntent.launchUrl(context, uri);
+            }
+        } catch (ActivityNotFoundException e) {
+            Log.w("URLSpan", "Activity was not found for intent, " + customTabsIntent.toString());
+        }
+
+    }
+
+
+
 }

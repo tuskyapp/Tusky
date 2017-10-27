@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.network;
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.AppCredentials;
+import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Profile;
@@ -214,5 +215,10 @@ public interface MastodonApi {
             @Field("redirect_uri") String redirectUri,
             @Field("code") String code,
             @Field("grant_type") String grantType
+    );
+
+    @GET("/api/v1/statuses/{id}/card")
+    Call<Card> statusCard(
+            @Path("id") String statusId
     );
 }
