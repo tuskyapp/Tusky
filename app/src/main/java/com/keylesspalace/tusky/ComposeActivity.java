@@ -93,7 +93,6 @@ import com.keylesspalace.tusky.util.IOUtils;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.MediaUtils;
 import com.keylesspalace.tusky.util.MentionTokenizer;
-import com.keylesspalace.tusky.util.ParserUtils;
 import com.keylesspalace.tusky.util.SpanUtils;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
@@ -122,7 +121,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ComposeActivity extends BaseActivity implements ComposeOptionsFragment.Listener, ParserUtils.ParserListener {
+public class ComposeActivity extends BaseActivity implements ComposeOptionsFragment.Listener {
     private static final String TAG = "ComposeActivity"; // logging tag
     private static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 8388608; // 8MiB
@@ -340,8 +339,6 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         updateHideMediaToggleColor();
         updateVisibleCharactersLeft();
 
-        final ParserUtils parser = new ParserUtils(this);
-
         // Setup the main text field.
         setEditTextMimeTypes(null); // new String[] { "image/gif", "image/webp" }
         final int mentionColour = ThemeUtils.getColor(this, R.attr.compose_mention_color);
@@ -359,13 +356,6 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             @Override
             public void afterTextChanged(Editable editable) {
                 SpanUtils.highlightSpans(editable, mentionColour);
-            }
-        });
-
-        textEditor.addOnPasteListener(new EditTextTyped.OnPasteListener() {
-            @Override
-            public void onPaste() {
-                parser.getPastedURLText(ComposeActivity.this);
             }
         });
 
@@ -463,9 +453,6 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                             int left = Math.min(start, end);
                             int right = Math.max(start, end);
                             textEditor.getText().replace(left, right, text, 0, text.length());
-
-                            parser.putInClipboardManager(this, text);
-                            textEditor.onPaste();
                         }
                     }
                 }
@@ -1500,49 +1487,6 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onReceiveHeaderInfo(ParserUtils.HeaderInfo headerInfo) {
-        if (!TextUtils.isEmpty(headerInfo.title)) {
-            Editable text = textEditor.getText();
-            int index = text.toString().indexOf(headerInfo.baseUrl);
-            if (index < 0) {
-                index = 0;
-            }
-            text.insert(index, headerInfo.title + StringUtils.carriageReturn);
-        }
-        if (!TextUtils.isEmpty(headerInfo.image)) {
-            Picasso.Builder builder = new Picasso.Builder(getApplicationContext());
-            builder.listener(new Picasso.Listener() {
-                @Override
-                public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-                    exception.printStackTrace();
-                }
-            });
-
-            target = MediaUtils.picassoImageTarget(ComposeActivity.this, new MediaUtils.MediaListener() {
-                @Override
-                public void onCallback(final Uri headerInfo) {
-                    if (headerInfo != null) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                long mediaSize = MediaUtils.getMediaSize(getContentResolver(),
-                                        headerInfo);
-                                pickMedia(headerInfo, mediaSize);
-                            }
-                        });
-                    }
-                }
-            });
-            Picasso.with(this).load(headerInfo.image).into(target);
-        }
-    }
-
-    @Override
-    public void onErrorHeaderInfo() {
-        displayTransientError(R.string.error_generic);
     }
 
     /**
