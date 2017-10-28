@@ -27,7 +27,6 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
@@ -408,7 +407,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             }
         } else if (savedMediaQueued != null) {
             for (SavedQueuedMedia item : savedMediaQueued) {
-                addMediaToQueue(item.type, item.preview, item.uri, item.mediaSize);
+                Bitmap preview = getImageThumbnail(getContentResolver(), item.uri);
+                addMediaToQueue(item.type, preview, item.uri, item.mediaSize, item.readyStage);
             }
         } else if (intent != null && savedInstanceState == null) {
             /* Get incoming images being sent through a share action from another app. Only do this
@@ -464,8 +464,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     protected void onSaveInstanceState(Bundle outState) {
         ArrayList<SavedQueuedMedia> savedMediaQueued = new ArrayList<>();
         for (QueuedMedia item : mediaQueued) {
-            savedMediaQueued.add(new SavedQueuedMedia(item.type, item.uri, item.preview,
-                    item.mediaSize));
+            savedMediaQueued.add(new SavedQueuedMedia(item.type, item.uri,
+                    item.mediaSize, item.readyStage));
         }
         outState.putParcelableArrayList("savedMediaQueued", savedMediaQueued);
         outState.putBoolean("showMarkSensitive", showMarkSensitive);
@@ -605,8 +605,12 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             File directory;
             switch (item.type) {
                 default:
-                case IMAGE: directory = imageDirectory; break;
-                case VIDEO: directory = videoDirectory; break;
+                case IMAGE:
+                    directory = imageDirectory;
+                    break;
+                case VIDEO:
+                    directory = videoDirectory;
+                    break;
             }
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
                     .format(new Date());
@@ -1145,8 +1149,9 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 R.attr.compose_media_button_disabled_tint);
     }
 
-    private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize) {
+    private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize, QueuedMedia.ReadyStage readyStage) {
         final QueuedMedia item = new QueuedMedia(type, uri, new ImageView(this), mediaSize);
+        item.readyStage = readyStage;
         ImageView view = item.preview;
         Resources resources = getResources();
         int side = resources.getDimensionPixelSize(R.dimen.compose_media_preview_side);
@@ -1186,11 +1191,13 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         if (queuedCount >= 1) {
             showMarkSensitive(true);
         }
-        waitForMediaLatch.countUp();
-        if (mediaSize > STATUS_MEDIA_SIZE_LIMIT && type == QueuedMedia.Type.IMAGE) {
-            downsizeMedia(item);
-        } else {
-            uploadMedia(item);
+        if (item.readyStage != QueuedMedia.ReadyStage.UPLOADED) {
+            waitForMediaLatch.countUp();
+            if (mediaSize > STATUS_MEDIA_SIZE_LIMIT && type == QueuedMedia.Type.IMAGE) {
+                downsizeMedia(item);
+            } else {
+                uploadMedia(item);
+            }
         }
     }
 
@@ -1309,6 +1316,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     private void onUploadSuccess(final QueuedMedia item, Media media) {
         item.id = media.id;
+        item.readyStage = QueuedMedia.ReadyStage.UPLOADED;
 
         /* Add the upload URL to the text field. Also, keep a reference to the span so if the user
          * chooses to remove the media, the URL is also automatically removed. */
@@ -1427,7 +1435,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                     }
                     Bitmap bitmap = getVideoThumbnail(this, uri);
                     if (bitmap != null) {
-                        addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize);
+                        addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize, null);
                     } else {
                         displayTransientError(R.string.error_media_upload_opening);
                     }
@@ -1436,7 +1444,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 case "image": {
                     Bitmap bitmap = getImageThumbnail(contentResolver, uri);
                     if (bitmap != null) {
-                        addMediaToQueue(QueuedMedia.Type.IMAGE, bitmap, uri, mediaSize);
+                        addMediaToQueue(QueuedMedia.Type.IMAGE, bitmap, uri, mediaSize, null);
                     } else {
                         displayTransientError(R.string.error_media_upload_opening);
                     }
@@ -1532,7 +1540,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
         enum ReadyStage {
             DOWNSIZING,
-            UPLOADING
+            UPLOADING,
+            UPLOADED
         }
     }
 
@@ -1552,21 +1561,21 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         };
         QueuedMedia.Type type;
         Uri uri;
-        Bitmap preview;
         long mediaSize;
+        QueuedMedia.ReadyStage readyStage;
 
-        SavedQueuedMedia(QueuedMedia.Type type, Uri uri, ImageView view, long mediaSize) {
+        SavedQueuedMedia(QueuedMedia.Type type, Uri uri, long mediaSize, QueuedMedia.ReadyStage readyStage) {
             this.type = type;
             this.uri = uri;
-            this.preview = ((BitmapDrawable) view.getDrawable()).getBitmap();
             this.mediaSize = mediaSize;
+            this.readyStage = readyStage;
         }
 
         SavedQueuedMedia(Parcel parcel) {
             type = (QueuedMedia.Type) parcel.readSerializable();
             uri = parcel.readParcelable(Uri.class.getClassLoader());
-            preview = parcel.readParcelable(Bitmap.class.getClassLoader());
             mediaSize = parcel.readLong();
+            readyStage = QueuedMedia.ReadyStage.valueOf(parcel.readString());
         }
 
         @Override
@@ -1578,8 +1587,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeSerializable(type);
             dest.writeParcelable(uri, flags);
-            dest.writeParcelable(preview, flags);
             dest.writeLong(mediaSize);
+            dest.writeString(readyStage.name());
         }
     }
 
