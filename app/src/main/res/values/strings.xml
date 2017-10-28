@@ -22,7 +22,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Federated</string>
-    <string name="title_thread">Thread</string>
+    <string name="title_view_thread">Toot</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Posts</string>
     <string name="title_follows">Follows</string>
@@ -232,6 +232,5 @@
 
     <string name="follows_you">Follows you</string>
     <string name="pref_title_alway_show_sensitive_media">Always show all nsfw content</string>
-
 
 </resources>

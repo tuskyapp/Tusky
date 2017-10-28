@@ -678,9 +678,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
                     // If the account isn't loaded yet, eat the input.
                     return false;
                 }
-                Uri uri = Uri.parse(loadedAccount.url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+                LinkHelper.openLink(loadedAccount.url, this);
                 return true;
             }
             case R.id.action_follow: {

@@ -22,7 +22,7 @@
     <string name="title_notifications">Notificações</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Global</string>
-    <string name="title_thread">Sequência</string>
+    <string name="title_view_thread">Sequência</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Postagens</string>
     <string name="title_follows">Segue</string>

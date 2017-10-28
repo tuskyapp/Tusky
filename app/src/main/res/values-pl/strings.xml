@@ -22,7 +22,7 @@
     <string name="title_notifications">Powiadomienia</string>
     <string name="title_public_local">Lokalne</string>
     <string name="title_public_federated">Federalne</string>
-    <string name="title_thread">Wątek</string>
+    <string name="title_view_thread">Wątek</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Posty</string>
     <string name="title_follows">Obserwacje</string>

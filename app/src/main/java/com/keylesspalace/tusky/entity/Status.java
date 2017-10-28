@@ -27,8 +27,6 @@ import java.util.Date;
 import java.util.List;
 
 public class Status {
-    private Status actionableStatus;
-
     public String url;
 
     @SerializedName("reblogs_count")
