@@ -166,7 +166,10 @@
     <string name="login_connection">Verbinden…</string>
 
     <string name="about_title_activity">Über</string>
-    <string name="about_application_version">Version: %s</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Tusky is freie Open-Source-Software.
+        Es ist lizenziert unter der GNU General Public License Version 3.
+        Du kannst dir die Lizenz hier anschauen: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_project_site">
         Webseite des Projekts:\n
         https://tusky.keylesspalace.com
