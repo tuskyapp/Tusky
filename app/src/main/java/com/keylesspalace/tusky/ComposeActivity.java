@@ -86,6 +86,7 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.fragment.ComposeOptionsFragment;
+import com.keylesspalace.tusky.network.ProgressRequestBody;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
 import com.keylesspalace.tusky.util.IOUtils;
@@ -96,6 +97,7 @@ import com.keylesspalace.tusky.util.SpanUtils;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EditTextTyped;
+import com.keylesspalace.tusky.view.ProgressImageView;
 import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -115,7 +117,6 @@ import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -317,7 +318,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             if (!TextUtils.isEmpty(savedJsonUrls)) {
                 // try to redo a list of media
                 loadedDraftMediaUris = new Gson().fromJson(savedJsonUrls,
-                        new TypeToken<ArrayList<String>>() {}.getType());
+                        new TypeToken<ArrayList<String>>() {
+                        }.getType());
             }
 
             int savedTootUid = intent.getIntExtra("saved_toot_uid", 0);
@@ -399,7 +401,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         statusAlreadyInFlight = false;
 
         // These can only be added after everything affected by the media queue is initialized.
-         if (!ListUtils.isEmpty(loadedDraftMediaUris)) {
+        if (!ListUtils.isEmpty(loadedDraftMediaUris)) {
             for (String uriString : loadedDraftMediaUris) {
                 Uri uri = Uri.parse(uriString);
                 long mediaSize = MediaUtils.getMediaSize(getContentResolver(), uri);
@@ -650,6 +652,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     /**
      * A∖B={x∈A|x∉B}
+     *
      * @return all elements of set A that are not in set B.
      */
     private static List<String> setDifference(List<String> a, List<String> b) {
@@ -672,7 +675,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         String savedJsonUrls = getIntent().getStringExtra("saved_json_urls");
         if (!TextUtils.isEmpty(savedJsonUrls)) {
             existingUris = new Gson().fromJson(savedJsonUrls,
-                    new TypeToken<ArrayList<String>>() {}.getType());
+                    new TypeToken<ArrayList<String>>() {
+                    }.getType());
         }
 
         final TootEntity toot = new TootEntity();
@@ -683,7 +687,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             if (!ListUtils.isEmpty(savedList)) {
                 String json = new Gson().toJson(savedList);
                 toot.setUrls(json);
-                if(!ListUtils.isEmpty(existingUris)) {
+                if (!ListUtils.isEmpty(existingUris)) {
                     deleteMedia(setDifference(existingUris, savedList));
                 }
             } else {
@@ -836,7 +840,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags,
-            String[] mimeTypes) {
+                                    String[] mimeTypes) {
         try {
             if (currentInputContentInfo != null) {
                 currentInputContentInfo.releasePermission();
@@ -898,7 +902,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private void sendStatus(String content, String visibility, boolean sensitive,
-            String spoilerText) {
+                            String spoilerText) {
         ArrayList<String> mediaIds = new ArrayList<>();
 
         for (QueuedMedia item : mediaQueued) {
@@ -1068,7 +1072,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
-            @NonNull int[] grantResults) {
+                                           @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0
@@ -1150,7 +1154,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     }
 
     private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize, QueuedMedia.ReadyStage readyStage) {
-        final QueuedMedia item = new QueuedMedia(type, uri, new ImageView(this), mediaSize);
+        final QueuedMedia item = new QueuedMedia(type, uri, new ProgressImageView(this), mediaSize);
         item.readyStage = readyStage;
         ImageView view = item.preview;
         Resources resources = getResources();
@@ -1261,7 +1265,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private void uploadMedia(final QueuedMedia item) {
         item.readyStage = QueuedMedia.ReadyStage.UPLOADING;
 
-        final String mimeType = getContentResolver().getType(item.uri);
+        String mimeType = getContentResolver().getType(item.uri);
         MimeTypeMap map = MimeTypeMap.getSingleton();
         String fileExtension = map.getExtensionFromMimeType(mimeType);
         final String filename = String.format("%s_%s_%s.%s",
@@ -1290,14 +1294,36 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             }
         }
 
-        RequestBody requestFile = RequestBody.create(MediaType.parse(mimeType), content);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("file", filename, requestFile);
+        if (mimeType == null) mimeType = "multipart/form-data";
+
+        item.preview.setProgress(0);
+
+        ProgressRequestBody fileBody = new ProgressRequestBody(content, MediaType.parse(mimeType),
+                false, // If request body logging is enabled, pass true
+                new ProgressRequestBody.UploadCallback() { // may reference activity longer than I would like to
+                    int lastProgress = -1;
+
+                    @Override
+                    public void onProgressUpdate(final int percentage) {
+                        if (percentage != lastProgress) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    item.preview.setProgress(percentage);
+                                }
+                            });
+                        }
+                        lastProgress = percentage;
+                    }
+                });
+
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", filename, fileBody);
 
         item.uploadRequest = mastodonApi.uploadMedia(body);
 
         item.uploadRequest.enqueue(new Callback<Media>() {
             @Override
-            public void onResponse(Call<Media> call, retrofit2.Response<Media> response) {
+            public void onResponse(@NonNull Call<Media> call, @NonNull retrofit2.Response<Media> response) {
                 if (response.isSuccessful()) {
                     onUploadSuccess(item, response.body());
                 } else {
@@ -1307,7 +1333,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             }
 
             @Override
-            public void onFailure(Call<Media> call, Throwable t) {
+            public void onFailure(@NonNull Call<Media> call, @NonNull Throwable t) {
                 Log.d(TAG, "Upload request failed. " + t.getMessage());
                 onUploadFailure(item, call.isCanceled());
             }
@@ -1316,6 +1342,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     private void onUploadSuccess(final QueuedMedia item, Media media) {
         item.id = media.id;
+        item.preview.setProgress(-1);
         item.readyStage = QueuedMedia.ReadyStage.UPLOADED;
 
         /* Add the upload URL to the text field. Also, keep a reference to the span so if the user
@@ -1517,7 +1544,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
 
     private static class QueuedMedia {
         Type type;
-        ImageView preview;
+        ProgressImageView preview;
         Uri uri;
         String id;
         Call<Media> uploadRequest;
@@ -1526,7 +1553,7 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         byte[] content;
         long mediaSize;
 
-        QueuedMedia(Type type, Uri uri, ImageView preview, long mediaSize) {
+        QueuedMedia(Type type, Uri uri, ProgressImageView preview, long mediaSize) {
             this.type = type;
             this.uri = uri;
             this.preview = preview;
