@@ -145,7 +145,7 @@ public class BaseActivity extends AppCompatActivity {
 
         if (BuildConfig.DEBUG) {
             okBuilder.addInterceptor(
-                    new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+                    new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC));
         }
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(getBaseUrl())
