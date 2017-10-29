@@ -129,104 +129,92 @@
 
     <string name="login_connection">Csatlakozás…</string>
 
-    <string name="dialog_whats_an_instance">The address or domain of any instance can be entered
-        here, such as mastodon.social, icosahedron.website, social.tchncs.de, and
-        <a href="https://instances.social">more!</a>
-        \n\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to
-        join and create an account there.\n\nAn instance is a single place where your account is
-        hosted, but you can easily communicate with and follow folks on other instances as though
-        you were on the same site.
-        \n\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>.
+    <string name="dialog_whats_an_instance">Bármely példány címe vagy tartománya beírható ide,
+        mint mastodon.social, icosahedron.website, social.tchncs.de, és
+        <a href="https://instances.social">mások!</a>
+        \n\nHa még nincs fiókja, beírhatja a címét azon példánynak amelyhez csatlakozna
+        és hozzon létre egy fiókot.\n\nA példány azon hely ahol a fiókja van tárolva,
+        de könnyen kommunikálhat más példányokon tartozkodő személyekkel mintha ugyanazon
+        az oldalon lennének.
+        \n\nTöbb információt találhat: <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
-    <string name="dialog_title_finishing_media_upload">Finishing Media Upload</string>
-    <string name="dialog_message_uploading_media">Uploading…</string>
-    <string name="dialog_download_image">Download</string>
-    <string name="dialog_message_follow_request">Follow request pending: awaiting their response</string>
-    <string name="dialog_unfollow_warning">Unfollow this account?</string>
+    <string name="dialog_title_finishing_media_upload">Média feltöltés befejezése</string>
+    <string name="dialog_message_uploading_media">Feltöltés…</string>
+    <string name="dialog_download_image">Letöltés</string>
+    <string name="dialog_message_follow_request">Követési kérés függőben: várjuk a válaszát</string>
+    <string name="dialog_unfollow_warning">Követés megszüntetése?</string>
 
-    <string name="visibility_public">Public: Post to public timelines</string>
-    <string name="visibility_unlisted">Unlisted: Do not show in public timelines</string>
-    <string name="visibility_private">Followers-Only: Post to followers only</string>
-    <string name="visibility_direct">Direct: Post to mentioned users only</string>
+    <string name="visibility_public">Nyilvános: Nyilvános idővonalra való posztolás</string>
+    <string name="visibility_unlisted">Listázatlan: Nem jelenik meg a nyilvános idővonalon</string>
+    <string name="visibility_private">Csak követőknek: Posztolás csak követőknek</string>
+    <string name="visibility_direct">Közvetlen: Posztolás csak az említett felhasználóknak</string>
 
-    <string name="pref_title_notification_settings">Notifications</string>
-    <string name="pref_title_edit_notification_settings">Edit Notifications</string>
-    <string name="pref_title_notifications_enabled">Notifications</string>
-    <string name="pref_title_pull_notification_check_interval">Check Interval</string>
-    <string name="pref_title_notification_alerts">Alerts</string>
-    <string name="pref_title_notification_alert_sound">Notify with a sound</string>
-    <string name="pref_title_notification_alert_vibrate">Notify with vibration</string>
-    <string name="pref_title_notification_alert_light">Notify with light</string>
-    <string name="pref_title_notification_filters">Notify me when</string>
-    <string name="pref_title_notification_filter_mentions">mentioned</string>
-    <string name="pref_title_notification_filter_follows">followed</string>
-    <string name="pref_title_notification_filter_reblogs">my posts are boosted</string>
-    <string name="pref_title_notification_filter_favourites">my posts are favourited</string>
-    <string name="pref_title_appearance_settings">Appearance</string>
-    <string name="pref_title_light_theme">Use the Light Theme</string>
-    <string name="pref_title_browser_settings">Browser</string>
-    <string name="pref_title_custom_tabs">Use Chrome Custom Tabs</string>
-    <string name="pref_title_hide_follow_button">Hide compose button while scrolling</string>
-    <string name="pref_title_status_filter">Timeline filtering</string>
-    <string name="pref_title_status_tabs">Tabs</string>
-    <string name="pref_title_show_boosts">Show boosts</string>
-    <string name="pref_title_show_replies">Show replies</string>
-    <string name="pref_title_show_media_preview">Show media previews</string>
+    <string name="pref_title_notification_settings">Értesítések</string>
+    <string name="pref_title_edit_notification_settings">Értesítések szerkesztése</string>
+    <string name="pref_title_notifications_enabled">Értesítések</string>
+    <string name="pref_title_pull_notification_check_interval">Ellenőrzési időköz</string>
+    <string name="pref_title_notification_alerts">Figyelmeztetések</string>
+    <string name="pref_title_notification_alert_sound">Értesítés hanggal</string>
+    <string name="pref_title_notification_alert_vibrate">Értesítés rezgéssel</string>
+    <string name="pref_title_notification_alert_light">Értesítés fénnyel</string>
+    <string name="pref_title_notification_filters">Mikor értesítsen</string>
+    <string name="pref_title_notification_filter_mentions">említett</string>
+    <string name="pref_title_notification_filter_follows">követett</string>
+    <string name="pref_title_notification_filter_reblogs">posztjaimat rebloggolták</string>
+    <string name="pref_title_notification_filter_favourites">posztjaimat kedvencé teszik</string>
+    <string name="pref_title_appearance_settings">Kinézet</string>
+    <string name="pref_title_light_theme">Használja a világos témát</string>
+    <string name="pref_title_browser_settings">Böngésző</string>
+    <string name="pref_title_custom_tabs">Linkek megnyitása applikáción belül</string>
+    <string name="pref_title_hide_follow_button">Szerkesztési gomb elérejtése görgetés közben</string>
+    <string name="pref_title_status_filter">Idővonal szűrése</string>
+    <string name="pref_title_status_tabs">Fülek</string>
+    <string name="pref_title_show_boosts">Rebloggolások mutatása</string>
+    <string name="pref_title_show_replies">Válaszok mutatása</string>
+    <string name="pref_title_show_media_preview">Média előnézet mutatása</string>
 
-    <string name="notification_channel_mention_name">New Mentions</string>
-    <string name="notification_channel_mention_descriptions">Notifications about new mentions</string>
-    <string name="notification_channel_follow_name">New Followers</string>
-    <string name="notification_channel_follow_description">Notifications about new followers</string>
-    <string name="notification_channel_boost_name">Boosts</string>
-    <string name="notification_channel_boost_description">Notifications when your toots get boosted</string>
-    <string name="notification_channel_favourite_name">Favourites</string>
-    <string name="notification_channel_favourite_description">Notifications when your toots get mark as favourite</string>
+    <string name="notification_channel_mention_name">Új említések</string>
+    <string name="notification_channel_mention_descriptions">Értesítések új említések esetén</string>
+    <string name="notification_channel_follow_name">Új követők</string>
+    <string name="notification_channel_follow_description">Értesítések az új követők esetén</string>
+    <string name="notification_channel_boost_name">Rebloggok</string>
+    <string name="notification_channel_boost_description">Értesítések posztjaid rebloggolása esetén</string>
+    <string name="notification_channel_favourite_name">Kedvencek</string>
+    <string name="notification_channel_favourite_description">Értesítések mikor Tülköléseid kedvencnek jelölik</string>
 
 
-    <string name="notification_mention_format">%s mentioned you</string>
-    <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
-    <string name="notification_summary_medium">%1$s, %2$s, and %3$s</string>
-    <string name="notification_summary_small">%1$s and %2$s</string>
-    <string name="notification_title_summary">%d new interactions</string>
+    <string name="notification_mention_format">%s megemített téged</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s és még %4$d</string>
+    <string name="notification_summary_medium">%1$s, %2$s meg %3$s</string>
+    <string name="notification_summary_small">%1$s és %2$s</string>
+    <string name="notification_title_summary">%d új interakció</string>
 
-    <string name="description_account_locked">Locked Account</string>
+    <string name="description_account_locked">Fiók lezárva</string>
 
-    <string name="about_title_activity">About</string>
-    <string name="about_application_version">App version: %s</string>
+    <string name="about_title_activity">Rólunk</string>
+    <string name="about_application_version">App verzió: %s</string>
     <string name="about_project_site">
-        Project website:\n
+        Projekt honlapja:\n
         https://tusky.keylesspalace.com
     </string>
     <string name="about_bug_feature_request_site">
-        Bug reports &amp; feature requests:\n
+        Hibajeletés &amp; funkcionalitási kérések:\n
         https://github.com/Vavassor/Tusky/issues
     </string>
-    <string name="about_tusky_account">Tusky\'s Profile</string>
+    <string name="about_tusky_account">Tusky Profilja</string>
 
-    <string name="status_share_content">Share content of toot</string>
-    <string name="status_share_link">Share link to toot</string>
-    <string name="status_media_images">Images</string>
-    <string name="status_media_video">Video</string>
+    <string name="status_share_content">Tülk! tartalmának megosztása</string>
+    <string name="status_share_link">Tülk linkjének megosztása</string>
+    <string name="status_media_images">Képek</string>
+    <string name="status_media_video">Videók</string>
 
-    <string name="state_follow_requested">Follow requested</string>
+    <string name="state_follow_requested">Követés kérelmezve</string>
 
-    <string name="no_content">no content</string>
-    <string name="action_save_one_toot">Toot saved!</string>
+    <string name="no_content">nincs tartalom</string>
+    <string name="action_save_one_toot">Tülk mentve!</string>
 
-    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">in %dy</string>
-    <string name="abbreviated_in_days">in %dd</string>
-    <string name="abbreviated_in_hours">in %dh</string>
-    <string name="abbreviated_in_minutes">in %dm</string>
-    <string name="abbreviated_in_seconds">in %ds</string>
-    <string name="abbreviated_years_ago">%dy</string>
-    <string name="abbreviated_days_ago">%dd</string>
-    <string name="abbreviated_hours_ago">%dh</string>
-    <string name="abbreviated_minutes_ago">%dm</string>
-    <string name="abbreviated_seconds_ago">%ds</string>
-
-    <string name="follows_you">Follows you</string>
-    <string name="pref_title_alway_show_sensitive_media">Always show all nsfw content</string>
+    <string name="follows_you">Követ téged</string>
+    <string name="pref_title_alway_show_sensitive_media">Mindig mutassa a NSFW tartalmat</string>
 
 
 </resources>
