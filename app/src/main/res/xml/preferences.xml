@@ -27,7 +27,7 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_title_browser_settings">
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="customTabs"
             android:title="@string/pref_title_custom_tabs" />
     </PreferenceCategory>

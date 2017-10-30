@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.AttrRes;
@@ -270,7 +269,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
         }
 
         boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("customTabs", true);
+                .getBoolean("customTabs", false);
         LinkHelper.setClickableText(note, account.note, null, useCustomTabs, new LinkListener() {
             @Override
             public void onViewTag(String tag) {

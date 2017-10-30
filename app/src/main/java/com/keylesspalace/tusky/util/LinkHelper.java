@@ -132,7 +132,7 @@ public class LinkHelper {
         Uri uri = Uri.parse(url);
 
         boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean("customTabs", true);
+                .getBoolean("customTabs", false);
         if (useCustomTabs) {
             openLinkInCustomTab(uri, context);
         } else {

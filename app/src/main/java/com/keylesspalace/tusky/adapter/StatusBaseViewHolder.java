@@ -143,7 +143,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         /* Redirect URLSpan's in the status content to the listener for viewing tag pages and
          * account pages. */
         boolean useCustomTabs =
-                PreferenceManager.getDefaultSharedPreferences(context).getBoolean("customTabs", true);
+                PreferenceManager.getDefaultSharedPreferences(context).getBoolean("customTabs", false);
         LinkHelper.setClickableText(this.content, builder, mentions, useCustomTabs, listener);
     }
 
