@@ -20,38 +20,87 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
+import android.support.annotation.XmlRes;
 
 import com.keylesspalace.tusky.BuildConfig;
+import com.keylesspalace.tusky.PreferencesActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.util.NotificationMaker;
 
 public class PreferencesFragment extends PreferenceFragment {
+
+    public static PreferencesFragment newInstance(@XmlRes int preference) {
+        PreferencesFragment fragment = new PreferencesFragment();
+
+        Bundle args = new Bundle();
+        args.putInt("preference", preference);
+
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences);
+
+        int preference = getArguments().getInt("preference");
+
+        addPreferencesFromResource(preference);
 
 
-        //on Android O and newer, launch the system notification settings instead of the app settings
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationMaker.createNotificationChannels(getContext());
-            PreferenceScreen notificationPreferences  = (PreferenceScreen) findPreference("notificationSettings");
-            notificationPreferences.removeAll();
-            notificationPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        Preference notificationPreferences  = findPreference("notificationPreferences");
+
+        if(notificationPreferences != null) {
+
+            //on Android O and newer, launch the system notification settings instead of the app settings
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+                 NotificationMaker.createNotificationChannels(getContext());
+
+                    notificationPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                        @Override
+                        public boolean onPreferenceClick(Preference preference) {
+                            Intent intent = new Intent();
+                            intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+
+                            intent.putExtra("android.provider.extra.APP_PACKAGE", BuildConfig.APPLICATION_ID);
+
+                            startActivity(intent);
+                            return true;
+                        }
+                    });
+
+            } else {
+                notificationPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        PreferencesActivity activity = (PreferencesActivity) getActivity();
+                        if (activity != null) {
+                            activity.showFragment(R.xml.notification_preferences, R.string.pref_title_edit_notification_settings);
+                        }
+
+                        return true;
+                    }
+                });
+            }
+        }
+
+        Preference timelineFilterPreferences  = findPreference("timelineFilterPreferences");
+        if(timelineFilterPreferences != null) {
+            timelineFilterPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent intent = new Intent();
-                    intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+                    PreferencesActivity activity = (PreferencesActivity) getActivity();
+                    if (activity != null) {
+                        activity.showFragment(R.xml.timeline_filter_preferences, R.string.pref_title_status_tabs);
+                    }
 
-                    intent.putExtra("android.provider.extra.APP_PACKAGE", BuildConfig.APPLICATION_ID);
-
-                    startActivity(intent);
                     return true;
                 }
             });
-
-
         }
+
     }
+
 }

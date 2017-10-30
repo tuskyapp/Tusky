@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen android:key="notificationSettings"
+    android:title="@string/pref_title_edit_notification_settings"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="notificationsEnabled"
+        android:title="@string/pref_title_notifications_enabled" />
+
+    <PreferenceCategory
+        android:dependency="notificationsEnabled"
+        android:title="@string/pref_title_notification_filters">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="notificationFilterMentions"
+            android:title="@string/pref_title_notification_filter_mentions" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="notificationFilterFollows"
+            android:title="@string/pref_title_notification_filter_follows" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="notificationFilterReblogs"
+            android:title="@string/pref_title_notification_filter_reblogs" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="notificationFilterFavourites"
+            android:title="@string/pref_title_notification_filter_favourites" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:dependency="notificationsEnabled"
+        android:title="@string/pref_title_notification_alerts">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="notificationAlertSound"
+            android:title="@string/pref_title_notification_alert_sound" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="notificationAlertVibrate"
+            android:title="@string/pref_title_notification_alert_vibrate" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="notificationAlertLight"
+            android:title="@string/pref_title_notification_alert_light" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

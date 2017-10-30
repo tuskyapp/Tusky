@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen android:title="@string/pref_title_status_tabs"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/title_home">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="tabFilterHomeBoosts"
+            android:title="@string/pref_title_show_boosts" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="tabFilterHomeReplies"
+            android:title="@string/pref_title_show_replies" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
