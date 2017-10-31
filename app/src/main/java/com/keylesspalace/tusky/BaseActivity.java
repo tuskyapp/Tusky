@@ -15,9 +15,7 @@
 
 package com.keylesspalace.tusky;
 
-import android.app.AlarmManager;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,7 +23,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -33,20 +30,17 @@ import android.text.Spanned;
 import android.util.TypedValue;
 import android.view.Menu;
 
+import com.evernote.android.job.JobManager;
+import com.evernote.android.job.JobRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
+import com.keylesspalace.tusky.network.AuthInterceptor;
 import com.keylesspalace.tusky.network.MastodonApi;
-import com.keylesspalace.tusky.service.PullNotificationService;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 
-import java.io.IOException;
-
 import okhttp3.Dispatcher;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -127,21 +121,9 @@ public class BaseActivity extends AppCompatActivity {
                 .create();
 
         OkHttpClient.Builder okBuilder =
-                OkHttpUtils.getCompatibleClientBuilder().addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request originalRequest = chain.request();
-
-                        Request.Builder builder = originalRequest.newBuilder();
-                        String accessToken = getAccessToken();
-                        if (accessToken != null) {
-                            builder.header("Authorization", String.format("Bearer %s", accessToken));
-                        }
-                        Request newRequest = builder.build();
-
-                        return chain.proceed(newRequest);
-                    }
-                }).dispatcher(mastodonApiDispatcher);
+                OkHttpUtils.getCompatibleClientBuilder()
+                        .addInterceptor(new AuthInterceptor(this))
+                        .dispatcher(mastodonApiDispatcher);
 
         if (BuildConfig.DEBUG) {
             okBuilder.addInterceptor(
@@ -187,26 +169,20 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void enablePushNotifications() {
-        // Start up the PullNotificationService on a repeating interval.
+        // schedule job to pull notifications
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String minutesString = preferences.getString("pullNotificationCheckInterval", "15");
         long minutes = Long.valueOf(minutesString);
-        long checkInterval = 1000 * 60 * minutes;
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, PullNotificationService.class);
-        PendingIntent serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(),
-                checkInterval, serviceAlarmIntent);
+        if (minutes < 15) {
+            preferences.edit().putString("pullNotificationCheckInterval", "15").apply();
+            minutes = 15;
+        }
+        setPullNotificationCheckInterval(minutes);
     }
 
     protected void disablePushNotifications() {
         // Cancel the repeating call for "pull" notifications.
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, PullNotificationService.class);
-        PendingIntent serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.cancel(serviceAlarmIntent);
+        JobManager.instance().cancelAllForTag(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG);
     }
 
     protected void clearNotifications() {
@@ -215,17 +191,17 @@ public class BaseActivity extends AppCompatActivity {
         notificationPreferences.edit().putString("current", "[]").apply();
 
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        manager.cancel(PullNotificationService.NOTIFY_ID);
+        manager.cancel(NotificationPullJobCreator.NOTIFY_ID);
     }
 
     protected void setPullNotificationCheckInterval(long minutes) {
+        JobManager.instance().cancelAllForTag(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG);
         long checkInterval = 1000 * 60 * minutes;
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, PullNotificationService.class);
-        PendingIntent serviceAlarmIntent = PendingIntent.getService(this, SERVICE_REQUEST_CODE, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.cancel(serviceAlarmIntent);
-        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(),
-                checkInterval, serviceAlarmIntent);
+
+        new JobRequest.Builder(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG)
+                .setPeriodic(checkInterval)
+                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                .build()
+                .schedule();
     }
 }
