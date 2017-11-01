@@ -150,11 +150,12 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
 
     @Override
     public void click(int position, TootEntity item) {
-        Intent intent = new Intent(this, ComposeActivity.class);
-        intent.putExtra("saved_toot_uid", item.getUid());
-        intent.putExtra("saved_toot_text", item.getText());
-        intent.putExtra("saved_toot_content_warning", item.getContentWarning());
-        intent.putExtra("saved_json_urls", item.getUrls());
+        Intent intent = new ComposeActivity.IntentBuilder()
+                .savedTootUid(item.getUid())
+                .savedTootText(item.getText())
+                .contentWarning(item.getContentWarning())
+                .savedJsonUrls(item.getUrls())
+                .build(this);
         startActivity(intent);
     }
 }

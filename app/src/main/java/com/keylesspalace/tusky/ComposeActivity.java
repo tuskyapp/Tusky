@@ -37,6 +37,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.AttrRes;
 import android.support.annotation.LayoutRes;
@@ -110,6 +111,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -121,7 +123,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ComposeActivity extends BaseActivity implements ComposeOptionsFragment.Listener {
+public final class ComposeActivity extends BaseActivity implements ComposeOptionsFragment.Listener {
     private static final String TAG = "ComposeActivity"; // logging tag
     private static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 8388608; // 8MiB
@@ -130,8 +132,20 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private static final int COMPOSE_SUCCESS = -1;
     private static final int THUMBNAIL_SIZE = 128; // pixels
+
+    private static final String SAVED_TOOT_UID_EXTRA = "saved_toot_uid";
+    private static final String SAVED_TOOT_TEXT_EXTRA = "saved_toot_text";
+    private static final String SAVED_JSON_URLS_EXTRA = "saved_json_urls";
+    private static final String IN_REPLY_TO_ID_EXTRA = "in_reply_to_id";
+    private static final String REPLY_VISIBILITY_EXTRA = "reply_visibilty";
+    private static final String CONTENT_WARNING_EXTRA = "content_warning";
+    private static final String MENTIONED_USERNAMES_EXTRA = "netnioned_usernames";
+    private static final String REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra";
+    private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
     private static TootDao tootDao = TuskyApplication.getDB().tootDao();
 
+    private TextView replyTextView;
+    private TextView replyContentTextView;
     private EditTextTyped textEditor;
     private LinearLayout mediaPreviewBar;
     private View contentWarningBar;
@@ -169,6 +183,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
+        replyTextView = findViewById(R.id.reply_tv);
+        replyContentTextView = findViewById(R.id.reply_content_tv);
         textEditor = findViewById(R.id.compose_edit_field);
         mediaPreviewBar = findViewById(R.id.compose_media_preview_bar);
         contentWarningBar = findViewById(R.id.compose_content_warning_bar);
@@ -275,8 +291,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         ArrayList<String> loadedDraftMediaUris = null;
         inReplyToId = null;
         if (intent != null) {
-            inReplyToId = intent.getStringExtra("in_reply_to_id");
-            String replyVisibility = intent.getStringExtra("reply_visibility");
+            inReplyToId = intent.getStringExtra(IN_REPLY_TO_ID_EXTRA);
+            String replyVisibility = intent.getStringExtra(REPLY_VISIBILITY_EXTRA);
 
             if (replyVisibility != null && startingVisibility != null) {
                 // Lowest possible visibility setting in response
@@ -291,15 +307,15 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 }
             }
 
-            mentionedUsernames = intent.getStringArrayExtra("mentioned_usernames");
+            mentionedUsernames = intent.getStringArrayExtra(MENTIONED_USERNAMES_EXTRA);
 
             if (inReplyToId != null) {
-                startingHideText = !intent.getStringExtra("content_warning").equals("");
+                startingHideText = !intent.getStringExtra(CONTENT_WARNING_EXTRA).equals("");
                 if (startingHideText) {
-                    startingContentWarning = intent.getStringExtra("content_warning");
+                    startingContentWarning = intent.getStringExtra(CONTENT_WARNING_EXTRA);
                 }
             } else {
-                String contentWarning = intent.getStringExtra("saved_toot_content_warning");
+                String contentWarning = intent.getStringExtra(CONTENT_WARNING_EXTRA);
                 if (contentWarning != null) {
                     startingHideText = !contentWarning.isEmpty();
                     if (startingHideText) {
@@ -309,12 +325,12 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             }
 
             // If come from SavedTootActivity
-            String savedTootText = intent.getStringExtra("saved_toot_text");
+            String savedTootText = intent.getStringExtra(SAVED_TOOT_TEXT_EXTRA);
             if (!TextUtils.isEmpty(savedTootText)) {
                 textEditor.append(savedTootText);
             }
 
-            String savedJsonUrls = intent.getStringExtra("saved_json_urls");
+            String savedJsonUrls = intent.getStringExtra(SAVED_JSON_URLS_EXTRA);
             if (!TextUtils.isEmpty(savedJsonUrls)) {
                 // try to redo a list of media
                 loadedDraftMediaUris = new Gson().fromJson(savedJsonUrls,
@@ -322,9 +338,29 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                         }.getType());
             }
 
-            int savedTootUid = intent.getIntExtra("saved_toot_uid", 0);
+            int savedTootUid = intent.getIntExtra(SAVED_TOOT_UID_EXTRA, 0);
             if (savedTootUid != 0) {
                 this.savedTootUid = savedTootUid;
+            }
+
+            if (intent.hasExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA)) {
+                replyTextView.setVisibility(View.VISIBLE);
+                String username = intent.getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA);
+                replyTextView.setText(getString(R.string.replying_to, username));
+                replyTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (replyContentTextView.getVisibility() != View.VISIBLE) {
+                            replyContentTextView.setVisibility(View.VISIBLE);
+                        } else {
+                            replyContentTextView.setVisibility(View.GONE);
+                        }
+                    }
+                });
+            }
+
+            if (intent.hasExtra(REPLYING_STATUS_CONTENT_EXTRA)) {
+                replyContentTextView.setText(intent.getStringExtra(REPLYING_STATUS_CONTENT_EXTRA));
             }
         }
 
@@ -460,6 +496,8 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
                 }
             }
         }
+
+
     }
 
     @Override
@@ -533,19 +571,20 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         if (statusHideText) {
             contentWarning = contentWarningEditor.getText().toString();
         }
+        Editable textToSave = textEditor.getEditableText();
         /* Discard any upload URLs embedded in the text because they'll be re-uploaded when
          * the draft is loaded and replaced with new URLs. */
         if (mediaQueued != null) {
             for (QueuedMedia item : mediaQueued) {
-                removeUrlFromEditable(textEditor.getEditableText(), item.uploadUrl);
+                textToSave = removeUrlFromEditable(textToSave, item.uploadUrl);
             }
         }
-        boolean b = saveTheToot(textEditor.getText().toString(), contentWarning);
-        if (b) {
+        boolean didSaveSuccessfully = saveTheToot(textToSave.toString(), contentWarning);
+        if (didSaveSuccessfully) {
             Toast.makeText(ComposeActivity.this, R.string.action_save_one_toot, Toast.LENGTH_SHORT)
                     .show();
         }
-        return b;
+        return didSaveSuccessfully;
     }
 
     private static boolean copyToFile(ContentResolver contentResolver, Uri uri, File file) {
@@ -1228,15 +1267,17 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
         }
     }
 
-    private static void removeUrlFromEditable(Editable editable, @Nullable URLSpan urlSpan) {
+    private static Editable removeUrlFromEditable(Editable editable, @Nullable URLSpan urlSpan) {
         if (urlSpan == null) {
-            return;
+            return editable;
         }
-        int start = editable.getSpanStart(urlSpan);
-        int end = editable.getSpanEnd(urlSpan);
+        SpannableStringBuilder builder = new SpannableStringBuilder(editable);
+        int start = builder.getSpanStart(urlSpan);
+        int end = builder.getSpanEnd(urlSpan);
         if (start != -1 && end != -1) {
-            editable.delete(start, end);
+            builder.delete(start, end);
         }
+        return builder;
     }
 
     private void downsizeMedia(final QueuedMedia item) {
@@ -1708,6 +1749,107 @@ public class ComposeActivity extends BaseActivity implements ComposeOptionsFragm
             }
 
             return view;
+        }
+    }
+
+    public static final class IntentBuilder {
+        @Nullable
+        private Integer savedTootUid;
+        @Nullable
+        private String savedTootText;
+        @Nullable
+        private String savedJsonUrls;
+        @Nullable
+        private Collection<String> mentionedUsernames;
+        @Nullable
+        private String inReplyToId;
+        @Nullable
+        private String replyVisibility;
+        @Nullable
+        private String contentWarning;
+        @Nullable
+        private Account replyingStatusAuthor;
+        @Nullable
+        private String replyingStatusContent;
+
+        public IntentBuilder savedTootUid(int uid) {
+            this.savedTootUid = uid;
+            return this;
+        }
+
+        public IntentBuilder savedTootText(String savedTootText) {
+            this.savedTootText = savedTootText;
+            return this;
+        }
+
+        public IntentBuilder savedJsonUrls(String jsonUrls) {
+            this.savedJsonUrls = jsonUrls;
+            return this;
+        }
+
+        public IntentBuilder mentionedUsernames(Collection<String> mentionedUsernames) {
+            this.mentionedUsernames = mentionedUsernames;
+            return this;
+        }
+
+        public IntentBuilder inReplyToId(String inReplyToId) {
+            this.inReplyToId = inReplyToId;
+            return this;
+        }
+
+        public IntentBuilder replyVisibility(String replyVisibility) {
+            this.replyVisibility = replyVisibility;
+            return this;
+        }
+
+        public IntentBuilder contentWarning(String contentWarning) {
+            this.contentWarning = contentWarning;
+            return this;
+        }
+
+        public IntentBuilder repyingStatusAuthor(Account author) {
+            this.replyingStatusAuthor = author;
+            return this;
+        }
+
+        public IntentBuilder replyingStatusContent(String content) {
+            this.replyingStatusContent = content;
+            return this;
+        }
+
+        public Intent build(Context context) {
+            Intent intent = new Intent(context, ComposeActivity.class);
+
+            if (savedTootUid != null) {
+                intent.putExtra(SAVED_TOOT_UID_EXTRA, (int) savedTootUid);
+            }
+            if (savedTootText != null) {
+                intent.putExtra(SAVED_TOOT_TEXT_EXTRA, savedTootText);
+            }
+            if (savedJsonUrls != null) {
+                intent.putExtra(SAVED_JSON_URLS_EXTRA, savedJsonUrls);
+            }
+            if (mentionedUsernames != null) {
+                String[] usernames = mentionedUsernames.toArray(new String[0]);
+                intent.putExtra(MENTIONED_USERNAMES_EXTRA, usernames);
+            }
+            if (inReplyToId != null) {
+                intent.putExtra(IN_REPLY_TO_ID_EXTRA, inReplyToId);
+            }
+            if (replyVisibility != null) {
+                intent.putExtra(REPLY_VISIBILITY_EXTRA, replyVisibility);
+            }
+            if (contentWarning != null) {
+                intent.putExtra(CONTENT_WARNING_EXTRA, contentWarning);
+            }
+            if (replyingStatusContent != null) {
+                intent.putExtra(REPLYING_STATUS_CONTENT_EXTRA, replyingStatusContent);
+            }
+            if (replyingStatusAuthor != null) {
+                intent.putExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA,
+                        replyingStatusAuthor.localUsername);
+            }
+            return intent;
         }
     }
 }

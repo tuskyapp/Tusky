@@ -26,9 +26,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -103,11 +101,14 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
             mentionedUsernames.add(mention.username);
         }
         mentionedUsernames.remove(loggedInUsername);
-        Intent intent = new Intent(getContext(), ComposeActivity.class);
-        intent.putExtra("in_reply_to_id", inReplyToId);
-        intent.putExtra("reply_visibility", replyVisibility);
-        intent.putExtra("content_warning", contentWarning);
-        intent.putExtra("mentioned_usernames", mentionedUsernames.toArray(new String[0]));
+        Intent intent = new ComposeActivity.IntentBuilder()
+                .inReplyToId(inReplyToId)
+                .replyVisibility(replyVisibility)
+                .contentWarning(contentWarning)
+                .mentionedUsernames(mentionedUsernames)
+                .repyingStatusAuthor(actionableStatus.account)
+                .replyingStatusContent(actionableStatus.content.toString())
+                .build(getContext());
         startActivityForResult(intent, COMPOSE_RESULT);
     }
 
