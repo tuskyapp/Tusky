@@ -19,6 +19,7 @@ import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.net.Uri;
 
+import com.evernote.android.job.JobManager;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.util.OkHttpUtils;
@@ -56,5 +57,7 @@ public class TuskyApplication extends Application {
                 .allowMainThreadQueries()
                 .addMigrations(AppDatabase.MIGRATION_2_3)
                 .build();
+
+        JobManager.create(this).addJobCreator(new NotificationPullJobCreator(this));
     }
 }

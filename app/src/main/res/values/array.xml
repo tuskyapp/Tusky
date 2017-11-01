@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="pull_notification_check_interval_names">
-        <item>5 minutes</item>
-        <item>10 minutes</item>
         <item>15 minutes</item>
         <item>20 minutes</item>
         <item>25 minutes</item>
@@ -13,8 +11,6 @@
     </string-array>
 
     <string-array name="pull_notification_check_intervals" inputType="integer">
-        <item>5</item>
-        <item>10</item>
         <item>15</item>
         <item>20</item>
         <item>25</item>
