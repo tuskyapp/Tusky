@@ -29,7 +29,6 @@ public class EditTextTyped extends AppCompatMultiAutoCompleteTextView {
 
     private InputConnectionCompat.OnCommitContentListener onCommitContentListener;
     private String[] mimeTypes;
-    private OnPasteListener onPasteListener;
 
     public EditTextTyped(Context context) {
         super(context);
@@ -37,10 +36,6 @@ public class EditTextTyped extends AppCompatMultiAutoCompleteTextView {
 
     public EditTextTyped(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
-    }
-
-    public void addOnPasteListener(OnPasteListener mOnPasteListener) {
-        this.onPasteListener = mOnPasteListener;
     }
 
     public void setMimeTypes(String[] types,
@@ -60,29 +55,5 @@ public class EditTextTyped extends AppCompatMultiAutoCompleteTextView {
         } else {
             return connection;
         }
-    }
-
-    @Override
-    public boolean onTextContextMenuItem(int id) {
-        boolean consumed = super.onTextContextMenuItem(id);
-        switch (id) {
-            case android.R.id.paste:
-                onPaste();
-                break;
-        }
-        return consumed;
-    }
-
-    /**
-     * Text was pasted into the EditText.
-     */
-    public void onPaste() {
-        if (onPasteListener != null) {
-            onPasteListener.onPaste();
-        }
-    }
-
-    public interface OnPasteListener {
-        void onPaste();
     }
 }

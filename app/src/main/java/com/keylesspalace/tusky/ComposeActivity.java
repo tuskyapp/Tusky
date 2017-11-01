@@ -144,7 +144,6 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
     private static TootDao tootDao = TuskyApplication.getDB().tootDao();
 
-    private TextView replyTextView;
     private TextView replyContentTextView;
     private EditTextTyped textEditor;
     private LinearLayout mediaPreviewBar;
@@ -183,7 +182,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
-        replyTextView = findViewById(R.id.reply_tv);
+        TextView replyTextView = findViewById(R.id.reply_tv);
         replyContentTextView = findViewById(R.id.reply_content_tv);
         textEditor = findViewById(R.id.compose_edit_field);
         mediaPreviewBar = findViewById(R.id.compose_media_preview_bar);
@@ -377,7 +376,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         updateVisibleCharactersLeft();
 
         // Setup the main text field.
-        setEditTextMimeTypes(null); // new String[] { "image/gif", "image/webp" }
+        setEditTextMimeTypes(); // new String[] { "image/gif", "image/webp" }
         final int mentionColour = ThemeUtils.getColor(this, R.attr.compose_mention_color);
         SpanUtils.highlightSpans(textEditor.getText(), mentionColour);
         textEditor.addTextChangedListener(new TextWatcher() {
@@ -861,13 +860,8 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
                 .apply();
     }
 
-    private void setEditTextMimeTypes(String[] contentMimeTypes) {
-        final String[] mimeTypes;
-        if (contentMimeTypes == null || contentMimeTypes.length == 0) {
-            mimeTypes = new String[0];
-        } else {
-            mimeTypes = Arrays.copyOf(contentMimeTypes, contentMimeTypes.length);
-        }
+    private void setEditTextMimeTypes() {
+        final String[] mimeTypes = new String[] {"image/*"};
         textEditor.setMimeTypes(mimeTypes, new InputConnectionCompat.OnCommitContentListener() {
             @Override
             public boolean onCommitContent(InputContentInfoCompat inputContentInfo,
@@ -950,7 +944,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
 
         Callback<Status> callback = new Callback<Status>() {
             @Override
-            public void onResponse(Call<Status> call, Response<Status> response) {
+            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
                 if (response.isSuccessful()) {
                     onSendSuccess();
                 } else {
@@ -959,7 +953,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
             }
 
             @Override
-            public void onFailure(Call<Status> call, Throwable t) {
+            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
                 onSendFailure();
             }
         };
