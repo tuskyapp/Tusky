@@ -38,6 +38,7 @@
     <color name="report_status_background_dark">#000000</color>
     <color name="report_status_divider_dark">#2F2F2F</color>
     <color name="custom_tab_toolbar_dark">#313543</color>
+    <color name="compose_reply_content_background_dark">#373c4b</color>
     <!--Light Theme Colors-->
     <color name="color_primary_light">#dfdfdf</color>
     <color name="color_primary_dark_light">#8f8f8f</color>
@@ -72,5 +73,6 @@
     <color name="report_status_background_light">#EFEFEF</color>
     <color name="report_status_divider_light">#9F9F9F</color>
     <color name="custom_tab_toolbar_light">#ffffff</color>
+    <color name="compose_reply_content_background_light">#e0e1e6</color>
 
 </resources>

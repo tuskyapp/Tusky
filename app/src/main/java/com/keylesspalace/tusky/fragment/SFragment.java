@@ -26,9 +26,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -108,6 +106,8 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
                 .replyVisibility(replyVisibility)
                 .contentWarning(contentWarning)
                 .mentionedUsernames(mentionedUsernames)
+                .repyingStatusAuthor(actionableStatus.account)
+                .replyingStatusContent(actionableStatus.content.toString())
                 .build(getContext());
         startActivityForResult(intent, COMPOSE_RESULT);
     }

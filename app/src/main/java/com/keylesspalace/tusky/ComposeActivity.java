@@ -37,6 +37,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.AttrRes;
 import android.support.annotation.LayoutRes;
@@ -139,8 +140,12 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
     private static final String REPLY_VISIBILITY_EXTRA = "reply_visibilty";
     private static final String CONTENT_WARNING_EXTRA = "content_warning";
     private static final String MENTIONED_USERNAMES_EXTRA = "netnioned_usernames";
+    private static final String REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra";
+    private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
     private static TootDao tootDao = TuskyApplication.getDB().tootDao();
 
+    private TextView replyTextView;
+    private TextView replyContentTextView;
     private EditTextTyped textEditor;
     private LinearLayout mediaPreviewBar;
     private View contentWarningBar;
@@ -178,6 +183,8 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
+        replyTextView = findViewById(R.id.reply_tv);
+        replyContentTextView = findViewById(R.id.reply_content_tv);
         textEditor = findViewById(R.id.compose_edit_field);
         mediaPreviewBar = findViewById(R.id.compose_media_preview_bar);
         contentWarningBar = findViewById(R.id.compose_content_warning_bar);
@@ -335,6 +342,26 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
             if (savedTootUid != 0) {
                 this.savedTootUid = savedTootUid;
             }
+
+            if (intent.hasExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA)) {
+                replyTextView.setVisibility(View.VISIBLE);
+                String username = intent.getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA);
+                replyTextView.setText(getString(R.string.replying_to, username));
+                replyTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (replyContentTextView.getVisibility() != View.VISIBLE) {
+                            replyContentTextView.setVisibility(View.VISIBLE);
+                        } else {
+                            replyContentTextView.setVisibility(View.GONE);
+                        }
+                    }
+                });
+            }
+
+            if (intent.hasExtra(REPLYING_STATUS_CONTENT_EXTRA)) {
+                replyContentTextView.setText(intent.getStringExtra(REPLYING_STATUS_CONTENT_EXTRA));
+            }
         }
 
         /* If the currently logged in account is locked, its posts should default to private. This
@@ -469,6 +496,8 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
                 }
             }
         }
+
+
     }
 
     @Override
@@ -1724,13 +1753,24 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
     }
 
     public static final class IntentBuilder {
-        @Nullable private Integer savedTootUid ;
-        @Nullable private String savedTootText;
-        @Nullable private String savedJsonUrls;
-        @Nullable private Collection<String> mentionedUsernames;
-        @Nullable private String inReplyToId;
-        @Nullable private String replyVisibility;
-        @Nullable private String contentWarning;
+        @Nullable
+        private Integer savedTootUid;
+        @Nullable
+        private String savedTootText;
+        @Nullable
+        private String savedJsonUrls;
+        @Nullable
+        private Collection<String> mentionedUsernames;
+        @Nullable
+        private String inReplyToId;
+        @Nullable
+        private String replyVisibility;
+        @Nullable
+        private String contentWarning;
+        @Nullable
+        private Account replyingStatusAuthor;
+        @Nullable
+        private String replyingStatusContent;
 
         public IntentBuilder savedTootUid(int uid) {
             this.savedTootUid = uid;
@@ -1767,6 +1807,16 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
             return this;
         }
 
+        public IntentBuilder repyingStatusAuthor(Account author) {
+            this.replyingStatusAuthor = author;
+            return this;
+        }
+
+        public IntentBuilder replyingStatusContent(String content) {
+            this.replyingStatusContent = content;
+            return this;
+        }
+
         public Intent build(Context context) {
             Intent intent = new Intent(context, ComposeActivity.class);
 
@@ -1791,6 +1841,13 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
             }
             if (contentWarning != null) {
                 intent.putExtra(CONTENT_WARNING_EXTRA, contentWarning);
+            }
+            if (replyingStatusContent != null) {
+                intent.putExtra(REPLYING_STATUS_CONTENT_EXTRA, replyingStatusContent);
+            }
+            if (replyingStatusAuthor != null) {
+                intent.putExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA,
+                        replyingStatusAuthor.localUsername);
             }
             return intent;
         }
