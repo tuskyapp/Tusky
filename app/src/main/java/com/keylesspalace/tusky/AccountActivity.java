@@ -59,6 +59,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -650,8 +651,10 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
             // If the account isn't loaded yet, eat the input.
             return false;
         }
-        Intent intent = new Intent(this, ComposeActivity.class);
-        intent.putExtra("mentioned_usernames", new String[] { loadedAccount.username });
+        Intent intent = new ComposeActivity.IntentBuilder()
+                .mentionedUsernames(Collections.singleton(loadedAccount.username))
+                .build(this);
+        startActivity(intent);
         startActivity(intent);
         return true;
     }
