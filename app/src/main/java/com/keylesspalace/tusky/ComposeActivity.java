@@ -37,7 +37,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.AttrRes;
 import android.support.annotation.LayoutRes;
@@ -968,9 +967,14 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
             status.setUid(savedTootUid);
             tootDao.delete(status);
             for (QueuedMedia item : mediaQueued) {
-                if (getContentResolver().delete(item.uri, null, null) == 0) {
-                    Log.e(TAG, String.format("Did not delete file %s.", item.uri.toString()));
+                try {
+                    if (getContentResolver().delete(item.uri, null, null) == 0) {
+                        Log.e(TAG, String.format("Did not delete file %s.", item.uri.toString()));
+                    }
+                } catch (SecurityException e) {
+                    Log.e(TAG, String.format("Did not delete file %s.", item.uri.toString()), e);
                 }
+
             }
         }
         Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose),
