@@ -22,7 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -38,11 +38,11 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver;
 import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,28 +129,20 @@ public class NotificationMaker {
             builder.setContentTitle(titleForType(context, body))
                     .setContentText(truncateWithEllipses(bodyForType(body), 40));
 
-            Target target = new Target() {
-                @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    builder.setLargeIcon(bitmap);
+            //load the avatar synchronously
+            Bitmap accountAvatar;
+            try {
+                accountAvatar = Picasso.with(context)
+                        .load(body.account.avatar)
+                        .transform(new RoundedTransformation(7, 0))
+                        .get();
+            } catch (IOException e) {
+                Log.d(TAG, "error loading account avatar", e);
+                accountAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.avatar_default);
+            }
 
-                    NotificationManager notificationManager = (NotificationManager)
-                            context.getSystemService(Context.NOTIFICATION_SERVICE);
-                    notificationManager.notify(notifyId, builder.build());
-                }
+            builder.setLargeIcon(accountAvatar);
 
-                @Override
-                public void onBitmapFailed(Drawable errorDrawable) {}
-
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {}
-            };
-
-            Picasso.with(context)
-                    .load(body.account.avatar)
-                    .placeholder(R.drawable.avatar_default)
-                    .transform(new RoundedTransformation(7, 0))
-                    .into(target);
         } else {
             try {
                 String format = context.getString(R.string.notification_title_summary);
