@@ -54,7 +54,6 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 import retrofit2.Call;
@@ -65,11 +64,14 @@ public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener,
         NotificationsAdapter.NotificationActionListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
-    private static final String TAG = "Notifications"; // logging tag
+    private static final String TAG = "NotificationF"; // logging tag
+
+    private static final int LOAD_AT_ONCE = 30;
 
     private enum FetchEnd {
         TOP,
-        BOTTOM
+        BOTTOM,
+        MIDDLE
     }
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -156,12 +158,10 @@ public class NotificationsFragment extends SFragment implements
         TabLayout layout = activity.findViewById(R.id.tab_layout);
         onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-            }
+            public void onTabSelected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
@@ -220,7 +220,7 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onRefresh() {
-        sendFetchNotificationsRequest(null, topId, FetchEnd.TOP);
+        sendFetchNotificationsRequest(null, topId, FetchEnd.TOP, -1);
     }
 
     @Override
@@ -252,8 +252,7 @@ public class NotificationsFragment extends SFragment implements
 
             @Override
             public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.id);
-                t.printStackTrace();
+                Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.id, t);
             }
         });
     }
@@ -283,8 +282,7 @@ public class NotificationsFragment extends SFragment implements
 
             @Override
             public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.id);
-                t.printStackTrace();
+                Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.id, t);
             }
         });
     }
@@ -321,7 +319,7 @@ public class NotificationsFragment extends SFragment implements
                         .setIsExpanded(expanded)
                         .createStatusViewData();
         NotificationViewData notificationViewData = new NotificationViewData(old.getType(),
-                old.getId(), old.getAccount(), statusViewData);
+                old.getId(), old.getAccount(), statusViewData, false);
         notifications.setPairedItem(position, notificationViewData);
         adapter.updateItemWithNotify(position, notificationViewData, false);
     }
@@ -334,9 +332,27 @@ public class NotificationsFragment extends SFragment implements
                         .setIsShowingSensitiveContent(isShowing)
                         .createStatusViewData();
         NotificationViewData notificationViewData = new NotificationViewData(old.getType(),
-                old.getId(), old.getAccount(), statusViewData);
+                old.getId(), old.getAccount(), statusViewData, false);
         notifications.setPairedItem(position, notificationViewData);
         adapter.updateItemWithNotify(position, notificationViewData, false);
+    }
+
+    @Override
+    public void onLoadMore(int position) {
+        //check bounds before accessing list,
+        if (notifications.size() >= position && position > 0) {
+            String fromId = notifications.get(position - 1).id;
+            String toId = notifications.get(position + 1).id;
+            sendFetchNotificationsRequest(fromId, toId, FetchEnd.MIDDLE, position);
+
+            NotificationViewData old = notifications.getPairedItem(position);
+            NotificationViewData notificationViewData = new NotificationViewData(old.getType(),
+                    old.getId(), old.getAccount(), old.getStatusViewData(), true);
+            notifications.setPairedItem(position, notificationViewData);
+            adapter.updateItemWithNotify(position, notificationViewData, false);
+        } else {
+            Log.d(TAG, "error loading more");
+        }
     }
 
     @Override
@@ -385,7 +401,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void onLoadMore() {
-        sendFetchNotificationsRequest(bottomId, null, FetchEnd.BOTTOM);
+        sendFetchNotificationsRequest(bottomId, null, FetchEnd.BOTTOM, -1);
     }
 
     private void jumpToTop() {
@@ -394,7 +410,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void sendFetchNotificationsRequest(String fromId, String uptoId,
-                                               final FetchEnd fetchEnd) {
+                                               final FetchEnd fetchEnd, final int pos) {
         /* If there is a fetch already ongoing, record however many fetches are requested and
          * fulfill them after it's complete. */
         if (fetchEnd == FetchEnd.TOP && topLoading) {
@@ -418,7 +434,7 @@ public class NotificationsFragment extends SFragment implements
             });
         }
 
-        Call<List<Notification>> call = mastodonApi.notifications(fromId, uptoId, null);
+        Call<List<Notification>> call = mastodonApi.notifications(fromId, uptoId, LOAD_AT_ONCE);
 
         call.enqueue(new Callback<List<Notification>>() {
             @Override
@@ -426,22 +442,22 @@ public class NotificationsFragment extends SFragment implements
                                    @NonNull Response<List<Notification>> response) {
                 if (response.isSuccessful()) {
                     String linkHeader = response.headers().get("Link");
-                    onFetchNotificationsSuccess(response.body(), linkHeader, fetchEnd);
+                    onFetchNotificationsSuccess(response.body(), linkHeader, fetchEnd, pos);
                 } else {
-                    onFetchNotificationsFailure(new Exception(response.message()), fetchEnd);
+                    onFetchNotificationsFailure(new Exception(response.message()), fetchEnd, pos);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Notification>> call, @NonNull Throwable t) {
-                onFetchNotificationsFailure((Exception) t, fetchEnd);
+                onFetchNotificationsFailure((Exception) t, fetchEnd, pos);
             }
         });
         callList.add(call);
     }
 
     private void onFetchNotificationsSuccess(List<Notification> notifications, String linkHeader,
-                                             FetchEnd fetchEnd) {
+                                             FetchEnd fetchEnd, int pos) {
         List<HttpHeaderLink> links = HttpHeaderLink.parse(linkHeader);
         switch (fetchEnd) {
             case TOP: {
@@ -451,6 +467,10 @@ public class NotificationsFragment extends SFragment implements
                     uptoId = previous.uri.getQueryParameter("since_id");
                 }
                 update(notifications, null, uptoId);
+                break;
+            }
+            case MIDDLE: {
+                insert(notifications, pos);
                 break;
             }
             case BOTTOM: {
@@ -489,8 +509,8 @@ public class NotificationsFragment extends SFragment implements
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    public void update(@Nullable List<Notification> newNotifications, @Nullable String fromId,
-                       @Nullable String uptoId) {
+    private void update(@Nullable List<Notification> newNotifications, @Nullable String fromId,
+                        @Nullable String uptoId) {
         if (ListUtils.isEmpty(newNotifications)) {
             return;
         }
@@ -501,8 +521,7 @@ public class NotificationsFragment extends SFragment implements
             topId = uptoId;
         }
         if (notifications.isEmpty()) {
-            // This construction removes duplicates while preserving order.
-            notifications.addAll(new LinkedHashSet<>(newNotifications));
+            notifications.addAll(newNotifications);
         } else {
             int index = notifications.indexOf(newNotifications.get(newNotifications.size() - 1));
             for (int i = 0; i < index; i++) {
@@ -510,6 +529,11 @@ public class NotificationsFragment extends SFragment implements
             }
             int newIndex = newNotifications.indexOf(notifications.get(0));
             if (newIndex == -1) {
+                if(index == -1 && newNotifications.size() >= LOAD_AT_ONCE) {
+                    Notification placeholder = new Notification();
+                    placeholder.type = Notification.Type.PLACEHOLDER;
+                    newNotifications.add(placeholder);
+                }
                 notifications.addAll(0, newNotifications);
             } else {
                 List<Notification> sublist = newNotifications.subList(0, newIndex);
@@ -519,7 +543,7 @@ public class NotificationsFragment extends SFragment implements
         adapter.update(notifications.getPairedCopy());
     }
 
-    public void addItems(List<Notification> newNotifications, @Nullable String fromId) {
+    private void addItems(List<Notification> newNotifications, @Nullable String fromId) {
         if (ListUtils.isEmpty(newNotifications)) {
             return;
         }
@@ -532,7 +556,7 @@ public class NotificationsFragment extends SFragment implements
             notifications.addAll(newNotifications);
             List<NotificationViewData> newViewDatas = notifications.getPairedCopy()
                     .subList(notifications.size() - newNotifications.size(),
-                            notifications.size() - 1);
+                            notifications.size());
             adapter.addItems(newViewDatas);
         }
     }
@@ -546,8 +570,15 @@ public class NotificationsFragment extends SFragment implements
         return false;
     }
 
-    private void onFetchNotificationsFailure(Exception exception, FetchEnd fetchEnd) {
+    private void onFetchNotificationsFailure(Exception exception, FetchEnd fetchEnd, int position) {
         swipeRefreshLayout.setRefreshing(false);
+        if(fetchEnd == FetchEnd.MIDDLE && notifications.getPairedItem(position).getType() == Notification.Type.PLACEHOLDER) {
+            NotificationViewData old = notifications.getPairedItem(position);
+            NotificationViewData notificationViewData = new NotificationViewData(old.getType(),
+                    old.getId(), old.getAccount(), old.getStatusViewData(), false);
+            notifications.setPairedItem(position, notificationViewData);
+            adapter.updateItemWithNotify(position, notificationViewData, true);
+        }
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
         fulfillAnyQueuedFetches(fetchEnd);
     }
@@ -573,9 +604,29 @@ public class NotificationsFragment extends SFragment implements
         }
     }
 
+    private void insert(List<Notification> newNotifications, int pos) {
+
+        notifications.remove(pos);
+
+        if (ListUtils.isEmpty(newNotifications)) {
+            adapter.update(notifications.getPairedCopy());
+            return;
+        }
+
+        if(newNotifications.size() >= LOAD_AT_ONCE) {
+            Notification placeholder = new Notification();
+            placeholder.type = Notification.Type.PLACEHOLDER;
+            newNotifications.add(placeholder);
+        }
+
+        notifications.addAll(pos, newNotifications);
+        adapter.update(notifications.getPairedCopy());
+
+    }
+
     private void fullyRefresh() {
         adapter.clear();
         notifications.clear();
-        sendFetchNotificationsRequest(null, null, FetchEnd.TOP);
+        sendFetchNotificationsRequest(null, null, FetchEnd.TOP, -1);
     }
 }

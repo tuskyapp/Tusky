@@ -47,6 +47,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_FOOTER = 1;
     private static final int VIEW_TYPE_STATUS_NOTIFICATION = 2;
     private static final int VIEW_TYPE_FOLLOW = 3;
+    private static final int VIEW_TYPE_PLACEHOLDER = 4;
 
     private List<NotificationViewData> notifications;
     private StatusActionListener statusListener;
@@ -88,6 +89,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                         .inflate(R.layout.item_follow, parent, false);
                 return new FollowViewHolder(view);
             }
+            case VIEW_TYPE_PLACEHOLDER: {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_status_placeholder, parent, false);
+                return new PlaceholderViewHolder(view);
+            }
         }
     }
 
@@ -121,6 +127,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     holder.setupButtons(notificationActionListener, notification.getAccount().id);
                     break;
                 }
+                case PLACEHOLDER: {
+                    PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
+                    holder.setup(!notification.isPlaceholderLoading(), statusListener);
+                    break;
+                }
             }
         } else {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
@@ -150,6 +161,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 }
                 case FOLLOW: {
                     return VIEW_TYPE_FOLLOW;
+                }
+                case PLACEHOLDER: {
+                    return VIEW_TYPE_PLACEHOLDER;
                 }
             }
         }

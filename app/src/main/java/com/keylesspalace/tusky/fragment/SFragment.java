@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -148,10 +149,10 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         Call<Relationship> call = mastodonApi.muteAccount(id);
         call.enqueue(new Callback<Relationship>() {
             @Override
-            public void onResponse(Call<Relationship> call, Response<Relationship> response) {}
+            public void onResponse(@NonNull Call<Relationship> call, @NonNull Response<Relationship> response) {}
 
             @Override
-            public void onFailure(Call<Relationship> call, Throwable t) {}
+            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {}
         });
         callList.add(call);
         Intent intent = new Intent(TimelineReceiver.Types.MUTE_ACCOUNT);
@@ -164,10 +165,10 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         Call<Relationship> call = mastodonApi.blockAccount(id);
         call.enqueue(new Callback<Relationship>() {
             @Override
-            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {}
+            public void onResponse(@NonNull Call<Relationship> call, @NonNull retrofit2.Response<Relationship> response) {}
 
             @Override
-            public void onFailure(Call<Relationship> call, Throwable t) {}
+            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {}
         });
         callList.add(call);
         Intent intent = new Intent(TimelineReceiver.Types.BLOCK_ACCOUNT);
@@ -180,10 +181,10 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         Call<ResponseBody> call = mastodonApi.deleteStatus(id);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {}
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {}
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {}
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {}
         });
         callList.add(call);
     }

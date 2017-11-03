@@ -271,6 +271,9 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             sensitiveMediaShow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                        listener.onContentHiddenChange(false, getAdapterPosition());
+                    }
                     v.setVisibility(View.GONE);
                     sensitiveMediaWarning.setVisibility(View.VISIBLE);
                 }

@@ -244,6 +244,11 @@ public class ViewThreadFragment extends SFragment implements
     }
 
     @Override
+    public void onLoadMore(int pos) {
+
+    }
+
+    @Override
     public void onViewTag(String tag) {
         super.viewTag(tag);
     }

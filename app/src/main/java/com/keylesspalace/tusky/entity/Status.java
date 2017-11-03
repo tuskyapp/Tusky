@@ -27,6 +27,10 @@ import java.util.Date;
 import java.util.List;
 
 public class Status {
+    /*if placeholder == true, this is not a real status, but a placeholder "load more"
+    and the id represents the max_id for the request*/
+    public boolean placeholder;
+
     public String url;
 
     @SerializedName("reblogs_count")
@@ -106,19 +110,21 @@ public class Status {
     public static final int MAX_MEDIA_ATTACHMENTS = 4;
 
     @Override
-    public int hashCode() {
-        return id.hashCode();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Status status = (Status) o;
+
+        if (placeholder != status.placeholder) return false;
+        return id != null ? id.equals(status.id) : status.id == null;
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (this.id == null) {
-            return this == other;
-        } else if (!(other instanceof Status)) {
-            return false;
-        }
-        Status status = (Status) other;
-        return status.id.equals(this.id);
+    public int hashCode() {
+        int result = (placeholder ? 1 : 0);
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        return result;
     }
 
     public static class MediaAttachment {

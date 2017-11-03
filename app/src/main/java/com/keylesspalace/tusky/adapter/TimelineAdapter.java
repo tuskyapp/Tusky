@@ -31,6 +31,7 @@ import java.util.List;
 public class TimelineAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_STATUS = 0;
     private static final int VIEW_TYPE_FOOTER = 1;
+    private static final int VIEW_TYPE_PLACEHOLDER = 2;
 
     private List<StatusViewData> statuses;
     private StatusActionListener statusListener;
@@ -59,15 +60,26 @@ public class TimelineAdapter extends RecyclerView.Adapter {
                         .inflate(R.layout.item_footer, viewGroup, false);
                 return new FooterViewHolder(view);
             }
+            case VIEW_TYPE_PLACEHOLDER: {
+                View view = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.item_status_placeholder, viewGroup, false);
+                return new PlaceholderViewHolder(view);
+            }
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (position < statuses.size()) {
-            StatusViewHolder holder = (StatusViewHolder) viewHolder;
             StatusViewData status = statuses.get(position);
-            holder.setupWithStatus(status, statusListener, mediaPreviewEnabled);
+            if(status.isPlaceholder()) {
+                PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
+                holder.setup(!status.isPlaceholderLoading(), statusListener);
+            } else {
+                StatusViewHolder holder = (StatusViewHolder) viewHolder;
+                holder.setupWithStatus(status, statusListener, mediaPreviewEnabled);
+            }
+
         } else {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
             holder.setState(footerState);
@@ -84,7 +96,11 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         if (position == statuses.size()) {
             return VIEW_TYPE_FOOTER;
         } else {
-            return VIEW_TYPE_STATUS;
+            if(statuses.get(position).isPlaceholder()) {
+                return VIEW_TYPE_PLACEHOLDER;
+            } else {
+                return VIEW_TYPE_STATUS;
+            }
         }
     }
 

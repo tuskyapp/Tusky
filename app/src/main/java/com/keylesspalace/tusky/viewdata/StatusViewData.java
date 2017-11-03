@@ -1,3 +1,18 @@
+/* Copyright 2017 Andrew Dawson
+ *
+ * This file is a part of Tusky.
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Tusky; if not,
+ * see <http://www.gnu.org/licenses>. */
+
 package com.keylesspalace.tusky.viewdata;
 
 import android.support.annotation.Nullable;
@@ -48,13 +63,18 @@ public final class StatusViewData {
     @Nullable
     private final Card card;
 
+    private final boolean placeholder;
+
+    private final boolean placeholderLoading;
+
     public StatusViewData(String id, Spanned content, boolean reblogged, boolean favourited,
-                          String spoilerText, Status.Visibility visibility, Status.MediaAttachment[] attachments,
-                          String rebloggedByUsername, String rebloggedAvatar, boolean sensitive, boolean isExpanded,
+                          @Nullable String spoilerText, Status.Visibility visibility, Status.MediaAttachment[] attachments,
+                          @Nullable String rebloggedByUsername, @Nullable String rebloggedAvatar, boolean sensitive, boolean isExpanded,
                           boolean isShowingSensitiveWarning, String userFullName, String nickname, String avatar,
-                          Date createdAt, String reblogsCount, String favouritesCount, String inReplyToId,
-                          Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
-                          Status.Application application, List<Status.Emoji> emojis, Card card) {
+                          Date createdAt, String reblogsCount, String favouritesCount, @Nullable String inReplyToId,
+                          @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
+                          Status.Application application, List<Status.Emoji> emojis, @Nullable Card card,
+                          boolean placeholder, boolean placeholderLoading) {
         this.id = id;
         this.content = content;
         this.reblogged = reblogged;
@@ -80,6 +100,8 @@ public final class StatusViewData {
         this.application = application;
         this.emojis = emojis;
         this.card = card;
+        this.placeholder = placeholder;
+        this.placeholderLoading = placeholderLoading;
     }
 
     public String getId() {
@@ -183,8 +205,17 @@ public final class StatusViewData {
         return emojis;
     }
 
+    @Nullable
     public Card getCard() {
         return card;
+    }
+
+    public boolean isPlaceholder() {
+        return placeholder;
+    }
+
+    public boolean isPlaceholderLoading() {
+        return placeholderLoading;
     }
 
     public static class Builder {
@@ -213,6 +244,8 @@ public final class StatusViewData {
         private Status.Application application;
         private List<Status.Emoji> emojis;
         private Card card;
+        private boolean placeholder;
+        private boolean placeholderLoading;
 
         public Builder() {
         }
@@ -243,6 +276,8 @@ public final class StatusViewData {
             application = viewData.application;
             emojis = viewData.getEmojis();
             card = viewData.getCard();
+            placeholder = viewData.isPlaceholder();
+            placeholderLoading = viewData.isPlaceholderLoading();
 
         }
 
@@ -371,12 +406,25 @@ public final class StatusViewData {
             return this;
         }
 
+        public Builder setPlaceholder(boolean placeholder) {
+            this.placeholder = placeholder;
+            return this;
+        }
+
+        public Builder setPlaceholderLoading(boolean placeholderLoading) {
+            this.placeholderLoading = placeholderLoading;
+            return this;
+        }
+
         public StatusViewData createStatusViewData() {
             if (this.emojis == null) emojis = Collections.emptyList();
+            if (this.createdAt == null) createdAt = new Date();
+
             return new StatusViewData(id, content, reblogged, favourited, spoilerText, visibility,
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
                     isShowingSensitiveContent, userFullName, nickname, avatar, createdAt, reblogsCount,
-                    favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application, emojis, card);
+                    favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application,
+                    emojis, card, placeholder, placeholderLoading);
         }
     }
 }
