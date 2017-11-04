@@ -532,7 +532,7 @@ public class NotificationsFragment extends SFragment implements
             notifications.addAll(newNotifications);
             List<NotificationViewData> newViewDatas = notifications.getPairedCopy()
                     .subList(notifications.size() - newNotifications.size(),
-                            notifications.size() - 1);
+                            notifications.size());
             adapter.addItems(newViewDatas);
         }
     }
