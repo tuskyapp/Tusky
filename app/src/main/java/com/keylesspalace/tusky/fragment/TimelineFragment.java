@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -263,7 +264,7 @@ public class TimelineFragment extends SFragment implements
         final Status status = statuses.get(position);
         super.reblogWithCallback(status, reblog, new Callback<Status>() {
             @Override
-            public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
+            public void onResponse(@NonNull Call<Status> call, @NonNull retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
                     status.reblogged = reblog;
 
@@ -280,7 +281,7 @@ public class TimelineFragment extends SFragment implements
             }
 
             @Override
-            public void onFailure(Call<Status> call, Throwable t) {
+            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
                 Log.d(TAG, "Failed to reblog status " + status.id);
                 t.printStackTrace();
             }
@@ -293,7 +294,7 @@ public class TimelineFragment extends SFragment implements
 
         super.favouriteWithCallback(status, favourite, new Callback<Status>() {
             @Override
-            public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
+            public void onResponse(@NonNull Call<Status> call, @NonNull retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
                     status.favourited = favourite;
 
@@ -310,7 +311,7 @@ public class TimelineFragment extends SFragment implements
             }
 
             @Override
-            public void onFailure(Call<Status> call, Throwable t) {
+            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
                 Log.d(TAG, "Failed to favourite status " + status.id);
                 t.printStackTrace();
             }
@@ -462,7 +463,7 @@ public class TimelineFragment extends SFragment implements
             case TAG:
                 return api.hashtagTimeline(tagOrId, null, fromId, uptoId, null);
             case USER:
-                return api.accountStatuses(tagOrId, fromId, uptoId, null);
+                return api.accountStatuses(tagOrId, fromId, uptoId, null, null);
             case FAVOURITES:
                 return api.favourites(fromId, uptoId, null);
         }
@@ -495,7 +496,7 @@ public class TimelineFragment extends SFragment implements
 
         Callback<List<Status>> callback = new Callback<List<Status>>() {
             @Override
-            public void onResponse(Call<List<Status>> call, Response<List<Status>> response) {
+            public void onResponse(@NonNull Call<List<Status>> call, @NonNull Response<List<Status>> response) {
                 if (response.isSuccessful()) {
                     String linkHeader = response.headers().get("Link");
                     onFetchTimelineSuccess(response.body(), linkHeader, fetchEnd);
@@ -505,7 +506,7 @@ public class TimelineFragment extends SFragment implements
             }
 
             @Override
-            public void onFailure(Call<List<Status>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Status>> call, @NonNull Throwable t) {
                 onFetchTimelineFailure((Exception) t, fetchEnd);
             }
         };

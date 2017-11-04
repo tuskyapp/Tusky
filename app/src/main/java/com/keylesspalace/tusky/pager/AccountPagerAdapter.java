@@ -15,27 +15,19 @@
 
 package com.keylesspalace.tusky.pager;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.fragment.AccountListFragment;
+import com.keylesspalace.tusky.fragment.AccountMediaFragment;
 import com.keylesspalace.tusky.fragment.TimelineFragment;
 
 public class AccountPagerAdapter extends FragmentPagerAdapter {
-    private Context context;
     private String accountId;
     private String[] pageTitles;
 
-    public AccountPagerAdapter(FragmentManager manager, Context context, String accountId) {
+    public AccountPagerAdapter(FragmentManager manager, String accountId) {
         super(manager);
-        this.context = context;
         this.accountId = accountId;
     }
 
@@ -50,31 +42,21 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
                 return TimelineFragment.newInstance(TimelineFragment.Kind.USER, accountId);
             }
             case 1: {
-                return AccountListFragment.newInstance(AccountListFragment.Type.FOLLOWS, accountId);
-            }
-            case 2: {
-                return AccountListFragment.newInstance(AccountListFragment.Type.FOLLOWERS, accountId);
+                return AccountMediaFragment.newInstance(accountId);
             }
             default: {
-                return null;
+                throw new AssertionError("Page " + position + " is out of AccountPagerAdapter bounds");
             }
         }
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         return pageTitles[position];
-    }
-
-    public View getTabView(int position, ViewGroup root) {
-        View view = LayoutInflater.from(context).inflate(R.layout.tab_account, root, false);
-        TextView title = view.findViewById(R.id.title);
-        title.setText(pageTitles[position]);
-        return view;
     }
 }

@@ -40,7 +40,7 @@
                     android:scaleType="centerCrop"
                     app:layout_collapseMode="pin" />
 
-                <RelativeLayout
+                <android.support.constraint.ConstraintLayout
                     android:id="@+id/account_header_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -54,71 +54,67 @@
                         android:id="@+id/account_avatar"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
-                        android:layout_toLeftOf="@+id/follow_btn"
-                        android:layout_toStartOf="@+id/follow_btn"
                         android:src="@drawable/avatar_default"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:shadow="true" />
 
                     <Button
                         android:id="@+id/follow_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="6dp" />
+                        android:layout_marginTop="6dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/account_follows_you"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_below="@id/follow_btn"
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
                         android:text="@string/follows_you"
-                        android:textColor="?android:textColorPrimary" />
+                        android:textColor="?android:textColorPrimary"
+                        app:layout_constraintEnd_toEndOf="@id/follow_btn"
+                        app:layout_constraintTop_toBottomOf="@id/follow_btn" />
 
                     <TextView
                         android:id="@+id/account_display_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/account_avatar"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="?android:textColorPrimary"
                         android:textSize="18sp"
                         android:textStyle="normal|bold"
+                        app:layout_constraintTop_toBottomOf="@id/account_avatar"
                         tools:text="Tusky Mastodon Client" />
 
                     <TextView
                         android:id="@+id/account_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/account_display_name"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="?android:textColorSecondary"
+                        app:layout_constraintTop_toBottomOf="@id/account_display_name"
                         tools:text="\@Tusky" />
 
                     <ImageView
                         android:id="@+id/account_locked"
                         android:layout_width="16sp"
                         android:layout_height="16sp"
-                        android:layout_alignBottom="@id/account_username"
-                        android:layout_centerVertical="true"
                         android:layout_marginLeft="4dp"
                         android:layout_marginStart="4dp"
-                        android:layout_toEndOf="@id/account_username"
-                        android:layout_toRightOf="@id/account_username"
                         android:contentDescription="@string/description_account_locked"
                         android:tint="?android:textColorSecondary"
                         android:visibility="gone"
-                        app:srcCompat="@drawable/reblog_disabled_light" />
+                        app:layout_constraintBottom_toBottomOf="@id/account_username"
+                        app:layout_constraintLeft_toRightOf="@id/account_username"
+                        app:srcCompat="@drawable/reblog_disabled_light"
+                        tools:visibility="visible" />
 
                     <TextView
                         android:id="@+id/account_note"
@@ -128,9 +124,46 @@
                         android:paddingBottom="16dp"
                         android:paddingTop="10dp"
                         android:textColor="?android:textColorTertiary"
+                        app:layout_constraintTop_toBottomOf="@id/account_username"
                         tools:text="This is a test description" />
 
-                </RelativeLayout>
+                    <TextView
+                        android:id="@+id/followers_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/account_note"
+                        tools:text="3000 Followers"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/account_tab_font_color"
+                        app:layout_constraintHorizontal_bias="0"/>
+
+                    <TextView
+                        android:id="@+id/following_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@id/followers_tv"
+                        app:layout_constraintEnd_toStartOf="@id/statuses_btn"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@id/followers_tv"
+                        app:layout_constraintTop_toTopOf="@id/followers_tv"
+                        tools:text="500 Following"
+                        android:textColor="@color/account_tab_font_color" />
+
+                    <TextView
+                        android:id="@+id/statuses_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/following_tv"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/followers_tv"
+                        tools:text="3000 Posts"
+                        app:layout_constraintHorizontal_bias="0"
+                        android:textColor="@color/account_tab_font_color"/>
+
+                </android.support.constraint.ConstraintLayout>
 
             </RelativeLayout>
 
@@ -158,12 +191,8 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabBackground="?android:colorBackground"
-            app:tabGravity="fill">
-
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            android:background="?android:colorBackground"
+            app:tabSelectedTextColor="?attr/colorAccent" >
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"

@@ -218,6 +218,7 @@
 
     <string name="follows_you">Подписан(а) на вас</string>
     <string name="pref_title_alway_show_sensitive_media">Всегда показывать NSFW-контент</string>
+    <string name="title_media">Медиа</string>
     <string name="replying_to">Ответ @%s</string>
 
 
