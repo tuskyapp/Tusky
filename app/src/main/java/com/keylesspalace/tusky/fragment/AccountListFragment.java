@@ -61,6 +61,9 @@ import retrofit2.Response;
 public class AccountListFragment extends BaseFragment implements AccountActionListener {
     private static final String TAG = "AccountList"; // logging tag
 
+    public AccountListFragment() {
+    }
+
     public enum Type {
         FOLLOWS,
         FOLLOWERS,
@@ -75,13 +78,11 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
     private RecyclerView recyclerView;
     private EndlessOnScrollListener scrollListener;
     private AccountAdapter adapter;
-    private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private MastodonApi api;
     private boolean bottomLoading;
     private int bottomFetches;
     private boolean topLoading;
     private int topFetches;
-    private boolean hideFab;
 
     public static AccountListFragment newInstance(Type type) {
         Bundle arguments = new Bundle();
@@ -112,7 +113,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_account_list, container, false);
 
@@ -152,84 +153,19 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         super.onActivityCreated(savedInstanceState);
         BaseActivity activity = (BaseActivity) getActivity();
 
-        if (jumpToTopAllowed()) {
-            TabLayout layout = activity.findViewById(R.id.tab_layout);
-            onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {}
-
-                @Override
-                public void onTabUnselected(TabLayout.Tab tab) {}
-
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) {
-                    jumpToTop();
-                }
-            };
-            layout.addOnTabSelectedListener(onTabSelectedListener);
-        }
-
         /* MastodonApi on the base activity is only guaranteed to be initialised after the parent
          * activity is created, so everything needing to access the api object has to be delayed
          * until here. */
         api = activity.mastodonApi;
-
-
-        if (actionButtonPresent()) {
-            /* Use a modified scroll listener that both loads more statuses as it goes, and hides
-             * the follow button on down-scroll. */
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-            hideFab = preferences.getBoolean("fabHide", false);
-            scrollListener = new EndlessOnScrollListener(layoutManager) {
-                @Override
-                public void onScrolled(RecyclerView view, int dx, int dy) {
-                    super.onScrolled(view, dx, dy);
-
-                    ActionButtonActivity actionButtonActivity = (ActionButtonActivity) getActivity();
-                    FloatingActionButton composeButton = actionButtonActivity.getActionButton();
-
-                    if (composeButton != null) {
-                        if (hideFab) {
-                            if (dy > 0 && composeButton.isShown()) {
-                                composeButton.hide(); // hides the button if we're scrolling down
-                            } else if (dy < 0 && !composeButton.isShown()) {
-                                composeButton.show(); // shows it if we are scrolling up
-                            }
-                        } else if (!composeButton.isShown()) {
-                            composeButton.show();
-                        }
-                    }
-                }
-
-                @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                    AccountListFragment.this.onLoadMore(view);
-                }
-            };
-        } else {
-            // Just use the basic scroll listener to load more accounts.
-            scrollListener = new EndlessOnScrollListener(layoutManager) {
-                @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                    AccountListFragment.this.onLoadMore(view);
-                }
-            };
-        }
+        // Just use the basic scroll listener to load more accounts.
+        scrollListener = new EndlessOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                AccountListFragment.this.onLoadMore(view);
+            }
+        };
 
         recyclerView.addOnScrollListener(scrollListener);
-    }
-
-    private boolean actionButtonPresent() {
-        return type == Type.FOLLOWS || type == Type.FOLLOWERS;
-    }
-
-    @Override
-    public void onDestroyView() {
-        if (jumpToTopAllowed()) {
-            TabLayout tabLayout = getActivity().findViewById(R.id.tab_layout);
-            tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
-        }
-        super.onDestroyView();
     }
 
     @Override
@@ -420,10 +356,6 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         Log.e(TAG, message);
     }
 
-    private boolean jumpToTopAllowed() {
-        return type == Type.FOLLOWS || type == Type.FOLLOWERS;
-    }
-
     private void jumpToTop() {
         layoutManager.scrollToPositionWithOffset(0, 0);
         scrollListener.reset();
@@ -437,11 +369,16 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
     private Call<List<Account>> getFetchCallByListType(Type type, String fromId, String uptoId) {
         switch (type) {
             default:
-            case FOLLOWS:         return api.accountFollowing(accountId, fromId, uptoId, null);
-            case FOLLOWERS:       return api.accountFollowers(accountId, fromId, uptoId, null);
-            case BLOCKS:          return api.blocks(fromId, uptoId, null);
-            case MUTES:           return api.mutes(fromId, uptoId, null);
-            case FOLLOW_REQUESTS: return api.followRequests(fromId, uptoId, null);
+            case FOLLOWS:
+                return api.accountFollowing(accountId, fromId, uptoId, null);
+            case FOLLOWERS:
+                return api.accountFollowers(accountId, fromId, uptoId, null);
+            case BLOCKS:
+                return api.blocks(fromId, uptoId, null);
+            case MUTES:
+                return api.mutes(fromId, uptoId, null);
+            case FOLLOW_REQUESTS:
+                return api.followRequests(fromId, uptoId, null);
         }
     }
 
@@ -491,7 +428,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
     }
 
     private void onFetchAccountsSuccess(List<Account> accounts, String linkHeader,
-            FetchEnd fetchEnd) {
+                                        FetchEnd fetchEnd) {
         List<HttpHeaderLink> links = HttpHeaderLink.parse(linkHeader);
         switch (fetchEnd) {
             case TOP: {

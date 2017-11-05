@@ -41,6 +41,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,8 +52,8 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.pager.AccountPagerAdapter;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
-import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.Assert;
+import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
@@ -66,7 +67,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AccountActivity extends BaseActivity implements ActionButtonActivity {
+public final class AccountActivity extends BaseActivity implements ActionButtonActivity {
     private static final String TAG = "AccountActivity"; // logging tag
 
     private enum FollowState {
@@ -81,6 +82,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
     private boolean muting;
     private boolean isSelf;
     private Account loadedAccount;
+
     private CircularImageView avatar;
     private ImageView header;
     private FloatingActionButton floatingBtn;
@@ -89,6 +91,10 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
     private TabLayout tabLayout;
     private ImageView accountLockedView;
     private View container;
+    private TextView followersTextView;
+    private TextView followingTextView;
+    private TextView statusesTextView;
+
     private boolean hideFab;
     private int oldOffset;
 
@@ -105,6 +111,9 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
         tabLayout = findViewById(R.id.tab_layout);
         accountLockedView = findViewById(R.id.account_locked);
         container = findViewById(R.id.activity_account);
+        followersTextView = findViewById(R.id.followers_tv);
+        followingTextView = findViewById(R.id.following_tv);
+        statusesTextView = findViewById(R.id.statuses_btn);
 
         if (savedInstanceState != null) {
             accountId = savedInstanceState.getString("accountId");
@@ -139,7 +148,8 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
         AppBarLayout appBarLayout = findViewById(R.id.account_app_bar_layout);
         final CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsing_toolbar);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @AttrRes int priorAttribute = R.attr.account_toolbar_icon_tint_uncollapsed;
+            @AttrRes
+            int priorAttribute = R.attr.account_toolbar_icon_tint_uncollapsed;
 
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -147,10 +157,10 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
                 if (collapsingToolbar.getHeight() + verticalOffset
                         < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
 
-                        toolbar.setTitleTextColor(ThemeUtils.getColor(AccountActivity.this,
-                                android.R.attr.textColorPrimary));
-                        toolbar.setSubtitleTextColor(ThemeUtils.getColor(AccountActivity.this,
-                                android.R.attr.textColorSecondary));
+                    toolbar.setTitleTextColor(ThemeUtils.getColor(AccountActivity.this,
+                            android.R.attr.textColorPrimary));
+                    toolbar.setSubtitleTextColor(ThemeUtils.getColor(AccountActivity.this,
+                            android.R.attr.textColorSecondary));
 
                     attribute = R.attr.account_toolbar_icon_tint_collapsed;
                 } else {
@@ -166,7 +176,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
                     ThemeUtils.setDrawableTint(context, toolbar.getOverflowIcon(), attribute);
                 }
 
-                if(floatingBtn != null && hideFab && !isSelf && !blocking) {
+                if (floatingBtn != null && hideFab && !isSelf && !blocking) {
                     if (verticalOffset > oldOffset) {
                         floatingBtn.show();
                     }
@@ -196,28 +206,62 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
         }
 
         // Setup the tabs and timeline pager.
-        AccountPagerAdapter adapter = new AccountPagerAdapter(getSupportFragmentManager(), this,
+        AccountPagerAdapter adapter = new AccountPagerAdapter(getSupportFragmentManager(),
                 accountId);
         String[] pageTitles = {
-            getString(R.string.title_statuses),
-            getString(R.string.title_follows),
-            getString(R.string.title_followers)
+                getString(R.string.title_statuses),
+                getString(R.string.title_media)
         };
         adapter.setPageTitles(pageTitles);
-        ViewPager viewPager = findViewById(R.id.pager);
+        final ViewPager viewPager = findViewById(R.id.pager);
         int pageMargin = getResources().getDimensionPixelSize(R.dimen.tab_page_margin);
         viewPager.setPageMargin(pageMargin);
         Drawable pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
                 R.drawable.tab_page_margin_dark);
         viewPager.setPageMarginDrawable(pageMarginDrawable);
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(0);
         tabLayout.setupWithViewPager(viewPager);
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            if (tab != null) {
-                tab.setCustomView(adapter.getTabView(i, tabLayout));
+
+        View.OnClickListener accountListClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AccountListActivity.Type type;
+                switch (v.getId()) {
+                    case R.id.followers_tv:
+                        type = AccountListActivity.Type.FOLLOWERS;
+                        break;
+                    case R.id.following_tv:
+                        type = AccountListActivity.Type.FOLLOWING;
+                        break;
+                    default:
+                        throw new AssertionError();
+                }
+                Intent intent = AccountListActivity.newIntent(AccountActivity.this, type,
+                        accountId);
+                startActivity(intent);
             }
-        }
+        };
+        followersTextView.setOnClickListener(accountListClickListener);
+        followingTextView.setOnClickListener(accountListClickListener);
+
+        statusesTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Make nice ripple effect on tab
+
+                //noinspection ConstantConditions
+                tabLayout.getTabAt(0).select();
+                final View poorTabView = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0);
+                poorTabView.setPressed(true);
+                tabLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        poorTabView.setPressed(false);
+                    }
+                }, 300);
+            }
+        });
     }
 
     @Override
@@ -306,10 +350,16 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
 
         // Add counts to the tabs in the TabLayout.
         String[] counts = {
-            nf.format(Integer.parseInt(account.statusesCount)),
-            nf.format(Integer.parseInt(account.followingCount)),
-            nf.format(Integer.parseInt(account.followersCount)),
+                nf.format(Integer.parseInt(account.statusesCount)),
+                ""
         };
+
+        long followersCount = Long.parseLong(account.followersCount);
+        long followingCount = Long.parseLong(account.followingCount);
+        long statusesCount = Long.parseLong(account.statusesCount);
+        followersTextView.setText(getString(R.string.title_x_followers, followersCount));
+        followingTextView.setText(getString(R.string.title_x_following, followingCount));
+        statusesTextView.setText(getString(R.string.title_x_statuses, statusesCount));
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
@@ -397,7 +447,7 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
     private void updateButtons() {
         invalidateOptionsMenu();
 
-        if(!isSelf && !blocking) {
+        if (!isSelf && !blocking) {
             floatingBtn.show();
             followBtn.setVisibility(View.VISIBLE);
 
@@ -449,9 +499,11 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
     private String getFollowAction() {
         switch (followState) {
             default:
-            case NOT_FOLLOWING: return getString(R.string.action_follow);
+            case NOT_FOLLOWING:
+                return getString(R.string.action_follow);
             case REQUESTED:
-            case FOLLOWING: return getString(R.string.action_unfollow);
+            case FOLLOWING:
+                return getString(R.string.action_unfollow);
         }
     }
 
@@ -517,8 +569,14 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
 
         Assert.expect(followState != FollowState.REQUESTED);
         switch (followState) {
-            case NOT_FOLLOWING: { mastodonApi.followAccount(id).enqueue(cb);   break; }
-            case FOLLOWING:     { mastodonApi.unfollowAccount(id).enqueue(cb); break; }
+            case NOT_FOLLOWING: {
+                mastodonApi.followAccount(id).enqueue(cb);
+                break;
+            }
+            case FOLLOWING: {
+                mastodonApi.unfollowAccount(id).enqueue(cb);
+                break;
+            }
         }
     }
 
@@ -654,7 +712,6 @@ public class AccountActivity extends BaseActivity implements ActionButtonActivit
         Intent intent = new ComposeActivity.IntentBuilder()
                 .mentionedUsernames(Collections.singleton(loadedAccount.username))
                 .build(this);
-        startActivity(intent);
         startActivity(intent);
         return true;
     }

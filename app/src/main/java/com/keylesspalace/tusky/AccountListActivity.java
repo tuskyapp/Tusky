@@ -15,8 +15,10 @@
 
 package com.keylesspalace.tusky;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -26,11 +28,27 @@ import android.view.MenuItem;
 
 import com.keylesspalace.tusky.fragment.AccountListFragment;
 
-public class AccountListActivity extends BaseActivity {
+public final class AccountListActivity extends BaseActivity {
+
+    private static final String TYPE_EXTRA = "type";
+    private static final String ARG_EXTRA = "arg";
+
+    public static Intent newIntent(@NonNull Context context, @NonNull Type type,
+                                   @Nullable String argument) {
+        Intent intent = new Intent(context, AccountListActivity.class);
+        intent.putExtra(TYPE_EXTRA, type);
+        if (argument != null) {
+            intent.putExtra(ARG_EXTRA, argument);
+        }
+        return intent;
+    }
+
     enum Type {
         BLOCKS,
         MUTES,
         FOLLOW_REQUESTS,
+        FOLLOWERS,
+        FOLLOWING,
     }
 
     @Override
@@ -51,29 +69,55 @@ public class AccountListActivity extends BaseActivity {
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
             switch (type) {
-                case BLOCKS: { bar.setTitle(getString(R.string.title_blocks)); break; }
-                case MUTES:  { bar.setTitle(getString(R.string.title_mutes));  break; }
+                case BLOCKS: {
+                    bar.setTitle(getString(R.string.title_blocks));
+                    break;
+                }
+                case MUTES: {
+                    bar.setTitle(getString(R.string.title_mutes));
+                    break;
+                }
                 case FOLLOW_REQUESTS: {
                     bar.setTitle(getString(R.string.title_follow_requests));
                     break;
                 }
+                case FOLLOWERS:
+                    bar.setTitle(getString(R.string.title_followers));
+                    break;
+                case FOLLOWING:
+                    bar.setTitle(getString(R.string.title_follows));
             }
             bar.setDisplayHomeAsUpEnabled(true);
             bar.setDisplayShowHomeEnabled(true);
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        AccountListFragment.Type fragmentType;
+        AccountListFragment fragment;
         switch (type) {
             default:
-            case BLOCKS: { fragmentType = AccountListFragment.Type.BLOCKS; break; }
-            case MUTES:  { fragmentType = AccountListFragment.Type.MUTES;  break; }
+            case BLOCKS: {
+                fragment = AccountListFragment.newInstance(AccountListFragment.Type.BLOCKS);
+                break;
+            }
+            case MUTES: {
+                fragment = AccountListFragment.newInstance(AccountListFragment.Type.MUTES);
+                break;
+            }
+            case FOLLOWERS: {
+                String argument = intent.getStringExtra(ARG_EXTRA);
+                fragment = AccountListFragment.newInstance(AccountListFragment.Type.FOLLOWERS, argument);
+                break;
+            }
+            case FOLLOWING: {
+                String argument = intent.getStringExtra(ARG_EXTRA);
+                fragment = AccountListFragment.newInstance(AccountListFragment.Type.FOLLOWS, argument);
+                break;
+            }
             case FOLLOW_REQUESTS: {
-                fragmentType = AccountListFragment.Type.FOLLOW_REQUESTS;
+                fragment = AccountListFragment.newInstance(AccountListFragment.Type.FOLLOW_REQUESTS);
                 break;
             }
         }
-        Fragment fragment = AccountListFragment.newInstance(fragmentType);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }

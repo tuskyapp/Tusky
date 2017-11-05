@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky.network;
 
+import android.support.annotation.Nullable;
+
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.AppCredentials;
@@ -127,12 +129,25 @@ public interface MastodonApi {
             @Query("limit") Integer limit);
     @GET("api/v1/accounts/{id}")
     Call<Account> account(@Path("id") String accountId);
+
+    /**
+     * Method to fetch statuses for the specified account.
+     * @param accountId ID for account for which statuses will be requested
+     * @param maxId Only statuses with ID less than maxID will be returned
+     * @param sinceId Only statuses with ID bigger than sinceID will be returned
+     * @param limit Limit returned statuses (current API limits: default - 20, max - 40)
+     * @param onlyMedia Should server return only statuses which contain media. Caution! The server
+     *                  works in a weird way so if any value if present at this field it will be
+     *                  interpreted as "true". Pass null to return all statuses.
+     * @return
+     */
     @GET("api/v1/accounts/{id}/statuses")
     Call<List<Status>> accountStatuses(
             @Path("id") String accountId,
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
-            @Query("limit") Integer limit);
+            @Query("limit") Integer limit,
+            @Nullable @Query("only_media") Boolean onlyMedia);
     @GET("api/v1/accounts/{id}/followers")
     Call<List<Account>> accountFollowers(
             @Path("id") String accountId,
