@@ -34,7 +34,7 @@ public final class ViewDataUtils {
     @Nullable
     public static StatusViewData statusToViewData(@Nullable Status status) {
         if (status == null) return null;
-        if(status.placeholder) {
+        if (status.placeholder) {
             return new StatusViewData.Builder().setId(status.id)
                     .setPlaceholder(true)
                     .createStatusViewData();
@@ -80,8 +80,8 @@ public final class ViewDataUtils {
     }
 
     public static NotificationViewData notificationToViewData(Notification notification) {
-        return new NotificationViewData(notification.type, notification.id, notification.account,
-                statusToViewData(notification.status), false);
+        return new NotificationViewData.Concrete(notification.type, notification.id, notification.account,
+                statusToViewData(notification.status));
     }
 
     public static List<NotificationViewData> notificationListToViewDataList(

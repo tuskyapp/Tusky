@@ -20,41 +20,59 @@ import com.keylesspalace.tusky.entity.Notification;
 
 /**
  * Created by charlag on 12/07/2017.
+ *
+ * Class to represent data required to display either a notification or a placeholder.
+ * It is either a {@link Placeholder} or a {@link Concrete}.
+ * It is modelled this way because close relationship between placeholder and concrete notification
+ * is fine in this case. Placeholder case is not modelled as a type of notification because
+ * invariants would be violated and because it would model domain incorrectly. It is prefereable to
+ * {@link com.keylesspalace.tusky.util.Either} because class hierarchy is cheaper, faster and
+ * more native.
  */
-
-public final class NotificationViewData {
-    private final Notification.Type type;
-    private final String id;
-    private final Account account;
-    private final StatusViewData statusViewData;
-    private final boolean placeholderLoading;
-
-    public NotificationViewData(Notification.Type type, String id, Account account,
-                                StatusViewData statusViewData, boolean placeholderLoading) {
-        this.type = type;
-        this.id = id;
-        this.account = account;
-        this.statusViewData = statusViewData;
-        this.placeholderLoading = placeholderLoading;
+public abstract class NotificationViewData {
+    private NotificationViewData() {
     }
 
-    public Notification.Type getType() {
-        return type;
+    public static  final class Concrete extends NotificationViewData {
+        private final Notification.Type type;
+        private final String id;
+        private final Account account;
+        private final StatusViewData statusViewData;
+
+        public Concrete(Notification.Type type, String id, Account account,
+                        StatusViewData statusViewData) {
+            this.type = type;
+            this.id = id;
+            this.account = account;
+            this.statusViewData = statusViewData;
+        }
+
+        public Notification.Type getType() {
+            return type;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public Account getAccount() {
+            return account;
+        }
+
+        public StatusViewData getStatusViewData() {
+            return statusViewData;
+        }
     }
 
-    public String getId() {
-        return id;
-    }
+    public static final class Placeholder extends NotificationViewData {
+        private final boolean isLoading;
 
-    public Account getAccount() {
-        return account;
-    }
+        public Placeholder(boolean isLoading) {
+            this.isLoading = isLoading;
+        }
 
-    public StatusViewData getStatusViewData() {
-        return statusViewData;
-    }
-
-    public boolean isPlaceholderLoading() {
-        return placeholderLoading;
+        public boolean isLoading() {
+            return isLoading;
+        }
     }
 }
