@@ -27,7 +27,6 @@ public class Notification {
         FAVOURITE,
         @SerializedName("follow")
         FOLLOW,
-        PLACEHOLDER
     }
 
     public Type type;

@@ -44,6 +44,8 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
+import com.keylesspalace.tusky.util.CollectionUtil;
+import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.PairedList;
@@ -74,6 +76,21 @@ public class NotificationsFragment extends SFragment implements
         MIDDLE
     }
 
+    /**
+     * Placeholder for the notifications. Consider moving to the separate class to hide constructor
+     * and reuse in different places as needed.
+     */
+    private static final class Placeholder {
+        private static final Placeholder INSTANCE = new Placeholder();
+
+        public static Placeholder getInstance() {
+            return INSTANCE;
+        }
+
+        private Placeholder() {
+        }
+    }
+
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
@@ -89,11 +106,17 @@ public class NotificationsFragment extends SFragment implements
     private String bottomId;
     private String topId;
 
-    private final PairedList<Notification, NotificationViewData> notifications
-            = new PairedList<>(new Function<Notification, NotificationViewData>() {
+    // Each element is either a Notification for loading data or a Placeholder
+    private final PairedList<Either<Placeholder, Notification>, NotificationViewData> notifications
+            = new PairedList<>(new Function<Either<Placeholder, Notification>, NotificationViewData>() {
         @Override
-        public NotificationViewData apply(Notification input) {
-            return ViewDataUtils.notificationToViewData(input);
+        public NotificationViewData apply(Either<Placeholder, Notification> input) {
+            if (input.isRight()) {
+                Notification notification = input.getAsRight();
+                return ViewDataUtils.notificationToViewData(notification);
+            } else {
+                return new NotificationViewData.Placeholder(false);
+            }
         }
     });
 
@@ -185,7 +208,7 @@ public class NotificationsFragment extends SFragment implements
                 ActionButtonActivity activity = (ActionButtonActivity) getActivity();
                 FloatingActionButton composeButton = activity.getActionButton();
 
-                if(composeButton != null) {
+                if (composeButton != null) {
                     if (hideFab) {
                         if (dy > 0 && composeButton.isShown()) {
                             composeButton.hide(); // hides the button if we're scrolling down
@@ -225,13 +248,12 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onReply(int position) {
-        Notification notification = notifications.get(position);
-        super.reply(notification.status);
+        super.reply(notifications.get(position).getAsRight().status);
     }
 
     @Override
     public void onReblog(final boolean reblog, final int position) {
-        final Notification notification = notifications.get(position);
+        final Notification notification = notifications.get(position).getAsRight();
         final Status status = notification.status;
         reblogWithCallback(status, reblog, new Callback<Status>() {
             @Override
@@ -242,7 +264,9 @@ public class NotificationsFragment extends SFragment implements
                     if (status.reblog != null) {
                         status.reblog.reblogged = reblog;
                     }
-                    notifications.set(position, notification);
+                    // Java's type inference *eyeroll*
+                    notifications.set(position,
+                            Either.<Placeholder, Notification>right(notification));
 
                     adapter.updateItemWithNotify(position, notifications.getPairedItem(position), true);
 
@@ -260,7 +284,7 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onFavourite(final boolean favourite, final int position) {
-        final Notification notification = notifications.get(position);
+        final Notification notification = notifications.get(position).getAsRight();
         final Status status = notification.status;
         favouriteWithCallback(status, favourite, new Callback<Status>() {
             @Override
@@ -272,7 +296,8 @@ public class NotificationsFragment extends SFragment implements
                         status.reblog.favourited = favourite;
                     }
 
-                    notifications.set(position, notification);
+                    notifications.set(position,
+                            Either.<Placeholder, Notification>right(notification));
 
                     adapter.updateItemWithNotify(position, notifications.getPairedItem(position), true);
 
@@ -289,7 +314,7 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onMore(View view, int position) {
-        Notification notification = notifications.get(position);
+        Notification notification = notifications.get(position).getAsRight();
         super.more(notification.status, view, position);
     }
 
@@ -301,38 +326,40 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onViewThread(int position) {
-        Notification notification = notifications.get(position);
+        Notification notification = notifications.get(position).getAsRight();
         super.viewThread(notification.status);
     }
 
     @Override
     public void onOpenReblog(int position) {
-        Notification notification = notifications.get(position);
-        if (notification != null) onViewAccount(notification.account.id);
+        Notification notification = notifications.get(position).getAsRight();
+        onViewAccount(notification.account.id);
     }
 
     @Override
     public void onExpandedChange(boolean expanded, int position) {
-        NotificationViewData old = notifications.getPairedItem(position);
+        NotificationViewData.Concrete old =
+                (NotificationViewData.Concrete) notifications.getPairedItem(position);
         StatusViewData statusViewData =
                 new StatusViewData.Builder(old.getStatusViewData())
                         .setIsExpanded(expanded)
                         .createStatusViewData();
-        NotificationViewData notificationViewData = new NotificationViewData(old.getType(),
-                old.getId(), old.getAccount(), statusViewData, false);
+        NotificationViewData notificationViewData = new NotificationViewData.Concrete(old.getType(),
+                old.getId(), old.getAccount(), statusViewData);
         notifications.setPairedItem(position, notificationViewData);
         adapter.updateItemWithNotify(position, notificationViewData, false);
     }
 
     @Override
     public void onContentHiddenChange(boolean isShowing, int position) {
-        NotificationViewData old = notifications.getPairedItem(position);
+        NotificationViewData.Concrete old =
+                (NotificationViewData.Concrete) notifications.getPairedItem(position);
         StatusViewData statusViewData =
                 new StatusViewData.Builder(old.getStatusViewData())
                         .setIsShowingSensitiveContent(isShowing)
                         .createStatusViewData();
-        NotificationViewData notificationViewData = new NotificationViewData(old.getType(),
-                old.getId(), old.getAccount(), statusViewData, false);
+        NotificationViewData notificationViewData = new NotificationViewData.Concrete(old.getType(),
+                old.getId(), old.getAccount(), statusViewData);
         notifications.setPairedItem(position, notificationViewData);
         adapter.updateItemWithNotify(position, notificationViewData, false);
     }
@@ -341,13 +368,12 @@ public class NotificationsFragment extends SFragment implements
     public void onLoadMore(int position) {
         //check bounds before accessing list,
         if (notifications.size() >= position && position > 0) {
-            String fromId = notifications.get(position - 1).id;
-            String toId = notifications.get(position + 1).id;
+            // is it safe?
+            String fromId = notifications.get(position - 1).getAsRight().id;
+            String toId = notifications.get(position + 1).getAsRight().id;
             sendFetchNotificationsRequest(fromId, toId, FetchEnd.MIDDLE, position);
-
-            NotificationViewData old = notifications.getPairedItem(position);
-            NotificationViewData notificationViewData = new NotificationViewData(old.getType(),
-                    old.getId(), old.getAccount(), old.getStatusViewData(), true);
+            NotificationViewData notificationViewData =
+                    new NotificationViewData.Placeholder(true);
             notifications.setPairedItem(position, notificationViewData);
             adapter.updateItemWithNotify(position, notificationViewData, false);
         } else {
@@ -390,10 +416,11 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void removeAllByAccountId(String accountId) {
         // using iterator to safely remove items while iterating
-        Iterator<Notification> iterator = notifications.iterator();
+        Iterator<Either<Placeholder, Notification>> iterator = notifications.iterator();
         while (iterator.hasNext()) {
-            Notification notification = iterator.next();
-            if (notification.account.id.equals(accountId)) {
+            Either<Placeholder, Notification> notification = iterator.next();
+            Notification maybeNotification = notification.getAsRightOrNull();
+            if (maybeNotification != null && maybeNotification.account.id.equals(accountId)) {
                 iterator.remove();
             }
         }
@@ -470,7 +497,7 @@ public class NotificationsFragment extends SFragment implements
                 break;
             }
             case MIDDLE: {
-                insert(notifications, pos);
+                replacePlaceholderWithNotifications(notifications, pos);
                 break;
             }
             case BOTTOM: {
@@ -520,24 +547,25 @@ public class NotificationsFragment extends SFragment implements
         if (uptoId != null) {
             topId = uptoId;
         }
+        List<Either<Placeholder, Notification>> liftedNew =
+                liftNotificationList(newNotifications);
         if (notifications.isEmpty()) {
-            notifications.addAll(newNotifications);
+            notifications.addAll(liftedNew);
         } else {
-            int index = notifications.indexOf(newNotifications.get(newNotifications.size() - 1));
+            int index = notifications.indexOf(liftedNew.get(newNotifications.size() - 1));
             for (int i = 0; i < index; i++) {
                 notifications.remove(0);
             }
-            int newIndex = newNotifications.indexOf(notifications.get(0));
+
+
+            int newIndex = liftedNew.indexOf(notifications.get(0));
             if (newIndex == -1) {
-                if(index == -1 && newNotifications.size() >= LOAD_AT_ONCE) {
-                    Notification placeholder = new Notification();
-                    placeholder.type = Notification.Type.PLACEHOLDER;
-                    newNotifications.add(placeholder);
+                if (index == -1 && liftedNew.size() >= LOAD_AT_ONCE) {
+                    liftedNew.add(Either.<Placeholder, Notification>left(Placeholder.getInstance()));
                 }
-                notifications.addAll(0, newNotifications);
+                notifications.addAll(0, liftedNew);
             } else {
-                List<Notification> sublist = newNotifications.subList(0, newIndex);
-                notifications.addAll(0, sublist);
+                notifications.addAll(0, liftedNew.subList(0, newIndex));
             }
         }
         adapter.update(notifications.getPairedCopy());
@@ -551,9 +579,10 @@ public class NotificationsFragment extends SFragment implements
             bottomId = fromId;
         }
         int end = notifications.size();
-        Notification last = notifications.get(end - 1);
-        if (last != null && !findNotification(newNotifications, last.id)) {
-            notifications.addAll(newNotifications);
+        List<Either<Placeholder, Notification>> liftedNew = liftNotificationList(newNotifications);
+        Either<Placeholder, Notification> last = notifications.get(end - 1);
+        if (last != null && liftedNew.indexOf(last) == -1) {
+            notifications.addAll(liftedNew);
             List<NotificationViewData> newViewDatas = notifications.getPairedCopy()
                     .subList(notifications.size() - newNotifications.size(),
                             notifications.size());
@@ -561,23 +590,14 @@ public class NotificationsFragment extends SFragment implements
         }
     }
 
-    private static boolean findNotification(List<Notification> notifications, String id) {
-        for (Notification notification : notifications) {
-            if (notification.id.equals(id)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     private void onFetchNotificationsFailure(Exception exception, FetchEnd fetchEnd, int position) {
         swipeRefreshLayout.setRefreshing(false);
-        if(fetchEnd == FetchEnd.MIDDLE && notifications.getPairedItem(position).getType() == Notification.Type.PLACEHOLDER) {
-            NotificationViewData old = notifications.getPairedItem(position);
-            NotificationViewData notificationViewData = new NotificationViewData(old.getType(),
-                    old.getId(), old.getAccount(), old.getStatusViewData(), false);
-            notifications.setPairedItem(position, notificationViewData);
-            adapter.updateItemWithNotify(position, notificationViewData, true);
+        if (fetchEnd == FetchEnd.MIDDLE && !notifications.get(position).isRight()) {
+            NotificationViewData placeholderVD =
+                    new NotificationViewData.Placeholder(false);
+            notifications.setPairedItem(position, placeholderVD);
+            adapter.updateItemWithNotify(position, placeholderVD, true);
         }
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
         fulfillAnyQueuedFetches(fetchEnd);
@@ -604,8 +624,8 @@ public class NotificationsFragment extends SFragment implements
         }
     }
 
-    private void insert(List<Notification> newNotifications, int pos) {
-
+    private void replacePlaceholderWithNotifications(List<Notification> newNotifications, int pos) {
+        // Remove placeholder
         notifications.remove(pos);
 
         if (ListUtils.isEmpty(newNotifications)) {
@@ -613,15 +633,29 @@ public class NotificationsFragment extends SFragment implements
             return;
         }
 
-        if(newNotifications.size() >= LOAD_AT_ONCE) {
-            Notification placeholder = new Notification();
-            placeholder.type = Notification.Type.PLACEHOLDER;
-            newNotifications.add(placeholder);
+        List<Either<Placeholder, Notification>> liftedNew = liftNotificationList(newNotifications);
+
+        // If we fetched less posts than in the limit, it means that the hole is not filled
+        // If we fetched at least as much it means that there are more posts to load and we should
+        // insert new placeholder
+        if (newNotifications.size() >= LOAD_AT_ONCE) {
+            liftedNew.add(Either.<Placeholder, Notification>left(Placeholder.getInstance()));
         }
 
-        notifications.addAll(pos, newNotifications);
+        notifications.addAll(pos, liftedNew);
         adapter.update(notifications.getPairedCopy());
+    }
 
+    private final Function<Notification, Either<Placeholder, Notification>> notificationLifter =
+            new Function<Notification, Either<Placeholder, Notification>>() {
+                @Override
+                public Either<Placeholder, Notification> apply(Notification input) {
+                    return Either.right(input);
+                }
+            };
+
+    private List<Either<Placeholder, Notification>> liftNotificationList(List<Notification> list) {
+        return CollectionUtil.map(list, notificationLifter);
     }
 
     private void fullyRefresh() {

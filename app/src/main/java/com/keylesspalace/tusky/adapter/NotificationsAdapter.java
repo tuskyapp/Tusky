@@ -101,11 +101,19 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (position < notifications.size()) {
             NotificationViewData notification = notifications.get(position);
-            Notification.Type type = notification.getType();
+            if (notification instanceof NotificationViewData.Placeholder) {
+                NotificationViewData.Placeholder placeholder = ((NotificationViewData.Placeholder) notification);
+                PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
+                holder.setup(!placeholder.isLoading(), statusListener);
+                return;
+            }
+            NotificationViewData.Concrete concreteNotificaton =
+                    (NotificationViewData.Concrete) notification;
+            Notification.Type type = concreteNotificaton.getType();
             switch (type) {
                 case MENTION: {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
-                    StatusViewData status = notification.getStatusViewData();
+                    StatusViewData status = concreteNotificaton.getStatusViewData();
                     holder.setupWithStatus(status,
                             statusListener, mediaPreviewEnabled);
                     break;
@@ -113,23 +121,18 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case FAVOURITE:
                 case REBLOG: {
                     StatusNotificationViewHolder holder = (StatusNotificationViewHolder) viewHolder;
-                    holder.setMessage(type, notification.getAccount().getDisplayName(),
-                            notification.getStatusViewData());
-                    holder.setupButtons(notificationActionListener, notification.getAccount().id);
-                    holder.setAvatars(notification.getStatusViewData().getAvatar(),
-                            notification.getAccount().avatar);
+                    holder.setMessage(type, concreteNotificaton.getAccount().getDisplayName(),
+                            concreteNotificaton.getStatusViewData());
+                    holder.setupButtons(notificationActionListener, concreteNotificaton.getAccount().id);
+                    holder.setAvatars(concreteNotificaton.getStatusViewData().getAvatar(),
+                            concreteNotificaton.getAccount().avatar);
                     break;
                 }
                 case FOLLOW: {
                     FollowViewHolder holder = (FollowViewHolder) viewHolder;
-                    holder.setMessage(notification.getAccount().getDisplayName(),
-                            notification.getAccount().username, notification.getAccount().avatar);
-                    holder.setupButtons(notificationActionListener, notification.getAccount().id);
-                    break;
-                }
-                case PLACEHOLDER: {
-                    PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
-                    holder.setup(!notification.isPlaceholderLoading(), statusListener);
+                    holder.setMessage(concreteNotificaton.getAccount().getDisplayName(),
+                            concreteNotificaton.getAccount().username, concreteNotificaton.getAccount().avatar);
+                    holder.setupButtons(notificationActionListener, concreteNotificaton.getAccount().id);
                     break;
                 }
             }
@@ -150,21 +153,25 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             return VIEW_TYPE_FOOTER;
         } else {
             NotificationViewData notification = notifications.get(position);
-            switch (notification.getType()) {
-                default:
-                case MENTION: {
-                    return VIEW_TYPE_MENTION;
+            if (notification instanceof NotificationViewData.Concrete) {
+                NotificationViewData.Concrete concrete = ((NotificationViewData.Concrete) notification);
+                switch (concrete.getType()) {
+                    default:
+                    case MENTION: {
+                        return VIEW_TYPE_MENTION;
+                    }
+                    case FAVOURITE:
+                    case REBLOG: {
+                        return VIEW_TYPE_STATUS_NOTIFICATION;
+                    }
+                    case FOLLOW: {
+                        return VIEW_TYPE_FOLLOW;
+                    }
                 }
-                case FAVOURITE:
-                case REBLOG: {
-                    return VIEW_TYPE_STATUS_NOTIFICATION;
-                }
-                case FOLLOW: {
-                    return VIEW_TYPE_FOLLOW;
-                }
-                case PLACEHOLDER: {
-                    return VIEW_TYPE_PLACEHOLDER;
-                }
+            } else if (notification instanceof NotificationViewData.Placeholder) {
+                return VIEW_TYPE_PLACEHOLDER;
+            } else {
+                throw new AssertionError("Unknown notification type");
             }
         }
     }
