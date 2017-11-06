@@ -340,7 +340,7 @@ public class NotificationsFragment extends SFragment implements
     public void onExpandedChange(boolean expanded, int position) {
         NotificationViewData.Concrete old =
                 (NotificationViewData.Concrete) notifications.getPairedItem(position);
-        StatusViewData statusViewData =
+        StatusViewData.Concrete statusViewData =
                 new StatusViewData.Builder(old.getStatusViewData())
                         .setIsExpanded(expanded)
                         .createStatusViewData();
@@ -354,7 +354,7 @@ public class NotificationsFragment extends SFragment implements
     public void onContentHiddenChange(boolean isShowing, int position) {
         NotificationViewData.Concrete old =
                 (NotificationViewData.Concrete) notifications.getPairedItem(position);
-        StatusViewData statusViewData =
+        StatusViewData.Concrete statusViewData =
                 new StatusViewData.Builder(old.getStatusViewData())
                         .setIsShowingSensitiveContent(isShowing)
                         .createStatusViewData();
@@ -368,10 +368,13 @@ public class NotificationsFragment extends SFragment implements
     public void onLoadMore(int position) {
         //check bounds before accessing list,
         if (notifications.size() >= position && position > 0) {
-            // is it safe?
-            String fromId = notifications.get(position - 1).getAsRight().id;
-            String toId = notifications.get(position + 1).getAsRight().id;
-            sendFetchNotificationsRequest(fromId, toId, FetchEnd.MIDDLE, position);
+            Notification previous = notifications.get(position - 1).getAsRightOrNull();
+            Notification next = notifications.get(position + 1).getAsRightOrNull();
+            if (previous == null || next == null) {
+                Log.e(TAG, "Failed to load more, invalid placeholder position: " + position);
+                return;
+            }
+            sendFetchNotificationsRequest(previous.id, next.id, FetchEnd.MIDDLE, position);
             NotificationViewData notificationViewData =
                     new NotificationViewData.Placeholder(true);
             notifications.setPairedItem(position, notificationViewData);

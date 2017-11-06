@@ -37,10 +37,10 @@ public abstract class NotificationViewData {
         private final Notification.Type type;
         private final String id;
         private final Account account;
-        private final StatusViewData statusViewData;
+        private final StatusViewData.Concrete statusViewData;
 
         public Concrete(Notification.Type type, String id, Account account,
-                        StatusViewData statusViewData) {
+                        StatusViewData.Concrete statusViewData) {
             this.type = type;
             this.id = id;
             this.account = account;
@@ -59,7 +59,7 @@ public abstract class NotificationViewData {
             return account;
         }
 
-        public StatusViewData getStatusViewData() {
+        public StatusViewData.Concrete getStatusViewData() {
             return statusViewData;
         }
     }

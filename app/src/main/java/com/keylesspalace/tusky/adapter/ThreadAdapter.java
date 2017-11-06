@@ -33,7 +33,7 @@ public class ThreadAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_STATUS = 0;
     private static final int VIEW_TYPE_STATUS_DETAILED = 1;
 
-    private List<StatusViewData> statuses;
+    private List<StatusViewData.Concrete> statuses;
     private StatusActionListener statusActionListener;
     private boolean mediaPreviewEnabled;
     private int detailedStatusPosition;
@@ -66,13 +66,12 @@ public class ThreadAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        StatusViewData.Concrete status = statuses.get(position);
         if (position == detailedStatusPosition) {
             StatusDetailedViewHolder holder = (StatusDetailedViewHolder) viewHolder;
-            StatusViewData status = statuses.get(position);
             holder.setupWithStatus(status, statusActionListener, mediaPreviewEnabled);
         } else {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
-            StatusViewData status = statuses.get(position);
             holder.setupWithStatus(status, statusActionListener, mediaPreviewEnabled);
         }
     }
@@ -91,13 +90,13 @@ public class ThreadAdapter extends RecyclerView.Adapter {
         return statuses.size();
     }
 
-    public void setStatuses(List<StatusViewData> statuses) {
+    public void setStatuses(List<StatusViewData.Concrete> statuses) {
         this.statuses.clear();
         this.statuses.addAll(statuses);
         notifyDataSetChanged();
     }
 
-    public void addItem(int position, StatusViewData statusViewData) {
+    public void addItem(int position, StatusViewData.Concrete statusViewData) {
         statuses.add(position, statusViewData);
         notifyItemInserted(position);
     }
@@ -109,12 +108,12 @@ public class ThreadAdapter extends RecyclerView.Adapter {
         notifyItemRangeRemoved(0, oldSize);
     }
 
-    public void addAll(int position, List<StatusViewData> statuses) {
+    public void addAll(int position, List<StatusViewData.Concrete> statuses) {
         this.statuses.addAll(position, statuses);
         notifyItemRangeInserted(position, statuses.size());
     }
 
-    public void addAll(List<StatusViewData> statuses) {
+    public void addAll(List<StatusViewData.Concrete> statuses) {
         int end = statuses.size();
         this.statuses.addAll(statuses);
         notifyItemRangeInserted(end, statuses.size());
@@ -126,7 +125,7 @@ public class ThreadAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    public void setItem(int position, StatusViewData status, boolean notifyAdapter) {
+    public void setItem(int position, StatusViewData.Concrete status, boolean notifyAdapter) {
         statuses.set(position, status);
         if (notifyAdapter) {
             notifyItemChanged(position);
@@ -134,7 +133,7 @@ public class ThreadAdapter extends RecyclerView.Adapter {
     }
 
     @Nullable
-    public StatusViewData getItem(int position) {
+    public StatusViewData.Concrete getItem(int position) {
         if (position != RecyclerView.NO_POSITION && position >= 0 && position < statuses.size()) {
             return statuses.get(position);
         } else {

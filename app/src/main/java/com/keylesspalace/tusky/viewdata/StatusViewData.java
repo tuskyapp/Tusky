@@ -27,195 +27,202 @@ import java.util.List;
 
 /**
  * Created by charlag on 11/07/2017.
+ *
+ * Class to represent data required to display either a notification or a placeholder.
+ * It is either a {@link StatusViewData.Concrete} or a {@link StatusViewData.Placeholder}.
  */
 
-public final class StatusViewData {
-    private final String id;
-    private final Spanned content;
-    private final boolean reblogged;
-    private final boolean favourited;
-    @Nullable
-    private final String spoilerText;
-    private final Status.Visibility visibility;
-    private final Status.MediaAttachment[] attachments;
-    @Nullable
-    private final String rebloggedByUsername;
-    @Nullable
-    private final String rebloggedAvatar;
-    private final boolean isSensitive;
-    private final boolean isExpanded;
-    private final boolean isShowingSensitiveContent;
-    private final String userFullName;
-    private final String nickname;
-    private final String avatar;
-    private final Date createdAt;
-    private final String reblogsCount;
-    private final String favouritesCount;
-    @Nullable
-    private final String inReplyToId;
-    // I would rather have something else but it would be too much of a rewrite
-    @Nullable
-    private final Status.Mention[] mentions;
-    private final String senderId;
-    private final boolean rebloggingEnabled;
-    private final Status.Application application;
-    private final List<Status.Emoji> emojis;
-    @Nullable
-    private final Card card;
+public abstract class StatusViewData {
 
-    private final boolean placeholder;
-
-    private final boolean placeholderLoading;
-
-    public StatusViewData(String id, Spanned content, boolean reblogged, boolean favourited,
-                          @Nullable String spoilerText, Status.Visibility visibility, Status.MediaAttachment[] attachments,
-                          @Nullable String rebloggedByUsername, @Nullable String rebloggedAvatar, boolean sensitive, boolean isExpanded,
-                          boolean isShowingSensitiveWarning, String userFullName, String nickname, String avatar,
-                          Date createdAt, String reblogsCount, String favouritesCount, @Nullable String inReplyToId,
-                          @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
-                          Status.Application application, List<Status.Emoji> emojis, @Nullable Card card,
-                          boolean placeholder, boolean placeholderLoading) {
-        this.id = id;
-        this.content = content;
-        this.reblogged = reblogged;
-        this.favourited = favourited;
-        this.spoilerText = spoilerText;
-        this.visibility = visibility;
-        this.attachments = attachments;
-        this.rebloggedByUsername = rebloggedByUsername;
-        this.rebloggedAvatar = rebloggedAvatar;
-        this.isSensitive = sensitive;
-        this.isExpanded = isExpanded;
-        this.isShowingSensitiveContent = isShowingSensitiveWarning;
-        this.userFullName = userFullName;
-        this.nickname = nickname;
-        this.avatar = avatar;
-        this.createdAt = createdAt;
-        this.reblogsCount = reblogsCount;
-        this.favouritesCount = favouritesCount;
-        this.inReplyToId = inReplyToId;
-        this.mentions = mentions;
-        this.senderId = senderId;
-        this.rebloggingEnabled = rebloggingEnabled;
-        this.application = application;
-        this.emojis = emojis;
-        this.card = card;
-        this.placeholder = placeholder;
-        this.placeholderLoading = placeholderLoading;
+    private StatusViewData() {
     }
 
-    public String getId() {
-        return id;
+    public static final class Concrete extends StatusViewData {
+        private final String id;
+        private final Spanned content;
+        private final boolean reblogged;
+        private final boolean favourited;
+        @Nullable
+        private final String spoilerText;
+        private final Status.Visibility visibility;
+        private final Status.MediaAttachment[] attachments;
+        @Nullable
+        private final String rebloggedByUsername;
+        @Nullable
+        private final String rebloggedAvatar;
+        private final boolean isSensitive;
+        private final boolean isExpanded;
+        private final boolean isShowingSensitiveContent;
+        private final String userFullName;
+        private final String nickname;
+        private final String avatar;
+        private final Date createdAt;
+        private final String reblogsCount;
+        private final String favouritesCount;
+        @Nullable
+        private final String inReplyToId;
+        // I would rather have something else but it would be too much of a rewrite
+        @Nullable
+        private final Status.Mention[] mentions;
+        private final String senderId;
+        private final boolean rebloggingEnabled;
+        private final Status.Application application;
+        private final List<Status.Emoji> emojis;
+        @Nullable
+        private final Card card;
+
+        public Concrete(String id, Spanned content, boolean reblogged, boolean favourited,
+                        @Nullable String spoilerText, Status.Visibility visibility, Status.MediaAttachment[] attachments,
+                        @Nullable String rebloggedByUsername, @Nullable String rebloggedAvatar, boolean sensitive, boolean isExpanded,
+                        boolean isShowingSensitiveWarning, String userFullName, String nickname, String avatar,
+                        Date createdAt, String reblogsCount, String favouritesCount, @Nullable String inReplyToId,
+                        @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
+                        Status.Application application, List<Status.Emoji> emojis, @Nullable Card card) {
+            this.id = id;
+            this.content = content;
+            this.reblogged = reblogged;
+            this.favourited = favourited;
+            this.spoilerText = spoilerText;
+            this.visibility = visibility;
+            this.attachments = attachments;
+            this.rebloggedByUsername = rebloggedByUsername;
+            this.rebloggedAvatar = rebloggedAvatar;
+            this.isSensitive = sensitive;
+            this.isExpanded = isExpanded;
+            this.isShowingSensitiveContent = isShowingSensitiveWarning;
+            this.userFullName = userFullName;
+            this.nickname = nickname;
+            this.avatar = avatar;
+            this.createdAt = createdAt;
+            this.reblogsCount = reblogsCount;
+            this.favouritesCount = favouritesCount;
+            this.inReplyToId = inReplyToId;
+            this.mentions = mentions;
+            this.senderId = senderId;
+            this.rebloggingEnabled = rebloggingEnabled;
+            this.application = application;
+            this.emojis = emojis;
+            this.card = card;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public Spanned getContent() {
+            return content;
+        }
+
+        public boolean isReblogged() {
+            return reblogged;
+        }
+
+        public boolean isFavourited() {
+            return favourited;
+        }
+
+        @Nullable
+        public String getSpoilerText() {
+            return spoilerText;
+        }
+
+        public Status.Visibility getVisibility() {
+            return visibility;
+        }
+
+        public Status.MediaAttachment[] getAttachments() {
+            return attachments;
+        }
+
+        @Nullable
+        public String getRebloggedByUsername() {
+            return rebloggedByUsername;
+        }
+
+        public boolean isSensitive() {
+            return isSensitive;
+        }
+
+        public boolean isExpanded() {
+            return isExpanded;
+        }
+
+        public boolean isShowingSensitiveContent() {
+            return isShowingSensitiveContent;
+        }
+
+        @Nullable
+        public String getRebloggedAvatar() {
+            return rebloggedAvatar;
+        }
+
+        public String getUserFullName() {
+            return userFullName;
+        }
+
+        public String getNickname() {
+            return nickname;
+        }
+
+        public String getAvatar() {
+            return avatar;
+        }
+
+        public Date getCreatedAt() {
+            return createdAt;
+        }
+
+        public String getReblogsCount() {
+            return reblogsCount;
+        }
+
+        public String getFavouritesCount() {
+            return favouritesCount;
+        }
+
+        @Nullable
+        public String getInReplyToId() {
+            return inReplyToId;
+        }
+
+        public String getSenderId() {
+            return senderId;
+        }
+
+        public Boolean getRebloggingEnabled() {
+            return rebloggingEnabled;
+        }
+
+        @Nullable
+        public Status.Mention[] getMentions() {
+            return mentions;
+        }
+
+        public Status.Application getApplication() {
+            return application;
+        }
+
+        public List<Status.Emoji> getEmojis() {
+            return emojis;
+        }
+
+        @Nullable
+        public Card getCard() {
+            return card;
+        }
+
     }
 
-    public Spanned getContent() {
-        return content;
-    }
+    public static final class Placeholder extends StatusViewData {
+        private final boolean isLoading;
 
-    public boolean isReblogged() {
-        return reblogged;
-    }
+        public Placeholder(boolean isLoading) {
+            this.isLoading = isLoading;
+        }
 
-    public boolean isFavourited() {
-        return favourited;
-    }
-
-    @Nullable
-    public String getSpoilerText() {
-        return spoilerText;
-    }
-
-    public Status.Visibility getVisibility() {
-        return visibility;
-    }
-
-    public Status.MediaAttachment[] getAttachments() {
-        return attachments;
-    }
-
-    @Nullable
-    public String getRebloggedByUsername() {
-        return rebloggedByUsername;
-    }
-
-    public boolean isSensitive() {
-        return isSensitive;
-    }
-
-    public boolean isExpanded() {
-        return isExpanded;
-    }
-
-    public boolean isShowingSensitiveContent() {
-        return isShowingSensitiveContent;
-    }
-
-    @Nullable
-    public String getRebloggedAvatar() {
-        return rebloggedAvatar;
-    }
-
-    public String getUserFullName() {
-        return userFullName;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public String getReblogsCount() {
-        return reblogsCount;
-    }
-
-    public String getFavouritesCount() {
-        return favouritesCount;
-    }
-
-    @Nullable
-    public String getInReplyToId() {
-        return inReplyToId;
-    }
-
-    public String getSenderId() {
-        return senderId;
-    }
-
-    public Boolean getRebloggingEnabled() {
-        return rebloggingEnabled;
-    }
-
-    @Nullable
-    public Status.Mention[] getMentions() {
-        return mentions;
-    }
-
-    public Status.Application getApplication() {
-        return application;
-    }
-
-    public List<Status.Emoji> getEmojis() {
-        return emojis;
-    }
-
-    @Nullable
-    public Card getCard() {
-        return card;
-    }
-
-    public boolean isPlaceholder() {
-        return placeholder;
-    }
-
-    public boolean isPlaceholderLoading() {
-        return placeholderLoading;
+        public boolean isLoading() {
+            return isLoading;
+        }
     }
 
     public static class Builder {
@@ -244,13 +251,11 @@ public final class StatusViewData {
         private Status.Application application;
         private List<Status.Emoji> emojis;
         private Card card;
-        private boolean placeholder;
-        private boolean placeholderLoading;
 
         public Builder() {
         }
 
-        public Builder(final StatusViewData viewData) {
+        public Builder(final StatusViewData.Concrete viewData) {
             id = viewData.id;
             content = viewData.content;
             reblogged = viewData.reblogged;
@@ -276,9 +281,6 @@ public final class StatusViewData {
             application = viewData.application;
             emojis = viewData.getEmojis();
             card = viewData.getCard();
-            placeholder = viewData.isPlaceholder();
-            placeholderLoading = viewData.isPlaceholderLoading();
-
         }
 
         public Builder setId(String id) {
@@ -406,25 +408,15 @@ public final class StatusViewData {
             return this;
         }
 
-        public Builder setPlaceholder(boolean placeholder) {
-            this.placeholder = placeholder;
-            return this;
-        }
-
-        public Builder setPlaceholderLoading(boolean placeholderLoading) {
-            this.placeholderLoading = placeholderLoading;
-            return this;
-        }
-
-        public StatusViewData createStatusViewData() {
+        public StatusViewData.Concrete createStatusViewData() {
             if (this.emojis == null) emojis = Collections.emptyList();
             if (this.createdAt == null) createdAt = new Date();
 
-            return new StatusViewData(id, content, reblogged, favourited, spoilerText, visibility,
+            return new StatusViewData.Concrete(id, content, reblogged, favourited, spoilerText, visibility,
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
                     isShowingSensitiveContent, userFullName, nickname, avatar, createdAt, reblogsCount,
                     favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application,
-                    emojis, card, placeholder, placeholderLoading);
+                    emojis, card);
         }
     }
 }

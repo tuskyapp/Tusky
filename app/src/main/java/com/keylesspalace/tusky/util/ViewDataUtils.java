@@ -32,13 +32,8 @@ import java.util.List;
 
 public final class ViewDataUtils {
     @Nullable
-    public static StatusViewData statusToViewData(@Nullable Status status) {
+    public static StatusViewData.Concrete statusToViewData(@Nullable Status status) {
         if (status == null) return null;
-        if (status.placeholder) {
-            return new StatusViewData.Builder().setId(status.id)
-                    .setPlaceholder(true)
-                    .createStatusViewData();
-        }
         Status visibleStatus = status.reblog == null ? status : status.reblog;
         return new StatusViewData.Builder().setId(status.id)
                 .setAttachments(visibleStatus.attachments)
@@ -75,11 +70,11 @@ public final class ViewDataUtils {
         return viewDatas;
     }
 
-    public static Function<Status, StatusViewData> statusMapper() {
+    public static Function<Status, StatusViewData.Concrete> statusMapper() {
         return statusMapper;
     }
 
-    public static NotificationViewData notificationToViewData(Notification notification) {
+    public static NotificationViewData.Concrete notificationToViewData(Notification notification) {
         return new NotificationViewData.Concrete(notification.type, notification.id, notification.account,
                 statusToViewData(notification.status));
     }
@@ -93,10 +88,10 @@ public final class ViewDataUtils {
         return viewDatas;
     }
 
-    private static final Function<Status, StatusViewData> statusMapper =
-            new Function<Status, StatusViewData>() {
+    private static final Function<Status, StatusViewData.Concrete> statusMapper =
+            new Function<Status, StatusViewData.Concrete>() {
                 @Override
-                public StatusViewData apply(Status input) {
+                public StatusViewData.Concrete apply(Status input) {
                     return ViewDataUtils.statusToViewData(input);
                 }
             };

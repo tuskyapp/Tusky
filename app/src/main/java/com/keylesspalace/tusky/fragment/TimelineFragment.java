@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import android.arch.core.util.Function;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -25,6 +26,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,6 +45,8 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
+import com.keylesspalace.tusky.util.CollectionUtil;
+import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.PairedList;
@@ -104,8 +108,18 @@ public class TimelineFragment extends SFragment implements
     private String bottomId;
     @Nullable
     private String topId;
-    private PairedList<Status, StatusViewData> statuses =
-            new PairedList<>(ViewDataUtils.statusMapper());
+    private PairedList<Either<Placeholder, Status>, StatusViewData> statuses =
+            new PairedList<>(new Function<Either<Placeholder, Status>, StatusViewData>() {
+                @Override
+                public StatusViewData apply(Either<Placeholder, Status> input) {
+                    Status status = input.getAsRightOrNull();
+                    if (status != null) {
+                        return ViewDataUtils.statusToViewData(status);
+                    } else {
+                        return new StatusViewData.Placeholder(false);
+                    }
+                }
+            });
 
     public static TimelineFragment newInstance(Kind kind) {
         TimelineFragment fragment = new TimelineFragment();
@@ -122,6 +136,17 @@ public class TimelineFragment extends SFragment implements
         arguments.putString(HASHTAG_OR_ID_ARG, hashtagOrId);
         fragment.setArguments(arguments);
         return fragment;
+    }
+
+    private static final class Placeholder {
+        private final static Placeholder INSTANCE = new Placeholder();
+
+        public static Placeholder getInstance() {
+            return INSTANCE;
+        }
+
+        private Placeholder() {
+        }
     }
 
     @Override
@@ -256,12 +281,12 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onReply(int position) {
-        super.reply(statuses.get(position));
+        super.reply(statuses.get(position).getAsRight());
     }
 
     @Override
     public void onReblog(final boolean reblog, final int position) {
-        final Status status = statuses.get(position);
+        final Status status = statuses.get(position).getAsRight();
         super.reblogWithCallback(status, reblog, new Callback<Status>() {
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
@@ -271,12 +296,17 @@ public class TimelineFragment extends SFragment implements
                     if (status.reblog != null) {
                         status.reblog.reblogged = reblog;
                     }
+
+                    Pair<StatusViewData.Concrete, Integer> actual =
+                            findStatusAndPosition(position, status);
+                    if (actual == null) return;
+
                     StatusViewData newViewData =
-                            new StatusViewData.Builder(statuses.getPairedItem(position))
+                            new StatusViewData.Builder(actual.first)
                                     .setReblogged(reblog)
                                     .createStatusViewData();
-                    statuses.setPairedItem(position, newViewData);
-                    adapter.changeItem(position, newViewData, true);
+                    statuses.setPairedItem(actual.second, newViewData);
+                    adapter.changeItem(actual.second, newViewData, true);
                 }
             }
 
@@ -289,7 +319,7 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onFavourite(final boolean favourite, final int position) {
-        final Status status = statuses.get(position);
+        final Status status = statuses.get(position).getAsRight();
 
         super.favouriteWithCallback(status, favourite, new Callback<Status>() {
             @Override
@@ -300,12 +330,17 @@ public class TimelineFragment extends SFragment implements
                     if (status.reblog != null) {
                         status.reblog.favourited = favourite;
                     }
+
+                    Pair<StatusViewData.Concrete, Integer> actual =
+                            findStatusAndPosition(position, status);
+                    if (actual == null) return;
+
                     StatusViewData newViewData = new StatusViewData
-                            .Builder(statuses.getPairedItem(position))
+                            .Builder(actual.first)
                             .setFavourited(favourite)
                             .createStatusViewData();
-                    statuses.setPairedItem(position, newViewData);
-                    adapter.changeItem(position, newViewData, true);
+                    statuses.setPairedItem(actual.second, newViewData);
+                    adapter.changeItem(actual.second, newViewData, true);
                 }
             }
 
@@ -318,17 +353,18 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onMore(View view, final int position) {
-        super.more(statuses.get(position), view, position);
+        super.more(statuses.get(position).getAsRight(), view, position);
     }
 
     @Override
     public void onOpenReblog(int position) {
-        super.openReblog(statuses.get(position));
+        super.openReblog(statuses.get(position).getAsRight());
     }
 
     @Override
     public void onExpandedChange(boolean expanded, int position) {
-        StatusViewData newViewData = new StatusViewData.Builder(statuses.getPairedItem(position))
+        StatusViewData newViewData = new StatusViewData.Builder(
+                ((StatusViewData.Concrete) statuses.getPairedItem(position)))
                 .setIsExpanded(expanded).createStatusViewData();
         statuses.setPairedItem(position, newViewData);
         adapter.changeItem(position, newViewData, false);
@@ -336,7 +372,8 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onContentHiddenChange(boolean isShowing, int position) {
-        StatusViewData newViewData = new StatusViewData.Builder(statuses.getPairedItem(position))
+        StatusViewData newViewData = new StatusViewData.Builder(
+                ((StatusViewData.Concrete) statuses.getPairedItem(position)))
                 .setIsShowingSensitiveContent(isShowing).createStatusViewData();
         statuses.setPairedItem(position, newViewData);
         adapter.changeItem(position, newViewData, false);
@@ -346,17 +383,19 @@ public class TimelineFragment extends SFragment implements
     public void onLoadMore(int position) {
         //check bounds before accessing list,
         if (statuses.size() >= position && position > 0) {
-            String fromId = statuses.get(position - 1).id;
-            String toId = statuses.get(position + 1).id;
-            sendFetchTimelineRequest(fromId, toId, FetchEnd.MIDDLE, position);
+            Status fromStatus = statuses.get(position - 1).getAsRightOrNull();
+            Status toStatus = statuses.get(position + 1).getAsRightOrNull();
+            if (fromStatus == null || toStatus == null) {
+                Log.e(TAG, "Failed to load more at " + position + ", wrong placeholder position");
+                return;
+            }
+            sendFetchTimelineRequest(fromStatus.id, toStatus.id, FetchEnd.MIDDLE, position);
 
-            StatusViewData newViewData = new StatusViewData.Builder(statuses.getPairedItem(position))
-                    .setPlaceholderLoading(true).createStatusViewData();
+            StatusViewData newViewData = new StatusViewData.Placeholder(true);
             statuses.setPairedItem(position, newViewData);
             adapter.changeItem(position, newViewData, false);
-
         } else {
-            Log.d(TAG, "error loading more");
+            Log.e(TAG, "error loading more");
         }
     }
 
@@ -368,7 +407,7 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onViewThread(int position) {
-        super.viewThread(statuses.get(position));
+        super.viewThread(statuses.get(position).getAsRight());
     }
 
     @Override
@@ -433,10 +472,10 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void removeAllByAccountId(String accountId) {
         // using iterator to safely remove items while iterating
-        Iterator<Status> iterator = statuses.iterator();
+        Iterator<Either<Placeholder, Status>> iterator = statuses.iterator();
         while (iterator.hasNext()) {
-            Status status = iterator.next();
-            if (status.account.id.equals(accountId)) {
+            Status status = iterator.next().getAsRightOrNull();
+            if (status != null && status.account.id.equals(accountId)) {
                 iterator.remove();
             }
         }
@@ -534,6 +573,8 @@ public class TimelineFragment extends SFragment implements
 
     private void onFetchTimelineSuccess(List<Status> statuses, String linkHeader,
                                         FetchEnd fetchEnd, int pos) {
+        // We filled the hole (or reached the end) if the server returned less statuses than we
+        // we asked for.
         boolean fullFetch = statuses.size() >= LOAD_AT_ONCE;
         filterStatuses(statuses);
         List<HttpHeaderLink> links = HttpHeaderLink.parse(linkHeader);
@@ -548,7 +589,7 @@ public class TimelineFragment extends SFragment implements
                 break;
             }
             case MIDDLE: {
-                insertStatuses(statuses,fullFetch, pos);
+                replacePlaceholderWithStatuses(statuses, fullFetch, pos);
                 break;
             }
             case BOTTOM: {
@@ -585,10 +626,8 @@ public class TimelineFragment extends SFragment implements
     private void onFetchTimelineFailure(Exception exception, FetchEnd fetchEnd, int position) {
         swipeRefreshLayout.setRefreshing(false);
 
-        if(fetchEnd == FetchEnd.MIDDLE && statuses.getPairedItem(position).isPlaceholder()) {
-
-            StatusViewData newViewData = new StatusViewData.Builder(statuses.getPairedItem(position))
-                    .setPlaceholderLoading(false).createStatusViewData();
+        if (fetchEnd == FetchEnd.MIDDLE && !statuses.get(position).isRight()) {
+            StatusViewData newViewData = new StatusViewData.Placeholder(true);
             statuses.setPairedItem(position, newViewData);
             adapter.changeItem(position, newViewData, true);
         }
@@ -640,25 +679,26 @@ public class TimelineFragment extends SFragment implements
         if (toId != null) {
             topId = toId;
         }
+
+        List<Either<Placeholder, Status>> liftedNew = listStatusList(newStatuses);
+
         if (statuses.isEmpty()) {
-            statuses.addAll(newStatuses);
+            statuses.addAll(liftedNew);
         } else {
-            Status lastOfNew = newStatuses.get(newStatuses.size() - 1);
+            Either<Placeholder, Status> lastOfNew = liftedNew.get(newStatuses.size() - 1);
             int index = statuses.indexOf(lastOfNew);
 
             for (int i = 0; i < index; i++) {
                 statuses.remove(0);
             }
-            int newIndex = newStatuses.indexOf(statuses.get(0));
+            int newIndex = liftedNew.indexOf(statuses.get(0));
             if (newIndex == -1) {
-                if(index == -1 && fullFetch) {
-                    Status placeholder = new Status();
-                    placeholder.placeholder = true;
-                    newStatuses.add(placeholder);
+                if (index == -1 && fullFetch) {
+                    liftedNew.add(Either.<Placeholder, Status>left(Placeholder.getInstance()));
                 }
-                statuses.addAll(0, newStatuses);
+                statuses.addAll(0, liftedNew);
             } else {
-                statuses.addAll(0, newStatuses.subList(0, newIndex));
+                statuses.addAll(0, liftedNew.subList(0, newIndex));
             }
         }
         adapter.update(statuses.getPairedCopy());
@@ -669,9 +709,11 @@ public class TimelineFragment extends SFragment implements
             return;
         }
         int end = statuses.size();
-        Status last = statuses.get(end - 1);
+        Status last = statuses.get(end - 1).getAsRightOrNull();
+        // I was about to replace findStatus with indexOf but it is incorrect to compare value
+        // types by ID anyway and we should change equals() for Status, I think, so this makes sense
         if (last != null && !findStatus(newStatuses, last.id)) {
-            statuses.addAll(newStatuses);
+            statuses.addAll(listStatusList(newStatuses));
             List<StatusViewData> newViewDatas = statuses.getPairedCopy()
                     .subList(statuses.size() - newStatuses.size(), statuses.size());
             if (BuildConfig.DEBUG && newStatuses.size() != newViewDatas.size()) {
@@ -688,9 +730,9 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
-    private void insertStatuses(List<Status> newStatuses, boolean fullFetch, int pos) {
-
-        if(statuses.get(pos).placeholder) {
+    private void replacePlaceholderWithStatuses(List<Status> newStatuses, boolean fullFetch, int pos) {
+        Status status = statuses.get(pos).getAsRightOrNull();
+        if (status == null) {
             statuses.remove(pos);
         }
 
@@ -699,13 +741,13 @@ public class TimelineFragment extends SFragment implements
             return;
         }
 
-        if(fullFetch) {
-            Status placeholder = new Status();
-            placeholder.placeholder = true;
-            newStatuses.add(placeholder);
+        List<Either<Placeholder, Status>> liftedNew = listStatusList(newStatuses);
+
+        if (fullFetch) {
+            liftedNew.add(Either.<Placeholder, Status>left(Placeholder.getInstance()));
         }
 
-        statuses.addAll(pos, newStatuses);
+        statuses.addAll(pos, liftedNew);
         adapter.update(statuses.getPairedCopy());
 
     }
@@ -717,5 +759,40 @@ public class TimelineFragment extends SFragment implements
             }
         }
         return false;
+    }
+
+    private final Function<Status, Either<Placeholder, Status>> statusLifter =
+            new Function<Status, Either<Placeholder, Status>>() {
+                @Override
+                public Either<Placeholder, Status> apply(Status input) {
+                    return Either.right(input);
+                }
+            };
+
+    private @Nullable
+    Pair<StatusViewData.Concrete, Integer>
+    findStatusAndPosition(int position, Status status) {
+        StatusViewData.Concrete statusToUpdate;
+        int positionToUpdate;
+        StatusViewData someOldViewData = statuses.getPairedItem(position);
+
+        // Unlikely, but data could change between the request and response
+        if ((someOldViewData instanceof StatusViewData.Placeholder) ||
+                !((StatusViewData.Concrete) someOldViewData).getId().equals(status.id)) {
+            // try to find the status we need to update
+            int foundPos = statuses.indexOf(Either.<Placeholder, Status>right(status));
+            if (foundPos < 0) return null; // okay, it's hopeless, give up
+            statusToUpdate = ((StatusViewData.Concrete)
+                    statuses.getPairedItem(foundPos));
+            positionToUpdate = position;
+        } else {
+            statusToUpdate = (StatusViewData.Concrete) someOldViewData;
+            positionToUpdate = position;
+        }
+        return new Pair<>(statusToUpdate, positionToUpdate);
+    }
+
+    private List<Either<Placeholder, Status>> listStatusList(List<Status> list) {
+        return CollectionUtil.map(list, statusLifter);
     }
 }

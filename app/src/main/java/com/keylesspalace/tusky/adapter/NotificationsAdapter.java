@@ -113,7 +113,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             switch (type) {
                 case MENTION: {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
-                    StatusViewData status = concreteNotificaton.getStatusViewData();
+                    StatusViewData.Concrete status = concreteNotificaton.getStatusViewData();
                     holder.setupWithStatus(status,
                             statusListener, mediaPreviewEnabled);
                     break;
@@ -279,7 +279,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             notificationAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
         }
 
-        void setMessage(Notification.Type type, String displayName, StatusViewData status) {
+        void setMessage(Notification.Type type, String displayName,
+                        StatusViewData.Concrete status) {
             Context context = message.getContext();
             String format;
             switch (type) {
