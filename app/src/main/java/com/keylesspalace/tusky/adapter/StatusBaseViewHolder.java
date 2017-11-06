@@ -473,7 +473,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         container.setOnClickListener(viewThreadListener);
     }
 
-    void setupWithStatus(StatusViewData status, final StatusActionListener listener,
+    void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
                          boolean mediaPreviewEnabled) {
         setDisplayName(status.getUserFullName());
         setUsername(status.getNickname());

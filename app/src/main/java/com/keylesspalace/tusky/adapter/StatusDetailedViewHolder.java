@@ -85,7 +85,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    void setupWithStatus(final StatusViewData status, final StatusActionListener listener,
+    void setupWithStatus(final StatusViewData.Concrete status, final StatusActionListener listener,
                          boolean mediaPreviewEnabled) {
         super.setupWithStatus(status, listener, mediaPreviewEnabled);
         reblogs.setText(status.getReblogsCount());

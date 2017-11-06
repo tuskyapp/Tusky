@@ -49,16 +49,16 @@ public class ConversationLineItemDecoration extends RecyclerView.ItemDecoration 
 
             int position = parent.getChildAdapterPosition(child);
             ThreadAdapter adapter = (ThreadAdapter) parent.getAdapter();
-            StatusViewData current = adapter.getItem(position);
+            StatusViewData.Concrete current = adapter.getItem(position);
             int dividerTop, dividerBottom;
             if (current != null) {
-                StatusViewData above = adapter.getItem(position - 1);
+                StatusViewData.Concrete above = adapter.getItem(position - 1);
                 if (above != null && above.getId().equals(current.getInReplyToId())) {
                     dividerTop = child.getTop();
                 } else {
                     dividerTop = child.getTop() + avatarMargin;
                 }
-                StatusViewData below = adapter.getItem(position + 1);
+                StatusViewData.Concrete below = adapter.getItem(position + 1);
                 if (below != null && current.getId().equals(below.getInReplyToId())) {
                     dividerBottom = child.getBottom();
                 } else {

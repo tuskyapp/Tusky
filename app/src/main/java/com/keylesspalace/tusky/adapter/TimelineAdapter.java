@@ -72,12 +72,14 @@ public class TimelineAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (position < statuses.size()) {
             StatusViewData status = statuses.get(position);
-            if(status.isPlaceholder()) {
+            if (status instanceof StatusViewData.Placeholder) {
                 PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
-                holder.setup(!status.isPlaceholderLoading(), statusListener);
+                holder.setup(!((StatusViewData.Placeholder) status).isLoading(), statusListener);
             } else {
+
                 StatusViewHolder holder = (StatusViewHolder) viewHolder;
-                holder.setupWithStatus(status, statusListener, mediaPreviewEnabled);
+                holder.setupWithStatus((StatusViewData.Concrete) status,
+                        statusListener, mediaPreviewEnabled);
             }
 
         } else {
@@ -96,7 +98,7 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         if (position == statuses.size()) {
             return VIEW_TYPE_FOOTER;
         } else {
-            if(statuses.get(position).isPlaceholder()) {
+            if (statuses.get(position) instanceof StatusViewData.Placeholder) {
                 return VIEW_TYPE_PLACEHOLDER;
             } else {
                 return VIEW_TYPE_STATUS;
