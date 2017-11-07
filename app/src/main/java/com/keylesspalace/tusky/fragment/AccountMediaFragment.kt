@@ -120,10 +120,9 @@ class AccountMediaFragment : BaseFragment() {
 
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        // we should get rid of this
-        api = (context as BaseActivity).mastodonApi
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        api = (activity as BaseActivity).mastodonApi
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
