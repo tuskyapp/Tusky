@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationMaker {
-    public static final String TAG = "NotificationMaker";
+    private static final String TAG = "NotificationMaker";
 
     /** notification channels used on Android O+ **/
     private static final String CHANNEL_MENTION = "CHANNEL_MENTION";

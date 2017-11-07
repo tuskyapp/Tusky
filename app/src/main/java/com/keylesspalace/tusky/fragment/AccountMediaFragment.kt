@@ -144,7 +144,7 @@ class AccountMediaFragment : BaseFragment() {
 
         val accountId = arguments.getString(ACCOUNT_ID_ARG)
 
-        swipeLayout = view.findViewById<SwipeRefreshLayout>(R.id.swipe_refresh_layout)
+        swipeLayout = view.findViewById(R.id.swipe_refresh_layout)
         swipeLayout.setOnRefreshListener {
             if (fetchingStatus != FetchingStatus.NOT_FETCHING) return@setOnRefreshListener
             currentCall = if (statuses.isEmpty()) {

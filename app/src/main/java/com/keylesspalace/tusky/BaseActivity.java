@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -45,6 +46,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+@SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity {
     protected static final int SERVICE_REQUEST_CODE = 8574603; // This number is arbitrary.
 

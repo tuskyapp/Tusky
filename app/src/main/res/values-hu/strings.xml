@@ -22,7 +22,7 @@
     <string name="title_notifications">Értesítések</string>
     <string name="title_public_local">Helyi</string>
     <string name="title_public_federated">Egyesített</string>
-    <string name="title_thread">Tülköléslánc</string>
+    <string name="title_view_thread">Tülköléslánc</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Posztok</string>
     <string name="title_follows">Követ</string>

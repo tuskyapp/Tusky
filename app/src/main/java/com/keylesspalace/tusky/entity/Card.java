@@ -17,10 +17,6 @@ package com.keylesspalace.tusky.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.Spanned;
-
-import com.google.gson.annotations.SerializedName;
-import com.keylesspalace.tusky.util.HtmlUtils;
 
 public class Card implements Parcelable {
 

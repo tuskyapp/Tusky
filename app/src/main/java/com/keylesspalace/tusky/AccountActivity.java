@@ -58,7 +58,6 @@ import com.keylesspalace.tusky.util.ThemeUtils;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -346,14 +345,6 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
                 .placeholder(R.drawable.account_header_default)
                 .into(header);
 
-        NumberFormat nf = NumberFormat.getInstance();
-
-        // Add counts to the tabs in the TabLayout.
-        String[] counts = {
-                nf.format(Integer.parseInt(account.statusesCount)),
-                ""
-        };
-
         long followersCount = Long.parseLong(account.followersCount);
         long followingCount = Long.parseLong(account.followingCount);
         long statusesCount = Long.parseLong(account.statusesCount);
@@ -361,16 +352,6 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         followingTextView.setText(getString(R.string.title_x_following, followingCount));
         statusesTextView.setText(getString(R.string.title_x_statuses, statusesCount));
 
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            if (tab != null) {
-                View view = tab.getCustomView();
-                if (view != null) {
-                    TextView total = view.findViewById(R.id.total);
-                    total.setText(counts[i]);
-                }
-            }
-        }
     }
 
     private void onObtainAccountFailure() {

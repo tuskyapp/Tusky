@@ -18,8 +18,8 @@ public class TimelineReceiver extends BroadcastReceiver {
         public static final String STATUS_COMPOSED = "STATUS_COMPOSED";
     }
 
-    AdapterItemRemover adapter;
-    SwipeRefreshLayout.OnRefreshListener refreshListener;
+    private AdapterItemRemover adapter;
+    private SwipeRefreshLayout.OnRefreshListener refreshListener;
 
     public TimelineReceiver(AdapterItemRemover adapter) {
         super();
