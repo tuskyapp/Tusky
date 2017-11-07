@@ -182,7 +182,7 @@ public class ReportActivity extends BaseActivity {
                 onFetchStatusesFailure((Exception) t);
             }
         };
-        mastodonApi.accountStatuses(accountId, null, null, null)
+        mastodonApi.accountStatuses(accountId, null, null, null, null)
                 .enqueue(callback);
     }
 

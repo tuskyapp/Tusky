@@ -290,6 +290,7 @@ public class TimelineFragment extends SFragment implements
         super.reblogWithCallback(status, reblog, new Callback<Status>() {
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
+
                 if (response.isSuccessful()) {
                     status.reblogged = reblog;
 
@@ -324,6 +325,7 @@ public class TimelineFragment extends SFragment implements
         super.favouriteWithCallback(status, favourite, new Callback<Status>() {
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
+
                 if (response.isSuccessful()) {
                     status.favourited = favourite;
 

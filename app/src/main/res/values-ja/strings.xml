@@ -100,8 +100,10 @@
     <string name="action_reject">拒否</string>
     <string name="action_search">検索</string>
     <string name="action_access_saved_toot">下書き</string>
-    <string name="action_copy_link">リンクをコピー</string>
+
     <string name="download_image">%1$s をダウンロードしています</string>
+
+    <string name="action_copy_link">リンクをコピー</string>
 
     <string name="send_status_link_to">トゥートのURLを共有…</string>
     <string name="send_status_content_to">トゥートを共有…</string>
@@ -127,14 +129,16 @@
 
     <string name="login_connection">接続中…</string>
 
-    <string name="dialog_whats_an_instance">mastodon.social, mstdn.jp, pawoo.net や
-        <a href="https://instances.social">その他</a>
-        のような、あらゆるインスタンスのアドレスやドメインを入力できます。
-        \n\nまだアカウントをお持ちでない場合は、参加したいインスタンスの名前を入力することで
-        そのインスタンスにアカウントを作成できます。\n\nインスタンスはあなたのアカウントが提供される単独の場所ですが、
-        他のインスタンスのユーザーとあたかも同じ場所にいるように簡単にコミュニケーションをとったりフォローしたりできます。
+    <string name="dialog_whats_an_instance">mastodon.social, mstdn.jp, pawoo.netや<!--
+        --><a href="https://instances.social">その他</a><!--
+        -->のような、あらゆるインスタンスのアドレスやドメインを入力できます。
+        \n\nまだアカウントをお持ちでない場合は、参加したいインスタンスの名前を入力することで<!--
+        -->そのインスタンスにアカウントを作成できます。
+        \n\nインスタンスはあなたのアカウントが提供される単独の場所ですが、<!--
+        -->他のインスタンスのユーザーとあたかも同じ場所にいるように簡単にコミュニケーションをとったりフォローしたりできます。
         \n\nさらに詳しい情報は<a href="https://joinmastodon.org">joinmastodon.org</a>でご覧いただけます。
     </string>
+    <!-- Commented out line breaks to avoid appearing spaces in the middle of a sentence. -->
     <string name="dialog_title_finishing_media_upload">メディアをアップロードしています</string>
     <string name="dialog_message_uploading_media">アップロード中…</string>
     <string name="dialog_download_image">ダウンロード</string>
@@ -170,6 +174,15 @@
     <string name="pref_title_show_replies">返信を表示</string>
     <string name="pref_title_show_media_preview">メディアのプレビューを表示する</string>
 
+    <string name="notification_channel_mention_name">新しい返信</string>
+    <string name="notification_channel_mention_descriptions">新しい返信の通知</string>
+    <string name="notification_channel_follow_name">新しいフォロワー</string>
+    <string name="notification_channel_follow_description">新しいフォロワーの通知</string>
+    <string name="notification_channel_boost_name">ブースト</string>
+    <string name="notification_channel_boost_description">あなたのトゥートがブーストされたときの通知</string>
+    <string name="notification_channel_favourite_name">お気に入り</string>
+    <string name="notification_channel_favourite_description">あなたのトゥートがお気に入りに登録されたときの通知</string>
+
     <string name="notification_mention_format">%sさんが返信しました</string>
     <string name="notification_summary_large">%1$sさん、%2$sさん、%3$sさんと他%4$d人</string>
     <string name="notification_summary_medium">%1$sさん、%2$sさん、%3$sさん</string>
@@ -180,12 +193,17 @@
 
     <string name="about_title_activity">このアプリについて</string>
     <string name="about_application_version">アプリのバージョン：%s</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Tuskyは無料のオープンソースソフトウェアです。<!--
+     -->GNU General Public License Version 3 の下で使用許諾されています。<!--
+     -->ライセンスはここからご覧いただけます： https://www.gnu.org/licenses/gpl-3.0.ja.html</string>
+    <!-- Commented out line breaks brcause inserting a space after the japanese period is incorrect. -->
     <string name="about_project_site">
-        プロジェクトのWebサイト：\n
+        プロジェクトのWebサイト（英語）：\n
         https://tusky.keylesspalace.com
-    </string>-->
+    </string>
     <string name="about_bug_feature_request_site">
-        バグ報告 &amp; 機能リクエスト：\n
+        バグ報告 &amp; 機能リクエスト（英語）：\n
         https://github.com/Vavassor/Tusky/issues
     </string>
     <string name="about_tusky_account">Tusky公式アカウント</string>
@@ -199,8 +217,21 @@
     
     <string name="no_content">下書きはありません</string>
     <string name="action_save_one_toot">下書きに保存しました！</string>
-    
+
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">%d年後</string>
+    <string name="abbreviated_in_days">%d日後</string>
+    <string name="abbreviated_in_hours">%d時間後</string>
+    <string name="abbreviated_in_minutes">%d分後</string>
+    <string name="abbreviated_in_seconds">%d秒後</string>
+    <string name="abbreviated_years_ago">%d年前</string>
+    <string name="abbreviated_days_ago">%d日前</string>
+    <string name="abbreviated_hours_ago">%d時間前</string>
+    <string name="abbreviated_minutes_ago">%d分前</string>
+    <string name="abbreviated_seconds_ago">%d秒前</string>
+
     <string name="follows_you">あなたをフォロー中</string>
-    <string name="pref_title_alway_show_sensitive_media">常にすべての閲覧注意なコンテンツを表示する</string>
+    <string name="pref_title_alway_show_sensitive_media">閲覧注意のコンテンツを常に表示</string>
+    <string name="replying_to">@%sに返信</string>
 
 </resources>
