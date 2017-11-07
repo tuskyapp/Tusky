@@ -395,6 +395,18 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
+    public void onViewStatusForNotificationId(String notificationId) {
+        for (Either<Placeholder, Notification> either : notifications) {
+            Notification notification = either.getAsRightOrNull();
+            if (notification != null && notification.id.equals(notificationId)) {
+                super.viewThread(notification.status);
+                return;
+            }
+        }
+        Log.w(TAG, "Didn't find a notification for ID: " + notificationId);
+    }
+
+    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key) {
             case "fabHide": {
