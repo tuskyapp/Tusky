@@ -31,6 +31,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
@@ -75,6 +76,8 @@ public class OkHttpUtils {
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .addInterceptor(getUserAgentInterceptor())
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
                 .connectionSpecs(specList);
 
         return enableHigherTlsOnPreLollipop(builder);
@@ -82,7 +85,9 @@ public class OkHttpUtils {
 
     @NonNull
     public static OkHttpClient getCompatibleClient() {
-        return getCompatibleClientBuilder().build();
+        OkHttpClient client = getCompatibleClientBuilder().build();
+        Log.d(TAG, client.connectTimeoutMillis()+" "+client.readTimeoutMillis()+" "+client.writeTimeoutMillis());
+        return client;
     }
 
     /**
