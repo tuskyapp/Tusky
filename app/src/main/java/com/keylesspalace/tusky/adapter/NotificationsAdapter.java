@@ -24,15 +24,20 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.StyleSpan;
+import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Notification;
+import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
@@ -263,7 +268,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     }
 
     private static class StatusNotificationViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
+            implements View.OnClickListener, ToggleButton.OnCheckedChangeListener {
         private final TextView message;
         private final ImageView icon;
         private final TextView statusContent;
@@ -271,10 +276,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private final ImageView statusAvatar;
         private final ImageView notificationAvatar;
         private final ViewGroup topBar;
+        private final View contentWarningBar;
+        private final TextView contentWarningDescriptionTextView;
+        private final ToggleButton contentWarningButton;
 
         private String accountId;
         private String notificationId;
         private NotificationActionListener listener;
+        private StatusViewData.Concrete statusViewData;
 
         StatusNotificationViewHolder(View itemView) {
             super(itemView);
@@ -285,6 +294,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             statusAvatar = itemView.findViewById(R.id.notification_status_avatar);
             notificationAvatar = itemView.findViewById(R.id.notification_notification_avatar);
             topBar = itemView.findViewById(R.id.notification_top_bar);
+            contentWarningBar = itemView.findViewById(R.id.notification_content_warning_bar);
+            contentWarningDescriptionTextView = itemView.findViewById(R.id.notification_content_warning_description);
+            contentWarningButton = itemView.findViewById(R.id.notification_content_warning_button);
 
             int darkerFilter = Color.rgb(123, 123, 123);
             statusAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
@@ -292,10 +304,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
             container.setOnClickListener(this);
             topBar.setOnClickListener(this);
+            contentWarningButton.setOnCheckedChangeListener(this);
         }
 
         void setMessage(Notification.Type type, String displayName,
                         StatusViewData.Concrete status) {
+            this.statusViewData = status;
+
             Context context = message.getContext();
             String format;
             switch (type) {
@@ -320,7 +335,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             str.setSpan(new StyleSpan(Typeface.BOLD), 0, displayName.length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             message.setText(str);
-            statusContent.setText(status.getContent());
+
+            boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
+            contentWarningBar.setVisibility(hasSpoiler ? View.VISIBLE : View.GONE);
+            setupContentAndSpoiler(false);
         }
 
         void setupButtons(final NotificationActionListener listener, final String accountId,
@@ -357,15 +375,48 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onClick(View v) {
-            if (listener == null) return;
             switch (v.getId()) {
                 case R.id.notification_container:
-                    listener.onViewStatusForNotificationId(notificationId);
+                    if (listener != null) listener.onViewStatusForNotificationId(notificationId);
                     break;
                 case R.id.notification_top_bar:
-                    listener.onViewAccount(accountId);
+                    if (listener != null) listener.onViewAccount(accountId);
                     break;
             }
+        }
+
+        private void setupContentAndSpoiler(boolean shouldShowContentIfSpoiler) {
+            boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
+            CharSequence content;
+            if (!shouldShowContentIfSpoiler && hasSpoiler) {
+                if (statusViewData.getMentions() != null &&
+                        statusViewData.getMentions().length > 0) {
+                    // If there is a content warning and mentions we're alternating between
+                    // showing mentions and showing full content. As mentions are plain text we
+                    // have to construct URLSpans ourselves.
+                    SpannableStringBuilder contentBuilder = new SpannableStringBuilder();
+                    for (Status.Mention mention : statusViewData.getMentions()) {
+                        int start = contentBuilder.length() > 0 ? contentBuilder.length() - 1 : 0;
+                        contentBuilder.append('@');
+                        contentBuilder.append(mention.username);
+                        contentBuilder.append(' ');
+                        contentBuilder.setSpan(new URLSpan(mention.url), start,
+                                mention.username.length() + 1, 0);
+                    }
+                    content = contentBuilder;
+                } else {
+                    content = null;
+                }
+            } else {
+                content = statusViewData.getContent();
+            }
+            statusContent.setText(content);
+            contentWarningDescriptionTextView.setText(statusViewData.getSpoilerText());
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            setupContentAndSpoiler(isChecked);
         }
     }
 }
