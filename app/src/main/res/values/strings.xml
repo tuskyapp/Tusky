@@ -237,5 +237,6 @@
     <string name="pref_title_alway_show_sensitive_media">Always show all nsfw content</string>
     <string name="title_media">Media</string>
     <string name="replying_to">Replying to @%s</string>
+    <string name="load_more_placeholder_text">load more</string>
 
 </resources>

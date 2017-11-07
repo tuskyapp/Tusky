@@ -69,7 +69,7 @@ public class ViewThreadFragment extends SFragment implements
 
     private int statusIndex = 0;
 
-    private final PairedList<Status, StatusViewData> statuses =
+    private final PairedList<Status, StatusViewData.Concrete> statuses =
             new PairedList<>(ViewDataUtils.statusMapper());
 
     public static ViewThreadFragment newInstance(String id) {
@@ -83,7 +83,7 @@ public class ViewThreadFragment extends SFragment implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_view_thread, container, false);
 
         Context context = getContext();
@@ -227,20 +227,27 @@ public class ViewThreadFragment extends SFragment implements
 
     @Override
     public void onExpandedChange(boolean expanded, int position) {
-        StatusViewData newViewData = new StatusViewData.Builder(statuses.getPairedItem(position))
-                .setIsExpanded(expanded)
-                .createStatusViewData();
+        StatusViewData.Concrete newViewData =
+                new StatusViewData.Builder(statuses.getPairedItem(position))
+                        .setIsExpanded(expanded)
+                        .createStatusViewData();
         statuses.setPairedItem(position, newViewData);
         adapter.setItem(position, newViewData, false);
     }
 
     @Override
     public void onContentHiddenChange(boolean isShowing, int position) {
-        StatusViewData newViewData = new StatusViewData.Builder(statuses.getPairedItem(position))
-                .setIsShowingSensitiveContent(isShowing)
-                .createStatusViewData();
+        StatusViewData.Concrete newViewData =
+                new StatusViewData.Builder(statuses.getPairedItem(position))
+                        .setIsShowingSensitiveContent(isShowing)
+                        .createStatusViewData();
         statuses.setPairedItem(position, newViewData);
         adapter.setItem(position, newViewData, false);
+    }
+
+    @Override
+    public void onLoadMore(int pos) {
+
     }
 
     @Override
@@ -255,7 +262,7 @@ public class ViewThreadFragment extends SFragment implements
 
     @Override
     public void removeItem(int position) {
-        if(position == statusIndex) {
+        if (position == statusIndex) {
             //the status got removed, close the activity
             getActivity().finish();
         }
@@ -278,7 +285,7 @@ public class ViewThreadFragment extends SFragment implements
             }
         }
         statusIndex = statuses.indexOf(status);
-        if(statusIndex == -1) {
+        if (statusIndex == -1) {
             //the status got removed, close the activity
             getActivity().finish();
             return;
@@ -379,8 +386,8 @@ public class ViewThreadFragment extends SFragment implements
         int i = statusIndex;
         statuses.add(i, status);
         adapter.setDetailedStatusPosition(i);
-        StatusViewData viewData = statuses.getPairedItem(i);
-        if(viewData.getCard() == null && card != null) {
+        StatusViewData.Concrete viewData = statuses.getPairedItem(i);
+        if (viewData.getCard() == null && card != null) {
             viewData = new StatusViewData.Builder(viewData)
                     .setCard(card)
                     .createStatusViewData();
@@ -405,7 +412,7 @@ public class ViewThreadFragment extends SFragment implements
         statusIndex = ancestors.size();
         adapter.setDetailedStatusPosition(statusIndex);
         statuses.addAll(0, ancestors);
-        List<StatusViewData> ancestorsViewDatas = statuses.getPairedCopy().subList(0, statusIndex);
+        List<StatusViewData.Concrete> ancestorsViewDatas = statuses.getPairedCopy().subList(0, statusIndex);
         if (BuildConfig.DEBUG && ancestors.size() != ancestorsViewDatas.size()) {
             String error = String.format(Locale.getDefault(),
                     "Incorrectly got statusViewData sublist." +
@@ -420,8 +427,8 @@ public class ViewThreadFragment extends SFragment implements
             // In case we needed to delete everything (which is way easier than deleting
             // everything except one), re-insert the remaining status here.
             statuses.add(statusIndex, mainStatus);
-            StatusViewData viewData = statuses.getPairedItem(statusIndex);
-            if(viewData.getCard() == null && card != null) {
+            StatusViewData.Concrete viewData = statuses.getPairedItem(statusIndex);
+            if (viewData.getCard() == null && card != null) {
                 viewData = new StatusViewData.Builder(viewData)
                         .setCard(card)
                         .createStatusViewData();
@@ -431,9 +438,9 @@ public class ViewThreadFragment extends SFragment implements
 
         // Insert newly fetched descendants
         statuses.addAll(descendants);
-        List<StatusViewData> descendantsViewData;
-            descendantsViewData = statuses.getPairedCopy()
-                    .subList(statuses.size() - descendants.size(), statuses.size());
+        List<StatusViewData.Concrete> descendantsViewData;
+        descendantsViewData = statuses.getPairedCopy()
+                .subList(statuses.size() - descendants.size(), statuses.size());
         if (BuildConfig.DEBUG && descendants.size() != descendantsViewData.size()) {
             String error = String.format(Locale.getDefault(),
                     "Incorrectly got statusViewData sublist." +
@@ -447,16 +454,14 @@ public class ViewThreadFragment extends SFragment implements
 
     private void showCard(Card card) {
         this.card = card;
-        if(statuses.size() != 0) {
-            StatusViewData oldViewData = statuses.getPairedItem(statusIndex);
-                    if(oldViewData != null) {
-                        StatusViewData newViewData = new StatusViewData.Builder(statuses.getPairedItem(statusIndex))
-                                .setCard(card)
-                                .createStatusViewData();
+        if (statuses.size() != 0) {
+            StatusViewData.Concrete newViewData =
+                    new StatusViewData.Builder(statuses.getPairedItem(statusIndex))
+                            .setCard(card)
+                            .createStatusViewData();
 
-                        statuses.setPairedItem(statusIndex, newViewData);
-                        adapter.setItem(statusIndex, newViewData, true);
-                    }
+            statuses.setPairedItem(statusIndex, newViewData);
+            adapter.setItem(statusIndex, newViewData, true);
         }
     }
 

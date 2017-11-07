@@ -29,4 +29,5 @@ public interface StatusActionListener extends LinkListener {
     void onOpenReblog(int position);
     void onExpandedChange(boolean expanded, int position);
     void onContentHiddenChange(boolean isShowing, int position);
+    void onLoadMore(int position);
 }

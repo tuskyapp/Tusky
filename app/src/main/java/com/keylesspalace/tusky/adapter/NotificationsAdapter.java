@@ -47,6 +47,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_FOOTER = 1;
     private static final int VIEW_TYPE_STATUS_NOTIFICATION = 2;
     private static final int VIEW_TYPE_FOLLOW = 3;
+    private static final int VIEW_TYPE_PLACEHOLDER = 4;
 
     private List<NotificationViewData> notifications;
     private StatusActionListener statusListener;
@@ -88,6 +89,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                         .inflate(R.layout.item_follow, parent, false);
                 return new FollowViewHolder(view);
             }
+            case VIEW_TYPE_PLACEHOLDER: {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_status_placeholder, parent, false);
+                return new PlaceholderViewHolder(view);
+            }
         }
     }
 
@@ -95,11 +101,19 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (position < notifications.size()) {
             NotificationViewData notification = notifications.get(position);
-            Notification.Type type = notification.getType();
+            if (notification instanceof NotificationViewData.Placeholder) {
+                NotificationViewData.Placeholder placeholder = ((NotificationViewData.Placeholder) notification);
+                PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
+                holder.setup(!placeholder.isLoading(), statusListener);
+                return;
+            }
+            NotificationViewData.Concrete concreteNotificaton =
+                    (NotificationViewData.Concrete) notification;
+            Notification.Type type = concreteNotificaton.getType();
             switch (type) {
                 case MENTION: {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
-                    StatusViewData status = notification.getStatusViewData();
+                    StatusViewData.Concrete status = concreteNotificaton.getStatusViewData();
                     holder.setupWithStatus(status,
                             statusListener, mediaPreviewEnabled);
                     break;
@@ -107,18 +121,18 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case FAVOURITE:
                 case REBLOG: {
                     StatusNotificationViewHolder holder = (StatusNotificationViewHolder) viewHolder;
-                    holder.setMessage(type, notification.getAccount().getDisplayName(),
-                            notification.getStatusViewData());
-                    holder.setupButtons(notificationActionListener, notification.getAccount().id);
-                    holder.setAvatars(notification.getStatusViewData().getAvatar(),
-                            notification.getAccount().avatar);
+                    holder.setMessage(type, concreteNotificaton.getAccount().getDisplayName(),
+                            concreteNotificaton.getStatusViewData());
+                    holder.setupButtons(notificationActionListener, concreteNotificaton.getAccount().id);
+                    holder.setAvatars(concreteNotificaton.getStatusViewData().getAvatar(),
+                            concreteNotificaton.getAccount().avatar);
                     break;
                 }
                 case FOLLOW: {
                     FollowViewHolder holder = (FollowViewHolder) viewHolder;
-                    holder.setMessage(notification.getAccount().getDisplayName(),
-                            notification.getAccount().username, notification.getAccount().avatar);
-                    holder.setupButtons(notificationActionListener, notification.getAccount().id);
+                    holder.setMessage(concreteNotificaton.getAccount().getDisplayName(),
+                            concreteNotificaton.getAccount().username, concreteNotificaton.getAccount().avatar);
+                    holder.setupButtons(notificationActionListener, concreteNotificaton.getAccount().id);
                     break;
                 }
             }
@@ -139,18 +153,25 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             return VIEW_TYPE_FOOTER;
         } else {
             NotificationViewData notification = notifications.get(position);
-            switch (notification.getType()) {
-                default:
-                case MENTION: {
-                    return VIEW_TYPE_MENTION;
+            if (notification instanceof NotificationViewData.Concrete) {
+                NotificationViewData.Concrete concrete = ((NotificationViewData.Concrete) notification);
+                switch (concrete.getType()) {
+                    default:
+                    case MENTION: {
+                        return VIEW_TYPE_MENTION;
+                    }
+                    case FAVOURITE:
+                    case REBLOG: {
+                        return VIEW_TYPE_STATUS_NOTIFICATION;
+                    }
+                    case FOLLOW: {
+                        return VIEW_TYPE_FOLLOW;
+                    }
                 }
-                case FAVOURITE:
-                case REBLOG: {
-                    return VIEW_TYPE_STATUS_NOTIFICATION;
-                }
-                case FOLLOW: {
-                    return VIEW_TYPE_FOLLOW;
-                }
+            } else if (notification instanceof NotificationViewData.Placeholder) {
+                return VIEW_TYPE_PLACEHOLDER;
+            } else {
+                throw new AssertionError("Unknown notification type");
             }
         }
     }
@@ -258,7 +279,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             notificationAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
         }
 
-        void setMessage(Notification.Type type, String displayName, StatusViewData status) {
+        void setMessage(Notification.Type type, String displayName,
+                        StatusViewData.Concrete status) {
             Context context = message.getContext();
             String format;
             switch (type) {

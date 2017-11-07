@@ -106,19 +106,17 @@ public class Status {
     public static final int MAX_MEDIA_ATTACHMENTS = 4;
 
     @Override
-    public int hashCode() {
-        return id.hashCode();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Status status = (Status) o;
+        return id != null ? id.equals(status.id) : status.id == null;
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (this.id == null) {
-            return this == other;
-        } else if (!(other instanceof Status)) {
-            return false;
-        }
-        Status status = (Status) other;
-        return status.id.equals(this.id);
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 
     public static class MediaAttachment {

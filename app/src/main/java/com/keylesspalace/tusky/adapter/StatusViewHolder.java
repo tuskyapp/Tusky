@@ -67,7 +67,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    void setupWithStatus(StatusViewData status, final StatusActionListener listener,
+    void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
                          boolean mediaPreviewEnabled) {
         super.setupWithStatus(status, listener, mediaPreviewEnabled);
 
