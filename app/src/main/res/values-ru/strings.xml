@@ -145,7 +145,7 @@
     <string name="visibility_direct">Направленный: Показать только упомянутым</string>
 	
     <string name="pref_title_notification_settings">Уведомления</string>
-    <string name="pref_title_edit_notification_settings">Изменить уведомления</string>
+    <string name="pref_title_edit_notification_settings">Настройки уведомлений</string>
     <string name="pref_title_notifications_enabled">Push-уведомления</string>
     <string name="pref_title_pull_notification_check_interval">Интервал проверки</string>
     <string name="pref_title_notification_alerts">Предупреждения</string>
