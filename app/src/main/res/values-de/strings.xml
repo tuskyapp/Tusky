@@ -206,7 +206,12 @@
     <string name="notification_channel_favourite_name">Favorisierte Beiträge</string>
     <string name="notification_channel_follow_description">Benachrichtigunen über neue Folgende</string>
     <string name="notification_channel_follow_name">Neue Folgende</string>
-    <string name="notification_channel_mention_descriptions">Benachrichtigungen über neue Erwänungen</string>
+    <string name="notification_channel_mention_descriptions">Benachrichtigungen über neue Erwähnungen</string>
     <string name="notification_channel_mention_name">Neue Erwähnungen</string>
+    <string name="replying_to">Antworten an @%s</string>
+    <string name="title_media">Medien</string>
+    <string name="title_x_followers"><b>%d</b> Folgende</string>
+    <string name="title_x_following"><b>%d</b> Folgt</string>
+    <string name="title_x_statuses"><b>%d</b> Beiträge</string>
 
 </resources>
