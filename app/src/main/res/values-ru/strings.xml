@@ -32,7 +32,10 @@
     <string name="title_blocks">Список блокировки</string>
     <string name="title_follow_requests">Запросы на подписку</string>
     <string name="title_edit_profile">Редактировать профиль</string>
-	<string name="title_saved_toot">Черновики</string>
+    <string name="title_saved_toot">Черновики</string>
+    <string name="title_x_followers">Подписчиков: <b>%d</b></string>
+    <string name="title_x_following">Подписок: <b>%d</b></string>
+    <string name="title_x_statuses">Постов: <b>%d</b></string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s продвинул(а)</string>
@@ -99,7 +102,7 @@
     <string name="action_accept">Принять</string>
     <string name="action_reject">Отклонить</string>
     <string name="action_search">Поиск</string>
-	<string name="action_access_saved_toot">Черновики</string>
+    <string name="action_access_saved_toot">Черновики</string>
 
     <string name="download_image">Загрузка %1$s</string>
 
@@ -134,7 +137,7 @@
     <string name="dialog_message_uploading_media">Загружается…</string>
     <string name="dialog_download_image">Скачать</string>
     <string name="dialog_message_follow_request">Статус запроса на подписку: ожидается ответ</string>
-	<string name="dialog_unfollow_warning">Отписаться от этого аккаунта?</string>
+    <string name="dialog_unfollow_warning">Отписаться от этого аккаунта?</string>
 
     <string name="visibility_public">Публичный: Показать в публичных лентах</string>
     <string name="visibility_unlisted">Скрытый: Не показывать в лентах</string>
@@ -142,9 +145,9 @@
     <string name="visibility_direct">Направленный: Показать только упомянутым</string>
 	
     <string name="pref_title_notification_settings">Уведомления</string>
-    <string name="pref_title_edit_notification_settings">Изменить уведомления</string>
+    <string name="pref_title_edit_notification_settings">Настройки уведомлений</string>
     <string name="pref_title_notifications_enabled">Push-уведомления</string>
-	<string name="pref_title_pull_notification_check_interval">Интервал проверки</string>
+    <string name="pref_title_pull_notification_check_interval">Интервал проверки</string>
     <string name="pref_title_notification_alerts">Предупреждения</string>
     <string name="pref_title_notification_alert_sound">Звуковые уведомления</string>
     <string name="pref_title_notification_alert_vibrate">Использовать вибрацию</string>
@@ -220,6 +223,6 @@
     <string name="pref_title_alway_show_sensitive_media">Всегда показывать NSFW-контент</string>
     <string name="title_media">Медиа</string>
     <string name="replying_to">Ответ @%s</string>
-
-
+    <string name="load_more_placeholder_text">ещё</string>
+	
 </resources>
