@@ -1407,7 +1407,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
              * it from the queue, then don't display this error message. */
             displayTransientError(R.string.error_media_upload_sending);
         }
-        if (finishingUploadDialog != null) {
+        if (finishingUploadDialog != null && finishingUploadDialog.isShowing()) {
             finishingUploadDialog.cancel();
         }
         if (!isCanceled) {
