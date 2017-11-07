@@ -627,7 +627,7 @@ public class TimelineFragment extends SFragment implements
         swipeRefreshLayout.setRefreshing(false);
 
         if (fetchEnd == FetchEnd.MIDDLE && !statuses.get(position).isRight()) {
-            StatusViewData newViewData = new StatusViewData.Placeholder(true);
+            StatusViewData newViewData = new StatusViewData.Placeholder(false);
             statuses.setPairedItem(position, newViewData);
             adapter.changeItem(position, newViewData, true);
         }

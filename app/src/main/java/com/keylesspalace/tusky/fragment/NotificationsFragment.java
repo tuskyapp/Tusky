@@ -539,6 +539,18 @@ public class NotificationsFragment extends SFragment implements
         swipeRefreshLayout.setRefreshing(false);
     }
 
+    private void onFetchNotificationsFailure(Exception exception, FetchEnd fetchEnd, int position) {
+        swipeRefreshLayout.setRefreshing(false);
+        if (fetchEnd == FetchEnd.MIDDLE && !notifications.get(position).isRight()) {
+            NotificationViewData placeholderVD =
+                    new NotificationViewData.Placeholder(false);
+            notifications.setPairedItem(position, placeholderVD);
+            adapter.updateItemWithNotify(position, placeholderVD, true);
+        }
+        Log.e(TAG, "Fetch failure: " + exception.getMessage());
+        fulfillAnyQueuedFetches(fetchEnd);
+    }
+
     private void update(@Nullable List<Notification> newNotifications, @Nullable String fromId,
                         @Nullable String uptoId) {
         if (ListUtils.isEmpty(newNotifications)) {
@@ -591,19 +603,6 @@ public class NotificationsFragment extends SFragment implements
                             notifications.size());
             adapter.addItems(newViewDatas);
         }
-    }
-
-
-    private void onFetchNotificationsFailure(Exception exception, FetchEnd fetchEnd, int position) {
-        swipeRefreshLayout.setRefreshing(false);
-        if (fetchEnd == FetchEnd.MIDDLE && !notifications.get(position).isRight()) {
-            NotificationViewData placeholderVD =
-                    new NotificationViewData.Placeholder(false);
-            notifications.setPairedItem(position, placeholderVD);
-            adapter.updateItemWithNotify(position, placeholderVD, true);
-        }
-        Log.e(TAG, "Fetch failure: " + exception.getMessage());
-        fulfillAnyQueuedFetches(fetchEnd);
     }
 
     private void fulfillAnyQueuedFetches(FetchEnd fetchEnd) {
