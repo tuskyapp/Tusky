@@ -520,7 +520,7 @@ public class TimelineFragment extends SFragment implements
             case TAG:
                 return api.hashtagTimeline(tagOrId, null, fromId, uptoId, LOAD_AT_ONCE);
             case USER:
-                return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, false);
+                return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, null);
             case FAVOURITES:
                 return api.favourites(fromId, uptoId, LOAD_AT_ONCE);
         }
