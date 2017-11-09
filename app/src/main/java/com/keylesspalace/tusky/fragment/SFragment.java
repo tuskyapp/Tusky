@@ -296,8 +296,8 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
 
     protected void viewThread(Status status) {
         Intent intent = new Intent(getContext(), ViewThreadActivity.class);
-        intent.putExtra("id", status.id);
-        intent.putExtra("url", status.url);
+        intent.putExtra("id", status.getActionableId());
+        intent.putExtra("url", status.getActionableStatus().url);
         startActivity(intent);
     }
 
