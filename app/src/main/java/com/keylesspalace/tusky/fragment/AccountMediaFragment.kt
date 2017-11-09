@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.fragment
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -56,8 +55,9 @@ class AccountMediaFragment : BaseFragment() {
         @JvmStatic
         fun newInstance(accountId: String): AccountMediaFragment {
             val fragment = AccountMediaFragment()
-            fragment.arguments = Bundle()
-            fragment.arguments.putString(ACCOUNT_ID_ARG, accountId)
+            val args = Bundle()
+            args.putString(ACCOUNT_ID_ARG, accountId)
+            fragment.arguments = args
             return fragment
         }
 
@@ -129,7 +129,7 @@ class AccountMediaFragment : BaseFragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_timeline, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-        val columnCount = context.resources.getInteger(R.integer.profile_media_column_count)
+        val columnCount = context?.resources?.getInteger(R.integer.profile_media_column_count) ?: 2
         val layoutManager = GridLayoutManager(context, columnCount)
 
         val lightThemeEnabled = PreferenceManager.getDefaultSharedPreferences(context)
@@ -141,7 +141,7 @@ class AccountMediaFragment : BaseFragment() {
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
 
-        val accountId = arguments.getString(ACCOUNT_ID_ARG)
+        val accountId = arguments?.getString(ACCOUNT_ID_ARG)
 
         swipeLayout = view.findViewById(R.id.swipe_refresh_layout)
         swipeLayout.setOnRefreshListener {
@@ -182,7 +182,7 @@ class AccountMediaFragment : BaseFragment() {
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         if (!isVisibleToUser) return
-        val accountId = arguments.getString(ACCOUNT_ID_ARG)
+        val accountId = arguments?.getString(ACCOUNT_ID_ARG)
         if (fetchingStatus == FetchingStatus.NOT_FETCHING && statuses.isEmpty()) {
             fetchingStatus = FetchingStatus.INITIAL_FETCHING
             currentCall = api.accountStatuses(accountId, null, null, null, true)
@@ -199,11 +199,10 @@ class AccountMediaFragment : BaseFragment() {
                 val intent = Intent(context, ViewMediaActivity::class.java)
                 intent.putExtra("urls", urls)
                 intent.putExtra("urlIndex", currentIndex)
-                if (view != null) {
+                if (view != null && activity != null) {
                     val url = urls[currentIndex]
                     ViewCompat.setTransitionName(view, url)
-                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
-                            view, url)
+                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity!!, view, url)
                     startActivity(intent, options.toBundle())
                 } else {
                     startActivity(intent)

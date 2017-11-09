@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion '27.0.0'
     defaultConfig {
         applicationId "com.keylesspalace.tusky"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 28
         versionName "1.3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -35,7 +35,7 @@ android {
     }
 }
 
-ext.supportLibraryVersion = '26.1.0'
+ext.supportLibraryVersion = '27.0.0'
 
 dependencies {
     compile('com.mikepenz:materialdrawer:5.9.5@aar') {
