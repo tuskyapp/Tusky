@@ -24,18 +24,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@null"
-            android:paddingEnd="10dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="10dp"
-            android:paddingStart="24dp"
+            android:paddingEnd="6dp"
+            android:paddingLeft="34dp"
+            android:paddingRight="6dp"
+            android:paddingStart="34dp"
             android:tint="?android:textColorTertiary"
-            app:srcCompat="@drawable/ic_repeat_24dp" />
+            app:srcCompat="@drawable/ic_repeat_18dp" />
 
         <TextView
             android:id="@+id/status_reblogged"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?android:textColorTertiary" />
+            android:textColor="?android:textColorTertiary"
+            tools:text="ConnyDuck boosted"/>
 
     </LinearLayout>
 
@@ -104,7 +105,8 @@
                 android:paddingStart="0dp"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
                 android:textColor="?android:textColorPrimary"
-                android:textStyle="normal|bold" />
+                android:textStyle="normal|bold"
+                tools:text="Ente"/>
 
             <TextView
                 android:id="@+id/status_username"
@@ -112,7 +114,8 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="?android:textColorSecondary" />
+                android:textColor="?android:textColorSecondary"
+                tools:text="Entenhausen"/>
 
         </LinearLayout>
 
@@ -166,7 +169,8 @@
         android:layout_toEndOf="@+id/status_avatar"
         android:layout_toRightOf="@+id/status_avatar"
         android:focusable="true"
-        android:textColor="?android:textColorPrimary" />
+        android:textColor="?android:textColorPrimary"
+        tools:text="This is a status"/>
 
     <FrameLayout
         android:id="@+id/status_media_preview_container"
