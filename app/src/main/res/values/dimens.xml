@@ -1,7 +1,7 @@
 <resources>
     <dimen name="status_display_name_right_padding">4dp</dimen>
     <dimen name="status_username_right_padding">4dp</dimen>
-    <dimen name="status_avatar_padding">8dp</dimen>
+    <dimen name="status_avatar_padding">10dp</dimen>
     <dimen name="status_reblogged_bar_top_padding">8dp</dimen>
     <dimen name="status_reblogged_icon_left_padding">40dp</dimen>
     <dimen name="status_media_preview_top_margin">4dp</dimen>

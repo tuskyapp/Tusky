@@ -5,8 +5,8 @@
     android:id="@+id/status_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingRight="14dp"
+    android:paddingLeft="14dp">
 
     <TextView
         android:id="@+id/status_reblogged"
@@ -17,8 +17,8 @@
         android:drawablePadding="6dp"
         android:drawableStart="?attr/status_reblog_small_drawable"
         android:gravity="center_vertical"
-        android:paddingLeft="34dp"
-        android:paddingStart="34dp"
+        android:paddingLeft="38dp"
+        android:paddingStart="38dp"
         android:textColor="?android:textColorTertiary"
         tools:text="ConnyDuck boosted" />
 
@@ -27,9 +27,9 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_below="@+id/status_reblogged"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="14dp"
         android:contentDescription="@string/action_view_profile"
         android:scaleType="fitCenter"
         tools:src="@drawable/avatar_default" />
