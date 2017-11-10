@@ -57,8 +57,9 @@
             android:id="@+id/notification_content_warning_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="1.1"
             android:textColor="?android:textColorTertiary"
-            tools:text="Example CW text"/>
+            tools:text="Example CW text" />
 
         <ToggleButton
             android:id="@+id/notification_content_warning_button"
@@ -84,6 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/notification_content_warning_bar"
+        android:lineSpacingMultiplier="1.1"
         android:paddingBottom="10dp"
         android:paddingEnd="0dp"
         android:paddingLeft="58dp"
