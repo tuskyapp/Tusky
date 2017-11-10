@@ -1,3 +1,18 @@
+/* Copyright 2017 Andrew Dawson
+ *
+ * This file is part of Tusky.
+ *
+ * Tusky is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * Lesser General Public License as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with Tusky. If
+ * not, see <http://www.gnu.org/licenses/>. */
+
 package com.keylesspalace.tusky;
 
 import android.content.Context;
@@ -36,11 +51,9 @@ public final class NotificationPullJobCreator implements JobCreator {
     static final String NOTIFICATIONS_JOB_TAG = "notifications_job_tag";
     static final int NOTIFY_ID = 6; // chosen by fair dice roll, guaranteed to be random
 
-    private MastodonApi mastodonApi;
     private Context context;
 
     NotificationPullJobCreator(Context context) {
-        this.mastodonApi = createMastodonApi(context);
         this.context = context;
     }
 
@@ -48,15 +61,20 @@ public final class NotificationPullJobCreator implements JobCreator {
     @Override
     public Job create(@NonNull String tag) {
         if (tag.equals(NOTIFICATIONS_JOB_TAG)) {
-            return new NotificationPullJob(mastodonApi, context);
+            SharedPreferences preferences = context.getSharedPreferences(
+                    context.getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+            final String domain = preferences.getString("domain", null);
+
+            if(domain == null) {
+                return null;
+            } else {
+                return new NotificationPullJob(domain, context);
+            }
         }
         return null;
     }
 
-    private MastodonApi createMastodonApi(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences(
-                context.getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        final String domain = preferences.getString("domain", null);
+    private static MastodonApi createMastodonApi(String domain, Context context) {
 
         OkHttpClient okHttpClient = OkHttpUtils.getCompatibleClientBuilder()
                 .addInterceptor(new AuthInterceptor(context))
@@ -80,8 +98,8 @@ public final class NotificationPullJobCreator implements JobCreator {
         @NonNull private MastodonApi mastodonApi;
         private Context context;
 
-        NotificationPullJob(@NonNull MastodonApi mastodonApi, Context context) {
-            this.mastodonApi = mastodonApi;
+        NotificationPullJob(String domain, Context context) {
+            this.mastodonApi = createMastodonApi(domain, context);
             this.context = context;
         }
 
