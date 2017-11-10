@@ -295,20 +295,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/status_media_preview_container"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:layout_toEndOf="@+id/status_avatar"
         android:layout_toRightOf="@+id/status_avatar"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="horizontal"
-        android:paddingBottom="2dp">
+        android:paddingBottom="4dp">
 
         <ImageButton
             android:id="@+id/status_reply"
             style="?attr/image_button_style"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="24dp"
+            android:layout_height="30dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/action_reply"
-            android:padding="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             app:srcCompat="@drawable/ic_reply_24dp" />
 
         <Space
@@ -318,14 +322,12 @@
 
         <com.varunest.sparkbutton.SparkButton
             android:id="@+id/status_reblog"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="24dp"
+            android:layout_height="30dp"
             android:layout_gravity="center"
-            android:clipToPadding="false"
             android:contentDescription="@string/action_reblog"
-            android:padding="4dp"
             app:sparkbutton_activeImage="@drawable/reblog_active"
-            app:sparkbutton_iconSize="28dp"
+            app:sparkbutton_iconSize="24dp"
             app:sparkbutton_inActiveImage="?attr/status_reblog_inactive_drawable"
             app:sparkbutton_primaryColor="@color/status_reblog_button_marked_dark"
             app:sparkbutton_secondaryColor="@color/status_reblog_button_marked_light" />
@@ -337,14 +339,12 @@
 
         <com.varunest.sparkbutton.SparkButton
             android:id="@+id/status_favourite"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="24dp"
+            android:layout_height="30dp"
             android:layout_gravity="center"
-            android:clipToPadding="false"
             android:contentDescription="@string/action_favourite"
-            android:padding="4dp"
             app:sparkbutton_activeImage="?attr/status_favourite_active_drawable"
-            app:sparkbutton_iconSize="28dp"
+            app:sparkbutton_iconSize="24dp"
             app:sparkbutton_inActiveImage="?attr/status_favourite_inactive_drawable"
             app:sparkbutton_primaryColor="@color/status_favourite_button_marked_dark"
             app:sparkbutton_secondaryColor="@color/status_favourite_button_marked_light" />
@@ -357,16 +357,14 @@
         <ImageButton
             android:id="@+id/status_more"
             style="?attr/image_button_style"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="24dp"
+            android:layout_height="30dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/action_more"
-            android:padding="4dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
             app:srcCompat="@drawable/ic_more_horiz_24dp" />
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
 
     </LinearLayout>
 
