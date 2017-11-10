@@ -26,6 +26,7 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
@@ -63,12 +64,11 @@ public class LinkHelper {
      * @param view the returned text will be put in
      * @param content containing text with mentions, links, or hashtags
      * @param mentions any '@' mentions which are known to be in the content
-     * @param useCustomTabs whether to use custom tabs when opening web links
      * @param listener to notify about particular spans that are clicked
      */
     public static void setClickableText(TextView view, Spanned content,
-            @Nullable Status.Mention[] mentions, boolean useCustomTabs,
-            final LinkListener listener) {
+            @Nullable Status.Mention[] mentions, final LinkListener listener) {
+
         SpannableStringBuilder builder = new SpannableStringBuilder(content);
         URLSpan[] urlSpans = content.getSpans(0, content.length(), URLSpan.class);
         for (URLSpan span : urlSpans) {
@@ -82,6 +82,10 @@ public class LinkHelper {
                     @Override
                     public void onClick(View widget) {
                         listener.onViewTag(tag);
+                    }
+                    @Override public void updateDrawState(TextPaint ds) {
+                        super.updateDrawState(ds);
+                        ds.setUnderlineText(false);
                     }
                 };
                 builder.removeSpan(span);
@@ -107,12 +111,16 @@ public class LinkHelper {
                         public void onClick(View widget) {
                             listener.onViewAccount(accountId);
                         }
+                        @Override public void updateDrawState(TextPaint ds) {
+                            super.updateDrawState(ds);
+                            ds.setUnderlineText(false);
+                        }
                     };
                     builder.removeSpan(span);
                     builder.setSpan(newSpan, start, end, flags);
                 }
-            } else if (useCustomTabs) {
-                ClickableSpan newSpan = new CustomTabURLSpan(span.getURL());
+            } else {
+                ClickableSpan newSpan = new CustomURLSpan(span.getURL());
                 builder.removeSpan(span);
                 builder.setSpan(newSpan, start, end, flags);
             }

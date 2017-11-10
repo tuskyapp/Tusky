@@ -312,9 +312,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
             getSupportActionBar().setSubtitle(subtitle);
         }
 
-        boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("customTabs", false);
-        LinkHelper.setClickableText(note, account.note, null, useCustomTabs, new LinkListener() {
+        LinkHelper.setClickableText(note, account.note, null, new LinkListener() {
             @Override
             public void onViewTag(String tag) {
                 Intent intent = new Intent(AccountActivity.this, ViewTagActivity.class);

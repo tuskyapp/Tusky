@@ -19,7 +19,7 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.util.CustomTabURLSpan;
+import com.keylesspalace.tusky.util.CustomURLSpan;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
@@ -71,7 +71,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
             boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(context)
                     .getBoolean("customTabs", true);
             if (useCustomTabs) {
-                span = new CustomTabURLSpan(app.website);
+                span = new CustomURLSpan(app.website);
             } else {
                 span = new URLSpan(app.website);
             }
