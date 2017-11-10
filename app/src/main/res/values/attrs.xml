@@ -14,6 +14,7 @@
     <attr name="toolbar_background_color" format="reference" />
     <attr name="toolbar_icon_tint" format="reference" />
     <attr name="image_button_style" format="reference" />
+    <attr name="status_reblog_small_drawable" format="reference" />
     <attr name="status_reblog_inactive_drawable" format="reference" />
     <attr name="status_reblog_disabled_drawable" format="reference" />
     <attr name="status_reblog_direct_drawable" format="reference" />
