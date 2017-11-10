@@ -181,6 +181,16 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         timestamp.setContentDescription(readoutAloud);
     }
 
+
+    private void setIsReply(boolean isReply) {
+        if(isReply) {
+            replyButton.setImageResource(R.drawable.ic_reply_all_24dp);
+        } else {
+            replyButton.setImageResource(R.drawable.ic_reply_24dp);
+        }
+
+    }
+
     private void setReblogged(boolean reblogged) {
         this.reblogged = reblogged;
         reblogButton.setChecked(reblogged);
@@ -478,6 +488,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         setDisplayName(status.getUserFullName());
         setUsername(status.getNickname());
         setCreatedAt(status.getCreatedAt());
+        setIsReply(status.getInReplyToId() != null);
         setContent(status.getContent(), status.getMentions(), status.getEmojis(), listener);
         setAvatar(status.getAvatar(), status.getRebloggedAvatar());
         setReblogged(status.isReblogged());
