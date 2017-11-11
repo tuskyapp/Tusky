@@ -16,9 +16,9 @@
     <dimen name="notification_avatar_column_width">64dp</dimen>
     <dimen name="follow_icon_left_padding">40dp</dimen>
     <dimen name="account_note_margin">8dp</dimen>
-    <dimen name="account_avatar_margin">8dp</dimen>
+    <dimen name="account_avatar_margin">14dp</dimen>
     <dimen name="tab_page_margin">8dp</dimen>
-    <dimen name="status_left_line_margin">38dp</dimen>
+    <dimen name="status_left_line_margin">36dp</dimen>
     <dimen name="text_content_margin">16dp</dimen>
     <dimen name="status_sensitive_media_button_padding">5dp</dimen>
 

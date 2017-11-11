@@ -5,16 +5,16 @@
     android:id="@+id/status_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp">
 
     <ImageView
         android:id="@+id/status_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="14dp"
         android:contentDescription="@string/action_view_profile"
         android:scaleType="fitCenter"
         tools:src="@drawable/avatar_default" />
@@ -24,9 +24,10 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="14dp"
         android:layout_toEndOf="@+id/status_avatar"
         android:layout_toRightOf="@+id/status_avatar"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
@@ -37,20 +38,18 @@
             android:maxLines="1"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
             android:textColor="?android:textColorPrimary"
-            android:textStyle="normal|bold" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:textStyle="normal|bold"
+            tools:text="Display Name" />
 
         <TextView
             android:id="@+id/status_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="?android:textColorSecondary" />
+            android:textColor="?android:textColorSecondary"
+            tools:text="\@ConnyDuck\@mastodon.social" />
 
     </LinearLayout>
 
@@ -60,8 +59,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/status_name_bar"
         android:layout_marginBottom="4dp"
-        android:layout_toEndOf="@+id/status_avatar"
-        android:layout_toRightOf="@+id/status_avatar"
         android:focusable="true"
         android:visibility="gone"
         app:paddingHorizontal="4dp">
@@ -95,12 +92,8 @@
         android:id="@+id/status_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/status_content_warning_bar"
         android:layout_marginBottom="4dp"
-        android:layout_toEndOf="@+id/status_avatar"
-        android:layout_toRightOf="@+id/status_avatar"
         android:focusable="true"
         android:lineSpacingMultiplier="1.1"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
@@ -112,8 +105,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/status_content"
         android:layout_marginTop="4dp"
-        android:layout_toEndOf="@+id/status_avatar"
-        android:layout_toRightOf="@+id/status_avatar"
         android:background="?attr/card_background"
         android:clipChildren="true"
         android:orientation="vertical">
@@ -171,9 +162,7 @@
         android:id="@+id/status_media_preview_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/card_view"
-        android:layout_toEndOf="@+id/status_avatar"
-        android:layout_toRightOf="@+id/status_avatar">
+        android:layout_below="@+id/card_view">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -304,43 +293,27 @@
 
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/status_info_bar"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/status_timestamp_info"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/status_media_preview_container"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="8dp"
-        android:layout_toEndOf="@id/status_avatar"
-        android:layout_toRightOf="@id/status_avatar"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/status_timestamp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="?android:textColorTertiary" />
-
-        <TextView
-            android:id="@+id/status_application"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp" />
-
-    </LinearLayout>
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="10dp"
+        android:textColor="?android:textColorTertiary" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/status_info_bar"
-        android:layout_toEndOf="@id/status_avatar"
-        android:layout_toRightOf="@id/status_avatar"
+        android:layout_below="@id/status_timestamp_info"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="2dp">
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp">
 
         <ImageButton
             android:id="@+id/status_reply"
@@ -410,11 +383,6 @@
             android:contentDescription="@string/action_more"
             android:padding="4dp"
             app:srcCompat="@drawable/ic_more_horiz_24dp" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
 
     </LinearLayout>
 

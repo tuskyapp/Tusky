@@ -67,14 +67,14 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private ToggleButton contentWarningButton;
 
     ImageView avatar;
-    TextView timestamp;
+    TextView timestampInfo;
 
     StatusBaseViewHolder(View itemView) {
         super(itemView);
         container = itemView.findViewById(R.id.status_container);
         displayName = itemView.findViewById(R.id.status_display_name);
         username = itemView.findViewById(R.id.status_username);
-        timestamp = itemView.findViewById(R.id.status_timestamp);
+        timestampInfo = itemView.findViewById(R.id.status_timestamp_info);
         content = itemView.findViewById(R.id.status_content);
         avatar = itemView.findViewById(R.id.status_avatar);
         replyButton = itemView.findViewById(R.id.status_reply);
@@ -158,7 +158,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     protected void setCreatedAt(@Nullable Date createdAt) {
-        // This is the visible timestamp.
+        // This is the visible timestampInfo.
         String readout;
         /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
          * as 17 meters instead of minutes. */
@@ -166,7 +166,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (createdAt != null) {
             long then = createdAt.getTime();
             long now = new Date().getTime();
-            readout = DateUtils.getRelativeTimeSpanString(timestamp.getContext(), then, now);
+            readout = DateUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
             readoutAloud = android.text.format.DateUtils.getRelativeTimeSpanString(then, now,
                     android.text.format.DateUtils.SECOND_IN_MILLIS,
                     android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);
@@ -175,8 +175,8 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             readout = "?m";
             readoutAloud = "? minutes";
         }
-        timestamp.setText(readout);
-        timestamp.setContentDescription(readoutAloud);
+        timestampInfo.setText(readout);
+        timestampInfo.setContentDescription(readoutAloud);
     }
 
 

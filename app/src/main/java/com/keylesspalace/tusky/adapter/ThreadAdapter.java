@@ -38,8 +38,6 @@ public class ThreadAdapter extends RecyclerView.Adapter {
     private boolean mediaPreviewEnabled;
     private int detailedStatusPosition;
 
-    private Card detailedStatusCard;
-
     public ThreadAdapter(StatusActionListener listener) {
         this.statusActionListener = listener;
         this.statuses = new ArrayList<>();
@@ -154,5 +152,9 @@ public class ThreadAdapter extends RecyclerView.Adapter {
         } else {
             detailedStatusPosition = position;
         }
+    }
+
+    public int getDetailedStatusPosition() {
+        return detailedStatusPosition;
     }
 }
