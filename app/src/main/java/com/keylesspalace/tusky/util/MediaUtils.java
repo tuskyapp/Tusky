@@ -19,11 +19,15 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.support.annotation.Nullable;
+import android.support.annotation.Px;
 import android.support.v4.content.FileProvider;
 
 import com.squareup.picasso.Picasso;
@@ -31,6 +35,7 @@ import com.squareup.picasso.Target;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -83,60 +88,43 @@ public class MediaUtils {
         return mediaSize;
     }
 
-    /** Download an image with picasso asynchronously and call the given listener when completed. */
-    public static Target picassoImageTarget(final Context context, final MediaListener mediaListener) {
-        final String imageName = "temp";
-        return new Target() {
-            @Override
-            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        FileOutputStream fos = null;
-                        Uri uriForFile;
-                        try {
-                            // we download only a "temp" file
-                            File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                            File tempFile = File.createTempFile(
-                                    imageName,
-                                    ".jpg",
-                                    storageDir
-                            );
-
-                            fos = new FileOutputStream(tempFile);
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                            uriForFile = FileProvider.getUriForFile(context,
-                                    "com.keylesspalace.tusky.fileprovider",
-                                    tempFile);
-
-                            // giving to the activity the URI callback
-                            mediaListener.onCallback(uriForFile);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } finally {
-                            try {
-                                if (fos != null) {
-                                    fos.close();
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }).start();
+    @Nullable
+    public static Bitmap getImageThumbnail(ContentResolver contentResolver, Uri uri,
+                                            @Px int thumbnailSize) {
+        InputStream stream;
+        try {
+            stream = contentResolver.openInputStream(uri);
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+        Bitmap source = BitmapFactory.decodeStream(stream);
+        if (source == null) {
+            IOUtils.closeQuietly(stream);
+            return null;
+        }
+        Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, thumbnailSize, thumbnailSize);
+        source.recycle();
+        try {
+            if (stream != null) {
+                stream.close();
             }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-            }
-        };
+        } catch (IOException e) {
+            bitmap.recycle();
+            return null;
+        }
+        return bitmap;
     }
 
-    public interface MediaListener {
-        void onCallback(Uri headerInfo);
+    @Nullable
+    public static Bitmap getVideoThumbnail(Context context, Uri uri, @Px int thumbnailSize) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(context, uri);
+        Bitmap source = retriever.getFrameAtTime();
+        if (source == null) {
+            return null;
+        }
+        Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, thumbnailSize, thumbnailSize);
+        source.recycle();
+        return bitmap;
     }
 }
