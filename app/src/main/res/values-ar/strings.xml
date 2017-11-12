@@ -5,25 +5,18 @@
     <string name="error_invalid_domain">اسم النطاق غير صالح</string>
     <string name="error_failed_app_registration">اخفقت المصادقة مع مثيل الخادم هذا.</string>
     <string name="error_no_web_browser_found">لم يتم العثور على متصفح قابل للإستعمال.</string>
-    <!-- <string name="error_authorization_unknown">An unidentified authorization error occurred.</string> -->
     <string name="error_authorization_denied">تم رفض التصريح.</string>
-    <!-- <string name="error_retrieving_oauth_token">Failed getting a login token.</string> -->
+    <string name="error_retrieving_oauth_token">فشل الحصول على رمز الدخول.</string>
     <string name="error_compose_character_limit">المنشور طويل جدا !</string>
     <string name="error_media_upload_size">يجب أن يكون حجم الملف أقل من 4 ميغابايت.</string>
     <string name="error_media_upload_type">لا يمكن رفع هذا النوع من الملفات.</string>
     <string name="error_media_upload_opening">تعذر فتح ذاك الملف.</string>
-    <!-- <string name="error_media_upload_permission">Permission to read media is required.</string> -->
-    <!-- <string name="error_media_download_permission">Permission to store media is required.</string> -->
-
     <string name="error_media_upload_image_or_video">لا يمكنك إرفاق كلا من الصور و الفيديوهات في نفس المنشور.</string>
     <string name="error_media_upload_sending">اخفقت عملية الرفع.</string>
-    <!-- <string name="error_report_too_few_statuses">At least one status must be reported.</string> -->
-
     <string name="title_home">الرئيسية</string>
     <string name="title_notifications">الاشعارات</string>
     <string name="title_public_local">المحلية</string>
     <string name="title_public_federated">الفدرالية</string>
-    <string name="title_view_thread">الخيط</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">المشاركات</string>
     <string name="title_follows">المتابَعون</string>
@@ -33,6 +26,10 @@
     <string name="title_blocks">الحسابات المحظورة</string>
     <string name="title_follow_requests">طلبات المتابعة</string>
     <string name="title_edit_profile">عدل ملفك الشخصي</string>
+    <string name="title_saved_toot">المسودات</string>
+    <string name="title_x_followers"><b>%d</b> متابِعين</string>
+    <string name="title_x_following"><b>%d</b> يتابِعُون</string>
+    <string name="title_x_statuses"><b>%d</b> منشور</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s رقّي</string>
@@ -41,7 +38,7 @@
     <string name="status_content_warning_show_more">اعرض أكثر</string>
     <string name="status_content_warning_show_less">اعرض أقل</string>
 
-    <string name="footer_empty">لا توجد تبويقات هنا بعد. اسحب للأسفل للتحديث !</string>
+    <string name="footer_empty">لا يوجد شيئ هنا. إسحب إلى أسفل للتحديث !</string>
 
     <string name="notification_reblog_format">%s عزز تبويقك</string>
     <string name="notification_favourite_format">%s أعجب بتبويقك</string>
@@ -57,6 +54,7 @@
     <string name="action_compose">حرر</string>
     <string name="action_login">التسجيل بواسطة ماستدون</string>
     <string name="action_logout">خروج</string>
+    <string name="action_logout_confirm">هل تود تسجيل الخروج ؟</string>
     <string name="action_follow">إتبع</string>
     <string name="action_unfollow">إلغاء التتبع</string>
     <string name="action_block">قم بحظره</string>
@@ -75,7 +73,9 @@
     <string name="action_view_profile">الملف الشخصي</string>
     <string name="action_view_preferences">التفضيلات</string>
     <string name="action_view_favourites">المفضلة</string>
+    <string name="action_view_mutes">المستخدمون المكتومون</string>
     <string name="action_view_blocks">المستخدمون المحظورون</string>
+    <string name="action_view_follow_requests">طلبات المتابعة</string>
     <string name="action_view_thread">الخيط</string>
     <string name="action_view_media">وسائط</string>
     <string name="action_open_in_web">إفتح في متصفح</string>
@@ -86,7 +86,7 @@
     <string name="action_mute">أكتم</string>
     <string name="action_unmute">إلغاء الكتم</string>
     <string name="action_mention">أذكر</string>
-    <!--<string name="action_mark_sensitive">Mark media sensitive</string>-->
+    <string name="action_hide_media">إخفاء الوسائط</string>
     <string name="action_compose_options">خيارات</string>
     <string name="action_open_drawer">إفتح الدرج</string>
     <string name="action_clear">إمسح</string>
@@ -95,7 +95,13 @@
     <string name="action_undo">إلغاء</string>
     <string name="action_accept">موافقة</string>
     <string name="action_reject">رفض</string>
+    <string name="action_search">البحث</string>
+    <string name="action_access_saved_toot">المسودات</string>
 
+    <string name="download_image">تنزيل %1$s</string>
+
+    <string name="action_copy_link">إنسخ الرابط</string>
+  
     <string name="send_status_link_to">شارك رابط التبويق على ...</string>
     <string name="send_status_content_to">شارك التبويق على …</string>
 
@@ -109,34 +115,25 @@
     <string name="hint_content_warning">تحذير عن المحتوى</string>
     <string name="hint_display_name">الإسم العلني</string>
     <string name="hint_note">السيرة</string>
-    <string name="hint_search">ابحث عن حسابات ...</string>
+    <string name="hint_search">البحث عن ...</string>
+
+    <string name="search_no_results">لم يتم العثور على نتائج</string>
 
     <string name="label_avatar">الصورة الرمزية</string>
     <string name="label_header">رأس الصفحة</string>
 
     <string name="link_whats_an_instance">ماذا نعني بمثيل الخادم ؟</string>
 
-    <!-- <string name="dialog_whats_an_instance">The address or domain of any instance can be entered -->
-    <!--     here, such as mastodon.social, icosahedron.website, social.tchncs.de, and -->
-    <!--     <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">more!</a> -->
-    <!--     \n\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to -->
-    <!--     join and create an account there.\n\nAn instance is a single place where your account is -->
-    <!--     hosted, but you can easily communicate with and follow folks on other instances as though -->
-    <!--     you were on the same site. -->
-    <!--     \n\nMore info can be found at <a href="https://mastodon.social/about">mastodon.social</a>. -->
-    <!-- </string> -->
+    <string name="login_connection">جاري الإتصال ...</string>
+
     <string name="dialog_title_finishing_media_upload">تتمة رفع الوسائط</string>
     <string name="dialog_message_uploading_media">جاري الرفع ...</string>
     <string name="dialog_download_image">تنزيل</string>
-
-    <!-- <string name="visibility_public">للعامة : Post to public timelines</string> -->
-    <!-- <string name="visibility_unlisted">غير مدرج : Do not show in public timelines</string> -->
-    <!-- <string name="visibility_private"> خاص: Post to followers only</string> -->
-    <!-- <string name="visibility_direct">مباشر : Post to mentioned users only</string> -->
+    <string name="dialog_unfollow_warning">هل تود إلغاء متابعة هذا الحساب ؟</string>
 
     <string name="pref_title_notification_settings">الاشعارات</string>
     <string name="pref_title_edit_notification_settings">تعديل الاشعارات</string>
-    <string name="pref_title_notifications_enabled">دفع الإخطارات</string>
+    <string name="pref_title_notifications_enabled">الإخطارات</string>
     <string name="pref_title_notification_alerts">التنبيهات</string>
     <string name="pref_title_notification_alert_sound">إعلام بالصوت</string>
     <string name="pref_title_notification_alert_vibrate">إعلام بالاهتزار</string>
@@ -150,8 +147,11 @@
     <string name="pref_title_light_theme">إستخدم سمةً فاتحة اللون</string>
     <string name="pref_title_browser_settings">المتصفح</string>
     <string name="pref_title_custom_tabs">إخفاء زر المتابعة أثناء تمرير الصفحة</string>
-    <string name="pref_title_hide_follow_button">إخفاء زر المتابعة عند التمرير إلى أسفل</string>
-
+    <string name="pref_title_show_boosts">عرض الترقيات</string>
+    <string name="pref_title_show_replies">عرض الردود</string>
+    <string name="notification_channel_follow_name">متابِعون جدد</string>
+    <string name="notification_channel_boost_name">الترقيات</string>
+    <string name="notification_channel_favourite_name">المفضلة</string>
     <string name="notification_mention_format">%s أشار إليك</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s و %4$d أخرى</string>
     <string name="notification_summary_medium">%1$s, %2$s, و %3$s</string>
@@ -159,8 +159,40 @@
     <string name="notification_title_summary">%d تفاعلات جديدة</string>
 
     <string name="description_account_locked">حساب مقفل</string>
+
+    <string name="about_title_activity">عن التطبيق</string>
+    <string name="about_application_version">الإصدار : %s</string>
+    <string name="about_tusky_version">توسكي %s</string>
+    <!-- note to translators: the url can be changed to link to the localized version of the license -->
+    <string name="about_project_site">
+        موقع المشروع :\n
+        https://tusky.keylesspalace.com
+    </string>
     <string name="status_share_content">شارك محتوى التبويق</string>
     <string name="status_share_link">شارك الرابط إلى التبويق</string>
-    
+    <string name="status_media_images">صور</string>
+    <string name="status_media_video">فيديو</string>
+
     <string name="state_follow_requested">طلب متابعة</string>
+
+    <string name="no_content">ليس هناك محتوى</string>
+    <string name="action_save_one_toot">تم حفظ التبويق !</string>
+
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">في %dy</string>
+    <string name="abbreviated_in_days">في %dd</string>
+    <string name="abbreviated_in_hours">في %dh</string>
+    <string name="abbreviated_in_minutes">في %dm</string>
+    <string name="abbreviated_in_seconds">في %ds</string>
+    <string name="abbreviated_years_ago">%dس</string>
+    <string name="abbreviated_days_ago">%dأيام</string>
+    <string name="abbreviated_hours_ago">%dسا</string>
+    <string name="abbreviated_minutes_ago">%dد</string>
+    <string name="abbreviated_seconds_ago">%dثا</string>
+
+    <string name="follows_you">يتبعك الآن</string>
+    <string name="title_media">الوسائط</string>
+    <string name="replying_to">ردًا على @%s</string>
+    <string name="load_more_placeholder_text">حمِّل المزيد</string>
+
 </resources>
