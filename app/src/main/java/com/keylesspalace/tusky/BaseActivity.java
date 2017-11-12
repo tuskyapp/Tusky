@@ -187,15 +187,6 @@ public class BaseActivity extends AppCompatActivity {
         JobManager.instance().cancelAllForTag(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG);
     }
 
-    protected void clearNotifications() {
-        SharedPreferences notificationPreferences =
-                getApplicationContext().getSharedPreferences("Notifications", MODE_PRIVATE);
-        notificationPreferences.edit().putString("current", "[]").apply();
-
-        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        manager.cancel(NotificationPullJobCreator.NOTIFY_ID);
-    }
-
     protected void setPullNotificationCheckInterval(long minutes) {
         JobManager.instance().cancelAllForTag(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG);
         long checkInterval = 1000 * 60 * minutes;
