@@ -20,6 +20,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,6 +38,7 @@ import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +51,9 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
     // ui
     private SavedTootAdapter adapter;
     private TextView noContent;
+
+    private List<TootEntity> toots = new ArrayList<>();
+    @Nullable private AsyncTask<?, ?, ?> asyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +87,13 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
     @Override
     protected void onResume() {
         super.onResume();
+        fetchToots();
+    }
 
-        // req
-        getAllToot();
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (asyncTask != null) asyncTask.cancel(true);
     }
 
     @Override
@@ -98,24 +107,9 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
         return super.onOptionsItemSelected(item);
     }
 
-    private void getAllToot() {
-        new AsyncTask<Void, Void, List<TootEntity>>() {
-            @Override
-            protected List<TootEntity> doInBackground(Void... params) {
-                return tootDao.loadAll();
-            }
-
-            @Override
-            protected void onPostExecute(List<TootEntity> tootEntities) {
-                super.onPostExecute(tootEntities);
-                // set ui
-                setNoContent(tootEntities.size());
-                if (adapter != null) {
-                    adapter.setItems(tootEntities);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-        }.execute();
+    private void fetchToots() {
+        asyncTask = new FetchPojosTask(this)
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void setNoContent(int size) {
@@ -140,11 +134,12 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
             }
         }
         // update DB
-        tootDao.delete(item);
+        tootDao.delete(item.getUid());
+        toots.remove(position);
         // update adapter
         if (adapter != null) {
             adapter.removeItem(position);
-            setNoContent(adapter.getItemCount());
+            setNoContent(toots.size());
         }
     }
 
@@ -155,7 +150,41 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
                 .savedTootText(item.getText())
                 .contentWarning(item.getContentWarning())
                 .savedJsonUrls(item.getUrls())
+                .inReplyToId(item.getInReplyToId())
+                .repyingStatusAuthor(item.getInReplyToUsername())
+                .replyingStatusContent(item.getInReplyToText())
+                .replyVisibility(item.getVisibility())
                 .build(this);
         startActivity(intent);
+    }
+
+    static final class FetchPojosTask extends AsyncTask<Void, Void, List<TootEntity>> {
+
+        private final WeakReference<SavedTootActivity> activityRef;
+
+        FetchPojosTask(SavedTootActivity activity) {
+            this.activityRef = new WeakReference<>(activity);
+        }
+
+        @Override
+        protected List<TootEntity> doInBackground(Void... voids) {
+            return tootDao.loadAll();
+        }
+
+        @Override
+        protected void onPostExecute(List<TootEntity> pojos) {
+            super.onPostExecute(pojos);
+            SavedTootActivity activity = activityRef.get();
+            if (activity == null) return;
+
+            activity.toots.addAll(pojos);
+
+            // set ui
+            activity.setNoContent(pojos.size());
+            List<TootEntity> toots = new ArrayList<>(pojos.size());
+            toots.addAll(pojos);
+            activity.adapter.setItems(toots);
+            activity.adapter.notifyDataSetChanged();
+        }
     }
 }

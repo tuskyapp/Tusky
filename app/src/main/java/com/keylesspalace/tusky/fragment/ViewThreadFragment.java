@@ -320,9 +320,9 @@ public class ViewThreadFragment extends SFragment implements
         call.enqueue(new Callback<StatusContext>() {
             @Override
             public void onResponse(@NonNull Call<StatusContext> call, @NonNull Response<StatusContext> response) {
-                if (response.isSuccessful()) {
+                StatusContext context = response.body();
+                if (response.isSuccessful() && context != null) {
                     swipeRefreshLayout.setRefreshing(false);
-                    StatusContext context = response.body();
                     setContext(context.ancestors, context.descendants);
                 } else {
                     onThreadRequestFailure(id);
