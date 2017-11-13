@@ -137,6 +137,7 @@ public final class ComposeActivity extends BaseActivity
     private static final String REMEMBERED_VISIBILITY_PREF = "rememberedVisibilityNum";
     private static TootDao tootDao = TuskyApplication.getDB().tootDao();
 
+    private TextView replyTextView;
     private TextView replyContentTextView;
     private EditTextTyped textEditor;
     private LinearLayout mediaPreviewBar;
@@ -169,7 +170,7 @@ public final class ComposeActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
-        TextView replyTextView = findViewById(R.id.reply_tv);
+        replyTextView = findViewById(R.id.reply_tv);
         replyContentTextView = findViewById(R.id.reply_content_tv);
         textEditor = findViewById(R.id.compose_edit_field);
         mediaPreviewBar = findViewById(R.id.compose_media_preview_bar);
@@ -921,13 +922,13 @@ public final class ComposeActivity extends BaseActivity
                 if (response.isSuccessful()) {
                     onSendSuccess();
                 } else {
-                    onSendFailure();
+                    onSendFailure(response);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                onSendFailure();
+                onSendFailure(null);
             }
         };
         mastodonApi.createStatus(content, inReplyToId, spoilerText, visibility.serverString(),
@@ -956,9 +957,25 @@ public final class ComposeActivity extends BaseActivity
         finish();
     }
 
-    private void onSendFailure() {
-        textEditor.setError(getString(R.string.error_generic));
+    private void onSendFailure(@Nullable Response<Status> response) {
         setStateToNotReadying();
+
+        if (response != null && inReplyToId != null && response.code() == 404) {
+            new AlertDialog.Builder(this)
+                    .setMessage(R.string.dialog_reply_not_found)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            inReplyToId = null;
+                            replyContentTextView.setVisibility(View.GONE);
+                            replyTextView.setVisibility(View.GONE);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show();
+        } else {
+            textEditor.setError(getString(R.string.error_generic));
+        }
     }
 
     private void readyStatus(final Status.Visibility visibility, final boolean sensitive) {
