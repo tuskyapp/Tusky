@@ -22,7 +22,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -60,7 +60,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -84,7 +83,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     private FloatingActionButton composeButton;
     private String loggedInAccountId;
     private String loggedInAccountUsername;
-    private Stack<Integer> pageHistory;
     private AccountHeader headerResult;
     private Drawer drawer;
     private ViewPager viewPager;
@@ -93,14 +91,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        pageHistory = new Stack<>();
-        if (savedInstanceState != null) {
-            List<Integer> restoredHistory = savedInstanceState.getIntegerArrayList("pageHistory");
-            if (restoredHistory != null) {
-                pageHistory.addAll(restoredHistory);
-            }
-        }
 
         FloatingActionButton floatingBtn = findViewById(R.id.floating_btn);
         ImageButton drawerToggle = findViewById(R.id.drawer_toggle);
@@ -165,15 +155,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
 
-                if (pageHistory.isEmpty()) {
-                    pageHistory.push(0);
-                }
-
-                if (pageHistory.contains(tab.getPosition())) {
-                    pageHistory.remove(pageHistory.indexOf(tab.getPosition()));
-                }
-
-                pageHistory.push(tab.getPosition());
                 tintTab(tab, true);
             }
 
@@ -215,14 +196,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        ArrayList<Integer> pageHistoryList = new ArrayList<>();
-        pageHistoryList.addAll(pageHistory);
-        outState.putIntegerArrayList("pageHistory", pageHistoryList);
-        super.onSaveInstanceState(outState, outPersistentState);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
 
@@ -253,11 +226,10 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     public void onBackPressed() {
         if (drawer != null && drawer.isDrawerOpen()) {
             drawer.closeDrawer();
-        } else if (pageHistory.size() < 2) {
-            super.onBackPressed();
+        } else if (viewPager.getCurrentItem() != 0) {
+            viewPager.setCurrentItem(0);
         } else {
-            pageHistory.pop();
-            viewPager.setCurrentItem(pageHistory.peek());
+            super.onBackPressed();
         }
     }
 
@@ -442,7 +414,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
         mastodonApi.accountVerifyCredentials().enqueue(new Callback<Account>() {
             @Override
-            public void onResponse(Call<Account> call, Response<Account> response) {
+            public void onResponse(@NonNull Call<Account> call, @NonNull Response<Account> response) {
                 if (response.isSuccessful()) {
                     onFetchUserInfoSuccess(response.body(), domain);
                 } else {
@@ -451,7 +423,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
             }
 
             @Override
-            public void onFailure(Call<Account> call, Throwable t) {
+            public void onFailure(@NonNull Call<Account> call, @NonNull Throwable t) {
                 onFetchUserInfoFailure((Exception) t);
             }
         });
