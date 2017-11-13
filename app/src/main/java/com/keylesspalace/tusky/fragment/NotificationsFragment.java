@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import android.app.Activity;
+import android.app.NotificationManager;
 import android.arch.core.util.Function;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -36,6 +38,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.MainActivity;
+import com.keylesspalace.tusky.NotificationPullJobCreator;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.R;
@@ -129,12 +132,12 @@ public class NotificationsFragment extends SFragment implements
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
 
+        @NonNull Context context = inflater.getContext(); // from inflater to silence warning
         // Setup the SwipeRefreshLayout.
-        Context context = getContext();
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         // Setup the RecyclerView.
@@ -176,6 +179,7 @@ public class NotificationsFragment extends SFragment implements
         super.onActivityCreated(savedInstanceState);
 
         MainActivity activity = (MainActivity) getActivity();
+        if (activity == null) throw new AssertionError("Activity is null");
 
         // MainActivity's layout is guaranteed to be inflated until onCreate returns.
         TabLayout layout = activity.findViewById(R.id.tab_layout);
@@ -232,13 +236,28 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onDestroyView() {
-        TabLayout tabLayout = getActivity().findViewById(R.id.tab_layout);
-        tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
+        Activity activity = getActivity();
+        if (activity == null) {
+            Log.e(TAG, "Activity is null");
+        } else {
+            TabLayout tabLayout = activity.findViewById(R.id.tab_layout);
+            tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
 
-        LocalBroadcastManager.getInstance(getContext())
-                .unregisterReceiver(timelineReceiver);
+            LocalBroadcastManager.getInstance(activity)
+                    .unregisterReceiver(timelineReceiver);
+        }
 
         super.onDestroyView();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //noinspection ConstantConditions
+            ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE))
+                    .cancel(NotificationPullJobCreator.NOTIFY_ID);
+        }
     }
 
     @Override

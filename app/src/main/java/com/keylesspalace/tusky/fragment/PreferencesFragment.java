@@ -25,7 +25,7 @@ import android.support.annotation.XmlRes;
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.PreferencesActivity;
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.util.NotificationMaker;
+import com.keylesspalace.tusky.util.NotificationManager;
 
 public class PreferencesFragment extends PreferenceFragment {
 
@@ -56,7 +56,7 @@ public class PreferencesFragment extends PreferenceFragment {
             //on Android O and newer, launch the system notification settings instead of the app settings
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-                 NotificationMaker.createNotificationChannels(getContext());
+                 NotificationManager.createNotificationChannels(getContext());
 
                     notificationPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                         @Override

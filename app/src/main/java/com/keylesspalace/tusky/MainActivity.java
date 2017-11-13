@@ -41,6 +41,7 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
+import com.keylesspalace.tusky.util.NotificationManager;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -225,7 +226,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     protected void onResume() {
         super.onResume();
 
-        clearNotifications();
+        NotificationManager.clearNotifications(this);
 
         /* After editing a profile, the profile header in the navigation drawer needs to be
          * refreshed */
