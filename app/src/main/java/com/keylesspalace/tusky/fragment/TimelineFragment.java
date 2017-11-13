@@ -150,18 +150,25 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //noinspection ConstantConditions
+        kind = Kind.valueOf(getArguments().getString(KIND_ARG));
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Bundle arguments = getArguments();
-        kind = Kind.valueOf(arguments.getString(KIND_ARG));
         if (kind == Kind.TAG || kind == Kind.USER) {
+            //noinspection ConstantConditions
             hashtagOrId = arguments.getString(HASHTAG_OR_ID_ARG);
         }
 
         final View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
 
         // Setup the SwipeRefreshLayout.
-        Context context = getContext();
+        Context context = inflater.getContext();
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         // Setup the RecyclerView.
@@ -203,6 +210,7 @@ public class TimelineFragment extends SFragment implements
         super.onActivityCreated(savedInstanceState);
 
         if (jumpToTopAllowed()) {
+            @SuppressWarnings("ConstantConditions")
             TabLayout layout = getActivity().findViewById(R.id.tab_layout);
             onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
                 @Override
@@ -249,7 +257,7 @@ public class TimelineFragment extends SFragment implements
 
                 @Override
                 public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                    TimelineFragment.this.onLoadMore();
+                    TimelineFragment.this.onLoadMore(true);
                 }
             };
         } else {
@@ -257,13 +265,14 @@ public class TimelineFragment extends SFragment implements
             scrollListener = new EndlessOnScrollListener(layoutManager) {
                 @Override
                 public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                    TimelineFragment.this.onLoadMore();
+                    TimelineFragment.this.onLoadMore(true);
                 }
             };
         }
         recyclerView.addOnScrollListener(scrollListener);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void onDestroyView() {
         if (jumpToTopAllowed()) {
@@ -272,6 +281,12 @@ public class TimelineFragment extends SFragment implements
         }
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(timelineReceiver);
         super.onDestroyView();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (getView() != null) onLoadMore(false);
     }
 
     @Override
@@ -300,7 +315,7 @@ public class TimelineFragment extends SFragment implements
 
                     Pair<StatusViewData.Concrete, Integer> actual =
                             findStatusAndPosition(position, status);
-                    if (actual == null) return;
+                    if (actual == null || actual.second == null) return;
 
                     StatusViewData newViewData =
                             new StatusViewData.Builder(actual.first)
@@ -335,7 +350,7 @@ public class TimelineFragment extends SFragment implements
 
                     Pair<StatusViewData.Concrete, Integer> actual =
                             findStatusAndPosition(position, status);
-                    if (actual == null) return;
+                    if (actual == null || actual.second == null) return;
 
                     StatusViewData newViewData = new StatusViewData
                             .Builder(actual.first)
@@ -484,7 +499,19 @@ public class TimelineFragment extends SFragment implements
         adapter.update(statuses.getPairedCopy());
     }
 
-    private void onLoadMore() {
+    private void onLoadMore(boolean uiAction) {
+        // Don't start to load if we're not visible yet
+        if (uiAction && statuses.isEmpty() &&
+                (kind == Kind.PUBLIC_LOCAL || kind == Kind.PUBLIC_FEDERATED)) {
+            // Make it look like we're loading
+            recyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.setFooterState(FooterViewHolder.State.LOADING);
+                }
+            });
+            return;
+        }
         sendFetchTimelineRequest(bottomId, null, FetchEnd.BOTTOM, -1);
     }
 
@@ -539,7 +566,7 @@ public class TimelineFragment extends SFragment implements
             return;
         }
 
-        if (fromId != null || adapter.getItemCount() <= 1) {
+        if (fromId != null || statuses.size() <= 1) {
             /* When this is called by the EndlessScrollListener it cannot refresh the footer state
              * using adapter.notifyItemChanged. So its necessary to postpone doing so until a
              * convenient time for the UI thread using a Runnable. */
@@ -644,7 +671,7 @@ public class TimelineFragment extends SFragment implements
                 bottomLoading = false;
                 if (bottomFetches > 0) {
                     bottomFetches--;
-                    onLoadMore();
+                    onLoadMore(false);
                 }
                 break;
             }
