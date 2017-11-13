@@ -20,6 +20,7 @@ import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -150,8 +151,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         }
 
         searchView.setOnQueryTextListener(this);
-        searchView.setFocusable(false);
-        searchView.setFocusableInTouchMode(false);
+        searchView.requestFocus();
 
         searchView.setMaxWidth(Integer.MAX_VALUE);
     }
@@ -160,7 +160,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         clearResults();
         Callback<SearchResults> callback = new Callback<SearchResults>() {
             @Override
-            public void onResponse(Call<SearchResults> call, Response<SearchResults> response) {
+            public void onResponse(@NonNull Call<SearchResults> call, @NonNull Response<SearchResults> response) {
                 if (response.isSuccessful()) {
                     SearchResults results = response.body();
                     if (results.accounts != null && results.accounts.length > 0 || results.hashtags != null && results.hashtags.length > 0) {
@@ -175,7 +175,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
             }
 
             @Override
-            public void onFailure(Call<SearchResults> call, Throwable t) {
+            public void onFailure(@NonNull Call<SearchResults> call, @NonNull Throwable t) {
                 onSearchFailure();
             }
         };
