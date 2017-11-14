@@ -21,15 +21,22 @@ import android.net.Uri;
 
 import com.evernote.android.job.JobManager;
 import com.jakewharton.picasso.OkHttp3Downloader;
+import com.keylesspalace.tusky.data.CurrentUser;
+import com.keylesspalace.tusky.data.CurrentUserImpl;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 import com.squareup.picasso.Picasso;
 
 public class TuskyApplication extends Application {
     private static AppDatabase db;
+    private static CurrentUser currentUser;
 
     public static AppDatabase getDB() {
         return db;
+    }
+
+    public static CurrentUser getCurrentUser() {
+        return currentUser;
     }
 
     @Override
@@ -55,9 +62,21 @@ public class TuskyApplication extends Application {
 
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
                 .allowMainThreadQueries()
-                .addMigrations(AppDatabase.MIGRATION_2_3)
-                .addMigrations(AppDatabase.MIGRATION_3_4)
+                .addMigrations(
+                        AppDatabase.MIGRATION_2_3,
+                        AppDatabase.MIGRATION_3_4,
+                        AppDatabase.MIGRATION_4_5)
                 .build();
+
+        // Not only double lock is broken but it's probably redundant here. But I think it's
+        // good enough for our case.
+        if (currentUser == null) {
+            synchronized (this) {
+                if (currentUser == null) {
+                    currentUser = new CurrentUserImpl();
+                }
+            }
+        }
 
         JobManager.create(this).addJobCreator(new NotificationPullJobCreator(this));
     }

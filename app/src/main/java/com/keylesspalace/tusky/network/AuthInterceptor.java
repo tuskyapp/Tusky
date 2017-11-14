@@ -1,11 +1,9 @@
 package com.keylesspalace.tusky.network;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.data.CurrentUser;
+import com.keylesspalace.tusky.db.AccountEntity;
 
 import java.io.IOException;
 
@@ -17,18 +15,12 @@ import okhttp3.Response;
  * Created by charlag on 31/10/17.
  */
 
-public final class AuthInterceptor implements Interceptor, SharedPreferences.OnSharedPreferenceChangeListener {
+public final class AuthInterceptor implements Interceptor {
 
-    private static final String TOKEN_KEY = "accessToken";
+    private CurrentUser currentUser;
 
-    @Nullable
-    private String token;
-
-    public AuthInterceptor(Context context) {
-        SharedPreferences preferences  = context.getSharedPreferences(
-                context.getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        token = preferences.getString(TOKEN_KEY, null);
-        preferences.registerOnSharedPreferenceChangeListener(this);
+    public AuthInterceptor(CurrentUser currentUser) {
+        this.currentUser = currentUser;
     }
 
     @Override
@@ -36,18 +28,12 @@ public final class AuthInterceptor implements Interceptor, SharedPreferences.OnS
         Request originalRequest = chain.request();
 
         Request.Builder builder = originalRequest.newBuilder();
-        if (token != null) {
-            builder.header("Authorization", String.format("Bearer %s", token));
+        AccountEntity account = currentUser.getActiveAccount();
+        if (account != null) {
+            builder.header("Authorization", String.format("Bearer %s", account.getToken()));
         }
         Request newRequest = builder.build();
 
         return chain.proceed(newRequest);
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(TOKEN_KEY)) {
-            token = sharedPreferences.getString(TOKEN_KEY, null);
-        }
     }
 }

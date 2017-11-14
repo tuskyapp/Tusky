@@ -25,10 +25,12 @@ import android.support.annotation.NonNull;
  * DB version & declare DAO
  */
 
-@Database(entities = {TootEntity.class}, version = 4, exportSchema = false)
+@Database(entities = {TootEntity.class, AccountEntity.class}, version = 5, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TootDao tootDao();
+
+    public abstract AccountDao accountDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
@@ -48,6 +50,12 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE TootEntity ADD COLUMN inReplyToText TEXT");
             database.execSQL("ALTER TABLE TootEntity ADD COLUMN inReplyToUsername TEXT");
             database.execSQL("ALTER TABLE TootEntity ADD COLUMN visibility INTEGER");
+        }
+    };
+
+    public static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
         }
     };
 }

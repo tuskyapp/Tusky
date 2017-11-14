@@ -124,7 +124,7 @@ public class BaseActivity extends AppCompatActivity {
 
         OkHttpClient.Builder okBuilder =
                 OkHttpUtils.getCompatibleClientBuilder()
-                        .addInterceptor(new AuthInterceptor(this))
+                        .addInterceptor(new AuthInterceptor(TuskyApplication.getCurrentUser()))
                         .dispatcher(mastodonApiDispatcher);
 
         if (BuildConfig.DEBUG) {

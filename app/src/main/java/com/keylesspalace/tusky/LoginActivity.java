@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -22,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -36,6 +38,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.keylesspalace.tusky.data.CurrentUser;
+import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.AppCredentials;
 import com.keylesspalace.tusky.network.MastodonApi;
@@ -384,7 +388,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void onLoginSuccess(String accessToken) {
+    @SuppressLint("StaticFieldLeak")
+    private void onLoginSuccess(final String accessToken) {
+
         boolean committed = preferences.edit()
                 .putString("domain", domain)
                 .putString("accessToken", accessToken)
@@ -395,11 +401,27 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                // TODO: fill username if possible
+                final AccountEntity accountEntity = new AccountEntity(0, domain, "", accessToken);
+                TuskyApplication.getDB().accountDao().insertOrUpdate(accountEntity);
+                TuskyApplication.getCurrentUser().setActiveAccount(accountEntity);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
         //create notification channels ahead of time so users can edit the settings
         NotificationMaker.createNotificationChannels(this);
-
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
     }
 }

@@ -15,13 +15,22 @@
 
 package com.keylesspalace.tusky;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.keylesspalace.tusky.data.CurrentUser;
+import com.keylesspalace.tusky.db.AccountEntity;
+
+import java.util.List;
+
 public class SplashActivity extends AppCompatActivity {
+    @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,13 +42,28 @@ public class SplashActivity extends AppCompatActivity {
         String domain = preferences.getString("domain", null);
         String accessToken = preferences.getString("accessToken", null);
 
-        Intent intent;
         if (domain != null && accessToken != null) {
-            intent = new Intent(this, MainActivity.class);
+            new AsyncTask<Void, Void, Void>() {
+
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    List<AccountEntity> accounts = TuskyApplication.getDB().accountDao().getAll();
+                    TuskyApplication.getCurrentUser().setActiveAccount(accounts.get(0));
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    startActivity(MainActivity.class);
+                }
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else {
-            intent = new Intent(this, LoginActivity.class);
+            startActivity(LoginActivity.class);
         }
-        startActivity(intent);
+    }
+
+    private void startActivity(Class<? extends Activity> activityClass) {
+        startActivity(new Intent(this, activityClass));
         finish();
     }
 }

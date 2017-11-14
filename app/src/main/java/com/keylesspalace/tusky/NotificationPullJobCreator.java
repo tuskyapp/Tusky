@@ -59,7 +59,7 @@ public final class NotificationPullJobCreator implements JobCreator {
         final String domain = preferences.getString("domain", null);
 
         OkHttpClient okHttpClient = OkHttpUtils.getCompatibleClientBuilder()
-                .addInterceptor(new AuthInterceptor(context))
+                .addInterceptor(new AuthInterceptor(TuskyApplication.getCurrentUser()))
                 .build();
 
         Gson gson = new GsonBuilder()

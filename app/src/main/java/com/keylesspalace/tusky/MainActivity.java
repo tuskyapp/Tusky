@@ -15,14 +15,17 @@
 
 package com.keylesspalace.tusky;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -37,6 +40,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
@@ -293,7 +297,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     private void setupDrawer() {
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withSelectionListEnabledForSingleProfile(false)
+                .withSelectionListEnabledForSingleProfile(true)
                 .withDividerBelowHeader(false)
                 .withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP)
                 .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
@@ -387,7 +391,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                                 Intent intent = new Intent(MainActivity.this, AboutActivity.class);
                                 startActivity(intent);
                             } else if (drawerItemIdentifier == DRAWER_ITEM_LOG_OUT) {
-                                logout();
+                                handleLogoutClick();
                             } else if (drawerItemIdentifier == DRAWER_ITEM_FOLLOW_REQUESTS) {
                                 Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
                                 intent.putExtra("type", AccountListActivity.Type.FOLLOW_REQUESTS);
@@ -404,28 +408,49 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                 .build();
     }
 
-    private void logout() {
+    private void handleLogoutClick() {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.action_logout)
                 .setMessage(R.string.action_logout_confirm)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (arePushNotificationsEnabled()) disablePushNotifications();
-
-                        getPrivatePreferences().edit()
-                                .remove("domain")
-                                .remove("accessToken")
-                                .remove("appAccountId")
-                                .apply();
-
-                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
+                        performLogout();
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .show();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void performLogout() {
+        if (arePushNotificationsEnabled()) disablePushNotifications();
+
+        final AccountEntity account = TuskyApplication.getCurrentUser()
+                .getActiveAccount();
+        new AsyncTask<Void, Void, AccountEntity>() {
+            @Override
+            protected AccountEntity doInBackground(Void... voids) {
+                if (account != null) {
+                    TuskyApplication.getDB().accountDao().delete(account.getId());
+                }
+                for (AccountEntity account : TuskyApplication.getDB().accountDao().getAll()) {
+                    if (account.getId() != account.getId()) return account;
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(AccountEntity accountEntity) {
+                if (accountEntity == null) {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    TuskyApplication.getCurrentUser().setActiveAccount(accountEntity);
+                }
+            }
+        }.execute();
     }
 
     private void fetchUserInfo() {
@@ -441,7 +466,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
         mastodonApi.accountVerifyCredentials().enqueue(new Callback<Account>() {
             @Override
-            public void onResponse(Call<Account> call, Response<Account> response) {
+            public void onResponse(@NonNull Call<Account> call, @NonNull Response<Account> response) {
                 if (response.isSuccessful()) {
                     onFetchUserInfoSuccess(response.body(), domain);
                 } else {
@@ -450,7 +475,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
             }
 
             @Override
-            public void onFailure(Call<Account> call, Throwable t) {
+            public void onFailure(@NonNull Call<Account> call, @NonNull Throwable t) {
                 onFetchUserInfoFailure((Exception) t);
             }
         });
