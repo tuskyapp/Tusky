@@ -251,16 +251,6 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            //noinspection ConstantConditions
-            ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE))
-                    .cancel(NotificationPullJobCreator.NOTIFY_ID);
-        }
-    }
-
-    @Override
     public void onRefresh() {
         sendFetchNotificationsRequest(null, topId, FetchEnd.TOP, -1);
     }
