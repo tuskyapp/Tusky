@@ -33,7 +33,7 @@ import java.util.List;
 @Dao
 public interface TootDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertOrReplace(TootEntity users);
+    long insertOrReplace(TootEntity users);
 
     @Query("SELECT * FROM TootEntity ORDER BY uid DESC")
     List<TootEntity> loadAll();

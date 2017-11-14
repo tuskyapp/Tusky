@@ -134,6 +134,8 @@ public final class ComposeActivity extends BaseActivity
     private static final String REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra";
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
 
+    private static final String SAVED_TOOT_UID_STATE = "draft_uid";
+
     private static final String REMEMBERED_VISIBILITY_PREF = "rememberedVisibilityNum";
     private static TootDao tootDao = TuskyApplication.getDB().tootDao();
 
@@ -163,7 +165,7 @@ public final class ComposeActivity extends BaseActivity
     private InputContentInfoCompat currentInputContentInfo;
     private int currentFlags;
     private Uri photoUploadUri;
-    private int savedTootUid = 0;
+    private volatile int savedTootUid = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -265,6 +267,7 @@ public final class ComposeActivity extends BaseActivity
                 onCommitContentInternal(previousInputContentInfo, previousFlags);
             }
             photoUploadUri = savedInstanceState.getParcelable("photoUploadUri");
+            savedTootUid = savedInstanceState.getInt(SAVED_TOOT_UID_STATE, 0);
         } else {
             showMarkSensitive = false;
             startingVisibility = Status.Visibility.byNum(
@@ -314,9 +317,10 @@ public final class ComposeActivity extends BaseActivity
                         }.getType());
             }
 
-            int savedTootUid = intent.getIntExtra(SAVED_TOOT_UID_EXTRA, 0);
-            if (savedTootUid != 0) {
-                this.savedTootUid = savedTootUid;
+
+            // saved instance state should have higher priority
+            if (savedTootUid == 0) {
+                savedTootUid = intent.getIntExtra(SAVED_TOOT_UID_EXTRA, 0);
             }
 
             if (intent.hasExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA)) {
@@ -488,6 +492,7 @@ public final class ComposeActivity extends BaseActivity
         outState.putBoolean("showMarkSensitive", showMarkSensitive);
         outState.putBoolean("statusMarkSensitive", statusMarkSensitive);
         outState.putBoolean("statusHideText", statusHideText);
+        outState.putInt(SAVED_TOOT_UID_STATE, savedTootUid);
         if (currentInputContentInfo != null) {
             outState.putParcelable("commitContentInputContentInfo",
                     (Parcelable) currentInputContentInfo.unwrap());
@@ -719,7 +724,7 @@ public final class ComposeActivity extends BaseActivity
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                tootDao.insertOrReplace(toot);
+                savedTootUid = (int) tootDao.insertOrReplace(toot);
                 return null;
             }
         }.execute();
