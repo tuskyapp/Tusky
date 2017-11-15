@@ -156,6 +156,10 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                 viewPager.setCurrentItem(tab.getPosition());
 
                 tintTab(tab, true);
+
+                if(tab.getPosition() == 1) {
+                    NotificationManager.clearNotifications(MainActivity.this);
+                }
             }
 
             @Override
@@ -209,6 +213,10 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
             preferences.edit()
                     .putBoolean("refreshProfileHeader", false)
                     .apply();
+        }
+
+        if(viewPager.getCurrentItem() == 1) {
+            NotificationManager.clearNotifications(this);
         }
     }
 

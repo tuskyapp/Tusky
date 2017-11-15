@@ -210,15 +210,17 @@ public class NotificationManager {
         }
     }
 
-    public static void clearNotifications(Context context) {
-        SharedPreferences notificationPreferences =
-                context.getSharedPreferences("Notifications", Context.MODE_PRIVATE);
-        notificationPreferences.edit().putString("current", "[]").apply();
+    public static void clearNotifications(@Nullable Context context) {
+        if(context != null) {
+            SharedPreferences notificationPreferences =
+                    context.getSharedPreferences("Notifications", Context.MODE_PRIVATE);
+            notificationPreferences.edit().putString("current", "[]").apply();
 
-        android.app.NotificationManager manager = (android.app.NotificationManager)
-                context.getSystemService(Context.NOTIFICATION_SERVICE);
-        //noinspection ConstantConditions
-        manager.cancel(NotificationPullJobCreator.NOTIFY_ID);
+            android.app.NotificationManager manager = (android.app.NotificationManager)
+                    context.getSystemService(Context.NOTIFICATION_SERVICE);
+            //noinspection ConstantConditions
+            manager.cancel(NotificationPullJobCreator.NOTIFY_ID);
+        }
     }
 
     private static boolean filterNotification(SharedPreferences preferences,
