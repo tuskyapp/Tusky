@@ -22,7 +22,7 @@
     <string name="title_notifications">Уведомления</string>
     <string name="title_public_local">Локальная лента</string>
     <string name="title_public_federated">Глобальная лента</string>
-    <string name="title_view_thread">Тред</string>
+    <string name="title_view_thread">Обсуждение</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Посты</string>
     <string name="title_follows">Подписки</string>
@@ -82,7 +82,7 @@
     <string name="action_view_mutes">Список глушения</string>
     <string name="action_view_blocks">Список блокировки</string>
     <string name="action_view_follow_requests">Запросы на подписку</string>
-    <string name="action_view_thread">Тред</string>
+    <string name="action_view_thread">Обсуждение</string>
     <string name="action_view_media">Медиаконтент</string>
     <string name="action_open_in_web">Открыть в браузере</string>
     <string name="action_submit">Отправить</string>
@@ -120,7 +120,7 @@
     <string name="hint_compose">Что происходит?</string>
     <string name="hint_content_warning">Предупреждение о содержании</string>
     <string name="hint_display_name">Отображать имя</string>
-    <string name="hint_note">Биография</string>
+    <string name="hint_note">О себе</string>
     <string name="hint_search">Поиск…</string>
 
     <string name="search_no_results">Нет результатов</string>
@@ -152,7 +152,7 @@
     <string name="pref_title_notification_alert_sound">Звуковые уведомления</string>
     <string name="pref_title_notification_alert_vibrate">Использовать вибрацию</string>
     <string name="pref_title_notification_alert_light">Световые уведомления</string>
-    <string name="pref_title_notification_filters">Уведомлять когда</string>
+    <string name="pref_title_notification_filters">Уведомлять когда...</string>
     <string name="pref_title_notification_filter_mentions">упомянули</string>
     <string name="pref_title_notification_filter_follows">подписались</string>
     <string name="pref_title_notification_filter_reblogs">мой пост продвинули</string>
@@ -181,7 +181,7 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s и %4$d других</string>
     <string name="notification_summary_medium">%1$s, %2$s, и %3$s</string>
     <string name="notification_summary_small">%1$s и %2$s</string>
-    <string name="notification_title_summary">%d новых взаимодействий</string>
+    <string name="notification_title_summary">Новых событий: %d</string>
 
     <string name="description_account_locked">Закрытый аккаунт</string>
 
@@ -208,16 +208,16 @@
     <string name="action_save_one_toot">Пост сохранён!</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">через %dy</string>
-    <string name="abbreviated_in_days">через %dd</string>
-    <string name="abbreviated_in_hours">через %dh</string>
-    <string name="abbreviated_in_minutes">через %dm</string>
-    <string name="abbreviated_in_seconds">через %ds</string>
-    <string name="abbreviated_years_ago">%dy</string>
-    <string name="abbreviated_days_ago">%dd</string>
-    <string name="abbreviated_hours_ago">%dh</string>
-    <string name="abbreviated_minutes_ago">%dm</string>
-    <string name="abbreviated_seconds_ago">%ds</string>
+    <string name="abbreviated_in_years">через %dг</string>
+    <string name="abbreviated_in_days">через %dд</string>
+    <string name="abbreviated_in_hours">через %dч</string>
+    <string name="abbreviated_in_minutes">через %dм</string>
+    <string name="abbreviated_in_seconds">через %dс</string>
+    <string name="abbreviated_years_ago">%dг</string>
+    <string name="abbreviated_days_ago">%dд</string>
+    <string name="abbreviated_hours_ago">%dч</string>
+    <string name="abbreviated_minutes_ago">%dм</string>
+    <string name="abbreviated_seconds_ago">%dс</string>
 
     <string name="follows_you">Подписан(а) на вас</string>
     <string name="pref_title_alway_show_sensitive_media">Всегда показывать NSFW-контент</string>
