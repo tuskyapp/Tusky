@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.0'
+    buildToolsVersion '27.0.1'
     defaultConfig {
         applicationId "com.keylesspalace.tusky"
         minSdkVersion 15
@@ -39,10 +39,10 @@ android {
     }
 }
 
-ext.supportLibraryVersion = '27.0.0'
+ext.supportLibraryVersion = '27.0.1'
 
 dependencies {
-    compile('com.mikepenz:materialdrawer:5.9.5@aar') {
+    compile('com.mikepenz:materialdrawer:6.0.1@aar') {
         transitive = true
     }
     compile "com.android.support:appcompat-v7:$supportLibraryVersion"
@@ -60,7 +60,7 @@ dependencies {
     compile 'com.pkmmte.view:circularimageview:1.1'
     compile 'com.github.varunest:sparkbutton:1.0.5'
     compile 'com.github.chrisbanes:PhotoView:2.1.3'
-    compile 'com.mikepenz:google-material-typeface:3.0.1.0.original@aar'
+    compile 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.5.1'
     compile 'com.evernote:android-job:1.2.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'

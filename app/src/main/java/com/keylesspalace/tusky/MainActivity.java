@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -97,24 +96,16 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.pager);
 
-        floatingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ComposeActivity.class);
-                startActivityForResult(intent, COMPOSE_RESULT);
-            }
+        floatingBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ComposeActivity.class);
+            startActivityForResult(intent, COMPOSE_RESULT);
         });
 
         setupDrawer();
 
         // Setup the navigation drawer toggle button.
         ThemeUtils.setDrawableTint(this, drawerToggle.getDrawable(), R.attr.toolbar_icon_tint);
-        drawerToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawer.openDrawer();
-            }
-        });
+        drawerToggle.setOnClickListener(v -> drawer.openDrawer());
 
         /* Fetch user info while we're doing other things. This has to be after setting up the
          * drawer, though, because its callback touches the header in the drawer. */
@@ -302,7 +293,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
-            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+            public void set(ImageView imageView, Uri uri, Drawable placeholder, String tag) {
                 Picasso.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
             }
 
@@ -338,49 +329,46 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                 .withHasStableIds(true)
                 .withSelectedItem(-1)
                 .addDrawerItems(array)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if (drawerItem != null) {
-                            long drawerItemIdentifier = drawerItem.getIdentifier();
+                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
+                    if (drawerItem != null) {
+                        long drawerItemIdentifier = drawerItem.getIdentifier();
 
-                            if (drawerItemIdentifier == DRAWER_ITEM_EDIT_PROFILE) {
-                                Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
-                                startActivity(intent);
-                            } else if (drawerItemIdentifier == DRAWER_ITEM_FAVOURITES) {
-                                Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
-                                startActivity(intent);
-                            } else if (drawerItemIdentifier == DRAWER_ITEM_MUTED_USERS) {
-                                Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
-                                intent.putExtra("type", AccountListActivity.Type.MUTES);
-                                startActivity(intent);
-                            } else if (drawerItemIdentifier == DRAWER_ITEM_BLOCKED_USERS) {
-                                Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
-                                intent.putExtra("type", AccountListActivity.Type.BLOCKS);
-                                startActivity(intent);
-                            } else if (drawerItemIdentifier == DRAWER_ITEM_SEARCH) {
-                                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                                startActivity(intent);
-                            } else if (drawerItemIdentifier == DRAWER_ITEM_PREFERENCES) {
-                                Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
-                                startActivity(intent);
-                            } else if (drawerItemIdentifier == DRAWER_ITEM_ABOUT) {
-                                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-                                startActivity(intent);
-                            } else if (drawerItemIdentifier == DRAWER_ITEM_LOG_OUT) {
-                                logout();
-                            } else if (drawerItemIdentifier == DRAWER_ITEM_FOLLOW_REQUESTS) {
-                                Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
-                                intent.putExtra("type", AccountListActivity.Type.FOLLOW_REQUESTS);
-                                startActivity(intent);
-                            } else if (drawerItemIdentifier == DRAWER_ITEM_SAVED_TOOT) {
-                                Intent intent = new Intent(MainActivity.this, SavedTootActivity.class);
-                                startActivity(intent);
-                            }
+                        if (drawerItemIdentifier == DRAWER_ITEM_EDIT_PROFILE) {
+                            Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_FAVOURITES) {
+                            Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_MUTED_USERS) {
+                            Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
+                            intent.putExtra("type", AccountListActivity.Type.MUTES);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_BLOCKED_USERS) {
+                            Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
+                            intent.putExtra("type", AccountListActivity.Type.BLOCKS);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_SEARCH) {
+                            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_PREFERENCES) {
+                            Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_ABOUT) {
+                            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_LOG_OUT) {
+                            logout();
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_FOLLOW_REQUESTS) {
+                            Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
+                            intent.putExtra("type", AccountListActivity.Type.FOLLOW_REQUESTS);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_SAVED_TOOT) {
+                            Intent intent = new Intent(MainActivity.this, SavedTootActivity.class);
+                            startActivity(intent);
                         }
-
-                        return false;
                     }
+
+                    return false;
                 })
                 .build();
     }
@@ -389,21 +377,18 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.action_logout)
                 .setMessage(R.string.action_logout_confirm)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (arePushNotificationsEnabled()) disablePushNotifications();
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    if (arePushNotificationsEnabled()) disablePushNotifications();
 
-                        getPrivatePreferences().edit()
-                                .remove("domain")
-                                .remove("accessToken")
-                                .remove("appAccountId")
-                                .apply();
+                    getPrivatePreferences().edit()
+                            .remove("domain")
+                            .remove("accessToken")
+                            .remove("appAccountId")
+                            .apply();
 
-                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .show();
