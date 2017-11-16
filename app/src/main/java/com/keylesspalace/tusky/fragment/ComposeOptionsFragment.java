@@ -34,11 +34,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 public class ComposeOptionsFragment extends BottomSheetDialogFragment {
     public interface Listener {
-        void onVisibilityChanged(String visibility);
+        void onVisibilityChanged(Status.Visibility visibility);
         void onContentWarningChanged(boolean hideText);
     }
 
@@ -46,10 +47,10 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
     private CheckBox hideText;
     private Listener listener;
 
-    public static ComposeOptionsFragment newInstance(String visibility, boolean hideText) {
+    public static ComposeOptionsFragment newInstance(Status.Visibility visibility, boolean hideText) {
         Bundle arguments = new Bundle();
         ComposeOptionsFragment fragment = new ComposeOptionsFragment();
-        arguments.putString("visibility", visibility);
+        arguments.putInt("visibilityNum", visibility.getNum());
         arguments.putBoolean("hideText", hideText);
         fragment.setArguments(arguments);
         return fragment;
@@ -68,18 +69,18 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
         View rootView = inflater.inflate(R.layout.fragment_compose_options, container, false);
 
         Bundle arguments = getArguments();
-        String statusVisibility = arguments.getString("visibility");
+        Status.Visibility visibility = Status.Visibility.byNum(
+                arguments.getInt("visibilityNum", 0)
+        );
         boolean statusHideText = arguments.getBoolean("hideText");
 
         radio = rootView.findViewById(R.id.radio_visibility);
         int radioCheckedId = R.id.radio_public;
-        if (statusVisibility != null) {
-            switch (statusVisibility) {
-                case "public":   radioCheckedId = R.id.radio_public;   break;
-                case "private":  radioCheckedId = R.id.radio_private;  break;
-                case "unlisted": radioCheckedId = R.id.radio_unlisted; break;
-                case "direct":   radioCheckedId = R.id.radio_direct;   break;
-            }
+        switch (visibility) {
+            case PUBLIC:   radioCheckedId = R.id.radio_public;   break;
+            case PRIVATE:  radioCheckedId = R.id.radio_private;  break;
+            case UNLISTED: radioCheckedId = R.id.radio_unlisted; break;
+            case DIRECT:   radioCheckedId = R.id.radio_direct;   break;
         }
         radio.check(radioCheckedId);
 
@@ -104,23 +105,23 @@ public class ComposeOptionsFragment extends BottomSheetDialogFragment {
         radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                String visibility;
+                Status.Visibility visibility;
                 switch (checkedId) {
                     default:
                     case R.id.radio_public: {
-                        visibility = "public";
+                        visibility = Status.Visibility.PUBLIC;
                         break;
                     }
                     case R.id.radio_unlisted: {
-                        visibility = "unlisted";
+                        visibility = Status.Visibility.UNLISTED;
                         break;
                     }
                     case R.id.radio_private: {
-                        visibility = "private";
+                        visibility = Status.Visibility.PRIVATE;
                         break;
                     }
                     case R.id.radio_direct: {
-                        visibility = "direct";
+                        visibility = Status.Visibility.DIRECT;
                         break;
                     }
                 }

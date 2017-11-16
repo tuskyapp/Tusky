@@ -56,6 +56,7 @@ public class TuskyApplication extends Application {
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
                 .allowMainThreadQueries()
                 .addMigrations(AppDatabase.MIGRATION_2_3)
+                .addMigrations(AppDatabase.MIGRATION_3_4)
                 .build();
 
         JobManager.create(this).addJobCreator(new NotificationPullJobCreator(this));
