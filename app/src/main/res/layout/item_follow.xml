@@ -7,8 +7,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp"
     android:paddingBottom="10dp"
     android:orientation="vertical">
 
@@ -22,8 +22,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/follow_icon"
             app:srcCompat="@drawable/ic_person_add_24dp"
-            android:paddingStart="24dp"
-            android:paddingLeft="24dp"
+            android:paddingStart="28dp"
+            android:paddingLeft="28dp"
             android:paddingEnd="10dp"
             android:paddingRight="10dp"
             android:tint="?attr/colorAccent"
@@ -54,8 +54,8 @@
             android:scaleType="fitCenter"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginRight="14dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:contentDescription="@string/action_view_profile" />

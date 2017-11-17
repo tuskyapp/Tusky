@@ -39,6 +39,7 @@ public class TuskyApplication extends Application {
         Picasso.Builder builder = new Picasso.Builder(this);
         builder.downloader(new OkHttp3Downloader(OkHttpUtils.getCompatibleClient()));
         if (BuildConfig.DEBUG) {
+            builder.loggingEnabled(true);
             builder.listener(new Picasso.Listener() {
                 @Override
                 public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {

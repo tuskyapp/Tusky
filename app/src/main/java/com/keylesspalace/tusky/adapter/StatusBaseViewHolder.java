@@ -2,10 +2,6 @@ package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.annotation.DrawableRes;
@@ -13,9 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.style.ReplacementSpan;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -26,22 +20,18 @@ import android.widget.ToggleButton;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 import com.varunest.sparkbutton.SparkButton;
 import com.varunest.sparkbutton.SparkEventListener;
 
-import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private View container;
@@ -107,42 +97,11 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         username.setText(usernameText);
     }
 
-    private Callback spanCallback = new Callback() {
-        @Override
-        public void onSuccess() {
-            content.invalidate();
-        }
-
-        @Override
-        public void onError() {
-        }
-    };
-
     private void setContent(Spanned content, Status.Mention[] mentions, List<Status.Emoji> emojis,
                             StatusActionListener listener) {
-        Context context = this.content.getContext();
-        SpannableStringBuilder builder = new SpannableStringBuilder(content);
-        if (!emojis.isEmpty()) {
-            CharSequence text = builder.subSequence(0, builder.length());
-            for (Status.Emoji emoji : emojis) {
-                CharSequence pattern = new StringBuilder(":").append(emoji.getShortcode()).append(':');
-                Matcher matcher = Pattern.compile(pattern.toString()).matcher(text);
-                while (matcher.find()) {
-                    // We keep a span as a Picasso target, because Picasso keeps weak reference to
-                    // the target so an anonymous class would likely be garbage collected.
-                    EmojiSpan span = new EmojiSpan(context);
-                    span.setCallback(spanCallback);
-                    builder.setSpan(span, matcher.start(), matcher.end(), 0);
-                    Picasso.with(container.getContext())
-                            .load(emoji.getUrl())
-                            .into(span);
-                }
-            }
-        }
+        Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, this.content);
 
-        /* Redirect URLSpan's in the status content to the listener for viewing tag pages and
-         * account pages. */
-        LinkHelper.setClickableText(this.content, builder, mentions, listener);
+        LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
     }
 
     void setAvatar(String url, @Nullable String rebloggedUrl) {
@@ -525,62 +484,5 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private static class EmojiSpan extends ReplacementSpan implements Target {
 
-        private @Nullable
-        Drawable imageDrawable;
-        private WeakReference<Callback> callbackWeakReference;
-        private Context context;
-
-        EmojiSpan(Context context) {
-            this.context = context.getApplicationContext();
-        }
-
-        public void setCallback(Callback callback) {
-            this.callbackWeakReference = new WeakReference<>(callback);
-        }
-
-        @Override
-        public int getSize(@NonNull Paint paint, CharSequence text, int start, int end,
-                           @Nullable Paint.FontMetricsInt fm) {
-            return (int) (paint.getTextSize()*1.2);
-        }
-
-        @Override
-        public void draw(@NonNull Canvas canvas, CharSequence text, int start, int end, float x,
-                         int top, int y, int bottom, @NonNull Paint paint) {
-            if (imageDrawable == null) return;
-            canvas.save();
-
-            int emojiSize = (int) (paint.getTextSize() * 1.1);
-            imageDrawable.setBounds(0, 0, emojiSize, emojiSize);
-
-            int transY = bottom - imageDrawable.getBounds().bottom;
-            transY -= paint.getFontMetricsInt().descent/2;
-            canvas.translate(x, transY);
-            imageDrawable.draw(canvas);
-            canvas.restore();
-        }
-
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            // I hope using resources from application context is okay
-            // It's probably better than keeping activity alive. My assumption is that resources are
-            // only needed to look up the density which is really unlikely to change with
-            // configuration
-            imageDrawable = new BitmapDrawable(context.getResources(), bitmap);
-            if (callbackWeakReference != null) {
-                Callback cb = callbackWeakReference.get();
-                if (cb != null) cb.onSuccess();
-            }
-        }
-
-        @Override
-        public void onBitmapFailed(Drawable errorDrawable) {
-        }
-
-        @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {
-        }
-    }
 }
