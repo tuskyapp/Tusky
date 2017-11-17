@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
+import android.text.SpannedString;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -330,14 +331,17 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         sensitiveMediaShow.setVisibility(View.GONE);
     }
 
-    private void setSpoilerText(String spoilerText, final boolean expanded,
-                                final StatusActionListener listener) {
-        contentWarningDescription.setText(spoilerText);
+    private void setSpoilerText(String spoilerText, List<Status.Emoji> emojis,
+                                final boolean expanded, final StatusActionListener listener) {
+        CharSequence emojiSpoiler =
+                CustomEmojiHelper.emojifyString(spoilerText, emojis, contentWarningDescription);
+        contentWarningDescription.setText(emojiSpoiler);
         contentWarningBar.setVisibility(View.VISIBLE);
         contentWarningButton.setChecked(expanded);
         contentWarningButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                contentWarningDescription.invalidate();
                 if (getAdapterPosition() != RecyclerView.NO_POSITION) {
                     listener.onExpandedChange(isChecked, getAdapterPosition());
                 }
@@ -480,7 +484,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (status.getSpoilerText() == null || status.getSpoilerText().isEmpty()) {
             hideSpoilerText();
         } else {
-            setSpoilerText(status.getSpoilerText(), status.isExpanded(), listener);
+            setSpoilerText(status.getSpoilerText(), status.getEmojis(), status.isExpanded(), listener);
         }
     }
 

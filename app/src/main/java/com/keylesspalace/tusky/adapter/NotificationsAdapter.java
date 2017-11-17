@@ -456,7 +456,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
             }
 
-            contentWarningDescriptionTextView.setText(statusViewData.getSpoilerText());
+            Spanned emojifiedContentWarning =
+                    CustomEmojiHelper.emojifyString(statusViewData.getSpoilerText(), statusViewData.getEmojis(), contentWarningDescriptionTextView);
+            contentWarningDescriptionTextView.setText(emojifiedContentWarning);
         }
 
         @Override

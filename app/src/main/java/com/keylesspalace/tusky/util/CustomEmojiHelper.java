@@ -24,6 +24,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.SpannedString;
 import android.text.style.ReplacementSpan;
 import android.widget.TextView;
 
@@ -38,12 +39,18 @@ import java.util.regex.Pattern;
 
 public class CustomEmojiHelper {
 
-    public static Spanned emojifyText(Spanned spanned, List<Status.Emoji> emojis, final TextView textView) {
+    /**
+     * replaces emoji shortcodes in a text with EmojiSpans
+     * @param text the text containing custom emojis
+     * @param emojis a list of the custom emojis
+     * @param textView a reference to the textView the emojis will be shown in
+     * @return the text with the shortcodes replaced by EmojiSpans
+     */
+    public static Spanned emojifyText(Spanned text, List<Status.Emoji> emojis, final TextView textView) {
 
-        SpannableStringBuilder builder = new SpannableStringBuilder(spanned);
         if (!emojis.isEmpty()) {
 
-            CharSequence text = builder.subSequence(0, builder.length());
+            SpannableStringBuilder builder = new SpannableStringBuilder(text);
             for (Status.Emoji emoji : emojis) {
                 CharSequence pattern = new StringBuilder(":").append(emoji.getShortcode()).append(':');
                 Matcher matcher = Pattern.compile(pattern.toString()).matcher(text);
@@ -57,18 +64,21 @@ public class CustomEmojiHelper {
                             .into(span);
                 }
             }
+
+            return builder;
         }
 
-
-        return builder;
+        return text;
     }
 
+    public static Spanned emojifyString(String string, List<Status.Emoji> emojis, final TextView textView) {
+        return emojifyText(new SpannedString(string), emojis, textView);
+    }
 
 
     public static class EmojiSpan extends ReplacementSpan implements Target {
 
-        private @Nullable
-        Drawable imageDrawable;
+        private @Nullable Drawable imageDrawable;
         private WeakReference<TextView> textViewWeakReference;
 
         EmojiSpan(TextView textView) {
@@ -78,6 +88,17 @@ public class CustomEmojiHelper {
         @Override
         public int getSize(@NonNull Paint paint, CharSequence text, int start, int end,
                            @Nullable Paint.FontMetricsInt fm) {
+
+            /* update FontMetricsInt or otherwise span does not get drawn when
+               it covers the whole text */
+            Paint.FontMetricsInt metrics = paint.getFontMetricsInt();
+            if (fm != null) {
+                fm.top = metrics.top;
+                fm.ascent = metrics.ascent;
+                fm.descent = metrics.descent;
+                fm.bottom = metrics.bottom;
+            }
+
             return (int) (paint.getTextSize()*1.2);
         }
 
@@ -107,12 +128,10 @@ public class CustomEmojiHelper {
         }
 
         @Override
-        public void onBitmapFailed(Drawable errorDrawable) {
-        }
+        public void onBitmapFailed(Drawable errorDrawable) {}
 
         @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {
-        }
+        public void onPrepareLoad(Drawable placeHolderDrawable) {}
     }
 
 }
