@@ -264,13 +264,19 @@ public class NotificationsFragment extends SFragment implements
                     if (status.reblog != null) {
                         status.reblog.reblogged = reblog;
                     }
-                    // Java's type inference *eyeroll*
-                    notifications.set(position,
-                            Either.<Placeholder, Notification>right(notification));
 
-                    adapter.updateItemWithNotify(position, notifications.getPairedItem(position), true);
+                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete)notifications.getPairedItem(position);
 
-                    adapter.notifyItemChanged(position);
+                    StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
+                    viewDataBuilder.setReblogged(reblog);
+
+                    NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
+                            viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
+                            viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
+
+                    notifications.setPairedItem(position, newViewData);
+
+                    adapter.updateItemWithNotify(position, newViewData, true);
                 }
             }
 
@@ -296,12 +302,19 @@ public class NotificationsFragment extends SFragment implements
                         status.reblog.favourited = favourite;
                     }
 
-                    notifications.set(position,
-                            Either.<Placeholder, Notification>right(notification));
+                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete)notifications.getPairedItem(position);
 
-                    adapter.updateItemWithNotify(position, notifications.getPairedItem(position), true);
+                    StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
+                    viewDataBuilder.setFavourited(favourite);
 
-                    adapter.notifyItemChanged(position);
+                    NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
+                            viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
+                            viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
+
+                    notifications.setPairedItem(position, newViewData);
+
+                    adapter.updateItemWithNotify(position, newViewData, true);
+
                 }
             }
 

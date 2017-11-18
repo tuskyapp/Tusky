@@ -157,10 +157,16 @@ public class ViewThreadFragment extends SFragment implements
                     if (status.reblog != null) {
                         status.reblog.reblogged = reblog;
                     }
-                    // create new viewData as side effect
-                    statuses.set(position, status);
 
-                    adapter.setItem(position, statuses.getPairedItem(position), true);
+                    StatusViewData.Concrete viewdata = statuses.getPairedItem(position);
+
+                    StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
+                    viewDataBuilder.setReblogged(reblog);
+
+                    StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
+
+                    statuses.setPairedItem(position, newViewData);
+                    adapter.setItem(position, newViewData, true);
                 }
             }
 
@@ -184,9 +190,16 @@ public class ViewThreadFragment extends SFragment implements
                     if (status.reblog != null) {
                         status.reblog.favourited = favourite;
                     }
-                    // create new viewData as side effect
-                    statuses.set(position, status);
-                    adapter.setItem(position, statuses.getPairedItem(position), true);
+
+                    StatusViewData.Concrete viewdata = statuses.getPairedItem(position);
+
+                    StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
+                    viewDataBuilder.setFavourited(favourite);
+
+                    StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
+
+                    statuses.setPairedItem(position, newViewData);
+                    adapter.setItem(position, newViewData, true);
                 }
             }
 
@@ -367,6 +380,7 @@ public class ViewThreadFragment extends SFragment implements
                         public void onClick(View v) {
                             sendThreadRequest(id);
                             sendStatusRequest(id);
+                            sendCardRequest(id);
                         }
                     })
                     .show();
@@ -392,6 +406,7 @@ public class ViewThreadFragment extends SFragment implements
                     .setCard(card)
                     .createStatusViewData();
         }
+        statuses.setPairedItem(i, viewData);
         adapter.addItem(i, viewData);
         return i;
     }
@@ -432,6 +447,8 @@ public class ViewThreadFragment extends SFragment implements
                 viewData = new StatusViewData.Builder(viewData)
                         .setCard(card)
                         .createStatusViewData();
+                statuses.setPairedItem(statusIndex, viewData);
+
             }
             adapter.addItem(statusIndex, viewData);
         }
