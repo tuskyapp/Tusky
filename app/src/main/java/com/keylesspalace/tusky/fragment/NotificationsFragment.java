@@ -345,7 +345,7 @@ public class NotificationsFragment extends SFragment implements
                         .setIsExpanded(expanded)
                         .createStatusViewData();
         NotificationViewData notificationViewData = new NotificationViewData.Concrete(old.getType(),
-                old.getId(), old.getAccount(), statusViewData);
+                old.getId(), old.getAccount(), statusViewData, expanded);
         notifications.setPairedItem(position, notificationViewData);
         adapter.updateItemWithNotify(position, notificationViewData, false);
     }
@@ -359,7 +359,7 @@ public class NotificationsFragment extends SFragment implements
                         .setIsShowingSensitiveContent(isShowing)
                         .createStatusViewData();
         NotificationViewData notificationViewData = new NotificationViewData.Concrete(old.getType(),
-                old.getId(), old.getAccount(), statusViewData);
+                old.getId(), old.getAccount(), statusViewData, old.isExpanded());
         notifications.setPairedItem(position, notificationViewData);
         adapter.updateItemWithNotify(position, notificationViewData, false);
     }

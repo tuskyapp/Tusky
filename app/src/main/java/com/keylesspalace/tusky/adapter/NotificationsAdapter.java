@@ -136,8 +136,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     holder.setUsername(statusViewData.getNickname());
                     holder.setCreatedAt(statusViewData.getCreatedAt());
 
-                    holder.setMessage(type, concreteNotificaton.getAccount().getDisplayName(),
-                            concreteNotificaton.getStatusViewData(), statusListener);
+                    holder.setMessage(concreteNotificaton, statusListener);
                     holder.setupButtons(notificationActionListener,
                             concreteNotificaton.getAccount().id,
                             concreteNotificaton.getId());
@@ -230,6 +229,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         void onViewAccount(String id);
 
         void onViewStatusForNotificationId(String notificationId);
+
+        void onExpandedChange(boolean expanded, int position);
+
     }
 
     private static class FollowViewHolder extends RecyclerView.ViewHolder {
@@ -294,7 +296,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private String accountId;
         private String notificationId;
         private NotificationActionListener notificationActionListener;
-        private LinkListener linkListener;
         private StatusViewData.Concrete statusViewData;
 
         StatusNotificationViewHolder(View itemView) {
@@ -353,9 +354,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             timestampInfo.setContentDescription(readoutAloud);
         }
 
-        void setMessage(Notification.Type type, String displayName,
-                        StatusViewData.Concrete status, LinkListener listener) {
-            this.statusViewData = status;
+        void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener) {
+            this.statusViewData = notificationViewData.getStatusViewData();
+            Notification.Type type = notificationViewData.getType();
 
             Context context = message.getContext();
             String format;
@@ -392,7 +393,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
             boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
             contentWarningBar.setVisibility(hasSpoiler ? View.VISIBLE : View.GONE);
-            setupContentAndSpoiler(false, listener);
+            setupContentAndSpoiler(notificationViewData, listener);
         }
 
         void setupButtons(final NotificationActionListener listener, final String accountId,
@@ -439,22 +440,23 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             }
         }
 
-        private void setupContentAndSpoiler(boolean shouldShowContentIfSpoiler, final LinkListener listener) {
-            this.linkListener = listener;
+        private void setupContentAndSpoiler(NotificationViewData.Concrete notificationViewData, final LinkListener listener) {
 
+            boolean shouldShowContentIfSpoiler = notificationViewData.isExpanded();
             boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
             if (!shouldShowContentIfSpoiler && hasSpoiler) {
                 statusContent.setVisibility(View.GONE);
             } else {
                 statusContent.setVisibility(View.VISIBLE);
-                Spanned content = statusViewData.getContent();
-                List<Status.Emoji> emojis = statusViewData.getEmojis();
-
-                Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, statusContent);
-
-                LinkHelper.setClickableText(statusContent, emojifiedText, statusViewData.getMentions(), listener);
-
             }
+
+            Spanned content = statusViewData.getContent();
+            List<Status.Emoji> emojis = statusViewData.getEmojis();
+
+            Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, statusContent);
+
+            LinkHelper.setClickableText(statusContent, emojifiedText, statusViewData.getMentions(), listener);
+
 
             Spanned emojifiedContentWarning =
                     CustomEmojiHelper.emojifyString(statusViewData.getSpoilerText(), statusViewData.getEmojis(), contentWarningDescriptionTextView);
@@ -463,7 +465,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            setupContentAndSpoiler(isChecked, linkListener);
+            if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                notificationActionListener.onExpandedChange(isChecked, getAdapterPosition());
+            }
+            if (isChecked) {
+                statusContent.setVisibility(View.VISIBLE);
+            } else {
+                statusContent.setVisibility(View.GONE);
+            }
         }
     }
 }

@@ -76,7 +76,7 @@ public final class ViewDataUtils {
 
     public static NotificationViewData.Concrete notificationToViewData(Notification notification) {
         return new NotificationViewData.Concrete(notification.type, notification.id, notification.account,
-                statusToViewData(notification.status));
+                statusToViewData(notification.status), false);
     }
 
     public static List<NotificationViewData> notificationListToViewDataList(
