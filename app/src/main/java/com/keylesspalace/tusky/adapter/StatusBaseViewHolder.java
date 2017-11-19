@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
@@ -180,7 +183,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         favouriteButton.setChecked(favourited);
     }
 
-    private void setMediaPreviews(final Status.MediaAttachment[] attachments, boolean sensitive,
+    private void setMediaPreviews(final Attachment[] attachments, boolean sensitive,
                                   final StatusActionListener listener, boolean showingContent) {
         final ImageView[] previews = {
                 mediaPreview0, mediaPreview1, mediaPreview2, mediaPreview3
@@ -200,6 +203,13 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         for (int i = 0; i < n; i++) {
             String previewUrl = attachments[i].previewUrl;
+            String description = attachments[i].description;
+
+            if(TextUtils.isEmpty(description)) {
+                previews[i].setContentDescription(context.getString(R.string.action_view_media));
+            } else {
+                previews[i].setContentDescription(description);
+            }
 
             previews[i].setVisibility(View.VISIBLE);
 
@@ -212,8 +222,8 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                         .into(previews[i]);
             }
 
-            final Status.MediaAttachment.Type type = attachments[i].type;
-            if (type == Status.MediaAttachment.Type.VIDEO | type == Status.MediaAttachment.Type.GIFV) {
+            final Attachment.Type type = attachments[i].type;
+            if (type == Attachment.Type.VIDEO | type == Attachment.Type.GIFV) {
                 videoIndicator.setVisibility(View.VISIBLE);
             }
 
@@ -275,7 +285,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     @NonNull
-    private static String getLabelTypeText(Context context, Status.MediaAttachment.Type type) {
+    private static String getLabelTypeText(Context context, Attachment.Type type) {
         switch (type) {
             default:
             case IMAGE:
@@ -287,7 +297,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     @DrawableRes
-    private static int getLabelIcon(Status.MediaAttachment.Type type) {
+    private static int getLabelIcon(Attachment.Type type) {
         switch (type) {
             default:
             case IMAGE:
@@ -298,7 +308,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void setMediaLabel(Status.MediaAttachment[] attachments, boolean sensitive,
+    private void setMediaLabel(Attachment[] attachments, boolean sensitive,
                                final StatusActionListener listener) {
         if (attachments.length == 0) {
             mediaLabel.setVisibility(View.GONE);
@@ -327,7 +337,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         for (int i = 0; i < n; i++) {
             urls[i] = attachments[i].url;
         }
-        final Status.MediaAttachment.Type type = attachments[0].type;
+        final Attachment.Type type = attachments[0].type;
         mediaLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -464,7 +474,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         setAvatar(status.getAvatar(), status.getRebloggedAvatar());
         setReblogged(status.isReblogged());
         setFavourited(status.isFavourited());
-        Status.MediaAttachment[] attachments = status.getAttachments();
+        Attachment[] attachments = status.getAttachments();
         boolean sensitive = status.isSensitive();
         if (mediaPreviewEnabled) {
             setMediaPreviews(attachments, sensitive, listener, status.isShowingContent());

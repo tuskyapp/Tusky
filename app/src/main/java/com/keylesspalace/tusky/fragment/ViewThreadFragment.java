@@ -38,6 +38,7 @@ import android.view.ViewGroup;
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.ThreadAdapter;
+import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
@@ -225,7 +226,7 @@ public class ViewThreadFragment extends SFragment implements
     }
 
     @Override
-    public void onViewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type,
+    public void onViewMedia(String[] urls, int urlIndex, Attachment.Type type,
                             View view) {
         super.viewMedia(urls, urlIndex, type, view);
     }

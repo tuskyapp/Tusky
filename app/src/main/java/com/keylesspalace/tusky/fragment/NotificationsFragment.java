@@ -39,6 +39,7 @@ import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
@@ -334,7 +335,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onViewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type,
+    public void onViewMedia(String[] urls, int urlIndex, Attachment.Type type,
                             View view) {
         super.viewMedia(urls, urlIndex, type, view);
     }

@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.viewdata;
 import android.support.annotation.Nullable;
 import android.text.Spanned;
 
+import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
 
@@ -45,7 +46,7 @@ public abstract class StatusViewData {
         @Nullable
         private final String spoilerText;
         private final Status.Visibility visibility;
-        private final Status.MediaAttachment[] attachments;
+        private final Attachment[] attachments;
         @Nullable
         private final String rebloggedByUsername;
         @Nullable
@@ -72,7 +73,7 @@ public abstract class StatusViewData {
         private final Card card;
 
         public Concrete(String id, Spanned content, boolean reblogged, boolean favourited,
-                        @Nullable String spoilerText, Status.Visibility visibility, Status.MediaAttachment[] attachments,
+                        @Nullable String spoilerText, Status.Visibility visibility, Attachment[] attachments,
                         @Nullable String rebloggedByUsername, @Nullable String rebloggedAvatar, boolean sensitive, boolean isExpanded,
                         boolean isShowingContent, String userFullName, String nickname, String avatar,
                         Date createdAt, String reblogsCount, String favouritesCount, @Nullable String inReplyToId,
@@ -130,7 +131,7 @@ public abstract class StatusViewData {
             return visibility;
         }
 
-        public Status.MediaAttachment[] getAttachments() {
+        public Attachment[] getAttachments() {
             return attachments;
         }
 
@@ -232,7 +233,7 @@ public abstract class StatusViewData {
         private boolean favourited;
         private String spoilerText;
         private Status.Visibility visibility;
-        private Status.MediaAttachment[] attachments;
+        private Attachment[] attachments;
         private String rebloggedByUsername;
         private String rebloggedAvatar;
         private boolean isSensitive;
@@ -313,7 +314,7 @@ public abstract class StatusViewData {
             return this;
         }
 
-        public Builder setAttachments(Status.MediaAttachment[] attachments) {
+        public Builder setAttachments(Attachment[] attachments) {
             this.attachments = attachments;
             return this;
         }

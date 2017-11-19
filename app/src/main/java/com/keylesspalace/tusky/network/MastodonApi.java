@@ -20,8 +20,8 @@ import android.support.annotation.Nullable;
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.AppCredentials;
+import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
-import com.keylesspalace.tusky.entity.Media;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Profile;
 import com.keylesspalace.tusky.entity.Relationship;
@@ -80,7 +80,7 @@ public interface MastodonApi {
 
     @Multipart
     @POST("api/v1/media")
-    Call<Media> uploadMedia(@Part MultipartBody.Part file);
+    Call<Attachment> uploadMedia(@Part MultipartBody.Part file);
 
     @FormUrlEncoded
     @POST("api/v1/statuses")

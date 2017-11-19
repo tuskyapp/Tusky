@@ -17,10 +17,6 @@ package com.keylesspalace.tusky.entity;
 
 import android.text.Spanned;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -97,7 +93,7 @@ public class Status {
     }
 
     @SerializedName("media_attachments")
-    public MediaAttachment[] attachments;
+    public Attachment[] attachments;
 
     public Mention[] mentions;
 
@@ -119,48 +115,6 @@ public class Status {
         return id != null ? id.hashCode() : 0;
     }
 
-    public static class MediaAttachment {
-        @com.google.gson.annotations.JsonAdapter(MediaTypeDeserializer.class)
-        public enum Type {
-            @SerializedName("image")
-            IMAGE,
-            @SerializedName("gifv")
-            GIFV,
-            @SerializedName("video")
-            VIDEO,
-            UNKNOWN
-        }
-
-        public String url;
-
-        @SerializedName("preview_url")
-        public String previewUrl;
-
-        @SerializedName("text_url")
-        public String textUrl;
-
-        @SerializedName("remote_url")
-        public String remoteUrl;
-
-        public Type type;
-
-        static class MediaTypeDeserializer implements JsonDeserializer<Type> {
-            @Override
-            public Type deserialize(JsonElement json, java.lang.reflect.Type classOfT, JsonDeserializationContext context)
-                    throws JsonParseException {
-                switch(json.toString()) {
-                    case "\"image\"":
-                        return Type.IMAGE;
-                    case "\"gifv\"":
-                        return Type.GIFV;
-                    case "\"video\"":
-                        return Type.VIDEO;
-                    default:
-                        return Type.UNKNOWN;
-                }
-            }
-        }
-    }
 
     public static class Mention {
         public String id;

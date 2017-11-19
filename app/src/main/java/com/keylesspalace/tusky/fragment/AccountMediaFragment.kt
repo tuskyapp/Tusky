@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.ViewVideoActivity
+import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.view.SquareImageView
@@ -86,7 +87,7 @@ class AccountMediaFragment : BaseFragment() {
             body?.let { fetched ->
                 statuses.addAll(0, fetched)
                 // flatMap requires iterable but I don't want to box each array into list
-                val result = mutableListOf<Status.MediaAttachment>()
+                val result = mutableListOf<Attachment>()
                 for (status in fetched) {
                     result.addAll(status.attachments)
                 }
@@ -110,7 +111,7 @@ class AccountMediaFragment : BaseFragment() {
                 statuses.addAll(fetched)
                 Log.d(TAG, "now there are ${statuses.size} statuses")
                 // flatMap requires iterable but I don't want to box each array into list
-                val result = mutableListOf<Status.MediaAttachment>()
+                val result = mutableListOf<Attachment>()
                 for (status in fetched) {
                     result.addAll(status.attachments)
                 }
@@ -190,12 +191,12 @@ class AccountMediaFragment : BaseFragment() {
         }
     }
 
-    private fun viewMedia(items: List<Status.MediaAttachment>, currentIndex: Int, view: View?) {
+    private fun viewMedia(items: List<Attachment>, currentIndex: Int, view: View?) {
         val urls = items.map { it.url }.toTypedArray()
         val type = items[currentIndex].type
 
         when (type) {
-            Status.MediaAttachment.Type.IMAGE -> {
+            Attachment.Type.IMAGE -> {
                 val intent = Intent(context, ViewMediaActivity::class.java)
                 intent.putExtra("urls", urls)
                 intent.putExtra("urlIndex", currentIndex)
@@ -208,12 +209,12 @@ class AccountMediaFragment : BaseFragment() {
                     startActivity(intent)
                 }
             }
-            Status.MediaAttachment.Type.GIFV, Status.MediaAttachment.Type.VIDEO -> {
+            Attachment.Type.GIFV, Attachment.Type.VIDEO -> {
                 val intent = Intent(context, ViewVideoActivity::class.java)
                 intent.putExtra("url", urls[currentIndex])
                 startActivity(intent)
             }
-            Status.MediaAttachment.Type.UNKNOWN, null -> {
+            Attachment.Type.UNKNOWN, null -> {
             }/* Intentionally do nothing. This case is here is to handle when new attachment
                  * types are added to the API before code is added here to handle them. So, the
                  * best fallback is to just show the preview and ignore requests to view them. */
@@ -229,16 +230,16 @@ class AccountMediaFragment : BaseFragment() {
 
         var baseItemColor = Color.BLACK
 
-        private val items = mutableListOf<Status.MediaAttachment>()
+        private val items = mutableListOf<Attachment>()
         private val itemBgBaseHSV = FloatArray(3)
         private val random = Random()
 
-        fun addTop(newItems: List<Status.MediaAttachment>) {
+        fun addTop(newItems: List<Attachment>) {
             items.addAll(0, newItems)
             notifyItemRangeInserted(0, newItems.size)
         }
 
-        fun addBottom(newItems: List<Status.MediaAttachment>) {
+        fun addBottom(newItems: List<Attachment>) {
             if (newItems.isEmpty()) return
 
             val oldLen = items.size
