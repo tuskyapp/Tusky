@@ -356,6 +356,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
         void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener) {
             this.statusViewData = notificationViewData.getStatusViewData();
+
+            String displayName = notificationViewData.getAccount().getDisplayName();
             Notification.Type type = notificationViewData.getType();
 
             Context context = message.getContext();
