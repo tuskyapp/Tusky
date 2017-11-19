@@ -52,7 +52,7 @@ public abstract class StatusViewData {
         private final String rebloggedAvatar;
         private final boolean isSensitive;
         private final boolean isExpanded;
-        private final boolean isShowingSensitiveContent;
+        private final boolean isShowingContent;
         private final String userFullName;
         private final String nickname;
         private final String avatar;
@@ -74,7 +74,7 @@ public abstract class StatusViewData {
         public Concrete(String id, Spanned content, boolean reblogged, boolean favourited,
                         @Nullable String spoilerText, Status.Visibility visibility, Status.MediaAttachment[] attachments,
                         @Nullable String rebloggedByUsername, @Nullable String rebloggedAvatar, boolean sensitive, boolean isExpanded,
-                        boolean isShowingSensitiveWarning, String userFullName, String nickname, String avatar,
+                        boolean isShowingContent, String userFullName, String nickname, String avatar,
                         Date createdAt, String reblogsCount, String favouritesCount, @Nullable String inReplyToId,
                         @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
                         Status.Application application, List<Status.Emoji> emojis, @Nullable Card card) {
@@ -89,7 +89,7 @@ public abstract class StatusViewData {
             this.rebloggedAvatar = rebloggedAvatar;
             this.isSensitive = sensitive;
             this.isExpanded = isExpanded;
-            this.isShowingSensitiveContent = isShowingSensitiveWarning;
+            this.isShowingContent = isShowingContent;
             this.userFullName = userFullName;
             this.nickname = nickname;
             this.avatar = avatar;
@@ -147,8 +147,8 @@ public abstract class StatusViewData {
             return isExpanded;
         }
 
-        public boolean isShowingSensitiveContent() {
-            return isShowingSensitiveContent;
+        public boolean isShowingContent() {
+            return isShowingContent;
         }
 
         @Nullable
@@ -237,7 +237,7 @@ public abstract class StatusViewData {
         private String rebloggedAvatar;
         private boolean isSensitive;
         private boolean isExpanded;
-        private boolean isShowingSensitiveContent;
+        private boolean isShowingContent;
         private String userFullName;
         private String nickname;
         private String avatar;
@@ -267,7 +267,7 @@ public abstract class StatusViewData {
             rebloggedAvatar = viewData.rebloggedAvatar;
             isSensitive = viewData.isSensitive;
             isExpanded = viewData.isExpanded;
-            isShowingSensitiveContent = viewData.isShowingSensitiveContent;
+            isShowingContent = viewData.isShowingContent;
             userFullName = viewData.userFullName;
             nickname = viewData.nickname;
             avatar = viewData.avatar;
@@ -339,7 +339,7 @@ public abstract class StatusViewData {
         }
 
         public Builder setIsShowingSensitiveContent(boolean isShowingSensitiveContent) {
-            this.isShowingSensitiveContent = isShowingSensitiveContent;
+            this.isShowingContent = isShowingSensitiveContent;
             return this;
         }
 
@@ -414,7 +414,7 @@ public abstract class StatusViewData {
 
             return new StatusViewData.Concrete(id, content, reblogged, favourited, spoilerText, visibility,
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
-                    isShowingSensitiveContent, userFullName, nickname, avatar, createdAt, reblogsCount,
+                    isShowingContent, userFullName, nickname, avatar, createdAt, reblogsCount,
                     favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application,
                     emojis, card);
         }

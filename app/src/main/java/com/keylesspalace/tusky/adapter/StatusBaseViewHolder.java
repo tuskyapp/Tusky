@@ -1,16 +1,13 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.preference.PreferenceManager;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
-import android.text.SpannedString;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -23,6 +20,7 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
+import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.RoundedTransformation;
@@ -49,7 +47,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private ImageView mediaPreview1;
     private ImageView mediaPreview2;
     private ImageView mediaPreview3;
-    private View sensitiveMediaWarning;
+    private TextView sensitiveMediaWarning;
     private View sensitiveMediaShow;
     private View videoIndicator;
     private TextView mediaLabel;
@@ -183,7 +181,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setMediaPreviews(final Status.MediaAttachment[] attachments, boolean sensitive,
-                                  final StatusActionListener listener, boolean showingSensitive) {
+                                  final StatusActionListener listener, boolean showingContent) {
         final ImageView[] previews = {
                 mediaPreview0, mediaPreview1, mediaPreview2, mediaPreview3
         };
@@ -231,32 +229,44 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 });
             }
         }
-        SharedPreferences pm = PreferenceManager.getDefaultSharedPreferences(context);
-        Boolean isAlwayShowSensitive = pm.getBoolean("alwaysShowSensitiveMedia", false);
-        if (sensitive && (!isAlwayShowSensitive)) {
-            sensitiveMediaWarning.setVisibility(showingSensitive ? View.GONE : View.VISIBLE);
-            sensitiveMediaShow.setVisibility(showingSensitive ? View.VISIBLE : View.GONE);
-            sensitiveMediaShow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (getAdapterPosition() != RecyclerView.NO_POSITION) {
-                        listener.onContentHiddenChange(false, getAdapterPosition());
-                    }
-                    v.setVisibility(View.GONE);
-                    sensitiveMediaWarning.setVisibility(View.VISIBLE);
-                }
-            });
-            sensitiveMediaWarning.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (getAdapterPosition() != RecyclerView.NO_POSITION) {
-                        listener.onContentHiddenChange(true, getAdapterPosition());
-                    }
-                    v.setVisibility(View.GONE);
-                    sensitiveMediaShow.setVisibility(View.VISIBLE);
-                }
-            });
+
+        String hiddenContentText;
+        if(sensitive) {
+            hiddenContentText = context.getString(R.string.status_sensitive_media_template,
+                    context.getString(R.string.status_sensitive_media_title),
+                    context.getString(R.string.status_sensitive_media_directions));
+
+        } else {
+            hiddenContentText = context.getString(R.string.status_sensitive_media_template,
+                    context.getString(R.string.status_media_hidden_title),
+                    context.getString(R.string.status_sensitive_media_directions));
         }
+
+        sensitiveMediaWarning.setText(HtmlUtils.fromHtml(hiddenContentText));
+
+        sensitiveMediaWarning.setVisibility(showingContent ? View.GONE : View.VISIBLE);
+        sensitiveMediaShow.setVisibility(showingContent ? View.VISIBLE : View.GONE);
+        sensitiveMediaShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onContentHiddenChange(false, getAdapterPosition());
+                }
+                v.setVisibility(View.GONE);
+                sensitiveMediaWarning.setVisibility(View.VISIBLE);
+            }
+        });
+        sensitiveMediaWarning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onContentHiddenChange(true, getAdapterPosition());
+                }
+                v.setVisibility(View.GONE);
+                sensitiveMediaShow.setVisibility(View.VISIBLE);
+            }
+        });
+
 
         // Hide any of the placeholder previews beyond the ones set.
         for (int i = n; i < Status.MAX_MEDIA_ATTACHMENTS; i++) {
@@ -457,13 +467,10 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         Status.MediaAttachment[] attachments = status.getAttachments();
         boolean sensitive = status.isSensitive();
         if (mediaPreviewEnabled) {
-            setMediaPreviews(attachments, sensitive, listener, status.isShowingSensitiveContent());
-            /* A status without attachments is sometimes still marked sensitive, so it's necessary
-             * to check both whether there are any attachments and if it's marked sensitive. */
-            if (!sensitive || attachments.length == 0) {
-                hideSensitiveMediaWarning();
-            }
+            setMediaPreviews(attachments, sensitive, listener, status.isShowingContent());
+
             if (attachments.length == 0) {
+                hideSensitiveMediaWarning();
                 videoIndicator.setVisibility(View.GONE);
             }
             // Hide the unused label.

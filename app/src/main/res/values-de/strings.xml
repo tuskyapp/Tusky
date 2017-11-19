@@ -33,8 +33,8 @@
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s teilte</string>
-    <string name="status_sensitive_media_title">Sensible Medien</string>
-    <string name="status_sensitive_media_directions">Tippe um zu zeigen</string>
+    <string name="status_sensitive_media_title">Heikle Inhalte</string>
+    <string name="status_sensitive_media_directions">Zum Anzeigen tippen</string>
     <string name="status_content_warning_show_more">Zeige mehr</string>
     <string name="status_content_warning_show_less">Zeige weniger</string>
 

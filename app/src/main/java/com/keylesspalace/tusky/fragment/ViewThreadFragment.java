@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import android.arch.core.util.Function;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -66,11 +67,17 @@ public class ViewThreadFragment extends SFragment implements
     private String thisThreadsStatusId;
     private TimelineReceiver timelineReceiver;
     private Card card;
+    private boolean alwaysShowSensitiveMedia;
 
     private int statusIndex = 0;
 
-    private final PairedList<Status, StatusViewData.Concrete> statuses =
-            new PairedList<>(ViewDataUtils.statusMapper());
+    private PairedList<Status, StatusViewData.Concrete> statuses =
+            new PairedList<>(new Function<Status, StatusViewData.Concrete>() {
+                @Override
+                public StatusViewData.Concrete apply(Status input) {
+                    return ViewDataUtils.statusToViewData(input, alwaysShowSensitiveMedia);
+                }
+            });
 
     public static ViewThreadFragment newInstance(String id) {
         Bundle arguments = new Bundle();
@@ -82,7 +89,7 @@ public class ViewThreadFragment extends SFragment implements
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_view_thread, container, false);
 
@@ -105,6 +112,7 @@ public class ViewThreadFragment extends SFragment implements
         adapter = new ThreadAdapter(this);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                 getActivity());
+        alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
         boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         recyclerView.setAdapter(adapter);

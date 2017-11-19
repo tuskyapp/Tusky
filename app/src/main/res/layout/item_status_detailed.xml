@@ -154,15 +154,14 @@
                 android:textColor="?android:textColorTertiary" />
         </LinearLayout>
 
-
     </LinearLayout>
-
 
     <FrameLayout
         android:id="@+id/status_media_preview_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/card_view">
+        android:layout_below="@+id/card_view"
+        android:layout_marginBottom="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -255,40 +254,27 @@
                 app:srcCompat="@drawable/ic_remove_red_eye_black_24dp" />
         </RelativeLayout>
 
-        <LinearLayout
+        <TextView
             android:id="@+id/status_sensitive_media_warning"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/status_media_preview_top_margin"
             android:background="?attr/sensitive_media_warning_background_color"
             android:gravity="center"
+            android:lineSpacingMultiplier="1.2"
             android:orientation="vertical"
             android:padding="8dp"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/status_sensitive_media_title"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/status_sensitive_media_directions"
-                android:textAlignment="center"
-                android:textColor="@android:color/white" />
-
-        </LinearLayout>
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/status_media_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="4dp"
             android:gravity="center_vertical"
-            android:includeFontPadding="false"
             android:visibility="gone" />
 
     </FrameLayout>

@@ -6,4 +6,5 @@
     <string name="oauth_scheme" translatable="false">oauth2redirect</string>
     <string name="oauth_redirect_host" translatable="false">com.keylesspalace.tusky</string>
     <string name="preferences_file_key" translatable="false">com.keylesspalace.tusky.PREFERENCES</string>
+    <string name="status_sensitive_media_template">&lt;b>%1$s&lt;/b>&lt;br>%2$s</string>
 </resources>

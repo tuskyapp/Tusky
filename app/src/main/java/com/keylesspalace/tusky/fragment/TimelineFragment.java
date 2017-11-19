@@ -108,13 +108,16 @@ public class TimelineFragment extends SFragment implements
     private String bottomId;
     @Nullable
     private String topId;
+
+    private boolean alwaysShowSensitiveMedia;
+
     private PairedList<Either<Placeholder, Status>, StatusViewData> statuses =
             new PairedList<>(new Function<Either<Placeholder, Status>, StatusViewData>() {
                 @Override
                 public StatusViewData apply(Either<Placeholder, Status> input) {
                     Status status = input.getAsRightOrNull();
                     if (status != null) {
-                        return ViewDataUtils.statusToViewData(status);
+                        return ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia);
                     } else {
                         return new StatusViewData.Placeholder(false);
                     }
@@ -150,7 +153,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Bundle arguments = getArguments();
         kind = Kind.valueOf(arguments.getString(KIND_ARG));
@@ -179,6 +182,7 @@ public class TimelineFragment extends SFragment implements
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                 getActivity());
         preferences.registerOnSharedPreferenceChangeListener(this);
+        alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
         boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         recyclerView.setAdapter(adapter);
@@ -461,6 +465,10 @@ public class TimelineFragment extends SFragment implements
                     fullyRefresh();
                 }
                 break;
+            }
+            case "alwaysShowSensitiveMedia": {
+                //it is ok if only newly loaded statuses are affected, no need to fully refresh
+                alwaysShowSensitiveMedia = sharedPreferences.getBoolean("alwaysShowSensitiveMedia", false);
             }
         }
     }

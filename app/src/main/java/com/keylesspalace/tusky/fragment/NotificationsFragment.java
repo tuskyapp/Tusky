@@ -105,6 +105,7 @@ public class NotificationsFragment extends SFragment implements
     private int bottomFetches;
     private String bottomId;
     private String topId;
+    private boolean alwaysShowSensitiveMedia;
 
     // Each element is either a Notification for loading data or a Placeholder
     private final PairedList<Either<Placeholder, Notification>, NotificationViewData> notifications
@@ -113,7 +114,7 @@ public class NotificationsFragment extends SFragment implements
         public NotificationViewData apply(Either<Placeholder, Notification> input) {
             if (input.isRight()) {
                 Notification notification = input.getAsRight();
-                return ViewDataUtils.notificationToViewData(notification);
+                return ViewDataUtils.notificationToViewData(notification, alwaysShowSensitiveMedia);
             } else {
                 return new NotificationViewData.Placeholder(false);
             }
@@ -129,7 +130,7 @@ public class NotificationsFragment extends SFragment implements
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
 
@@ -152,6 +153,7 @@ public class NotificationsFragment extends SFragment implements
         adapter = new NotificationsAdapter(this, this);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                 getActivity());
+        alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
         boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         recyclerView.setAdapter(adapter);
