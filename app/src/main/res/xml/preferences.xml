@@ -21,6 +21,7 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:dependency="mediaPreviewEnabled"
             android:key="alwaysShowSensitiveMedia"
             android:title="@string/pref_title_alway_show_sensitive_media" />
 
