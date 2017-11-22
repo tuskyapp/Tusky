@@ -90,7 +90,7 @@ public class LinkHelper {
                 };
                 builder.removeSpan(span);
                 builder.setSpan(newSpan, start, end, flags);
-            } else if (text.charAt(0) == '@' && mentions != null) {
+            } else if (text.charAt(0) == '@' && mentions != null && mentions.length > 0) {
                 String accountUsername = text.subSequence(1, text.length()).toString();
                 /* There may be multiple matches for users on different instances with the same
                  * username. If a match has the same domain we know it's for sure the same, but if
