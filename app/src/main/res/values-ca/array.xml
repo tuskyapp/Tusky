@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pull_notification_check_interval_names">
+        <item>15 minuts</item>
+        <item>20 minuts</item>
+        <item>25 minuts</item>
+        <item>30 minuts</item>
+        <item>45 minuts</item>
+        <item>1 hora</item>
+        <item>2 hores</item>
+    </string-array>
+
+    <string-array name="pull_notification_check_intervals" inputType="integer">
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+        <item>120</item>
+    </string-array>
+
+</resources>
