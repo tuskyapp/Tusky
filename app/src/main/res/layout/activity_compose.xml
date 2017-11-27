@@ -89,7 +89,8 @@
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="@string/hint_compose"
-                android:inputType="text|textMultiLine|textCapSentences" />
+                android:inputType="text|textMultiLine|textCapSentences"
+                android:textSize="20sp" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
