@@ -177,6 +177,16 @@
     <string name="pref_title_show_replies">Show replies</string>
     <string name="pref_title_show_media_preview">Show media previews</string>
 
+    <string-array name="pull_notification_check_interval_names">
+        <item>15 minutes</item>
+        <item>20 minutes</item>
+        <item>25 minutes</item>
+        <item>30 minutes</item>
+        <item>45 minutes</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+    </string-array>
+
     <string name="notification_channel_mention_name">New Mentions</string>
     <string name="notification_channel_mention_descriptions">Notifications about new mentions</string>
     <string name="notification_channel_follow_name">New Followers</string>
