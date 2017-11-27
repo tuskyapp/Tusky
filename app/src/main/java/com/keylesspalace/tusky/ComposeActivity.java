@@ -35,6 +35,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
@@ -134,7 +135,6 @@ public final class ComposeActivity extends BaseActivity
     private static final String REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra";
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
 
-    private static final String REMEMBERED_VISIBILITY_PREF = "rememberedVisibilityNum";
     private static TootDao tootDao = TuskyApplication.getDB().tootDao();
 
     private TextView replyTextView;
@@ -198,42 +198,12 @@ public final class ComposeActivity extends BaseActivity
         }
 
         // Setup the interface buttons.
-        floatingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSendClicked();
-            }
-        });
-        floatingBtn.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return saveDraft();
-            }
-        });
-        pickButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openPickDialog();
-            }
-        });
-        visibilityBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showComposeOptions();
-            }
-        });
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveDraft();
-            }
-        });
-        hideMediaToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleHideMedia();
-            }
-        });
+        floatingBtn.setOnClickListener(v -> onSendClicked());
+        floatingBtn.setOnLongClickListener(v -> saveDraft());
+        pickButton.setOnClickListener(v -> openPickDialog());
+        visibilityBtn.setOnClickListener(v -> showComposeOptions());
+        saveButton.setOnClickListener(v -> saveDraft());
+        hideMediaToggle.setOnClickListener(v -> toggleHideMedia());
 
         //fix a bug with autocomplete and some keyboards
         int newInputType = textEditor.getInputType() & (textEditor.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
@@ -241,9 +211,7 @@ public final class ComposeActivity extends BaseActivity
 
         /* Initialise all the state, or restore it from a previous run, to determine a "starting"
          * state. */
-        SharedPreferences preferences = getPrivatePreferences();
-
-        Status.Visibility startingVisibility;
+        Status.Visibility startingVisibility = Status.Visibility.UNKNOWN;
         boolean startingHideText;
         String startingContentWarning = null;
         ArrayList<SavedQueuedMedia> savedMediaQueued = null;
@@ -267,10 +235,6 @@ public final class ComposeActivity extends BaseActivity
             photoUploadUri = savedInstanceState.getParcelable("photoUploadUri");
         } else {
             showMarkSensitive = false;
-            startingVisibility = Status.Visibility.byNum(
-                    preferences.getInt(REMEMBERED_VISIBILITY_PREF,
-                            Status.Visibility.UNKNOWN.getNum())
-            );
             statusMarkSensitive = false;
             startingHideText = false;
             photoUploadUri = null;
@@ -283,12 +247,23 @@ public final class ComposeActivity extends BaseActivity
         String[] mentionedUsernames = null;
         ArrayList<String> loadedDraftMediaUris = null;
         inReplyToId = null;
-        Status.Visibility replyVisibility = Status.Visibility.UNKNOWN;
         if (intent != null) {
+
+            if(startingVisibility == Status.Visibility.UNKNOWN) {
+                Status.Visibility replyVisibility = Status.Visibility.byNum(
+                        intent.getIntExtra(REPLY_VISIBILITY_EXTRA, Status.Visibility.UNKNOWN.getNum()));
+
+                if(replyVisibility != Status.Visibility.UNKNOWN) {
+                            startingVisibility = replyVisibility;
+                } else {
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                            startingVisibility = Status.Visibility.byString(
+                                    preferences.getString("defaultPostPrivacy",
+                                            Status.Visibility.PUBLIC.serverString()));
+                }
+            }
+
             inReplyToId = intent.getStringExtra(IN_REPLY_TO_ID_EXTRA);
-            replyVisibility = Status.Visibility.byNum(
-                    intent.getIntExtra(REPLY_VISIBILITY_EXTRA, Status.Visibility.UNKNOWN.getNum())
-            );
 
             mentionedUsernames = intent.getStringArrayExtra(MENTIONED_USERNAMES_EXTRA);
 
@@ -323,14 +298,11 @@ public final class ComposeActivity extends BaseActivity
                 replyTextView.setVisibility(View.VISIBLE);
                 String username = intent.getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA);
                 replyTextView.setText(getString(R.string.replying_to, username));
-                replyTextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (replyContentTextView.getVisibility() != View.VISIBLE) {
-                            replyContentTextView.setVisibility(View.VISIBLE);
-                        } else {
-                            replyContentTextView.setVisibility(View.GONE);
-                        }
+                replyTextView.setOnClickListener(v -> {
+                    if (replyContentTextView.getVisibility() != View.VISIBLE) {
+                        replyContentTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        replyContentTextView.setVisibility(View.GONE);
                     }
                 });
             }
@@ -340,11 +312,8 @@ public final class ComposeActivity extends BaseActivity
             }
         }
 
-        Status.Visibility pickedVisibility = pickVisibility(startingVisibility, replyVisibility,
-                preferences.getBoolean("loggedInAccountLocked", false));
-
         // After the starting state is finalised, the interface can be set to reflect this state.
-        setStatusVisibility(pickedVisibility);
+        setStatusVisibility(startingVisibility);
 
         postProgress.setVisibility(View.INVISIBLE);
         updateHideMediaToggleColor();
@@ -496,6 +465,7 @@ public final class ComposeActivity extends BaseActivity
         currentInputContentInfo = null;
         currentFlags = 0;
         outState.putParcelable("photoUploadUri", photoUploadUri);
+        outState.putInt("statusVisibility", statusVisibility.getNum());
         super.onSaveInstanceState(outState);
     }
 
@@ -822,28 +792,12 @@ public final class ComposeActivity extends BaseActivity
         readyStatus(statusVisibility, statusMarkSensitive);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        // Don't save the visibility setting for replies because they adopt the visibility of
-        // the status they reply to and that behaviour needs to be kept separate.
-        if (inReplyToId == null) {
-            getPrivatePreferences().edit()
-                    .putInt(REMEMBERED_VISIBILITY_PREF, statusVisibility.getNum())
-                    .apply();
-        }
-    }
-
     private void setEditTextMimeTypes() {
         final String[] mimeTypes = new String[]{"image/*"};
-        textEditor.setMimeTypes(mimeTypes, new InputConnectionCompat.OnCommitContentListener() {
-            @Override
-            public boolean onCommitContent(InputContentInfoCompat inputContentInfo,
-                                           int flags, Bundle opts) {
-                return ComposeActivity.this.onCommitContent(inputContentInfo, flags,
-                        mimeTypes);
-            }
-        });
+        textEditor.setMimeTypes(mimeTypes,
+                (inputContentInfo, flags, opts) ->
+                        ComposeActivity.this.onCommitContent(inputContentInfo, flags,
+                mimeTypes));
     }
 
     private boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags,
@@ -963,13 +917,10 @@ public final class ComposeActivity extends BaseActivity
         if (response != null && inReplyToId != null && response.code() == 404) {
             new AlertDialog.Builder(this)
                     .setMessage(R.string.dialog_reply_not_found)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            inReplyToId = null;
-                            replyContentTextView.setVisibility(View.GONE);
-                            replyTextView.setVisibility(View.GONE);
-                        }
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                        inReplyToId = null;
+                        replyContentTextView.setVisibility(View.GONE);
+                        replyTextView.setVisibility(View.GONE);
                     })
                     .setNegativeButton(android.R.string.cancel, null)
                     .show();
@@ -1013,14 +964,11 @@ public final class ComposeActivity extends BaseActivity
                         super.onCancelled();
                     }
                 };
-        finishingUploadDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                /* Generating an interrupt by passing true here is important because an interrupt
-                 * exception is the only thing that will kick the latch out of its waiting loop
-                 * early. */
-                waitForMediaTask.cancel(true);
-            }
+        finishingUploadDialog.setOnCancelListener(dialog -> {
+            /* Generating an interrupt by passing true here is important because an interrupt
+             * exception is the only thing that will kick the latch out of its waiting loop
+             * early. */
+            waitForMediaTask.cancel(true);
         });
         waitForMediaTask.execute();
     }
@@ -1048,12 +996,7 @@ public final class ComposeActivity extends BaseActivity
 
     private void onReadyFailure(final Status.Visibility visibility, final boolean sensitive) {
         doErrorDialog(R.string.error_media_upload_sending, R.string.action_retry,
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        readyStatus(visibility, sensitive);
-                    }
-                });
+                v -> readyStatus(visibility, sensitive));
         setStateToNotReadying();
     }
 
@@ -1063,18 +1006,15 @@ public final class ComposeActivity extends BaseActivity
         CharSequence[] choices = new CharSequence[2];
         choices[CHOICE_TAKE] = getString(R.string.action_photo_take);
         choices[CHOICE_PICK] = getString(R.string.action_photo_pick);
-        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case CHOICE_TAKE: {
-                        initiateCameraApp();
-                        break;
-                    }
-                    case CHOICE_PICK: {
-                        onMediaPick();
-                        break;
-                    }
+        DialogInterface.OnClickListener listener = (dialog, which) -> {
+            switch (which) {
+                case CHOICE_TAKE: {
+                    initiateCameraApp();
+                    break;
+                }
+                case CHOICE_PICK: {
+                    onMediaPick();
+                    break;
                 }
             }
         };
@@ -1106,12 +1046,7 @@ public final class ComposeActivity extends BaseActivity
                     initiateMediaPicking();
                 } else {
                     doErrorDialog(R.string.error_media_upload_permission, R.string.action_retry,
-                            new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    onMediaPick();
-                                }
-                            });
+                            v -> onMediaPick());
                 }
                 break;
             }
@@ -1193,12 +1128,7 @@ public final class ComposeActivity extends BaseActivity
         view.setLayoutParams(layoutParams);
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
         view.setImageBitmap(preview);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeMediaFromQueue(item);
-            }
-        });
+        view.setOnClickListener(v -> removeMediaFromQueue(item));
         view.setContentDescription(getString(R.string.action_delete));
         mediaPreviewBar.addView(view);
         mediaQueued.add(item);
@@ -1334,12 +1264,7 @@ public final class ComposeActivity extends BaseActivity
                     @Override
                     public void onProgressUpdate(final int percentage) {
                         if (percentage != lastProgress) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    item.preview.setProgress(percentage);
-                                }
-                            });
+                            runOnUiThread(() -> item.preview.setProgress(percentage));
                         }
                         lastProgress = percentage;
                     }
@@ -1604,41 +1529,6 @@ public final class ComposeActivity extends BaseActivity
             dest.writeParcelable(uri, flags);
             dest.writeLong(mediaSize);
             dest.writeString(readyStage.name());
-        }
-    }
-
-    /**
-     * Function to decide which visibility should be used for posting a status
-     *
-     * @return {@code PRIVATE} if account is locked, {@code PUBLIC} if both start and reply
-     * visibilities are unknown or minimal known visibility of two of them.
-     */
-    private static Status.Visibility pickVisibility(final Status.Visibility startVisibility,
-                                                    final Status.Visibility replyVisibility,
-                                                    boolean isAccountLocked) {
-        // If the currently logged in account is locked, its posts should default to private.
-        // This should override even the reply settings.
-        if (isAccountLocked) {
-            return Status.Visibility.PRIVATE;
-        }
-
-        if (startVisibility == Status.Visibility.UNKNOWN &&
-                replyVisibility == Status.Visibility.UNKNOWN) {
-            return Status.Visibility.PUBLIC;
-        }
-
-        if (replyVisibility == Status.Visibility.UNKNOWN) {
-            return startVisibility;
-        }
-
-        if (startVisibility == Status.Visibility.UNKNOWN) {
-            return replyVisibility;
-        }
-
-        if (startVisibility.getNum() > replyVisibility.getNum()) {
-            return startVisibility;
-        } else {
-            return replyVisibility;
         }
     }
 

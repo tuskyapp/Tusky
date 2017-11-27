@@ -25,6 +25,17 @@
             android:title="@string/pref_title_alway_show_sensitive_media" />
 
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_publishing">
+        <ListPreference
+            android:defaultValue="public"
+            android:entries="@array/post_privacy_names"
+            android:entryValues="@array/post_privacy_values"
+            android:key="defaultPostPrivacy"
+            android:summary="%s"
+            android:title="@string/pref_default_post_privacy" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_title_browser_settings">
         <CheckBoxPreference
             android:defaultValue="false"

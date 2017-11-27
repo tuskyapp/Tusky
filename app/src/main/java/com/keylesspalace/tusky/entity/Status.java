@@ -80,6 +80,16 @@ public class Status {
             }
         }
 
+        public static Visibility byString(String s) {
+            switch (s) {
+                case "public": return PUBLIC;
+                case "unlisted": return UNLISTED;
+                case "private": return PRIVATE;
+                case "direct": return DIRECT;
+                case "unknown": default: return UNKNOWN;
+            }
+        }
+
         public String serverString() {
             switch (this) {
                 case PUBLIC: return "public";
