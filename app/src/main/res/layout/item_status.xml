@@ -68,7 +68,6 @@
             android:paddingLeft="0dp"
             android:paddingRight="@dimen/status_display_name_right_padding"
             android:paddingStart="0dp"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
             android:textColor="?android:textColorPrimary"
             android:textStyle="normal|bold"
             tools:text="Ente" />

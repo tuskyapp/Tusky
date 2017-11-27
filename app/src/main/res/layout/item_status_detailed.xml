@@ -22,7 +22,7 @@
     <LinearLayout
         android:id="@+id/status_name_bar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="14dp"
         android:layout_toEndOf="@+id/status_avatar"
@@ -36,7 +36,6 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
             android:textColor="?android:textColorPrimary"
             android:textStyle="normal|bold"
             tools:text="Display Name" />
@@ -68,7 +67,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="1.1"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
             android:textColor="?android:textColorPrimary" />
 
         <ToggleButton
@@ -96,7 +94,6 @@
         android:layout_marginBottom="4dp"
         android:focusable="true"
         android:lineSpacingMultiplier="1.1"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
         android:textColor="?android:textColorPrimary" />
 
     <LinearLayout
