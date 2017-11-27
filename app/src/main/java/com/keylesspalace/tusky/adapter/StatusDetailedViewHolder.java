@@ -1,5 +1,6 @@
 package com.keylesspalace.tusky.adapter;
 
+import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.text.SpannableStringBuilder;
@@ -47,7 +48,10 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
         cardUrl = view.findViewById(R.id.card_link);
     }
 
-
+    @Override
+    protected int getMediaPreviewHeight(Context context) {
+        return context.getResources().getDimensionPixelSize(R.dimen.status_detail_media_preview_height);
+    }
 
     @Override
     protected void setCreatedAt(@Nullable Date createdAt) {

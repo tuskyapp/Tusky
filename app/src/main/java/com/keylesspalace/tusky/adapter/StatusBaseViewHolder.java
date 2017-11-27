@@ -9,7 +9,6 @@ import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -35,7 +34,7 @@ import com.varunest.sparkbutton.SparkEventListener;
 import java.util.Date;
 import java.util.List;
 
-class StatusBaseViewHolder extends RecyclerView.ViewHolder {
+abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private View container;
     private TextView displayName;
     private TextView username;
@@ -50,9 +49,12 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private ImageView mediaPreview1;
     private ImageView mediaPreview2;
     private ImageView mediaPreview3;
+    private ImageView mediaOverlay0;
+    private ImageView mediaOverlay1;
+    private ImageView mediaOverlay2;
+    private ImageView mediaOverlay3;
     private TextView sensitiveMediaWarning;
     private View sensitiveMediaShow;
-    private View videoIndicator;
     private TextView mediaLabel;
     private View contentWarningBar;
     private TextView contentWarningDescription;
@@ -79,14 +81,19 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         mediaPreview1 = itemView.findViewById(R.id.status_media_preview_1);
         mediaPreview2 = itemView.findViewById(R.id.status_media_preview_2);
         mediaPreview3 = itemView.findViewById(R.id.status_media_preview_3);
+        mediaOverlay0 = itemView.findViewById(R.id.status_media_overlay_0);
+        mediaOverlay1 = itemView.findViewById(R.id.status_media_overlay_1);
+        mediaOverlay2 = itemView.findViewById(R.id.status_media_overlay_2);
+        mediaOverlay3 = itemView.findViewById(R.id.status_media_overlay_3);
         sensitiveMediaWarning = itemView.findViewById(R.id.status_sensitive_media_warning);
         sensitiveMediaShow = itemView.findViewById(R.id.status_sensitive_media_button);
-        videoIndicator = itemView.findViewById(R.id.status_video_indicator);
         mediaLabel = itemView.findViewById(R.id.status_media_label);
         contentWarningBar = itemView.findViewById(R.id.status_content_warning_bar);
         contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
         contentWarningButton = itemView.findViewById(R.id.status_content_warning_button);
     }
+
+    protected abstract int getMediaPreviewHeight(Context context);
 
     private void setDisplayName(String name) {
         displayName.setText(name);
@@ -188,6 +195,9 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         final ImageView[] previews = {
                 mediaPreview0, mediaPreview1, mediaPreview2, mediaPreview3
         };
+        final ImageView[] overlays = {
+                mediaOverlay0, mediaOverlay1, mediaOverlay2, mediaOverlay3
+        };
         Context context = mediaPreview0.getContext();
 
         int mediaPreviewUnloadedId =
@@ -224,7 +234,9 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             final Attachment.Type type = attachments[i].type;
             if (type == Attachment.Type.VIDEO | type == Attachment.Type.GIFV) {
-                videoIndicator.setVisibility(View.VISIBLE);
+                overlays[i].setVisibility(View.VISIBLE);
+            } else {
+                overlays[i].setVisibility(View.GONE);
             }
 
             if (urls[i] == null || urls[i].isEmpty()) {
@@ -237,6 +249,16 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                         listener.onViewMedia(urls, urlIndex, type, v);
                     }
                 });
+            }
+
+            if(n <= 2) {
+                previews[0].getLayoutParams().height = getMediaPreviewHeight(context)*2;
+                previews[1].getLayoutParams().height = getMediaPreviewHeight(context)*2;
+            } else {
+                previews[0].getLayoutParams().height = getMediaPreviewHeight(context);
+                previews[1].getLayoutParams().height = getMediaPreviewHeight(context);
+                previews[2].getLayoutParams().height = getMediaPreviewHeight(context);
+                previews[3].getLayoutParams().height = getMediaPreviewHeight(context);
             }
         }
 
@@ -481,7 +503,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             if (attachments.length == 0) {
                 hideSensitiveMediaWarning();
-                videoIndicator.setVisibility(View.GONE);
+//                videoIndicator.setVisibility(View.GONE);
             }
             // Hide the unused label.
             mediaLabel.setVisibility(View.GONE);
@@ -493,7 +515,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             mediaPreview2.setVisibility(View.GONE);
             mediaPreview3.setVisibility(View.GONE);
             hideSensitiveMediaWarning();
-            videoIndicator.setVisibility(View.GONE);
+//            videoIndicator.setVisibility(View.GONE);
         }
 
         setupButtons(listener, status.getSenderId());

@@ -45,4 +45,6 @@
     <attr name="card_background" format="reference|color" />
     <attr name="card_image_background" format="reference|color" />
 
+    <attr name="play_indicator_drawable" format="reference" />
+
 </resources>

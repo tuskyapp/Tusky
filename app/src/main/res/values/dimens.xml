@@ -5,7 +5,8 @@
     <dimen name="status_reblogged_bar_top_padding">8dp</dimen>
     <dimen name="status_reblogged_icon_left_padding">40dp</dimen>
     <dimen name="status_media_preview_top_margin">4dp</dimen>
-    <dimen name="status_media_preview_height">96dp</dimen>
+    <dimen name="status_media_preview_height">100dp</dimen>
+    <dimen name="status_detail_media_preview_height">130dp</dimen>
     <dimen name="footer_text_padding">8dp</dimen>
     <dimen name="compose_media_preview_margin">8dp</dimen>
     <dimen name="compose_media_preview_margin_bottom">0dp</dimen>

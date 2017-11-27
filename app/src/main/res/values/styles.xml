@@ -84,6 +84,8 @@
         <item name="card_background">@drawable/card_frame_dark</item>
         <item name="card_image_background">@color/text_color_tertiary_dark</item>
 
+        <item name="play_indicator_drawable">@drawable/ic_play_indicator_dark</item>
+
     </style>
 
     <style name="AppTheme.ImageButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
@@ -169,6 +171,8 @@
 
         <item name="card_background">@drawable/card_frame_light</item>
         <item name="card_image_background">@color/text_color_tertiary_light</item>
+
+        <item name="play_indicator_drawable">@drawable/ic_play_indicator_light</item>
 
     </style>
 
