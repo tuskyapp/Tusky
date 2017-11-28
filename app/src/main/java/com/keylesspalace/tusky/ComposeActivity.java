@@ -916,7 +916,6 @@ public final class ComposeActivity extends BaseActivity
 
         if (response != null && inReplyToId != null && response.code() == 404) {
             new AlertDialog.Builder(this)
-                    .setMessage(R.string.dialog_reply_not_found)
                     .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                         inReplyToId = null;
                         replyContentTextView.setVisibility(View.GONE);

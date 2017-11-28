@@ -145,7 +145,6 @@
     <string name="dialog_download_image">Baixa</string>
     <string name="dialog_message_follow_request">Follow request pending: awaiting their response</string>
     <string name="dialog_unfollow_warning">Vols deixar de seguir aquest compte?</string>
-    <string name="dialog_reply_not_found">Couldn\'t post this status. The status you\'re replying to might not be available. Remove reply info?</string>
 
     <string name="visibility_public">Pública: és visible a la cronologia pública</string>
     <string name="visibility_unlisted">Sense llistar: no és visible a les cronologies públiques</string>
