@@ -138,7 +138,6 @@
     <string name="dialog_download_image">Скачать</string>
     <string name="dialog_message_follow_request">Статус запроса на подписку: ожидается ответ</string>
     <string name="dialog_unfollow_warning">Отписаться от этого аккаунта?</string>
-    <string name="dialog_reply_not_found">Не удалось опубликовать статус. Статус, на который вы отвечаете, может быть недоступен. Убрать информацию об ответе?</string>
 
     <string name="visibility_public">Публичный: Показать в публичных лентах</string>
     <string name="visibility_unlisted">Скрытый: Не показывать в лентах</string>
