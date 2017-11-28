@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.interfaces;
 import android.view.View;
 
 import com.keylesspalace.tusky.entity.Attachment;
-import com.keylesspalace.tusky.entity.Status;
 
 public interface StatusActionListener extends LinkListener {
     void onReply(int position);

@@ -85,9 +85,7 @@ public class OkHttpUtils {
 
     @NonNull
     public static OkHttpClient getCompatibleClient() {
-        OkHttpClient client = getCompatibleClientBuilder().build();
-        Log.d(TAG, client.connectTimeoutMillis()+" "+client.readTimeoutMillis()+" "+client.writeTimeoutMillis());
-        return client;
+        return getCompatibleClientBuilder().build();
     }
 
     /**

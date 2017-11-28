@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
