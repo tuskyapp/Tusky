@@ -176,6 +176,16 @@
     <string name="pref_title_show_replies">Mostra les respostes</string>
     <string name="pref_title_show_media_preview">Mostra la previsualitazació dels multimèdia</string>
 
+    <string-array name="pull_notification_check_interval_names">
+        <item>15 minuts</item>
+        <item>20 minuts</item>
+        <item>25 minuts</item>
+        <item>30 minuts</item>
+        <item>45 minuts</item>
+        <item>1 hora</item>
+        <item>2 hores</item>
+    </string-array>
+
     <string name="notification_channel_mention_name">Mencions noves</string>
     <string name="notification_channel_mention_descriptions">Notificacions sobre mencions noves</string>
     <string name="notification_channel_follow_name">Seguidors nous</string>
