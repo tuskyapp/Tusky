@@ -29,7 +29,7 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.network.AuthInterceptor;
 import com.keylesspalace.tusky.network.MastodonApi;
-import com.keylesspalace.tusky.util.NotificationMaker;
+import com.keylesspalace.tusky.util.NotificationManager;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 
 import java.io.IOException;
@@ -48,8 +48,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class NotificationPullJobCreator implements JobCreator {
 
+    public static final int NOTIFY_ID = 6; // chosen by fair dice roll, guaranteed to be random
     static final String NOTIFICATIONS_JOB_TAG = "notifications_job_tag";
-    static final int NOTIFY_ID = 6; // chosen by fair dice roll, guaranteed to be random
 
     private Context context;
 
@@ -130,7 +130,7 @@ public final class NotificationPullJobCreator implements JobCreator {
                 String id = notification.id;
                 if (!currentIds.contains(id)) {
                     currentIds.add(id);
-                    NotificationMaker.make(context, NOTIFY_ID, notification);
+                    NotificationManager.make(context, NOTIFY_ID, notification);
                 }
             }
             notificationsPreferences.edit()

@@ -174,6 +174,16 @@
     <string name="pref_title_show_replies">返信を表示</string>
     <string name="pref_title_show_media_preview">メディアのプレビューを表示する</string>
 
+    <string-array name="pull_notification_check_interval_names">
+        <item>15分</item>
+        <item>20分</item>
+        <item>25分</item>
+        <item>30分</item>
+        <item>45分</item>
+        <item>1時間</item>
+        <item>2時間</item>
+    </string-array>
+
     <string name="notification_channel_mention_name">新しい返信</string>
     <string name="notification_channel_mention_descriptions">新しい返信の通知</string>
     <string name="notification_channel_follow_name">新しいフォロワー</string>

@@ -149,6 +149,19 @@
     <string name="pref_title_show_boosts">Boosts tonen</string>
     <string name="pref_title_show_replies">Reacties tonen</string>
     <string name="pref_title_show_media_preview">Voorbeelden van media tonen</string>
+
+    <string-array name="pull_notification_check_interval_names">
+        <item>5 minuten</item>
+        <item>10 minuten</item>
+        <item>15 minuten</item>
+        <item>20 minuten</item>
+        <item>25 minuten</item>
+        <item>30 minuten</item>
+        <item>45 minuten</item>
+        <item>1 uur</item>
+        <item>2 uur</item>
+    </string-array>
+
     <string name="notification_channel_mention_name">Nieuwe vermeldingen</string>
     <string name="notification_channel_mention_descriptions">Meldingen over nieuwe vermeldingen</string>
     <string name="notification_channel_follow_name">Nieuwe volgers</string>

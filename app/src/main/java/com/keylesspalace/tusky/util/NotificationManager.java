@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.util;
 
 import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +32,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.keylesspalace.tusky.MainActivity;
+import com.keylesspalace.tusky.NotificationPullJobCreator;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver;
@@ -46,22 +46,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationMaker {
-    private static final String TAG = "NotificationMaker";
+public class NotificationManager {
+    private static final String TAG = "NotificationManager";
 
-    /** notification channels used on Android O+ **/
+    /**
+     * notification channels used on Android O+
+     **/
     private static final String CHANNEL_MENTION = "CHANNEL_MENTION";
     private static final String CHANNEL_FOLLOW = "CHANNEL_FOLLOW";
     private static final String CHANNEL_BOOST = "CHANNEL_BOOST";
-    private static final String CHANNEL_FAVOURITE =" CHANNEL_FAVOURITE";
+    private static final String CHANNEL_FAVOURITE = " CHANNEL_FAVOURITE";
 
     /**
      * Takes a given Mastodon notification and either creates a new Android notification or updates
      * the state of the existing notification to reflect the new interaction.
      *
-     * @param context to access application preferences and services
+     * @param context  to access application preferences and services
      * @param notifyId an arbitrary number to reference this notification for any future action
-     * @param body a new Mastodon notification
+     * @param body     a new Mastodon notification
      */
     public static void make(final Context context, final int notifyId, Notification body) {
         final SharedPreferences preferences =
@@ -86,7 +88,7 @@ public class NotificationMaker {
 
         boolean alreadyContains = false;
 
-        for(int i = 0; i < currentNotifications.length(); i++) {
+        for (int i = 0; i < currentNotifications.length(); i++) {
             try {
                 if (currentNotifications.getString(i).equals(body.account.getDisplayName())) {
                     alreadyContains = true;
@@ -102,7 +104,7 @@ public class NotificationMaker {
 
         notificationPreferences.edit()
                 .putString("current", currentNotifications.toString())
-                .commit();
+                .apply();
 
         Intent resultIntent = new Intent(context, MainActivity.class);
         resultIntent.putExtra("tab_position", 1);
@@ -160,16 +162,17 @@ public class NotificationMaker {
             builder.setCategory(android.app.Notification.CATEGORY_SOCIAL);
         }
 
-        NotificationManager notificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        android.app.NotificationManager notificationManager = (android.app.NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
+        //noinspection ConstantConditions
         notificationManager.notify(notifyId, builder.build());
     }
 
     public static void createNotificationChannels(Context context) {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-        NotificationManager mNotificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            android.app.NotificationManager mNotificationManager =
+                    (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             String[] channelIds = new String[]{CHANNEL_MENTION, CHANNEL_FOLLOW, CHANNEL_BOOST, CHANNEL_FAVOURITE};
             int[] channelNames = {
@@ -187,11 +190,11 @@ public class NotificationMaker {
 
             List<NotificationChannel> channels = new ArrayList<>(4);
 
-            for(int i=0; i<channelIds.length; i++) {
+            for (int i = 0; i < channelIds.length; i++) {
                 String id = channelIds[i];
                 String name = context.getString(channelNames[i]);
                 String description = context.getString(channelDescriptions[i]);
-                int importance = NotificationManager.IMPORTANCE_DEFAULT;
+                int importance = android.app.NotificationManager.IMPORTANCE_DEFAULT;
                 NotificationChannel channel = new NotificationChannel(id, name, importance);
 
                 channel.setDescription(description);
@@ -201,19 +204,33 @@ public class NotificationMaker {
                 channels.add(channel);
             }
 
+            //noinspection ConstantConditions
             mNotificationManager.createNotificationChannels(channels);
 
         }
     }
 
-    private static boolean filterNotification(SharedPreferences preferences,
-            Notification notification) {
+    public static void clearNotifications(@Nullable Context context) {
+        if(context != null) {
+            SharedPreferences notificationPreferences =
+                    context.getSharedPreferences("Notifications", Context.MODE_PRIVATE);
+            notificationPreferences.edit().putString("current", "[]").apply();
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            android.app.NotificationManager manager = (android.app.NotificationManager)
+                    context.getSystemService(Context.NOTIFICATION_SERVICE);
+            //noinspection ConstantConditions
+            manager.cancel(NotificationPullJobCreator.NOTIFY_ID);
+        }
+    }
+
+    private static boolean filterNotification(SharedPreferences preferences,
+                                              Notification notification) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return true;  //do not filter on Android O or newer, the system does it for us
         }
 
-            switch (notification.type) {
+        switch (notification.type) {
             default:
             case MENTION:
                 return preferences.getBoolean("notificationFilterMentions", true);
@@ -227,20 +244,21 @@ public class NotificationMaker {
     }
 
     private static String getChannelId(Notification notification) {
-            switch (notification.type) {
-                default:
-                case MENTION:
-                    return CHANNEL_MENTION;
-                case FOLLOW:
-                    return CHANNEL_FOLLOW;
-                case REBLOG:
-                    return CHANNEL_BOOST;
-                case FAVOURITE:
-                    return CHANNEL_FAVOURITE;
-            }
+        switch (notification.type) {
+            default:
+            case MENTION:
+                return CHANNEL_MENTION;
+            case FOLLOW:
+                return CHANNEL_FOLLOW;
+            case REBLOG:
+                return CHANNEL_BOOST;
+            case FAVOURITE:
+                return CHANNEL_FAVOURITE;
+        }
 
     }
 
+    @SuppressWarnings("SameParameterValue")
     private static String truncateWithEllipses(String string, int limit) {
         if (string.length() < limit) {
             return string;
@@ -250,9 +268,9 @@ public class NotificationMaker {
     }
 
     private static void setupPreferences(SharedPreferences preferences,
-            NotificationCompat.Builder builder) {
+                                         NotificationCompat.Builder builder) {
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return;  //do nothing on Android O or newer, the system uses the channel settings anyway
         }
 
@@ -261,7 +279,7 @@ public class NotificationMaker {
         }
 
         if (preferences.getBoolean("notificationAlertVibrate", false)) {
-            builder.setVibrate(new long[] { 500, 500 });
+            builder.setVibrate(new long[]{500, 500});
         }
 
         if (preferences.getBoolean("notificationAlertLight", false)) {

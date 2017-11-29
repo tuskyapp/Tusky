@@ -46,15 +46,55 @@ public class Status {
     }
 
     public enum Visibility {
-        UNKNOWN,
+        UNKNOWN(0),
         @SerializedName("public")
-        PUBLIC,
+        PUBLIC(1),
         @SerializedName("unlisted")
-        UNLISTED,
+        UNLISTED(2),
         @SerializedName("private")
-        PRIVATE,
+        PRIVATE(3),
         @SerializedName("direct")
-        DIRECT,
+        DIRECT(4);
+
+        private final int num;
+
+        Visibility(int num) {
+            this.num = num;
+        }
+
+        public int getNum() {
+            return num;
+        }
+
+        public static Visibility byNum(int num) {
+            switch (num) {
+                case 4: return DIRECT;
+                case 3: return PRIVATE;
+                case 2: return UNLISTED;
+                case 1: return PUBLIC;
+                case 0: default: return UNKNOWN;
+            }
+        }
+
+        public static Visibility byString(String s) {
+            switch (s) {
+                case "public": return PUBLIC;
+                case "unlisted": return UNLISTED;
+                case "private": return PRIVATE;
+                case "direct": return DIRECT;
+                case "unknown": default: return UNKNOWN;
+            }
+        }
+
+        public String serverString() {
+            switch (this) {
+                case PUBLIC: return "public";
+                case UNLISTED: return "unlisted";
+                case PRIVATE: return "private";
+                case DIRECT: return "direct";
+                case UNKNOWN: default: return "unknown";
+            }
+        }
     }
 
     public String id;
@@ -116,7 +156,7 @@ public class Status {
     }
 
 
-    public static class Mention {
+    public static final class Mention {
         public String id;
 
         public String url;
@@ -133,6 +173,7 @@ public class Status {
         public String website;
     }
 
+    @SuppressWarnings("unused")
     public static class Emoji {
         private String shortcode;
         private String url;

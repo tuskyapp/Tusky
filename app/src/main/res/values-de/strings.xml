@@ -141,6 +141,16 @@
     <string name="pref_title_custom_tabs">Öffne Links in der App</string>
     <string name="pref_title_hide_follow_button">Verstecke Button bei Bildlauf </string>
 
+    <string-array name="pull_notification_check_interval_names">
+        <item>15 Minuten</item>
+        <item>20 Minuten</item>
+        <item>25 Minuten</item>
+        <item>30 Minuten</item>
+        <item>45 Minuten</item>
+        <item>1 Stunde</item>
+        <item>2 Stunden</item>
+    </string-array>
+
     <string name="notification_mention_format">%s hat dich erwähnt</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s und %4$d andere</string>
     <string name="notification_summary_medium">%1$s, %2$s, und %3$s</string>

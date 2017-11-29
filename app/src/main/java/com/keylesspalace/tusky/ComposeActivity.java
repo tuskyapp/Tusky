@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -26,10 +27,7 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.media.MediaMetadataRetriever;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -37,11 +35,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.AttrRes;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.Px;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v13.view.inputmethod.InputConnectionCompat;
@@ -61,16 +60,11 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.URLSpan;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -80,6 +74,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
 import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.entity.Account;
@@ -98,9 +93,6 @@ import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EditTextTyped;
 import com.keylesspalace.tusky.view.ProgressImageView;
-import com.keylesspalace.tusky.view.RoundedTransformation;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -121,7 +113,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public final class ComposeActivity extends BaseActivity implements ComposeOptionsFragment.Listener {
+public final class ComposeActivity extends BaseActivity
+        implements ComposeOptionsFragment.Listener, MentionAutoCompleteAdapter.AccountSearchProvider {
     private static final String TAG = "ComposeActivity"; // logging tag
     private static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 8388608; // 8MiB
@@ -129,7 +122,8 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
     private static final int MEDIA_TAKE_PHOTO_RESULT = 2;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private static final int COMPOSE_SUCCESS = -1;
-    private static final int THUMBNAIL_SIZE = 128; // pixels
+    @Px
+    private static final int THUMBNAIL_SIZE = 128;
 
     private static final String SAVED_TOOT_UID_EXTRA = "saved_toot_uid";
     private static final String SAVED_TOOT_TEXT_EXTRA = "saved_toot_text";
@@ -140,8 +134,10 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
     private static final String MENTIONED_USERNAMES_EXTRA = "netnioned_usernames";
     private static final String REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra";
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
+
     private static TootDao tootDao = TuskyApplication.getDB().tootDao();
 
+    private TextView replyTextView;
     private TextView replyContentTextView;
     private EditTextTyped textEditor;
     private LinearLayout mediaPreviewBar;
@@ -160,27 +156,21 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
     private ArrayList<QueuedMedia> mediaQueued;
     private CountUpDownLatch waitForMediaLatch;
     private boolean showMarkSensitive;
-    private String statusVisibility;     // The current values of the options that will be applied
+    private Status.Visibility statusVisibility;     // The current values of the options that will be applied
     private boolean statusMarkSensitive; // to the status being composed.
-    private boolean statusHideText;      //
+    private boolean statusHideText;
     private boolean statusAlreadyInFlight; // to prevent duplicate sends by mashing the send button
     private InputContentInfoCompat currentInputContentInfo;
     private int currentFlags;
     private Uri photoUploadUri;
     private int savedTootUid = 0;
 
-    /**
-     * The Target object must be stored as a member field or method and cannot be an anonymous class otherwise this won't work as expected. The reason is that Picasso accepts this parameter as a weak memory reference. Because anonymous classes are eligible for garbage collection when there are no more references, the network request to fetch the image may finish after this anonymous class has already been reclaimed. See this Stack Overflow discussion for more details.
-     */
-    @SuppressWarnings("FieldCanBeLocal")
-    private Target target;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
-        TextView replyTextView = findViewById(R.id.reply_tv);
+        replyTextView = findViewById(R.id.reply_tv);
         replyContentTextView = findViewById(R.id.reply_content_tv);
         textEditor = findViewById(R.id.compose_edit_field);
         mediaPreviewBar = findViewById(R.id.compose_media_preview_bar);
@@ -208,42 +198,12 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         }
 
         // Setup the interface buttons.
-        floatingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSendClicked();
-            }
-        });
-        floatingBtn.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return saveDraft();
-            }
-        });
-        pickButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openPickDialog();
-            }
-        });
-        visibilityBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showComposeOptions();
-            }
-        });
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveDraft();
-            }
-        });
-        hideMediaToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleHideMedia();
-            }
-        });
+        floatingBtn.setOnClickListener(v -> onSendClicked());
+        floatingBtn.setOnLongClickListener(v -> saveDraft());
+        pickButton.setOnClickListener(v -> openPickDialog());
+        visibilityBtn.setOnClickListener(v -> showComposeOptions());
+        saveButton.setOnClickListener(v -> saveDraft());
+        hideMediaToggle.setOnClickListener(v -> toggleHideMedia());
 
         //fix a bug with autocomplete and some keyboards
         int newInputType = textEditor.getInputType() & (textEditor.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
@@ -251,15 +211,16 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
 
         /* Initialise all the state, or restore it from a previous run, to determine a "starting"
          * state. */
-        SharedPreferences preferences = getPrivatePreferences();
-
-        String startingVisibility;
+        Status.Visibility startingVisibility = Status.Visibility.UNKNOWN;
         boolean startingHideText;
         String startingContentWarning = null;
         ArrayList<SavedQueuedMedia> savedMediaQueued = null;
         if (savedInstanceState != null) {
             showMarkSensitive = savedInstanceState.getBoolean("showMarkSensitive");
-            startingVisibility = savedInstanceState.getString("statusVisibility");
+            startingVisibility = Status.Visibility.byNum(
+                    savedInstanceState.getInt("statusVisibility",
+                            Status.Visibility.PUBLIC.getNum())
+            );
             statusMarkSensitive = savedInstanceState.getBoolean("statusMarkSensitive");
             startingHideText = savedInstanceState.getBoolean("statusHideText");
             // Keep these until everything needed to put them in the queue is finished initializing.
@@ -274,7 +235,6 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
             photoUploadUri = savedInstanceState.getParcelable("photoUploadUri");
         } else {
             showMarkSensitive = false;
-            startingVisibility = preferences.getString("rememberedVisibility", "public");
             statusMarkSensitive = false;
             startingHideText = false;
             photoUploadUri = null;
@@ -288,36 +248,30 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         ArrayList<String> loadedDraftMediaUris = null;
         inReplyToId = null;
         if (intent != null) {
-            inReplyToId = intent.getStringExtra(IN_REPLY_TO_ID_EXTRA);
-            String replyVisibility = intent.getStringExtra(REPLY_VISIBILITY_EXTRA);
 
-            if (replyVisibility != null && startingVisibility != null) {
-                // Lowest possible visibility setting in response
-                if (startingVisibility.equals("direct") || replyVisibility.equals("direct")) {
-                    startingVisibility = "direct";
-                } else if (startingVisibility.equals("private") || replyVisibility.equals("private")) {
-                    startingVisibility = "private";
-                } else if (startingVisibility.equals("unlisted") || replyVisibility.equals("unlisted")) {
-                    startingVisibility = "unlisted";
+            if(startingVisibility == Status.Visibility.UNKNOWN) {
+                Status.Visibility replyVisibility = Status.Visibility.byNum(
+                        intent.getIntExtra(REPLY_VISIBILITY_EXTRA, Status.Visibility.UNKNOWN.getNum()));
+
+                if(replyVisibility != Status.Visibility.UNKNOWN) {
+                            startingVisibility = replyVisibility;
                 } else {
-                    startingVisibility = replyVisibility;
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                            startingVisibility = Status.Visibility.byString(
+                                    preferences.getString("defaultPostPrivacy",
+                                            Status.Visibility.PUBLIC.serverString()));
                 }
             }
 
+            inReplyToId = intent.getStringExtra(IN_REPLY_TO_ID_EXTRA);
+
             mentionedUsernames = intent.getStringArrayExtra(MENTIONED_USERNAMES_EXTRA);
 
-            if (inReplyToId != null) {
-                startingHideText = !intent.getStringExtra(CONTENT_WARNING_EXTRA).equals("");
+            String contentWarning = intent.getStringExtra(CONTENT_WARNING_EXTRA);
+            if (contentWarning != null) {
+                startingHideText = !contentWarning.isEmpty();
                 if (startingHideText) {
-                    startingContentWarning = intent.getStringExtra(CONTENT_WARNING_EXTRA);
-                }
-            } else {
-                String contentWarning = intent.getStringExtra(CONTENT_WARNING_EXTRA);
-                if (contentWarning != null) {
-                    startingHideText = !contentWarning.isEmpty();
-                    if (startingHideText) {
-                        startingContentWarning = contentWarning;
-                    }
+                    startingContentWarning = contentWarning;
                 }
             }
 
@@ -344,14 +298,11 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
                 replyTextView.setVisibility(View.VISIBLE);
                 String username = intent.getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA);
                 replyTextView.setText(getString(R.string.replying_to, username));
-                replyTextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (replyContentTextView.getVisibility() != View.VISIBLE) {
-                            replyContentTextView.setVisibility(View.VISIBLE);
-                        } else {
-                            replyContentTextView.setVisibility(View.GONE);
-                        }
+                replyTextView.setOnClickListener(v -> {
+                    if (replyContentTextView.getVisibility() != View.VISIBLE) {
+                        replyContentTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        replyContentTextView.setVisibility(View.GONE);
                     }
                 });
             }
@@ -361,14 +312,9 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
             }
         }
 
-        /* If the currently logged in account is locked, its posts should default to private. This
-         * should override even the reply settings, so this must be done after those are set up. */
-        if (preferences.getBoolean("loggedInAccountLocked", false)) {
-            startingVisibility = "private";
-        }
-
         // After the starting state is finalised, the interface can be set to reflect this state.
         setStatusVisibility(startingVisibility);
+
         postProgress.setVisibility(View.INVISIBLE);
         updateHideMediaToggleColor();
         updateVisibleCharactersLeft();
@@ -393,7 +339,8 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
             }
         });
 
-        textEditor.setAdapter(new MentionAutoCompleteAdapter(this, R.layout.item_autocomplete));
+        textEditor.setAdapter(
+                new MentionAutoCompleteAdapter(this, R.layout.item_autocomplete, this));
         textEditor.setTokenizer(new MentionTokenizer());
 
         // Add any mentions to the text field when a reply is first composed.
@@ -442,7 +389,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
             }
         } else if (savedMediaQueued != null) {
             for (SavedQueuedMedia item : savedMediaQueued) {
-                Bitmap preview = getImageThumbnail(getContentResolver(), item.uri);
+                Bitmap preview = MediaUtils.getImageThumbnail(getContentResolver(), item.uri, THUMBNAIL_SIZE);
                 addMediaToQueue(item.type, preview, item.uri, item.mediaSize, item.readyStage);
             }
         } else if (intent != null && savedInstanceState == null) {
@@ -453,25 +400,27 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
             if (type != null) {
                 if (type.startsWith("image/")) {
                     List<Uri> uriList = new ArrayList<>();
-                    switch (intent.getAction()) {
-                        case Intent.ACTION_SEND: {
-                            Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-                            if (uri != null) {
-                                uriList.add(uri);
+                    if (intent.getAction() != null) {
+                        switch (intent.getAction()) {
+                            case Intent.ACTION_SEND: {
+                                Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                                if (uri != null) {
+                                    uriList.add(uri);
+                                }
+                                break;
                             }
-                            break;
-                        }
-                        case Intent.ACTION_SEND_MULTIPLE: {
-                            ArrayList<Uri> list = intent.getParcelableArrayListExtra(
-                                    Intent.EXTRA_STREAM);
-                            if (list != null) {
-                                for (Uri uri : list) {
-                                    if (uri != null) {
-                                        uriList.add(uri);
+                            case Intent.ACTION_SEND_MULTIPLE: {
+                                ArrayList<Uri> list = intent.getParcelableArrayListExtra(
+                                        Intent.EXTRA_STREAM);
+                                if (list != null) {
+                                    for (Uri uri : list) {
+                                        if (uri != null) {
+                                            uriList.add(uri);
+                                        }
                                     }
                                 }
+                                break;
                             }
-                            break;
                         }
                     }
                     for (Uri uri : uriList) {
@@ -506,7 +455,6 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         }
         outState.putParcelableArrayList("savedMediaQueued", savedMediaQueued);
         outState.putBoolean("showMarkSensitive", showMarkSensitive);
-        outState.putString("statusVisibility", statusVisibility);
         outState.putBoolean("statusMarkSensitive", statusMarkSensitive);
         outState.putBoolean("statusHideText", statusHideText);
         if (currentInputContentInfo != null) {
@@ -517,6 +465,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         currentInputContentInfo = null;
         currentFlags = 0;
         outState.putParcelable("photoUploadUri", photoUploadUri);
+        outState.putInt("statusVisibility", statusVisibility.getNum());
         super.onSaveInstanceState(outState);
     }
 
@@ -701,6 +650,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         return c;
     }
 
+    @SuppressLint("StaticFieldLeak")
     private boolean saveTheToot(String s, @Nullable String contentWarning) {
         if (TextUtils.isEmpty(s)) {
             return false;
@@ -715,14 +665,11 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
                     }.getType());
         }
 
-        final TootEntity toot = new TootEntity();
-        toot.setText(s);
-        toot.setContentWarning(contentWarning);
+        String mediaUrlsSerialized = null;
         if (!ListUtils.isEmpty(mediaQueued)) {
             List<String> savedList = saveMedia(existingUris);
             if (!ListUtils.isEmpty(savedList)) {
-                String json = new Gson().toJson(savedList);
-                toot.setUrls(json);
+                mediaUrlsSerialized = new Gson().toJson(savedList);
                 if (!ListUtils.isEmpty(existingUris)) {
                     deleteMedia(setDifference(existingUris, savedList));
                 }
@@ -734,16 +681,15 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
              * can be deleted. */
             deleteMedia(existingUris);
         }
+        final TootEntity toot = new TootEntity(savedTootUid, s, mediaUrlsSerialized, contentWarning,
+                inReplyToId,
+                getIntent().getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
+                getIntent().getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA), statusVisibility);
 
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                if (savedTootUid != 0) {
-                    toot.setUid(savedTootUid);
-                    tootDao.updateToot(toot);
-                } else {
-                    tootDao.insert(toot);
-                }
+                tootDao.insertOrReplace(toot);
                 return null;
             }
         }.execute();
@@ -759,10 +705,10 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         }
     }
 
-    private void setStatusVisibility(String visibility) {
+    private void setStatusVisibility(Status.Visibility visibility) {
         statusVisibility = visibility;
         switch (visibility) {
-            case "public": {
+            case PUBLIC: {
                 floatingBtn.setText(R.string.action_send_public);
                 floatingBtn.setCompoundDrawables(null, null, null, null);
                 Drawable globe = AppCompatResources.getDrawable(this, R.drawable.ic_public_24dp);
@@ -771,7 +717,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
                 }
                 break;
             }
-            case "private": {
+            case PRIVATE: {
                 addLockToSendButton();
                 Drawable lock = AppCompatResources.getDrawable(this,
                         R.drawable.ic_lock_outline_24dp);
@@ -780,7 +726,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
                 }
                 break;
             }
-            case "direct": {
+            case DIRECT: {
                 addLockToSendButton();
                 Drawable envelope = AppCompatResources.getDrawable(this, R.drawable.ic_email_24dp);
                 if (envelope != null) {
@@ -788,7 +734,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
                 }
                 break;
             }
-            case "unlisted":
+            case UNLISTED:
             default: {
                 floatingBtn.setText(R.string.action_send);
                 floatingBtn.setCompoundDrawables(null, null, null, null);
@@ -808,7 +754,8 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         fragment.show(getSupportFragmentManager(), null);
     }
 
-    public void onVisibilityChanged(String visibility) {
+    @Override
+    public void onVisibilityChanged(Status.Visibility visibility) {
         setStatusVisibility(visibility);
     }
 
@@ -845,29 +792,12 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         readyStatus(statusVisibility, statusMarkSensitive);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (inReplyToId != null) {
-            /* Don't save the visibility setting for replies because they adopt the visibility of
-             * the status they reply to and that behaviour needs to be kept separate. */
-            return;
-        }
-        getPrivatePreferences().edit()
-                .putString("rememberedVisibility", statusVisibility)
-                .apply();
-    }
-
     private void setEditTextMimeTypes() {
-        final String[] mimeTypes = new String[] {"image/*"};
-        textEditor.setMimeTypes(mimeTypes, new InputConnectionCompat.OnCommitContentListener() {
-            @Override
-            public boolean onCommitContent(InputContentInfoCompat inputContentInfo,
-                                           int flags, Bundle opts) {
-                return ComposeActivity.this.onCommitContent(inputContentInfo, flags,
-                        mimeTypes);
-            }
-        });
+        final String[] mimeTypes = new String[]{"image/*"};
+        textEditor.setMimeTypes(mimeTypes,
+                (inputContentInfo, flags, opts) ->
+                        ComposeActivity.this.onCommitContent(inputContentInfo, flags,
+                mimeTypes));
     }
 
     private boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags,
@@ -932,7 +862,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         return true;
     }
 
-    private void sendStatus(String content, String visibility, boolean sensitive,
+    private void sendStatus(String content, Status.Visibility visibility, boolean sensitive,
                             String spoilerText) {
         ArrayList<String> mediaIds = new ArrayList<>();
 
@@ -946,25 +876,23 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
                 if (response.isSuccessful()) {
                     onSendSuccess();
                 } else {
-                    onSendFailure();
+                    onSendFailure(response);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                onSendFailure();
+                onSendFailure(null);
             }
         };
-        mastodonApi.createStatus(content, inReplyToId, spoilerText, visibility, sensitive, mediaIds)
-                .enqueue(callback);
+        mastodonApi.createStatus(content, inReplyToId, spoilerText, visibility.serverString(),
+                sensitive, mediaIds).enqueue(callback);
     }
 
     private void onSendSuccess() {
         // If the status was loaded from a draft, delete the draft and associated media files.
         if (savedTootUid != 0) {
-            TootEntity status = new TootEntity();
-            status.setUid(savedTootUid);
-            tootDao.delete(status);
+            tootDao.delete(savedTootUid);
             for (QueuedMedia item : mediaQueued) {
                 try {
                     if (getContentResolver().delete(item.uri, null, null) == 0) {
@@ -983,16 +911,29 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         finish();
     }
 
-    private void onSendFailure() {
-        textEditor.setError(getString(R.string.error_generic));
+    private void onSendFailure(@Nullable Response<Status> response) {
         setStateToNotReadying();
+
+        if (response != null && inReplyToId != null && response.code() == 404) {
+            new AlertDialog.Builder(this)
+                    .setMessage(R.string.dialog_reply_not_found)
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                        inReplyToId = null;
+                        replyContentTextView.setVisibility(View.GONE);
+                        replyTextView.setVisibility(View.GONE);
+                    })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show();
+        } else {
+            textEditor.setError(getString(R.string.error_generic));
+        }
     }
 
-    private void readyStatus(final String visibility, final boolean sensitive) {
+    private void readyStatus(final Status.Visibility visibility, final boolean sensitive) {
         finishingUploadDialog = ProgressDialog.show(
                 this, getString(R.string.dialog_title_finishing_media_upload),
                 getString(R.string.dialog_message_uploading_media), true, true);
-        final AsyncTask<Void, Void, Boolean> waitForMediaTask =
+        @SuppressLint("StaticFieldLeak") final AsyncTask<Void, Void, Boolean> waitForMediaTask =
                 new AsyncTask<Void, Void, Boolean>() {
                     @Override
                     protected Boolean doInBackground(Void... params) {
@@ -1023,19 +964,16 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
                         super.onCancelled();
                     }
                 };
-        finishingUploadDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                /* Generating an interrupt by passing true here is important because an interrupt
-                 * exception is the only thing that will kick the latch out of its waiting loop
-                 * early. */
-                waitForMediaTask.cancel(true);
-            }
+        finishingUploadDialog.setOnCancelListener(dialog -> {
+            /* Generating an interrupt by passing true here is important because an interrupt
+             * exception is the only thing that will kick the latch out of its waiting loop
+             * early. */
+            waitForMediaTask.cancel(true);
         });
         waitForMediaTask.execute();
     }
 
-    private void onReadySuccess(String visibility, boolean sensitive) {
+    private void onReadySuccess(Status.Visibility visibility, boolean sensitive) {
         /* Validate the status meets the character limit. This has to be delayed until after all
          * uploads finish because their links are added when the upload succeeds and that affects
          * whether the limit is met or not. */
@@ -1056,14 +994,9 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         }
     }
 
-    private void onReadyFailure(final String visibility, final boolean sensitive) {
+    private void onReadyFailure(final Status.Visibility visibility, final boolean sensitive) {
         doErrorDialog(R.string.error_media_upload_sending, R.string.action_retry,
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        readyStatus(visibility, sensitive);
-                    }
-                });
+                v -> readyStatus(visibility, sensitive));
         setStateToNotReadying();
     }
 
@@ -1073,18 +1006,15 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         CharSequence[] choices = new CharSequence[2];
         choices[CHOICE_TAKE] = getString(R.string.action_photo_take);
         choices[CHOICE_PICK] = getString(R.string.action_photo_pick);
-        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case CHOICE_TAKE: {
-                        initiateCameraApp();
-                        break;
-                    }
-                    case CHOICE_PICK: {
-                        onMediaPick();
-                        break;
-                    }
+        DialogInterface.OnClickListener listener = (dialog, which) -> {
+            switch (which) {
+                case CHOICE_TAKE: {
+                    initiateCameraApp();
+                    break;
+                }
+                case CHOICE_PICK: {
+                    onMediaPick();
+                    break;
                 }
             }
         };
@@ -1116,12 +1046,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
                     initiateMediaPicking();
                 } else {
                     doErrorDialog(R.string.error_media_upload_permission, R.string.action_retry,
-                            new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    onMediaPick();
-                                }
-                            });
+                            v -> onMediaPick());
                 }
                 break;
             }
@@ -1203,12 +1128,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         view.setLayoutParams(layoutParams);
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
         view.setImageBitmap(preview);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeMediaFromQueue(item);
-            }
-        });
+        view.setOnClickListener(v -> removeMediaFromQueue(item));
         view.setContentDescription(getString(R.string.action_delete));
         mediaPreviewBar.addView(view);
         mediaQueued.add(item);
@@ -1344,12 +1264,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
                     @Override
                     public void onProgressUpdate(final int percentage) {
                         if (percentage != lastProgress) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    item.preview.setProgress(percentage);
-                                }
-                            });
+                            runOnUiThread(() -> item.preview.setProgress(percentage));
                         }
                         lastProgress = percentage;
                     }
@@ -1439,44 +1354,6 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         }
     }
 
-    @Nullable
-    private static Bitmap getImageThumbnail(ContentResolver contentResolver, Uri uri) {
-        InputStream stream;
-        try {
-            stream = contentResolver.openInputStream(uri);
-        } catch (FileNotFoundException e) {
-            return null;
-        }
-        Bitmap source = BitmapFactory.decodeStream(stream);
-        if (source == null) {
-            IOUtils.closeQuietly(stream);
-            return null;
-        }
-        Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-        source.recycle();
-        try {
-            if (stream != null) {
-                stream.close();
-            }
-        } catch (IOException e) {
-            bitmap.recycle();
-            return null;
-        }
-        return bitmap;
-    }
-
-    @Nullable
-    private static Bitmap getVideoThumbnail(Context context, Uri uri) {
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        retriever.setDataSource(context, uri);
-        Bitmap source = retriever.getFrameAtTime();
-        if (source == null) {
-            return null;
-        }
-        Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-        source.recycle();
-        return bitmap;
-    }
 
     private void pickMedia(Uri uri, long mediaSize) {
         ContentResolver contentResolver = getContentResolver();
@@ -1498,7 +1375,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
                         displayTransientError(R.string.error_media_upload_image_or_video);
                         return;
                     }
-                    Bitmap bitmap = getVideoThumbnail(this, uri);
+                    Bitmap bitmap = MediaUtils.getVideoThumbnail(this, uri, THUMBNAIL_SIZE);
                     if (bitmap != null) {
                         addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize, null);
                     } else {
@@ -1507,7 +1384,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
                     break;
                 }
                 case "image": {
-                    Bitmap bitmap = getImageThumbnail(contentResolver, uri);
+                    Bitmap bitmap = MediaUtils.getImageThumbnail(contentResolver, uri, THUMBNAIL_SIZE);
                     if (bitmap != null) {
                         addMediaToQueue(QueuedMedia.Type.IMAGE, bitmap, uri, mediaSize, null);
                     } else {
@@ -1562,10 +1439,8 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Does a synchronous search request for accounts fulfilling the given partial mention text.
-     */
-    private ArrayList<Account> autocompleteMention(String mention) {
+    @Override
+    public List<Account> searchAccounts(String mention) {
         ArrayList<Account> resultList = new ArrayList<>();
         try {
             List<Account> accountList = mastodonApi.searchAccounts(mention, false, 40)
@@ -1580,7 +1455,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         return resultList;
     }
 
-    private static class QueuedMedia {
+    private static final class QueuedMedia {
         Type type;
         ProgressImageView preview;
         Uri uri;
@@ -1657,98 +1532,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         }
     }
 
-    private class MentionAutoCompleteAdapter extends ArrayAdapter<Account> implements Filterable {
-        private ArrayList<Account> resultList;
-        @LayoutRes
-        private int layoutId;
-
-        MentionAutoCompleteAdapter(Context context, @LayoutRes int resource) {
-            super(context, resource);
-            layoutId = resource;
-            resultList = new ArrayList<>();
-        }
-
-        @Override
-        public int getCount() {
-            return resultList.size();
-        }
-
-        @Override
-        public Account getItem(int index) {
-            return resultList.get(index);
-        }
-
-        @Override
-        @NonNull
-        public Filter getFilter() {
-            return new Filter() {
-                @Override
-                public CharSequence convertResultToString(Object resultValue) {
-                    return ((Account) resultValue).username;
-                }
-
-                // This method is invoked in a worker thread.
-                @Override
-                protected FilterResults performFiltering(CharSequence constraint) {
-                    FilterResults filterResults = new FilterResults();
-                    if (constraint != null) {
-                        ArrayList<Account> accounts = autocompleteMention(constraint.toString());
-                        filterResults.values = accounts;
-                        filterResults.count = accounts.size();
-                    }
-                    return filterResults;
-                }
-
-                @SuppressWarnings("unchecked")
-                @Override
-                protected void publishResults(CharSequence constraint, FilterResults results) {
-                    if (results != null && results.count > 0) {
-                        resultList.clear();
-                        ArrayList<Account> newResults = (ArrayList<Account>) results.values;
-                        resultList.addAll(newResults);
-                        notifyDataSetChanged();
-                    } else {
-                        notifyDataSetInvalidated();
-                    }
-                }
-            };
-        }
-
-        @Override
-        @NonNull
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            View view = convertView;
-
-            Context context = getContext();
-
-            if (convertView == null) {
-                LayoutInflater layoutInflater =
-                        (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = layoutInflater.inflate(layoutId, null);
-            }
-
-            Account account = getItem(position);
-            if (account != null) {
-                TextView username = view.findViewById(R.id.username);
-                TextView displayName = view.findViewById(R.id.display_name);
-                ImageView avatar = view.findViewById(R.id.avatar);
-                String format = getContext().getString(R.string.status_username_format);
-                String formattedUsername = String.format(format, account.username);
-                username.setText(formattedUsername);
-                displayName.setText(account.getDisplayName());
-                if (!account.avatar.isEmpty()) {
-                    Picasso.with(context)
-                            .load(account.avatar)
-                            .placeholder(R.drawable.avatar_default)
-                            .transform(new RoundedTransformation(7, 0))
-                            .into(avatar);
-                }
-            }
-
-            return view;
-        }
-    }
-
+    @SuppressWarnings("WeakerAccess")
     public static final class IntentBuilder {
         @Nullable
         private Integer savedTootUid;
@@ -1761,11 +1545,11 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
         @Nullable
         private String inReplyToId;
         @Nullable
-        private String replyVisibility;
+        private Status.Visibility replyVisibility;
         @Nullable
         private String contentWarning;
         @Nullable
-        private Account replyingStatusAuthor;
+        private String replyingStatusAuthor;
         @Nullable
         private String replyingStatusContent;
 
@@ -1794,7 +1578,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
             return this;
         }
 
-        public IntentBuilder replyVisibility(String replyVisibility) {
+        public IntentBuilder replyVisibility(Status.Visibility replyVisibility) {
             this.replyVisibility = replyVisibility;
             return this;
         }
@@ -1804,8 +1588,8 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
             return this;
         }
 
-        public IntentBuilder repyingStatusAuthor(Account author) {
-            this.replyingStatusAuthor = author;
+        public IntentBuilder repyingStatusAuthor(String username) {
+            this.replyingStatusAuthor = username;
             return this;
         }
 
@@ -1834,7 +1618,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
                 intent.putExtra(IN_REPLY_TO_ID_EXTRA, inReplyToId);
             }
             if (replyVisibility != null) {
-                intent.putExtra(REPLY_VISIBILITY_EXTRA, replyVisibility);
+                intent.putExtra(REPLY_VISIBILITY_EXTRA, replyVisibility.getNum());
             }
             if (contentWarning != null) {
                 intent.putExtra(CONTENT_WARNING_EXTRA, contentWarning);
@@ -1843,8 +1627,7 @@ public final class ComposeActivity extends BaseActivity implements ComposeOption
                 intent.putExtra(REPLYING_STATUS_CONTENT_EXTRA, replyingStatusContent);
             }
             if (replyingStatusAuthor != null) {
-                intent.putExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA,
-                        replyingStatusAuthor.localUsername);
+                intent.putExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA, replyingStatusAuthor);
             }
             return intent;
         }

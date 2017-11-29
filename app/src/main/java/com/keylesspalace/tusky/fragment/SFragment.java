@@ -94,7 +94,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
     protected void reply(Status status) {
         String inReplyToId = status.getActionableId();
         Status actionableStatus = status.getActionableStatus();
-        String replyVisibility = actionableStatus.getVisibility().toString().toLowerCase();
+        Status.Visibility replyVisibility = actionableStatus.getVisibility();
         String contentWarning = actionableStatus.spoilerText;
         Status.Mention[] mentions = actionableStatus.mentions;
         List<String> mentionedUsernames = new ArrayList<>();
@@ -108,7 +108,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
                 .replyVisibility(replyVisibility)
                 .contentWarning(contentWarning)
                 .mentionedUsernames(mentionedUsernames)
-                .repyingStatusAuthor(actionableStatus.account)
+                .repyingStatusAuthor(actionableStatus.account.localUsername)
                 .replyingStatusContent(actionableStatus.content.toString())
                 .build(getContext());
         startActivityForResult(intent, COMPOSE_RESULT);

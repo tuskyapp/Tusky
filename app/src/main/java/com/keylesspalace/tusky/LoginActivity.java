@@ -40,7 +40,7 @@ import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.AppCredentials;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.CustomTabsHelper;
-import com.keylesspalace.tusky.util.NotificationMaker;
+import com.keylesspalace.tusky.util.NotificationManager;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 
 import java.util.HashMap;
@@ -396,7 +396,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         //create notification channels ahead of time so users can edit the settings
-        NotificationMaker.createNotificationChannels(this);
+        NotificationManager.createNotificationChannels(this);
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

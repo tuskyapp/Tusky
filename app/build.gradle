@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.0'
+    buildToolsVersion '27.0.1'
     defaultConfig {
         applicationId "com.keylesspalace.tusky"
         minSdkVersion 15
@@ -33,12 +34,16 @@ android {
     lintOptions {
         disable 'MissingTranslation'
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
-ext.supportLibraryVersion = '27.0.0'
+ext.supportLibraryVersion = '27.0.1'
 
 dependencies {
-    compile('com.mikepenz:materialdrawer:5.9.5@aar') {
+    compile('com.mikepenz:materialdrawer:6.0.1@aar') {
         transitive = true
     }
     compile "com.android.support:appcompat-v7:$supportLibraryVersion"
@@ -47,30 +52,28 @@ dependencies {
     compile "com.android.support:support-v13:$supportLibraryVersion"
     compile "com.android.support:design:$supportLibraryVersion"
     compile "com.android.support:exifinterface:$supportLibraryVersion"
-    compile "com.squareup.retrofit2:retrofit:2.3.0"
-    compile "com.squareup.retrofit2:converter-gson:2.3.0"
-    compile "com.squareup.picasso:picasso:2.5.2"
-    compile "com.squareup.okhttp3:okhttp:3.9.0"
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
-    compile "com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0"
-    compile "com.pkmmte.view:circularimageview:1.1"
-    compile "com.github.varunest:sparkbutton:1.0.5"
-    compile "com.github.chrisbanes:PhotoView:2.1.3"
-    compile "com.mikepenz:google-material-typeface:3.0.1.0.original@aar"
-    compile "com.theartofdev.edmodo:android-image-cropper:2.5.1"
+    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+    compile 'com.pkmmte.view:circularimageview:1.1'
+    compile 'com.github.varunest:sparkbutton:1.0.5'
+    compile 'com.github.chrisbanes:PhotoView:2.1.3'
+    compile 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
+    compile 'com.theartofdev.edmodo:android-image-cropper:2.5.1'
     compile 'com.evernote:android-job:1.2.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-
     //room
-    compile "android.arch.persistence.room:runtime:1.0.0"
-    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    kapt 'android.arch.persistence.room:compiler:1.0.0'
 
     testCompile "junit:junit:4.12"
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 repositories {
     mavenCentral()

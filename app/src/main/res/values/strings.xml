@@ -108,7 +108,7 @@
     <string name="download_image">Downloading %1$s</string>
 
     <string name="action_copy_link">Copy the link</string>
-  
+
     <string name="send_status_link_to">Share toot URL to…</string>
     <string name="send_status_content_to">Share toot to…</string>
 
@@ -147,6 +147,7 @@
     <string name="dialog_download_image">Download</string>
     <string name="dialog_message_follow_request">Follow request pending: awaiting their response</string>
     <string name="dialog_unfollow_warning">Unfollow this account?</string>
+    <string name="dialog_reply_not_found">Couldn\'t post this status. The status you\'re replying to might not be available. Remove reply info?</string> 
 
     <string name="visibility_public">Public: Post to public timelines</string>
     <string name="visibility_unlisted">Unlisted: Do not show in public timelines</string>
@@ -176,6 +177,25 @@
     <string name="pref_title_show_boosts">Show boosts</string>
     <string name="pref_title_show_replies">Show replies</string>
     <string name="pref_title_show_media_preview">Show media previews</string>
+
+    <string-array name="pull_notification_check_interval_names">
+        <item>15 minutes</item>
+        <item>20 minutes</item>
+        <item>25 minutes</item>
+        <item>30 minutes</item>
+        <item>45 minutes</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+    </string-array>
+
+    <string name="pref_default_post_privacy">Default post privacy</string>
+    <string name="pref_publishing">Publishing</string>
+
+    <string-array name="post_privacy_names" inputType="integer">
+        <item>Public</item>
+        <item>Unlisted</item>
+        <item>Followers-only</item>
+    </string-array>
 
     <string name="notification_channel_mention_name">New Mentions</string>
     <string name="notification_channel_mention_descriptions">Notifications about new mentions</string>
@@ -239,5 +259,6 @@
     <string name="title_media">Media</string>
     <string name="replying_to">Replying to @%s</string>
     <string name="load_more_placeholder_text">load more</string>
+
 
 </resources>

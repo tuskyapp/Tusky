@@ -1,0 +1,252 @@
+<resources>
+
+    <string name="error_generic">S\'ha produït un error.</string>
+    <string name="error_empty">Això no pot ser buit.</string>
+    <string name="error_invalid_domain">El domini introduït no és vàlid</string>
+    <string name="error_failed_app_registration">L\'autenticació en aquesta instància ha fallat.</string>
+    <string name="error_no_web_browser_found">No s\'ha trobat cap navegador web a usar.</string>
+    <string name="error_authorization_unknown">S\'ha produït un error d\'autorització no identificat.</string>
+    <string name="error_authorization_denied">L\'autorització s\'ha denegat.</string>
+    <string name="error_retrieving_oauth_token">L\'obtenció del testimoni d\'inici de sessió ha fallat.</string>
+    <string name="error_compose_character_limit">L\'estat és massa llarg!</string>
+    <string name="error_media_upload_size">El fitxer ha de ser inferior a 4MB.</string>
+    <string name="error_media_upload_type">Aquest tipus de fitxer no es pot pujar.</string>
+    <string name="error_media_upload_opening">Aquest tipus de fitxer no es pot obrir.</string>
+    <string name="error_media_upload_permission">Cal permís de lectura del mitjà.</string>
+    <string name="error_media_download_permission">Cal pemís d\'escriptura en el mitjà.</string>
+    <string name="error_media_upload_image_or_video">No es poden adjuntar imatges i vídeos en el mateix estat.</string>
+    <string name="error_media_upload_sending">La pujada ha fallat.</string>
+    <string name="error_report_too_few_statuses">Com a mínim has de denunciar un estat.</string>
+
+    <string name="title_home">Inici</string>
+    <string name="title_notifications">Notificacions</string>
+    <string name="title_public_local">Local</string>
+    <string name="title_public_federated">Federació</string>
+    <string name="title_view_thread">Toot</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">Posts</string>
+    <string name="title_follows">Seguits</string>
+    <string name="title_followers">Seguidors</string>
+    <string name="title_favourites">Preferits</string>
+    <string name="title_mutes">Usuaris silenciats</string>
+    <string name="title_blocks">Usuaris blocats</string>
+    <string name="title_follow_requests">Peticions de seguiment</string>
+    <string name="title_edit_profile">Edita el perfil</string>
+    <string name="title_saved_toot">Esborranys</string>
+    <string name="title_x_followers"><b>%d</b> seguidors</string>
+    <string name="title_x_following"><b>%d</b> seguint</string>
+    <string name="title_x_statuses"><b>%d</b> publicacions</string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s tootejat</string>
+    <string name="status_sensitive_media_title">Contingut sensible</string>
+    <string name="status_sensitive_media_directions">Fes clic per a visualitzar-lo</string>
+    <string name="status_content_warning_show_more">Mostra\'n més</string>
+    <string name="status_content_warning_show_less">Mostra\'n menys</string>
+
+    <string name="footer_empty">No hi res aquí. Llisca avall per a actualitzar!</string>
+
+    <string name="notification_reblog_format">%s ha retootejat el teu toot</string>
+    <string name="notification_favourite_format">%s ha marcat com a preferit el teu toot</string>
+    <string name="notification_follow_format">%s et segueix</string>
+
+    <string name="report_username_format">Denuncia @%s</string>
+    <string name="report_comment_hint">Cap comentari addicional?</string>
+
+    <string name="action_reply">Respon</string>
+    <string name="action_reblog">Retooteja</string>
+    <string name="action_favourite">Preferit</string>
+    <string name="action_more">Més</string>
+    <string name="action_compose">Redacta</string>
+    <string name="action_login">Inicia sessió amb Mastodon</string>
+    <string name="action_logout">Tanca sessió</string>
+    <string name="action_logout_confirm">Vols tancar la sessió?</string>
+    <string name="action_follow">Segueix</string>
+    <string name="action_unfollow">Deixa de seguir</string>
+    <string name="action_block">Bloca</string>
+    <string name="action_unblock">Deixa de blocar</string>
+    <string name="action_report">Denuncia</string>
+    <string name="action_delete">Elimina</string>
+    <string name="action_send">TOOT</string>
+    <string name="action_send_public">TOOT!</string>
+    <string name="action_retry">Torna a intentar-ho</string>
+    <string name="action_mark_sensitive">Marca-ho com a contingut sensible</string>
+    <string name="action_hide_text">Amaga el text amb un avís</string>
+    <string name="action_ok">D\'acord</string>
+    <string name="action_cancel">Cancel·la</string>
+    <string name="action_close">Tanca</string>
+    <string name="action_back">Enrere</string>
+    <string name="action_view_profile">Perfil</string>
+    <string name="action_view_preferences">Preferències</string>
+    <string name="action_view_favourites">Preferits</string>
+    <string name="action_view_mutes">Usuaris silenciats</string>
+    <string name="action_view_blocks">Usuaris blocats</string>
+    <string name="action_view_follow_requests">Peticions de seguiment</string>
+    <string name="action_view_thread">Fil</string>
+    <string name="action_view_media">Multimèdia</string>
+    <string name="action_open_in_web">Obre al navegador</string>
+    <string name="action_submit">Envia</string>
+    <string name="action_photo_pick">Afegeix multimètida</string>
+    <string name="action_photo_take">Fes una foto</string>
+    <string name="action_share">Comparteix</string>
+    <string name="action_mute">Silencia</string>
+    <string name="action_unmute">Deixa de silenciar</string>
+    <string name="action_mention">Menciona</string>
+    <string name="action_hide_media">Amaga el multimèdia</string>
+    <string name="action_compose_options">Opcions</string>
+    <string name="action_open_drawer">Open drawer</string>
+    <string name="action_clear">Buida</string>
+    <string name="action_save">Desa</string>
+    <string name="action_edit_profile">Edita el perfil</string>
+    <string name="action_undo">Desfés</string>
+    <string name="action_accept">Accepta</string>
+    <string name="action_reject">Rebutja</string>
+    <string name="action_search">Cerca</string>
+    <string name="action_access_saved_toot">Esborranys</string>
+
+    <string name="download_image">S\'està baixant %1$s</string>
+
+    <string name="action_copy_link">Copia l\'enllaç</string>
+  
+    <string name="send_status_link_to">Comparteix l\'URL del toot a...</string>
+    <string name="send_status_content_to">Comparteix el toot a...</string>
+
+    <string name="confirmation_send">Toot!</string>
+    <string name="confirmation_reported">Enviat!</string>
+    <string name="confirmation_unblocked">Usuari desblocat</string>
+    <string name="confirmation_unmuted">Usuari sense silenciar</string>
+
+    <string name="hint_domain">Quina instància?</string>
+    <string name="hint_compose">Què està passant?</string>
+    <string name="hint_content_warning">Avís de contingut</string>
+    <string name="hint_display_name">Nom visible</string>
+    <string name="hint_note">Biografia</string>
+    <string name="hint_search">Cerca...</string>
+
+    <string name="search_no_results">No hi ha cap resulat</string>
+
+    <string name="label_avatar">Avatar</string>
+    <string name="label_header">Capçalera</string>
+
+    <string name="link_whats_an_instance">Què és una instància?</string>
+
+    <string name="login_connection">S\'està connectant...</string>
+
+    <string name="dialog_whats_an_instance">Aquí pots introduir l\'adreça o domini de qualsevol instància,
+        com ara mastodont.cat, mastodon.social, icosahedron.website o
+        <a href="https://instances.social">molts més!</a>
+        \n\nSi encara no tens cap copte, pots introduir el nom de la instància on t\'agradaria
+        unir-te i crear un compte allà.\n\nUna instànica és un únic lloc on el teu compte s\'hostatja
+        , però pots comunicar-te fàcilment i seguir amics d\'altres instàncies com si fossiu en el mateix lloc.
+        \n\nTens més informació a <a href="https://joinmastodon.org">joinmastodon.org</a>.
+    </string>
+    <string name="dialog_title_finishing_media_upload">S\'està finalitzant la pujada de materila multimèdia</string>
+    <string name="dialog_message_uploading_media">S\'està pujant...</string>
+    <string name="dialog_download_image">Baixa</string>
+    <string name="dialog_message_follow_request">Follow request pending: awaiting their response</string>
+    <string name="dialog_unfollow_warning">Vols deixar de seguir aquest compte?</string>
+    <string name="dialog_reply_not_found">Couldn\'t post this status. The status you\'re replying to might not be available. Remove reply info?</string>
+
+    <string name="visibility_public">Pública: és visible a la cronologia pública</string>
+    <string name="visibility_unlisted">Sense llistar: no és visible a les cronologies públiques</string>
+    <string name="visibility_private">Només seguidors: només és visible per al teus seguidors</string>
+    <string name="visibility_direct">Directa: només és visible per als usuaris mencionats</string>
+
+    <string name="pref_title_notification_settings">Notificacions</string>
+    <string name="pref_title_edit_notification_settings">Edita les notificacions</string>
+    <string name="pref_title_notifications_enabled">Notificacions</string>
+    <string name="pref_title_pull_notification_check_interval">Comprova l\'interval</string>
+    <string name="pref_title_notification_alerts">Alertes</string>
+    <string name="pref_title_notification_alert_sound">Notifica amb un so</string>
+    <string name="pref_title_notification_alert_vibrate">Notifica amb una vibració</string>
+    <string name="pref_title_notification_alert_light">Notifica amb el llum led</string>
+    <string name="pref_title_notification_filters">Notifica\'m si</string>
+    <string name="pref_title_notification_filter_mentions">em mencionen</string>
+    <string name="pref_title_notification_filter_follows">em segueixen</string>
+    <string name="pref_title_notification_filter_reblogs">retootejen les meves publicacions</string>
+    <string name="pref_title_notification_filter_favourites">marquen com a preferit les meves publicacions</string>
+    <string name="pref_title_appearance_settings">Aparença</string>
+    <string name="pref_title_light_theme">Usa el tema clar</string>
+    <string name="pref_title_browser_settings">Navegador</string>
+    <string name="pref_title_custom_tabs">Usa les pestanyes personalitzades del Chrome</string>
+    <string name="pref_title_hide_follow_button">Amaga el botó de redacció durant el desplaçament</string>
+    <string name="pref_title_status_filter">Filtre de la cronologia</string>
+    <string name="pref_title_status_tabs">Pestanyes</string>
+    <string name="pref_title_show_boosts">Mostra els retoots</string>
+    <string name="pref_title_show_replies">Mostra les respostes</string>
+    <string name="pref_title_show_media_preview">Mostra la previsualitazació dels multimèdia</string>
+
+    <string-array name="pull_notification_check_interval_names">
+        <item>15 minuts</item>
+        <item>20 minuts</item>
+        <item>25 minuts</item>
+        <item>30 minuts</item>
+        <item>45 minuts</item>
+        <item>1 hora</item>
+        <item>2 hores</item>
+    </string-array>
+
+    <string name="notification_channel_mention_name">Mencions noves</string>
+    <string name="notification_channel_mention_descriptions">Notificacions sobre mencions noves</string>
+    <string name="notification_channel_follow_name">Seguidors nous</string>
+    <string name="notification_channel_follow_description">Notificacions sobre nous seguidors</string>
+    <string name="notification_channel_boost_name">Retoots</string>
+    <string name="notification_channel_boost_description">Notificacions si retootejents els teus toots</string>
+    <string name="notification_channel_favourite_name">Preferits</string>
+    <string name="notification_channel_favourite_description">Notificacions si marquen com a preferits els teus toots</string>
+
+
+    <string name="notification_mention_format">%s et mencionen</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s i %4$d més</string>
+    <string name="notification_summary_medium">%1$s, %2$s i %3$s</string>
+    <string name="notification_summary_small">%1$s i %2$s</string>
+    <string name="notification_title_summary">%d interaccions noves</string>
+
+    <string name="description_account_locked">Compte blocat</string>
+
+    <string name="about_title_activity">Quant a</string>
+    <string name="about_application_version">Versió: %s</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Tusky és programari gratuït, lliure i de codi obert.
+        Està llicenciat en els termes de la Llicència Pública General GNU versió 3.
+        Podeu trobar les llicència aquí: https://www.gnu.org/licenses/gpl-3.0.ca.html</string>
+    <!-- note to translators: the url can be changed to link to the localized version of the license -->
+    <string name="about_project_site">
+        Lloc web del projecte:\n
+        https://tusky.keylesspalace.com
+    </string>
+    <string name="about_bug_feature_request_site">
+        Informes d\'errors i peticions de funcionalitats:\n
+        https://github.com/Vavassor/Tusky/issues
+    </string>
+    <string name="about_tusky_account">Perfil del Tusky</string>
+
+    <string name="status_share_content">Comparteix el contingut del toot</string>
+    <string name="status_share_link">Comparteix l\'enllaç al toot</string>
+    <string name="status_media_images">Imatges</string>
+    <string name="status_media_video">Vídeo</string>
+
+    <string name="state_follow_requested">Follow requested</string>
+
+    <string name="no_content">no hi ha cap contingut</string>
+    <string name="action_save_one_toot">S\'ha desat el toot!</string>
+
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">en %d anys</string>
+    <string name="abbreviated_in_days">en %dd</string>
+    <string name="abbreviated_in_hours">en %dh</string>
+    <string name="abbreviated_in_minutes">en %dm</string>
+    <string name="abbreviated_in_seconds">en %ds</string>
+    <string name="abbreviated_years_ago">%d anys</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
+
+    <string name="follows_you">Et segueix</string>
+    <string name="pref_title_alway_show_sensitive_media">Mostra sempre el contingut no apte (NSFW)</string>
+    <string name="title_media">Multimèdia</string>
+    <string name="replying_to">En resposta a @%s</string>
+    <string name="load_more_placeholder_text">carrega\'n més</string>
+
+</resources>
