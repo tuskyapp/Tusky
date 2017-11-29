@@ -318,6 +318,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
             container.setOnClickListener(this);
             message.setOnClickListener(this);
+            statusContent.setOnClickListener(this);
             contentWarningButton.setOnCheckedChangeListener(this);
         }
 
@@ -434,6 +435,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.notification_container:
+                case R.id.notification_content:
                     if (notificationActionListener != null) notificationActionListener.onViewStatusForNotificationId(notificationId);
                     break;
                 case R.id.notification_top_text:
