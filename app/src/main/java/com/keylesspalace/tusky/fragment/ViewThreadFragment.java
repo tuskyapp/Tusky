@@ -482,7 +482,7 @@ public class ViewThreadFragment extends SFragment implements
 
     private void showCard(Card card) {
         this.card = card;
-        if (statuses.size() != 0) {
+        if (statusIndex >= 0 && statusIndex < statuses.size()) {
             StatusViewData.Concrete newViewData =
                     new StatusViewData.Builder(statuses.getPairedItem(statusIndex))
                             .setCard(card)
