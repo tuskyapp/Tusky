@@ -151,8 +151,6 @@
     <string name="pref_title_show_media_preview">Voorbeelden van media tonen</string>
 
     <string-array name="pull_notification_check_interval_names">
-        <item>5 minuten</item>
-        <item>10 minuten</item>
         <item>15 minuten</item>
         <item>20 minuten</item>
         <item>25 minuten</item>

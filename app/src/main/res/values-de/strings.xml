@@ -151,6 +151,12 @@
         <item>2 Stunden</item>
     </string-array>
 
+    <string-array name="post_privacy_names" inputType="integer">
+        <item>Öffentlich</item>
+        <item>Nicht gelistet</item>
+        <item>Nur Folgende</item>
+    </string-array>
+
     <string name="notification_mention_format">%s hat dich erwähnt</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s und %4$d andere</string>
     <string name="notification_summary_medium">%1$s, %2$s, und %3$s</string>
@@ -223,5 +229,10 @@
     <string name="title_x_followers"><b>%d</b> Folgende</string>
     <string name="title_x_following"><b>%d</b> Folgt</string>
     <string name="title_x_statuses"><b>%d</b> Beiträge</string>
+    <string name="load_more_placeholder_text">mehr laden</string>
+    <string name="dialog_reply_not_found">Fehler beim Senden des Status. Der Status, auf den du antwortest, ist vielleicht nicht mehr verfügbar. Als normale Erwähnung weiter bearbeiten?</string>
+    <string name="pref_default_post_privacy">Beitragssichtbarkeit</string>
+    <string name="pref_publishing">Beiträge</string>
+    <string name="status_media_hidden_title">Medien versteckt</string>
 
 </resources>
