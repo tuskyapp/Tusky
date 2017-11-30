@@ -78,7 +78,7 @@ import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
 import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.entity.Account;
-import com.keylesspalace.tusky.entity.Media;
+import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.fragment.ComposeOptionsFragment;
 import com.keylesspalace.tusky.network.ProgressRequestBody;
@@ -1274,9 +1274,9 @@ public final class ComposeActivity extends BaseActivity
 
         item.uploadRequest = mastodonApi.uploadMedia(body);
 
-        item.uploadRequest.enqueue(new Callback<Media>() {
+        item.uploadRequest.enqueue(new Callback<Attachment>() {
             @Override
-            public void onResponse(@NonNull Call<Media> call, @NonNull retrofit2.Response<Media> response) {
+            public void onResponse(@NonNull Call<Attachment> call, @NonNull retrofit2.Response<Attachment> response) {
                 if (response.isSuccessful()) {
                     onUploadSuccess(item, response.body());
                 } else {
@@ -1286,14 +1286,14 @@ public final class ComposeActivity extends BaseActivity
             }
 
             @Override
-            public void onFailure(@NonNull Call<Media> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Attachment> call, @NonNull Throwable t) {
                 Log.d(TAG, "Upload request failed. " + t.getMessage());
                 onUploadFailure(item, call.isCanceled());
             }
         });
     }
 
-    private void onUploadSuccess(final QueuedMedia item, Media media) {
+    private void onUploadSuccess(final QueuedMedia item, Attachment media) {
         item.id = media.id;
         item.preview.setProgress(-1);
         item.readyStage = QueuedMedia.ReadyStage.UPLOADED;
@@ -1460,7 +1460,7 @@ public final class ComposeActivity extends BaseActivity
         ProgressImageView preview;
         Uri uri;
         String id;
-        Call<Media> uploadRequest;
+        Call<Attachment> uploadRequest;
         URLSpan uploadUrl;
         ReadyStage readyStage;
         byte[] content;

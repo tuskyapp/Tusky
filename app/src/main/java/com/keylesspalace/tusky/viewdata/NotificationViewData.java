@@ -38,13 +38,15 @@ public abstract class NotificationViewData {
         private final String id;
         private final Account account;
         private final StatusViewData.Concrete statusViewData;
+        private final boolean isExpanded;
 
         public Concrete(Notification.Type type, String id, Account account,
-                        StatusViewData.Concrete statusViewData) {
+                        StatusViewData.Concrete statusViewData, boolean isExpanded) {
             this.type = type;
             this.id = id;
             this.account = account;
             this.statusViewData = statusViewData;
+            this.isExpanded = isExpanded;
         }
 
         public Notification.Type getType() {
@@ -61,6 +63,10 @@ public abstract class NotificationViewData {
 
         public StatusViewData.Concrete getStatusViewData() {
             return statusViewData;
+        }
+
+        public boolean isExpanded() {
+            return isExpanded;
         }
     }
 

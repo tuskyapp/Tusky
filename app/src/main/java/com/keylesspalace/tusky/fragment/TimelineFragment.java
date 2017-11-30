@@ -40,6 +40,7 @@ import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
+import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
@@ -108,13 +109,16 @@ public class TimelineFragment extends SFragment implements
     private String bottomId;
     @Nullable
     private String topId;
+
+    private boolean alwaysShowSensitiveMedia;
+
     private PairedList<Either<Placeholder, Status>, StatusViewData> statuses =
             new PairedList<>(new Function<Either<Placeholder, Status>, StatusViewData>() {
                 @Override
                 public StatusViewData apply(Either<Placeholder, Status> input) {
                     Status status = input.getAsRightOrNull();
                     if (status != null) {
-                        return ViewDataUtils.statusToViewData(status);
+                        return ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia);
                     } else {
                         return new StatusViewData.Placeholder(false);
                     }
@@ -150,7 +154,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Bundle arguments = getArguments();
         kind = Kind.valueOf(arguments.getString(KIND_ARG));
@@ -179,6 +183,7 @@ public class TimelineFragment extends SFragment implements
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                 getActivity());
         preferences.registerOnSharedPreferenceChangeListener(this);
+        alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
         boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         recyclerView.setAdapter(adapter);
@@ -402,7 +407,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public void onViewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type,
+    public void onViewMedia(String[] urls, int urlIndex, Attachment.Type type,
                             View view) {
         super.viewMedia(urls, urlIndex, type, view);
     }
@@ -461,6 +466,10 @@ public class TimelineFragment extends SFragment implements
                     fullyRefresh();
                 }
                 break;
+            }
+            case "alwaysShowSensitiveMedia": {
+                //it is ok if only newly loaded statuses are affected, no need to fully refresh
+                alwaysShowSensitiveMedia = sharedPreferences.getBoolean("alwaysShowSensitiveMedia", false);
             }
         }
     }

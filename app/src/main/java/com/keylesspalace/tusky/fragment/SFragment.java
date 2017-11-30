@@ -40,6 +40,7 @@ import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
 import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.ViewVideoActivity;
+import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
@@ -259,7 +260,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         popup.show();
     }
 
-    protected void viewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type,
+    protected void viewMedia(String[] urls, int urlIndex, Attachment.Type type,
                              @Nullable View view) {
         switch (type) {
             case IMAGE: {

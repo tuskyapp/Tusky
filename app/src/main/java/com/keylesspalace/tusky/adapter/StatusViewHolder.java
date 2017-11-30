@@ -31,14 +31,12 @@ import com.varunest.sparkbutton.helpers.Utils;
 
 public class StatusViewHolder extends StatusBaseViewHolder {
     private ImageView avatarReblog;
-    private View rebloggedBar;
-    private TextView rebloggedByDisplayName;
+    private TextView rebloggedBar;
 
     StatusViewHolder(View itemView) {
         super(itemView);
         avatarReblog = itemView.findViewById(R.id.status_avatar_reblog);
-        rebloggedBar = itemView.findViewById(R.id.status_reblogged_bar);
-        rebloggedByDisplayName = itemView.findViewById(R.id.status_reblogged);
+        rebloggedBar = itemView.findViewById(R.id.status_reblogged);
     }
 
     @Override
@@ -67,6 +65,11 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
+    protected int getMediaPreviewHeight(Context context) {
+        return context.getResources().getDimensionPixelSize(R.dimen.status_media_preview_height);
+    }
+
+    @Override
     void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
                          boolean mediaPreviewEnabled) {
         super.setupWithStatus(status, listener, mediaPreviewEnabled);
@@ -90,10 +93,10 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     private void setRebloggedByDisplayName(String name) {
-        Context context = rebloggedByDisplayName.getContext();
+        Context context = rebloggedBar.getContext();
         String format = context.getString(R.string.status_boosted_format);
         String boostedText = String.format(format, name);
-        rebloggedByDisplayName.setText(boostedText);
+        rebloggedBar.setText(boostedText);
         rebloggedBar.setVisibility(View.VISIBLE);
     }
 

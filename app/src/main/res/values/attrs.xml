@@ -14,6 +14,7 @@
     <attr name="toolbar_background_color" format="reference" />
     <attr name="toolbar_icon_tint" format="reference" />
     <attr name="image_button_style" format="reference" />
+    <attr name="status_reblog_small_drawable" format="reference" />
     <attr name="status_reblog_inactive_drawable" format="reference" />
     <attr name="status_reblog_disabled_drawable" format="reference" />
     <attr name="status_reblog_direct_drawable" format="reference" />
@@ -23,6 +24,7 @@
     <attr name="sensitive_media_warning_background_color" format="reference|color" />
     <attr name="media_preview_unloaded_drawable" format="reference" />
     <attr name="status_divider_drawable" format="reference" />
+    <attr name="conversation_thread_line_drawable" format="reference" />
     <attr name="tab_icon_selected_tint" format="reference|color" />
     <attr name="tab_page_margin_drawable" format="reference" />
     <attr name="account_header_background_color" format="reference|color" />
@@ -42,5 +44,7 @@
     <attr name="report_status_divider_drawable" format="reference" />
     <attr name="card_background" format="reference|color" />
     <attr name="card_image_background" format="reference|color" />
+
+    <attr name="play_indicator_drawable" format="reference" />
 
 </resources>

@@ -5,16 +5,16 @@
     android:id="@+id/status_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp">
 
     <ImageView
         android:id="@+id/status_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="14dp"
         android:contentDescription="@string/action_view_profile"
         android:scaleType="fitCenter"
         tools:src="@drawable/avatar_default" />
@@ -22,11 +22,12 @@
     <LinearLayout
         android:id="@+id/status_name_bar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="14dp"
         android:layout_toEndOf="@+id/status_avatar"
         android:layout_toRightOf="@+id/status_avatar"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
@@ -35,22 +36,19 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
             android:textColor="?android:textColorPrimary"
-            android:textStyle="normal|bold" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:textStyle="normal|bold"
+            tools:text="Display Name" />
 
         <TextView
             android:id="@+id/status_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="?android:textColorSecondary" />
+            android:textColor="?android:textColorSecondary"
+            tools:text="\@ConnyDuck\@mastodon.social" />
 
     </LinearLayout>
 
@@ -60,8 +58,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/status_name_bar"
         android:layout_marginBottom="4dp"
-        android:layout_toEndOf="@+id/status_avatar"
-        android:layout_toRightOf="@+id/status_avatar"
         android:focusable="true"
         android:visibility="gone"
         app:paddingHorizontal="4dp">
@@ -70,7 +66,7 @@
             android:id="@+id/status_content_warning_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+            android:lineSpacingMultiplier="1.1"
             android:textColor="?android:textColorPrimary" />
 
         <ToggleButton
@@ -94,14 +90,10 @@
         android:id="@+id/status_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/status_content_warning_bar"
         android:layout_marginBottom="4dp"
-        android:layout_toEndOf="@+id/status_avatar"
-        android:layout_toRightOf="@+id/status_avatar"
         android:focusable="true"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+        android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary" />
 
     <LinearLayout
@@ -110,8 +102,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/status_content"
         android:layout_marginTop="4dp"
-        android:layout_toEndOf="@+id/status_avatar"
-        android:layout_toRightOf="@+id/status_avatar"
         android:background="?attr/card_background"
         android:clipChildren="true"
         android:orientation="vertical">
@@ -161,184 +151,171 @@
                 android:textColor="?android:textColorTertiary" />
         </LinearLayout>
 
-
     </LinearLayout>
 
-
-    <FrameLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/status_media_preview_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/card_view"
-        android:layout_toEndOf="@+id/status_avatar"
-        android:layout_toRightOf="@+id/status_avatar">
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="@dimen/status_media_preview_top_margin">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/status_media_preview_0"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_media_preview_height"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toStartOf="@+id/status_media_preview_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_media_preview_1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_media_preview_height"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/status_media_preview_0"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_media_preview_2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_media_preview_height"
+            android:layout_marginTop="4dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toStartOf="@+id/status_media_preview_3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/status_media_preview_0"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_media_preview_3"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_media_preview_height"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/status_media_preview_2"
+            app:layout_constraintTop_toBottomOf="@+id/status_media_preview_1"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_media_overlay_0"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="@+id/status_media_preview_0"
+            app:layout_constraintEnd_toEndOf="@+id/status_media_preview_0"
+            app:layout_constraintStart_toStartOf="@+id/status_media_preview_0"
+            app:layout_constraintTop_toTopOf="@+id/status_media_preview_0"
+            app:srcCompat="?attr/play_indicator_drawable"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_media_overlay_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="@+id/status_media_preview_1"
+            app:layout_constraintEnd_toEndOf="@+id/status_media_preview_1"
+            app:layout_constraintStart_toStartOf="@+id/status_media_preview_1"
+            app:layout_constraintTop_toTopOf="@+id/status_media_preview_1"
+            app:srcCompat="?attr/play_indicator_drawable"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_media_overlay_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="@+id/status_media_preview_2"
+            app:layout_constraintEnd_toEndOf="@+id/status_media_preview_2"
+            app:layout_constraintStart_toStartOf="@+id/status_media_preview_2"
+            app:layout_constraintTop_toTopOf="@+id/status_media_preview_2"
+            app:srcCompat="?attr/play_indicator_drawable"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_media_overlay_3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="@+id/status_media_preview_3"
+            app:layout_constraintEnd_toEndOf="@+id/status_media_preview_3"
+            app:layout_constraintStart_toStartOf="@+id/status_media_preview_3"
+            app:layout_constraintTop_toTopOf="@+id/status_media_preview_3"
+            app:srcCompat="?attr/play_indicator_drawable"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_sensitive_media_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:alpha="0.7"
+            android:contentDescription="@string/action_hide_media"
+            android:padding="@dimen/status_sensitive_media_button_padding"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="@+id/status_media_preview_container"
+            app:layout_constraintTop_toTopOf="@+id/status_media_preview_container"
+            app:srcCompat="@drawable/ic_remove_red_eye_black_24dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/status_media_preview_0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/status_media_preview_height"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginTop="@dimen/status_media_preview_top_margin"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/action_view_media"
-                    android:scaleType="centerCrop" />
-
-                <ImageView
-                    android:id="@+id/status_media_preview_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/status_media_preview_height"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginTop="@dimen/status_media_preview_top_margin"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/action_view_media"
-                    android:scaleType="centerCrop" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/status_media_preview_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/status_media_preview_height"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginRight="2dp"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/action_view_media"
-                    android:scaleType="centerCrop" />
-
-                <ImageView
-                    android:id="@+id/status_media_preview_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/status_media_preview_height"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginStart="2dp"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/action_view_media"
-                    android:scaleType="centerCrop" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/status_video_indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:alpha="0.5"
-                android:contentDescription="@null"
-                android:visibility="gone"
-                app:srcCompat="@drawable/ic_play_48dp" />
-
-            <ImageView
-                android:id="@+id/status_sensitive_media_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:alpha="0.7"
-                android:contentDescription="@null"
-                android:padding="@dimen/status_sensitive_media_button_padding"
-                android:visibility="gone"
-                app:srcCompat="@drawable/ic_remove_red_eye_black_24dp" />
-        </RelativeLayout>
-
-        <LinearLayout
+        <TextView
             android:id="@+id/status_sensitive_media_warning"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/status_media_preview_top_margin"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="?attr/sensitive_media_warning_background_color"
             android:gravity="center"
+            android:lineSpacingMultiplier="1.2"
             android:orientation="vertical"
             android:padding="8dp"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/status_sensitive_media_title"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/status_sensitive_media_directions"
-                android:textAlignment="center"
-                android:textColor="@android:color/white" />
-
-        </LinearLayout>
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/status_media_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="4dp"
             android:gravity="center_vertical"
-            android:includeFontPadding="false"
             android:visibility="gone" />
 
-    </FrameLayout>
+    </android.support.constraint.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/status_info_bar"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/status_timestamp_info"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/status_media_preview_container"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="8dp"
-        android:layout_toEndOf="@id/status_avatar"
-        android:layout_toRightOf="@id/status_avatar"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/status_timestamp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="?android:textColorTertiary" />
-
-        <TextView
-            android:id="@+id/status_application"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp" />
-
-    </LinearLayout>
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="10dp"
+        android:textColor="?android:textColorTertiary" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/status_info_bar"
-        android:layout_toEndOf="@id/status_avatar"
-        android:layout_toRightOf="@id/status_avatar"
+        android:layout_below="@id/status_timestamp_info"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="2dp">
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp">
 
         <ImageButton
             android:id="@+id/status_reply"
@@ -408,11 +385,6 @@
             android:contentDescription="@string/action_more"
             android:padding="4dp"
             app:srcCompat="@drawable/ic_more_horiz_24dp" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
 
     </LinearLayout>
 

@@ -132,36 +132,36 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/account_note"
-                        tools:text="3000 Followers"
                         android:background="@android:color/transparent"
                         android:textColor="@color/account_tab_font_color"
-                        app:layout_constraintHorizontal_bias="0"/>
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/account_note"
+                        tools:text="3000 Followers" />
 
                     <TextView
                         android:id="@+id/following_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/account_tab_font_color"
                         app:layout_constraintBottom_toBottomOf="@id/followers_tv"
                         app:layout_constraintEnd_toStartOf="@id/statuses_btn"
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toEndOf="@id/followers_tv"
                         app:layout_constraintTop_toTopOf="@id/followers_tv"
-                        tools:text="500 Following"
-                        android:textColor="@color/account_tab_font_color" />
+                        tools:text="500 Following" />
 
                     <TextView
                         android:id="@+id/statuses_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toEndOf="@id/following_tv"
+                        android:textColor="@color/account_tab_font_color"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/followers_tv"
-                        tools:text="3000 Posts"
                         app:layout_constraintHorizontal_bias="0"
-                        android:textColor="@color/account_tab_font_color"/>
+                        app:layout_constraintStart_toEndOf="@id/following_tv"
+                        app:layout_constraintTop_toTopOf="@id/followers_tv"
+                        tools:text="3000 Posts" />
 
                 </android.support.constraint.ConstraintLayout>
 
@@ -192,7 +192,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?android:colorBackground"
-            app:tabSelectedTextColor="?attr/colorAccent" >
+            app:tabGravity="fill"
+            app:tabMaxWidth="0dp"
+            app:tabSelectedTextColor="?attr/colorAccent">
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"

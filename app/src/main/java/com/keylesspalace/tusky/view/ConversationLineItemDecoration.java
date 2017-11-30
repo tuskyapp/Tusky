@@ -49,6 +49,7 @@ public class ConversationLineItemDecoration extends RecyclerView.ItemDecoration 
 
             int position = parent.getChildAdapterPosition(child);
             ThreadAdapter adapter = (ThreadAdapter) parent.getAdapter();
+
             StatusViewData.Concrete current = adapter.getItem(position);
             int dividerTop, dividerBottom;
             if (current != null) {
@@ -59,25 +60,17 @@ public class ConversationLineItemDecoration extends RecyclerView.ItemDecoration 
                     dividerTop = child.getTop() + avatarMargin;
                 }
                 StatusViewData.Concrete below = adapter.getItem(position + 1);
-                if (below != null && current.getId().equals(below.getInReplyToId())) {
+                if (below != null && current.getId().equals(below.getInReplyToId()) &&
+                        adapter.getDetailedStatusPosition() != position) {
                     dividerBottom = child.getBottom();
                 } else {
                     dividerBottom = child.getTop() + avatarMargin;
                 }
-            } else {
-                dividerTop = child.getTop();
-                if (i == 0) {
-                    dividerTop += avatarMargin;
-                }
-                if (i == childCount - 1) {
-                    dividerBottom = child.getTop() + avatarMargin;
-                } else {
-                    dividerBottom = child.getBottom();
-                }
-            }
 
-            divider.setBounds(dividerLeft, dividerTop, dividerRight, dividerBottom);
-            divider.draw(c);
+                divider.setBounds(dividerLeft, dividerTop, dividerRight, dividerBottom);
+                divider.draw(c);
+
+            }
         }
     }
 }

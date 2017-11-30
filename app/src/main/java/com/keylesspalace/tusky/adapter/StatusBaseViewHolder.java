@@ -1,21 +1,14 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.preference.PreferenceManager;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.style.ReplacementSpan;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -24,26 +17,24 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
+import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 import com.varunest.sparkbutton.SparkButton;
 import com.varunest.sparkbutton.SparkEventListener;
 
-import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-class StatusBaseViewHolder extends RecyclerView.ViewHolder {
+abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private View container;
     private TextView displayName;
     private TextView username;
@@ -58,23 +49,26 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private ImageView mediaPreview1;
     private ImageView mediaPreview2;
     private ImageView mediaPreview3;
-    private View sensitiveMediaWarning;
+    private ImageView mediaOverlay0;
+    private ImageView mediaOverlay1;
+    private ImageView mediaOverlay2;
+    private ImageView mediaOverlay3;
+    private TextView sensitiveMediaWarning;
     private View sensitiveMediaShow;
-    private View videoIndicator;
     private TextView mediaLabel;
     private View contentWarningBar;
     private TextView contentWarningDescription;
     private ToggleButton contentWarningButton;
 
     ImageView avatar;
-    TextView timestamp;
+    TextView timestampInfo;
 
     StatusBaseViewHolder(View itemView) {
         super(itemView);
         container = itemView.findViewById(R.id.status_container);
         displayName = itemView.findViewById(R.id.status_display_name);
         username = itemView.findViewById(R.id.status_username);
-        timestamp = itemView.findViewById(R.id.status_timestamp);
+        timestampInfo = itemView.findViewById(R.id.status_timestamp_info);
         content = itemView.findViewById(R.id.status_content);
         avatar = itemView.findViewById(R.id.status_avatar);
         replyButton = itemView.findViewById(R.id.status_reply);
@@ -87,14 +81,19 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         mediaPreview1 = itemView.findViewById(R.id.status_media_preview_1);
         mediaPreview2 = itemView.findViewById(R.id.status_media_preview_2);
         mediaPreview3 = itemView.findViewById(R.id.status_media_preview_3);
+        mediaOverlay0 = itemView.findViewById(R.id.status_media_overlay_0);
+        mediaOverlay1 = itemView.findViewById(R.id.status_media_overlay_1);
+        mediaOverlay2 = itemView.findViewById(R.id.status_media_overlay_2);
+        mediaOverlay3 = itemView.findViewById(R.id.status_media_overlay_3);
         sensitiveMediaWarning = itemView.findViewById(R.id.status_sensitive_media_warning);
         sensitiveMediaShow = itemView.findViewById(R.id.status_sensitive_media_button);
-        videoIndicator = itemView.findViewById(R.id.status_video_indicator);
         mediaLabel = itemView.findViewById(R.id.status_media_label);
         contentWarningBar = itemView.findViewById(R.id.status_content_warning_bar);
         contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
         contentWarningButton = itemView.findViewById(R.id.status_content_warning_button);
     }
+
+    protected abstract int getMediaPreviewHeight(Context context);
 
     private void setDisplayName(String name) {
         displayName.setText(name);
@@ -107,44 +106,11 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         username.setText(usernameText);
     }
 
-    private Callback spanCallback = new Callback() {
-        @Override
-        public void onSuccess() {
-            content.invalidate();
-        }
-
-        @Override
-        public void onError() {
-        }
-    };
-
     private void setContent(Spanned content, Status.Mention[] mentions, List<Status.Emoji> emojis,
                             StatusActionListener listener) {
-        Context context = this.content.getContext();
-        SpannableStringBuilder builder = new SpannableStringBuilder(content);
-        if (!emojis.isEmpty()) {
-            CharSequence text = builder.subSequence(0, builder.length());
-            for (Status.Emoji emoji : emojis) {
-                CharSequence pattern = new StringBuilder(":").append(emoji.getShortcode()).append(':');
-                Matcher matcher = Pattern.compile(pattern.toString()).matcher(text);
-                while (matcher.find()) {
-                    // We keep a span as a Picasso target, because Picasso keeps weak reference to
-                    // the target so an anonymous class would likely be garbage collected.
-                    EmojiSpan span = new EmojiSpan(context);
-                    span.setCallback(spanCallback);
-                    builder.setSpan(span, matcher.start(), matcher.end(), 0);
-                    Picasso.with(container.getContext())
-                            .load(emoji.getUrl())
-                            .into(span);
-                }
-            }
-        }
+        Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, this.content);
 
-        /* Redirect URLSpan's in the status content to the listener for viewing tag pages and
-         * account pages. */
-        boolean useCustomTabs =
-                PreferenceManager.getDefaultSharedPreferences(context).getBoolean("customTabs", false);
-        LinkHelper.setClickableText(this.content, builder, mentions, useCustomTabs, listener);
+        LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
     }
 
     void setAvatar(String url, @Nullable String rebloggedUrl) {
@@ -160,7 +126,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     protected void setCreatedAt(@Nullable Date createdAt) {
-        // This is the visible timestamp.
+        // This is the visible timestampInfo.
         String readout;
         /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
          * as 17 meters instead of minutes. */
@@ -168,7 +134,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (createdAt != null) {
             long then = createdAt.getTime();
             long now = new Date().getTime();
-            readout = DateUtils.getRelativeTimeSpanString(timestamp.getContext(), then, now);
+            readout = DateUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
             readoutAloud = android.text.format.DateUtils.getRelativeTimeSpanString(then, now,
                     android.text.format.DateUtils.SECOND_IN_MILLIS,
                     android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);
@@ -177,8 +143,18 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             readout = "?m";
             readoutAloud = "? minutes";
         }
-        timestamp.setText(readout);
-        timestamp.setContentDescription(readoutAloud);
+        timestampInfo.setText(readout);
+        timestampInfo.setContentDescription(readoutAloud);
+    }
+
+
+    private void setIsReply(boolean isReply) {
+        if(isReply) {
+            replyButton.setImageResource(R.drawable.ic_reply_all_24dp);
+        } else {
+            replyButton.setImageResource(R.drawable.ic_reply_24dp);
+        }
+
     }
 
     private void setReblogged(boolean reblogged) {
@@ -214,10 +190,13 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         favouriteButton.setChecked(favourited);
     }
 
-    private void setMediaPreviews(final Status.MediaAttachment[] attachments, boolean sensitive,
-                                  final StatusActionListener listener, boolean showingSensitive) {
+    private void setMediaPreviews(final Attachment[] attachments, boolean sensitive,
+                                  final StatusActionListener listener, boolean showingContent) {
         final ImageView[] previews = {
                 mediaPreview0, mediaPreview1, mediaPreview2, mediaPreview3
+        };
+        final ImageView[] overlays = {
+                mediaOverlay0, mediaOverlay1, mediaOverlay2, mediaOverlay3
         };
         Context context = mediaPreview0.getContext();
 
@@ -234,6 +213,13 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         for (int i = 0; i < n; i++) {
             String previewUrl = attachments[i].previewUrl;
+            String description = attachments[i].description;
+
+            if(TextUtils.isEmpty(description)) {
+                previews[i].setContentDescription(context.getString(R.string.action_view_media));
+            } else {
+                previews[i].setContentDescription(description);
+            }
 
             previews[i].setVisibility(View.VISIBLE);
 
@@ -246,9 +232,11 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                         .into(previews[i]);
             }
 
-            final Status.MediaAttachment.Type type = attachments[i].type;
-            if (type == Status.MediaAttachment.Type.VIDEO | type == Status.MediaAttachment.Type.GIFV) {
-                videoIndicator.setVisibility(View.VISIBLE);
+            final Attachment.Type type = attachments[i].type;
+            if (type == Attachment.Type.VIDEO | type == Attachment.Type.GIFV) {
+                overlays[i].setVisibility(View.VISIBLE);
+            } else {
+                overlays[i].setVisibility(View.GONE);
             }
 
             if (urls[i] == null || urls[i].isEmpty()) {
@@ -262,33 +250,55 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     }
                 });
             }
+
+            if(n <= 2) {
+                previews[0].getLayoutParams().height = getMediaPreviewHeight(context)*2;
+                previews[1].getLayoutParams().height = getMediaPreviewHeight(context)*2;
+            } else {
+                previews[0].getLayoutParams().height = getMediaPreviewHeight(context);
+                previews[1].getLayoutParams().height = getMediaPreviewHeight(context);
+                previews[2].getLayoutParams().height = getMediaPreviewHeight(context);
+                previews[3].getLayoutParams().height = getMediaPreviewHeight(context);
+            }
         }
-        SharedPreferences pm = PreferenceManager.getDefaultSharedPreferences(context);
-        Boolean isAlwayShowSensitive = pm.getBoolean("alwaysShowSensitiveMedia", false);
-        if (sensitive && (!isAlwayShowSensitive)) {
-            sensitiveMediaWarning.setVisibility(showingSensitive ? View.GONE : View.VISIBLE);
-            sensitiveMediaShow.setVisibility(showingSensitive ? View.VISIBLE : View.GONE);
-            sensitiveMediaShow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (getAdapterPosition() != RecyclerView.NO_POSITION) {
-                        listener.onContentHiddenChange(false, getAdapterPosition());
-                    }
-                    v.setVisibility(View.GONE);
-                    sensitiveMediaWarning.setVisibility(View.VISIBLE);
-                }
-            });
-            sensitiveMediaWarning.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (getAdapterPosition() != RecyclerView.NO_POSITION) {
-                        listener.onContentHiddenChange(true, getAdapterPosition());
-                    }
-                    v.setVisibility(View.GONE);
-                    sensitiveMediaShow.setVisibility(View.VISIBLE);
-                }
-            });
+
+        String hiddenContentText;
+        if(sensitive) {
+            hiddenContentText = context.getString(R.string.status_sensitive_media_template,
+                    context.getString(R.string.status_sensitive_media_title),
+                    context.getString(R.string.status_sensitive_media_directions));
+
+        } else {
+            hiddenContentText = context.getString(R.string.status_sensitive_media_template,
+                    context.getString(R.string.status_media_hidden_title),
+                    context.getString(R.string.status_sensitive_media_directions));
         }
+
+        sensitiveMediaWarning.setText(HtmlUtils.fromHtml(hiddenContentText));
+
+        sensitiveMediaWarning.setVisibility(showingContent ? View.GONE : View.VISIBLE);
+        sensitiveMediaShow.setVisibility(showingContent ? View.VISIBLE : View.GONE);
+        sensitiveMediaShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onContentHiddenChange(false, getAdapterPosition());
+                }
+                v.setVisibility(View.GONE);
+                sensitiveMediaWarning.setVisibility(View.VISIBLE);
+            }
+        });
+        sensitiveMediaWarning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onContentHiddenChange(true, getAdapterPosition());
+                }
+                v.setVisibility(View.GONE);
+                sensitiveMediaShow.setVisibility(View.VISIBLE);
+            }
+        });
+
 
         // Hide any of the placeholder previews beyond the ones set.
         for (int i = n; i < Status.MAX_MEDIA_ATTACHMENTS; i++) {
@@ -297,7 +307,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     @NonNull
-    private static String getLabelTypeText(Context context, Status.MediaAttachment.Type type) {
+    private static String getLabelTypeText(Context context, Attachment.Type type) {
         switch (type) {
             default:
             case IMAGE:
@@ -309,7 +319,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     @DrawableRes
-    private static int getLabelIcon(Status.MediaAttachment.Type type) {
+    private static int getLabelIcon(Attachment.Type type) {
         switch (type) {
             default:
             case IMAGE:
@@ -320,7 +330,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void setMediaLabel(Status.MediaAttachment[] attachments, boolean sensitive,
+    private void setMediaLabel(Attachment[] attachments, boolean sensitive,
                                final StatusActionListener listener) {
         if (attachments.length == 0) {
             mediaLabel.setVisibility(View.GONE);
@@ -349,7 +359,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         for (int i = 0; i < n; i++) {
             urls[i] = attachments[i].url;
         }
-        final Status.MediaAttachment.Type type = attachments[0].type;
+        final Attachment.Type type = attachments[0].type;
         mediaLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -363,14 +373,17 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         sensitiveMediaShow.setVisibility(View.GONE);
     }
 
-    private void setSpoilerText(String spoilerText, final boolean expanded,
-                                final StatusActionListener listener) {
-        contentWarningDescription.setText(spoilerText);
+    private void setSpoilerText(String spoilerText, List<Status.Emoji> emojis,
+                                final boolean expanded, final StatusActionListener listener) {
+        CharSequence emojiSpoiler =
+                CustomEmojiHelper.emojifyString(spoilerText, emojis, contentWarningDescription);
+        contentWarningDescription.setText(emojiSpoiler);
         contentWarningBar.setVisibility(View.VISIBLE);
         contentWarningButton.setChecked(expanded);
         contentWarningButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                contentWarningDescription.invalidate();
                 if (getAdapterPosition() != RecyclerView.NO_POSITION) {
                     listener.onExpandedChange(isChecked, getAdapterPosition());
                 }
@@ -478,21 +491,19 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         setDisplayName(status.getUserFullName());
         setUsername(status.getNickname());
         setCreatedAt(status.getCreatedAt());
+        setIsReply(status.getInReplyToId() != null);
         setContent(status.getContent(), status.getMentions(), status.getEmojis(), listener);
         setAvatar(status.getAvatar(), status.getRebloggedAvatar());
         setReblogged(status.isReblogged());
         setFavourited(status.isFavourited());
-        Status.MediaAttachment[] attachments = status.getAttachments();
+        Attachment[] attachments = status.getAttachments();
         boolean sensitive = status.isSensitive();
         if (mediaPreviewEnabled) {
-            setMediaPreviews(attachments, sensitive, listener, status.isShowingSensitiveContent());
-            /* A status without attachments is sometimes still marked sensitive, so it's necessary
-             * to check both whether there are any attachments and if it's marked sensitive. */
-            if (!sensitive || attachments.length == 0) {
-                hideSensitiveMediaWarning();
-            }
+            setMediaPreviews(attachments, sensitive, listener, status.isShowingContent());
+
             if (attachments.length == 0) {
-                videoIndicator.setVisibility(View.GONE);
+                hideSensitiveMediaWarning();
+//                videoIndicator.setVisibility(View.GONE);
             }
             // Hide the unused label.
             mediaLabel.setVisibility(View.GONE);
@@ -504,7 +515,7 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             mediaPreview2.setVisibility(View.GONE);
             mediaPreview3.setVisibility(View.GONE);
             hideSensitiveMediaWarning();
-            videoIndicator.setVisibility(View.GONE);
+//            videoIndicator.setVisibility(View.GONE);
         }
 
         setupButtons(listener, status.getSenderId());
@@ -512,66 +523,9 @@ class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (status.getSpoilerText() == null || status.getSpoilerText().isEmpty()) {
             hideSpoilerText();
         } else {
-            setSpoilerText(status.getSpoilerText(), status.isExpanded(), listener);
+            setSpoilerText(status.getSpoilerText(), status.getEmojis(), status.isExpanded(), listener);
         }
     }
 
-    private static class EmojiSpan extends ReplacementSpan implements Target {
 
-        private @Nullable
-        Drawable imageDrawable;
-        private WeakReference<Callback> callbackWeakReference;
-        private Context context;
-
-        EmojiSpan(Context context) {
-            this.context = context.getApplicationContext();
-        }
-
-        public void setCallback(Callback callback) {
-            this.callbackWeakReference = new WeakReference<>(callback);
-        }
-
-        @Override
-        public int getSize(@NonNull Paint paint, CharSequence text, int start, int end,
-                           @Nullable Paint.FontMetricsInt fm) {
-            return (int) (paint.getTextSize()*1.2);
-        }
-
-        @Override
-        public void draw(@NonNull Canvas canvas, CharSequence text, int start, int end, float x,
-                         int top, int y, int bottom, @NonNull Paint paint) {
-            if (imageDrawable == null) return;
-            canvas.save();
-
-            int emojiSize = (int) (paint.getTextSize() * 1.1);
-            imageDrawable.setBounds(0, 0, emojiSize, emojiSize);
-
-            int transY = bottom - imageDrawable.getBounds().bottom;
-            transY -= paint.getFontMetricsInt().descent/2;
-            canvas.translate(x, transY);
-            imageDrawable.draw(canvas);
-            canvas.restore();
-        }
-
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            // I hope using resources from application context is okay
-            // It's probably better than keeping activity alive. My assumption is that resources are
-            // only needed to look up the density which is really unlikely to change with
-            // configuration
-            imageDrawable = new BitmapDrawable(context.getResources(), bitmap);
-            if (callbackWeakReference != null) {
-                Callback cb = callbackWeakReference.get();
-                if (cb != null) cb.onSuccess();
-            }
-        }
-
-        @Override
-        public void onBitmapFailed(Drawable errorDrawable) {
-        }
-
-        @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {
-        }
-    }
 }

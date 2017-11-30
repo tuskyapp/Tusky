@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import android.arch.core.util.Function;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -23,7 +24,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.ThreadAdapter;
+import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
@@ -66,11 +67,17 @@ public class ViewThreadFragment extends SFragment implements
     private String thisThreadsStatusId;
     private TimelineReceiver timelineReceiver;
     private Card card;
+    private boolean alwaysShowSensitiveMedia;
 
     private int statusIndex = 0;
 
-    private final PairedList<Status, StatusViewData.Concrete> statuses =
-            new PairedList<>(ViewDataUtils.statusMapper());
+    private PairedList<Status, StatusViewData.Concrete> statuses =
+            new PairedList<>(new Function<Status, StatusViewData.Concrete>() {
+                @Override
+                public StatusViewData.Concrete apply(Status input) {
+                    return ViewDataUtils.statusToViewData(input, alwaysShowSensitiveMedia);
+                }
+            });
 
     public static ViewThreadFragment newInstance(String id) {
         Bundle arguments = new Bundle();
@@ -82,7 +89,7 @@ public class ViewThreadFragment extends SFragment implements
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_view_thread, container, false);
 
@@ -96,15 +103,19 @@ public class ViewThreadFragment extends SFragment implements
         recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration divider = new DividerItemDecoration(
                 context, layoutManager.getOrientation());
-        Drawable drawable = ThemeUtils.getDrawable(context, R.attr.status_divider_drawable,
+        Drawable dividerDrawable = ThemeUtils.getDrawable(context, R.attr.status_divider_drawable,
                 R.drawable.status_divider_dark);
-        divider.setDrawable(drawable);
+        divider.setDrawable(dividerDrawable);
         recyclerView.addItemDecoration(divider);
+
+        Drawable threadLineDrawable = ThemeUtils.getDrawable(context, R.attr.conversation_thread_line_drawable,
+                R.drawable.conversation_thread_line_dark);
         recyclerView.addItemDecoration(new ConversationLineItemDecoration(context,
-                ContextCompat.getDrawable(context, R.drawable.conversation_divider_dark)));
+                threadLineDrawable));
         adapter = new ThreadAdapter(this);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                 getActivity());
+        alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
         boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         recyclerView.setAdapter(adapter);
@@ -157,10 +168,16 @@ public class ViewThreadFragment extends SFragment implements
                     if (status.reblog != null) {
                         status.reblog.reblogged = reblog;
                     }
-                    // create new viewData as side effect
-                    statuses.set(position, status);
 
-                    adapter.setItem(position, statuses.getPairedItem(position), true);
+                    StatusViewData.Concrete viewdata = statuses.getPairedItem(position);
+
+                    StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
+                    viewDataBuilder.setReblogged(reblog);
+
+                    StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
+
+                    statuses.setPairedItem(position, newViewData);
+                    adapter.setItem(position, newViewData, true);
                 }
             }
 
@@ -184,9 +201,16 @@ public class ViewThreadFragment extends SFragment implements
                     if (status.reblog != null) {
                         status.reblog.favourited = favourite;
                     }
-                    // create new viewData as side effect
-                    statuses.set(position, status);
-                    adapter.setItem(position, statuses.getPairedItem(position), true);
+
+                    StatusViewData.Concrete viewdata = statuses.getPairedItem(position);
+
+                    StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
+                    viewDataBuilder.setFavourited(favourite);
+
+                    StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
+
+                    statuses.setPairedItem(position, newViewData);
+                    adapter.setItem(position, newViewData, true);
                 }
             }
 
@@ -204,7 +228,7 @@ public class ViewThreadFragment extends SFragment implements
     }
 
     @Override
-    public void onViewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type,
+    public void onViewMedia(String[] urls, int urlIndex, Attachment.Type type,
                             View view) {
         super.viewMedia(urls, urlIndex, type, view);
     }
@@ -367,6 +391,7 @@ public class ViewThreadFragment extends SFragment implements
                         public void onClick(View v) {
                             sendThreadRequest(id);
                             sendStatusRequest(id);
+                            sendCardRequest(id);
                         }
                     })
                     .show();
@@ -392,6 +417,7 @@ public class ViewThreadFragment extends SFragment implements
                     .setCard(card)
                     .createStatusViewData();
         }
+        statuses.setPairedItem(i, viewData);
         adapter.addItem(i, viewData);
         return i;
     }
@@ -432,6 +458,8 @@ public class ViewThreadFragment extends SFragment implements
                 viewData = new StatusViewData.Builder(viewData)
                         .setCard(card)
                         .createStatusViewData();
+                statuses.setPairedItem(statusIndex, viewData);
+
             }
             adapter.addItem(statusIndex, viewData);
         }

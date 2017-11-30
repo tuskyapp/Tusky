@@ -42,6 +42,7 @@ import com.keylesspalace.tusky.NotificationPullJobCreator;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
@@ -108,6 +109,7 @@ public class NotificationsFragment extends SFragment implements
     private int bottomFetches;
     private String bottomId;
     private String topId;
+    private boolean alwaysShowSensitiveMedia;
 
     // Each element is either a Notification for loading data or a Placeholder
     private final PairedList<Either<Placeholder, Notification>, NotificationViewData> notifications
@@ -116,7 +118,7 @@ public class NotificationsFragment extends SFragment implements
         public NotificationViewData apply(Either<Placeholder, Notification> input) {
             if (input.isRight()) {
                 Notification notification = input.getAsRight();
-                return ViewDataUtils.notificationToViewData(notification);
+                return ViewDataUtils.notificationToViewData(notification, alwaysShowSensitiveMedia);
             } else {
                 return new NotificationViewData.Placeholder(false);
             }
@@ -155,6 +157,7 @@ public class NotificationsFragment extends SFragment implements
         adapter = new NotificationsAdapter(this, this);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                 getActivity());
+        alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
         boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         recyclerView.setAdapter(adapter);
@@ -273,13 +276,19 @@ public class NotificationsFragment extends SFragment implements
                     if (status.reblog != null) {
                         status.reblog.reblogged = reblog;
                     }
-                    // Java's type inference *eyeroll*
-                    notifications.set(position,
-                            Either.<Placeholder, Notification>right(notification));
 
-                    adapter.updateItemWithNotify(position, notifications.getPairedItem(position), true);
+                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete)notifications.getPairedItem(position);
 
-                    adapter.notifyItemChanged(position);
+                    StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
+                    viewDataBuilder.setReblogged(reblog);
+
+                    NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
+                            viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
+                            viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
+
+                    notifications.setPairedItem(position, newViewData);
+
+                    adapter.updateItemWithNotify(position, newViewData, true);
                 }
             }
 
@@ -305,12 +314,19 @@ public class NotificationsFragment extends SFragment implements
                         status.reblog.favourited = favourite;
                     }
 
-                    notifications.set(position,
-                            Either.<Placeholder, Notification>right(notification));
+                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete)notifications.getPairedItem(position);
 
-                    adapter.updateItemWithNotify(position, notifications.getPairedItem(position), true);
+                    StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
+                    viewDataBuilder.setFavourited(favourite);
 
-                    adapter.notifyItemChanged(position);
+                    NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
+                            viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
+                            viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
+
+                    notifications.setPairedItem(position, newViewData);
+
+                    adapter.updateItemWithNotify(position, newViewData, true);
+
                 }
             }
 
@@ -328,7 +344,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onViewMedia(String[] urls, int urlIndex, Status.MediaAttachment.Type type,
+    public void onViewMedia(String[] urls, int urlIndex, Attachment.Type type,
                             View view) {
         super.viewMedia(urls, urlIndex, type, view);
     }
@@ -354,7 +370,7 @@ public class NotificationsFragment extends SFragment implements
                         .setIsExpanded(expanded)
                         .createStatusViewData();
         NotificationViewData notificationViewData = new NotificationViewData.Concrete(old.getType(),
-                old.getId(), old.getAccount(), statusViewData);
+                old.getId(), old.getAccount(), statusViewData, expanded);
         notifications.setPairedItem(position, notificationViewData);
         adapter.updateItemWithNotify(position, notificationViewData, false);
     }
@@ -368,7 +384,7 @@ public class NotificationsFragment extends SFragment implements
                         .setIsShowingSensitiveContent(isShowing)
                         .createStatusViewData();
         NotificationViewData notificationViewData = new NotificationViewData.Concrete(old.getType(),
-                old.getId(), old.getAccount(), statusViewData);
+                old.getId(), old.getAccount(), statusViewData, old.isExpanded());
         notifications.setPairedItem(position, notificationViewData);
         adapter.updateItemWithNotify(position, notificationViewData, false);
     }

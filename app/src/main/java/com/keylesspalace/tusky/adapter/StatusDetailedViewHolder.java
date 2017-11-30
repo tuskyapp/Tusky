@@ -2,7 +2,6 @@ package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -19,7 +18,7 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.util.CustomTabURLSpan;
+import com.keylesspalace.tusky.util.CustomURLSpan;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
@@ -30,7 +29,6 @@ import java.util.Date;
 class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private TextView reblogs;
     private TextView favourites;
-    private TextView application;
     private LinearLayout cardView;
     private LinearLayout cardInfo;
     private ImageView cardImage;
@@ -42,7 +40,6 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
         super(view);
         reblogs = view.findViewById(R.id.status_reblogs);
         favourites = view.findViewById(R.id.status_favourites);
-        application = view.findViewById(R.id.status_application);
         cardView = view.findViewById(R.id.card_view);
         cardInfo = view.findViewById(R.id.card_info);
         cardImage = view.findViewById(R.id.card_image);
@@ -52,35 +49,35 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
+    protected int getMediaPreviewHeight(Context context) {
+        return context.getResources().getDimensionPixelSize(R.dimen.status_detail_media_preview_height);
+    }
+
+    @Override
     protected void setCreatedAt(@Nullable Date createdAt) {
         if (createdAt != null) {
-            DateFormat dateFormat = android.text.format.DateFormat.getMediumDateFormat(
-                    timestamp.getContext());
-            timestamp.setText(dateFormat.format(createdAt));
+            DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT);
+            timestampInfo.setText(dateFormat.format(createdAt));
         } else {
-            timestamp.setText("");
+            timestampInfo.setText("");
         }
     }
 
     private void setApplication(@Nullable Status.Application app) {
-        if (app == null) {
-            application.setText("");
-        } else if (app.website != null) {
-            URLSpan span;
-            Context context = application.getContext();
-            boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(context)
-                    .getBoolean("customTabs", true);
-            if (useCustomTabs) {
-                span = new CustomTabURLSpan(app.website);
+        if (app != null) {
+
+            timestampInfo.append("  •  ");
+
+            if (app.website != null) {
+                URLSpan span = new CustomURLSpan(app.website);
+
+                SpannableStringBuilder text = new SpannableStringBuilder(app.name);
+                text.setSpan(span, 0, app.name.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                timestampInfo.append(text);
+                timestampInfo.setMovementMethod(LinkMovementMethod.getInstance());
             } else {
-                span = new URLSpan(app.website);
+                timestampInfo.append(app.name);
             }
-            SpannableStringBuilder text = new SpannableStringBuilder(app.name);
-            text.setSpan(span, 0, app.name.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            application.setText(text);
-            application.setMovementMethod(LinkMovementMethod.getInstance());
-        } else {
-            application.setText(app.name);
         }
     }
 

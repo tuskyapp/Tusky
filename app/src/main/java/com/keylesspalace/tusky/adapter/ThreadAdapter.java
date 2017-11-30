@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
@@ -37,8 +36,6 @@ public class ThreadAdapter extends RecyclerView.Adapter {
     private StatusActionListener statusActionListener;
     private boolean mediaPreviewEnabled;
     private int detailedStatusPosition;
-
-    private Card detailedStatusCard;
 
     public ThreadAdapter(StatusActionListener listener) {
         this.statusActionListener = listener;
@@ -154,5 +151,9 @@ public class ThreadAdapter extends RecyclerView.Adapter {
         } else {
             detailedStatusPosition = position;
         }
+    }
+
+    public int getDetailedStatusPosition() {
+        return detailedStatusPosition;
     }
 }

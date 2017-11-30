@@ -19,6 +19,7 @@
     <!--Base Application Theme Styles (Dark)-->
 
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textSize">15sp</item>
         <item name="colorPrimary">@color/color_primary_dark</item>
         <item name="colorPrimaryDark">@color/color_primary_dark_dark</item>
         <item name="colorAccent">@color/color_accent_dark</item>
@@ -40,6 +41,7 @@
         <item name="toolbar_background_color">@color/toolbar_background_dark</item>
         <item name="toolbar_icon_tint">@color/toolbar_icon_dark</item>
         <item name="image_button_style">@style/AppTheme.ImageButton.Dark</item>
+        <item name="status_reblog_small_drawable">@drawable/ic_reblog_dark_18dp</item>
         <item name="status_reblog_inactive_drawable">@drawable/reblog_inactive_dark</item>
         <item name="status_reblog_disabled_drawable">@drawable/reblog_disabled_dark</item>
         <item name="status_reblog_direct_drawable">@drawable/reblog_direct_dark</item>
@@ -49,6 +51,7 @@
         <item name="sensitive_media_warning_background_color">@color/color_background_dark</item>
         <item name="media_preview_unloaded_drawable">@drawable/media_preview_unloaded_dark</item>
         <item name="status_divider_drawable">@drawable/status_divider_dark</item>
+        <item name="conversation_thread_line_drawable">@drawable/conversation_thread_line_dark</item>
         <item name="tab_icon_selected_tint">@color/color_accent_dark</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_dark</item>
         <item name="account_header_background_color">@color/account_header_background_dark</item>
@@ -81,6 +84,8 @@
         <item name="card_background">@drawable/card_frame_dark</item>
         <item name="card_image_background">@color/text_color_tertiary_dark</item>
 
+        <item name="play_indicator_drawable">@drawable/ic_play_indicator_dark</item>
+
     </style>
 
     <style name="AppTheme.ImageButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
@@ -101,6 +106,8 @@
     <!--Light Application Theme Styles-->
 
     <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textSize">15sp</item>
+
         <item name="colorPrimary">@color/color_primary_light</item>
         <item name="colorPrimaryDark">@color/color_primary_dark_light</item>
         <item name="colorAccent">@color/color_accent_light</item>
@@ -122,6 +129,7 @@
         <item name="toolbar_background_color">@color/toolbar_background_light</item>
         <item name="toolbar_icon_tint">@color/toolbar_icon_light</item>
         <item name="image_button_style">@style/AppTheme.ImageButton.Light</item>
+        <item name="status_reblog_small_drawable">@drawable/ic_reblog_light_18dp</item>
         <item name="status_reblog_inactive_drawable">@drawable/reblog_inactive_light</item>
         <item name="status_reblog_disabled_drawable">@drawable/reblog_disabled_light</item>
         <item name="status_reblog_direct_drawable">@drawable/reblog_direct_light</item>
@@ -131,6 +139,7 @@
         <item name="sensitive_media_warning_background_color">@color/sensitive_media_warning_background_light</item>
         <item name="media_preview_unloaded_drawable">@drawable/media_preview_unloaded_light</item>
         <item name="status_divider_drawable">@drawable/status_divider_light</item>
+        <item name="conversation_thread_line_drawable">@drawable/conversation_thread_line_light</item>
         <item name="tab_icon_selected_tint">@color/color_accent_light</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_light</item>
         <item name="account_header_background_color">@color/account_header_background_light</item>
@@ -162,6 +171,8 @@
 
         <item name="card_background">@drawable/card_frame_light</item>
         <item name="card_image_background">@color/text_color_tertiary_light</item>
+
+        <item name="play_indicator_drawable">@drawable/ic_play_indicator_light</item>
 
     </style>
 

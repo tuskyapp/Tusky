@@ -19,6 +19,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +27,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
-import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,13 +38,18 @@ import android.widget.ToggleButton;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.util.CustomEmojiHelper;
+import com.keylesspalace.tusky.util.DateUtils;
+import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class NotificationsAdapter extends RecyclerView.Adapter {
@@ -126,13 +131,17 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case FAVOURITE:
                 case REBLOG: {
                     StatusNotificationViewHolder holder = (StatusNotificationViewHolder) viewHolder;
-                    holder.setMessage(type, concreteNotificaton.getAccount().getDisplayName(),
-                            concreteNotificaton.getStatusViewData());
+                    StatusViewData.Concrete statusViewData = concreteNotificaton.getStatusViewData();
+                    holder.setDisplayName(statusViewData.getUserFullName());
+                    holder.setUsername(statusViewData.getNickname());
+                    holder.setCreatedAt(statusViewData.getCreatedAt());
+
+                    holder.setMessage(concreteNotificaton, statusListener);
                     holder.setupButtons(notificationActionListener,
                             concreteNotificaton.getAccount().id,
                             concreteNotificaton.getId());
                     holder.setAvatars(concreteNotificaton.getStatusViewData().getAvatar(),
-                            concreteNotificaton.getId());
+                            concreteNotificaton.getAccount().avatar);
                     break;
                 }
                 case FOLLOW: {
@@ -220,6 +229,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         void onViewAccount(String id);
 
         void onViewStatusForNotificationId(String notificationId);
+
+        void onExpandedChange(boolean expanded, int position);
+
     }
 
     private static class FollowViewHolder extends RecyclerView.ViewHolder {
@@ -270,30 +282,32 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private static class StatusNotificationViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, ToggleButton.OnCheckedChangeListener {
         private final TextView message;
-        private final ImageView icon;
+        private final TextView displayName;
+        private final TextView username;
+        private final TextView timestampInfo;
         private final TextView statusContent;
         private final ViewGroup container;
         private final ImageView statusAvatar;
         private final ImageView notificationAvatar;
-        private final ViewGroup topBar;
         private final View contentWarningBar;
         private final TextView contentWarningDescriptionTextView;
         private final ToggleButton contentWarningButton;
 
         private String accountId;
         private String notificationId;
-        private NotificationActionListener listener;
+        private NotificationActionListener notificationActionListener;
         private StatusViewData.Concrete statusViewData;
 
         StatusNotificationViewHolder(View itemView) {
             super(itemView);
-            message = itemView.findViewById(R.id.notification_text);
-            icon = itemView.findViewById(R.id.notification_icon);
+            message = itemView.findViewById(R.id.notification_top_text);
+            displayName = itemView.findViewById(R.id.status_display_name);
+            username = itemView.findViewById(R.id.status_username);
+            timestampInfo = itemView.findViewById(R.id.status_timestamp_info);
             statusContent = itemView.findViewById(R.id.notification_content);
             container = itemView.findViewById(R.id.notification_container);
             statusAvatar = itemView.findViewById(R.id.notification_status_avatar);
             notificationAvatar = itemView.findViewById(R.id.notification_notification_avatar);
-            topBar = itemView.findViewById(R.id.notification_top_bar);
             contentWarningBar = itemView.findViewById(R.id.notification_content_warning_bar);
             contentWarningDescriptionTextView = itemView.findViewById(R.id.notification_content_warning_description);
             contentWarningButton = itemView.findViewById(R.id.notification_content_warning_button);
@@ -303,33 +317,77 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             notificationAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
 
             container.setOnClickListener(this);
-            topBar.setOnClickListener(this);
+            message.setOnClickListener(this);
+            statusContent.setOnClickListener(this);
             contentWarningButton.setOnCheckedChangeListener(this);
         }
 
-        void setMessage(Notification.Type type, String displayName,
-                        StatusViewData.Concrete status) {
-            this.statusViewData = status;
+        private void setDisplayName(String name) {
+            displayName.setText(name);
+        }
+
+        private void setUsername(String name) {
+            Context context = username.getContext();
+            String format = context.getString(R.string.status_username_format);
+            String usernameText = String.format(format, name);
+            username.setText(usernameText);
+        }
+
+        private void setCreatedAt(@Nullable Date createdAt) {
+            // This is the visible timestampInfo.
+            String readout;
+        /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
+         * as 17 meters instead of minutes. */
+            CharSequence readoutAloud;
+            if (createdAt != null) {
+                long then = createdAt.getTime();
+                long now = new Date().getTime();
+                readout = DateUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
+                readoutAloud = android.text.format.DateUtils.getRelativeTimeSpanString(then, now,
+                        android.text.format.DateUtils.SECOND_IN_MILLIS,
+                        android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);
+            } else {
+                // unknown minutes~
+                readout = "?m";
+                readoutAloud = "? minutes";
+            }
+            timestampInfo.setText(readout);
+            timestampInfo.setContentDescription(readoutAloud);
+        }
+
+        void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener) {
+            this.statusViewData = notificationViewData.getStatusViewData();
+
+            String displayName = notificationViewData.getAccount().getDisplayName();
+            Notification.Type type = notificationViewData.getType();
 
             Context context = message.getContext();
             String format;
+            Drawable icon;
             switch (type) {
                 default:
                 case FAVOURITE: {
-                    icon.setImageResource(R.drawable.ic_star_24dp);
-                    icon.setColorFilter(ContextCompat.getColor(context,
-                            R.color.status_favourite_button_marked_dark));
+                    icon = ContextCompat.getDrawable(context, R.drawable.ic_star_24dp);
+                    if (icon != null) {
+                        icon.setColorFilter(ContextCompat.getColor(context,
+                                R.color.status_favourite_button_marked_dark), PorterDuff.Mode.SRC_ATOP);
+                    }
+
                     format = context.getString(R.string.notification_favourite_format);
                     break;
                 }
                 case REBLOG: {
-                    icon.setImageResource(R.drawable.ic_repeat_24dp);
-                    icon.setColorFilter(ContextCompat.getColor(context,
-                            R.color.color_accent_dark));
+                    icon = ContextCompat.getDrawable(context, R.drawable.ic_repeat_24dp);
+                    if(icon != null) {
+                        icon.setColorFilter(ContextCompat.getColor(context,
+                                R.color.color_accent_dark), PorterDuff.Mode.SRC_ATOP);
+                    }
+
                     format = context.getString(R.string.notification_reblog_format);
                     break;
                 }
             }
+            message.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
             String wholeMessage = String.format(format, displayName);
             final SpannableStringBuilder str = new SpannableStringBuilder(wholeMessage);
             str.setSpan(new StyleSpan(Typeface.BOLD), 0, displayName.length(),
@@ -338,12 +396,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
             boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
             contentWarningBar.setVisibility(hasSpoiler ? View.VISIBLE : View.GONE);
-            setupContentAndSpoiler(false);
+            setupContentAndSpoiler(notificationViewData, listener);
         }
 
         void setupButtons(final NotificationActionListener listener, final String accountId,
                           final String notificationId) {
-            this.listener = listener;
+            this.notificationActionListener = listener;
             this.accountId = accountId;
             this.notificationId = notificationId;
         }
@@ -362,11 +420,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             }
 
             if (notificationAvatarUrl == null || notificationAvatarUrl.isEmpty()) {
-                notificationAvatar.setVisibility(View.GONE);
+                notificationAvatar.setImageResource(R.drawable.avatar_default);
             } else {
-                notificationAvatar.setVisibility(View.VISIBLE);
                 Picasso.with(context)
                         .load(notificationAvatarUrl)
+                        .placeholder(R.drawable.avatar_default)
                         .fit()
                         .transform(new RoundedTransformation(7, 0))
                         .into(notificationAvatar);
@@ -377,46 +435,48 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.notification_container:
-                    if (listener != null) listener.onViewStatusForNotificationId(notificationId);
+                case R.id.notification_content:
+                    if (notificationActionListener != null) notificationActionListener.onViewStatusForNotificationId(notificationId);
                     break;
-                case R.id.notification_top_bar:
-                    if (listener != null) listener.onViewAccount(accountId);
+                case R.id.notification_top_text:
+                    if (notificationActionListener != null) notificationActionListener.onViewAccount(accountId);
                     break;
             }
         }
 
-        private void setupContentAndSpoiler(boolean shouldShowContentIfSpoiler) {
+        private void setupContentAndSpoiler(NotificationViewData.Concrete notificationViewData, final LinkListener listener) {
+
+            boolean shouldShowContentIfSpoiler = notificationViewData.isExpanded();
             boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
-            CharSequence content;
             if (!shouldShowContentIfSpoiler && hasSpoiler) {
-                if (statusViewData.getMentions() != null &&
-                        statusViewData.getMentions().length > 0) {
-                    // If there is a content warning and mentions we're alternating between
-                    // showing mentions and showing full content. As mentions are plain text we
-                    // have to construct URLSpans ourselves.
-                    SpannableStringBuilder contentBuilder = new SpannableStringBuilder();
-                    for (Status.Mention mention : statusViewData.getMentions()) {
-                        int start = contentBuilder.length() > 0 ? contentBuilder.length() - 1 : 0;
-                        contentBuilder.append('@');
-                        contentBuilder.append(mention.username);
-                        contentBuilder.append(' ');
-                        contentBuilder.setSpan(new URLSpan(mention.url), start,
-                                mention.username.length() + 1, 0);
-                    }
-                    content = contentBuilder;
-                } else {
-                    content = null;
-                }
+                statusContent.setVisibility(View.GONE);
             } else {
-                content = statusViewData.getContent();
+                statusContent.setVisibility(View.VISIBLE);
             }
-            statusContent.setText(content);
-            contentWarningDescriptionTextView.setText(statusViewData.getSpoilerText());
+
+            Spanned content = statusViewData.getContent();
+            List<Status.Emoji> emojis = statusViewData.getEmojis();
+
+            Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, statusContent);
+
+            LinkHelper.setClickableText(statusContent, emojifiedText, statusViewData.getMentions(), listener);
+
+
+            Spanned emojifiedContentWarning =
+                    CustomEmojiHelper.emojifyString(statusViewData.getSpoilerText(), statusViewData.getEmojis(), contentWarningDescriptionTextView);
+            contentWarningDescriptionTextView.setText(emojifiedContentWarning);
         }
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            setupContentAndSpoiler(isChecked);
+            if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                notificationActionListener.onExpandedChange(isChecked, getAdapterPosition());
+            }
+            if (isChecked) {
+                statusContent.setVisibility(View.VISIBLE);
+            } else {
+                statusContent.setVisibility(View.GONE);
+            }
         }
     }
 }
