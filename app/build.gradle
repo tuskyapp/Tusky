@@ -40,7 +40,7 @@ android {
     }
 }
 
-ext.supportLibraryVersion = '27.0.1'
+ext.supportLibraryVersion = '27.0.2'
 
 dependencies {
     compile('com.mikepenz:materialdrawer:6.0.1@aar') {
@@ -55,8 +55,8 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.squareup.okhttp3:okhttp:3.9.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    compile 'com.squareup.okhttp3:okhttp:3.9.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
     compile 'com.pkmmte.view:circularimageview:1.1'
     compile 'com.github.varunest:sparkbutton:1.0.5'
