@@ -26,6 +26,7 @@
         android:paddingLeft="28dp"
         android:paddingStart="28dp"
         android:textColor="?android:textColorTertiary"
+        android:textSize="?attr/status_text_medium"
         tools:text="Someone followed you" />
 
     <ImageView
@@ -40,7 +41,8 @@
         android:layout_marginRight="14dp"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/action_view_profile"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"
+        android:textSize="?attr/status_text_medium" />
 
     <TextView
         android:id="@+id/notification_display_name"
@@ -52,6 +54,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
         android:textStyle="normal|bold"
         tools:text="Test User" />
 
@@ -65,6 +68,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorSecondary"
+        android:textSize="?attr/status_text_medium"
         tools:text="\@testuser" />
 
 </RelativeLayout>

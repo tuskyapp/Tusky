@@ -37,6 +37,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="?android:textColorPrimary"
+            android:textSize="?attr/status_text_medium"
             android:textStyle="normal|bold"
             tools:text="Display Name" />
 
@@ -48,6 +49,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="?android:textColorSecondary"
+            android:textSize="?attr/status_text_medium"
             tools:text="\@ConnyDuck\@mastodon.social" />
 
     </LinearLayout>
@@ -67,7 +69,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="1.1"
-            android:textColor="?android:textColorPrimary" />
+            android:textColor="?android:textColorPrimary"
+            android:textSize="?attr/status_text_medium" />
 
         <ToggleButton
             android:id="@+id/status_content_warning_button"
@@ -82,7 +85,8 @@
             android:paddingTop="3dp"
             android:textAllCaps="true"
             android:textOff="@string/status_content_warning_show_more"
-            android:textOn="@string/status_content_warning_show_less" />
+            android:textOn="@string/status_content_warning_show_less"
+            android:textSize="?attr/status_text_medium" />
 
     </com.keylesspalace.tusky.view.FlowLayout>
 
@@ -94,7 +98,8 @@
         android:layout_marginBottom="4dp"
         android:focusable="true"
         android:lineSpacingMultiplier="1.1"
-        android:textColor="?android:textColorPrimary" />
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium" />
 
     <LinearLayout
         android:id="@+id/card_view"
@@ -130,7 +135,8 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
                 android:lines="1"
-                android:textColor="?android:textColorPrimary" />
+                android:textColor="?android:textColorPrimary"
+                android:textSize="?attr/status_text_medium" />
 
             <TextView
                 android:id="@+id/card_description"
@@ -140,7 +146,8 @@
                 android:ellipsize="end"
                 android:lineSpacingMultiplier="1.1"
                 android:maxLines="2"
-                android:textColor="?android:textColorSecondary" />
+                android:textColor="?android:textColorSecondary"
+                android:textSize="?attr/status_text_medium" />
 
             <TextView
                 android:id="@+id/card_link"
@@ -148,7 +155,8 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
-                android:textColor="?android:textColorTertiary" />
+                android:textColor="?android:textColorTertiary"
+                android:textSize="?attr/status_text_medium" />
         </LinearLayout>
 
     </LinearLayout>
@@ -278,6 +286,7 @@
             android:padding="8dp"
             android:textAlignment="center"
             android:textColor="@android:color/white"
+            android:textSize="?attr/status_text_medium"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -291,6 +300,7 @@
             android:background="?attr/selectableItemBackground"
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
+            android:textSize="?attr/status_text_medium"
             android:visibility="gone" />
 
     </android.support.constraint.ConstraintLayout>
@@ -302,7 +312,8 @@
         android:layout_below="@id/status_media_preview_container"
         android:layout_marginBottom="6dp"
         android:layout_marginTop="10dp"
-        android:textColor="?android:textColorTertiary" />
+        android:textColor="?android:textColorTertiary"
+        android:textSize="?attr/status_text_medium" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -347,7 +358,8 @@
         <TextView
             android:id="@+id/status_reblogs"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="?attr/status_text_medium" />
 
         <Space
             android:layout_width="0dp"
@@ -370,7 +382,8 @@
         <TextView
             android:id="@+id/status_favourites"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="?attr/status_text_medium" />
 
         <Space
             android:layout_width="0dp"

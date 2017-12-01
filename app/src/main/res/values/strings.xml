@@ -191,10 +191,18 @@
     <string name="pref_default_post_privacy">Default post privacy</string>
     <string name="pref_publishing">Publishing</string>
 
-    <string-array name="post_privacy_names" inputType="integer">
+    <string-array name="post_privacy_names">
         <item>Public</item>
         <item>Unlisted</item>
         <item>Followers-only</item>
+    </string-array>
+
+    <string name="pref_status_text_size">Status text size</string>
+
+    <string-array name="status_text_size_names">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
     </string-array>
 
     <string name="notification_channel_mention_name">New Mentions</string>

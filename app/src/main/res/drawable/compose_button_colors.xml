@@ -2,21 +2,31 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_enabled="true">
+        <inset
+            android:insetBottom="6dp"
+            android:insetLeft="2dp"
+            android:insetRight="6dp"
+            android:insetTop="2dp">
         <shape>
-            <corners
-                android:radius="3dp"/>
-            <solid
-                android:color="@color/md_blue_600"/>
+            <corners android:radius="3dp" />
+            <solid android:color="@color/md_blue_600" />
+            <padding android:bottom="4dp" android:left="8dp" android:right="8dp" android:top="4dp" />
         </shape>
+        </inset>
     </item>
 
     <item android:state_enabled="false">
+        <inset
+            android:insetBottom="6dp"
+            android:insetLeft="2dp"
+            android:insetRight="6dp"
+            android:insetTop="2dp">
         <shape>
-            <corners
-                android:radius="3dp"/>
-            <solid
-                android:color="@color/md_blue_grey_300"/>
+            <corners android:radius="3dp" />
+            <solid android:color="@color/md_blue_grey_300" />
+            <padding android:bottom="4dp" android:left="8dp" android:right="8dp" android:top="4dp" />
         </shape>
+        </inset>
     </item>
 
 </selector>

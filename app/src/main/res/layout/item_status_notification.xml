@@ -22,6 +22,7 @@
         android:paddingLeft="28dp"
         android:paddingStart="28dp"
         android:textColor="?android:textColorSecondary"
+        android:textSize="?attr/status_text_medium"
         tools:text="Someone favourited your status" />
 
     <RelativeLayout
@@ -48,6 +49,7 @@
             android:paddingStart="0dp"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
             android:textColor="?android:textColorTertiary"
+            android:textSize="?attr/status_text_medium"
             android:textStyle="normal|bold"
             tools:text="Ente" />
 
@@ -62,6 +64,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="?android:textColorTertiary"
+            android:textSize="?attr/status_text_medium"
             tools:text="\@Entenhausen" />
 
         <TextView
@@ -73,6 +76,7 @@
             android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
             android:textColor="?android:textColorTertiary"
+            android:textSize="?attr/status_text_medium"
             tools:text="13:37" />
 
     </RelativeLayout>
@@ -96,7 +100,9 @@
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="1.1"
             android:textColor="?android:textColorTertiary"
+            android:textSize="?attr/status_text_medium"
             tools:text="Example CW text" />
+
 
         <ToggleButton
             android:id="@+id/notification_content_warning_button"
@@ -113,7 +119,7 @@
             android:textAllCaps="true"
             android:textOff="@string/status_content_warning_show_more"
             android:textOn="@string/status_content_warning_show_less"
-            android:textSize="12sp" />
+            android:textSize="?attr/status_text_medium" />
 
     </com.keylesspalace.tusky.view.FlowLayout>
 
@@ -127,6 +133,7 @@
         android:lineSpacingMultiplier="1.1"
         android:paddingBottom="10dp"
         android:textColor="?android:textColorTertiary"
+        android:textSize="?attr/status_text_medium"
         tools:text="Example status here" />
 
     <ImageView

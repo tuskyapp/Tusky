@@ -19,9 +19,15 @@
         <item>120</item>
     </string-array>
 
-    <string-array name="post_privacy_values" inputType="integer">
+    <string-array name="post_privacy_values">
         <item>public</item>
         <item>unlisted</item>
         <item>private</item>
+    </string-array>
+
+    <string-array name="status_text_size_values">
+        <item>small</item>
+        <item>medium</item>
+        <item>large</item>
     </string-array>
 </resources>

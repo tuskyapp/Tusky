@@ -31,7 +31,7 @@ import com.keylesspalace.tusky.fragment.PreferencesFragment;
 public class PreferencesActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private boolean themeSwitched;
+    private boolean restartActivitiesOnExit;
     private @XmlRes int currentPreferences;
     private @StringRes int currentTitle;
 
@@ -39,10 +39,10 @@ public class PreferencesActivity extends BaseActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            themeSwitched = savedInstanceState.getBoolean("themeSwitched");
+            restartActivitiesOnExit = savedInstanceState.getBoolean("restart");
         } else {
             Bundle extras = getIntent().getExtras();
-            themeSwitched = extras != null && extras.getBoolean("themeSwitched");
+            restartActivitiesOnExit = extras != null && extras.getBoolean("restart");
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -91,7 +91,7 @@ public class PreferencesActivity extends BaseActivity
     }
 
     private void saveInstanceState(Bundle outState) {
-        outState.putBoolean("themeSwitched", themeSwitched);
+        outState.putBoolean("restart", restartActivitiesOnExit);
         outState.putInt("preferences", currentPreferences);
         outState.putInt("title", currentTitle);
     }
@@ -105,7 +105,7 @@ public class PreferencesActivity extends BaseActivity
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key) {
             case "lightTheme": {
-                themeSwitched = true;
+                restartActivitiesOnExit = true;
                 // recreate() could be used instead, but it doesn't have an animation B).
                 Intent intent = getIntent();
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -115,6 +115,10 @@ public class PreferencesActivity extends BaseActivity
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                break;
+            }
+            case "statusTextSize": {
+                restartActivitiesOnExit = true;
                 break;
             }
             case "notificationsEnabled": {
@@ -146,7 +150,7 @@ public class PreferencesActivity extends BaseActivity
          * Either the back stack activities need to all be recreated, or do the easier thing, which
          * is hijack the back button press and use it to launch a new MainActivity and clear the
          * back stack. */
-            if (themeSwitched) {
+            if (restartActivitiesOnExit) {
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);

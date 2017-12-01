@@ -151,10 +151,18 @@
         <item>2 Stunden</item>
     </string-array>
 
-    <string-array name="post_privacy_names" inputType="integer">
+    <string-array name="post_privacy_names">
         <item>Öffentlich</item>
         <item>Nicht gelistet</item>
         <item>Nur Folgende</item>
+    </string-array>
+
+    <string name="pref_status_text_size">Schriftgröße</string>
+
+    <string-array name="status_text_size_names">
+        <item>Klein</item>
+        <item>Normal</item>
+        <item>Groß</item>
     </string-array>
 
     <string name="notification_mention_format">%s hat dich erwähnt</string>

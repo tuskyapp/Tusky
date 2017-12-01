@@ -9,6 +9,14 @@
             android:key="lightTheme"
             android:title="@string/pref_title_light_theme" />
 
+        <ListPreference
+            android:defaultValue="medium"
+            android:entries="@array/status_text_size_names"
+            android:entryValues="@array/status_text_size_values"
+            android:key="statusTextSize"
+            android:summary="%s"
+            android:title="@string/pref_status_text_size" />
+
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="fabHide"

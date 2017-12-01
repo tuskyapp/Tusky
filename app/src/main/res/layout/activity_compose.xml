@@ -19,6 +19,7 @@
             android:background="@android:color/transparent" />
 
         <TextView
+            android:textSize="?attr/status_text_small"
             android:id="@+id/reply_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,6 +32,7 @@
             tools:visibility="visible" />
 
         <TextView
+            android:textSize="?attr/status_text_small"
             android:id="@+id/reply_content_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,6 +54,7 @@
             android:orientation="vertical">
 
             <EditText
+                android:textSize="?attr/status_text_medium"
                 android:id="@+id/field_content_warning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,7 +93,7 @@
                 android:gravity="start|top"
                 android:hint="@string/hint_compose"
                 android:inputType="text|textMultiLine|textCapSentences"
-                android:textSize="20sp" />
+                android:textSize="?attr/status_text_large" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
@@ -194,15 +197,17 @@
             <TextView
                 android:id="@+id/characters_left"
                 android:layout_width="wrap_content"
+                android:textSize="?attr/status_text_small"
                 android:layout_height="wrap_content"
                 android:textColor="?android:textColorPrimary" />
 
             <Button
                 android:id="@+id/floating_btn"
-                android:layout_width="80dp"
-                android:layout_height="35dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
+                android:textSize="?attr/status_text_large"
                 android:background="@drawable/compose_button_colors"
                 android:text="@string/action_send"
                 android:textColor="@android:color/white" />

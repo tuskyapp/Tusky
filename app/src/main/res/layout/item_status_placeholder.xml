@@ -5,4 +5,5 @@
     android:layout_width="match_parent"
     android:layout_height="72dp"
     android:text="@string/load_more_placeholder_text"
-    android:textColor="?attr/colorAccent" />
+    android:textColor="?attr/colorAccent"
+    android:textSize="?attr/status_text_medium" />

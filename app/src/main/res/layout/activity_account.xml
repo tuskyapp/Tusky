@@ -66,6 +66,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
+                        android:textSize="?attr/status_text_large"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,6 +76,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
+                        android:textSize="?attr/status_text_medium"
                         android:text="@string/follows_you"
                         android:textColor="?android:textColorPrimary"
                         app:layout_constraintEnd_toEndOf="@id/follow_btn"
@@ -87,7 +89,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="?android:textColorPrimary"
-                        android:textSize="18sp"
+                        android:textSize="?attr/status_text_large"
                         android:textStyle="normal|bold"
                         app:layout_constraintTop_toBottomOf="@id/account_avatar"
                         tools:text="Tusky Mastodon Client" />
@@ -98,6 +100,7 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:textSize="?attr/status_text_medium"
                         android:textColor="?android:textColorSecondary"
                         app:layout_constraintTop_toBottomOf="@id/account_display_name"
                         tools:text="\@Tusky" />
@@ -123,6 +126,7 @@
                         android:layout_below="@id/account_username"
                         android:paddingBottom="16dp"
                         android:paddingTop="10dp"
+                        android:textSize="?attr/status_text_medium"
                         android:textColor="?android:textColorTertiary"
                         app:layout_constraintTop_toBottomOf="@id/account_username"
                         tools:text="This is a test description" />
@@ -137,6 +141,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toStartOf="parent"
+                        android:textSize="?attr/status_text_medium"
                         app:layout_constraintTop_toBottomOf="@id/account_note"
                         tools:text="3000 Followers" />
 
@@ -149,6 +154,7 @@
                         app:layout_constraintEnd_toStartOf="@id/statuses_btn"
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toEndOf="@id/followers_tv"
+                        android:textSize="?attr/status_text_medium"
                         app:layout_constraintTop_toTopOf="@id/followers_tv"
                         tools:text="500 Following" />
 
@@ -158,6 +164,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/account_tab_font_color"
                         app:layout_constraintEnd_toEndOf="parent"
+                        android:textSize="?attr/status_text_medium"
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toEndOf="@id/following_tv"
                         app:layout_constraintTop_toTopOf="@id/followers_tv"
@@ -194,6 +201,7 @@
             android:background="?android:colorBackground"
             app:tabGravity="fill"
             app:tabMaxWidth="0dp"
+            app:tabTextAppearance="@style/TuskyTabAppearance"
             app:tabSelectedTextColor="?attr/colorAccent">
 
             <android.support.design.widget.TabItem

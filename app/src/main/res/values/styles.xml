@@ -1,5 +1,21 @@
 <resources>
 
+    <style name="TextSizeSmall">
+        <item name="status_text_small">12dp</item>
+        <item name="status_text_medium">14dp</item>
+        <item name="status_text_large">16dp</item>
+    </style>
+    <style name="TextSizeMedium">
+        <item name="status_text_small">14dp</item>
+        <item name="status_text_medium">16dp</item>
+        <item name="status_text_large">18dp</item>
+    </style>
+    <style name="TextSizeLarge">
+        <item name="status_text_small">16dp</item>
+        <item name="status_text_medium">18dp</item>
+        <item name="status_text_large">20dp</item>
+    </style>
+
     <style name="TabLayoutTextStyle" parent="TextAppearance.Design.Tab">
         <item name="android:textStyle">normal|bold</item>
     </style>
@@ -19,7 +35,6 @@
     <!--Base Application Theme Styles (Dark)-->
 
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:textSize">15sp</item>
         <item name="colorPrimary">@color/color_primary_dark</item>
         <item name="colorPrimaryDark">@color/color_primary_dark_dark</item>
         <item name="colorAccent">@color/color_accent_dark</item>
@@ -106,8 +121,6 @@
     <!--Light Application Theme Styles-->
 
     <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:textSize">15sp</item>
-
         <item name="colorPrimary">@color/color_primary_light</item>
         <item name="colorPrimaryDark">@color/color_primary_dark_light</item>
         <item name="colorAccent">@color/color_accent_light</item>
@@ -174,7 +187,7 @@
 
         <item name="play_indicator_drawable">@drawable/ic_play_indicator_light</item>
 
-    </style>
+ </style>
 
     <style name="AppTheme.ImageButton.Light" parent="Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:tint">@color/image_button_light</item>
@@ -189,6 +202,10 @@
         <item name="android:textColorPrimary">@color/text_color_primary_light</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="TuskyTabAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">?attr/status_text_medium</item>
     </style>
 
 </resources>

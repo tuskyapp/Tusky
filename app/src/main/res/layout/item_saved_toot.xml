@@ -10,7 +10,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.91"
-        android:padding="8dp" />
+        android:padding="8dp"
+        android:textSize="?attr/status_text_medium" />
 
     <ImageButton
         android:id="@+id/suppr"
