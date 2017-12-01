@@ -552,12 +552,7 @@ public class TimelineFragment extends SFragment implements
             /* When this is called by the EndlessScrollListener it cannot refresh the footer state
              * using adapter.notifyItemChanged. So its necessary to postpone doing so until a
              * convenient time for the UI thread using a Runnable. */
-            recyclerView.post(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.setFooterState(FooterViewHolder.State.LOADING);
-                }
-            });
+            recyclerView.post(() -> adapter.setFooterState(FooterViewHolder.State.LOADING));
         }
 
         Callback<List<Status>> callback = new Callback<List<Status>>() {
@@ -705,7 +700,7 @@ public class TimelineFragment extends SFragment implements
             int newIndex = liftedNew.indexOf(statuses.get(0));
             if (newIndex == -1) {
                 if (index == -1 && fullFetch) {
-                    liftedNew.add(Either.<Placeholder, Status>left(Placeholder.getInstance()));
+                    liftedNew.add(Either.left(Placeholder.getInstance()));
                 }
                 statuses.addAll(0, liftedNew);
             } else {
@@ -755,7 +750,7 @@ public class TimelineFragment extends SFragment implements
         List<Either<Placeholder, Status>> liftedNew = listStatusList(newStatuses);
 
         if (fullFetch) {
-            liftedNew.add(Either.<Placeholder, Status>left(Placeholder.getInstance()));
+            liftedNew.add(Either.left(Placeholder.getInstance()));
         }
 
         statuses.addAll(pos, liftedNew);
@@ -773,12 +768,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private final Function<Status, Either<Placeholder, Status>> statusLifter =
-            new Function<Status, Either<Placeholder, Status>>() {
-                @Override
-                public Either<Placeholder, Status> apply(Status input) {
-                    return Either.right(input);
-                }
-            };
+            Either::right;
 
     private @Nullable
     Pair<StatusViewData.Concrete, Integer>

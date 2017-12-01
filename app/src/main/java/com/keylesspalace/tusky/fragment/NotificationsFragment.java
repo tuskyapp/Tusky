@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.fragment;
 
 import android.app.Activity;
-import android.app.NotificationManager;
 import android.arch.core.util.Function;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -38,7 +37,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.MainActivity;
-import com.keylesspalace.tusky.NotificationPullJobCreator;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.R;
@@ -493,12 +491,7 @@ public class NotificationsFragment extends SFragment implements
             /* When this is called by the EndlessScrollListener it cannot refresh the footer state
              * using adapter.notifyItemChanged. So its necessary to postpone doing so until a
              * convenient time for the UI thread using a Runnable. */
-            recyclerView.post(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.setFooterState(FooterViewHolder.State.LOADING);
-                }
-            });
+            recyclerView.post(() -> adapter.setFooterState(FooterViewHolder.State.LOADING));
         }
 
         Call<List<Notification>> call = mastodonApi.notifications(fromId, uptoId, LOAD_AT_ONCE);
@@ -613,7 +606,7 @@ public class NotificationsFragment extends SFragment implements
             int newIndex = liftedNew.indexOf(notifications.get(0));
             if (newIndex == -1) {
                 if (index == -1 && liftedNew.size() >= LOAD_AT_ONCE) {
-                    liftedNew.add(Either.<Placeholder, Notification>left(Placeholder.getInstance()));
+                    liftedNew.add(Either.left(Placeholder.getInstance()));
                 }
                 notifications.addAll(0, liftedNew);
             } else {
@@ -678,7 +671,7 @@ public class NotificationsFragment extends SFragment implements
         // If we fetched at least as much it means that there are more posts to load and we should
         // insert new placeholder
         if (newNotifications.size() >= LOAD_AT_ONCE) {
-            liftedNew.add(Either.<Placeholder, Notification>left(Placeholder.getInstance()));
+            liftedNew.add(Either.left(Placeholder.getInstance()));
         }
 
         notifications.addAll(pos, liftedNew);
@@ -686,12 +679,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private final Function<Notification, Either<Placeholder, Notification>> notificationLifter =
-            new Function<Notification, Either<Placeholder, Notification>>() {
-                @Override
-                public Either<Placeholder, Notification> apply(Notification input) {
-                    return Either.right(input);
-                }
-            };
+            Either::right;
 
     private List<Either<Placeholder, Notification>> liftNotificationList(List<Notification> list) {
         return CollectionUtil.map(list, notificationLifter);
