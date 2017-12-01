@@ -66,17 +66,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         int style;
-        switch(preferences.getString("statusTextSize", "small")) {
+        switch(preferences.getString("statusTextSize", "medium")) {
             case "large":
                 style = R.style.TextSizeLarge;
                 break;
-            case "medium":
-                style = R.style.TextSizeMedium;
-                break;
             case "small":
-            default:
                 style = R.style.TextSizeSmall;
                 break;
+            case "medium":
+            default:
+                style = R.style.TextSizeMedium;
+                break;
+
         }
         getTheme().applyStyle(style, false);
 
