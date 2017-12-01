@@ -86,7 +86,7 @@
             android:textAllCaps="true"
             android:textOff="@string/status_content_warning_show_more"
             android:textOn="@string/status_content_warning_show_less"
-            android:textSize="?attr/status_text_medium" />
+            android:textSize="?attr/status_text_small" />
 
     </com.keylesspalace.tusky.view.FlowLayout>
 
