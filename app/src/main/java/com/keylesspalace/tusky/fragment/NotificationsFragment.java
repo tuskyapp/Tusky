@@ -288,7 +288,7 @@ public class NotificationsFragment extends SFragment implements
 
                     notifications.setPairedItem(position, newViewData);
 
-                    adapter.updateItemWithNotify(position, newViewData, true);
+                    adapter.updateItemWithNotify(position, newViewData, false);
                 }
             }
 
@@ -325,7 +325,7 @@ public class NotificationsFragment extends SFragment implements
 
                     notifications.setPairedItem(position, newViewData);
 
-                    adapter.updateItemWithNotify(position, newViewData, true);
+                    adapter.updateItemWithNotify(position, newViewData, false);
 
                 }
             }

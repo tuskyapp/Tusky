@@ -312,7 +312,7 @@ public class TimelineFragment extends SFragment implements
                                     .setReblogged(reblog)
                                     .createStatusViewData();
                     statuses.setPairedItem(actual.second, newViewData);
-                    adapter.changeItem(actual.second, newViewData, true);
+                    adapter.changeItem(actual.second, newViewData, false);
                 }
             }
 
@@ -347,7 +347,7 @@ public class TimelineFragment extends SFragment implements
                             .setFavourited(favourite)
                             .createStatusViewData();
                     statuses.setPairedItem(actual.second, newViewData);
-                    adapter.changeItem(actual.second, newViewData, true);
+                    adapter.changeItem(actual.second, newViewData, false);
                 }
             }
 

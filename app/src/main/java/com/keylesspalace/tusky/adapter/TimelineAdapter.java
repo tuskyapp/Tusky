@@ -122,7 +122,7 @@ public class TimelineAdapter extends RecyclerView.Adapter {
 
     public void changeItem(int position, StatusViewData newData, boolean notifyAdapter) {
         statuses.set(position, newData);
-        if (notifyAdapter) notifyDataSetChanged();
+        if (notifyAdapter) notifyItemChanged(position);
     }
 
     public void clear() {
