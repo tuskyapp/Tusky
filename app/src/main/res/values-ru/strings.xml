@@ -40,6 +40,7 @@
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s продвинул(а)</string>
     <string name="status_sensitive_media_title">Чувствительный контент</string>
+    <string name="status_media_hidden_title">Медиа скрыто</string>
     <string name="status_sensitive_media_directions">Нажмите для просмотра</string>
     <string name="status_content_warning_show_more">Развернуть</string>
     <string name="status_content_warning_show_less">Свернуть</string>
@@ -177,6 +178,23 @@
         <item>45 минут</item>
         <item>1 час</item>
         <item>2 часа</item>
+    </string-array>
+
+    <string name="pref_default_post_privacy">Приватность статусов по умолчанию</string>
+    <string name="pref_publishing">Публикация</string>
+
+    <string-array name="post_privacy_names">
+        <item>Публичные</item>
+        <item>Непубличные</item>
+        <item>Для подписчиков</item>
+    </string-array>
+	
+    <string name="pref_status_text_size">Размер текста статусов</string>
+ 
+    <string-array name="status_text_size_names">
+        <item>Маленький</item>
+        <item>Средний</item>
+        <item>Большой</item>
     </string-array>
 	
     <string name="notification_channel_mention_name">Новые упоминания</string>
