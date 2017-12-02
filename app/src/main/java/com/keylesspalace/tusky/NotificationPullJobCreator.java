@@ -33,6 +33,7 @@ import com.keylesspalace.tusky.util.NotificationManager;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -124,8 +125,9 @@ public final class NotificationPullJobCreator implements JobCreator {
         private void onNotificationsReceived(List<Notification> notificationList) {
             SharedPreferences notificationsPreferences = context.getSharedPreferences(
                     "Notifications", Context.MODE_PRIVATE);
-            Set<String> currentIds = notificationsPreferences.getStringSet(
-                    "current_ids", new HashSet<String>());
+            //make a copy of the string set, the returned instance should not be modified
+            Set<String> currentIds = new HashSet<>(notificationsPreferences.getStringSet(
+                    "current_ids", Collections.emptySet()));
             for (Notification notification : notificationList) {
                 String id = notification.id;
                 if (!currentIds.contains(id)) {
