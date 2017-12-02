@@ -66,10 +66,9 @@ dependencies {
     compile 'com.evernote:android-job:1.2.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     //room
-    implementation "android.arch.persistence.room:runtime:1.0.0"
+    implementation 'android.arch.persistence.room:runtime:1.0.0'
     kapt 'android.arch.persistence.room:compiler:1.0.0'
-
-    testCompile "junit:junit:4.12"
+    testCompile 'junit:junit:4.12'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

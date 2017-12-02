@@ -17,7 +17,7 @@ package com.keylesspalace.tusky;
 
 import android.app.Application;
 import android.arch.persistence.room.Room;
-import android.net.Uri;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.evernote.android.job.JobManager;
 import com.jakewharton.picasso.OkHttp3Downloader;
@@ -39,12 +39,7 @@ public class TuskyApplication extends Application {
         Picasso.Builder builder = new Picasso.Builder(this);
         builder.downloader(new OkHttp3Downloader(OkHttpUtils.getCompatibleClient()));
         if (BuildConfig.DEBUG) {
-            builder.listener(new Picasso.Listener() {
-                @Override
-                public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-                    exception.printStackTrace();
-                }
-            });
+            builder.listener((picasso, uri, exception) -> exception.printStackTrace());
         }
 
         try {
@@ -60,5 +55,8 @@ public class TuskyApplication extends Application {
                 .build();
 
         JobManager.create(this).addJobCreator(new NotificationPullJobCreator(this));
+
+        //necessary for Android < APi 21
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 }

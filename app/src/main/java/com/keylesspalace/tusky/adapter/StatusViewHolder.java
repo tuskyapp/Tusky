@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
@@ -37,6 +39,10 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         super(itemView);
         avatarReblog = itemView.findViewById(R.id.status_avatar_reblog);
         rebloggedBar = itemView.findViewById(R.id.status_reblogged);
+        //workaround because Android < API 21 does not support setting drawableLeft from xml when it is a vector image
+        Drawable rebloggedIcon = ThemeUtils.getDrawable(rebloggedBar.getContext(),
+                R.attr.status_reblog_small_drawable, R.drawable.ic_reblog_dark_18dp);
+        rebloggedBar.setCompoundDrawablesWithIntrinsicBounds(rebloggedIcon, null, null, null);
     }
 
     @Override
@@ -84,12 +90,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         // I think it's not efficient to create new object every time we bind a holder.
         // More efficient approach would be creating View.OnClickListener during holder creation
         // and storing StatusActionListener in a variable after binding.
-        rebloggedBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onOpenReblog(getAdapterPosition());
-            }
-        });
+        rebloggedBar.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));
     }
 
     private void setRebloggedByDisplayName(String name) {
