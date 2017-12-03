@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.adapter;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +50,7 @@ public class SavedTootAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         TootViewHolder holder = (TootViewHolder) viewHolder;
-        holder.bind(position, getItem(position));
+        holder.bind(getItem(position));
     }
 
     @Override
@@ -94,15 +93,6 @@ public class SavedTootAdapter extends RecyclerView.Adapter {
         void click(int position, TootEntity item);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView mTextView;
-
-        public ViewHolder(TextView v) {
-            super(v);
-            mTextView = v;
-        }
-    }
-
     private class TootViewHolder extends RecyclerView.ViewHolder {
         View view;
         TextView content;
@@ -115,24 +105,17 @@ public class SavedTootAdapter extends RecyclerView.Adapter {
             this.suppr = view.findViewById(R.id.suppr);
         }
 
-        void bind(final int position, final TootEntity item) {
+        void bind(final TootEntity item) {
+            suppr.setEnabled(true);
+
             if (item != null) {
-                if (!TextUtils.isEmpty(item.getText()))
-                    content.setText(item.getText());
-                else
-                    content.setText("");
-                suppr.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        handler.delete(position, item);
-                    }
+                content.setText(item.getText());
+
+                suppr.setOnClickListener(v -> {
+                    v.setEnabled(false);
+                    handler.delete(getAdapterPosition(), item);
                 });
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        handler.click(position, item);
-                    }
-                });
+                view.setOnClickListener(v -> handler.click(getAdapterPosition(), item));
             }
         }
     }
