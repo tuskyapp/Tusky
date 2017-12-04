@@ -98,7 +98,7 @@
     <string name="confirmation_reported">Gesendet!</string>
 
     <string name="hint_domain">Welche Instanz?</string>
-    <string name="hint_compose">Was passiert gerade?</string>
+    <string name="hint_compose">Worüber möchtest du schreiben?</string>
     <string name="hint_content_warning">Inhaltswarnung</string>
     <string name="hint_display_name">Anzeigename</string>
     <string name="hint_note">Bio</string>
@@ -109,19 +109,23 @@
 
     <string name="link_whats_an_instance">Was ist eine Instanz?</string>
 
-    <string name="dialog_whats_an_instance">
-        Wie bei E-Mailadressen auch, so kann eine Mastodon-Adresse von verschiedenen Websites
-        angeboten werden.\n\nHier kannst du eine Adresse einer Instanz eingeben, wo du dir entweder
-        ein Benutzerkonto erstellen kannst oder dich einloggst.\n\nWeitere Informationen unter
-        <a href="https://mastodon.social/about">mastodon.social</a>.
+    <string name="dialog_whats_an_instance">Die Adresse einer Instanz oder Domain kann
+        hier eingegeben werden, wie z.B. mastodon.social, icosahedron.website, social.tchncs.de, und
+        <a href="https://instances.social">mehr!</a>
+        \n\nWenn du bis jetzt kein Konto hast, kannst du hier den Namen einer Instanz eingeben
+        und dort ein Konto einrichten.\n\nEine Instanz ist ein einziger Ort, wo dein Konto
+        gehostet ist, aber du kannst immernoch mit anderen Leuten reden und mit ihnen interagieren, als
+        wärt ihr alle auf einer Webseite.
+        \n\nWeitere Informationen gibt es auf <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
     <string name="dialog_title_finishing_media_upload">Stelle Medienupload fertig</string>
     <string name="dialog_message_uploading_media">Lade hoch…</string>
     <string name="dialog_download_image">Herunterladen</string>
 
-    <string name="visibility_public">Öffentlich sichtbar</string>
-    <string name="visibility_unlisted">Öffentlich sichtbar, aber nicht in der öffentlichen Timeline</string>
-    <string name="visibility_private">Nur für Follower und Erwähnte sichtbar</string>
+    <string name="visibility_public">Öffentlich: Für jedermann sichtbar</string>
+    <string name="visibility_unlisted">Ungelistet: Nicht in der öffentlichen Timeline sichtbar</string>
+    <string name="visibility_private">Nur Folgende: Nur für Follower sichtbar</string>
+    <string name="visibility_direct">Direkt: Nur für erwähnte Nutzer sichtbar</string>
 
     <string name="pref_title_notification_settings">Benachrichtigungen</string>
     <string name="pref_title_edit_notification_settings">Benachrichtigungseinstellungen</string>
@@ -193,7 +197,7 @@
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tusky is freie Open-Source-Software.
         Es ist lizenziert unter der GNU General Public License Version 3.
-        Du kannst dir die Lizenz hier anschauen: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+        Du kannst dir die Lizenz hier anschauen: https://www.gnu.org/licenses/gpl-3.0.de.html</string>
     <string name="about_project_site">
         Webseite des Projekts:\n
         https://tusky.keylesspalace.com
