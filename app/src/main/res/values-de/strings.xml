@@ -116,7 +116,7 @@
         und dort ein Konto einrichten.\n\nEine Instanz ist ein einziger Ort, wo dein Konto
         gehostet ist, aber du kannst immernoch mit anderen Leuten reden und mit ihnen interagieren, als
         wärt ihr alle auf eine Seite.
-        \n\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>.
+        \n\nWeitere Informationen gibt es auf <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
     <string name="dialog_title_finishing_media_upload">Stelle Medienupload fertig</string>
     <string name="dialog_message_uploading_media">Lade hoch…</string>
