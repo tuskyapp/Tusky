@@ -24,6 +24,7 @@ import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.OpenableColumns;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.Px;
 
@@ -66,7 +67,8 @@ public class MediaUtils {
      *
      * @return the size of the media or {@link MediaUtils#MEDIA_SIZE_UNKNOWN}
      */
-    public static long getMediaSize(ContentResolver contentResolver, Uri uri) {
+    public static long getMediaSize(@NonNull ContentResolver contentResolver, @Nullable Uri uri) {
+        if(uri == null) return MEDIA_SIZE_UNKNOWN;
         long mediaSize;
         Cursor cursor = contentResolver.query(uri, null, null, null, null);
         if (cursor != null) {

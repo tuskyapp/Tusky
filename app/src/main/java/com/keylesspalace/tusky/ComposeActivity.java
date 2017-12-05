@@ -1355,11 +1355,11 @@ public final class ComposeActivity extends BaseActivity
 
 
     private void pickMedia(Uri uri, long mediaSize) {
-        ContentResolver contentResolver = getContentResolver();
         if (mediaSize == MediaUtils.MEDIA_SIZE_UNKNOWN) {
             displayTransientError(R.string.error_media_upload_opening);
             return;
         }
+        ContentResolver contentResolver = getContentResolver();
         String mimeType = contentResolver.getType(uri);
         if (mimeType != null) {
             String topLevelType = mimeType.substring(0, mimeType.indexOf('/'));
