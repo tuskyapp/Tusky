@@ -1307,10 +1307,9 @@ public final class ComposeActivity extends BaseActivity
         builder.append(media.textUrl);
         builder.setSpan(item.uploadUrl, 1, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         int cursorStart = textEditor.getSelectionStart();
+        int cursorEnd = textEditor.getSelectionEnd();
         textEditor.append(builder);
-        if (cursorStart == textEditor.getText().length()) {
-            textEditor.setSelection(cursorStart);
-        }
+        textEditor.setSelection(cursorStart, cursorEnd);
 
         waitForMediaLatch.countDown();
     }
