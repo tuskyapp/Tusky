@@ -114,7 +114,7 @@
         <a href="https://instances.social">mehr!</a>
         \n\nWenn du bis jetzt kein Konto hast, kannst du hier den Namen einer Instanz eingeben
         und dort ein Konto einrichten.\n\nEine Instanz ist ein einziger Ort, wo dein Konto
-        gehostet ist, aber du kannst immernoch mit anderen Leuten reden und mit ihnen interagieren, als
+        gehostet ist, aber du kannst dennoch mit anderen Leuten reden und mit ihnen interagieren, als
         wärt ihr alle auf einer Webseite.
         \n\nWeitere Informationen gibt es auf <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
@@ -179,7 +179,6 @@
     <string name="action_undo">rückgängig machen</string>
     <string name="action_view_mutes">Stummgeschaltene Accounts</string>
     <string name="confirmation_unblocked">entblockt</string>
-    <string name="visibility_direct">Nur für Erwähnte sichtbar</string>
     <string name="title_mutes">Stummgeschaltene Nutzer</string>
     <string name="title_follow_requests">Followanfragen</string>
     <string name="status_share_link">Link teilen</string>
