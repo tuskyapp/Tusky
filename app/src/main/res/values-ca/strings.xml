@@ -168,13 +168,13 @@
     <string name="pref_title_appearance_settings">Aparença</string>
     <string name="pref_title_light_theme">Usa el tema clar</string>
     <string name="pref_title_browser_settings">Navegador</string>
-    <string name="pref_title_custom_tabs">Usa les pestanyes personalitzades del Chrome</string>
-    <string name="pref_title_hide_follow_button">Amaga el botó de redacció durant el desplaçament</string>
+    <string name="pref_title_custom_tabs">Pestanyes personalitzades del Chrome</string>
+    <string name="pref_title_hide_follow_button">Amaga el botó de redacció en desplaçament</string>
     <string name="pref_title_status_filter">Filtre de la cronologia</string>
     <string name="pref_title_status_tabs">Pestanyes</string>
     <string name="pref_title_show_boosts">Mostra els retoots</string>
     <string name="pref_title_show_replies">Mostra les respostes</string>
-    <string name="pref_title_show_media_preview">Mostra la previsualitazació dels multimèdia</string>
+    <string name="pref_title_show_media_preview">Mostra les previsualitzacions</string>
 
     <string-array name="pull_notification_check_interval_names">
         <item>15 minuts</item>
@@ -186,6 +186,23 @@
         <item>2 hores</item>
     </string-array>
 
+    <string name="pref_default_post_privacy">Privacitat predeterminada dels toots</string>
+    <string name="pref_publishing">Publicació</string>
+
+    <string-array name="post_privacy_names">
+        <item>Pública</item>
+        <item>Sense llistar</item>
+        <item>Només seguidors</item>
+    </string-array>
+
+    <string name="pref_status_text_size">Mida de text de l'estat</string>
+
+    <string-array name="status_text_size_names">
+        <item>Petita</item>
+        <item>Mitjana</item>
+        <item>Gran</item>
+    </string-array>
+    
     <string name="notification_channel_mention_name">Mencions noves</string>
     <string name="notification_channel_mention_descriptions">Notificacions sobre mencions noves</string>
     <string name="notification_channel_follow_name">Seguidors nous</string>
@@ -244,7 +261,7 @@
     <string name="abbreviated_seconds_ago">%ds</string>
 
     <string name="follows_you">Et segueix</string>
-    <string name="pref_title_alway_show_sensitive_media">Mostra sempre el contingut no apte (NSFW)</string>
+    <string name="pref_title_alway_show_sensitive_media">Mostra el contingut no apte (NSFW)</string>
     <string name="title_media">Multimèdia</string>
     <string name="replying_to">En resposta a @%s</string>
     <string name="load_more_placeholder_text">carrega\'n més</string>
