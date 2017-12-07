@@ -101,7 +101,7 @@
         <service
             tools:targetApi="24"
             android:name="com.keylesspalace.tusky.service.TuskyTileService"
-            android:icon="@drawable/ic_send_24dp"
+            android:icon="@drawable/ic_tusky"
             android:label="Compose Toot"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
