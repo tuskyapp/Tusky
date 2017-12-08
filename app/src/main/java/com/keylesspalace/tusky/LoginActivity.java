@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private String getOauthRedirectUri() {
         String scheme = getString(R.string.oauth_scheme);
-        String host = getString(R.string.oauth_redirect_host);
+        String host = BuildConfig.APPLICATION_ID;
         return scheme + "://" + host + "/";
     }
 

@@ -40,7 +40,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="@string/oauth_redirect_host"
+                    android:host="${applicationId}"
                     android:scheme="@string/oauth_scheme" />
             </intent-filter>
         </activity>
@@ -111,7 +111,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.keylesspalace.tusky.fileprovider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

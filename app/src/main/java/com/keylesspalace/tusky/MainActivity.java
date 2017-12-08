@@ -18,6 +18,7 @@ package com.keylesspalace.tusky;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -371,6 +372,16 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                     return false;
                 })
                 .build();
+
+        if(BuildConfig.DEBUG) {
+            IDrawerItem debugItem = new SecondaryDrawerItem()
+                    .withIdentifier(1337)
+                    .withName("debug")
+                    .withDisabledTextColor(Color.GREEN)
+                    .withSelectable(false)
+                    .withEnabled(false);
+            drawer.addItem(debugItem);
+        }
     }
 
     private void logout() {
