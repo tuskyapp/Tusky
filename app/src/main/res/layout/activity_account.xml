@@ -76,9 +76,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
-                        android:textSize="?attr/status_text_medium"
                         android:text="@string/follows_you"
                         android:textColor="?android:textColorPrimary"
+                        android:textSize="?attr/status_text_medium"
                         app:layout_constraintEnd_toEndOf="@id/follow_btn"
                         app:layout_constraintTop_toBottomOf="@id/follow_btn" />
 
@@ -100,8 +100,8 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:textSize="?attr/status_text_medium"
                         android:textColor="?android:textColorSecondary"
+                        android:textSize="?attr/status_text_medium"
                         app:layout_constraintTop_toBottomOf="@id/account_display_name"
                         tools:text="\@Tusky" />
 
@@ -126,8 +126,8 @@
                         android:layout_below="@id/account_username"
                         android:paddingBottom="16dp"
                         android:paddingTop="10dp"
-                        android:textSize="?attr/status_text_medium"
                         android:textColor="?android:textColorTertiary"
+                        android:textSize="?attr/status_text_medium"
                         app:layout_constraintTop_toBottomOf="@id/account_username"
                         tools:text="This is a test description" />
 
@@ -138,10 +138,10 @@
                         android:layout_marginBottom="8dp"
                         android:background="@android:color/transparent"
                         android:textColor="@color/account_tab_font_color"
+                        android:textSize="?attr/status_text_medium"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:textSize="?attr/status_text_medium"
                         app:layout_constraintTop_toBottomOf="@id/account_note"
                         tools:text="3000 Followers" />
 
@@ -150,11 +150,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/account_tab_font_color"
+                        android:textSize="?attr/status_text_medium"
                         app:layout_constraintBottom_toBottomOf="@id/followers_tv"
                         app:layout_constraintEnd_toStartOf="@id/statuses_btn"
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toEndOf="@id/followers_tv"
-                        android:textSize="?attr/status_text_medium"
                         app:layout_constraintTop_toTopOf="@id/followers_tv"
                         tools:text="500 Following" />
 
@@ -163,8 +163,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/account_tab_font_color"
-                        app:layout_constraintEnd_toEndOf="parent"
                         android:textSize="?attr/status_text_medium"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toEndOf="@id/following_tv"
                         app:layout_constraintTop_toTopOf="@id/followers_tv"
@@ -200,9 +200,10 @@
             android:layout_height="wrap_content"
             android:background="?android:colorBackground"
             app:tabGravity="fill"
+            app:tabIndicatorHeight="3dp"
             app:tabMaxWidth="0dp"
-            app:tabTextAppearance="@style/TuskyTabAppearance"
-            app:tabSelectedTextColor="?attr/colorAccent">
+            app:tabSelectedTextColor="?attr/colorAccent"
+            app:tabTextAppearance="@style/TuskyTabAppearance">
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
