@@ -32,9 +32,9 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <!--Base Application Theme Styles (Dark)-->
-
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+    <!--Dark Application Theme Styles-->
+    <style name="AppTheme" parent="AppThemeBase"/>
+    <style name="AppThemeBase" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/color_primary_dark</item>
         <item name="colorPrimaryDark">@color/color_primary_dark_dark</item>
         <item name="colorAccent">@color/color_accent_dark</item>
@@ -119,8 +119,8 @@
     </style>
 
     <!--Light Application Theme Styles-->
-
-    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.Light" parent="AppThemeBase.Light"/>
+    <style name="AppThemeBase.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/color_primary_light</item>
         <item name="colorPrimaryDark">@color/color_primary_dark_light</item>
         <item name="colorAccent">@color/color_accent_light</item>

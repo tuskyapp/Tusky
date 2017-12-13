@@ -1,0 +1,17 @@
+<resources>
+
+    <!--Dark Application Theme Styles-->
+    <style name="AppTheme" parent="AppThemeBase">
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:navigationBarColor">@color/window_background_dark</item>
+        <item name="android:navigationBarDividerColor">@color/status_divider_dark</item>
+    </style>
+
+    <!--Light Application Theme Styles-->
+    <style name="AppTheme.Light" parent="AppThemeBase.Light">
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:navigationBarColor">@color/color_background_light</item>
+        <item name="android:navigationBarDividerColor">@color/status_divider_light</item>
+    </style>
+
+</resources>
