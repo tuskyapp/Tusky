@@ -28,12 +28,13 @@
     <string name="title_edit_profile">عدل ملفك الشخصي</string>
     <string name="title_saved_toot">المسودات</string>
     <string name="title_x_followers"><b>%d</b> متابِعين</string>
-    <string name="title_x_following"><b>%d</b> يتابِعُون</string>
+    <string name="title_x_following"><b>%d</b> مُتابَعين</string>
     <string name="title_x_statuses"><b>%d</b> منشور</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s رقّي</string>
     <string name="status_sensitive_media_title">محتوى حساس</string>
+    <string name="status_media_hidden_title">وسائط مخفية</string>
     <string name="status_sensitive_media_directions">اضغط للعرض</string>
     <string name="status_content_warning_show_more">اعرض أكثر</string>
     <string name="status_content_warning_show_less">اعرض أقل</string>
@@ -101,7 +102,7 @@
     <string name="download_image">تنزيل %1$s</string>
 
     <string name="action_copy_link">إنسخ الرابط</string>
-  
+
     <string name="send_status_link_to">شارك رابط التبويق على ...</string>
     <string name="send_status_content_to">شارك التبويق على …</string>
 
@@ -130,10 +131,15 @@
     <string name="dialog_message_uploading_media">جاري الرفع ...</string>
     <string name="dialog_download_image">تنزيل</string>
     <string name="dialog_unfollow_warning">هل تود إلغاء متابعة هذا الحساب ؟</string>
+    <string name="visibility_public">عمومي : ينشر على الخيوط العمومية</string>
+    <string name="visibility_unlisted">غير مدرج : لا يُعرَض على الخيوط العمومية</string>
+    <string name="visibility_private">لمتابعيك فقط : يُنشر إلى متابعيك فقط</string>
+    <string name="visibility_direct">مباشر : يُسرسَل إلى المستخدمين المشار إليهم فقط</string>
 
     <string name="pref_title_notification_settings">الاشعارات</string>
     <string name="pref_title_edit_notification_settings">تعديل الاشعارات</string>
     <string name="pref_title_notifications_enabled">الإخطارات</string>
+    <string name="pref_title_pull_notification_check_interval">مدة تحديث التحميل</string>
     <string name="pref_title_notification_alerts">التنبيهات</string>
     <string name="pref_title_notification_alert_sound">إعلام بالصوت</string>
     <string name="pref_title_notification_alert_vibrate">إعلام بالاهتزار</string>
@@ -147,11 +153,45 @@
     <string name="pref_title_light_theme">إستخدم سمةً فاتحة اللون</string>
     <string name="pref_title_browser_settings">المتصفح</string>
     <string name="pref_title_custom_tabs">إخفاء زر المتابعة أثناء تمرير الصفحة</string>
+    <string name="pref_title_status_filter">تصفية الخيوط</string>
+    <string name="pref_title_status_tabs">الألسنة</string>
     <string name="pref_title_show_boosts">عرض الترقيات</string>
     <string name="pref_title_show_replies">عرض الردود</string>
+    <string-array name="pull_notification_check_interval_names">
+        <item>15 دقيقة</item>
+        <item>20 دقيقة</item>
+        <item>25 دقائق</item>
+        <item>نصف ساعة</item>
+        <item>45 دقيقة</item>
+        <item>ساعة</item>
+        <item>ساعتين</item>
+    </string-array>
+
+    <string name="pref_default_post_privacy">الخصوصية الإفتراضية للنشر</string>
+    <string name="pref_publishing">النشر</string>
+
+    <string-array name="post_privacy_names">
+        <item>للعامة</item>
+        <item>ير مدرج</item>
+        <item>لمتابعيك فقط</item>
+    </string-array>
+
+    <string name="pref_status_text_size">حجم الخط</string>
+
+    <string-array name="status_text_size_names">
+        <item>صغير</item>
+        <item>متوسط</item>
+        <item>كبير</item>
+    </string-array>
+
     <string name="notification_channel_follow_name">متابِعون جدد</string>
+    <string name="notification_channel_follow_description">إخطارات عند تلقي متابعين جدد</string>
     <string name="notification_channel_boost_name">الترقيات</string>
+    <string name="notification_channel_boost_description">إخطارات عندما يقوم أحدهم بترقية تبويقاتي</string>
     <string name="notification_channel_favourite_name">المفضلة</string>
+    <string name="notification_channel_favourite_description">إخطارات كلما قام أحدهم بالإعجاب بتبويقاتي</string>
+
+
     <string name="notification_mention_format">%s أشار إليك</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s و %4$d أخرى</string>
     <string name="notification_summary_medium">%1$s, %2$s, و %3$s</string>
@@ -168,6 +208,12 @@
         موقع المشروع :\n
         https://tusky.keylesspalace.com
     </string>
+    <string name="about_bug_feature_request_site">
+        تقارير الأخطاء و طلبات التحسينات على  :\n
+        https://github.com/Vavassor/Tusky/issues
+    </string>
+    <string name="about_tusky_account">الملف الشخصي لتوسكي</string>
+
     <string name="status_share_content">شارك محتوى التبويق</string>
     <string name="status_share_link">شارك الرابط إلى التبويق</string>
     <string name="status_media_images">صور</string>
