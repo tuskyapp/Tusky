@@ -72,6 +72,9 @@ dependencies {
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     kapt 'android.arch.persistence.room:compiler:1.0.0'
     testImplementation 'junit:junit:4.12'
+
+    debugImplementation 'im.dino:dbinspector:3.4.1@aar'
+
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

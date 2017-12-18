@@ -21,6 +21,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
+
 public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +31,15 @@ public class SplashActivity extends AppCompatActivity {
 
         /* Determine whether the user is currently logged in, and if so go ahead and load the
          * timeline. Otherwise, start the activity_login screen. */
-        SharedPreferences preferences = getSharedPreferences(
+      /*  SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         String domain = preferences.getString("domain", null);
         String accessToken = preferences.getString("accessToken", null);
+*/
+        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
 
         Intent intent;
-        if (domain != null && accessToken != null) {
+        if (activeAccount != null) {
             intent = new Intent(this, MainActivity.class);
         } else {
             intent = new Intent(this, LoginActivity.class);

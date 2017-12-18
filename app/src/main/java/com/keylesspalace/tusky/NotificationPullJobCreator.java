@@ -25,6 +25,7 @@ import com.evernote.android.job.Job;
 import com.evernote.android.job.JobCreator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.network.AuthInterceptor;
@@ -62,23 +63,19 @@ public final class NotificationPullJobCreator implements JobCreator {
     @Override
     public Job create(@NonNull String tag) {
         if (tag.equals(NOTIFICATIONS_JOB_TAG)) {
-            SharedPreferences preferences = context.getSharedPreferences(
-                    context.getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-            final String domain = preferences.getString("domain", null);
+            final AccountEntity account = TuskyApplication.getAccountManager().getActiveAccount();
 
-            if(domain == null) {
-                return null;
-            } else {
-                return new NotificationPullJob(domain, context);
+            if(account != null) {
+                return new NotificationPullJob(account.getDomain(), context);
             }
         }
         return null;
     }
 
-    private static MastodonApi createMastodonApi(String domain, Context context) {
+    private static MastodonApi createMastodonApi(String domain) {
 
         OkHttpClient okHttpClient = OkHttpUtils.getCompatibleClientBuilder()
-                .addInterceptor(new AuthInterceptor(context))
+                .addInterceptor(new AuthInterceptor())
                 .build();
 
         Gson gson = new GsonBuilder()
@@ -100,7 +97,7 @@ public final class NotificationPullJobCreator implements JobCreator {
         private Context context;
 
         NotificationPullJob(String domain, Context context) {
-            this.mastodonApi = createMastodonApi(domain, context);
+            this.mastodonApi = createMastodonApi(domain);
             this.context = context;
         }
 

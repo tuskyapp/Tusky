@@ -267,6 +267,8 @@
     <string name="title_media">Media</string>
     <string name="replying_to">Replying to @%s</string>
     <string name="load_more_placeholder_text">load more</string>
+    <string name="add_account_name">Add Account</string>
+    <string name="add_account_description">Add new Mastodon Account</string>
 
 
 </resources>

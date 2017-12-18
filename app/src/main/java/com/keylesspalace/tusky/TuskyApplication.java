@@ -21,12 +21,15 @@ import android.support.v7.app.AppCompatDelegate;
 
 import com.evernote.android.job.JobManager;
 import com.jakewharton.picasso.OkHttp3Downloader;
+import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 import com.squareup.picasso.Picasso;
 
 public class TuskyApplication extends Application {
     private static AppDatabase db;
+    private static AccountManager accountManager;
 
     public static AppDatabase getDB() {
         return db;
@@ -56,7 +59,14 @@ public class TuskyApplication extends Application {
 
         JobManager.create(this).addJobCreator(new NotificationPullJobCreator(this));
 
-        //necessary for Android < APi 21
+        //necessary for Android < API 21
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
+        accountManager = new AccountManager();
     }
-}
+
+    public static AccountManager getAccountManager() {
+        return accountManager;
+    }
+
+ }

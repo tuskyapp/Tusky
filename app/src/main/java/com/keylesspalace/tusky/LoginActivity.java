@@ -36,6 +36,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.AppCredentials;
 import com.keylesspalace.tusky.network.MastodonApi;
@@ -385,20 +386,22 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onLoginSuccess(String accessToken) {
-        boolean committed = preferences.edit()
+        /*boolean committed = preferences.edit()
                 .putString("domain", domain)
                 .putString("accessToken", accessToken)
-                .commit();
-        if (!committed) {
-            setLoading(false);
-            editText.setError(getString(R.string.error_retrieving_oauth_token));
-            return;
-        }
+                .commit();*/
+
+        TuskyApplication.getAccountManager().addAccount(accessToken, domain);
+
+        /*setLoading(false);
+        editText.setError(getString(R.string.error_retrieving_oauth_token));
+        return;*/
 
         //create notification channels ahead of time so users can edit the settings
         NotificationManager.createNotificationChannels(this);
 
         Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }

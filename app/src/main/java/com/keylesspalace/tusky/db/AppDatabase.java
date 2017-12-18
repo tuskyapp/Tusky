@@ -25,10 +25,11 @@ import android.support.annotation.NonNull;
  * DB version & declare DAO
  */
 
-@Database(entities = {TootEntity.class}, version = 4, exportSchema = false)
+@Database(entities = {TootEntity.class, AccountEntity.class}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TootDao tootDao();
+    public abstract AccountDao accountDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override

@@ -37,6 +37,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
@@ -51,6 +53,7 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
@@ -67,6 +70,7 @@ import retrofit2.Response;
 
 public class MainActivity extends BaseActivity implements ActionButtonActivity {
     private static final String TAG = "MainActivity"; // logging tag
+    private static final long DRAWER_ITEM_ADD_ACCOUNT = -13;
     private static final long DRAWER_ITEM_EDIT_PROFILE = 0;
     private static final long DRAWER_ITEM_FAVOURITES = 1;
     private static final long DRAWER_ITEM_MUTED_USERS = 2;
@@ -81,8 +85,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     private static int COMPOSE_RESULT = 1;
 
     private FloatingActionButton composeButton;
-    private String loggedInAccountId;
-    private String loggedInAccountUsername;
     private AccountHeader headerResult;
     private Drawer drawer;
     private ViewPager viewPager;
@@ -266,19 +268,12 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     private void setupDrawer() {
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withSelectionListEnabledForSingleProfile(false)
                 .withDividerBelowHeader(false)
                 .withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP)
                 .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
                     @Override
                     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-                        if (current && loggedInAccountId != null) {
-                            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-                            intent.putExtra("id", loggedInAccountId);
-                            startActivity(intent);
-                            return true;
-                        }
-                        return false;
+                        return handleProfileClick(profile, current);
                     }
 
                     @Override
@@ -286,8 +281,15 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                         return false;
                     }
                 })
-                .withCompactStyle(true)
+                .withCurrentProfileHiddenInList(true)
+                .withOnAccountHeaderListener((view, profile, current) -> handleProfileClick(profile, current)).addProfiles(
+                        new ProfileSettingDrawerItem()
+                                .withIdentifier(DRAWER_ITEM_ADD_ACCOUNT)
+                                .withName(R.string.add_account_name)
+                                .withDescription(R.string.add_account_description)
+                                .withIcon(GoogleMaterial.Icon.gmd_add))
                 .build();
+
         headerResult.getView()
                 .findViewById(R.id.material_drawer_account_header_current)
                 .setContentDescription(getString(R.string.action_view_profile));
@@ -367,6 +369,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                             Intent intent = new Intent(MainActivity.this, SavedTootActivity.class);
                             startActivity(intent);
                         }
+
                     }
 
                     return false;
@@ -384,20 +387,54 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         }
     }
 
+    private boolean handleProfileClick(IProfile profile, boolean current) {
+        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+
+        //open profile when active image was clicked
+        if (current && activeAccount != null) {
+            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+            intent.putExtra("id", activeAccount.getAccountId());
+            startActivity(intent);
+            return true;
+        }
+        //open LoginActivity to add new account
+        if(profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT ) {
+            startActivity(new Intent(this, LoginActivity.class));
+            return true;
+        }
+        //change Account
+        accountChanged(profile.getIdentifier());
+        return false;
+    }
+
+
+    private void accountChanged(long newSelectedId) {
+        TuskyApplication.getAccountManager().setActiveAccount(newSelectedId);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+
+        overridePendingTransition(R.anim.explode, R.anim.explode);
+    }
+
     private void logout() {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.action_logout)
                 .setMessage(R.string.action_logout_confirm)
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+
                     if (arePushNotificationsEnabled()) disablePushNotifications();
 
-                    getPrivatePreferences().edit()
-                            .remove("domain")
-                            .remove("accessToken")
-                            .remove("appAccountId")
-                            .apply();
+                    AccountEntity newAccount = TuskyApplication.getAccountManager().logActiveAccountOut();
 
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    Intent intent;
+                    if(newAccount == null) {
+                        intent = new Intent(MainActivity.this, LoginActivity.class);
+                    } else {
+                        intent = new Intent(MainActivity.this, MainActivity.class);
+                    }
                     startActivity(intent);
                     finish();
                 })
@@ -406,21 +443,12 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     }
 
     private void fetchUserInfo() {
-        SharedPreferences preferences = getPrivatePreferences();
-        final String domain = preferences.getString("domain", null);
-        String id = preferences.getString("loggedInAccountId", null);
-        String username = preferences.getString("loggedInAccountUsername", null);
-
-        if (id != null && username != null) {
-            loggedInAccountId = id;
-            loggedInAccountUsername = username;
-        }
 
         mastodonApi.accountVerifyCredentials().enqueue(new Callback<Account>() {
             @Override
             public void onResponse(@NonNull Call<Account> call, @NonNull Response<Account> response) {
                 if (response.isSuccessful()) {
-                    onFetchUserInfoSuccess(response.body(), domain);
+                    onFetchUserInfoSuccess(response.body());
                 } else {
                     onFetchUserInfoFailure(new Exception(response.message()));
                 }
@@ -433,7 +461,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         });
     }
 
-    private void onFetchUserInfoSuccess(Account me, String domain) {
+    private void onFetchUserInfoSuccess(Account me) {
         // Add the header image and avatar from the account, into the navigation drawer header.
         ImageView background = headerResult.getHeaderBackgroundView();
         background.setBackgroundColor(ContextCompat.getColor(this, R.color.window_background_dark));
@@ -442,13 +470,22 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                 .placeholder(R.drawable.account_header_default)
                 .into(background);
 
-        headerResult.clear();
-        headerResult.addProfiles(
-                new ProfileDrawerItem()
-                        .withName(me.getDisplayName())
-                        .withEmail(String.format("%s@%s", me.username, domain))
-                        .withIcon(me.avatar)
-        );
+        AccountManager am = TuskyApplication.getAccountManager();
+
+        am.updateActiveAccount(me);
+
+        List<AccountEntity> allAccounts = am.getAllAccountsOrderedByActive();
+
+        for(AccountEntity acc: allAccounts) {
+            headerResult.addProfiles(
+                    new ProfileDrawerItem()
+                            .withName(acc.getDisplayName())
+                            .withIcon(acc.getProfilePictureUrl())
+                            .withNameShown(true)
+                            .withIdentifier(acc.getId())
+                            .withEmail(String.format("%s@%s", acc.getUsername(), acc.getDomain())));
+
+        }
 
         // Show follow requests in the menu, if this is a locked account.
         if (me.locked) {
@@ -460,14 +497,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
             drawer.addItemAtPosition(followRequestsItem, 3);
         }
 
-        // Update the current login information.
-        loggedInAccountId = me.id;
-        loggedInAccountUsername = me.username;
-        getPrivatePreferences().edit()
-                .putString("loggedInAccountId", loggedInAccountId)
-                .putString("loggedInAccountUsername", loggedInAccountUsername)
-                .putBoolean("loggedInAccountLocked", me.locked)
-                .apply();
     }
 
     private void onFetchUserInfoFailure(Exception exception) {
