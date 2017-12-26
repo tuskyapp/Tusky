@@ -152,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
     private MastodonApi getApiFor(String domain) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + domain)
-                .client(OkHttpUtils.getCompatibleClient())
+                .client(OkHttpUtils.getCompatibleClient(preferences))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

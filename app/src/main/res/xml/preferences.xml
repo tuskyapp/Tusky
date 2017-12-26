@@ -74,4 +74,12 @@
             android:title="@string/pref_title_edit_notification_settings" />
 
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_title_proxy_settings">
+        <Preference
+            android:key="httpProxyPreferences"
+            android:summary="%s"
+            android:title="@string/pref_title_http_proxy_settings" />
+
+    </PreferenceCategory>
 </PreferenceScreen>

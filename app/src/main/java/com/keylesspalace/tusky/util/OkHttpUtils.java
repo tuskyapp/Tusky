@@ -15,7 +15,9 @@
 
 package com.keylesspalace.tusky.util;
 
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -23,6 +25,8 @@ import com.keylesspalace.tusky.BuildConfig;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.Socket;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -62,7 +66,11 @@ public class OkHttpUtils {
      * TLS 1.1 and 1.2 have to be manually enabled on API levels 16-20.
      */
     @NonNull
-    public static OkHttpClient.Builder getCompatibleClientBuilder() {
+    public static OkHttpClient.Builder getCompatibleClientBuilder(SharedPreferences preferences) {
+        boolean httpProxyEnabled = preferences.getBoolean("httpProxyEnabled", false);
+        String httpServer = preferences.getString("httpProxyServer", "");
+        int httpPort = Integer.parseInt(preferences.getString("httpProxyPort", "-1"));
+
         ConnectionSpec fallback = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
                 .allEnabledCipherSuites()
                 .supportsTlsExtensions(true)
@@ -80,12 +88,17 @@ public class OkHttpUtils {
                 .writeTimeout(30, TimeUnit.SECONDS)
                 .connectionSpecs(specList);
 
+        if (httpProxyEnabled && !httpServer.isEmpty() && (httpPort > 0) && (httpPort < 65535)) {
+            InetSocketAddress address = InetSocketAddress.createUnresolved(httpServer, httpPort);
+            builder.proxy(new Proxy(Proxy.Type.HTTP, address));
+        }
+
         return enableHigherTlsOnPreLollipop(builder);
     }
 
     @NonNull
-    public static OkHttpClient getCompatibleClient() {
-        return getCompatibleClientBuilder().build();
+    public static OkHttpClient getCompatibleClient(SharedPreferences preferences) {
+        return getCompatibleClientBuilder(preferences).build();
     }
 
     /**

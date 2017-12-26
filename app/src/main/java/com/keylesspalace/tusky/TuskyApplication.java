@@ -17,6 +17,8 @@ package com.keylesspalace.tusky;
 
 import android.app.Application;
 import android.arch.persistence.room.Room;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.evernote.android.job.JobManager;
@@ -37,7 +39,8 @@ public class TuskyApplication extends Application {
         super.onCreate();
         // Initialize Picasso configuration
         Picasso.Builder builder = new Picasso.Builder(this);
-        builder.downloader(new OkHttp3Downloader(OkHttpUtils.getCompatibleClient()));
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        builder.downloader(new OkHttp3Downloader(OkHttpUtils.getCompatibleClient(preferences)));
         if (BuildConfig.DEBUG) {
             builder.listener((picasso, uri, exception) -> exception.printStackTrace());
         }

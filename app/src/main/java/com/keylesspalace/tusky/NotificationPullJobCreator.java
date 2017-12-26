@@ -76,8 +76,10 @@ public final class NotificationPullJobCreator implements JobCreator {
     }
 
     private static MastodonApi createMastodonApi(String domain, Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(
+                context.getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
 
-        OkHttpClient okHttpClient = OkHttpUtils.getCompatibleClientBuilder()
+        OkHttpClient okHttpClient = OkHttpUtils.getCompatibleClientBuilder(preferences)
                 .addInterceptor(new AuthInterceptor(context))
                 .build();
 
