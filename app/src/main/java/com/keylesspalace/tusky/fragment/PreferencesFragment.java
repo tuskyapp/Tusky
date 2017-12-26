@@ -16,8 +16,10 @@
 package com.keylesspalace.tusky.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.XmlRes;
@@ -27,7 +29,10 @@ import com.keylesspalace.tusky.PreferencesActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.util.NotificationManager;
 
-public class PreferencesFragment extends PreferenceFragment {
+public class PreferencesFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+    SharedPreferences sharedPreferences;
+    static boolean httpProxyChanged = false;
+    static boolean pendingRestart = false;
 
     public static PreferencesFragment newInstance(@XmlRes int preference) {
         PreferencesFragment fragment = new PreferencesFragment();
@@ -101,6 +106,91 @@ public class PreferencesFragment extends PreferenceFragment {
             });
         }
 
+        Preference httpProxyPreferences  = findPreference("httpProxyPreferences");
+        if(httpProxyPreferences != null) {
+            httpProxyPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    PreferencesActivity activity = (PreferencesActivity) getActivity();
+                    if (activity != null) {
+                        pendingRestart = false;
+                        activity.showFragment(R.xml.http_proxy_preferences, R.string.pref_title_http_proxy_settings);
+                    }
+
+                    return true;
+                }
+            });
+        }
+
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        sharedPreferences = getPreferenceManager().getSharedPreferences();
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
+        updateSummary("httpProxyServer");
+        updateSummary("httpProxyPort");
+        updateHttpProxySummary();
+    }
+
+    @Override
+    public void onPause() {
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+        super.onPause();
+        if (pendingRestart) {
+            pendingRestart = false;
+            httpProxyChanged = false;
+            System.exit(0);
+        }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+                                          String key) {
+        switch (key) {
+            case "httpProxyServer":
+            case "httpProxyPort":
+                updateSummary(key);
+            case "httpProxyEnabled":
+                httpProxyChanged = true;
+                break;
+            default:
+        }
+    }
+
+    private void updateSummary(String key) {
+        switch (key) {
+            case "httpProxyServer":
+            case "httpProxyPort":
+                EditTextPreference editTextPreference = (EditTextPreference) findPreference(key);
+                if (editTextPreference != null) {
+                    editTextPreference.setSummary(editTextPreference.getText());
+                }
+                break;
+            default:
+        }
+    }
+
+    private void updateHttpProxySummary() {
+        Preference httpProxyPref = findPreference("httpProxyPreferences");
+        if (httpProxyPref != null) {
+            if (httpProxyChanged) {
+                pendingRestart = true;
+            }
+
+            Boolean httpProxyEnabled = sharedPreferences.getBoolean("httpProxyEnabled", false);
+
+            String httpServer = sharedPreferences.getString("httpProxyServer", "");
+            int httpPort = Integer.parseInt(sharedPreferences.getString("httpProxyPort", "-1"));
+
+            if (httpProxyEnabled && !httpServer.isEmpty() && (httpPort > 0 && httpPort < 65535)) {
+                httpProxyPref.setSummary(httpServer + ":" + httpPort);
+            } else {
+                httpProxyPref.setSummary("");
+            }
+        }
+    }
 }
