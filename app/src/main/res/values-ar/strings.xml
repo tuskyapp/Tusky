@@ -130,6 +130,7 @@
     <string name="dialog_title_finishing_media_upload">تتمة رفع الوسائط</string>
     <string name="dialog_message_uploading_media">جاري الرفع ...</string>
     <string name="dialog_download_image">تنزيل</string>
+    <string name="dialog_message_follow_request">طلب المتابعة معلق : في إنتظار الرد</string>
     <string name="dialog_unfollow_warning">هل تود إلغاء متابعة هذا الحساب ؟</string>
     <string name="visibility_public">عمومي : ينشر على الخيوط العمومية</string>
     <string name="visibility_unlisted">غير مدرج : لا يُعرَض على الخيوط العمومية</string>
@@ -153,10 +154,17 @@
     <string name="pref_title_light_theme">إستخدم سمةً فاتحة اللون</string>
     <string name="pref_title_browser_settings">المتصفح</string>
     <string name="pref_title_custom_tabs">إخفاء زر المتابعة أثناء تمرير الصفحة</string>
+    <string name="pref_title_hide_follow_button">إخفاء زر التحرير عند التمرير</string>
     <string name="pref_title_status_filter">تصفية الخيوط</string>
     <string name="pref_title_status_tabs">الألسنة</string>
     <string name="pref_title_show_boosts">عرض الترقيات</string>
     <string name="pref_title_show_replies">عرض الردود</string>
+    <string name="pref_title_proxy_settings">البروكسي</string>
+    <string name="pref_title_http_proxy_settings">بروكسي HTTP</string>
+    <string name="pref_title_http_proxy_enable">تفعيل بروكسي HTTP</string>
+    <string name="pref_title_http_proxy_server">خادوم بروكسي HTTP</string>
+    <string name="pref_title_http_proxy_port">منفذ بروكسي HTTP</string>
+
     <string-array name="pull_notification_check_interval_names">
         <item>15 دقيقة</item>
         <item>20 دقيقة</item>
@@ -184,6 +192,8 @@
         <item>كبير</item>
     </string-array>
 
+    <string name="notification_channel_mention_name">إشارات جديدة</string>
+    <string name="notification_channel_mention_descriptions">الإخطارات عندما يشار إليك</string>
     <string name="notification_channel_follow_name">متابِعون جدد</string>
     <string name="notification_channel_follow_description">إخطارات عند تلقي متابعين جدد</string>
     <string name="notification_channel_boost_name">الترقيات</string>
@@ -203,6 +213,9 @@
     <string name="about_title_activity">عن التطبيق</string>
     <string name="about_application_version">الإصدار : %s</string>
     <string name="about_tusky_version">توسكي %s</string>
+    <string name="about_tusky_license">Tuksy برنامج حر و مفتوح المصدر.
+        مطور تحت رخصة GNU General Public License Version 3.
+        يمكنكم الإطلاع على الرخصة على : https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators: the url can be changed to link to the localized version of the license -->
     <string name="about_project_site">
         موقع المشروع :\n
@@ -230,15 +243,16 @@
     <string name="abbreviated_in_hours">في %dh</string>
     <string name="abbreviated_in_minutes">في %dm</string>
     <string name="abbreviated_in_seconds">في %ds</string>
-    <string name="abbreviated_years_ago">%dس</string>
+    <string name="abbreviated_years_ago">%d س</string>
     <string name="abbreviated_days_ago">%dأيام</string>
     <string name="abbreviated_hours_ago">%dسا</string>
-    <string name="abbreviated_minutes_ago">%dد</string>
+    <string name="abbreviated_minutes_ago">%d د</string>
     <string name="abbreviated_seconds_ago">%dثا</string>
 
     <string name="follows_you">يتبعك الآن</string>
     <string name="title_media">الوسائط</string>
     <string name="replying_to">ردًا على @%s</string>
     <string name="load_more_placeholder_text">حمِّل المزيد</string>
+
 
 </resources>
