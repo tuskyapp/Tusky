@@ -43,6 +43,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -88,6 +89,10 @@ public interface MastodonApi {
     @Multipart
     @POST("api/v1/media")
     Call<Attachment> uploadMedia(@Part MultipartBody.Part file);
+    @FormUrlEncoded
+    @PUT("api/v1/media/{mediaId}")
+    Call<Attachment> updateMedia(@Path("mediaId") String mediaId,
+                                 @Field("description") String description);
 
     @FormUrlEncoded
     @POST("api/v1/statuses")

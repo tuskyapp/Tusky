@@ -275,6 +275,10 @@
     <string name="action_lists">Lists</string>
     <string name="title_lists">Lists</string>
     <string name="title_list_timeline">List timeline</string>
+    <string name="error_failed_set_caption">Failed to set caption</string>
+    <string name="hint_describe_for_visually_impaired">Describe for visually impaired</string>
+    <string name="action_set_caption">Set caption</string>
+    <string name="action_remove_media">Remove</string>
 
 
 </resources>
