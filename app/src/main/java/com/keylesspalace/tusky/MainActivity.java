@@ -77,6 +77,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     private static final long DRAWER_ITEM_LOG_OUT = 7;
     private static final long DRAWER_ITEM_FOLLOW_REQUESTS = 8;
     private static final long DRAWER_ITEM_SAVED_TOOT = 9;
+    private static final long DRAWER_ITEM_LISTS = 10;
 
     private static int COMPOSE_RESULT = 1;
 
@@ -311,6 +312,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         List<IDrawerItem> listItem = new ArrayList<>();
         listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_EDIT_PROFILE).withName(getString(R.string.action_edit_profile)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person));
         listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_FAVOURITES).withName(getString(R.string.action_view_favourites)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_star));
+        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_LISTS).withName(R.string.action_lists).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_list));
         listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_MUTED_USERS).withName(getString(R.string.action_view_mutes)).withSelectable(false).withIcon(muteDrawable));
         listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_BLOCKED_USERS).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block));
         listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SEARCH).withName(getString(R.string.action_search)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_search));
@@ -366,6 +368,8 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                         } else if (drawerItemIdentifier == DRAWER_ITEM_SAVED_TOOT) {
                             Intent intent = new Intent(MainActivity.this, SavedTootActivity.class);
                             startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_LISTS) {
+                            startActivity(ListsActivity.newIntent(this));
                         }
                     }
 

@@ -80,7 +80,8 @@ public class TimelineFragment extends SFragment implements
         PUBLIC_FEDERATED,
         TAG,
         USER,
-        FAVOURITES
+        FAVOURITES,
+        LIST
     }
 
     private enum FetchEnd {
@@ -158,7 +159,7 @@ public class TimelineFragment extends SFragment implements
                              Bundle savedInstanceState) {
         Bundle arguments = getArguments();
         kind = Kind.valueOf(arguments.getString(KIND_ARG));
-        if (kind == Kind.TAG || kind == Kind.USER) {
+        if (kind == Kind.TAG || kind == Kind.USER || kind == Kind.LIST) {
             hashtagOrId = arguments.getString(HASHTAG_OR_ID_ARG);
         }
 
@@ -209,19 +210,23 @@ public class TimelineFragment extends SFragment implements
 
         if (jumpToTopAllowed()) {
             TabLayout layout = getActivity().findViewById(R.id.tab_layout);
-            onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {}
+            if (layout != null) {
+                onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                    }
 
-                @Override
-                public void onTabUnselected(TabLayout.Tab tab) {}
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+                    }
 
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) {
-                    jumpToTop();
-                }
-            };
-            layout.addOnTabSelectedListener(onTabSelectedListener);
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                        jumpToTop();
+                    }
+                };
+                layout.addOnTabSelectedListener(onTabSelectedListener);
+            }
         }
 
         /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
@@ -273,7 +278,9 @@ public class TimelineFragment extends SFragment implements
     public void onDestroyView() {
         if (jumpToTopAllowed()) {
             TabLayout tabLayout = getActivity().findViewById(R.id.tab_layout);
-            tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
+            if (tabLayout != null) {
+                tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
+            }
         }
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(timelineReceiver);
         super.onDestroyView();
@@ -532,6 +539,8 @@ public class TimelineFragment extends SFragment implements
                 return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, null);
             case FAVOURITES:
                 return api.favourites(fromId, uptoId, LOAD_AT_ONCE);
+            case LIST:
+                return api.listTimeline(tagOrId, fromId, uptoId, LOAD_AT_ONCE);
         }
     }
 
