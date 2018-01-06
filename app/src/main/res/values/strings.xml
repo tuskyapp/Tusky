@@ -177,6 +177,11 @@
     <string name="pref_title_show_boosts">Show boosts</string>
     <string name="pref_title_show_replies">Show replies</string>
     <string name="pref_title_show_media_preview">Show media previews</string>
+    <string name="pref_title_proxy_settings">Proxy</string>
+    <string name="pref_title_http_proxy_settings">HTTP proxy</string>
+    <string name="pref_title_http_proxy_enable">Enable HTTP proxy</string>
+    <string name="pref_title_http_proxy_server">HTTP proxy server</string>
+    <string name="pref_title_http_proxy_port">HTTP proxy port</string>
 
     <string-array name="pull_notification_check_interval_names">
         <item>15 minutes</item>
@@ -267,8 +272,13 @@
     <string name="title_media">Media</string>
     <string name="replying_to">Replying to @%s</string>
     <string name="load_more_placeholder_text">load more</string>
+
     <string name="add_account_name">Add Account</string>
     <string name="add_account_description">Add new Mastodon Account</string>
+
+    <string name="action_lists">Lists</string>
+    <string name="title_lists">Lists</string>
+    <string name="title_list_timeline">List timeline</string>
 
 
 </resources>

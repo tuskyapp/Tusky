@@ -137,8 +137,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
                 .create();
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         OkHttpClient.Builder okBuilder =
-                OkHttpUtils.getCompatibleClientBuilder()
+                OkHttpUtils.getCompatibleClientBuilder(preferences)
                         .addInterceptor(new AuthInterceptor())
                         .dispatcher(mastodonApiDispatcher);
 

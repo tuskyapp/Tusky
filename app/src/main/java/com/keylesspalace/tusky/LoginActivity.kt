@@ -117,7 +117,7 @@ class LoginActivity : AppCompatActivity() {
     private fun getApiFor(domain: String): MastodonApi {
         val retrofit = Retrofit.Builder()
                 .baseUrl("https://" + domain)
-                .client(OkHttpUtils.getCompatibleClient())
+                .client(OkHttpUtils.getCompatibleClient(preferences))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
