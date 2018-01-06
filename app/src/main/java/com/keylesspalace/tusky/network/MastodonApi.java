@@ -22,6 +22,7 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.AppCredentials;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
+import com.keylesspalace.tusky.entity.MastoList;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Profile;
 import com.keylesspalace.tusky.entity.Relationship;
@@ -64,6 +65,12 @@ public interface MastodonApi {
     Call<List<Status>> hashtagTimeline(
             @Path("hashtag") String hashtag,
             @Query("local") Boolean local,
+            @Query("max_id") String maxId,
+            @Query("since_id") String sinceId,
+            @Query("limit") Integer limit);
+    @GET("api/v1/timelines/list/{listId}")
+    Call<List<Status>> listTimeline(
+            @Path("listId") String listId,
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
@@ -236,4 +243,7 @@ public interface MastodonApi {
     Call<Card> statusCard(
             @Path("id") String statusId
     );
+
+    @GET("/api/v1/lists")
+    Call<List<MastoList>> getLists();
 }

@@ -272,6 +272,9 @@
     <string name="title_media">Media</string>
     <string name="replying_to">Replying to @%s</string>
     <string name="load_more_placeholder_text">load more</string>
+    <string name="action_lists">Lists</string>
+    <string name="title_lists">Lists</string>
+    <string name="title_list_timeline">List timeline</string>
 
 
 </resources>

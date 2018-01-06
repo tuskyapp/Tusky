@@ -95,6 +95,8 @@
             </intent-filter>
             <meta-data android:name="android.app.searchable" android:resource="@xml/searchable" />
         </activity>
+        <activity android:name=".ListsActivity" />
+        <activity android:name=".ModalTimelineActivity" />
 
         <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
 
