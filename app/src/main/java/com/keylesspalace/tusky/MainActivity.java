@@ -270,7 +270,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withDividerBelowHeader(false)
-                .withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP)
                 .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
                     @Override
                     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
@@ -283,7 +282,8 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                     }
                 })
                 .withCurrentProfileHiddenInList(true)
-                .withOnAccountHeaderListener((view, profile, current) -> handleProfileClick(profile, current)).addProfiles(
+                .withOnAccountHeaderListener((view, profile, current) -> handleProfileClick(profile, current))
+                .addProfiles(
                         new ProfileSettingDrawerItem()
                                 .withIdentifier(DRAWER_ITEM_ADD_ACCOUNT)
                                 .withName(R.string.add_account_name)
@@ -468,6 +468,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     private void onFetchUserInfoSuccess(Account me) {
         // Add the header image and avatar from the account, into the navigation drawer header.
         ImageView background = headerResult.getHeaderBackgroundView();
+        background.setColorFilter(ContextCompat.getColor(this, R.color.header_background_filter));
         background.setBackgroundColor(ContextCompat.getColor(this, R.color.window_background_dark));
         Picasso.with(MainActivity.this)
                 .load(me.header)
