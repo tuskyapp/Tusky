@@ -21,7 +21,7 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity(indices = [Index(value = ["domain", "accountId"],
                 unique = true)])
-class AccountEntity(@field:PrimaryKey(autoGenerate = true) var id: Long,
+data class AccountEntity(@field:PrimaryKey(autoGenerate = true) var id: Long,
                     val domain: String,
                     var accountId: String,
                     var username: String,

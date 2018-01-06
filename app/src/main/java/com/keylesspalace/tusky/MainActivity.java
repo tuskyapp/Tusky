@@ -399,7 +399,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         }
         //open LoginActivity to add new account
         if(profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT ) {
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(LoginActivity.getIntent(this, true));
             return true;
         }
         //change Account
@@ -431,7 +431,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
                     Intent intent;
                     if(newAccount == null) {
-                        intent = new Intent(MainActivity.this, LoginActivity.class);
+                        intent = LoginActivity.getIntent(MainActivity.this, false);
                     } else {
                         intent = new Intent(MainActivity.this, MainActivity.class);
                     }

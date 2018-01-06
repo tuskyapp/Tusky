@@ -1,82 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context="com.keylesspalace.tusky.LoginActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:padding="16dp"
-        android:gravity="center"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="147dp"
-            android:layout_height="160dp"
-            android:layout_marginBottom="50dp"
-            android:src="@drawable/elephant_friend"
-            android:contentDescription="@null" />
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/login_input"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <android.support.design.widget.TextInputLayout
-                android:layout_height="wrap_content"
-                android:layout_width="250dp">
-                <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textUri"
-                    android:hint="@string/hint_domain"
-                    android:ems="10"
-                    android:id="@+id/edit_text_domain" />
-            </android.support.design.widget.TextInputLayout>
-
-            <Button
-                android:id="@+id/button_login"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@android:color/white"
-                android:text="@string/action_login" />
-
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:id="@+id/text_error" />
-
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:textAlignment="center"
-                android:id="@+id/whats_an_instance"
-                android:text="@string/link_whats_an_instance" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/login_loading"
-            android:visibility="gone"
+            android:gravity="center"
             android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ProgressBar
-                android:layout_gravity="center"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="147dp"
+                android:layout_height="160dp"
+                android:layout_marginBottom="50dp"
+                android:contentDescription="@null"
+                android:src="@drawable/elephant_friend" />
+
+            <LinearLayout
+                android:id="@+id/loginInputLayout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:paddingTop="10dp"
-                android:textAlignment="center"
-                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:text="@string/login_connection"/>
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/domainEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/hint_domain"
+                        android:inputType="textUri" />
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/loginButton"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/action_login"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/whatsAnInstanceTextView"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="6dp"
+                    android:text="@string/link_whats_an_instance"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/loginLoadingLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="@string/login_connection"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
         </LinearLayout>
+    </ScrollView>
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
-</ScrollView>
+</android.support.constraint.ConstraintLayout>
