@@ -270,6 +270,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withDividerBelowHeader(false)
+                .withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP)
                 .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
                     @Override
                     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {

@@ -280,5 +280,7 @@
     <string name="title_lists">Lists</string>
     <string name="title_list_timeline">List timeline</string>
 
+    <string name="compose_active_account_description">Posting with account %1$s@%2$s</string>
+
 
 </resources>
