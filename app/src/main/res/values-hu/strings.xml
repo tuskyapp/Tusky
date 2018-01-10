@@ -57,7 +57,6 @@
     <string name="action_compose">Szerkeszt</string>
     <string name="action_login">Bejelentkezés Mastodon-al</string>
     <string name="action_logout">Kijelentkezés</string>
-    <string name="action_logout_confirm">Ki szeretne jelentkezni?</string>
     <string name="action_follow">Követ</string>
     <string name="action_unfollow">Követőktől eltávolít</string>
     <string name="action_block">Blokkol</string>

@@ -425,9 +425,12 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     }
 
     private void logout() {
+
+        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+
         new AlertDialog.Builder(this)
                 .setTitle(R.string.action_logout)
-                .setMessage(R.string.action_logout_confirm)
+                .setMessage(getString(R.string.action_logout_confirm, activeAccount.getUsername(), activeAccount.getDomain()))
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
 
                     if (arePushNotificationsEnabled()) disablePushNotifications();

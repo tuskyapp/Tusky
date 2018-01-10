@@ -60,7 +60,6 @@
     <string name="action_compose">Compor</string>
     <string name="action_login">Entrar com Mastodon</string>
     <string name="action_logout">Sair</string>
-    <string name="action_logout_confirm">Deseja sair?</string>
     <string name="action_follow">Seguir</string>
     <string name="action_unfollow">Deixar de seguir</string>
     <string name="action_block">Bloquear</string>

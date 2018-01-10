@@ -61,7 +61,6 @@
     <string name="action_compose">Написать</string>
     <string name="action_login">Войти</string>
     <string name="action_logout">Выйти</string>
-    <string name="action_logout_confirm">Вы хотите выйти?</string>
     <string name="action_follow">Подписаться</string>
     <string name="action_unfollow">Отписаться</string>
     <string name="action_block">Заблокировать</string>

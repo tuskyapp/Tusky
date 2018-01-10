@@ -57,7 +57,7 @@
     <string name="action_compose">新規投稿</string>
     <string name="action_login">Mastodonでログイン</string>
     <string name="action_logout">ログアウト</string>
-    <string name="action_logout_confirm">ログアウトしますか？</string>
+
     <string name="action_follow">フォローする</string>
     <string name="action_unfollow">フォロー解除</string>
     <string name="action_block">ブロック</string>

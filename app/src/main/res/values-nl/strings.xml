@@ -51,7 +51,6 @@
     <string name="action_compose">Schrijven</string>
     <string name="action_login">Inloggen bij Mastodon</string>
     <string name="action_logout">Uitloggen</string>
-    <string name="action_logout_confirm">Wil je echt uitloggen?</string>
     <string name="action_follow">Volgen</string>
     <string name="action_unfollow">Ontvolgen</string>
     <string name="action_block">Blokkeren</string>

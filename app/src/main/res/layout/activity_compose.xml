@@ -23,7 +23,6 @@
                 android:layout_gravity="right|end"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
-                android:src="@drawable/elephant_friend"
                 tools:ignore="ContentDescription" />
             <!--content description will be set in code -->
         </android.support.v7.widget.Toolbar>

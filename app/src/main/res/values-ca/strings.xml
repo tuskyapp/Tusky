@@ -60,7 +60,6 @@
     <string name="action_compose">Redacta</string>
     <string name="action_login">Inicia sessió amb Mastodon</string>
     <string name="action_logout">Tanca sessió</string>
-    <string name="action_logout_confirm">Vols tancar la sessió?</string>
     <string name="action_follow">Segueix</string>
     <string name="action_unfollow">Deixa de seguir</string>
     <string name="action_block">Bloca</string>
