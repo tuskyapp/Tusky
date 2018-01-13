@@ -5,11 +5,16 @@
     <PreferenceCategory android:title="@string/pref_title_appearance_settings">
 
         <ListPreference
-            android:defaultValue="dark"
+            android:defaultValue="AppTheme:dark"
             android:entries="@array/app_theme_names"
             android:entryValues="@array/app_theme_values"
             android:key="appTheme"
             android:title="@string/pref_app_theme" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="daylightTheme"
+            android:title="@string/pref_daylight_theme" />
 
         <ListPreference
             android:defaultValue="medium"
