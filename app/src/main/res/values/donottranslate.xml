@@ -29,4 +29,10 @@
         <item>medium</item>
         <item>large</item>
     </string-array>
+
+    <string-array name="app_theme_values">
+        <item>night</item>
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
 </resources>
