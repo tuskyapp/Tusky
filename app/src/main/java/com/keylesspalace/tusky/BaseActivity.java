@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky;
 
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -61,8 +62,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
          * views are created. */
-        if (preferences.getBoolean("lightTheme", false)) {
-            setTheme(R.style.AppTheme_Light);
+        switch (preferences.getString("appTheme", "dark")){
+            case "night":
+                TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_AUTO);
+                break;
+            default:
+            case "light":
+                TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_NO);
+                break;
+            case "dark":
+                TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_YES);
+                break;
         }
 
         int style;

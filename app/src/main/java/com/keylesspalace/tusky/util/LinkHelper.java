@@ -35,6 +35,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 
@@ -172,8 +173,7 @@ public class LinkHelper {
      * @param context context
      */
     public static void openLinkInCustomTab(Uri uri, Context context) {
-        boolean lightTheme = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("lightTheme", false);
-        int toolbarColor = ContextCompat.getColor(context, lightTheme ? R.color.custom_tab_toolbar_light : R.color.custom_tab_toolbar_dark);
+        int toolbarColor = ContextCompat.getColor(context, R.color.custom_tab_toolbar);
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.setToolbarColor(toolbarColor);
         CustomTabsIntent customTabsIntent = builder.build();

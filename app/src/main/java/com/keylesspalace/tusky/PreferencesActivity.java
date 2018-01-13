@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky;
 
+import android.app.UiModeManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -46,8 +47,17 @@ public class PreferencesActivity extends BaseActivity
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.getBoolean("lightTheme", false)) {
-            setTheme(R.style.AppTheme_Light);
+        switch (preferences.getString("appTheme", "dark")) {
+            case "night":
+                ((TuskyApplication) getApplication()).getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_AUTO);
+                break;
+            default:
+            case "light":
+                ((TuskyApplication) getApplication()).getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_NO);
+                break;
+            case "dark":
+                ((TuskyApplication) getApplication()).getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_YES);
+                break;
         }
 
         setContentView(R.layout.activity_preferences);
@@ -104,7 +114,7 @@ public class PreferencesActivity extends BaseActivity
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key) {
-            case "lightTheme": {
+            case "appTheme": {
                 restartActivitiesOnExit = true;
                 // recreate() could be used instead, but it doesn't have an animation B).
                 Intent intent = getIntent();

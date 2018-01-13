@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky;
 
 import android.app.AlertDialog;
+import android.app.UiModeManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -68,8 +69,17 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("lightTheme", false)) {
-            setTheme(R.style.AppTheme_Light);
+        switch (PreferenceManager.getDefaultSharedPreferences(this).getString("appTheme", "dark")) {
+            case "night":
+                TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_AUTO);
+                break;
+            default:
+            case "light":
+                TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_NO);
+                break;
+            case "dark":
+                TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_YES);
+                break;
         }
 
         setContentView(R.layout.activity_login);
@@ -234,14 +244,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private static boolean openInCustomTab(Uri uri, Context context) {
-        boolean lightTheme = PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean("lightTheme", false);
-        int toolbarColorRes;
-        if (lightTheme) {
-            toolbarColorRes = R.color.custom_tab_toolbar_light;
-        } else {
-            toolbarColorRes = R.color.custom_tab_toolbar_dark;
-        }
+        int toolbarColorRes = R.color.custom_tab_toolbar;
         int toolbarColor = ContextCompat.getColor(context, toolbarColorRes);
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.setToolbarColor(toolbarColor);

@@ -16,7 +16,9 @@
 package com.keylesspalace.tusky;
 
 import android.app.Application;
+import android.app.UiModeManager;
 import android.arch.persistence.room.Room;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatDelegate;
@@ -33,6 +35,10 @@ public class TuskyApplication extends Application {
     public static AppDatabase getDB() {
         return db;
     }
+
+    private static UiModeManager uiModeManager;
+
+    public static UiModeManager getUiModeManager() { return uiModeManager; }
 
     @Override
     public void onCreate() {
@@ -61,5 +67,7 @@ public class TuskyApplication extends Application {
 
         //necessary for Android < APi 21
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
+        uiModeManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
     }
 }
