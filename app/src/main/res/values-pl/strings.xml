@@ -160,10 +160,11 @@
     <string name="pref_app_theme">Motyw aplikacji</string>
 
     <string-array name="app_theme_names">
-        <item>Dzień/Noc</item>
-        <item>Jasny</item>
-        <item>Ciemny</item>
+        <item>Tusky</item>
+        <item>Ciemny Tusky</item>
     </string-array>
+
+    <string name="pref_daylight_theme">Automatyczny tryb dzienny/nocny</string>
 
     <string name="pref_title_browser_settings">Przeglądarka</string>
     <string name="pref_title_custom_tabs">Używaj niestandardowych kart Chrome</string>

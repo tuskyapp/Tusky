@@ -31,8 +31,7 @@
     </string-array>
 
     <string-array name="app_theme_values">
-        <item>night</item>
-        <item>light</item>
-        <item>dark</item>
+        <item>AppTheme:default</item>
+        <item>AppTheme:night</item>
     </string-array>
 </resources>

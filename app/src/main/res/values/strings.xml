@@ -171,10 +171,11 @@
     <string name="pref_app_theme">App Theme</string>
 
     <string-array name="app_theme_names">
-        <item>Day/Night</item>
-        <item>Light</item>
-        <item>Dark</item>
+        <item>Tusky</item>
+        <item>Dark Tusky</item>
     </string-array>
+
+    <string name="pref_daylight_theme">Auto day/night mode</string>
 
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Use Chrome Custom Tabs</string>
