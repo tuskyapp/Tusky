@@ -9,7 +9,7 @@
             android:entries="@array/app_theme_names"
             android:entryValues="@array/app_theme_values"
             android:key="appTheme"
-            android:title="@string/pref_title_app_theme" />
+            android:title="@string/pref_app_theme" />
 
         <ListPreference
             android:defaultValue="medium"

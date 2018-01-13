@@ -157,7 +157,7 @@
     <string name="pref_title_notification_filter_reblogs">moje posty zostaną podbite</string>
     <string name="pref_title_notification_filter_favourites">moje posty zostaną dodane do ulubionych</string>
     <string name="pref_title_appearance_settings">Wygląd</string>
-    <string name="pref_title_app_theme">Motyw aplikacji</string>
+    <string name="pref_app_theme">Motyw aplikacji</string>
 
     <string-array name="app_theme_names">
         <item>Dzień/Noc</item>
