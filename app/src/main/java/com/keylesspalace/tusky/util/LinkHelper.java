@@ -23,7 +23,6 @@ import android.preference.PreferenceManager;
 import android.provider.Browser;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -31,11 +30,10 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
-import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 
@@ -173,7 +171,11 @@ public class LinkHelper {
      * @param context context
      */
     public static void openLinkInCustomTab(Uri uri, Context context) {
-        int toolbarColor = ContextCompat.getColor(context, R.color.custom_tab_toolbar);
+        TypedValue toolbarColorTv = new TypedValue();
+        context.getTheme().resolveAttribute(
+                context.getResources().getIdentifier("custom_tab_toolbar", "attr", context.getPackageName()), toolbarColorTv, true);
+
+        int toolbarColor = toolbarColorTv.data;
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.setToolbarColor(toolbarColor);
         CustomTabsIntent customTabsIntent = builder.build();

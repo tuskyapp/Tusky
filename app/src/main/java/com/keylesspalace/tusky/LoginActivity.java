@@ -39,6 +39,7 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.AppCredentials;
+import com.keylesspalace.tusky.fragment.PreferencesFragment;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.CustomTabsHelper;
 import com.keylesspalace.tusky.util.NotificationManager;
@@ -69,17 +70,25 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        switch (PreferenceManager.getDefaultSharedPreferences(this).getString("appTheme", "dark")) {
-            case "night":
-                TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_AUTO);
-                break;
-            default:
-            case "light":
-                TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_NO);
-                break;
-            case "dark":
-                TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_YES);
-                break;
+        String[] themeFlavorPair = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString("appTheme", "AppTheme:default").split(":");
+        String appTheme = themeFlavorPair[0], themeFlavor = themeFlavorPair[1];
+
+        setTheme(getResources().getIdentifier(appTheme, "value", getPackageName()));
+
+        boolean daylightTheme = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("daylightTheme", false);
+        if (daylightTheme) {
+            TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_AUTO);
+        } else {
+            switch (themeFlavor) {
+                case "night":
+                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_YES);
+                    break;
+                case "day":
+                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_NO);
+                    break;
+            }
         }
 
         setContentView(R.layout.activity_login);

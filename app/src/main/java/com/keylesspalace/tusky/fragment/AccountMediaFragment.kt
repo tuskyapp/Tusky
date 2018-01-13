@@ -26,6 +26,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -133,8 +134,10 @@ class AccountMediaFragment : BaseFragment() {
         val columnCount = context?.resources?.getInteger(R.integer.profile_media_column_count) ?: 2
         val layoutManager = GridLayoutManager(context, columnCount)
 
-        val bgRes = R.color.window_background
-        adapter.baseItemColor = ContextCompat.getColor(recyclerView.context, bgRes)
+        val toolbarColorTv = TypedValue()
+        context?.theme?.resolveAttribute(R.attr.window_background, toolbarColorTv, true)
+
+        adapter.baseItemColor = ContextCompat.getColor(recyclerView.context, toolbarColorTv.data)
 
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
