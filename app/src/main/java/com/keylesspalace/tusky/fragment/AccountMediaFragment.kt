@@ -134,7 +134,7 @@ class AccountMediaFragment : BaseFragment() {
         val columnCount = context?.resources?.getInteger(R.integer.profile_media_column_count) ?: 2
         val layoutManager = GridLayoutManager(context, columnCount)
 
-        val bgRes = ThemeUtils.getColor(context, R.attr.window_background)
+        val bgRes = ThemeUtils.getColorId(context, R.attr.window_background)
 
         adapter.baseItemColor = ContextCompat.getColor(recyclerView.context, bgRes)
 
