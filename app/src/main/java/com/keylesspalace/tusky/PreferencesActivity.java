@@ -79,7 +79,7 @@ public class PreferencesActivity extends BaseActivity
         boolean daylightTheme = preferences.getBoolean("daylightTheme", false);
 
         // Set theme based on preference
-        setTheme(getResources().getIdentifier(appTheme, "values", getPackageName()));
+        setTheme(getResources().getIdentifier(appTheme, "style", getPackageName()));
 
         if (!themeFlavor.equals("default")) {
             PreferencesFragment preferencesFragment = (PreferencesFragment)getFragmentManager().findFragmentById(R.id.fragment_container);

@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 .getString("appTheme", "AppTheme:default").split(":");
         String appTheme = themeFlavorPair[0], themeFlavor = themeFlavorPair[1];
 
-        setTheme(getResources().getIdentifier(appTheme, "value", getPackageName()));
+        setTheme(getResources().getIdentifier(appTheme, "style", getPackageName()));
 
         boolean daylightTheme = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("daylightTheme", false);

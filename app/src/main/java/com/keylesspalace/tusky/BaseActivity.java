@@ -27,6 +27,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spanned;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 
@@ -65,7 +66,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         String[] themeFlavorPair = preferences.getString("appTheme", "AppTheme:default").split(":");
         String appTheme = themeFlavorPair[0], themeFlavor = themeFlavorPair[1];
 
-        setTheme(getResources().getIdentifier(appTheme, "value", getPackageName()));
+        String a = getTheme().toString();
+        setTheme(getResources().getIdentifier(appTheme, "style", getPackageName()));
+        String b = getTheme().toString();
+        Log.d("themeSet", appTheme);
+        Log.d("themeSet", String.valueOf(a.equals(b)));
 
         boolean daylightTheme = preferences.getBoolean("daylightTheme", false);
         if (daylightTheme) {
