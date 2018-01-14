@@ -103,7 +103,6 @@ public class PreferencesActivity extends BaseActivity
                     break;
             }
         }
-
     }
 
     public void showFragment(@XmlRes int preferenceId, @StringRes int title) {
@@ -140,12 +139,32 @@ public class PreferencesActivity extends BaseActivity
         switch (key) {
             case "daylightTheme":
             case "appTheme": {
-                String[] appTheme = sharedPreferences.getString("appTheme", "AppTheme:night").split(":");
+                String[] themeFlavorPair = sharedPreferences.getString("appTheme", "AppTheme:night").split(":");
+                String appTheme = themeFlavorPair[0], themeFlavor = themeFlavorPair[1];
 
-                if (!appTheme[1].equals("default")) {
+                // Set theme based on preference
+                setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
+
+                if (!themeFlavor.equals("default")) {
                     sharedPreferences.edit()
-                        .putBoolean("daylightTheme", false)
-                        .commit();
+                            .putBoolean("daylightTheme", false)
+                            .commit();
+                }
+
+                boolean daylightTheme = sharedPreferences.getBoolean("daylightTheme", false);
+
+                if (daylightTheme) {
+                    setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+                } else {
+                    switch (themeFlavor) {
+                        case "night":
+                            setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                            break;
+                        default:
+                        case "day":
+                            setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            break;
+                    }
                 }
 
                 restartActivitiesOnExit = true;
