@@ -62,6 +62,11 @@ public class ThemeUtils {
         }
     }
 
+    public static @ColorInt int getColorById(Context context, String name) {
+        return getColor(context,
+                ResourcesUtils.getResourceIdentifier(context, "attr", name));
+    }
+
     public static void setImageViewTint(ImageView view, @AttrRes int attribute) {
         view.setColorFilter(getColor(view.getContext(), attribute), PorterDuff.Mode.SRC_IN);
     }

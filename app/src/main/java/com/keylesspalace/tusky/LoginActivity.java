@@ -44,6 +44,8 @@ import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.CustomTabsHelper;
 import com.keylesspalace.tusky.util.NotificationManager;
 import com.keylesspalace.tusky.util.OkHttpUtils;
+import com.keylesspalace.tusky.util.ResourcesUtils;
+import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -76,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 .getString("appTheme", "AppTheme:night").split(":");
         String appTheme = themeFlavorPair[0], themeFlavor = themeFlavorPair[1];
 
-        setTheme(getResources().getIdentifier(appTheme, "style", getPackageName()));
+        setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
 
         boolean daylightTheme = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("daylightTheme", false);
@@ -255,11 +257,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private static boolean openInCustomTab(Uri uri, Context context) {
-        TypedValue toolbarColorTv = new TypedValue();
-        context.getTheme().resolveAttribute(
-                context.getResources().getIdentifier("custom_tab_toolbar", "attr", context.getPackageName()), toolbarColorTv, true);
+        int toolbarColor = ThemeUtils.getColorById(context, "custom_tab_toolbar");
 
-        int toolbarColor = ContextCompat.getColor(context, toolbarColorTv.resourceId);
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.setToolbarColor(toolbarColor);
         CustomTabsIntent customTabsIntent = builder.build();

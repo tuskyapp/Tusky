@@ -37,6 +37,7 @@ import com.keylesspalace.tusky.ViewVideoActivity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.view.SquareImageView
 import com.squareup.picasso.Picasso
 import retrofit2.Call
@@ -133,11 +134,7 @@ class AccountMediaFragment : BaseFragment() {
         val columnCount = context?.resources?.getInteger(R.integer.profile_media_column_count) ?: 2
         val layoutManager = GridLayoutManager(context, columnCount)
 
-        val windowBackgroundTv = TypedValue()
-        activity?.theme?.resolveAttribute(
-                R.attr.window_background, windowBackgroundTv, true)
-
-        val bgRes = windowBackgroundTv.resourceId
+        val bgRes = ThemeUtils.getColor(context, R.attr.window_background)
 
         adapter.baseItemColor = ContextCompat.getColor(recyclerView.context, bgRes)
 
