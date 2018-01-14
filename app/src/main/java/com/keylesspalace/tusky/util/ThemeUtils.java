@@ -21,6 +21,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
@@ -60,6 +61,12 @@ public class ThemeUtils {
         } else {
             return Color.BLACK;
         }
+    }
+
+    public static @ColorRes int getColorId(Context context, @AttrRes int attribute) {
+        TypedValue value = new TypedValue();
+        context.getTheme().resolveAttribute(attribute, value, true);
+        return value.resourceId;
     }
 
     public static @ColorInt int getColorById(Context context, String name) {
