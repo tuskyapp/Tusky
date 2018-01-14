@@ -28,6 +28,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Spanned;
 import android.util.TypedValue;
 import android.view.Menu;
+import android.view.WindowManager;
 
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
@@ -72,6 +73,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (flavor.equals(ThemeUtils.THEME_FLAVOR_DEFAULT))
             flavor = themeFlavorPreference;
         ThemeUtils.setAppNightMode(flavor);
+
+        boolean secureScreen = preferences.getBoolean("secureScreen", false);
+        if (secureScreen)
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        else
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
 
         int style;
         switch(preferences.getString("statusTextSize", "medium")) {
