@@ -54,6 +54,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.support.v7.app.AppCompatDelegate.setDefaultNightMode;
+
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity"; // logging tag
     private static String OAUTH_SCOPES = "read write follow";
@@ -79,14 +81,14 @@ public class LoginActivity extends AppCompatActivity {
         boolean daylightTheme = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("daylightTheme", false);
         if (daylightTheme) {
-            TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_AUTO);
+            setDefaultNightMode(UiModeManager.MODE_NIGHT_AUTO);
         } else {
             switch (themeFlavor) {
                 case "night":
-                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_YES);
+                    setDefaultNightMode(UiModeManager.MODE_NIGHT_YES);
                     break;
                 case "day":
-                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_NO);
+                    setDefaultNightMode(UiModeManager.MODE_NIGHT_NO);
                     break;
             }
         }

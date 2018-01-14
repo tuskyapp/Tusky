@@ -29,6 +29,8 @@ import android.view.MenuItem;
 
 import com.keylesspalace.tusky.fragment.PreferencesFragment;
 
+import static android.support.v7.app.AppCompatDelegate.setDefaultNightMode;
+
 public class PreferencesActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -88,15 +90,15 @@ public class PreferencesActivity extends BaseActivity
         }
 
         if (daylightTheme) {
-            TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_AUTO);
+            setDefaultNightMode(UiModeManager.MODE_NIGHT_AUTO);
         } else {
             switch (themeFlavor) {
                 case "night":
-                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_YES);
+                    setDefaultNightMode(UiModeManager.MODE_NIGHT_YES);
                     break;
                 default:
                 case "day":
-                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_NO);
+                    setDefaultNightMode(UiModeManager.MODE_NIGHT_NO);
                     break;
             }
         }
