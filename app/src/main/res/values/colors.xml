@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--These colors are not affected by themes.-->
-    <color name="window_background">#f4f4f4</color>
-    <color name="custom_tab_toolbar">#ffffff</color>
     <color name="view_video_background">#000000</color>
     <color name="toolbar_view_media">#8f000000</color>
     <color name="semi_transparent">#33000000</color>
