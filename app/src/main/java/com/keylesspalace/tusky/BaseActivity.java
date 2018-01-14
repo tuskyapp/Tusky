@@ -27,7 +27,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spanned;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 
@@ -63,14 +62,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
          * views are created. */
-        String[] themeFlavorPair = preferences.getString("appTheme", "AppTheme:default").split(":");
+        String[] themeFlavorPair = preferences.getString("appTheme", "AppTheme:night").split(":");
         String appTheme = themeFlavorPair[0], themeFlavor = themeFlavorPair[1];
 
-        String a = getTheme().toString();
         setTheme(getResources().getIdentifier(appTheme, "style", getPackageName()));
-        String b = getTheme().toString();
-        Log.d("themeSet", appTheme);
-        Log.d("themeSet", String.valueOf(a.equals(b)));
 
         boolean daylightTheme = preferences.getBoolean("daylightTheme", false);
         if (daylightTheme) {

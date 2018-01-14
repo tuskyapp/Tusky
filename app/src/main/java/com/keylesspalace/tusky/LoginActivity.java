@@ -31,6 +31,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,7 +40,6 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.AppCredentials;
-import com.keylesspalace.tusky.fragment.PreferencesFragment;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.CustomTabsHelper;
 import com.keylesspalace.tusky.util.NotificationManager;
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         String[] themeFlavorPair = PreferenceManager.getDefaultSharedPreferences(this)
-                .getString("appTheme", "AppTheme:default").split(":");
+                .getString("appTheme", "AppTheme:night").split(":");
         String appTheme = themeFlavorPair[0], themeFlavor = themeFlavorPair[1];
 
         setTheme(getResources().getIdentifier(appTheme, "style", getPackageName()));
@@ -253,8 +253,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private static boolean openInCustomTab(Uri uri, Context context) {
-        int toolbarColorRes = R.color.custom_tab_toolbar;
-        int toolbarColor = ContextCompat.getColor(context, toolbarColorRes);
+        TypedValue toolbarColorTv = new TypedValue();
+        context.getTheme().resolveAttribute(
+                context.getResources().getIdentifier("custom_tab_toolbar", "attr", context.getPackageName()), toolbarColorTv, true);
+
+        int toolbarColor = ContextCompat.getColor(context, toolbarColorTv.resourceId);
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.setToolbarColor(toolbarColor);
         CustomTabsIntent customTabsIntent = builder.build();

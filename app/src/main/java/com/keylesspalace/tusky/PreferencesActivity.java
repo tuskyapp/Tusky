@@ -19,8 +19,6 @@ import android.app.UiModeManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -28,7 +26,6 @@ import android.support.annotation.XmlRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.CheckBox;
 
 import com.keylesspalace.tusky.fragment.PreferencesFragment;
 
@@ -73,7 +70,7 @@ public class PreferencesActivity extends BaseActivity
         }
         showFragment(currentPreferences, currentTitle);
 
-        String[] themeFlavorPair = preferences.getString("appTheme", "AppTheme:default").split(":");
+        String[] themeFlavorPair = preferences.getString("appTheme", "AppTheme:night").split(":");
         String appTheme = themeFlavorPair[0], themeFlavor = themeFlavorPair[1];
 
         boolean daylightTheme = preferences.getBoolean("daylightTheme", false);
@@ -140,7 +137,7 @@ public class PreferencesActivity extends BaseActivity
         switch (key) {
             case "daylightTheme":
             case "appTheme": {
-                String[] appTheme = sharedPreferences.getString("appTheme", "AppTheme:default").split(":");
+                String[] appTheme = sharedPreferences.getString("appTheme", "AppTheme:night").split(":");
 
                 if (!appTheme[1].equals("default")) {
                     sharedPreferences.edit()

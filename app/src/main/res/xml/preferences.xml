@@ -5,7 +5,7 @@
     <PreferenceCategory android:title="@string/pref_title_appearance_settings">
 
         <ListPreference
-            android:defaultValue="AppTheme:dark"
+            android:defaultValue="AppTheme:night"
             android:entries="@array/app_theme_names"
             android:entryValues="@array/app_theme_values"
             android:key="appTheme"
