@@ -134,10 +134,13 @@ class AccountMediaFragment : BaseFragment() {
         val columnCount = context?.resources?.getInteger(R.integer.profile_media_column_count) ?: 2
         val layoutManager = GridLayoutManager(context, columnCount)
 
-        val toolbarColorTv = TypedValue()
-        context?.theme?.resolveAttribute(R.attr.window_background, toolbarColorTv, true)
+        val windowBackgroundTv = TypedValue()
+        activity?.theme?.resolveAttribute(
+                R.attr.window_background, windowBackgroundTv, true)
 
-        adapter.baseItemColor = ContextCompat.getColor(recyclerView.context, toolbarColorTv.data)
+        val bgRes = windowBackgroundTv.resourceId
+
+        adapter.baseItemColor = ContextCompat.getColor(recyclerView.context, bgRes)
 
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
