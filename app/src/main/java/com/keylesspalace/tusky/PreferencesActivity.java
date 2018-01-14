@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky;
 
-import android.app.UiModeManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,6 +23,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.XmlRes;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -76,8 +76,6 @@ public class PreferencesActivity extends BaseActivity
         String[] themeFlavorPair = preferences.getString("appTheme", "AppTheme:night").split(":");
         String appTheme = themeFlavorPair[0], themeFlavor = themeFlavorPair[1];
 
-        boolean daylightTheme = preferences.getBoolean("daylightTheme", false);
-
         // Set theme based on preference
         setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
 
@@ -90,16 +88,18 @@ public class PreferencesActivity extends BaseActivity
                 .commit();
         }
 
+        boolean daylightTheme = preferences.getBoolean("daylightTheme", false);
+
         if (daylightTheme) {
-            setDefaultNightMode(UiModeManager.MODE_NIGHT_AUTO);
+            setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
         } else {
             switch (themeFlavor) {
                 case "night":
-                    setDefaultNightMode(UiModeManager.MODE_NIGHT_YES);
+                    setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     break;
                 default:
                 case "day":
-                    setDefaultNightMode(UiModeManager.MODE_NIGHT_NO);
+                    setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     break;
             }
         }
