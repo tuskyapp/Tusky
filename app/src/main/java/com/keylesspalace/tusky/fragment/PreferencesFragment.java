@@ -27,6 +27,8 @@ import android.support.annotation.XmlRes;
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.PreferencesActivity;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.TuskyApplication;
+import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.util.NotificationManager;
 
 public class PreferencesFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -57,6 +59,10 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
         Preference notificationPreferences  = findPreference("notificationPreferences");
 
         if(notificationPreferences != null) {
+
+            AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+
+            notificationPreferences.setSummary(getString(R.string.pref_summary_notifications, activeAccount.getUsername(), activeAccount.getDomain()));
 
             //on Android O and newer, launch the system notification settings instead of the app settings
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
