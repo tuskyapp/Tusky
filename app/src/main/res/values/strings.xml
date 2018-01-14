@@ -172,7 +172,7 @@
 
     <string-array name="app_theme_names">
         <item>Tusky</item>
-        <item>Dark Tusky</item>
+        <item>Dusky</item>
     </string-array>
 
     <string name="pref_daylight_theme">Auto day/night mode</string>
