@@ -168,14 +168,20 @@
     <string name="pref_title_notification_filter_reblogs">my posts are boosted</string>
     <string name="pref_title_notification_filter_favourites">my posts are favourited</string>
     <string name="pref_title_appearance_settings">Appearance</string>
-    <string name="pref_app_theme">App Theme</string>
+    <string name="pref_title_app_theme">App Theme</string>
 
     <string-array name="app_theme_names">
         <item>Tusky</item>
-        <item>Dusky</item>
+        <item>Remin</item>
     </string-array>
 
-    <string name="pref_daylight_theme">Auto day/night mode</string>
+    <string name="pref_title_app_theme_flavor">Theme flavor</string>
+    <string-array name="app_theme_flavor_names">
+        <item>Default</item>
+        <item>Sunset/Sunrise</item>
+        <item>Night</item>
+        <item>Day</item>
+    </string-array>
 
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Use Chrome Custom Tabs</string>

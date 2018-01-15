@@ -157,14 +157,20 @@
     <string name="pref_title_notification_filter_reblogs">moje posty zostaną podbite</string>
     <string name="pref_title_notification_filter_favourites">moje posty zostaną dodane do ulubionych</string>
     <string name="pref_title_appearance_settings">Wygląd</string>
-    <string name="pref_app_theme">Motyw aplikacji</string>
+    <string name="pref_title_app_theme">Motyw</string>
 
     <string-array name="app_theme_names">
         <item>Tusky</item>
-        <item>Ciemny Tusky</item>
+        <item>Remin</item>
     </string-array>
 
-    <string name="pref_daylight_theme">Automatyczny tryb dzienny/nocny</string>
+    <string name="pref_title_app_theme_flavor">Odmiana motywu</string>
+    <string-array name="app_theme_flavor_names">
+        <item>Domyślnie</item>
+        <item>Pora dnia</item>
+        <item>Noc</item>
+        <item>Dzień</item>
+    </string-array>
 
     <string name="pref_title_browser_settings">Przeglądarka</string>
     <string name="pref_title_custom_tabs">Używaj niestandardowych kart Chrome</string>
