@@ -103,7 +103,15 @@
 
         <item name="play_indicator_drawable">@drawable/ic_play_indicator_light</item>
 
- </style>
+    </style>
+
+    <style name="Remin" parent="ReminBase"/>
+    <style name="ReminBase" parent="AppThemeBase">
+        <item name="colorAccent">#e5ac00</item>
+        <item name="colorButtonNormal">#e8c14e</item>
+        <item name="tab_icon_selected_tint">#e2b62f</item>
+        <item name="compose_hide_media_button_selected_color">#f4c842</item>
+    </style>
 
     <style name="AppTheme.ImageButton.Light" parent="Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:tint">@color/image_button_light</item>

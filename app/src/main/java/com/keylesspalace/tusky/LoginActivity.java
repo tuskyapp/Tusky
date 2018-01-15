@@ -38,6 +38,7 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.AppCredentials;
+import com.keylesspalace.tusky.fragment.PreferencesFragment;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.CustomTabsHelper;
 import com.keylesspalace.tusky.util.NotificationManager;
@@ -72,26 +73,26 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String[] themeFlavorPair = PreferenceManager.getDefaultSharedPreferences(this)
-                .getString("appTheme", "AppTheme:night").split(":");
-        String appTheme = themeFlavorPair[0], themeFlavor = themeFlavorPair[1];
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String[] themeFlavorPair = preferences.getString("appTheme", "AppTheme:prefer:night").split(":");
+        String appTheme = themeFlavorPair[0], themeFlavorMode = themeFlavorPair[1], themeFlavorPreference = themeFlavorPair[2];
 
         setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
 
-        boolean daylightTheme = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("daylightTheme", false);
-        if (daylightTheme) {
-            setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-        } else {
-            switch (themeFlavor) {
-                case "night":
-                    setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    break;
-                default:
-                case "day":
-                    setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    break;
-            }
+        String flavor = preferences.getString("appThemeFlavor", "preferred");
+        if (flavor.equals("preferred"))
+            flavor = themeFlavorPreference;
+        switch (flavor) {
+            case "auto":
+                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+                break;
+            case "night":
+                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            default:
+            case "day":
+                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
         }
 
         setContentView(R.layout.activity_login);

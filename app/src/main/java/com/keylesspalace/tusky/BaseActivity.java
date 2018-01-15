@@ -65,24 +65,25 @@ public abstract class BaseActivity extends AppCompatActivity {
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
          * views are created. */
-        String[] themeFlavorPair = preferences.getString("appTheme", "AppTheme:night").split(":");
-        String appTheme = themeFlavorPair[0], themeFlavor = themeFlavorPair[1];
+        String[] themeFlavorPair = preferences.getString("appTheme", "AppTheme:prefer:night").split(":");
+        String appTheme = themeFlavorPair[0], themeFlavorMode = themeFlavorPair[1], themeFlavorPreference = themeFlavorPair[2];
 
         setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
 
-        boolean daylightTheme = preferences.getBoolean("daylightTheme", false);
-        if (daylightTheme) {
-            setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-        } else {
-            switch (themeFlavor) {
-                case "night":
-                    setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    break;
-                default:
-                case "day":
-                    setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    break;
-            }
+        String flavor = preferences.getString("appThemeFlavor", "preferred");
+        if (flavor.equals("preferred"))
+            flavor = themeFlavorPreference;
+        switch (flavor) {
+            case "auto":
+                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+                break;
+            case "night":
+                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            default:
+            case "day":
+                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
         }
 
         int style;

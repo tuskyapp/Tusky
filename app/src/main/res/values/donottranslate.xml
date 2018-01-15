@@ -31,7 +31,14 @@
     </string-array>
 
     <string-array name="app_theme_values">
-        <item>AppTheme:default</item>
-        <item>AppTheme:night</item>
+        <item>AppTheme:prefer:night</item>
+        <item>Remin:only:day</item>
+    </string-array>
+
+    <string-array name="app_theme_flavor_values">
+        <item>preferred</item>
+        <item>auto</item>
+        <item>night</item>
+        <item>day</item>
     </string-array>
 </resources>

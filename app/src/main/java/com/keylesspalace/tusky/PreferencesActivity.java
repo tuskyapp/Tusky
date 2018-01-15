@@ -16,15 +16,20 @@
 package com.keylesspalace.tusky;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.XmlRes;
 import android.support.v13.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -32,6 +37,9 @@ import android.view.MenuItem;
 import com.keylesspalace.tusky.fragment.PreferencesFragment;
 import com.keylesspalace.tusky.util.ResourcesUtils;
 
+import kotlin.text.MatchNamedGroupCollection;
+
+import static android.support.v7.app.AppCompatDelegate.getDefaultNightMode;
 import static android.support.v7.app.AppCompatDelegate.setDefaultNightMode;
 
 public class PreferencesActivity extends BaseActivity
@@ -75,37 +83,51 @@ public class PreferencesActivity extends BaseActivity
         }
         showFragment(currentPreferences, currentTitle);
 
-        String[] themeFlavorPair = preferences.getString("appTheme", "AppTheme:night").split(":");
-        String appTheme = themeFlavorPair[0], themeFlavor = themeFlavorPair[1];
+        PreferencesFragment preferencesFragment = (PreferencesFragment)getFragmentManager().findFragmentById(R.id.fragment_container);
+        String[] themeFlavorPair = preferences.getString("appTheme", "AppTheme:prefer:night").split(":");
+        String appTheme = themeFlavorPair[0], themeFlavorMode = themeFlavorPair[1], themeFlavorPreference = themeFlavorPair[2];
+
+        setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
+
+        if (preferencesFragment.findPreference("appThemeFlavor") != null) {
+            boolean lockFlavor = themeFlavorMode.equals("only");
+            preferencesFragment.findPreference("appThemeFlavor").setEnabled(!lockFlavor);
+        }
+
+        String flavor = preferences.getString("appThemeFlavor", "preferred");
+        if (flavor.equals("preferred"))
+            flavor = themeFlavorPreference;
+        switch (flavor) {
+            case "auto":
+                String[] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION };
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    AlertDialog dialog = new AlertDialog.Builder(this)
+                            .setTitle("Permission needed")
+                            .setMessage("Automatic theme adjustment option works best with location enabled.\n" +
+                                    "This information is only used to estimate local sunset/sunrise times. We don't store or send your location anywhere.")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ActivityCompat.requestPermissions(PreferencesActivity.this, permissions, 1);
+                                    setDefaultNightMode(getDefaultNightMode());
+                                }
+                            })
+                            .setNegativeButton("Ask me later", null)
+                            .show();
+                }
+                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+                break;
+            case "night":
+                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            default:
+            case "day":
+                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+        }
 
         // Set theme based on preference
         setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
-
-        if (!themeFlavor.equals("default")) {
-            PreferencesFragment preferencesFragment = (PreferencesFragment)getFragmentManager().findFragmentById(R.id.fragment_container);
-            preferencesFragment.findPreference("daylightTheme").setEnabled(false);
-
-            preferences.edit()
-                .putBoolean("daylightTheme", false)
-                .commit();
-        }
-
-        boolean daylightTheme = preferences.getBoolean("daylightTheme", false);
-
-        if (daylightTheme) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-            setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-        } else {
-            switch (themeFlavor) {
-                case "night":
-                    setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    break;
-                default:
-                case "day":
-                    setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    break;
-            }
-        }
     }
 
     public void showFragment(@XmlRes int preferenceId, @StringRes int title) {
@@ -140,34 +162,36 @@ public class PreferencesActivity extends BaseActivity
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key) {
-            case "daylightTheme":
             case "appTheme": {
-                String[] themeFlavorPair = sharedPreferences.getString("appTheme", "AppTheme:night").split(":");
-                String appTheme = themeFlavorPair[0], themeFlavor = themeFlavorPair[1];
+                String[] themeFlavorPair = sharedPreferences.getString("appTheme", "AppTheme:prefer:night").split(":");
+                String appTheme = themeFlavorPair[0], themeFlavorMode = themeFlavorPair[1], themeFlavorPreference = themeFlavorPair[2];
 
-                // Set theme based on preference
                 setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
 
-                if (!themeFlavor.equals("default")) {
-                    sharedPreferences.edit()
-                            .putBoolean("daylightTheme", false)
-                            .commit();
-                }
+                sharedPreferences.edit()
+                        .putString("appThemeFlavor", "preferred")
+                        .apply();
+            }
+            case "appThemeFlavor": {
+                String[] themeFlavorPair = sharedPreferences.getString("appTheme", "AppTheme:prefer:night").split(":");
+                String appTheme = themeFlavorPair[0], themeFlavorMode = themeFlavorPair[1], themeFlavorPreference = themeFlavorPair[2];
 
-                boolean daylightTheme = sharedPreferences.getBoolean("daylightTheme", false);
+                setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
 
-                if (daylightTheme) {
-                    setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-                } else {
-                    switch (themeFlavor) {
-                        case "night":
-                            setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                            break;
-                        default:
-                        case "day":
-                            setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                            break;
-                    }
+                String flavor = sharedPreferences.getString("appThemeFlavor", "preferred");
+                if (flavor.equals("preferred"))
+                    flavor = themeFlavorPreference;
+                switch (flavor) {
+                    case "auto":
+                        setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+                        break;
+                    case "night":
+                        setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        break;
+                    default:
+                    case "day":
+                        setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        break;
                 }
 
                 restartActivitiesOnExit = true;
