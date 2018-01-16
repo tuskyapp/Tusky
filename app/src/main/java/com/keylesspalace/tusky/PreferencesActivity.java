@@ -78,18 +78,18 @@ public class PreferencesActivity extends BaseActivity
         showFragment(currentPreferences, currentTitle);
 
         PreferencesFragment preferencesFragment = (PreferencesFragment)getFragmentManager().findFragmentById(R.id.fragment_container);
-        String[] themeFlavorPair = preferences.getString("appTheme", "AppTheme:prefer:night").split(":");
+        String[] themeFlavorPair = preferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT).split(":");
         String appTheme = themeFlavorPair[0], themeFlavorMode = themeFlavorPair[1], themeFlavorPreference = themeFlavorPair[2];
 
         setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
 
         if (preferencesFragment.findPreference("appThemeFlavor") != null) {
-            boolean lockFlavor = themeFlavorMode.equals("only");
+            boolean lockFlavor = themeFlavorMode.equals(ThemeUtils.THEME_MODE_ONLY);
             preferencesFragment.findPreference("appThemeFlavor").setEnabled(!lockFlavor);
         }
 
-        String flavor = preferences.getString("appThemeFlavor", "preferred");
-        if (flavor.equals("preferred")) {
+        String flavor = preferences.getString("appThemeFlavor", ThemeUtils.THEME_FLAVOR_DEFAULT);
+        if (flavor.equals(ThemeUtils.THEME_FLAVOR_DEFAULT)) {
             flavor = themeFlavorPreference;
 
             preferences.edit()
@@ -99,13 +99,13 @@ public class PreferencesActivity extends BaseActivity
 
         final String finalFlavor = flavor;
 
-        if (flavor.equals("auto")) {
+        if (flavor.equals(ThemeUtils.THEME_FLAVOR_AUTO)) {
             String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION};
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.dialog_optional_permission_request))
                         .setMessage(getString(R.string.dialog_twilightmanager_coarse_location_permission_explanation))
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 ActivityCompat.requestPermissions(PreferencesActivity.this, permissions, 1);
@@ -114,7 +114,7 @@ public class PreferencesActivity extends BaseActivity
                                     ThemeUtils.setAppNightMode(finalFlavor);
                             }
                         })
-                        .setNegativeButton("Ask me later", null)
+                        .setNegativeButton(getString(R.string.action_ask_me_later), null)
                         .show();
             }
         }
@@ -156,8 +156,8 @@ public class PreferencesActivity extends BaseActivity
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key) {
             case "appTheme": {
-                String[] themeFlavorPair = sharedPreferences.getString("appTheme", "AppTheme:prefer:night").split(":");
-                String appTheme = themeFlavorPair[0], themeFlavorMode = themeFlavorPair[1], themeFlavorPreference = themeFlavorPair[2];
+                String[] themeFlavorPair = sharedPreferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT).split(":");
+                String appTheme = themeFlavorPair[0];
 
                 setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
 
@@ -166,13 +166,13 @@ public class PreferencesActivity extends BaseActivity
                         .apply();
             }
             case "appThemeFlavor": {
-                String[] themeFlavorPair = sharedPreferences.getString("appTheme", "AppTheme:prefer:night").split(":");
-                String appTheme = themeFlavorPair[0], themeFlavorMode = themeFlavorPair[1], themeFlavorPreference = themeFlavorPair[2];
+                String[] themeFlavorPair = sharedPreferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT).split(":");
+                String appTheme = themeFlavorPair[0], themeFlavorPreference = themeFlavorPair[2];
 
                 setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
 
-                String flavor = sharedPreferences.getString("appThemeFlavor", "preferred");
-                if (flavor.equals("preferred")) {
+                String flavor = sharedPreferences.getString("appThemeFlavor", ThemeUtils.THEME_FLAVOR_DEFAULT);
+                if (flavor.equals(ThemeUtils.THEME_FLAVOR_DEFAULT)) {
                     flavor = themeFlavorPreference;
 
                     sharedPreferences.edit()

@@ -15,19 +15,16 @@
 
 package com.keylesspalace.tusky;
 
-import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.text.Spanned;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -49,8 +46,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static android.support.v7.app.AppCompatDelegate.setDefaultNightMode;
-
 public abstract class BaseActivity extends AppCompatActivity {
 
     public MastodonApi mastodonApi;
@@ -68,13 +63,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
          * views are created. */
-        String[] themeFlavorPair = preferences.getString("appTheme", "AppTheme:prefer:night").split(":");
-        String appTheme = themeFlavorPair[0], themeFlavorMode = themeFlavorPair[1], themeFlavorPreference = themeFlavorPair[2];
+        String[] themeFlavorPair = preferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT).split(":");
+        String appTheme = themeFlavorPair[0], themeFlavorPreference = themeFlavorPair[2];
 
         setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
 
-        String flavor = preferences.getString("appThemeFlavor", "preferred");
-        if (flavor.equals("preferred"))
+        String flavor = preferences.getString("appThemeFlavor", ThemeUtils.THEME_FLAVOR_DEFAULT);
+        if (flavor.equals(ThemeUtils.THEME_FLAVOR_DEFAULT))
             flavor = themeFlavorPreference;
         ThemeUtils.setAppNightMode(flavor);
 

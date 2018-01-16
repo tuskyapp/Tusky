@@ -298,5 +298,7 @@
     <string name="action_set_caption">Set caption</string>
     <string name="action_remove_media">Remove</string>
 
+    <string name="action_ask_me_later">Ask me later</string>
+
 
 </resources>

@@ -30,6 +30,8 @@ import com.keylesspalace.tusky.util.OkHttpUtils;
 import com.squareup.picasso.Picasso;
 
 public class TuskyApplication extends Application {
+    public static final String APP_THEME_DEFAULT = "AppTheme:prefer:night";
+
     private static AppDatabase db;
 
     public static AppDatabase getDB() {

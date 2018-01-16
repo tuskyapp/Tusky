@@ -16,20 +16,17 @@
 package com.keylesspalace.tusky;
 
 import android.app.AlertDialog;
-import android.app.UiModeManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -40,7 +37,6 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.AppCredentials;
-import com.keylesspalace.tusky.fragment.PreferencesFragment;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.CustomTabsHelper;
 import com.keylesspalace.tusky.util.NotificationManager;
@@ -56,8 +52,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static android.support.v7.app.AppCompatDelegate.setDefaultNightMode;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity"; // logging tag
@@ -76,13 +70,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String[] themeFlavorPair = preferences.getString("appTheme", "AppTheme:prefer:night").split(":");
-        String appTheme = themeFlavorPair[0], themeFlavorMode = themeFlavorPair[1], themeFlavorPreference = themeFlavorPair[2];
+        String[] themeFlavorPair = preferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT).split(":");
+        String appTheme = themeFlavorPair[0], themeFlavorPreference = themeFlavorPair[2];
 
         setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
 
-        String flavor = preferences.getString("appThemeFlavor", "preferred");
-        if (flavor.equals("preferred"))
+        String flavor = preferences.getString("appThemeFlavor", ThemeUtils.THEME_FLAVOR_DEFAULT);
+        if (flavor.equals(ThemeUtils.THEME_FLAVOR_DEFAULT))
             flavor = themeFlavorPreference;
         ThemeUtils.setAppNightMode(flavor);
 

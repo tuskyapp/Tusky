@@ -210,4 +210,5 @@
     <string name="no_content">brak zawartości</string>
     <string name="action_save_one_toot">Zapisano wpis!</string>
 
+    <string name="action_ask_me_later">Zapytaj mnie później</string>
 </resources>

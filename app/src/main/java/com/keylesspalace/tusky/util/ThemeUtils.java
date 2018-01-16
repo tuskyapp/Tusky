@@ -32,13 +32,18 @@ import android.widget.ImageView;
 
 import com.keylesspalace.tusky.TuskyApplication;
 
-import static android.support.v7.app.AppCompatDelegate.setDefaultNightMode;
-
 /**
  * Provides runtime compatibility to obtain theme information and re-theme views, especially where
  * the ability to do so is not supported in resource files.
  */
 public class ThemeUtils {
+    public static final String THEME_MODE_PREFER = "prefer";
+    public static final String THEME_MODE_ONLY = "only";
+    public static final String THEME_FLAVOR_NIGHT = "night";
+    public static final String THEME_FLAVOR_DAY = "day";
+    public static final String THEME_FLAVOR_AUTO = "auto";
+    public static final String THEME_FLAVOR_DEFAULT = "preferred";
+
     public static Drawable getDrawable(Context context, @AttrRes int attribute,
             @DrawableRes int fallbackDrawable) {
         TypedValue value = new TypedValue();
@@ -91,25 +96,25 @@ public class ThemeUtils {
 
     public static boolean setAppNightMode(String flavor) {
         switch (flavor) {
-            case "auto":
+            case THEME_FLAVOR_AUTO:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_AUTO);
                 } else {
-                    setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
                 }
                 break;
-            case "night":
+            case THEME_FLAVOR_NIGHT:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_YES);
                 } else {
-                    setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 }
                 break;
-            case "day":
+            case THEME_FLAVOR_DAY:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_NO);
                 } else {
-                    setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
                 break;
             default:
