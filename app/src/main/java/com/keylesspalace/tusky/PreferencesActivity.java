@@ -95,8 +95,13 @@ public class PreferencesActivity extends BaseActivity
         }
 
         String flavor = preferences.getString("appThemeFlavor", "preferred");
-        if (flavor.equals("preferred"))
+        if (flavor.equals("preferred")) {
             flavor = themeFlavorPreference;
+
+            preferences.edit()
+                    .putString("appThemeFlavor", flavor)
+                    .apply();
+        }
         switch (flavor) {
             case "auto":
                 String[] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION };
@@ -169,7 +174,7 @@ public class PreferencesActivity extends BaseActivity
                 setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
 
                 sharedPreferences.edit()
-                        .putString("appThemeFlavor", "preferred")
+                        .remove("appThemeFlavor")
                         .apply();
             }
             case "appThemeFlavor": {
@@ -179,8 +184,13 @@ public class PreferencesActivity extends BaseActivity
                 setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
 
                 String flavor = sharedPreferences.getString("appThemeFlavor", "preferred");
-                if (flavor.equals("preferred"))
+                if (flavor.equals("preferred")) {
                     flavor = themeFlavorPreference;
+
+                    sharedPreferences.edit()
+                            .putString("appThemeFlavor", flavor)
+                            .apply();
+                }
                 switch (flavor) {
                     case "auto":
                         setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);

@@ -13,7 +13,6 @@
             android:title="@string/pref_title_app_theme" />
 
         <ListPreference
-            android:defaultValue="preferred"
             android:entries="@array/app_theme_flavor_names"
             android:entryValues="@array/app_theme_flavor_values"
             android:key="appThemeFlavor"

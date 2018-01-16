@@ -177,7 +177,6 @@
 
     <string name="pref_title_app_theme_flavor">Theme flavor</string>
     <string-array name="app_theme_flavor_names">
-        <item>Default</item>
         <item>Sunset/Sunrise</item>
         <item>Night</item>
         <item>Day</item>

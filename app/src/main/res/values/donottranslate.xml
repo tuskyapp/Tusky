@@ -36,7 +36,6 @@
     </string-array>
 
     <string-array name="app_theme_flavor_values">
-        <item>preferred</item>
         <item>auto</item>
         <item>night</item>
         <item>day</item>
