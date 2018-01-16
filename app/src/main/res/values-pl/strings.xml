@@ -137,6 +137,11 @@
     <string name="dialog_message_uploading_media">Wysyłanie…</string>
     <string name="dialog_download_image">Pobierz</string>
     <string name="dialog_message_follow_request">Oczekująca prośba o obserwację: oczekiwanie na odpowiedź</string>
+    <string name="dialog_optional_permission_request">Opcjonalna funkcja wymaga uprawnień</string>
+    <string name="dialog_twilightmanager_coarse_location_permission_explanation">
+        Automatyczne dostosowanie motywu działa lepiej, gdy znana jest nam Twoja lokalizacja.\n
+        Nie przechowujemy, ani nie wysyłamy wrażliwych informacji.
+    </string>
 
     <string name="visibility_public">Publiczne: Opublikuj na publicznych osiach czasu</string>
     <string name="visibility_unlisted">Niepubliczne: Nie wyświetlaj na publicznych osiach czasu</string>
