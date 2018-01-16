@@ -264,12 +264,16 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
             displayNameView.setText(displayName);
 
-            Picasso.with(context)
-                    .load(avatarUrl)
-                    .fit()
-                    .transform(new RoundedTransformation(7, 0))
-                    .placeholder(R.drawable.avatar_default)
-                    .into(avatar);
+            if (TextUtils.isEmpty(avatarUrl)) {
+                avatar.setImageResource(R.drawable.avatar_default);
+            } else {
+                Picasso.with(context)
+                        .load(avatarUrl)
+                        .fit()
+                        .transform(new RoundedTransformation(7, 0))
+                        .placeholder(R.drawable.avatar_default)
+                        .into(avatar);
+            }
         }
 
         void setupButtons(final NotificationActionListener listener, final String accountId) {
@@ -407,7 +411,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         void setAvatars(@Nullable String statusAvatarUrl, @Nullable String notificationAvatarUrl) {
             Context context = statusAvatar.getContext();
 
-            if (statusAvatarUrl == null || statusAvatarUrl.isEmpty()) {
+            if (TextUtils.isEmpty(statusAvatarUrl)) {
                 statusAvatar.setImageResource(R.drawable.avatar_default);
             } else {
                 Picasso.with(context)
@@ -417,7 +421,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                         .into(statusAvatar);
             }
 
-            if (notificationAvatarUrl == null || notificationAvatarUrl.isEmpty()) {
+            if (TextUtils.isEmpty(notificationAvatarUrl)) {
                 notificationAvatar.setImageResource(R.drawable.avatar_default);
             } else {
                 Picasso.with(context)
