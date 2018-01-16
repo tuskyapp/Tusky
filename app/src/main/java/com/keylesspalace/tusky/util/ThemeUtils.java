@@ -15,17 +15,24 @@
 
 package com.keylesspalace.tusky.util;
 
+import android.app.UiModeManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.TypedValue;
 import android.widget.ImageView;
+
+import com.keylesspalace.tusky.TuskyApplication;
+
+import static android.support.v7.app.AppCompatDelegate.setDefaultNightMode;
 
 /**
  * Provides runtime compatibility to obtain theme information and re-theme views, especially where
@@ -80,5 +87,35 @@ public class ThemeUtils {
 
     public static void setDrawableTint(Context context, Drawable drawable, @AttrRes int attribute) {
         drawable.setColorFilter(getColor(context, attribute), PorterDuff.Mode.SRC_IN);
+    }
+
+    public static boolean setAppNightMode(String flavor) {
+        switch (flavor) {
+            case "auto":
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_AUTO);
+                } else {
+                    setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+                }
+                break;
+            case "night":
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_YES);
+                } else {
+                    setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                }
+                break;
+            case "day":
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_NO);
+                } else {
+                    setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+                break;
+            default:
+                return false;
+        }
+
+        return true;
     }
 }

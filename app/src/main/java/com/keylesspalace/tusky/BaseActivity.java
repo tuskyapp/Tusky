@@ -15,12 +15,14 @@
 
 package com.keylesspalace.tusky;
 
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -39,6 +41,7 @@ import com.keylesspalace.tusky.network.AuthInterceptor;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 import com.keylesspalace.tusky.util.ResourcesUtils;
+import com.keylesspalace.tusky.util.ThemeUtils;
 
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
@@ -73,18 +76,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         String flavor = preferences.getString("appThemeFlavor", "preferred");
         if (flavor.equals("preferred"))
             flavor = themeFlavorPreference;
-        switch (flavor) {
-            case "auto":
-                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-                break;
-            case "night":
-                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                break;
-            default:
-            case "day":
-                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                break;
-        }
+        ThemeUtils.setAppNightMode(flavor);
 
         int style;
         switch(preferences.getString("statusTextSize", "medium")) {

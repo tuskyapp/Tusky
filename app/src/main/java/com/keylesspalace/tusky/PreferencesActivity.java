@@ -29,18 +29,12 @@ import android.support.v13.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.keylesspalace.tusky.fragment.PreferencesFragment;
 import com.keylesspalace.tusky.util.ResourcesUtils;
-
-import kotlin.text.MatchNamedGroupCollection;
-
-import static android.support.v7.app.AppCompatDelegate.getDefaultNightMode;
-import static android.support.v7.app.AppCompatDelegate.setDefaultNightMode;
+import com.keylesspalace.tusky.util.ThemeUtils;
 
 public class PreferencesActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -102,33 +96,27 @@ public class PreferencesActivity extends BaseActivity
                     .putString("appThemeFlavor", flavor)
                     .apply();
         }
-        switch (flavor) {
-            case "auto":
-                String[] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION };
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    AlertDialog dialog = new AlertDialog.Builder(this)
-                            .setTitle("Permission needed")
-                            .setMessage("Automatic theme adjustment option works best with location enabled.\n" +
-                                    "This information is only used to estimate local sunset/sunrise times. We don't store or send your location anywhere.")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    ActivityCompat.requestPermissions(PreferencesActivity.this, permissions, 1);
-                                    setDefaultNightMode(getDefaultNightMode());
-                                }
-                            })
-                            .setNegativeButton("Ask me later", null)
-                            .show();
-                }
-                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-                break;
-            case "night":
-                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                break;
-            default:
-            case "day":
-                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                break;
+
+        final String finalFlavor = flavor;
+
+        if (flavor.equals("auto")) {
+            String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION};
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                new AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.dialog_optional_permission_request))
+                        .setMessage(getString(R.string.dialog_twilightmanager_coarse_location_permission_explanation))
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(PreferencesActivity.this, permissions, 1);
+                                if (ContextCompat.checkSelfPermission(PreferencesActivity.this,
+                                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                                    ThemeUtils.setAppNightMode(finalFlavor);
+                            }
+                        })
+                        .setNegativeButton("Ask me later", null)
+                        .show();
+            }
         }
 
         // Set theme based on preference
@@ -191,18 +179,7 @@ public class PreferencesActivity extends BaseActivity
                             .putString("appThemeFlavor", flavor)
                             .apply();
                 }
-                switch (flavor) {
-                    case "auto":
-                        setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-                        break;
-                    case "night":
-                        setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        break;
-                    default:
-                    case "day":
-                        setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        break;
-                }
+                ThemeUtils.setAppNightMode(flavor);
 
                 restartActivitiesOnExit = true;
                 // recreate() could be used instead, but it doesn't have an animation B).

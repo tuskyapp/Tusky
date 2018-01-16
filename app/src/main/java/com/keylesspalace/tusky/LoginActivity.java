@@ -16,12 +16,14 @@
 package com.keylesspalace.tusky;
 
 import android.app.AlertDialog;
+import android.app.UiModeManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -82,18 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         String flavor = preferences.getString("appThemeFlavor", "preferred");
         if (flavor.equals("preferred"))
             flavor = themeFlavorPreference;
-        switch (flavor) {
-            case "auto":
-                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-                break;
-            case "night":
-                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                break;
-            default:
-            case "day":
-                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                break;
-        }
+        ThemeUtils.setAppNightMode(flavor);
 
         setContentView(R.layout.activity_login);
 
