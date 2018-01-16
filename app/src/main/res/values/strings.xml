@@ -151,7 +151,7 @@
     <string name="dialog_optional_permission_request">Optional feature requires permission</string>
     <string name="dialog_twilightmanager_coarse_location_permission_explanation">
         Automatic theme adjustment option works best with location enabled.\n
-        We don't store or send your location anywhere.
+        We don\'t store or send your location anywhere.
     </string>
 
     <string name="visibility_public">Public: Post to public timelines</string>
