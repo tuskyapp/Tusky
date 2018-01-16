@@ -159,14 +159,8 @@
     <string name="pref_title_appearance_settings">Wygląd</string>
     <string name="pref_title_app_theme">Motyw</string>
 
-    <string-array name="app_theme_names">
-        <item>Tusky</item>
-        <item>Remin</item>
-    </string-array>
-
     <string name="pref_title_app_theme_flavor">Odmiana motywu</string>
     <string-array name="app_theme_flavor_names">
-        <item>Domyślnie</item>
         <item>Pora dnia</item>
         <item>Noc</item>
         <item>Dzień</item>
