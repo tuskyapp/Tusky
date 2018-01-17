@@ -97,28 +97,6 @@ public class PreferencesActivity extends BaseActivity
                     .apply();
         }
 
-        final String finalFlavor = flavor;
-
-        if (flavor.equals(ThemeUtils.THEME_FLAVOR_AUTO)) {
-            String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION};
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                new AlertDialog.Builder(this)
-                        .setTitle(getString(R.string.dialog_optional_permission_request))
-                        .setMessage(getString(R.string.dialog_twilightmanager_coarse_location_permission_explanation))
-                        .setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions(PreferencesActivity.this, permissions, 1);
-                                if (ContextCompat.checkSelfPermission(PreferencesActivity.this,
-                                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                                    ThemeUtils.setAppNightMode(finalFlavor);
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.action_ask_me_later), null)
-                        .show();
-            }
-        }
-
         // Set theme based on preference
         setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
     }
