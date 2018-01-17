@@ -95,27 +95,30 @@ public class ThemeUtils {
     }
 
     public static boolean setAppNightMode(String flavor) {
+        class NightState {
+            int mode;
+            NightState(int mode) { this.mode = mode; }
+
+            void apply() {
+                // When application runs on Android M or later, we can use native APIs
+                // to set night mode in more user-friendly way.
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    TuskyApplication.getUiModeManager().setNightMode(mode);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(mode);
+                }
+            }
+        }
+
         switch (flavor) {
             case THEME_FLAVOR_AUTO:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_AUTO);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-                }
+                new NightState(UiModeManager.MODE_NIGHT_AUTO).apply();
                 break;
             case THEME_FLAVOR_NIGHT:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_YES);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                }
+                new NightState(UiModeManager.MODE_NIGHT_YES).apply();
                 break;
             case THEME_FLAVOR_DAY:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    TuskyApplication.getUiModeManager().setNightMode(UiModeManager.MODE_NIGHT_NO);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                }
+                new NightState(UiModeManager.MODE_NIGHT_NO).apply();
                 break;
             default:
                 return false;
