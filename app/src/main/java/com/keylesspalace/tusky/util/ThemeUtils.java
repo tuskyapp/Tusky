@@ -95,33 +95,25 @@ public class ThemeUtils {
     }
 
     public static boolean setAppNightMode(String flavor) {
-        class NightState {
-            int mode;
-            NightState(int mode) { this.mode = mode; }
-
-            void apply() {
-                // When application runs on Android M or later, we can use native APIs
-                // to set night mode in more user-friendly way.
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    TuskyApplication.getUiModeManager().setNightMode(mode);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(mode);
-                }
-            }
-        }
-
+        int mode;
         switch (flavor) {
             case THEME_FLAVOR_AUTO:
-                new NightState(UiModeManager.MODE_NIGHT_AUTO).apply();
+                mode = UiModeManager.MODE_NIGHT_AUTO;
                 break;
             case THEME_FLAVOR_NIGHT:
-                new NightState(UiModeManager.MODE_NIGHT_YES).apply();
+                mode = UiModeManager.MODE_NIGHT_YES;
                 break;
             case THEME_FLAVOR_DAY:
-                new NightState(UiModeManager.MODE_NIGHT_NO).apply();
+                mode = UiModeManager.MODE_NIGHT_NO;
                 break;
             default:
                 return false;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            TuskyApplication.getUiModeManager().setNightMode(mode);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(mode);
         }
 
         return true;
