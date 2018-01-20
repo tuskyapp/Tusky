@@ -166,7 +166,6 @@
     <string name="pref_title_notification_filter_reblogs">minhas postagens forem compartilhadas</string>
     <string name="pref_title_notification_filter_favourites">minhas postagens forem favoritadas</string>
     <string name="pref_title_appearance_settings">Aparência</string>
-    <string name="pref_title_light_theme">Usar tema diurno</string>
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Usar abas customizadas do Chrome</string>
     <string name="pref_title_hide_follow_button">Esconder botão de composição enquanto rolar página</string>

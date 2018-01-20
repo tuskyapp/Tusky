@@ -152,7 +152,6 @@
     <string name="pref_title_notification_filter_reblogs">mes pouets sont boostés.</string>
     <string name="pref_title_notification_filter_favourites">mes pouets sont mis en favoris.</string>
     <string name="pref_title_appearance_settings">Apparence</string>
-    <string name="pref_title_light_theme">Utiliser le thème clair.</string>
     <string name="pref_title_browser_settings">Navigateur</string>
     <string name="pref_title_custom_tabs">Utiliser le navigateur intégré.</string>
     <string name="pref_title_hide_follow_button">Masquer le bouton de suivi lors du défilement.</string>

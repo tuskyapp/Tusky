@@ -147,7 +147,7 @@
     <string name="dialog_download_image">Download</string>
     <string name="dialog_message_follow_request">Follow request pending: awaiting their response</string>
     <string name="dialog_unfollow_warning">Unfollow this account?</string>
-    <string name="dialog_reply_not_found">Couldn\'t post this status. The status you\'re replying to might not be available. Remove reply info?</string> 
+    <string name="dialog_reply_not_found">Couldn\'t post this status. The status you\'re replying to might not be available. Remove reply info?</string>
 
     <string name="visibility_public">Public: Post to public timelines</string>
     <string name="visibility_unlisted">Unlisted: Do not show in public timelines</string>
@@ -168,7 +168,20 @@
     <string name="pref_title_notification_filter_reblogs">my posts are boosted</string>
     <string name="pref_title_notification_filter_favourites">my posts are favourited</string>
     <string name="pref_title_appearance_settings">Appearance</string>
-    <string name="pref_title_light_theme">Use the Light Theme</string>
+    <string name="pref_title_app_theme">App Theme</string>
+
+    <string-array name="app_theme_names">
+        <item>Tusky</item>
+        <item>Remin</item>
+    </string-array>
+
+    <string name="pref_title_app_theme_flavor">Theme flavor</string>
+    <string-array name="app_theme_flavor_names">
+        <item>Sunset/Sunrise</item>
+        <item>Night</item>
+        <item>Day</item>
+    </string-array>
+
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Use Chrome Custom Tabs</string>
     <string name="pref_title_hide_follow_button">Hide compose button while scrolling</string>
@@ -279,6 +292,5 @@
     <string name="hint_describe_for_visually_impaired">Describe for visually impaired</string>
     <string name="action_set_caption">Set caption</string>
     <string name="action_remove_media">Remove</string>
-
 
 </resources>

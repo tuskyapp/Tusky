@@ -26,7 +26,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -42,6 +41,8 @@ import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.CustomTabsHelper;
 import com.keylesspalace.tusky.util.NotificationManager;
 import com.keylesspalace.tusky.util.OkHttpUtils;
+import com.keylesspalace.tusky.util.ResourcesUtils;
+import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -68,9 +69,16 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("lightTheme", false)) {
-            setTheme(R.style.AppTheme_Light);
-        }
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String[] themeFlavorPair = preferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT).split(":");
+        String appTheme = themeFlavorPair[0], themeFlavorPreference = themeFlavorPair[2];
+
+        setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
+
+        String flavor = preferences.getString("appThemeFlavor", ThemeUtils.THEME_FLAVOR_DEFAULT);
+        if (flavor.equals(ThemeUtils.THEME_FLAVOR_DEFAULT))
+            flavor = themeFlavorPreference;
+        ThemeUtils.setAppNightMode(flavor);
 
         setContentView(R.layout.activity_login);
 
@@ -234,15 +242,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private static boolean openInCustomTab(Uri uri, Context context) {
-        boolean lightTheme = PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean("lightTheme", false);
-        int toolbarColorRes;
-        if (lightTheme) {
-            toolbarColorRes = R.color.custom_tab_toolbar_light;
-        } else {
-            toolbarColorRes = R.color.custom_tab_toolbar_dark;
-        }
-        int toolbarColor = ContextCompat.getColor(context, toolbarColorRes);
+        int toolbarColor = ThemeUtils.getColorById(context, "custom_tab_toolbar");
+
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.setToolbarColor(toolbarColor);
         CustomTabsIntent customTabsIntent = builder.build();

@@ -1,0 +1,90 @@
+<resources>
+    <!--Dark Application Theme Styles-->
+    <style name="AppTheme" parent="AppThemeBase"/>
+    <style name="AppThemeBase" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/color_primary_dark</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark_dark</item>
+        <item name="colorAccent">@color/color_accent_dark</item>
+        <item name="colorButtonNormal">@color/button_dark</item>
+
+        <item name="android:colorBackground">@color/color_primary_dark_dark</item>
+        <item name="android:windowBackground">@color/window_background_dark</item>
+        <item name="android:editTextColor">@color/edit_text_color_dark</item>
+        <item name="android:textColorPrimary">@color/text_color_primary_dark</item>
+        <item name="android:textColorSecondary">@color/text_color_secondary_dark</item>
+        <item name="android:textColorTertiary">@color/text_color_tertiary_dark</item>
+        <item name="android:textColorPrimaryInverse">@color/text_color_primary_inverse_dark</item>
+        <item name="android:textColorSecondaryInverse">@color/text_color_secondary_inverse_dark</item>
+        <item name="android:textColorTertiaryInverse">@color/text_color_tertiary_inverse_dark</item>
+        <item name="android:actionMenuTextColor">@color/text_color_primary_dark</item>
+
+        <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheetDialog.Dark</item>
+
+        <item name="window_background">@color/window_background_dark</item>
+        <item name="custom_tab_toolbar">@color/custom_tab_toolbar_dark</item>
+        <item name="toolbar_background_color">@color/toolbar_background_dark</item>
+        <item name="toolbar_icon_tint">@color/toolbar_icon_dark</item>
+        <item name="image_button_style">@style/AppTheme.ImageButton.Dark</item>
+        <item name="status_reblog_small_drawable">@drawable/ic_reblog_dark_18dp</item>
+        <item name="status_reblog_inactive_drawable">@drawable/reblog_inactive_dark</item>
+        <item name="status_reblog_disabled_drawable">@drawable/reblog_disabled_dark</item>
+        <item name="status_reblog_direct_drawable">@drawable/reblog_direct_dark</item>
+        <item name="status_favourite_active_drawable">@drawable/favourite_active_dark</item>
+        <item name="status_favourite_inactive_drawable">@drawable/favourite_inactive_dark</item>
+        <item name="content_warning_button">@drawable/toggle_small</item>
+        <item name="sensitive_media_warning_background_color">@color/color_background_dark</item>
+        <item name="media_preview_unloaded_drawable">@drawable/media_preview_unloaded_dark</item>
+        <item name="status_divider_drawable">@drawable/status_divider_dark</item>
+        <item name="conversation_thread_line_drawable">@drawable/conversation_thread_line_dark</item>
+        <item name="tab_icon_selected_tint">@color/color_accent_dark</item>
+        <item name="tab_page_margin_drawable">@drawable/tab_page_margin_dark</item>
+        <item name="account_header_background_color">@color/account_header_background_dark</item>
+        <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark</item>
+        <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_dark</item>
+        <item name="account_toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Dark</item>
+        <item name="compose_close_button_tint">@color/toolbar_icon_dark</item>
+        <item name="compose_media_button_tint">@color/compose_media_button_dark</item>
+        <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_dark</item>
+        <item name="compose_mention_color">@color/color_accent_dark</item>
+        <item name="compose_content_warning_bar_background">@drawable/border_background_dark</item>
+        <item name="compose_hide_media_button_color">@color/image_button_dark</item>
+        <item name="compose_hide_media_button_selected_color">@color/color_accent_dark</item>
+        <item name="compose_image_button_tint">@color/image_button_dark</item>
+        <item name="compose_reply_content_background">@color/compose_reply_content_background_dark</item>
+
+        <item name="report_status_background_color">@color/color_background_dark</item>
+        <item name="report_status_divider_drawable">@drawable/status_divider_dark</item>
+
+        <item name="material_drawer_background">@color/window_background_dark</item>
+        <item name="material_drawer_primary_text">@color/text_color_primary_dark</item>
+        <item name="material_drawer_primary_icon">@color/toolbar_icon_dark</item>
+        <item name="material_drawer_secondary_text">@color/text_color_secondary_dark</item>
+        <item name="material_drawer_hint_text">@color/text_color_tertiary_dark</item>
+        <item name="material_drawer_divider">@color/color_primary_dark_dark</item>
+        <item name="material_drawer_selected">@color/color_primary_dark</item>
+        <item name="material_drawer_selected_text">@color/text_color_primary_dark</item>
+        <item name="material_drawer_header_selection_text">@color/text_color_primary_dark</item>
+
+        <item name="card_background">@drawable/card_frame_dark</item>
+        <item name="card_image_background">@color/text_color_tertiary_dark</item>
+
+        <item name="play_indicator_drawable">@drawable/ic_play_indicator_dark</item>
+
+    </style>
+
+    <style name="AppTheme.ImageButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:tint">@color/image_button_dark</item>
+    </style>
+
+    <style name="AppTheme.BottomSheetDialog.Dark" parent="@style/Theme.Design.BottomSheetDialog">
+        <item name="colorAccent">@color/color_accent_dark</item>
+        <item name="android:colorBackground">@color/color_background_dark</item>
+    </style>
+
+    <style name="AppTheme.Account.ToolbarPopupTheme.Dark" parent="ThemeOverlay.AppCompat">
+        <item name="android:textColorPrimary">@color/text_color_primary_dark</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
+</resources>

@@ -164,7 +164,6 @@
     <string name="pref_title_notification_filter_reblogs">投稿がブーストされた</string>
     <string name="pref_title_notification_filter_favourites">投稿がお気に入りに登録された</string>
     <string name="pref_title_appearance_settings">表示</string>
-    <string name="pref_title_light_theme">明るいテーマを使用</string>
     <string name="pref_title_browser_settings">ブラウザ</string>
     <string name="pref_title_custom_tabs">Chrome Custom Tabsを使用する</string>
     <string name="pref_title_hide_follow_button">スクロール中はフォローボタンを隠す</string>

@@ -29,4 +29,15 @@
         <item>medium</item>
         <item>large</item>
     </string-array>
+
+    <string-array name="app_theme_values">
+        <item>AppTheme:prefer:night</item>
+        <item>Remin:only:day</item>
+    </string-array>
+
+    <string-array name="app_theme_flavor_values">
+        <item>auto</item>
+        <item>night</item>
+        <item>day</item>
+    </string-array>
 </resources>

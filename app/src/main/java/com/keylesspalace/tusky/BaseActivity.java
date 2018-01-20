@@ -37,6 +37,8 @@ import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.network.AuthInterceptor;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.OkHttpUtils;
+import com.keylesspalace.tusky.util.ResourcesUtils;
+import com.keylesspalace.tusky.util.ThemeUtils;
 
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
@@ -61,9 +63,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
          * views are created. */
-        if (preferences.getBoolean("lightTheme", false)) {
-            setTheme(R.style.AppTheme_Light);
-        }
+        String[] themeFlavorPair = preferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT).split(":");
+        String appTheme = themeFlavorPair[0], themeFlavorPreference = themeFlavorPair[2];
+
+        setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
+
+        String flavor = preferences.getString("appThemeFlavor", ThemeUtils.THEME_FLAVOR_DEFAULT);
+        if (flavor.equals(ThemeUtils.THEME_FLAVOR_DEFAULT))
+            flavor = themeFlavorPreference;
+        ThemeUtils.setAppNightMode(flavor);
 
         int style;
         switch(preferences.getString("statusTextSize", "medium")) {
