@@ -89,7 +89,7 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="secureScreen"
-            android:title="@string/pref_secure_screen" />
+            android:title="@string/pref_title_secure_screen" />
 
         <Preference
             android:key="httpProxyPreferences"
