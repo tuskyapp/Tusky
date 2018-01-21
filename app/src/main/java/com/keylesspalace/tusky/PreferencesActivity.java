@@ -25,6 +25,7 @@ import android.support.annotation.XmlRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import com.keylesspalace.tusky.fragment.PreferencesFragment;
 import com.keylesspalace.tusky.util.ResourcesUtils;
@@ -167,6 +168,14 @@ public class PreferencesActivity extends BaseActivity
             }
             case "statusTextSize": {
                 restartActivitiesOnExit = true;
+                break;
+            }
+            case "secureScreen": {
+                boolean secure = sharedPreferences.getBoolean("secureScreen", false);
+                if (secure)
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+                else
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
                 break;
             }
             case "notificationsEnabled": {

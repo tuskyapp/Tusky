@@ -85,7 +85,12 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_title_proxy_settings">
+    <PreferenceCategory android:title="@string/pref_title_privacy_settings">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="secureScreen"
+            android:title="@string/pref_title_secure_screen" />
+
         <Preference
             android:key="httpProxyPreferences"
             android:summary="%s"
