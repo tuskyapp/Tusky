@@ -20,15 +20,28 @@ import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 
 @Entity(indices = [Index(value = ["domain", "accountId"],
-                unique = true)])
+        unique = true)])
 data class AccountEntity(@field:PrimaryKey(autoGenerate = true) var id: Long,
-                    val domain: String,
-                    var accountId: String,
-                    var username: String,
-                    var accessToken: String,
-                    var profilePictureUrl: String,
-                    var displayName: String,
-                    var isActive: Boolean) {
+                         val domain: String,
+                         var accountId: String,
+                         var username: String,
+                         var accessToken: String,
+                         var profilePictureUrl: String,
+                         var displayName: String,
+                         var isActive: Boolean,
+                         var notifications: Boolean = true,
+                         var notificationsMentioned: Boolean = true,
+                         var notificationsFollowed: Boolean = true,
+                         var notificationsReblogged: Boolean = true,
+                         var notificationsFavorited: Boolean = true,
+                         var notificationSound: Boolean = true,
+                         var notificationVibration: Boolean = true,
+                         var notificationLight: Boolean = true,
+                         var lastNotificationId: String = "0",
+                         var activeNotifications: String = "[]") {
+
+    val identifier: String
+        get() = domain+":"+accountId
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

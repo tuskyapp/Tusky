@@ -13,19 +13,25 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.receiver;
+package com.keylesspalace.tusky.receiver
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 
-public class NotificationClearBroadcastReceiver extends BroadcastReceiver {
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        SharedPreferences notificationPreferences = context.getSharedPreferences("Notifications", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = notificationPreferences.edit();
-        editor.putString("current", "[]");
-        editor.apply();
+import com.keylesspalace.tusky.TuskyApplication
+
+class NotificationClearBroadcastReceiver : BroadcastReceiver() {
+    override fun onReceive(context: Context, intent: Intent) {
+
+        val accountId = intent.getLongExtra("account_id", -1)
+
+        val accountManager = TuskyApplication.getAccountManager()
+        val account = accountManager.getAccountById(accountId)
+        if (account != null) {
+            account.activeNotifications = "[]"
+            accountManager.saveAccount(account)
+        }
     }
+
 }

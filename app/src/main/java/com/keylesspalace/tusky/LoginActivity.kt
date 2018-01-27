@@ -36,7 +36,6 @@ import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.AppCredentials
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.CustomTabsHelper
-import com.keylesspalace.tusky.util.NotificationManager
 import com.keylesspalace.tusky.util.OkHttpUtils
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
@@ -177,10 +176,10 @@ class LoginActivity : AppCompatActivity() {
         val endpoint = MastodonApi.ENDPOINT_AUTHORIZE
         val redirectUri = oauthRedirectUri
         val parameters = HashMap<String, String>()
-        parameters.put("client_id", clientId!!)
-        parameters.put("redirect_uri", redirectUri)
-        parameters.put("response_type", "code")
-        parameters.put("scope", OAUTH_SCOPES)
+        parameters["client_id"] = clientId!!
+        parameters["redirect_uri"] = redirectUri
+        parameters["response_type"] = "code"
+        parameters["scope"] = OAUTH_SCOPES
         val url = "https://" + domain + endpoint + "?" + toQueryString(parameters)
         val uri = Uri.parse(url)
         if (!openInCustomTab(uri, this)) {
@@ -286,9 +285,6 @@ class LoginActivity : AppCompatActivity() {
         setLoading(true)
 
         TuskyApplication.getAccountManager().addAccount(accessToken, domain)
-
-        //create notification channels ahead of time so users can edit the settings
-        NotificationManager.createNotificationChannels(this)
 
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

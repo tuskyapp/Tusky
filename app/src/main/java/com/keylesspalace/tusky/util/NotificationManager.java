@@ -16,14 +16,13 @@
 package com.keylesspalace.tusky.util;
 
 import android.app.NotificationChannel;
+import android.app.NotificationChannelGroup;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -32,8 +31,10 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.keylesspalace.tusky.MainActivity;
-import com.keylesspalace.tusky.NotificationPullJobCreator;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.TuskyApplication;
+import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver;
 import com.keylesspalace.tusky.view.RoundedTransformation;
@@ -62,22 +63,18 @@ public class NotificationManager {
      * the state of the existing notification to reflect the new interaction.
      *
      * @param context  to access application preferences and services
-     * @param notifyId an arbitrary number to reference this notification for any future action
      * @param body     a new Mastodon notification
+     * @param account  the account for which the notification should be shown
      */
-    public static void make(final Context context, final int notifyId, Notification body) {
-        final SharedPreferences preferences =
-                PreferenceManager.getDefaultSharedPreferences(context);
-        final SharedPreferences notificationPreferences = context.getSharedPreferences(
-                "Notifications", Context.MODE_PRIVATE);
 
-        if (!filterNotification(preferences, body)) {
+    public static void make(final Context context, Notification body, AccountEntity account) {
+
+
+        if (!filterNotification(account, body)) {
             return;
         }
 
-        createNotificationChannels(context);
-
-        String rawCurrentNotifications = notificationPreferences.getString("current", "[]");
+        String rawCurrentNotifications = account.getActiveNotifications();
         JSONArray currentNotifications;
 
         try {
@@ -102,12 +99,13 @@ public class NotificationManager {
             currentNotifications.put(body.account.getDisplayName());
         }
 
-        notificationPreferences.edit()
-                .putString("current", currentNotifications.toString())
-                .apply();
+        account.setActiveNotifications(currentNotifications.toString());
+
+        //no need to save account, this will be done in the calling function
 
         Intent resultIntent = new Intent(context, MainActivity.class);
         resultIntent.putExtra("tab_position", 1);
+        resultIntent.putExtra("account_id", account.getId());
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(resultIntent);
@@ -115,21 +113,22 @@ public class NotificationManager {
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent deleteIntent = new Intent(context, NotificationClearBroadcastReceiver.class);
-        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, 0, deleteIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+        deleteIntent.putExtra("account_id", account.getId());
+        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, (int)account.getId(), deleteIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, getChannelId(body))
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, getChannelId(account, body))
                 .setSmallIcon(R.drawable.ic_notify)
                 .setContentIntent(resultPendingIntent)
                 .setDeleteIntent(deletePendingIntent)
                 .setColor(ContextCompat.getColor(context, (R.color.primary)))
                 .setDefaults(0); // So it doesn't ring twice, notify only in Target callback
 
-        setupPreferences(preferences, builder);
+        setupPreferences(account, builder);
 
         if (currentNotifications.length() == 1) {
             builder.setContentTitle(titleForType(context, body))
-                    .setContentText(truncateWithEllipses(bodyForType(body), 40));
+                    .setContentText(bodyForType(body));
 
             //load the avatar synchronously
             Bitmap accountAvatar;
@@ -149,7 +148,7 @@ public class NotificationManager {
             try {
                 String format = context.getString(R.string.notification_title_summary);
                 String title = String.format(format, currentNotifications.length());
-                String text = truncateWithEllipses(joinNames(context, currentNotifications), 40);
+                String text = joinNames(context, currentNotifications);
                 builder.setContentTitle(title)
                         .setContentText(text);
             } catch (JSONException e) {
@@ -157,24 +156,29 @@ public class NotificationManager {
             }
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setVisibility(android.app.Notification.VISIBILITY_PRIVATE);
-            builder.setCategory(android.app.Notification.CATEGORY_SOCIAL);
-        }
+        builder.setSubText(account.getUsername()+"@"+account.getDomain());
+
+        builder.setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
+        builder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
 
         android.app.NotificationManager notificationManager = (android.app.NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
+
         //noinspection ConstantConditions
-        notificationManager.notify(notifyId, builder.build());
+        notificationManager.notify((int)account.getId(), builder.build());
     }
 
-    public static void createNotificationChannels(Context context) {
+    public static void createNotificationChannelsForAccount(AccountEntity account, Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             android.app.NotificationManager mNotificationManager =
                     (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-            String[] channelIds = new String[]{CHANNEL_MENTION, CHANNEL_FOLLOW, CHANNEL_BOOST, CHANNEL_FAVOURITE};
+            String[] channelIds = new String[]{
+                    CHANNEL_MENTION+account.getIdentifier(),
+                    CHANNEL_FOLLOW+account.getIdentifier(),
+                    CHANNEL_BOOST+account.getIdentifier(),
+                    CHANNEL_FAVOURITE+account.getIdentifier()};
             int[] channelNames = {
                     R.string.notification_channel_mention_name,
                     R.string.notification_channel_follow_name,
@@ -190,6 +194,11 @@ public class NotificationManager {
 
             List<NotificationChannel> channels = new ArrayList<>(4);
 
+            NotificationChannelGroup channelGroup = new NotificationChannelGroup(account.getIdentifier(), account.getUsername()+"@"+account.getDomain());
+
+            //noinspection ConstantConditions
+            mNotificationManager.createNotificationChannelGroup(channelGroup);
+
             for (int i = 0; i < channelIds.length; i++) {
                 String id = channelIds[i];
                 String name = context.getString(channelNames[i]);
@@ -201,6 +210,7 @@ public class NotificationManager {
                 channel.enableLights(true);
                 channel.enableVibration(true);
                 channel.setShowBadge(true);
+                channel.setGroup(account.getIdentifier());
                 channels.add(channel);
             }
 
@@ -210,20 +220,51 @@ public class NotificationManager {
         }
     }
 
-    public static void clearNotifications(@Nullable Context context) {
-        if(context != null) {
-            SharedPreferences notificationPreferences =
-                    context.getSharedPreferences("Notifications", Context.MODE_PRIVATE);
-            notificationPreferences.edit().putString("current", "[]").apply();
+    public static void deleteNotificationChannelsForAccount(AccountEntity account, Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            android.app.NotificationManager manager = (android.app.NotificationManager)
-                    context.getSystemService(Context.NOTIFICATION_SERVICE);
+            android.app.NotificationManager mNotificationManager =
+                    (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
             //noinspection ConstantConditions
-            manager.cancel(NotificationPullJobCreator.NOTIFY_ID);
+            mNotificationManager.deleteNotificationChannelGroup(account.getIdentifier());
+
         }
     }
 
-    private static boolean filterNotification(SharedPreferences preferences,
+    public static void deleteLegacyNotificationChannels(Context context) {
+        // delete the notification channels that where used before the multi account mode was introduced to avoid confusion
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            android.app.NotificationManager mNotificationManager =
+                    (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            //noinspection ConstantConditions
+            mNotificationManager.deleteNotificationChannel(CHANNEL_MENTION);
+            mNotificationManager.deleteNotificationChannel(CHANNEL_FAVOURITE);
+            mNotificationManager.deleteNotificationChannel(CHANNEL_BOOST);
+            mNotificationManager.deleteNotificationChannel(CHANNEL_FOLLOW);
+        }
+    }
+
+    public static void clearNotificationsForActiveAccount(@Nullable Context context) {
+        if(context != null) {
+
+            AccountManager accountManager = TuskyApplication.getAccountManager();
+            AccountEntity account = accountManager.getActiveAccount();
+            if (account != null) {
+                account.setActiveNotifications("[]");
+                accountManager.saveAccount(account);
+
+                android.app.NotificationManager manager = (android.app.NotificationManager)
+                        context.getSystemService(Context.NOTIFICATION_SERVICE);
+                manager.cancel((int)account.getId());
+            }
+
+        }
+    }
+
+    private static boolean filterNotification(AccountEntity account,
                                               Notification notification) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -233,56 +274,47 @@ public class NotificationManager {
         switch (notification.type) {
             default:
             case MENTION:
-                return preferences.getBoolean("notificationFilterMentions", true);
+                return account.getNotificationsMentioned();
             case FOLLOW:
-                return preferences.getBoolean("notificationFilterFollows", true);
+                return account.getNotificationsFollowed();
             case REBLOG:
-                return preferences.getBoolean("notificationFilterReblogs", true);
+                return account.getNotificationsReblogged();
             case FAVOURITE:
-                return preferences.getBoolean("notificationFilterFavourites", true);
+                return account.getNotificationsFavorited();
         }
     }
 
-    private static String getChannelId(Notification notification) {
+    private static String getChannelId(AccountEntity account, Notification notification) {
         switch (notification.type) {
             default:
             case MENTION:
-                return CHANNEL_MENTION;
+                return CHANNEL_MENTION+account.getIdentifier();
             case FOLLOW:
-                return CHANNEL_FOLLOW;
+                return CHANNEL_FOLLOW+account.getIdentifier();
             case REBLOG:
-                return CHANNEL_BOOST;
+                return CHANNEL_BOOST+account.getIdentifier();
             case FAVOURITE:
-                return CHANNEL_FAVOURITE;
+                return CHANNEL_FAVOURITE+account.getIdentifier();
         }
 
     }
 
-    @SuppressWarnings("SameParameterValue")
-    private static String truncateWithEllipses(String string, int limit) {
-        if (string.length() < limit) {
-            return string;
-        } else {
-            return string.substring(0, limit - 3) + "...";
-        }
-    }
-
-    private static void setupPreferences(SharedPreferences preferences,
+    private static void setupPreferences(AccountEntity account,
                                          NotificationCompat.Builder builder) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return;  //do nothing on Android O or newer, the system uses the channel settings anyway
         }
 
-        if (preferences.getBoolean("notificationAlertSound", true)) {
+        if (account.getNotificationSound()) {
             builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
         }
 
-        if (preferences.getBoolean("notificationAlertVibrate", false)) {
+        if (account.getNotificationVibration()) {
             builder.setVibrate(new long[]{500, 500});
         }
 
-        if (preferences.getBoolean("notificationAlertLight", false)) {
+        if (account.getNotificationLight()) {
             builder.setLights(0xFF00FF8F, 300, 1000);
         }
     }

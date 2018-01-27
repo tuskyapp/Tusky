@@ -29,6 +29,17 @@ class AccountManager {
 
     }
 
+    fun saveAccount(account: AccountEntity) {
+        val index = accounts.indexOf(account)
+        if(index != -1) {
+            accounts.removeAt(index)
+            accounts.add(account)
+        }
+
+        accountDao.insertOrReplace(account)
+
+    }
+
     fun logActiveAccountOut() : AccountEntity? {
 
         if(activeAccount == null) {
@@ -97,7 +108,17 @@ class AccountManager {
             }
         })
 
-        return accounts
+        return accounts.toList()
+    }
+
+    fun notificationsEnabled(): Boolean {
+        return accounts.any { it.notifications }
+    }
+
+    fun getAccountById(accountId: Long): AccountEntity? {
+        return accounts.find { acc ->
+            acc.id == accountId
+        }
     }
 
 }

@@ -33,7 +33,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -92,6 +91,23 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Intent intent = getIntent();
+
+        int tabPosition = 0;
+        
+        if (intent != null) {
+            tabPosition = intent.getIntExtra("tab_position", 0);
+
+            long accountId = intent.getLongExtra("account_id", -1);
+
+            AccountEntity account = TuskyApplication.getAccountManager().getActiveAccount();
+
+            if(accountId != -1 && (account == null || accountId != account.getId())) {
+                TuskyApplication.getAccountManager().setActiveAccount(accountId);
+            }
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -101,8 +117,8 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         viewPager = findViewById(R.id.pager);
 
         floatingBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ComposeActivity.class);
-            startActivityForResult(intent, COMPOSE_RESULT);
+            Intent composeIntent = new Intent(getApplicationContext(), ComposeActivity.class);
+            startActivityForResult(composeIntent, COMPOSE_RESULT);
         });
 
         setupDrawer();
@@ -111,7 +127,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         ThemeUtils.setDrawableTint(this, drawerToggle.getDrawable(), R.attr.toolbar_icon_tint);
         drawerToggle.setOnClickListener(v -> drawer.openDrawer());
 
-        /* Fetch user info while we're doing other things. This has to be after setting up the
+        /* Fetch user info while we're doing other things. This has to be done after setting up the
          * drawer, though, because its callback touches the header in the drawer. */
         fetchUserInfo();
 
@@ -145,6 +161,15 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
             tab.setContentDescription(pageTitles[i]);
         }
 
+        if (tabPosition != 0) {
+            TabLayout.Tab tab = tabLayout.getTabAt(tabPosition);
+            if (tab != null) {
+                tab.select();
+            } else {
+                tabPosition = 0;
+            }
+        }
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -153,7 +178,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                 tintTab(tab, true);
 
                 if(tab.getPosition() == 1) {
-                    NotificationManager.clearNotifications(MainActivity.this);
+                    NotificationManager.clearNotificationsForActiveAccount(MainActivity.this);
                 }
             }
 
@@ -167,25 +192,12 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
             }
         });
 
-        Intent intent = getIntent();
-
-        int tabSelected = 0;
-        if (intent != null) {
-            int tabPosition = intent.getIntExtra("tab_position", 0);
-            if (tabPosition != 0) {
-                TabLayout.Tab tab = tabLayout.getTabAt(tabPosition);
-                if (tab != null) {
-                    tab.select();
-                    tabSelected = tabPosition;
-                }
-            }
-        }
         for (int i = 0; i < 4; i++) {
-            tintTab(tabLayout.getTabAt(i), i == tabSelected);
+            tintTab(tabLayout.getTabAt(i), i == tabPosition);
         }
 
         // Setup push notifications
-        if (arePushNotificationsEnabled()) {
+        if (TuskyApplication.getAccountManager().notificationsEnabled()) {
             enablePushNotifications();
         } else {
             disablePushNotifications();
@@ -198,7 +210,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     protected void onResume() {
         super.onResume();
 
-        NotificationManager.clearNotifications(this);
+        NotificationManager.clearNotificationsForActiveAccount(this);
 
         /* After editing a profile, the profile header in the navigation drawer needs to be
          * refreshed */
@@ -211,7 +223,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         }
 
         if(viewPager.getCurrentItem() == 1) {
-            NotificationManager.clearNotifications(this);
+            NotificationManager.clearNotificationsForActiveAccount(this);
         }
     }
 
@@ -271,17 +283,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                 .withActivity(this)
                 .withDividerBelowHeader(false)
                 .withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP)
-                .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
-                    @Override
-                    public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-                        return handleProfileClick(profile, current);
-                    }
-
-                    @Override
-                    public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
-                        return false;
-                    }
-                })
                 .withCurrentProfileHiddenInList(true)
                 .withOnAccountHeaderListener((view, profile, current) -> handleProfileClick(profile, current))
                 .addProfiles(
@@ -428,26 +429,33 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
         AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
 
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.action_logout)
-                .setMessage(getString(R.string.action_logout_confirm, activeAccount.getUsername(), activeAccount.getDomain()))
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+        if(activeAccount != null) {
 
-                    if (arePushNotificationsEnabled()) disablePushNotifications();
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.action_logout)
+                    .setMessage(getString(R.string.action_logout_confirm, activeAccount.getUsername(), activeAccount.getDomain()))
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
 
-                    AccountEntity newAccount = TuskyApplication.getAccountManager().logActiveAccountOut();
+                        AccountManager accountManager = TuskyApplication.getAccountManager();
 
-                    Intent intent;
-                    if(newAccount == null) {
-                        intent = LoginActivity.getIntent(MainActivity.this, false);
-                    } else {
-                        intent = new Intent(MainActivity.this, MainActivity.class);
-                    }
-                    startActivity(intent);
-                    finish();
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .show();
+                        NotificationManager.deleteNotificationChannelsForAccount(accountManager.getActiveAccount(), MainActivity.this);
+
+                        AccountEntity newAccount = accountManager.logActiveAccountOut();
+
+                        if (!accountManager.notificationsEnabled()) disablePushNotifications();
+
+                        Intent intent;
+                        if (newAccount == null) {
+                            intent = LoginActivity.getIntent(MainActivity.this, false);
+                        } else {
+                            intent = new Intent(MainActivity.this, MainActivity.class);
+                        }
+                        startActivity(intent);
+                        finish();
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
+        }
     }
 
     private void fetchUserInfo() {
@@ -482,6 +490,8 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         AccountManager am = TuskyApplication.getAccountManager();
 
         am.updateActiveAccount(me);
+
+        NotificationManager.createNotificationChannelsForAccount(am.getActiveAccount(), this);
 
         List<AccountEntity> allAccounts = am.getAllAccountsOrderedByActive();
 

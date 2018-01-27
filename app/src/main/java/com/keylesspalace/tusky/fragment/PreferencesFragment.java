@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -29,7 +30,6 @@ import com.keylesspalace.tusky.PreferencesActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.db.AccountEntity;
-import com.keylesspalace.tusky.util.NotificationManager;
 
 public class PreferencesFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     SharedPreferences sharedPreferences;
@@ -64,23 +64,22 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
 
             notificationPreferences.setSummary(getString(R.string.pref_summary_notifications, activeAccount.getUsername(), activeAccount.getDomain()));
 
+
             //on Android O and newer, launch the system notification settings instead of the app settings
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-                 NotificationManager.createNotificationChannels(getContext());
+                notificationPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent intent = new Intent();
+                        intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
 
-                    notificationPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                        @Override
-                        public boolean onPreferenceClick(Preference preference) {
-                            Intent intent = new Intent();
-                            intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+                        intent.putExtra("android.provider.extra.APP_PACKAGE", BuildConfig.APPLICATION_ID);
 
-                            intent.putExtra("android.provider.extra.APP_PACKAGE", BuildConfig.APPLICATION_ID);
-
-                            startActivity(intent);
-                            return true;
-                        }
-                    });
+                        startActivity(intent);
+                        return true;
+                    }
+                });
 
             } else {
                 notificationPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -128,6 +127,38 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
             });
         }
 
+        if(preference == R.xml.notification_preferences) {
+
+            AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+
+            if(activeAccount != null) {
+
+                CheckBoxPreference notificationPref = (CheckBoxPreference) findPreference("notificationsEnabled");
+                notificationPref.setChecked(activeAccount.getNotifications());
+
+                CheckBoxPreference mentionedPref = (CheckBoxPreference) findPreference("notificationFilterMentions");
+                mentionedPref.setChecked(activeAccount.getNotificationsMentioned());
+
+                CheckBoxPreference followedPref = (CheckBoxPreference) findPreference("notificationFilterFollows");
+                followedPref.setChecked(activeAccount.getNotificationsFollowed());
+
+                CheckBoxPreference boostedPref = (CheckBoxPreference) findPreference("notificationFilterReblogs");
+                boostedPref.setChecked(activeAccount.getNotificationsReblogged());
+
+                CheckBoxPreference favoritedPref = (CheckBoxPreference) findPreference("notificationFilterFavourites");
+                favoritedPref.setChecked(activeAccount.getNotificationsFavorited());
+
+                CheckBoxPreference soundPref = (CheckBoxPreference) findPreference("notificationAlertSound");
+                soundPref.setChecked(activeAccount.getNotificationSound());
+
+                CheckBoxPreference vibrationPref = (CheckBoxPreference) findPreference("notificationAlertVibrate");
+                vibrationPref.setChecked(activeAccount.getNotificationVibration());
+
+                CheckBoxPreference lightPref = (CheckBoxPreference) findPreference("notificationAlertLight");
+                lightPref.setChecked(activeAccount.getNotificationLight());
+            }
+        }
+
     }
 
     @Override
@@ -156,15 +187,50 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                           String key) {
+
         switch (key) {
             case "httpProxyServer":
             case "httpProxyPort":
                 updateSummary(key);
             case "httpProxyEnabled":
                 httpProxyChanged = true;
-                break;
+                return;
             default:
         }
+
+        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+
+        if(activeAccount != null) {
+            switch(key) {
+                case "notificationsEnabled":
+                    activeAccount.setNotifications(sharedPreferences.getBoolean(key, true));
+                    break;
+                case "notificationFilterMentions":
+                    activeAccount.setNotificationsMentioned(sharedPreferences.getBoolean(key, true));
+                    break;
+                case "notificationFilterFollows":
+                    activeAccount.setNotificationsFollowed(sharedPreferences.getBoolean(key, true));
+                    break;
+                case "notificationFilterReblogs":
+                    activeAccount.setNotificationsReblogged(sharedPreferences.getBoolean(key, true));
+                    break;
+                case "notificationFilterFavourites":
+                    activeAccount.setNotificationsFavorited(sharedPreferences.getBoolean(key, true));
+                    break;
+                case "notificationAlertSound":
+                    activeAccount.setNotificationSound(sharedPreferences.getBoolean(key, true));
+                    break;
+                case "notificationAlertVibrate":
+                    activeAccount.setNotificationVibration(sharedPreferences.getBoolean(key, true));
+                    break;
+                case "notificationAlertLight":
+                    activeAccount.setNotificationLight(sharedPreferences.getBoolean(key, true));
+                    break;
+            }
+            TuskyApplication.getAccountManager().saveAccount(activeAccount);
+
+        }
+
     }
 
     private void updateSummary(String key) {

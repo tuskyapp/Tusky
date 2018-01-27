@@ -37,9 +37,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.MainActivity;
+import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
@@ -57,6 +60,7 @@ import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
+import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.List;
 
@@ -552,14 +556,13 @@ public class NotificationsFragment extends SFragment implements
                     }
                     update(notifications, fromId, uptoId);
                 }
-                /* Set last update id for pull notifications so that we don't get notified
-                 * about things we already loaded here */
-                getPrivatePreferences().edit()
-                        .putString("lastUpdateId", fromId)
-                        .apply();
+
                 break;
             }
         }
+
+        saveNewestNotificationId(notifications);
+
         fulfillAnyQueuedFetches(fetchEnd);
         if (notifications.size() == 0 && adapter.getItemCount() == 1) {
             adapter.setFooterState(FooterViewHolder.State.EMPTY);
@@ -579,6 +582,29 @@ public class NotificationsFragment extends SFragment implements
         }
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
         fulfillAnyQueuedFetches(fetchEnd);
+    }
+
+    private void saveNewestNotificationId(List<Notification> notifications) {
+        AccountManager accountManager = TuskyApplication.getAccountManager();
+        AccountEntity account = accountManager.getActiveAccount();
+        BigInteger lastNoti = new BigInteger(account.getLastNotificationId());
+
+        for (Notification noti: notifications) {
+            BigInteger a = new BigInteger(noti.id);
+            if(isBiggerThan(a, lastNoti)) {
+                lastNoti = a;
+            }
+        }
+
+        Log.e(TAG, "saving newest noti id: " + lastNoti);
+
+        account.setLastNotificationId(lastNoti.toString());
+        accountManager.saveAccount(account);
+    }
+
+    private boolean isBiggerThan(BigInteger newId, BigInteger lastShownNotificationId) {
+
+        return lastShownNotificationId.compareTo(newId) == - 1;
     }
 
     private void update(@Nullable List<Notification> newNotifications, @Nullable String fromId,

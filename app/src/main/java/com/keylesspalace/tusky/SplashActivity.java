@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.util.NotificationManager;
 
 public class SplashActivity extends AppCompatActivity {
     @Override
@@ -28,6 +29,8 @@ public class SplashActivity extends AppCompatActivity {
 
         /* Determine whether the user is currently logged in, and if so go ahead and load the
          * timeline. Otherwise, start the activity_login screen. */
+
+        NotificationManager.deleteLegacyNotificationChannels(this);
 
         AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
 

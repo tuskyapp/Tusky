@@ -1,14 +1,9 @@
 package com.keylesspalace.tusky.network;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.db.AccountEntity;
-import com.keylesspalace.tusky.db.AccountManager;
 
 import java.io.IOException;
 
