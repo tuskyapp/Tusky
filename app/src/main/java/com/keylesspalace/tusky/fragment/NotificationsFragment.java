@@ -83,7 +83,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     /**
-     * Placeholder for the notifications. Consider moving to the separate class to hide constructor
+     * Placeholder for the notificationsEnabled. Consider moving to the separate class to hide constructor
      * and reuse in different places as needed.
      */
     private static final class Placeholder {
@@ -204,7 +204,7 @@ public class NotificationsFragment extends SFragment implements
 
         /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
          * guaranteed to be set until then.
-         * Use a modified scroll listener that both loads more notifications as it goes, and hides
+         * Use a modified scroll listener that both loads more notificationsEnabled as it goes, and hides
          * the compose button on down-scroll. */
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
         preferences.registerOnSharedPreferenceChangeListener(this);
@@ -596,7 +596,7 @@ public class NotificationsFragment extends SFragment implements
             }
         }
 
-        Log.e(TAG, "saving newest noti id: " + lastNoti);
+        Log.d(TAG, "saving newest noti id: " + lastNoti);
 
         account.setLastNotificationId(lastNoti.toString());
         accountManager.saveAccount(account);

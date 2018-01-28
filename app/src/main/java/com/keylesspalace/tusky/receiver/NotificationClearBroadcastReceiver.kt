@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2018 Conny Duck
  *
  * This file is a part of Tusky.
  *
@@ -20,11 +20,12 @@ import android.content.Context
 import android.content.Intent
 
 import com.keylesspalace.tusky.TuskyApplication
+import com.keylesspalace.tusky.util.NotificationManager
 
 class NotificationClearBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
 
-        val accountId = intent.getLongExtra("account_id", -1)
+        val accountId = intent.getLongExtra(NotificationManager.ACCOUNT_ID, -1)
 
         val accountManager = TuskyApplication.getAccountManager()
         val account = accountManager.getAccountById(accountId)

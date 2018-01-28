@@ -12,6 +12,7 @@ Tusky is a beautiful Android client for [Mastodon](https://github.com/tootsuite/
 
 - Material Design
 - Most Mastodon APIs implemented
+- Muti-Account support
 - completely Open-source - no non-free dependencies like Google services
 
 #### Head of development

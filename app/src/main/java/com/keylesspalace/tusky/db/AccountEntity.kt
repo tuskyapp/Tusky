@@ -1,4 +1,4 @@
-/* Copyright 2017 Conny Duck
+/* Copyright 2018 Conny Duck
  *
  * This file is a part of Tusky.
  *
@@ -29,7 +29,7 @@ data class AccountEntity(@field:PrimaryKey(autoGenerate = true) var id: Long,
                          var profilePictureUrl: String,
                          var displayName: String,
                          var isActive: Boolean,
-                         var notifications: Boolean = true,
+                         var notificationsEnabled: Boolean = true,
                          var notificationsMentioned: Boolean = true,
                          var notificationsFollowed: Boolean = true,
                          var notificationsReblogged: Boolean = true,
@@ -41,7 +41,10 @@ data class AccountEntity(@field:PrimaryKey(autoGenerate = true) var id: Long,
                          var activeNotifications: String = "[]") {
 
     val identifier: String
-        get() = domain+":"+accountId
+        get() = "$domain:$accountId"
+
+    val fullName: String
+        get() = "@$username@$domain"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

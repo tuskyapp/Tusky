@@ -1,4 +1,4 @@
-/* Copyright 2017 Conny Duck
+/* Copyright 2018 Conny Duck
  *
  * This file is a part of Tusky.
  *
@@ -28,12 +28,4 @@ interface AccountDao {
     @Query("SELECT * FROM AccountEntity ORDER BY id ASC")
     fun loadAll(): List<AccountEntity>
 
-    @Query("SELECT * FROM AccountEntity WHERE id = :id")
-    fun getId(id: Long): AccountEntity
-
-    @Query("SELECT * FROM AccountEntity ORDER BY isActive ASC")
-    fun getActive(): List<AccountEntity>
-
-    @Update
-    fun saveAll(accounts: List<AccountEntity>)
 }

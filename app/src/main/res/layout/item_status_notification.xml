@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--This applies only to favourite and reblog notifications.-->
+<?xml version="1.0" encoding="utf-8"?><!--This applies only to favourite and rebnotificationsEnabledions.-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

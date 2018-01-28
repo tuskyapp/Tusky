@@ -116,11 +116,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         return getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
     }
 
-    protected boolean arePushNotificationsEnabled() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return preferences.getBoolean("notificationsEnabled", true);
-    }
-
     protected String getBaseUrl() {
         AccountEntity account = TuskyApplication.getAccountManager().getActiveAccount();
         if(account != null) {

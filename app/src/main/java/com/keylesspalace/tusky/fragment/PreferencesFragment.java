@@ -62,7 +62,9 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
 
             AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
 
-            notificationPreferences.setSummary(getString(R.string.pref_summary_notifications, activeAccount.getUsername(), activeAccount.getDomain()));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O && activeAccount != null) {
+                notificationPreferences.setSummary(getString(R.string.pref_summary_notifications, activeAccount.getFullName()));
+            }
 
 
             //on Android O and newer, launch the system notification settings instead of the app settings
@@ -134,7 +136,7 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
             if(activeAccount != null) {
 
                 CheckBoxPreference notificationPref = (CheckBoxPreference) findPreference("notificationsEnabled");
-                notificationPref.setChecked(activeAccount.getNotifications());
+                notificationPref.setChecked(activeAccount.getNotificationsEnabled());
 
                 CheckBoxPreference mentionedPref = (CheckBoxPreference) findPreference("notificationFilterMentions");
                 mentionedPref.setChecked(activeAccount.getNotificationsMentioned());
@@ -203,7 +205,7 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
         if(activeAccount != null) {
             switch(key) {
                 case "notificationsEnabled":
-                    activeAccount.setNotifications(sharedPreferences.getBoolean(key, true));
+                    activeAccount.setNotificationsEnabled(sharedPreferences.getBoolean(key, true));
                     break;
                 case "notificationFilterMentions":
                     activeAccount.setNotificationsMentioned(sharedPreferences.getBoolean(key, true));

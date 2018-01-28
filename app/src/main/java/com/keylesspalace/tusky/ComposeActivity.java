@@ -460,8 +460,7 @@ public final class ComposeActivity extends BaseActivity
 
             composeAvatar.setContentDescription(
                     getString(R.string.compose_active_account_description,
-                            activeAccount.getUsername(),
-                            activeAccount.getDomain()));
+                            activeAccount.getFullName()));
 
         }
 

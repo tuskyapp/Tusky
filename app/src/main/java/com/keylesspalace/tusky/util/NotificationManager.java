@@ -48,11 +48,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationManager {
+
+    /** constants used in Intents */
+    public static final String ACCOUNT_ID = "account_id";
+
     private static final String TAG = "NotificationManager";
 
-    /**
-     * notification channels used on Android O+
-     **/
+    /** notification channels used on Android O+ **/
     private static final String CHANNEL_MENTION = "CHANNEL_MENTION";
     private static final String CHANNEL_FOLLOW = "CHANNEL_FOLLOW";
     private static final String CHANNEL_BOOST = "CHANNEL_BOOST";
@@ -68,7 +70,6 @@ public class NotificationManager {
      */
 
     public static void make(final Context context, Notification body, AccountEntity account) {
-
 
         if (!filterNotification(account, body)) {
             return;
@@ -104,8 +105,7 @@ public class NotificationManager {
         //no need to save account, this will be done in the calling function
 
         Intent resultIntent = new Intent(context, MainActivity.class);
-        resultIntent.putExtra("tab_position", 1);
-        resultIntent.putExtra("account_id", account.getId());
+        resultIntent.putExtra(ACCOUNT_ID, account.getId());
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(resultIntent);
@@ -113,7 +113,7 @@ public class NotificationManager {
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent deleteIntent = new Intent(context, NotificationClearBroadcastReceiver.class);
-        deleteIntent.putExtra("account_id", account.getId());
+        deleteIntent.putExtra(ACCOUNT_ID, account.getId());
         PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, (int)account.getId(), deleteIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -129,6 +129,11 @@ public class NotificationManager {
         if (currentNotifications.length() == 1) {
             builder.setContentTitle(titleForType(context, body))
                     .setContentText(bodyForType(body));
+
+            if(body.type == Notification.Type.MENTION) {
+                builder.setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(bodyForType(body)));
+            }
 
             //load the avatar synchronously
             Bitmap accountAvatar;
@@ -156,7 +161,7 @@ public class NotificationManager {
             }
         }
 
-        builder.setSubText(account.getUsername()+"@"+account.getDomain());
+        builder.setSubText(account.getFullName());
 
         builder.setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
         builder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
@@ -194,7 +199,7 @@ public class NotificationManager {
 
             List<NotificationChannel> channels = new ArrayList<>(4);
 
-            NotificationChannelGroup channelGroup = new NotificationChannelGroup(account.getIdentifier(), account.getUsername()+"@"+account.getDomain());
+            NotificationChannelGroup channelGroup = new NotificationChannelGroup(account.getIdentifier(), account.getFullName());
 
             //noinspection ConstantConditions
             mNotificationManager.createNotificationChannelGroup(channelGroup);
@@ -247,20 +252,17 @@ public class NotificationManager {
         }
     }
 
-    public static void clearNotificationsForActiveAccount(@Nullable Context context) {
-        if(context != null) {
+    public static void clearNotificationsForActiveAccount(Context context) {
+        AccountManager accountManager = TuskyApplication.getAccountManager();
+        AccountEntity account = accountManager.getActiveAccount();
+        if (account != null) {
+            account.setActiveNotifications("[]");
+            accountManager.saveAccount(account);
 
-            AccountManager accountManager = TuskyApplication.getAccountManager();
-            AccountEntity account = accountManager.getActiveAccount();
-            if (account != null) {
-                account.setActiveNotifications("[]");
-                accountManager.saveAccount(account);
-
-                android.app.NotificationManager manager = (android.app.NotificationManager)
-                        context.getSystemService(Context.NOTIFICATION_SERVICE);
-                manager.cancel((int)account.getId());
-            }
-
+            android.app.NotificationManager manager = (android.app.NotificationManager)
+                    context.getSystemService(Context.NOTIFICATION_SERVICE);
+            //noinspection ConstantConditions
+            manager.cancel((int)account.getId());
         }
     }
 
@@ -358,7 +360,7 @@ public class NotificationManager {
     private static String bodyForType(Notification notification) {
         switch (notification.type) {
             case FOLLOW:
-                return notification.account.username;
+                return "@"+notification.account.username;
             case MENTION:
             case FAVOURITE:
             case REBLOG:

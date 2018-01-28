@@ -39,7 +39,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -49,6 +48,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public final class NotificationPullJobCreator implements JobCreator {
+
+    private static final String TAG = "NotificationPJC";
 
     static final String NOTIFICATIONS_JOB_TAG = "notifications_job_tag";
 
@@ -72,8 +73,6 @@ public final class NotificationPullJobCreator implements JobCreator {
                 context.getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
 
         OkHttpClient okHttpClient = OkHttpUtils.getCompatibleClientBuilder(preferences)
-                .addInterceptor(
-                        new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
                 .build();
 
         Gson gson = new GsonBuilder()
@@ -105,19 +104,19 @@ public final class NotificationPullJobCreator implements JobCreator {
 
             for(AccountEntity account: accountList) {
 
-                Log.d("Notification", "running Job for "+account.getUsername()+"@"+account.getDomain());
-                if(account.getNotifications()) {
+                if(account.getNotificationsEnabled()) {
                     MastodonApi api = createMastodonApi(account.getDomain(), context);
                     try {
+                        Log.d(TAG, "getting Notifications for "+account.getFullName());
                         Response<List<Notification>> notifications =
                                 api.notificationsWithAuth(String.format("Bearer %s", account.getAccessToken())).execute();
                         if (notifications.isSuccessful()) {
                             onNotificationsReceived(account, notifications.body());
                         } else {
-                            Log.w("Notifications", "error receiving notifications");
+                            Log.w(TAG, "error receiving notificationsEnabled");
                         }
                     } catch (IOException e) {
-                        Log.w("Notifications", "error receiving notifications", e);
+                        Log.w(TAG, "error receiving notificationsEnabled", e);
                     }
                 }
 
@@ -151,7 +150,6 @@ public final class NotificationPullJobCreator implements JobCreator {
 
             account.setLastNotificationId(newestId.toString());
             TuskyApplication.getAccountManager().saveAccount(account);
-
 
         }
 

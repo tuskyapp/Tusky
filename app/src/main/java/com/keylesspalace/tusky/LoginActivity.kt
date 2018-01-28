@@ -198,7 +198,6 @@ class LoginActivity : AppCompatActivity() {
                 .putString("domain", domain)
                 .putString("clientId", clientId)
                 .putString("clientSecret", clientSecret)
-                .putBoolean(LOGIN_MODE, getMode())
                 .apply()
     }
 
@@ -277,7 +276,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun getMode() : Boolean {
-        return preferences.getBoolean(LOGIN_MODE, intent.getBooleanExtra(LOGIN_MODE, false))
+        return intent.getBooleanExtra(LOGIN_MODE, false)
     }
 
     private fun onLoginSuccess(accessToken: String) {

@@ -50,6 +50,7 @@ dependencies {
     implementation('com.mikepenz:materialdrawer:6.0.1@aar') {
         transitive = true
     }
+    debugCompile 'im.dino:dbinspector:3.4.1@aar'
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support:customtabs:$supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"

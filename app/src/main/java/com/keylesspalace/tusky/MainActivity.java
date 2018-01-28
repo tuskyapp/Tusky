@@ -92,19 +92,22 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        // account switching has to be done before MastodonApi is created in super.onCreate
         Intent intent = getIntent();
 
         int tabPosition = 0;
         
         if (intent != null) {
-            tabPosition = intent.getIntExtra("tab_position", 0);
+            long accountId = intent.getLongExtra(NotificationManager.ACCOUNT_ID, -1);
 
-            long accountId = intent.getLongExtra("account_id", -1);
+            if(accountId != -1) {
+                // user clicked a notification, show notification tab and switch user if necessary
+                tabPosition = 1;
+                AccountEntity account = TuskyApplication.getAccountManager().getActiveAccount();
 
-            AccountEntity account = TuskyApplication.getAccountManager().getActiveAccount();
-
-            if(accountId != -1 && (account == null || accountId != account.getId())) {
-                TuskyApplication.getAccountManager().setActiveAccount(accountId);
+                if (account == null || accountId != account.getId()) {
+                    TuskyApplication.getAccountManager().setActiveAccount(accountId);
+                }
             }
         }
 
@@ -188,8 +191,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
+            public void onTabReselected(TabLayout.Tab tab) { }
         });
 
         for (int i = 0; i < 4; i++) {
@@ -222,9 +224,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                     .apply();
         }
 
-        if(viewPager.getCurrentItem() == 1) {
-            NotificationManager.clearNotificationsForActiveAccount(this);
-        }
     }
 
     @Override
@@ -433,7 +432,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
             new AlertDialog.Builder(this)
                     .setTitle(R.string.action_logout)
-                    .setMessage(getString(R.string.action_logout_confirm, activeAccount.getUsername(), activeAccount.getDomain()))
+                    .setMessage(getString(R.string.action_logout_confirm, activeAccount.getFullName()))
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {
 
                         AccountManager accountManager = TuskyApplication.getAccountManager();
@@ -502,7 +501,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                             .withIcon(acc.getProfilePictureUrl())
                             .withNameShown(true)
                             .withIdentifier(acc.getId())
-                            .withEmail(String.format("%s@%s", acc.getUsername(), acc.getDomain())));
+                            .withEmail(acc.getFullName()));
 
         }
 
