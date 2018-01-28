@@ -159,7 +159,6 @@
     <string name="pref_title_notification_filter_reblogs">мой пост продвинули</string>
     <string name="pref_title_notification_filter_favourites">мой пост понравился</string>
     <string name="pref_title_appearance_settings">Внешний вид</string>
-    <string name="pref_title_light_theme">Использовать светлую тему</string>
     <string name="pref_title_browser_settings">Браузер</string>
     <string name="pref_title_custom_tabs">Использовать Chrome Custom Tabs</string>
     <string name="pref_title_hide_follow_button">Скрывать кнопку подписки при покрутке</string>

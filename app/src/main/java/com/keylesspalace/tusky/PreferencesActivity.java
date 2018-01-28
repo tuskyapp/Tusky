@@ -27,6 +27,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.keylesspalace.tusky.fragment.PreferencesFragment;
+import com.keylesspalace.tusky.util.ResourcesUtils;
+import com.keylesspalace.tusky.util.ThemeUtils;
 
 public class PreferencesActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -46,9 +48,6 @@ public class PreferencesActivity extends BaseActivity
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.getBoolean("lightTheme", false)) {
-            setTheme(R.style.AppTheme_Light);
-        }
 
         setContentView(R.layout.activity_preferences);
 
@@ -72,6 +71,28 @@ public class PreferencesActivity extends BaseActivity
         }
         showFragment(currentPreferences, currentTitle);
 
+        PreferencesFragment preferencesFragment = (PreferencesFragment)getFragmentManager().findFragmentById(R.id.fragment_container);
+        String[] themeFlavorPair = preferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT).split(":");
+        String appTheme = themeFlavorPair[0], themeFlavorMode = themeFlavorPair[1], themeFlavorPreference = themeFlavorPair[2];
+
+        setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
+
+        if (preferencesFragment.findPreference("appThemeFlavor") != null) {
+            boolean lockFlavor = themeFlavorMode.equals(ThemeUtils.THEME_MODE_ONLY);
+            preferencesFragment.findPreference("appThemeFlavor").setEnabled(!lockFlavor);
+        }
+
+        String flavor = preferences.getString("appThemeFlavor", ThemeUtils.THEME_FLAVOR_DEFAULT);
+        if (flavor.equals(ThemeUtils.THEME_FLAVOR_DEFAULT)) {
+            flavor = themeFlavorPreference;
+
+            preferences.edit()
+                    .putString("appThemeFlavor", flavor)
+                    .apply();
+        }
+
+        // Set theme based on preference
+        setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
     }
 
     public void showFragment(@XmlRes int preferenceId, @StringRes int title) {
@@ -80,6 +101,8 @@ public class PreferencesActivity extends BaseActivity
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, PreferencesFragment.newInstance(preferenceId))
                 .commit();
+
+        getFragmentManager().executePendingTransactions();
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -104,7 +127,32 @@ public class PreferencesActivity extends BaseActivity
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key) {
-            case "lightTheme": {
+            case "appTheme": {
+                String[] themeFlavorPair = sharedPreferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT).split(":");
+                String appTheme = themeFlavorPair[0];
+
+                setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
+
+                sharedPreferences.edit()
+                        .remove("appThemeFlavor")
+                        .apply();
+            }
+            case "appThemeFlavor": {
+                String[] themeFlavorPair = sharedPreferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT).split(":");
+                String appTheme = themeFlavorPair[0], themeFlavorPreference = themeFlavorPair[2];
+
+                setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
+
+                String flavor = sharedPreferences.getString("appThemeFlavor", ThemeUtils.THEME_FLAVOR_DEFAULT);
+                if (flavor.equals(ThemeUtils.THEME_FLAVOR_DEFAULT)) {
+                    flavor = themeFlavorPreference;
+
+                    sharedPreferences.edit()
+                            .putString("appThemeFlavor", flavor)
+                            .apply();
+                }
+                ThemeUtils.setAppNightMode(flavor);
+
                 restartActivitiesOnExit = true;
                 // recreate() could be used instead, but it doesn't have an animation B).
                 Intent intent = getIntent();

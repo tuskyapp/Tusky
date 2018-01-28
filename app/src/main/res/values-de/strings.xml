@@ -140,7 +140,6 @@
     <string name="pref_title_notification_filter_reblogs">Jemand meine Posts teilt</string>
     <string name="pref_title_notification_filter_favourites">Jemandem meine Posts gefallen</string>
     <string name="pref_title_appearance_settings">Aussehen</string>
-    <string name="pref_title_light_theme">Benutze helles Theme</string>
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Öffne Links in der App</string>
     <string name="pref_title_hide_follow_button">Verstecke Button bei Bildlauf </string>

@@ -24,7 +24,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.customtabs.CustomTabsIntent
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -37,6 +36,8 @@ import com.keylesspalace.tusky.entity.AppCredentials
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.CustomTabsHelper
 import com.keylesspalace.tusky.util.OkHttpUtils
+import com.keylesspalace.tusky.util.ResourcesUtils
+import com.keylesspalace.tusky.util.ThemeUtils
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -62,9 +63,17 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("lightTheme", false)) {
-            setTheme(R.style.AppTheme_Light)
-        }
+        preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val themeFlavorPair = preferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT)!!.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val appTheme = themeFlavorPair[0]
+        val themeFlavorPreference = themeFlavorPair[2]
+
+        setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme))
+
+        var flavor = preferences.getString("appThemeFlavor", ThemeUtils.THEME_FLAVOR_DEFAULT)
+        if (flavor == ThemeUtils.THEME_FLAVOR_DEFAULT)
+            flavor = themeFlavorPreference
+        ThemeUtils.setAppNightMode(flavor)
 
         setContentView(R.layout.activity_login)
 
@@ -337,15 +346,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         private fun openInCustomTab(uri: Uri, context: Context): Boolean {
-            val lightTheme = PreferenceManager.getDefaultSharedPreferences(context)
-                    .getBoolean("lightTheme", false)
 
-            val toolbarColorRes = if (lightTheme) {
-                R.color.custom_tab_toolbar_light
-            } else {
-                R.color.custom_tab_toolbar_dark
-            }
-            val toolbarColor = ContextCompat.getColor(context, toolbarColorRes)
+            val toolbarColor = ThemeUtils.getColorById(context, "custom_tab_toolbar")
             val builder = CustomTabsIntent.Builder()
             builder.setToolbarColor(toolbarColor)
             val customTabsIntent = builder.build()

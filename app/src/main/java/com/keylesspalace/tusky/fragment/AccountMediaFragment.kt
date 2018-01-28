@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.fragment
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
@@ -26,6 +25,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +37,7 @@ import com.keylesspalace.tusky.ViewVideoActivity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.view.SquareImageView
 import com.squareup.picasso.Picasso
 import retrofit2.Call
@@ -133,10 +134,8 @@ class AccountMediaFragment : BaseFragment() {
         val columnCount = context?.resources?.getInteger(R.integer.profile_media_column_count) ?: 2
         val layoutManager = GridLayoutManager(context, columnCount)
 
-        val lightThemeEnabled = PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean("lightTheme", false)
-        val bgRes = if (lightThemeEnabled) R.color.window_background_light
-        else R.color.window_background_dark
+        val bgRes = ThemeUtils.getColorId(context, R.attr.window_background)
+
         adapter.baseItemColor = ContextCompat.getColor(recyclerView.context, bgRes)
 
         recyclerView.layoutManager = layoutManager

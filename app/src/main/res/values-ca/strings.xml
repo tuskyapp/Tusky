@@ -165,7 +165,6 @@
     <string name="pref_title_notification_filter_reblogs">retootejen les meves publicacions</string>
     <string name="pref_title_notification_filter_favourites">marquen com a preferit les meves publicacions</string>
     <string name="pref_title_appearance_settings">Aparença</string>
-    <string name="pref_title_light_theme">Usa el tema clar</string>
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Pestanyes personalitzades del Chrome</string>
     <string name="pref_title_hide_follow_button">Amaga el botó de redacció en desplaçament</string>

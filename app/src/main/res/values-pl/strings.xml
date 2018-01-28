@@ -1,5 +1,6 @@
 <resources>
 
+
     <string name="error_generic">Wystąpił błąd.</string>
     <string name="error_empty">To nie może pozostać puste.</string>
     <string name="error_invalid_domain">Wprowadzono nieprawidłową domenę</string>
@@ -8,15 +9,16 @@
     <string name="error_authorization_unknown">Wystąpił nieokreślony błąd podczas próby autoryzacji.</string>
     <string name="error_authorization_denied">Odmówiono autoryzacji.</string>
     <string name="error_retrieving_oauth_token">Nie udało się uzyskać tokenu logowania.</string>
-    <string name="error_compose_character_limit">Zbyt długi status!</string>
+    <string name="error_compose_character_limit">Zbyt długi wpis!</string>
     <string name="error_media_upload_size">Plik może mieć maksymalnie 4MB.</string>
     <string name="error_media_upload_type">Ten format pliku nie może zostać wysłany.</string>
     <string name="error_media_upload_opening">Nie można otworzyć tego pliku.</string>
     <string name="error_media_upload_permission">Wymagane jest pozwolenie na dostęp do plików z urządzenia.</string>
     <string name="error_media_download_permission">Wymagane jest pozwolenie na przechowywanie plików na urządzeniu.</string>
-    <string name="error_media_upload_image_or_video">Do statusu nie mogą być dołączone jednocześnie obrazy i pliki wideo.</string>
+    <string name="error_media_upload_image_or_video">Do wpisu nie mogą być dołączone jednocześnie obrazy i pliki wideo.</string>
     <string name="error_media_upload_sending">Wysyłanie nie powiodło się.</string>
-    <string name="error_report_too_few_statuses">Musisz zgłosić przynajmniej jeden status.</string>
+    <string name="error_report_too_few_statuses">Musisz zgłosić przynajmniej jeden wpis.</string>
+
 
     <string name="title_home">Strona główna</string>
     <string name="title_notifications">Powiadomienia</string>
@@ -25,29 +27,39 @@
     <string name="title_view_thread">Wątek</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Posty</string>
-    <string name="title_follows">Obserwacje</string>
-    <string name="title_followers">Obserwujący</string>
+    <string name="title_follows">Śledzeni</string>
+    <string name="title_followers">Śledzący</string>
     <string name="title_favourites">Ulubione</string>
     <string name="title_mutes">Wyciszeni użytkownicy</string>
     <string name="title_blocks">Zablokowani użytkownicy</string>
-    <string name="title_follow_requests">Prośby o obserwację</string>
+    <string name="title_follow_requests">Prośby o możliwość śledzenia</string>
     <string name="title_edit_profile">Edytuj profil</string>
     <string name="title_saved_toot">Szkice</string>
+    <string name="title_x_followers"><b>%d</b> śledzących</string>
+    <string name="title_x_following"><b>%d</b> śledzonych</string>
+    <string name="title_x_statuses"><b>%d</b> wpisów</string>
+
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s podbił</string>
     <string name="status_sensitive_media_title"><b>Wrażliwe treści</b>\nDotknij, aby wyświetlić</string>
+    <string name="status_media_hidden_title">Ukryto zawartość multimedialną</string>
+    <string name="status_sensitive_media_directions">Naciśnij, aby wyświetlić</string>
     <string name="status_content_warning_show_more">Pokaż więcej</string>
     <string name="status_content_warning_show_less">Ukryj</string>
 
+
     <string name="footer_empty">Pusto! Pociągnij, aby odświeżyć.</string>
 
-    <string name="notification_reblog_format">%s podbił twój post</string>
-    <string name="notification_favourite_format">%s dodał twój post do ulubionych</string>
-    <string name="notification_follow_format">%s zaobserwował cię</string>
+
+    <string name="notification_reblog_format">%s podbił Twój post</string>
+    <string name="notification_favourite_format">%s dodał Twój post do ulubionych</string>
+    <string name="notification_follow_format">%s zaczął Cię śledzić cię</string>
+
 
     <string name="report_username_format">Zgłoś @%s</string>
     <string name="report_comment_hint">Dodatkowe komentarze?</string>
+
 
     <string name="action_reply">Odpowiedz</string>
     <string name="action_reblog">Podbij</string>
@@ -56,8 +68,11 @@
     <string name="action_compose">Napisz</string>
     <string name="action_login">Zaloguj z Mastodon</string>
     <string name="action_logout">Wyloguj</string>
-    <string name="action_follow">Obserwuj</string>
-    <string name="action_unfollow">Przestań obserwować</string>
+
+    <string name="action_logout_confirm">Czy chcesz wylogować się?</string>
+    <string name="action_follow">Śledź</string>
+    <string name="action_unfollow">Przestań śledzić</string>
+
     <string name="action_block">Zablokuj</string>
     <string name="action_unblock">Odblokuj</string>
     <string name="action_report">Zgłoś</string>
@@ -76,7 +91,7 @@
     <string name="action_view_favourites">Ulubione</string>
     <string name="action_view_mutes">Wyciszeni użytkownicy</string>
     <string name="action_view_blocks">Zablokowani użytkownicy</string>
-    <string name="action_view_follow_requests">Prośby o obserwację</string>
+    <string name="action_view_follow_requests">Prośby o możliwość śledzenia</string>
     <string name="action_view_thread">Wątek</string>
     <string name="action_view_media">Treści multimedialne</string>
     <string name="action_open_in_web">Otwórz w przeglądarce</string>
@@ -99,13 +114,16 @@
     <string name="action_search">Szukaj</string>
     <string name="action_access_saved_toot">Szkice</string>
 
+
     <string name="send_status_link_to">Udostępnij link do wpisu do…</string>
     <string name="send_status_content_to">Udostępnij wpis do…</string>
+
 
     <string name="confirmation_send">Wyślij!</string>
     <string name="confirmation_reported">Wyślij!</string>
     <string name="confirmation_unblocked">Odblokowano użytkownika</string>
     <string name="confirmation_unmuted">Cofnięto wyciszenie użytkownika</string>
+
 
     <string name="hint_domain">Jaka instancja?</string>
     <string name="hint_compose">Co ci chodzi po głowie?</string>
@@ -114,14 +132,19 @@
     <string name="hint_note">Biografia</string>
     <string name="hint_search">Szukaj…</string>
 
+
     <string name="search_no_results">Brak wyników</string>
+
 
     <string name="label_avatar">Obraz profilowy</string>
     <string name="label_header">Nagłówek</string>
 
+
     <string name="link_whats_an_instance">Czym jest instancja?</string>
 
+
     <string name="login_connection">Łączenie…</string>
+
 
     <string name="dialog_whats_an_instance">Domenę lub adres instancji może zostać wprowadzona tutaj,
         np. mastodon.social, icosahedron.website, social.tchncs.de, i
@@ -135,12 +158,16 @@
     <string name="dialog_title_finishing_media_upload">Kończenie wysyłania treści</string>
     <string name="dialog_message_uploading_media">Wysyłanie…</string>
     <string name="dialog_download_image">Pobierz</string>
-    <string name="dialog_message_follow_request">Oczekująca prośba o obserwację: oczekiwanie na odpowiedź</string>
+    <string name="dialog_message_follow_request">Oczekująca prośba o możliwość śledzenia: oczekiwanie na odpowiedź</string>
+    <string name="dialog_unfollow_warning">Czy chcesz przestać śledzić to konto?</string>
+    <string name="dialog_reply_not_found">Nie można opublikować wpisu. Wpis na który odpisujesz mógł zostać usunięty. Chcesz opublikować wpis normalnie?</string>
+
 
     <string name="visibility_public">Publiczne: Opublikuj na publicznych osiach czasu</string>
     <string name="visibility_unlisted">Niepubliczne: Nie wyświetlaj na publicznych osiach czasu</string>
-    <string name="visibility_private">Tylko obserwowani: Wyświetlaj tylko obserwowanym</string>
+    <string name="visibility_private">Tylko śledzeni: Wyświetlaj tylko śledzonym</string>
     <string name="visibility_direct">Bezpośrednio: Widoczne tylko dla wspomnianych</string>
+
 
     <string name="pref_title_notification_settings">Powiadomienia</string>
     <string name="pref_title_pull_notification_check_interval">Częstotliwość sprawdzania</string>
@@ -152,19 +179,74 @@
     <string name="pref_title_notification_alert_light">Powiadamiaj diodą</string>
     <string name="pref_title_notification_filters">Powiadom mnie, gdy</string>
     <string name="pref_title_notification_filter_mentions">wspomniano o mnie</string>
-    <string name="pref_title_notification_filter_follows">zaobserwowano mnie</string>
+    <string name="pref_title_notification_filter_follows">zaczęto mnie śledzić</string>
     <string name="pref_title_notification_filter_reblogs">moje posty zostaną podbite</string>
     <string name="pref_title_notification_filter_favourites">moje posty zostaną dodane do ulubionych</string>
     <string name="pref_title_appearance_settings">Wygląd</string>
-    <string name="pref_title_light_theme">Użyj jasnego motywu</string>
+    <string name="pref_title_app_theme">Motyw</string>
+
+
+    <string name="pref_title_app_theme_flavor">Odmiana motywu</string>
+    <string-array name="app_theme_flavor_names">
+        <item>Pora dnia</item>
+        <item>Noc</item>
+        <item>Dzień</item>
+    </string-array>
+
+
     <string name="pref_title_browser_settings">Przeglądarka</string>
     <string name="pref_title_custom_tabs">Używaj niestandardowych kart Chrome</string>
-    <string name="pref_title_hide_follow_button">Ukryj przycisk obserwacji podczas przewijania</string>
+    <string name="pref_title_hide_follow_button">Ukryj przycisk śledzenia podczas przewijania</string>
     <string name="pref_title_status_filter">Filtrowanie osi czasu</string>
     <string name="pref_title_status_tabs">Karty</string>
     <string name="pref_title_show_boosts">Pokazuj podbicia</string>
     <string name="pref_title_show_replies">Pokazuj odpowiedzi</string>
     <string name="pref_title_show_media_preview">Pokazuj podgląd zawartości multimedialnej</string>
+    <string name="pref_title_proxy_settings">Proxy</string>
+    <string name="pref_title_http_proxy_settings">Proxy HTTP</string>
+    <string name="pref_title_http_proxy_enable">Włącz proxy HTTP</string>
+    <string name="pref_title_http_proxy_server">Serwer proxy HTTP</string>
+    <string name="pref_title_http_proxy_port">Port proxy HTTP</string>
+
+    <string-array name="pull_notification_check_interval_names">
+        <item>15 minut</item>
+        <item>20 minut</item>
+        <item>25 minut</item>
+        <item>30 minut</item>
+        <item>45 minut</item>
+        <item>1 godzina</item>
+        <item>2 godziny</item>
+    </string-array>
+
+    <string name="pref_default_post_privacy">Domyślne ustawienia prywatności wpisów</string>
+    <string name="pref_publishing">Publikowanie</string>
+
+    <string-array name="post_privacy_names">
+        <item>Publiczne</item>
+        <item>Niewypisane</item>
+        <item>Tylko dla śledzonych</item>
+    </string-array>
+
+    <string name="pref_status_text_size">Rozmiar tekstu wpisów</string>
+
+
+    <string-array name="status_text_size_names">
+        <item>Mały</item>
+        <item>Średni</item>
+        <item>Duży</item>
+    </string-array>
+
+
+
+    <string name="notification_channel_mention_name">Nowe wspomnienia</string>
+    <string name="notification_channel_mention_descriptions">Powiadomienia o nowych wspomnieniach</string>
+    <string name="notification_channel_follow_name">Nowi śledzący</string>
+    <string name="notification_channel_follow_description">Powiadomienia o nowych śledzących</string>
+    <string name="notification_channel_boost_name">Podbicia</string>
+    <string name="notification_channel_boost_description">Powiadomienia o podbiciu wpisów</string>
+    <string name="notification_channel_favourite_name">Ulubione</string>
+    <string name="notification_channel_favourite_description">Powiadomienia o dodaniu wpisów do ulubionych</string>
+
 
     <string name="notification_mention_format">%s wspomniał o tobie</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s i %4$d innych</string>
@@ -172,9 +254,13 @@
     <string name="notification_summary_small">%1$s i %2$s</string>
     <string name="notification_title_summary">%d nowych powiadomień</string>
 
+
     <string name="description_account_locked">Konto zablokowane</string>
 
+
     <string name="about_title_activity">O programie</string>
+    <string name="about_tusky_license">Tusky jest wolnym i otwartoźródłowym oprogramowaniem. Jest dostępny na licencji GNU General Public License w wersji trzeciej. Możesz przeczytać treść licencji tutaj: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <!-- It would be nice to change the link to link to Polish translation of GPLv3… -->
     <string name="about_application_version">Wersja aplikacji: %s</string>
     <string name="about_project_site">
         Strona projektu:\n
@@ -184,16 +270,46 @@
         Zgłoszenia błędów i propozycje funkcji:\n
         https://github.com/Vavassor/Tusky/issues
     </string>
-    <string name="about_tusky_account">Profil Tusky\'ego</string>
+    <string name="about_tusky_account">Profil Tusky’ego</string>
+
 
     <string name="status_share_content">Udostępnij zawartość postu</string>
     <string name="status_share_link">Udostępnij link do postu</string>
     <string name="status_media_images">Obrazy</string>
     <string name="status_media_video">Wideo</string>
 
-    <string name="state_follow_requested">Wysłano prośbę o obserwację</string>
+
+    <string name="state_follow_requested">Wysłano prośbę o możliwość śledzenia</string>
+
 
     <string name="no_content">brak zawartości</string>
     <string name="action_save_one_toot">Zapisano wpis!</string>
+
+
+    <string name="abbreviated_in_years">w %dy</string>
+    <string name="abbreviated_in_days">w %dd</string>
+    <string name="abbreviated_in_hours">w %dh</string>
+    <string name="abbreviated_in_minutes">w %dm</string>
+    <string name="abbreviated_in_seconds">w %ds</string>
+    <string name="abbreviated_years_ago">%dy temu</string>
+    <string name="abbreviated_days_ago">%dd temu</string>
+    <string name="abbreviated_hours_ago">%dh temu</string>
+    <string name="abbreviated_minutes_ago">%dm temu</string>
+    <string name="abbreviated_seconds_ago">%ds temu</string>
+
+
+    <string name="follows_you">Śledzi Cię</string>
+    <string name="pref_title_alway_show_sensitive_media">Zawsze wyświetlaj zawartość NSFW</string>
+    <string name="title_media">Zawartość multimedialna</string>
+    <string name="replying_to">Odpowiadasz na @%s</string>
+    <string name="load_more_placeholder_text">załaduj więcej</string>
+    <string name="action_lists">Listy</string>
+    <string name="title_lists">Listy</string>
+    <string name="title_list_timeline">Oś czasu listy</string>
+    <string name="error_failed_set_caption">Nie udało się ustawić podpisu</string>
+    <string name="hint_describe_for_visually_impaired">Opis dla osób korzystających z ułatwień dostępności</string>
+    <string name="action_set_caption">Ustaw podpis</string>
+    <string name="action_remove_media">Usuń</string>
+
 
 </resources>
