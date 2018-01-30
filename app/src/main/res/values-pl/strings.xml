@@ -258,7 +258,7 @@
 
     <string name="about_title_activity">O programie</string>
     <string name="about_tusky_license">Tusky jest wolnym i otwartoźródłowym oprogramowaniem. Jest dostępny na licencji GNU General Public License w wersji trzeciej. Możesz przeczytać treść licencji tutaj: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
-    <-- It would be nice to change the link to link to Polish translation of GPLv3… -->
+    <!-- It would be nice to change the link to link to Polish translation of GPLv3… -->
     <string name="about_application_version">Wersja aplikacji: %s</string>
     <string name="about_project_site">
         Strona projektu:\n
