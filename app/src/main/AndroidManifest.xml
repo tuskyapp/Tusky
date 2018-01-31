@@ -3,13 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.keylesspalace.tusky">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" /> <!--For notifications-->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />  <!--Required by Eclipse Paho-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!--Required by Eclipse Paho-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- for day/night mode -->
+
 
     <application
         android:allowBackup="true"
