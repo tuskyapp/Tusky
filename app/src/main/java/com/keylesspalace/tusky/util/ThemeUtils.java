@@ -37,12 +37,9 @@ import com.keylesspalace.tusky.TuskyApplication;
  * the ability to do so is not supported in resource files.
  */
 public class ThemeUtils {
-    public static final String THEME_MODE_PREFER = "prefer";
-    public static final String THEME_MODE_ONLY = "only";
-    public static final String THEME_FLAVOR_NIGHT = "night";
-    public static final String THEME_FLAVOR_DAY = "day";
-    public static final String THEME_FLAVOR_AUTO = "auto";
-    public static final String THEME_FLAVOR_DEFAULT = "preferred";
+    public static final String THEME_NIGHT = "night";
+    public static final String THEME_DAY = "day";
+    public static final String THEME_AUTO = "auto";
 
     public static Drawable getDrawable(Context context, @AttrRes int attribute,
             @DrawableRes int fallbackDrawable) {
@@ -94,20 +91,19 @@ public class ThemeUtils {
         drawable.setColorFilter(getColor(context, attribute), PorterDuff.Mode.SRC_IN);
     }
 
-    public static boolean setAppNightMode(String flavor) {
+    public static void setAppNightMode(String flavor) {
         int mode;
         switch (flavor) {
-            case THEME_FLAVOR_AUTO:
-                mode = UiModeManager.MODE_NIGHT_AUTO;
-                break;
-            case THEME_FLAVOR_NIGHT:
+            default:
+            case THEME_NIGHT:
                 mode = UiModeManager.MODE_NIGHT_YES;
                 break;
-            case THEME_FLAVOR_DAY:
+            case THEME_DAY:
                 mode = UiModeManager.MODE_NIGHT_NO;
                 break;
-            default:
-                return false;
+            case THEME_AUTO:
+                mode = UiModeManager.MODE_NIGHT_AUTO;
+                break;
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -116,6 +112,5 @@ public class ThemeUtils {
             AppCompatDelegate.setDefaultNightMode(mode);
         }
 
-        return true;
     }
 }

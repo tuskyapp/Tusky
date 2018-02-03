@@ -64,16 +64,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val themeFlavorPair = preferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT)!!.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        val appTheme = themeFlavorPair[0]
-        val themeFlavorPreference = themeFlavorPair[2]
-
-        setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme))
-
-        var flavor = preferences.getString("appThemeFlavor", ThemeUtils.THEME_FLAVOR_DEFAULT)
-        if (flavor == ThemeUtils.THEME_FLAVOR_DEFAULT)
-            flavor = themeFlavorPreference
-        ThemeUtils.setAppNightMode(flavor)
+        val theme = preferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT)
+        ThemeUtils.setAppNightMode(theme)
 
         setContentView(R.layout.activity_login)
 

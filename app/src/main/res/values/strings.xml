@@ -172,15 +172,9 @@
     <string name="pref_title_app_theme">App Theme</string>
 
     <string-array name="app_theme_names">
-        <item>Tusky</item>
-        <item>Remin</item>
-    </string-array>
-
-    <string name="pref_title_app_theme_flavor">Theme flavor</string>
-    <string-array name="app_theme_flavor_names">
-        <item>Sunset/Sunrise</item>
-        <item>Night</item>
-        <item>Day</item>
+        <item>Dark</item>
+        <item>Light</item>
+        <item>Automatic at sunset</item>
     </string-array>
 
     <string name="pref_title_browser_settings">Browser</string>

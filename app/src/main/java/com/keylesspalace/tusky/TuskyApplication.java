@@ -28,10 +28,11 @@ import com.jakewharton.picasso.OkHttp3Downloader;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.util.OkHttpUtils;
+import com.keylesspalace.tusky.util.ThemeUtils;
 import com.squareup.picasso.Picasso;
 
 public class TuskyApplication extends Application {
-    public static final String APP_THEME_DEFAULT = "AppTheme:prefer:night";
+    public static final String APP_THEME_DEFAULT = ThemeUtils.THEME_NIGHT;
 
     private static AppDatabase db;
     private static AccountManager accountManager;

@@ -27,7 +27,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.keylesspalace.tusky.fragment.PreferencesFragment;
-import com.keylesspalace.tusky.util.ResourcesUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 public class PreferencesActivity extends BaseActivity
@@ -59,7 +58,6 @@ public class PreferencesActivity extends BaseActivity
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
-
         preferences.registerOnSharedPreferenceChangeListener(this);
 
         if(savedInstanceState == null) {
@@ -71,28 +69,6 @@ public class PreferencesActivity extends BaseActivity
         }
         showFragment(currentPreferences, currentTitle);
 
-        PreferencesFragment preferencesFragment = (PreferencesFragment)getFragmentManager().findFragmentById(R.id.fragment_container);
-        String[] themeFlavorPair = preferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT).split(":");
-        String appTheme = themeFlavorPair[0], themeFlavorMode = themeFlavorPair[1], themeFlavorPreference = themeFlavorPair[2];
-
-        setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
-
-        if (preferencesFragment.findPreference("appThemeFlavor") != null) {
-            boolean lockFlavor = themeFlavorMode.equals(ThemeUtils.THEME_MODE_ONLY);
-            preferencesFragment.findPreference("appThemeFlavor").setEnabled(!lockFlavor);
-        }
-
-        String flavor = preferences.getString("appThemeFlavor", ThemeUtils.THEME_FLAVOR_DEFAULT);
-        if (flavor.equals(ThemeUtils.THEME_FLAVOR_DEFAULT)) {
-            flavor = themeFlavorPreference;
-
-            preferences.edit()
-                    .putString("appThemeFlavor", flavor)
-                    .apply();
-        }
-
-        // Set theme based on preference
-        setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
     }
 
     public void showFragment(@XmlRes int preferenceId, @StringRes int title) {
@@ -128,32 +104,10 @@ public class PreferencesActivity extends BaseActivity
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key) {
             case "appTheme": {
-                String[] themeFlavorPair = sharedPreferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT).split(":");
-                String appTheme = themeFlavorPair[0];
-
-                setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
-
-                sharedPreferences.edit()
-                        .remove("appThemeFlavor")
-                        .apply();
-            }
-            case "appThemeFlavor": {
-                String[] themeFlavorPair = sharedPreferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT).split(":");
-                String appTheme = themeFlavorPair[0], themeFlavorPreference = themeFlavorPair[2];
-
-                setTheme(ResourcesUtils.getResourceIdentifier(this, "style", appTheme));
-
-                String flavor = sharedPreferences.getString("appThemeFlavor", ThemeUtils.THEME_FLAVOR_DEFAULT);
-                if (flavor.equals(ThemeUtils.THEME_FLAVOR_DEFAULT)) {
-                    flavor = themeFlavorPreference;
-
-                    sharedPreferences.edit()
-                            .putString("appThemeFlavor", flavor)
-                            .apply();
-                }
-                ThemeUtils.setAppNightMode(flavor);
-
+                String theme = sharedPreferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT);
+                ThemeUtils.setAppNightMode(theme);
                 restartActivitiesOnExit = true;
+
                 // recreate() could be used instead, but it doesn't have an animation B).
                 Intent intent = getIntent();
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -163,7 +117,6 @@ public class PreferencesActivity extends BaseActivity
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                break;
             }
             case "statusTextSize": {
                 restartActivitiesOnExit = true;
