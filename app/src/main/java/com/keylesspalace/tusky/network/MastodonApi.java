@@ -40,6 +40,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -81,6 +82,9 @@ public interface MastodonApi {
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
+    @GET("api/v1/notifications")
+    Call<List<Notification>> notificationsWithAuth(
+            @Header("Authorization") String auth);
     @POST("api/v1/notifications/clear")
     Call<ResponseBody> clearNotifications();
     @GET("api/v1/notifications/{id}")

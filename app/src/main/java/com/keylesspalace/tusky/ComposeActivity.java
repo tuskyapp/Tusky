@@ -78,6 +78,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
+import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.entity.Account;
@@ -96,6 +97,7 @@ import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EditTextTyped;
 import com.keylesspalace.tusky.view.ProgressImageView;
+import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 import com.varunest.sparkbutton.helpers.Utils;
 
@@ -448,6 +450,23 @@ public final class ComposeActivity extends BaseActivity
             }
         }
 
+        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+
+        if(activeAccount != null) {
+
+            ImageView composeAvatar = findViewById(R.id.composeAvatar);
+
+            Picasso.with(this).load(activeAccount.getProfilePictureUrl())
+                    .transform(new RoundedTransformation(7, 0))
+                    .error(R.drawable.avatar_default)
+                    .placeholder(R.drawable.avatar_default)
+                    .into(composeAvatar);
+
+            composeAvatar.setContentDescription(
+                    getString(R.string.compose_active_account_description,
+                            activeAccount.getFullName()));
+
+        }
 
     }
 

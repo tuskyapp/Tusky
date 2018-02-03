@@ -68,9 +68,10 @@
     <string name="action_compose">Napisz</string>
     <string name="action_login">Zaloguj z Mastodon</string>
     <string name="action_logout">Wyloguj</string>
-    <string name="action_logout_confirm">Czy chcesz wylogować się?</string>
+
     <string name="action_follow">Śledź</string>
     <string name="action_unfollow">Przestań śledzić</string>
+
     <string name="action_block">Zablokuj</string>
     <string name="action_unblock">Odblokuj</string>
     <string name="action_report">Zgłoś</string>

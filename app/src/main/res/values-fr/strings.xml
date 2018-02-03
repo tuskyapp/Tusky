@@ -93,7 +93,6 @@
     <string name="action_save">Sauvegarder</string>
     <string name="action_edit_profile">Modifier le profil</string>
     <string name="action_accept">Accepter</string>
-    <string name="action_logout_confirm">Voulez-vous vous déconnectez ?</string>
     <string name="action_reject">Rejeter</string>
     <string name="action_undo">Annuler</string>
     <string name="action_view_follow_requests">Demandes de suivi</string>

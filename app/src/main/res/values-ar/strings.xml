@@ -55,7 +55,6 @@
     <string name="action_compose">حرر</string>
     <string name="action_login">التسجيل بواسطة ماستدون</string>
     <string name="action_logout">خروج</string>
-    <string name="action_logout_confirm">هل تود تسجيل الخروج ؟</string>
     <string name="action_follow">إتبع</string>
     <string name="action_unfollow">إلغاء التتبع</string>
     <string name="action_block">قم بحظره</string>

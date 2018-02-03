@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2018 Conny Duck
  *
  * This file is a part of Tusky.
  *
@@ -13,19 +13,19 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.receiver;
+package com.keylesspalace.tusky.db
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.arch.persistence.room.*
 
-public class NotificationClearBroadcastReceiver extends BroadcastReceiver {
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        SharedPreferences notificationPreferences = context.getSharedPreferences("Notifications", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = notificationPreferences.edit();
-        editor.putString("current", "[]");
-        editor.apply();
-    }
+@Dao
+interface AccountDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertOrReplace(account: AccountEntity): Long
+
+    @Delete
+    fun delete(account: AccountEntity)
+
+    @Query("SELECT * FROM AccountEntity ORDER BY id ASC")
+    fun loadAll(): List<AccountEntity>
+
 }

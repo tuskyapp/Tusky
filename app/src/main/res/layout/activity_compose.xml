@@ -16,7 +16,16 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_marginBottom="8dp"
-            android:background="@android:color/transparent" />
+            android:background="@android:color/transparent">
+            <ImageView
+                android:id="@+id/composeAvatar"
+                android:padding="8dp"
+                android:layout_gravity="right|end"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                tools:ignore="ContentDescription" />
+            <!--content description will be set in code -->
+        </android.support.v7.widget.Toolbar>
 
         <TextView
             android:textSize="?attr/status_text_small"

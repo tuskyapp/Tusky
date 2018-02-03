@@ -37,9 +37,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.MainActivity;
+import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
@@ -57,6 +60,7 @@ import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
+import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.List;
 
@@ -79,7 +83,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     /**
-     * Placeholder for the notifications. Consider moving to the separate class to hide constructor
+     * Placeholder for the notificationsEnabled. Consider moving to the separate class to hide constructor
      * and reuse in different places as needed.
      */
     private static final class Placeholder {
@@ -200,7 +204,7 @@ public class NotificationsFragment extends SFragment implements
 
         /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
          * guaranteed to be set until then.
-         * Use a modified scroll listener that both loads more notifications as it goes, and hides
+         * Use a modified scroll listener that both loads more notificationsEnabled as it goes, and hides
          * the compose button on down-scroll. */
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
         preferences.registerOnSharedPreferenceChangeListener(this);
@@ -552,14 +556,13 @@ public class NotificationsFragment extends SFragment implements
                     }
                     update(notifications, fromId, uptoId);
                 }
-                /* Set last update id for pull notifications so that we don't get notified
-                 * about things we already loaded here */
-                getPrivatePreferences().edit()
-                        .putString("lastUpdateId", fromId)
-                        .apply();
+
                 break;
             }
         }
+
+        saveNewestNotificationId(notifications);
+
         fulfillAnyQueuedFetches(fetchEnd);
         if (notifications.size() == 0 && adapter.getItemCount() == 1) {
             adapter.setFooterState(FooterViewHolder.State.EMPTY);
@@ -579,6 +582,29 @@ public class NotificationsFragment extends SFragment implements
         }
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
         fulfillAnyQueuedFetches(fetchEnd);
+    }
+
+    private void saveNewestNotificationId(List<Notification> notifications) {
+        AccountManager accountManager = TuskyApplication.getAccountManager();
+        AccountEntity account = accountManager.getActiveAccount();
+        BigInteger lastNoti = new BigInteger(account.getLastNotificationId());
+
+        for (Notification noti: notifications) {
+            BigInteger a = new BigInteger(noti.id);
+            if(isBiggerThan(a, lastNoti)) {
+                lastNoti = a;
+            }
+        }
+
+        Log.d(TAG, "saving newest noti id: " + lastNoti);
+
+        account.setLastNotificationId(lastNoti.toString());
+        accountManager.saveAccount(account);
+    }
+
+    private boolean isBiggerThan(BigInteger newId, BigInteger lastShownNotificationId) {
+
+        return lastShownNotificationId.compareTo(newId) == - 1;
     }
 
     private void update(@Nullable List<Notification> newNotifications, @Nullable String fromId,

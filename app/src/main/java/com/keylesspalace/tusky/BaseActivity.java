@@ -33,6 +33,7 @@ import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.network.AuthInterceptor;
 import com.keylesspalace.tusky.network.MastodonApi;
@@ -123,19 +124,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         return getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
     }
 
-    protected String getAccessToken() {
-        SharedPreferences preferences = getPrivatePreferences();
-        return preferences.getString("accessToken", null);
-    }
-
-    protected boolean arePushNotificationsEnabled() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return preferences.getBoolean("notificationsEnabled", true);
-    }
-
     protected String getBaseUrl() {
-        SharedPreferences preferences = getPrivatePreferences();
-        return "https://" + preferences.getString("domain", null);
+        AccountEntity account = TuskyApplication.getAccountManager().getActiveAccount();
+        if(account != null) {
+            return "https://" + account.getDomain();
+        } else {
+            return "";
+        }
     }
 
     protected void createMastodonApi() {
@@ -149,7 +144,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         OkHttpClient.Builder okBuilder =
                 OkHttpUtils.getCompatibleClientBuilder(preferences)
-                        .addInterceptor(new AuthInterceptor(this))
+                        .addInterceptor(new AuthInterceptor())
                         .dispatcher(mastodonApiDispatcher);
 
         if (BuildConfig.DEBUG) {
@@ -166,10 +161,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void redirectIfNotLoggedIn() {
-        SharedPreferences preferences = getPrivatePreferences();
-        String domain = preferences.getString("domain", null);
-        String accessToken = preferences.getString("accessToken", null);
-        if (domain == null || accessToken == null) {
+        if (TuskyApplication.getAccountManager().getActiveAccount() == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

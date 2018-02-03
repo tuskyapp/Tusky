@@ -20,23 +20,23 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Spanned;
+import android.util.Log;
 
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobCreator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
-import com.keylesspalace.tusky.network.AuthInterceptor;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.NotificationManager;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashSet;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Response;
@@ -49,7 +49,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class NotificationPullJobCreator implements JobCreator {
 
-    public static final int NOTIFY_ID = 6; // chosen by fair dice roll, guaranteed to be random
+    private static final String TAG = "NotificationPJC";
+
     static final String NOTIFICATIONS_JOB_TAG = "notifications_job_tag";
 
     private Context context;
@@ -62,15 +63,7 @@ public final class NotificationPullJobCreator implements JobCreator {
     @Override
     public Job create(@NonNull String tag) {
         if (tag.equals(NOTIFICATIONS_JOB_TAG)) {
-            SharedPreferences preferences = context.getSharedPreferences(
-                    context.getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-            final String domain = preferences.getString("domain", null);
-
-            if(domain == null) {
-                return null;
-            } else {
-                return new NotificationPullJob(domain, context);
-            }
+            return new NotificationPullJob(context);
         }
         return null;
     }
@@ -80,7 +73,6 @@ public final class NotificationPullJobCreator implements JobCreator {
                 context.getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
 
         OkHttpClient okHttpClient = OkHttpUtils.getCompatibleClientBuilder(preferences)
-                .addInterceptor(new AuthInterceptor(context))
                 .build();
 
         Gson gson = new GsonBuilder()
@@ -98,48 +90,72 @@ public final class NotificationPullJobCreator implements JobCreator {
 
     private final static class NotificationPullJob extends Job {
 
-        @NonNull private MastodonApi mastodonApi;
         private Context context;
 
-        NotificationPullJob(String domain, Context context) {
-            this.mastodonApi = createMastodonApi(domain, context);
+        NotificationPullJob(Context context) {
             this.context = context;
         }
 
         @NonNull
         @Override
         protected Result onRunJob(Params params) {
-            try {
-                Response<List<Notification>> notifications =
-                        mastodonApi.notifications(null, null, null).execute();
-                if (notifications.isSuccessful()) {
-                    onNotificationsReceived(notifications.body());
-                } else {
-                    return Result.FAILURE;
+
+            List<AccountEntity> accountList = new ArrayList<>(TuskyApplication.getAccountManager().getAllAccountsOrderedByActive());
+
+            for(AccountEntity account: accountList) {
+
+                if(account.getNotificationsEnabled()) {
+                    MastodonApi api = createMastodonApi(account.getDomain(), context);
+                    try {
+                        Log.d(TAG, "getting Notifications for "+account.getFullName());
+                        Response<List<Notification>> notifications =
+                                api.notificationsWithAuth(String.format("Bearer %s", account.getAccessToken())).execute();
+                        if (notifications.isSuccessful()) {
+                            onNotificationsReceived(account, notifications.body());
+                        } else {
+                            Log.w(TAG, "error receiving notificationsEnabled");
+                        }
+                    } catch (IOException e) {
+                        Log.w(TAG, "error receiving notificationsEnabled", e);
+                    }
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-                return Result.FAILURE;
+
             }
+
             return Result.SUCCESS;
+
+
         }
 
-        private void onNotificationsReceived(List<Notification> notificationList) {
-            SharedPreferences notificationsPreferences = context.getSharedPreferences(
-                    "Notifications", Context.MODE_PRIVATE);
-            //make a copy of the string set, the returned instance should not be modified
-            Set<String> currentIds = new HashSet<>(notificationsPreferences.getStringSet(
-                    "current_ids", Collections.emptySet()));
-            for (Notification notification : notificationList) {
-                String id = notification.id;
-                if (!currentIds.contains(id)) {
-                    currentIds.add(id);
-                    NotificationManager.make(context, NOTIFY_ID, notification);
+        private void onNotificationsReceived(AccountEntity account, List<Notification> notificationList) {
+
+            BigInteger newId = new BigInteger(account.getLastNotificationId());
+
+            BigInteger newestId = BigInteger.ZERO;
+
+            for(Notification notification: notificationList){
+
+                BigInteger currentId = new BigInteger(notification.id);
+
+                if(isBiggerThan(currentId, newestId)) {
+                    newestId = currentId;
+                }
+
+                if (isBiggerThan(currentId, newId)) {
+                    account.setLastNotificationId(notification.id);
+
+                    NotificationManager.make(context, notification, account);
                 }
             }
-            notificationsPreferences.edit()
-                    .putStringSet("current_ids", currentIds)
-                    .apply();
+
+            account.setLastNotificationId(newestId.toString());
+            TuskyApplication.getAccountManager().saveAccount(account);
+
+        }
+
+        private boolean isBiggerThan(BigInteger newId, BigInteger lastShownNotificationId) {
+
+            return lastShownNotificationId.compareTo(newId) == - 1;
         }
     }
 }

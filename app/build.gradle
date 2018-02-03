@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 27
@@ -49,6 +50,7 @@ dependencies {
     implementation('com.mikepenz:materialdrawer:6.0.4@aar') {
         transitive = true
     }
+    debugCompile 'im.dino:dbinspector:3.4.1@aar'
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support:customtabs:$supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
@@ -72,6 +74,9 @@ dependencies {
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     kapt 'android.arch.persistence.room:compiler:1.0.0'
     testImplementation 'junit:junit:4.12'
+
+    debugImplementation 'im.dino:dbinspector:3.4.1@aar'
+
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

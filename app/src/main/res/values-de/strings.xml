@@ -216,7 +216,6 @@
     <string name="pref_title_show_boosts">Zeige Boosts</string>
     <string name="pref_title_pull_notification_check_interval">Überprüfungsintervall</string>
     <string name="no_content">leer</string>
-    <string name="action_logout_confirm">Willst du dich wirklich ausloggen?</string>
     <string name="action_hide_media">Verstecke Medien</string>
     <string name="pref_title_status_filter">Timeline-Filter</string>
     <string name="title_saved_toot">Gespeicherte Tröts</string>
