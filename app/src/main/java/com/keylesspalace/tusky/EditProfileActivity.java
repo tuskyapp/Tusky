@@ -23,7 +23,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -109,7 +108,7 @@ public class EditProfileActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(getString(R.string.title_edit_profile));
+            actionBar.setTitle(R.string.title_edit_profile);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
         }
@@ -130,39 +129,23 @@ public class EditProfileActivity extends BaseActivity {
             headerBase64 = null;
         }
 
-        avatarButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onMediaPick(PickType.AVATAR);
-            }
-        });
-        headerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onMediaPick(PickType.HEADER);
-            }
-        });
+        avatarButton.setOnClickListener(v -> onMediaPick(PickType.AVATAR));
+        headerButton.setOnClickListener(v -> onMediaPick(PickType.HEADER));
 
-        avatarPreview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                avatarPreview.setImageBitmap(null);
-                avatarPreview.setVisibility(View.INVISIBLE);
-                avatarBase64 = null;
-            }
+        avatarPreview.setOnClickListener(v -> {
+            avatarPreview.setImageBitmap(null);
+            avatarPreview.setVisibility(View.INVISIBLE);
+            avatarBase64 = null;
         });
-        headerPreview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                headerPreview.setImageBitmap(null);
-                headerPreview.setVisibility(View.INVISIBLE);
-                headerBase64 = null;
-            }
+        headerPreview.setOnClickListener(v -> {
+            headerPreview.setImageBitmap(null);
+            headerPreview.setVisibility(View.INVISIBLE);
+            headerBase64 = null;
         });
 
         mastodonApi.accountVerifyCredentials().enqueue(new Callback<Account>() {
             @Override
-            public void onResponse(Call<Account> call, Response<Account> response) {
+            public void onResponse(@NonNull Call<Account> call, @NonNull Response<Account> response) {
                 if (!response.isSuccessful()) {
                     onAccountVerifyCredentialsFailed();
                     return;
@@ -187,7 +170,7 @@ public class EditProfileActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<Account> call, Throwable t) {
+            public void onFailure(@NonNull Call<Account> call, @NonNull Throwable t) {
                 onAccountVerifyCredentialsFailed();
             }
         });
@@ -214,8 +197,7 @@ public class EditProfileActivity extends BaseActivity {
             return;
         }
         currentlyPicking = pickType;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },
@@ -314,7 +296,7 @@ public class EditProfileActivity extends BaseActivity {
         profile.header = headerBase64;
         mastodonApi.accountUpdateCredentials(profile).enqueue(new Callback<Account>() {
             @Override
-            public void onResponse(Call<Account> call, Response<Account> response) {
+            public void onResponse(@NonNull Call<Account> call, @NonNull Response<Account> response) {
                 if (!response.isSuccessful()) {
                     onSaveFailure();
                     return;
@@ -326,7 +308,7 @@ public class EditProfileActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<Account> call, Throwable t) {
+            public void onFailure(@NonNull Call<Account> call, @NonNull Throwable t) {
                 onSaveFailure();
             }
         });

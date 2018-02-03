@@ -116,6 +116,10 @@ public class LinkHelper {
                     };
                     builder.removeSpan(span);
                     builder.setSpan(newSpan, start, end, flags);
+                } else {
+                    ClickableSpan newSpan = new CustomURLSpan(span.getURL());
+                    builder.removeSpan(span);
+                    builder.setSpan(newSpan, start, end, flags);
                 }
             } else {
                 ClickableSpan newSpan = new CustomURLSpan(span.getURL());

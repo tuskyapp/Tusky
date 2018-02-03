@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.util;
 
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -48,7 +47,6 @@ import okhttp3.ConnectionSpec;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 
 public class OkHttpUtils {
     private static final String TAG = "OkHttpUtils"; // logging tag
@@ -108,15 +106,12 @@ public class OkHttpUtils {
      */
     @NonNull
     private static Interceptor getUserAgentInterceptor() {
-        return new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request originalRequest = chain.request();
-                Request requestWithUserAgent = originalRequest.newBuilder()
-                        .header("User-Agent", "Tusky/"+ BuildConfig.VERSION_NAME+" Android/"+Build.VERSION.RELEASE)
-                        .build();
-                return chain.proceed(requestWithUserAgent);
-            }
+        return chain -> {
+            Request originalRequest = chain.request();
+            Request requestWithUserAgent = originalRequest.newBuilder()
+                    .header("User-Agent", "Tusky/"+ BuildConfig.VERSION_NAME+" Android/"+Build.VERSION.RELEASE)
+                    .build();
+            return chain.proceed(requestWithUserAgent);
         };
     }
 
@@ -164,7 +159,7 @@ public class OkHttpUtils {
     }
 
     private static OkHttpClient.Builder enableHigherTlsOnPreLollipop(OkHttpClient.Builder builder) {
-        if (Build.VERSION.SDK_INT >= 16 && Build.VERSION.SDK_INT < 22) {
+        if (Build.VERSION.SDK_INT < 22) {
             try {
                 TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(
                         TrustManagerFactory.getDefaultAlgorithm());
