@@ -19,7 +19,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -36,10 +35,12 @@ import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ReportActivity;
+import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
 import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.ViewVideoActivity;
+import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.Status;
@@ -73,9 +74,11 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences preferences = getPrivatePreferences();
-        loggedInAccountId = preferences.getString("loggedInAccountId", null);
-        loggedInUsername = preferences.getString("loggedInAccountUsername", null);
+        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+        if(activeAccount != null) {
+            loggedInAccountId = activeAccount.getAccountId();
+            loggedInUsername = activeAccount.getUsername();
+        }
     }
 
     @Override
