@@ -66,22 +66,16 @@
     <string name="action_send">TÜLK</string>
     <string name="action_send_public">TÜLK!</string>
     <string name="action_retry">Próbálja újra</string>
-    <string name="action_mark_sensitive">Megjelöl mint kényes tartalom</string>
     <string name="action_hide_text">Szöveg figyelmeztetés mögé helyezése</string>
-    <string name="action_ok">Ok</string>
-    <string name="action_cancel">Mégse</string>
     <string name="action_close">Bezár</string>
-    <string name="action_back">Vissza</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Preferenciák</string>
     <string name="action_view_favourites">Kedvencek</string>
     <string name="action_view_mutes">Némított felhasználók</string>
     <string name="action_view_blocks">Blokkolt felhasználók</string>
     <string name="action_view_follow_requests">Követési kérések</string>
-    <string name="action_view_thread">Tülköléslánc</string>
     <string name="action_view_media">Média</string>
     <string name="action_open_in_web">Megnyitás böngészőben</string>
-    <string name="action_submit">Elküld</string>
     <string name="action_photo_pick">Média hozzácsatolása</string>
     <string name="action_photo_take">Kép készítése</string>
     <string name="action_share">Megoszt</string>
@@ -91,7 +85,6 @@
     <string name="action_hide_media">Média elrejtése</string>
     <string name="action_compose_options">Beállítások</string>
     <string name="action_open_drawer">Drawer megnyitása</string>
-    <string name="action_clear">Tisztázás</string>
     <string name="action_save">Mentés</string>
     <string name="action_edit_profile">Profil szerkesztése</string>
     <string name="action_undo">Visszacsinál</string>
@@ -190,7 +183,6 @@
     <string name="description_account_locked">Fiók lezárva</string>
 
     <string name="about_title_activity">Rólunk</string>
-    <string name="about_application_version">App verzió: %s</string>
     <string name="about_project_site">
         Projekt honlapja:\n
         https://tusky.keylesspalace.com

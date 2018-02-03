@@ -66,20 +66,14 @@
     <string name="action_send">POUET</string>
     <string name="action_send_public">POUET !</string>
     <string name="action_retry">Réessayer</string>
-    <string name="action_mark_sensitive">Définir le média comme sensible.</string>
     <string name="action_hide_text">Masquer le texte par une mise en garde.</string>
-    <string name="action_ok">O.K.</string>
-    <string name="action_cancel">Annuler</string>
     <string name="action_close">Fermer</string>
-    <string name="action_back">Retour</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Préférences</string>
     <string name="action_view_favourites">Favoris</string>
     <string name="action_view_blocks">Utilisateurs bloqués</string>
-    <string name="action_view_thread">Fil</string>
     <string name="action_view_media">Média</string>
     <string name="action_open_in_web">Ouvrir dans votre navigateur</string>
-    <string name="action_submit">Envoyer</string>
     <string name="action_photo_pick">Ajouter un média</string>
     <string name="action_photo_take">Prendre une photo</string>
     <string name="action_share">Partager</string>
@@ -89,7 +83,6 @@
     <!--<string name="action_mark_sensitive">Mark media sensitive</string>-->
     <string name="action_compose_options">Options</string>
     <string name="action_open_drawer">Ouvrir le menu</string>
-    <string name="action_clear">Nettoyer</string>
     <string name="action_save">Sauvegarder</string>
     <string name="action_edit_profile">Modifier le profil</string>
     <string name="action_accept">Accepter</string>
@@ -173,7 +166,6 @@
     <string name="about_title_activity">À propos</string>
     <string name="about_project_site">Site du projet :          https://tusky.keylesspalace.com</string>
     <string name="about_bug_feature_request_site">Rapport de bugs &amp; demande de fonctionnalités :      https://github.com/Vavassor/Tusky/issues</string>
-    <string name="about_application_version">Version : %s</string>
 
 
     <string name="state_follow_requested">Demande effectuée</string>

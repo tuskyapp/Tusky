@@ -70,62 +70,50 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
             //on Android O and newer, launch the system notification settings instead of the app settings
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-                notificationPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-                        Intent intent = new Intent();
-                        intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+                notificationPreferences.setOnPreferenceClickListener(pref -> {
+                    Intent intent = new Intent();
+                    intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
 
-                        intent.putExtra("android.provider.extra.APP_PACKAGE", BuildConfig.APPLICATION_ID);
+                    intent.putExtra("android.provider.extra.APP_PACKAGE", BuildConfig.APPLICATION_ID);
 
-                        startActivity(intent);
-                        return true;
-                    }
+                    startActivity(intent);
+                    return true;
                 });
 
             } else {
-                notificationPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-                        PreferencesActivity activity = (PreferencesActivity) getActivity();
-                        if (activity != null) {
-                            activity.showFragment(R.xml.notification_preferences, R.string.pref_title_edit_notification_settings);
-                        }
-
-                        return true;
+                notificationPreferences.setOnPreferenceClickListener(pref -> {
+                    PreferencesActivity activity = (PreferencesActivity) getActivity();
+                    if (activity != null) {
+                        activity.showFragment(R.xml.notification_preferences, R.string.pref_title_edit_notification_settings);
                     }
+
+                    return true;
                 });
             }
         }
 
         Preference timelineFilterPreferences  = findPreference("timelineFilterPreferences");
         if(timelineFilterPreferences != null) {
-            timelineFilterPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    PreferencesActivity activity = (PreferencesActivity) getActivity();
-                    if (activity != null) {
-                        activity.showFragment(R.xml.timeline_filter_preferences, R.string.pref_title_status_tabs);
-                    }
-
-                    return true;
+            timelineFilterPreferences.setOnPreferenceClickListener(pref -> {
+                PreferencesActivity activity = (PreferencesActivity) getActivity();
+                if (activity != null) {
+                    activity.showFragment(R.xml.timeline_filter_preferences, R.string.pref_title_status_tabs);
                 }
+
+                return true;
             });
         }
 
         Preference httpProxyPreferences  = findPreference("httpProxyPreferences");
         if(httpProxyPreferences != null) {
-            httpProxyPreferences.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    PreferencesActivity activity = (PreferencesActivity) getActivity();
-                    if (activity != null) {
-                        pendingRestart = false;
-                        activity.showFragment(R.xml.http_proxy_preferences, R.string.pref_title_http_proxy_settings);
-                    }
-
-                    return true;
+            httpProxyPreferences.setOnPreferenceClickListener(pref -> {
+                PreferencesActivity activity = (PreferencesActivity) getActivity();
+                if (activity != null) {
+                    pendingRestart = false;
+                    activity.showFragment(R.xml.http_proxy_preferences, R.string.pref_title_http_proxy_settings);
                 }
+
+                return true;
             });
         }
 

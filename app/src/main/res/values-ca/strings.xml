@@ -69,22 +69,16 @@
     <string name="action_send">TOOT</string>
     <string name="action_send_public">TOOT!</string>
     <string name="action_retry">Torna a intentar-ho</string>
-    <string name="action_mark_sensitive">Marca-ho com a contingut sensible</string>
     <string name="action_hide_text">Amaga el text amb un avís</string>
-    <string name="action_ok">D\'acord</string>
-    <string name="action_cancel">Cancel·la</string>
     <string name="action_close">Tanca</string>
-    <string name="action_back">Enrere</string>
     <string name="action_view_profile">Perfil</string>
     <string name="action_view_preferences">Preferències</string>
     <string name="action_view_favourites">Preferits</string>
     <string name="action_view_mutes">Usuaris silenciats</string>
     <string name="action_view_blocks">Usuaris blocats</string>
     <string name="action_view_follow_requests">Peticions de seguiment</string>
-    <string name="action_view_thread">Fil</string>
     <string name="action_view_media">Multimèdia</string>
     <string name="action_open_in_web">Obre al navegador</string>
-    <string name="action_submit">Envia</string>
     <string name="action_photo_pick">Afegeix multimètida</string>
     <string name="action_photo_take">Fes una foto</string>
     <string name="action_share">Comparteix</string>
@@ -94,7 +88,6 @@
     <string name="action_hide_media">Amaga el multimèdia</string>
     <string name="action_compose_options">Opcions</string>
     <string name="action_open_drawer">Open drawer</string>
-    <string name="action_clear">Buida</string>
     <string name="action_save">Desa</string>
     <string name="action_edit_profile">Edita el perfil</string>
     <string name="action_undo">Desfés</string>
@@ -220,7 +213,6 @@
     <string name="description_account_locked">Compte blocat</string>
 
     <string name="about_title_activity">Quant a</string>
-    <string name="about_application_version">Versió: %s</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tusky és programari gratuït, lliure i de codi obert.
         Està llicenciat en els termes de la Llicència Pública General GNU versió 3.

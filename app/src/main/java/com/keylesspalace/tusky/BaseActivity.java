@@ -38,7 +38,6 @@ import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.network.AuthInterceptor;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.OkHttpUtils;
-import com.keylesspalace.tusky.util.ResourcesUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import okhttp3.Dispatcher;

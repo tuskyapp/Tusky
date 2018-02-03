@@ -67,22 +67,16 @@
     <string name="action_send">トゥート</string>
     <string name="action_send_public">トゥート！</string>
     <string name="action_retry">再試行</string>
-    <string name="action_mark_sensitive">閲覧注意としてマークする</string>
     <string name="action_hide_text">テキストを注意書きで隠す</string>
-    <string name="action_ok">OK</string>
-    <string name="action_cancel">キャンセル</string>
     <string name="action_close">閉じる</string>
-    <string name="action_back">戻る</string>
     <string name="action_view_profile">プロフィール</string>
     <string name="action_view_preferences">設定</string>
     <string name="action_view_favourites">お気に入り</string>
     <string name="action_view_mutes">ミュートしたユーザー</string>
     <string name="action_view_blocks">ブロックしたユーザー</string>
     <string name="action_view_follow_requests">フォローリクエスト</string>
-    <string name="action_view_thread">スレッド</string>
     <string name="action_view_media">メディア</string>
     <string name="action_open_in_web">ブラウザで開く</string>
-    <string name="action_submit">決定</string>
     <string name="action_photo_pick">メディアを追加</string>
     <string name="action_photo_take">写真を撮る</string>
     <string name="action_share">共有</string>
@@ -92,7 +86,6 @@
     <string name="action_hide_media">メディアを隠す</string>
     <string name="action_compose_options">オプション</string>
     <string name="action_open_drawer">メニューを開く</string>
-    <string name="action_clear">消去</string>
     <string name="action_save">保存</string>
     <string name="action_edit_profile">プロフィールを編集</string>
     <string name="action_undo">取り消す</string>
@@ -201,7 +194,6 @@
     <string name="description_account_locked">非公開アカウント</string>
 
     <string name="about_title_activity">このアプリについて</string>
-    <string name="about_application_version">アプリのバージョン：%s</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tuskyは無料のオープンソースソフトウェアです。<!--
      -->GNU General Public License Version 3 の下で使用許諾されています。<!--

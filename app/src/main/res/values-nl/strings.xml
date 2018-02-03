@@ -60,22 +60,16 @@
     <string name="action_send">Toot</string>
     <string name="action_send_public">TOOT!</string>
     <string name="action_retry">Opnieuw proberen</string>
-    <string name="action_mark_sensitive">Media als gevoelig markeren</string>
     <string name="action_hide_text">Tekst achter waarschuwing verbergen</string>
-    <string name="action_ok">OK</string>
-    <string name="action_cancel">Annuleren</string>
     <string name="action_close">Sluiten</string>
-    <string name="action_back">Terug</string>
     <string name="action_view_profile">Profiel</string>
     <string name="action_view_preferences">Voorkeuren</string>
     <string name="action_view_favourites">Favorieten</string>
     <string name="action_view_mutes">Genegeerde gebruikers</string>
     <string name="action_view_follow_requests">Volgverzoeken</string>
     <string name="action_view_blocks">Geblokkeerde gebruikers</string>
-    <string name="action_view_thread">Conversatie</string>
     <string name="action_view_media">Media</string>
     <string name="action_open_in_web">Open in webbrowser</string>
-    <string name="action_submit">Opslaan</string>
     <string name="action_photo_pick">Foto of video toevoegen</string>
     <string name="action_photo_take">Foto of video maken</string>
     <string name="action_share">Delen</string>
@@ -85,7 +79,6 @@
     <string name="action_hide_media">Media verbergen</string>
     <string name="action_compose_options">Opties</string>
     <string name="action_open_drawer">Menu openen</string>
-    <string name="action_clear">Leegmaken</string>
     <string name="action_save">Save</string>
     <string name="action_edit_profile">Profiel bewerken</string>
     <string name="action_undo">Ongedaan maken</string>
@@ -173,7 +166,6 @@
     <string name="notification_title_summary">%d nieuwe interacties</string>
     <string name="description_account_locked">Geblokkeerde account</string>
     <string name="about_title_activity">Over</string>
-    <string name="about_application_version">App-versie: %s</string>
     <string name="about_project_site">
         Projectwebsite:\n
         https://tusky.keylesspalace.com

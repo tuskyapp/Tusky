@@ -70,22 +70,16 @@
     <string name="action_send">ТРУБИТЬ</string>
     <string name="action_send_public">ТРУБИТЬ!</string>
     <string name="action_retry">Повторить</string>
-    <string name="action_mark_sensitive">Отметить как чувствительный контент</string>
     <string name="action_hide_text">Скрыть текст за предупреждением</string>
-    <string name="action_ok">ОК</string>
-    <string name="action_cancel">Отмена</string>
     <string name="action_close">Закрыть</string>
-    <string name="action_back">Назад</string>
     <string name="action_view_profile">Профиль</string>
     <string name="action_view_preferences">Настройки</string>
     <string name="action_view_favourites">Понравившееся</string>
     <string name="action_view_mutes">Список глушения</string>
     <string name="action_view_blocks">Список блокировки</string>
     <string name="action_view_follow_requests">Запросы на подписку</string>
-    <string name="action_view_thread">Обсуждение</string>
     <string name="action_view_media">Медиаконтент</string>
     <string name="action_open_in_web">Открыть в браузере</string>
-    <string name="action_submit">Отправить</string>
     <string name="action_photo_pick">Добавить медиаконтент</string>
     <string name="action_photo_take">Сфотографировать</string>
     <string name="action_share">Поделиться</string>
@@ -95,7 +89,6 @@
     <string name="action_hide_media">Скрыть медиаконтент</string>
     <string name="action_compose_options">Опции</string>
     <string name="action_open_drawer">Нарисовать</string>
-    <string name="action_clear">Очистить</string>
     <string name="action_save">Сохранить</string>
     <string name="action_edit_profile">Редактировать профиль</string>
     <string name="action_undo">Отменить</string>
@@ -213,7 +206,6 @@
     <string name="description_account_locked">Закрытый аккаунт</string>
 
     <string name="about_title_activity">О приложении</string>
-    <string name="about_application_version">Версия приложения: %s</string>
     <string name="about_project_site">
         Веб-сайт проекта\n
         https://tusky.keylesspalace.com

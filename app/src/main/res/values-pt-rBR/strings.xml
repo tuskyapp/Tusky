@@ -69,22 +69,16 @@
     <string name="action_send">TOOT</string>
     <string name="action_send_public">TOOT!</string>
     <string name="action_retry">Tentar novamente</string>
-    <string name="action_mark_sensitive">Marcar mídia como sensível</string>
     <string name="action_hide_text">Esconder texto com aviso de conteúdo</string>
-    <string name="action_ok">Ok</string>
-    <string name="action_cancel">Cancelar</string>
     <string name="action_close">Fechar</string>
-    <string name="action_back">Voltar</string>
     <string name="action_view_profile">Perfil</string>
     <string name="action_view_preferences">Preferências</string>
     <string name="action_view_favourites">Favoritos</string>
     <string name="action_view_mutes">Usuários silenciados</string>
     <string name="action_view_blocks">Usuários bloqueados</string>
     <string name="action_view_follow_requests">Solicitações de seguidor</string>
-    <string name="action_view_thread">Sequência</string>
     <string name="action_view_media">Mídia</string>
     <string name="action_open_in_web">Abrir no navegador</string>
-    <string name="action_submit">Enviar</string>
     <string name="action_photo_pick">Adicionar mídia</string>
     <string name="action_photo_take">Tirar foto</string>
     <string name="action_share">Compartilhar</string>
@@ -94,7 +88,6 @@
     <string name="action_hide_media">Esconder mídia</string>
     <string name="action_compose_options">Opções</string>
     <string name="action_open_drawer">Abrir gaveta</string>
-    <string name="action_clear">Limpar</string>
     <string name="action_save">Salvar</string>
     <string name="action_edit_profile">Editar perfil</string>
     <string name="action_undo">Desfazer</string>
@@ -193,7 +186,6 @@
     <string name="description_account_locked">Conta trancada</string>
 
     <string name="about_title_activity">Sobre</string>
-    <string name="about_application_version">Versão: %s</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tusky é um software gratuito e de código aberto.
        Ele é licenciado sob a versão 3 da Licença Pública Geral GNU.

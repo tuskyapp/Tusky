@@ -36,7 +36,6 @@ import com.keylesspalace.tusky.entity.AppCredentials
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.CustomTabsHelper
 import com.keylesspalace.tusky.util.OkHttpUtils
-import com.keylesspalace.tusky.util.ResourcesUtils
 import com.keylesspalace.tusky.util.ThemeUtils
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call

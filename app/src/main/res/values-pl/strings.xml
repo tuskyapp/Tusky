@@ -79,22 +79,16 @@
     <string name="action_send">Wyślij</string>
     <string name="action_send_public">Wyślij!</string>
     <string name="action_retry">Spróbuj ponownie</string>
-    <string name="action_mark_sensitive">Oznacz wrażliwe treści</string>
     <string name="action_hide_text">Ukryj tekst przed ostrzeżeniem</string>
-    <string name="action_ok">OK</string>
-    <string name="action_cancel">Anuluj</string>
     <string name="action_close">Zamknij</string>
-    <string name="action_back">Wróć</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Preferencje</string>
     <string name="action_view_favourites">Ulubione</string>
     <string name="action_view_mutes">Wyciszeni użytkownicy</string>
     <string name="action_view_blocks">Zablokowani użytkownicy</string>
     <string name="action_view_follow_requests">Prośby o możliwość śledzenia</string>
-    <string name="action_view_thread">Wątek</string>
     <string name="action_view_media">Treści multimedialne</string>
     <string name="action_open_in_web">Otwórz w przeglądarce</string>
-    <string name="action_submit">Wyślij</string>
     <string name="action_photo_pick">Dodaj treści multimedialne</string>
     <string name="action_photo_take">Wykonaj zdjęcie</string>
     <string name="action_share">Udostępnij</string>
@@ -104,7 +98,6 @@
     <string name="action_hide_media">Ukryj zawartość multimedialną</string>
     <string name="action_compose_options">Opcje</string>
     <string name="action_open_drawer">Otwórz szufladę</string>
-    <string name="action_clear">Wyczyść</string>
     <string name="action_save">Zapisz</string>
     <string name="action_edit_profile">Edytuj profil</string>
     <string name="action_undo">Cofnij</string>
@@ -252,7 +245,6 @@
     <string name="about_title_activity">O programie</string>
     <string name="about_tusky_license">Tusky jest wolnym i otwartoźródłowym oprogramowaniem. Jest dostępny na licencji GNU General Public License w wersji trzeciej. Możesz przeczytać treść licencji tutaj: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- It would be nice to change the link to link to Polish translation of GPLv3… -->
-    <string name="about_application_version">Wersja aplikacji: %s</string>
     <string name="about_project_site">
         Strona projektu:\n
         https://tusky.keylesspalace.com
