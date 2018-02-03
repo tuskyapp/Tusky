@@ -408,12 +408,12 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
             return true;
         }
         //change Account
-        accountChanged(profile.getIdentifier());
+        changeAccount(profile.getIdentifier());
         return false;
     }
 
 
-    private void accountChanged(long newSelectedId) {
+    private void changeAccount(long newSelectedId) {
         TuskyApplication.getAccountManager().setActiveAccount(newSelectedId);
 
         Intent intent = new Intent(this, MainActivity.class);

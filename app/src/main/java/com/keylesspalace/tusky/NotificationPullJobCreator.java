@@ -131,7 +131,7 @@ public final class NotificationPullJobCreator implements JobCreator {
 
             BigInteger newId = new BigInteger(account.getLastNotificationId());
 
-            BigInteger newestId = new BigInteger("0");
+            BigInteger newestId = BigInteger.ZERO;
 
             for(Notification notification: notificationList){
 

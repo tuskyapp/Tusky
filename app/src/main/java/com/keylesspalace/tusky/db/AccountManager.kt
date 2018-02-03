@@ -26,7 +26,7 @@ import com.keylesspalace.tusky.entity.Account
 
 class AccountManager {
 
-    var activeAccount: AccountEntity? = null
+    @Volatile var activeAccount: AccountEntity? = null
 
     private var accounts: MutableList<AccountEntity> = mutableListOf()
     private val accountDao: AccountDao = TuskyApplication.getDB().accountDao()
@@ -55,7 +55,7 @@ class AccountManager {
             accountDao.insertOrReplace(it)
         }
 
-        activeAccount = AccountEntity(0, domain, "", "", accessToken, "", "", true)
+        activeAccount = AccountEntity(id = 0, domain = domain, accessToken = accessToken, isActive = true)
 
     }
 

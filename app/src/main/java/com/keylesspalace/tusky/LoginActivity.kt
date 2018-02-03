@@ -97,7 +97,7 @@ class LoginActivity : AppCompatActivity() {
             textView.movementMethod = LinkMovementMethod.getInstance()
         }
 
-        if(getMode()) {
+        if(isAdditionalLogin()) {
             setSupportActionBar(toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -162,6 +162,7 @@ class LoginActivity : AppCompatActivity() {
             override fun onFailure(call: Call<AppCredentials>, t: Throwable) {
                 loginButton.isEnabled = true
                 domainEditText.error = getString(R.string.error_failed_app_registration)
+                setLoading(false)
                 Log.e(TAG, Log.getStackTraceString(t))
             }
         }
@@ -197,6 +198,7 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(viewIntent)
             } else {
                 editText.error = getString(R.string.error_no_web_browser_found)
+                setLoading(false)
             }
         }
     }
@@ -266,10 +268,13 @@ class LoginActivity : AppCompatActivity() {
                         getString(R.string.error_authorization_denied),
                         error))
             } else {
-                setLoading(false)
                 // This case means a junk response was received somehow.
+                setLoading(false)
                 domainEditText.error = getString(R.string.error_authorization_unknown)
             }
+        } else {
+            // first show or user cancelled login
+            setLoading(false)
         }
     }
 
@@ -284,7 +289,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun getMode() : Boolean {
+    private fun isAdditionalLogin() : Boolean {
         return intent.getBooleanExtra(LOGIN_MODE, false)
     }
 
@@ -362,7 +367,7 @@ class LoginActivity : AppCompatActivity() {
                     customTabsIntent.launchUrl(context, uri)
                 }
             } catch (e: ActivityNotFoundException) {
-                Log.w("URLSpan", "Activity was not found for intent, " + customTabsIntent.toString())
+                Log.w(TAG, "Activity was not found for intent, " + customTabsIntent.toString())
                 return false
             }
 
