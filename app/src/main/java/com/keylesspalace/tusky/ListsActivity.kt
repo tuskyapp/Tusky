@@ -169,13 +169,10 @@ class ListsActivity : BaseActivity(), ListsView {
                     .let(this::ListViewHolder)
                     .apply {
                         val context = nameTextView.context
-                        val icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_list)
-                        val size = Utils.dpToPx(context, 20)
+                        val icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_list).sizeDp(20)
+
                         ThemeUtils.setDrawableTint(context, icon, android.R.attr.textColorTertiary)
-                        icon.setBounds(0, 0, size, size)
-                        nameTextView.compoundDrawablePadding = Utils.dpToPx(context, 8)
-                        TextViewCompat.setCompoundDrawablesRelative(
-                                nameTextView, icon, null, null, null)
+                        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(nameTextView, icon, null, null, null)
                     }
         }
 

@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_name_textview"
     android:layout_width="match_parent"
     android:layout_height="60dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     android:background="?selectableItemBackground"
-    android:clickable="true">
-
-    <TextView
-        android:id="@+id/list_name_textview"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:textSize="?attr/status_text_medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Example list" />
-</android.support.constraint.ConstraintLayout>
+    android:drawablePadding="8dp"
+    android:gravity="center_vertical"
+    android:textSize="?attr/status_text_medium"
+    tools:text="Example list" />
