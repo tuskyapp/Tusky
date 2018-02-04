@@ -171,8 +171,8 @@
     <string name="pref_title_proxy_settings">Прокси</string>
     <string name="pref_title_http_proxy_settings">HTTP прокси</string>
     <string name="pref_title_http_proxy_enable">Включить HTTP прокси</string>
-    <string name="pref_title_http_proxy_server">HTTP прокси-сервер</string>
-    <string name="pref_title_http_proxy_port">порт</string>
+    <string name="pref_title_http_proxy_server">Адрес сервера</string>
+    <string name="pref_title_http_proxy_port">Порт</string>
 
     <string-array name="pull_notification_check_interval_names">
         <item>15 минут</item>
