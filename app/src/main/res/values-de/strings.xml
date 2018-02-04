@@ -243,7 +243,7 @@
     <string name="pref_title_http_proxy_enable">HTTP-Proxy aktivieren</string>
     <string name="action_lists">Listen</string>
     <string name="title_lists">Listen</string>
-    <string name="title_list_timeline">List</string>
+    <string name="title_list_timeline">Liste</string>
     <string name="action_remove_media">entfernen</string>
     <string name="hint_describe_for_visually_impaired">Beschreibung für Menschen mit Sehbehinderung</string>
     <string name="action_set_caption">Beschreibung eingeben</string>
