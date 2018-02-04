@@ -64,22 +64,16 @@
     <string name="action_send">تبويق</string>
     <string name="action_send_public">بوّق</string>
     <string name="action_retry">إعادة المحاولة</string>
-    <string name="action_mark_sensitive">ضع علامة على الوسيط باعتباره حسّاس</string>
     <string name="action_hide_text">اخفي النص وراء تحذير</string>
-    <string name="action_ok">موافق</string>
-    <string name="action_cancel">إلغاء</string>
     <string name="action_close">إغلاق</string>
-    <string name="action_back">عودة</string>
     <string name="action_view_profile">الملف الشخصي</string>
     <string name="action_view_preferences">التفضيلات</string>
     <string name="action_view_favourites">المفضلة</string>
     <string name="action_view_mutes">المستخدمون المكتومون</string>
     <string name="action_view_blocks">المستخدمون المحظورون</string>
     <string name="action_view_follow_requests">طلبات المتابعة</string>
-    <string name="action_view_thread">الخيط</string>
     <string name="action_view_media">وسائط</string>
     <string name="action_open_in_web">إفتح في متصفح</string>
-    <string name="action_submit">ارسل</string>
     <string name="action_photo_pick">إضافة وسائط</string>
     <string name="action_photo_take">أخذ صورة</string>
     <string name="action_share">شارك</string>
@@ -89,7 +83,6 @@
     <string name="action_hide_media">إخفاء الوسائط</string>
     <string name="action_compose_options">خيارات</string>
     <string name="action_open_drawer">إفتح الدرج</string>
-    <string name="action_clear">إمسح</string>
     <string name="action_save">إحفظ</string>
     <string name="action_edit_profile">تعديل الملف الشخصي</string>
     <string name="action_undo">إلغاء</string>
@@ -209,7 +202,6 @@
     <string name="description_account_locked">حساب مقفل</string>
 
     <string name="about_title_activity">عن التطبيق</string>
-    <string name="about_application_version">الإصدار : %s</string>
     <string name="about_tusky_version">توسكي %s</string>
     <string name="about_tusky_license">Tuksy برنامج حر و مفتوح المصدر.
         مطور تحت رخصة GNU General Public License Version 3.
