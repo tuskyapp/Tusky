@@ -55,9 +55,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        redirectIfNotLoggedIn();
-        createMastodonApi();
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         /* There isn't presently a way to globally change the theme of a whole application at
@@ -81,6 +78,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         }
         getTheme().applyStyle(style, false);
+
+        if(redirectIfNotLoggedIn()) {
+            return;
+        }
+        createMastodonApi();
 
     }
 
@@ -152,13 +154,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         mastodonApi = retrofit.create(MastodonApi.class);
     }
 
-    protected void redirectIfNotLoggedIn() {
+    protected boolean redirectIfNotLoggedIn() {
         if (TuskyApplication.getAccountManager().getActiveAccount() == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
+            return true;
         }
+        return false;
     }
 
     @Override
