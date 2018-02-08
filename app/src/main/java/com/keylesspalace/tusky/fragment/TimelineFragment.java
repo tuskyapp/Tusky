@@ -189,6 +189,12 @@ public class TimelineFragment extends SFragment implements
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         recyclerView.setAdapter(adapter);
 
+        boolean filter = preferences.getBoolean("tabFilterHomeReplies", true);
+        filterRemoveReplies = kind == Kind.HOME && !filter;
+
+        filter = preferences.getBoolean("tabFilterHomeBoosts", true);
+        filterRemoveReblogs = kind == Kind.HOME && !filter;
+
         timelineReceiver = new TimelineReceiver(this, this);
         LocalBroadcastManager.getInstance(context.getApplicationContext())
                 .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(kind));
