@@ -67,12 +67,6 @@ class AccountManager {
     fun saveAccount(account: AccountEntity) {
         if(account.id != 0L) {
             Log.d("AccountManager", "saving account with id "+account.id)
-            val index = accounts.indexOf(account)
-            if (index != -1) {
-                accounts.removeAt(index)
-                accounts.add(account)
-            }
-
             accountDao.insertOrReplace(account)
         }
 
@@ -117,8 +111,6 @@ class AccountManager {
 
             Log.d("AccountManager",  "id before save "+it.id)
             it.id = accountDao.insertOrReplace(it)
-            Log.d("AccountManager",  "id after save "+it.id)
-
 
             val accountIndex = accounts.indexOf(it)
 
@@ -172,7 +164,7 @@ class AccountManager {
     /**
      * @return true if at least one account has notifications enabled
      */
-    fun notificationsEnabled(): Boolean {
+    fun areNotificationsEnabled(): Boolean {
         return accounts.any { it.notificationsEnabled }
     }
 

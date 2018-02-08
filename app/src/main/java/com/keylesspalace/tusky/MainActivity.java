@@ -42,7 +42,7 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
-import com.keylesspalace.tusky.util.NotificationManager;
+import com.keylesspalace.tusky.util.NotificationHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -96,9 +96,9 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         Intent intent = getIntent();
 
         int tabPosition = 0;
-        
+
         if (intent != null) {
-            long accountId = intent.getLongExtra(NotificationManager.ACCOUNT_ID, -1);
+            long accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1);
 
             if(accountId != -1) {
                 // user clicked a notification, show notification tab and switch user if necessary
@@ -181,7 +181,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                 tintTab(tab, true);
 
                 if(tab.getPosition() == 1) {
-                    NotificationManager.clearNotificationsForActiveAccount(MainActivity.this);
+                    NotificationHelper.clearNotificationsForActiveAccount(MainActivity.this);
                 }
             }
 
@@ -199,7 +199,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         }
 
         // Setup push notifications
-        if (TuskyApplication.getAccountManager().notificationsEnabled()) {
+        if (NotificationHelper.areNotificationsEnabled(this)) {
             enablePushNotifications();
         } else {
             disablePushNotifications();
@@ -212,7 +212,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     protected void onResume() {
         super.onResume();
 
-        NotificationManager.clearNotificationsForActiveAccount(this);
+        NotificationHelper.clearNotificationsForActiveAccount(this);
 
         /* After editing a profile, the profile header in the navigation drawer needs to be
          * refreshed */
@@ -437,11 +437,11 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
                         AccountManager accountManager = TuskyApplication.getAccountManager();
 
-                        NotificationManager.deleteNotificationChannelsForAccount(accountManager.getActiveAccount(), MainActivity.this);
+                        NotificationHelper.deleteNotificationChannelsForAccount(accountManager.getActiveAccount(), MainActivity.this);
 
                         AccountEntity newAccount = accountManager.logActiveAccountOut();
 
-                        if (!accountManager.notificationsEnabled()) disablePushNotifications();
+                        if (!accountManager.areNotificationsEnabled()) disablePushNotifications();
 
                         Intent intent;
                         if (newAccount == null) {
@@ -490,7 +490,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
         am.updateActiveAccount(me);
 
-        NotificationManager.createNotificationChannelsForAccount(am.getActiveAccount(), this);
+        NotificationHelper.createNotificationChannelsForAccount(am.getActiveAccount(), this);
 
         List<AccountEntity> allAccounts = am.getAllAccountsOrderedByActive();
 
