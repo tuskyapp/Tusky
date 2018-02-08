@@ -456,11 +456,15 @@ public final class ComposeActivity extends BaseActivity
 
             ImageView composeAvatar = findViewById(R.id.composeAvatar);
 
-            Picasso.with(this).load(activeAccount.getProfilePictureUrl())
-                    .transform(new RoundedTransformation(7, 0))
-                    .error(R.drawable.avatar_default)
-                    .placeholder(R.drawable.avatar_default)
-                    .into(composeAvatar);
+            if(TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
+                composeAvatar.setImageResource(R.drawable.avatar_default);
+            } else {
+                Picasso.with(this).load(activeAccount.getProfilePictureUrl())
+                        .transform(new RoundedTransformation(7, 0))
+                        .error(R.drawable.avatar_default)
+                        .placeholder(R.drawable.avatar_default)
+                        .into(composeAvatar);
+            }
 
             composeAvatar.setContentDescription(
                     getString(R.string.compose_active_account_description,
