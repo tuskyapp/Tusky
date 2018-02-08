@@ -441,7 +441,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
                         AccountEntity newAccount = accountManager.logActiveAccountOut();
 
-                        if (!accountManager.areNotificationsEnabled()) disablePushNotifications();
+                        if (!NotificationHelper.areNotificationsEnabled(MainActivity.this)) disablePushNotifications();
 
                         Intent intent;
                         if (newAccount == null) {
