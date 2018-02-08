@@ -70,7 +70,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/account_follows_you"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
                         app:layout_constraintEnd_toEndOf="@id/follow_btn"
                         app:layout_constraintTop_toBottomOf="@id/follow_btn" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/account_display_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
                         app:layout_constraintTop_toBottomOf="@id/account_avatar"
                         tools:text="Tusky Mastodon Client" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/account_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
                         app:srcCompat="@drawable/reblog_disabled_light"
                         tools:visibility="visible" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/account_note"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                         app:layout_constraintTop_toBottomOf="@id/account_username"
                         tools:text="This is a test description" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/followers_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -145,7 +145,7 @@
                         app:layout_constraintTop_toBottomOf="@id/account_note"
                         tools:text="3000 Followers" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/following_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -158,7 +158,7 @@
                         app:layout_constraintTop_toTopOf="@id/followers_tv"
                         tools:text="500 Following" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/statuses_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

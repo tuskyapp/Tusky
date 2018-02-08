@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/report_status_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

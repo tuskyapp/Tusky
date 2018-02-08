@@ -57,6 +57,7 @@ dependencies {
     implementation "com.android.support:support-v13:$supportLibraryVersion"
     implementation "com.android.support:design:$supportLibraryVersion"
     implementation "com.android.support:exifinterface:$supportLibraryVersion"
+    implementation "com.android.support:support-emoji:$supportLibraryVersion"
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'

@@ -56,7 +56,7 @@
                     android:text="@string/action_login"
                     android:textColor="@android:color/white" />
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/whatsAnInstanceTextView"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center" />
 
-                <TextView
+                <android.support.text.emoji.widget.EmojiTextView
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
