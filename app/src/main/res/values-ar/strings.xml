@@ -5,18 +5,24 @@
     <string name="error_invalid_domain">اسم النطاق غير صالح</string>
     <string name="error_failed_app_registration">اخفقت المصادقة مع مثيل الخادم هذا.</string>
     <string name="error_no_web_browser_found">لم يتم العثور على متصفح قابل للإستعمال.</string>
+    <string name="error_authorization_unknown">لقد وقع هناك خطأ مجهول في التصريح.</string>
     <string name="error_authorization_denied">تم رفض التصريح.</string>
     <string name="error_retrieving_oauth_token">فشل الحصول على رمز الدخول.</string>
     <string name="error_compose_character_limit">المنشور طويل جدا !</string>
     <string name="error_media_upload_size">يجب أن يكون حجم الملف أقل من 4 ميغابايت.</string>
     <string name="error_media_upload_type">لا يمكن رفع هذا النوع من الملفات.</string>
     <string name="error_media_upload_opening">تعذر فتح ذاك الملف.</string>
+    <string name="error_media_upload_permission">التصريح لازم لقراءة الوسائط</string>
+    <string name="error_media_download_permission">التصريح لازم للإحتفاظ بالوسائط.</string>
     <string name="error_media_upload_image_or_video">لا يمكنك إرفاق كلا من الصور و الفيديوهات في نفس المنشور.</string>
     <string name="error_media_upload_sending">اخفقت عملية الرفع.</string>
+    <string name="error_report_too_few_statuses">يجب على الأقل اختيار منشور واحد للإبلاغ عنه.</string>
+
     <string name="title_home">الرئيسية</string>
     <string name="title_notifications">الاشعارات</string>
     <string name="title_public_local">المحلية</string>
     <string name="title_public_federated">الفدرالية</string>
+    <string name="title_view_thread">بَوِّق</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">المشاركات</string>
     <string name="title_follows">المتابَعون</string>
@@ -55,6 +61,7 @@
     <string name="action_compose">حرر</string>
     <string name="action_login">التسجيل بواسطة ماستدون</string>
     <string name="action_logout">خروج</string>
+    <string name="action_logout_confirm">متأكد مِن أنك تود الخروج من الحساب %1$s ؟</string>
     <string name="action_follow">إتبع</string>
     <string name="action_unfollow">إلغاء التتبع</string>
     <string name="action_block">قم بحظره</string>
@@ -124,6 +131,8 @@
     <string name="dialog_download_image">تنزيل</string>
     <string name="dialog_message_follow_request">طلب المتابعة معلق : في إنتظار الرد</string>
     <string name="dialog_unfollow_warning">هل تود إلغاء متابعة هذا الحساب ؟</string>
+    <string name="dialog_reply_not_found">تعذرت عملية إرسال هذا المنشور. إنّ المنشور الذي تود الرد عليه غير متوفر. هل تود حذف نص الرد ؟</string>
+
     <string name="visibility_public">عمومي : ينشر على الخيوط العمومية</string>
     <string name="visibility_unlisted">غير مدرج : لا يُعرَض على الخيوط العمومية</string>
     <string name="visibility_private">لمتابعيك فقط : يُنشر إلى متابعيك فقط</string>
@@ -132,6 +141,7 @@
     <string name="pref_title_notification_settings">الاشعارات</string>
     <string name="pref_title_edit_notification_settings">تعديل الاشعارات</string>
     <string name="pref_title_notifications_enabled">الإخطارات</string>
+    <string name="pref_summary_notifications">للحساب %1$s</string>
     <string name="pref_title_pull_notification_check_interval">مدة تحديث التحميل</string>
     <string name="pref_title_notification_alerts">التنبيهات</string>
     <string name="pref_title_notification_alert_sound">إعلام بالصوت</string>
@@ -143,6 +153,14 @@
     <string name="pref_title_notification_filter_reblogs">تُرقّى منشوراتي</string>
     <string name="pref_title_notification_filter_favourites">يعجب أحد ما بمنشوراتي</string>
     <string name="pref_title_appearance_settings">المظهر</string>
+    <string name="pref_title_app_theme">سمة التطبيق</string>
+
+    <string-array name="app_theme_names">
+        <item>داكنة</item>
+        <item>فاتحة</item>
+        <item>تلقائي عند الغروب</item>
+    </string-array>
+
     <string name="pref_title_browser_settings">المتصفح</string>
     <string name="pref_title_custom_tabs">إخفاء زر المتابعة أثناء تمرير الصفحة</string>
     <string name="pref_title_hide_follow_button">إخفاء زر التحرير عند التمرير</string>
@@ -150,6 +168,7 @@
     <string name="pref_title_status_tabs">الألسنة</string>
     <string name="pref_title_show_boosts">عرض الترقيات</string>
     <string name="pref_title_show_replies">عرض الردود</string>
+    <string name="pref_title_show_media_preview">إظهار معاينات الوسائط</string>
     <string name="pref_title_proxy_settings">البروكسي</string>
     <string name="pref_title_http_proxy_settings">بروكسي HTTP</string>
     <string name="pref_title_http_proxy_enable">تفعيل بروكسي HTTP</string>
@@ -190,7 +209,7 @@
     <string name="notification_channel_boost_name">الترقيات</string>
     <string name="notification_channel_boost_description">إخطارات عندما يقوم أحدهم بترقية تبويقاتي</string>
     <string name="notification_channel_favourite_name">المفضلة</string>
-    <string name="notification_channel_favourite_description">إخطارات كلما قام أحدهم بالإعجاب بتبويقاتي</string>
+    <string name="notification_channel_favourite_description">الإشعار عندما يقوم أحدهم بإضافة تبويقاتك إلى مفضلاته</string>
 
 
     <string name="notification_mention_format">%s أشار إليك</string>
@@ -233,16 +252,30 @@
     <string name="abbreviated_in_hours">في %dh</string>
     <string name="abbreviated_in_minutes">في %dm</string>
     <string name="abbreviated_in_seconds">في %ds</string>
-    <string name="abbreviated_years_ago">%d س</string>
+    <string name="abbreviated_years_ago">%dس</string>
     <string name="abbreviated_days_ago">%dأيام</string>
     <string name="abbreviated_hours_ago">%dسا</string>
-    <string name="abbreviated_minutes_ago">%d د</string>
+    <string name="abbreviated_minutes_ago">%dد</string>
     <string name="abbreviated_seconds_ago">%dثا</string>
 
     <string name="follows_you">يتبعك الآن</string>
+    <string name="pref_title_alway_show_sensitive_media">أظهر دائما المحتوى الحساس</string>
     <string name="title_media">الوسائط</string>
     <string name="replying_to">ردًا على @%s</string>
     <string name="load_more_placeholder_text">حمِّل المزيد</string>
 
+    <string name="add_account_name">إضافة حساب</string>
+    <string name="add_account_description">إضافة حساب ماستدون جديد</string>
+
+    <string name="action_lists">القوائم</string>
+    <string name="title_lists">القوائم</string>
+    <string name="title_list_timeline">الخط الزمني للقائمة</string>
+
+    <string name="compose_active_account_description">النشر بواسطة حساب %1$s</string>
+
+    <string name="error_failed_set_caption">تعذرت عملية إضافة الشرح</string>
+    <string name="hint_describe_for_visually_impaired">وصف للمعاقين بصريًا</string>
+    <string name="action_set_caption">إضافة شرح</string>
+    <string name="action_remove_media">حذف</string>
 
 </resources>
