@@ -19,7 +19,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -46,6 +45,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
@@ -128,9 +128,6 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         }
         loadedAccount = null;
 
-        SharedPreferences preferences = getPrivatePreferences();
-        String loggedInAccountId = preferences.getString("loggedInAccountId", null);
-
         // Setup the toolbar.
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -194,14 +191,14 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
 
         // Obtain information to fill out the profile.
         obtainAccount();
-        if (!accountId.equals(loggedInAccountId)) {
+
+        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+
+        if (accountId.equals(activeAccount.getAccountId())) {
+            isSelf = true;
+        } else {
             isSelf = false;
             obtainRelationships();
-        } else {
-            /* Cause the options menu to update and instead show an options menu for when the
-             * account being shown is their own account. */
-            isSelf = true;
-            invalidateOptionsMenu();
         }
 
         // Setup the tabs and timeline pager.
@@ -222,44 +219,33 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         viewPager.setOffscreenPageLimit(0);
         tabLayout.setupWithViewPager(viewPager);
 
-        View.OnClickListener accountListClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AccountListActivity.Type type;
-                switch (v.getId()) {
-                    case R.id.followers_tv:
-                        type = AccountListActivity.Type.FOLLOWERS;
-                        break;
-                    case R.id.following_tv:
-                        type = AccountListActivity.Type.FOLLOWING;
-                        break;
-                    default:
-                        throw new AssertionError();
-                }
-                Intent intent = AccountListActivity.newIntent(AccountActivity.this, type,
-                        accountId);
-                startActivity(intent);
+        View.OnClickListener accountListClickListener = v -> {
+            AccountListActivity.Type type;
+            switch (v.getId()) {
+                case R.id.followers_tv:
+                    type = AccountListActivity.Type.FOLLOWERS;
+                    break;
+                case R.id.following_tv:
+                    type = AccountListActivity.Type.FOLLOWING;
+                    break;
+                default:
+                    throw new AssertionError();
             }
+            Intent intent = AccountListActivity.newIntent(AccountActivity.this, type,
+                    accountId);
+            startActivity(intent);
         };
         followersTextView.setOnClickListener(accountListClickListener);
         followingTextView.setOnClickListener(accountListClickListener);
 
-        statusesTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Make nice ripple effect on tab
+        statusesTextView.setOnClickListener(v -> {
+            // Make nice ripple effect on tab
 
-                //noinspection ConstantConditions
-                tabLayout.getTabAt(0).select();
-                final View poorTabView = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0);
-                poorTabView.setPressed(true);
-                tabLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        poorTabView.setPressed(false);
-                    }
-                }, 300);
-            }
+            //noinspection ConstantConditions
+            tabLayout.getTabAt(0).select();
+            final View poorTabView = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0);
+            poorTabView.setPressed(true);
+            tabLayout.postDelayed(() -> poorTabView.setPressed(false), 300);
         });
     }
 
@@ -354,12 +340,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
 
     private void onObtainAccountFailure() {
         Snackbar.make(tabLayout, R.string.error_generic, Snackbar.LENGTH_LONG)
-                .setAction(R.string.action_retry, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        obtainAccount();
-                    }
-                })
+                .setAction(R.string.action_retry, v -> obtainAccount())
                 .show();
     }
 
@@ -409,15 +390,15 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     private void updateFollowButton(Button button) {
         switch (followState) {
             case NOT_FOLLOWING: {
-                button.setText(getString(R.string.action_follow));
+                button.setText(R.string.action_follow);
                 break;
             }
             case REQUESTED: {
-                button.setText(getString(R.string.state_follow_requested));
+                button.setText(R.string.state_follow_requested);
                 break;
             }
             case FOLLOWING: {
-                button.setText(getString(R.string.action_unfollow));
+                button.setText(R.string.action_unfollow);
                 break;
             }
         }
@@ -432,32 +413,24 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
 
             updateFollowButton(followBtn);
 
-            floatingBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mention();
-                }
-            });
+            floatingBtn.setOnClickListener(v -> mention());
 
-            followBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switch (followState) {
-                        case NOT_FOLLOWING: {
-                            follow(accountId);
-                            break;
-                        }
-                        case REQUESTED: {
-                            showFollowRequestPendingDialog();
-                            break;
-                        }
-                        case FOLLOWING: {
-                            showUnfollowWarningDialog();
-                            break;
-                        }
+            followBtn.setOnClickListener(v -> {
+                switch (followState) {
+                    case NOT_FOLLOWING: {
+                        follow(accountId);
+                        break;
                     }
-                    updateFollowButton(followBtn);
+                    case REQUESTED: {
+                        showFollowRequestPendingDialog();
+                        break;
+                    }
+                    case FOLLOWING: {
+                        showUnfollowWarningDialog();
+                        break;
+                    }
                 }
+                updateFollowButton(followBtn);
             });
         } else {
             floatingBtn.hide();
@@ -560,47 +533,25 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     }
 
     private void onFollowFailure(final String id) {
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                follow(id);
-            }
-        };
+        View.OnClickListener listener = v -> follow(id);
         Snackbar.make(container, R.string.error_generic, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_retry, listener)
                 .show();
     }
 
     private void showFollowRequestPendingDialog() {
-        DialogInterface.OnClickListener waitListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        };
         new AlertDialog.Builder(this)
                 .setMessage(R.string.dialog_message_follow_request)
-                .setPositiveButton(android.R.string.ok, waitListener)
+                .setPositiveButton(android.R.string.ok, null)
                 .show();
     }
 
     private void showUnfollowWarningDialog() {
-        DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        };
-        DialogInterface.OnClickListener unfollowListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                follow(accountId);
-            }
-        };
+        DialogInterface.OnClickListener unfollowListener = (dialogInterface, i) -> follow(accountId);
         new AlertDialog.Builder(this)
                 .setMessage(R.string.dialog_unfollow_warning)
                 .setPositiveButton(android.R.string.ok, unfollowListener)
-                .setNegativeButton(android.R.string.cancel, cancelListener)
+                .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
 
@@ -632,12 +583,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     }
 
     private void onBlockFailure(final String id) {
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                block(id);
-            }
-        };
+        View.OnClickListener listener = v -> block(id);
         Snackbar.make(container, R.string.error_generic, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_retry, listener)
                 .show();
@@ -672,12 +618,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     }
 
     private void onMuteFailure(final String id) {
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mute(id);
-            }
-        };
+        View.OnClickListener listener = v -> mute(id);
         Snackbar.make(container, R.string.error_generic, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_retry, listener)
                 .show();
