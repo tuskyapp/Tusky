@@ -17,7 +17,7 @@ package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.SerializedName
 
-class Relationship (
+data class Relationship (
     val id: String,
     val following: Boolean,
     @SerializedName("followed_by") val followedBy: Boolean,

@@ -17,7 +17,7 @@ package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.SerializedName
 
-class AppCredentials (
-    @SerializedName("client_id") val clientId: String,
-    @SerializedName("client_secret") val clientSecret: String
+data class AppCredentials(
+        @SerializedName("client_id") val clientId: String,
+        @SerializedName("client_secret") val clientSecret: String
 )

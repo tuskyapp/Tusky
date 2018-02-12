@@ -26,18 +26,20 @@ import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.WriteWith
 
 @Parcelize
-class Account (val id: String,
-               @SerializedName("username") val localUsername: String,
-               @SerializedName("acct") val username: String,
-               @SerializedName("display_name") val displayName: String,
-               val note: @WriteWith<SpannedParceler>() Spanned,
-               val url: String,
-               val avatar: String,
-               val header: String,
-               val locked: Boolean = false,
-               @SerializedName("followers_count") val followersCount: Int,
-               @SerializedName("following_count") val followingCount: Int,
-               @SerializedName("statuses_count") val statusesCount: Int): Parcelable {
+data class Account(
+        val id: String,
+        @SerializedName("username") val localUsername: String,
+        @SerializedName("acct") val username: String,
+        @SerializedName("display_name") val displayName: String,
+        val note: @WriteWith<SpannedParceler>() Spanned,
+        val url: String,
+        val avatar: String,
+        val header: String,
+        val locked: Boolean = false,
+        @SerializedName("followers_count") val followersCount: Int,
+        @SerializedName("following_count") val followingCount: Int,
+        @SerializedName("statuses_count") val statusesCount: Int
+) : Parcelable {
 
     val name: String
         get() = if (displayName.isEmpty()) {

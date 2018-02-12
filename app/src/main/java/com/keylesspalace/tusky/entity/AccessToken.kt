@@ -17,6 +17,6 @@ package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.SerializedName
 
-class AccessToken(
+data class AccessToken(
         @SerializedName("access_token") val accessToken: String
 )

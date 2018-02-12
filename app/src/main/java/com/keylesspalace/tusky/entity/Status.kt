@@ -38,7 +38,8 @@ data class Status(
         val visibility: Visibility,
         @SerializedName("media_attachments") var attachments: Array<Attachment>,
         val mentions: Array<Mention>,
-        val application: Application?) {
+        val application: Application?
+) {
 
     val actionableId: String?
         get() = reblog?.id ?: id
