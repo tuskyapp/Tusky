@@ -482,7 +482,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         background.setColorFilter(ContextCompat.getColor(this, R.color.header_background_filter));
         background.setBackgroundColor(ContextCompat.getColor(this, R.color.window_background_dark));
         Picasso.with(MainActivity.this)
-                .load(me.header)
+                .load(me.getHeader())
                 .placeholder(R.drawable.account_header_default)
                 .into(background);
 
@@ -506,7 +506,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         }
 
         // Show follow requests in the menu, if this is a locked account.
-        if (me.locked) {
+        if (me.getLocked()) {
             PrimaryDrawerItem followRequestsItem = new PrimaryDrawerItem()
                     .withIdentifier(DRAWER_ITEM_FOLLOW_REQUESTS)
                     .withName(R.string.action_view_follow_requests)

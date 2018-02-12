@@ -79,7 +79,7 @@ public abstract class AccountAdapter extends RecyclerView.Adapter {
         }
         int end = accountList.size();
         Account last = accountList.get(end - 1);
-        if (last != null && !findAccount(newAccounts, last.id)) {
+        if (last != null && !findAccount(newAccounts, last.getId())) {
             accountList.addAll(newAccounts);
             notifyItemRangeInserted(end, newAccounts.size());
         }
@@ -87,7 +87,7 @@ public abstract class AccountAdapter extends RecyclerView.Adapter {
 
     private static boolean findAccount(List<Account> accounts, String id) {
         for (Account account : accounts) {
-            if (account.id.equals(id)) {
+            if (account.getId().equals(id)) {
                 return true;
             }
         }

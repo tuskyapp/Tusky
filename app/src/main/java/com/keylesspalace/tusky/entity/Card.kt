@@ -13,11 +13,30 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.entity;
+package com.keylesspalace.tusky.entity
 
-import com.google.gson.annotations.SerializedName;
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-public class AccessToken {
-    @SerializedName("access_token")
-    public String accessToken;
+@Parcelize
+data class Card (val url: String,
+                 val title: String,
+                 val description: String,
+                 val image: String,
+                 val type: String,
+                 val width: Int,
+                 val height: Int) : Parcelable {
+
+    override fun hashCode(): Int {
+        return url.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is Card) {
+            return false
+        }
+        val account = other as Card?
+        return account?.url == this.url
+    }
+
 }

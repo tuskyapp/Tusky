@@ -163,7 +163,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
             public void onResponse(@NonNull Call<SearchResults> call, @NonNull Response<SearchResults> response) {
                 if (response.isSuccessful()) {
                     SearchResults results = response.body();
-                    if (results.accounts != null && results.accounts.length > 0 || results.hashtags != null && results.hashtags.length > 0) {
+                    if (results != null && (results.getAccounts().size() > 0 || results.getHashtags().size() > 0)) {
                         adapter.updateSearchResults(results);
                         hideFeedback();
                     } else {

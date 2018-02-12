@@ -163,10 +163,10 @@ public class ViewThreadFragment extends SFragment implements
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
                 if (response.isSuccessful()) {
-                    status.reblogged = reblog;
+                    status.setReblogged(reblog);
 
-                    if (status.reblog != null) {
-                        status.reblog.reblogged = reblog;
+                    if (status.getReblog() != null) {
+                        status.getReblog().setReblogged(reblog);
                     }
 
                     StatusViewData.Concrete viewdata = statuses.getPairedItem(position);
@@ -183,7 +183,7 @@ public class ViewThreadFragment extends SFragment implements
 
             @Override
             public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.id);
+                Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.getId());
                 t.printStackTrace();
             }
         });
@@ -196,10 +196,10 @@ public class ViewThreadFragment extends SFragment implements
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
                 if (response.isSuccessful()) {
-                    status.favourited = favourite;
+                    status.setFavourited(favourite);
 
-                    if (status.reblog != null) {
-                        status.reblog.favourited = favourite;
+                    if (status.getReblog() != null) {
+                        status.getReblog().setFavourited(favourite);
                     }
 
                     StatusViewData.Concrete viewdata = statuses.getPairedItem(position);
@@ -216,7 +216,7 @@ public class ViewThreadFragment extends SFragment implements
 
             @Override
             public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.id);
+                Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.getId());
                 t.printStackTrace();
             }
         });
@@ -236,7 +236,7 @@ public class ViewThreadFragment extends SFragment implements
     @Override
     public void onViewThread(int position) {
         Status status = statuses.get(position);
-        if (thisThreadsStatusId.equals(status.id)) {
+        if (thisThreadsStatusId.equals(status.getId())) {
             // If already viewing this thread, don't reopen it.
             return;
         }
@@ -304,7 +304,7 @@ public class ViewThreadFragment extends SFragment implements
         Iterator<Status> iterator = statuses.iterator();
         while (iterator.hasNext()) {
             Status s = iterator.next();
-            if (s.account.id.equals(accountId)) {
+            if (s.getAccount().getId().equals(accountId)) {
                 iterator.remove();
             }
         }
@@ -347,7 +347,7 @@ public class ViewThreadFragment extends SFragment implements
                 StatusContext context = response.body();
                 if (response.isSuccessful() && context != null) {
                     swipeRefreshLayout.setRefreshing(false);
-                    setContext(context.ancestors, context.descendants);
+                    setContext(context.getAncestors(), context.getDescendants());
                 } else {
                     onThreadRequestFailure(id);
                 }

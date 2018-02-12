@@ -151,8 +151,8 @@ public class EditProfileActivity extends BaseActivity {
                     return;
                 }
                 Account me = response.body();
-                priorDisplayName = me.getDisplayName();
-                priorNote = me.note.toString();
+                priorDisplayName = me.getName();
+                priorNote = me.getNote().toString();
                 CircularImageView avatar =
                         findViewById(R.id.edit_profile_avatar_preview);
                 ImageView header = findViewById(R.id.edit_profile_header_preview);
@@ -160,11 +160,11 @@ public class EditProfileActivity extends BaseActivity {
                 displayNameEditText.setText(priorDisplayName);
                 noteEditText.setText(priorNote);
                 Picasso.with(avatar.getContext())
-                        .load(me.avatar)
+                        .load(me.getAvatar())
                         .placeholder(R.drawable.avatar_default)
                         .into(avatar);
                 Picasso.with(header.getContext())
-                        .load(me.header)
+                        .load(me.getHeader())
                         .placeholder(R.drawable.account_header_default)
                         .into(header);
             }
@@ -289,11 +289,8 @@ public class EditProfileActivity extends BaseActivity {
 
         isAlreadySaving = true;
 
-        Profile profile = new Profile();
-        profile.displayName = newDisplayName;
-        profile.note = newNote;
-        profile.avatar = avatarBase64;
-        profile.header = headerBase64;
+        Profile profile = new Profile(newDisplayName, newNote, avatarBase64, avatarBase64);
+
         mastodonApi.accountUpdateCredentials(profile).enqueue(new Callback<Account>() {
             @Override
             public void onResponse(@NonNull Call<Account> call, @NonNull Response<Account> response) {

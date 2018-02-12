@@ -33,9 +33,9 @@
     <string name="title_follow_requests">Запросы на подписку</string>
     <string name="title_edit_profile">Редактировать профиль</string>
     <string name="title_saved_toot">Черновики</string>
-    <string name="title_x_followers">Подписчиков: <b>%d</b></string>
-    <string name="title_x_following">Подписок: <b>%d</b></string>
-    <string name="title_x_statuses">Постов: <b>%d</b></string>
+    <string name="title_x_followers">Подписчиков: <b>%s</b></string>
+    <string name="title_x_following">Подписок: <b>%s</b></string>
+    <string name="title_x_statuses">Постов: <b>%s</b></string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s продвинул(а)</string>

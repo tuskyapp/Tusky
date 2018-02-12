@@ -71,7 +71,7 @@ public class MentionAutoCompleteAdapter extends ArrayAdapter<Account>
         return new Filter() {
             @Override
             public CharSequence convertResultToString(Object resultValue) {
-                return ((Account) resultValue).username;
+                return ((Account) resultValue).getUsername();
             }
 
             // This method is invoked in a worker thread.
@@ -122,12 +122,12 @@ public class MentionAutoCompleteAdapter extends ArrayAdapter<Account>
             TextView displayName = view.findViewById(R.id.display_name);
             ImageView avatar = view.findViewById(R.id.avatar);
             String format = getContext().getString(R.string.status_username_format);
-            String formattedUsername = String.format(format, account.username);
+            String formattedUsername = String.format(format, account.getUsername());
             username.setText(formattedUsername);
-            displayName.setText(account.getDisplayName());
-            if (!account.avatar.isEmpty()) {
+            displayName.setText(account.getName());
+            if (!account.getAvatar().isEmpty()) {
                 Picasso.with(context)
-                        .load(account.avatar)
+                        .load(account.getAvatar())
                         .placeholder(R.drawable.avatar_default)
                         .transform(new RoundedTransformation(7, 0))
                         .into(avatar);

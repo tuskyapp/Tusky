@@ -138,17 +138,17 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
                     holder.setMessage(concreteNotificaton, statusListener);
                     holder.setupButtons(notificationActionListener,
-                            concreteNotificaton.getAccount().id,
+                            concreteNotificaton.getAccount().getId(),
                             concreteNotificaton.getId());
                     holder.setAvatars(concreteNotificaton.getStatusViewData().getAvatar(),
-                            concreteNotificaton.getAccount().avatar);
+                            concreteNotificaton.getAccount().getAvatar());
                     break;
                 }
                 case FOLLOW: {
                     FollowViewHolder holder = (FollowViewHolder) viewHolder;
-                    holder.setMessage(concreteNotificaton.getAccount().getDisplayName(),
-                            concreteNotificaton.getAccount().username, concreteNotificaton.getAccount().avatar);
-                    holder.setupButtons(notificationActionListener, concreteNotificaton.getAccount().id);
+                    holder.setMessage(concreteNotificaton.getAccount().getName(),
+                            concreteNotificaton.getAccount().getUsername(), concreteNotificaton.getAccount().getAvatar());
+                    holder.setupButtons(notificationActionListener, concreteNotificaton.getAccount().getId());
                     break;
                 }
             }
@@ -360,7 +360,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener) {
             this.statusViewData = notificationViewData.getStatusViewData();
 
-            String displayName = notificationViewData.getAccount().getDisplayName();
+            String displayName = notificationViewData.getAccount().getName();
             Notification.Type type = notificationViewData.getType();
 
             Context context = message.getContext();

@@ -13,21 +13,10 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.entity;
+package com.keylesspalace.tusky.entity
 
-import com.google.gson.annotations.SerializedName;
-
-public class Relationship {
-    public String id;
-
-    public boolean following;
-
-    @SerializedName("followed_by")
-    public boolean followedBy;
-
-    public boolean blocking;
-
-    public boolean muting;
-
-    public boolean requested;
-}
+data class SearchResults (
+    val accounts: List<Account>,
+    val statuses: List<Status>,
+    val hashtags: List<String>
+)

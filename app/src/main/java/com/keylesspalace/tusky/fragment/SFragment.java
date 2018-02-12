@@ -98,12 +98,12 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         String inReplyToId = status.getActionableId();
         Status actionableStatus = status.getActionableStatus();
         Status.Visibility replyVisibility = actionableStatus.getVisibility();
-        String contentWarning = actionableStatus.spoilerText;
-        Status.Mention[] mentions = actionableStatus.mentions;
+        String contentWarning = actionableStatus.getSpoilerText();
+        Status.Mention[] mentions = actionableStatus.getMentions();
         List<String> mentionedUsernames = new ArrayList<>();
-        mentionedUsernames.add(actionableStatus.account.username);
+        mentionedUsernames.add(actionableStatus.getAccount().getUsername());
         for (Status.Mention mention : mentions) {
-            mentionedUsernames.add(mention.username);
+            mentionedUsernames.add(mention.getUsername());
         }
         mentionedUsernames.remove(loggedInUsername);
         Intent intent = new ComposeActivity.IntentBuilder()
@@ -111,8 +111,8 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
                 .replyVisibility(replyVisibility)
                 .contentWarning(contentWarning)
                 .mentionedUsernames(mentionedUsernames)
-                .repyingStatusAuthor(actionableStatus.account.localUsername)
-                .replyingStatusContent(actionableStatus.content.toString())
+                .repyingStatusAuthor(actionableStatus.getAccount().getLocalUsername())
+                .replyingStatusContent(actionableStatus.getContent().toString())
                 .build(getContext());
         startActivityForResult(intent, COMPOSE_RESULT);
     }
@@ -146,7 +146,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
 
     protected void openReblog(@Nullable final Status status) {
         if (status == null) return;
-        viewAccount(status.account.id);
+        viewAccount(status.getAccount().getId());
     }
 
     private void mute(String id) {
@@ -195,10 +195,10 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
 
     protected void more(final Status status, View view, final int position) {
         final String id = status.getActionableId();
-        final String accountId = status.getActionableStatus().account.id;
-        final String accountUsename = status.getActionableStatus().account.username;
-        final Spanned content = status.getActionableStatus().content;
-        final String statusUrl = status.getActionableStatus().url;
+        final String accountId = status.getActionableStatus().getAccount().getId();
+        final String accountUsename = status.getActionableStatus().getAccount().getUsername();
+        final Spanned content = status.getActionableStatus().getContent();
+        final String statusUrl = status.getActionableStatus().getUrl();
         PopupMenu popup = new PopupMenu(getContext(), view);
         // Give a different menu depending on whether this is the user's own toot or not.
         if (loggedInAccountId == null || !loggedInAccountId.equals(accountId)) {
@@ -213,9 +213,9 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
                         switch (item.getItemId()) {
                             case R.id.status_share_content: {
                                 StringBuilder sb = new StringBuilder();
-                                sb.append(status.account.username);
+                                sb.append(status.getAccount().getUsername());
                                 sb.append(" - ");
-                                sb.append(status.content.toString());
+                                sb.append(status.getContent().toString());
 
                                 Intent sendIntent = new Intent();
                                 sendIntent.setAction(Intent.ACTION_SEND);
@@ -301,7 +301,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
     protected void viewThread(Status status) {
         Intent intent = new Intent(getContext(), ViewThreadActivity.class);
         intent.putExtra("id", status.getActionableId());
-        intent.putExtra("url", status.getActionableStatus().url);
+        intent.putExtra("url", status.getActionableStatus().getUrl());
         startActivity(intent);
     }
 

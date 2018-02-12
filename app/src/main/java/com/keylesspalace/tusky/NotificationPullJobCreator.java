@@ -135,14 +135,14 @@ public final class NotificationPullJobCreator implements JobCreator {
 
             for(Notification notification: notificationList){
 
-                BigInteger currentId = new BigInteger(notification.id);
+                BigInteger currentId = new BigInteger(notification.getId());
 
                 if(isBiggerThan(currentId, newestId)) {
                     newestId = currentId;
                 }
 
                 if (isBiggerThan(currentId, newId)) {
-                    account.setLastNotificationId(notification.id);
+                    account.setLastNotificationId(notification.getId());
 
                     NotificationManager.make(context, notification, account);
                 }
