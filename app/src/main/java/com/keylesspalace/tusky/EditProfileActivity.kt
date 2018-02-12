@@ -86,18 +86,19 @@ class EditProfileActivity : BaseActivity() {
         setContentView(R.layout.activity_edit_profile)
 
         setSupportActionBar(toolbar)
-        supportActionBar?.setTitle(R.string.title_edit_profile)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.run {
+            setTitle(R.string.title_edit_profile)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+        }
 
-
-        if (savedInstanceState != null) {
-            oldDisplayName = savedInstanceState.getString(KEY_OLD_DISPLAY_NAME)
-            oldNote = savedInstanceState.getString(KEY_OLD_NOTE)
-            isSaving = savedInstanceState.getBoolean(KEY_IS_SAVING)
-            currentlyPicking = savedInstanceState.getSerializable(KEY_CURRENTLY_PICKING) as PickType
-            avatarChanged = savedInstanceState.getBoolean(KEY_AVATAR_CHANGED)
-            headerChanged = savedInstanceState.getBoolean(KEY_HEADER_CHANGED)
+        savedInstanceState?.let {
+            oldDisplayName = it.getString(KEY_OLD_DISPLAY_NAME)
+            oldNote = it.getString(KEY_OLD_NOTE)
+            isSaving = it.getBoolean(KEY_IS_SAVING)
+            currentlyPicking = it.getSerializable(KEY_CURRENTLY_PICKING) as PickType
+            avatarChanged = it.getBoolean(KEY_AVATAR_CHANGED)
+            headerChanged = it.getBoolean(KEY_HEADER_CHANGED)
 
             if(avatarChanged) {
                 val avatar = BitmapFactory.decodeFile(getCacheFileForName(AVATAR_FILE_NAME).absolutePath)
@@ -155,12 +156,14 @@ class EditProfileActivity : BaseActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(KEY_OLD_DISPLAY_NAME, oldDisplayName)
-        outState.putString(KEY_OLD_NOTE, oldNote)
-        outState.putBoolean(KEY_IS_SAVING, isSaving)
-        outState.putSerializable(KEY_CURRENTLY_PICKING, currentlyPicking)
-        outState.putBoolean(KEY_AVATAR_CHANGED, avatarChanged)
-        outState.putBoolean(KEY_HEADER_CHANGED, headerChanged)
+        outState.run {
+            putString(KEY_OLD_DISPLAY_NAME, oldDisplayName)
+            putString(KEY_OLD_NOTE, oldNote)
+            putBoolean(KEY_IS_SAVING, isSaving)
+            putSerializable(KEY_CURRENTLY_PICKING, currentlyPicking)
+            putBoolean(KEY_AVATAR_CHANGED, avatarChanged)
+            putBoolean(KEY_HEADER_CHANGED, headerChanged)
+        }
         super.onSaveInstanceState(outState)
     }
 
@@ -265,6 +268,7 @@ class EditProfileActivity : BaseActivity() {
         }
 
         if(displayName == null && note == null && avatar == null && header == null) {
+            /** if nothing has changed, there is no need to make a network request */
             finish()
             return
         }
@@ -465,27 +469,27 @@ class EditProfileActivity : BaseActivity() {
             }
         }
 
+        fun saveBitmapToFile(bitmap: Bitmap, file: File): Boolean {
+
+            val outputStream: OutputStream
+
+            try {
+                outputStream = FileOutputStream(file)
+            } catch (e: FileNotFoundException) {
+                Log.w(TAG, Log.getStackTraceString(e))
+                return false
+            }
+
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            IOUtils.closeQuietly(outputStream)
+
+            return true
+        }
+
         internal interface Listener {
             fun onSuccess(resizedImage: Bitmap?)
             fun onFailure()
         }
     }
 
-}
-
-fun saveBitmapToFile(bitmap: Bitmap, file: File): Boolean {
-
-    val outputStream: OutputStream
-
-    try {
-        outputStream = FileOutputStream(file)
-    } catch (e: FileNotFoundException) {
-        Log.w(TAG, Log.getStackTraceString(e))
-        return false
-    }
-
-    bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-    IOUtils.closeQuietly(outputStream)
-
-    return true
 }
