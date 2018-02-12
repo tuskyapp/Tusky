@@ -494,6 +494,14 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
         List<AccountEntity> allAccounts = am.getAllAccountsOrderedByActive();
 
+        //remove profiles before adding them again to avoid duplicates
+        List<IProfile> profiles = new ArrayList<>(headerResult.getProfiles());
+        for(IProfile profile: profiles) {
+            if(profile.getIdentifier() != DRAWER_ITEM_ADD_ACCOUNT) {
+                headerResult.removeProfile(profile);
+            }
+        }
+
         for(AccountEntity acc: allAccounts) {
             headerResult.addProfiles(
                     new ProfileDrawerItem()
@@ -506,7 +514,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         }
 
         // Show follow requests in the menu, if this is a locked account.
-        if (me.locked) {
+        if (me.locked && drawer.getDrawerItem(DRAWER_ITEM_FOLLOW_REQUESTS) == null) {
             PrimaryDrawerItem followRequestsItem = new PrimaryDrawerItem()
                     .withIdentifier(DRAWER_ITEM_FOLLOW_REQUESTS)
                     .withName(R.string.action_view_follow_requests)

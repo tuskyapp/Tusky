@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -24,59 +23,57 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/headerPreview"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:id="@+id/edit_profile_header_preview"
                     android:contentDescription="@null" />
 
+                <ImageButton
+                    android:id="@+id/headerButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="#66000000"
+                    android:contentDescription="@string/label_header"
+                    app:srcCompat="@drawable/ic_add_a_photo_32dp" />
+
                 <ProgressBar
+                    android:id="@+id/headerProgressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/edit_profile_header_progress"
                     android:layout_centerInParent="true"
                     android:indeterminate="true"
                     android:visibility="gone" />
 
-                <ImageButton
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:id="@+id/edit_profile_header"
-                    app:srcCompat="@drawable/ic_add_a_photo_32dp"
-                    android:background="#66000000"
-                    android:contentDescription="@string/label_header" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingLeft="16dp"
-                android:paddingEnd="0dp"
-                android:paddingRight="0dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="-40dp">
 
                 <com.pkmmte.view.CircularImageView
+                    android:id="@+id/avatarPreview"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:id="@+id/edit_profile_avatar_preview"
                     android:contentDescription="@null" />
 
+                <ImageButton
+                    android:id="@+id/avatarButton"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/round_button"
+                    android:contentDescription="@string/label_avatar"
+                    android:elevation="4dp"
+                    app:srcCompat="@drawable/ic_add_a_photo_32dp" />
+
                 <ProgressBar
+                    android:id="@+id/avatarProgressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/edit_profile_avatar_progress"
                     android:layout_centerInParent="true"
                     android:indeterminate="true"
                     android:visibility="gone" />
-
-                <ImageButton
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:id="@+id/edit_profile_avatar"
-                    app:srcCompat="@drawable/ic_add_a_photo_32dp"
-                    android:elevation="4dp"
-                    android:background="@drawable/round_button"
-                    android:contentDescription="@string/label_avatar" />
 
             </RelativeLayout>
 
@@ -87,13 +84,13 @@
                 android:layout_marginTop="30dp">
 
                 <android.support.design.widget.TextInputEditText
+                    android:id="@+id/displayNameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/edit_profile_display_name"
-                    android:hint="@string/hint_display_name"
-                    android:maxLength="30"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp" />
+                    android:hint="@string/hint_display_name"
+                    android:maxLength="30" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -104,14 +101,14 @@
                 android:layout_marginTop="30dp">
 
                 <android.support.design.widget.TextInputEditText
+                    android:id="@+id/noteEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/edit_profile_note"
-                    android:hint="@string/hint_note"
-                    android:maxLength="160"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginStart="16dp"
+                    android:hint="@string/hint_note"
+                    android:maxLength="160" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -122,11 +119,11 @@
     <include layout="@layout/toolbar_shadow_shim" />
 
     <ProgressBar
-        android:id="@+id/edit_profile_save_progress"
+        android:id="@+id/saveProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:indeterminate="true"
-        android:visibility="gone"
-        android:layout_gravity="center" />
+        android:visibility="gone" />
 
 </android.support.design.widget.CoordinatorLayout>
