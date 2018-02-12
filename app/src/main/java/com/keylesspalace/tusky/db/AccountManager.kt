@@ -24,6 +24,8 @@ import com.keylesspalace.tusky.entity.Account
  * @author ConnyDuck
  */
 
+private const val TAG = "AccountManager"
+
 class AccountManager {
 
     @Volatile var activeAccount: AccountEntity? = null
@@ -50,7 +52,7 @@ class AccountManager {
 
         activeAccount?.let{
             it.isActive = false
-            Log.d("AccountManager", "saving account with id "+it.id)
+            Log.d(TAG, "addAccount: saving account with id "+it.id)
 
             accountDao.insertOrReplace(it)
         }
@@ -66,7 +68,7 @@ class AccountManager {
      */
     fun saveAccount(account: AccountEntity) {
         if(account.id != 0L) {
-            Log.d("AccountManager", "saving account with id "+account.id)
+            Log.d(TAG, "saveAccount: saving account with id "+account.id)
             accountDao.insertOrReplace(account)
         }
 
@@ -87,6 +89,7 @@ class AccountManager {
             if(accounts.size > 0) {
                 accounts[0].isActive = true
                 activeAccount = accounts[0]
+                Log.d(TAG, "logActiveAccountOut: saving account with id "+accounts[0].id)
                 accountDao.insertOrReplace(accounts[0])
             } else {
                 activeAccount = null
@@ -109,7 +112,7 @@ class AccountManager {
             it.displayName = account.getDisplayName()
             it.profilePictureUrl = account.avatar
 
-            Log.d("AccountManager",  "id before save "+it.id)
+            Log.d(TAG,  "updateActiveAccount: saving account with id "+it.id)
             it.id = accountDao.insertOrReplace(it)
 
             val accountIndex = accounts.indexOf(it)
@@ -132,6 +135,7 @@ class AccountManager {
     fun setActiveAccount(accountId: Long) {
 
         activeAccount?.let{
+            Log.d(TAG,  "setActiveAccount: saving account with id "+it.id)
             it.isActive = false
             accountDao.insertOrReplace(it)
         }

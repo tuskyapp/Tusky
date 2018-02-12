@@ -212,6 +212,7 @@ public class NotificationHelper {
 
                 channel.setDescription(description);
                 channel.enableLights(true);
+                channel.setLightColor(0xFF2B90D9);
                 channel.enableVibration(true);
                 channel.setShowBadge(true);
                 channel.setGroup(account.getIdentifier());
@@ -259,10 +260,13 @@ public class NotificationHelper {
             if(notificationManager.areNotificationsEnabled()) {
                 for(NotificationChannel channel: notificationManager.getNotificationChannels()) {
                     if(channel.getImportance() > NotificationManager.IMPORTANCE_NONE) {
+                        Log.d(TAG, "NotificationsEnabled");
                         return true;
                     }
                 }
             }
+            Log.d(TAG, "NotificationsDisabled");
+
             return false;
 
         } else {
@@ -340,7 +344,7 @@ public class NotificationHelper {
         }
 
         if (account.getNotificationLight()) {
-            builder.setLights(0xFF00FF8F, 300, 1000);
+            builder.setLights(0xFF2B90D9, 300, 1000);
         }
     }
 
