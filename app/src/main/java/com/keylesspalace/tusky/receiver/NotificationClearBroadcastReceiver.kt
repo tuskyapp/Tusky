@@ -20,12 +20,12 @@ import android.content.Context
 import android.content.Intent
 
 import com.keylesspalace.tusky.TuskyApplication
-import com.keylesspalace.tusky.util.NotificationManager
+import com.keylesspalace.tusky.util.NotificationHelper
 
 class NotificationClearBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
 
-        val accountId = intent.getLongExtra(NotificationManager.ACCOUNT_ID, -1)
+        val accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1)
 
         val accountManager = TuskyApplication.getAccountManager()
         val account = accountManager.getAccountById(accountId)

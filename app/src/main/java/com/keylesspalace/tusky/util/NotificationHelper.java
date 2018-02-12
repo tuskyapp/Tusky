@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.util;
 
 import android.app.NotificationChannel;
 import android.app.NotificationChannelGroup;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -47,12 +48,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationManager {
+public class NotificationHelper {
 
     /** constants used in Intents */
     public static final String ACCOUNT_ID = "account_id";
 
-    private static final String TAG = "NotificationManager";
+    private static final String TAG = "NotificationHelper";
 
     /** notification channels used on Android O+ **/
     private static final String CHANNEL_MENTION = "CHANNEL_MENTION";
@@ -71,7 +72,7 @@ public class NotificationManager {
 
     public static void make(final Context context, Notification body, AccountEntity account) {
 
-        if (!filterNotification(account, body)) {
+        if (!filterNotification(account, body, context)) {
             return;
         }
 
@@ -166,8 +167,7 @@ public class NotificationManager {
         builder.setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
         builder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
 
-        android.app.NotificationManager notificationManager = (android.app.NotificationManager)
-                context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         //noinspection ConstantConditions
         notificationManager.notify((int)account.getId(), builder.build());
@@ -176,8 +176,7 @@ public class NotificationManager {
     public static void createNotificationChannelsForAccount(AccountEntity account, Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            android.app.NotificationManager mNotificationManager =
-                    (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             String[] channelIds = new String[]{
                     CHANNEL_MENTION+account.getIdentifier(),
@@ -202,17 +201,18 @@ public class NotificationManager {
             NotificationChannelGroup channelGroup = new NotificationChannelGroup(account.getIdentifier(), account.getFullName());
 
             //noinspection ConstantConditions
-            mNotificationManager.createNotificationChannelGroup(channelGroup);
+            notificationManager.createNotificationChannelGroup(channelGroup);
 
             for (int i = 0; i < channelIds.length; i++) {
                 String id = channelIds[i];
                 String name = context.getString(channelNames[i]);
                 String description = context.getString(channelDescriptions[i]);
-                int importance = android.app.NotificationManager.IMPORTANCE_DEFAULT;
+                int importance = NotificationManager.IMPORTANCE_DEFAULT;
                 NotificationChannel channel = new NotificationChannel(id, name, importance);
 
                 channel.setDescription(description);
                 channel.enableLights(true);
+                channel.setLightColor(0xFF2B90D9);
                 channel.enableVibration(true);
                 channel.setShowBadge(true);
                 channel.setGroup(account.getIdentifier());
@@ -220,7 +220,7 @@ public class NotificationManager {
             }
 
             //noinspection ConstantConditions
-            mNotificationManager.createNotificationChannels(channels);
+            notificationManager.createNotificationChannels(channels);
 
         }
     }
@@ -228,11 +228,10 @@ public class NotificationManager {
     public static void deleteNotificationChannelsForAccount(AccountEntity account, Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            android.app.NotificationManager mNotificationManager =
-                    (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             //noinspection ConstantConditions
-            mNotificationManager.deleteNotificationChannelGroup(account.getIdentifier());
+            notificationManager.deleteNotificationChannelGroup(account.getIdentifier());
 
         }
     }
@@ -241,15 +240,40 @@ public class NotificationManager {
         // delete the notification channels that where used before the multi account mode was introduced to avoid confusion
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            android.app.NotificationManager mNotificationManager =
-                    (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             //noinspection ConstantConditions
-            mNotificationManager.deleteNotificationChannel(CHANNEL_MENTION);
-            mNotificationManager.deleteNotificationChannel(CHANNEL_FAVOURITE);
-            mNotificationManager.deleteNotificationChannel(CHANNEL_BOOST);
-            mNotificationManager.deleteNotificationChannel(CHANNEL_FOLLOW);
+            notificationManager.deleteNotificationChannel(CHANNEL_MENTION);
+            notificationManager.deleteNotificationChannel(CHANNEL_FAVOURITE);
+            notificationManager.deleteNotificationChannel(CHANNEL_BOOST);
+            notificationManager.deleteNotificationChannel(CHANNEL_FOLLOW);
         }
+    }
+
+    public static boolean areNotificationsEnabled(Context context) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            // on Android >= O, notifications are enabled, if at least one channel is enabled
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            //noinspection ConstantConditions
+            if(notificationManager.areNotificationsEnabled()) {
+                for(NotificationChannel channel: notificationManager.getNotificationChannels()) {
+                    if(channel.getImportance() > NotificationManager.IMPORTANCE_NONE) {
+                        Log.d(TAG, "NotificationsEnabled");
+                        return true;
+                    }
+                }
+            }
+            Log.d(TAG, "NotificationsDisabled");
+
+            return false;
+
+        } else {
+            // on Android < O, notifications are enabled, if at least one account has notification enabled
+            return TuskyApplication.getAccountManager().areNotificationsEnabled();
+        }
+
     }
 
     public static void clearNotificationsForActiveAccount(Context context) {
@@ -259,18 +283,21 @@ public class NotificationManager {
             account.setActiveNotifications("[]");
             accountManager.saveAccount(account);
 
-            android.app.NotificationManager manager = (android.app.NotificationManager)
-                    context.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             //noinspection ConstantConditions
-            manager.cancel((int)account.getId());
+            notificationManager.cancel((int)account.getId());
         }
     }
 
-    private static boolean filterNotification(AccountEntity account,
-                                              Notification notification) {
+    private static boolean filterNotification(AccountEntity account, Notification notification,
+                                              Context context) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return true;  //do not filter on Android O or newer, the system does it for us
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            //noinspection ConstantConditions
+            NotificationChannel channel = notificationManager.getNotificationChannel(getChannelId(account, notification));
+            return channel.getImportance() > NotificationManager.IMPORTANCE_NONE;
         }
 
         switch (notification.type) {
@@ -317,7 +344,7 @@ public class NotificationManager {
         }
 
         if (account.getNotificationLight()) {
-            builder.setLights(0xFF00FF8F, 300, 1000);
+            builder.setLights(0xFF2B90D9, 300, 1000);
         }
     }
 
