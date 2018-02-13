@@ -1,3 +1,4 @@
+[![Build Status](https://www.bitrise.io/app/55b2f0c77c4bba74/status.svg?token=elUl9fieM5K34iLRL0rpoA&branch=master)](https://www.bitrise.io/app/55b2f0c77c4bba74)
 # Tusky
 
 ![](/assets/tusky_logo.png)
