@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="error_generic">程序出现异常。</string>
+    <string name="error_generic">应用程序出现异常。</string>
     <string name="error_empty">内容不能为空。</string>
     <string name="error_invalid_domain">该域名无效</string>
     <string name="error_failed_app_registration">实例认证失败。</string>
@@ -51,8 +51,8 @@
     <string name="notification_favourite_format">%s 收藏了你的嘟文</string>
     <string name="notification_follow_format">%s 关注了你</string>
 
-    <string name="report_username_format">报告帐号 @%s</string>
-    <string name="report_comment_hint">详细的</string>
+    <string name="report_username_format">报告用户 @%s 的滥用行为</string>
+    <string name="report_comment_hint">报告更多信息</string>
 
     <string name="action_reply">回复</string>
     <string name="action_reblog">转嘟</string>
@@ -98,7 +98,7 @@
     <string name="action_search">搜索</string>
     <string name="action_access_saved_toot">草稿</string>
 
-    <string name="download_image">正在下载 %1$s</string>
+    <string name="download_image">正在下载 %1$s…</string>
 
     <string name="action_copy_link">复制链接</string>
 
@@ -136,11 +136,11 @@
     <string name="dialog_download_image">下载</string>
     <string name="dialog_message_follow_request">关注请求已发送，等待对方回复</string>
     <string name="dialog_unfollow_warning">不再关注此用户？</string>
-    <string name="dialog_reply_not_found">回复发表失败，被回复的嘟文不可用。是否删除</string>
+    <string name="dialog_reply_not_found">回复发表失败，被回复的嘟文不可用。是否转换成普通嘟文？</string>
 
     <string name="visibility_public">公开：所有人可见，并会出现在公共时间轴上</string>
     <string name="visibility_unlisted">不公开：所有人可见，但不会出现在公共时间轴上</string>
-    <string name="visibility_private">仅关注者：只有经过你确认关注你的用户能看到</string>
+    <string name="visibility_private">仅关注者：只有经过你确认后关注你的用户能看到</string>
     <string name="visibility_direct">私信：只有被提及的用户可见</string>
 
     <string name="pref_title_notification_settings">通知</string>
