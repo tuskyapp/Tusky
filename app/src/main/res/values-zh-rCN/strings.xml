@@ -3,7 +3,7 @@
     <string name="error_generic">应用程序出现异常。</string>
     <string name="error_empty">内容不能为空。</string>
     <string name="error_invalid_domain">该域名无效</string>
-    <string name="error_failed_app_registration">实例认证失败。</string>
+    <string name="error_failed_app_registration">无法连接到该实例。</string>
     <string name="error_no_web_browser_found">没有可用的浏览器。</string>
     <string name="error_authorization_unknown">认证过程出现未知错误。</string>
     <string name="error_authorization_denied">授权被拒绝。</string>
@@ -75,7 +75,7 @@
     <string name="action_close">关闭</string>
     <string name="action_view_profile">个人资料</string>
     <string name="action_view_preferences">设置</string>
-    <string name="action_view_favourites">收藏的内容</string>
+    <string name="action_view_favourites">我的收藏</string>
     <string name="action_view_mutes">被隐藏的用户</string>
     <string name="action_view_blocks">被屏蔽的用户</string>
     <string name="action_view_follow_requests">关注请求</string>
@@ -110,7 +110,7 @@
     <string name="confirmation_unblocked">用户已被屏蔽</string>
     <string name="confirmation_unmuted">用户已被隐藏</string>
 
-    <string name="hint_domain">在哪个实例？</string>
+    <string name="hint_domain">登入哪个实例？</string>
     <string name="hint_compose">有什么新鲜事？</string>
     <string name="hint_content_warning">折叠部分的警告信息</string>
     <string name="hint_display_name">昵称</string>
@@ -126,9 +126,9 @@
 
     <string name="login_connection">正在连接…</string>
 
-    <string name="dialog_whats_an_instance">请输入你注册的 Mastodon 站点的域名，比如 mastodon.social，pawoo.net，mstdn.jp，mao.daizhige.me（殆知阁喵站），cmx.im（长毛象中文站），g0v.social，<a href="https://instances.social">等等</a> 。
+    <string name="dialog_whats_an_instance">请输入你帐号所在的 Mastodon 站点的域名，比如 mastodon.social，pawoo.net，mstdn.jp，mao.daizhige.me（殆知阁喵站），cmx.im（长毛象中文站），g0v.social，<a href="https://instances.social">等等</a> 。
         \n\n还没有 Mastodon 帐号？你也可以输入想注册的实例的域名，然后在该实例创建新的帐号并授权 Tusky 登入。
-        \n\n你帐号所在的 Mastodon 站点被称为 Mastodon 的一个「实例」（instance）。但是在 Mastodon 里，和别的实例上的用户进行互动就像和站内用户互动一样简单。
+        \n\n你帐号所在的 Mastodon 站点被称为 Mastodon 的一个「实例」（instance）。但是在 Mastodon 里，跨实例用户间的互动和站内互动一样简单。
         \n\n可以前往 <a href="https://joinmastodon.org">joinmastodon.org</a> 了解更多信息。
     </string>
     <string name="dialog_title_finishing_media_upload">正在结束上传…</string>
@@ -168,7 +168,7 @@
 
     <string name="pref_title_browser_settings">浏览器</string>
     <string name="pref_title_custom_tabs">使用 Chrome Custom Tabs</string>
-    <string name="pref_title_hide_follow_button">滑动浏览时隐藏发嘟按钮</string>
+    <string name="pref_title_hide_follow_button">自动隐藏发嘟按钮</string>
     <string name="pref_title_status_filter">时间轴过滤</string>
     <string name="pref_title_status_tabs">选项卡</string>
     <string name="pref_title_show_boosts">显示转嘟</string>
@@ -262,7 +262,7 @@
     <string name="abbreviated_seconds_ago">%d 秒前</string>
 
     <string name="follows_you">关注了你</string>
-    <string name="pref_title_alway_show_sensitive_media">总是显示所有敏感媒体</string>
+    <string name="pref_title_alway_show_sensitive_media">总是显示所有敏感媒体内容</string>
     <string name="title_media">媒体</string>
     <string name="replying_to">回复 @%s</string>
     <string name="load_more_placeholder_text">加载更多</string>
