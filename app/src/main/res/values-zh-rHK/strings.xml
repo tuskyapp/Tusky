@@ -3,7 +3,7 @@
     <string name="error_generic">應用程式出現異常。</string>
     <string name="error_empty">內容不能為空。</string>
     <string name="error_invalid_domain">該域名無效</string>
-    <string name="error_failed_app_registration">實例認證失敗。</string>
+    <string name="error_failed_app_registration">無法連接到該實例。</string>
     <string name="error_no_web_browser_found">沒有可用的瀏覽器。</string>
     <string name="error_authorization_unknown">認證過程出現未知錯誤。</string>
     <string name="error_authorization_denied">授權被拒絕。</string>
@@ -16,7 +16,7 @@
     <string name="error_media_download_permission">需要授予 Tusky 寫入存儲空間的權限。</string>
     <string name="error_media_upload_image_or_video">無法在嘟文中同時插入視頻和圖片。</string>
     <string name="error_media_upload_sending">媒體文件上傳失敗。</string>
-    <string name="error_report_too_few_statuses">至少要報告 1 條嘟文。</string>
+    <string name="error_report_too_few_statuses">至少要報告 1 則嘟文。</string>
 
     <string name="title_home">主頁</string>
     <string name="title_notifications">通知</string>
@@ -75,7 +75,7 @@
     <string name="action_close">關閉</string>
     <string name="action_view_profile">個人資料</string>
     <string name="action_view_preferences">設置</string>
-    <string name="action_view_favourites">收藏的內容</string>
+    <string name="action_view_favourites">我的收藏</string>
     <string name="action_view_mutes">被隱藏的用户</string>
     <string name="action_view_blocks">被屏蔽的用户</string>
     <string name="action_view_follow_requests">關注請求</string>
@@ -110,7 +110,7 @@
     <string name="confirmation_unblocked">用户已被屏蔽</string>
     <string name="confirmation_unmuted">用户已被隱藏</string>
 
-    <string name="hint_domain">在哪個實例？</string>
+    <string name="hint_domain">登入哪個實例？</string>
     <string name="hint_compose">有什麼新鮮事？</string>
     <string name="hint_content_warning">摺疊部分的警告信息</string>
     <string name="hint_display_name">暱稱</string>
@@ -126,9 +126,9 @@
 
     <string name="login_connection">正在連接…</string>
 
-    <string name="dialog_whats_an_instance">請輸入你註冊的 Mastodon 站點的域名，比如 mastodon.social，pawoo.net，mstdn.jp，mao.daizhige.me（殆知閣喵站），cmx.im（長毛象中文站），g0v.social，<a href="https://instances.social">等等</a> 。
+    <string name="dialog_whats_an_instance">請輸入你帳號所在的 Mastodon 站點的域名，比如 mastodon.social，pawoo.net，mstdn.jp，mao.daizhige.me（殆知閣喵站），cmx.im（長毛象中文站），g0v.social，<a href="https://instances.social">等等</a> 。
         \n\n還沒有 Mastodon 帳號？你也可以輸入想註冊的實例的域名，然後在該實例創建新的帳號並授權 Tusky 登入。
-        \n\n你帳號所在的 Mastodon 站點被稱為 Mastodon 的一個「實例」（instance）。但是在 Mastodon 裏，和別的實例上的用户進行互動就像和站內用户互動一樣簡單。
+        \n\n你帳號所在的 Mastodon 站點被稱為 Mastodon 的一個「實例」（instance）。但是在 Mastodon 裏，跨實例用户間的互動和站內互動一樣簡單。
         \n\n可以前往 <a href="https://joinmastodon.org">joinmastodon.org</a> 瞭解更多信息。
     </string>
     <string name="dialog_title_finishing_media_upload">正在結束上傳…</string>
@@ -168,7 +168,7 @@
 
     <string name="pref_title_browser_settings">瀏覽器</string>
     <string name="pref_title_custom_tabs">使用 Chrome Custom Tabs</string>
-    <string name="pref_title_hide_follow_button">滑動瀏覽時隱藏發嘟按鈕</string>
+    <string name="pref_title_hide_follow_button">自動隱藏發嘟按鈕</string>
     <string name="pref_title_status_filter">時間軸過濾</string>
     <string name="pref_title_status_tabs">選項卡</string>
     <string name="pref_title_show_boosts">顯示轉嘟</string>
@@ -227,10 +227,10 @@
 
     <string name="about_title_activity">關於 Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky 是基於 GNU General Public License Version 3 許可證開源的自由軟件。完整的許可證協議：https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Tusky 是基於 GNU General Public License Version 3 許可證開源的自由軟體。完整的許可證協議：https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators: the url can be changed to link to the localized version of the license -->
     <string name="about_project_site">
-        項目地址：\n
+        專案地址：\n
         https://tusky.keylesspalace.com
     </string>
     <string name="about_bug_feature_request_site">
@@ -262,7 +262,7 @@
     <string name="abbreviated_seconds_ago">%d 秒前</string>
 
     <string name="follows_you">關注了你</string>
-    <string name="pref_title_alway_show_sensitive_media">總是顯示所有敏感媒體</string>
+    <string name="pref_title_alway_show_sensitive_media">總是顯示所有敏感媒體內容</string>
     <string name="title_media">媒體</string>
     <string name="replying_to">回覆 @%s</string>
     <string name="load_more_placeholder_text">加載更多</string>
