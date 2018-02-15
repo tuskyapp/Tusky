@@ -422,41 +422,44 @@ class EditProfileActivity : BaseActivity() {
 
         override fun doInBackground(vararg uris: Uri): Boolean? {
             val uri = uris[0]
-                val inputStream: InputStream?
-                try {
-                    inputStream = contentResolver.openInputStream(uri)
-                } catch (e: FileNotFoundException) {
-                    Log.d(TAG, Log.getStackTraceString(e))
-                    return false
-                }
+            val inputStream: InputStream?
+            try {
+                inputStream = contentResolver.openInputStream(uri)
+            } catch (e: FileNotFoundException) {
+                Log.d(TAG, Log.getStackTraceString(e))
+                return false
+            }
 
-                val sourceBitmap: Bitmap?
-                try {
-                    sourceBitmap = BitmapFactory.decodeStream(inputStream, null, null)
-                } catch (error: OutOfMemoryError) {
-                    Log.d(TAG, Log.getStackTraceString(error))
-                    return false
-                } finally {
-                    IOUtils.closeQuietly(inputStream)
-                }
-                if (sourceBitmap == null) {
-                    return false
-                }
-                val bitmap = Bitmap.createScaledBitmap(sourceBitmap, resizeWidth, resizeHeight, true)
-                sourceBitmap.recycle()
-                if (bitmap == null) {
-                    return false
-                }
+            val sourceBitmap: Bitmap?
+            try {
+                sourceBitmap = BitmapFactory.decodeStream(inputStream, null, null)
+            } catch (error: OutOfMemoryError) {
+                Log.d(TAG, Log.getStackTraceString(error))
+                return false
+            } finally {
+                IOUtils.closeQuietly(inputStream)
+            }
+            if (sourceBitmap == null) {
+                return false
+            }
 
-                resultBitmap = bitmap
+            //dont upscale image if its smaller than the desired size
+            val bitmap =
+                    if(sourceBitmap.width <= resizeWidth && sourceBitmap.height <= resizeHeight) {
+                        sourceBitmap
+                    } else {
+                        Bitmap.createScaledBitmap(sourceBitmap, resizeWidth, resizeHeight, true)
+                    }
 
-                if (!saveBitmapToFile(bitmap, cacheFile)) {
-                    return false
-                }
+            resultBitmap = bitmap
 
-                if (isCancelled) {
-                    return false
-                }
+            if (!saveBitmapToFile(bitmap, cacheFile)) {
+                return false
+            }
+
+            if (isCancelled) {
+                return false
+            }
 
             return true
         }
