@@ -26,15 +26,6 @@ android {
         }
     }
 
-    flavorDimensions "store"
-    productFlavors {
-        google {
-            dimension "store"
-        }
-        fdroid {
-            dimension "store"
-        }
-    }
     lintOptions {
         disable 'MissingTranslation'
     }
