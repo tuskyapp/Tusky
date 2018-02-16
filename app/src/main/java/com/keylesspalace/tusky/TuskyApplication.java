@@ -21,7 +21,12 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
+import android.support.text.emoji.EmojiCompat;
+import android.support.text.emoji.FontRequestEmojiCompatConfig;
+import android.support.v4.provider.FontRequest;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
 
 import com.evernote.android.job.JobManager;
 import com.jakewharton.picasso.OkHttp3Downloader;
@@ -33,6 +38,7 @@ import com.squareup.picasso.Picasso;
 
 public class TuskyApplication extends Application {
     public static final String APP_THEME_DEFAULT = ThemeUtils.THEME_NIGHT;
+    private static final String TAG = TuskyApplication.class.getSimpleName();
 
     private static AppDatabase db;
     private static AccountManager accountManager;
@@ -75,6 +81,28 @@ public class TuskyApplication extends Application {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         accountManager = new AccountManager();
+
+        boolean useDownloaded = preferences.getBoolean("useDownloadedEmoji", true);
+
+        final FontRequest fontRequest = new FontRequest(
+                "com.google.android.gms.fonts",
+                "com.google.android.gms",
+                "Noto Color Emoji Compat",
+                R.array.com_google_android_gms_fonts_certs);
+        EmojiCompat.Config config = new FontRequestEmojiCompatConfig(this, fontRequest)
+                .setReplaceAll(useDownloaded)
+                .registerInitCallback(new EmojiCompat.InitCallback() {
+                    @Override
+                    public void onInitialized() {
+                        Log.i(TAG, "EmojiCompat initialized");
+                    }
+
+                    @Override
+                    public void onFailed(@Nullable Throwable throwable) {
+                        Log.e(TAG, "EmojiCompat initialization failed", throwable);
+                    }
+                });
+        EmojiCompat.init(config);
     }
 
     public static AccountManager getAccountManager() {

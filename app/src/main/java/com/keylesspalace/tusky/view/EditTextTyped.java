@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.view;
 
 import android.content.Context;
+import android.support.text.emoji.widget.EmojiEditTextHelper;
 import android.support.v13.view.inputmethod.EditorInfoCompat;
 import android.support.v13.view.inputmethod.InputConnectionCompat;
 import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
@@ -29,6 +30,7 @@ public class EditTextTyped extends AppCompatMultiAutoCompleteTextView {
 
     private InputConnectionCompat.OnCommitContentListener onCommitContentListener;
     private String[] mimeTypes;
+    private EmojiEditTextHelper mEmojiEditTextHelper;
 
     public EditTextTyped(Context context) {
         super(context);
@@ -36,6 +38,22 @@ public class EditTextTyped extends AppCompatMultiAutoCompleteTextView {
 
     public EditTextTyped(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
+        init();
+    }
+    private void init() {
+        super.setKeyListener(getEmojiEditTextHelper().getKeyListener(getKeyListener()));
+    }
+
+    @Override
+    public void setKeyListener(android.text.method.KeyListener keyListener) {
+        super.setKeyListener(getEmojiEditTextHelper().getKeyListener(keyListener));
+    }
+
+    private EmojiEditTextHelper getEmojiEditTextHelper() {
+        if (mEmojiEditTextHelper == null) {
+            mEmojiEditTextHelper = new EmojiEditTextHelper(this);
+        }
+        return mEmojiEditTextHelper;
     }
 
     public void setMimeTypes(String[] types,
@@ -47,6 +65,7 @@ public class EditTextTyped extends AppCompatMultiAutoCompleteTextView {
     @Override
     public InputConnection onCreateInputConnection(EditorInfo editorInfo) {
         InputConnection connection = super.onCreateInputConnection(editorInfo);
+        connection = getEmojiEditTextHelper().onCreateInputConnection(connection, editorInfo);
         if (onCommitContentListener != null) {
             Assert.expect(mimeTypes != null);
             EditorInfoCompat.setContentMimeTypes(editorInfo, mimeTypes);

@@ -27,7 +27,7 @@
             <!--content description will be set in code -->
         </android.support.v7.widget.Toolbar>
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:textSize="?attr/status_text_small"
             android:id="@+id/reply_tv"
             android:layout_width="match_parent"
@@ -40,7 +40,7 @@
             tools:text="Reply to @username"
             tools:visibility="visible" />
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:textSize="?attr/status_text_small"
             android:id="@+id/reply_content_tv"
             android:layout_width="match_parent"
@@ -62,7 +62,7 @@
             android:layout_marginBottom="8dp"
             android:orientation="vertical">
 
-            <EditText
+            <android.support.text.emoji.widget.EmojiEditText
                 android:textSize="?attr/status_text_medium"
                 android:id="@+id/field_content_warning"
                 android:layout_width="match_parent"
@@ -203,14 +203,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/characters_left"
                 android:layout_width="wrap_content"
                 android:textSize="?attr/status_text_medium"
                 android:layout_height="wrap_content"
                 android:textColor="?android:textColorPrimary" />
 
-            <Button
+            <android.support.text.emoji.widget.EmojiButton
                 android:id="@+id/floating_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

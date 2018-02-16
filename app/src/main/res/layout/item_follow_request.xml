@@ -29,7 +29,7 @@
         android:gravity="center_vertical"
         android:orientation="vertical">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/follow_request_display_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             android:textStyle="normal|bold"
             tools:text="Display name" />
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/follow_request_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

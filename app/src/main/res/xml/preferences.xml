@@ -55,6 +55,14 @@
             android:title="@string/pref_title_custom_tabs" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_title_font_settings">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="useDownloadedEmoji"
+            android:title="@string/pref_title_emoji_compat"
+            android:summary="@string/pref_title_emoji_compat_summary"/>
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_title_status_filter">
         <Preference
             android:key="timelineFilterPreferences"
