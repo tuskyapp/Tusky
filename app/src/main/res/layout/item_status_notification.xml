@@ -19,7 +19,6 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:paddingLeft="28dp"
         android:paddingStart="28dp"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
@@ -31,7 +30,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/notification_top_text"
         android:layout_toEndOf="@+id/notification_status_avatar"
-        android:layout_toRightOf="@+id/notification_status_avatar"
         android:paddingBottom="4dp"
         android:paddingTop="6dp">
 
@@ -39,13 +37,10 @@
             android:id="@+id/status_display_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:ellipsize="end"
             android:maxLines="1"
-            android:paddingEnd="@dimen/status_display_name_right_padding"
-            android:paddingLeft="0dp"
-            android:paddingRight="@dimen/status_display_name_right_padding"
+            android:paddingEnd="@dimen/status_display_name_padding_end"
             android:paddingStart="0dp"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
             android:textColor="?android:textColorTertiary"
@@ -58,8 +53,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/status_display_name"
-            android:layout_toLeftOf="@+id/status_timestamp_info"
-            android:layout_toRightOf="@id/status_display_name"
             android:layout_toStartOf="@+id/status_timestamp_info"
             android:ellipsize="end"
             android:maxLines="1"
@@ -72,8 +65,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
             android:textColor="?android:textColorTertiary"
             android:textSize="?attr/status_text_medium"
@@ -88,7 +79,6 @@
         android:layout_below="@+id/status_name_bar"
         android:layout_marginBottom="4dp"
         android:layout_toEndOf="@+id/notification_status_avatar"
-        android:layout_toRightOf="@+id/notification_status_avatar"
         android:focusable="true"
         android:visibility="gone"
         app:paddingHorizontal="4dp"
@@ -129,7 +119,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/notification_content_warning_bar"
         android:layout_toEndOf="@+id/notification_status_avatar"
-        android:layout_toRightOf="@+id/notification_status_avatar"
         android:lineSpacingMultiplier="1.1"
         android:paddingBottom="10dp"
         android:textColor="?android:textColorTertiary"
@@ -157,7 +146,6 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_alignBottom="@+id/notification_status_avatar"
-        android:layout_alignEnd="@id/notification_status_avatar"
-        android:layout_alignRight="@id/notification_status_avatar" />
+        android:layout_alignEnd="@id/notification_status_avatar" />
 
 </RelativeLayout>

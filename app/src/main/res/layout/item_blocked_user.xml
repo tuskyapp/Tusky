@@ -12,11 +12,9 @@
         android:id="@+id/blocked_user_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
         android:contentDescription="@string/action_view_profile" />
 
     <ImageButton
@@ -25,9 +23,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_unblock"
@@ -38,8 +34,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_toEndOf="@id/blocked_user_avatar"
-        android:layout_toLeftOf="@id/blocked_user_unblock"
-        android:layout_toRightOf="@id/blocked_user_avatar"
         android:layout_toStartOf="@id/blocked_user_unblock"
         android:gravity="center_vertical"
         android:orientation="vertical">

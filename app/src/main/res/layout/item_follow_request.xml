@@ -12,19 +12,15 @@
         android:id="@+id/follow_request_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
         android:contentDescription="@string/action_view_profile" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_toEndOf="@id/follow_request_avatar"
-        android:layout_toLeftOf="@+id/follow_request_accept"
-        android:layout_toRightOf="@id/follow_request_avatar"
         android:layout_toStartOf="@id/follow_request_accept"
         android:gravity="center_vertical"
         android:orientation="vertical">
@@ -58,9 +54,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp"
-        android:layout_toLeftOf="@+id/follow_request_reject"
         android:layout_toStartOf="@id/follow_request_reject"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_accept"
@@ -68,14 +62,12 @@
         app:srcCompat="@drawable/ic_check_24dp" />
 
     <ImageButton
-        android:id="@id/follow_request_reject"
+        android:id="@+id/follow_request_reject"
         style="?attr/image_button_style"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_reject"
