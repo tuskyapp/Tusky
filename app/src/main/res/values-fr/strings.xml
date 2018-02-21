@@ -121,8 +121,8 @@
         stocké, mais vous pouvez facilement suivre des personnes d’autres instances et communiquer avec elles comme si vous étiez sur le même site.
         \n\nPour plus d’informations, consultez <a href="https://mastodon.social/about">mastodon.social</a> (anglais).
     </string>
-    <string name="dialog_title_finishing_media_upload">Média mis en ligne avec succès.</string>
-    <string name="dialog_message_uploading_media">Mise en ligne…</string>
+    <string name="dialog_title_finishing_media_upload">Mise en ligne des médias…</string>
+    <string name="dialog_message_uploading_media">Envoi en cours…</string>
     <string name="dialog_download_image">Télécharger</string>
     <string name="dialog_message_follow_request">Demande de suivi en attente d\'une réponse</string>
 
