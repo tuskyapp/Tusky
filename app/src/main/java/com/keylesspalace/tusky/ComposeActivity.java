@@ -204,6 +204,32 @@ public final class ComposeActivity extends BaseActivity
             actionBar.setHomeAsUpIndicator(closeIcon);
         }
 
+        // setup the account image
+        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+
+        if(activeAccount != null) {
+
+            ImageView composeAvatar = findViewById(R.id.composeAvatar);
+
+            if(TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
+                composeAvatar.setImageResource(R.drawable.avatar_default);
+            } else {
+                Picasso.with(this).load(activeAccount.getProfilePictureUrl())
+                        .transform(new RoundedTransformation(7, 0))
+                        .error(R.drawable.avatar_default)
+                        .placeholder(R.drawable.avatar_default)
+                        .into(composeAvatar);
+            }
+
+            composeAvatar.setContentDescription(
+                    getString(R.string.compose_active_account_description,
+                            activeAccount.getFullName()));
+
+        } else {
+            // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
+            return;
+        }
+
         // Setup the interface buttons.
         floatingBtn.setOnClickListener(v -> onSendClicked());
         floatingBtn.setOnLongClickListener(v -> saveDraft());
@@ -448,28 +474,6 @@ public final class ComposeActivity extends BaseActivity
                     }
                 }
             }
-        }
-
-        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
-
-        if(activeAccount != null) {
-
-            ImageView composeAvatar = findViewById(R.id.composeAvatar);
-
-            if(TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
-                composeAvatar.setImageResource(R.drawable.avatar_default);
-            } else {
-                Picasso.with(this).load(activeAccount.getProfilePictureUrl())
-                        .transform(new RoundedTransformation(7, 0))
-                        .error(R.drawable.avatar_default)
-                        .placeholder(R.drawable.avatar_default)
-                        .into(composeAvatar);
-            }
-
-            composeAvatar.setContentDescription(
-                    getString(R.string.compose_active_account_description,
-                            activeAccount.getFullName()));
-
         }
 
     }
