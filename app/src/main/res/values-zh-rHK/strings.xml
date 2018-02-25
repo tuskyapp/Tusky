@@ -231,11 +231,11 @@
     <!-- note to translators: the url can be changed to link to the localized version of the license -->
     <string name="about_project_site">
         專案地址：\n
-        https://tusky.keylesspalace.com
+        https://tuskyapp.github.io
     </string>
     <string name="about_bug_feature_request_site">
         問題反饋：\n
-        https://github.com/Vavassor/Tusky/issues
+        https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Tusky 官方帳號</string>
 
