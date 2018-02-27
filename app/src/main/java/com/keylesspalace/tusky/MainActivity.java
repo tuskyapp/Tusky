@@ -296,6 +296,10 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                 .findViewById(R.id.material_drawer_account_header_current)
                 .setContentDescription(getString(R.string.action_view_profile));
 
+        ImageView background = headerResult.getHeaderBackgroundView();
+        background.setColorFilter(ContextCompat.getColor(this, R.color.header_background_filter));
+        background.setBackgroundColor(ContextCompat.getColor(this, R.color.window_background_dark));
+
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder, String tag) {
@@ -390,6 +394,8 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                     .withEnabled(false);
             drawer.addItem(debugItem);
         }
+
+        updateProfiles();
     }
 
     private boolean handleProfileClick(IProfile profile, boolean current) {
@@ -478,9 +484,9 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
     private void onFetchUserInfoSuccess(Account me) {
         // Add the header image and avatar from the account, into the navigation drawer header.
+
         ImageView background = headerResult.getHeaderBackgroundView();
-        background.setColorFilter(ContextCompat.getColor(this, R.color.header_background_filter));
-        background.setBackgroundColor(ContextCompat.getColor(this, R.color.window_background_dark));
+
         Picasso.with(MainActivity.this)
                 .load(me.header)
                 .placeholder(R.drawable.account_header_default)
@@ -491,6 +497,23 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         am.updateActiveAccount(me);
 
         NotificationHelper.createNotificationChannelsForAccount(am.getActiveAccount(), this);
+
+        // Show follow requests in the menu, if this is a locked account.
+        if (me.locked && drawer.getDrawerItem(DRAWER_ITEM_FOLLOW_REQUESTS) == null) {
+            PrimaryDrawerItem followRequestsItem = new PrimaryDrawerItem()
+                    .withIdentifier(DRAWER_ITEM_FOLLOW_REQUESTS)
+                    .withName(R.string.action_view_follow_requests)
+                    .withSelectable(false)
+                    .withIcon(GoogleMaterial.Icon.gmd_person_add);
+            drawer.addItemAtPosition(followRequestsItem, 3);
+        }
+
+        updateProfiles();
+
+    }
+
+    private void updateProfiles() {
+        AccountManager am = TuskyApplication.getAccountManager();
 
         List<AccountEntity> allAccounts = am.getAllAccountsOrderedByActive();
 
@@ -510,17 +533,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                             .withNameShown(true)
                             .withIdentifier(acc.getId())
                             .withEmail(acc.getFullName()));
-
-        }
-
-        // Show follow requests in the menu, if this is a locked account.
-        if (me.locked && drawer.getDrawerItem(DRAWER_ITEM_FOLLOW_REQUESTS) == null) {
-            PrimaryDrawerItem followRequestsItem = new PrimaryDrawerItem()
-                    .withIdentifier(DRAWER_ITEM_FOLLOW_REQUESTS)
-                    .withName(R.string.action_view_follow_requests)
-                    .withSelectable(false)
-                    .withIcon(GoogleMaterial.Icon.gmd_person_add);
-            drawer.addItemAtPosition(followRequestsItem, 3);
         }
 
     }
