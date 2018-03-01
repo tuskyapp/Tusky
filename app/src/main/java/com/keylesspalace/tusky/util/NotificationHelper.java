@@ -152,8 +152,7 @@ public class NotificationHelper {
 
         } else {
             try {
-                String format = context.getString(R.string.notification_title_summary);
-                String title = String.format(format, currentNotifications.length());
+                String title = context.getString(R.string.notification_title_summary, currentNotifications.length());
                 String text = joinNames(context, currentNotifications);
                 builder.setContentTitle(title)
                         .setContentText(text);
@@ -166,6 +165,8 @@ public class NotificationHelper {
 
         builder.setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
         builder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
+
+        builder.setOnlyAlertOnce(true);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -351,14 +352,15 @@ public class NotificationHelper {
     @Nullable
     private static String joinNames(Context context, JSONArray array) throws JSONException {
         if (array.length() > 3) {
+            int length = array.length();
             return String.format(context.getString(R.string.notification_summary_large),
-                    array.get(0), array.get(1), array.get(2), array.length() - 3);
+                    array.get(length-1), array.get(length-2), array.get(length-3), length - 3);
         } else if (array.length() == 3) {
             return String.format(context.getString(R.string.notification_summary_medium),
-                    array.get(0), array.get(1), array.get(2));
+                    array.get(2), array.get(1), array.get(0));
         } else if (array.length() == 2) {
             return String.format(context.getString(R.string.notification_summary_small),
-                    array.get(0), array.get(1));
+                    array.get(1), array.get(0));
         }
 
         return null;

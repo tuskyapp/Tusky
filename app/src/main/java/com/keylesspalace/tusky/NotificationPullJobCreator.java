@@ -36,6 +36,7 @@ import com.keylesspalace.tusky.util.OkHttpUtils;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -129,6 +130,8 @@ public final class NotificationPullJobCreator implements JobCreator {
 
         private void onNotificationsReceived(AccountEntity account, List<Notification> notificationList) {
 
+            Collections.reverse(notificationList);
+
             BigInteger newId = new BigInteger(account.getLastNotificationId());
 
             BigInteger newestId = BigInteger.ZERO;
@@ -142,8 +145,6 @@ public final class NotificationPullJobCreator implements JobCreator {
                 }
 
                 if (isBiggerThan(currentId, newId)) {
-                    account.setLastNotificationId(notification.id);
-
                     NotificationHelper.make(context, notification, account);
                 }
             }
