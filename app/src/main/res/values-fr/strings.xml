@@ -250,7 +250,7 @@
 
     <string name="action_logout_confirm">Êtes vous certain de vouloir déconnecter le compte %1$s?</string>
 
-    <string name="follows_you">Vous suivent</string>
+    <string name="follows_you">Vous suit</string>
     <string name="title_media">Media</string>
     <string name="replying_to">Répondre à @%s</string>
     <string name="load_more_placeholder_text">charger plus</string>
