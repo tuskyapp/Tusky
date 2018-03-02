@@ -137,7 +137,7 @@ class AccountManager {
         activeAccount?.let{
             Log.d(TAG,  "setActiveAccount: saving account with id "+it.id)
             it.isActive = false
-            accountDao.insertOrReplace(it)
+            saveAccount(it)
         }
 
         activeAccount = accounts.find { acc ->
