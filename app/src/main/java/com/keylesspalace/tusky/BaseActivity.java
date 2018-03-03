@@ -208,6 +208,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .setUpdateCurrent(true)
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                 .build()
-                .schedule();
+                .scheduleAsync();
     }
 }

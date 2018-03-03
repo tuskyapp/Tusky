@@ -38,13 +38,12 @@ android {
     }
 }
 
-ext.supportLibraryVersion = '27.0.2'
+ext.supportLibraryVersion = '27.1.0'
 
 dependencies {
-    implementation('com.mikepenz:materialdrawer:6.0.4@aar') {
+    implementation('com.mikepenz:materialdrawer:6.0.6@aar') {
         transitive = true
     }
-    debugImplementation 'im.dino:dbinspector:3.4.1@aar'
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support:customtabs:$supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
@@ -54,8 +53,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
-    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
     implementation 'com.pkmmte.view:circularimageview:1.1'
     implementation 'com.github.varunest:sparkbutton:1.0.5'
@@ -64,20 +63,17 @@ dependencies {
     implementation('com.theartofdev.edmodo:android-image-cropper:2.6.0') {
         exclude group: 'com.android.support'
     }
-    implementation 'com.evernote:android-job:1.2.2'
+    implementation 'com.evernote:android-job:1.2.4'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     //room
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     kapt 'android.arch.persistence.room:compiler:1.0.0'
     testImplementation 'junit:junit:4.12'
 
-    debugImplementation 'im.dino:dbinspector:3.4.1@aar'
-
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-}
-repositories {
-    mavenCentral()
+
+    debugImplementation 'im.dino:dbinspector:3.4.1@aar'
 }
