@@ -1259,7 +1259,7 @@ public final class ComposeActivity extends BaseActivity
                 public void onResponse(@NonNull Call<Attachment> call, @NonNull Response<Attachment> response) {
                     Attachment attachment = response.body();
                     if (response.isSuccessful() && attachment != null) {
-                        item.description = attachment.description;
+                        item.description = attachment.getDescription();
                         dialog.dismiss();
                     } else {
                         showFailedCaptionMessage();
@@ -1412,17 +1412,17 @@ public final class ComposeActivity extends BaseActivity
     }
 
     private void onUploadSuccess(final QueuedMedia item, Attachment media) {
-        item.id = media.id;
+        item.id = media.getId();
         item.preview.setProgress(-1);
         item.readyStage = QueuedMedia.ReadyStage.UPLOADED;
 
         /* Add the upload URL to the text field. Also, keep a reference to the span so if the user
          * chooses to remove the media, the URL is also automatically removed. */
-        item.uploadUrl = new URLSpan(media.textUrl);
-        int end = 1 + media.textUrl.length();
+        item.uploadUrl = new URLSpan(media.getTextUrl());
+        int end = 1 + media.getTextUrl().length();
         SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append(' ');
-        builder.append(media.textUrl);
+        builder.append(media.getTextUrl());
         builder.setSpan(item.uploadUrl, 1, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         int cursorStart = textEditor.getSelectionStart();
         int cursorEnd = textEditor.getSelectionEnd();

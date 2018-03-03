@@ -13,11 +13,9 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.entity;
+package com.keylesspalace.tusky.entity
 
-import java.util.List;
-
-public class StatusContext {
-    public List<Status> ancestors;
-    public List<Status> descendants;
-}
+data class StatusContext (
+    val ancestors: List<Status>,
+    val descendants: List<Status>
+)

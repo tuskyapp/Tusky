@@ -27,7 +27,6 @@ import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class SearchResultsAdapter extends RecyclerView.Adapter {
@@ -91,12 +90,9 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
 
     public void updateSearchResults(SearchResults results) {
         if (results != null) {
-            if (results.accounts != null) {
-                accountList.addAll(Arrays.asList(results.accounts));
-            }
-            if (results.hashtags != null) {
-                hashtagList.addAll(Arrays.asList(results.hashtags));
-            }
+            accountList.addAll(results.getAccounts());
+            hashtagList.addAll(results.getHashtags());
+
         } else {
             accountList.clear();
             hashtagList.clear();

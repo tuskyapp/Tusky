@@ -89,7 +89,7 @@ public class NotificationHelper {
 
         for (int i = 0; i < currentNotifications.length(); i++) {
             try {
-                if (currentNotifications.getString(i).equals(body.account.getDisplayName())) {
+                if (currentNotifications.getString(i).equals(body.getAccount().getName())) {
                     alreadyContains = true;
                 }
             } catch (JSONException e) {
@@ -98,7 +98,7 @@ public class NotificationHelper {
         }
 
         if (!alreadyContains) {
-            currentNotifications.put(body.account.getDisplayName());
+            currentNotifications.put(body.getAccount().getName());
         }
 
         account.setActiveNotifications(currentNotifications.toString());
@@ -131,7 +131,7 @@ public class NotificationHelper {
             builder.setContentTitle(titleForType(context, body))
                     .setContentText(bodyForType(body));
 
-            if(body.type == Notification.Type.MENTION) {
+            if(body.getType() == Notification.Type.MENTION) {
                 builder.setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(bodyForType(body)));
             }
@@ -140,7 +140,7 @@ public class NotificationHelper {
             Bitmap accountAvatar;
             try {
                 accountAvatar = Picasso.with(context)
-                        .load(body.account.avatar)
+                        .load(body.getAccount().getAvatar())
                         .transform(new RoundedTransformation(7, 0))
                         .get();
             } catch (IOException e) {
@@ -301,7 +301,7 @@ public class NotificationHelper {
             return channel.getImportance() > NotificationManager.IMPORTANCE_NONE;
         }
 
-        switch (notification.type) {
+        switch (notification.getType()) {
             default:
             case MENTION:
                 return account.getNotificationsMentioned();
@@ -315,7 +315,7 @@ public class NotificationHelper {
     }
 
     private static String getChannelId(AccountEntity account, Notification notification) {
-        switch (notification.type) {
+        switch (notification.getType()) {
             default:
             case MENTION:
                 return CHANNEL_MENTION+account.getIdentifier();
@@ -368,32 +368,32 @@ public class NotificationHelper {
 
     @Nullable
     private static String titleForType(Context context, Notification notification) {
-        switch (notification.type) {
+        switch (notification.getType()) {
             case MENTION:
                 return String.format(context.getString(R.string.notification_mention_format),
-                        notification.account.getDisplayName());
+                        notification.getAccount().getName());
             case FOLLOW:
                 return String.format(context.getString(R.string.notification_follow_format),
-                        notification.account.getDisplayName());
+                        notification.getAccount().getName());
             case FAVOURITE:
                 return String.format(context.getString(R.string.notification_favourite_format),
-                        notification.account.getDisplayName());
+                        notification.getAccount().getName());
             case REBLOG:
                 return String.format(context.getString(R.string.notification_reblog_format),
-                        notification.account.getDisplayName());
+                        notification.getAccount().getName());
         }
         return null;
     }
 
     @Nullable
     private static String bodyForType(Notification notification) {
-        switch (notification.type) {
+        switch (notification.getType()) {
             case FOLLOW:
-                return "@"+notification.account.username;
+                return "@"+ notification.getAccount().getUsername();
             case MENTION:
             case FAVOURITE:
             case REBLOG:
-                return notification.status.content.toString();
+                return notification.getStatus().getContent().toString();
         }
         return null;
     }

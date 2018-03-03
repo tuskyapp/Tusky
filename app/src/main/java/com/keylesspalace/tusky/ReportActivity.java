@@ -168,9 +168,9 @@ public class ReportActivity extends BaseActivity {
                 List<Status> statusList = response.body();
                 List<ReportAdapter.ReportStatus> itemList = new ArrayList<>();
                 for (Status status : statusList) {
-                    if (status.reblog == null) {
+                    if (status.getReblog() == null) {
                         ReportAdapter.ReportStatus item = new ReportAdapter.ReportStatus(
-                                status.id, status.content, false);
+                                status.getId(), status.getContent(), false);
                         itemList.add(item);
                     }
                 }

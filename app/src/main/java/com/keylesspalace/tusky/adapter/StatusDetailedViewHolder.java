@@ -24,6 +24,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 
 class StatusDetailedViewHolder extends StatusBaseViewHolder {
@@ -68,15 +69,15 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
             timestampInfo.append("  •  ");
 
-            if (app.website != null) {
-                URLSpan span = new CustomURLSpan(app.website);
+            if (app.getWebsite() != null) {
+                URLSpan span = new CustomURLSpan(app.getWebsite());
 
-                SpannableStringBuilder text = new SpannableStringBuilder(app.name);
-                text.setSpan(span, 0, app.name.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                SpannableStringBuilder text = new SpannableStringBuilder(app.getName());
+                text.setSpan(span, 0, app.getName().length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 timestampInfo.append(text);
                 timestampInfo.setMovementMethod(LinkMovementMethod.getInstance());
             } else {
-                timestampInfo.append(app.name);
+                timestampInfo.append(app.getName());
             }
         }
     }
@@ -85,22 +86,25 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     void setupWithStatus(final StatusViewData.Concrete status, final StatusActionListener listener,
                          boolean mediaPreviewEnabled) {
         super.setupWithStatus(status, listener, mediaPreviewEnabled);
-        reblogs.setText(status.getReblogsCount());
-        favourites.setText(status.getFavouritesCount());
+
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+
+        reblogs.setText(numberFormat.format(status.getReblogsCount()));
+        favourites.setText(numberFormat.format(status.getFavouritesCount()));
         setApplication(status.getApplication());
 
-        if(status.getAttachments().length == 0 && status.getCard() != null && !TextUtils.isEmpty(status.getCard().url)) {
+        if(status.getAttachments().length == 0 && status.getCard() != null && !TextUtils.isEmpty(status.getCard().getUrl())) {
             final Card card = status.getCard();
             cardView.setVisibility(View.VISIBLE);
-            cardTitle.setText(card.title);
-            cardDescription.setText(card.description);
+            cardTitle.setText(card.getTitle());
+            cardDescription.setText(card.getDescription());
 
-            cardUrl.setText(card.url);
+            cardUrl.setText(card.getUrl());
 
-            if(card.width > 0 && card.height > 0 && !TextUtils.isEmpty(card.image)) {
+            if(card.getWidth() > 0 && card.getHeight() > 0 && !TextUtils.isEmpty(card.getImage())) {
                 cardImage.setVisibility(View.VISIBLE);
 
-                if(card.width > card.height) {
+                if(card.getWidth() > card.getHeight()) {
                     cardView.setOrientation(LinearLayout.VERTICAL);
                     cardImage.getLayoutParams().height = cardImage.getContext().getResources()
                             .getDimensionPixelSize(R.dimen.card_image_vertical_height);
@@ -121,7 +125,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 }
 
                 Picasso.with(cardImage.getContext())
-                        .load(card.image)
+                        .load(card.getImage())
                         .fit()
                         .centerCrop()
                         .into(cardImage);
@@ -134,7 +138,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 @Override
                 public void onClick(View v) {
 
-                    LinkHelper.openLink(card.url, v.getContext());
+                    LinkHelper.openLink(card.getUrl(), v.getContext());
 
                 }
 

@@ -13,12 +13,17 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.entity;
+package com.keylesspalace.tusky.entity
 
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.SerializedName
 
-public class Notification {
-    public enum Type {
+data class Notification(
+        val type: Type,
+        val id: String,
+        val account: Account,
+        val status: Status?) {
+
+    enum class Type {
         @SerializedName("mention")
         MENTION,
         @SerializedName("reblog")
@@ -26,30 +31,18 @@ public class Notification {
         @SerializedName("favourite")
         FAVOURITE,
         @SerializedName("follow")
-        FOLLOW,
+        FOLLOW
     }
 
-    public Type type;
-
-    public String id;
-
-    public Account account;
-
-    public Status status;
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
+    override fun hashCode(): Int {
+        return id.hashCode()
     }
 
-    @Override
-    public boolean equals(Object other) {
-        if (this.id == null) {
-            return this == other;
-        } else if (!(other instanceof Notification)) {
-            return false;
+    override fun equals(other: Any?): Boolean {
+        if (other !is Notification) {
+            return false
         }
-        Notification notification = (Notification) other;
-        return notification.id.equals(this.id);
+        val notification = other as Notification?
+        return notification?.id == this.id
     }
 }

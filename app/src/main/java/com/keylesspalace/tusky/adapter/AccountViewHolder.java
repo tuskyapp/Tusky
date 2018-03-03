@@ -28,14 +28,14 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
     }
 
     void setupWithAccount(Account account) {
-        accountId = account.id;
+        accountId = account.getId();
         String format = username.getContext().getString(R.string.status_username_format);
-        String formattedUsername = String.format(format, account.username);
+        String formattedUsername = String.format(format, account.getUsername());
         username.setText(formattedUsername);
-        displayName.setText(account.getDisplayName());
+        displayName.setText(account.getName());
         Context context = avatar.getContext();
         Picasso.with(context)
-                .load(account.avatar)
+                .load(account.getAvatar())
                 .placeholder(R.drawable.avatar_default)
                 .into(avatar);
     }

@@ -219,12 +219,12 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         final String[] urls = new String[n];
         for (int i = 0; i < n; i++) {
-            urls[i] = attachments[i].url;
+            urls[i] = attachments[i].getUrl();
         }
 
         for (int i = 0; i < n; i++) {
-            String previewUrl = attachments[i].previewUrl;
-            String description = attachments[i].description;
+            String previewUrl = attachments[i].getPreviewUrl();
+            String description = attachments[i].getDescription();
 
             if(TextUtils.isEmpty(description)) {
                 previews[i].setContentDescription(context.getString(R.string.action_view_media));
@@ -243,7 +243,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                         .into(previews[i]);
             }
 
-            final Attachment.Type type = attachments[i].type;
+            final Attachment.Type type = attachments[i].getType();
             if (type == Attachment.Type.VIDEO | type == Attachment.Type.GIFV) {
                 overlays[i].setVisibility(View.VISIBLE);
             } else {
@@ -351,7 +351,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         // Set the label's text.
         Context context = itemView.getContext();
-        String labelText = getLabelTypeText(context, attachments[0].type);
+        String labelText = getLabelTypeText(context, attachments[0].getType());
         if (sensitive) {
             String sensitiveText = context.getString(R.string.status_sensitive_media_title);
             labelText += String.format(" (%s)", sensitiveText);
@@ -359,7 +359,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         mediaLabel.setText(labelText);
 
         // Set the icon next to the label.
-        int drawableId = getLabelIcon(attachments[0].type);
+        int drawableId = getLabelIcon(attachments[0].getType());
         Drawable drawable = AppCompatResources.getDrawable(context, drawableId);
         ThemeUtils.setDrawableTint(context, drawable, android.R.attr.textColorTertiary);
         mediaLabel.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
@@ -368,9 +368,9 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         int n = Math.min(attachments.length, Status.MAX_MEDIA_ATTACHMENTS);
         final String[] urls = new String[n];
         for (int i = 0; i < n; i++) {
-            urls[i] = attachments[i].url;
+            urls[i] = attachments[i].getUrl();
         }
-        final Attachment.Type type = attachments[0].type;
+        final Attachment.Type type = attachments[0].getType();
         mediaLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

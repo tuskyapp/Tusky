@@ -25,7 +25,6 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -213,7 +212,7 @@ class AccountMediaFragment : BaseFragment() {
                 intent.putExtra("url", urls[currentIndex])
                 startActivity(intent)
             }
-            Attachment.Type.UNKNOWN, null -> {
+            Attachment.Type.UNKNOWN -> {
             }/* Intentionally do nothing. This case is here is to handle when new attachment
                  * types are added to the API before code is added here to handle them. So, the
                  * best fallback is to just show the preview and ignore requests to view them. */

@@ -109,7 +109,7 @@ class AccountManager {
         activeAccount?.let{
             it.accountId = account.id
             it.username = account.username
-            it.displayName = account.getDisplayName()
+            it.displayName = account.name
             it.profilePictureUrl = account.avatar
 
             Log.d(TAG,  "updateActiveAccount: saving account with id "+it.id)

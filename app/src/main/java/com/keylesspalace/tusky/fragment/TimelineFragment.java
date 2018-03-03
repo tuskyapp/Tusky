@@ -310,10 +310,10 @@ public class TimelineFragment extends SFragment implements
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
 
                 if (response.isSuccessful()) {
-                    status.reblogged = reblog;
+                    status.setReblogged(reblog);
 
-                    if (status.reblog != null) {
-                        status.reblog.reblogged = reblog;
+                    if (status.getReblog() != null) {
+                        status.getReblog().setReblogged(reblog);
                     }
 
                     Pair<StatusViewData.Concrete, Integer> actual =
@@ -331,7 +331,7 @@ public class TimelineFragment extends SFragment implements
 
             @Override
             public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(TAG, "Failed to reblog status " + status.id, t);
+                Log.d(TAG, "Failed to reblog status " + status.getId(), t);
             }
         });
     }
@@ -345,10 +345,10 @@ public class TimelineFragment extends SFragment implements
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
 
                 if (response.isSuccessful()) {
-                    status.favourited = favourite;
+                    status.setFavourited(favourite);
 
-                    if (status.reblog != null) {
-                        status.reblog.favourited = favourite;
+                    if (status.getReblog() != null) {
+                        status.getReblog().setFavourited(favourite);
                     }
 
                     Pair<StatusViewData.Concrete, Integer> actual =
@@ -366,7 +366,7 @@ public class TimelineFragment extends SFragment implements
 
             @Override
             public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(TAG, "Failed to favourite status " + status.id, t);
+                Log.d(TAG, "Failed to favourite status " + status.getId(), t);
             }
         });
     }
@@ -409,7 +409,7 @@ public class TimelineFragment extends SFragment implements
                 Log.e(TAG, "Failed to load more at " + position + ", wrong placeholder position");
                 return;
             }
-            sendFetchTimelineRequest(fromStatus.id, toStatus.id, FetchEnd.MIDDLE, position);
+            sendFetchTimelineRequest(fromStatus.getId(), toStatus.getId(), FetchEnd.MIDDLE, position);
 
             StatusViewData newViewData = new StatusViewData.Placeholder(true);
             statuses.setPairedItem(position, newViewData);
@@ -499,7 +499,7 @@ public class TimelineFragment extends SFragment implements
         Iterator<Either<Placeholder, Status>> iterator = statuses.iterator();
         while (iterator.hasNext()) {
             Status status = iterator.next().getAsRightOrNull();
-            if (status != null && status.account.id.equals(accountId)) {
+            if (status != null && status.getAccount().getId().equals(accountId)) {
                 iterator.remove();
             }
         }
@@ -682,8 +682,8 @@ public class TimelineFragment extends SFragment implements
         Iterator<Status> it = statuses.iterator();
         while (it.hasNext()) {
             Status status = it.next();
-            if ((status.inReplyToId != null && filterRemoveReplies)
-                    || (status.reblog != null && filterRemoveReblogs)) {
+            if ((status.getInReplyToId() != null && filterRemoveReplies)
+                    || (status.getReblog() != null && filterRemoveReblogs)) {
                 it.remove();
             }
         }
@@ -733,7 +733,7 @@ public class TimelineFragment extends SFragment implements
         Status last = statuses.get(end - 1).getAsRightOrNull();
         // I was about to replace findStatus with indexOf but it is incorrect to compare value
         // types by ID anyway and we should change equals() for Status, I think, so this makes sense
-        if (last != null && !findStatus(newStatuses, last.id)) {
+        if (last != null && !findStatus(newStatuses, last.getId())) {
             statuses.addAll(listStatusList(newStatuses));
             List<StatusViewData> newViewDatas = statuses.getPairedCopy()
                     .subList(statuses.size() - newStatuses.size(), statuses.size());
@@ -775,7 +775,7 @@ public class TimelineFragment extends SFragment implements
 
     private static boolean findStatus(List<Status> statuses, String id) {
         for (Status status : statuses) {
-            if (status.id.equals(id)) {
+            if (status.getId().equals(id)) {
                 return true;
             }
         }
@@ -794,7 +794,7 @@ public class TimelineFragment extends SFragment implements
 
         // Unlikely, but data could change between the request and response
         if ((someOldViewData instanceof StatusViewData.Placeholder) ||
-                !((StatusViewData.Concrete) someOldViewData).getId().equals(status.id)) {
+                !((StatusViewData.Concrete) someOldViewData).getId().equals(status.getId())) {
             // try to find the status we need to update
             int foundPos = statuses.indexOf(Either.<Placeholder, Status>right(status));
             if (foundPos < 0) return null; // okay, it's hopeless, give up

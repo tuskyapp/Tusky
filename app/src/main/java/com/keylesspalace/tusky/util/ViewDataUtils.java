@@ -31,38 +31,38 @@ public final class ViewDataUtils {
     public static StatusViewData.Concrete statusToViewData(@Nullable Status status,
                                                            boolean alwaysShowSensitiveMedia) {
         if (status == null) return null;
-        Status visibleStatus = status.reblog == null ? status : status.reblog;
-        return new StatusViewData.Builder().setId(status.id)
-                .setAttachments(visibleStatus.attachments)
-                .setAvatar(visibleStatus.account.avatar)
-                .setContent(visibleStatus.content)
-                .setCreatedAt(visibleStatus.createdAt)
-                .setReblogsCount(visibleStatus.reblogsCount)
-                .setFavouritesCount(visibleStatus.favouritesCount)
-                .setInReplyToId(visibleStatus.inReplyToId)
-                .setFavourited(visibleStatus.favourited)
-                .setReblogged(visibleStatus.reblogged)
+        Status visibleStatus = status.getReblog() == null ? status : status.getReblog();
+        return new StatusViewData.Builder().setId(status.getId())
+                .setAttachments(visibleStatus.getAttachments())
+                .setAvatar(visibleStatus.getAccount().getAvatar())
+                .setContent(visibleStatus.getContent())
+                .setCreatedAt(visibleStatus.getCreatedAt())
+                .setReblogsCount(visibleStatus.getReblogsCount())
+                .setFavouritesCount(visibleStatus.getFavouritesCount())
+                .setInReplyToId(visibleStatus.getInReplyToId())
+                .setFavourited(visibleStatus.getFavourited())
+                .setReblogged(visibleStatus.getReblogged())
                 .setIsExpanded(false)
                 .setIsShowingSensitiveContent(false)
-                .setMentions(visibleStatus.mentions)
-                .setNickname(visibleStatus.account.username)
-                .setRebloggedAvatar(status.reblog == null ? null : status.account.avatar)
-                .setSensitive(visibleStatus.sensitive)
-                .setIsShowingSensitiveContent(alwaysShowSensitiveMedia || !visibleStatus.sensitive)
-                .setSpoilerText(visibleStatus.spoilerText)
-                .setRebloggedByUsername(status.reblog == null ? null : status.account.username)
-                .setUserFullName(visibleStatus.account.getDisplayName())
-                .setVisibility(visibleStatus.visibility)
-                .setSenderId(visibleStatus.account.id)
+                .setMentions(visibleStatus.getMentions())
+                .setNickname(visibleStatus.getAccount().getUsername())
+                .setRebloggedAvatar(status.getReblog() == null ? null : status.getAccount().getAvatar())
+                .setSensitive(visibleStatus.getSensitive())
+                .setIsShowingSensitiveContent(alwaysShowSensitiveMedia || !visibleStatus.getSensitive())
+                .setSpoilerText(visibleStatus.getSpoilerText())
+                .setRebloggedByUsername(status.getReblog() == null ? null : status.getAccount().getUsername())
+                .setUserFullName(visibleStatus.getAccount().getName())
+                .setVisibility(visibleStatus.getVisibility())
+                .setSenderId(visibleStatus.getAccount().getId())
                 .setRebloggingEnabled(visibleStatus.rebloggingAllowed())
-                .setApplication(visibleStatus.application)
-                .setEmojis(visibleStatus.emojis)
+                .setApplication(visibleStatus.getApplication())
+                .setEmojis(visibleStatus.getEmojis())
                 .createStatusViewData();
     }
 
     public static NotificationViewData.Concrete notificationToViewData(Notification notification, boolean alwaysShowSensitiveData) {
-        return new NotificationViewData.Concrete(notification.type, notification.id, notification.account,
-                statusToViewData(notification.status, alwaysShowSensitiveData), false);
+        return new NotificationViewData.Concrete(notification.getType(), notification.getId(), notification.getAccount(),
+                statusToViewData(notification.getStatus(), alwaysShowSensitiveData), false);
     }
 
 }

@@ -488,7 +488,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         ImageView background = headerResult.getHeaderBackgroundView();
 
         Picasso.with(MainActivity.this)
-                .load(me.header)
+                .load(me.getHeader())
                 .placeholder(R.drawable.account_header_default)
                 .into(background);
 
@@ -499,7 +499,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         NotificationHelper.createNotificationChannelsForAccount(am.getActiveAccount(), this);
 
         // Show follow requests in the menu, if this is a locked account.
-        if (me.locked && drawer.getDrawerItem(DRAWER_ITEM_FOLLOW_REQUESTS) == null) {
+        if (me.getLocked() && drawer.getDrawerItem(DRAWER_ITEM_FOLLOW_REQUESTS) == null) {
             PrimaryDrawerItem followRequestsItem = new PrimaryDrawerItem()
                     .withIdentifier(DRAWER_ITEM_FOLLOW_REQUESTS)
                     .withName(R.string.action_view_follow_requests)
@@ -533,6 +533,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                             .withNameShown(true)
                             .withIdentifier(acc.getId())
                             .withEmail(acc.getFullName()));
+
         }
 
     }

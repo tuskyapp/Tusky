@@ -13,14 +13,10 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.entity;
+package com.keylesspalace.tusky.entity
 
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.SerializedName
 
-public class AppCredentials {
-    @SerializedName("client_id")
-    public String clientId;
-
-    @SerializedName("client_secret")
-    public String clientSecret;
-}
+data class AccessToken(
+        @SerializedName("access_token") val accessToken: String
+)

@@ -58,6 +58,7 @@ import com.keylesspalace.tusky.util.ThemeUtils;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -285,20 +286,20 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         TextView note = findViewById(R.id.account_note);
 
         String usernameFormatted = String.format(
-                getString(R.string.status_username_format), account.username);
+                getString(R.string.status_username_format), account.getUsername());
         username.setText(usernameFormatted);
 
-        displayName.setText(account.getDisplayName());
+        displayName.setText(account.getName());
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(account.getDisplayName());
+            getSupportActionBar().setTitle(account.getName());
 
             String subtitle = String.format(getString(R.string.status_username_format),
-                    account.username);
+                    account.getUsername());
             getSupportActionBar().setSubtitle(subtitle);
         }
 
-        LinkHelper.setClickableText(note, account.note, null, new LinkListener() {
+        LinkHelper.setClickableText(note, account.getNote(), null, new LinkListener() {
             @Override
             public void onViewTag(String tag) {
                 Intent intent = new Intent(AccountActivity.this, ViewTagActivity.class);
@@ -314,24 +315,26 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
             }
         });
 
-        if (account.locked) {
+        if (account.getLocked()) {
             accountLockedView.setVisibility(View.VISIBLE);
         } else {
             accountLockedView.setVisibility(View.GONE);
         }
 
         Picasso.with(this)
-                .load(account.avatar)
+                .load(account.getAvatar())
                 .placeholder(R.drawable.avatar_default)
                 .into(avatar);
         Picasso.with(this)
-                .load(account.header)
+                .load(account.getHeader())
                 .placeholder(R.drawable.account_header_default)
                 .into(header);
 
-        long followersCount = Long.parseLong(account.followersCount);
-        long followingCount = Long.parseLong(account.followingCount);
-        long statusesCount = Long.parseLong(account.statusesCount);
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+
+        String followersCount = numberFormat.format(account.getFollowersCount());
+        String followingCount = numberFormat.format(account.getFollowingCount());
+        String statusesCount = numberFormat.format(account.getStatusesCount());
         followersTextView.setText(getString(R.string.title_x_followers, followersCount));
         followingTextView.setText(getString(R.string.title_x_following, followingCount));
         statusesTextView.setText(getString(R.string.title_x_statuses, statusesCount));
@@ -368,17 +371,17 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     }
 
     private void onObtainRelationshipsSuccess(Relationship relation) {
-        if (relation.following) {
+        if (relation.getFollowing()) {
             followState = FollowState.FOLLOWING;
-        } else if (relation.requested) {
+        } else if (relation.getRequested()) {
             followState = FollowState.REQUESTED;
         } else {
             followState = FollowState.NOT_FOLLOWING;
         }
-        this.blocking = relation.blocking;
-        this.muting = relation.muting;
+        this.blocking = relation.getBlocking();
+        this.muting = relation.getMuting();
 
-        if (relation.followedBy) {
+        if (relation.getFollowedBy()) {
             followsYouView.setVisibility(View.VISIBLE);
         } else {
             followsYouView.setVisibility(View.GONE);
@@ -497,9 +500,9 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
                                    @NonNull Response<Relationship> response) {
                 Relationship relationship = response.body();
                 if (response.isSuccessful() && relationship != null) {
-                    if (relationship.following) {
+                    if (relationship.getFollowing()) {
                         followState = FollowState.FOLLOWING;
-                    } else if (relationship.requested) {
+                    } else if (relationship.getRequested()) {
                         followState = FollowState.REQUESTED;
                         Snackbar.make(container, R.string.state_follow_requested,
                                 Snackbar.LENGTH_LONG).show();
@@ -563,7 +566,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
                 Relationship relationship = response.body();
                 if (response.isSuccessful() && relationship != null) {
                     broadcast(TimelineReceiver.Types.BLOCK_ACCOUNT, id);
-                    blocking = relationship.blocking;
+                    blocking = relationship.getBlocking();
                     updateButtons();
                 } else {
                     onBlockFailure(id);
@@ -597,7 +600,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
                 Relationship relationship = response.body();
                 if (response.isSuccessful() && relationship != null) {
                     broadcast(TimelineReceiver.Types.MUTE_ACCOUNT, id);
-                    muting = relationship.muting;
+                    muting = relationship.getMuting();
                     updateButtons();
                 } else {
                     onMuteFailure(id);
@@ -630,7 +633,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
             return false;
         }
         Intent intent = new ComposeActivity.IntentBuilder()
-                .mentionedUsernames(Collections.singleton(loadedAccount.username))
+                .mentionedUsernames(Collections.singleton(loadedAccount.getUsername()))
                 .build(this);
         startActivity(intent);
         return true;
@@ -657,7 +660,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
                     // If the account isn't loaded yet, eat the input.
                     return false;
                 }
-                LinkHelper.openLink(loadedAccount.url, this);
+                LinkHelper.openLink(loadedAccount.getUrl(), this);
                 return true;
             }
             case R.id.action_follow: {

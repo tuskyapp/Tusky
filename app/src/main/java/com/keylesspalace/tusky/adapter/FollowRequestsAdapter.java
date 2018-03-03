@@ -92,13 +92,13 @@ public class FollowRequestsAdapter extends AccountAdapter {
         }
 
         void setupWithAccount(Account account) {
-            id = account.id;
-            displayName.setText(account.getDisplayName());
+            id = account.getId();
+            displayName.setText(account.getName());
             String format = username.getContext().getString(R.string.status_username_format);
-            String formattedUsername = String.format(format, account.username);
+            String formattedUsername = String.format(format, account.getUsername());
             username.setText(formattedUsername);
             Picasso.with(avatar.getContext())
-                    .load(account.avatar)
+                    .load(account.getAvatar())
                     .placeholder(R.drawable.avatar_default)
                     .into(avatar);
         }

@@ -262,21 +262,21 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onReply(int position) {
-        super.reply(notifications.get(position).getAsRight().status);
+        super.reply(notifications.get(position).getAsRight().getStatus());
     }
 
     @Override
     public void onReblog(final boolean reblog, final int position) {
         final Notification notification = notifications.get(position).getAsRight();
-        final Status status = notification.status;
+        final Status status = notification.getStatus();
         reblogWithCallback(status, reblog, new Callback<Status>() {
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
-                    status.reblogged = reblog;
+                    status.setReblogged(reblog);
 
-                    if (status.reblog != null) {
-                        status.reblog.reblogged = reblog;
+                    if (status.getReblog() != null) {
+                        status.getReblog().setReblogged(reblog);
                     }
 
                     NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete)notifications.getPairedItem(position);
@@ -296,7 +296,7 @@ public class NotificationsFragment extends SFragment implements
 
             @Override
             public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.id, t);
+                Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.getId(), t);
             }
         });
     }
@@ -305,15 +305,15 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onFavourite(final boolean favourite, final int position) {
         final Notification notification = notifications.get(position).getAsRight();
-        final Status status = notification.status;
+        final Status status = notification.getStatus();
         favouriteWithCallback(status, favourite, new Callback<Status>() {
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
-                    status.favourited = favourite;
+                    status.setFavourited(favourite);
 
-                    if (status.reblog != null) {
-                        status.reblog.favourited = favourite;
+                    if (status.getReblog() != null) {
+                        status.getReblog().setFavourited(favourite);
                     }
 
                     NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete)notifications.getPairedItem(position);
@@ -334,7 +334,7 @@ public class NotificationsFragment extends SFragment implements
 
             @Override
             public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.id, t);
+                Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.getId(), t);
             }
         });
     }
@@ -342,7 +342,7 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onMore(View view, int position) {
         Notification notification = notifications.get(position).getAsRight();
-        super.more(notification.status, view, position);
+        super.more(notification.getStatus(), view, position);
     }
 
     @Override
@@ -354,13 +354,13 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onViewThread(int position) {
         Notification notification = notifications.get(position).getAsRight();
-        super.viewThread(notification.status);
+        super.viewThread(notification.getStatus());
     }
 
     @Override
     public void onOpenReblog(int position) {
         Notification notification = notifications.get(position).getAsRight();
-        onViewAccount(notification.account.id);
+        onViewAccount(notification.getAccount().getId());
     }
 
     @Override
@@ -401,7 +401,7 @@ public class NotificationsFragment extends SFragment implements
                 Log.e(TAG, "Failed to load more, invalid placeholder position: " + position);
                 return;
             }
-            sendFetchNotificationsRequest(previous.id, next.id, FetchEnd.MIDDLE, position);
+            sendFetchNotificationsRequest(previous.getId(), next.getId(), FetchEnd.MIDDLE, position);
             NotificationViewData notificationViewData =
                     new NotificationViewData.Placeholder(true);
             notifications.setPairedItem(position, notificationViewData);
@@ -425,8 +425,8 @@ public class NotificationsFragment extends SFragment implements
     public void onViewStatusForNotificationId(String notificationId) {
         for (Either<Placeholder, Notification> either : notifications) {
             Notification notification = either.getAsRightOrNull();
-            if (notification != null && notification.id.equals(notificationId)) {
-                super.viewThread(notification.status);
+            if (notification != null && notification.getId().equals(notificationId)) {
+                super.viewThread(notification.getStatus());
                 return;
             }
         }
@@ -462,7 +462,7 @@ public class NotificationsFragment extends SFragment implements
         while (iterator.hasNext()) {
             Either<Placeholder, Notification> notification = iterator.next();
             Notification maybeNotification = notification.getAsRightOrNull();
-            if (maybeNotification != null && maybeNotification.account.id.equals(accountId)) {
+            if (maybeNotification != null && maybeNotification.getAccount().getId().equals(accountId)) {
                 iterator.remove();
             }
         }
@@ -590,7 +590,7 @@ public class NotificationsFragment extends SFragment implements
         BigInteger lastNoti = new BigInteger(account.getLastNotificationId());
 
         for (Notification noti: notifications) {
-            BigInteger a = new BigInteger(noti.id);
+            BigInteger a = new BigInteger(noti.getId());
             if(isBiggerThan(a, lastNoti)) {
                 lastNoti = a;
             }

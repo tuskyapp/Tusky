@@ -95,9 +95,9 @@ public class LinkHelper {
                  * that can't be found then just go with whichever one matched last. */
                 String id = null;
                 for (Status.Mention mention : mentions) {
-                    if (mention.localUsername.equalsIgnoreCase(accountUsername)) {
-                        id = mention.id;
-                        if (mention.url.contains(getDomain(span.getURL()))) {
+                    if (mention.getLocalUsername().equalsIgnoreCase(accountUsername)) {
+                        id = mention.getId();
+                        if (mention.getUrl().contains(getDomain(span.getURL()))) {
                             break;
                         }
                     }

@@ -72,7 +72,7 @@ public class AboutActivity extends BaseActivity {
                 if (response.isSuccessful()) {
                     List<Account> accountList = response.body();
                     if (!accountList.isEmpty()) {
-                        String id = accountList.get(0).id;
+                        String id = accountList.get(0).getId();
                         getPrivatePreferences().edit()
                                 .putString("appAccountId", id)
                                 .apply();

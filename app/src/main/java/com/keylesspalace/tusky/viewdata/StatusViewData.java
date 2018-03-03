@@ -58,8 +58,8 @@ public abstract class StatusViewData {
         private final String nickname;
         private final String avatar;
         private final Date createdAt;
-        private final String reblogsCount;
-        private final String favouritesCount;
+        private final int reblogsCount;
+        private final int favouritesCount;
         @Nullable
         private final String inReplyToId;
         // I would rather have something else but it would be too much of a rewrite
@@ -76,7 +76,7 @@ public abstract class StatusViewData {
                         @Nullable String spoilerText, Status.Visibility visibility, Attachment[] attachments,
                         @Nullable String rebloggedByUsername, @Nullable String rebloggedAvatar, boolean sensitive, boolean isExpanded,
                         boolean isShowingContent, String userFullName, String nickname, String avatar,
-                        Date createdAt, String reblogsCount, String favouritesCount, @Nullable String inReplyToId,
+                        Date createdAt, int reblogsCount, int favouritesCount, @Nullable String inReplyToId,
                         @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
                         Status.Application application, List<Status.Emoji> emojis, @Nullable Card card) {
             this.id = id;
@@ -173,11 +173,11 @@ public abstract class StatusViewData {
             return createdAt;
         }
 
-        public String getReblogsCount() {
+        public int getReblogsCount() {
             return reblogsCount;
         }
 
-        public String getFavouritesCount() {
+        public int getFavouritesCount() {
             return favouritesCount;
         }
 
@@ -243,8 +243,8 @@ public abstract class StatusViewData {
         private String nickname;
         private String avatar;
         private Date createdAt;
-        private String reblogsCount;
-        private String favouritesCount;
+        private int reblogsCount;
+        private int favouritesCount;
         private String inReplyToId;
         private Status.Mention[] mentions;
         private String senderId;
@@ -364,12 +364,12 @@ public abstract class StatusViewData {
             return this;
         }
 
-        public Builder setReblogsCount(String reblogsCount) {
+        public Builder setReblogsCount(int reblogsCount) {
             this.reblogsCount = reblogsCount;
             return this;
         }
 
-        public Builder setFavouritesCount(String favouritesCount) {
+        public Builder setFavouritesCount(int favouritesCount) {
             this.favouritesCount = favouritesCount;
             return this;
         }
