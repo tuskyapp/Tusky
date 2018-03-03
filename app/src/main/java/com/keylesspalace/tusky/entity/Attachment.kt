@@ -22,12 +22,14 @@ import com.google.gson.JsonParseException
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 
-class Attachment (var id: String,
-                    var url: String,
-                  @SerializedName("preview_url") val previewUrl: String,
-                  @SerializedName("text_url") val textUrl: String?,
-                  var type: Type,
-                  var description: String? = null) {
+data class Attachment(
+        var id: String,
+        var url: String,
+        @SerializedName("preview_url") val previewUrl: String,
+        @SerializedName("text_url") val textUrl: String?,
+        var type: Type,
+        var description: String?
+) {
 
     @JsonAdapter(MediaTypeDeserializer::class)
     enum class Type {

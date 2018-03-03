@@ -19,13 +19,15 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Card (val url: String,
-                 val title: String,
-                 val description: String,
-                 val image: String,
-                 val type: String,
-                 val width: Int,
-                 val height: Int) : Parcelable {
+data class Card(
+        val url: String,
+        val title: String,
+        val description: String,
+        val image: String,
+        val type: String,
+        val width: Int,
+        val height: Int
+) : Parcelable {
 
     override fun hashCode(): Int {
         return url.hashCode()

@@ -17,7 +17,7 @@ package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.SerializedName
 
-class Notification(
+data class Notification(
         val type: Type,
         val id: String,
         val account: Account,
