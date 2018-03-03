@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
+import com.mikepenz.iconics.utils.Utils;
 import com.squareup.picasso.Picasso;
 import com.varunest.sparkbutton.SparkButton;
 import com.varunest.sparkbutton.SparkEventListener;
@@ -147,6 +149,15 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         timestampInfo.setContentDescription(readoutAloud);
     }
 
+    protected void showContent(boolean show) {
+        if(show) {
+            container.setVisibility(View.VISIBLE);
+            container.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        } else {
+            container.setVisibility(View.INVISIBLE);
+            container.getLayoutParams().height = Utils.convertDpToPx(container.getContext(), 24);
+        }
+    }
 
     private void setIsReply(boolean isReply) {
         if(isReply) {

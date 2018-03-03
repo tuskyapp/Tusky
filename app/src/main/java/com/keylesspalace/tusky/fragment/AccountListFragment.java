@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
@@ -29,20 +30,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.keylesspalace.tusky.AccountActivity;
+import com.keylesspalace.tusky.BaseActivity;
+import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.AccountAdapter;
 import com.keylesspalace.tusky.adapter.BlocksAdapter;
 import com.keylesspalace.tusky.adapter.FollowAdapter;
 import com.keylesspalace.tusky.adapter.FollowRequestsAdapter;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.MutesAdapter;
-import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
-import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
@@ -107,7 +107,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_account_list, container, false);
@@ -161,6 +161,9 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         };
 
         recyclerView.addOnScrollListener(scrollListener);
+
+        fetchAccounts(null, null, FetchEnd.BOTTOM);
+
     }
 
     @Override
@@ -182,7 +185,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
 
         Callback<Relationship> callback = new Callback<Relationship>() {
             @Override
-            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
+            public void onResponse(@NonNull Call<Relationship> call, @NonNull Response<Relationship> response) {
                 if (response.isSuccessful()) {
                     onMuteSuccess(mute, id, position);
                 } else {
@@ -191,7 +194,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
             }
 
             @Override
-            public void onFailure(Call<Relationship> call, Throwable t) {
+            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {
                 onMuteFailure(mute, id);
             }
         };
@@ -212,12 +215,9 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         }
         final MutesAdapter mutesAdapter = (MutesAdapter) adapter;
         final Account unmutedUser = mutesAdapter.removeItem(position);
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mutesAdapter.addItem(unmutedUser, position);
-                onMute(true, id, position);
-            }
+        View.OnClickListener listener = v -> {
+            mutesAdapter.addItem(unmutedUser, position);
+            onMute(true, id, position);
         };
         Snackbar.make(recyclerView, R.string.confirmation_unmuted, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_undo, listener)
@@ -246,7 +246,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
 
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
-            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
+            public void onResponse(@NonNull Call<Relationship> call, @NonNull Response<Relationship> response) {
                 if (response.isSuccessful()) {
                     onBlockSuccess(block, id, position);
                 } else {
@@ -255,7 +255,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
             }
 
             @Override
-            public void onFailure(Call<Relationship> call, Throwable t) {
+            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {
                 onBlockFailure(block, id);
             }
         };
@@ -276,12 +276,9 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         }
         final BlocksAdapter blocksAdapter = (BlocksAdapter) adapter;
         final Account unblockedUser = blocksAdapter.removeItem(position);
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                blocksAdapter.addItem(unblockedUser, position);
-                onBlock(true, id, position);
-            }
+        View.OnClickListener listener = v -> {
+            blocksAdapter.addItem(unblockedUser, position);
+            onBlock(true, id, position);
         };
         Snackbar.make(recyclerView, R.string.confirmation_unblocked, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_undo, listener)
@@ -311,7 +308,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
 
         Callback<Relationship> callback = new Callback<Relationship>() {
             @Override
-            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
+            public void onResponse(@NonNull Call<Relationship> call, @NonNull Response<Relationship> response) {
                 if (response.isSuccessful()) {
                     onRespondToFollowRequestSuccess(position);
                 } else {
@@ -320,7 +317,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
             }
 
             @Override
-            public void onFailure(Call<Relationship> call, Throwable t) {
+            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {
                 onRespondToFollowRequestFailure(accept, accountId);
             }
         };
@@ -349,11 +346,6 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         }
         String message = String.format("Failed to %s account id %s.", verb, accountId);
         Log.e(TAG, message);
-    }
-
-    private void jumpToTop() {
-        layoutManager.scrollToPositionWithOffset(0, 0);
-        scrollListener.reset();
     }
 
     private enum FetchEnd {
@@ -393,17 +385,12 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
             /* When this is called by the EndlessScrollListener it cannot refresh the footer state
              * using adapter.notifyItemChanged. So its necessary to postpone doing so until a
              * convenient time for the UI thread using a Runnable. */
-            recyclerView.post(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.setFooterState(FooterViewHolder.State.LOADING);
-                }
-            });
+            recyclerView.post(() -> adapter.setFooterState(FooterViewHolder.State.LOADING));
         }
 
         Callback<List<Account>> cb = new Callback<List<Account>>() {
             @Override
-            public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
+            public void onResponse(@NonNull Call<List<Account>> call, @NonNull Response<List<Account>> response) {
                 if (response.isSuccessful()) {
                     String linkHeader = response.headers().get("Link");
                     onFetchAccountsSuccess(response.body(), linkHeader, fetchEnd);
@@ -413,7 +400,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
             }
 
             @Override
-            public void onFailure(Call<List<Account>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Account>> call, @NonNull Throwable t) {
                 onFetchAccountsFailure((Exception) t, fetchEnd);
             }
         };
@@ -476,6 +463,8 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
 
     private void onLoadMore(RecyclerView recyclerView) {
         AccountAdapter adapter = (AccountAdapter) recyclerView.getAdapter();
+        //if we do not have a bottom id, we know we do not need to load more
+        if(adapter.getBottomId() == null) return;
         fetchAccounts(adapter.getBottomId(), null, FetchEnd.BOTTOM);
     }
 

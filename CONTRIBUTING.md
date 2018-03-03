@@ -21,8 +21,11 @@ Please keep the organization and ordering of each of the strings the same as in 
 
 There are no icons or other resources needing localization, so it's just the text.
 
+### Kotlin
+This project is in the process of migrating to Kotlin, we prefer new code to be written in Kotlin. We try to follow the [Kotlin Style Guide](https://android.github.io/kotlin-guides/style.html) and make use of the [Kotlin Android Extensions](https://kotlinlang.org/docs/tutorials/android-plugin.html).
+
 ### Java
-For java, I generally follow this [Android Style Guide](https://source.android.com/source/code-style), which is what Android uses for their own source code. I encourage the use of optional annotations like ```@Nullable``` and ```@NotNull```. Also, if you ever make helper functions that take Android resources, annotations like ```@StringRes```, ```@DrawableRes```, and ```@AttrRes``` are helpful. They can prevent small errors, like accidentally passing an attribute id to a function that takes a drawable id, for example (both are ints).
+Existing code in Java should follow the [Android Style Guide](https://source.android.com/source/code-style), which is what Android uses for their own source code. ```@Nullable``` and ```@NotNull``` annotations are really helpful for Kotlin interoperability.
 
 ### Visuals
 There are two themes in the app, so any visual changes should be checked with both themes to ensure they look appropriate for both. Usually, you can use existing color attributes like ```?attr/colorPrimary``` and ```?attr/textColorSecondary```. For icons and drawables, use a white drawable and tint it at runtime using ```ThemeUtils``` and specify an attribute that references different colours depending on the theme. Do not reference attributes in drawable files, because it is only supported in API levels 21+.
@@ -44,3 +47,6 @@ It may refuse to start the rebase if there's changes that haven't been committed
 
 2. Push your local branch to your fork on Github by running ```git push origin your-change-name```.
 3. Then, go to the original project page and make a pull request. Select your fork/branch and use ```master``` as the base branch.
+4. Wait for feedback on your pull request and be ready to make some changes
+
+If you have any questions, don't hesitate to open an issue or contact [Tusky@mastodon.social](https://mastodon.social/@Tusky). Please also ask before you start implementing a new big feature.

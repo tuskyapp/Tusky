@@ -132,16 +132,24 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case REBLOG: {
                     StatusNotificationViewHolder holder = (StatusNotificationViewHolder) viewHolder;
                     StatusViewData.Concrete statusViewData = concreteNotificaton.getStatusViewData();
-                    holder.setDisplayName(statusViewData.getUserFullName());
-                    holder.setUsername(statusViewData.getNickname());
-                    holder.setCreatedAt(statusViewData.getCreatedAt());
+
+                    if(statusViewData == null) {
+                        holder.showNotificationContent(false);
+                    } else {
+                        holder.showNotificationContent(true);
+
+                        holder.setDisplayName(statusViewData.getUserFullName());
+                        holder.setUsername(statusViewData.getNickname());
+                        holder.setCreatedAt(statusViewData.getCreatedAt());
+
+                        holder.setAvatars(concreteNotificaton.getStatusViewData().getAvatar(),
+                                concreteNotificaton.getAccount().getAvatar());
+                    }
 
                     holder.setMessage(concreteNotificaton, statusListener);
                     holder.setupButtons(notificationActionListener,
                             concreteNotificaton.getAccount().getId(),
                             concreteNotificaton.getId());
-                    holder.setAvatars(concreteNotificaton.getStatusViewData().getAvatar(),
-                            concreteNotificaton.getAccount().getAvatar());
                     break;
                 }
                 case FOLLOW: {
@@ -284,6 +292,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private static class StatusNotificationViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, ToggleButton.OnCheckedChangeListener {
         private final TextView message;
+        private final View statusNameBar;
         private final TextView displayName;
         private final TextView username;
         private final TextView timestampInfo;
@@ -303,6 +312,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         StatusNotificationViewHolder(View itemView) {
             super(itemView);
             message = itemView.findViewById(R.id.notification_top_text);
+            statusNameBar = itemView.findViewById(R.id.status_name_bar);
             displayName = itemView.findViewById(R.id.status_display_name);
             username = itemView.findViewById(R.id.status_username);
             timestampInfo = itemView.findViewById(R.id.status_timestamp_info);
@@ -322,6 +332,15 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             message.setOnClickListener(this);
             statusContent.setOnClickListener(this);
             contentWarningButton.setOnCheckedChangeListener(this);
+        }
+
+        private void showNotificationContent(boolean show) {
+            statusNameBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            contentWarningBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            statusContent.setVisibility(show ? View.VISIBLE : View.GONE);
+            statusAvatar.setVisibility(show ? View.VISIBLE : View.GONE);
+            notificationAvatar.setVisibility(show ? View.VISIBLE : View.GONE);
+
         }
 
         private void setDisplayName(String name) {
@@ -396,9 +415,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             message.setText(str);
 
-            boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
-            contentWarningBar.setVisibility(hasSpoiler ? View.VISIBLE : View.GONE);
-            setupContentAndSpoiler(notificationViewData, listener);
+            if (statusViewData != null) {
+                boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
+                contentWarningBar.setVisibility(hasSpoiler ? View.VISIBLE : View.GONE);
+                setupContentAndSpoiler(notificationViewData, listener);
+            }
+
         }
 
         void setupButtons(final NotificationActionListener listener, final String accountId,

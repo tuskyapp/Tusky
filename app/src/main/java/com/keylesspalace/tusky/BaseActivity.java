@@ -201,11 +201,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void setPullNotificationCheckInterval(long minutes) {
-        JobManager.instance().cancelAllForTag(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG);
         long checkInterval = 1000 * 60 * minutes;
 
         new JobRequest.Builder(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG)
                 .setPeriodic(checkInterval)
+                .setUpdateCurrent(true)
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                 .build()
                 .schedule();

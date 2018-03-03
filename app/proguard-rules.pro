@@ -58,3 +58,8 @@
     public static *** v(...);
     public static *** i(...);
 }
+
+# remove some kotlin overhead
+-assumenosideeffects class kotlin.jvm.internal.Intrinsics {
+    static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
+}

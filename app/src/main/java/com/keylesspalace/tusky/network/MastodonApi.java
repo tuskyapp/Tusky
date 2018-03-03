@@ -24,7 +24,6 @@ import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.MastoList;
 import com.keylesspalace.tusky.entity.Notification;
-import com.keylesspalace.tusky.entity.Profile;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.entity.Status;
@@ -33,9 +32,9 @@ import com.keylesspalace.tusky.entity.StatusContext;
 import java.util.List;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -136,8 +135,15 @@ public interface MastodonApi {
 
     @GET("api/v1/accounts/verify_credentials")
     Call<Account> accountVerifyCredentials();
+
+    @Multipart
     @PATCH("api/v1/accounts/update_credentials")
-    Call<Account> accountUpdateCredentials(@Body Profile profile);
+    Call<Account> accountUpdateCredentials(
+            @Nullable @Part(value="display_name") RequestBody displayName,
+            @Nullable @Part(value="note") RequestBody note,
+            @Nullable @Part MultipartBody.Part avatar,
+            @Nullable @Part MultipartBody.Part header);
+
     @GET("api/v1/accounts/search")
     Call<List<Account>> searchAccounts(
             @Query("q") String q,

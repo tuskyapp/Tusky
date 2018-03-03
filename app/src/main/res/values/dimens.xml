@@ -1,25 +1,17 @@
 <resources>
-    <dimen name="status_display_name_right_padding">4dp</dimen>
-    <dimen name="status_username_right_padding">4dp</dimen>
+    <dimen name="status_display_name_padding_end">4dp</dimen>
     <dimen name="status_avatar_padding">10dp</dimen>
-    <dimen name="status_reblogged_bar_top_padding">8dp</dimen>
-    <dimen name="status_reblogged_icon_left_padding">40dp</dimen>
-    <dimen name="status_media_preview_top_margin">4dp</dimen>
+    <dimen name="status_reblogged_bar_padding_top">8dp</dimen>
+    <dimen name="status_media_preview_margin_top">4dp</dimen>
     <dimen name="status_media_preview_height">100dp</dimen>
     <dimen name="status_detail_media_preview_height">130dp</dimen>
-    <dimen name="footer_text_padding">8dp</dimen>
     <dimen name="compose_media_preview_margin">8dp</dimen>
     <dimen name="compose_media_preview_margin_bottom">0dp</dimen>
     <dimen name="compose_media_preview_side">120dp</dimen>
     <dimen name="compose_options_margin">8dp</dimen>
-    <dimen name="notification_icon_vertical_padding">8dp</dimen>
-    <dimen name="notification_icon_left_padding">40dp</dimen>
-    <dimen name="notification_avatar_column_width">64dp</dimen>
-    <dimen name="follow_icon_left_padding">40dp</dimen>
-    <dimen name="account_note_margin">8dp</dimen>
     <dimen name="account_avatar_margin">14dp</dimen>
     <dimen name="tab_page_margin">8dp</dimen>
-    <dimen name="status_left_line_margin">36dp</dimen>
+    <dimen name="status_line_margin_start">36dp</dimen>
     <dimen name="text_content_margin">16dp</dimen>
     <dimen name="status_sensitive_media_button_padding">5dp</dimen>
 

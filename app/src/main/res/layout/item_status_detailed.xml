@@ -13,7 +13,6 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginEnd="14dp"
-        android:layout_marginRight="14dp"
         android:layout_marginTop="14dp"
         android:contentDescription="@string/action_view_profile"
         android:scaleType="fitCenter"
@@ -26,7 +25,6 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="14dp"
         android:layout_toEndOf="@+id/status_avatar"
-        android:layout_toRightOf="@+id/status_avatar"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -99,7 +97,7 @@
         android:focusable="true"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
-        android:textSize="?attr/status_text_medium" />
+        android:textSize="?attr/status_text_large" />
 
     <LinearLayout
         android:id="@+id/card_view"
@@ -167,7 +165,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/card_view"
         android:layout_marginBottom="4dp"
-        android:layout_marginTop="@dimen/status_media_preview_top_margin">
+        android:layout_marginTop="@dimen/status_media_preview_margin_top">
 
         <ImageView
             android:id="@+id/status_media_preview_0"
@@ -183,7 +181,6 @@
             android:id="@+id/status_media_preview_1"
             android:layout_width="0dp"
             android:layout_height="@dimen/status_media_preview_height"
-            android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
@@ -206,7 +203,6 @@
             android:id="@+id/status_media_preview_3"
             android:layout_width="0dp"
             android:layout_height="@dimen/status_media_preview_height"
-            android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:scaleType="centerCrop"
@@ -320,7 +316,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/status_timestamp_info"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:gravity="center_vertical"

@@ -20,9 +20,7 @@
             android:id="@+id/radio_public"
             android:layout_marginBottom="5dp"
             android:paddingStart="10dp"
-            android:paddingLeft="10dp"
             android:paddingEnd="0dp"
-            android:paddingRight="0dp"
             android:layout_weight="1" />
 
         <RadioButton
@@ -33,9 +31,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:paddingStart="10dp"
-            android:paddingLeft="10dp"
             android:paddingEnd="0dp"
-            android:paddingRight="0dp"
             android:layout_weight="1" />
 
         <RadioButton
@@ -46,9 +42,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:paddingStart="10dp"
-            android:paddingLeft="10dp"
             android:paddingEnd="0dp"
-            android:paddingRight="0dp"
             android:layout_weight="1" />
 
         <RadioButton
@@ -58,9 +52,7 @@
             android:id="@+id/radio_direct"
             android:layout_marginTop="5dp"
             android:paddingStart="10dp"
-            android:paddingLeft="10dp"
             android:paddingEnd="0dp"
-            android:paddingRight="0dp"
             android:layout_weight="1" />
 
     </RadioGroup>

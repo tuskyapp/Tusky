@@ -78,19 +78,24 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     @Override
     void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
                          boolean mediaPreviewEnabled) {
-        super.setupWithStatus(status, listener, mediaPreviewEnabled);
-
-        String rebloggedByDisplayName = status.getRebloggedByUsername();
-        if (rebloggedByDisplayName == null) {
-            hideRebloggedByDisplayName();
+        if(status == null) {
+            showContent(false);
         } else {
-            setRebloggedByDisplayName(rebloggedByDisplayName);
-        }
+            showContent(true);
+            super.setupWithStatus(status, listener, mediaPreviewEnabled);
 
-        // I think it's not efficient to create new object every time we bind a holder.
-        // More efficient approach would be creating View.OnClickListener during holder creation
-        // and storing StatusActionListener in a variable after binding.
-        rebloggedBar.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));
+            String rebloggedByDisplayName = status.getRebloggedByUsername();
+            if (rebloggedByDisplayName == null) {
+                hideRebloggedByDisplayName();
+            } else {
+                setRebloggedByDisplayName(rebloggedByDisplayName);
+            }
+
+            // I think it's not efficient to create new object every time we bind a holder.
+            // More efficient approach would be creating View.OnClickListener during holder creation
+            // and storing StatusActionListener in a variable after binding.
+            rebloggedBar.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));
+        }
     }
 
     private void setRebloggedByDisplayName(String name) {

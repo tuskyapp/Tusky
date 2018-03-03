@@ -30,12 +30,13 @@ import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.network.MastodonApi;
-import com.keylesspalace.tusky.util.NotificationManager;
+import com.keylesspalace.tusky.util.NotificationHelper;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -98,7 +99,7 @@ public final class NotificationPullJobCreator implements JobCreator {
 
         @NonNull
         @Override
-        protected Result onRunJob(Params params) {
+        protected Result onRunJob(@NonNull Params params) {
 
             List<AccountEntity> accountList = new ArrayList<>(TuskyApplication.getAccountManager().getAllAccountsOrderedByActive());
 
@@ -129,6 +130,8 @@ public final class NotificationPullJobCreator implements JobCreator {
 
         private void onNotificationsReceived(AccountEntity account, List<Notification> notificationList) {
 
+            Collections.reverse(notificationList);
+
             BigInteger newId = new BigInteger(account.getLastNotificationId());
 
             BigInteger newestId = BigInteger.ZERO;
@@ -142,9 +145,7 @@ public final class NotificationPullJobCreator implements JobCreator {
                 }
 
                 if (isBiggerThan(currentId, newId)) {
-                    account.setLastNotificationId(notification.getId());
-
-                    NotificationManager.make(context, notification, account);
+                    NotificationHelper.make(context, notification, account);
                 }
             }
 

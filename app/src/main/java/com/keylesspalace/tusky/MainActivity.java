@@ -42,7 +42,7 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
-import com.keylesspalace.tusky.util.NotificationManager;
+import com.keylesspalace.tusky.util.NotificationHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -96,9 +96,9 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         Intent intent = getIntent();
 
         int tabPosition = 0;
-        
+
         if (intent != null) {
-            long accountId = intent.getLongExtra(NotificationManager.ACCOUNT_ID, -1);
+            long accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1);
 
             if(accountId != -1) {
                 // user clicked a notification, show notification tab and switch user if necessary
@@ -181,7 +181,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                 tintTab(tab, true);
 
                 if(tab.getPosition() == 1) {
-                    NotificationManager.clearNotificationsForActiveAccount(MainActivity.this);
+                    NotificationHelper.clearNotificationsForActiveAccount(MainActivity.this);
                 }
             }
 
@@ -199,7 +199,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         }
 
         // Setup push notifications
-        if (TuskyApplication.getAccountManager().notificationsEnabled()) {
+        if (NotificationHelper.areNotificationsEnabled(this)) {
             enablePushNotifications();
         } else {
             disablePushNotifications();
@@ -212,7 +212,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     protected void onResume() {
         super.onResume();
 
-        NotificationManager.clearNotificationsForActiveAccount(this);
+        NotificationHelper.clearNotificationsForActiveAccount(this);
 
         /* After editing a profile, the profile header in the navigation drawer needs to be
          * refreshed */
@@ -295,6 +295,10 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         headerResult.getView()
                 .findViewById(R.id.material_drawer_account_header_current)
                 .setContentDescription(getString(R.string.action_view_profile));
+
+        ImageView background = headerResult.getHeaderBackgroundView();
+        background.setColorFilter(ContextCompat.getColor(this, R.color.header_background_filter));
+        background.setBackgroundColor(ContextCompat.getColor(this, R.color.window_background_dark));
 
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
@@ -390,6 +394,8 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                     .withEnabled(false);
             drawer.addItem(debugItem);
         }
+
+        updateProfiles();
     }
 
     private boolean handleProfileClick(IProfile profile, boolean current) {
@@ -437,11 +443,11 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
                         AccountManager accountManager = TuskyApplication.getAccountManager();
 
-                        NotificationManager.deleteNotificationChannelsForAccount(accountManager.getActiveAccount(), MainActivity.this);
+                        NotificationHelper.deleteNotificationChannelsForAccount(accountManager.getActiveAccount(), MainActivity.this);
 
                         AccountEntity newAccount = accountManager.logActiveAccountOut();
 
-                        if (!accountManager.notificationsEnabled()) disablePushNotifications();
+                        if (!NotificationHelper.areNotificationsEnabled(MainActivity.this)) disablePushNotifications();
 
                         Intent intent;
                         if (newAccount == null) {
@@ -478,9 +484,9 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
     private void onFetchUserInfoSuccess(Account me) {
         // Add the header image and avatar from the account, into the navigation drawer header.
+
         ImageView background = headerResult.getHeaderBackgroundView();
-        background.setColorFilter(ContextCompat.getColor(this, R.color.header_background_filter));
-        background.setBackgroundColor(ContextCompat.getColor(this, R.color.window_background_dark));
+
         Picasso.with(MainActivity.this)
                 .load(me.getHeader())
                 .placeholder(R.drawable.account_header_default)
@@ -490,9 +496,34 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
         am.updateActiveAccount(me);
 
-        NotificationManager.createNotificationChannelsForAccount(am.getActiveAccount(), this);
+        NotificationHelper.createNotificationChannelsForAccount(am.getActiveAccount(), this);
+
+        // Show follow requests in the menu, if this is a locked account.
+        if (me.getLocked() && drawer.getDrawerItem(DRAWER_ITEM_FOLLOW_REQUESTS) == null) {
+            PrimaryDrawerItem followRequestsItem = new PrimaryDrawerItem()
+                    .withIdentifier(DRAWER_ITEM_FOLLOW_REQUESTS)
+                    .withName(R.string.action_view_follow_requests)
+                    .withSelectable(false)
+                    .withIcon(GoogleMaterial.Icon.gmd_person_add);
+            drawer.addItemAtPosition(followRequestsItem, 3);
+        }
+
+        updateProfiles();
+
+    }
+
+    private void updateProfiles() {
+        AccountManager am = TuskyApplication.getAccountManager();
 
         List<AccountEntity> allAccounts = am.getAllAccountsOrderedByActive();
+
+        //remove profiles before adding them again to avoid duplicates
+        List<IProfile> profiles = new ArrayList<>(headerResult.getProfiles());
+        for(IProfile profile: profiles) {
+            if(profile.getIdentifier() != DRAWER_ITEM_ADD_ACCOUNT) {
+                headerResult.removeProfile(profile);
+            }
+        }
 
         for(AccountEntity acc: allAccounts) {
             headerResult.addProfiles(
@@ -503,16 +534,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                             .withIdentifier(acc.getId())
                             .withEmail(acc.getFullName()));
 
-        }
-
-        // Show follow requests in the menu, if this is a locked account.
-        if (me.getLocked()) {
-            PrimaryDrawerItem followRequestsItem = new PrimaryDrawerItem()
-                    .withIdentifier(DRAWER_ITEM_FOLLOW_REQUESTS)
-                    .withName(R.string.action_view_follow_requests)
-                    .withSelectable(false)
-                    .withIcon(GoogleMaterial.Icon.gmd_person_add);
-            drawer.addItemAtPosition(followRequestsItem, 3);
         }
 
     }

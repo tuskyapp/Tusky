@@ -46,16 +46,14 @@ public abstract class AccountAdapter extends RecyclerView.Adapter {
     }
 
     public void update(@Nullable List<Account> newAccounts, @Nullable String fromId,
-            @Nullable String uptoId) {
+                       @Nullable String uptoId) {
         if (newAccounts == null || newAccounts.isEmpty()) {
             return;
         }
-        if (fromId != null) {
-            bottomId = fromId;
-        }
-        if (uptoId != null) {
-            topId = uptoId;
-        }
+
+        bottomId = fromId;
+        topId = uptoId;
+
         if (accountList.isEmpty()) {
             accountList = ListUtils.removeDuplicates(newAccounts);
         } else {

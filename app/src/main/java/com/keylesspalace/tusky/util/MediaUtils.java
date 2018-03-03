@@ -70,7 +70,12 @@ public class MediaUtils {
     public static long getMediaSize(@NonNull ContentResolver contentResolver, @Nullable Uri uri) {
         if(uri == null) return MEDIA_SIZE_UNKNOWN;
         long mediaSize;
-        Cursor cursor = contentResolver.query(uri, null, null, null, null);
+        Cursor cursor;
+        try {
+            cursor = contentResolver.query(uri, null, null, null, null);
+        } catch (SecurityException e) {
+            return MEDIA_SIZE_UNKNOWN;
+        }
         if (cursor != null) {
             int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
             cursor.moveToFirst();

@@ -136,8 +136,6 @@
             android:gravity="center_vertical"
             android:paddingBottom="8dp"
             android:paddingEnd="16dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="16dp"
             android:paddingStart="8dp"
             android:paddingTop="4dp">
 
@@ -214,7 +212,6 @@
                 android:id="@+id/floating_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:textSize="?attr/status_text_medium"
                 android:background="@drawable/compose_button_colors"
