@@ -207,11 +207,11 @@ public final class ComposeActivity extends BaseActivity
         // setup the account image
         AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
 
-        if(activeAccount != null) {
+        if (activeAccount != null) {
 
             ImageView composeAvatar = findViewById(R.id.composeAvatar);
 
-            if(TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
+            if (TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
                 composeAvatar.setImageResource(R.drawable.avatar_default);
             } else {
                 Picasso.with(this).load(activeAccount.getProfilePictureUrl())
@@ -476,6 +476,7 @@ public final class ComposeActivity extends BaseActivity
             }
         }
 
+        textEditor.requestFocus();
     }
 
     @Override
@@ -1058,7 +1059,7 @@ public final class ComposeActivity extends BaseActivity
 
     private void onMediaPick() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
@@ -1239,9 +1240,30 @@ public final class ComposeActivity extends BaseActivity
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         input.setText(item.description);
 
+        DialogInterface.OnClickListener okListener = (dialog, which) -> {
+            mastodonApi.updateMedia(item.id, input.getText().toString())
+                    .enqueue(new Callback<Attachment>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Attachment> call, @NonNull Response<Attachment> response) {
+                            Attachment attachment = response.body();
+                            if (response.isSuccessful() && attachment != null) {
+                                item.description = attachment.getDescription();
+                                dialog.dismiss();
+                            } else {
+                                showFailedCaptionMessage();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<Attachment> call, @NonNull Throwable t) {
+                            showFailedCaptionMessage();
+                        }
+                    });
+        };
+
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(dialogLayout)
-                .setPositiveButton(android.R.string.ok, null)
+                .setPositiveButton(android.R.string.ok, okListener)
                 .setNegativeButton(android.R.string.cancel, null)
                 .create();
 
@@ -1252,26 +1274,6 @@ public final class ComposeActivity extends BaseActivity
                     WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         }
 
-        dialog.setOnShowListener(dialogInterface -> {
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> mastodonApi.updateMedia(item.id,
-                    input.getText().toString()).enqueue(new Callback<Attachment>() {
-                @Override
-                public void onResponse(@NonNull Call<Attachment> call, @NonNull Response<Attachment> response) {
-                    Attachment attachment = response.body();
-                    if (response.isSuccessful() && attachment != null) {
-                        item.description = attachment.getDescription();
-                        dialog.dismiss();
-                    } else {
-                        showFailedCaptionMessage();
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<Attachment> call, @NonNull Throwable t) {
-                    showFailedCaptionMessage();
-                }
-            }));
-        });
         dialog.show();
     }
 
@@ -1547,13 +1549,32 @@ public final class ComposeActivity extends BaseActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home: {
-                onBackPressed();
+            case android.R.id.home:
+                handleCloseButton();
                 return true;
-            }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Acting like a teen: deliberately ignoring parent.
+        handleCloseButton();
+    }
+
+    private void handleCloseButton() {
+        if (!TextUtils.isEmpty(textEditor.getText())
+                || !TextUtils.isEmpty(contentWarningEditor.getText())
+                || !mediaQueued.isEmpty()) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Close the toot without saving?")
+                    .setPositiveButton(android.R.string.yes, (d, w) -> finish())
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
+        } else {
+            finish();
+        }
     }
 
     @Override

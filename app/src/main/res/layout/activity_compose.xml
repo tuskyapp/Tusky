@@ -17,31 +17,31 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_marginBottom="8dp"
             android:background="@android:color/transparent">
+
             <ImageView
                 android:id="@+id/composeAvatar"
-                android:padding="8dp"
-                android:layout_gravity="right|end"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="right|end"
+                android:padding="8dp"
                 tools:ignore="ContentDescription" />
             <!--content description will be set in code -->
         </android.support.v7.widget.Toolbar>
 
         <TextView
-            android:textSize="?attr/status_text_small"
             android:id="@+id/reply_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:textSize="?attr/status_text_small"
             android:textStyle="bold"
             android:visibility="gone"
             tools:text="Reply to @username"
             tools:visibility="visible" />
 
         <TextView
-            android:textSize="?attr/status_text_small"
             android:id="@+id/reply_content_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,6 +51,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="4dp"
+            android:textSize="?attr/status_text_small"
             android:visibility="gone"
             tools:text="Post content which may be preeettyy long, so please, make sure there's enough room for everything, okay? Not kidding. I wish Eugen answered me more often, sigh."
             tools:visibility="visible" />
@@ -63,7 +64,6 @@
             android:orientation="vertical">
 
             <EditText
-                android:textSize="?attr/status_text_medium"
                 android:id="@+id/field_content_warning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,7 +73,8 @@
                 android:inputType="text|textCapSentences"
                 android:maxLines="1"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp" />
+                android:paddingRight="16dp"
+                android:textSize="?attr/status_text_medium" />
 
             <View
                 android:layout_width="match_parent"
@@ -204,19 +205,19 @@
             <TextView
                 android:id="@+id/characters_left"
                 android:layout_width="wrap_content"
-                android:textSize="?attr/status_text_medium"
                 android:layout_height="wrap_content"
-                android:textColor="?android:textColorPrimary" />
+                android:textColor="?android:textColorPrimary"
+                android:textSize="?attr/status_text_medium" />
 
             <Button
                 android:id="@+id/floating_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:textSize="?attr/status_text_medium"
                 android:background="@drawable/compose_button_colors"
                 android:text="@string/action_send"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="?attr/status_text_medium" />
 
         </LinearLayout>
 
