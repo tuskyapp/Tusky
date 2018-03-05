@@ -33,9 +33,9 @@
     <string name="title_follow_requests">關注請求</string>
     <string name="title_edit_profile">編輯個人資料</string>
     <string name="title_saved_toot">草稿</string>
-    <string name="title_x_followers">關注者 <b>%d</b></string>
-    <string name="title_x_following">正在關注 <b>%d</b></string>
-    <string name="title_x_statuses">嘟文 <b>%d</b></string>
+    <string name="title_x_followers">關注者 <b>%s</b></string>
+    <string name="title_x_following">正在關注 <b>%s</b></string>
+    <string name="title_x_statuses">嘟文 <b>%s</b></string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s 轉嘟了</string>

@@ -178,7 +178,7 @@
     <string name="title_x_statuses"><b>%s</b> Pouets</string>
     <string name="status_media_hidden_title">Media caché</string>
     <string name="action_hide_media">Cacher le media</string>
-    <string name="confirmation_unmuted">Le compte n'est plus muet</string>
+    <string name="confirmation_unmuted">Le compte n\'est plus muet</string>
     <string name="search_no_results">Aucun résultat</string>
     <string name="dialog_unfollow_warning">Ne plus suivre ce compte?</string>
     <string name="pref_summary_notifications">pour le compte %1$s</string>

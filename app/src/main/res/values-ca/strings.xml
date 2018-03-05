@@ -186,7 +186,7 @@
         <item>Només seguidors</item>
     </string-array>
 
-    <string name="pref_status_text_size">Mida de text de l'estat</string>
+    <string name="pref_status_text_size">Mida de text de l\'estat</string>
 
     <string-array name="status_text_size_names">
         <item>Petita</item>
