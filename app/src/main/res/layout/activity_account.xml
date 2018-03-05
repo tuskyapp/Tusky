@@ -232,9 +232,4 @@
         android:contentDescription="@string/action_mention"
         app:srcCompat="@drawable/ic_create_24dp" />
 
-    <FrameLayout
-        android:id="@+id/overlay_fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
 </android.support.design.widget.CoordinatorLayout>

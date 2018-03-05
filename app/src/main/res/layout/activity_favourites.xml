@@ -15,11 +15,6 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <FrameLayout
-        android:id="@+id/overlay_fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <include layout="@layout/toolbar_shadow_shim" />
 
 </android.support.design.widget.CoordinatorLayout>
