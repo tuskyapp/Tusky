@@ -41,6 +41,7 @@ import com.keylesspalace.tusky.ViewTagActivity;
 import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.ViewVideoActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.Status;
@@ -71,19 +72,14 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
     protected MastodonApi mastodonApi;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
-        if(activeAccount != null) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        AccountEntity activeAccount = TuskyApplication.getInstance(getContext()).getServiceLocator()
+                .get(AccountManager.class).getActiveAccount();
+        if (activeAccount != null) {
             loggedInAccountId = activeAccount.getAccountId();
             loggedInUsername = activeAccount.getUsername();
         }
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         BaseActivity activity = (BaseActivity) getActivity();
         mastodonApi = activity.mastodonApi;
     }
@@ -153,10 +149,12 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         Call<Relationship> call = mastodonApi.muteAccount(id);
         call.enqueue(new Callback<Relationship>() {
             @Override
-            public void onResponse(@NonNull Call<Relationship> call, @NonNull Response<Relationship> response) {}
+            public void onResponse(@NonNull Call<Relationship> call, @NonNull Response<Relationship> response) {
+            }
 
             @Override
-            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {}
+            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {
+            }
         });
         callList.add(call);
         Intent intent = new Intent(TimelineReceiver.Types.MUTE_ACCOUNT);
@@ -169,10 +167,12 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         Call<Relationship> call = mastodonApi.blockAccount(id);
         call.enqueue(new Callback<Relationship>() {
             @Override
-            public void onResponse(@NonNull Call<Relationship> call, @NonNull retrofit2.Response<Relationship> response) {}
+            public void onResponse(@NonNull Call<Relationship> call, @NonNull retrofit2.Response<Relationship> response) {
+            }
 
             @Override
-            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {}
+            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {
+            }
         });
         callList.add(call);
         Intent intent = new Intent(TimelineReceiver.Types.BLOCK_ACCOUNT);
@@ -185,10 +185,12 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         Call<ResponseBody> call = mastodonApi.deleteStatus(id);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {}
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {
+            }
 
             @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {}
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+            }
         });
         callList.add(call);
     }
@@ -275,7 +277,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
                     ViewCompat.setTransitionName(view, url);
                     ActivityOptionsCompat options =
                             ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
-                            view, url);
+                                    view, url);
                     startActivity(intent, options.toBundle());
                 } else {
                     startActivity(intent);
@@ -318,7 +320,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
     }
 
     protected void openReportPage(String accountId, String accountUsername, String statusId,
-            Spanned statusContent) {
+                                  Spanned statusContent) {
         Intent intent = new Intent(getContext(), ReportActivity.class);
         intent.putExtra("account_id", accountId);
         intent.putExtra("account_username", accountUsername);

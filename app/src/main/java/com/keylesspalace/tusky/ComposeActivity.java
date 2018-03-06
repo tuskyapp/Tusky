@@ -79,6 +79,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
 import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.entity.Account;
@@ -160,7 +161,7 @@ public final class ComposeActivity extends BaseActivity
     // this only exists when a status is trying to be sent, but uploads are still occurring
     private ProgressDialog finishingUploadDialog;
     private String inReplyToId;
-    private ArrayList<QueuedMedia> mediaQueued;
+    private List<QueuedMedia> mediaQueued = new ArrayList<>();
     private CountUpDownLatch waitForMediaLatch;
     private boolean showMarkSensitive;
     private Status.Visibility statusVisibility;     // The current values of the options that will be applied
@@ -205,7 +206,8 @@ public final class ComposeActivity extends BaseActivity
         }
 
         // setup the account image
-        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+        AccountEntity activeAccount = TuskyApplication.getInstance(this).getServiceLocator()
+                .get(AccountManager.class).getActiveAccount();
 
         if (activeAccount != null) {
 
@@ -409,7 +411,6 @@ public final class ComposeActivity extends BaseActivity
         }
 
         // Initialise the empty media queue state.
-        mediaQueued = new ArrayList<>();
         waitForMediaLatch = new CountUpDownLatch();
         statusAlreadyInFlight = false;
 

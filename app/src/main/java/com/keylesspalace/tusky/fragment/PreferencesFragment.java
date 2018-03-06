@@ -30,6 +30,7 @@ import com.keylesspalace.tusky.PreferencesActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
 
 public class PreferencesFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     SharedPreferences sharedPreferences;
@@ -47,20 +48,26 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
         return fragment;
     }
 
+    private AccountManager accountManager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        accountManager = TuskyApplication.getInstance(getActivity()).getServiceLocator()
+                .get(AccountManager.class);
+
 
         int preference = getArguments().getInt("preference");
 
         addPreferencesFromResource(preference);
 
 
-        Preference notificationPreferences  = findPreference("notificationPreferences");
+        Preference notificationPreferences = findPreference("notificationPreferences");
 
-        if(notificationPreferences != null) {
+        if (notificationPreferences != null) {
 
-            AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+            AccountEntity activeAccount = accountManager.getActiveAccount();
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O && activeAccount != null) {
                 notificationPreferences.setSummary(getString(R.string.pref_summary_notifications, activeAccount.getFullName()));
@@ -92,8 +99,8 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
             }
         }
 
-        Preference timelineFilterPreferences  = findPreference("timelineFilterPreferences");
-        if(timelineFilterPreferences != null) {
+        Preference timelineFilterPreferences = findPreference("timelineFilterPreferences");
+        if (timelineFilterPreferences != null) {
             timelineFilterPreferences.setOnPreferenceClickListener(pref -> {
                 PreferencesActivity activity = (PreferencesActivity) getActivity();
                 if (activity != null) {
@@ -104,8 +111,8 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
             });
         }
 
-        Preference httpProxyPreferences  = findPreference("httpProxyPreferences");
-        if(httpProxyPreferences != null) {
+        Preference httpProxyPreferences = findPreference("httpProxyPreferences");
+        if (httpProxyPreferences != null) {
             httpProxyPreferences.setOnPreferenceClickListener(pref -> {
                 PreferencesActivity activity = (PreferencesActivity) getActivity();
                 if (activity != null) {
@@ -117,11 +124,11 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
             });
         }
 
-        if(preference == R.xml.notification_preferences) {
+        if (preference == R.xml.notification_preferences) {
 
-            AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+            AccountEntity activeAccount = accountManager.getActiveAccount();
 
-            if(activeAccount != null) {
+            if (activeAccount != null) {
 
                 CheckBoxPreference notificationPref = (CheckBoxPreference) findPreference("notificationsEnabled");
                 notificationPref.setChecked(activeAccount.getNotificationsEnabled());
@@ -188,10 +195,10 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
             default:
         }
 
-        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+        AccountEntity activeAccount = accountManager.getActiveAccount();
 
-        if(activeAccount != null) {
-            switch(key) {
+        if (activeAccount != null) {
+            switch (key) {
                 case "notificationsEnabled":
                     activeAccount.setNotificationsEnabled(sharedPreferences.getBoolean(key, true));
                     break;
@@ -217,7 +224,7 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
                     activeAccount.setNotificationLight(sharedPreferences.getBoolean(key, true));
                     break;
             }
-            TuskyApplication.getAccountManager().saveAccount(activeAccount);
+            accountManager.saveAccount(activeAccount);
 
         }
 
