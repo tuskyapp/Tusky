@@ -390,12 +390,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 CustomEmojiHelper.emojifyString(spoilerText, emojis, contentWarningDescription);
         contentWarningDescription.setText(emojiSpoiler);
         contentWarningBar.setVisibility(View.VISIBLE);
-        contentWarningBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                contentWarningButton.setChecked(!contentWarningButton.isChecked());
-            }
-        });
         contentWarningButton.setChecked(expanded);
         contentWarningButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
