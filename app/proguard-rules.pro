@@ -20,6 +20,7 @@
 -dontwarn okio.**
 -dontwarn javax.annotation.Nullable
 -dontwarn javax.annotation.ParametersAreNonnullByDefault
+-dontwarn org.conscrypt.**
 
 ## for picasso
 -dontwarn com.squareup.okhttp.**
