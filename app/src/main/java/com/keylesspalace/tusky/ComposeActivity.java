@@ -54,11 +54,8 @@ import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -551,15 +548,8 @@ public final class ComposeActivity extends BaseActivity
         if (statusHideText) {
             contentWarning = contentWarningEditor.getText().toString();
         }
-        Editable textToSave = textEditor.getEditableText();
-        /* Discard any upload URLs embedded in the text because they'll be re-uploaded when
-         * the draft is loaded and replaced with new URLs. */
-        if (mediaQueued != null) {
-            for (QueuedMedia item : mediaQueued) {
-                textToSave = removeUrlFromEditable(textToSave, item.uploadUrl);
-            }
-        }
-        boolean didSaveSuccessfully = saveTheToot(textToSave.toString(), contentWarning);
+
+        boolean didSaveSuccessfully = saveTheToot(textEditor.getText().toString(), contentWarning);
         if (didSaveSuccessfully) {
             Toast.makeText(ComposeActivity.this, R.string.action_save_one_toot, Toast.LENGTH_SHORT)
                     .show();
@@ -1292,7 +1282,7 @@ public final class ComposeActivity extends BaseActivity
             textEditor.setPadding(textEditor.getPaddingLeft(), textEditor.getPaddingTop(),
                     textEditor.getPaddingRight(), 0);
         }
-        textEditor.setText(removeUrlFromEditable(textEditor.getEditableText(), item.uploadUrl));
+
         enableMediaButtons();
         cancelReadyingMedia(item);
     }
@@ -1303,19 +1293,6 @@ public final class ComposeActivity extends BaseActivity
             it.remove();
             removeMediaFromQueue(item);
         }
-    }
-
-    private static Editable removeUrlFromEditable(Editable editable, @Nullable URLSpan urlSpan) {
-        if (urlSpan == null) {
-            return editable;
-        }
-        SpannableStringBuilder builder = new SpannableStringBuilder(editable);
-        int start = builder.getSpanStart(urlSpan);
-        int end = builder.getSpanEnd(urlSpan);
-        if (start != -1 && end != -1) {
-            builder.delete(start, end);
-        }
-        return builder;
     }
 
     private void downsizeMedia(final QueuedMedia item) {
@@ -1418,19 +1395,6 @@ public final class ComposeActivity extends BaseActivity
         item.id = media.getId();
         item.preview.setProgress(-1);
         item.readyStage = QueuedMedia.ReadyStage.UPLOADED;
-
-        /* Add the upload URL to the text field. Also, keep a reference to the span so if the user
-         * chooses to remove the media, the URL is also automatically removed. */
-        item.uploadUrl = new URLSpan(media.getTextUrl());
-        int end = 1 + media.getTextUrl().length();
-        SpannableStringBuilder builder = new SpannableStringBuilder();
-        builder.append(' ');
-        builder.append(media.getTextUrl());
-        builder.setSpan(item.uploadUrl, 1, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        int cursorStart = textEditor.getSelectionStart();
-        int cursorEnd = textEditor.getSelectionEnd();
-        textEditor.append(builder);
-        textEditor.setSelection(cursorStart, cursorEnd);
 
         waitForMediaLatch.countDown();
     }
@@ -1600,7 +1564,6 @@ public final class ComposeActivity extends BaseActivity
         Uri uri;
         String id;
         Call<Attachment> uploadRequest;
-        URLSpan uploadUrl;
         ReadyStage readyStage;
         byte[] content;
         long mediaSize;
