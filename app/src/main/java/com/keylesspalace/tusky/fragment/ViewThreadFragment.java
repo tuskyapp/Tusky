@@ -375,7 +375,7 @@ public class ViewThreadFragment extends SFragment implements
 
             @Override
             public void onFailure(@NonNull Call<Card> call, @NonNull Throwable t) {
-                onThreadRequestFailure(id);
+                Log.e(TAG, "Error fetching status card");
             }
         });
         callList.add(call);
