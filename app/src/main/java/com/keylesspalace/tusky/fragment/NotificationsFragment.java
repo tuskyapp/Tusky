@@ -37,10 +37,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.MainActivity;
+import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
-import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Attachment;
@@ -144,6 +144,8 @@ public class NotificationsFragment extends SFragment implements
         // Setup the SwipeRefreshLayout.
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.primary);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
         // Setup the RecyclerView.
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);

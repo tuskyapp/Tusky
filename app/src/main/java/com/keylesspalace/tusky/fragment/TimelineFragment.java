@@ -169,6 +169,8 @@ public class TimelineFragment extends SFragment implements
         Context context = getContext();
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.primary);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
         // Setup the RecyclerView.
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
