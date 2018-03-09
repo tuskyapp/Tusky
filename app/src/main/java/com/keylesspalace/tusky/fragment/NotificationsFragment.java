@@ -192,10 +192,12 @@ public class NotificationsFragment extends SFragment implements
         TabLayout layout = activity.findViewById(R.id.tab_layout);
         onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {}
+            public void onTabSelected(TabLayout.Tab tab) {
+            }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
@@ -281,7 +283,7 @@ public class NotificationsFragment extends SFragment implements
                         status.getReblog().setReblogged(reblog);
                     }
 
-                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete)notifications.getPairedItem(position);
+                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
 
                     StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
                     viewDataBuilder.setReblogged(reblog);
@@ -318,7 +320,7 @@ public class NotificationsFragment extends SFragment implements
                         status.getReblog().setFavourited(favourite);
                     }
 
-                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete)notifications.getPairedItem(position);
+                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
 
                     StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
                     viewDataBuilder.setFavourited(favourite);
@@ -587,13 +589,14 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void saveNewestNotificationId(List<Notification> notifications) {
-        AccountManager accountManager = TuskyApplication.getAccountManager();
+        AccountManager accountManager = TuskyApplication.getInstance(getContext())
+                .getServiceLocator().get(AccountManager.class);
         AccountEntity account = accountManager.getActiveAccount();
         BigInteger lastNoti = new BigInteger(account.getLastNotificationId());
 
-        for (Notification noti: notifications) {
+        for (Notification noti : notifications) {
             BigInteger a = new BigInteger(noti.getId());
-            if(isBiggerThan(a, lastNoti)) {
+            if (isBiggerThan(a, lastNoti)) {
                 lastNoti = a;
             }
         }
@@ -606,7 +609,7 @@ public class NotificationsFragment extends SFragment implements
 
     private boolean isBiggerThan(BigInteger newId, BigInteger lastShownNotificationId) {
 
-        return lastShownNotificationId.compareTo(newId) == - 1;
+        return lastShownNotificationId.compareTo(newId) == -1;
     }
 
     private void update(@Nullable List<Notification> newNotifications, @Nullable String fromId,

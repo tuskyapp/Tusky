@@ -31,6 +31,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.AppCredentials
 import com.keylesspalace.tusky.network.MastodonApi
@@ -88,7 +89,7 @@ class LoginActivity : AppCompatActivity() {
             textView.movementMethod = LinkMovementMethod.getInstance()
         }
 
-        if(isAdditionalLogin()) {
+        if (isAdditionalLogin()) {
             setSupportActionBar(toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -99,7 +100,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == android.R.id.home) {
+        if (item.itemId == android.R.id.home) {
             onBackPressed()
             return true
         }
@@ -281,7 +282,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun isAdditionalLogin() : Boolean {
+    private fun isAdditionalLogin(): Boolean {
         return intent.getBooleanExtra(LOGIN_MODE, false)
     }
 
@@ -289,7 +290,9 @@ class LoginActivity : AppCompatActivity() {
 
         setLoading(true)
 
-        TuskyApplication.getAccountManager().addAccount(accessToken, domain)
+        TuskyApplication.getInstance(this).serviceLocator
+                .get(AccountManager::class.java)
+                .addAccount(accessToken, domain)
 
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

@@ -34,6 +34,7 @@ import com.evernote.android.job.JobRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.network.AuthInterceptor;
 import com.keylesspalace.tusky.network.MastodonApi;
@@ -50,10 +51,14 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public MastodonApi mastodonApi;
     protected Dispatcher mastodonApiDispatcher;
+    private AccountManager accountManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        accountManager = TuskyApplication.getInstance(this).getServiceLocator()
+                .get(AccountManager.class);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -64,7 +69,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         ThemeUtils.setAppNightMode(theme);
 
         int style;
-        switch(preferences.getString("statusTextSize", "medium")) {
+        switch (preferences.getString("statusTextSize", "medium")) {
             case "large":
                 style = R.style.TextSizeLarge;
                 break;
@@ -79,7 +84,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         getTheme().applyStyle(style, false);
 
-        if(redirectIfNotLoggedIn()) {
+        if (redirectIfNotLoggedIn()) {
             return;
         }
         createMastodonApi();
@@ -119,8 +124,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected String getBaseUrl() {
-        AccountEntity account = TuskyApplication.getAccountManager().getActiveAccount();
-        if(account != null) {
+        AccountEntity account = accountManager.getActiveAccount();
+        if (account != null) {
             return "https://" + account.getDomain();
         } else {
             return "";
@@ -138,7 +143,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         OkHttpClient.Builder okBuilder =
                 OkHttpUtils.getCompatibleClientBuilder(preferences)
-                        .addInterceptor(new AuthInterceptor())
+                        .addInterceptor(new AuthInterceptor(accountManager))
                         .dispatcher(mastodonApiDispatcher);
 
         if (BuildConfig.DEBUG) {
@@ -155,7 +160,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected boolean redirectIfNotLoggedIn() {
-        if (TuskyApplication.getAccountManager().getActiveAccount() == null) {
+        if (accountManager.getActiveAccount() == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

@@ -21,6 +21,7 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.evernote.android.job.JobManager;
@@ -35,7 +36,7 @@ public class TuskyApplication extends Application {
     public static final String APP_THEME_DEFAULT = ThemeUtils.THEME_NIGHT;
 
     private static AppDatabase db;
-    private static AccountManager accountManager;
+    private AccountManager accountManager;
 
     public static AppDatabase getDB() {
         return db;
@@ -43,24 +44,33 @@ public class TuskyApplication extends Application {
 
     private static UiModeManager uiModeManager;
 
-    public static UiModeManager getUiModeManager() { return uiModeManager; }
+    public static UiModeManager getUiModeManager() {
+        return uiModeManager;
+    }
+
+    public static TuskyApplication getInstance(@NonNull Context context) {
+        return (TuskyApplication) context.getApplicationContext();
+    }
+
+
+    private ServiceLocator serviceLocator;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        // Initialize Picasso configuration
-        Picasso.Builder builder = new Picasso.Builder(this);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        builder.downloader(new OkHttp3Downloader(OkHttpUtils.getCompatibleClient(preferences)));
-        if (BuildConfig.DEBUG) {
-            builder.listener((picasso, uri, exception) -> exception.printStackTrace());
-        }
+        initPicasso();
 
-        try {
-            Picasso.setSingletonInstance(builder.build());
-        } catch (IllegalStateException e) {
-            throw new RuntimeException(e);
-        }
+        serviceLocator = new ServiceLocator() {
+            @Override
+            public <T> T get(Class<T> clazz) {
+                if (clazz.equals(AccountManager.class)) {
+                    //noinspection unchecked
+                    return (T) accountManager;
+                } else {
+                    throw new IllegalArgumentException("Unknown service " + clazz);
+                }
+            }
+        };
 
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
                 .allowMainThreadQueries()
@@ -69,7 +79,7 @@ public class TuskyApplication extends Application {
 
         JobManager.create(this).addJobCreator(new NotificationPullJobCreator(this));
 
-        uiModeManager = (UiModeManager)getSystemService(Context.UI_MODE_SERVICE);
+        uiModeManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
 
         //necessary for Android < APi 21
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -77,8 +87,26 @@ public class TuskyApplication extends Application {
         accountManager = new AccountManager();
     }
 
-    public static AccountManager getAccountManager() {
-        return accountManager;
+    protected void initPicasso() {
+        // Initialize Picasso configuration
+        Picasso.Builder builder = new Picasso.Builder(this);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        builder.downloader(new OkHttp3Downloader(OkHttpUtils.getCompatibleClient(preferences)));
+        if (BuildConfig.DEBUG) {
+            builder.listener((picasso, uri, exception) -> exception.printStackTrace());
+        }
+        try {
+            Picasso.setSingletonInstance(builder.build());
+        } catch (IllegalStateException e) {
+            throw new RuntimeException(e);
+        }
     }
 
- }
+    public ServiceLocator getServiceLocator() {
+        return serviceLocator;
+    }
+
+    public interface ServiceLocator {
+        <T> T get(Class<T> clazz);
+    }
+}

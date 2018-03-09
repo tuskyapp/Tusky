@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.util.NotificationHelper;
 
 public class SplashActivity extends AppCompatActivity {
@@ -32,7 +33,8 @@ public class SplashActivity extends AppCompatActivity {
 
         NotificationHelper.deleteLegacyNotificationChannels(this);
 
-        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+        AccountEntity activeAccount = TuskyApplication.getInstance(this).getServiceLocator()
+                .get(AccountManager.class).getActiveAccount();
 
         Intent intent;
         if (activeAccount != null) {

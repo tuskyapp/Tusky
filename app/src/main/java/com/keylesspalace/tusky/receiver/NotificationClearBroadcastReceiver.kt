@@ -20,6 +20,7 @@ import android.content.Context
 import android.content.Intent
 
 import com.keylesspalace.tusky.TuskyApplication
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.util.NotificationHelper
 
 class NotificationClearBroadcastReceiver : BroadcastReceiver() {
@@ -27,7 +28,8 @@ class NotificationClearBroadcastReceiver : BroadcastReceiver() {
 
         val accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1)
 
-        val accountManager = TuskyApplication.getAccountManager()
+        val accountManager = TuskyApplication.getInstance(context)
+                .serviceLocator.get(AccountManager::class.java)
         val account = accountManager.getAccountById(accountId)
         if (account != null) {
             account.activeNotifications = "[]"

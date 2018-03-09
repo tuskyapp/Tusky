@@ -27,6 +27,7 @@ import com.evernote.android.job.JobCreator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.network.MastodonApi;
@@ -101,14 +102,16 @@ public final class NotificationPullJobCreator implements JobCreator {
         @Override
         protected Result onRunJob(@NonNull Params params) {
 
-            List<AccountEntity> accountList = new ArrayList<>(TuskyApplication.getAccountManager().getAllAccountsOrderedByActive());
+            AccountManager accountManager = TuskyApplication.getInstance(context).getServiceLocator()
+                    .get(AccountManager.class);
+            List<AccountEntity> accountList = new ArrayList<>(accountManager.getAllAccountsOrderedByActive());
 
-            for(AccountEntity account: accountList) {
+            for (AccountEntity account : accountList) {
 
-                if(account.getNotificationsEnabled()) {
+                if (account.getNotificationsEnabled()) {
                     MastodonApi api = createMastodonApi(account.getDomain(), context);
                     try {
-                        Log.d(TAG, "getting Notifications for "+account.getFullName());
+                        Log.d(TAG, "getting Notifications for " + account.getFullName());
                         Response<List<Notification>> notifications =
                                 api.notificationsWithAuth(String.format("Bearer %s", account.getAccessToken())).execute();
                         if (notifications.isSuccessful()) {
@@ -136,11 +139,11 @@ public final class NotificationPullJobCreator implements JobCreator {
 
             BigInteger newestId = BigInteger.ZERO;
 
-            for(Notification notification: notificationList){
+            for (Notification notification : notificationList) {
 
                 BigInteger currentId = new BigInteger(notification.getId());
 
-                if(isBiggerThan(currentId, newestId)) {
+                if (isBiggerThan(currentId, newestId)) {
                     newestId = currentId;
                 }
 
@@ -150,13 +153,13 @@ public final class NotificationPullJobCreator implements JobCreator {
             }
 
             account.setLastNotificationId(newestId.toString());
-            TuskyApplication.getAccountManager().saveAccount(account);
-
+            TuskyApplication.getInstance(context).getServiceLocator()
+                    .get(AccountManager.class).saveAccount(account);
         }
 
         private boolean isBiggerThan(BigInteger newId, BigInteger lastShownNotificationId) {
 
-            return lastShownNotificationId.compareTo(newId) == - 1;
+            return lastShownNotificationId.compareTo(newId) == -1;
         }
     }
 }
