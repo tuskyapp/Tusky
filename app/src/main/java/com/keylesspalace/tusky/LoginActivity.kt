@@ -215,11 +215,12 @@ class LoginActivity : AppCompatActivity() {
             val code = uri.getQueryParameter("code")
             val error = uri.getQueryParameter("error")
 
-            if (code != null) {
+            domain = preferences.getString(DOMAIN, "")
+
+            if (code != null && domain.isNotEmpty()) {
                 /* During the redirect roundtrip this Activity usually dies, which wipes out the
                  * instance variables, so they have to be recovered from where they were saved in
                  * SharedPreferences. */
-                domain = preferences.getString(DOMAIN, null)
                 clientId = preferences.getString(CLIENT_ID, null)
                 clientSecret = preferences.getString(CLIENT_SECRET, null)
 
