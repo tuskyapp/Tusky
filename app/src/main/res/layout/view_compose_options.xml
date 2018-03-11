@@ -1,0 +1,73 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <RadioGroup
+        android:id="@+id/visibilityRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/compose_options_margin"
+        android:layout_marginLeft="@dimen/compose_options_margin"
+        android:layout_marginRight="@dimen/compose_options_margin"
+        android:layout_marginTop="6dp"
+        android:checkedButton="@+id/radio_public"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/publicRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_weight="1"
+            android:button="@drawable/ic_public_24dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="10dp"
+            android:text="@string/visibility_public"
+            android:textColor="?android:textColorTertiary"
+            app:buttonTint="@color/compound_button_color" />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/unlistedRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="1"
+            android:button="@drawable/ic_lock_open_24dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="10dp"
+            android:text="@string/visibility_unlisted"
+            android:textColor="?android:textColorTertiary"
+            app:buttonTint="@color/compound_button_color" />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/privateRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="1"
+            android:button="@drawable/ic_lock_outline_24dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="10dp"
+            android:text="@string/visibility_private"
+            android:textColor="?android:textColorTertiary"
+            app:buttonTint="@color/compound_button_color" />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/directRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:button="@drawable/ic_email_24dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="10dp"
+            android:text="@string/visibility_direct"
+            android:textColor="?android:textColorTertiary"
+            app:buttonTint="@color/compound_button_color" />
+
+    </RadioGroup>
+
+</merge>

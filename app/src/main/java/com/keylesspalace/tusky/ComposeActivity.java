@@ -43,6 +43,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.Px;
 import android.support.annotation.StringRes;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.transition.TransitionManager;
 import android.support.v13.view.inputmethod.InputConnectionCompat;
@@ -86,7 +87,8 @@ import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
-import com.keylesspalace.tusky.fragment.ComposeOptionsFragment;
+import com.keylesspalace.tusky.fragment.ComposeOptionsListener;
+import com.keylesspalace.tusky.fragment.ComposeOptionsView;
 import com.keylesspalace.tusky.network.ProgressRequestBody;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
@@ -125,7 +127,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public final class ComposeActivity extends BaseActivity
-        implements ComposeOptionsFragment.Listener, MentionAutoCompleteAdapter.AccountSearchProvider {
+        implements ComposeOptionsListener, MentionAutoCompleteAdapter.AccountSearchProvider {
     private static final String TAG = "ComposeActivity"; // logging tag
     private static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 8388608; // 8MiB
@@ -158,6 +160,7 @@ public final class ComposeActivity extends BaseActivity
     private Button tootButton;
     private ImageButton pickButton;
     private ImageButton visibilityBtn;
+    private Button contentWarningButton;
     private ImageButton saveButton;
     private ImageButton hideMediaToggle;
     private ProgressBar postProgress;
@@ -175,6 +178,8 @@ public final class ComposeActivity extends BaseActivity
     private int currentFlags;
     private Uri photoUploadUri;
     private int savedTootUid = 0;
+    private ComposeOptionsView composeOptionsView;
+    private BottomSheetBehavior composeOptionsBehavior;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -191,7 +196,8 @@ public final class ComposeActivity extends BaseActivity
         tootButton = findViewById(R.id.toot_button);
         pickButton = findViewById(R.id.compose_photo_pick);
         visibilityBtn = findViewById(R.id.action_toggle_visibility);
-        saveButton = findViewById(R.id.compose_save_draft);
+        contentWarningButton = findViewById(R.id.action_content_warning);
+        saveButton = findViewById(R.id.compose_emoji);
         hideMediaToggle = findViewById(R.id.action_hide_media);
         postProgress = findViewById(R.id.postProgress);
 
@@ -235,11 +241,18 @@ public final class ComposeActivity extends BaseActivity
             return;
         }
 
+        composeOptionsView = findViewById(R.id.composeOptionsBottomSheet);
+        composeOptionsView.setListener(this);
+
+        composeOptionsBehavior = BottomSheetBehavior.from(composeOptionsView);
+        composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
         // Setup the interface buttons.
         tootButton.setOnClickListener(v -> onSendClicked());
         tootButton.setOnLongClickListener(v -> saveDraft());
         pickButton.setOnClickListener(v -> openPickDialog());
         visibilityBtn.setOnClickListener(v -> showComposeOptions());
+        contentWarningButton.setOnClickListener(v-> onContentWarningChanged());
         saveButton.setOnClickListener(v -> saveDraft());
         hideMediaToggle.setOnClickListener(v -> toggleHideMedia());
 
@@ -747,6 +760,7 @@ public final class ComposeActivity extends BaseActivity
 
     private void setStatusVisibility(Status.Visibility visibility) {
         statusVisibility = visibility;
+        composeOptionsView.setStatusVisibility(visibility);
         switch (visibility) {
             case PUBLIC: {
                 tootButton.setText(R.string.action_send_public);
@@ -788,13 +802,17 @@ public final class ComposeActivity extends BaseActivity
     }
 
     private void showComposeOptions() {
-        ComposeOptionsFragment fragment = ComposeOptionsFragment.newInstance(
-                statusVisibility, statusHideText);
-        fragment.show(getSupportFragmentManager(), null);
+        if (composeOptionsBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || composeOptionsBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+        } else {
+            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        }
     }
 
-    @Override
-    public void onVisibilityChanged(Status.Visibility visibility) {
+    public void onVisibilityChanged(@NonNull Status.Visibility visibility) {
+        composeOptionsBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         setStatusVisibility(visibility);
     }
 
@@ -806,8 +824,9 @@ public final class ComposeActivity extends BaseActivity
         charactersLeft.setText(String.format(Locale.getDefault(), "%d", left));
     }
 
-    public void onContentWarningChanged(boolean hideText) {
-        showContentWarning(hideText);
+    public void onContentWarningChanged() {
+        boolean showWarning = contentWarningBar.getVisibility() != View.VISIBLE;
+        showContentWarning(showWarning);
         updateVisibleCharactersLeft();
     }
 
@@ -1509,10 +1528,13 @@ public final class ComposeActivity extends BaseActivity
 
     private void showContentWarning(boolean show) {
         statusHideText = show;
+        TransitionManager.beginDelayedTransition((ViewGroup)contentWarningBar.getParent());
         if (show) {
             contentWarningBar.setVisibility(View.VISIBLE);
+            contentWarningButton.setTextColor(ContextCompat.getColor(this, R.color.primary));
         } else {
             contentWarningBar.setVisibility(View.GONE);
+            contentWarningButton.setTextColor(ThemeUtils.getColor(this, android.R.attr.textColorTertiary));
         }
     }
 

@@ -39,9 +39,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
-                android:drawablePadding="6dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:drawablePadding="6dp"
                 android:textSize="?attr/status_text_small"
                 android:textStyle="bold"
                 android:visibility="gone"
@@ -130,56 +130,73 @@
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
+    <com.keylesspalace.tusky.fragment.ComposeOptionsView
+        android:id="@+id/composeOptionsBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:colorBackground"
+        android:elevation="12dp"
+        android:orientation="vertical"
+        android:paddingBottom="52dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior" />
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:background="?android:colorBackground"
+        android:elevation="12dp"
         android:gravity="center_vertical"
-        android:paddingBottom="8dp"
-        android:paddingEnd="16dp"
+        android:paddingBottom="4dp"
+        android:paddingEnd="8dp"
         android:paddingStart="8dp"
         android:paddingTop="4dp">
 
         <ImageButton
             android:id="@+id/compose_photo_pick"
             style="?attr/image_button_style"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_photo_pick"
-            android:paddingBottom="4dp"
-            android:paddingEnd="4dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingStart="4dp"
-            android:paddingTop="4dp"
+            android:padding="4dp"
             app:srcCompat="@drawable/ic_attach_file_24dp" />
 
         <ImageButton
             android:id="@+id/action_toggle_visibility"
             style="?attr/image_button_style"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_compose_options"
-            android:paddingBottom="4dp"
-            android:paddingEnd="4dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingStart="4dp"
-            android:paddingTop="4dp"
+            android:padding="4dp"
             app:srcCompat="@drawable/ic_public_24dp" />
 
+        <Button
+            android:id="@+id/action_content_warning"
+            style="?attr/image_button_style"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@string/action_compose_options"
+            android:padding="4dp"
+            android:text="CW"
+            android:textColor="?android:textColorTertiary" />
+
         <ImageButton
-            android:id="@+id/compose_save_draft"
+            android:id="@+id/compose_emoji"
             style="?attr/image_button_style"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_save"
-            android:paddingBottom="4dp"
-            android:paddingEnd="4dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingStart="4dp"
-            android:paddingTop="4dp"
+            android:padding="4dp"
             app:srcCompat="@drawable/ic_save_24dp" />
 
         <ImageButton
@@ -187,13 +204,9 @@
             style="?attr/image_button_style"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_hide_media"
-            android:paddingBottom="4dp"
-            android:paddingEnd="4dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingStart="4dp"
-            android:paddingTop="4dp"
+            android:padding="4dp"
             android:visibility="gone"
             app:srcCompat="@drawable/ic_hide_media_24dp" />
 
@@ -206,7 +219,7 @@
             android:id="@+id/characters_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?android:textColorPrimary"
+            android:textColor="?android:textColorTertiary"
             android:textSize="?attr/status_text_medium" />
 
         <Button
