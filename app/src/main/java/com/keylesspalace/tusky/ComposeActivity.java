@@ -27,6 +27,7 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -154,7 +155,7 @@ public final class ComposeActivity extends BaseActivity
     private View contentWarningBar;
     private EditText contentWarningEditor;
     private TextView charactersLeft;
-    private Button floatingBtn;
+    private Button tootButton;
     private ImageButton pickButton;
     private ImageButton visibilityBtn;
     private ImageButton saveButton;
@@ -187,7 +188,7 @@ public final class ComposeActivity extends BaseActivity
         contentWarningBar = findViewById(R.id.compose_content_warning_bar);
         contentWarningEditor = findViewById(R.id.field_content_warning);
         charactersLeft = findViewById(R.id.characters_left);
-        floatingBtn = findViewById(R.id.floating_btn);
+        tootButton = findViewById(R.id.toot_button);
         pickButton = findViewById(R.id.compose_photo_pick);
         visibilityBtn = findViewById(R.id.action_toggle_visibility);
         saveButton = findViewById(R.id.compose_save_draft);
@@ -235,8 +236,8 @@ public final class ComposeActivity extends BaseActivity
         }
 
         // Setup the interface buttons.
-        floatingBtn.setOnClickListener(v -> onSendClicked());
-        floatingBtn.setOnLongClickListener(v -> saveDraft());
+        tootButton.setOnClickListener(v -> onSendClicked());
+        tootButton.setOnLongClickListener(v -> saveDraft());
         pickButton.setOnClickListener(v -> openPickDialog());
         visibilityBtn.setOnClickListener(v -> showComposeOptions());
         saveButton.setOnClickListener(v -> saveDraft());
@@ -550,7 +551,7 @@ public final class ComposeActivity extends BaseActivity
         visibilityBtn.setClickable(false);
         saveButton.setClickable(false);
         hideMediaToggle.setClickable(false);
-        floatingBtn.setEnabled(false);
+        tootButton.setEnabled(false);
     }
 
     private void enableButtons() {
@@ -558,7 +559,7 @@ public final class ComposeActivity extends BaseActivity
         visibilityBtn.setClickable(true);
         saveButton.setClickable(true);
         hideMediaToggle.setClickable(true);
-        floatingBtn.setEnabled(true);
+        tootButton.setEnabled(true);
     }
 
     private boolean saveDraft() {
@@ -739,20 +740,17 @@ public final class ComposeActivity extends BaseActivity
     }
 
     private void addLockToSendButton() {
-        floatingBtn.setText(R.string.action_send);
-        Drawable lock = AppCompatResources.getDrawable(this, R.drawable.send_private);
-        if (lock != null) {
-            lock.setBounds(0, 0, lock.getIntrinsicWidth(), lock.getIntrinsicHeight());
-            floatingBtn.setCompoundDrawables(null, null, lock, null);
-        }
+        tootButton.setText(R.string.action_send);
+        Drawable lock = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_lock).sizeDp(18).color(Color.WHITE);
+        tootButton.setCompoundDrawablesWithIntrinsicBounds(lock, null, null, null);
     }
 
     private void setStatusVisibility(Status.Visibility visibility) {
         statusVisibility = visibility;
         switch (visibility) {
             case PUBLIC: {
-                floatingBtn.setText(R.string.action_send_public);
-                floatingBtn.setCompoundDrawables(null, null, null, null);
+                tootButton.setText(R.string.action_send_public);
+                tootButton.setCompoundDrawables(null, null, null, null);
                 Drawable globe = AppCompatResources.getDrawable(this, R.drawable.ic_public_24dp);
                 if (globe != null) {
                     visibilityBtn.setImageDrawable(globe);
@@ -778,10 +776,9 @@ public final class ComposeActivity extends BaseActivity
             }
             case UNLISTED:
             default: {
-                floatingBtn.setText(R.string.action_send);
-                floatingBtn.setCompoundDrawables(null, null, null, null);
-                Drawable openLock = AppCompatResources.getDrawable(this,
-                        R.drawable.ic_lock_open_24dp);
+                tootButton.setText(R.string.action_send);
+                tootButton.setCompoundDrawables(null, null, null, null);
+                Drawable openLock = AppCompatResources.getDrawable(this, R.drawable.ic_lock_open_24dp);
                 if (openLock != null) {
                     visibilityBtn.setImageDrawable(openLock);
                 }

@@ -210,10 +210,11 @@
             android:textSize="?attr/status_text_medium" />
 
         <Button
-            android:id="@+id/floating_btn"
+            android:id="@+id/toot_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:drawablePadding="4dp"
             android:text="@string/action_send"
             android:textColor="@android:color/white"
             android:textSize="?attr/status_text_medium" />
