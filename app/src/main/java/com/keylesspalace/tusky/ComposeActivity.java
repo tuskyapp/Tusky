@@ -1159,12 +1159,6 @@ public final class ComposeActivity extends BaseActivity
         mediaQueued.add(item);
         int queuedCount = mediaQueued.size();
         if (queuedCount == 1) {
-            /* The media preview bar is actually not inset in the EditText, it just overlays it and
-             * is aligned to the bottom. But, so that text doesn't get hidden under it, extra
-             * padding is added at the bottom of the EditText. */
-            int totalHeight = side + margin + marginBottom;
-            textEditor.setPadding(textEditor.getPaddingLeft(), textEditor.getPaddingTop(),
-                    textEditor.getPaddingRight(), totalHeight);
             // If there's one video in the queue it is full, so disable the button to queue more.
             if (item.type == QueuedMedia.Type.VIDEO) {
                 disableMediaButtons();
@@ -1277,10 +1271,6 @@ public final class ComposeActivity extends BaseActivity
         mediaQueued.remove(item);
         if (mediaQueued.size() == 0) {
             showMarkSensitive(false);
-            /* If there are no image previews to show, the extra padding that was added to the
-             * EditText can be removed so there isn't unnecessary empty space. */
-            textEditor.setPadding(textEditor.getPaddingLeft(), textEditor.getPaddingTop(),
-                    textEditor.getPaddingRight(), 0);
         }
 
         enableMediaButtons();
