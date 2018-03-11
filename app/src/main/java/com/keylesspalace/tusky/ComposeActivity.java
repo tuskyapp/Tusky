@@ -43,11 +43,13 @@ import android.support.annotation.Nullable;
 import android.support.annotation.Px;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.support.transition.TransitionManager;
 import android.support.v13.view.inputmethod.InputConnectionCompat;
 import android.support.v13.view.inputmethod.InputContentInfoCompat;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.content.res.AppCompatResources;
@@ -59,6 +61,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
@@ -96,6 +99,8 @@ import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EditTextTyped;
 import com.keylesspalace.tusky.view.ProgressImageView;
 import com.keylesspalace.tusky.view.RoundedTransformation;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
 import com.varunest.sparkbutton.helpers.Utils;
 
@@ -330,11 +335,24 @@ public final class ComposeActivity extends BaseActivity
                 replyTextView.setVisibility(View.VISIBLE);
                 String username = intent.getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA);
                 replyTextView.setText(getString(R.string.replying_to, username));
+                Drawable arrowDownIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_down).sizeDp(12);
+
+                ThemeUtils.setDrawableTint(this, arrowDownIcon, android.R.attr.textColorTertiary);
+                TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(replyTextView, null, null, arrowDownIcon, null);
+
                 replyTextView.setOnClickListener(v -> {
+                    TransitionManager.beginDelayedTransition((ViewGroup)replyContentTextView.getParent());
+
                     if (replyContentTextView.getVisibility() != View.VISIBLE) {
                         replyContentTextView.setVisibility(View.VISIBLE);
+                        Drawable arrowUpIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_up).sizeDp(12);
+
+                        ThemeUtils.setDrawableTint(this, arrowUpIcon, android.R.attr.textColorTertiary);
+                        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(replyTextView, null, null, arrowUpIcon, null);
                     } else {
                         replyContentTextView.setVisibility(View.GONE);
+
+                        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(replyTextView, null, null, arrowDownIcon, null);
                     }
                 });
             }
