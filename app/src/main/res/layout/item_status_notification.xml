@@ -72,52 +72,42 @@
 
     </RelativeLayout>
 
-    <com.keylesspalace.tusky.view.FlowLayout
-        android:id="@+id/notification_content_warning_bar"
+    <TextView
+        android:id="@+id/notification_content_warning_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/status_name_bar"
-        android:layout_marginBottom="4dp"
-        android:layout_toEndOf="@+id/notification_status_avatar"
-        android:focusable="true"
-        android:visibility="gone"
-        app:paddingHorizontal="4dp"
-        tools:visibility="visible">
-
-        <TextView
-            android:id="@+id/notification_content_warning_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lineSpacingMultiplier="1.1"
-            android:textColor="?android:textColorTertiary"
-            android:textSize="?attr/status_text_medium"
-            tools:text="Example CW text" />
+        android:layout_below="@id/status_name_bar"
+        android:layout_toEndOf="@id/notification_status_avatar"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="?android:textColorTertiary"
+        android:textSize="?attr/status_text_medium"
+        tools:text="Example CW text" />
 
 
-        <ToggleButton
-            android:id="@+id/notification_content_warning_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:background="?attr/content_warning_button"
-            android:minHeight="0dp"
-            android:minWidth="0dp"
-            android:paddingBottom="3dp"
-            android:paddingLeft="6dp"
-            android:paddingRight="6dp"
-            android:paddingTop="3dp"
-            android:textAllCaps="true"
-            android:textOff="@string/status_content_warning_show_more"
-            android:textOn="@string/status_content_warning_show_less"
-            android:textSize="?attr/status_text_medium" />
-
-    </com.keylesspalace.tusky.view.FlowLayout>
+    <ToggleButton
+        android:id="@+id/notification_content_warning_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/notification_content_warning_description"
+        android:layout_centerHorizontal="true"
+        android:background="?attr/content_warning_button"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:paddingBottom="6dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="6dp"
+        android:layout_marginVertical="4dp"
+        android:textAllCaps="true"
+        android:textOff="@string/status_content_warning_show_more"
+        android:textOn="@string/status_content_warning_show_less"
+        android:textSize="?attr/status_text_medium" />
 
     <TextView
         android:id="@+id/notification_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/notification_content_warning_bar"
+        android:layout_below="@id/notification_content_warning_button"
         android:layout_toEndOf="@+id/notification_status_avatar"
         android:lineSpacingMultiplier="1.1"
         android:paddingBottom="10dp"
