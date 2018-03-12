@@ -180,6 +180,7 @@ public final class ComposeActivity extends BaseActivity
     private int savedTootUid = 0;
     private ComposeOptionsView composeOptionsView;
     private BottomSheetBehavior composeOptionsBehavior;
+    private BottomSheetBehavior addMediaBehavior;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -247,6 +248,10 @@ public final class ComposeActivity extends BaseActivity
         composeOptionsBehavior = BottomSheetBehavior.from(composeOptionsView);
         composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
+        addMediaBehavior = BottomSheetBehavior.from(findViewById(R.id.addMediaBottomSheet));
+
+
+
         // Setup the interface buttons.
         tootButton.setOnClickListener(v -> onSendClicked());
         tootButton.setOnLongClickListener(v -> saveDraft());
@@ -255,6 +260,8 @@ public final class ComposeActivity extends BaseActivity
         contentWarningButton.setOnClickListener(v-> onContentWarningChanged());
         saveButton.setOnClickListener(v -> saveDraft());
         hideMediaToggle.setOnClickListener(v -> toggleHideMedia());
+        findViewById(R.id.action_photo_take).setOnClickListener(v -> initiateCameraApp());
+        findViewById(R.id.action_photo_pick).setOnClickListener(v -> onMediaPick());
 
         //fix a bug with autocomplete and some keyboards
         int newInputType = textEditor.getInputType() & (textEditor.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
@@ -804,6 +811,7 @@ public final class ComposeActivity extends BaseActivity
     private void showComposeOptions() {
         if (composeOptionsBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || composeOptionsBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
             composeOptionsBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         } else {
             composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -1059,30 +1067,21 @@ public final class ComposeActivity extends BaseActivity
     }
 
     private void openPickDialog() {
-        final int CHOICE_TAKE = 0;
-        final int CHOICE_PICK = 1;
-        CharSequence[] choices = new CharSequence[2];
-        choices[CHOICE_TAKE] = getString(R.string.action_photo_take);
-        choices[CHOICE_PICK] = getString(R.string.action_photo_pick);
-        DialogInterface.OnClickListener listener = (dialog, which) -> {
-            switch (which) {
-                case CHOICE_TAKE: {
-                    initiateCameraApp();
-                    break;
-                }
-                case CHOICE_PICK: {
-                    onMediaPick();
-                    break;
-                }
-            }
-        };
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setItems(choices, listener)
-                .create();
-        dialog.show();
+
+        if (addMediaBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || addMediaBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            addMediaBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        } else {
+            addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        }
+
     }
 
     private void onMediaPick() {
+        addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
@@ -1124,6 +1123,8 @@ public final class ComposeActivity extends BaseActivity
     }
 
     private void initiateCameraApp() {
+        addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
         // We don't need to ask for permission in this case, because the used calls require
         // android.permission.WRITE_EXTERNAL_STORAGE only on SDKs *older* than Kitkat, which was
         // way before permission dialogues have been introduced.
