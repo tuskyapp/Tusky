@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.fragment
 
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
@@ -30,6 +31,15 @@ class ComposeOptionsView @JvmOverloads constructor(context: Context, attrs: Attr
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_compose_options, this)
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            publicRadioButton.setButtonDrawable(R.drawable.ic_public_24dp)
+            unlistedRadioButton.setButtonDrawable(R.drawable.ic_lock_open_24dp)
+            privateRadioButton.setButtonDrawable(R.drawable.ic_lock_outline_24dp)
+            directRadioButton.setButtonDrawable(R.drawable.ic_email_24dp)
+        }
+
+
         visibilityRadioGroup.setOnCheckedChangeListener({ _, checkedId ->
             val visibility = when (checkedId) {
                 R.id.publicRadioButton ->
