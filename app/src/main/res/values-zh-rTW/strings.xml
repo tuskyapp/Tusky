@@ -69,9 +69,9 @@
     <string name="action_report">報告</string>
     <string name="action_delete">刪除</string>
     <string name="action_send">發嘟</string>
-    <string name="action_send_public">發嘟！</string>
+    <string name="action_send_public">發嘟</string>
     <string name="action_retry">重試</string>
-    <string name="action_hide_text">被隱藏的文字</string>
+    <string name="action_hide_text">隱藏文字內容</string>
     <string name="action_close">關閉</string>
     <string name="action_view_profile">個人資料</string>
     <string name="action_view_preferences">設置</string>
@@ -110,7 +110,7 @@
     <string name="confirmation_unblocked">用戶已被屏蔽</string>
     <string name="confirmation_unmuted">用戶已被隱藏</string>
 
-    <string name="hint_domain">登入哪個實例？</string>
+    <string name="hint_domain">域名</string>
     <string name="hint_compose">有什麼新鮮事？</string>
     <string name="hint_content_warning">摺疊部分的警告信息</string>
     <string name="hint_display_name">暱稱</string>
@@ -122,14 +122,14 @@
     <string name="label_avatar">頭像</string>
     <string name="label_header">標題</string>
 
-    <string name="link_whats_an_instance">「實例」是什麼？</string>
+    <string name="link_whats_an_instance">需要幫助？</string>
 
     <string name="login_connection">正在連接…</string>
 
-    <string name="dialog_whats_an_instance">請輸入你帳號所在的 Mastodon 站點的域名，比如 mastodon.social，pawoo.net，mstdn.jp，mao.daizhige.me（殆知閣喵站），cmx.im（長毛象中文站），g0v.social，<a href="https://instances.social">等等</a> 。
+    <string name="dialog_whats_an_instance">請輸入你帳號所在的 Mastodon 站點的域名，比如 mastodon.social，pawoo.net，mstdn.jp，mao.daizhige.org，<a href="https://instances.social">等等</a> 。
         \n\n還沒有 Mastodon 帳號？你也可以輸入想註冊的實例的域名，然後在該實例創建新的帳號並授權 Tusky 登入。
-        \n\n你帳號所在的 Mastodon 站點被稱為 Mastodon 的一個「實例」（instance）。但是在 Mastodon 裡，跨實例用戶間的互動和站內互動一樣簡單。
-        \n\n可以前往 <a href="https://joinmastodon.org">joinmastodon.org</a> 瞭解更多信息。
+        \n\n你帳號所在的 Mastodon 站點被稱為 Mastodon 的一個「實例」（instance）。但是在 Mastodon 裡，跨實例互動和站內互動一樣簡單。
+        \n\n可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 瞭解更多信息。
     </string>
     <string name="dialog_title_finishing_media_upload">正在結束上傳…</string>
     <string name="dialog_message_uploading_media">正在上傳…</string>
@@ -140,7 +140,7 @@
 
     <string name="visibility_public">公開：所有人可見，並會出現在公共時間軸上</string>
     <string name="visibility_unlisted">不公開：所有人可見，但不會出現在公共時間軸上</string>
-    <string name="visibility_private">僅關注者：只有經過你確認後關注你的用戶能看到</string>
+    <string name="visibility_private">僅關注者：只有經過你確認後關注你的用戶可見</string>
     <string name="visibility_direct">私信：只有被提及的用戶可見</string>
 
     <string name="pref_title_notification_settings">通知</string>
@@ -168,7 +168,7 @@
 
     <string name="pref_title_browser_settings">瀏覽器</string>
     <string name="pref_title_custom_tabs">使用 Chrome Custom Tabs</string>
-    <string name="pref_title_hide_follow_button">自動隱藏發嘟按鈕</string>
+    <string name="pref_title_hide_follow_button">瀏覽時自動隱藏發嘟按鈕</string>
     <string name="pref_title_status_filter">時間軸過濾</string>
     <string name="pref_title_status_tabs">選項卡</string>
     <string name="pref_title_show_boosts">顯示轉嘟</string>
