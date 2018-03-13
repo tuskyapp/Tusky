@@ -253,14 +253,13 @@
             android:textColor="?android:textColorTertiary"
             android:textSize="?attr/status_text_medium" />
 
-        <Button
+        <com.keylesspalace.tusky.view.TootButton
             android:id="@+id/toot_button"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/toot_button_width"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:drawablePadding="4dp"
-            android:text="@string/action_send"
             android:textColor="@android:color/white"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:textSize="?attr/status_text_medium" />
 
     </LinearLayout>

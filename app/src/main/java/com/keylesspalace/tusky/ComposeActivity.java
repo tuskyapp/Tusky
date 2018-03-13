@@ -25,9 +25,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -102,6 +102,7 @@ import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.EditTextTyped;
 import com.keylesspalace.tusky.view.ProgressImageView;
 import com.keylesspalace.tusky.view.RoundedTransformation;
+import com.keylesspalace.tusky.view.TootButton;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
@@ -157,7 +158,7 @@ public final class ComposeActivity extends BaseActivity
     private View contentWarningBar;
     private EditText contentWarningEditor;
     private TextView charactersLeft;
-    private Button tootButton;
+    private TootButton tootButton;
     private ImageButton pickButton;
     private ImageButton visibilityBtn;
     private Button contentWarningButton;
@@ -186,6 +187,11 @@ public final class ComposeActivity extends BaseActivity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
+
+        Configuration config = getResources().getConfiguration();
+        Log.d("CONFIGURATION", "screenWidth: "+config.smallestScreenWidthDp);
+
+        Log.d("TOOTBUTTON", "SMALL "+getResources().getBoolean(R.bool.show_small_toot_button));
 
         replyTextView = findViewById(R.id.reply_tv);
         replyContentTextView = findViewById(R.id.reply_content_tv);
@@ -759,19 +765,13 @@ public final class ComposeActivity extends BaseActivity
         return true;
     }
 
-    private void addLockToSendButton() {
-        tootButton.setText(R.string.action_send);
-        Drawable lock = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_lock).sizeDp(18).color(Color.WHITE);
-        tootButton.setCompoundDrawablesWithIntrinsicBounds(lock, null, null, null);
-    }
-
     private void setStatusVisibility(Status.Visibility visibility) {
         statusVisibility = visibility;
         composeOptionsView.setStatusVisibility(visibility);
+        tootButton.setStatusVisibility(visibility);
+
         switch (visibility) {
             case PUBLIC: {
-                tootButton.setText(R.string.action_send_public);
-                tootButton.setCompoundDrawables(null, null, null, null);
                 Drawable globe = AppCompatResources.getDrawable(this, R.drawable.ic_public_24dp);
                 if (globe != null) {
                     visibilityBtn.setImageDrawable(globe);
@@ -779,7 +779,6 @@ public final class ComposeActivity extends BaseActivity
                 break;
             }
             case PRIVATE: {
-                addLockToSendButton();
                 Drawable lock = AppCompatResources.getDrawable(this,
                         R.drawable.ic_lock_outline_24dp);
                 if (lock != null) {
@@ -788,7 +787,6 @@ public final class ComposeActivity extends BaseActivity
                 break;
             }
             case DIRECT: {
-                addLockToSendButton();
                 Drawable envelope = AppCompatResources.getDrawable(this, R.drawable.ic_email_24dp);
                 if (envelope != null) {
                     visibilityBtn.setImageDrawable(envelope);
@@ -797,8 +795,6 @@ public final class ComposeActivity extends BaseActivity
             }
             case UNLISTED:
             default: {
-                tootButton.setText(R.string.action_send);
-                tootButton.setCompoundDrawables(null, null, null, null);
                 Drawable openLock = AppCompatResources.getDrawable(this, R.drawable.ic_lock_open_24dp);
                 if (openLock != null) {
                     visibilityBtn.setImageDrawable(openLock);
