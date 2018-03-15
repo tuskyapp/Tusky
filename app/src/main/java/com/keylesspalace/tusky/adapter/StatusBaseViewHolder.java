@@ -114,7 +114,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     void setAvatar(String url, @Nullable String rebloggedUrl) {
-        if (url.isEmpty()) {
+        if (TextUtils.isEmpty(url)) {
             avatar.setImageResource(R.drawable.avatar_default);
         } else {
             Picasso.with(avatar.getContext())
