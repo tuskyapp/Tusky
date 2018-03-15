@@ -105,7 +105,7 @@
             android:layout_centerHorizontal="true"
             android:background="?attr/content_warning_button"
             android:minHeight="0dp"
-            android:minWidth="0dp"
+            android:minWidth="150dp"
             android:paddingBottom="6dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
