@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="FlowLayout">
-        <attr name="paddingHorizontal" format="dimension" />
-        <attr name="paddingVertical" format="dimension" />
-    </declare-styleable>
-
     <declare-styleable name="StatusButton">
         <attr name="state_marked" format="boolean" />
     </declare-styleable>

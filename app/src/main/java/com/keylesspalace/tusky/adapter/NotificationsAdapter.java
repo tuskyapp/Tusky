@@ -300,7 +300,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private final ViewGroup container;
         private final ImageView statusAvatar;
         private final ImageView notificationAvatar;
-        private final View contentWarningBar;
         private final TextView contentWarningDescriptionTextView;
         private final ToggleButton contentWarningButton;
 
@@ -320,7 +319,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             container = itemView.findViewById(R.id.notification_container);
             statusAvatar = itemView.findViewById(R.id.notification_status_avatar);
             notificationAvatar = itemView.findViewById(R.id.notification_notification_avatar);
-            contentWarningBar = itemView.findViewById(R.id.notification_content_warning_bar);
             contentWarningDescriptionTextView = itemView.findViewById(R.id.notification_content_warning_description);
             contentWarningButton = itemView.findViewById(R.id.notification_content_warning_button);
 
@@ -336,7 +334,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
         private void showNotificationContent(boolean show) {
             statusNameBar.setVisibility(show ? View.VISIBLE : View.GONE);
-            contentWarningBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            contentWarningDescriptionTextView.setVisibility(show ? View.VISIBLE : View.GONE);
+            contentWarningButton.setVisibility(show ? View.VISIBLE : View.GONE);
             statusContent.setVisibility(show ? View.VISIBLE : View.GONE);
             statusAvatar.setVisibility(show ? View.VISIBLE : View.GONE);
             notificationAvatar.setVisibility(show ? View.VISIBLE : View.GONE);
@@ -417,7 +416,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
             if (statusViewData != null) {
                 boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
-                contentWarningBar.setVisibility(hasSpoiler ? View.VISIBLE : View.GONE);
+                contentWarningDescriptionTextView.setVisibility(hasSpoiler ? View.VISIBLE : View.GONE);
+                contentWarningButton.setVisibility(hasSpoiler ? View.VISIBLE : View.GONE);
                 setupContentAndSpoiler(notificationViewData, listener);
             }
 
