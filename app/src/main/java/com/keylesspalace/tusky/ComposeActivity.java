@@ -1060,11 +1060,12 @@ public final class ComposeActivity extends BaseActivity
             spoilerText = contentWarningEditor.getText().toString();
         }
         int characterCount = contentText.length() + spoilerText.length();
-        if (characterCount > 0 && characterCount <= STATUS_CHARACTER_LIMIT) {
-            sendStatus(contentText, visibility, sensitive, spoilerText);
-        } else if (characterCount <= 0) {
+        if (characterCount <= 0 && mediaQueued.size()==0) {
             textEditor.setError(getString(R.string.error_empty));
             setStateToNotReadying();
+        } else if (characterCount <= STATUS_CHARACTER_LIMIT) {
+            sendStatus(contentText, visibility, sensitive, spoilerText);
+
         } else {
             textEditor.setError(getString(R.string.error_compose_character_limit));
             setStateToNotReadying();
