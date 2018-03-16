@@ -98,6 +98,6 @@ class ComposeActivityTest {
     }
 
     private fun insertSomeTextInContent() {
-        activity.findViewById<EditText>(R.id.compose_edit_field).setText("Some text")
+        activity.findViewById<EditText>(R.id.composeEditField).setText("Some text")
     }
 }

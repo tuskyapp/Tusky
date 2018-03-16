@@ -81,7 +81,7 @@
     <string name="action_view_follow_requests">طلبات المتابعة</string>
     <string name="action_view_media">وسائط</string>
     <string name="action_open_in_web">إفتح في متصفح</string>
-    <string name="action_photo_pick">إضافة وسائط</string>
+    <string name="action_add_media">إضافة وسائط</string>
     <string name="action_photo_take">أخذ صورة</string>
     <string name="action_share">شارك</string>
     <string name="action_mute">أكتم</string>

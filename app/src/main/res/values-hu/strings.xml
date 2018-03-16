@@ -76,7 +76,7 @@
     <string name="action_view_follow_requests">Követési kérések</string>
     <string name="action_view_media">Média</string>
     <string name="action_open_in_web">Megnyitás böngészőben</string>
-    <string name="action_photo_pick">Média hozzácsatolása</string>
+    <string name="action_add_media">Média hozzácsatolása</string>
     <string name="action_photo_take">Kép készítése</string>
     <string name="action_share">Megoszt</string>
     <string name="action_mute">Némítás</string>

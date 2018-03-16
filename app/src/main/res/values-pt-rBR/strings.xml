@@ -79,7 +79,7 @@
     <string name="action_view_follow_requests">Solicitações de seguidor</string>
     <string name="action_view_media">Mídia</string>
     <string name="action_open_in_web">Abrir no navegador</string>
-    <string name="action_photo_pick">Adicionar mídia</string>
+    <string name="action_add_media">Adicionar mídia</string>
     <string name="action_photo_take">Tirar foto</string>
     <string name="action_share">Compartilhar</string>
     <string name="action_mute">Silenciar</string>

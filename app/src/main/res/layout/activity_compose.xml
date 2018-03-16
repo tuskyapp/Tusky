@@ -35,7 +35,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/reply_tv"
+                android:id="@+id/composeReplyView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
@@ -49,7 +49,7 @@
                 tools:visibility="visible" />
 
             <TextView
-                android:id="@+id/reply_content_tv"
+                android:id="@+id/composeReplyContentView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
@@ -65,13 +65,13 @@
                 tools:visibility="visible" />
 
             <LinearLayout
-                android:id="@+id/compose_content_warning_bar"
+                android:id="@+id/composeContentWarningBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/field_content_warning"
+                    android:id="@+id/composeContentWarningField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -93,7 +93,7 @@
             </LinearLayout>
 
             <com.keylesspalace.tusky.view.EditTextTyped
-                android:id="@+id/compose_edit_field"
+                android:id="@+id/composeEditField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -160,7 +160,7 @@
             android:layout_height="wrap_content"
             android:drawablePadding="8dp"
             android:padding="8dp"
-            android:text="@string/action_photo_pick"
+            android:text="@string/action_add_media"
             android:textSize="?attr/status_text_medium" />
     </LinearLayout>
 
@@ -178,7 +178,6 @@
         app:behavior_peekHeight="0dp"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior" />
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -192,54 +191,59 @@
         android:paddingTop="4dp">
 
         <ImageButton
-            android:id="@+id/compose_photo_pick"
+            android:id="@+id/composeAddMediaButton"
             style="?attr/image_button_style"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="4dp"
-            android:contentDescription="@string/action_photo_pick"
+            android:contentDescription="@string/action_add_media"
             android:padding="4dp"
+            android:tooltipText="@string/action_add_media"
             app:srcCompat="@drawable/ic_attach_file_24dp" />
 
         <ImageButton
-            android:id="@+id/action_toggle_visibility"
+            android:id="@+id/composeToggleVisibilityButton"
             style="?attr/image_button_style"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="4dp"
-            android:contentDescription="@string/action_compose_options"
+            android:contentDescription="@string/action_toggle_visibility"
             android:padding="4dp"
+            android:tooltipText="@string/action_toggle_visibility"
             tools:src="@drawable/ic_public_24dp" />
 
         <Button
-            android:id="@+id/action_content_warning"
+            android:id="@+id/composeContentWarningButton"
             style="?attr/image_button_style"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="4dp"
-            android:contentDescription="@string/action_compose_options"
+            android:contentDescription="@string/action_content_warning"
             android:padding="4dp"
             android:text="CW"
-            android:textColor="?android:textColorTertiary" />
+            android:textColor="?android:textColorTertiary"
+            android:tooltipText="@string/action_content_warning" />
 
         <ImageButton
-            android:id="@+id/compose_emoji"
+            android:id="@+id/composeEmojiButton"
             style="?attr/image_button_style"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
-            android:contentDescription="@string/action_save"
+            android:contentDescription="@string/action_emoji_keyboard"
             android:padding="4dp"
+            android:tooltipText="@string/action_emoji_keyboard"
             app:srcCompat="@drawable/ic_emoji_24dp" />
 
         <ImageButton
-            android:id="@+id/action_hide_media"
+            android:id="@+id/composeHideMediaButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/action_hide_media"
             android:padding="4dp"
+            android:tooltipText="@string/action_hide_media"
             android:visibility="gone"
             tools:src="@drawable/ic_eye_24dp" />
 
@@ -249,14 +253,14 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/characters_left"
+            android:id="@+id/composeCharactersLeftView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?android:textColorTertiary"
             android:textSize="?attr/status_text_medium" />
 
         <com.keylesspalace.tusky.view.TootButton
-            android:id="@+id/toot_button"
+            android:id="@+id/composeTootButton"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="@dimen/toot_button_width"
             android:layout_height="wrap_content"

@@ -81,7 +81,7 @@
     <string name="action_view_follow_requests">Запросы на подписку</string>
     <string name="action_view_media">Медиаконтент</string>
     <string name="action_open_in_web">Открыть в браузере</string>
-    <string name="action_photo_pick">Добавить медиаконтент</string>
+    <string name="action_add_media">Добавить медиаконтент</string>
     <string name="action_photo_take">Сфотографировать</string>
     <string name="action_share">Поделиться</string>
     <string name="action_mute">Заглушить</string>

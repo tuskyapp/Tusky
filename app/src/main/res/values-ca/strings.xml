@@ -79,7 +79,7 @@
     <string name="action_view_follow_requests">Peticions de seguiment</string>
     <string name="action_view_media">Multimèdia</string>
     <string name="action_open_in_web">Obre al navegador</string>
-    <string name="action_photo_pick">Afegeix multimètida</string>
+    <string name="action_add_media">Afegeix multimètida</string>
     <string name="action_photo_take">Fes una foto</string>
     <string name="action_share">Comparteix</string>
     <string name="action_mute">Silencia</string>

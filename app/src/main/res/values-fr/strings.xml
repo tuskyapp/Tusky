@@ -74,7 +74,7 @@
     <string name="action_view_blocks">Utilisateurs bloqués</string>
     <string name="action_view_media">Média</string>
     <string name="action_open_in_web">Ouvrir dans votre navigateur</string>
-    <string name="action_photo_pick">Ajouter un média</string>
+    <string name="action_add_media">Ajouter un média</string>
     <string name="action_photo_take">Prendre une photo</string>
     <string name="action_share">Partager</string>
     <string name="action_mute">Rendre muet</string>

@@ -81,14 +81,13 @@
     <string name="action_view_follow_requests">Follow Requests</string>
     <string name="action_view_media">Media</string>
     <string name="action_open_in_web">Open in browser</string>
-    <string name="action_photo_pick">Add media</string>
+    <string name="action_add_media">Add media</string>
     <string name="action_photo_take">Take photo</string>
     <string name="action_share">Share</string>
     <string name="action_mute">Mute</string>
     <string name="action_unmute">Unmute</string>
     <string name="action_mention">Mention</string>
     <string name="action_hide_media">Hide media</string>
-    <string name="action_compose_options">Options</string>
     <string name="action_open_drawer">Open drawer</string>
     <string name="action_save">Save</string>
     <string name="action_edit_profile">Edit profile</string>
@@ -97,6 +96,9 @@
     <string name="action_reject">Reject</string>
     <string name="action_search">Search</string>
     <string name="action_access_saved_toot">Drafts</string>
+    <string name="action_toggle_visibility">Toot visibility</string>
+    <string name="action_content_warning">Content warning</string>
+    <string name="action_emoji_keyboard">Emoji keyboard</string>
 
     <string name="download_image">Downloading %1$s</string>
 

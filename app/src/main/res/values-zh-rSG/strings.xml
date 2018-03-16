@@ -81,7 +81,7 @@
     <string name="action_view_follow_requests">关注请求</string>
     <string name="action_view_media">媒体</string>
     <string name="action_open_in_web">在浏览器中打开</string>
-    <string name="action_photo_pick">从相册中选择</string>
+    <string name="action_add_media">从相册中选择</string>
     <string name="action_photo_take">拍照</string>
     <string name="action_share">分享</string>
     <string name="action_mute">隐藏</string>

@@ -89,7 +89,7 @@
     <string name="action_view_follow_requests">Prośby o możliwość śledzenia</string>
     <string name="action_view_media">Treści multimedialne</string>
     <string name="action_open_in_web">Otwórz w przeglądarce</string>
-    <string name="action_photo_pick">Dodaj treści multimedialne</string>
+    <string name="action_add_media">Dodaj treści multimedialne</string>
     <string name="action_photo_take">Wykonaj zdjęcie</string>
     <string name="action_share">Udostępnij</string>
     <string name="action_mute">Wycisz</string>

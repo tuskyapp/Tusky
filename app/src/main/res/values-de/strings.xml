@@ -71,7 +71,7 @@
     <string name="action_view_blocks">Blockierte Accounts</string>
     <string name="action_view_media">Medien</string>
     <string name="action_open_in_web">Im Browser öffnen</string>
-    <string name="action_photo_pick">Füge Medien hinzu</string>
+    <string name="action_add_media">Füge Medien hinzu</string>
     <string name="action_photo_take">Foto machen</string>
     <string name="action_share">Teilen</string>
     <string name="action_mute">Stummschalten</string>

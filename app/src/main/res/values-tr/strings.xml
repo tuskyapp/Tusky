@@ -75,7 +75,7 @@
     <string name="action_view_blocks">Engellenmiş kullanıcılar</string>
     <string name="action_view_media">Medya</string>
     <string name="action_open_in_web">Tarayıcıda aç</string>
-    <string name="action_photo_pick">Medya ekle</string>
+    <string name="action_add_media">Medya ekle</string>
     <string name="action_photo_take">Resim çek</string>
     <string name="action_share">Paylaş</string>
     <string name="action_mute">Sesize al</string>

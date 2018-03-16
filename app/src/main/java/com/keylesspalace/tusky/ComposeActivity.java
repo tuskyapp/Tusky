@@ -194,19 +194,19 @@ public final class ComposeActivity extends BaseActivity
 
         Log.d("TOOTBUTTON", "SMALL "+getResources().getBoolean(R.bool.show_small_toot_button));
 
-        replyTextView = findViewById(R.id.reply_tv);
-        replyContentTextView = findViewById(R.id.reply_content_tv);
-        textEditor = findViewById(R.id.compose_edit_field);
+        replyTextView = findViewById(R.id.composeReplyView);
+        replyContentTextView = findViewById(R.id.composeReplyContentView);
+        textEditor = findViewById(R.id.composeEditField);
         mediaPreviewBar = findViewById(R.id.compose_media_preview_bar);
-        contentWarningBar = findViewById(R.id.compose_content_warning_bar);
-        contentWarningEditor = findViewById(R.id.field_content_warning);
-        charactersLeft = findViewById(R.id.characters_left);
-        tootButton = findViewById(R.id.toot_button);
-        pickButton = findViewById(R.id.compose_photo_pick);
-        visibilityBtn = findViewById(R.id.action_toggle_visibility);
-        contentWarningButton = findViewById(R.id.action_content_warning);
-        saveButton = findViewById(R.id.compose_emoji);
-        hideMediaToggle = findViewById(R.id.action_hide_media);
+        contentWarningBar = findViewById(R.id.composeContentWarningBar);
+        contentWarningEditor = findViewById(R.id.composeContentWarningField);
+        charactersLeft = findViewById(R.id.composeCharactersLeftView);
+        tootButton = findViewById(R.id.composeTootButton);
+        pickButton = findViewById(R.id.composeAddMediaButton);
+        visibilityBtn = findViewById(R.id.composeToggleVisibilityButton);
+        contentWarningButton = findViewById(R.id.composeContentWarningButton);
+        saveButton = findViewById(R.id.composeEmojiButton);
+        hideMediaToggle = findViewById(R.id.composeHideMediaButton);
         postProgress = findViewById(R.id.postProgress);
 
         // Setup the toolbar.
