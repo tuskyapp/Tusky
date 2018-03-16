@@ -266,8 +266,20 @@ public final class ComposeActivity extends BaseActivity
         contentWarningButton.setOnClickListener(v-> onContentWarningChanged());
         saveButton.setOnClickListener(v -> saveDraft());
         hideMediaToggle.setOnClickListener(v -> toggleHideMedia());
-        findViewById(R.id.action_photo_take).setOnClickListener(v -> initiateCameraApp());
-        findViewById(R.id.action_photo_pick).setOnClickListener(v -> onMediaPick());
+
+        TextView actionPhotoTake = findViewById(R.id.action_photo_take);
+        TextView actionPhotoPick = findViewById(R.id.action_photo_pick);
+
+        int textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);
+
+        Drawable cameraIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_camera_alt).color(textColor).sizeDp(18);
+        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(actionPhotoTake, cameraIcon, null, null, null);
+
+        Drawable imageIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_image).color(textColor).sizeDp(18);
+        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(actionPhotoPick, imageIcon, null, null, null);
+
+        actionPhotoTake.setOnClickListener(v -> initiateCameraApp());
+        actionPhotoPick.setOnClickListener(v -> onMediaPick());
 
         //fix a bug with autocomplete and some keyboards
         int newInputType = textEditor.getInputType() & (textEditor.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
@@ -1076,7 +1088,7 @@ public final class ComposeActivity extends BaseActivity
     }
 
     private void onMediaPick() {
-        addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        addMediaBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -1119,7 +1131,7 @@ public final class ComposeActivity extends BaseActivity
     }
 
     private void initiateCameraApp() {
-        addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        addMediaBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
         // We don't need to ask for permission in this case, because the used calls require
         // android.permission.WRITE_EXTERNAL_STORAGE only on SDKs *older* than Kitkat, which was
