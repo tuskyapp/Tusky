@@ -28,6 +28,7 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -38,7 +39,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.annotation.AttrRes;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.Px;
@@ -575,13 +576,15 @@ public final class ComposeActivity extends BaseActivity
     }
 
     private void updateHideMediaToggleColor() {
-        @AttrRes int attribute;
+        @ColorInt int color;
         if (statusMarkSensitive) {
-            attribute = R.attr.compose_hide_media_button_selected_color;
+            hideMediaToggle.setImageResource(R.drawable.ic_hide_media_24dp);
+            color = ContextCompat.getColor(this, R.color.primary);
         } else {
-            attribute = R.attr.compose_hide_media_button_color;
+            hideMediaToggle.setImageResource(R.drawable.ic_eye_24dp);
+            color = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);
         }
-        ThemeUtils.setDrawableTint(this, hideMediaToggle.getDrawable(), attribute);
+        hideMediaToggle.getDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
     }
 
     private void disableButtons() {
@@ -1524,8 +1527,7 @@ public final class ComposeActivity extends BaseActivity
 
         if (!showMarkSensitive) {
             statusMarkSensitive = false;
-            ThemeUtils.setDrawableTint(this, hideMediaToggle.getDrawable(),
-                    R.attr.compose_hide_media_button_color);
+            updateHideMediaToggleColor();
         }
 
         if (show) {

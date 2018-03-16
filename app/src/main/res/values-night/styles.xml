@@ -47,9 +47,6 @@
         <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_dark</item>
         <item name="compose_mention_color">@color/color_accent_dark</item>
         <item name="compose_content_warning_bar_background">@drawable/border_background_dark</item>
-        <item name="compose_hide_media_button_color">@color/image_button_dark</item>
-        <item name="compose_hide_media_button_selected_color">@color/color_accent_dark</item>
-        <item name="compose_image_button_tint">@color/image_button_dark</item>
         <item name="compose_reply_content_background">@color/compose_reply_content_background_dark</item>
 
         <item name="report_status_background_color">@color/color_background_dark</item>

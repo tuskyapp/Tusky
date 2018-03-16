@@ -245,7 +245,7 @@
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="@+id/status_media_preview_container"
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_container"
-            app:srcCompat="@drawable/ic_remove_red_eye_black_24dp" />
+            app:srcCompat="@drawable/ic_eye_24dp" />
 
         <TextView
             android:id="@+id/status_sensitive_media_warning"

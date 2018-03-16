@@ -57,7 +57,6 @@
     <color name="text_color_tertiary_inverse_light">#ffffff</color>
     <color name="toolbar_background_light">#f6f7f7</color>
     <color name="toolbar_icon_light">#7C000000</color>
-    <color name="image_button_light">#4f4f4f</color>
     <color name="status_reblog_button_light">#4f4f4f</color>
     <color name="status_reblog_button_marked_light">#56a7e1</color>
     <color name="status_reblog_button_disabled_light">#BFBFBF</color>

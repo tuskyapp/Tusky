@@ -80,9 +80,6 @@
         <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_light</item>
         <item name="compose_mention_color">@color/compose_mention_light</item>
         <item name="compose_content_warning_bar_background">@drawable/border_background_light</item>
-        <item name="compose_hide_media_button_color">@color/image_button_light</item>
-        <item name="compose_hide_media_button_selected_color">@color/color_accent_light</item>
-        <item name="compose_image_button_tint">@color/image_button_light</item>
         <item name="compose_reply_content_background">@color/compose_reply_content_background_light</item>
 
         <item name="report_status_background_color">@color/report_status_background_light</item>
@@ -108,7 +105,7 @@
     </style>
 
     <style name="AppTheme.ImageButton.Light" parent="Widget.AppCompat.Button.Borderless.Colored">
-        <item name="android:tint">@color/image_button_light</item>
+        <item name="android:tint">@color/text_color_tertiary_light</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
