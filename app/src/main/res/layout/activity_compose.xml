@@ -149,8 +149,8 @@
             android:id="@+id/action_photo_take"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             android:drawablePadding="8dp"
+            android:padding="8dp"
             android:text="@string/action_photo_take"
             android:textSize="?attr/status_text_medium" />
 
@@ -158,8 +158,8 @@
             android:id="@+id/action_photo_pick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             android:drawablePadding="8dp"
+            android:padding="8dp"
             android:text="@string/action_photo_pick"
             android:textSize="?attr/status_text_medium" />
     </LinearLayout>
@@ -209,7 +209,7 @@
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_compose_options"
             android:padding="4dp"
-            app:srcCompat="@drawable/ic_public_24dp" />
+            tools:src="@drawable/ic_public_24dp" />
 
         <Button
             android:id="@+id/action_content_warning"
@@ -230,18 +230,18 @@
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_save"
             android:padding="4dp"
-            app:srcCompat="@drawable/ic_save_24dp" />
+            app:srcCompat="@drawable/ic_emoji_24dp" />
 
         <ImageButton
             android:id="@+id/action_hide_media"
-            style="?attr/image_button_style"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/action_hide_media"
             android:padding="4dp"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_hide_media_24dp" />
+            tools:src="@drawable/ic_eye_24dp" />
 
         <android.support.v4.widget.Space
             android:layout_width="0dp"
@@ -257,11 +257,11 @@
 
         <com.keylesspalace.tusky.view.TootButton
             android:id="@+id/toot_button"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="@dimen/toot_button_width"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:textColor="@android:color/white"
-            style="@style/Widget.AppCompat.Button.Colored"
             android:textSize="?attr/status_text_medium" />
 
     </LinearLayout>
