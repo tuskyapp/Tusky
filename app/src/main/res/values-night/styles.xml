@@ -70,12 +70,13 @@
 
         <item name="play_indicator_drawable">@drawable/ic_play_indicator_dark</item>
 
+        <item name="compound_button_color">@color/compound_button_color_dark</item>
+
     </style>
 
     <style name="AppTheme.ImageButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:tint">@color/text_color_tertiary_dark</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
-
     </style>
 
     <style name="AppTheme.BottomSheetDialog.Dark" parent="@style/Theme.Design.BottomSheetDialog">
