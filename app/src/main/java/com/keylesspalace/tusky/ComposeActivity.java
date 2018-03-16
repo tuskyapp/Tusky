@@ -1150,7 +1150,7 @@ public final class ComposeActivity extends BaseActivity
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 photoUploadUri = FileProvider.getUriForFile(this,
-                        "com.keylesspalace.tusky.fileprovider",
+                        BuildConfig.APPLICATION_ID+".fileprovider",
                         photoFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUploadUri);
                 startActivityForResult(intent, MEDIA_TAKE_PHOTO_RESULT);
