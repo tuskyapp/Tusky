@@ -527,6 +527,7 @@ public class TimelineFragment extends SFragment implements
 
     private void jumpToTop() {
         layoutManager.scrollToPosition(0);
+        recyclerView.stopScroll();
         scrollListener.reset();
     }
 
