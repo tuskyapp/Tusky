@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Engedélyezés letiltva.</string>
     <string name="error_retrieving_oauth_token">Bejelentkezési token megszerzése sikertelen.</string>
     <string name="error_compose_character_limit">Túl hosszú a tülkölés!</string>
-    <string name="error_media_upload_size">A fájl kisebb kell legyen mint 4MB.</string>
+    <string name="error_media_upload_size">A fájl kisebb kell legyen mint 8MB.</string>
     <string name="error_media_upload_type">Fájl feltöltése sikertelen.</string>
     <string name="error_media_upload_opening">Fájl megnyitása sikertelen.</string>
     <string name="error_media_upload_permission">Média olvasási engedély szükséges.</string>

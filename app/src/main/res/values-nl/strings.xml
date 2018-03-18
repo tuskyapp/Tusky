@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Autorisatie werd geweigerd.</string>
     <string name="error_retrieving_oauth_token">Verkrijgen van inlogsleutel is mislukt.</string>
     <string name="error_compose_character_limit">Tekst van deze toot is te lang!</string>
-    <string name="error_media_upload_size">Bestand moet kleiner zijn dan 4MB.</string>
+    <string name="error_media_upload_size">Bestand moet kleiner zijn dan 8MB.</string>
     <string name="error_media_upload_type">Bestandstype kan niet worden geüpload.</string>
     <string name="error_media_upload_opening">Bestand kan niet worden geopend.</string>
     <string name="error_media_upload_permission">Toestemming nodig om media te kunnen lezen.</string>

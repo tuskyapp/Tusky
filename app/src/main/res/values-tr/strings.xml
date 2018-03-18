@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Kimlik doğrulama reddedildi.</string>
     <string name="error_retrieving_oauth_token">Giriş jetonu alınamadı.</string>
     <string name="error_compose_character_limit">İleti fazlasıyla uzun!</string>
-    <string name="error_media_upload_size">Dosya 4MB\'ten küçük olmalı.</string>
+    <string name="error_media_upload_size">Dosya 8MB\'ten küçük olmalı.</string>
     <string name="error_media_upload_type">O biçim dosya yüklenmez.</string>
     <string name="error_media_upload_opening">O dosya açılamadı.</string>
     <string name="error_media_upload_permission">Medya okuma izni gerekiyor.</string>

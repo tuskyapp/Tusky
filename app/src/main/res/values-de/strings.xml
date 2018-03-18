@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Autorisierung fehlgeschlagen.</string>
     <string name="error_retrieving_oauth_token">Es konnte kein Login-Token abgerufen werden.</string>
     <string name="error_compose_character_limit">Der Beitrag ist zu lang!</string>
-    <string name="error_media_upload_size">Die Datei muss kleiner als 4MB sein.</string>
+    <string name="error_media_upload_size">Die Datei muss kleiner als 8MB sein.</string>
     <string name="error_media_upload_type">Dieser Dateityp darf nicht hochgeladen werden.</string>
     <string name="error_media_upload_opening">Die Datei konnte nicht geöffnet werden.</string>
     <string name="error_media_upload_permission">Eine Leseberechtigung wird für das Hochladen der Mediendatei benötigt.</string>
