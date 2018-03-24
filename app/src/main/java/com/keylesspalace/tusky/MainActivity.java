@@ -98,6 +98,8 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
 
     private static int COMPOSE_RESULT = 1;
 
+    AccountManager accountManager;
+
     private FloatingActionButton composeButton;
     private AccountHeader headerResult;
     private Drawer drawer;
@@ -111,16 +113,19 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
 
         int tabPosition = 0;
 
+        accountManager = TuskyApplication.getInstance(this).getServiceLocator()
+                .get(AccountManager.class);
+
         if (intent != null) {
             long accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1);
 
             if (accountId != -1) {
                 // user clicked a notification, show notification tab and switch user if necessary
                 tabPosition = 1;
-                AccountEntity account = TuskyApplication.getAccountManager().getActiveAccount();
+                AccountEntity account = accountManager.getActiveAccount();
 
                 if (account == null || accountId != account.getId()) {
-                    TuskyApplication.getAccountManager().setActiveAccount(accountId);
+                    accountManager.setActiveAccount(accountId);
                 }
             }
         }
@@ -414,7 +419,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
     }
 
     private boolean handleProfileClick(IProfile profile, boolean current) {
-        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+        AccountEntity activeAccount = accountManager.getActiveAccount();
 
         //open profile when active image was clicked
         if (current && activeAccount != null) {
@@ -435,7 +440,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
 
 
     private void changeAccount(long newSelectedId) {
-        TuskyApplication.getAccountManager().setActiveAccount(newSelectedId);
+        accountManager.setActiveAccount(newSelectedId);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -447,7 +452,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
 
     private void logout() {
 
-        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+        AccountEntity activeAccount = accountManager.getActiveAccount();
 
         if (activeAccount != null) {
 
@@ -455,8 +460,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
                     .setTitle(R.string.action_logout)
                     .setMessage(getString(R.string.action_logout_confirm, activeAccount.getFullName()))
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-
-                        AccountManager accountManager = TuskyApplication.getAccountManager();
+                        ;
 
                         NotificationHelper.deleteNotificationChannelsForAccount(accountManager.getActiveAccount(), MainActivity.this);
 
@@ -508,11 +512,9 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
                 .placeholder(R.drawable.account_header_default)
                 .into(background);
 
-        AccountManager am = TuskyApplication.getAccountManager();
+        accountManager.updateActiveAccount(me);
 
-        am.updateActiveAccount(me);
-
-        NotificationHelper.createNotificationChannelsForAccount(am.getActiveAccount(), this);
+        NotificationHelper.createNotificationChannelsForAccount(accountManager.getActiveAccount(), this);
 
         // Show follow requests in the menu, if this is a locked account.
         if (me.getLocked() && drawer.getDrawerItem(DRAWER_ITEM_FOLLOW_REQUESTS) == null) {
@@ -529,9 +531,8 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
     }
 
     private void updateProfiles() {
-        AccountManager am = TuskyApplication.getAccountManager();
 
-        List<AccountEntity> allAccounts = am.getAllAccountsOrderedByActive();
+        List<AccountEntity> allAccounts = accountManager.getAllAccountsOrderedByActive();
 
         //remove profiles before adding them again to avoid duplicates
         List<IProfile> profiles = new ArrayList<>(headerResult.getProfiles());

@@ -111,6 +111,8 @@ public class ViewThreadFragment extends SFragment implements
         Context context = getContext();
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.primary);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -390,7 +392,7 @@ public class ViewThreadFragment extends SFragment implements
 
             @Override
             public void onFailure(@NonNull Call<Card> call, @NonNull Throwable t) {
-                onThreadRequestFailure(id);
+                Log.e(TAG, "Error fetching status card");
             }
         });
         callList.add(call);

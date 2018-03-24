@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializer
 import com.keylesspalace.tusky.BuildConfig
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.json.SpannedTypeAdapter
 import com.keylesspalace.tusky.network.AuthInterceptor
 import com.keylesspalace.tusky.network.MastodonApi
@@ -54,9 +55,9 @@ class NetworkModule {
     @Provides
     @IntoSet
     @Singleton
-    fun providesAuthInterceptor(): Interceptor {
+    fun providesAuthInterceptor(accountManager: AccountManager): Interceptor {
         // should accept AccountManager here probably but I don't want to break things yet
-        return AuthInterceptor()
+        return AuthInterceptor(accountManager)
     }
 
     @Provides

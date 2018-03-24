@@ -47,7 +47,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.keylesspalace.tusky.db.AccountEntity;
-import com.keylesspalace.tusky.di.Injectable;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
@@ -207,7 +207,8 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         // Obtain information to fill out the profile.
         obtainAccount();
 
-        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+        AccountEntity activeAccount = TuskyApplication.getInstance(this).getServiceLocator()
+                .get(AccountManager.class).getActiveAccount();
 
         if (accountId.equals(activeAccount.getAccountId())) {
             isSelf = true;

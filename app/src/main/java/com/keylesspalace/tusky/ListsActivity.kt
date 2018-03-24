@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.keylesspalace.tusky.di.Injectable
@@ -22,7 +21,6 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
-import com.varunest.sparkbutton.helpers.Utils
 import retrofit2.Call
 import retrofit2.Response
 import java.lang.ref.WeakReference

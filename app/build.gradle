@@ -36,6 +36,11 @@ android {
     androidExtensions {
         experimental = true
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 ext.supportLibraryVersion = '27.1.0'
@@ -69,6 +74,9 @@ dependencies {
     //room
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     kapt 'android.arch.persistence.room:compiler:1.0.0'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
     testImplementation 'junit:junit:4.12'
 
     implementation "com.google.dagger:dagger:$daggerVersion"
@@ -77,10 +85,11 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
+    testImplementation "org.robolectric:robolectric:3.7.1"
+    testCompile "org.mockito:mockito-inline:2.15.0"
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     debugImplementation 'im.dino:dbinspector:3.4.1@aar'
 }

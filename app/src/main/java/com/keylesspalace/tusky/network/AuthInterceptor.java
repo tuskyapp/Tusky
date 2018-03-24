@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.db.AccountManager;
 
 import java.io.IOException;
 
@@ -16,16 +18,17 @@ import okhttp3.Response;
  */
 
 public final class AuthInterceptor implements Interceptor {
+    AccountManager accountManager;
 
-    public AuthInterceptor() {
+    public AuthInterceptor(AccountManager accountManager) {
+        this.accountManager = accountManager;
     }
 
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
 
-        AccountEntity currentAccount = TuskyApplication.getAccountManager().getActiveAccount();
-
         Request originalRequest = chain.request();
+        AccountEntity currentAccount = accountManager.getActiveAccount();
 
         Request.Builder builder = originalRequest.newBuilder();
         // In the future we could add a phantom header parameter to some requests which would

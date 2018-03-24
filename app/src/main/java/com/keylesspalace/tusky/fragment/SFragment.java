@@ -42,6 +42,7 @@ import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.ViewVideoActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.di.Injectable;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.Status;
@@ -76,10 +77,10 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
     protected abstract TimelineCases timelineCases();
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        AccountEntity activeAccount = TuskyApplication.getInstance(getContext()).getServiceLocator()
+                .get(AccountManager.class).getActiveAccount();
         if (activeAccount != null) {
             loggedInAccountId = activeAccount.getAccountId();
             loggedInUsername = activeAccount.getUsername();

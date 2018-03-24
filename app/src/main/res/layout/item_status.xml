@@ -87,52 +87,44 @@
             android:textSize="?attr/status_text_medium"
             tools:text="13:37" />
 
-    </RelativeLayout>
-
-    <com.keylesspalace.tusky.view.FlowLayout
-        android:id="@+id/status_content_warning_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/status_name_bar"
-        android:layout_marginBottom="4dp"
-        android:layout_toEndOf="@+id/status_avatar"
-        android:focusable="true"
-        android:visibility="gone"
-        app:paddingHorizontal="4dp">
-
         <TextView
             android:id="@+id/status_content_warning_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/status_display_name"
             android:lineSpacingMultiplier="1.1"
             android:textColor="?android:textColorPrimary"
+            android:visibility="gone"
             android:textSize="?attr/status_text_medium" />
 
         <ToggleButton
             android:id="@+id/status_content_warning_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
+            android:layout_below="@+id/status_content_warning_description"
+            android:layout_centerHorizontal="true"
             android:background="?attr/content_warning_button"
             android:minHeight="0dp"
-            android:minWidth="0dp"
-            android:paddingBottom="3dp"
-            android:paddingLeft="6dp"
-            android:paddingRight="6dp"
-            android:paddingTop="3dp"
+            android:minWidth="150dp"
+            android:paddingBottom="6dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="6dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:textAllCaps="true"
             android:textOff="@string/status_content_warning_show_more"
             android:textOn="@string/status_content_warning_show_less"
-            android:textSize="?attr/status_text_small" />
-
-    </com.keylesspalace.tusky.view.FlowLayout>
+            android:visibility="gone"
+            android:textSize="?attr/status_text_medium" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/status_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/status_content_warning_bar"
+        android:layout_below="@+id/status_name_bar"
         android:layout_marginBottom="4dp"
         android:layout_toEndOf="@+id/status_avatar"
         android:focusable="true"

@@ -50,12 +50,16 @@ import java.util.List;
 
 public class NotificationHelper {
 
-    /** constants used in Intents */
+    /**
+     * constants used in Intents
+     */
     public static final String ACCOUNT_ID = "account_id";
 
     private static final String TAG = "NotificationHelper";
 
-    /** notification channels used on Android O+ **/
+    /**
+     * notification channels used on Android O+
+     **/
     private static final String CHANNEL_MENTION = "CHANNEL_MENTION";
     private static final String CHANNEL_FOLLOW = "CHANNEL_FOLLOW";
     private static final String CHANNEL_BOOST = "CHANNEL_BOOST";
@@ -65,9 +69,9 @@ public class NotificationHelper {
      * Takes a given Mastodon notification and either creates a new Android notification or updates
      * the state of the existing notification to reflect the new interaction.
      *
-     * @param context  to access application preferences and services
-     * @param body     a new Mastodon notification
-     * @param account  the account for which the notification should be shown
+     * @param context to access application preferences and services
+     * @param body    a new Mastodon notification
+     * @param account the account for which the notification should be shown
      */
 
     public static void make(final Context context, Notification body, AccountEntity account) {
@@ -110,12 +114,12 @@ public class NotificationHelper {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent((int)account.getId(),
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent((int) account.getId(),
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent deleteIntent = new Intent(context, NotificationClearBroadcastReceiver.class);
         deleteIntent.putExtra(ACCOUNT_ID, account.getId());
-        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, (int)account.getId(), deleteIntent,
+        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, (int) account.getId(), deleteIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, getChannelId(account, body))
@@ -131,7 +135,7 @@ public class NotificationHelper {
             builder.setContentTitle(titleForType(context, body))
                     .setContentText(bodyForType(body));
 
-            if(body.getType() == Notification.Type.MENTION) {
+            if (body.getType() == Notification.Type.MENTION) {
                 builder.setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(bodyForType(body)));
             }
@@ -171,7 +175,7 @@ public class NotificationHelper {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         //noinspection ConstantConditions
-        notificationManager.notify((int)account.getId(), builder.build());
+        notificationManager.notify((int) account.getId(), builder.build());
     }
 
     public static void createNotificationChannelsForAccount(AccountEntity account, Context context) {
@@ -180,10 +184,10 @@ public class NotificationHelper {
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             String[] channelIds = new String[]{
-                    CHANNEL_MENTION+account.getIdentifier(),
-                    CHANNEL_FOLLOW+account.getIdentifier(),
-                    CHANNEL_BOOST+account.getIdentifier(),
-                    CHANNEL_FAVOURITE+account.getIdentifier()};
+                    CHANNEL_MENTION + account.getIdentifier(),
+                    CHANNEL_FOLLOW + account.getIdentifier(),
+                    CHANNEL_BOOST + account.getIdentifier(),
+                    CHANNEL_FAVOURITE + account.getIdentifier()};
             int[] channelNames = {
                     R.string.notification_channel_mention_name,
                     R.string.notification_channel_follow_name,
@@ -252,15 +256,15 @@ public class NotificationHelper {
     }
 
     public static boolean areNotificationsEnabled(Context context) {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             // on Android >= O, notifications are enabled, if at least one channel is enabled
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             //noinspection ConstantConditions
-            if(notificationManager.areNotificationsEnabled()) {
-                for(NotificationChannel channel: notificationManager.getNotificationChannels()) {
-                    if(channel.getImportance() > NotificationManager.IMPORTANCE_NONE) {
+            if (notificationManager.areNotificationsEnabled()) {
+                for (NotificationChannel channel : notificationManager.getNotificationChannels()) {
+                    if (channel.getImportance() > NotificationManager.IMPORTANCE_NONE) {
                         Log.d(TAG, "NotificationsEnabled");
                         return true;
                     }
@@ -272,13 +276,15 @@ public class NotificationHelper {
 
         } else {
             // on Android < O, notifications are enabled, if at least one account has notification enabled
-            return TuskyApplication.getAccountManager().areNotificationsEnabled();
+            return TuskyApplication.getInstance(context).getServiceLocator()
+                    .get(AccountManager.class).areNotificationsEnabled();
         }
 
     }
 
     public static void clearNotificationsForActiveAccount(Context context) {
-        AccountManager accountManager = TuskyApplication.getAccountManager();
+        AccountManager accountManager = TuskyApplication.getInstance(context).getServiceLocator()
+                .get(AccountManager.class);
         AccountEntity account = accountManager.getActiveAccount();
         if (account != null) {
             account.setActiveNotifications("[]");
@@ -286,7 +292,7 @@ public class NotificationHelper {
 
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             //noinspection ConstantConditions
-            notificationManager.cancel((int)account.getId());
+            notificationManager.cancel((int) account.getId());
         }
     }
 
@@ -318,13 +324,13 @@ public class NotificationHelper {
         switch (notification.getType()) {
             default:
             case MENTION:
-                return CHANNEL_MENTION+account.getIdentifier();
+                return CHANNEL_MENTION + account.getIdentifier();
             case FOLLOW:
-                return CHANNEL_FOLLOW+account.getIdentifier();
+                return CHANNEL_FOLLOW + account.getIdentifier();
             case REBLOG:
-                return CHANNEL_BOOST+account.getIdentifier();
+                return CHANNEL_BOOST + account.getIdentifier();
             case FAVOURITE:
-                return CHANNEL_FAVOURITE+account.getIdentifier();
+                return CHANNEL_FAVOURITE + account.getIdentifier();
         }
 
     }
@@ -354,7 +360,7 @@ public class NotificationHelper {
         if (array.length() > 3) {
             int length = array.length();
             return String.format(context.getString(R.string.notification_summary_large),
-                    array.get(length-1), array.get(length-2), array.get(length-3), length - 3);
+                    array.get(length - 1), array.get(length - 2), array.get(length - 3), length - 3);
         } else if (array.length() == 3) {
             return String.format(context.getString(R.string.notification_summary_medium),
                     array.get(2), array.get(1), array.get(0));
@@ -389,7 +395,7 @@ public class NotificationHelper {
     private static String bodyForType(Notification notification) {
         switch (notification.getType()) {
             case FOLLOW:
-                return "@"+ notification.getAccount().getUsername();
+                return "@" + notification.getAccount().getUsername();
             case MENTION:
             case FAVOURITE:
             case REBLOG:

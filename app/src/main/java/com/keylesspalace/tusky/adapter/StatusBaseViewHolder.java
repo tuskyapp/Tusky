@@ -58,7 +58,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private TextView sensitiveMediaWarning;
     private View sensitiveMediaShow;
     private TextView mediaLabel;
-    private View contentWarningBar;
     private TextView contentWarningDescription;
     private ToggleButton contentWarningButton;
 
@@ -90,7 +89,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         sensitiveMediaWarning = itemView.findViewById(R.id.status_sensitive_media_warning);
         sensitiveMediaShow = itemView.findViewById(R.id.status_sensitive_media_button);
         mediaLabel = itemView.findViewById(R.id.status_media_label);
-        contentWarningBar = itemView.findViewById(R.id.status_content_warning_bar);
         contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
         contentWarningButton = itemView.findViewById(R.id.status_content_warning_button);
     }
@@ -116,7 +114,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     void setAvatar(String url, @Nullable String rebloggedUrl) {
-        if (url.isEmpty()) {
+        if (TextUtils.isEmpty(url)) {
             avatar.setImageResource(R.drawable.avatar_default);
         } else {
             Picasso.with(avatar.getContext())
@@ -389,7 +387,8 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         CharSequence emojiSpoiler =
                 CustomEmojiHelper.emojifyString(spoilerText, emojis, contentWarningDescription);
         contentWarningDescription.setText(emojiSpoiler);
-        contentWarningBar.setVisibility(View.VISIBLE);
+        contentWarningDescription.setVisibility(View.VISIBLE);
+        contentWarningButton.setVisibility(View.VISIBLE);
         contentWarningButton.setChecked(expanded);
         contentWarningButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -413,7 +412,8 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void hideSpoilerText() {
-        contentWarningBar.setVisibility(View.GONE);
+        contentWarningDescription.setVisibility(View.GONE);
+        contentWarningButton.setVisibility(View.GONE);
         content.setVisibility(View.VISIBLE);
     }
 

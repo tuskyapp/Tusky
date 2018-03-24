@@ -31,6 +31,7 @@ import android.view.Menu;
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import okhttp3.Dispatcher;
@@ -66,14 +67,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         }
         getTheme().applyStyle(style, false);
-    }
 
-    @Override
-    protected void onDestroy() {
-        if (mastodonApiDispatcher != null) {
-            mastodonApiDispatcher.cancelAll();
-        }
-        super.onDestroy();
+        redirectIfNotLoggedIn();
     }
 
     @Override
@@ -101,7 +96,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected boolean redirectIfNotLoggedIn() {
-        if (TuskyApplication.getAccountManager().getActiveAccount() == null) {
+        // This is very ugly but we cannot inject into parent class and injecting into every
+        // subclass seems inconvenient as well. Do we really need this check in every activity?
+        AccountEntity account = ((TuskyApplication) getApplicationContext())
+                .getServiceLocator().get(AccountManager.class)
+                .getActiveAccount();
+        if (account == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

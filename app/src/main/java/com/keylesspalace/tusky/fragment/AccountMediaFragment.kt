@@ -157,6 +157,8 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             currentCall?.enqueue(callback)
 
         }
+        swipeLayout.setColorSchemeResources(R.color.primary)
+        swipeLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground))
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 

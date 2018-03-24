@@ -31,6 +31,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.AppCredentials
 import com.keylesspalace.tusky.network.MastodonApi
@@ -88,7 +89,7 @@ class LoginActivity : AppCompatActivity() {
             textView.movementMethod = LinkMovementMethod.getInstance()
         }
 
-        if(isAdditionalLogin()) {
+        if (isAdditionalLogin()) {
             setSupportActionBar(toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -99,7 +100,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == android.R.id.home) {
+        if (item.itemId == android.R.id.home) {
             onBackPressed()
             return true
         }
@@ -215,11 +216,12 @@ class LoginActivity : AppCompatActivity() {
             val code = uri.getQueryParameter("code")
             val error = uri.getQueryParameter("error")
 
-            if (code != null) {
+            domain = preferences.getString(DOMAIN, "")
+
+            if (code != null && domain.isNotEmpty()) {
                 /* During the redirect roundtrip this Activity usually dies, which wipes out the
                  * instance variables, so they have to be recovered from where they were saved in
                  * SharedPreferences. */
-                domain = preferences.getString(DOMAIN, null)
                 clientId = preferences.getString(CLIENT_ID, null)
                 clientSecret = preferences.getString(CLIENT_SECRET, null)
 
@@ -280,7 +282,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun isAdditionalLogin() : Boolean {
+    private fun isAdditionalLogin(): Boolean {
         return intent.getBooleanExtra(LOGIN_MODE, false)
     }
 
@@ -288,7 +290,9 @@ class LoginActivity : AppCompatActivity() {
 
         setLoading(true)
 
-        TuskyApplication.getAccountManager().addAccount(accessToken, domain)
+        TuskyApplication.getInstance(this).serviceLocator
+                .get(AccountManager::class.java)
+                .addAccount(accessToken, domain)
 
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

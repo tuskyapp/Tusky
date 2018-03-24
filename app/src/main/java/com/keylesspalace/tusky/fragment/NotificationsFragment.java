@@ -37,10 +37,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.MainActivity;
+import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
-import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
@@ -161,6 +161,8 @@ public class NotificationsFragment extends SFragment implements
         // Setup the SwipeRefreshLayout.
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.primary);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
         // Setup the RecyclerView.
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -207,10 +209,12 @@ public class NotificationsFragment extends SFragment implements
         TabLayout layout = activity.findViewById(R.id.tab_layout);
         onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {}
+            public void onTabSelected(TabLayout.Tab tab) {
+            }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
@@ -296,7 +300,7 @@ public class NotificationsFragment extends SFragment implements
                         status.getReblog().setReblogged(reblog);
                     }
 
-                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete)notifications.getPairedItem(position);
+                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
 
                     StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
                     viewDataBuilder.setReblogged(reblog);
@@ -333,7 +337,7 @@ public class NotificationsFragment extends SFragment implements
                         status.getReblog().setFavourited(favourite);
                     }
 
-                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete)notifications.getPairedItem(position);
+                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
 
                     StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
                     viewDataBuilder.setFavourited(favourite);
@@ -602,13 +606,14 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void saveNewestNotificationId(List<Notification> notifications) {
-        AccountManager accountManager = TuskyApplication.getAccountManager();
+        AccountManager accountManager = TuskyApplication.getInstance(getContext())
+                .getServiceLocator().get(AccountManager.class);
         AccountEntity account = accountManager.getActiveAccount();
         BigInteger lastNoti = new BigInteger(account.getLastNotificationId());
 
-        for (Notification noti: notifications) {
+        for (Notification noti : notifications) {
             BigInteger a = new BigInteger(noti.getId());
-            if(isBiggerThan(a, lastNoti)) {
+            if (isBiggerThan(a, lastNoti)) {
                 lastNoti = a;
             }
         }
@@ -621,7 +626,7 @@ public class NotificationsFragment extends SFragment implements
 
     private boolean isBiggerThan(BigInteger newId, BigInteger lastShownNotificationId) {
 
-        return lastShownNotificationId.compareTo(newId) == - 1;
+        return lastShownNotificationId.compareTo(newId) == -1;
     }
 
     private void update(@Nullable List<Notification> newNotifications, @Nullable String fromId,
