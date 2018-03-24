@@ -51,12 +51,13 @@ class ComposeActivityTest {
     fun before() {
         val controller = Robolectric.buildActivity(ComposeActivity::class.java)
         activity = controller.get()
-        application = activity.application as FakeTuskyApplication
-        serviceLocator = Mockito.mock(TuskyApplication.ServiceLocator::class.java)
-        application.locator = serviceLocator
         accountManagerMock = Mockito.mock(AccountManager::class.java)
+        serviceLocator = Mockito.mock(TuskyApplication.ServiceLocator::class.java)
         `when`(serviceLocator.get(AccountManager::class.java)).thenReturn(accountManagerMock)
         `when`(accountManagerMock.activeAccount).thenReturn(account)
+        activity.accountManager = accountManagerMock
+        application = activity.application as FakeTuskyApplication
+        application.locator = serviceLocator
         controller.create().start()
     }
 
