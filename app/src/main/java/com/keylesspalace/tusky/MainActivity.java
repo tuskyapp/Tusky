@@ -27,6 +27,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
@@ -40,6 +41,7 @@ import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
+import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.NotificationHelper;
@@ -63,11 +65,18 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.AndroidSupportInjection;
+import dagger.android.support.HasSupportFragmentInjector;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends BaseActivity implements ActionButtonActivity {
+public class MainActivity extends BaseActivity implements ActionButtonActivity,
+        HasSupportFragmentInjector {
     private static final String TAG = "MainActivity"; // logging tag
     private static final long DRAWER_ITEM_ADD_ACCOUNT = -13;
     private static final long DRAWER_ITEM_EDIT_PROFILE = 0;
@@ -81,6 +90,11 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     private static final long DRAWER_ITEM_FOLLOW_REQUESTS = 8;
     private static final long DRAWER_ITEM_SAVED_TOOT = 9;
     private static final long DRAWER_ITEM_LISTS = 10;
+
+    @Inject
+    public MastodonApi mastodonApi;
+    @Inject
+    public DispatchingAndroidInjector<Fragment> fragmentInjector;
 
     private static int COMPOSE_RESULT = 1;
 
@@ -100,7 +114,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
         if (intent != null) {
             long accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1);
 
-            if(accountId != -1) {
+            if (accountId != -1) {
                 // user clicked a notification, show notification tab and switch user if necessary
                 tabPosition = 1;
                 AccountEntity account = TuskyApplication.getAccountManager().getActiveAccount();
@@ -180,7 +194,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
                 tintTab(tab, true);
 
-                if(tab.getPosition() == 1) {
+                if (tab.getPosition() == 1) {
                     NotificationHelper.clearNotificationsForActiveAccount(MainActivity.this);
                 }
             }
@@ -191,7 +205,8 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) { }
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
         });
 
         for (int i = 0; i < 4; i++) {
@@ -385,7 +400,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                 })
                 .build();
 
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             IDrawerItem debugItem = new SecondaryDrawerItem()
                     .withIdentifier(1337)
                     .withName("debug")
@@ -409,7 +424,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
             return true;
         }
         //open LoginActivity to add new account
-        if(profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT ) {
+        if (profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT) {
             startActivity(LoginActivity.getIntent(this, true));
             return true;
         }
@@ -434,7 +449,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
         AccountEntity activeAccount = TuskyApplication.getAccountManager().getActiveAccount();
 
-        if(activeAccount != null) {
+        if (activeAccount != null) {
 
             new AlertDialog.Builder(this)
                     .setTitle(R.string.action_logout)
@@ -447,7 +462,8 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
                         AccountEntity newAccount = accountManager.logActiveAccountOut();
 
-                        if (!NotificationHelper.areNotificationsEnabled(MainActivity.this)) disablePushNotifications();
+                        if (!NotificationHelper.areNotificationsEnabled(MainActivity.this))
+                            disablePushNotifications();
 
                         Intent intent;
                         if (newAccount == null) {
@@ -519,13 +535,13 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
         //remove profiles before adding them again to avoid duplicates
         List<IProfile> profiles = new ArrayList<>(headerResult.getProfiles());
-        for(IProfile profile: profiles) {
-            if(profile.getIdentifier() != DRAWER_ITEM_ADD_ACCOUNT) {
+        for (IProfile profile : profiles) {
+            if (profile.getIdentifier() != DRAWER_ITEM_ADD_ACCOUNT) {
                 headerResult.removeProfile(profile);
             }
         }
 
-        for(AccountEntity acc: allAccounts) {
+        for (AccountEntity acc : allAccounts) {
             headerResult.addProfiles(
                     new ProfileDrawerItem()
                             .withName(acc.getDisplayName())
@@ -546,5 +562,10 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     @Override
     public FloatingActionButton getActionButton() {
         return composeButton;
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentInjector;
     }
 }

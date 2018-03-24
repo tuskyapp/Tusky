@@ -81,10 +81,12 @@ import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
+import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.fragment.ComposeOptionsFragment;
+import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.ProgressRequestBody;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
@@ -114,6 +116,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -121,7 +125,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public final class ComposeActivity extends BaseActivity
-        implements ComposeOptionsFragment.Listener, MentionAutoCompleteAdapter.AccountSearchProvider {
+        implements ComposeOptionsFragment.Listener,
+        MentionAutoCompleteAdapter.AccountSearchProvider,
+        Injectable {
     private static final String TAG = "ComposeActivity"; // logging tag
     private static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 8388608; // 8MiB
@@ -143,6 +149,9 @@ public final class ComposeActivity extends BaseActivity
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
 
     private static TootDao tootDao = TuskyApplication.getDB().tootDao();
+
+    @Inject
+    public MastodonApi mastodonApi;
 
     private TextView replyTextView;
     private TextView replyContentTextView;

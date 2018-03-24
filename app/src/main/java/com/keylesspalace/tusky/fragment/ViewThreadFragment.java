@@ -37,11 +37,14 @@ import android.view.ViewGroup;
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.ThreadAdapter;
+import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.network.MastodonApi;
+import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.ThemeUtils;
@@ -53,13 +56,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ViewThreadFragment extends SFragment implements
-        SwipeRefreshLayout.OnRefreshListener, StatusActionListener {
+        SwipeRefreshLayout.OnRefreshListener, StatusActionListener, Injectable {
     private static final String TAG = "ViewThreadFragment";
+
+    @Inject
+    public TimelineCases timelineCases;
+    @Inject
+    public MastodonApi mastodonApi;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -85,6 +95,11 @@ public class ViewThreadFragment extends SFragment implements
         arguments.putString("id", id);
         fragment.setArguments(arguments);
         return fragment;
+    }
+
+    @Override
+    protected TimelineCases timelineCases() {
+        return timelineCases;
     }
 
     @Nullable
@@ -159,7 +174,7 @@ public class ViewThreadFragment extends SFragment implements
     @Override
     public void onReblog(final boolean reblog, final int position) {
         final Status status = statuses.get(position);
-        super.reblogWithCallback(statuses.get(position), reblog, new Callback<Status>() {
+        timelineCases.reblogWithCallback(statuses.get(position), reblog, new Callback<Status>() {
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
                 if (response.isSuccessful()) {
@@ -192,7 +207,7 @@ public class ViewThreadFragment extends SFragment implements
     @Override
     public void onFavourite(final boolean favourite, final int position) {
         final Status status = statuses.get(position);
-        super.favouriteWithCallback(statuses.get(position), favourite, new Callback<Status>() {
+        timelineCases.favouriteWithCallback(statuses.get(position), favourite, new Callback<Status>() {
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
                 if (response.isSuccessful()) {

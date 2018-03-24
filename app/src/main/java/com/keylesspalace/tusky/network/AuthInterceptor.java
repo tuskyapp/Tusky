@@ -17,7 +17,8 @@ import okhttp3.Response;
 
 public final class AuthInterceptor implements Interceptor {
 
-    public AuthInterceptor() { }
+    public AuthInterceptor() {
+    }
 
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
@@ -27,8 +28,16 @@ public final class AuthInterceptor implements Interceptor {
         Request originalRequest = chain.request();
 
         Request.Builder builder = originalRequest.newBuilder();
+        // In the future we could add a phantom header parameter to some requests which would
+        // signalise that we should override current account (could be useful for "boost as.."
+        // actions and the like
         if (currentAccount != null) {
-            builder.header("Authorization", String.format("Bearer %s", currentAccount.getAccessToken()));
+            // I'm not sure it's enough the hostname but should be good
+            builder.url(originalRequest.url().newBuilder()
+                    .host(currentAccount.getDomain())
+                    .build())
+                    .header("Authorization",
+                            String.format("Bearer %s", currentAccount.getAccessToken()));
         }
         Request newRequest = builder.build();
 

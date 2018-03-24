@@ -2,6 +2,7 @@ package com.keylesspalace.tusky;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -10,16 +11,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Account;
+import com.keylesspalace.tusky.network.MastodonApi;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AboutActivity extends BaseActivity {
+public class AboutActivity extends BaseActivity implements Injectable {
     private Button appAccountButton;
+
+    @Inject
+    public MastodonApi mastodonApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +50,7 @@ public class AboutActivity extends BaseActivity {
         versionTextView.setText(String.format(versionFormat, versionName));
 
         appAccountButton = findViewById(R.id.tusky_profile_button);
-        appAccountButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onAccountButtonClick();
-            }
-        });
+        appAccountButton.setOnClickListener(v -> onAccountButtonClick());
     }
 
     private void onAccountButtonClick() {
@@ -68,10 +71,10 @@ public class AboutActivity extends BaseActivity {
     private void searchForAccountThenViewIt() {
         Callback<List<Account>> callback = new Callback<List<Account>>() {
             @Override
-            public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
+            public void onResponse(@NonNull Call<List<Account>> call, @NonNull Response<List<Account>> response) {
                 if (response.isSuccessful()) {
                     List<Account> accountList = response.body();
-                    if (!accountList.isEmpty()) {
+                    if (accountList != null && !accountList.isEmpty()) {
                         String id = accountList.get(0).getId();
                         getPrivatePreferences().edit()
                                 .putString("appAccountId", id)
@@ -86,7 +89,7 @@ public class AboutActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<List<Account>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Account>> call, @NonNull Throwable t) {
                 onSearchFailed();
             }
         };

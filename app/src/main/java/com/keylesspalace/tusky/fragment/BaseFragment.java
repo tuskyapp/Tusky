@@ -15,13 +15,9 @@
 
 package com.keylesspalace.tusky.fragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-
-import com.keylesspalace.tusky.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +39,5 @@ public class BaseFragment extends Fragment {
             call.cancel();
         }
         super.onDestroy();
-    }
-
-    protected SharedPreferences getPrivatePreferences() {
-        return getContext().getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
     }
 }
