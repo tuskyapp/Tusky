@@ -17,9 +17,11 @@
 package com.keylesspalace.tusky.di
 
 import android.app.Application
+import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import android.support.v4.content.LocalBroadcastManager
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.network.MastodonApi
@@ -38,6 +40,9 @@ class AppModule {
 
     @Provides
     fun providesApplication(app: TuskyApplication): Application = app
+
+    @Provides
+    fun providesContext(app: Application): Context = app
 
     @Provides
     fun providesSharedPreferences(app: Application): SharedPreferences {

@@ -39,7 +39,7 @@ interface TimelineCases {
 
 class TimelineCasesImpl(
         private val mastodonApi: MastodonApi,
-        private val broadcasrManager: LocalBroadcastManager
+        private val broadcastManager: LocalBroadcastManager
 ) : TimelineCases {
     override fun reblogWithCallback(status: Status, reblog: Boolean, callback: Callback<Status>) {
         val id = status.actionableId
@@ -55,8 +55,7 @@ class TimelineCasesImpl(
     override fun favouriteWithCallback(status: Status, favourite: Boolean, callback: Callback<Status>) {
         val id = status.actionableId
 
-        val call: Call<Status>
-        call = if (favourite) {
+        val call = if (favourite) {
             mastodonApi.favouriteStatus(id)
         } else {
             mastodonApi.unfavouriteStatus(id)
@@ -73,7 +72,7 @@ class TimelineCasesImpl(
         })
         val intent = Intent(TimelineReceiver.Types.MUTE_ACCOUNT)
         intent.putExtra("id", id)
-        broadcasrManager.sendBroadcast(intent)
+        broadcastManager.sendBroadcast(intent)
     }
 
     override fun block(id: String) {
@@ -85,7 +84,7 @@ class TimelineCasesImpl(
         })
         val intent = Intent(TimelineReceiver.Types.BLOCK_ACCOUNT)
         intent.putExtra("id", id)
-        broadcasrManager.sendBroadcast(intent)
+        broadcastManager.sendBroadcast(intent)
     }
 
     override fun delete(id: String) {

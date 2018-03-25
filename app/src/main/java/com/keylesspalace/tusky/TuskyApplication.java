@@ -47,6 +47,8 @@ public class TuskyApplication extends Application implements HasActivityInjector
     private AccountManager accountManager;
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
+    @Inject
+    NotificationPullJobCreator notificationPullJobCreator;
 
     public static AppDatabase getDB() {
         return db;
@@ -69,10 +71,11 @@ public class TuskyApplication extends Application implements HasActivityInjector
     public void onCreate() {
         super.onCreate();
 
-        AppInjector.INSTANCE.init(this);
-
-        initPicasso();
-
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
+                .allowMainThreadQueries()
+                .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5)
+                .build();
+        accountManager = new AccountManager(db);
         serviceLocator = new ServiceLocator() {
             @Override
             public <T> T get(Class<T> clazz) {
@@ -85,19 +88,14 @@ public class TuskyApplication extends Application implements HasActivityInjector
             }
         };
 
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
-                .allowMainThreadQueries()
-                .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5)
-                .build();
+        AppInjector.INSTANCE.init(this);
+        initPicasso();
 
-        JobManager.create(this).addJobCreator(new NotificationPullJobCreator(this));
-
+        JobManager.create(this).addJobCreator(notificationPullJobCreator);
         uiModeManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
 
         //necessary for Android < APi 21
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-
-        accountManager = new AccountManager();
     }
 
     protected void initPicasso() {
@@ -113,20 +111,6 @@ public class TuskyApplication extends Application implements HasActivityInjector
         } catch (IllegalStateException e) {
             throw new RuntimeException(e);
         }
-
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
-                .allowMainThreadQueries()
-                .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5)
-                .build();
-
-        JobManager.create(this).addJobCreator(new NotificationPullJobCreator(this));
-
-        uiModeManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
-
-        //necessary for Android < APi 21
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-
-        accountManager = new AccountManager();
     }
 
     public ServiceLocator getServiceLocator() {

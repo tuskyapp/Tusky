@@ -107,10 +107,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        // account switching has to be done before MastodonApi is created in super.onCreate
         Intent intent = getIntent();
-
         int tabPosition = 0;
 
         accountManager = TuskyApplication.getInstance(this).getServiceLocator()

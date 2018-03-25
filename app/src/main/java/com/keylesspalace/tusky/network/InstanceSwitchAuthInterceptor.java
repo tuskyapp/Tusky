@@ -13,18 +13,16 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-
 package com.keylesspalace.tusky.network;
 
 import android.support.annotation.NonNull;
 
-import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.db.AccountEntity;
-import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AccountManager;
 
 import java.io.IOException;
 
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -33,10 +31,10 @@ import okhttp3.Response;
  * Created by charlag on 31/10/17.
  */
 
-public final class AuthInterceptor implements Interceptor {
-    AccountManager accountManager;
+public final class InstanceSwitchAuthInterceptor implements Interceptor {
+    private AccountManager accountManager;
 
-    public AuthInterceptor(AccountManager accountManager) {
+    public InstanceSwitchAuthInterceptor(AccountManager accountManager) {
         this.accountManager = accountManager;
     }
 
@@ -50,11 +48,12 @@ public final class AuthInterceptor implements Interceptor {
         // In the future we could add a phantom header parameter to some requests which would
         // signalise that we should override current account (could be useful for "boost as.."
         // actions and the like
-        if (currentAccount != null) {
-            // I'm not sure it's enough the hostname but should be good
-            builder.url(originalRequest.url().newBuilder()
-                    .host(currentAccount.getDomain())
-                    .build())
+        String instanceHeader = originalRequest.header(MastodonApi.DOMAIN_PHANTON_HEADER);
+        if (instanceHeader != null) {
+            builder.url(swapHost(originalRequest.url(), instanceHeader));
+            builder.removeHeader(MastodonApi.DOMAIN_PHANTON_HEADER);
+        } else if (currentAccount != null) {
+            builder.url(swapHost(originalRequest.url(), currentAccount.getDomain()))
                     .header("Authorization",
                             String.format("Bearer %s", currentAccount.getAccessToken()));
         }
@@ -63,4 +62,8 @@ public final class AuthInterceptor implements Interceptor {
         return chain.proceed(newRequest);
     }
 
+    @NonNull
+    private HttpUrl swapHost(@NonNull HttpUrl url, @NonNull String host) {
+        return url.newBuilder().host(host).build();
+    }
 }
