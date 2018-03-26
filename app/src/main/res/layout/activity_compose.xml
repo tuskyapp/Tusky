@@ -180,7 +180,7 @@
         app:behavior_peekHeight="0dp"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior" />
 
-    <com.keylesspalace.tusky.fragment.ComposeOptionsView
+    <com.keylesspalace.tusky.view.ComposeOptionsView
         android:id="@+id/composeOptionsBottomSheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

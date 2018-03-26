@@ -13,12 +13,11 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.fragment
+package com.keylesspalace.tusky.view
 
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Status
@@ -30,7 +29,7 @@ class ComposeOptionsView @JvmOverloads constructor(context: Context, attrs: Attr
     var listener: ComposeOptionsListener? = null
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.view_compose_options, this)
+        inflate(context, R.layout.view_compose_options, this)
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             publicRadioButton.setButtonDrawable(R.drawable.ic_public_24dp)
@@ -38,7 +37,6 @@ class ComposeOptionsView @JvmOverloads constructor(context: Context, attrs: Attr
             privateRadioButton.setButtonDrawable(R.drawable.ic_lock_outline_24dp)
             directRadioButton.setButtonDrawable(R.drawable.ic_email_24dp)
         }
-
 
         visibilityRadioGroup.setOnCheckedChangeListener({ _, checkedId ->
             val visibility = when (checkedId) {

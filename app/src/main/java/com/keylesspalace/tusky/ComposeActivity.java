@@ -92,8 +92,6 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Status;
-import com.keylesspalace.tusky.fragment.ComposeOptionsListener;
-import com.keylesspalace.tusky.fragment.ComposeOptionsView;
 import com.keylesspalace.tusky.network.ProgressRequestBody;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
@@ -104,6 +102,8 @@ import com.keylesspalace.tusky.util.MentionTokenizer;
 import com.keylesspalace.tusky.util.SpanUtils;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
+import com.keylesspalace.tusky.view.ComposeOptionsListener;
+import com.keylesspalace.tusky.view.ComposeOptionsView;
 import com.keylesspalace.tusky.view.EditTextTyped;
 import com.keylesspalace.tusky.view.ProgressImageView;
 import com.keylesspalace.tusky.view.RoundedTransformation;
@@ -117,7 +117,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -142,7 +141,6 @@ public final class ComposeActivity extends BaseActivity
     private static final int MEDIA_PICK_RESULT = 1;
     private static final int MEDIA_TAKE_PHOTO_RESULT = 2;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-    private static final int COMPOSE_SUCCESS = -1;
     @Px
     private static final int THUMBNAIL_SIZE = 128;
 
@@ -181,7 +179,6 @@ public final class ComposeActivity extends BaseActivity
     private Status.Visibility statusVisibility;     // The current values of the options that will be applied
     private boolean statusMarkSensitive; // to the status being composed.
     private boolean statusHideText;
-    private boolean statusAlreadyInFlight; // to prevent duplicate sends by mashing the send button
     private InputContentInfoCompat currentInputContentInfo;
     private int currentFlags;
     private Uri photoUploadUri;
@@ -487,7 +484,6 @@ public final class ComposeActivity extends BaseActivity
 
         // Initialise the empty media queue state.
         waitForMediaLatch = new CountUpDownLatch();
-        statusAlreadyInFlight = false;
 
         // These can only be added after everything affected by the media queue is initialized.
         if (!ListUtils.isEmpty(loadedDraftMediaUris)) {
@@ -637,34 +633,7 @@ public final class ComposeActivity extends BaseActivity
         return didSaveSuccessfully;
     }
 
-    private static boolean copyToFile(ContentResolver contentResolver, Uri uri, File file) {
-        InputStream from;
-        FileOutputStream to;
-        try {
-            from = contentResolver.openInputStream(uri);
-            to = new FileOutputStream(file);
-        } catch (FileNotFoundException e) {
-            return false;
-        }
-        if (from == null) {
-            return false;
-        }
-        byte[] chunk = new byte[16384];
-        try {
-            while (true) {
-                int bytes = from.read(chunk, 0, chunk.length);
-                if (bytes < 0) {
-                    break;
-                }
-                to.write(chunk, 0, bytes);
-            }
-        } catch (IOException e) {
-            return false;
-        }
-        IOUtils.closeQuietly(from);
-        IOUtils.closeQuietly(to);
-        return true;
-    }
+
 
     @Nullable
     private List<String> saveMedia(@Nullable ArrayList<String> existingUris) {
@@ -711,7 +680,7 @@ public final class ComposeActivity extends BaseActivity
             String filename = String.format("Tusky_Draft_Media_%s.%s", timeStamp, fileExtension);
             File file = new File(directory, filename);
             filesSoFar.add(file);
-            boolean copied = copyToFile(contentResolver, item.uri, file);
+            boolean copied = IOUtils.copyToFile(contentResolver, item.uri, file);
             if (!copied) {
                 /* If any media files were created in prior iterations, delete those before
                  * returning. */
@@ -843,6 +812,7 @@ public final class ComposeActivity extends BaseActivity
         if (composeOptionsBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || composeOptionsBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
             composeOptionsBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         } else {
             composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -880,21 +850,16 @@ public final class ComposeActivity extends BaseActivity
     }
 
     private void setStateToReadying() {
-        statusAlreadyInFlight = true;
         disableButtons();
         postProgress.setVisibility(View.VISIBLE);
     }
 
     private void setStateToNotReadying() {
         postProgress.setVisibility(View.INVISIBLE);
-        statusAlreadyInFlight = false;
         enableButtons();
     }
 
     private void onSendClicked() {
-        if (statusAlreadyInFlight) {
-            return;
-        }
         setStateToReadying();
         readyStatus(statusVisibility, statusMarkSensitive);
     }
@@ -1011,10 +976,8 @@ public final class ComposeActivity extends BaseActivity
 
             }
         }
-        Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose),
-                getString(R.string.confirmation_send), Snackbar.LENGTH_SHORT);
-        bar.show();
-        setResult(COMPOSE_SUCCESS);
+
+        setResult(RESULT_OK);
         finish();
     }
 
@@ -1113,6 +1076,7 @@ public final class ComposeActivity extends BaseActivity
         if (addMediaBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || addMediaBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
             addMediaBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         } else {
             addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -1331,7 +1295,6 @@ public final class ComposeActivity extends BaseActivity
 
         Window window = dialog.getWindow();
         if (window != null) {
-            //noinspection ConstantConditions
             window.setSoftInputMode(
                     WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         }
