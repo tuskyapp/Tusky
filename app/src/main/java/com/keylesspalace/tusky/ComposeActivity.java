@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
@@ -56,6 +55,8 @@ import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.content.res.AppCompatResources;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
@@ -80,13 +81,16 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.keylesspalace.tusky.adapter.EmojiAdapter;
 import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
+import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
+import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.fragment.ComposeOptionsListener;
 import com.keylesspalace.tusky.fragment.ComposeOptionsView;
@@ -109,6 +113,8 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
 import com.varunest.sparkbutton.helpers.Utils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -129,7 +135,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public final class ComposeActivity extends BaseActivity
-        implements ComposeOptionsListener, MentionAutoCompleteAdapter.AccountSearchProvider {
+        implements ComposeOptionsListener, MentionAutoCompleteAdapter.AccountSearchProvider, OnEmojiSelectedListener {
     private static final String TAG = "ComposeActivity"; // logging tag
     private static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 8388608; // 8MiB
@@ -163,7 +169,7 @@ public final class ComposeActivity extends BaseActivity
     private ImageButton pickButton;
     private ImageButton visibilityBtn;
     private Button contentWarningButton;
-    private ImageButton saveButton;
+    private ImageButton emojiButton;
     private ImageButton hideMediaToggle;
     private ProgressBar postProgress;
     // this only exists when a status is trying to be sent, but uploads are still occurring
@@ -183,16 +189,14 @@ public final class ComposeActivity extends BaseActivity
     private ComposeOptionsView composeOptionsView;
     private BottomSheetBehavior composeOptionsBehavior;
     private BottomSheetBehavior addMediaBehavior;
+    private BottomSheetBehavior emojiBehavior;
+    private RecyclerView emojiView;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
-
-        Configuration config = getResources().getConfiguration();
-        Log.d("CONFIGURATION", "screenWidth: "+config.smallestScreenWidthDp);
-
-        Log.d("TOOTBUTTON", "SMALL "+getResources().getBoolean(R.bool.show_small_toot_button));
 
         replyTextView = findViewById(R.id.composeReplyView);
         replyContentTextView = findViewById(R.id.composeReplyContentView);
@@ -205,9 +209,11 @@ public final class ComposeActivity extends BaseActivity
         pickButton = findViewById(R.id.composeAddMediaButton);
         visibilityBtn = findViewById(R.id.composeToggleVisibilityButton);
         contentWarningButton = findViewById(R.id.composeContentWarningButton);
-        saveButton = findViewById(R.id.composeEmojiButton);
+        emojiButton = findViewById(R.id.composeEmojiButton);
         hideMediaToggle = findViewById(R.id.composeHideMediaButton);
         postProgress = findViewById(R.id.postProgress);
+        emojiView = findViewById(R.id.emojiView);
+
 
         // Setup the toolbar.
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -257,7 +263,21 @@ public final class ComposeActivity extends BaseActivity
 
         addMediaBehavior = BottomSheetBehavior.from(findViewById(R.id.addMediaBottomSheet));
 
+        emojiBehavior = BottomSheetBehavior.from(emojiView);
 
+        emojiView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false));
+
+        mastodonApi.getCustomEmojis().enqueue(new Callback<List<Emoji>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
+                emojiView.setAdapter(new EmojiAdapter(response.body(), ComposeActivity.this));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Emoji>> call, @NonNull Throwable t) {
+
+            }
+        });
 
         // Setup the interface buttons.
         tootButton.setOnClickListener(v -> onSendClicked());
@@ -265,7 +285,7 @@ public final class ComposeActivity extends BaseActivity
         pickButton.setOnClickListener(v -> openPickDialog());
         visibilityBtn.setOnClickListener(v -> showComposeOptions());
         contentWarningButton.setOnClickListener(v-> onContentWarningChanged());
-        saveButton.setOnClickListener(v -> saveDraft());
+        emojiButton.setOnClickListener(v -> showEmojis());
         hideMediaToggle.setOnClickListener(v -> toggleHideMedia());
 
         TextView actionPhotoTake = findViewById(R.id.action_photo_take);
@@ -590,7 +610,7 @@ public final class ComposeActivity extends BaseActivity
     private void disableButtons() {
         pickButton.setClickable(false);
         visibilityBtn.setClickable(false);
-        saveButton.setClickable(false);
+        emojiButton.setClickable(false);
         hideMediaToggle.setClickable(false);
         tootButton.setEnabled(false);
     }
@@ -598,7 +618,7 @@ public final class ComposeActivity extends BaseActivity
     private void enableButtons() {
         pickButton.setClickable(true);
         visibilityBtn.setClickable(true);
-        saveButton.setClickable(true);
+        emojiButton.setClickable(true);
         hideMediaToggle.setClickable(true);
         tootButton.setEnabled(true);
     }
@@ -826,7 +846,17 @@ public final class ComposeActivity extends BaseActivity
 
         } else {
             composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+    }
 
+    private void showEmojis() {
+        if (emojiBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || emojiBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            emojiBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        } else {
+            emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
     }
 
@@ -1595,6 +1625,11 @@ public final class ComposeActivity extends BaseActivity
             Log.e(TAG, String.format("Autocomplete search for %s failed.", mention));
         }
         return resultList;
+    }
+
+    @Override
+    public void onEmojiSelected(@NotNull String shortcode) {
+        textEditor.getText().insert(textEditor.getSelectionStart(), ":"+shortcode+": ");
     }
 
     private static final class QueuedMedia {

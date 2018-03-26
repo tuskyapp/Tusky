@@ -36,8 +36,8 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Notification;
-import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
@@ -479,7 +479,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             }
 
             Spanned content = statusViewData.getContent();
-            List<Status.Emoji> emojis = statusViewData.getEmojis();
+            List<Emoji> emojis = statusViewData.getEmojis();
 
             Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, statusContent);
 

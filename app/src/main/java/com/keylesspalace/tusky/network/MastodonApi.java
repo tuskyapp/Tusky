@@ -22,6 +22,7 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.AppCredentials;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
+import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.MastoList;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Relationship;
@@ -261,4 +262,7 @@ public interface MastodonApi {
 
     @GET("/api/v1/lists")
     Call<List<MastoList>> getLists();
+
+    @GET("/api/v1/custom_emojis")
+    Call<List<Emoji>> getCustomEmojis();
 }

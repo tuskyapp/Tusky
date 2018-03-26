@@ -19,6 +19,7 @@ import android.widget.ToggleButton;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Attachment;
+import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
@@ -106,7 +107,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         username.setText(usernameText);
     }
 
-    private void setContent(Spanned content, Status.Mention[] mentions, List<Status.Emoji> emojis,
+    private void setContent(Spanned content, Status.Mention[] mentions, List<Emoji> emojis,
                             StatusActionListener listener) {
         Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, this.content);
 
@@ -382,7 +383,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         sensitiveMediaShow.setVisibility(View.GONE);
     }
 
-    private void setSpoilerText(String spoilerText, List<Status.Emoji> emojis,
+    private void setSpoilerText(String spoilerText, List<Emoji> emojis,
                                 final boolean expanded, final StatusActionListener listener) {
         CharSequence emojiSpoiler =
                 CustomEmojiHelper.emojifyString(spoilerText, emojis, contentWarningDescription);
