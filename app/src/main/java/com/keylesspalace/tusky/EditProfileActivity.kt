@@ -57,6 +57,7 @@ private const val AVATAR_FILE_NAME = "avatar.png"
 
 private const val KEY_OLD_DISPLAY_NAME = "OLD_DISPLAY_NAME"
 private const val KEY_OLD_NOTE = "OLD_NOTE"
+private const val KEY_OLD_LOCKED = "OLD_LOCKED"
 private const val KEY_IS_SAVING = "IS_SAVING"
 private const val KEY_CURRENTLY_PICKING = "CURRENTLY_PICKING"
 private const val KEY_AVATAR_CHANGED = "AVATAR_CHANGED"
@@ -73,6 +74,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
     private var oldDisplayName: String? = null
     private var oldNote: String? = null
+    private var oldLocked: Boolean = false
     private var isSaving: Boolean = false
     private var currentlyPicking: PickType = PickType.NOTHING
     private var avatarChanged: Boolean = false
@@ -101,6 +103,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         savedInstanceState?.let {
             oldDisplayName = it.getString(KEY_OLD_DISPLAY_NAME)
             oldNote = it.getString(KEY_OLD_NOTE)
+            oldLocked = it.getBoolean(KEY_OLD_LOCKED)
             isSaving = it.getBoolean(KEY_IS_SAVING)
             currentlyPicking = it.getSerializable(KEY_CURRENTLY_PICKING) as PickType
             avatarChanged = it.getBoolean(KEY_AVATAR_CHANGED)
@@ -137,10 +140,12 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 val me = response.body()
                 oldDisplayName = me!!.displayName
                 oldNote = me.note.toString()
-
+                oldLocked = me.locked
 
                 displayNameEditText.setText(oldDisplayName)
                 noteEditText.setText(oldNote)
+                lockedCheckBox.isChecked = oldLocked
+
                 if (!avatarChanged) {
                     Picasso.with(avatarPreview.context)
                             .load(me.avatar)
@@ -165,6 +170,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         outState.run {
             putString(KEY_OLD_DISPLAY_NAME, oldDisplayName)
             putString(KEY_OLD_NOTE, oldNote)
+            putBoolean(KEY_OLD_LOCKED, oldLocked)
             putBoolean(KEY_IS_SAVING, isSaving)
             putSerializable(KEY_CURRENTLY_PICKING, currentlyPicking)
             putBoolean(KEY_AVATAR_CHANGED, avatarChanged)
@@ -259,6 +265,13 @@ class EditProfileActivity : BaseActivity(), Injectable {
             RequestBody.create(MultipartBody.FORM, newNote)
         }
 
+        val newLocked = lockedCheckBox.isChecked
+        val locked = if (oldLocked == newLocked) {
+            null
+        } else {
+            RequestBody.create(MultipartBody.FORM, newLocked.toString())
+        }
+
         val avatar = if (avatarChanged) {
             val avatarBody = RequestBody.create(MediaType.parse("image/png"), getCacheFileForName(AVATAR_FILE_NAME))
             MultipartBody.Part.createFormData("avatar", getFileName(), avatarBody)
@@ -273,13 +286,13 @@ class EditProfileActivity : BaseActivity(), Injectable {
             null
         }
 
-        if (displayName == null && note == null && avatar == null && header == null) {
+        if (displayName == null && note == null && locked == null && avatar == null && header == null) {
             /** if nothing has changed, there is no need to make a network request */
             finish()
             return
         }
 
-        mastodonApi.accountUpdateCredentials(displayName, note, avatar, header).enqueue(object : Callback<Account> {
+        mastodonApi.accountUpdateCredentials(displayName, note, locked, avatar, header).enqueue(object : Callback<Account> {
             override fun onResponse(call: Call<Account>, response: Response<Account>) {
                 if (!response.isSuccessful) {
                     onSaveFailure()

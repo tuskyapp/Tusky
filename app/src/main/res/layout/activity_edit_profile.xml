@@ -112,6 +112,27 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/lockedCheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="30dp"
+                android:paddingStart="8dp"
+                android:text="@string/lock_account_label"
+                android:textSize="?attr/status_text_medium" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:paddingStart="40dp"
+                android:text="@string/lock_account_label_description"
+                android:textSize="?attr/status_text_small" />
+
         </LinearLayout>
 
     </ScrollView>

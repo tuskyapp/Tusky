@@ -69,7 +69,6 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.HasSupportFragmentInjector;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -457,7 +456,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
                     .setTitle(R.string.action_logout)
                     .setMessage(getString(R.string.action_logout_confirm, activeAccount.getFullName()))
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                        ;
 
                         NotificationHelper.deleteNotificationChannelsForAccount(accountManager.getActiveAccount(), MainActivity.this);
 
@@ -521,6 +519,8 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
                     .withSelectable(false)
                     .withIcon(GoogleMaterial.Icon.gmd_person_add);
             drawer.addItemAtPosition(followRequestsItem, 3);
+        } else {
+            drawer.removeItem(DRAWER_ITEM_FOLLOW_REQUESTS);
         }
 
         updateProfiles();

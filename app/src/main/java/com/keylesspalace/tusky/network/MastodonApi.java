@@ -142,6 +142,7 @@ public interface MastodonApi {
     Call<Account> accountUpdateCredentials(
             @Nullable @Part(value="display_name") RequestBody displayName,
             @Nullable @Part(value="note") RequestBody note,
+            @Nullable @Part(value="locked") RequestBody locked,
             @Nullable @Part MultipartBody.Part avatar,
             @Nullable @Part MultipartBody.Part header);
 
