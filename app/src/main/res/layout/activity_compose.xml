@@ -82,6 +82,7 @@
                     android:maxLines="1"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
+                    android:textColorHint="?android:attr/textColorTertiary"
                     android:textSize="?attr/status_text_medium" />
 
                 <View
@@ -106,6 +107,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="8dp"
+                android:textColorHint="?android:attr/textColorTertiary"
                 android:textSize="?attr/status_text_large" />
 
             <HorizontalScrollView
