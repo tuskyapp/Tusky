@@ -65,7 +65,7 @@ private const val KEY_HEADER_CHANGED = "HEADER_CHANGED"
 private const val AVATAR_PICK_RESULT = 1
 private const val HEADER_PICK_RESULT = 2
 private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
-private const val AVATAR_SIZE = 120
+private const val AVATAR_SIZE = 400
 private const val HEADER_WIDTH = 700
 private const val HEADER_HEIGHT = 335
 
