@@ -51,6 +51,7 @@ import android.support.v13.view.inputmethod.InputContentInfoCompat;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -591,11 +592,16 @@ public final class ComposeActivity
         Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(descriptionId),
                 Snackbar.LENGTH_SHORT);
         bar.setAction(actionId, listener);
+        //necessary so snackbar is shown over everything
+        ViewCompat.setElevation(bar.getView(), getResources().getDimensionPixelSize(R.dimen.compose_activity_snackbar_elevation));
         bar.show();
     }
 
     private void displayTransientError(@StringRes int stringId) {
-        Snackbar.make(findViewById(R.id.activity_compose), stringId, Snackbar.LENGTH_LONG).show();
+        Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), stringId, Snackbar.LENGTH_LONG);
+        //necessary so snackbar is shown over everything
+        ViewCompat.setElevation(bar.getView(), getResources().getDimensionPixelSize(R.dimen.compose_activity_snackbar_elevation));
+        bar.show();
     }
 
     private void toggleHideMedia() {
