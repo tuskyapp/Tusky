@@ -45,14 +45,14 @@ public final class InstanceSwitchAuthInterceptor implements Interceptor {
         AccountEntity currentAccount = accountManager.getActiveAccount();
 
         Request.Builder builder = originalRequest.newBuilder();
-        // In the future we could add a phantom header parameter to some requests which would
-        // signalise that we should override current account (could be useful for "boost as.."
-        // actions and the like
-        String instanceHeader = originalRequest.header(MastodonApi.DOMAIN_PHANTON_HEADER);
+
+        String instanceHeader = originalRequest.header(MastodonApi.DOMAIN_HEADER);
         if (instanceHeader != null) {
+            // use domain explicitly specified in custom header
             builder.url(swapHost(originalRequest.url(), instanceHeader));
-            builder.removeHeader(MastodonApi.DOMAIN_PHANTON_HEADER);
+            builder.removeHeader(MastodonApi.DOMAIN_HEADER);
         } else if (currentAccount != null) {
+            //use domain of current account
             builder.url(swapHost(originalRequest.url(), currentAccount.getDomain()))
                     .header("Authorization",
                             String.format("Bearer %s", currentAccount.getAccessToken()));

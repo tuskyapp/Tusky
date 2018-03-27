@@ -21,7 +21,6 @@ import android.text.Spanned
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializer
-import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.json.SpannedTypeAdapter
 import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
@@ -34,7 +33,6 @@ import dagger.multibindings.IntoMap
 import dagger.multibindings.IntoSet
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -74,18 +72,6 @@ class NetworkModule {
     fun providesAuthInterceptor(accountManager: AccountManager): Interceptor {
         // should accept AccountManager here probably but I don't want to break things yet
         return InstanceSwitchAuthInterceptor(accountManager)
-    }
-
-    @Provides
-    @IntoSet
-    @Singleton
-    fun providesLoggingInterceptor(): Interceptor {
-        val level = if (BuildConfig.DEBUG) {
-            HttpLoggingInterceptor.Level.BASIC
-        } else {
-            HttpLoggingInterceptor.Level.NONE
-        }
-        return HttpLoggingInterceptor().setLevel(level)
     }
 
     @Provides
