@@ -40,11 +40,13 @@ import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
+import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
+import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
@@ -60,6 +62,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -67,7 +71,8 @@ import retrofit2.Response;
 public class TimelineFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
         StatusActionListener,
-        SharedPreferences.OnSharedPreferenceChangeListener {
+        SharedPreferences.OnSharedPreferenceChangeListener,
+        Injectable {
     private static final String TAG = "TimelineF"; // logging tag
     private static final String KIND_ARG = "kind";
     private static final String HASHTAG_OR_ID_ARG = "hashtag_or_id";
@@ -89,6 +94,11 @@ public class TimelineFragment extends SFragment implements
         BOTTOM,
         MIDDLE
     }
+
+    @Inject
+    TimelineCases timelineCases;
+    @Inject
+    MastodonApi mastodonApi;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private TimelineAdapter adapter;
@@ -112,6 +122,11 @@ public class TimelineFragment extends SFragment implements
     private String topId;
 
     private boolean alwaysShowSensitiveMedia;
+
+    @Override
+    protected TimelineCases timelineCases() {
+        return timelineCases;
+    }
 
     private PairedList<Either<Placeholder, Status>, StatusViewData> statuses =
             new PairedList<>(new Function<Either<Placeholder, Status>, StatusViewData>() {
@@ -307,7 +322,7 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void onReblog(final boolean reblog, final int position) {
         final Status status = statuses.get(position).getAsRight();
-        super.reblogWithCallback(status, reblog, new Callback<Status>() {
+        timelineCases.reblogWithCallback(status, reblog, new Callback<Status>() {
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
 
@@ -342,7 +357,7 @@ public class TimelineFragment extends SFragment implements
     public void onFavourite(final boolean favourite, final int position) {
         final Status status = statuses.get(position).getAsRight();
 
-        super.favouriteWithCallback(status, favourite, new Callback<Status>() {
+        timelineCases.favouriteWithCallback(status, favourite, new Callback<Status>() {
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
 
@@ -527,6 +542,7 @@ public class TimelineFragment extends SFragment implements
 
     private void jumpToTop() {
         layoutManager.scrollToPosition(0);
+        recyclerView.stopScroll();
         scrollListener.reset();
     }
 

@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2018 charlag
  *
  * This file is a part of Tusky.
  *
@@ -13,31 +13,11 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.fragment;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+package com.keylesspalace.tusky.di
 
-import java.util.ArrayList;
-import java.util.List;
+/**
+ * Created by charlag on 3/24/18.
+ */
 
-import retrofit2.Call;
-
-public class BaseFragment extends Fragment {
-    protected List<Call> callList;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        callList = new ArrayList<>();
-    }
-
-    @Override
-    public void onDestroy() {
-        for (Call call : callList) {
-            call.cancel();
-        }
-        super.onDestroy();
-    }
-}
+interface Injectable

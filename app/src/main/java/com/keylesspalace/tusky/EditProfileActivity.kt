@@ -32,7 +32,9 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.IOUtils
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
@@ -46,6 +48,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
 import java.util.*
+import javax.inject.Inject
 
 private const val TAG = "EditProfileActivity"
 
@@ -54,6 +57,7 @@ private const val AVATAR_FILE_NAME = "avatar.png"
 
 private const val KEY_OLD_DISPLAY_NAME = "OLD_DISPLAY_NAME"
 private const val KEY_OLD_NOTE = "OLD_NOTE"
+private const val KEY_OLD_LOCKED = "OLD_LOCKED"
 private const val KEY_IS_SAVING = "IS_SAVING"
 private const val KEY_CURRENTLY_PICKING = "CURRENTLY_PICKING"
 private const val KEY_AVATAR_CHANGED = "AVATAR_CHANGED"
@@ -62,18 +66,22 @@ private const val KEY_HEADER_CHANGED = "HEADER_CHANGED"
 private const val AVATAR_PICK_RESULT = 1
 private const val HEADER_PICK_RESULT = 2
 private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
-private const val AVATAR_SIZE = 120
+private const val AVATAR_SIZE = 400
 private const val HEADER_WIDTH = 700
 private const val HEADER_HEIGHT = 335
 
-class EditProfileActivity : BaseActivity() {
+class EditProfileActivity : BaseActivity(), Injectable {
 
     private var oldDisplayName: String? = null
     private var oldNote: String? = null
+    private var oldLocked: Boolean = false
     private var isSaving: Boolean = false
     private var currentlyPicking: PickType = PickType.NOTHING
     private var avatarChanged: Boolean = false
     private var headerChanged: Boolean = false
+
+    @Inject
+    lateinit var mastodonApi: MastodonApi
 
     private enum class PickType {
         NOTHING,
@@ -95,16 +103,17 @@ class EditProfileActivity : BaseActivity() {
         savedInstanceState?.let {
             oldDisplayName = it.getString(KEY_OLD_DISPLAY_NAME)
             oldNote = it.getString(KEY_OLD_NOTE)
+            oldLocked = it.getBoolean(KEY_OLD_LOCKED)
             isSaving = it.getBoolean(KEY_IS_SAVING)
             currentlyPicking = it.getSerializable(KEY_CURRENTLY_PICKING) as PickType
             avatarChanged = it.getBoolean(KEY_AVATAR_CHANGED)
             headerChanged = it.getBoolean(KEY_HEADER_CHANGED)
 
-            if(avatarChanged) {
+            if (avatarChanged) {
                 val avatar = BitmapFactory.decodeFile(getCacheFileForName(AVATAR_FILE_NAME).absolutePath)
                 avatarPreview.setImageBitmap(avatar)
             }
-            if(headerChanged) {
+            if (headerChanged) {
                 val header = BitmapFactory.decodeFile(getCacheFileForName(HEADER_FILE_NAME).absolutePath)
                 headerPreview.setImageBitmap(header)
             }
@@ -131,17 +140,19 @@ class EditProfileActivity : BaseActivity() {
                 val me = response.body()
                 oldDisplayName = me!!.displayName
                 oldNote = me.note.toString()
-
+                oldLocked = me.locked
 
                 displayNameEditText.setText(oldDisplayName)
                 noteEditText.setText(oldNote)
-                if(!avatarChanged) {
+                lockedCheckBox.isChecked = oldLocked
+
+                if (!avatarChanged) {
                     Picasso.with(avatarPreview.context)
                             .load(me.avatar)
                             .placeholder(R.drawable.avatar_default)
                             .into(avatarPreview)
                 }
-                if(!headerChanged) {
+                if (!headerChanged) {
                     Picasso.with(headerPreview.context)
                             .load(me.header)
                             .placeholder(R.drawable.account_header_default)
@@ -159,6 +170,7 @@ class EditProfileActivity : BaseActivity() {
         outState.run {
             putString(KEY_OLD_DISPLAY_NAME, oldDisplayName)
             putString(KEY_OLD_NOTE, oldNote)
+            putBoolean(KEY_OLD_LOCKED, oldLocked)
             putBoolean(KEY_IS_SAVING, isSaving)
             putSerializable(KEY_CURRENTLY_PICKING, currentlyPicking)
             putBoolean(KEY_AVATAR_CHANGED, avatarChanged)
@@ -253,27 +265,34 @@ class EditProfileActivity : BaseActivity() {
             RequestBody.create(MultipartBody.FORM, newNote)
         }
 
-        val avatar = if(avatarChanged) {
+        val newLocked = lockedCheckBox.isChecked
+        val locked = if (oldLocked == newLocked) {
+            null
+        } else {
+            RequestBody.create(MultipartBody.FORM, newLocked.toString())
+        }
+
+        val avatar = if (avatarChanged) {
             val avatarBody = RequestBody.create(MediaType.parse("image/png"), getCacheFileForName(AVATAR_FILE_NAME))
             MultipartBody.Part.createFormData("avatar", getFileName(), avatarBody)
         } else {
             null
         }
 
-        val header = if(headerChanged) {
+        val header = if (headerChanged) {
             val headerBody = RequestBody.create(MediaType.parse("image/png"), getCacheFileForName(HEADER_FILE_NAME))
             MultipartBody.Part.createFormData("header", getFileName(), headerBody)
         } else {
             null
         }
 
-        if(displayName == null && note == null && avatar == null && header == null) {
+        if (displayName == null && note == null && locked == null && avatar == null && header == null) {
             /** if nothing has changed, there is no need to make a network request */
             finish()
             return
         }
 
-        mastodonApi.accountUpdateCredentials(displayName, note, avatar, header).enqueue(object : Callback<Account> {
+        mastodonApi.accountUpdateCredentials(displayName, note, locked, avatar, header).enqueue(object : Callback<Account> {
             override fun onResponse(call: Call<Account>, response: Response<Account>) {
                 if (!response.isSuccessful) {
                     onSaveFailure()
@@ -413,11 +432,11 @@ class EditProfileActivity : BaseActivity() {
         return java.lang.Long.toHexString(Random().nextLong())
     }
 
-    private class ResizeImageTask (private val contentResolver: ContentResolver,
-                                   private val resizeWidth: Int,
-                                   private val resizeHeight: Int,
-                                   private val cacheFile: File,
-                                   private val listener: Listener) : AsyncTask<Uri, Void, Boolean>() {
+    private class ResizeImageTask(private val contentResolver: ContentResolver,
+                                  private val resizeWidth: Int,
+                                  private val resizeHeight: Int,
+                                  private val cacheFile: File,
+                                  private val listener: Listener) : AsyncTask<Uri, Void, Boolean>() {
         private var resultBitmap: Bitmap? = null
 
         override fun doInBackground(vararg uris: Uri): Boolean? {
@@ -445,7 +464,7 @@ class EditProfileActivity : BaseActivity() {
 
             //dont upscale image if its smaller than the desired size
             val bitmap =
-                    if(sourceBitmap.width <= resizeWidth && sourceBitmap.height <= resizeHeight) {
+                    if (sourceBitmap.width <= resizeWidth && sourceBitmap.height <= resizeHeight) {
                         sourceBitmap
                     } else {
                         Bitmap.createScaledBitmap(sourceBitmap, resizeWidth, resizeHeight, true)

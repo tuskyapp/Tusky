@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky;
 
+import android.app.Activity;
 import android.app.Application;
 import android.app.UiModeManager;
 import android.arch.persistence.room.Room;
@@ -28,15 +29,26 @@ import com.evernote.android.job.JobManager;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AppDatabase;
+import com.keylesspalace.tusky.di.AppInjector;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.squareup.picasso.Picasso;
 
-public class TuskyApplication extends Application {
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+
+public class TuskyApplication extends Application implements HasActivityInjector {
     public static final String APP_THEME_DEFAULT = ThemeUtils.THEME_NIGHT;
 
     private static AppDatabase db;
     private AccountManager accountManager;
+    @Inject
+    DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
+    @Inject
+    NotificationPullJobCreator notificationPullJobCreator;
 
     public static AppDatabase getDB() {
         return db;
@@ -58,8 +70,12 @@ public class TuskyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        initPicasso();
 
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
+                .allowMainThreadQueries()
+                .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5)
+                .build();
+        accountManager = new AccountManager(db);
         serviceLocator = new ServiceLocator() {
             @Override
             public <T> T get(Class<T> clazz) {
@@ -72,19 +88,14 @@ public class TuskyApplication extends Application {
             }
         };
 
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
-                .allowMainThreadQueries()
-                .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5)
-                .build();
+        AppInjector.INSTANCE.init(this);
+        initPicasso();
 
-        JobManager.create(this).addJobCreator(new NotificationPullJobCreator(this));
-
+        JobManager.create(this).addJobCreator(notificationPullJobCreator);
         uiModeManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
 
         //necessary for Android < APi 21
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-
-        accountManager = new AccountManager();
     }
 
     protected void initPicasso() {
@@ -104,6 +115,11 @@ public class TuskyApplication extends Application {
 
     public ServiceLocator getServiceLocator() {
         return serviceLocator;
+    }
+
+    @Override
+    public AndroidInjector<Activity> activityInjector() {
+        return dispatchingAndroidInjector;
     }
 
     public interface ServiceLocator {

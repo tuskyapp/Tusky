@@ -25,40 +25,20 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Spanned;
 import android.util.TypedValue;
 import android.view.Menu;
 
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
-import com.keylesspalace.tusky.json.SpannedTypeAdapter;
-import com.keylesspalace.tusky.network.AuthInterceptor;
-import com.keylesspalace.tusky.network.MastodonApi;
-import com.keylesspalace.tusky.util.OkHttpUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
-import okhttp3.Dispatcher;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 public abstract class BaseActivity extends AppCompatActivity {
-
-    public MastodonApi mastodonApi;
-    protected Dispatcher mastodonApiDispatcher;
-    private AccountManager accountManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        accountManager = TuskyApplication.getInstance(this).getServiceLocator()
-                .get(AccountManager.class);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -84,19 +64,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         getTheme().applyStyle(style, false);
 
-        if (redirectIfNotLoggedIn()) {
-            return;
-        }
-        createMastodonApi();
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (mastodonApiDispatcher != null) {
-            mastodonApiDispatcher.cancelAll();
-        }
-        super.onDestroy();
+        redirectIfNotLoggedIn();
     }
 
     @Override
@@ -123,44 +91,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         return getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
     }
 
-    protected String getBaseUrl() {
-        AccountEntity account = accountManager.getActiveAccount();
-        if (account != null) {
-            return "https://" + account.getDomain();
-        } else {
-            return "";
-        }
-    }
-
-    protected void createMastodonApi() {
-        mastodonApiDispatcher = new Dispatcher();
-
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
-                .create();
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        OkHttpClient.Builder okBuilder =
-                OkHttpUtils.getCompatibleClientBuilder(preferences)
-                        .addInterceptor(new AuthInterceptor(accountManager))
-                        .dispatcher(mastodonApiDispatcher);
-
-        if (BuildConfig.DEBUG) {
-            okBuilder.addInterceptor(
-                    new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC));
-        }
-
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(getBaseUrl())
-                .client(okBuilder.build())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        mastodonApi = retrofit.create(MastodonApi.class);
-    }
-
     protected boolean redirectIfNotLoggedIn() {
-        if (accountManager.getActiveAccount() == null) {
+        // This is very ugly but we cannot inject into parent class and injecting into every
+        // subclass seems inconvenient as well.
+        AccountEntity account = ((TuskyApplication) getApplicationContext())
+                .getServiceLocator().get(AccountManager.class)
+                .getActiveAccount();
+        if (account == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

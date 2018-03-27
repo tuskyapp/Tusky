@@ -31,6 +31,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
@@ -51,6 +52,7 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.LinkListener;
+import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.pager.AccountPagerAdapter;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.Assert;
@@ -64,11 +66,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public final class AccountActivity extends BaseActivity implements ActionButtonActivity {
+public final class AccountActivity extends BaseActivity implements ActionButtonActivity,
+        HasSupportFragmentInjector {
     private static final String TAG = "AccountActivity"; // logging tag
 
     private enum FollowState {
@@ -76,6 +84,11 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         FOLLOWING,
         REQUESTED,
     }
+
+    @Inject
+    public MastodonApi mastodonApi;
+    @Inject
+    public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
     private String accountId;
     private FollowState followState;
@@ -690,4 +703,8 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         return null;
     }
 
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
+    }
 }

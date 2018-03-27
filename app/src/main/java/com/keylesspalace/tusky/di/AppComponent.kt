@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2018 charlag
  *
  * This file is a part of Tusky.
  *
@@ -13,31 +13,34 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.fragment;
+package com.keylesspalace.tusky.di
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import com.keylesspalace.tusky.TuskyApplication
+import dagger.BindsInstance
+import dagger.Component
+import dagger.android.AndroidInjectionModule
+import javax.inject.Singleton
 
-import java.util.ArrayList;
-import java.util.List;
 
-import retrofit2.Call;
+/**
+ * Created by charlag on 3/21/18.
+ */
 
-public class BaseFragment extends Fragment {
-    protected List<Call> callList;
+@Singleton
+@Component(modules = [
+    AppModule::class,
+    NetworkModule::class,
+    AndroidInjectionModule::class,
+    ActivitiesModule::class
+])
+interface AppComponent {
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        fun application(tuskyApp: TuskyApplication): Builder
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        callList = new ArrayList<>();
+        fun build(): AppComponent
     }
 
-    @Override
-    public void onDestroy() {
-        for (Call call : callList) {
-            call.cancel();
-        }
-        super.onDestroy();
-    }
+    fun inject(app: TuskyApplication)
 }

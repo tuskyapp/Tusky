@@ -288,5 +288,7 @@
     <string name="hint_describe_for_visually_impaired">Describe for visually impaired</string>
     <string name="action_set_caption">Set caption</string>
     <string name="action_remove_media">Remove</string>
+    <string name="lock_account_label">Lock account</string>
+    <string name="lock_account_label_description">Requires you to manually approve followers</string>
 
 </resources>

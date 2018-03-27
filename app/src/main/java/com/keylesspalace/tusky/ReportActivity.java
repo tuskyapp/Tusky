@@ -32,7 +32,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.keylesspalace.tusky.adapter.ReportAdapter;
+import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
@@ -40,13 +42,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ReportActivity extends BaseActivity {
+public class ReportActivity extends BaseActivity implements Injectable {
     private static final String TAG = "ReportActivity"; // logging tag
+
+    @Inject
+    public MastodonApi mastodonApi;
 
     private View anyView; // what Snackbar will use to find the root view
     private ReportAdapter adapter;
@@ -118,7 +125,7 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void sendReport(final String accountId, final String[] statusIds,
-            final String comment) {
+                            final String comment) {
         Callback<ResponseBody> callback = new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -145,7 +152,7 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void onSendFailure(final String accountId, final String[] statusIds,
-            final String comment) {
+                               final String comment) {
         Snackbar.make(anyView, R.string.error_generic, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_retry, new View.OnClickListener() {
                     @Override

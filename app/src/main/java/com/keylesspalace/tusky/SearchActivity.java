@@ -35,16 +35,23 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.keylesspalace.tusky.adapter.SearchResultsAdapter;
+import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.interfaces.LinkListener;
+import com.keylesspalace.tusky.network.MastodonApi;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SearchActivity extends BaseActivity implements SearchView.OnQueryTextListener,
-        LinkListener {
+        LinkListener, Injectable {
     private static final String TAG = "SearchActivity"; // logging tag
+
+    @Inject
+    public MastodonApi mastodonApi;
 
     private ProgressBar progressBar;
     private TextView messageNoResults;

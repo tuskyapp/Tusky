@@ -27,6 +27,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
@@ -40,6 +41,7 @@ import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
+import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.NotificationHelper;
@@ -63,11 +65,17 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends BaseActivity implements ActionButtonActivity {
+public class MainActivity extends BaseActivity implements ActionButtonActivity,
+        HasSupportFragmentInjector {
     private static final String TAG = "MainActivity"; // logging tag
     private static final long DRAWER_ITEM_ADD_ACCOUNT = -13;
     private static final long DRAWER_ITEM_EDIT_PROFILE = 0;
@@ -82,6 +90,11 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     private static final long DRAWER_ITEM_SAVED_TOOT = 9;
     private static final long DRAWER_ITEM_LISTS = 10;
 
+    @Inject
+    public MastodonApi mastodonApi;
+    @Inject
+    public DispatchingAndroidInjector<Fragment> fragmentInjector;
+
     private static int COMPOSE_RESULT = 1;
 
     AccountManager accountManager;
@@ -93,10 +106,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        // account switching has to be done before MastodonApi is created in super.onCreate
         Intent intent = getIntent();
-
         int tabPosition = 0;
 
         accountManager = TuskyApplication.getInstance(this).getServiceLocator()
@@ -446,7 +456,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                     .setTitle(R.string.action_logout)
                     .setMessage(getString(R.string.action_logout_confirm, activeAccount.getFullName()))
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                        ;
 
                         NotificationHelper.deleteNotificationChannelsForAccount(accountManager.getActiveAccount(), MainActivity.this);
 
@@ -510,6 +519,8 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
                     .withSelectable(false)
                     .withIcon(GoogleMaterial.Icon.gmd_person_add);
             drawer.addItemAtPosition(followRequestsItem, 3);
+        } else {
+            drawer.removeItem(DRAWER_ITEM_FOLLOW_REQUESTS);
         }
 
         updateProfiles();
@@ -549,5 +560,10 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity {
     @Override
     public FloatingActionButton getActionButton() {
         return composeButton;
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentInjector;
     }
 }

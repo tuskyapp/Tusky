@@ -51,6 +51,7 @@ import retrofit2.http.Query;
 
 public interface MastodonApi {
     String ENDPOINT_AUTHORIZE = "/oauth/authorize";
+    String DOMAIN_HEADER = "domain";
 
     @GET("api/v1/timelines/home")
     Call<List<Status>> homeTimeline(
@@ -84,7 +85,7 @@ public interface MastodonApi {
             @Query("limit") Integer limit);
     @GET("api/v1/notifications")
     Call<List<Notification>> notificationsWithAuth(
-            @Header("Authorization") String auth);
+            @Header("Authorization") String auth, @Header(DOMAIN_HEADER) String domain);
     @POST("api/v1/notifications/clear")
     Call<ResponseBody> clearNotifications();
     @GET("api/v1/notifications/{id}")
@@ -142,6 +143,7 @@ public interface MastodonApi {
     Call<Account> accountUpdateCredentials(
             @Nullable @Part(value="display_name") RequestBody displayName,
             @Nullable @Part(value="note") RequestBody note,
+            @Nullable @Part(value="locked") RequestBody locked,
             @Nullable @Part MultipartBody.Part avatar,
             @Nullable @Part MultipartBody.Part header);
 

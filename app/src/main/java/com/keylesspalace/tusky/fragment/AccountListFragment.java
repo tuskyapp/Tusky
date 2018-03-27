@@ -39,6 +39,7 @@ import com.keylesspalace.tusky.adapter.FollowAdapter;
 import com.keylesspalace.tusky.adapter.FollowRequestsAdapter;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.MutesAdapter;
+import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
@@ -49,11 +50,14 @@ import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AccountListFragment extends BaseFragment implements AccountActionListener {
+public class AccountListFragment extends BaseFragment implements AccountActionListener,
+        Injectable {
     private static final String TAG = "AccountList"; // logging tag
 
     public AccountListFragment() {
@@ -67,13 +71,15 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         FOLLOW_REQUESTS,
     }
 
+    @Inject
+    public MastodonApi api;
+
     private Type type;
     private String accountId;
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private EndlessOnScrollListener scrollListener;
     private AccountAdapter adapter;
-    private MastodonApi api;
     private boolean bottomLoading;
     private int bottomFetches;
     private boolean topLoading;
@@ -146,12 +152,6 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        BaseActivity activity = (BaseActivity) getActivity();
-
-        /* MastodonApi on the base activity is only guaranteed to be initialised after the parent
-         * activity is created, so everything needing to access the api object has to be delayed
-         * until here. */
-        api = activity.mastodonApi;
         // Just use the basic scroll listener to load more accounts.
         scrollListener = new EndlessOnScrollListener(layoutManager) {
             @Override
@@ -464,7 +464,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
     private void onLoadMore(RecyclerView recyclerView) {
         AccountAdapter adapter = (AccountAdapter) recyclerView.getAdapter();
         //if we do not have a bottom id, we know we do not need to load more
-        if(adapter.getBottomId() == null) return;
+        if (adapter.getBottomId() == null) return;
         fetchAccounts(adapter.getBottomId(), null, FetchEnd.BOTTOM);
     }
 
