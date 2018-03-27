@@ -27,7 +27,17 @@ import android.view.MenuItem;
 import com.keylesspalace.tusky.fragment.ViewThreadFragment;
 import com.keylesspalace.tusky.util.LinkHelper;
 
-public class ViewThreadActivity extends BaseActivity {
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
+
+public class ViewThreadActivity extends BaseActivity implements HasSupportFragmentInjector {
+
+    @Inject
+    public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,5 +78,10 @@ public class ViewThreadActivity extends BaseActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
     }
 }

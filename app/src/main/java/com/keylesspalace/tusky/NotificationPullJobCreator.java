@@ -16,23 +16,17 @@
 package com.keylesspalace.tusky;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.Spanned;
 import android.util.Log;
 
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobCreator;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Notification;
-import com.keylesspalace.tusky.json.SpannedTypeAdapter;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.NotificationHelper;
-import com.keylesspalace.tusky.util.OkHttpUtils;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -40,10 +34,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
+import javax.inject.Inject;
+
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by charlag on 31/10/17.
@@ -55,65 +48,53 @@ public final class NotificationPullJobCreator implements JobCreator {
 
     static final String NOTIFICATIONS_JOB_TAG = "notifications_job_tag";
 
-    private Context context;
+    private final MastodonApi api;
+    private final Context context;
+    private final AccountManager accountManager;
 
-    NotificationPullJobCreator(Context context) {
+    @Inject NotificationPullJobCreator(MastodonApi api, Context context,
+                                       AccountManager accountManager) {
+        this.api = api;
         this.context = context;
+        this.accountManager = accountManager;
     }
 
     @Nullable
     @Override
     public Job create(@NonNull String tag) {
         if (tag.equals(NOTIFICATIONS_JOB_TAG)) {
-            return new NotificationPullJob(context);
+            return new NotificationPullJob(context, accountManager, api);
         }
         return null;
     }
 
-    private static MastodonApi createMastodonApi(String domain, Context context) {
-        SharedPreferences preferences = context.getSharedPreferences(
-                context.getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-
-        OkHttpClient okHttpClient = OkHttpUtils.getCompatibleClientBuilder(preferences)
-                .build();
-
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + domain)
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        return retrofit.create(MastodonApi.class);
-    }
-
     private final static class NotificationPullJob extends Job {
 
-        private Context context;
+        private final Context context;
+        private final AccountManager accountManager;
+        private final MastodonApi mastodonApi;
 
-        NotificationPullJob(Context context) {
+        NotificationPullJob(Context context, AccountManager accountManager,
+                            MastodonApi mastodonApi) {
             this.context = context;
+            this.accountManager = accountManager;
+            this.mastodonApi = mastodonApi;
         }
 
         @NonNull
         @Override
         protected Result onRunJob(@NonNull Params params) {
-
-            AccountManager accountManager = TuskyApplication.getInstance(context).getServiceLocator()
-                    .get(AccountManager.class);
             List<AccountEntity> accountList = new ArrayList<>(accountManager.getAllAccountsOrderedByActive());
-
             for (AccountEntity account : accountList) {
-
                 if (account.getNotificationsEnabled()) {
-                    MastodonApi api = createMastodonApi(account.getDomain(), context);
                     try {
                         Log.d(TAG, "getting Notifications for " + account.getFullName());
                         Response<List<Notification>> notifications =
-                                api.notificationsWithAuth(String.format("Bearer %s", account.getAccessToken())).execute();
+                                mastodonApi.notificationsWithAuth(
+                                        String.format("Bearer %s", account.getAccessToken()),
+                                        account.getDomain()
+                                        )
+                                        .execute();
                         if (notifications.isSuccessful()) {
                             onNotificationsReceived(account, notifications.body());
                         } else {
@@ -127,22 +108,15 @@ public final class NotificationPullJobCreator implements JobCreator {
             }
 
             return Result.SUCCESS;
-
-
         }
 
         private void onNotificationsReceived(AccountEntity account, List<Notification> notificationList) {
-
             Collections.reverse(notificationList);
-
             BigInteger newId = new BigInteger(account.getLastNotificationId());
-
             BigInteger newestId = BigInteger.ZERO;
 
             for (Notification notification : notificationList) {
-
                 BigInteger currentId = new BigInteger(notification.getId());
-
                 if (isBiggerThan(currentId, newestId)) {
                     newestId = currentId;
                 }
@@ -153,12 +127,10 @@ public final class NotificationPullJobCreator implements JobCreator {
             }
 
             account.setLastNotificationId(newestId.toString());
-            TuskyApplication.getInstance(context).getServiceLocator()
-                    .get(AccountManager.class).saveAccount(account);
+            accountManager.saveAccount(account);
         }
 
         private boolean isBiggerThan(BigInteger newId, BigInteger lastShownNotificationId) {
-
             return lastShownNotificationId.compareTo(newId) == -1;
         }
     }

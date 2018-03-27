@@ -43,11 +43,14 @@ import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.network.MastodonApi;
+import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
@@ -64,14 +67,18 @@ import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class NotificationsFragment extends SFragment implements
-        SwipeRefreshLayout.OnRefreshListener, StatusActionListener,
+        SwipeRefreshLayout.OnRefreshListener,
+        StatusActionListener,
         NotificationsAdapter.NotificationActionListener,
-        SharedPreferences.OnSharedPreferenceChangeListener {
+        SharedPreferences.OnSharedPreferenceChangeListener,
+        Injectable {
     private static final String TAG = "NotificationF"; // logging tag
 
     private static final int LOAD_AT_ONCE = 30;
@@ -97,6 +104,11 @@ public class NotificationsFragment extends SFragment implements
         }
     }
 
+    @Inject
+    public TimelineCases timelineCases;
+    @Inject
+    public MastodonApi mastodonApi;
+
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
@@ -112,6 +124,11 @@ public class NotificationsFragment extends SFragment implements
     private String bottomId;
     private String topId;
     private boolean alwaysShowSensitiveMedia;
+
+    @Override
+    protected TimelineCases timelineCases() {
+        return timelineCases;
+    }
 
     // Each element is either a Notification for loading data or a Placeholder
     private final PairedList<Either<Placeholder, Notification>, NotificationViewData> notifications
@@ -273,7 +290,7 @@ public class NotificationsFragment extends SFragment implements
     public void onReblog(final boolean reblog, final int position) {
         final Notification notification = notifications.get(position).getAsRight();
         final Status status = notification.getStatus();
-        reblogWithCallback(status, reblog, new Callback<Status>() {
+        timelineCases.reblogWithCallback(status, reblog, new Callback<Status>() {
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
@@ -310,7 +327,7 @@ public class NotificationsFragment extends SFragment implements
     public void onFavourite(final boolean favourite, final int position) {
         final Notification notification = notifications.get(position).getAsRight();
         final Status status = notification.getStatus();
-        favouriteWithCallback(status, favourite, new Callback<Status>() {
+        timelineCases.favouriteWithCallback(status, favourite, new Callback<Status>() {
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {

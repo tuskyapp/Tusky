@@ -41,17 +41,21 @@ import com.keylesspalace.tusky.ViewTagActivity;
 import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.ViewVideoActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
 import com.keylesspalace.tusky.network.MastodonApi;
+import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.HtmlUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -69,7 +73,8 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
 
     protected String loggedInAccountId;
     protected String loggedInUsername;
-    protected MastodonApi mastodonApi;
+
+    protected abstract TimelineCases timelineCases();
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -80,14 +85,17 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
             loggedInAccountId = activeAccount.getAccountId();
             loggedInUsername = activeAccount.getUsername();
         }
-        BaseActivity activity = (BaseActivity) getActivity();
-        mastodonApi = activity.mastodonApi;
     }
 
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
         getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
+    protected void openReblog(@Nullable final Status status) {
+        if (status == null) return;
+        viewAccount(status.getAccount().getId());
     }
 
     protected void reply(Status status) {
@@ -113,88 +121,6 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         startActivityForResult(intent, COMPOSE_RESULT);
     }
 
-    protected void reblogWithCallback(final Status status, final boolean reblog,
-                                      Callback<Status> callback) {
-        String id = status.getActionableId();
-
-        Call<Status> call;
-        if (reblog) {
-            call = mastodonApi.reblogStatus(id);
-        } else {
-            call = mastodonApi.unreblogStatus(id);
-        }
-        call.enqueue(callback);
-    }
-
-    protected void favouriteWithCallback(final Status status, final boolean favourite,
-                                         final Callback<Status> callback) {
-        String id = status.getActionableId();
-
-        Call<Status> call;
-        if (favourite) {
-            call = mastodonApi.favouriteStatus(id);
-        } else {
-            call = mastodonApi.unfavouriteStatus(id);
-        }
-        call.enqueue(callback);
-        callList.add(call);
-    }
-
-    protected void openReblog(@Nullable final Status status) {
-        if (status == null) return;
-        viewAccount(status.getAccount().getId());
-    }
-
-    private void mute(String id) {
-        Call<Relationship> call = mastodonApi.muteAccount(id);
-        call.enqueue(new Callback<Relationship>() {
-            @Override
-            public void onResponse(@NonNull Call<Relationship> call, @NonNull Response<Relationship> response) {
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {
-            }
-        });
-        callList.add(call);
-        Intent intent = new Intent(TimelineReceiver.Types.MUTE_ACCOUNT);
-        intent.putExtra("id", id);
-        LocalBroadcastManager.getInstance(getContext())
-                .sendBroadcast(intent);
-    }
-
-    private void block(String id) {
-        Call<Relationship> call = mastodonApi.blockAccount(id);
-        call.enqueue(new Callback<Relationship>() {
-            @Override
-            public void onResponse(@NonNull Call<Relationship> call, @NonNull retrofit2.Response<Relationship> response) {
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {
-            }
-        });
-        callList.add(call);
-        Intent intent = new Intent(TimelineReceiver.Types.BLOCK_ACCOUNT);
-        intent.putExtra("id", id);
-        LocalBroadcastManager.getInstance(getContext())
-                .sendBroadcast(intent);
-    }
-
-    private void delete(String id) {
-        Call<ResponseBody> call = mastodonApi.deleteStatus(id);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-            }
-        });
-        callList.add(call);
-    }
-
     protected void more(final Status status, View view, final int position) {
         final String id = status.getActionableId();
         final String accountId = status.getActionableStatus().getAccount().getId();
@@ -208,60 +134,56 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         } else {
             popup.inflate(R.menu.status_more_for_user);
         }
-        popup.setOnMenuItemClickListener(
-                new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.status_share_content: {
-                                StringBuilder sb = new StringBuilder();
-                                sb.append(status.getAccount().getUsername());
-                                sb.append(" - ");
-                                sb.append(status.getContent().toString());
+        popup.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.status_share_content: {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(status.getAccount().getUsername());
+                    sb.append(" - ");
+                    sb.append(status.getContent().toString());
 
-                                Intent sendIntent = new Intent();
-                                sendIntent.setAction(Intent.ACTION_SEND);
-                                sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
-                                sendIntent.setType("text/plain");
-                                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_content_to)));
-                                return true;
-                            }
-                            case R.id.status_share_link: {
-                                Intent sendIntent = new Intent();
-                                sendIntent.setAction(Intent.ACTION_SEND);
-                                sendIntent.putExtra(Intent.EXTRA_TEXT, statusUrl);
-                                sendIntent.setType("text/plain");
-                                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_link_to)));
-                                return true;
-                            }
-                            case R.id.status_copy_link: {
-                                ClipboardManager clipboard = (ClipboardManager)
-                                        getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                                ClipData clip = ClipData.newPlainText(null, statusUrl);
-                                clipboard.setPrimaryClip(clip);
-                                return true;
-                            }
-                            case R.id.status_mute: {
-                                mute(accountId);
-                                return true;
-                            }
-                            case R.id.status_block: {
-                                block(accountId);
-                                return true;
-                            }
-                            case R.id.status_report: {
-                                openReportPage(accountId, accountUsename, id, content);
-                                return true;
-                            }
-                            case R.id.status_delete: {
-                                delete(id);
-                                removeItem(position);
-                                return true;
-                            }
-                        }
-                        return false;
-                    }
-                });
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+                    sendIntent.setType("text/plain");
+                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_content_to)));
+                    return true;
+                }
+                case R.id.status_share_link: {
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, statusUrl);
+                    sendIntent.setType("text/plain");
+                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_link_to)));
+                    return true;
+                }
+                case R.id.status_copy_link: {
+                    ClipboardManager clipboard = (ClipboardManager)
+                            getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText(null, statusUrl);
+                    clipboard.setPrimaryClip(clip);
+                    return true;
+                }
+                case R.id.status_mute: {
+                    timelineCases().mute(accountId);
+                    return true;
+                }
+                case R.id.status_block: {
+                    timelineCases().block(accountId);
+                    return true;
+                }
+                case R.id.status_report: {
+                    openReportPage(accountId, accountUsename, id, content);
+                    return true;
+                }
+                case R.id.status_delete: {
+                    timelineCases().delete(id);
+                    removeItem(position);
+                    return true;
+                }
+            }
+            return false;
+        });
         popup.show();
     }
 

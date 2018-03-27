@@ -4,19 +4,29 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.FrameLayout
 import com.keylesspalace.tusky.fragment.TimelineFragment
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
+import javax.inject.Inject
 
-class ModalTimelineActivity : BaseActivity(), ActionButtonActivity {
+class ModalTimelineActivity : BaseActivity(), ActionButtonActivity, HasSupportFragmentInjector {
+
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+
     companion object {
-
         private const val ARG_KIND = "kind"
         private const val ARG_ARG = "arg"
-        @JvmStatic fun newIntent(context: Context, kind: TimelineFragment.Kind,
-                                 argument: String?): Intent {
+
+        @JvmStatic
+        fun newIntent(context: Context, kind: TimelineFragment.Kind,
+                      argument: String?): Intent {
             val intent = Intent(context, ModalTimelineActivity::class.java)
             intent.putExtra(ARG_KIND, kind)
             intent.putExtra(ARG_ARG, argument)
@@ -24,6 +34,7 @@ class ModalTimelineActivity : BaseActivity(), ActionButtonActivity {
         }
 
     }
+
     lateinit var contentFrame: FrameLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,8 +52,8 @@ class ModalTimelineActivity : BaseActivity(), ActionButtonActivity {
         }
 
         if (supportFragmentManager.findFragmentById(R.id.content_frame) == null) {
-            val kind = intent?.getSerializableExtra(ARG_KIND) as? TimelineFragment.Kind ?:
-                    TimelineFragment.Kind.HOME
+            val kind = intent?.getSerializableExtra(ARG_KIND) as? TimelineFragment.Kind
+                    ?: TimelineFragment.Kind.HOME
             val argument = intent?.getStringExtra(ARG_ARG)
             supportFragmentManager.beginTransaction()
                     .replace(R.id.content_frame, TimelineFragment.newInstance(kind, argument))
@@ -59,5 +70,9 @@ class ModalTimelineActivity : BaseActivity(), ActionButtonActivity {
             return true
         }
         return false
+    }
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
+        return dispatchingAndroidInjector
     }
 }

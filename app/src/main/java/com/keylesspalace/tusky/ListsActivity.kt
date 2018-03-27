@@ -12,19 +12,19 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.fragment.TimelineFragment
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
-import com.varunest.sparkbutton.helpers.Utils
 import retrofit2.Call
 import retrofit2.Response
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 
 /**
  * Created by charlag on 1/4/18.
@@ -83,7 +83,7 @@ class ListsViewModel(private val api: MastodonApi) {
     }
 }
 
-class ListsActivity : BaseActivity(), ListsView {
+class ListsActivity : BaseActivity(), ListsView, Injectable {
 
     companion object {
         @JvmStatic
@@ -91,6 +91,9 @@ class ListsActivity : BaseActivity(), ListsView {
             return Intent(context, ListsActivity::class.java)
         }
     }
+
+    @Inject
+    lateinit var mastodonApi: MastodonApi
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar

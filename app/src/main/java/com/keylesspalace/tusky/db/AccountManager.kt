@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.db
 
+import android.arch.persistence.room.Database
 import android.util.Log
 import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.entity.Account
@@ -26,12 +27,13 @@ import com.keylesspalace.tusky.entity.Account
 
 private const val TAG = "AccountManager"
 
-class AccountManager {
+class AccountManager(db: AppDatabase) {
 
-    @Volatile var activeAccount: AccountEntity? = null
+    @Volatile
+    var activeAccount: AccountEntity? = null
 
     private var accounts: MutableList<AccountEntity> = mutableListOf()
-    private val accountDao: AccountDao = TuskyApplication.getDB().accountDao()
+    private val accountDao: AccountDao = db.accountDao()
 
     init {
         accounts = accountDao.loadAll().toMutableList()
@@ -50,9 +52,9 @@ class AccountManager {
      */
     fun addAccount(accessToken: String, domain: String) {
 
-        activeAccount?.let{
+        activeAccount?.let {
             it.isActive = false
-            Log.d(TAG, "addAccount: saving account with id "+it.id)
+            Log.d(TAG, "addAccount: saving account with id " + it.id)
 
             accountDao.insertOrReplace(it)
         }
@@ -67,8 +69,8 @@ class AccountManager {
      * @param account the account to save
      */
     fun saveAccount(account: AccountEntity) {
-        if(account.id != 0L) {
-            Log.d(TAG, "saveAccount: saving account with id "+account.id)
+        if (account.id != 0L) {
+            Log.d(TAG, "saveAccount: saving account with id " + account.id)
             accountDao.insertOrReplace(account)
         }
 
@@ -78,18 +80,18 @@ class AccountManager {
      * Logs the current account out by deleting all data of the account.
      * @return the new active account, or null if no other account was found
      */
-    fun logActiveAccountOut() : AccountEntity? {
+    fun logActiveAccountOut(): AccountEntity? {
 
-        if(activeAccount == null) {
+        if (activeAccount == null) {
             return null
         } else {
             accounts.remove(activeAccount!!)
             accountDao.delete(activeAccount!!)
 
-            if(accounts.size > 0) {
+            if (accounts.size > 0) {
                 accounts[0].isActive = true
                 activeAccount = accounts[0]
-                Log.d(TAG, "logActiveAccountOut: saving account with id "+accounts[0].id)
+                Log.d(TAG, "logActiveAccountOut: saving account with id " + accounts[0].id)
                 accountDao.insertOrReplace(accounts[0])
             } else {
                 activeAccount = null
@@ -106,18 +108,18 @@ class AccountManager {
      * @param account the [Account] object returned from the api
      */
     fun updateActiveAccount(account: Account) {
-        activeAccount?.let{
+        activeAccount?.let {
             it.accountId = account.id
             it.username = account.username
             it.displayName = account.name
             it.profilePictureUrl = account.avatar
 
-            Log.d(TAG,  "updateActiveAccount: saving account with id "+it.id)
+            Log.d(TAG, "updateActiveAccount: saving account with id " + it.id)
             it.id = accountDao.insertOrReplace(it)
 
             val accountIndex = accounts.indexOf(it)
 
-            if(accountIndex != -1) {
+            if (accountIndex != -1) {
                 //in case the user was already logged in with this account, remove the old information
                 accounts.removeAt(accountIndex)
                 accounts.add(accountIndex, it)
@@ -134,8 +136,8 @@ class AccountManager {
      */
     fun setActiveAccount(accountId: Long) {
 
-        activeAccount?.let{
-            Log.d(TAG,  "setActiveAccount: saving account with id "+it.id)
+        activeAccount?.let {
+            Log.d(TAG, "setActiveAccount: saving account with id " + it.id)
             it.isActive = false
             saveAccount(it)
         }
@@ -144,7 +146,7 @@ class AccountManager {
             acc.id == accountId
         }
 
-        activeAccount?.let{
+        activeAccount?.let {
             it.isActive = true
             accountDao.insertOrReplace(it)
         }
@@ -154,7 +156,7 @@ class AccountManager {
      * @return an immutable list of all accounts in the database with the active account first
      */
     fun getAllAccountsOrderedByActive(): List<AccountEntity> {
-        accounts.sortWith (Comparator { l, r ->
+        accounts.sortWith(Comparator { l, r ->
             when {
                 l.isActive && !r.isActive -> -1
                 r.isActive && !l.isActive -> 1

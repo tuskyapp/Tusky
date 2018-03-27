@@ -29,10 +29,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.ViewVideoActivity
+import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
@@ -43,6 +43,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by charlag on 26/10/2017.
@@ -50,7 +51,7 @@ import java.util.*
  * Fragment with multiple columns of media previews for the specified account.
  */
 
-class AccountMediaFragment : BaseFragment() {
+class AccountMediaFragment : BaseFragment(), Injectable {
 
     companion object {
         @JvmStatic
@@ -66,9 +67,11 @@ class AccountMediaFragment : BaseFragment() {
         private const val TAG = "AccountMediaFragment"
     }
 
+    @Inject
+    lateinit var api: MastodonApi
+
     private val adapter = MediaGridAdapter()
     private var currentCall: Call<List<Status>>? = null
-    private lateinit var api: MastodonApi
     private val statuses = mutableListOf<Status>()
     private var fetchingStatus = FetchingStatus.NOT_FETCHING
     lateinit private var swipeLayout: SwipeRefreshLayout
@@ -123,7 +126,6 @@ class AccountMediaFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        api = (activity as BaseActivity).mastodonApi
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
