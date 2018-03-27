@@ -93,7 +93,6 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Status;
-
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.ProgressRequestBody;
 import com.keylesspalace.tusky.util.CountUpDownLatch;

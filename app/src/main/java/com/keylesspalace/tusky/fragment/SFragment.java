@@ -20,18 +20,14 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.PopupMenu;
 import android.text.Spanned;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.keylesspalace.tusky.AccountActivity;
-import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ReportActivity;
@@ -41,26 +37,15 @@ import com.keylesspalace.tusky.ViewTagActivity;
 import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.ViewVideoActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
-import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Attachment;
-import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
-import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
-import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.HtmlUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
