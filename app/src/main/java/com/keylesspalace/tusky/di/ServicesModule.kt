@@ -1,4 +1,4 @@
-/* Copyright 2018 charlag
+/* Copyright 2018 Conny Duck
  *
  * This file is a part of Tusky.
  *
@@ -15,33 +15,12 @@
 
 package com.keylesspalace.tusky.di
 
-import com.keylesspalace.tusky.TuskyApplication
-import dagger.BindsInstance
-import dagger.Component
-import dagger.android.AndroidInjectionModule
-import javax.inject.Singleton
+import com.keylesspalace.tusky.service.SendTootService
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
-
-/**
- * Created by charlag on 3/21/18.
- */
-
-@Singleton
-@Component(modules = [
-    AppModule::class,
-    NetworkModule::class,
-    AndroidInjectionModule::class,
-    ActivitiesModule::class,
-    ServicesModule::class
-])
-interface AppComponent {
-    @Component.Builder
-    interface Builder {
-        @BindsInstance
-        fun application(tuskyApp: TuskyApplication): Builder
-
-        fun build(): AppComponent
-    }
-
-    fun inject(app: TuskyApplication)
+@Module
+abstract class ServicesModule {
+    @ContributesAndroidInjector
+    abstract fun contributeMyService(): SendTootService
 }

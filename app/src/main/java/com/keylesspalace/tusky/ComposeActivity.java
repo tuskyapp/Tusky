@@ -76,7 +76,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -96,6 +95,7 @@ import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.ProgressRequestBody;
+import com.keylesspalace.tusky.service.SendTootService;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
 import com.keylesspalace.tusky.util.IOUtils;
@@ -184,7 +184,6 @@ public final class ComposeActivity
     private Button contentWarningButton;
     private ImageButton emojiButton;
     private ImageButton hideMediaToggle;
-    private ProgressBar postProgress;
     // this only exists when a status is trying to be sent, but uploads are still occurring
     private ProgressDialog finishingUploadDialog;
     private String inReplyToId;
@@ -223,7 +222,6 @@ public final class ComposeActivity
         contentWarningButton = findViewById(R.id.composeContentWarningButton);
         emojiButton = findViewById(R.id.composeEmojiButton);
         hideMediaToggle = findViewById(R.id.composeHideMediaButton);
-        postProgress = findViewById(R.id.postProgress);
         emojiView = findViewById(R.id.emojiView);
 
 
@@ -435,7 +433,6 @@ public final class ComposeActivity
         // After the starting state is finalised, the interface can be set to reflect this state.
         setStatusVisibility(startingVisibility);
 
-        postProgress.setVisibility(View.INVISIBLE);
         updateHideMediaToggleColor();
         updateVisibleCharactersLeft();
 
@@ -867,18 +864,8 @@ public final class ComposeActivity
         updateVisibleCharactersLeft();
     }
 
-    private void setStateToReadying() {
-        disableButtons();
-        postProgress.setVisibility(View.VISIBLE);
-    }
-
-    private void setStateToNotReadying() {
-        postProgress.setVisibility(View.INVISIBLE);
-        enableButtons();
-    }
-
     private void onSendClicked() {
-        setStateToReadying();
+        disableButtons();
         readyStatus(statusVisibility, statusMarkSensitive);
     }
 
@@ -960,23 +947,13 @@ public final class ComposeActivity
             mediaIds.add(item.id);
         }
 
-        Callback<Status> callback = new Callback<Status>() {
-            @Override
-            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
-                if (response.isSuccessful()) {
-                    onSendSuccess();
-                } else {
-                    onSendFailure(response);
-                }
-            }
+        Intent sendIntent = SendTootService.sendTootIntent(this, content, spoilerText, inReplyToId, visibility, sensitive, mediaIds, accountManager.getActiveAccount());
 
-            @Override
-            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                onSendFailure(null);
-            }
-        };
-        mastodonApi.createStatus(content, inReplyToId, spoilerText, visibility.serverString(),
-                sensitive, mediaIds).enqueue(callback);
+        startService(sendIntent);
+
+        setResult(RESULT_OK);
+        finish();
+
     }
 
     private void onSendSuccess() {
@@ -1000,7 +977,7 @@ public final class ComposeActivity
     }
 
     private void onSendFailure(@Nullable Response<Status> response) {
-        setStateToNotReadying();
+        enableButtons();
 
         if (response != null && inReplyToId != null && response.code() == 404) {
             new AlertDialog.Builder(this)
@@ -1048,7 +1025,7 @@ public final class ComposeActivity
                     @Override
                     protected void onCancelled() {
                         removeAllMediaFromQueue();
-                        setStateToNotReadying();
+                        enableButtons();
                         super.onCancelled();
                     }
                 };
@@ -1073,20 +1050,20 @@ public final class ComposeActivity
         int characterCount = contentText.length() + spoilerText.length();
         if (characterCount <= 0 && mediaQueued.size()==0) {
             textEditor.setError(getString(R.string.error_empty));
-            setStateToNotReadying();
+            enableButtons();
         } else if (characterCount <= STATUS_CHARACTER_LIMIT) {
             sendStatus(contentText, visibility, sensitive, spoilerText);
 
         } else {
             textEditor.setError(getString(R.string.error_compose_character_limit));
-            setStateToNotReadying();
+            enableButtons();
         }
     }
 
     private void onReadyFailure(final Status.Visibility visibility, final boolean sensitive) {
         doErrorDialog(R.string.error_media_upload_sending, R.string.action_retry,
                 v -> readyStatus(visibility, sensitive));
-        setStateToNotReadying();
+        enableButtons();
     }
 
     private void openPickDialog() {

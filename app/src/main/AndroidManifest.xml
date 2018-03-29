@@ -111,6 +111,7 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+        <service android:name=".service.SendTootService" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
