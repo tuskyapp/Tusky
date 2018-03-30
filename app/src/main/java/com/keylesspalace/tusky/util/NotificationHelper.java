@@ -145,7 +145,7 @@ public class NotificationHelper {
             try {
                 accountAvatar = Picasso.with(context)
                         .load(body.getAccount().getAvatar())
-                        .transform(new RoundedTransformation(7, 0))
+                        .transform(new RoundedTransformation(20))
                         .get();
             } catch (IOException e) {
                 Log.d(TAG, "error loading account avatar", e);

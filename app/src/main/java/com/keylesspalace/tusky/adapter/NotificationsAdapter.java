@@ -284,7 +284,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 Picasso.with(context)
                         .load(avatarUrl)
                         .fit()
-                        .transform(new RoundedTransformation(7, 0))
+                        .transform(new RoundedTransformation(25))
                         .placeholder(R.drawable.avatar_default)
                         .into(avatar);
             }
@@ -445,7 +445,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 Picasso.with(context)
                         .load(statusAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
-                        .transform(new RoundedTransformation(7, 0))
+                        .transform(new RoundedTransformation(25))
                         .into(statusAvatar);
             }
 
@@ -456,7 +456,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                         .load(notificationAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
                         .fit()
-                        .transform(new RoundedTransformation(7, 0))
+                        .transform(new RoundedTransformation(25))
                         .into(notificationAvatar);
             }
         }

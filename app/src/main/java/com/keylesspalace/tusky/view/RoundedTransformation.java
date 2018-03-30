@@ -26,25 +26,35 @@ import com.squareup.picasso.Transformation;
 
 public class RoundedTransformation implements Transformation {
 
-    private final int radius;
-    private final int margin;
+    private final float percent;
 
-    public RoundedTransformation(final int radius, final int margin) {
-        this.radius = radius;
-        this.margin = margin;
+    /** 100% would mean a perfectly round image **/
+    public RoundedTransformation(final float percent) {
+        this.percent = percent;
     }
 
     @Override
     public Bitmap transform(Bitmap source) {
-        final Paint paint = new Paint();
 
+        final int width = source.getWidth();
+        final int height = source.getHeight();
+        final int shorterSide;
+        if (width > height) {
+            shorterSide = height;
+        } else {
+            shorterSide = width;
+        }
+
+        final float radius = shorterSide / 2 * percent / 100;
+
+        final Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setShader(new BitmapShader(source, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
 
-        Bitmap output = Bitmap.createBitmap(source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
 
-        canvas.drawRoundRect(new RectF(margin, margin, source.getWidth() - margin, source.getHeight() - margin), radius, radius, paint);
+        canvas.drawRoundRect(new RectF(0, 0, width, height), radius, radius, paint);
 
         if (source != output) {
             source.recycle();
@@ -55,6 +65,6 @@ public class RoundedTransformation implements Transformation {
 
     @Override
     public String key() {
-        return "rounded";
+        return "rounded "+percent+"%";
     }
 }

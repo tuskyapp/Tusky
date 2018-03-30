@@ -129,7 +129,7 @@ public class MentionAutoCompleteAdapter extends ArrayAdapter<Account>
                 Picasso.with(context)
                         .load(account.getAvatar())
                         .placeholder(R.drawable.avatar_default)
-                        .transform(new RoundedTransformation(7, 0))
+                        .transform(new RoundedTransformation(25))
                         .into(avatar);
             }
         }
