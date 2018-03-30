@@ -20,6 +20,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -75,8 +76,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         mediaPreviewEnabled = true;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             default:
             case VIEW_TYPE_MENTION: {
@@ -108,7 +110,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (position < notifications.size()) {
             NotificationViewData notification = notifications.get(position);
             if (notification instanceof NotificationViewData.Placeholder) {
@@ -226,7 +228,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     }
 
     public void setFooterState(FooterViewHolder.State newFooterState) {
+        FooterViewHolder.State oldValue = footerState;
         footerState = newFooterState;
+        if (footerState != oldValue) {
+            notifyItemChanged(notifications.size());
+        }
     }
 
     public void setMediaPreviewEnabled(boolean enabled) {
