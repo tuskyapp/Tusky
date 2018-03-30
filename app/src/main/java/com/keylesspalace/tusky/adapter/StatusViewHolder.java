@@ -62,7 +62,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             avatarReblog.setVisibility(View.VISIBLE);
             Picasso.with(context)
                     .load(rebloggedUrl)
-                    .fit()
+                    .placeholder(R.drawable.avatar_default)
                     .transform(new RoundedTransformation(25))
                     .into(avatarReblog);
         } else {

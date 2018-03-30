@@ -232,8 +232,10 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             previews[i].setVisibility(View.VISIBLE);
 
-            if (previewUrl == null || previewUrl.isEmpty()) {
-                Picasso.with(context).load(mediaPreviewUnloadedId).into(previews[i]);
+            if (TextUtils.isEmpty(previewUrl)) {
+                Picasso.with(context)
+                        .load(mediaPreviewUnloadedId)
+                        .into(previews[i]);
             } else {
                 Picasso.with(context)
                         .load(previewUrl)

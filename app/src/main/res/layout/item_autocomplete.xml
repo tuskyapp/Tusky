@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -12,7 +13,7 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="8dp"
         android:contentDescription="@null"
-        android:src="@drawable/avatar_default" />
+        tools:src="@drawable/avatar_default" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -29,7 +30,8 @@
             android:maxLines="1"
             android:textColor="?android:textColorPrimary"
             android:textSize="?attr/status_text_large"
-            android:textStyle="normal|bold" />
+            android:textStyle="normal|bold"
+            tools:text="\@ConnyDuck" />
 
         <TextView
             android:id="@+id/username"
@@ -38,7 +40,8 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="?android:textColorSecondary"
-            android:textSize="?attr/status_text_medium" />
+            android:textSize="?attr/status_text_medium"
+            tools:text="Conny Duck" />
 
     </LinearLayout>
 
