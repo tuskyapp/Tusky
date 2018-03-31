@@ -11,6 +11,7 @@ import android.os.Parcelable
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.ServiceCompat
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountEntity
@@ -18,6 +19,7 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.receiver.TimelineReceiver
 import com.keylesspalace.tusky.util.StringUtils
 import dagger.android.AndroidInjection
 import kotlinx.android.parcel.Parcelize
@@ -131,6 +133,9 @@ class SendTootService: Service(), Injectable {
 
                     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                     notificationManager.cancel(tootId)
+
+                    val intent = Intent(TimelineReceiver.Types.STATUS_COMPOSED)
+                    LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
 
                     if(tootsToSend.isEmpty()) {
                         stopForeground(true)
