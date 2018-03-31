@@ -121,7 +121,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             Picasso.with(avatar.getContext())
                     .load(url)
                     .placeholder(R.drawable.avatar_default)
-                    .transform(new RoundedTransformation(7, 0))
+                    .transform(new RoundedTransformation(25))
                     .into(avatar);
         }
     }
@@ -233,8 +233,10 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             previews[i].setVisibility(View.VISIBLE);
 
-            if (previewUrl == null || previewUrl.isEmpty()) {
-                Picasso.with(context).load(mediaPreviewUnloadedId).into(previews[i]);
+            if (TextUtils.isEmpty(previewUrl)) {
+                Picasso.with(context)
+                        .load(mediaPreviewUnloadedId)
+                        .into(previews[i]);
             } else {
                 Picasso.with(context)
                         .load(previewUrl)

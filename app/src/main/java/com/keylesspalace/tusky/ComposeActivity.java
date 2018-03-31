@@ -248,7 +248,7 @@ public final class ComposeActivity
                 composeAvatar.setImageResource(R.drawable.avatar_default);
             } else {
                 Picasso.with(this).load(activeAccount.getProfilePictureUrl())
-                        .transform(new RoundedTransformation(7, 0))
+                        .transform(new RoundedTransformation(25))
                         .error(R.drawable.avatar_default)
                         .placeholder(R.drawable.avatar_default)
                         .into(composeAvatar);
