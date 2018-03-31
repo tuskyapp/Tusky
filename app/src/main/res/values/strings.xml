@@ -19,6 +19,7 @@
     <string name="error_report_too_few_statuses">At least one status must be reported.</string>
 
     <string name="title_home">Home</string>
+    <string name="title_advanced">Advanced</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Federated</string>
@@ -177,6 +178,7 @@
     <string name="pref_title_status_tabs">Tabs</string>
     <string name="pref_title_show_boosts">Show boosts</string>
     <string name="pref_title_show_replies">Show replies</string>
+    <string name="pref_title_filter_regex">Filter out by regular expressions</string>
     <string name="pref_title_show_media_preview">Show media previews</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP proxy</string>

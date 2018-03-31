@@ -13,4 +13,10 @@
             android:title="@string/pref_title_show_replies" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/title_advanced">
+        <EditTextPreference
+            android:key="tabFilterRegex"
+            android:title="@string/pref_title_filter_regex" />
+    </PreferenceCategory>
+
 </PreferenceScreen>
