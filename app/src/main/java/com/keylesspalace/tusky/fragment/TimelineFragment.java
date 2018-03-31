@@ -506,20 +506,19 @@ public class TimelineFragment extends SFragment implements
                 break;
             }
             case "tabFilterRegex": {
-                String newFilterRegex = sharedPreferences.getString("tabFilterRegex", "");
-                boolean oldFilterRegex = filterRemoveRegex;
-                Matcher oldFilterRegexMatcher = filterRemoveRegexMatcher;
-                filterRemoveRegex = (kind == Kind.HOME || kind == Kind.PUBLIC_LOCAL || kind == Kind.PUBLIC_FEDERATED) && !newFilterRegex.isEmpty();
+                boolean oldFilterRemoveRegex = filterRemoveRegex;
+                String newFilterRemoveRegexPattern = sharedPreferences.getString("tabFilterRegex", "");
+                boolean patternChanged = !newFilterRemoveRegexPattern.equalsIgnoreCase(filterRemoveRegexMatcher.pattern().pattern());
+                filterRemoveRegex = (kind == Kind.HOME || kind == Kind.PUBLIC_LOCAL || kind == Kind.PUBLIC_FEDERATED) && !newFilterRemoveRegexPattern.isEmpty();
                 if (filterRemoveRegex) {
-                    String oldFilterRegexPattern = filterRemoveRegexMatcher.pattern().pattern();
-                    if (!newFilterRegex.equalsIgnoreCase(oldFilterRegexPattern)) {
-                        filterRemoveRegexMatcher = Pattern.compile(newFilterRegex, Pattern.CASE_INSENSITIVE).matcher("");
+                    if (patternChanged) {
+                        filterRemoveRegexMatcher = Pattern.compile(newFilterRemoveRegexPattern, Pattern.CASE_INSENSITIVE).matcher("");
                     }
                 }
-                if (adapter.getItemCount() > 1 && (oldFilterRegex != filterRemoveRegex || oldFilterRegexMatcher != filterRemoveRegexMatcher)) {
+                if (oldFilterRemoveRegex != filterRemoveRegex || patternChanged) {
                     fullyRefresh();
                 }
-
+                break;
             }
             case "alwaysShowSensitiveMedia": {
                 //it is ok if only newly loaded statuses are affected, no need to fully refresh
