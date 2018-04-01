@@ -86,8 +86,6 @@ import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
-import com.keylesspalace.tusky.db.TootDao;
-import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
@@ -102,6 +100,7 @@ import com.keylesspalace.tusky.util.IOUtils;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.MediaUtils;
 import com.keylesspalace.tusky.util.MentionTokenizer;
+import com.keylesspalace.tusky.util.SaveTootHelper;
 import com.keylesspalace.tusky.util.SpanUtils;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
@@ -164,8 +163,6 @@ public final class ComposeActivity
     private static final String REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra";
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
 
-    private static TootDao tootDao = TuskyApplication.getDB().tootDao();
-
     @Inject
     public MastodonApi mastodonApi;
     @Inject
@@ -203,6 +200,8 @@ public final class ComposeActivity
     private BottomSheetBehavior emojiBehavior;
     private RecyclerView emojiView;
 
+    private SaveTootHelper saveTootHelper;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -223,6 +222,8 @@ public final class ComposeActivity
         emojiButton = findViewById(R.id.composeEmojiButton);
         hideMediaToggle = findViewById(R.id.composeHideMediaButton);
         emojiView = findViewById(R.id.emojiView);
+
+        saveTootHelper = new SaveTootHelper(TuskyApplication.getDB().tootDao(), this);
 
 
         // Setup the toolbar.
@@ -289,7 +290,6 @@ public final class ComposeActivity
 
         // Setup the interface buttons.
         tootButton.setOnClickListener(v -> onSendClicked());
-        tootButton.setOnLongClickListener(v -> saveDraft());
         pickButton.setOnClickListener(v -> openPickDialog());
         visibilityBtn.setOnClickListener(v -> showComposeOptions());
         contentWarningButton.setOnClickListener(v-> onContentWarningChanged());
@@ -634,156 +634,6 @@ public final class ComposeActivity
         tootButton.setEnabled(true);
     }
 
-    private boolean saveDraft() {
-        String contentWarning = null;
-        if (statusHideText) {
-            contentWarning = contentWarningEditor.getText().toString();
-        }
-
-        boolean didSaveSuccessfully = saveTheToot(textEditor.getText().toString(), contentWarning);
-        if (didSaveSuccessfully) {
-            Toast.makeText(ComposeActivity.this, R.string.action_save_one_toot, Toast.LENGTH_SHORT)
-                    .show();
-        }
-        return didSaveSuccessfully;
-    }
-
-
-
-    @Nullable
-    private List<String> saveMedia(@Nullable ArrayList<String> existingUris) {
-        File imageDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File videoDirectory = getExternalFilesDir(Environment.DIRECTORY_MOVIES);
-        if (imageDirectory == null || !(imageDirectory.exists() || imageDirectory.mkdirs())) {
-            Log.e(TAG, "Image directory is not created.");
-            return null;
-        }
-        if (videoDirectory == null || !(videoDirectory.exists() || videoDirectory.mkdirs())) {
-            Log.e(TAG, "Video directory is not created.");
-            return null;
-        }
-        ContentResolver contentResolver = getContentResolver();
-        ArrayList<File> filesSoFar = new ArrayList<>();
-        ArrayList<String> results = new ArrayList<>();
-        for (QueuedMedia item : mediaQueued) {
-            /* If the media was already saved in a previous draft, there's no need to save another
-             * copy, just add the existing URI to the results. */
-            if (existingUris != null) {
-                String uri = item.uri.toString();
-                int index = existingUris.indexOf(uri);
-                if (index != -1) {
-                    results.add(uri);
-                    continue;
-                }
-            }
-            // Otherwise, save the media.
-            File directory;
-            switch (item.type) {
-                default:
-                case IMAGE:
-                    directory = imageDirectory;
-                    break;
-                case VIDEO:
-                    directory = videoDirectory;
-                    break;
-            }
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
-                    .format(new Date());
-            String mimeType = contentResolver.getType(item.uri);
-            MimeTypeMap map = MimeTypeMap.getSingleton();
-            String fileExtension = map.getExtensionFromMimeType(mimeType);
-            String filename = String.format("Tusky_Draft_Media_%s.%s", timeStamp, fileExtension);
-            File file = new File(directory, filename);
-            filesSoFar.add(file);
-            boolean copied = IOUtils.copyToFile(contentResolver, item.uri, file);
-            if (!copied) {
-                /* If any media files were created in prior iterations, delete those before
-                 * returning. */
-                for (File earlierFile : filesSoFar) {
-                    boolean deleted = earlierFile.delete();
-                    if (!deleted) {
-                        Log.i(TAG, "Could not delete the file " + earlierFile.toString());
-                    }
-                }
-                return null;
-            }
-            Uri uri = FileProvider.getUriForFile(this, "com.keylesspalace.tusky.fileprovider",
-                    file);
-            results.add(uri.toString());
-        }
-        return results;
-    }
-
-    private void deleteMedia(List<String> mediaUris) {
-        for (String uriString : mediaUris) {
-            Uri uri = Uri.parse(uriString);
-            if (getContentResolver().delete(uri, null, null) == 0) {
-                Log.e(TAG, String.format("Did not delete file %s.", uriString));
-            }
-        }
-    }
-
-    /**
-     * A∖B={x∈A|x∉B}
-     *
-     * @return all elements of set A that are not in set B.
-     */
-    private static List<String> setDifference(List<String> a, List<String> b) {
-        List<String> c = new ArrayList<>();
-        for (String s : a) {
-            if (!b.contains(s)) {
-                c.add(s);
-            }
-        }
-        return c;
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private boolean saveTheToot(String s, @Nullable String contentWarning) {
-        if (TextUtils.isEmpty(s)) {
-            return false;
-        }
-
-        // Get any existing file's URIs.
-        ArrayList<String> existingUris = null;
-        String savedJsonUrls = getIntent().getStringExtra("saved_json_urls");
-        if (!TextUtils.isEmpty(savedJsonUrls)) {
-            existingUris = new Gson().fromJson(savedJsonUrls,
-                    new TypeToken<ArrayList<String>>() {
-                    }.getType());
-        }
-
-        String mediaUrlsSerialized = null;
-        if (!ListUtils.isEmpty(mediaQueued)) {
-            List<String> savedList = saveMedia(existingUris);
-            if (!ListUtils.isEmpty(savedList)) {
-                mediaUrlsSerialized = new Gson().toJson(savedList);
-                if (!ListUtils.isEmpty(existingUris)) {
-                    deleteMedia(setDifference(existingUris, savedList));
-                }
-            } else {
-                return false;
-            }
-        } else if (!ListUtils.isEmpty(existingUris)) {
-            /* If there were URIs in the previous draft, but they've now been removed, those files
-             * can be deleted. */
-            deleteMedia(existingUris);
-        }
-        final TootEntity toot = new TootEntity(savedTootUid, s, mediaUrlsSerialized, contentWarning,
-                inReplyToId,
-                getIntent().getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
-                getIntent().getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA), statusVisibility);
-
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                tootDao.insertOrReplace(toot);
-                return null;
-            }
-        }.execute();
-        return true;
-    }
-
     private void setStatusVisibility(Status.Visibility visibility) {
         statusVisibility = visibility;
         composeOptionsView.setStatusVisibility(visibility);
@@ -947,33 +797,13 @@ public final class ComposeActivity
             mediaIds.add(item.id);
         }
 
-        Intent sendIntent = SendTootService.sendTootIntent(this, content, spoilerText, inReplyToId, visibility, sensitive, mediaIds, accountManager.getActiveAccount());
+        Intent sendIntent = SendTootService.sendTootIntent(this, content, spoilerText, inReplyToId,
+                visibility, sensitive, mediaIds, accountManager.getActiveAccount(), savedTootUid);
 
         startService(sendIntent);
 
-        setResult(RESULT_OK);
         finish();
 
-    }
-
-    private void onSendSuccess() {
-        // If the status was loaded from a draft, delete the draft and associated media files.
-        if (savedTootUid != 0) {
-            tootDao.delete(savedTootUid);
-            for (QueuedMedia item : mediaQueued) {
-                try {
-                    if (getContentResolver().delete(item.uri, null, null) == 0) {
-                        Log.e(TAG, String.format("Did not delete file %s.", item.uri.toString()));
-                    }
-                } catch (SecurityException e) {
-                    Log.e(TAG, String.format("Did not delete file %s.", item.uri.toString()), e);
-                }
-
-            }
-        }
-
-        setResult(RESULT_OK);
-        finish();
     }
 
     private void onSendFailure(@Nullable Response<Status> response) {
@@ -1075,7 +905,6 @@ public final class ComposeActivity
 
         } else {
             addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
         }
 
     }
@@ -1516,14 +1345,12 @@ public final class ComposeActivity
 
         if (!showMarkSensitive) {
             statusMarkSensitive = false;
+            hideMediaToggle.setVisibility(View.GONE);
+        } else {
             updateHideMediaToggleColor();
+            hideMediaToggle.setVisibility(View.VISIBLE);
         }
 
-        if (show) {
-            hideMediaToggle.setVisibility(View.VISIBLE);
-        } else {
-            hideMediaToggle.setVisibility(View.GONE);
-        }
     }
 
     private void showContentWarning(boolean show) {
@@ -1560,13 +1387,26 @@ public final class ComposeActivity
                 || !TextUtils.isEmpty(contentWarningEditor.getText())
                 || !mediaQueued.isEmpty()) {
             new AlertDialog.Builder(this)
-                    .setTitle("Close the toot without saving?")
-                    .setPositiveButton(android.R.string.yes, (d, w) -> finish())
-                    .setNegativeButton(android.R.string.no, null)
+                    .setMessage(R.string.compose_save_draft)
+                    .setPositiveButton(R.string.action_save, (d, w) -> saveDraftAndFinish())
+                    .setNegativeButton(R.string.action_delete, (d, w) -> finish())
                     .show();
         } else {
             finish();
         }
+    }
+
+    private void saveDraftAndFinish() {
+        saveTootHelper.saveToot(textEditor.getText().toString(),
+                contentWarningEditor.getText().toString(),
+                getIntent().getStringExtra("saved_json_urls"),
+                mediaQueued,
+                savedTootUid,
+                inReplyToId,
+                getIntent().getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
+                getIntent().getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA),
+                statusVisibility);
+        finish();
     }
 
     @Override
@@ -1590,16 +1430,16 @@ public final class ComposeActivity
         textEditor.getText().insert(textEditor.getSelectionStart(), ":"+shortcode+": ");
     }
 
-    private static final class QueuedMedia {
-        Type type;
-        ProgressImageView preview;
-        Uri uri;
-        String id;
-        Call<Attachment> uploadRequest;
-        ReadyStage readyStage;
-        byte[] content;
-        long mediaSize;
-        String description;
+    public static final class QueuedMedia {
+        public Type type;
+        public ProgressImageView preview;
+        public Uri uri;
+        public String id;
+        public Call<Attachment> uploadRequest;
+        public ReadyStage readyStage;
+        public byte[] content;
+        public long mediaSize;
+        public String description;
 
         QueuedMedia(Type type, Uri uri, ProgressImageView preview, long mediaSize,
                     String description) {
@@ -1610,7 +1450,7 @@ public final class ComposeActivity
             this.description = description;
         }
 
-        enum Type {
+        public enum Type {
             IMAGE,
             VIDEO
         }

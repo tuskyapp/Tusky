@@ -290,5 +290,10 @@
     <string name="action_remove_media">Remove</string>
     <string name="lock_account_label">Lock account</string>
     <string name="lock_account_label_description">Requires you to manually approve followers</string>
+    <string name="compose_save_draft">Save draft?</string>
+    <string name="send_toot_notification_title">Sending Toot...</string>
+    <string name="send_toot_notification_error_title">Error sending toot</string>
+    <string name="send_toot_notification_error_content">An error occurred while sending a toot. A copy of the toot has been saved to your drafts.</string>
+    <string name="send_toot_notification_channel_name">Sending Toots</string>
 
 </resources>
