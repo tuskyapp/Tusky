@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -24,6 +25,8 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.XmlRes;
+import android.text.Editable;
+import android.text.TextWatcher;
 
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.PreferencesActivity;
@@ -31,6 +34,8 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
+
+import java.util.regex.Pattern;
 
 public class PreferencesFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     SharedPreferences sharedPreferences;
@@ -62,6 +67,31 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
 
         addPreferencesFromResource(preference);
 
+        Preference regexPref = findPreference("tabFilterRegex");
+        if (regexPref != null) regexPref.setOnPreferenceClickListener(preference1 -> {
+            // Reset the error dialog when shown; if the dialog was closed with the cancel button
+            // while an invalid regex was present, this would otherwise cause buggy behaviour.
+            ((EditTextPreference) regexPref).getEditText().setError(null);
+
+            // Test the regex on as the user inputs text, ensuring immediate feedback and preventing
+            // setting of an invalid regex, which would cause a crash loop.
+            ((EditTextPreference) regexPref).getEditText().addTextChangedListener(new TextWatcher() {
+                @Override
+                public void afterTextChanged(Editable s) {
+                    try {
+                        Pattern.compile(s.toString());
+                        ((EditTextPreference) regexPref).getEditText().setError(null);
+                        ((AlertDialog) ((EditTextPreference) preference1).getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                    } catch (IllegalArgumentException e) {
+                        ((AlertDialog) ((EditTextPreference) preference1).getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                        ((EditTextPreference) regexPref).getEditText().setError("Invalid regular expression!");
+                    } catch (NullPointerException e) {}
+                }
+                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            });
+            return false;
+        });
 
         Preference notificationPreferences = findPreference("notificationPreferences");
 

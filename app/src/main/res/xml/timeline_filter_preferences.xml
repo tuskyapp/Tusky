@@ -16,6 +16,7 @@
     <PreferenceCategory android:title="@string/title_advanced">
         <EditTextPreference
             android:key="tabFilterRegex"
+            android:inputType="textNoSuggestions"
             android:title="@string/pref_title_filter_regex" />
     </PreferenceCategory>
 

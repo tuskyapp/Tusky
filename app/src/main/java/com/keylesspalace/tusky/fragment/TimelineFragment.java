@@ -508,14 +508,15 @@ public class TimelineFragment extends SFragment implements
             case "tabFilterRegex": {
                 boolean oldFilterRemoveRegex = filterRemoveRegex;
                 String newFilterRemoveRegexPattern = sharedPreferences.getString("tabFilterRegex", "");
-                boolean patternChanged = !newFilterRemoveRegexPattern.equalsIgnoreCase(filterRemoveRegexMatcher.pattern().pattern());
-                filterRemoveRegex = (kind == Kind.HOME || kind == Kind.PUBLIC_LOCAL || kind == Kind.PUBLIC_FEDERATED) && !newFilterRemoveRegexPattern.isEmpty();
-                if (filterRemoveRegex) {
-                    if (patternChanged) {
-                        filterRemoveRegexMatcher = Pattern.compile(newFilterRemoveRegexPattern, Pattern.CASE_INSENSITIVE).matcher("");
-                    }
+                boolean patternChanged;
+                if (filterRemoveRegexMatcher != null) {
+                    patternChanged = !newFilterRemoveRegexPattern.equalsIgnoreCase(filterRemoveRegexMatcher.pattern().pattern());
+                } else {
+                    patternChanged = !newFilterRemoveRegexPattern.isEmpty();
                 }
+                filterRemoveRegex = (kind == Kind.HOME || kind == Kind.PUBLIC_LOCAL || kind == Kind.PUBLIC_FEDERATED) && !newFilterRemoveRegexPattern.isEmpty();
                 if (oldFilterRemoveRegex != filterRemoveRegex || patternChanged) {
+                    filterRemoveRegexMatcher = Pattern.compile(newFilterRemoveRegexPattern, Pattern.CASE_INSENSITIVE).matcher("");
                     fullyRefresh();
                 }
                 break;
