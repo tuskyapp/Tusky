@@ -1578,7 +1578,7 @@ public final class ComposeActivity extends BaseActivity
                 || !TextUtils.isEmpty(contentWarningEditor.getText())
                 || !mediaQueued.isEmpty()) {
             new AlertDialog.Builder(this)
-                    .setTitle("Close the toot without saving?")
+                    .setTitle(R.string.unsaved_toot_confirm_close)
                     .setPositiveButton(android.R.string.yes, (d, w) -> finish())
                     .setNegativeButton(android.R.string.no, null)
                     .show();
