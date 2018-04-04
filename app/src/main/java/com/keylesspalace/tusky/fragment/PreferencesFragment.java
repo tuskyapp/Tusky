@@ -85,7 +85,7 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
                         if (dialog != null) dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
                     } catch (IllegalArgumentException e) {
                         ((AlertDialog) ((EditTextPreference) pref).getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-                        ((EditTextPreference) regexPref).getEditText().setError("Invalid regular expression!");
+                        ((EditTextPreference) regexPref).getEditText().setError(getString(R.string.error_invalid_regex));
                     }
                 }
                 @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
