@@ -68,12 +68,12 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
         addPreferencesFromResource(preference);
 
         Preference regexPref = findPreference("tabFilterRegex");
-        if (regexPref != null) regexPref.setOnPreferenceClickListener(preference1 -> {
+        if (regexPref != null) regexPref.setOnPreferenceClickListener(pref -> {
             // Reset the error dialog when shown; if the dialog was closed with the cancel button
             // while an invalid regex was present, this would otherwise cause buggy behaviour.
             ((EditTextPreference) regexPref).getEditText().setError(null);
 
-            // Test the regex on as the user inputs text, ensuring immediate feedback and preventing
+            // Test the regex as the user inputs text, ensuring immediate feedback and preventing
             // setting of an invalid regex, which would cause a crash loop.
             ((EditTextPreference) regexPref).getEditText().addTextChangedListener(new TextWatcher() {
                 @Override
@@ -81,11 +81,12 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
                     try {
                         Pattern.compile(s.toString());
                         ((EditTextPreference) regexPref).getEditText().setError(null);
-                        ((AlertDialog) ((EditTextPreference) preference1).getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                        AlertDialog dialog = (AlertDialog) ((EditTextPreference) pref).getDialog();
+                        if (dialog != null) dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
                     } catch (IllegalArgumentException e) {
-                        ((AlertDialog) ((EditTextPreference) preference1).getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                        ((AlertDialog) ((EditTextPreference) pref).getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
                         ((EditTextPreference) regexPref).getEditText().setError("Invalid regular expression!");
-                    } catch (NullPointerException e) {}
+                    }
                 }
                 @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
                 @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
