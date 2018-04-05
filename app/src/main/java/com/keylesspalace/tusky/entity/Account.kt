@@ -38,7 +38,9 @@ data class Account(
         val locked: Boolean = false,
         @SerializedName("followers_count") val followersCount: Int,
         @SerializedName("following_count") val followingCount: Int,
-        @SerializedName("statuses_count") val statusesCount: Int
+        @SerializedName("statuses_count") val statusesCount: Int,
+        val source: AccountSource?
+
 ) : Parcelable {
 
     val name: String
@@ -67,3 +69,10 @@ data class Account(
     }
 
 }
+
+@Parcelize
+data class AccountSource(
+        val privacy: Status.Visibility,
+        val sensitive: Boolean,
+        val note: String
+): Parcelable

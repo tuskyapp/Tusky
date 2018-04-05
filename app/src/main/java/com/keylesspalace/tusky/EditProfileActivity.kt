@@ -139,7 +139,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 }
                 val me = response.body()
                 oldDisplayName = me!!.displayName
-                oldNote = me.note.toString()
+                oldNote = me.source?.note
                 oldLocked = me.locked
 
                 displayNameEditText.setText(oldDisplayName)
