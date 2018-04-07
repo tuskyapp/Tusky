@@ -86,6 +86,7 @@ import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.db.EmojiListEntity;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
@@ -225,7 +226,6 @@ public final class ComposeActivity
 
         saveTootHelper = new SaveTootHelper(TuskyApplication.getDB().tootDao(), this);
 
-
         // Setup the toolbar.
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -279,12 +279,26 @@ public final class ComposeActivity
         mastodonApi.getCustomEmojis().enqueue(new Callback<List<Emoji>>() {
             @Override
             public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
-                emojiView.setAdapter(new EmojiAdapter(response.body(), ComposeActivity.this));
+                List<Emoji> emojiList = response.body();
+
+                if (emojiList != null) {
+
+                    emojiView.setAdapter(new EmojiAdapter(emojiList, ComposeActivity.this));
+
+                    EmojiListEntity emojiListEntity = new EmojiListEntity(activeAccount.getDomain(), emojiList);
+
+                    TuskyApplication.getDB().emojiListDao().insertOrReplace(emojiListEntity);
+                }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Emoji>> call, @NonNull Throwable t) {
+                Log.w(TAG, "error loading custom emojis", t);
+                EmojiListEntity emojiListEntity = TuskyApplication.getDB().emojiListDao().loadEmojisForInstance(activeAccount.getDomain());
 
+                if(emojiListEntity != null) {
+                    emojiView.setAdapter(new EmojiAdapter(emojiListEntity.getEmojiList(), ComposeActivity.this));
+                }
             }
         });
 

@@ -79,7 +79,7 @@ public class TuskyApplication extends Application implements HasActivityInjector
 
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
                 .allowMainThreadQueries()
-                .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5)
+                .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5, AppDatabase.MIGRATION_5_6)
                 .build();
         accountManager = new AccountManager(db);
         serviceLocator = new ServiceLocator() {
@@ -94,7 +94,7 @@ public class TuskyApplication extends Application implements HasActivityInjector
             }
         };
 
-        AppInjector.INSTANCE.init(this);
+        initAppInjector();
         initPicasso();
 
         JobManager.create(this).addJobCreator(notificationPullJobCreator);
@@ -102,6 +102,10 @@ public class TuskyApplication extends Application implements HasActivityInjector
 
         //necessary for Android < APi 21
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
+    protected void initAppInjector() {
+        AppInjector.INSTANCE.init(this);
     }
 
     protected void initPicasso() {
