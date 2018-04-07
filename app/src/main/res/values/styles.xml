@@ -76,7 +76,6 @@
         <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_light</item>
         <item name="account_toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Light</item>
         <item name="compose_close_button_tint">@color/toolbar_icon_light</item>
-        <item name="compose_media_button_tint">@color/compose_media_button_light</item>
         <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_light</item>
         <item name="compose_mention_color">@color/compose_mention_light</item>
         <item name="compose_content_warning_bar_background">@drawable/border_background_light</item>

@@ -731,7 +731,7 @@ public final class ComposeActivity
         this.charactersLeft.setText(String.format(Locale.getDefault(), "%d", charactersLeft));
     }
 
-    public void onContentWarningChanged() {
+    private void onContentWarningChanged() {
         boolean showWarning = contentWarningBar.getVisibility() != View.VISIBLE;
         showContentWarning(showWarning);
         updateVisibleCharactersLeft();
@@ -744,7 +744,6 @@ public final class ComposeActivity
 
     @Override
     public boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags, Bundle opts) {
-
         try {
             if (currentInputContentInfo != null) {
                 currentInputContentInfo.releasePermission();
@@ -959,7 +958,7 @@ public final class ComposeActivity
     private void enableMediaButtons() {
         pickButton.setEnabled(true);
         ThemeUtils.setDrawableTint(this, pickButton.getDrawable(),
-                R.attr.compose_media_button_tint);
+                android.R.attr.textColorTertiary);
     }
 
     private void disableMediaButtons() {
