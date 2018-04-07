@@ -74,4 +74,6 @@
     <color name="custom_tab_toolbar_light">#ffffff</color>
     <color name="compose_reply_content_background_light">#e0e1e6</color>
 
+    <color name="compose_media_visible_button_disabled_blue">#8c2b90d9</color>
+
 </resources>

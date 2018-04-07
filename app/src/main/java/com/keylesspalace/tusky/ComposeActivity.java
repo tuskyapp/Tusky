@@ -193,7 +193,6 @@ public final class ComposeActivity
     private String inReplyToId;
     private List<QueuedMedia> mediaQueued = new ArrayList<>();
     private CountUpDownLatch waitForMediaLatch;
-    private boolean showMarkSensitive;
     private Status.Visibility statusVisibility;     // The current values of the options that will be applied
     private boolean statusMarkSensitive; // to the status being composed.
     private boolean statusHideText;
@@ -318,7 +317,6 @@ public final class ComposeActivity
         String startingContentWarning = null;
         ArrayList<SavedQueuedMedia> savedMediaQueued = null;
         if (savedInstanceState != null) {
-            showMarkSensitive = savedInstanceState.getBoolean("showMarkSensitive");
             startingVisibility = Status.Visibility.byNum(
                     savedInstanceState.getInt("statusVisibility",
                             Status.Visibility.PUBLIC.getNum())
@@ -336,7 +334,6 @@ public final class ComposeActivity
             }
             photoUploadUri = savedInstanceState.getParcelable("photoUploadUri");
         } else {
-            showMarkSensitive = false;
             statusMarkSensitive = false;
             startingHideText = false;
             photoUploadUri = null;
@@ -430,7 +427,7 @@ public final class ComposeActivity
         // After the starting state is finalised, the interface can be set to reflect this state.
         setStatusVisibility(startingVisibility);
 
-        updateHideMediaToggleColor();
+        updateHideMediaToggle();
         updateVisibleCharactersLeft();
 
         // Setup the main text field.
@@ -566,7 +563,6 @@ public final class ComposeActivity
                     item.mediaSize, item.readyStage, item.description));
         }
         outState.putParcelableArrayList("savedMediaQueued", savedMediaQueued);
-        outState.putBoolean("showMarkSensitive", showMarkSensitive);
         outState.putBoolean("statusMarkSensitive", statusMarkSensitive);
         outState.putBoolean("statusHideText", statusHideText);
         if (currentInputContentInfo != null) {
@@ -600,19 +596,31 @@ public final class ComposeActivity
 
     private void toggleHideMedia() {
         statusMarkSensitive = !statusMarkSensitive;
-        updateHideMediaToggleColor();
+        updateHideMediaToggle();
     }
 
-    private void updateHideMediaToggleColor() {
+    private void updateHideMediaToggle() {
         @ColorInt int color;
-        if (statusMarkSensitive) {
-            hideMediaToggle.setImageResource(R.drawable.ic_hide_media_24dp);
-            color = ContextCompat.getColor(this, R.color.primary);
+        if(mediaQueued.size() == 0) {
+            hideMediaToggle.setVisibility(View.GONE);
         } else {
-            hideMediaToggle.setImageResource(R.drawable.ic_eye_24dp);
-            color = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);
+            hideMediaToggle.setVisibility(View.VISIBLE);
+            if (statusMarkSensitive) {
+                hideMediaToggle.setImageResource(R.drawable.ic_hide_media_24dp);
+                if (statusHideText) {
+                    hideMediaToggle.setClickable(false);
+                    color = ContextCompat.getColor(this, R.color.compose_media_visible_button_disabled_blue);
+                } else {
+                    hideMediaToggle.setClickable(true);
+                    color = ContextCompat.getColor(this, R.color.primary);
+                }
+            } else {
+                hideMediaToggle.setClickable(true);
+                hideMediaToggle.setImageResource(R.drawable.ic_eye_24dp);
+                color = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);
+            }
+            hideMediaToggle.getDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
         }
-        hideMediaToggle.getDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
     }
 
     private void disableButtons() {
@@ -997,9 +1005,9 @@ public final class ComposeActivity
             // Limit the total media attachments, also.
             disableMediaButtons();
         }
-        if (queuedCount >= 1) {
-            showMarkSensitive(true);
-        }
+
+        updateHideMediaToggle();
+
         if (item.readyStage != QueuedMedia.ReadyStage.UPLOADED) {
             waitForMediaLatch.countUp();
             if (mediaSize > STATUS_MEDIA_SIZE_LIMIT && type == QueuedMedia.Type.IMAGE) {
@@ -1099,7 +1107,7 @@ public final class ComposeActivity
         mediaPreviewBar.removeView(item.preview);
         mediaQueued.remove(item);
         if (mediaQueued.size() == 0) {
-            showMarkSensitive(false);
+            updateHideMediaToggle();
         }
 
         enableMediaButtons();
@@ -1305,29 +1313,19 @@ public final class ComposeActivity
         }
     }
 
-    private void showMarkSensitive(boolean show) {
-        showMarkSensitive = show;
-
-        if (!showMarkSensitive) {
-            statusMarkSensitive = false;
-            hideMediaToggle.setVisibility(View.GONE);
-        } else {
-            updateHideMediaToggleColor();
-            hideMediaToggle.setVisibility(View.VISIBLE);
-        }
-
-    }
-
     private void showContentWarning(boolean show) {
         statusHideText = show;
         TransitionManager.beginDelayedTransition((ViewGroup)contentWarningBar.getParent());
         if (show) {
+            statusMarkSensitive = true;
             contentWarningBar.setVisibility(View.VISIBLE);
             contentWarningButton.setTextColor(ContextCompat.getColor(this, R.color.primary));
         } else {
             contentWarningBar.setVisibility(View.GONE);
             contentWarningButton.setTextColor(ThemeUtils.getColor(this, android.R.attr.textColorTertiary));
         }
+        updateHideMediaToggle();
+
     }
 
     @Override
