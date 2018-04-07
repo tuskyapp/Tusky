@@ -142,7 +142,7 @@ public final class ComposeActivity
         implements ComposeOptionsListener,
         MentionAutoCompleteAdapter.AccountSearchProvider,
         OnEmojiSelectedListener,
-        Injectable {
+        Injectable, InputConnectionCompat.OnCommitContentListener {
 
     private static final String TAG = "ComposeActivity"; // logging tag
     private static final int STATUS_CHARACTER_LIMIT = 500;
@@ -311,10 +311,6 @@ public final class ComposeActivity
         actionPhotoTake.setOnClickListener(v -> initiateCameraApp());
         actionPhotoPick.setOnClickListener(v -> onMediaPick());
 
-        //fix a bug with autocomplete and some keyboards
-        int newInputType = textEditor.getInputType() & (textEditor.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
-        textEditor.setInputType(newInputType);
-
         /* Initialise all the state, or restore it from a previous run, to determine a "starting"
          * state. */
         Status.Visibility startingVisibility = Status.Visibility.UNKNOWN;
@@ -438,7 +434,7 @@ public final class ComposeActivity
         updateVisibleCharactersLeft();
 
         // Setup the main text field.
-        setEditTextMimeTypes(); // new String[] { "image/gif", "image/webp" }
+        textEditor.setOnCommitContentListener(this);
         final int mentionColour = ThemeUtils.getColor(this, R.attr.compose_mention_color);
         SpanUtils.highlightSpans(textEditor.getText(), mentionColour);
         textEditor.addTextChangedListener(new TextWatcher() {
@@ -746,15 +742,9 @@ public final class ComposeActivity
         readyStatus(statusVisibility, statusMarkSensitive);
     }
 
-    private void setEditTextMimeTypes() {
-        final String[] mimeTypes = new String[]{"image/*"};
-        textEditor.setMimeTypes(mimeTypes,
-                (inputContentInfo, flags, opts) ->
-                        onCommitContent(inputContentInfo, flags, mimeTypes));
-    }
+    @Override
+    public boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags, Bundle opts) {
 
-    private boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags,
-                                    String[] mimeTypes) {
         try {
             if (currentInputContentInfo != null) {
                 currentInputContentInfo.releasePermission();
@@ -765,14 +755,8 @@ public final class ComposeActivity
             currentInputContentInfo = null;
         }
 
-        // Verify the returned content's type is actually in the list of MIME types requested.
-        boolean supported = false;
-        for (final String mimeType : mimeTypes) {
-            if (inputContentInfo.getDescription().hasMimeType(mimeType)) {
-                supported = true;
-                break;
-            }
-        }
+        // Verify the returned content's type is of the correct MIME type
+        boolean supported = inputContentInfo.getDescription().hasMimeType("image/*");
 
         return supported && onCommitContentInternal(inputContentInfo, flags);
     }
