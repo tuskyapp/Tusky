@@ -59,8 +59,9 @@
         android:layout_below="@id/status_name_bar"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
-        tools:text="CW this is a long long long long long long long long content warning"
-        android:textSize="?attr/status_text_medium" />
+        android:textIsSelectable="true"
+        android:textSize="?attr/status_text_medium"
+        tools:text="CW this is a long long long long long long long long content warning" />
 
     <ToggleButton
         android:id="@+id/status_content_warning_button"
@@ -68,6 +69,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/status_content_warning_description"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
         android:background="?attr/content_warning_button"
         android:minHeight="0dp"
         android:minWidth="150dp"
@@ -75,8 +78,6 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="6dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
         android:textAllCaps="true"
         android:textOff="@string/status_content_warning_show_more"
         android:textOn="@string/status_content_warning_show_less"
@@ -91,6 +92,7 @@
         android:focusable="true"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
+        android:textIsSelectable="true"
         android:textSize="?attr/status_text_large" />
 
     <LinearLayout

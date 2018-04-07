@@ -61,6 +61,8 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -110,6 +112,8 @@ public class TimelineFragment extends SFragment implements
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private boolean filterRemoveReplies;
     private boolean filterRemoveReblogs;
+    private boolean filterRemoveRegex;
+    private Matcher filterRemoveRegexMatcher;
     private boolean hideFab;
     private TimelineReceiver timelineReceiver;
     private boolean topLoading;
@@ -211,6 +215,10 @@ public class TimelineFragment extends SFragment implements
 
         filter = preferences.getBoolean("tabFilterHomeBoosts", true);
         filterRemoveReblogs = kind == Kind.HOME && !filter;
+
+        String regexFilter = preferences.getString("tabFilterRegex", "");
+        filterRemoveRegex = (kind == Kind.HOME || kind == Kind.PUBLIC_LOCAL || kind == Kind.PUBLIC_FEDERATED) && !regexFilter.isEmpty();
+        if (filterRemoveRegex) filterRemoveRegexMatcher = Pattern.compile(regexFilter, Pattern.CASE_INSENSITIVE).matcher("");
 
         timelineReceiver = new TimelineReceiver(this, this);
         LocalBroadcastManager.getInstance(context.getApplicationContext())
@@ -497,6 +505,22 @@ public class TimelineFragment extends SFragment implements
                 }
                 break;
             }
+            case "tabFilterRegex": {
+                boolean oldFilterRemoveRegex = filterRemoveRegex;
+                String newFilterRemoveRegexPattern = sharedPreferences.getString("tabFilterRegex", "");
+                boolean patternChanged;
+                if (filterRemoveRegexMatcher != null) {
+                    patternChanged = !newFilterRemoveRegexPattern.equalsIgnoreCase(filterRemoveRegexMatcher.pattern().pattern());
+                } else {
+                    patternChanged = !newFilterRemoveRegexPattern.isEmpty();
+                }
+                filterRemoveRegex = (kind == Kind.HOME || kind == Kind.PUBLIC_LOCAL || kind == Kind.PUBLIC_FEDERATED) && !newFilterRemoveRegexPattern.isEmpty();
+                if (oldFilterRemoveRegex != filterRemoveRegex || patternChanged) {
+                    filterRemoveRegexMatcher = Pattern.compile(newFilterRemoveRegexPattern, Pattern.CASE_INSENSITIVE).matcher("");
+                    fullyRefresh();
+                }
+                break;
+            }
             case "alwaysShowSensitiveMedia": {
                 //it is ok if only newly loaded statuses are affected, no need to fully refresh
                 alwaysShowSensitiveMedia = sharedPreferences.getBoolean("alwaysShowSensitiveMedia", false);
@@ -701,7 +725,9 @@ public class TimelineFragment extends SFragment implements
         while (it.hasNext()) {
             Status status = it.next();
             if ((status.getInReplyToId() != null && filterRemoveReplies)
-                    || (status.getReblog() != null && filterRemoveReblogs)) {
+                    || (status.getReblog() != null && filterRemoveReblogs)
+                    || (filterRemoveRegex && (filterRemoveRegexMatcher.reset(status.getContent()).find()
+                    || (!status.getSpoilerText().isEmpty() && filterRemoveRegexMatcher.reset(status.getContent()).find())))) {
                 it.remove();
             }
         }

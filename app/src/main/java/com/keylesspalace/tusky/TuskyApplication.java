@@ -41,6 +41,8 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 import dagger.android.HasServiceInjector;
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
 
 public class TuskyApplication extends Application implements HasActivityInjector, HasServiceInjector {
     public static final String APP_THEME_DEFAULT = ThemeUtils.THEME_NIGHT;
@@ -106,15 +108,19 @@ public class TuskyApplication extends Application implements HasActivityInjector
         // Initialize Picasso configuration
         Picasso.Builder builder = new Picasso.Builder(this);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        builder.downloader(new OkHttp3Downloader(OkHttpUtils.getCompatibleClient(preferences)));
+
+        OkHttpClient.Builder okHttpBuilder = OkHttpUtils.getCompatibleClientBuilder(preferences);
+
+        int cacheSize = 10*1024*1024; // 10 MiB
+
+        okHttpBuilder.cache(new Cache(getCacheDir(), cacheSize));
+
+        builder.downloader(new OkHttp3Downloader(okHttpBuilder.build()));
         if (BuildConfig.DEBUG) {
             builder.listener((picasso, uri, exception) -> exception.printStackTrace());
         }
-        try {
-            Picasso.setSingletonInstance(builder.build());
-        } catch (IllegalStateException e) {
-            throw new RuntimeException(e);
-        }
+
+        Picasso.setSingletonInstance(builder.build());
     }
 
     public ServiceLocator getServiceLocator() {
