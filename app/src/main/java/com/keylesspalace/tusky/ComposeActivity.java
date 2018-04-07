@@ -177,10 +177,17 @@ public final class ComposeActivity
     private TextView charactersLeft;
     private TootButton tootButton;
     private ImageButton pickButton;
-    private ImageButton visibilityBtn;
+    private ImageButton visibilityButton;
     private Button contentWarningButton;
     private ImageButton emojiButton;
     private ImageButton hideMediaToggle;
+
+    private ComposeOptionsView composeOptionsView;
+    private BottomSheetBehavior composeOptionsBehavior;
+    private BottomSheetBehavior addMediaBehavior;
+    private BottomSheetBehavior emojiBehavior;
+    private RecyclerView emojiView;
+
     // this only exists when a status is trying to be sent, but uploads are still occurring
     private ProgressDialog finishingUploadDialog;
     private String inReplyToId;
@@ -194,14 +201,8 @@ public final class ComposeActivity
     private int currentFlags;
     private Uri photoUploadUri;
     private int savedTootUid = 0;
-    private ComposeOptionsView composeOptionsView;
-    private BottomSheetBehavior composeOptionsBehavior;
-    private BottomSheetBehavior addMediaBehavior;
-    private BottomSheetBehavior emojiBehavior;
-    private RecyclerView emojiView;
 
     private SaveTootHelper saveTootHelper;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -217,7 +218,7 @@ public final class ComposeActivity
         charactersLeft = findViewById(R.id.composeCharactersLeftView);
         tootButton = findViewById(R.id.composeTootButton);
         pickButton = findViewById(R.id.composeAddMediaButton);
-        visibilityBtn = findViewById(R.id.composeToggleVisibilityButton);
+        visibilityButton = findViewById(R.id.composeToggleVisibilityButton);
         contentWarningButton = findViewById(R.id.composeContentWarningButton);
         emojiButton = findViewById(R.id.composeEmojiButton);
         hideMediaToggle = findViewById(R.id.composeHideMediaButton);
@@ -291,7 +292,7 @@ public final class ComposeActivity
         // Setup the interface buttons.
         tootButton.setOnClickListener(v -> onSendClicked());
         pickButton.setOnClickListener(v -> openPickDialog());
-        visibilityBtn.setOnClickListener(v -> showComposeOptions());
+        visibilityButton.setOnClickListener(v -> showComposeOptions());
         contentWarningButton.setOnClickListener(v-> onContentWarningChanged());
         emojiButton.setOnClickListener(v -> showEmojis());
         hideMediaToggle.setOnClickListener(v -> toggleHideMedia());
@@ -620,7 +621,7 @@ public final class ComposeActivity
 
     private void disableButtons() {
         pickButton.setClickable(false);
-        visibilityBtn.setClickable(false);
+        visibilityButton.setClickable(false);
         emojiButton.setClickable(false);
         hideMediaToggle.setClickable(false);
         tootButton.setEnabled(false);
@@ -628,7 +629,7 @@ public final class ComposeActivity
 
     private void enableButtons() {
         pickButton.setClickable(true);
-        visibilityBtn.setClickable(true);
+        visibilityButton.setClickable(true);
         emojiButton.setClickable(true);
         hideMediaToggle.setClickable(true);
         tootButton.setEnabled(true);
@@ -643,7 +644,7 @@ public final class ComposeActivity
             case PUBLIC: {
                 Drawable globe = AppCompatResources.getDrawable(this, R.drawable.ic_public_24dp);
                 if (globe != null) {
-                    visibilityBtn.setImageDrawable(globe);
+                    visibilityButton.setImageDrawable(globe);
                 }
                 break;
             }
@@ -651,14 +652,14 @@ public final class ComposeActivity
                 Drawable lock = AppCompatResources.getDrawable(this,
                         R.drawable.ic_lock_outline_24dp);
                 if (lock != null) {
-                    visibilityBtn.setImageDrawable(lock);
+                    visibilityButton.setImageDrawable(lock);
                 }
                 break;
             }
             case DIRECT: {
                 Drawable envelope = AppCompatResources.getDrawable(this, R.drawable.ic_email_24dp);
                 if (envelope != null) {
-                    visibilityBtn.setImageDrawable(envelope);
+                    visibilityButton.setImageDrawable(envelope);
                 }
                 break;
             }
@@ -666,7 +667,7 @@ public final class ComposeActivity
             default: {
                 Drawable openLock = AppCompatResources.getDrawable(this, R.drawable.ic_lock_open_24dp);
                 if (openLock != null) {
-                    visibilityBtn.setImageDrawable(openLock);
+                    visibilityButton.setImageDrawable(openLock);
                 }
                 break;
             }
@@ -695,17 +696,43 @@ public final class ComposeActivity
         }
     }
 
+    private void openPickDialog() {
+        if (addMediaBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || addMediaBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            addMediaBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        } else {
+            addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+
+    }
+
+    private void onMediaPick() {
+        addMediaBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        } else {
+            initiateMediaPicking();
+        }
+    }
+
+    @Override
     public void onVisibilityChanged(@NonNull Status.Visibility visibility) {
         composeOptionsBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         setStatusVisibility(visibility);
     }
 
     private void updateVisibleCharactersLeft() {
-        int left = STATUS_CHARACTER_LIMIT - textEditor.length();
+        int charactersLeft = STATUS_CHARACTER_LIMIT - textEditor.length();
         if (statusHideText) {
-            left -= contentWarningEditor.length();
+            charactersLeft -= contentWarningEditor.length();
         }
-        charactersLeft.setText(String.format(Locale.getDefault(), "%d", left));
+        this.charactersLeft.setText(String.format(Locale.getDefault(), "%d", charactersLeft));
     }
 
     public void onContentWarningChanged() {
@@ -723,8 +750,7 @@ public final class ComposeActivity
         final String[] mimeTypes = new String[]{"image/*"};
         textEditor.setMimeTypes(mimeTypes,
                 (inputContentInfo, flags, opts) ->
-                        ComposeActivity.this.onCommitContent(inputContentInfo, flags,
-                                mimeTypes));
+                        onCommitContent(inputContentInfo, flags, mimeTypes));
     }
 
     private boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags,
@@ -806,24 +832,6 @@ public final class ComposeActivity
 
     }
 
-    private void onSendFailure(@Nullable Response<Status> response) {
-        enableButtons();
-
-        if (response != null && inReplyToId != null && response.code() == 404) {
-            new AlertDialog.Builder(this)
-                    .setMessage(R.string.dialog_reply_not_found)
-                    .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                        inReplyToId = null;
-                        replyContentTextView.setVisibility(View.GONE);
-                        replyTextView.setVisibility(View.GONE);
-                    })
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .show();
-        } else {
-            textEditor.setError(getString(R.string.error_generic));
-        }
-    }
-
     private void readyStatus(final Status.Visibility visibility, final boolean sensitive) {
         finishingUploadDialog = ProgressDialog.show(
                 this, getString(R.string.dialog_title_finishing_media_upload),
@@ -894,32 +902,6 @@ public final class ComposeActivity
         doErrorDialog(R.string.error_media_upload_sending, R.string.action_retry,
                 v -> readyStatus(visibility, sensitive));
         enableButtons();
-    }
-
-    private void openPickDialog() {
-
-        if (addMediaBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || addMediaBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-            addMediaBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-            emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
-        } else {
-            addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        }
-
-    }
-
-    private void onMediaPick() {
-        addMediaBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-        } else {
-            initiateMediaPicking();
-        }
     }
 
     @Override
@@ -1513,7 +1495,6 @@ public final class ComposeActivity
         }
     }
 
-    @SuppressWarnings("WeakerAccess")
     public static final class IntentBuilder {
         @Nullable
         private Integer savedTootUid;
