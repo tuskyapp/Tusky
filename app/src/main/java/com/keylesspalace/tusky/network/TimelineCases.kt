@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.network
 
 import android.content.Intent
 import android.support.v4.content.LocalBroadcastManager
+import com.keylesspalace.tusky.appstore.AppStore
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.receiver.TimelineReceiver

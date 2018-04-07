@@ -23,6 +23,8 @@ import android.preference.PreferenceManager
 import android.support.v4.content.LocalBroadcastManager
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TuskyApplication
+import com.keylesspalace.tusky.appstore.AppStore
+import com.keylesspalace.tusky.appstore.AppStoreImpl
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
@@ -65,4 +67,8 @@ class AppModule {
     fun providesAccountManager(app: TuskyApplication): AccountManager {
         return app.serviceLocator.get(AccountManager::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun providesAppStore(): AppStore = AppStoreImpl
 }

@@ -37,6 +37,9 @@ import android.view.ViewGroup;
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.ThreadAdapter;
+import com.keylesspalace.tusky.appstore.AppStore;
+import com.keylesspalace.tusky.appstore.ReblogEvent;
+import com.keylesspalace.tusky.appstore.FavoriteEvent;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
@@ -62,7 +65,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ViewThreadFragment extends SFragment implements
+public final class ViewThreadFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, Injectable {
     private static final String TAG = "ViewThreadFragment";
 
@@ -70,6 +73,8 @@ public class ViewThreadFragment extends SFragment implements
     public TimelineCases timelineCases;
     @Inject
     public MastodonApi mastodonApi;
+    @Inject
+    public AppStore appStore;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -144,6 +149,8 @@ public class ViewThreadFragment extends SFragment implements
         LocalBroadcastManager.getInstance(context.getApplicationContext())
                 .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(null));
 
+
+
         return rootView;
     }
 
@@ -195,6 +202,7 @@ public class ViewThreadFragment extends SFragment implements
 
                     statuses.setPairedItem(position, newViewData);
                     adapter.setItem(position, newViewData, true);
+                    appStore.dispatch(new ReblogEvent(status.getId(), reblog));
                 }
             }
 
@@ -228,6 +236,7 @@ public class ViewThreadFragment extends SFragment implements
 
                     statuses.setPairedItem(position, newViewData);
                     adapter.setItem(position, newViewData, true);
+                    appStore.dispatch(new FavoriteEvent(status.getId(), favourite));
                 }
             }
 
