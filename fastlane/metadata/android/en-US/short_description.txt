@@ -1,0 +1,1 @@
+Tusky is a client for the social network Mastodon
