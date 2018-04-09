@@ -40,7 +40,6 @@ public class SaveTootHelper {
         this.context = context;
     }
 
-
     @SuppressLint("StaticFieldLeak")
     public boolean saveToot(@NonNull String content,
                              @NonNull String contentWarning,
@@ -94,6 +93,29 @@ public class SaveTootHelper {
             }
         }.execute();
         return true;
+    }
+
+    public void deleteDraft(int tootId) {
+        TootEntity item = tootDao.find(tootId);
+        if(item != null) {
+            deleteDraft(item);
+        }
+    }
+
+    public void deleteDraft(@NonNull TootEntity item){
+        // Delete any media files associated with the status.
+        ArrayList<String> uris = new Gson().fromJson(item.getUrls(),
+                new TypeToken<ArrayList<String>>() {}.getType());
+        if (uris != null) {
+            for (String uriString : uris) {
+                Uri uri = Uri.parse(uriString);
+                if (context.getContentResolver().delete(uri, null, null) == 0) {
+                    Log.e(TAG, String.format("Did not delete file %s.", uriString));
+                }
+            }
+        }
+        // update DB
+        tootDao.delete(item.getUid());
     }
 
     @Nullable

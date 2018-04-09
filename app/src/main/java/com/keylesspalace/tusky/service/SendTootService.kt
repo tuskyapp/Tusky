@@ -156,7 +156,9 @@ class SendTootService: Service(), Injectable {
                     LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
 
                     // If the status was loaded from a draft, delete the draft and associated media files.
-                    // TODO
+                    if(tootToSend.savedTootUid != 0) {
+                        saveTootHelper.deleteDraft(tootToSend.savedTootUid)
+                    }
 
                     if (tootsToSend.isEmpty()) {
                         ServiceCompat.stopForeground(this@SendTootService, ServiceCompat.STOP_FOREGROUND_REMOVE)
@@ -164,7 +166,6 @@ class SendTootService: Service(), Injectable {
                     }
 
                     notificationManager.cancel(tootId)
-
 
                 } else {
                     // the server refused to accept the toot, save toot & show error message

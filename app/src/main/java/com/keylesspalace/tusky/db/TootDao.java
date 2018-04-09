@@ -38,4 +38,7 @@ public interface TootDao {
 
     @Query("DELETE FROM TootEntity WHERE uid = :uid")
     int delete(int uid);
+
+    @Query("SELECT * FROM TootEntity WHERE uid = :uid")
+    TootEntity find(int uid);
 }
