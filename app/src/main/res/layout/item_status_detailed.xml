@@ -60,7 +60,7 @@
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
         android:textIsSelectable="true"
-        android:textSize="?attr/status_text_medium"
+        android:textSize="?attr/status_text_large"
         tools:text="CW this is a long long long long long long long long content warning" />
 
     <ToggleButton
@@ -68,20 +68,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/status_content_warning_description"
-        android:layout_centerHorizontal="true"
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
         android:background="?attr/content_warning_button"
         android:minHeight="0dp"
         android:minWidth="150dp"
-        android:paddingBottom="6dp"
+        android:paddingBottom="4dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="6dp"
+        android:paddingTop="4dp"
         android:textAllCaps="true"
         android:textOff="@string/status_content_warning_show_more"
         android:textOn="@string/status_content_warning_show_less"
-        android:textSize="?attr/status_text_medium" />
+        android:textSize="?attr/status_text_large" />
 
     <TextView
         android:id="@+id/status_content"

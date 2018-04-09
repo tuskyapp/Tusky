@@ -17,7 +17,7 @@
 
     <string name="error_media_upload_image_or_video">Bilder und Videos können beide nicht an den Beitrag angehängt werden.</string>
     <string name="error_media_upload_sending">Die Mediendatei konnte nicht hochgeladen werden.</string>
-    <string name="error_report_too_few_statuses">Mindestens ein Beitrag muss berichtet werden.</string>
+    <string name="error_report_too_few_statuses">Mindestens ein Beitrag muss gemeldet werden.</string>
 
     <string name="title_home">Start</string>
     <string name="title_notifications">Benachrichtigungen</string>
@@ -38,7 +38,7 @@
     <string name="status_content_warning_show_more">Zeige mehr</string>
     <string name="status_content_warning_show_less">Zeige weniger</string>
 
-    <string name="footer_empty">Noch keine Toots hier! Ziehe nach unten um zu aktualisieren!</string>
+    <string name="footer_empty">Noch keine Beiträge hier! Ziehe nach unten um zu aktualisieren!</string>
 
     <string name="notification_reblog_format">%s teilte deinen Beitrag</string>
     <string name="notification_favourite_format">%s favorisierte deinen Beitrag</string>
@@ -82,8 +82,8 @@
     <string name="action_save">Speichern</string>
     <string name="action_edit_profile">Profil bearbeiten</string>
 
-    <string name="send_status_link_to">Toot-Link teilen</string>
-    <string name="send_status_content_to">Toot-Inhalt teilen</string>
+    <string name="send_status_link_to">Beitragslink teilen</string>
+    <string name="send_status_content_to">Beitragsinhalt teilen</string>
 
     <string name="confirmation_reported">Gesendet!</string>
 
@@ -114,7 +114,7 @@
 
     <string name="visibility_public">Öffentlich: Für jedermann sichtbar</string>
     <string name="visibility_unlisted">Ungelistet: Nicht in der öffentlichen Timeline sichtbar</string>
-    <string name="visibility_private">Nur Folgende: Nur für Follower sichtbar</string>
+    <string name="visibility_private">Nur Folgende: Nur für Folgende sichtbar</string>
     <string name="visibility_direct">Direkt: Nur für erwähnte Nutzer sichtbar</string>
 
     <string name="pref_title_notification_settings">Benachrichtigungen</string>
@@ -169,15 +169,15 @@
     <string name="action_view_mutes">Stummgeschaltene Accounts</string>
     <string name="confirmation_unblocked">entblockt</string>
     <string name="title_mutes">Stummgeschaltene Nutzer</string>
-    <string name="title_follow_requests">Followanfragen</string>
+    <string name="title_follow_requests">Folgeanfrage</string>
     <string name="status_share_link">Link teilen</string>
     <string name="status_share_content">Inhalt teilen</string>
     <string name="action_accept">Akzeptieren</string>
     <string name="action_reject">Ablehnen</string>
-    <string name="action_view_follow_requests">Followanfragen</string>
-    <string name="state_follow_requested">Followanfrage gesendet</string>
+    <string name="action_view_follow_requests">Folgeanfragen</string>
+    <string name="state_follow_requested">Folgeanfrage gesendet</string>
     <string name="confirmation_unmuted">Stummschaltung aufgehoben</string>
-    <string name="dialog_message_follow_request">Followanfrage gesendet: Warten auf Antwort</string>
+    <string name="dialog_message_follow_request">Folgeanfrage gesendet: Warten auf Antwort</string>
     <string name="title_edit_profile">Dein Profil bearbeiten</string>
     <string name="login_connection">Verbinden…</string>
 
@@ -207,13 +207,13 @@
     <string name="no_content">leer</string>
     <string name="action_hide_media">Verstecke Medien</string>
     <string name="pref_title_status_filter">Timeline-Filter</string>
-    <string name="title_saved_toot">Gespeicherte Tröts</string>
+    <string name="title_saved_toot">Gespeicherte Beiträge</string>
 
     <string name="follows_you">Folgt dir</string>
     <string name="action_copy_link">Link kopieren</string>
     <string name="download_image">%1$s heruntergeladen</string>
     <string name="dialog_unfollow_warning">Willst du diesem Account wirklich nicht mehr folgen?</string>
-    <string name="pref_title_alway_show_sensitive_media">NSFW-Inhalte immer anzeigen</string>
+    <string name="pref_title_alway_show_sensitive_media">Heikle Inhalte immer anzeigen</string>
     <string name="notification_channel_boost_name">Geteilte Beiträge</string>
     <string name="notification_channel_boost_description">Benachrichtigungen wenn deine Beiträge geteilt werden</string>
     <string name="notification_channel_favourite_description">Benachrichtigungen wenn deine Beiträge favorisiert werden</string>
