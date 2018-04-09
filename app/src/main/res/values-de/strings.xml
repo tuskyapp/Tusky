@@ -87,7 +87,7 @@
     <string name="send_status_link_to">Beitragslink teilen</string>
     <string name="send_status_content_to">Beitragsinhalt teilen</string>
 
-    <string name="confirmation_send">Toot!</string>
+    <string name="confirmation_send">Teilen!</string>
     <string name="confirmation_reported">Gesendet!</string>
 
     <string name="hint_domain">Welche Instanz?</string>
