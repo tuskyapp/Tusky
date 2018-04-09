@@ -60,7 +60,6 @@
     <string name="action_send">Toot</string>
     <string name="action_send_public">TOOT!</string>
     <string name="action_retry">Opnieuw proberen</string>
-    <string name="action_hide_text">Tekst achter waarschuwing verbergen</string>
     <string name="action_close">Sluiten</string>
     <string name="action_view_profile">Profiel</string>
     <string name="action_view_preferences">Voorkeuren</string>
@@ -77,7 +76,6 @@
     <string name="action_unmute">Niet meer negeren</string>
     <string name="action_mention">Vermelden</string>
     <string name="action_hide_media">Media verbergen</string>
-    <string name="action_compose_options">Opties</string>
     <string name="action_open_drawer">Menu openen</string>
     <string name="action_save">Save</string>
     <string name="action_edit_profile">Profiel bewerken</string>
@@ -90,7 +88,6 @@
     <string name="action_copy_link">Link kopiëren</string>
     <string name="send_status_link_to">Link van toot delen</string>
     <string name="send_status_content_to">Inhoud van toot delen</string>
-    <string name="confirmation_send">Toot!</string>
     <string name="confirmation_reported">Verzenden!</string>
     <string name="confirmation_unblocked">Gebruiker is gedeblokkeerd</string>
     <string name="confirmation_unmuted">Gebruiker wordt niet meer genegeerd</string>
@@ -181,7 +178,6 @@
     <string name="status_media_video">Video</string>
     <string name="state_follow_requested">Volgverzoek verzonden</string>
     <string name="no_content">geen inhoud</string>
-    <string name="action_save_one_toot">Toot opgeslagen!</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">over %dj</string>

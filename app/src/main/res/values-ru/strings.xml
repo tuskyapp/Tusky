@@ -71,7 +71,6 @@
     <string name="action_send">ТРУБИТЬ</string>
     <string name="action_send_public">ТРУБИТЬ!</string>
     <string name="action_retry">Повторить</string>
-    <string name="action_hide_text">Скрыть текст за предупреждением</string>
     <string name="action_close">Закрыть</string>
     <string name="action_view_profile">Профиль</string>
     <string name="action_view_preferences">Настройки</string>
@@ -88,7 +87,6 @@
     <string name="action_unmute">Отменить глушение</string>
     <string name="action_mention">Упомянуть</string>
     <string name="action_hide_media">Скрыть медиаконтент</string>
-    <string name="action_compose_options">Опции</string>
     <string name="action_open_drawer">Нарисовать</string>
     <string name="action_save">Сохранить</string>
     <string name="action_edit_profile">Редактировать профиль</string>
@@ -105,7 +103,6 @@
     <string name="send_status_link_to">Поделиться ссылкой статуса</string>
     <string name="send_status_content_to">Поделиться статусом</string>
 
-    <string name="confirmation_send">Трубить!</string>
     <string name="confirmation_reported">Отправить!</string>
     <string name="confirmation_unblocked">Пользователь разблокирован</string>
     <string name="confirmation_unmuted">Глушение снято</string>
@@ -132,7 +129,6 @@
     <string name="dialog_download_image">Скачать</string>
     <string name="dialog_message_follow_request">Статус запроса на подписку: ожидается ответ</string>
     <string name="dialog_unfollow_warning">Отписаться от этого аккаунта?</string>
-    <string name="dialog_reply_not_found">Не удалось опубликовать статус. Статус, на который вы отвечаете, может быть недоступен. Убрать информацию об ответе?</string>
 
     <string name="visibility_public">Публичный: Показать в публичных лентах</string>
     <string name="visibility_unlisted">Скрытый: Не показывать в лентах</string>
@@ -242,7 +238,6 @@
     <string name="state_follow_requested">Запрошенные подписки</string>
 
     <string name="no_content">ничего нет</string>
-    <string name="action_save_one_toot">Пост сохранён!</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">через %dг</string>

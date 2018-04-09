@@ -66,7 +66,6 @@
     <string name="action_send">POUET</string>
     <string name="action_send_public">POUET !</string>
     <string name="action_retry">Réessayer</string>
-    <string name="action_hide_text">Masquer le texte par une mise en garde.</string>
     <string name="action_close">Fermer</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Préférences</string>
@@ -80,8 +79,6 @@
     <string name="action_mute">Rendre muet</string>
     <string name="action_unmute">Redonner la parole</string>
     <string name="action_mention">Mention</string>
-    <!--<string name="action_mark_sensitive">Mark media sensitive</string>-->
-    <string name="action_compose_options">Options</string>
     <string name="action_open_drawer">Ouvrir le menu</string>
     <string name="action_save">Sauvegarder</string>
     <string name="action_edit_profile">Modifier le profil</string>
@@ -98,7 +95,6 @@
     <string name="send_status_content_to">Partager le pouet avec…</string>
     <string name="download_image">Téléchargement de %1$s</string>
 
-    <string name="confirmation_send">Pouet !</string>
     <string name="confirmation_reported">Envoyé !</string>
 
     <string name="hint_domain">Quelle instance ?</string>
@@ -244,9 +240,6 @@
     <string name="status_media_images">Images</string>
     <string name="status_media_video">Videos</string>
     <string name="no_content">aucun contenu</string>
-    <string name="action_save_one_toot">Pouet enregistré!</string>
-
-    <string name="dialog_reply_not_found">Impssible de poster ce status. Le status auquel vous répondez peut ne plus être disponible. Supprimer la réponse?</string>
 
     <string name="action_logout_confirm">Êtes vous certain de vouloir déconnecter le compte %1$s?</string>
 

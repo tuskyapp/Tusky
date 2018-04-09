@@ -79,7 +79,6 @@
     <string name="action_send">Wyślij</string>
     <string name="action_send_public">Wyślij!</string>
     <string name="action_retry">Spróbuj ponownie</string>
-    <string name="action_hide_text">Ukryj tekst przed ostrzeżeniem</string>
     <string name="action_close">Zamknij</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Preferencje</string>
@@ -96,7 +95,6 @@
     <string name="action_unmute">Cofnij wyciszenie</string>
     <string name="action_mention">Wspomnij</string>
     <string name="action_hide_media">Ukryj zawartość multimedialną</string>
-    <string name="action_compose_options">Opcje</string>
     <string name="action_open_drawer">Otwórz szufladę</string>
     <string name="action_save">Zapisz</string>
     <string name="action_edit_profile">Edytuj profil</string>
@@ -111,7 +109,6 @@
     <string name="send_status_content_to">Udostępnij wpis do…</string>
 
 
-    <string name="confirmation_send">Wyślij!</string>
     <string name="confirmation_reported">Wyślij!</string>
     <string name="confirmation_unblocked">Odblokowano użytkownika</string>
     <string name="confirmation_unmuted">Cofnięto wyciszenie użytkownika</string>
@@ -152,7 +149,6 @@
     <string name="dialog_download_image">Pobierz</string>
     <string name="dialog_message_follow_request">Oczekująca prośba o możliwość śledzenia: oczekiwanie na odpowiedź</string>
     <string name="dialog_unfollow_warning">Czy chcesz przestać śledzić to konto?</string>
-    <string name="dialog_reply_not_found">Nie można opublikować wpisu. Wpis na który odpisujesz mógł zostać usunięty. Chcesz opublikować wpis normalnie?</string>
 
 
     <string name="visibility_public">Publiczne: Opublikuj na publicznych osiach czasu</string>
@@ -272,7 +268,6 @@
 
 
     <string name="no_content">brak zawartości</string>
-    <string name="action_save_one_toot">Zapisano wpis!</string>
 
 
     <string name="abbreviated_in_years">w %dy</string>

@@ -69,7 +69,6 @@
     <string name="action_send">TOOT</string>
     <string name="action_send_public">TOOT!</string>
     <string name="action_retry">Torna a intentar-ho</string>
-    <string name="action_hide_text">Amaga el text amb un avís</string>
     <string name="action_close">Tanca</string>
     <string name="action_view_profile">Perfil</string>
     <string name="action_view_preferences">Preferències</string>
@@ -86,7 +85,6 @@
     <string name="action_unmute">Deixa de silenciar</string>
     <string name="action_mention">Menciona</string>
     <string name="action_hide_media">Amaga el multimèdia</string>
-    <string name="action_compose_options">Opcions</string>
     <string name="action_open_drawer">Open drawer</string>
     <string name="action_save">Desa</string>
     <string name="action_edit_profile">Edita el perfil</string>
@@ -103,7 +101,6 @@
     <string name="send_status_link_to">Comparteix l\'URL del toot a...</string>
     <string name="send_status_content_to">Comparteix el toot a...</string>
 
-    <string name="confirmation_send">Toot!</string>
     <string name="confirmation_reported">Enviat!</string>
     <string name="confirmation_unblocked">Usuari desblocat</string>
     <string name="confirmation_unmuted">Usuari sense silenciar</string>
@@ -137,7 +134,6 @@
     <string name="dialog_download_image">Baixa</string>
     <string name="dialog_message_follow_request">Follow request pending: awaiting their response</string>
     <string name="dialog_unfollow_warning">Vols deixar de seguir aquest compte?</string>
-    <string name="dialog_reply_not_found">Couldn\'t post this status. The status you\'re replying to might not be available. Remove reply info?</string>
 
     <string name="visibility_public">Pública: és visible a la cronologia pública</string>
     <string name="visibility_unlisted">Sense llistar: no és visible a les cronologies públiques</string>
@@ -236,7 +232,6 @@
     <string name="state_follow_requested">Follow requested</string>
 
     <string name="no_content">no hi ha cap contingut</string>
-    <string name="action_save_one_toot">S\'ha desat el toot!</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">en %d anys</string>

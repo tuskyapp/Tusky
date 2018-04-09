@@ -66,7 +66,6 @@
     <string name="action_send">İLET</string>
     <string name="action_send_public">İLET!</string>
     <string name="action_retry">Tekrar dene</string>
-    <string name="action_hide_text">İçerik uyarıyla gizlensin</string>
     <string name="action_close">Kapat</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Ayarlar</string>
@@ -81,8 +80,6 @@
     <string name="action_mute">Sesize al</string>
     <string name="action_unmute">Sesizden kaldır</string>
     <string name="action_mention">Bahset</string>
-    <!--<string name="action_mark_sensitive">Mark media sensitive</string>-->
-    <string name="action_compose_options">Seçenekler</string>
     <string name="action_open_drawer">Çekmece aç</string>
     <string name="action_save">Kaydet</string>
     <string name="action_edit_profile">Profili düzelt</string>
@@ -93,7 +90,6 @@
     <string name="send_status_link_to">İletinin adresini paylaş…</string>
     <string name="send_status_content_to">İletiyi paylaş…</string>
 
-    <string name="confirmation_send">İlet!</string>
     <string name="confirmation_reported">İletildi!</string>
 
     <string name="hint_domain">Hangi sunucu?</string>

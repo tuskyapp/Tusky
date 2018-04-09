@@ -66,7 +66,6 @@
     <string name="action_send">TÜLK</string>
     <string name="action_send_public">TÜLK!</string>
     <string name="action_retry">Próbálja újra</string>
-    <string name="action_hide_text">Szöveg figyelmeztetés mögé helyezése</string>
     <string name="action_close">Bezár</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Preferenciák</string>
@@ -83,7 +82,6 @@
     <string name="action_unmute">Kinémítás</string>
     <string name="action_mention">Megemlítés</string>
     <string name="action_hide_media">Média elrejtése</string>
-    <string name="action_compose_options">Beállítások</string>
     <string name="action_open_drawer">Drawer megnyitása</string>
     <string name="action_save">Mentés</string>
     <string name="action_edit_profile">Profil szerkesztése</string>
@@ -100,7 +98,6 @@
     <string name="send_status_link_to">Tülk URL megosztása…</string>
     <string name="send_status_content_to">Tülk megosztása…</string>
 
-    <string name="confirmation_send">Tülk!</string>
     <string name="confirmation_reported">Elküldve!</string>
     <string name="confirmation_unblocked">Felhasználó deblokkolva</string>
     <string name="confirmation_unmuted">Felhasználó kinémítva</string>
@@ -201,7 +198,6 @@
     <string name="state_follow_requested">Követés kérelmezve</string>
 
     <string name="no_content">nincs tartalom</string>
-    <string name="action_save_one_toot">Tülk mentve!</string>
 
     <string name="follows_you">Követ téged</string>
     <string name="pref_title_alway_show_sensitive_media">Mindig mutassa a NSFW tartalmat</string>

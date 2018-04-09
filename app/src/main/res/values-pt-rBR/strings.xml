@@ -69,7 +69,6 @@
     <string name="action_send">TOOT</string>
     <string name="action_send_public">TOOT!</string>
     <string name="action_retry">Tentar novamente</string>
-    <string name="action_hide_text">Esconder texto com aviso de conteúdo</string>
     <string name="action_close">Fechar</string>
     <string name="action_view_profile">Perfil</string>
     <string name="action_view_preferences">Preferências</string>
@@ -86,7 +85,6 @@
     <string name="action_unmute">Retirar silêncio</string>
     <string name="action_mention">Mencionar</string>
     <string name="action_hide_media">Esconder mídia</string>
-    <string name="action_compose_options">Opções</string>
     <string name="action_open_drawer">Abrir gaveta</string>
     <string name="action_save">Salvar</string>
     <string name="action_edit_profile">Editar perfil</string>
@@ -103,7 +101,6 @@
     <string name="send_status_link_to">Compartilhar URL do toot no…</string>
     <string name="send_status_content_to">Compartilhar toot no…</string>
 
-    <string name="confirmation_send">Toot!</string>
     <string name="confirmation_reported">Enviado!</string>
     <string name="confirmation_unblocked">Usuário desbloqueado</string>
     <string name="confirmation_unmuted">Silêncio retirado</string>
@@ -209,7 +206,6 @@
     <string name="state_follow_requested">Solicitação enviada</string>
 
     <string name="no_content">sem conteúdo</string>
-    <string name="action_save_one_toot">Toot salvo!</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">em %dy</string>

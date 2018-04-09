@@ -71,7 +71,6 @@
     <string name="action_send">發嘟</string>
     <string name="action_send_public">發嘟</string>
     <string name="action_retry">重試</string>
-    <string name="action_hide_text">隱藏文字內容</string>
     <string name="action_close">關閉</string>
     <string name="action_view_profile">個人資料</string>
     <string name="action_view_preferences">設置</string>
@@ -88,7 +87,6 @@
     <string name="action_unmute">取消隱藏</string>
     <string name="action_mention">提及</string>
     <string name="action_hide_media">隱藏媒體文件</string>
-    <string name="action_compose_options">選項</string>
     <string name="action_open_drawer">打開應用抽屜</string>
     <string name="action_save">保存</string>
     <string name="action_edit_profile">編輯個人資料</string>
@@ -105,7 +103,6 @@
     <string name="send_status_link_to">分享鏈接到…</string>
     <string name="send_status_content_to">分享嘟文到…</string>
 
-    <string name="confirmation_send">嘟文已發送！</string>
     <string name="confirmation_reported">報告已發送！</string>
     <string name="confirmation_unblocked">用户已被屏蔽</string>
     <string name="confirmation_unmuted">用户已被隱藏</string>
@@ -136,7 +133,6 @@
     <string name="dialog_download_image">下載</string>
     <string name="dialog_message_follow_request">關注請求已發送，等待對方回覆</string>
     <string name="dialog_unfollow_warning">不再關注此用户？</string>
-    <string name="dialog_reply_not_found">回覆發表失敗，被回覆的嘟文不可用。是否轉換成普通嘟文？</string>
 
     <string name="visibility_public">公開：所有人可見，並會出現在公共時間軸上</string>
     <string name="visibility_unlisted">不公開：所有人可見，但不會出現在公共時間軸上</string>
@@ -247,7 +243,6 @@
     <string name="state_follow_requested">已發送關注請求</string>
 
     <string name="no_content">無內容</string>
-    <string name="action_save_one_toot">嘟文已保存。</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%d 年內</string>
