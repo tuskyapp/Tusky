@@ -217,7 +217,7 @@
     <string name="action_copy_link">Link kopieren</string>
     <string name="download_image">%1$s heruntergeladen</string>
     <string name="dialog_unfollow_warning">Willst du diesem Account wirklich nicht mehr folgen?</string>
-    <string name="pref_title_alway_show_sensitive_media">NSFW-Inhalte immer anzeigen</string>
+    <string name="pref_title_alway_show_sensitive_media">Heikle Inhalte immer anzeigen</string>
     <string name="notification_channel_boost_name">Geteilte Beiträge</string>
     <string name="notification_channel_boost_description">Benachrichtigungen wenn deine Beiträge geteilt werden</string>
     <string name="notification_channel_favourite_description">Benachrichtigungen wenn deine Beiträge favorisiert werden</string>
