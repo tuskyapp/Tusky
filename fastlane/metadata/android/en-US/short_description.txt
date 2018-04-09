@@ -1,1 +1,1 @@
-Tusky is a client for the social network Mastodon
+A multi account client for the social network Mastodon
