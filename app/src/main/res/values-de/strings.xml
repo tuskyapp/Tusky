@@ -117,7 +117,7 @@
 
     <string name="visibility_public">Öffentlich: Für jedermann sichtbar</string>
     <string name="visibility_unlisted">Ungelistet: Nicht in der öffentlichen Timeline sichtbar</string>
-    <string name="visibility_private">Nur Folgende: Nur für Follower sichtbar</string>
+    <string name="visibility_private">Nur Folgende: Nur für Folgende sichtbar</string>
     <string name="visibility_direct">Direkt: Nur für erwähnte Nutzer sichtbar</string>
 
     <string name="pref_title_notification_settings">Benachrichtigungen</string>
