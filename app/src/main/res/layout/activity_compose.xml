@@ -230,6 +230,18 @@
             android:tooltipText="@string/action_toggle_visibility"
             tools:src="@drawable/ic_public_24dp" />
 
+        <ImageButton
+            android:id="@+id/composeHideMediaButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/action_hide_media"
+            android:padding="4dp"
+            android:tooltipText="@string/action_hide_media"
+            android:visibility="gone"
+            tools:src="@drawable/ic_eye_24dp" />
+
         <Button
             android:id="@+id/composeContentWarningButton"
             style="?attr/image_button_style"
@@ -252,18 +264,6 @@
             android:padding="4dp"
             android:tooltipText="@string/action_emoji_keyboard"
             app:srcCompat="@drawable/ic_emoji_24dp" />
-
-        <ImageButton
-            android:id="@+id/composeHideMediaButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="4dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/action_hide_media"
-            android:padding="4dp"
-            android:tooltipText="@string/action_hide_media"
-            android:visibility="gone"
-            tools:src="@drawable/ic_eye_24dp" />
 
         <android.support.v4.widget.Space
             android:layout_width="0dp"

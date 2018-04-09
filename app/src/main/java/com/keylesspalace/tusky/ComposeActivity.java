@@ -614,6 +614,8 @@ public final class ComposeActivity
     }
 
     private void updateHideMediaToggle() {
+        TransitionManager.beginDelayedTransition((ViewGroup)hideMediaToggle.getParent());
+
         @ColorInt int color;
         if(mediaQueued.size() == 0) {
             hideMediaToggle.setVisibility(View.GONE);
