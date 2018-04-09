@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
@@ -16,7 +15,6 @@ import android.webkit.MimeTypeMap;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.keylesspalace.tusky.BuildConfig;
-import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.entity.Status;
@@ -28,9 +26,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class SaveTootHelper {
+public final class SaveTootHelper {
 
-    public static final String TAG = "SaveTootHelper";
+    private static final String TAG = "SaveTootHelper";
 
     private TootDao tootDao;
     private Context context;
@@ -44,14 +42,14 @@ public class SaveTootHelper {
     public boolean saveToot(@NonNull String content,
                              @NonNull String contentWarning,
                              @Nullable String savedJsonUrls,
-                             @NonNull List<ComposeActivity.QueuedMedia> mediaQueued,
+                             @NonNull List<String> mediaUris,
                              int savedTootUid,
                              @Nullable String inReplyToId,
                              @Nullable String replyingStatusContent,
                              @Nullable String replyingStatusAuthorUsername,
                              @NonNull Status.Visibility statusVisibility) {
 
-        if (TextUtils.isEmpty(content) && mediaQueued.isEmpty()) {
+        if (TextUtils.isEmpty(content) && mediaUris.isEmpty()) {
             return false;
         }
 
@@ -64,8 +62,8 @@ public class SaveTootHelper {
         }
 
         String mediaUrlsSerialized = null;
-        if (!ListUtils.isEmpty(mediaQueued)) {
-            List<String> savedList = saveMedia(mediaQueued, existingUris);
+        if (!ListUtils.isEmpty(mediaUris)) {
+            List<String> savedList = saveMedia(mediaUris, existingUris);
             if (!ListUtils.isEmpty(savedList)) {
                 mediaUrlsSerialized = new Gson().toJson(savedList);
                 if (!ListUtils.isEmpty(existingUris)) {
@@ -119,53 +117,42 @@ public class SaveTootHelper {
     }
 
     @Nullable
-    private List<String> saveMedia(@NonNull List<ComposeActivity.QueuedMedia> mediaQueued,
+    private List<String> saveMedia(@NonNull List<String> mediaUris,
                                    @Nullable List<String> existingUris) {
 
-        File imageDirectory = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File videoDirectory = context.getExternalFilesDir(Environment.DIRECTORY_MOVIES);
-        if (imageDirectory == null || !(imageDirectory.exists() || imageDirectory.mkdirs())) {
-            Log.e(TAG, "Image directory is not created.");
+        File directory = context.getExternalFilesDir("Tusky");
+
+        if (directory == null || !(directory.exists())) {
+            Log.e(TAG, "Error obtaining directory to save media.");
             return null;
         }
-        if (videoDirectory == null || !(videoDirectory.exists() || videoDirectory.mkdirs())) {
-            Log.e(TAG, "Video directory is not created.");
-            return null;
-        }
+
         ContentResolver contentResolver = context.getContentResolver();
         ArrayList<File> filesSoFar = new ArrayList<>();
         ArrayList<String> results = new ArrayList<>();
-        for (ComposeActivity.QueuedMedia item : mediaQueued) {
+        for (String mediaUri : mediaUris) {
             /* If the media was already saved in a previous draft, there's no need to save another
              * copy, just add the existing URI to the results. */
             if (existingUris != null) {
-                String uri = item.uri.toString();
-                int index = existingUris.indexOf(uri);
+                int index = existingUris.indexOf(mediaUri);
                 if (index != -1) {
-                    results.add(uri);
+                    results.add(mediaUri);
                     continue;
                 }
             }
             // Otherwise, save the media.
-            File directory;
-            switch (item.type) {
-                default:
-                case IMAGE:
-                    directory = imageDirectory;
-                    break;
-                case VIDEO:
-                    directory = videoDirectory;
-                    break;
-            }
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
-                    .format(new Date());
-            String mimeType = contentResolver.getType(item.uri);
+
+            Uri uri = Uri.parse(mediaUri);
+
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+
+            String mimeType = contentResolver.getType(uri);
             MimeTypeMap map = MimeTypeMap.getSingleton();
             String fileExtension = map.getExtensionFromMimeType(mimeType);
             String filename = String.format("Tusky_Draft_Media_%s.%s", timeStamp, fileExtension);
             File file = new File(directory, filename);
             filesSoFar.add(file);
-            boolean copied = IOUtils.copyToFile(contentResolver, item.uri, file);
+            boolean copied = IOUtils.copyToFile(contentResolver, uri, file);
             if (!copied) {
                 /* If any media files were created in prior iterations, delete those before
                  * returning. */
@@ -177,8 +164,8 @@ public class SaveTootHelper {
                 }
                 return null;
             }
-            Uri uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID+".fileprovider", file);
-            results.add(uri.toString());
+            Uri resultUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID+".fileprovider", file);
+            results.add(resultUri.toString());
         }
         return results;
     }

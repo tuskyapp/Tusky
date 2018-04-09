@@ -13,7 +13,6 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.app.ServiceCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
-import com.keylesspalace.tusky.ComposeActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.db.AccountEntity
@@ -241,12 +240,12 @@ class SendTootService: Service(), Injectable {
 
         saveTootHelper.saveToot(toot.text,
                 toot.warningText,
-                null,
-                listOf<ComposeActivity.QueuedMedia>(),
+                toot.savedJsonUrls,
+                toot.mediaUris,
                 toot.savedTootUid,
                 toot.inReplyToId,
-                null,
-                null,
+                toot.replyingStatusContent,
+                toot.replyingStatusAuthorUsername,
                 Status.Visibility.byString(toot.visibility))
     }
 
@@ -274,10 +273,14 @@ class SendTootService: Service(), Injectable {
         fun sendTootIntent(context: Context,
                            text: String,
                            warningText: String,
-                           inReplyToId: String?,
                            visibility: Status.Visibility,
                            sensitive: Boolean,
                            mediaIds: List<String>,
+                           mediaUris: List<String>,
+                           inReplyToId: String?,
+                           replyingStatusContent: String?,
+                           replyingStatusAuthorUsername: String?,
+                           savedJsonUrls: String?,
                            account: AccountEntity,
                            savedTootUid: Int
         ): Intent {
@@ -285,7 +288,20 @@ class SendTootService: Service(), Injectable {
 
             val idempotencyKey = StringUtils.randomAlphanumericString(16)
 
-            val tootToSend = TootToSend(text, warningText, inReplyToId, visibility.serverString(), sensitive, mediaIds, account.id, savedTootUid, idempotencyKey, 0)
+            val tootToSend = TootToSend(text,
+                    warningText,
+                    visibility.serverString(),
+                    sensitive,
+                    mediaIds,
+                    mediaUris,
+                    inReplyToId,
+                    replyingStatusContent,
+                    replyingStatusAuthorUsername,
+                    savedJsonUrls,
+                    account.id,
+                    savedTootUid,
+                    idempotencyKey,
+                    0)
 
             intent.putExtra(KEY_TOOT, tootToSend)
 
@@ -298,10 +314,14 @@ class SendTootService: Service(), Injectable {
 @Parcelize
 data class TootToSend(val text: String,
                       val warningText: String,
-                      val inReplyToId: String?,
                       val visibility: String,
                       val sensitive: Boolean,
                       val mediaIds: List<String>,
+                      val mediaUris: List<String>,
+                      val inReplyToId: String?,
+                      val replyingStatusContent: String?,
+                      val replyingStatusAuthorUsername: String?,
+                      val savedJsonUrls: String?,
                       val accountId: Long,
                       val savedTootUid: Int,
                       val idempotencyKey: String,

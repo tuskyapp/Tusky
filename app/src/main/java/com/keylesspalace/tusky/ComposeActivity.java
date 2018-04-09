@@ -825,13 +825,18 @@ public final class ComposeActivity
     private void sendStatus(String content, Status.Visibility visibility, boolean sensitive,
                             String spoilerText) {
         ArrayList<String> mediaIds = new ArrayList<>();
-
+        ArrayList<String> mediaUris = new ArrayList<>();
         for (QueuedMedia item : mediaQueued) {
             mediaIds.add(item.id);
+            mediaUris.add(item.uri.toString());
         }
 
-        Intent sendIntent = SendTootService.sendTootIntent(this, content, spoilerText, inReplyToId,
-                visibility, sensitive, mediaIds, accountManager.getActiveAccount(), savedTootUid);
+        Intent sendIntent = SendTootService.sendTootIntent(this, content, spoilerText,
+                visibility, sensitive, mediaIds, mediaUris, inReplyToId,
+                getIntent().getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
+                getIntent().getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA),
+                getIntent().getStringExtra(SAVED_JSON_URLS_EXTRA),
+                accountManager.getActiveAccount(), savedTootUid);
 
         startService(sendIntent);
 
@@ -1376,10 +1381,15 @@ public final class ComposeActivity
     }
 
     private void saveDraftAndFinish() {
+        ArrayList<String> mediaUris = new ArrayList<>();
+        for (QueuedMedia item : mediaQueued) {
+            mediaUris.add(item.uri.toString());
+        }
+
         saveTootHelper.saveToot(textEditor.getText().toString(),
                 contentWarningEditor.getText().toString(),
                 getIntent().getStringExtra("saved_json_urls"),
-                mediaQueued,
+                mediaUris,
                 savedTootUid,
                 inReplyToId,
                 getIntent().getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
@@ -1410,15 +1420,15 @@ public final class ComposeActivity
     }
 
     public static final class QueuedMedia {
-        public Type type;
-        public ProgressImageView preview;
-        public Uri uri;
-        public String id;
-        public Call<Attachment> uploadRequest;
-        public ReadyStage readyStage;
-        public byte[] content;
-        public long mediaSize;
-        public String description;
+        Type type;
+        ProgressImageView preview;
+        Uri uri;
+        String id;
+        Call<Attachment> uploadRequest;
+        ReadyStage readyStage;
+        byte[] content;
+        long mediaSize;
+        String description;
 
         QueuedMedia(Type type, Uri uri, ProgressImageView preview, long mediaSize,
                     String description) {
