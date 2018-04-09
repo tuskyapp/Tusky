@@ -972,7 +972,12 @@ public final class ComposeActivity
     }
 
     private void initiateMediaPicking() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent intent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        } else {
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+        }
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             intent.setType("image/* video/*");
@@ -1274,10 +1279,15 @@ public final class ComposeActivity
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == MEDIA_PICK_RESULT && data != null) {
-            Uri uri = data.getData();
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode == RESULT_OK && requestCode == MEDIA_PICK_RESULT && intent != null) {
+            Uri uri = intent.getData();
+            if (uri != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                // this is necessary so the SendTootService can access the uri later
+                final int takeFlags = intent.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                getContentResolver().takePersistableUriPermission(uri, takeFlags);
+            }
             long mediaSize = MediaUtils.getMediaSize(getContentResolver(), uri);
             pickMedia(uri, mediaSize);
         } else if (resultCode == RESULT_OK && requestCode == MEDIA_TAKE_PHOTO_RESULT) {
