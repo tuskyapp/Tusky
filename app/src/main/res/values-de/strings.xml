@@ -172,15 +172,15 @@
     <string name="action_view_mutes">Stummgeschaltene Accounts</string>
     <string name="confirmation_unblocked">entblockt</string>
     <string name="title_mutes">Stummgeschaltene Nutzer</string>
-    <string name="title_follow_requests">Followanfragen</string>
+    <string name="title_follow_requests">Folgeanfrage</string>
     <string name="status_share_link">Link teilen</string>
     <string name="status_share_content">Inhalt teilen</string>
     <string name="action_accept">Akzeptieren</string>
     <string name="action_reject">Ablehnen</string>
-    <string name="action_view_follow_requests">Followanfragen</string>
-    <string name="state_follow_requested">Followanfrage gesendet</string>
+    <string name="action_view_follow_requests">Folgeanfragen</string>
+    <string name="state_follow_requested">Folgeanfrage gesendet</string>
     <string name="confirmation_unmuted">Stummschaltung aufgehoben</string>
-    <string name="dialog_message_follow_request">Followanfrage gesendet: Warten auf Antwort</string>
+    <string name="dialog_message_follow_request">Folgeanfrage gesendet: Warten auf Antwort</string>
     <string name="title_edit_profile">Dein Profil bearbeiten</string>
     <string name="login_connection">Verbinden…</string>
 
