@@ -43,7 +43,7 @@ android {
     }
 }
 
-ext.supportLibraryVersion = '27.1.0'
+ext.supportLibraryVersion = '27.1.1'
 ext.daggerVersion = '2.15'
 
 dependencies {
