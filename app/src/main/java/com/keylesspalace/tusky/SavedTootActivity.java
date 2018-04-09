@@ -15,11 +15,15 @@
 
 package com.keylesspalace.tusky;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,6 +36,7 @@ import android.widget.TextView;
 import com.keylesspalace.tusky.adapter.SavedTootAdapter;
 import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
+import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.SaveTootHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
@@ -53,11 +58,26 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
     private List<TootEntity> toots = new ArrayList<>();
     @Nullable private AsyncTask<?, ?, ?> asyncTask;
 
+    private BroadcastReceiver broadcastReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         saveTootHelper = new SaveTootHelper(tootDao, this);
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                fetchToots();
+            }
+        };
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(TimelineReceiver.Types.STATUS_COMPOSED);
+
+        LocalBroadcastManager.getInstance(this)
+                .registerReceiver(broadcastReceiver, intentFilter);
 
         setContentView(R.layout.activity_saved_toot);
 
@@ -95,6 +115,12 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
     protected void onPause() {
         super.onPause();
         if (asyncTask != null) asyncTask.cancel(true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
     }
 
     @Override
