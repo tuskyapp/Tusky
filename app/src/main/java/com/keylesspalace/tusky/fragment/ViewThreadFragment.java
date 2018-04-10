@@ -43,7 +43,6 @@ import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.PairedList;
@@ -68,8 +67,6 @@ public class ViewThreadFragment extends SFragment implements
 
     @Inject
     public TimelineCases timelineCases;
-    @Inject
-    public MastodonApi mastodonApi;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -258,6 +255,11 @@ public class ViewThreadFragment extends SFragment implements
             return;
         }
         super.viewThread(status);
+    }
+
+    @Override
+    public void onViewURL(String url) {
+        super.onViewURL(url);
     }
 
     @Override

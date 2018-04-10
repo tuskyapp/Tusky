@@ -49,7 +49,6 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.CollectionUtil;
@@ -106,8 +105,6 @@ public class NotificationsFragment extends SFragment implements
 
     @Inject
     public TimelineCases timelineCases;
-    @Inject
-    public MastodonApi mastodonApi;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayoutManager layoutManager;
@@ -376,6 +373,11 @@ public class NotificationsFragment extends SFragment implements
     public void onViewThread(int position) {
         Notification notification = notifications.get(position).getAsRight();
         super.viewThread(notification.getStatus());
+    }
+
+    @Override
+    public void onViewURL(String url) {
+        super.onViewURL(url);
     }
 
     @Override

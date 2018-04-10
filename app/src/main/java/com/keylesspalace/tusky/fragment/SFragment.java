@@ -45,12 +45,14 @@ import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Relationship;
+import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.HtmlUtils;
+import com.keylesspalace.tusky.util.LinkHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +77,9 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
     protected String loggedInUsername;
 
     protected abstract TimelineCases timelineCases();
+
+    @Inject
+    protected MastodonApi mastodonApi;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -249,5 +254,32 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         intent.putExtra("status_id", statusId);
         intent.putExtra("status_content", HtmlUtils.toHtml(statusContent));
         startActivity(intent);
+    }
+
+    protected void onViewURL(String url) {
+        Call<SearchResults> call = mastodonApi.search(url, true);
+        call.enqueue(new Callback<SearchResults>() {
+            @Override
+            public void onResponse(@NonNull Call<SearchResults> call, @NonNull Response<SearchResults> response) {
+                if (response.isSuccessful()) {
+                    List<Status> statuses = response.body().getStatuses();
+                    if (statuses != null) {
+                        for (Status status: statuses) {
+                            if (status.getUrl().equals(url)) {
+                                viewThread(status);
+                                return;
+                            }
+                        }
+                    }
+                }
+                LinkHelper.openLink(url, getContext());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SearchResults> call, @NonNull Throwable t) {
+                LinkHelper.openLink(url, getContext());
+            }
+        });
+        callList.add(call);
     }
 }

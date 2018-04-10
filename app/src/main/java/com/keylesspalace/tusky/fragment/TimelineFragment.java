@@ -99,8 +99,6 @@ public class TimelineFragment extends SFragment implements
 
     @Inject
     TimelineCases timelineCases;
-    @Inject
-    MastodonApi mastodonApi;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private TimelineAdapter adapter;
@@ -453,6 +451,11 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void onViewThread(int position) {
         super.viewThread(statuses.get(position).getAsRight());
+    }
+
+    @Override
+    public void onViewURL(String url) {
+        super.onViewURL(url);
     }
 
     @Override
