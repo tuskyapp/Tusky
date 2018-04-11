@@ -263,13 +263,13 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
             public void onResponse(@NonNull Call<SearchResults> call, @NonNull Response<SearchResults> response) {
                 if (response.isSuccessful()) {
                     List<Status> statuses = response.body().getStatuses();
-                    if (statuses != null) {
-                        for (Status status: statuses) {
-                            if (status.getUrl().equals(url)) {
-                                viewThread(status);
-                                return;
-                            }
-                        }
+                    if (statuses != null && !statuses.isEmpty()) {
+                        // According to the mastodon API doc, if the search query is a url,
+                        // only exact matches for statuses or accounts are returned
+                        // which is good, because pleroma returns a different url
+                        // than the public post link
+                        viewThread(statuses.get(0));
+                        return;
                     }
                 }
                 LinkHelper.openLink(url, getContext());

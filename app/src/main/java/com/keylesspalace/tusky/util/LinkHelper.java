@@ -56,6 +56,7 @@ public class LinkHelper {
     }
 
     // https://mastodon.foo.bar/@User/43456787654678
+    // https://pleroma.foo.bar/notice/43456787654678
     private static boolean looksLikeMastodonUrl(String urlString) {
         URI uri;
         try {
@@ -67,7 +68,7 @@ public class LinkHelper {
         return (uri.getQuery() == null &&
                 uri.getFragment() == null &&
                 uri.getPath() != null &&
-                uri.getPath().matches("^/@.*/\\d+$"));
+                uri.getPath().matches("^/(@|notice).*/\\d+$"));
     }
     /**
      * Finds links, mentions, and hashtags in a piece of text and makes them clickable, associating
