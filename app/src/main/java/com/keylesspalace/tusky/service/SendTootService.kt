@@ -29,6 +29,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 
 class SendTootService: Service(), Injectable {
@@ -40,8 +41,8 @@ class SendTootService: Service(), Injectable {
 
     private lateinit var saveTootHelper: SaveTootHelper
 
-    private val tootsToSend = mutableMapOf<Int, TootToSend>()
-    private val sendCalls = mutableMapOf<Int, Call<Status>>()
+    private val tootsToSend = ConcurrentHashMap<Int, TootToSend>()
+    private val sendCalls = ConcurrentHashMap<Int, Call<Status>>()
 
 
     private val timer = Timer()
@@ -56,7 +57,6 @@ class SendTootService: Service(), Injectable {
     override fun onBind(intent: Intent): IBinder? {
         return null
     }
-
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
 
@@ -90,8 +90,12 @@ class SendTootService: Service(), Injectable {
                     .setColor(ContextCompat.getColor(this, R.color.primary))
                     .addAction(0, getString(android.R.string.cancel), cancelSendingIntent(notificationId))
 
-            ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_DETACH)
-            startForeground(notificationId, builder.build())
+            if(tootsToSend.size == 0 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_DETACH)
+                startForeground(notificationId, builder.build())
+            } else {
+                notificationManager.notify(notificationId, builder.build())
+            }
 
             tootsToSend[notificationId] = tootToSend
             sendToot(notificationId)
@@ -104,8 +108,7 @@ class SendTootService: Service(), Injectable {
 
             if(intent.hasExtra(KEY_CANCEL)) {
                 cancelSending(intent.getIntExtra(KEY_CANCEL, 0))
-            } else {
-
+                stopSelf(intent.getIntExtra(KEY_CANCEL, 0))
             }
 
             return Service.START_NOT_STICKY
