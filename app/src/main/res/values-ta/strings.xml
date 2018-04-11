@@ -70,7 +70,6 @@
     <string name="action_send">TOOT</string>
     <string name="action_send_public">TOOT!</string>
     <string name="action_retry">மீண்டும் முயற்சி</string>
-    <string name="action_hide_text">எச்சரிக்கைக்கு பின்னால் உரையை மறை</string>
     <string name="action_close">மூடு</string>
     <string name="action_view_profile">சுயவிவரம்</string>
     <string name="action_view_preferences">முன்னுரிமைகள்</string>
@@ -80,14 +79,12 @@
     <string name="action_view_follow_requests">பின்பற்ற கோரிக்கை</string>
     <string name="action_view_media">ஊடகம்</string>
     <string name="action_open_in_web">உலாவியில் திற</string>
-    <string name="action_photo_pick">ஊடகத்தை சேர்</string>
     <string name="action_photo_take">புகைப்படம் எடு</string>
     <string name="action_share">பகிர்</string>
     <string name="action_mute">ஒலி நீக்கு</string>
     <string name="action_unmute">ஒலிக்க செய்</string>
     <string name="action_mention">குறிப்பிடு</string>
     <string name="action_hide_media">மீடியாவை மறை</string>
-    <string name="action_compose_options">விருப்பங்கள்</string>
     <string name="action_open_drawer">டிராயரைத் திற</string>
     <string name="action_save">சேமி</string>
     <string name="action_edit_profile">சுயவிவரத்தை திருத்து</string>
@@ -104,7 +101,6 @@
     <string name="send_status_link_to">Toot URL-யை பகிர…</string>
     <string name="send_status_content_to">Toot உள்ளடக்கத்தை பகிர…</string>
 
-    <string name="confirmation_send">சமர்பி</string>
     <string name="confirmation_reported">அனுப்பு!</string>
     <string name="confirmation_unblocked">பயனர்  முடக்கம் நீக்கப்பட்டது</string>
     <string name="confirmation_unmuted">பயனர் ஒலிக்க செய்யபட்டது</string>
@@ -135,7 +131,6 @@
     <string name="dialog_download_image">பதிவிறக்க</string>
     <string name="dialog_message_follow_request">கோரிக்கை நிலுவையில் உள்ளது, அவர்களின் பதிலுக்காக காத்திருக்கிறது</string>
     <string name="dialog_unfollow_warning">இந்த கணக்கை பின்பற்ற வேண்டாமா?</string>
-    <string name="dialog_reply_not_found">இந்த நிலையை பதிவு செய்ய இயலவில்லை. தாங்கள்  பதிலளிப்பதற்கான நிலையும் கிடைக்கபெறவில்லை.ஆதலால் பதில் தகவலை நீக்கவா?</string>
 
     <string name="visibility_public">அனைவருக்கும் காண்பி</string>
     <string name="visibility_unlisted">அனைவருக்கும் காட்டாதே</string>
@@ -246,7 +241,6 @@
     <string name="state_follow_requested">கோரிக்கையைப் பின்பற்றவும்</string>
 
     <string name="no_content">எந்த உள்ளடக்கமும் இல்லை</string>
-    <string name="action_save_one_toot">Toot சேமிக்கபட்டது!</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%dஆ-முன்</string>
