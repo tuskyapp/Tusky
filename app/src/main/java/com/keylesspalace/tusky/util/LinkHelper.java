@@ -55,6 +55,20 @@ public class LinkHelper {
         }
     }
 
+    // https://mastodon.foo.bar/@User/43456787654678
+    private static boolean looksLikeMastodonUrl(String urlString) {
+        URI uri;
+        try {
+            uri = new URI(urlString);
+        } catch (URISyntaxException e) {
+            return false;
+        }
+
+        return (uri.getQuery() == null &&
+                uri.getFragment() == null &&
+                uri.getPath() != null &&
+                uri.getPath().matches("^/@.*/\\d+$"));
+    }
     /**
      * Finds links, mentions, and hashtags in a piece of text and makes them clickable, associating
      * them with callbacks to notify when they're clicked.
@@ -121,13 +135,17 @@ public class LinkHelper {
                     builder.removeSpan(span);
                     builder.setSpan(newSpan, start, end, flags);
                 }
-            } else {
+            } else if (looksLikeMastodonUrl(span.getURL())) {
                 CustomURLSpan newSpan = new CustomURLSpan(span.getURL()) {
-                        @Override
-                        public void onClick(View widget) {
-                            listener.onViewURL(getURL());
-                        }
+                    @Override
+                    public void onClick(View widget) {
+                        listener.onViewURL(getURL());
+                    }
                 };
+                builder.removeSpan(span);
+                builder.setSpan(newSpan, start, end, flags);
+            } else {
+                ClickableSpan newSpan = new CustomURLSpan(span.getURL());
                 builder.removeSpan(span);
                 builder.setSpan(newSpan, start, end, flags);
             }
