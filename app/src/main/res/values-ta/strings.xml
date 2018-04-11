@@ -1,0 +1,285 @@
+<resources>
+    <string name="error_generic">பிழை ஏற்பட்டது.</string>
+    <string name="error_empty">இது காலியாக இருக்க கூடாது.</string>
+    <string name="error_invalid_domain">தவறான டொமைன் உள்ளிடப்பட்டுள்ளது</string>
+    <string name="error_failed_app_registration">அந்த instance(களத்தினை)-யை அங்கீகரிப்பதில் தோல்வி.</string>
+    <string name="error_no_web_browser_found">வலை உலாவிகள் ஏதுமில்லை</string>
+    <string name="error_authorization_unknown">அடையாளம் தெரியாத அங்கீகார பிழை ஏற்பட்டுள்ளது.</string>
+    <string name="error_authorization_denied">அங்கீகாரம் மறுக்கப்பட்டுள்ளது</string>
+    <string name="error_retrieving_oauth_token">உள்நுழைவு டோக்கனைப் பெறுவதில் தோல்வி.</string>
+    <string name="error_compose_character_limit">நிலை மிக நீளமாக உள்ளது!</string>
+    <string name="error_media_upload_size">கோப்பு 4MB-க்கும் குறைவாக இருக்க வேண்டும்.</string>
+    <string name="error_media_upload_type">இந்த வகை கோப்பை பதிவேற்ற முடியாது.</string>
+    <string name="error_media_upload_opening">அந்த கோப்பை திறக்க முடியவில்லை.</string>
+    <string name="error_media_upload_permission">ஊடகத்தை படிக்க அனுமதி தேவை.</string>
+    <string name="error_media_download_permission">ஊடகத்தை சேமிக்க அனுமதி தேவை.</string>
+    <string name="error_media_upload_image_or_video">படங்களும், வீடியோக்களும் ஒரே நிலைக்கு  இணைக்க இயலாது.</string>
+    <string name="error_media_upload_sending">பதிவேற்றம் தோல்வியுற்றது.</string>
+    <string name="error_report_too_few_statuses">குறைந்தபட்சம் ஒரு நிலையை அறிவிக்க வேண்டும்.</string>
+
+    <string name="title_home">முகப்பு</string>
+    <string name="title_notifications">அறிவிப்புகள்</string>
+    <string name="title_public_local">அருகாமயில்</string>
+    <string name="title_public_federated">ஒருங்கிணைந்த</string>
+    <string name="title_view_thread">Toot</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">பதிவுகள்</string>
+    <string name="title_follows">பின்பற்று</string>
+    <string name="title_followers">பின்பற்றுபவர்கள்</string>
+    <string name="title_favourites">பிடித்தவைகள்</string>
+    <string name="title_mutes">ஒலி நீக்கபட்ட பயனர்கள்</string>
+    <string name="title_blocks">தடைசெய்யபட்ட பயனர்கள்</string>
+    <string name="title_follow_requests">பின்பற்ற கோரிக்கை</string>
+    <string name="title_edit_profile">சுயவிவரத்தை திருத்த</string>
+    <string name="title_saved_toot">வரைவுகள்</string>
+    <string name="title_x_followers"><b>%s</b> பின்பற்றுபவர்கள்</string>
+    <string name="title_x_following"><b>%s</b> பின்பற்றுகிறார்</string>
+    <string name="title_x_statuses"><b>%s</b> பதிவுகள்</string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s உயர்த்தப்படுகிறது</string>
+    <string name="status_sensitive_media_title">உணர்ச்சிகரமான உள்ளடக்கம்</string>
+    <string name="status_media_hidden_title">ஊடகம் மறைக்கப்பட்டது</string>
+    <string name="status_sensitive_media_directions">பார்வையிட சொடுக்கவும்</string>
+    <string name="status_content_warning_show_more">அதிகமாக்கு</string>
+    <string name="status_content_warning_show_less">கம்மியாக்கு</string>
+
+    <string name="footer_empty">இங்கு எதுவுமில்லை. புதுப்பிக்க கீழே இழுக்கவும்!</string>
+
+    <string name="notification_reblog_format">%s தங்களின் toot உயர்த்தப்பட்டுள்ளது</string>
+    <string name="notification_favourite_format">%s தங்களின் toot பிடித்தவையானது</string>
+    <string name="notification_follow_format">%s தங்களை பின்பற்றுகிறார்</string>
+
+    <string name="report_username_format">புகார் @%s</string>
+    <string name="report_comment_hint">கூடுதல் கருத்துரைகள்?</string>
+
+    <string name="action_reply">பதிலளி</string>
+    <string name="action_reblog">உயர்த்து</string>
+    <string name="action_favourite">பிடித்தவை</string>
+    <string name="action_more">மேலும்</string>
+    <string name="action_compose">எழுது</string>
+    <string name="action_login">Mastodon மூலம்  உள்நுழைய</string>
+    <string name="action_logout">வெளியேறு</string>
+    <string name="action_logout_confirm">நீங்கள்  %1$s கணக்கிலிருந்து வெளியேற விரும்புகிறீர்களா?</string>
+    <string name="action_follow">பின்பற்று</string>
+    <string name="action_unfollow">பின்பற்றாதே</string>
+    <string name="action_block">தடை</string>
+    <string name="action_unblock">தடை நீக்கு</string>
+    <string name="action_report">புகார்</string>
+    <string name="action_delete">நீக்கு</string>
+    <string name="action_send">TOOT</string>
+    <string name="action_send_public">TOOT!</string>
+    <string name="action_retry">மீண்டும் முயற்சி</string>
+    <string name="action_hide_text">எச்சரிக்கைக்கு பின்னால் உரையை மறை</string>
+    <string name="action_close">மூடு</string>
+    <string name="action_view_profile">சுயவிவரம்</string>
+    <string name="action_view_preferences">முன்னுரிமைகள்</string>
+    <string name="action_view_favourites">பிடித்தவை</string>
+    <string name="action_view_mutes">ஒலி நீக்கபட்ட பயனர்கள்</string>
+    <string name="action_view_blocks">தடைசெய்யபட்ட பயனர்கள்</string>
+    <string name="action_view_follow_requests">பின்பற்ற கோரிக்கை</string>
+    <string name="action_view_media">ஊடகம்</string>
+    <string name="action_open_in_web">உலாவியில் திற</string>
+    <string name="action_photo_pick">ஊடகத்தை சேர்</string>
+    <string name="action_photo_take">புகைப்படம் எடு</string>
+    <string name="action_share">பகிர்</string>
+    <string name="action_mute">ஒலி நீக்கு</string>
+    <string name="action_unmute">ஒலிக்க செய்</string>
+    <string name="action_mention">குறிப்பிடு</string>
+    <string name="action_hide_media">மீடியாவை மறை</string>
+    <string name="action_compose_options">விருப்பங்கள்</string>
+    <string name="action_open_drawer">டிராயரைத் திற</string>
+    <string name="action_save">சேமி</string>
+    <string name="action_edit_profile">சுயவிவரத்தை திருத்து</string>
+    <string name="action_undo">மீளமை</string>
+    <string name="action_accept">ஏற்கவும்</string>
+    <string name="action_reject">நிராகரி</string>
+    <string name="action_search">தேடு</string>
+    <string name="action_access_saved_toot">வரைவுகள்</string>
+
+    <string name="download_image">பதிவிறக்கப்படுகிறது %1$s</string>
+
+    <string name="action_copy_link">இணைப்பை நகலெடுக்கவும்</string>
+
+    <string name="send_status_link_to">Toot URL-யை பகிர…</string>
+    <string name="send_status_content_to">Toot உள்ளடக்கத்தை பகிர…</string>
+
+    <string name="confirmation_send">சமர்பி</string>
+    <string name="confirmation_reported">அனுப்பு!</string>
+    <string name="confirmation_unblocked">பயனர்  முடக்கம் நீக்கப்பட்டது</string>
+    <string name="confirmation_unmuted">பயனர் ஒலிக்க செய்யபட்டது</string>
+
+    <string name="hint_domain">எந்த instance(களம்)?</string>
+    <string name="hint_compose">என்ன நடக்கிறது?</string>
+    <string name="hint_content_warning">உள்ளடக்க எச்சரிக்கை</string>
+    <string name="hint_display_name">காட்சி பெயர்</string>
+    <string name="hint_note">சுயவிவரம்</string>
+    <string name="hint_search">தேடல்...</string>
+
+    <string name="search_no_results">முடிவுகள் ஏதுமில்லை</string>
+
+    <string name="label_avatar">தோற்றம்</string>
+    <string name="label_header">தலைப்பு</string>
+
+    <string name="link_whats_an_instance">Instance(களம்) என்றால் என்ன?</string>
+
+    <string name="login_connection">இணைக்கபடுகிறது...</string>
+
+    <string name="dialog_whats_an_instance">ஏதேனும் instance-ன் முகவரியையோ அல்லது களத்தின் முகவரியையோ இங்கு உள்ளிடவும், உதாரணமாக mastodon.social, icosahedron.website, social.tchncs.de, மற்றும்
+        <a href="https://instances.social">மேலும்!</a>
+        \n\nபயனர் கணக்கு இல்லையெனில் புதிய கணக்கிற்கான instance(களம்)-னை பதிவிடவும். நீங்கள் குறிப்பிடப்படும் களத்தில் உங்கள் கணக்கு பதிவாகும்.\n\nமேலும் இங்கு குறிப்பிடப்பட்ட ஏதேனும் ஒரு களத்தில் மட்டுமே உங்களால்  கணக்கு ஆரம்பித்துக்கொள்ள இயலும் இருப்பினும் நம்மால் மற்ற களங்களில் உள்ள நண்பர்களையும் தொடர்பு கொள்ள இயலும் .
+        \n\nமேலும் தகவல்கள் அறிய <a href="https://joinmastodon.org">joinmastodon.org</a>.
+    </string>
+    <string name="dialog_title_finishing_media_upload">மீடியா பதிவேற்றம் முடிகிறது</string>
+    <string name="dialog_message_uploading_media">ஏற்றுகிறது ...</string>
+    <string name="dialog_download_image">பதிவிறக்க</string>
+    <string name="dialog_message_follow_request">கோரிக்கை நிலுவையில் உள்ளது, அவர்களின் பதிலுக்காக காத்திருக்கிறது</string>
+    <string name="dialog_unfollow_warning">இந்த கணக்கை பின்பற்ற வேண்டாமா?</string>
+    <string name="dialog_reply_not_found">இந்த நிலையை பதிவு செய்ய இயலவில்லை. தாங்கள்  பதிலளிப்பதற்கான நிலையும் கிடைக்கபெறவில்லை.ஆதலால் பதில் தகவலை நீக்கவா?</string>
+
+    <string name="visibility_public">அனைவருக்கும் காண்பி</string>
+    <string name="visibility_unlisted">அனைவருக்கும் காட்டாதே</string>
+    <string name="visibility_private">பின்பற்றுபவர்களுக்கு மட்டும் காண்பி</string>
+    <string name="visibility_direct">குறிபிடபட்டுள்ள பயனர்களுக்கு மட்டும் காண்பி</string>
+
+    <string name="pref_title_notification_settings">அறிவிப்புகள்</string>
+    <string name="pref_title_edit_notification_settings">அறிவிப்புகளை திருத்த</string>
+    <string name="pref_title_notifications_enabled">அறிவிப்புகள்</string>
+    <string name="pref_summary_notifications">%1$s கணக்குக்கு</string>
+    <string name="pref_title_pull_notification_check_interval">சரிபார்க்கவேண்டிய இடைவேளை</string>
+    <string name="pref_title_notification_alerts">எச்சரிக்கைகள்</string>
+    <string name="pref_title_notification_alert_sound">ஒலி மூலம் தெரிவிக்கவும்</string>
+    <string name="pref_title_notification_alert_vibrate">அதிர்வுடன் தெரிவிக்கவும்</string>
+    <string name="pref_title_notification_alert_light">ஒளியுடன் தெரிவிக்கவும்</string>
+    <string name="pref_title_notification_filters">எனக்கு தெரிவி எப்போதெனில்</string>
+    <string name="pref_title_notification_filter_mentions">என்னை குறிபிடும்போது</string>
+    <string name="pref_title_notification_filter_follows">என்னை பின்பற்றினால்</string>
+    <string name="pref_title_notification_filter_reblogs">என் பதிவுகள் அதிகரிக்கப்பட்டால்</string>
+    <string name="pref_title_notification_filter_favourites">என் பதிவுகள் பிடித்தவையானால்</string>
+    <string name="pref_title_appearance_settings">தோற்றம்</string>
+    <string name="pref_title_app_theme">செயலியின் தீம்</string>
+
+    <string-array name="app_theme_names">
+        <item>கருமை</item>
+        <item>வெளிச்சம்</item>
+        <item>தானியங்கி</item>
+    </string-array>
+
+    <string name="pref_title_browser_settings">உலாவி</string>
+    <string name="pref_title_custom_tabs">Chrome தனிப்பயன் கீற்றை பயன்படுத்து</string>
+    <string name="pref_title_hide_follow_button">உருளலின் போது எழுது பொத்தானை மறை</string>
+    <string name="pref_title_status_filter">காலவரிசை வடிகட்டல்</string>
+    <string name="pref_title_status_tabs">கீற்றுகள்</string>
+    <string name="pref_title_show_boosts">அதிகரிப்பை காண்பி</string>
+    <string name="pref_title_show_replies">பதில்களைக் காண்பி</string>
+    <string name="pref_title_show_media_preview">ஊடக மாதிரிக்காட்சிகளைக் காண்பி</string>
+    <string name="pref_title_proxy_settings">ப்ராக்ஸி</string>
+    <string name="pref_title_http_proxy_settings">HTTP ப்ராக்ஸி</string>
+    <string name="pref_title_http_proxy_enable">HTTP ப்ராக்ஸியை இயக்கு</string>
+    <string name="pref_title_http_proxy_server">HTTP ப்ராக்ஸி சேவையகம்</string>
+    <string name="pref_title_http_proxy_port">HTTP ப்ராக்ஸி போர்ட்</string>
+
+    <string-array name="pull_notification_check_interval_names">
+        <item>15 நிமிடங்கள்</item>
+        <item>20 நிமிடங்கள்</item>
+        <item>25 நிமிடங்கள்</item>
+        <item>30 நிமிடங்கள்</item>
+        <item>45 நிமிடங்கள்</item>
+        <item>1 மணி நேரம்</item>
+        <item>2 மணி நேரம்</item>
+    </string-array>
+
+    <string name="pref_default_post_privacy">தனியுரிமையில் பதிவிடுவதை முன்னிருப்பாக்கு</string>
+    <string name="pref_publishing">வெளியீடு</string>
+
+    <string-array name="post_privacy_names">
+        <item>அனைவருக்கும்</item>
+        <item>பட்டியலிடப்படாதவர்களுக்கு</item>
+        <item>பின்பற்றுபவர்களுக்கு மட்டும்</item>
+    </string-array>
+
+    <string name="pref_status_text_size">நிலை உரை அளவு</string>
+
+    <string-array name="status_text_size_names">
+        <item>சிறிய</item>
+        <item>நடுதர</item>
+        <item>பெரிய</item>
+    </string-array>
+
+    <string name="notification_channel_mention_name">புதிய குறிப்புகள்</string>
+    <string name="notification_channel_mention_descriptions">புதிய குறிப்புகள் பற்றிய அறிவிப்புகள்</string>
+    <string name="notification_channel_follow_name">புதிய பின்பற்றுபவர்கள்</string>
+    <string name="notification_channel_follow_description">புதிய பின்தொடர்பவர்களைப் பற்றிய அறிவிப்புகள்</string>
+    <string name="notification_channel_boost_name">ஊக்கியாக</string>
+    <string name="notification_channel_boost_description">எமது toot உயர்த்தபடும் போது தெரிவி.</string>
+    <string name="notification_channel_favourite_name">பிடித்தவைகள்</string>
+    <string name="notification_channel_favourite_description">எமது toot பிடித்தவையானால் தெரிவி.</string>
+
+
+    <string name="notification_mention_format">%s தங்களை குறிபிட்டுள்ளார்</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s மற்றும் %4$d மற்றவர்கள்</string>
+    <string name="notification_summary_medium">%1$s, %2$s, மற்றும் %3$s</string>
+    <string name="notification_summary_small">%1$s மற்றும் %2$s</string>
+    <string name="notification_title_summary">%d புதிய ஊடாடுதல்</string>
+
+    <string name="description_account_locked">கணக்கு மூடப்பட்டது</string>
+
+    <string name="about_title_activity">பற்றி</string>
+    <string name="about_tusky_version">Tusky(டஸ்கி) %s</string>
+    <string name="about_tusky_license">Tusky ஒரு கட்டற்ற மற்றும் திறந்த மூல மென்பொருள். இதன் உரிமம் GNU General Public License(பொது உரிமம்) பதிப்பு 3 -ன் கீழ் உள்ளது. நீங்கள் உரிமம் பற்றி காண: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <!-- note to translators: the url can be changed to link to the localized version of the license -->
+    <string name="about_project_site">
+        	திட்டத்தின் வலைத்தளம்:\n
+        https://tuskyapp.github.io
+    </string>
+    <string name="about_bug_feature_request_site">
+        	பிழை அறிக்கைகள் &amp; அம்ச கோரிக்கைகள்:\n
+        https://github.com/tuskyapp/Tusky/issues
+    </string>
+    <string name="about_tusky_account">Tusky-ன் கணக்கு</string>
+
+    <string name="status_share_content">Toot உள்ளடக்கத்தைப் பகிர்</string>
+    <string name="status_share_link">Toot இணைப்பைப் பகிர்</string>
+    <string name="status_media_images">படங்கள்</string>
+    <string name="status_media_video">காணொளி</string>
+
+    <string name="state_follow_requested">கோரிக்கையைப் பின்பற்றவும்</string>
+
+    <string name="no_content">எந்த உள்ளடக்கமும் இல்லை</string>
+    <string name="action_save_one_toot">Toot சேமிக்கபட்டது!</string>
+
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">%dஆ-முன்</string>
+    <string name="abbreviated_in_days">%dநா-முன்</string>
+    <string name="abbreviated_in_hours">%dம.நே-முன்</string>
+    <string name="abbreviated_in_minutes">%dநி-முன்</string>
+    <string name="abbreviated_in_seconds">%dவி-முன்</string>
+    <string name="abbreviated_years_ago">%dஆ</string>
+    <string name="abbreviated_days_ago">%dநா</string>
+    <string name="abbreviated_hours_ago">%dம.நே</string>
+    <string name="abbreviated_minutes_ago">%dநி</string>
+    <string name="abbreviated_seconds_ago">%dவி</string>
+
+    <string name="follows_you">நீங்கள் பின் தொடரபடுகிறீர்கள்</string>
+    <string name="pref_title_alway_show_sensitive_media">எல்லா nsfw(உணர்ச்சிகரமான) உள்ளடக்கத்தையும் எப்போதும் காண்பி</string>
+    <string name="title_media">ஊடகம்</string>
+    <string name="replying_to">@%s -க்கு பதிலளி</string>
+    <string name="load_more_placeholder_text">மேலும் காட்டு…</string>
+
+    <string name="add_account_name">கணக்கை சேர்க்க</string>
+    <string name="add_account_description">புதிய Mastodon கணக்கைச் சேர்க்க</string>
+
+    <string name="action_lists">பட்டியல்கள்</string>
+    <string name="title_lists">பட்டியல்கள்</string>
+    <string name="title_list_timeline">காலவரிசை பட்டியல்</string>
+
+    <string name="compose_active_account_description">%1$s கணக்குடன் பதிவிட</string>
+
+    <string name="error_failed_set_caption">தலைப்பை அமைக்க முடியவில்லை</string>
+    <string name="hint_describe_for_visually_impaired">பார்வையற்றவர்களுக்கான விளக்கம்</string>
+    <string name="action_set_caption">தலைப்பை அமை</string>
+    <string name="action_remove_media">நீக்கு</string>
+    <string name="lock_account_label">கணக்கை முடக்கு</string>
+    <string name="lock_account_label_description">நீங்களாக பின்பற்றுபவர்களை அங்கீகரிக்க</string>
+
+</resources>
