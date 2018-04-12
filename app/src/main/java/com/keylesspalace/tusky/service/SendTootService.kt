@@ -44,7 +44,6 @@ class SendTootService: Service(), Injectable {
     private val tootsToSend = ConcurrentHashMap<Int, TootToSend>()
     private val sendCalls = ConcurrentHashMap<Int, Call<Status>>()
 
-
     private val timer = Timer()
 
 
@@ -102,8 +101,6 @@ class SendTootService: Service(), Injectable {
 
             notificationId--
 
-            return Service.START_STICKY
-
         } else {
 
             if(intent.hasExtra(KEY_CANCEL)) {
@@ -111,8 +108,9 @@ class SendTootService: Service(), Injectable {
                 stopSelf(intent.getIntExtra(KEY_CANCEL, 0))
             }
 
-            return Service.START_NOT_STICKY
         }
+
+        return START_NOT_STICKY
 
     }
 
