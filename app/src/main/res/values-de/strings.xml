@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Autorisierung fehlgeschlagen.</string>
     <string name="error_retrieving_oauth_token">Es konnte kein Login-Token abgerufen werden.</string>
     <string name="error_compose_character_limit">Der Beitrag ist zu lang!</string>
-    <string name="error_media_upload_size">Die Datei muss kleiner als 4MB sein.</string>
+    <string name="error_media_upload_size">Die Datei muss kleiner als 8MB sein.</string>
     <string name="error_media_upload_type">Dieser Dateityp darf nicht hochgeladen werden.</string>
     <string name="error_media_upload_opening">Die Datei konnte nicht geöffnet werden.</string>
     <string name="error_media_upload_permission">Eine Leseberechtigung wird für das Hochladen der Mediendatei benötigt.</string>
@@ -63,7 +63,6 @@
     <string name="action_send">TRÖT</string>
     <string name="action_send_public">TRÖT!</string>
     <string name="action_retry">Erneut versuchen</string>
-    <string name="action_hide_text">Verstecke Text hinter Warnung</string>
     <string name="action_close">Schließen</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Einstellungen</string>
@@ -71,13 +70,12 @@
     <string name="action_view_blocks">Blockierte Accounts</string>
     <string name="action_view_media">Medien</string>
     <string name="action_open_in_web">Im Browser öffnen</string>
-    <string name="action_photo_pick">Füge Medien hinzu</string>
+    <string name="action_add_media">Füge Medien hinzu</string>
     <string name="action_photo_take">Foto machen</string>
     <string name="action_share">Teilen</string>
     <string name="action_mute">Stummschalten</string>
     <string name="action_unmute">Lautschalten</string>
     <string name="action_mention">Erwähnen</string>
-    <string name="action_compose_options">Einstellungen</string>
     <string name="action_open_drawer">Drawer öffnen</string>
     <string name="action_search">Suche</string>
     <string name="action_access_saved_toot">Entwürfe</string>
@@ -87,7 +85,6 @@
     <string name="send_status_link_to">Beitragslink teilen</string>
     <string name="send_status_content_to">Beitragsinhalt teilen</string>
 
-    <string name="confirmation_send">Teilen!</string>
     <string name="confirmation_reported">Gesendet!</string>
 
     <string name="hint_domain">Welche Instanz?</string>
@@ -199,7 +196,6 @@
     </string>
     <string name="about_tusky_account">Tuskys Profil</string>
 
-    <string name="action_save_one_toot">Beitrag gespeichert</string>
     <string name="search_no_results">Keine Ergebnisse</string>
     <string name="status_media_images">Bilder</string>
     <string name="status_media_video">Video</string>
@@ -232,7 +228,6 @@
     <string name="title_x_following"><b>%s</b> Folgt</string>
     <string name="title_x_statuses"><b>%s</b> Beiträge</string>
     <string name="load_more_placeholder_text">mehr laden</string>
-    <string name="dialog_reply_not_found">Fehler beim Senden des Status. Der Status, auf den du antwortest, ist vielleicht nicht mehr verfügbar. Als normale Erwähnung weiter bearbeiten?</string>
     <string name="pref_default_post_privacy">Beitragssichtbarkeit</string>
     <string name="pref_publishing">Beiträge</string>
     <string name="status_media_hidden_title">Medien versteckt</string>

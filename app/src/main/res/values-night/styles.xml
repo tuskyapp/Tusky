@@ -43,13 +43,9 @@
         <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_dark</item>
         <item name="account_toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Dark</item>
         <item name="compose_close_button_tint">@color/toolbar_icon_dark</item>
-        <item name="compose_media_button_tint">@color/compose_media_button_dark</item>
         <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_dark</item>
         <item name="compose_mention_color">@color/color_accent_dark</item>
         <item name="compose_content_warning_bar_background">@drawable/border_background_dark</item>
-        <item name="compose_hide_media_button_color">@color/image_button_dark</item>
-        <item name="compose_hide_media_button_selected_color">@color/color_accent_dark</item>
-        <item name="compose_image_button_tint">@color/image_button_dark</item>
         <item name="compose_reply_content_background">@color/compose_reply_content_background_dark</item>
 
         <item name="report_status_background_color">@color/color_background_dark</item>
@@ -70,10 +66,13 @@
 
         <item name="play_indicator_drawable">@drawable/ic_play_indicator_dark</item>
 
+        <item name="compound_button_color">@color/compound_button_color_dark</item>
+
     </style>
 
     <style name="AppTheme.ImageButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
-        <item name="android:tint">@color/image_button_dark</item>
+        <item name="android:tint">@color/text_color_tertiary_dark</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
     <style name="AppTheme.BottomSheetDialog.Dark" parent="@style/Theme.Design.BottomSheetDialog">

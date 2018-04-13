@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="wrap_content" format="integer" type="dimen">-2</item>
+    <bool name="show_small_toot_button">false</bool>
+    <dimen name="toot_button_width">@dimen/wrap_content</dimen>
+    <dimen name="toot_button_drawable_padding">4dp</dimen>
+
+</resources>

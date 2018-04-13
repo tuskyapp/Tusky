@@ -18,4 +18,6 @@
     <dimen name="card_image_vertical_height">160dp</dimen>
     <dimen name="card_image_horizontal_width">100dp</dimen>
 
+    <dimen name="compose_activity_snackbar_elevation">16dp</dimen>
+
 </resources>

@@ -28,7 +28,7 @@ import android.text.SpannedString;
 import android.text.style.ReplacementSpan;
 import android.widget.TextView;
 
-import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.entity.Emoji;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -46,12 +46,12 @@ public class CustomEmojiHelper {
      * @param textView a reference to the textView the emojis will be shown in
      * @return the text with the shortcodes replaced by EmojiSpans
      */
-    public static Spanned emojifyText(Spanned text, List<Status.Emoji> emojis, final TextView textView) {
+    public static Spanned emojifyText(Spanned text, List<Emoji> emojis, final TextView textView) {
 
         if (!emojis.isEmpty()) {
 
             SpannableStringBuilder builder = new SpannableStringBuilder(text);
-            for (Status.Emoji emoji : emojis) {
+            for (Emoji emoji : emojis) {
                 CharSequence pattern = new StringBuilder(":").append(emoji.getShortcode()).append(':');
                 Matcher matcher = Pattern.compile(pattern.toString()).matcher(text);
                 while (matcher.find()) {
@@ -71,7 +71,7 @@ public class CustomEmojiHelper {
         return text;
     }
 
-    public static Spanned emojifyString(String string, List<Status.Emoji> emojis, final TextView textView) {
+    public static Spanned emojifyString(String string, List<Emoji> emojis, final TextView textView) {
         return emojifyText(new SpannedString(string), emojis, textView);
     }
 

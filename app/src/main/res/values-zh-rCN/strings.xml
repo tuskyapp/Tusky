@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">授权被拒绝。</string>
     <string name="error_retrieving_oauth_token">无法获取登录信息。</string>
     <string name="error_compose_character_limit">嘟文太长了！</string>
-    <string name="error_media_upload_size">文件大小限制 4MB。</string>
+    <string name="error_media_upload_size">文件大小限制 8MB。</string>
     <string name="error_media_upload_type">无法上传此类型的文件。</string>
     <string name="error_media_upload_opening">此文件无法打开。</string>
     <string name="error_media_upload_permission">需要授予 Tusky 读取媒体文件的权限。</string>
@@ -71,7 +71,6 @@
     <string name="action_send">发嘟</string>
     <string name="action_send_public">发嘟</string>
     <string name="action_retry">重试</string>
-    <string name="action_hide_text">隐藏文字内容</string>
     <string name="action_close">关闭</string>
     <string name="action_view_profile">个人资料</string>
     <string name="action_view_preferences">设置</string>
@@ -81,14 +80,13 @@
     <string name="action_view_follow_requests">关注请求</string>
     <string name="action_view_media">媒体</string>
     <string name="action_open_in_web">在浏览器中打开</string>
-    <string name="action_photo_pick">从相册中选择</string>
+    <string name="action_add_media">从相册中选择</string>
     <string name="action_photo_take">拍照</string>
     <string name="action_share">分享</string>
     <string name="action_mute">隐藏</string>
     <string name="action_unmute">取消隐藏</string>
     <string name="action_mention">提及</string>
     <string name="action_hide_media">隐藏媒体文件</string>
-    <string name="action_compose_options">选项</string>
     <string name="action_open_drawer">打开应用抽屉</string>
     <string name="action_save">保存</string>
     <string name="action_edit_profile">编辑个人资料</string>
@@ -105,7 +103,6 @@
     <string name="send_status_link_to">分享链接到…</string>
     <string name="send_status_content_to">分享嘟文到…</string>
 
-    <string name="confirmation_send">嘟文已发送！</string>
     <string name="confirmation_reported">报告已发送！</string>
     <string name="confirmation_unblocked">用户已被屏蔽</string>
     <string name="confirmation_unmuted">用户已被隐藏</string>
@@ -136,7 +133,6 @@
     <string name="dialog_download_image">下载</string>
     <string name="dialog_message_follow_request">关注请求已发送，等待对方回复</string>
     <string name="dialog_unfollow_warning">不再关注此用户？</string>
-    <string name="dialog_reply_not_found">回复发表失败，被回复的嘟文不可用。是否转换成普通嘟文？</string>
 
     <string name="visibility_public">公开：所有人可见，并会出现在公共时间轴上</string>
     <string name="visibility_unlisted">不公开：所有人可见，但不会出现在公共时间轴上</string>
@@ -247,7 +243,6 @@
     <string name="state_follow_requested">已发送关注请求</string>
 
     <string name="no_content">无内容</string>
-    <string name="action_save_one_toot">嘟文已保存。</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%d 年内</string>
