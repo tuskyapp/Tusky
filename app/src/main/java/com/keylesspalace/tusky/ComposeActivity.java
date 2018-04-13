@@ -85,6 +85,7 @@ import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
+import com.keylesspalace.tusky.entity.Instance;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.fragment.ComposeOptionsFragment;
 import com.keylesspalace.tusky.network.MastodonApi;
@@ -150,6 +151,7 @@ public final class ComposeActivity extends BaseActivity
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
 
     private static TootDao tootDao = TuskyApplication.getDB().tootDao();
+    private static int maximumTootCharacters = STATUS_CHARACTER_LIMIT;
 
     @Inject
     public MastodonApi mastodonApi;
@@ -236,6 +238,20 @@ public final class ComposeActivity extends BaseActivity
                     getString(R.string.compose_active_account_description,
                             activeAccount.getFullName()));
 
+            mastodonApi.instance().enqueue(new Callback<Instance>() {
+                @Override
+                public void onResponse(@NonNull Call<Instance> call, @NonNull Response<Instance> response) {
+                    if (response.isSuccessful() && response.body().getMaxTootChars() != null) {
+                        maximumTootCharacters = response.body().getMaxTootChars();
+                        updateVisibleCharactersLeft();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<Instance> call, @NonNull Throwable t) {
+                    // Fallback to default/previous maximum character value
+                }
+            });
         } else {
             // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
             return;
@@ -803,7 +819,7 @@ public final class ComposeActivity extends BaseActivity
     }
 
     private void updateVisibleCharactersLeft() {
-        int left = STATUS_CHARACTER_LIMIT - textEditor.length();
+        int left = maximumTootCharacters - textEditor.length();
         if (statusHideText) {
             left -= contentWarningEditor.length();
         }
@@ -1026,7 +1042,7 @@ public final class ComposeActivity extends BaseActivity
             spoilerText = contentWarningEditor.getText().toString();
         }
         int characterCount = contentText.length() + spoilerText.length();
-        if (characterCount > 0 && characterCount <= STATUS_CHARACTER_LIMIT) {
+        if (characterCount > 0 && characterCount <= maximumTootCharacters) {
             sendStatus(contentText, visibility, sensitive, spoilerText);
         } else if (characterCount <= 0) {
             textEditor.setError(getString(R.string.error_empty));
