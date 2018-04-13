@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Authorization was denied.</string>
     <string name="error_retrieving_oauth_token">Failed getting a login token.</string>
     <string name="error_compose_character_limit">The status is too long!</string>
-    <string name="error_media_upload_size">The file must be less than 4MB.</string>
+    <string name="error_media_upload_size">The file must be less than 8MB.</string>
     <string name="error_media_upload_type">That type of file cannot be uploaded.</string>
     <string name="error_media_upload_opening">That file could not be opened.</string>
     <string name="error_media_upload_permission">Permission to read media is required.</string>
@@ -73,7 +73,6 @@
     <string name="action_send">TOOT</string>
     <string name="action_send_public">TOOT!</string>
     <string name="action_retry">Retry</string>
-    <string name="action_hide_text">Hide text behind warning</string>
     <string name="action_close">Close</string>
     <string name="action_view_profile">Profile</string>
     <string name="action_view_preferences">Preferences</string>
@@ -83,14 +82,13 @@
     <string name="action_view_follow_requests">Follow Requests</string>
     <string name="action_view_media">Media</string>
     <string name="action_open_in_web">Open in browser</string>
-    <string name="action_photo_pick">Add media</string>
+    <string name="action_add_media">Add media</string>
     <string name="action_photo_take">Take photo</string>
     <string name="action_share">Share</string>
     <string name="action_mute">Mute</string>
     <string name="action_unmute">Unmute</string>
     <string name="action_mention">Mention</string>
     <string name="action_hide_media">Hide media</string>
-    <string name="action_compose_options">Options</string>
     <string name="action_open_drawer">Open drawer</string>
     <string name="action_save">Save</string>
     <string name="action_edit_profile">Edit profile</string>
@@ -99,6 +97,9 @@
     <string name="action_reject">Reject</string>
     <string name="action_search">Search</string>
     <string name="action_access_saved_toot">Drafts</string>
+    <string name="action_toggle_visibility">Toot visibility</string>
+    <string name="action_content_warning">Content warning</string>
+    <string name="action_emoji_keyboard">Emoji keyboard</string>
 
     <string name="download_image">Downloading %1$s</string>
 
@@ -107,7 +108,6 @@
     <string name="send_status_link_to">Share toot URL to…</string>
     <string name="send_status_content_to">Share toot to…</string>
 
-    <string name="confirmation_send">Toot!</string>
     <string name="confirmation_reported">Sent!</string>
     <string name="confirmation_unblocked">User unblocked</string>
     <string name="confirmation_unmuted">User unmuted</string>
@@ -142,7 +142,6 @@
     <string name="dialog_download_image">Download</string>
     <string name="dialog_message_follow_request">Follow request pending: awaiting their response</string>
     <string name="dialog_unfollow_warning">Unfollow this account?</string>
-    <string name="dialog_reply_not_found">Couldn\'t post this status. The status you\'re replying to might not be available. Remove reply info?</string>
 
     <string name="visibility_public">Public: Post to public timelines</string>
     <string name="visibility_unlisted">Unlisted: Do not show in public timelines</string>
@@ -256,7 +255,6 @@
     <string name="state_follow_requested">Follow requested</string>
 
     <string name="no_content">no content</string>
-    <string name="action_save_one_toot">Toot saved!</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">in %dy</string>
@@ -291,5 +289,11 @@
     <string name="action_remove_media">Remove</string>
     <string name="lock_account_label">Lock account</string>
     <string name="lock_account_label_description">Requires you to manually approve followers</string>
+    <string name="compose_save_draft">Save draft?</string>
+    <string name="send_toot_notification_title">Sending Toot...</string>
+    <string name="send_toot_notification_error_title">Error sending toot</string>
+    <string name="send_toot_notification_channel_name">Sending Toots</string>
+    <string name="send_toot_notification_cancel_title">Sending cancelled</string>
+    <string name="send_toot_notification_saved_content">A copy of the toot has been saved to your drafts</string>
 
 </resources>

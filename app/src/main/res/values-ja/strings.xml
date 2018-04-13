@@ -71,7 +71,6 @@
     <string name="action_send">トゥート</string>
     <string name="action_send_public">トゥート！</string>
     <string name="action_retry">再試行</string>
-    <string name="action_hide_text">テキストを注意書きで隠す</string>
     <string name="action_close">閉じる</string>
     <string name="action_view_profile">プロフィール</string>
     <string name="action_view_preferences">設定</string>
@@ -81,14 +80,13 @@
     <string name="action_view_follow_requests">フォローリクエスト</string>
     <string name="action_view_media">メディア</string>
     <string name="action_open_in_web">ブラウザで開く</string>
-    <string name="action_photo_pick">メディアを追加</string>
+    <string name="action_add_media">メディアを追加</string>
     <string name="action_photo_take">写真を撮る</string>
     <string name="action_share">共有</string>
     <string name="action_mute">ミュート</string>
     <string name="action_unmute">ミュート解除</string>
     <string name="action_mention">返信</string>
     <string name="action_hide_media">メディアを隠す</string>
-    <string name="action_compose_options">オプション</string>
     <string name="action_open_drawer">メニューを開く</string>
     <string name="action_save">保存</string>
     <string name="action_edit_profile">プロフィールを編集</string>
@@ -105,7 +103,6 @@
     <string name="send_status_link_to">トゥートのURLを共有…</string>
     <string name="send_status_content_to">トゥートを共有…</string>
 
-    <string name="confirmation_send">トゥート！</string>
     <string name="confirmation_reported">送信しました！</string>
     <string name="confirmation_unblocked">ブロックを解除しました</string>
     <string name="confirmation_unmuted">ミュートを解除しました</string>
@@ -252,7 +249,6 @@
     <string name="state_follow_requested">フォローリクエスト中</string>
     
     <string name="no_content">下書きはありません</string>
-    <string name="action_save_one_toot">下書きに保存しました！</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%d年後</string>

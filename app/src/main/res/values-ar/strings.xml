@@ -71,7 +71,6 @@
     <string name="action_send">تبويق</string>
     <string name="action_send_public">بوّق</string>
     <string name="action_retry">إعادة المحاولة</string>
-    <string name="action_hide_text">اخفي النص وراء تحذير</string>
     <string name="action_close">إغلاق</string>
     <string name="action_view_profile">الملف الشخصي</string>
     <string name="action_view_preferences">التفضيلات</string>
@@ -81,14 +80,13 @@
     <string name="action_view_follow_requests">طلبات المتابعة</string>
     <string name="action_view_media">وسائط</string>
     <string name="action_open_in_web">إفتح في متصفح</string>
-    <string name="action_photo_pick">إضافة وسائط</string>
+    <string name="action_add_media">إضافة وسائط</string>
     <string name="action_photo_take">أخذ صورة</string>
     <string name="action_share">شارك</string>
     <string name="action_mute">أكتم</string>
     <string name="action_unmute">إلغاء الكتم</string>
     <string name="action_mention">أذكر</string>
     <string name="action_hide_media">إخفاء الوسائط</string>
-    <string name="action_compose_options">خيارات</string>
     <string name="action_open_drawer">إفتح الدرج</string>
     <string name="action_save">إحفظ</string>
     <string name="action_edit_profile">تعديل الملف الشخصي</string>
@@ -105,7 +103,6 @@
     <string name="send_status_link_to">شارك رابط التبويق على ...</string>
     <string name="send_status_content_to">شارك التبويق على …</string>
 
-    <string name="confirmation_send">بَوِّق</string>
     <string name="confirmation_reported">تم الإرسال !</string>
     <string name="confirmation_unblocked">تم فك الحجب عن الحساب</string>
     <string name="confirmation_unmuted">تم فك الكتم عن الحساب</string>
@@ -131,7 +128,6 @@
     <string name="dialog_download_image">تنزيل</string>
     <string name="dialog_message_follow_request">طلب المتابعة معلق : في إنتظار الرد</string>
     <string name="dialog_unfollow_warning">هل تود إلغاء متابعة هذا الحساب ؟</string>
-    <string name="dialog_reply_not_found">تعذرت عملية إرسال هذا المنشور. إنّ المنشور الذي تود الرد عليه غير متوفر. هل تود حذف نص الرد ؟</string>
 
     <string name="visibility_public">عمومي : ينشر على الخيوط العمومية</string>
     <string name="visibility_unlisted">غير مدرج : لا يُعرَض على الخيوط العمومية</string>
@@ -244,7 +240,6 @@
     <string name="state_follow_requested">طلب متابعة</string>
 
     <string name="no_content">ليس هناك محتوى</string>
-    <string name="action_save_one_toot">تم حفظ التبويق !</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">في %dy</string>

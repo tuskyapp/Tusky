@@ -20,6 +20,7 @@ import android.text.Spanned;
 
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
+import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Status;
 
 import java.util.Collections;
@@ -68,7 +69,7 @@ public abstract class StatusViewData {
         private final String senderId;
         private final boolean rebloggingEnabled;
         private final Status.Application application;
-        private final List<Status.Emoji> emojis;
+        private final List<Emoji> emojis;
         @Nullable
         private final Card card;
 
@@ -78,7 +79,7 @@ public abstract class StatusViewData {
                         boolean isShowingContent, String userFullName, String nickname, String avatar,
                         Date createdAt, int reblogsCount, int favouritesCount, @Nullable String inReplyToId,
                         @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
-                        Status.Application application, List<Status.Emoji> emojis, @Nullable Card card) {
+                        Status.Application application, List<Emoji> emojis, @Nullable Card card) {
             this.id = id;
             this.content = content;
             this.reblogged = reblogged;
@@ -203,7 +204,7 @@ public abstract class StatusViewData {
             return application;
         }
 
-        public List<Status.Emoji> getEmojis() {
+        public List<Emoji> getEmojis() {
             return emojis;
         }
 
@@ -250,7 +251,7 @@ public abstract class StatusViewData {
         private String senderId;
         private boolean rebloggingEnabled;
         private Status.Application application;
-        private List<Status.Emoji> emojis;
+        private List<Emoji> emojis;
         private Card card;
 
         public Builder() {
@@ -399,7 +400,7 @@ public abstract class StatusViewData {
             return this;
         }
 
-        public Builder setEmojis(List<Status.Emoji> emojis) {
+        public Builder setEmojis(List<Emoji> emojis) {
             this.emojis = emojis;
             return this;
         }

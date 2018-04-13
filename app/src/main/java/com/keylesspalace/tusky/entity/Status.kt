@@ -131,11 +131,6 @@ data class Status(
         var website: String? = null
     }
 
-    class Emoji {
-        val shortcode: String? = null
-        val url: String? = null
-    }
-
     companion object {
         const val MAX_MEDIA_ATTACHMENTS = 4
     }

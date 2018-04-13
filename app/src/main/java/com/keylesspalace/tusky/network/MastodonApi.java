@@ -22,6 +22,7 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.AppCredentials;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
+import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Instance;
 import com.keylesspalace.tusky.entity.MastoList;
 import com.keylesspalace.tusky.entity.Notification;
@@ -102,12 +103,15 @@ public interface MastodonApi {
     @FormUrlEncoded
     @POST("api/v1/statuses")
     Call<Status> createStatus(
+            @Header("Authorization") String auth,
+            @Header(DOMAIN_HEADER) String domain,
             @Field("status") String text,
             @Field("in_reply_to_id") String inReplyToId,
             @Field("spoiler_text") String warningText,
             @Field("visibility") String visibility,
             @Field("sensitive") Boolean sensitive,
-            @Field("media_ids[]") List<String> mediaIds);
+            @Field("media_ids[]") List<String> mediaIds,
+            @Header("Idempotency-Key") String idempotencyKey);
     @GET("api/v1/statuses/{id}")
     Call<Status> status(@Path("id") String statusId);
     @GET("api/v1/statuses/{id}/context")
@@ -264,6 +268,9 @@ public interface MastodonApi {
 
     @GET("/api/v1/lists")
     Call<List<MastoList>> getLists();
+
+    @GET("/api/v1/custom_emojis")
+    Call<List<Emoji>> getCustomEmojis();
 
     @GET("api/v1/instance")
     Call<Instance> instance();
