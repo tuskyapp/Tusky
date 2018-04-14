@@ -128,13 +128,13 @@
 
     <string name="login_connection">Соединение…</string>
 
-    <string name="dialog_whats_an_instance">Здесь можно ввести адрес или домен любого узла, например, mastodon.social, icosahedron.website, social.tchncs.de и <a href=\"https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md\" >других</a>!\n
+    <string name="dialog_whats_an_instance">Здесь можно ввести адрес или домен любого узла, например, mastodon.social, icosahedron.website, social.tchncs.de и <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md" >других</a>!\n
   \n
   Если у Вас еще нет аккаунта, введите адрес узла, на котором хотите зарегистрироваться, и создайте аккаунт.\n
   \n
   Узел - это то место, где размещен Ваш аккаунт, но Вы можете взаимодействовать с пользователями других узлов, как будто вы находитесь на одном сайте.\n
   \n
-  Чтобы получить больше информации посетите <a href=\"https://mastodon.social/about\" >mastodon.social</a>.</string>
+  Чтобы получить больше информации посетите <a href="https://mastodon.social/about" >mastodon.social</a>.</string>
     <string name="dialog_title_finishing_media_upload">Завершается загрузка медиаконтента</string>
     <string name="dialog_message_uploading_media">Загружается…</string>
     <string name="dialog_download_image">Скачать</string>
