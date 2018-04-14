@@ -1274,11 +1274,6 @@ public final class ComposeActivity
         super.onActivityResult(requestCode, resultCode, intent);
         if (resultCode == RESULT_OK && requestCode == MEDIA_PICK_RESULT && intent != null) {
             Uri uri = intent.getData();
-            if (uri != null) {
-                // this is necessary so the SendTootService can access the uri later
-                final int takeFlags = intent.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
-                getContentResolver().takePersistableUriPermission(uri, takeFlags);
-            }
             long mediaSize = MediaUtils.getMediaSize(getContentResolver(), uri);
             pickMedia(uri, mediaSize);
         } else if (resultCode == RESULT_OK && requestCode == MEDIA_TAKE_PHOTO_RESULT) {
