@@ -1,148 +1,291 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_compose"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/transparent">
+
+        <ImageView
+            android:id="@+id/composeAvatar"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="end"
+            android:padding="8dp"
+            tools:ignore="ContentDescription" />
+        <!--content description will be set in code -->
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_marginBottom="52dp"
+        android:layout_marginTop="?attr/actionBarSize">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_marginBottom="8dp"
-            android:background="@android:color/transparent"
-            android:elevation="4dp" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/compose_edit_area"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:paddingBottom="4dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            <TextView
+                android:id="@+id/composeReplyView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:drawablePadding="6dp"
+                android:textSize="?attr/status_text_small"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="Reply to @username"
+                tools:visibility="visible" />
 
-            <!--An special EditText is created at runtime here, because it has to be a modified
-             * anonymous class to support image/GIF picking from the soft keyboard.-->
+            <TextView
+                android:id="@+id/composeReplyContentView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:background="?attr/compose_reply_content_background"
+                android:lineSpacingMultiplier="1.1"
+                android:paddingBottom="4dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="4dp"
+                android:textSize="?attr/status_text_small"
+                android:visibility="gone"
+                tools:text="Post content which may be preeettyy long, so please, make sure there's enough room for everything, okay? Not kidding. I wish Eugen answered me more often, sigh."
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/composeContentWarningBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/composeContentWarningField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/hint_content_warning"
+                    android:inputType="text|textCapSentences"
+                    android:lineSpacingMultiplier="1.1"
+                    android:maxLines="1"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textColorHint="?android:attr/textColorTertiary"
+                    android:textSize="?attr/status_text_medium" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:attr/listDivider" />
+
+            </LinearLayout>
+
+            <com.keylesspalace.tusky.view.EditTextTyped
+                android:id="@+id/composeEditField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:completionThreshold="2"
+                android:dropDownWidth="wrap_content"
+                android:hint="@string/hint_compose"
+                android:inputType="text|textMultiLine|textCapSentences"
+                android:lineSpacingMultiplier="1.1"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp"
+                android:textColorHint="?android:attr/textColorTertiary"
+                android:textSize="?attr/status_text_large" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true">
+                android:scrollbars="none">
 
                 <LinearLayout
                     android:id="@+id/compose_media_preview_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
 
                     <!--This is filled at runtime with ImageView's for each preview in the upload queue.-->
 
                 </LinearLayout>
+
             </HorizontalScrollView>
 
-            <ProgressBar
-                android:id="@+id/postProgress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/compose_content_warning_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="8dp">
-
-            <EditText
-                android:id="@+id/field_content_warning"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:ems="10"
-                android:maxLines="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:hint="@string/hint_content_warning"
-                android:inputType="text|textCapSentences" />
-
-            <View
-                android:layout_marginTop="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"/>
         </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/addMediaBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:colorBackground"
+        android:elevation="12dp"
+        android:orientation="vertical"
+        android:paddingBottom="52dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+        <TextView
+            android:id="@+id/action_photo_take"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:paddingBottom="8dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="4dp">
+            android:drawablePadding="8dp"
+            android:padding="8dp"
+            android:text="@string/action_photo_take"
+            android:textSize="?attr/status_text_medium" />
 
-            <ImageButton
-                android:id="@+id/compose_photo_pick"
-                style="?attr/image_button_style"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginRight="8dp"
-                app:srcCompat="@drawable/ic_attach_file_24dp"
-                android:contentDescription="@string/action_photo_pick" />
-
-            <ImageButton
-                android:id="@+id/action_toggle_visibility"
-                style="?attr/image_button_style"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginRight="8dp"
-                app:srcCompat="@drawable/ic_public_24dp"
-                android:contentDescription="@string/action_compose_options" />
-
-            <Button
-                android:id="@+id/action_toggle_nsfw"
-                style="?attr/image_button_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="0dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:visibility="gone"
-                android:textColor="?attr/compose_nsfw_button_color"
-                android:text="@string/toggle_nsfw" />
-
-            <android.support.v4.widget.Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/characters_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="500"
-                android:textColor="?android:textColorPrimary" />
-
-            <Button
-                android:id="@+id/floating_btn"
-                android:background="@drawable/compose_button_colors"
-                android:layout_width="80dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="10dp"
-                android:text="@string/action_send"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/action_photo_pick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:padding="8dp"
+            android:text="@string/action_add_media"
+            android:textSize="?attr/status_text_medium" />
     </LinearLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/emojiView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?android:colorBackground"
+        android:clipToPadding="false"
+        android:elevation="12dp"
+        android:orientation="horizontal"
+        android:paddingBottom="60dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior" />
+
+    <com.keylesspalace.tusky.view.ComposeOptionsView
+        android:id="@+id/composeOptionsBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:colorBackground"
+        android:elevation="12dp"
+        android:paddingBottom="52dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="?android:colorBackground"
+        android:elevation="12dp"
+        android:gravity="center_vertical"
+        android:paddingBottom="4dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp">
+
+        <ImageButton
+            android:id="@+id/composeAddMediaButton"
+            style="?attr/image_button_style"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@string/action_add_media"
+            android:padding="4dp"
+            android:tooltipText="@string/action_add_media"
+            app:srcCompat="@drawable/ic_attach_file_24dp" />
+
+        <ImageButton
+            android:id="@+id/composeToggleVisibilityButton"
+            style="?attr/image_button_style"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@string/action_toggle_visibility"
+            android:padding="4dp"
+            android:tooltipText="@string/action_toggle_visibility"
+            tools:src="@drawable/ic_public_24dp" />
+
+        <ImageButton
+            android:id="@+id/composeHideMediaButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/action_hide_media"
+            android:padding="4dp"
+            android:tooltipText="@string/action_hide_media"
+            android:visibility="gone"
+            tools:src="@drawable/ic_eye_24dp" />
+
+        <Button
+            android:id="@+id/composeContentWarningButton"
+            style="?attr/image_button_style"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@string/action_content_warning"
+            android:padding="4dp"
+            android:text="CW"
+            android:textColor="?android:textColorTertiary"
+            android:tooltipText="@string/action_content_warning" />
+
+        <ImageButton
+            android:id="@+id/composeEmojiButton"
+            style="?attr/image_button_style"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@string/action_emoji_keyboard"
+            android:padding="4dp"
+            android:tooltipText="@string/action_emoji_keyboard"
+            app:srcCompat="@drawable/ic_emoji_24dp" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/composeCharactersLeftView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?android:textColorTertiary"
+            android:textSize="?attr/status_text_medium" />
+
+        <com.keylesspalace.tusky.view.TootButton
+            android:id="@+id/composeTootButton"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="@dimen/toot_button_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textColor="@android:color/white"
+            android:textSize="?attr/status_text_medium" />
+
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -18,9 +18,16 @@
 
 ## for okhttp
 -dontwarn okio.**
+-dontwarn javax.annotation.Nullable
+-dontwarn javax.annotation.ParametersAreNonnullByDefault
+-dontwarn org.conscrypt.**
 
 ## for picasso
 -dontwarn com.squareup.okhttp.**
+
+##for keep
+-dontwarn android.arch.util.paging.CountedDataSource
+-dontwarn android.arch.persistence.room.paging.LimitOffsetDataSource
 
 ## for retrofit
 -dontwarn retrofit2.**
@@ -46,8 +53,16 @@
 
 # remove all logging from production apk
 -assumenosideeffects class android.util.Log {
+    public static *** getStackTraceString(...);
     public static *** d(...);
     public static *** w(...);
     public static *** v(...);
     public static *** i(...);
 }
+
+# remove some kotlin overhead
+-assumenosideeffects class kotlin.jvm.internal.Intrinsics {
+    static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
+}
+
+-dontwarn com.google.errorprone.annotations.*

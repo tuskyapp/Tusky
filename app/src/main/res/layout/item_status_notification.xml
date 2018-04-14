@@ -1,49 +1,141 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--This applies only to favourite and reblog notifications.-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="utf-8"?><!--This applies only to favourite and rebnotificationsEnabledions.-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/notification_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:id="@+id/notification_container"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp">
+
+    <TextView
+        android:id="@+id/notification_top_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="10dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:paddingStart="28dp"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="?attr/status_text_medium"
+        tools:text="Someone favourited your status" />
 
     <RelativeLayout
+        android:id="@+id/status_name_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:id="@+id/notification_top_bar">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/notification_icon"
-            android:paddingRight="10dp"
-            android:paddingLeft="24dp"
-            app:srcCompat="@drawable/ic_repeat_24dp"
-            android:contentDescription="@null" />
+        android:layout_below="@+id/notification_top_text"
+        android:layout_toEndOf="@+id/notification_status_avatar"
+        android:paddingBottom="4dp">
 
         <TextView
+            android:id="@+id/status_display_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/notification_text"
-            android:textColor="?android:textColorSecondary"
-            android:layout_centerVertical="true"
-            android:maxLines="1"
+            android:layout_alignParentStart="true"
             android:ellipsize="end"
-            android:text="Someone favourited your status"
-            android:layout_toRightOf="@id/notification_icon" />
+            android:maxLines="1"
+            android:paddingEnd="@dimen/status_display_name_padding_end"
+            android:paddingStart="0dp"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+            android:textColor="?android:textColorTertiary"
+            android:textSize="?attr/status_text_medium"
+            android:textStyle="normal|bold"
+            tools:text="Ente" />
+
+        <TextView
+            android:id="@+id/status_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/status_display_name"
+            android:layout_toStartOf="@+id/status_timestamp_info"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="?android:textColorTertiary"
+            android:textSize="?attr/status_text_medium"
+            tools:text="\@Entenhausen" />
+
+        <TextView
+            android:id="@+id/status_timestamp_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="4dp"
+            android:textColor="?android:textColorTertiary"
+            android:textSize="?attr/status_text_medium"
+            tools:text="13:37" />
 
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/notification_content_warning_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/status_name_bar"
+        android:layout_toEndOf="@id/notification_status_avatar"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="?android:textColorTertiary"
+        android:textSize="?attr/status_text_medium"
+        tools:text="Example CW text" />
+
+
+    <ToggleButton
+        android:id="@+id/notification_content_warning_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/notification_content_warning_description"
+        android:layout_toEndOf="@id/notification_status_avatar"
+        android:background="?attr/content_warning_button"
+        android:minHeight="0dp"
+        android:minWidth="150dp"
+        android:paddingBottom="4dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:textAllCaps="true"
+        android:textOff="@string/status_content_warning_show_more"
+        android:textOn="@string/status_content_warning_show_less"
+        android:textSize="?attr/status_text_medium" />
+
+    <TextView
+        android:id="@+id/notification_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/notification_content"
-        android:paddingLeft="58dp"
-        android:text="Example status here"
+        android:layout_below="@id/notification_content_warning_button"
+        android:layout_toEndOf="@+id/notification_status_avatar"
+        android:lineSpacingMultiplier="1.1"
+        android:paddingBottom="10dp"
         android:textColor="?android:textColorTertiary"
-        android:paddingBottom="10dp" />
+        android:textSize="?attr/status_text_medium"
+        tools:text="Example status here" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/notification_status_avatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/notification_top_text"
+        android:layout_marginBottom="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/action_view_profile"
+        android:paddingBottom="12dp"
+        android:paddingRight="12dp"
+        android:scaleType="fitCenter"
+        tools:ignore="RtlHardcoded,RtlSymmetry"
+        tools:src="@drawable/avatar_default" />
+
+    <ImageView
+        android:id="@+id/notification_notification_avatar"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignBottom="@+id/notification_status_avatar"
+        android:layout_alignEnd="@id/notification_status_avatar" />
+
+</RelativeLayout>

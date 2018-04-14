@@ -1,46 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/account_container"
     android:layout_width="match_parent"
     android:layout_height="72dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
     android:gravity="center_vertical"
-    android:id="@+id/account_container">
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
     <com.pkmmte.view.CircularImageView
+        android:id="@+id/account_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_centerVertical="true"
-        android:id="@+id/account_avatar"
-        android:layout_marginRight="24dp" />
+        android:layout_marginEnd="24dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_toEndOf="@id/account_avatar"
         android:gravity="center_vertical"
-        android:layout_toRightOf="@id/account_avatar">
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/account_display_name"
-            android:text="Display name"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textSize="16sp"
-            android:textColor="?android:textColorPrimary"
-            android:textStyle="normal|bold" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="\@username"
-            android:maxLines="1"
             android:ellipsize="end"
-            android:textSize="14sp"
+            android:maxLines="1"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="?attr/status_text_large"
+            android:textStyle="normal|bold"
+            tools:text="Display name" />
+
+        <TextView
+            android:id="@+id/account_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="?android:textColorSecondary"
-            android:id="@+id/account_username" />
+            android:textSize="?attr/status_text_medium"
+            tools:text="\@username" />
 
     </LinearLayout>
 

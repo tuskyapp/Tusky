@@ -1,79 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-* This is the for follow notifications, the layout for the follows/following listings on account
+<?xml version="1.0" encoding="utf-8"?><!--
+* This is the for folnotificationsEnabledions, the layout for the follows/following listings on account
 * pages are instead in item_account.xml.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:orientation="vertical"
     android:paddingBottom="10dp"
-    android:orientation="vertical">
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/notification_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:layout_marginTop="8dp"
-        android:layout_height="wrap_content">
+        android:drawablePadding="10dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:paddingStart="28dp"
+        android:textColor="?android:textColorTertiary"
+        android:textSize="?attr/status_text_medium"
+        tools:text="Someone followed you" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/follow_icon"
-            app:srcCompat="@drawable/ic_person_add_24dp"
-            android:paddingRight="10dp"
-            android:paddingLeft="24dp"
-            android:tint="?attr/colorAccent"
-            android:contentDescription="@null" />
+    <ImageView
+        android:id="@+id/notification_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/notification_text"
+        android:layout_marginEnd="14dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/action_view_profile"
+        android:scaleType="fitCenter"
+        android:textSize="?attr/status_text_medium" />
 
-        <TextView
-            android:id="@+id/notification_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="?android:textColorTertiary"
-            android:layout_centerVertical="true"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:layout_toRightOf="@id/follow_icon" />
+    <TextView
+        android:id="@+id/notification_display_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/notification_text"
+        android:layout_toEndOf="@id/notification_avatar"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        android:textStyle="normal|bold"
+        tools:text="Test User" />
 
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/notification_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/notification_display_name"
+        android:layout_toEndOf="@id/notification_avatar"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="?attr/status_text_medium"
+        tools:text="\@testuser" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_marginTop="4dp"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:id="@+id/notification_avatar"
-            android:scaleType="fitCenter"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="10dp"
-            android:layout_alignParentLeft="true"
-            android:contentDescription="@string/action_view_profile" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_toRightOf="@id/notification_avatar">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/notification_display_name"
-                android:textColor="?android:textColorPrimary"
-                android:textStyle="normal|bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/notification_username"
-                android:textColor="?android:textColorSecondary" />
-        </LinearLayout>
-
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

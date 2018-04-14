@@ -1,0 +1,291 @@
+<resources>
+
+    <string name="error_generic">Произошла ошибка.</string>
+    <string name="error_empty">Не может быть пустым.</string>
+    <string name="error_invalid_domain">Некорректный домен.</string>
+    <string name="error_failed_app_registration">Ошибка аутентификации на этом узле.</string>
+    <string name="error_no_web_browser_found">Не удается найти веб-браузер.</string>
+    <string name="error_authorization_unknown">Произошла ошибка неопознанной авторизации.</string>
+    <string name="error_authorization_denied">Авторизация была отклонена.</string>
+    <string name="error_retrieving_oauth_token">Не удалось получить токен авторизации.</string>
+    <string name="error_compose_character_limit">Статус слишком длинный!</string>
+    <string name="error_media_upload_size">Файл должен быть не больше 8 Мбайт.</string>
+    <string name="error_media_upload_type">Данный тип файла не может быть загружен.</string>
+    <string name="error_media_upload_opening">Файл не может быть открыт.</string>
+    <string name="error_media_upload_permission">Необходимо разрешение на чтение медиаконтента.</string>
+    <string name="error_media_download_permission">Необходимо разрешение для хранения медиаконтента.</string>
+    <string name="error_media_upload_image_or_video">Изображения и видео не могут быть прикрекплены к статусу одновременно.</string>
+    <string name="error_media_upload_sending">Загрузка не удалась.</string>
+    <string name="error_report_too_few_statuses">Должен быть выбран хотя бы один статус.</string>
+    <string name="error_invalid_regex">Неправильное регулярное выражение</string>
+
+    <string name="title_home">Дом</string>
+    <string name="title_advanced">Дополнительно</string>
+    <string name="title_notifications">Уведомления</string>
+    <string name="title_public_local">Локальная лента</string>
+    <string name="title_public_federated">Глобальная лента</string>
+    <string name="title_view_thread">Обсуждение</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">Посты</string>
+    <string name="title_follows">Подписки</string>
+    <string name="title_followers">Подписчики</string>
+    <string name="title_favourites">Понравившееся</string>
+    <string name="title_mutes">Список глушения</string>
+    <string name="title_blocks">Список блокировки</string>
+    <string name="title_follow_requests">Запросы на подписку</string>
+    <string name="title_edit_profile">Редактировать профиль</string>
+    <string name="title_saved_toot">Черновики</string>
+    <string name="title_x_followers">Подписчиков: <b>%s</b></string>
+    <string name="title_x_following">Подписок: <b>%s</b></string>
+    <string name="title_x_statuses">Постов: <b>%s</b></string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s продвинул(а)</string>
+    <string name="status_sensitive_media_title">Чувствительный контент</string>
+    <string name="status_media_hidden_title">Медиа скрыто</string>
+    <string name="status_sensitive_media_directions">Нажмите для просмотра</string>
+    <string name="status_content_warning_show_more">Развернуть</string>
+    <string name="status_content_warning_show_less">Свернуть</string>
+
+    <string name="footer_empty">Ничего нет. Прокрутите вниз, чтобы обновить!</string>
+
+    <string name="notification_reblog_format">%s продвинул(а) Ваш статус</string>
+    <string name="notification_favourite_format">%s понравился Ваш статус</string>
+    <string name="notification_follow_format">%s подписался(-лась) на Вас</string>
+
+    <string name="report_username_format">Пожаловаться на @%s</string>
+    <string name="report_comment_hint">Дополнительные комментарии?</string>
+
+    <string name="action_reply">Ответить</string>
+    <string name="action_reblog">Продвинуть</string>
+    <string name="action_favourite">Нравится</string>
+    <string name="action_more">Развернуть</string>
+    <string name="action_compose">Написать</string>
+    <string name="action_login">Войти</string>
+    <string name="action_logout">Выйти</string>
+    <string name="action_logout_confirm">Вы действительно хотите выйти из учётной записи %1$s?</string>
+    <string name="action_follow">Подписаться</string>
+    <string name="action_unfollow">Отписаться</string>
+    <string name="action_block">Заблокировать</string>
+    <string name="action_unblock">Разблокировать</string>
+    <string name="action_report">Пожаловаться</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_send">ТРУБИТЬ</string>
+    <string name="action_send_public">ТРУБИТЬ!</string>
+    <string name="action_retry">Повторить</string>
+    <string name="action_close">Закрыть</string>
+    <string name="action_view_profile">Профиль</string>
+    <string name="action_view_preferences">Настройки</string>
+    <string name="action_view_favourites">Понравившееся</string>
+    <string name="action_view_mutes">Список глушения</string>
+    <string name="action_view_blocks">Список блокировки</string>
+    <string name="action_view_follow_requests">Запросы на подписку</string>
+    <string name="action_view_media">Медиаконтент</string>
+    <string name="action_open_in_web">Открыть в браузере</string>
+    <string name="action_add_media">Добавить медиаконтент</string>
+    <string name="action_photo_take">Сфотографировать</string>
+    <string name="action_share">Поделиться</string>
+    <string name="action_mute">Заглушить</string>
+    <string name="action_unmute">Отменить глушение</string>
+    <string name="action_mention">Упомянуть</string>
+    <string name="action_hide_media">Скрыть медиаконтент</string>
+    <string name="action_open_drawer">Нарисовать</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_edit_profile">Редактировать профиль</string>
+    <string name="action_undo">Отменить</string>
+    <string name="action_accept">Принять</string>
+    <string name="action_reject">Отклонить</string>
+    <string name="action_search">Поиск</string>
+    <string name="action_access_saved_toot">Черновики</string>
+    <string name="action_toggle_visibility">Видимость поста</string>
+    <string name="action_content_warning">Предупреждение о контенте</string>
+    <string name="action_emoji_keyboard">Эмодзи-клавиатура</string>
+
+    <string name="download_image">Загрузка %1$s</string>
+
+    <string name="action_copy_link">Копировать ссылку</string>
+
+    <string name="send_status_link_to">Поделиться ссылкой статуса</string>
+    <string name="send_status_content_to">Поделиться статусом</string>
+
+    <string name="confirmation_reported">Отправить!</string>
+    <string name="confirmation_unblocked">Пользователь разблокирован</string>
+    <string name="confirmation_unmuted">Глушение снято</string>
+
+    <string name="hint_domain">Какой узел?</string>
+    <string name="hint_compose">Что происходит?</string>
+    <string name="hint_content_warning">Предупреждение о содержании</string>
+    <string name="hint_display_name">Отображать имя</string>
+    <string name="hint_note">О себе</string>
+    <string name="hint_search">Поиск…</string>
+
+    <string name="search_no_results">Нет результатов</string>
+
+    <string name="label_avatar">Аватар</string>
+    <string name="label_header">Заголовок</string>
+
+    <string name="link_whats_an_instance">Что такое узел?</string>
+
+    <string name="login_connection">Соединение…</string>
+
+    <string name="dialog_whats_an_instance">Здесь можно ввести адрес или домен любого узла, например, mastodon.social, icosahedron.website, social.tchncs.de и <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md" >других</a>!\n
+  \n
+  Если у Вас еще нет аккаунта, введите адрес узла, на котором хотите зарегистрироваться, и создайте аккаунт.\n
+  \n
+  Узел - это то место, где размещен Ваш аккаунт, но Вы можете взаимодействовать с пользователями других узлов, как будто вы находитесь на одном сайте.\n
+  \n
+  Чтобы получить больше информации посетите <a href="https://mastodon.social/about" >mastodon.social</a>.</string>
+    <string name="dialog_title_finishing_media_upload">Завершается загрузка медиаконтента</string>
+    <string name="dialog_message_uploading_media">Загружается…</string>
+    <string name="dialog_download_image">Скачать</string>
+    <string name="dialog_message_follow_request">Статус запроса на подписку: ожидается ответ</string>
+    <string name="dialog_unfollow_warning">Отписаться от этого аккаунта?</string>
+
+    <string name="visibility_public">Публичный: Показать в публичных лентах</string>
+    <string name="visibility_unlisted">Скрытый: Не показывать в лентах</string>
+    <string name="visibility_private">Приватный: Показать только подписчикам</string>
+    <string name="visibility_direct">Направленный: Показать только упомянутым</string>
+
+    <string name="pref_title_notification_settings">Уведомления</string>
+    <string name="pref_title_edit_notification_settings">Настройки уведомлений</string>
+    <string name="pref_title_notifications_enabled">Push-уведомления</string>
+    <string name="pref_summary_notifications">для аккаунта %1$s</string>
+    <string name="pref_title_pull_notification_check_interval">Интервал проверки</string>
+    <string name="pref_title_notification_alerts">Предупреждения</string>
+    <string name="pref_title_notification_alert_sound">Звуковые уведомления</string>
+    <string name="pref_title_notification_alert_vibrate">Использовать вибрацию</string>
+    <string name="pref_title_notification_alert_light">Световые уведомления</string>
+    <string name="pref_title_notification_filters">Уведомлять когда...</string>
+    <string name="pref_title_notification_filter_mentions">упомянули</string>
+    <string name="pref_title_notification_filter_follows">подписались</string>
+    <string name="pref_title_notification_filter_reblogs">мой пост продвинули</string>
+    <string name="pref_title_notification_filter_favourites">мой пост понравился</string>
+    <string name="pref_title_appearance_settings">Внешний вид</string>
+    <string name="pref_title_app_theme">Тема</string>
+
+    <string-array name="app_theme_names">
+        <item>Тёмная</item>
+        <item>Светлая</item>
+        <item>Автоматическая (по времени)</item>
+    </string-array>
+
+    <string name="pref_title_browser_settings">Браузер</string>
+    <string name="pref_title_custom_tabs">Использовать Chrome Custom Tabs</string>
+    <string name="pref_title_hide_follow_button">Скрывать кнопку подписки при покрутке</string>
+    <string name="pref_title_status_filter">Фильтрация ленты</string>
+    <string name="pref_title_status_tabs">Табы</string>
+    <string name="pref_title_show_boosts">Показывать продвижения</string>
+    <string name="pref_title_show_replies">Показывать ответы</string>
+    <string name="pref_title_filter_regex">Фильтрация по регулярному выражению</string>
+    <string name="pref_title_show_media_preview">Предпросмотр медиаконтента</string>
+    <string name="pref_title_proxy_settings">Прокси</string>
+    <string name="pref_title_http_proxy_settings">HTTP прокси</string>
+    <string name="pref_title_http_proxy_enable">Включить HTTP прокси</string>
+    <string name="pref_title_http_proxy_server">Адрес сервера</string>
+    <string name="pref_title_http_proxy_port">Порт</string>
+
+    <string-array name="pull_notification_check_interval_names">
+        <item>15 минут</item>
+        <item>20 минут</item>
+        <item>25 минут</item>
+        <item>30 минут</item>
+        <item>45 минут</item>
+        <item>1 час</item>
+        <item>2 часа</item>
+    </string-array>
+
+    <string name="pref_default_post_privacy">Приватность статусов по умолчанию</string>
+    <string name="pref_publishing">Публикация</string>
+
+    <string-array name="post_privacy_names">
+        <item>Публичные</item>
+        <item>Непубличные</item>
+        <item>Для подписчиков</item>
+    </string-array>
+
+    <string name="pref_status_text_size">Размер текста статусов</string>
+
+    <string-array name="status_text_size_names">
+        <item>Маленький</item>
+        <item>Средний</item>
+        <item>Большой</item>
+    </string-array>
+
+    <string name="notification_channel_mention_name">Новые упоминания</string>
+    <string name="notification_channel_mention_descriptions">Уведомлять о новых упоминаниях</string>
+    <string name="notification_channel_follow_name">Новые подписчики</string>
+    <string name="notification_channel_follow_description">Уведомлять о новых подписчиках</string>
+    <string name="notification_channel_boost_name">Продвижения</string>
+    <string name="notification_channel_boost_description">Уведомлять, если кто-то продвинул ваши сообщения</string>
+    <string name="notification_channel_favourite_name">Избранное</string>
+    <string name="notification_channel_favourite_description">Уведомлять, когда ваши сообщения отмечают как «избранные»</string>
+
+
+    <string name="notification_mention_format">%s упомянул(а) Вас</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s и %4$d других</string>
+    <string name="notification_summary_medium">%1$s, %2$s, и %3$s</string>
+    <string name="notification_summary_small">%1$s и %2$s</string>
+    <string name="notification_title_summary">Новых событий: %d</string>
+
+    <string name="description_account_locked">Закрытый аккаунт</string>
+
+    <string name="about_title_activity">О приложении</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Tusky – это бесплатное приложение с открытым исходным кодом.         Выпускается по лицензии GNU General Public License Version 3.         Вы можете прочитать текст лицензии по ссылке: https://www.gnu.org/licenses/gpl-3.0.ru.html</string>
+    <!-- note to translators: the url can be changed to link to the localized version of the license -->
+    <string name="about_project_site">Веб-сайт проекта\n
+           https://tuskyapp.github.io</string>
+    <string name="about_bug_feature_request_site">Отчеты об ошибках и пожелания:\n
+           https://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_tusky_account">Профиль Tusky</string>
+
+    <string name="status_share_content">Поделиться содержанием поста</string>
+    <string name="status_share_link">Поделиться ссылкой на пост</string>
+    <string name="status_media_images">Изображения</string>
+    <string name="status_media_video">Видео</string>
+
+    <string name="state_follow_requested">Запрошенные подписки</string>
+
+    <string name="no_content">ничего нет</string>
+
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">через %dг</string>
+    <string name="abbreviated_in_days">через %dд</string>
+    <string name="abbreviated_in_hours">через %dч</string>
+    <string name="abbreviated_in_minutes">через %dм</string>
+    <string name="abbreviated_in_seconds">через %dс</string>
+    <string name="abbreviated_years_ago">%dг</string>
+    <string name="abbreviated_days_ago">%dд</string>
+    <string name="abbreviated_hours_ago">%dч</string>
+    <string name="abbreviated_minutes_ago">%dм</string>
+    <string name="abbreviated_seconds_ago">%dс</string>
+
+    <string name="follows_you">Подписан(а) на вас</string>
+    <string name="pref_title_alway_show_sensitive_media">Всегда показывать NSFW-контент</string>
+    <string name="title_media">Медиа</string>
+    <string name="replying_to">Ответить @%s</string>
+    <string name="load_more_placeholder_text">ещё</string>
+
+    <string name="add_account_name">Добавить аккаунт</string>
+    <string name="add_account_description">Добавить новый акканут Mastodon</string>
+
+    <string name="action_lists">Списки</string>
+    <string name="title_lists">Списки</string>
+    <string name="title_list_timeline">Лента списка</string>
+
+    <string name="compose_active_account_description">Отправка от имени %1$s</string>
+
+    <string name="error_failed_set_caption">Не удалось добавить подпись</string>
+    <string name="hint_describe_for_visually_impaired">Описание для слабовидящих</string>
+    <string name="action_set_caption">Добавить подпись</string>
+    <string name="action_remove_media">Удалить</string>
+    <string name="lock_account_label">Закрыть аккаунт</string>
+    <string name="lock_account_label_description">Вам придётся вручную подтверждать подписчиков</string>
+    <string name="compose_save_draft">Сохранить черновик?</string>
+    <string name="send_toot_notification_title">Отправка поста...</string>
+    <string name="send_toot_notification_error_title">Ошибка при отправке поста</string>
+    <string name="send_toot_notification_channel_name">Отправка постов</string>
+    <string name="send_toot_notification_cancel_title">Отправка отменена</string>
+    <string name="send_toot_notification_saved_content">Копия поста сохранена в ваши черновики</string>
+
+</resources>

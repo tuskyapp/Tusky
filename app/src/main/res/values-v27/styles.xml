@@ -1,0 +1,10 @@
+<resources>
+
+    <!--Light Application Theme Styles-->
+    <style name="AppTheme" parent="AppThemeBase">
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:navigationBarColor">@color/color_background_light</item>
+        <item name="android:navigationBarDividerColor">@color/status_divider_light</item>
+    </style>
+
+</resources>

@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -25,307 +26,209 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.media.MediaMetadataRetriever;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.provider.OpenableColumns;
+import android.preference.PreferenceManager;
+import android.provider.MediaStore;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.Px;
 import android.support.annotation.StringRes;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
-import android.support.v13.view.inputmethod.EditorInfoCompat;
+import android.support.transition.TransitionManager;
 import android.support.v13.view.inputmethod.InputConnectionCompat;
 import android.support.v13.view.inputmethod.InputContentInfoCompat;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.content.res.AppCompatResources;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
-import android.text.Spannable;
-import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.style.ForegroundColorSpan;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputConnection;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.keylesspalace.tusky.entity.Media;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.keylesspalace.tusky.adapter.EmojiAdapter;
+import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
+import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener;
+import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.db.EmojiListEntity;
+import com.keylesspalace.tusky.di.Injectable;
+import com.keylesspalace.tusky.entity.Account;
+import com.keylesspalace.tusky.entity.Attachment;
+import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.network.MastodonApi;
+import com.keylesspalace.tusky.network.ProgressRequestBody;
+import com.keylesspalace.tusky.service.SendTootService;
+import com.keylesspalace.tusky.util.CountUpDownLatch;
+import com.keylesspalace.tusky.util.DownsizeImageTask;
+import com.keylesspalace.tusky.util.IOUtils;
+import com.keylesspalace.tusky.util.ListUtils;
+import com.keylesspalace.tusky.util.MediaUtils;
+import com.keylesspalace.tusky.util.MentionTokenizer;
+import com.keylesspalace.tusky.util.SaveTootHelper;
+import com.keylesspalace.tusky.util.SpanUtils;
+import com.keylesspalace.tusky.util.StringUtils;
+import com.keylesspalace.tusky.util.ThemeUtils;
+import com.keylesspalace.tusky.view.ComposeOptionsListener;
+import com.keylesspalace.tusky.view.ComposeOptionsView;
+import com.keylesspalace.tusky.view.EditTextTyped;
+import com.keylesspalace.tusky.view.ProgressImageView;
+import com.keylesspalace.tusky.view.RoundedTransformation;
+import com.keylesspalace.tusky.view.TootButton;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
+import com.squareup.picasso.Picasso;
+import com.varunest.sparkbutton.helpers.Utils;
 
-import java.io.ByteArrayOutputStream;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
+
+import javax.inject.Inject;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
-public class  ComposeActivity extends BaseActivity implements ComposeOptionsFragment.Listener {
+public final class ComposeActivity
+        extends BaseActivity
+        implements ComposeOptionsListener,
+        MentionAutoCompleteAdapter.AccountSearchProvider,
+        OnEmojiSelectedListener,
+        Injectable, InputConnectionCompat.OnCommitContentListener {
+
     private static final String TAG = "ComposeActivity"; // logging tag
     private static final int STATUS_CHARACTER_LIMIT = 500;
-    private static final int STATUS_MEDIA_SIZE_LIMIT = 4000000; // 4MB
+    private static final int STATUS_MEDIA_SIZE_LIMIT = 8388608; // 8MiB
     private static final int MEDIA_PICK_RESULT = 1;
+    private static final int MEDIA_TAKE_PHOTO_RESULT = 2;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-    private static final int MEDIA_SIZE_UNKNOWN = -1;
+    @Px
+    private static final int THUMBNAIL_SIZE = 128;
 
-    private String inReplyToId;
-    private EditText textEditor;
+    private static final String SAVED_TOOT_UID_EXTRA = "saved_toot_uid";
+    private static final String SAVED_TOOT_TEXT_EXTRA = "saved_toot_text";
+    private static final String SAVED_JSON_URLS_EXTRA = "saved_json_urls";
+    private static final String IN_REPLY_TO_ID_EXTRA = "in_reply_to_id";
+    private static final String REPLY_VISIBILITY_EXTRA = "reply_visibilty";
+    private static final String CONTENT_WARNING_EXTRA = "content_warning";
+    private static final String MENTIONED_USERNAMES_EXTRA = "netnioned_usernames";
+    private static final String REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra";
+    private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
+
+    @Inject
+    public MastodonApi mastodonApi;
+    @Inject
+    public AccountManager accountManager;
+
+    private TextView replyTextView;
+    private TextView replyContentTextView;
+    private EditTextTyped textEditor;
     private LinearLayout mediaPreviewBar;
-    private ArrayList<QueuedMedia> mediaQueued;
-    private CountUpDownLatch waitForMediaLatch;
-    private boolean showMarkSensitive;
-    private String statusVisibility;     // The current values of the options that will be applied
-    private boolean statusMarkSensitive; // to the status being composed.
-    private boolean statusHideText;      //
     private View contentWarningBar;
-    private boolean statusAlreadyInFlight; // to prevent duplicate sends by mashing the send button
-    private InputContentInfoCompat currentInputContentInfo;
-    private int currentFlags;
-    private ProgressDialog finishingUploadDialog;
     private EditText contentWarningEditor;
     private TextView charactersLeft;
-    private Button floatingBtn;
-    private ImageButton pickBtn;
-    private Button nsfwBtn;
-    private ProgressBar postProgress;
+    private TootButton tootButton;
+    private ImageButton pickButton;
+    private ImageButton visibilityButton;
+    private Button contentWarningButton;
+    private ImageButton emojiButton;
+    private ImageButton hideMediaToggle;
 
-    private static class QueuedMedia {
-        enum Type {
-            IMAGE,
-            VIDEO
-        }
+    private ComposeOptionsView composeOptionsView;
+    private BottomSheetBehavior composeOptionsBehavior;
+    private BottomSheetBehavior addMediaBehavior;
+    private BottomSheetBehavior emojiBehavior;
+    private RecyclerView emojiView;
 
-        enum ReadyStage {
-            DOWNSIZING,
-            UPLOADING
-        }
+    // this only exists when a status is trying to be sent, but uploads are still occurring
+    private ProgressDialog finishingUploadDialog;
+    private String inReplyToId;
+    private List<QueuedMedia> mediaQueued = new ArrayList<>();
+    private CountUpDownLatch waitForMediaLatch;
+    private Status.Visibility statusVisibility;     // The current values of the options that will be applied
+    private boolean statusMarkSensitive; // to the status being composed.
+    private boolean statusHideText;
+    private InputContentInfoCompat currentInputContentInfo;
+    private int currentFlags;
+    private Uri photoUploadUri;
+    private int savedTootUid = 0;
 
-        Type type;
-        ImageView preview;
-        Uri uri;
-        String id;
-        Call<Media> uploadRequest;
-        ReadyStage readyStage;
-        byte[] content;
-        long mediaSize;
-
-        QueuedMedia(Type type, Uri uri, ImageView preview, long mediaSize) {
-            this.type = type;
-            this.uri = uri;
-            this.preview = preview;
-            this.mediaSize = mediaSize;
-        }
-    }
-
-    /**This saves enough information to re-enqueue an attachment when restoring the activity. */
-    private static class SavedQueuedMedia implements Parcelable {
-        QueuedMedia.Type type;
-        Uri uri;
-        Bitmap preview;
-        long mediaSize;
-
-        SavedQueuedMedia(QueuedMedia.Type type, Uri uri, ImageView view, long mediaSize) {
-            this.type = type;
-            this.uri = uri;
-            this.preview = ((BitmapDrawable) view.getDrawable()).getBitmap();
-            this.mediaSize = mediaSize;
-        }
-
-        SavedQueuedMedia(Parcel parcel) {
-            type = (QueuedMedia.Type) parcel.readSerializable();
-            uri = parcel.readParcelable(Uri.class.getClassLoader());
-            preview = parcel.readParcelable(Bitmap.class.getClassLoader());
-            mediaSize = parcel.readLong();
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeSerializable(type);
-            dest.writeParcelable(uri, flags);
-            dest.writeParcelable(preview, flags);
-            dest.writeLong(mediaSize);
-        }
-
-        public static final Parcelable.Creator<SavedQueuedMedia> CREATOR
-                = new Parcelable.Creator<SavedQueuedMedia>() {
-            public SavedQueuedMedia createFromParcel(Parcel in) {
-                return new SavedQueuedMedia(in);
-            }
-
-            public SavedQueuedMedia[] newArray(int size) {
-                return new SavedQueuedMedia[size];
-            }
-        };
-    }
-
-    private void doErrorDialog(@StringRes int descriptionId, @StringRes int actionId,
-            View.OnClickListener listener) {
-        Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(descriptionId),
-                Snackbar.LENGTH_SHORT);
-        bar.setAction(actionId, listener);
-        bar.show();
-    }
-
-    private void displayTransientError(@StringRes int stringId) {
-        Snackbar.make(findViewById(R.id.activity_compose), stringId, Snackbar.LENGTH_LONG).show();
-    }
-
-    private static class FindCharsResult {
-        int charIndex;
-        int stringIndex;
-
-        FindCharsResult() {
-            charIndex = -1;
-            stringIndex = -1;
-        }
-    }
-
-    private static FindCharsResult findChars(String string, int fromIndex, char[] chars) {
-        FindCharsResult result = new FindCharsResult();
-        final int length = string.length();
-        for (int i = fromIndex; i < length; i++) {
-            char c = string.charAt(i);
-            for (int j = 0; j < chars.length; j++) {
-                if (chars[j] == c) {
-                    result.charIndex = j;
-                    result.stringIndex = i;
-                    return result;
-                }
-            }
-        }
-        return result;
-    }
-
-    private static FindCharsResult findStart(String string, int fromIndex, char[] chars) {
-        final int length = string.length();
-        while (fromIndex < length) {
-            FindCharsResult found = findChars(string, fromIndex, chars);
-            int i = found.stringIndex;
-            if (i < 0) {
-                break;
-            } else if (i == 0 || i >= 1 && Character.isWhitespace(string.codePointBefore(i))) {
-                return found;
-            } else {
-                fromIndex = i + 1;
-            }
-        }
-        return new FindCharsResult();
-    }
-
-    private static int findEndOfHashtag(String string, int fromIndex) {
-        final int length = string.length();
-        for (int i = fromIndex + 1; i < length;) {
-            int codepoint = string.codePointAt(i);
-            if (Character.isWhitespace(codepoint)) {
-                return i;
-            } else if (codepoint == '#') {
-                return -1;
-            }
-            i += Character.charCount(codepoint);
-        }
-        return length;
-    }
-
-    private static int findEndOfMention(String string, int fromIndex) {
-        int atCount = 0;
-        final int length = string.length();
-        for (int i = fromIndex + 1; i < length;) {
-            int codepoint = string.codePointAt(i);
-            if (Character.isWhitespace(codepoint)) {
-                return i;
-            } else if (codepoint == '@') {
-                atCount += 1;
-                if (atCount >= 2) {
-                    return -1;
-                }
-            }
-            i += Character.charCount(codepoint);
-        }
-        return length;
-    }
-
-    private static void highlightSpans(Spannable text, int colour) {
-        // Strip all existing colour spans.
-        int n = text.length();
-        ForegroundColorSpan[] oldSpans = text.getSpans(0, n, ForegroundColorSpan.class);
-        for (int i = oldSpans.length - 1; i >= 0; i--) {
-            text.removeSpan(oldSpans[i]);
-        }
-        // Colour the mentions and hashtags.
-        String string = text.toString();
-        int start;
-        int end = 0;
-        while (end < n) {
-            char[] chars = { '#', '@' };
-            FindCharsResult found = findStart(string, end, chars);
-            start = found.stringIndex;
-            if (start < 0) {
-                break;
-            }
-            if (found.charIndex == 0) {
-                end = findEndOfHashtag(string, start);
-            } else if (found.charIndex == 1) {
-                end = findEndOfMention(string, start);
-            } else {
-                break;
-            }
-            if (end < 0) {
-                break;
-            }
-            text.setSpan(new ForegroundColorSpan(colour), start, end,
-                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        }
-    }
+    private SaveTootHelper saveTootHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        replyTextView = findViewById(R.id.composeReplyView);
+        replyContentTextView = findViewById(R.id.composeReplyContentView);
+        textEditor = findViewById(R.id.composeEditField);
+        mediaPreviewBar = findViewById(R.id.compose_media_preview_bar);
+        contentWarningBar = findViewById(R.id.composeContentWarningBar);
+        contentWarningEditor = findViewById(R.id.composeContentWarningField);
+        charactersLeft = findViewById(R.id.composeCharactersLeftView);
+        tootButton = findViewById(R.id.composeTootButton);
+        pickButton = findViewById(R.id.composeAddMediaButton);
+        visibilityButton = findViewById(R.id.composeToggleVisibilityButton);
+        contentWarningButton = findViewById(R.id.composeContentWarningButton);
+        emojiButton = findViewById(R.id.composeEmojiButton);
+        hideMediaToggle = findViewById(R.id.composeHideMediaButton);
+        emojiView = findViewById(R.id.emojiView);
+
+        saveTootHelper = new SaveTootHelper(TuskyApplication.getDB().tootDao(), this);
+
+        // Setup the toolbar.
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         ActionBar actionBar = getSupportActionBar();
-
         if (actionBar != null) {
             actionBar.setTitle(null);
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -335,54 +238,102 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             actionBar.setHomeAsUpIndicator(closeIcon);
         }
 
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        // setup the account image
+        final AccountEntity activeAccount = accountManager.getActiveAccount();
 
-        floatingBtn = (Button) findViewById(R.id.floating_btn);
-        pickBtn = (ImageButton) findViewById(R.id.compose_photo_pick);
-        nsfwBtn = (Button) findViewById(R.id.action_toggle_nsfw);
-        final ImageButton visibilityBtn = (ImageButton) findViewById(R.id.action_toggle_visibility);
+        if (activeAccount != null) {
+            ImageView composeAvatar = findViewById(R.id.composeAvatar);
 
-        floatingBtn.setOnClickListener(new View.OnClickListener() {
+            if (TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
+                composeAvatar.setImageResource(R.drawable.avatar_default);
+            } else {
+                Picasso.with(this).load(activeAccount.getProfilePictureUrl())
+                        .transform(new RoundedTransformation(25))
+                        .error(R.drawable.avatar_default)
+                        .placeholder(R.drawable.avatar_default)
+                        .into(composeAvatar);
+            }
+
+            composeAvatar.setContentDescription(
+                    getString(R.string.compose_active_account_description,
+                            activeAccount.getFullName()));
+
+        } else {
+            // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
+            return;
+        }
+
+        composeOptionsView = findViewById(R.id.composeOptionsBottomSheet);
+        composeOptionsView.setListener(this);
+
+        composeOptionsBehavior = BottomSheetBehavior.from(composeOptionsView);
+        composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        addMediaBehavior = BottomSheetBehavior.from(findViewById(R.id.addMediaBottomSheet));
+
+        emojiBehavior = BottomSheetBehavior.from(emojiView);
+
+        emojiView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false));
+
+        mastodonApi.getCustomEmojis().enqueue(new Callback<List<Emoji>>() {
             @Override
-            public void onClick(View v) {
-                pickBtn.setClickable(false);
-                nsfwBtn.setClickable(false);
-                visibilityBtn.setClickable(false);
-                floatingBtn.setEnabled(false);
+            public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
+                List<Emoji> emojiList = response.body();
 
-                postProgress.setVisibility(View.VISIBLE);
-                sendStatus();
+                if (emojiList != null) {
+
+                    emojiView.setAdapter(new EmojiAdapter(emojiList, ComposeActivity.this));
+
+                    EmojiListEntity emojiListEntity = new EmojiListEntity(activeAccount.getDomain(), emojiList);
+
+                    TuskyApplication.getDB().emojiListDao().insertOrReplace(emojiListEntity);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Emoji>> call, @NonNull Throwable t) {
+                Log.w(TAG, "error loading custom emojis", t);
+                EmojiListEntity emojiListEntity = TuskyApplication.getDB().emojiListDao().loadEmojisForInstance(activeAccount.getDomain());
+
+                if(emojiListEntity != null) {
+                    emojiView.setAdapter(new EmojiAdapter(emojiListEntity.getEmojiList(), ComposeActivity.this));
+                }
             }
         });
-        pickBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onMediaPick();
-            }
-        });
-        nsfwBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleNsfw();
-            }
-        });
-        visibilityBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showComposeOptions();
-            }
-        });
 
-        Intent intent = getIntent();
+        // Setup the interface buttons.
+        tootButton.setOnClickListener(v -> onSendClicked());
+        pickButton.setOnClickListener(v -> openPickDialog());
+        visibilityButton.setOnClickListener(v -> showComposeOptions());
+        contentWarningButton.setOnClickListener(v-> onContentWarningChanged());
+        emojiButton.setOnClickListener(v -> showEmojis());
+        hideMediaToggle.setOnClickListener(v -> toggleHideMedia());
 
-        String startingVisibility;
+        TextView actionPhotoTake = findViewById(R.id.action_photo_take);
+        TextView actionPhotoPick = findViewById(R.id.action_photo_pick);
+
+        int textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);
+
+        Drawable cameraIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_camera_alt).color(textColor).sizeDp(18);
+        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(actionPhotoTake, cameraIcon, null, null, null);
+
+        Drawable imageIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_image).color(textColor).sizeDp(18);
+        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(actionPhotoPick, imageIcon, null, null, null);
+
+        actionPhotoTake.setOnClickListener(v -> initiateCameraApp());
+        actionPhotoPick.setOnClickListener(v -> onMediaPick());
+
+        /* Initialise all the state, or restore it from a previous run, to determine a "starting"
+         * state. */
+        Status.Visibility startingVisibility = Status.Visibility.UNKNOWN;
         boolean startingHideText;
         String startingContentWarning = null;
         ArrayList<SavedQueuedMedia> savedMediaQueued = null;
         if (savedInstanceState != null) {
-            showMarkSensitive = savedInstanceState.getBoolean("showMarkSensitive");
-            startingVisibility = savedInstanceState.getString("statusVisibility");
+            startingVisibility = Status.Visibility.byNum(
+                    savedInstanceState.getInt("statusVisibility",
+                            Status.Visibility.PUBLIC.getNum())
+            );
             statusMarkSensitive = savedInstanceState.getBoolean("statusMarkSensitive");
             startingHideText = savedInstanceState.getBoolean("statusHideText");
             // Keep these until everything needed to put them in the queue is finished initializing.
@@ -394,60 +345,108 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             if (previousInputContentInfo != null) {
                 onCommitContentInternal(previousInputContentInfo, previousFlags);
             }
+            photoUploadUri = savedInstanceState.getParcelable("photoUploadUri");
         } else {
-            showMarkSensitive = false;
-            startingVisibility = preferences.getString("rememberedVisibility", "public");
             statusMarkSensitive = false;
             startingHideText = false;
+            photoUploadUri = null;
         }
 
-        postProgress = (ProgressBar) findViewById(R.id.postProgress);
-        postProgress.setVisibility(View.INVISIBLE);
-        updateNsfwButtonColor();
+        /* If the composer is started up as a reply to another post, override the "starting" state
+         * based on what the intent from the reply request passes. */
+        Intent intent = getIntent();
 
         String[] mentionedUsernames = null;
+        ArrayList<String> loadedDraftMediaUris = null;
         inReplyToId = null;
         if (intent != null) {
-            inReplyToId = intent.getStringExtra("in_reply_to_id");
-            String replyVisibility = intent.getStringExtra("reply_visibility");
 
-            if (replyVisibility != null && startingVisibility != null) {
-                // Lowest possible visibility setting in response
-                if (startingVisibility.equals("private") || replyVisibility.equals("private")) {
-                    startingVisibility = "private";
-                } else if (startingVisibility.equals("unlisted") || replyVisibility.equals("unlisted")) {
-                    startingVisibility = "unlisted";
-                } else {
+            if (startingVisibility == Status.Visibility.UNKNOWN) {
+                Status.Visibility replyVisibility = Status.Visibility.byNum(
+                        intent.getIntExtra(REPLY_VISIBILITY_EXTRA, Status.Visibility.UNKNOWN.getNum()));
+
+                if (replyVisibility != Status.Visibility.UNKNOWN) {
                     startingVisibility = replyVisibility;
+                } else {
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                    startingVisibility = Status.Visibility.byString(
+                            preferences.getString("defaultPostPrivacy",
+                                    Status.Visibility.PUBLIC.serverString()));
                 }
             }
 
-            mentionedUsernames = intent.getStringArrayExtra("mentioned_usernames");
+            inReplyToId = intent.getStringExtra(IN_REPLY_TO_ID_EXTRA);
 
-            if(inReplyToId != null) {
-                startingHideText = !intent.getStringExtra("content_warning").equals("");
-                if(startingHideText){
-                    startingContentWarning = intent.getStringExtra("content_warning");
+            mentionedUsernames = intent.getStringArrayExtra(MENTIONED_USERNAMES_EXTRA);
+
+            String contentWarning = intent.getStringExtra(CONTENT_WARNING_EXTRA);
+            if (contentWarning != null) {
+                startingHideText = !contentWarning.isEmpty();
+                if (startingHideText) {
+                    startingContentWarning = contentWarning;
                 }
+            }
+
+            // If come from SavedTootActivity
+            String savedTootText = intent.getStringExtra(SAVED_TOOT_TEXT_EXTRA);
+            if (!TextUtils.isEmpty(savedTootText)) {
+                textEditor.append(savedTootText);
+            }
+
+            String savedJsonUrls = intent.getStringExtra(SAVED_JSON_URLS_EXTRA);
+            if (!TextUtils.isEmpty(savedJsonUrls)) {
+                // try to redo a list of media
+                loadedDraftMediaUris = new Gson().fromJson(savedJsonUrls,
+                        new TypeToken<ArrayList<String>>() {
+                        }.getType());
+            }
+
+            int savedTootUid = intent.getIntExtra(SAVED_TOOT_UID_EXTRA, 0);
+            if (savedTootUid != 0) {
+                this.savedTootUid = savedTootUid;
+            }
+
+            if (intent.hasExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA)) {
+                replyTextView.setVisibility(View.VISIBLE);
+                String username = intent.getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA);
+                replyTextView.setText(getString(R.string.replying_to, username));
+                Drawable arrowDownIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_down).sizeDp(12);
+
+                ThemeUtils.setDrawableTint(this, arrowDownIcon, android.R.attr.textColorTertiary);
+                TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(replyTextView, null, null, arrowDownIcon, null);
+
+                replyTextView.setOnClickListener(v -> {
+                    TransitionManager.beginDelayedTransition((ViewGroup)replyContentTextView.getParent());
+
+                    if (replyContentTextView.getVisibility() != View.VISIBLE) {
+                        replyContentTextView.setVisibility(View.VISIBLE);
+                        Drawable arrowUpIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_up).sizeDp(12);
+
+                        ThemeUtils.setDrawableTint(this, arrowUpIcon, android.R.attr.textColorTertiary);
+                        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(replyTextView, null, null, arrowUpIcon, null);
+                    } else {
+                        replyContentTextView.setVisibility(View.GONE);
+
+                        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(replyTextView, null, null, arrowDownIcon, null);
+                    }
+                });
+            }
+
+            if (intent.hasExtra(REPLYING_STATUS_CONTENT_EXTRA)) {
+                replyContentTextView.setText(intent.getStringExtra(REPLYING_STATUS_CONTENT_EXTRA));
             }
         }
-        /* Only after the starting visibility is determined and the send button is initialised can
-         * the status visibility be set. */
+
+        // After the starting state is finalised, the interface can be set to reflect this state.
         setStatusVisibility(startingVisibility);
 
-        textEditor = createEditText(null); // new String[] { "image/gif", "image/webp" }
+        updateHideMediaToggle();
+        updateVisibleCharactersLeft();
+
+        // Setup the main text field.
+        textEditor.setOnCommitContentListener(this);
         final int mentionColour = ThemeUtils.getColor(this, R.attr.compose_mention_color);
-        if (savedInstanceState != null) {
-            restoreTextEditorState(savedInstanceState.getParcelable("textEditorState"));
-            highlightSpans(textEditor.getText(), mentionColour);
-        }
-        RelativeLayout editArea = (RelativeLayout) findViewById(R.id.compose_edit_area);
-        /* Adding this at index zero because it implicitly gives it the lowest input priority. So,
-         * when media previews are added in front of the editor, they can receive click events
-         * without the text editor stealing the events from behind them. */
-        editArea.addView(textEditor, 0);
-        contentWarningEditor = (EditText) findViewById(R.id.field_content_warning);
-        charactersLeft = (TextView) findViewById(R.id.characters_left);
+        SpanUtils.highlightSpans(textEditor.getText(), mentionColour);
         textEditor.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -455,14 +454,20 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             }
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                highlightSpans(editable, mentionColour);
+                SpanUtils.highlightSpans(editable, mentionColour);
             }
         });
 
+        textEditor.setAdapter(
+                new MentionAutoCompleteAdapter(this, R.layout.item_autocomplete, this));
+        textEditor.setTokenizer(new MentionTokenizer());
+
+        // Add any mentions to the text field when a reply is first composed.
         if (mentionedUsernames != null) {
             StringBuilder builder = new StringBuilder();
             for (String name : mentionedUsernames) {
@@ -474,14 +479,11 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             textEditor.setSelection(textEditor.length());
         }
 
-        mediaPreviewBar = (LinearLayout) findViewById(R.id.compose_media_preview_bar);
-        mediaQueued = new ArrayList<>();
-        waitForMediaLatch = new CountUpDownLatch();
-
-        contentWarningBar = findViewById(R.id.compose_content_warning_bar);
+        // Initialise the content warning editor.
         contentWarningEditor.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -489,20 +491,28 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
         showContentWarning(startingHideText);
-
-        if(startingContentWarning != null){
+        if (startingContentWarning != null) {
             contentWarningEditor.setText(startingContentWarning);
         }
 
-        statusAlreadyInFlight = false;
+        // Initialise the empty media queue state.
+        waitForMediaLatch = new CountUpDownLatch();
 
         // These can only be added after everything affected by the media queue is initialized.
-        if (savedMediaQueued != null) {
+        if (!ListUtils.isEmpty(loadedDraftMediaUris)) {
+            for (String uriString : loadedDraftMediaUris) {
+                Uri uri = Uri.parse(uriString);
+                long mediaSize = MediaUtils.getMediaSize(getContentResolver(), uri);
+                pickMedia(uri, mediaSize);
+            }
+        } else if (savedMediaQueued != null) {
             for (SavedQueuedMedia item : savedMediaQueued) {
-                addMediaToQueue(item.type, item.preview, item.uri, item.mediaSize);
+                Bitmap preview = MediaUtils.getImageThumbnail(getContentResolver(), item.uri, THUMBNAIL_SIZE);
+                addMediaToQueue(item.type, preview, item.uri, item.mediaSize, item.readyStage, item.description);
             }
         } else if (intent != null && savedInstanceState == null) {
             /* Get incoming images being sent through a share action from another app. Only do this
@@ -512,29 +522,31 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             if (type != null) {
                 if (type.startsWith("image/")) {
                     List<Uri> uriList = new ArrayList<>();
-                    switch (intent.getAction()) {
-                        case Intent.ACTION_SEND: {
-                            Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-                            if (uri != null) {
-                                uriList.add(uri);
+                    if (intent.getAction() != null) {
+                        switch (intent.getAction()) {
+                            case Intent.ACTION_SEND: {
+                                Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                                if (uri != null) {
+                                    uriList.add(uri);
+                                }
+                                break;
                             }
-                            break;
-                        }
-                        case Intent.ACTION_SEND_MULTIPLE: {
-                            ArrayList<Uri> list = intent.getParcelableArrayListExtra(
-                                    Intent.EXTRA_STREAM);
-                            if (list != null) {
-                                for (Uri uri : list) {
-                                    if (uri != null) {
-                                        uriList.add(uri);
+                            case Intent.ACTION_SEND_MULTIPLE: {
+                                ArrayList<Uri> list = intent.getParcelableArrayListExtra(
+                                        Intent.EXTRA_STREAM);
+                                if (list != null) {
+                                    for (Uri uri : list) {
+                                        if (uri != null) {
+                                            uriList.add(uri);
+                                        }
                                     }
                                 }
+                                break;
                             }
-                            break;
                         }
                     }
                     for (Uri uri : uriList) {
-                        long mediaSize = getMediaSize(getContentResolver(), uri);
+                        long mediaSize = MediaUtils.getMediaSize(getContentResolver(), uri);
                         pickMedia(uri, mediaSize);
                     }
                 } else if (type.equals("text/plain")) {
@@ -552,99 +564,20 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                 }
             }
         }
-    }
 
-    private void toggleNsfw() {
-        statusMarkSensitive = !statusMarkSensitive;
-        updateNsfwButtonColor();
-    }
-
-    private void updateNsfwButtonColor() {
-        if (statusMarkSensitive) {
-            nsfwBtn.setTextColor(ThemeUtils.getColor(this, R.attr.compose_nsfw_button_selected_color));
-        } else {
-            nsfwBtn.setTextColor(ThemeUtils.getColor(this, R.attr.compose_nsfw_button_color));
-        }
-    }
-
-    private void setStatusVisibility(String visibility) {
-        statusVisibility = visibility;
-        switch (visibility) {
-            case "public": {
-                floatingBtn.setText(R.string.action_send_public);
-                floatingBtn.setCompoundDrawables(null, null, null, null);
-                break;
-            }
-            case "private": {
-                floatingBtn.setText(R.string.action_send);
-                Drawable lock = AppCompatResources.getDrawable(this, R.drawable.send_private);
-                if (lock != null) {
-                    lock.setBounds(0, 0, lock.getIntrinsicWidth(), lock.getIntrinsicHeight());
-                    floatingBtn.setCompoundDrawables(null, null, lock, null);
-                }
-                break;
-            }
-            default: {
-                floatingBtn.setText(R.string.action_send);
-                floatingBtn.setCompoundDrawables(null, null, null, null);
-                break;
-            }
-        }
-    }
-
-    private void showComposeOptions() {
-        ComposeOptionsFragment fragment = ComposeOptionsFragment.newInstance(
-                statusVisibility, statusHideText, inReplyToId != null);
-        fragment.show(getSupportFragmentManager(), null);
-    }
-
-    public void onVisibilityChanged(String visibility) {
-        setStatusVisibility(visibility);
-    }
-
-    private void updateVisibleCharactersLeft() {
-        int left = STATUS_CHARACTER_LIMIT - textEditor.length();
-        if (statusHideText) {
-            left -= contentWarningEditor.length();
-        }
-        charactersLeft.setText(String.format(Locale.getDefault(), "%d", left));
-    }
-
-    public void onContentWarningChanged(boolean hideText) {
-        showContentWarning(hideText);
-        updateVisibleCharactersLeft();
-    }
-
-    private void sendStatus() {
-        if (statusAlreadyInFlight) {
-            return;
-        }
-        String contentText = textEditor.getText().toString();
-        String spoilerText = "";
-        if (statusHideText) {
-            spoilerText = contentWarningEditor.getText().toString();
-        }
-        if (contentText.length() + spoilerText.length() <= STATUS_CHARACTER_LIMIT) {
-            statusAlreadyInFlight = true;
-            readyStatus(contentText, statusVisibility, statusMarkSensitive, spoilerText);
-        } else {
-            textEditor.setError(getString(R.string.error_compose_character_limit));
-        }
+        textEditor.requestFocus();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         ArrayList<SavedQueuedMedia> savedMediaQueued = new ArrayList<>();
         for (QueuedMedia item : mediaQueued) {
-            savedMediaQueued.add(new SavedQueuedMedia(item.type, item.uri, item.preview,
-                    item.mediaSize));
+            savedMediaQueued.add(new SavedQueuedMedia(item.type, item.uri,
+                    item.mediaSize, item.readyStage, item.description));
         }
         outState.putParcelableArrayList("savedMediaQueued", savedMediaQueued);
-        outState.putBoolean("showMarkSensitive", showMarkSensitive);
-        outState.putString("statusVisibility", statusVisibility);
         outState.putBoolean("statusMarkSensitive", statusMarkSensitive);
         outState.putBoolean("statusHideText", statusHideText);
-        outState.putParcelable("textEditorState", saveTextEditorState());
         if (currentInputContentInfo != null) {
             outState.putParcelable("commitContentInputContentInfo",
                     (Parcelable) currentInputContentInfo.unwrap());
@@ -652,83 +585,188 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         }
         currentInputContentInfo = null;
         currentFlags = 0;
+        outState.putParcelable("photoUploadUri", photoUploadUri);
+        outState.putInt("statusVisibility", statusVisibility.getNum());
         super.onSaveInstanceState(outState);
     }
 
-    private Parcelable saveTextEditorState() {
-        Bundle bundle = new Bundle();
-        bundle.putString("text", textEditor.getText().toString());
-        bundle.putInt("selectionStart", textEditor.getSelectionStart());
-        bundle.putInt("selectionEnd", textEditor.getSelectionEnd());
-        return bundle;
+    private void doErrorDialog(@StringRes int descriptionId, @StringRes int actionId,
+                               View.OnClickListener listener) {
+        Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(descriptionId),
+                Snackbar.LENGTH_SHORT);
+        bar.setAction(actionId, listener);
+        //necessary so snackbar is shown over everything
+        ViewCompat.setElevation(bar.getView(), getResources().getDimensionPixelSize(R.dimen.compose_activity_snackbar_elevation));
+        bar.show();
     }
 
-    private void restoreTextEditorState(Parcelable state) {
-        Bundle bundle = (Bundle) state;
-        textEditor.setText(bundle.getString("text"));
-        int start = bundle.getInt("selectionStart");
-        int end = bundle.getInt("selectionEnd");
-        if (start != -1) {
-            if (end != -1) {
-                textEditor.setSelection(start, end);
+    private void displayTransientError(@StringRes int stringId) {
+        Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), stringId, Snackbar.LENGTH_LONG);
+        //necessary so snackbar is shown over everything
+        ViewCompat.setElevation(bar.getView(), getResources().getDimensionPixelSize(R.dimen.compose_activity_snackbar_elevation));
+        bar.show();
+    }
+
+    private void toggleHideMedia() {
+        statusMarkSensitive = !statusMarkSensitive;
+        updateHideMediaToggle();
+    }
+
+    private void updateHideMediaToggle() {
+        TransitionManager.beginDelayedTransition((ViewGroup)hideMediaToggle.getParent());
+
+        @ColorInt int color;
+        if(mediaQueued.size() == 0) {
+            hideMediaToggle.setVisibility(View.GONE);
+        } else {
+            hideMediaToggle.setVisibility(View.VISIBLE);
+            if (statusMarkSensitive) {
+                hideMediaToggle.setImageResource(R.drawable.ic_hide_media_24dp);
+                if (statusHideText) {
+                    hideMediaToggle.setClickable(false);
+                    color = ContextCompat.getColor(this, R.color.compose_media_visible_button_disabled_blue);
+                } else {
+                    hideMediaToggle.setClickable(true);
+                    color = ContextCompat.getColor(this, R.color.primary);
+                }
             } else {
-                textEditor.setSelection(start);
+                hideMediaToggle.setClickable(true);
+                hideMediaToggle.setImageResource(R.drawable.ic_eye_24dp);
+                color = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);
             }
+            hideMediaToggle.getDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        }
+    }
+
+    private void disableButtons() {
+        pickButton.setClickable(false);
+        visibilityButton.setClickable(false);
+        emojiButton.setClickable(false);
+        hideMediaToggle.setClickable(false);
+        tootButton.setEnabled(false);
+    }
+
+    private void enableButtons() {
+        pickButton.setClickable(true);
+        visibilityButton.setClickable(true);
+        emojiButton.setClickable(true);
+        hideMediaToggle.setClickable(true);
+        tootButton.setEnabled(true);
+    }
+
+    private void setStatusVisibility(Status.Visibility visibility) {
+        statusVisibility = visibility;
+        composeOptionsView.setStatusVisibility(visibility);
+        tootButton.setStatusVisibility(visibility);
+
+        switch (visibility) {
+            case PUBLIC: {
+                Drawable globe = AppCompatResources.getDrawable(this, R.drawable.ic_public_24dp);
+                if (globe != null) {
+                    visibilityButton.setImageDrawable(globe);
+                }
+                break;
+            }
+            case PRIVATE: {
+                Drawable lock = AppCompatResources.getDrawable(this,
+                        R.drawable.ic_lock_outline_24dp);
+                if (lock != null) {
+                    visibilityButton.setImageDrawable(lock);
+                }
+                break;
+            }
+            case DIRECT: {
+                Drawable envelope = AppCompatResources.getDrawable(this, R.drawable.ic_email_24dp);
+                if (envelope != null) {
+                    visibilityButton.setImageDrawable(envelope);
+                }
+                break;
+            }
+            case UNLISTED:
+            default: {
+                Drawable openLock = AppCompatResources.getDrawable(this, R.drawable.ic_lock_open_24dp);
+                if (openLock != null) {
+                    visibilityButton.setImageDrawable(openLock);
+                }
+                break;
+            }
+        }
+    }
+
+    private void showComposeOptions() {
+        if (composeOptionsBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || composeOptionsBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        } else {
+            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+    }
+
+    private void showEmojis() {
+        if (emojiBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || emojiBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            emojiBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        } else {
+            emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+    }
+
+    private void openPickDialog() {
+        if (addMediaBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || addMediaBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            addMediaBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        } else {
+            addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+
+    }
+
+    private void onMediaPick() {
+        addMediaBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        } else {
+            initiateMediaPicking();
         }
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        if (inReplyToId != null) {
-            /* Don't save the visibility setting for replies because they adopt the visibility of
-             * the status they reply to and that behaviour needs to be kept separate. */
-            return;
-        }
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("rememberedVisibility", statusVisibility);
-        editor.apply();
+    public void onVisibilityChanged(@NonNull Status.Visibility visibility) {
+        composeOptionsBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        setStatusVisibility(visibility);
     }
 
-    private EditText createEditText(String[] contentMimeTypes) {
-        final String[] mimeTypes;
-        if (contentMimeTypes == null || contentMimeTypes.length == 0) {
-            mimeTypes = new String[0];
-        } else {
-            mimeTypes = Arrays.copyOf(contentMimeTypes, contentMimeTypes.length);
+    private void updateVisibleCharactersLeft() {
+        int charactersLeft = STATUS_CHARACTER_LIMIT - textEditor.length();
+        if (statusHideText) {
+            charactersLeft -= contentWarningEditor.length();
         }
-        EditText editText = new android.support.v7.widget.AppCompatEditText(this) {
-            @Override
-            public InputConnection onCreateInputConnection(EditorInfo editorInfo) {
-                final InputConnection ic = super.onCreateInputConnection(editorInfo);
-                EditorInfoCompat.setContentMimeTypes(editorInfo, mimeTypes);
-                final InputConnectionCompat.OnCommitContentListener callback =
-                        new InputConnectionCompat.OnCommitContentListener() {
-                            @Override
-                            public boolean onCommitContent(InputContentInfoCompat inputContentInfo,
-                                    int flags, Bundle opts) {
-                                return ComposeActivity.this.onCommitContent(inputContentInfo, flags,
-                                        mimeTypes);
-                            }
-                        };
-                return InputConnectionCompat.createWrapper(ic, editorInfo, callback);
-            }
-        };
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        editText.setLayoutParams(layoutParams);
-        editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        editText.setEms(10);
-        editText.setBackgroundColor(0);
-        editText.setGravity(Gravity.START | Gravity.TOP);
-        editText.setHint(R.string.hint_compose);
-        return editText;
+        this.charactersLeft.setText(String.format(Locale.getDefault(), "%d", charactersLeft));
     }
 
-    private boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags,
-            String[] mimeTypes) {
+    private void onContentWarningChanged() {
+        boolean showWarning = contentWarningBar.getVisibility() != View.VISIBLE;
+        showContentWarning(showWarning);
+        updateVisibleCharactersLeft();
+    }
+
+    private void onSendClicked() {
+        disableButtons();
+        readyStatus(statusVisibility, statusMarkSensitive);
+    }
+
+    @Override
+    public boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags, Bundle opts) {
         try {
             if (currentInputContentInfo != null) {
                 currentInputContentInfo.releasePermission();
@@ -739,14 +777,8 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             currentInputContentInfo = null;
         }
 
-        // Verify the returned content's type is actually in the list of MIME types requested.
-        boolean supported = false;
-        for (final String mimeType : mimeTypes) {
-            if (inputContentInfo.getDescription().hasMimeType(mimeType)) {
-                supported = true;
-                break;
-            }
-        }
+        // Verify the returned content's type is of the correct MIME type
+        boolean supported = inputContentInfo.getDescription().hasMimeType("image/*");
 
         return supported && onCommitContentInternal(inputContentInfo, flags);
     }
@@ -768,6 +800,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         try {
             descriptor = getContentResolver().openAssetFileDescriptor(uri, "r");
         } catch (FileNotFoundException e) {
+            Log.d(TAG, Log.getStackTraceString(e));
             // Eat this exception, having the descriptor be null is sufficient.
         }
         if (descriptor != null) {
@@ -778,7 +811,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                 // Just eat this exception.
             }
         } else {
-            mediaSize = MEDIA_SIZE_UNKNOWN;
+            mediaSize = MediaUtils.MEDIA_SIZE_UNKNOWN;
         }
         pickMedia(uri, mediaSize);
 
@@ -788,49 +821,33 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         return true;
     }
 
-    private void sendStatus(String content, String visibility, boolean sensitive,
+    private void sendStatus(String content, Status.Visibility visibility, boolean sensitive,
                             String spoilerText) {
         ArrayList<String> mediaIds = new ArrayList<>();
-
+        ArrayList<String> mediaUris = new ArrayList<>();
         for (QueuedMedia item : mediaQueued) {
             mediaIds.add(item.id);
+            mediaUris.add(item.uri.toString());
         }
 
-        mastodonAPI.createStatus(content, inReplyToId, spoilerText, visibility, sensitive, mediaIds).enqueue(new Callback<Status>() {
-            @Override
-            public void onResponse(Call<Status> call, retrofit2.Response<Status> response) {
-                if (response.isSuccessful()) {
-                    onSendSuccess();
-                } else {
-                    onSendFailure();
-                }
-            }
+        Intent sendIntent = SendTootService.sendTootIntent(this, content, spoilerText,
+                visibility, sensitive, mediaIds, mediaUris, inReplyToId,
+                getIntent().getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
+                getIntent().getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA),
+                getIntent().getStringExtra(SAVED_JSON_URLS_EXTRA),
+                accountManager.getActiveAccount(), savedTootUid);
 
-            @Override
-            public void onFailure(Call<Status> call, Throwable t) {
-                onSendFailure();
-            }
-        });
-    }
+        startService(sendIntent);
 
-    private void onSendSuccess() {
-        Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), getString(R.string.confirmation_send), Snackbar.LENGTH_SHORT);
-        bar.show();
         finish();
+
     }
 
-    private void onSendFailure() {
-        postProgress.setVisibility(View.INVISIBLE);
-        textEditor.setError(getString(R.string.error_generic));
-        statusAlreadyInFlight = false;
-    }
-
-    private void readyStatus(final String content, final String visibility, final boolean sensitive,
-            final String spoilerText) {
+    private void readyStatus(final Status.Visibility visibility, final boolean sensitive) {
         finishingUploadDialog = ProgressDialog.show(
                 this, getString(R.string.dialog_title_finishing_media_upload),
                 getString(R.string.dialog_message_uploading_media), true, true);
-        final AsyncTask<Void, Void, Boolean> waitForMediaTask =
+        @SuppressLint("StaticFieldLeak") final AsyncTask<Void, Void, Boolean> waitForMediaTask =
                 new AsyncTask<Void, Void, Boolean>() {
                     @Override
                     protected Boolean doInBackground(Void... params) {
@@ -848,58 +865,59 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                         finishingUploadDialog.dismiss();
                         finishingUploadDialog = null;
                         if (successful) {
-                            sendStatus(content, visibility, sensitive, spoilerText);
+                            onReadySuccess(visibility, sensitive);
                         } else {
-                            onReadyFailure(content, visibility, sensitive, spoilerText);
+                            onReadyFailure(visibility, sensitive);
                         }
                     }
 
                     @Override
                     protected void onCancelled() {
                         removeAllMediaFromQueue();
-                        statusAlreadyInFlight = false;
+                        enableButtons();
                         super.onCancelled();
                     }
                 };
-        finishingUploadDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                /* Generating an interrupt by passing true here is important because an interrupt
-                 * exception is the only thing that will kick the latch out of its waiting loop
-                 * early. */
-                waitForMediaTask.cancel(true);
-            }
+        finishingUploadDialog.setOnCancelListener(dialog -> {
+            /* Generating an interrupt by passing true here is important because an interrupt
+             * exception is the only thing that will kick the latch out of its waiting loop
+             * early. */
+            waitForMediaTask.cancel(true);
         });
         waitForMediaTask.execute();
     }
 
-    private void onReadyFailure(final String content, final String visibility,
-            final boolean sensitive, final String spoilerText) {
-        doErrorDialog(R.string.error_media_upload_sending, R.string.action_retry,
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        readyStatus(content, visibility, sensitive, spoilerText);
-                    }
-                });
-        statusAlreadyInFlight = false;
+    private void onReadySuccess(Status.Visibility visibility, boolean sensitive) {
+        /* Validate the status meets the character limit. This has to be delayed until after all
+         * uploads finish because their links are added when the upload succeeds and that affects
+         * whether the limit is met or not. */
+        String contentText = textEditor.getText().toString();
+        String spoilerText = "";
+        if (statusHideText) {
+            spoilerText = contentWarningEditor.getText().toString();
+        }
+        int characterCount = contentText.length() + spoilerText.length();
+        if (characterCount <= 0 && mediaQueued.size()==0) {
+            textEditor.setError(getString(R.string.error_empty));
+            enableButtons();
+        } else if (characterCount <= STATUS_CHARACTER_LIMIT) {
+            sendStatus(contentText, visibility, sensitive, spoilerText);
+
+        } else {
+            textEditor.setError(getString(R.string.error_compose_character_limit));
+            enableButtons();
+        }
     }
 
-    private void onMediaPick() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },
-                    PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-        } else {
-            initiateMediaPicking();
-        }
+    private void onReadyFailure(final Status.Visibility visibility, final boolean sensitive) {
+        doErrorDialog(R.string.error_media_upload_sending, R.string.action_retry,
+                v -> readyStatus(visibility, sensitive));
+        enableButtons();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
-            @NonNull int[] grantResults) {
+                                           @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0
@@ -907,45 +925,78 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                     initiateMediaPicking();
                 } else {
                     doErrorDialog(R.string.error_media_upload_permission, R.string.action_retry,
-                            new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    onMediaPick();
-                                }
-                            });
+                            v -> onMediaPick());
                 }
                 break;
             }
         }
     }
 
-    private void initiateMediaPicking() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            intent.setType("image/* video/*");
-        } else {
-            String[] mimeTypes = new String[] { "image/*", "video/*" };
-            intent.setType("*/*");
-            intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+    @NonNull
+    private File createNewImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        String imageFileName = "Tusky_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        return File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+    }
+
+    private void initiateCameraApp() {
+        addMediaBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+        // We don't need to ask for permission in this case, because the used calls require
+        // android.permission.WRITE_EXTERNAL_STORAGE only on SDKs *older* than Kitkat, which was
+        // way before permission dialogues have been introduced.
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createNewImageFile();
+            } catch (IOException ex) {
+                displayTransientError(R.string.error_media_upload_opening);
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                photoUploadUri = FileProvider.getUriForFile(this,
+                        BuildConfig.APPLICATION_ID+".fileprovider",
+                        photoFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUploadUri);
+                startActivityForResult(intent, MEDIA_TAKE_PHOTO_RESULT);
+            }
         }
+    }
+
+    private void initiateMediaPicking() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        String[] mimeTypes = new String[]{"image/*", "video/*"};
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
         startActivityForResult(intent, MEDIA_PICK_RESULT);
     }
 
-    private void enableMediaPicking() {
-        pickBtn.setEnabled(true);
-        ThemeUtils.setDrawableTint(this, pickBtn.getDrawable(),
-                R.attr.compose_media_button_tint);
+    private void enableMediaButtons() {
+        pickButton.setEnabled(true);
+        ThemeUtils.setDrawableTint(this, pickButton.getDrawable(),
+                android.R.attr.textColorTertiary);
     }
 
-    private void disableMediaPicking() {
-        pickBtn.setEnabled(false);
-        ThemeUtils.setDrawableTint(this, pickBtn.getDrawable(),
+    private void disableMediaButtons() {
+        pickButton.setEnabled(false);
+        ThemeUtils.setDrawableTint(this, pickButton.getDrawable(),
                 R.attr.compose_media_button_disabled_tint);
     }
 
-    private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize) {
-        final QueuedMedia item = new QueuedMedia(type, uri, new ImageView(this), mediaSize);
+    private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize,
+                                 QueuedMedia.ReadyStage readyStage, @Nullable String description) {
+        final QueuedMedia item = new QueuedMedia(type, uri, new ProgressImageView(this),
+                mediaSize, description);
+        item.readyStage = readyStage;
         ImageView view = item.preview;
         Resources resources = getResources();
         int side = resources.getDimensionPixelSize(R.dimen.compose_media_preview_side);
@@ -957,58 +1008,131 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         view.setLayoutParams(layoutParams);
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
         view.setImageBitmap(preview);
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeMediaFromQueue(item);
-            }
-        });
+        view.setOnClickListener(v -> onMediaClick(item, v));
+        view.setContentDescription(getString(R.string.action_delete));
         mediaPreviewBar.addView(view);
         mediaQueued.add(item);
         int queuedCount = mediaQueued.size();
         if (queuedCount == 1) {
-            /* The media preview bar is actually not inset in the EditText, it just overlays it and
-             * is aligned to the bottom. But, so that text doesn't get hidden under it, extra
-             * padding is added at the bottom of the EditText. */
-            int totalHeight = side + margin + marginBottom;
-            textEditor.setPadding(textEditor.getPaddingLeft(), textEditor.getPaddingTop(),
-                    textEditor.getPaddingRight(), totalHeight);
             // If there's one video in the queue it is full, so disable the button to queue more.
             if (item.type == QueuedMedia.Type.VIDEO) {
-                disableMediaPicking();
+                disableMediaButtons();
             }
         } else if (queuedCount >= Status.MAX_MEDIA_ATTACHMENTS) {
             // Limit the total media attachments, also.
-            disableMediaPicking();
+            disableMediaButtons();
         }
-        if (queuedCount >= 1) {
-            showMarkSensitive(true);
+
+        updateHideMediaToggle();
+
+        if (item.readyStage != QueuedMedia.ReadyStage.UPLOADED) {
+            waitForMediaLatch.countUp();
+            if (mediaSize > STATUS_MEDIA_SIZE_LIMIT && type == QueuedMedia.Type.IMAGE) {
+                downsizeMedia(item);
+            } else {
+                uploadMedia(item);
+            }
         }
-        waitForMediaLatch.countUp();
-        if (mediaSize > STATUS_MEDIA_SIZE_LIMIT && type == QueuedMedia.Type.IMAGE) {
-            downsizeMedia(item);
-        } else {
-            uploadMedia(item);
+    }
+
+    private void onMediaClick(QueuedMedia item, View view) {
+        PopupMenu popup = new PopupMenu(this, view);
+        final int addCaptionId = 1;
+        final int removeId = 2;
+        popup.getMenu().add(0, addCaptionId, 0, R.string.action_set_caption);
+        popup.getMenu().add(0, removeId, 0, R.string.action_remove_media);
+        popup.setOnMenuItemClickListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case addCaptionId:
+                    makeCaptionDialog(item);
+                    break;
+                case removeId:
+                    removeMediaFromQueue(item);
+                    break;
+            }
+            return true;
+        });
+        popup.show();
+    }
+
+    private void makeCaptionDialog(QueuedMedia item) {
+        LinearLayout dialogLayout = new LinearLayout(this);
+        int padding = Utils.dpToPx(this, 8);
+        dialogLayout.setPadding(padding, padding, padding, padding);
+
+        dialogLayout.setOrientation(LinearLayout.VERTICAL);
+        ImageView imageView = new ImageView(this);
+        Picasso.with(this)
+                .load(item.uri)
+                .into(imageView);
+
+        int margin = Utils.dpToPx(this, 4);
+        dialogLayout.addView(imageView);
+        ((LinearLayout.LayoutParams) imageView.getLayoutParams()).weight = 1;
+        imageView.getLayoutParams().height = 0;
+        ((LinearLayout.LayoutParams) imageView.getLayoutParams()).setMargins(0, margin, 0, 0);
+
+        EditText input = new EditText(this);
+        input.setHint(R.string.hint_describe_for_visually_impaired);
+        dialogLayout.addView(input);
+        ((LinearLayout.LayoutParams) input.getLayoutParams()).setMargins(margin, margin, margin, margin);
+        input.setLines(1);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        input.setText(item.description);
+
+        DialogInterface.OnClickListener okListener = (dialog, which) -> {
+            mastodonApi.updateMedia(item.id, input.getText().toString())
+                    .enqueue(new Callback<Attachment>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Attachment> call, @NonNull Response<Attachment> response) {
+                            Attachment attachment = response.body();
+                            if (response.isSuccessful() && attachment != null) {
+                                item.description = attachment.getDescription();
+                                dialog.dismiss();
+                            } else {
+                                showFailedCaptionMessage();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<Attachment> call, @NonNull Throwable t) {
+                            showFailedCaptionMessage();
+                        }
+                    });
+        };
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogLayout)
+                .setPositiveButton(android.R.string.ok, okListener)
+                .setNegativeButton(android.R.string.cancel, null)
+                .create();
+
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         }
+
+        dialog.show();
+    }
+
+    private void showFailedCaptionMessage() {
+        Toast.makeText(this, R.string.error_failed_set_caption, Toast.LENGTH_SHORT).show();
     }
 
     private void removeMediaFromQueue(QueuedMedia item) {
         mediaPreviewBar.removeView(item.preview);
         mediaQueued.remove(item);
         if (mediaQueued.size() == 0) {
-            showMarkSensitive(false);
-            /* If there are no image previews to show, the extra padding that was added to the
-             * EditText can be removed so there isn't unnecessary empty space. */
-            textEditor.setPadding(textEditor.getPaddingLeft(), textEditor.getPaddingTop(),
-                    textEditor.getPaddingRight(), 0);
+            updateHideMediaToggle();
         }
-        enableMediaPicking();
+
+        enableMediaButtons();
         cancelReadyingMedia(item);
     }
 
     private void removeAllMediaFromQueue() {
-        for (Iterator<QueuedMedia> it = mediaQueued.iterator(); it.hasNext();) {
+        for (Iterator<QueuedMedia> it = mediaQueued.iterator(); it.hasNext(); ) {
             QueuedMedia item = it.next();
             it.remove();
             removeMediaFromQueue(item);
@@ -1030,7 +1154,7 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                     public void onFailure() {
                         onMediaDownsizeFailure(item);
                     }
-        }).execute(item.uri);
+                }).execute(item.uri);
     }
 
     private void onMediaDownsizeFailure(QueuedMedia item) {
@@ -1038,42 +1162,16 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         removeMediaFromQueue(item);
     }
 
-    private static String randomAlphanumericString(int count) {
-        char[] chars = new char[count];
-        Random random = new Random();
-        final String POSSIBLE_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        for (int i = 0; i < count; i++) {
-            chars[i] = POSSIBLE_CHARS.charAt(random.nextInt(POSSIBLE_CHARS.length()));
-        }
-        return new String(chars);
-    }
-
-    @Nullable
-    private static byte[] inputStreamGetBytes(InputStream stream) {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        int read;
-        byte[] data = new byte[16384];
-        try {
-            while ((read = stream.read(data, 0, data.length)) != -1) {
-                buffer.write(data, 0, read);
-            }
-            buffer.flush();
-        } catch (IOException e) {
-            return null;
-        }
-        return buffer.toByteArray();
-    }
-
     private void uploadMedia(final QueuedMedia item) {
         item.readyStage = QueuedMedia.ReadyStage.UPLOADING;
 
-        final String mimeType = getContentResolver().getType(item.uri);
+        String mimeType = getContentResolver().getType(item.uri);
         MimeTypeMap map = MimeTypeMap.getSingleton();
         String fileExtension = map.getExtensionFromMimeType(mimeType);
         final String filename = String.format("%s_%s_%s.%s",
                 getString(R.string.app_name),
                 String.valueOf(new Date().getTime()),
-                randomAlphanumericString(10),
+                StringUtils.randomAlphanumericString(10),
                 fileExtension);
 
         byte[] content = item.content;
@@ -1084,10 +1182,11 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             try {
                 stream = getContentResolver().openInputStream(item.uri);
             } catch (FileNotFoundException e) {
+                Log.d(TAG, Log.getStackTraceString(e));
                 return;
             }
 
-            content = inputStreamGetBytes(stream);
+            content = MediaUtils.inputStreamGetBytes(stream);
             IOUtils.closeQuietly(stream);
 
             if (content == null) {
@@ -1095,17 +1194,33 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             }
         }
 
-        RequestBody requestFile = RequestBody.create(MediaType.parse(mimeType), content);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("file", filename, requestFile);
+        if (mimeType == null) mimeType = "multipart/form-data";
 
-        item.uploadRequest = mastodonAPI.uploadMedia(body);
+        item.preview.setProgress(0);
 
-        item.uploadRequest.enqueue(new Callback<Media>() {
+        ProgressRequestBody fileBody = new ProgressRequestBody(content, MediaType.parse(mimeType),
+                false, // If request body logging is enabled, pass true
+                new ProgressRequestBody.UploadCallback() { // may reference activity longer than I would like to
+                    int lastProgress = -1;
+
+                    @Override
+                    public void onProgressUpdate(final int percentage) {
+                        if (percentage != lastProgress) {
+                            runOnUiThread(() -> item.preview.setProgress(percentage));
+                        }
+                        lastProgress = percentage;
+                    }
+                });
+
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", filename, fileBody);
+
+        item.uploadRequest = mastodonApi.uploadMedia(body);
+
+        item.uploadRequest.enqueue(new Callback<Attachment>() {
             @Override
-            public void onResponse(Call<Media> call, retrofit2.Response<Media> response) {
+            public void onResponse(@NonNull Call<Attachment> call, @NonNull retrofit2.Response<Attachment> response) {
                 if (response.isSuccessful()) {
-                    item.id = response.body().id;
-                    waitForMediaLatch.countDown();
+                    onUploadSuccess(item, response.body());
                 } else {
                     Log.d(TAG, "Upload request failed. " + response.message());
                     onUploadFailure(item, call.isCanceled());
@@ -1113,11 +1228,19 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
             }
 
             @Override
-            public void onFailure(Call<Media> call, Throwable t) {
-                Log.d(TAG, t.getMessage());
-                onUploadFailure(item, false);
+            public void onFailure(@NonNull Call<Attachment> call, @NonNull Throwable t) {
+                Log.d(TAG, "Upload request failed. " + t.getMessage());
+                onUploadFailure(item, call.isCanceled());
             }
         });
+    }
+
+    private void onUploadSuccess(final QueuedMedia item, Attachment media) {
+        item.id = media.getId();
+        item.preview.setProgress(-1);
+        item.readyStage = QueuedMedia.ReadyStage.UPLOADED;
+
+        waitForMediaLatch.countDown();
     }
 
     private void onUploadFailure(QueuedMedia item, boolean isCanceled) {
@@ -1126,10 +1249,13 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
              * it from the queue, then don't display this error message. */
             displayTransientError(R.string.error_media_upload_sending);
         }
-        if (finishingUploadDialog != null) {
+        if (finishingUploadDialog != null && finishingUploadDialog.isShowing()) {
             finishingUploadDialog.cancel();
         }
-        removeMediaFromQueue(item);
+        if (!isCanceled) {
+            // If it is canceled, it's already been removed, otherwise do it.
+            removeMediaFromQueue(item);
+        }
     }
 
     private void cancelReadyingMedia(QueuedMedia item) {
@@ -1143,36 +1269,31 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         }
     }
 
-    private static long getMediaSize(ContentResolver contentResolver, Uri uri) {
-        long mediaSize;
-        Cursor cursor = contentResolver.query(uri, null, null, null, null);
-        if (cursor != null) {
-            int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
-            cursor.moveToFirst();
-            mediaSize = cursor.getLong(sizeIndex);
-            cursor.close();
-        } else {
-            mediaSize = MEDIA_SIZE_UNKNOWN;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode == RESULT_OK && requestCode == MEDIA_PICK_RESULT && intent != null) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                // this is necessary so the SendTootService can access the uri later
+                final int takeFlags = intent.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                getContentResolver().takePersistableUriPermission(uri, takeFlags);
+            }
+            long mediaSize = MediaUtils.getMediaSize(getContentResolver(), uri);
+            pickMedia(uri, mediaSize);
+        } else if (resultCode == RESULT_OK && requestCode == MEDIA_TAKE_PHOTO_RESULT) {
+            long mediaSize = MediaUtils.getMediaSize(getContentResolver(), photoUploadUri);
+            pickMedia(photoUploadUri, mediaSize);
         }
-        return mediaSize;
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == MEDIA_PICK_RESULT && resultCode == RESULT_OK && data != null) {
-            Uri uri = data.getData();
-            long mediaSize = getMediaSize(getContentResolver(), uri);
-            pickMedia(uri, mediaSize);
-        }
-    }
 
     private void pickMedia(Uri uri, long mediaSize) {
-        ContentResolver contentResolver = getContentResolver();
-        if (mediaSize == MEDIA_SIZE_UNKNOWN) {
+        if (mediaSize == MediaUtils.MEDIA_SIZE_UNKNOWN) {
             displayTransientError(R.string.error_media_upload_opening);
             return;
         }
+        ContentResolver contentResolver = getContentResolver();
         String mimeType = contentResolver.getType(uri);
         if (mimeType != null) {
             String topLevelType = mimeType.substring(0, mimeType.indexOf('/'));
@@ -1187,35 +1308,21 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
                         displayTransientError(R.string.error_media_upload_image_or_video);
                         return;
                     }
-                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-                    retriever.setDataSource(this, uri);
-                    Bitmap source = retriever.getFrameAtTime();
-                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, 128, 128);
-                    source.recycle();
-                    addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize);
+                    Bitmap bitmap = MediaUtils.getVideoThumbnail(this, uri, THUMBNAIL_SIZE);
+                    if (bitmap != null) {
+                        addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize, null, null);
+                    } else {
+                        displayTransientError(R.string.error_media_upload_opening);
+                    }
                     break;
                 }
                 case "image": {
-                    InputStream stream;
-                    try {
-                        stream = contentResolver.openInputStream(uri);
-                    } catch (FileNotFoundException e) {
+                    Bitmap bitmap = MediaUtils.getImageThumbnail(contentResolver, uri, THUMBNAIL_SIZE);
+                    if (bitmap != null) {
+                        addMediaToQueue(QueuedMedia.Type.IMAGE, bitmap, uri, mediaSize, null, null);
+                    } else {
                         displayTransientError(R.string.error_media_upload_opening);
-                        return;
                     }
-                    Bitmap source = BitmapFactory.decodeStream(stream);
-                    Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, 128, 128);
-                    source.recycle();
-                    try {
-                        if (stream != null) {
-                            stream.close();
-                        }
-                    } catch (IOException e) {
-                        bitmap.recycle();
-                        displayTransientError(R.string.error_media_upload_opening);
-                        return;
-                    }
-                    addMediaToQueue(QueuedMedia.Type.IMAGE, bitmap, uri, mediaSize);
                     break;
                 }
                 default: {
@@ -1228,39 +1335,271 @@ public class  ComposeActivity extends BaseActivity implements ComposeOptionsFrag
         }
     }
 
-    void showMarkSensitive(boolean show) {
-        showMarkSensitive = show;
-
-        if(!showMarkSensitive) {
-            statusMarkSensitive = false;
-            nsfwBtn.setTextColor(ThemeUtils.getColor(this, R.attr.compose_nsfw_button_color));
-        }
-
-        if(show) {
-            nsfwBtn.setVisibility(View.VISIBLE);
-        } else {
-            nsfwBtn.setVisibility(View.GONE);
-        }
-    }
-
-    void showContentWarning(boolean show) {
+    private void showContentWarning(boolean show) {
         statusHideText = show;
+        TransitionManager.beginDelayedTransition((ViewGroup)contentWarningBar.getParent());
         if (show) {
+            statusMarkSensitive = true;
             contentWarningBar.setVisibility(View.VISIBLE);
+            contentWarningButton.setTextColor(ContextCompat.getColor(this, R.color.primary));
         } else {
             contentWarningBar.setVisibility(View.GONE);
+            contentWarningButton.setTextColor(ThemeUtils.getColor(this, android.R.attr.textColorTertiary));
         }
+        updateHideMediaToggle();
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home: {
-                onBackPressed();
+            case android.R.id.home:
+                handleCloseButton();
                 return true;
-            }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Acting like a teen: deliberately ignoring parent.
+        handleCloseButton();
+    }
+
+    private void handleCloseButton() {
+        if (!TextUtils.isEmpty(textEditor.getText())
+                || !TextUtils.isEmpty(contentWarningEditor.getText())
+                || !mediaQueued.isEmpty()) {
+            new AlertDialog.Builder(this)
+                    .setMessage(R.string.compose_save_draft)
+                    .setPositiveButton(R.string.action_save, (d, w) -> saveDraftAndFinish())
+                    .setNegativeButton(R.string.action_delete, (d, w) -> finish())
+                    .show();
+        } else {
+            finish();
+        }
+    }
+
+    private void saveDraftAndFinish() {
+        ArrayList<String> mediaUris = new ArrayList<>();
+        for (QueuedMedia item : mediaQueued) {
+            mediaUris.add(item.uri.toString());
+        }
+
+        saveTootHelper.saveToot(textEditor.getText().toString(),
+                contentWarningEditor.getText().toString(),
+                getIntent().getStringExtra("saved_json_urls"),
+                mediaUris,
+                savedTootUid,
+                inReplyToId,
+                getIntent().getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
+                getIntent().getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA),
+                statusVisibility);
+        finish();
+    }
+
+    @Override
+    public List<Account> searchAccounts(String mention) {
+        ArrayList<Account> resultList = new ArrayList<>();
+        try {
+            List<Account> accountList = mastodonApi.searchAccounts(mention, false, 40)
+                    .execute()
+                    .body();
+            if (accountList != null) {
+                resultList.addAll(accountList);
+            }
+        } catch (IOException e) {
+            Log.e(TAG, String.format("Autocomplete search for %s failed.", mention));
+        }
+        return resultList;
+    }
+
+    @Override
+    public void onEmojiSelected(@NotNull String shortcode) {
+        textEditor.getText().insert(textEditor.getSelectionStart(), ":"+shortcode+": ");
+    }
+
+    public static final class QueuedMedia {
+        Type type;
+        ProgressImageView preview;
+        Uri uri;
+        String id;
+        Call<Attachment> uploadRequest;
+        ReadyStage readyStage;
+        byte[] content;
+        long mediaSize;
+        String description;
+
+        QueuedMedia(Type type, Uri uri, ProgressImageView preview, long mediaSize,
+                    String description) {
+            this.type = type;
+            this.uri = uri;
+            this.preview = preview;
+            this.mediaSize = mediaSize;
+            this.description = description;
+        }
+
+        public enum Type {
+            IMAGE,
+            VIDEO
+        }
+
+        enum ReadyStage {
+            DOWNSIZING,
+            UPLOADING,
+            UPLOADED
+        }
+    }
+
+    /**
+     * This saves enough information to re-enqueue an attachment when restoring the activity.
+     */
+    private static class SavedQueuedMedia implements Parcelable {
+        public static final Parcelable.Creator<SavedQueuedMedia> CREATOR
+                = new Parcelable.Creator<SavedQueuedMedia>() {
+            public SavedQueuedMedia createFromParcel(Parcel in) {
+                return new SavedQueuedMedia(in);
+            }
+
+            public SavedQueuedMedia[] newArray(int size) {
+                return new SavedQueuedMedia[size];
+            }
+        };
+        QueuedMedia.Type type;
+        Uri uri;
+        long mediaSize;
+        QueuedMedia.ReadyStage readyStage;
+        String description;
+
+        SavedQueuedMedia(QueuedMedia.Type type, Uri uri, long mediaSize, QueuedMedia.ReadyStage readyStage, String description) {
+            this.type = type;
+            this.uri = uri;
+            this.mediaSize = mediaSize;
+            this.readyStage = readyStage;
+            this.description = description;
+        }
+
+        SavedQueuedMedia(Parcel parcel) {
+            type = (QueuedMedia.Type) parcel.readSerializable();
+            uri = parcel.readParcelable(Uri.class.getClassLoader());
+            mediaSize = parcel.readLong();
+            readyStage = QueuedMedia.ReadyStage.valueOf(parcel.readString());
+            description = parcel.readString();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeSerializable(type);
+            dest.writeParcelable(uri, flags);
+            dest.writeLong(mediaSize);
+            dest.writeString(readyStage.name());
+            dest.writeString(description);
+        }
+    }
+
+    public static final class IntentBuilder {
+        @Nullable
+        private Integer savedTootUid;
+        @Nullable
+        private String savedTootText;
+        @Nullable
+        private String savedJsonUrls;
+        @Nullable
+        private Collection<String> mentionedUsernames;
+        @Nullable
+        private String inReplyToId;
+        @Nullable
+        private Status.Visibility replyVisibility;
+        @Nullable
+        private String contentWarning;
+        @Nullable
+        private String replyingStatusAuthor;
+        @Nullable
+        private String replyingStatusContent;
+
+        public IntentBuilder savedTootUid(int uid) {
+            this.savedTootUid = uid;
+            return this;
+        }
+
+        public IntentBuilder savedTootText(String savedTootText) {
+            this.savedTootText = savedTootText;
+            return this;
+        }
+
+        public IntentBuilder savedJsonUrls(String jsonUrls) {
+            this.savedJsonUrls = jsonUrls;
+            return this;
+        }
+
+        public IntentBuilder mentionedUsernames(Collection<String> mentionedUsernames) {
+            this.mentionedUsernames = mentionedUsernames;
+            return this;
+        }
+
+        public IntentBuilder inReplyToId(String inReplyToId) {
+            this.inReplyToId = inReplyToId;
+            return this;
+        }
+
+        public IntentBuilder replyVisibility(Status.Visibility replyVisibility) {
+            this.replyVisibility = replyVisibility;
+            return this;
+        }
+
+        public IntentBuilder contentWarning(String contentWarning) {
+            this.contentWarning = contentWarning;
+            return this;
+        }
+
+        public IntentBuilder repyingStatusAuthor(String username) {
+            this.replyingStatusAuthor = username;
+            return this;
+        }
+
+        public IntentBuilder replyingStatusContent(String content) {
+            this.replyingStatusContent = content;
+            return this;
+        }
+
+        public Intent build(Context context) {
+            Intent intent = new Intent(context, ComposeActivity.class);
+
+            if (savedTootUid != null) {
+                intent.putExtra(SAVED_TOOT_UID_EXTRA, (int) savedTootUid);
+            }
+            if (savedTootText != null) {
+                intent.putExtra(SAVED_TOOT_TEXT_EXTRA, savedTootText);
+            }
+            if (savedJsonUrls != null) {
+                intent.putExtra(SAVED_JSON_URLS_EXTRA, savedJsonUrls);
+            }
+            if (mentionedUsernames != null) {
+                String[] usernames = mentionedUsernames.toArray(new String[0]);
+                intent.putExtra(MENTIONED_USERNAMES_EXTRA, usernames);
+            }
+            if (inReplyToId != null) {
+                intent.putExtra(IN_REPLY_TO_ID_EXTRA, inReplyToId);
+            }
+            if (replyVisibility != null) {
+                intent.putExtra(REPLY_VISIBILITY_EXTRA, replyVisibility.getNum());
+            }
+            if (contentWarning != null) {
+                intent.putExtra(CONTENT_WARNING_EXTRA, contentWarning);
+            }
+            if (replyingStatusContent != null) {
+                intent.putExtra(REPLYING_STATUS_CONTENT_EXTRA, replyingStatusContent);
+            }
+            if (replyingStatusAuthor != null) {
+                intent.putExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA, replyingStatusAuthor);
+            }
+            return intent;
+        }
     }
 }

@@ -5,16 +5,17 @@
     android:orientation="horizontal">
 
     <TextView
+        android:id="@+id/report_status_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/report_status_content"
         android:layout_weight="1"
-        android:padding="8dp" />
+        android:padding="8dp"
+        android:textSize="?attr/status_text_medium" />
 
     <CheckBox
+        android:id="@+id/report_status_check_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/report_status_check_box"
         android:layout_gravity="center_vertical"
         android:layout_margin="16dp" />
 

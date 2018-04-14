@@ -15,30 +15,35 @@
 
 package com.keylesspalace.tusky;
 
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
+import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.TextUtils;
-import android.text.style.StyleSpan;
-import android.view.View;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.arlib.floatingsearchview.FloatingSearchView;
-import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
-import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
+import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Account;
+import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
+import com.keylesspalace.tusky.network.MastodonApi;
+import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
+import com.keylesspalace.tusky.util.NotificationHelper;
+import com.keylesspalace.tusky.util.ThemeUtils;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -47,6 +52,7 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
@@ -56,57 +62,88 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends BaseActivity {
-    private static final String TAG = "MainActivity"; // logging tag and Volley request tag
+public class MainActivity extends BaseActivity implements ActionButtonActivity,
+        HasSupportFragmentInjector {
+    private static final String TAG = "MainActivity"; // logging tag
+    private static final long DRAWER_ITEM_ADD_ACCOUNT = -13;
+    private static final long DRAWER_ITEM_EDIT_PROFILE = 0;
+    private static final long DRAWER_ITEM_FAVOURITES = 1;
+    private static final long DRAWER_ITEM_MUTED_USERS = 2;
+    private static final long DRAWER_ITEM_BLOCKED_USERS = 3;
+    private static final long DRAWER_ITEM_SEARCH = 4;
+    private static final long DRAWER_ITEM_PREFERENCES = 5;
+    private static final long DRAWER_ITEM_ABOUT = 6;
+    private static final long DRAWER_ITEM_LOG_OUT = 7;
+    private static final long DRAWER_ITEM_FOLLOW_REQUESTS = 8;
+    private static final long DRAWER_ITEM_SAVED_TOOT = 9;
+    private static final long DRAWER_ITEM_LISTS = 10;
 
-    private String loggedInAccountId;
-    private String loggedInAccountUsername;
-    private Stack<Integer> pageHistory;
+    @Inject
+    public MastodonApi mastodonApi;
+    @Inject
+    public DispatchingAndroidInjector<Fragment> fragmentInjector;
+
+    private static int COMPOSE_RESULT = 1;
+
+    AccountManager accountManager;
+
+    private FloatingActionButton composeButton;
     private AccountHeader headerResult;
     private Drawer drawer;
-
-    @BindView(R.id.floating_search_view) FloatingSearchView searchView;
-    @BindView(R.id.floating_btn) FloatingActionButton floatingBtn;
-    @BindView(R.id.tab_layout) TabLayout tabLayout;
-    @BindView(R.id.pager) ViewPager viewPager;
-
-    FloatingActionButton composeButton;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        Intent intent = getIntent();
+        int tabPosition = 0;
 
-        pageHistory = new Stack<>();
-        if (savedInstanceState != null) {
-            List<Integer> restoredHistory = savedInstanceState.getIntegerArrayList("pageHistory");
-            if (restoredHistory != null) {
-                pageHistory.addAll(restoredHistory);
+        accountManager = TuskyApplication.getInstance(this).getServiceLocator()
+                .get(AccountManager.class);
+
+        if (intent != null) {
+            long accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1);
+
+            if (accountId != -1) {
+                // user clicked a notification, show notification tab and switch user if necessary
+                tabPosition = 1;
+                AccountEntity account = accountManager.getActiveAccount();
+
+                if (account == null || accountId != account.getId()) {
+                    accountManager.setActiveAccount(accountId);
+                }
             }
         }
 
-        ButterKnife.bind(this);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        floatingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ComposeActivity.class);
-                startActivity(intent);
-            }
+        FloatingActionButton floatingBtn = findViewById(R.id.floating_btn);
+        ImageButton drawerToggle = findViewById(R.id.drawer_toggle);
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        viewPager = findViewById(R.id.pager);
+
+        floatingBtn.setOnClickListener(v -> {
+            Intent composeIntent = new Intent(getApplicationContext(), ComposeActivity.class);
+            startActivityForResult(composeIntent, COMPOSE_RESULT);
         });
 
         setupDrawer();
-        setupSearchView();
 
-        /* Fetch user info while we're doing other things. This has to be after setting up the
+        // Setup the navigation drawer toggle button.
+        ThemeUtils.setDrawableTint(this, drawerToggle.getDrawable(), R.attr.toolbar_icon_tint);
+        drawerToggle.setOnClickListener(v -> drawer.openDrawer());
+
+        /* Fetch user info while we're doing other things. This has to be done after setting up the
          * drawer, though, because its callback touches the header in the drawer. */
         fetchUserInfo();
 
@@ -140,21 +177,25 @@ public class MainActivity extends BaseActivity {
             tab.setContentDescription(pageTitles[i]);
         }
 
+        if (tabPosition != 0) {
+            TabLayout.Tab tab = tabLayout.getTabAt(tabPosition);
+            if (tab != null) {
+                tab.select();
+            } else {
+                tabPosition = 0;
+            }
+        }
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
 
-                if (pageHistory.isEmpty()) {
-                    pageHistory.push(0);
-                }
-
-                if (pageHistory.contains(tab.getPosition())) {
-                    pageHistory.remove(pageHistory.indexOf(tab.getPosition()));
-                }
-
-                pageHistory.push(tab.getPosition());
                 tintTab(tab, true);
+
+                if (tab.getPosition() == 1) {
+                    NotificationHelper.clearNotificationsForActiveAccount(MainActivity.this);
+                }
             }
 
             @Override
@@ -163,28 +204,20 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
         });
 
-        Intent intent = getIntent();
-
-        int tabSelected = 0;
-        if (intent != null) {
-            int tabPosition = intent.getIntExtra("tab_position", 0);
-            if (tabPosition != 0) {
-                TabLayout.Tab tab = tabLayout.getTabAt(tabPosition);
-                if (tab != null) {
-                    tab.select();
-                    tabSelected = tabPosition;
-                }
-            }
-        }
         for (int i = 0; i < 4; i++) {
-            tintTab(tabLayout.getTabAt(i), i == tabSelected);
+            tintTab(tabLayout.getTabAt(i), i == tabPosition);
         }
 
         // Setup push notifications
-        if (arePushNotificationsEnabled()) enablePushNotifications();
+        if (NotificationHelper.areNotificationsEnabled(this)) {
+            enablePushNotifications();
+        } else {
+            disablePushNotifications();
+        }
 
         composeButton = floatingBtn;
     }
@@ -193,20 +226,54 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        SharedPreferences notificationPreferences = getApplicationContext().getSharedPreferences("Notifications", MODE_PRIVATE);
-        SharedPreferences.Editor editor = notificationPreferences.edit();
-        editor.putString("current", "[]");
-        editor.apply();
+        NotificationHelper.clearNotificationsForActiveAccount(this);
 
-        ((NotificationManager) (getSystemService(NOTIFICATION_SERVICE))).cancel(MyFirebaseMessagingService.NOTIFY_ID);
+        /* After editing a profile, the profile header in the navigation drawer needs to be
+         * refreshed */
+        SharedPreferences preferences = getPrivatePreferences();
+        if (preferences.getBoolean("refreshProfileHeader", false)) {
+            fetchUserInfo();
+            preferences.edit()
+                    .putBoolean("refreshProfileHeader", false)
+                    .apply();
+        }
+
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        ArrayList<Integer> pageHistoryList = new ArrayList<>();
-        pageHistoryList.addAll(pageHistory);
-        outState.putIntegerArrayList("pageHistory", pageHistoryList);
-        super.onSaveInstanceState(outState, outPersistentState);
+    public void onBackPressed() {
+        if (drawer != null && drawer.isDrawerOpen()) {
+            drawer.closeDrawer();
+        } else if (viewPager.getCurrentItem() != 0) {
+            viewPager.setCurrentItem(0);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MENU: {
+                if (drawer.isDrawerOpen()) {
+                    drawer.closeDrawer();
+                } else {
+                    drawer.openDrawer();
+                }
+                return true;
+            }
+            case KeyEvent.KEYCODE_SEARCH: {
+                startActivity(new Intent(this, SearchActivity.class));
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    // Fix for GitHub issues #190, #259 (MainActivity won't restart on screen rotation.)
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     private void tintTab(TabLayout.Tab tab, boolean tinted) {
@@ -217,34 +284,29 @@ public class MainActivity extends BaseActivity {
     private void setupDrawer() {
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withSelectionListEnabledForSingleProfile(false)
                 .withDividerBelowHeader(false)
-                .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
-                    @Override
-                    public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-                        if (current && loggedInAccountId != null) {
-                            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-                            intent.putExtra("id", loggedInAccountId);
-                            startActivity(intent);
-                            return true;
-                        }
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
-                        return false;
-                    }
-                })
-                .withCompactStyle(true)
+                .withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP)
+                .withCurrentProfileHiddenInList(true)
+                .withOnAccountHeaderListener((view, profile, current) -> handleProfileClick(profile, current))
+                .addProfiles(
+                        new ProfileSettingDrawerItem()
+                                .withIdentifier(DRAWER_ITEM_ADD_ACCOUNT)
+                                .withName(R.string.add_account_name)
+                                .withDescription(R.string.add_account_description)
+                                .withIcon(GoogleMaterial.Icon.gmd_add))
                 .build();
+
         headerResult.getView()
                 .findViewById(R.id.material_drawer_account_header_current)
                 .setContentDescription(getString(R.string.action_view_profile));
 
+        ImageView background = headerResult.getHeaderBackgroundView();
+        background.setColorFilter(ContextCompat.getColor(this, R.color.header_background_filter));
+        background.setBackgroundColor(ContextCompat.getColor(this, R.color.window_background_dark));
+
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
-            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+            public void set(ImageView imageView, Uri uri, Drawable placeholder, String tag) {
                 Picasso.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
             }
 
@@ -254,235 +316,242 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        VectorDrawableCompat muteDrawable = VectorDrawableCompat.create(getResources(),
+                R.drawable.ic_mute_24dp, getTheme());
+        ThemeUtils.setDrawableTint(this, muteDrawable, R.attr.toolbar_icon_tint);
+
+        List<IDrawerItem> listItem = new ArrayList<>();
+        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_EDIT_PROFILE).withName(getString(R.string.action_edit_profile)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person));
+        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_FAVOURITES).withName(getString(R.string.action_view_favourites)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_star));
+        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_LISTS).withName(R.string.action_lists).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_list));
+        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_MUTED_USERS).withName(getString(R.string.action_view_mutes)).withSelectable(false).withIcon(muteDrawable));
+        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_BLOCKED_USERS).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block));
+        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SEARCH).withName(getString(R.string.action_search)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_search));
+        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SAVED_TOOT).withName(getString(R.string.action_access_saved_toot)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_save));
+        listItem.add(new DividerDrawerItem());
+        listItem.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_PREFERENCES).withName(getString(R.string.action_view_preferences)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings));
+        listItem.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_ABOUT).withName(getString(R.string.about_title_activity)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_info));
+        listItem.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_LOG_OUT).withName(getString(R.string.action_logout)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_exit_to_app));
+
+        IDrawerItem[] array = new IDrawerItem[listItem.size()];
+        listItem.toArray(array); // fill the array
+
         drawer = new DrawerBuilder()
                 .withActivity(this)
                 //.withToolbar(toolbar)
                 .withAccountHeader(headerResult)
                 .withHasStableIds(true)
                 .withSelectedItem(-1)
-                .addDrawerItems(
-                        new PrimaryDrawerItem().withIdentifier(0).withName(R.string.action_view_profile).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person),
-                        new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.action_view_favourites)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_star),
-                        new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block),
-                        new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withIdentifier(3).withName(getString(R.string.action_view_preferences)).withSelectable(false),
-                        new SecondaryDrawerItem().withIdentifier(4).withName(getString(R.string.action_logout)).withSelectable(false)
-                )
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if (drawerItem != null) {
-                            long drawerItemIdentifier = drawerItem.getIdentifier();
+                .addDrawerItems(array)
+                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
+                    if (drawerItem != null) {
+                        long drawerItemIdentifier = drawerItem.getIdentifier();
 
-                            if (drawerItemIdentifier == 0) {
-                                if (loggedInAccountId != null) {
-                                    Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-                                    intent.putExtra("id", loggedInAccountId);
-                                    startActivity(intent);
-                                }
-                            } else if (drawerItemIdentifier == 1) {
-                                Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
-                                startActivity(intent);
-                            } else if (drawerItemIdentifier == 2) {
-                                Intent intent = new Intent(MainActivity.this, BlocksActivity.class);
-                                startActivity(intent);
-                            } else if (drawerItemIdentifier == 3) {
-                                Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
-                                startActivity(intent);
-                            } else if (drawerItemIdentifier == 4) {
-                                logout();
-                            }
+                        if (drawerItemIdentifier == DRAWER_ITEM_EDIT_PROFILE) {
+                            Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_FAVOURITES) {
+                            Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_MUTED_USERS) {
+                            Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
+                            intent.putExtra("type", AccountListActivity.Type.MUTES);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_BLOCKED_USERS) {
+                            Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
+                            intent.putExtra("type", AccountListActivity.Type.BLOCKS);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_SEARCH) {
+                            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_PREFERENCES) {
+                            Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_ABOUT) {
+                            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_LOG_OUT) {
+                            logout();
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_FOLLOW_REQUESTS) {
+                            Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
+                            intent.putExtra("type", AccountListActivity.Type.FOLLOW_REQUESTS);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_SAVED_TOOT) {
+                            Intent intent = new Intent(MainActivity.this, SavedTootActivity.class);
+                            startActivity(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_LISTS) {
+                            startActivity(ListsActivity.newIntent(this));
                         }
 
-                        return false;
                     }
+
+                    return false;
                 })
                 .build();
+
+        if (BuildConfig.DEBUG) {
+            IDrawerItem debugItem = new SecondaryDrawerItem()
+                    .withIdentifier(1337)
+                    .withName("debug")
+                    .withDisabledTextColor(Color.GREEN)
+                    .withSelectable(false)
+                    .withEnabled(false);
+            drawer.addItem(debugItem);
+        }
+
+        updateProfiles();
+    }
+
+    private boolean handleProfileClick(IProfile profile, boolean current) {
+        AccountEntity activeAccount = accountManager.getActiveAccount();
+
+        //open profile when active image was clicked
+        if (current && activeAccount != null) {
+            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+            intent.putExtra("id", activeAccount.getAccountId());
+            startActivity(intent);
+            return true;
+        }
+        //open LoginActivity to add new account
+        if (profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT) {
+            startActivity(LoginActivity.getIntent(this, true));
+            return true;
+        }
+        //change Account
+        changeAccount(profile.getIdentifier());
+        return false;
+    }
+
+
+    private void changeAccount(long newSelectedId) {
+        accountManager.setActiveAccount(newSelectedId);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+
+        overridePendingTransition(R.anim.explode, R.anim.explode);
     }
 
     private void logout() {
-        if (arePushNotificationsEnabled()) disablePushNotifications();
 
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.remove("domain");
-        editor.remove("accessToken");
-        editor.apply();
+        AccountEntity activeAccount = accountManager.getActiveAccount();
 
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
+        if (activeAccount != null) {
 
-    private void setupSearchView() {
-        searchView.attachNavigationDrawerToMenuButton(drawer.getDrawerLayout());
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.action_logout)
+                    .setMessage(getString(R.string.action_logout_confirm, activeAccount.getFullName()))
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
 
-        // Setup content descriptions for the different elements in the search view.
-        final View leftAction = searchView.findViewById(R.id.left_action);
-        leftAction.setContentDescription(getString(R.string.action_open_drawer));
-        searchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
-            @Override
-            public void onFocus() {
-                leftAction.setContentDescription(getString(R.string.action_close));
-            }
+                        NotificationHelper.deleteNotificationChannelsForAccount(accountManager.getActiveAccount(), MainActivity.this);
 
-            @Override
-            public void onFocusCleared() {
-                leftAction.setContentDescription(getString(R.string.action_open_drawer));
-            }
-        });
-        View clearButton = searchView.findViewById(R.id.clear_btn);
-        clearButton.setContentDescription(getString(R.string.action_clear));
+                        AccountEntity newAccount = accountManager.logActiveAccountOut();
 
-        searchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
-            @Override
-            public void onSearchTextChanged(String oldQuery, String newQuery) {
-                if (!oldQuery.equals("") && newQuery.equals("")) {
-                    searchView.clearSuggestions();
-                    return;
-                }
+                        if (!NotificationHelper.areNotificationsEnabled(MainActivity.this))
+                            disablePushNotifications();
 
-                if (newQuery.length() < 3) {
-                    return;
-                }
-
-                searchView.showProgress();
-
-                mastodonAPI.searchAccounts(newQuery, false, 5).enqueue(new Callback<List<Account>>() {
-                    @Override
-                    public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
-                        if (response.isSuccessful()) {
-                            searchView.swapSuggestions(response.body());
-                            searchView.hideProgress();
+                        Intent intent;
+                        if (newAccount == null) {
+                            intent = LoginActivity.getIntent(MainActivity.this, false);
                         } else {
-                            searchView.hideProgress();
+                            intent = new Intent(MainActivity.this, MainActivity.class);
                         }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Account>> call, Throwable t) {
-                        searchView.hideProgress();
-                    }
-                });
-            }
-        });
-
-        searchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
-            @Override
-            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
-                Account accountSuggestion = (Account) searchSuggestion;
-                Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-                intent.putExtra("id", accountSuggestion.id);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onSearchAction(String currentQuery) {
-
-            }
-        });
-
-        searchView.setOnBindSuggestionCallback(new SearchSuggestionsAdapter.OnBindSuggestionCallback() {
-            @Override
-            public void onBindSuggestion(View suggestionView, ImageView leftIcon, TextView textView, SearchSuggestion item, int itemPosition) {
-                Account accountSuggestion = ((Account) item);
-
-                Picasso.with(MainActivity.this)
-                        .load(accountSuggestion.avatar)
-                        .placeholder(R.drawable.avatar_default)
-                        .into(leftIcon);
-
-                String searchStr = accountSuggestion.getDisplayName() + " " + accountSuggestion.username;
-                final SpannableStringBuilder str = new SpannableStringBuilder(searchStr);
-
-                str.setSpan(new StyleSpan(Typeface.BOLD), 0, accountSuggestion.getDisplayName().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                textView.setText(str);
-                textView.setMaxLines(1);
-                textView.setEllipsize(TextUtils.TruncateAt.END);
-            }
-        });
+                        startActivity(intent);
+                        finish();
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
+        }
     }
 
     private void fetchUserInfo() {
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        final String domain = preferences.getString("domain", null);
-        String id = preferences.getString("loggedInAccountId", null);
-        String username = preferences.getString("loggedInAccountUsername", null);
 
-        if (id != null && username != null) {
-            loggedInAccountId = id;
-            loggedInAccountUsername = username;
-        }
-
-        mastodonAPI.accountVerifyCredentials().enqueue(new Callback<Account>() {
+        mastodonApi.accountVerifyCredentials().enqueue(new Callback<Account>() {
             @Override
-            public void onResponse(Call<Account> call, Response<Account> response) {
-                if (!response.isSuccessful()) {
+            public void onResponse(@NonNull Call<Account> call, @NonNull Response<Account> response) {
+                if (response.isSuccessful()) {
+                    onFetchUserInfoSuccess(response.body());
+                } else {
                     onFetchUserInfoFailure(new Exception(response.message()));
-                    return;
                 }
-
-                Account me = response.body();
-                ImageView background = headerResult.getHeaderBackgroundView();
-                int backgroundWidth = background.getWidth();
-                int backgroundHeight = background.getHeight();
-                if (backgroundWidth == 0 || backgroundHeight == 0) {
-                    /* The header ImageView may not be layed out when the verify credentials call
-                     * returns so measure the dimensions and use those. */
-                    background.measure(View.MeasureSpec.EXACTLY, View.MeasureSpec.EXACTLY);
-                    backgroundWidth = background.getMeasuredWidth();
-                    backgroundHeight = background.getMeasuredHeight();
-                }
-
-                Picasso.with(MainActivity.this)
-                        .load(me.header)
-                        .placeholder(R.drawable.account_header_missing)
-                        .resize(backgroundWidth, backgroundHeight)
-                        .centerCrop()
-                        .into(background);
-
-                headerResult.addProfiles(
-                        new ProfileDrawerItem()
-                                .withName(me.getDisplayName())
-                                .withEmail(String.format("%s@%s", me.username, domain))
-                                .withIcon(me.avatar)
-                );
-
-                onFetchUserInfoSuccess(me.id, me.username);
             }
 
             @Override
-            public void onFailure(Call<Account> call, Throwable t) {
+            public void onFailure(@NonNull Call<Account> call, @NonNull Throwable t) {
                 onFetchUserInfoFailure((Exception) t);
             }
         });
     }
 
-    private void onFetchUserInfoSuccess(String id, String username) {
-        loggedInAccountId = id;
-        loggedInAccountUsername = username;
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("loggedInAccountId", loggedInAccountId);
-        editor.putString("loggedInAccountUsername", loggedInAccountUsername);
-        editor.apply();
+    private void onFetchUserInfoSuccess(Account me) {
+        // Add the header image and avatar from the account, into the navigation drawer header.
+
+        ImageView background = headerResult.getHeaderBackgroundView();
+
+        Picasso.with(MainActivity.this)
+                .load(me.getHeader())
+                .placeholder(R.drawable.account_header_default)
+                .into(background);
+
+        accountManager.updateActiveAccount(me);
+
+        NotificationHelper.createNotificationChannelsForAccount(accountManager.getActiveAccount(), this);
+
+        // Show follow requests in the menu, if this is a locked account.
+        if (me.getLocked() && drawer.getDrawerItem(DRAWER_ITEM_FOLLOW_REQUESTS) == null) {
+            PrimaryDrawerItem followRequestsItem = new PrimaryDrawerItem()
+                    .withIdentifier(DRAWER_ITEM_FOLLOW_REQUESTS)
+                    .withName(R.string.action_view_follow_requests)
+                    .withSelectable(false)
+                    .withIcon(GoogleMaterial.Icon.gmd_person_add);
+            drawer.addItemAtPosition(followRequestsItem, 3);
+        } else {
+            drawer.removeItem(DRAWER_ITEM_FOLLOW_REQUESTS);
+        }
+
+        updateProfiles();
+
+    }
+
+    private void updateProfiles() {
+
+        List<AccountEntity> allAccounts = accountManager.getAllAccountsOrderedByActive();
+
+        //remove profiles before adding them again to avoid duplicates
+        List<IProfile> profiles = new ArrayList<>(headerResult.getProfiles());
+        for (IProfile profile : profiles) {
+            if (profile.getIdentifier() != DRAWER_ITEM_ADD_ACCOUNT) {
+                headerResult.removeProfile(profile);
+            }
+        }
+
+        for (AccountEntity acc : allAccounts) {
+            headerResult.addProfiles(
+                    new ProfileDrawerItem()
+                            .withName(acc.getDisplayName())
+                            .withIcon(acc.getProfilePictureUrl())
+                            .withNameShown(true)
+                            .withIdentifier(acc.getId())
+                            .withEmail(acc.getFullName()));
+
+        }
+
     }
 
     private void onFetchUserInfoFailure(Exception exception) {
         Log.e(TAG, "Failed to fetch user info. " + exception.getMessage());
     }
 
+    @Nullable
     @Override
-    public void onBackPressed() {
-        if(drawer != null && drawer.isDrawerOpen()) {
-            drawer.closeDrawer();
-        } else if(pageHistory.size() < 2) {
-            super.onBackPressed();
-        } else {
-            pageHistory.pop();
-            viewPager.setCurrentItem(pageHistory.peek());
-        }
+    public FloatingActionButton getActionButton() {
+        return composeButton;
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentInjector;
     }
 }

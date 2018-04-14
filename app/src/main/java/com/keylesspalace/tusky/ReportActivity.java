@@ -25,23 +25,35 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.keylesspalace.tusky.adapter.ReportAdapter;
+import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.network.MastodonApi;
+import com.keylesspalace.tusky.util.HtmlUtils;
+import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
-public class ReportActivity extends BaseActivity {
+public class ReportActivity extends BaseActivity implements Injectable {
     private static final String TAG = "ReportActivity"; // logging tag
+
+    @Inject
+    public MastodonApi mastodonApi;
 
     private View anyView; // what Snackbar will use to find the root view
     private ReportAdapter adapter;
@@ -60,7 +72,7 @@ public class ReportActivity extends BaseActivity {
         String statusId = intent.getStringExtra("status_id");
         String statusContent = intent.getStringExtra("status_content");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
@@ -72,7 +84,7 @@ public class ReportActivity extends BaseActivity {
         }
         anyView = toolbar;
 
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.report_recycler_view);
+        final RecyclerView recyclerView = findViewById(R.id.report_recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -90,7 +102,7 @@ public class ReportActivity extends BaseActivity {
                 HtmlUtils.fromHtml(statusContent), true);
         adapter.addItem(reportStatus);
 
-        comment = (EditText) findViewById(R.id.report_comment);
+        comment = findViewById(R.id.report_comment);
 
         reportAlreadyInFlight = false;
 
@@ -113,10 +125,10 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void sendReport(final String accountId, final String[] statusIds,
-            final String comment) {
-        mastodonAPI.report(accountId, Arrays.asList(statusIds), comment).enqueue(new Callback<ResponseBody>() {
+                            final String comment) {
+        Callback<ResponseBody> callback = new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     onSendSuccess();
                 } else {
@@ -128,7 +140,9 @@ public class ReportActivity extends BaseActivity {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 onSendFailure(accountId, statusIds, comment);
             }
-        });
+        };
+        mastodonApi.report(accountId, Arrays.asList(statusIds), comment)
+                .enqueue(callback);
     }
 
     private void onSendSuccess() {
@@ -138,7 +152,7 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void onSendFailure(final String accountId, final String[] statusIds,
-            final String comment) {
+                               final String comment) {
         Snackbar.make(anyView, R.string.error_generic, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_retry, new View.OnClickListener() {
                     @Override
@@ -151,9 +165,9 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void fetchRecentStatuses(String accountId) {
-        mastodonAPI.accountStatuses(accountId, null, null, null).enqueue(new Callback<List<Status>>() {
+        Callback<List<Status>> callback = new Callback<List<Status>>() {
             @Override
-            public void onResponse(Call<List<Status>> call, retrofit2.Response<List<Status>> response) {
+            public void onResponse(Call<List<Status>> call, Response<List<Status>> response) {
                 if (!response.isSuccessful()) {
                     onFetchStatusesFailure(new Exception(response.message()));
                     return;
@@ -161,9 +175,9 @@ public class ReportActivity extends BaseActivity {
                 List<Status> statusList = response.body();
                 List<ReportAdapter.ReportStatus> itemList = new ArrayList<>();
                 for (Status status : statusList) {
-                    if (status.reblog == null) {
+                    if (status.getReblog() == null) {
                         ReportAdapter.ReportStatus item = new ReportAdapter.ReportStatus(
-                                status.id, status.content, false);
+                                status.getId(), status.getContent(), false);
                         itemList.add(item);
                     }
                 }
@@ -174,7 +188,9 @@ public class ReportActivity extends BaseActivity {
             public void onFailure(Call<List<Status>> call, Throwable t) {
                 onFetchStatusesFailure((Exception) t);
             }
-        });
+        };
+        mastodonApi.accountStatuses(accountId, null, null, null, null)
+                .enqueue(callback);
     }
 
     private void onFetchStatusesFailure(Exception exception) {

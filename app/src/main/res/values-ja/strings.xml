@@ -1,0 +1,283 @@
+<resources>
+
+    <string name="error_generic">エラーが発生しました。</string>
+    <string name="error_empty">本文なしでは投稿できません。</string>
+    <string name="error_invalid_domain">無効なドメインです</string>
+    <string name="error_failed_app_registration">そのインスタンスでの認証に失敗しました。</string>
+    <string name="error_no_web_browser_found">ウェブブラウザが見つかりませんでした。</string>
+    <string name="error_authorization_unknown">不明な承認エラーが発生しました。</string>
+    <string name="error_authorization_denied">承認が拒否されました。</string>
+    <string name="error_retrieving_oauth_token">ログイントークンの取得に失敗しました。</string>
+    <string name="error_compose_character_limit">投稿文が長すぎます！</string>
+    <string name="error_media_upload_size">ファイルは4MB未満にしてください。</string>
+    <string name="error_media_upload_type">その形式のファイルはアップロードできません。</string>
+    <string name="error_media_upload_opening">ファイルを開けませんでした。</string>
+    <string name="error_media_upload_permission">メディアの読み取り許可が必要です。</string>
+    <string name="error_media_download_permission">メディアの書き込み許可が必要です。</string>
+    <string name="error_media_upload_image_or_video">画像と動画を同時に投稿することはできません。</string>
+    <string name="error_media_upload_sending">アップロードに失敗しました。</string>
+    <string name="error_report_too_few_statuses">少なくとも1つの投稿を報告してください。</string>
+
+    <string name="title_home">ホーム</string>
+    <string name="title_notifications">通知</string>
+    <string name="title_public_local">ローカル</string>
+    <string name="title_public_federated">連合</string>
+    <string name="title_view_thread">スレッド</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">投稿</string>
+    <string name="title_follows">フォロー</string>
+    <string name="title_followers">フォロワー</string>
+    <string name="title_favourites">お気に入り</string>
+    <string name="title_mutes">ミュートしたユーザー</string>
+    <string name="title_blocks">ブロックしたユーザー</string>
+    <string name="title_follow_requests">フォローリクエスト</string>
+    <string name="title_edit_profile">プロフィールを編集</string>
+    <string name="title_saved_toot">下書き</string>
+    <string name="title_x_followers">フォロワー <b>%s</b></string>
+    <string name="title_x_following">フォロー <b>%s</b></string>
+    <string name="title_x_statuses">投稿 <b>%s</b></string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%sさんがブーストしました</string>
+    <string name="status_sensitive_media_title">閲覧注意</string>
+    <string name="status_media_hidden_title">非表示のメディア</string>
+    <string name="status_sensitive_media_directions">タップして表示</string>
+    <string name="status_content_warning_show_more">続きを表示</string>
+    <string name="status_content_warning_show_less">続きを隠す</string>
+
+    <string name="footer_empty">現在トゥートはありません。更新するにはプルダウンしてください！</string>
+
+    <string name="notification_reblog_format">%sさんがトゥートをブーストしました</string>
+    <string name="notification_favourite_format">%sさんがトゥートをお気に入りに登録しました</string>
+    <string name="notification_follow_format">%sさんにフォローされました</string>
+
+    <string name="report_username_format">\@%sさんを通報</string>
+    <string name="report_comment_hint">コメント</string>
+
+    <string name="action_reply">返信</string>
+    <string name="action_reblog">ブースト</string>
+    <string name="action_favourite">お気に入り</string>
+    <string name="action_more">その他</string>
+    <string name="action_compose">新規投稿</string>
+    <string name="action_login">Mastodonでログイン</string>
+    <string name="action_logout">ログアウト</string>
+    <string name="action_logout_confirm">アカウント %1$s からログアウトしてもよろしいですか？</string>
+    <string name="action_follow">フォローする</string>
+    <string name="action_unfollow">フォロー解除</string>
+    <string name="action_block">ブロック</string>
+    <string name="action_unblock">ブロック解除</string>
+    <string name="action_report">通報</string>
+    <string name="action_delete">削除</string>
+    <string name="action_send">トゥート</string>
+    <string name="action_send_public">トゥート！</string>
+    <string name="action_retry">再試行</string>
+    <string name="action_close">閉じる</string>
+    <string name="action_view_profile">プロフィール</string>
+    <string name="action_view_preferences">設定</string>
+    <string name="action_view_favourites">お気に入り</string>
+    <string name="action_view_mutes">ミュートしたユーザー</string>
+    <string name="action_view_blocks">ブロックしたユーザー</string>
+    <string name="action_view_follow_requests">フォローリクエスト</string>
+    <string name="action_view_media">メディア</string>
+    <string name="action_open_in_web">ブラウザで開く</string>
+    <string name="action_add_media">メディアを追加</string>
+    <string name="action_photo_take">写真を撮る</string>
+    <string name="action_share">共有</string>
+    <string name="action_mute">ミュート</string>
+    <string name="action_unmute">ミュート解除</string>
+    <string name="action_mention">返信</string>
+    <string name="action_hide_media">メディアを隠す</string>
+    <string name="action_open_drawer">メニューを開く</string>
+    <string name="action_save">保存</string>
+    <string name="action_edit_profile">プロフィールを編集</string>
+    <string name="action_undo">取り消す</string>
+    <string name="action_accept">許可</string>
+    <string name="action_reject">拒否</string>
+    <string name="action_search">検索</string>
+    <string name="action_access_saved_toot">下書き</string>
+
+    <string name="download_image">%1$s をダウンロードしています</string>
+
+    <string name="action_copy_link">リンクをコピー</string>
+
+    <string name="send_status_link_to">トゥートのURLを共有…</string>
+    <string name="send_status_content_to">トゥートを共有…</string>
+
+    <string name="confirmation_reported">送信しました！</string>
+    <string name="confirmation_unblocked">ブロックを解除しました</string>
+    <string name="confirmation_unmuted">ミュートを解除しました</string>
+
+    <string name="hint_domain">どのインスタンス？</string>
+    <string name="hint_compose">今なにしてる？</string>
+    <string name="hint_content_warning">注意書き</string>
+    <string name="hint_display_name">表示名</string>
+    <string name="hint_note">プロフィール</string>
+    <string name="hint_search">ユーザーを検索…</string>
+
+    <string name="search_no_results">見つかりませんでした</string>
+
+    <string name="label_avatar">アイコン</string>
+    <string name="label_header">ヘッダー</string>
+
+    <string name="link_whats_an_instance">インスタンスとは？</string>
+
+    <string name="login_connection">接続中…</string>
+
+    <string name="dialog_whats_an_instance">mastodon.social, mstdn.jp, pawoo.netや<!--
+        --><a href="https://instances.social">その他</a><!--
+        -->のような、あらゆるインスタンスのアドレスやドメインを入力できます。
+        \n\nまだアカウントをお持ちでない場合は、参加したいインスタンスの名前を入力することで<!--
+        -->そのインスタンスにアカウントを作成できます。
+        \n\nインスタンスはあなたのアカウントが提供される単独の場所ですが、<!--
+        -->他のインスタンスのユーザーとあたかも同じ場所にいるように簡単にコミュニケーションをとったりフォローしたりできます。
+        \n\nさらに詳しい情報は<a href="https://joinmastodon.org">joinmastodon.org</a>でご覧いただけます。
+    </string>
+    <!-- Commented out line breaks to avoid appearing spaces in the middle of a sentence. -->
+    <string name="dialog_title_finishing_media_upload">メディアをアップロードしています</string>
+    <string name="dialog_message_uploading_media">アップロード中…</string>
+    <string name="dialog_download_image">ダウンロード</string>
+    <string name="dialog_message_follow_request">フォローリクエストの承認待ち：返答を待っています</string>
+    <string name="dialog_unfollow_warning">このアカウントをフォロー解除しますか？</string>
+
+    <string name="visibility_public">公開：公開タイムラインに投稿する</string>
+    <string name="visibility_unlisted">未収載：公開タイムラインには表示しない</string>
+    <string name="visibility_private">フォロワー限定：フォロワーだけに公開</string>
+    <string name="visibility_direct">ダイレクト：返信先のユーザーだけに公開</string>
+
+    <string name="pref_title_notification_settings">通知</string>
+    <string name="pref_title_edit_notification_settings">通知を設定</string>
+    <string name="pref_title_notifications_enabled">プッシュ通知</string>
+    <string name="pref_summary_notifications">対象: %1$s</string>
+    <string name="pref_title_pull_notification_check_interval">通知の取得間隔</string>
+    <string name="pref_title_notification_alerts">通知時の動作</string>
+    <string name="pref_title_notification_alert_sound">着信音を鳴らす</string>
+    <string name="pref_title_notification_alert_vibrate">バイブレーションする</string>
+    <string name="pref_title_notification_alert_light">通知ランプ</string>
+    <string name="pref_title_notification_filters">通知の種類</string>
+    <string name="pref_title_notification_filter_mentions">返信</string>
+    <string name="pref_title_notification_filter_follows">フォロー</string>
+    <string name="pref_title_notification_filter_reblogs">投稿がブーストされた</string>
+    <string name="pref_title_notification_filter_favourites">投稿がお気に入りに登録された</string>
+    <string name="pref_title_appearance_settings">表示</string>
+    <string name="pref_title_app_theme">アプリテーマ</string>
+
+    <string-array name="app_theme_names">
+        <item>Dark</item>
+        <item>Light</item>
+        <item>日没による自動設定</item>
+    </string-array>
+
+    <string name="pref_title_browser_settings">ブラウザ</string>
+    <string name="pref_title_custom_tabs">Chrome Custom Tabsを使用する</string>
+    <string name="pref_title_hide_follow_button">スクロール中はフォローボタンを隠す</string>
+    <string name="pref_title_status_filter">タイムラインのフィルタリング</string>
+    <string name="pref_title_status_tabs">タブ</string>
+    <string name="pref_title_show_boosts">ブーストを表示</string>
+    <string name="pref_title_show_replies">返信を表示</string>
+    <string name="pref_title_show_media_preview">メディアのプレビューを表示する</string>
+    <string name="pref_title_proxy_settings">プロキシー</string>
+    <string name="pref_title_http_proxy_settings">HTTPプロキシー</string>
+    <string name="pref_title_http_proxy_enable">HTTPプロキシーを有効化</string>
+    <string name="pref_title_http_proxy_server">HTTPプロキシーサーバー</string>
+    <string name="pref_title_http_proxy_port">HTTPプロキシーポート</string>
+
+    <string-array name="pull_notification_check_interval_names">
+        <item>15分</item>
+        <item>20分</item>
+        <item>25分</item>
+        <item>30分</item>
+        <item>45分</item>
+        <item>1時間</item>
+        <item>2時間</item>
+    </string-array>
+
+    <string name="pref_default_post_privacy">デフォルトの投稿プライバシー</string>
+    <string name="pref_publishing">投稿</string>
+
+    <string-array name="post_privacy_names">
+        <item>公開</item>
+        <item>Unlisted</item>
+        <item>フォロワーに限定</item>
+    </string-array>
+
+    <string name="pref_status_text_size">トゥートのテキストサイズ</string>
+
+    <string-array name="status_text_size_names">
+        <item>小</item>
+        <item>中</item>
+        <item>大</item>
+    </string-array>
+
+    <string name="notification_channel_mention_name">新しい返信</string>
+    <string name="notification_channel_mention_descriptions">新しい返信の通知</string>
+    <string name="notification_channel_follow_name">新しいフォロワー</string>
+    <string name="notification_channel_follow_description">新しいフォロワーの通知</string>
+    <string name="notification_channel_boost_name">ブースト</string>
+    <string name="notification_channel_boost_description">あなたのトゥートがブーストされたときの通知</string>
+    <string name="notification_channel_favourite_name">お気に入り</string>
+    <string name="notification_channel_favourite_description">あなたのトゥートがお気に入りに登録されたときの通知</string>
+
+    <string name="notification_mention_format">%sさんが返信しました</string>
+    <string name="notification_summary_large">%1$sさん、%2$sさん、%3$sさんと他%4$d人</string>
+    <string name="notification_summary_medium">%1$sさん、%2$sさん、%3$sさん</string>
+    <string name="notification_summary_small">%1$sさん、%2$sさん</string>
+    <string name="notification_title_summary">%d件の新しい通知</string>
+
+    <string name="description_account_locked">非公開アカウント</string>
+
+    <string name="about_title_activity">このアプリについて</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Tuskyは無料のオープンソースソフトウェアです。<!--
+     -->GNU General Public License Version 3 の下で使用許諾されています。<!--
+     -->ライセンスはここからご覧いただけます： https://www.gnu.org/licenses/gpl-3.0.ja.html</string>
+    <!-- Commented out line breaks brcause inserting a space after the japanese period is incorrect. -->
+    <string name="about_project_site">
+        プロジェクトのWebサイト（英語）：\n
+        https://tuskyapp.github.io
+    </string>
+    <string name="about_bug_feature_request_site">
+        バグ報告 &amp; 機能リクエスト（英語）：\n
+        https://github.com/tuskyapp/Tusky/issues
+    </string>
+    <string name="about_tusky_account">Tusky公式アカウント</string>
+
+    <string name="status_share_content">トゥートの内容を共有</string>
+    <string name="status_share_link">トゥートへのリンクを共有</string>
+    <string name="status_media_images">画像</string>
+    <string name="status_media_video">動画</string>
+
+    <string name="state_follow_requested">フォローリクエスト中</string>
+    
+    <string name="no_content">下書きはありません</string>
+
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">%d年後</string>
+    <string name="abbreviated_in_days">%d日後</string>
+    <string name="abbreviated_in_hours">%d時間後</string>
+    <string name="abbreviated_in_minutes">%d分後</string>
+    <string name="abbreviated_in_seconds">%d秒後</string>
+    <string name="abbreviated_years_ago">%d年前</string>
+    <string name="abbreviated_days_ago">%d日前</string>
+    <string name="abbreviated_hours_ago">%d時間前</string>
+    <string name="abbreviated_minutes_ago">%d分前</string>
+    <string name="abbreviated_seconds_ago">%d秒前</string>
+
+    <string name="follows_you">あなたをフォロー中</string>
+    <string name="pref_title_alway_show_sensitive_media">閲覧注意のコンテンツを常に表示</string>
+    <string name="title_media">メディア</string>
+    <string name="replying_to">@%sに返信</string>
+    <string name="load_more_placeholder_text">さらに読み込む</string>
+
+    <string name="add_account_name">アカウントを追加</string>
+    <string name="add_account_description">新しいMastodonアカウントを追加</string>
+
+    <string name="action_lists">リスト</string>
+    <string name="title_lists">リスト</string>
+    <string name="title_list_timeline">リストタイムライン</string>
+
+    <string name="error_failed_set_caption">説明の設定に失敗しました</string>
+    <string name="hint_describe_for_visually_impaired">視覚障害者のための説明</string>
+    <string name="action_set_caption">説明を設定</string>
+    <string name="action_remove_media">消去</string>
+
+</resources>

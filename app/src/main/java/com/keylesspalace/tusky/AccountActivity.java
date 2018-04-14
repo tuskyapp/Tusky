@@ -15,100 +15,169 @@
 
 package com.keylesspalace.tusky;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.AttrRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
+import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
+import com.keylesspalace.tusky.interfaces.LinkListener;
+import com.keylesspalace.tusky.network.MastodonApi;
+import com.keylesspalace.tusky.pager.AccountPagerAdapter;
+import com.keylesspalace.tusky.receiver.TimelineReceiver;
+import com.keylesspalace.tusky.util.Assert;
+import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.util.ThemeUtils;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AccountActivity extends BaseActivity {
+public final class AccountActivity extends BaseActivity implements ActionButtonActivity,
+        HasSupportFragmentInjector {
     private static final String TAG = "AccountActivity"; // logging tag
 
+    private enum FollowState {
+        NOT_FOLLOWING,
+        FOLLOWING,
+        REQUESTED,
+    }
+
+    @Inject
+    public MastodonApi mastodonApi;
+    @Inject
+    public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
     private String accountId;
-    private boolean following = false;
-    private boolean blocking = false;
-    private boolean muting = false;
+    private FollowState followState;
+    private boolean blocking;
+    private boolean muting;
     private boolean isSelf;
-    private TabLayout tabLayout;
     private Account loadedAccount;
 
-    @BindView(R.id.account_locked) ImageView accountLockedView;
+    private CircularImageView avatar;
+    private ImageView header;
+    private FloatingActionButton floatingBtn;
+    private Button followBtn;
+    private TextView followsYouView;
+    private TabLayout tabLayout;
+    private ImageView accountLockedView;
+    private View container;
+    private TextView followersTextView;
+    private TextView followingTextView;
+    private TextView statusesTextView;
+
+    private boolean hideFab;
+    private int oldOffset;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        ButterKnife.bind(this);
+
+        avatar = findViewById(R.id.account_avatar);
+        header = findViewById(R.id.account_header);
+        floatingBtn = findViewById(R.id.floating_btn);
+        followBtn = findViewById(R.id.follow_btn);
+        followsYouView = findViewById(R.id.account_follows_you);
+        tabLayout = findViewById(R.id.tab_layout);
+        accountLockedView = findViewById(R.id.account_locked);
+        container = findViewById(R.id.activity_account);
+        followersTextView = findViewById(R.id.followers_tv);
+        followingTextView = findViewById(R.id.following_tv);
+        statusesTextView = findViewById(R.id.statuses_btn);
 
         if (savedInstanceState != null) {
             accountId = savedInstanceState.getString("accountId");
+            followState = (FollowState) savedInstanceState.getSerializable("followState");
+            blocking = savedInstanceState.getBoolean("blocking");
+            muting = savedInstanceState.getBoolean("muting");
         } else {
             Intent intent = getIntent();
             accountId = intent.getStringExtra("id");
+            followState = FollowState.NOT_FOLLOWING;
+            blocking = false;
+            muting = false;
         }
+        loadedAccount = null;
 
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        String loggedInAccountId = preferences.getString("loggedInAccountId", null);
-
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Setup the toolbar.
+        final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         ActionBar actionBar = getSupportActionBar();
-
         if (actionBar != null) {
             actionBar.setTitle(null);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
+        hideFab = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("fabHide", false);
+
         // Add a listener to change the toolbar icon color when it enters/exits its collapsed state.
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.account_app_bar_layout);
-        final CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        AppBarLayout appBarLayout = findViewById(R.id.account_app_bar_layout);
+        final CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsing_toolbar);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @AttrRes int priorAttribute = R.attr.account_toolbar_icon_tint_uncollapsed;
+            @AttrRes
+            int priorAttribute = R.attr.account_toolbar_icon_tint_uncollapsed;
 
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 @AttrRes int attribute;
                 if (collapsingToolbar.getHeight() + verticalOffset
                         < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
+
+                    toolbar.setTitleTextColor(ThemeUtils.getColor(AccountActivity.this,
+                            android.R.attr.textColorPrimary));
+                    toolbar.setSubtitleTextColor(ThemeUtils.getColor(AccountActivity.this,
+                            android.R.attr.textColorSecondary));
+
                     attribute = R.attr.account_toolbar_icon_tint_collapsed;
                 } else {
+                    toolbar.setTitleTextColor(Color.TRANSPARENT);
+                    toolbar.setSubtitleTextColor(Color.TRANSPARENT);
+
                     attribute = R.attr.account_toolbar_icon_tint_uncollapsed;
                 }
                 if (attribute != priorAttribute) {
@@ -117,58 +186,99 @@ public class AccountActivity extends BaseActivity {
                     ThemeUtils.setDrawableTint(context, toolbar.getNavigationIcon(), attribute);
                     ThemeUtils.setDrawableTint(context, toolbar.getOverflowIcon(), attribute);
                 }
+
+                if (floatingBtn != null && hideFab && !isSelf && !blocking) {
+                    if (verticalOffset > oldOffset) {
+                        floatingBtn.show();
+                    }
+                    if (verticalOffset < oldOffset) {
+                        floatingBtn.hide();
+                    }
+                }
+                oldOffset = verticalOffset;
             }
         });
 
-        FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
+        // Initialise the default UI states.
         floatingBtn.hide();
+        followBtn.setVisibility(View.GONE);
+        followsYouView.setVisibility(View.GONE);
 
-        CircularImageView avatar = (CircularImageView) findViewById(R.id.account_avatar);
-        ImageView header = (ImageView) findViewById(R.id.account_header);
-        avatar.setImageResource(R.drawable.avatar_default);
-        header.setImageResource(R.drawable.account_header_default);
-
+        // Obtain information to fill out the profile.
         obtainAccount();
-        if (!accountId.equals(loggedInAccountId)) {
+
+        AccountEntity activeAccount = TuskyApplication.getInstance(this).getServiceLocator()
+                .get(AccountManager.class).getActiveAccount();
+
+        if (accountId.equals(activeAccount.getAccountId())) {
+            isSelf = true;
+        } else {
             isSelf = false;
             obtainRelationships();
-        } else {
-            /* Cause the options menu to update and instead show an options menu for when the
-             * account being shown is their own account. */
-            isSelf = true;
-            invalidateOptionsMenu();
         }
 
         // Setup the tabs and timeline pager.
-        AccountPagerAdapter adapter = new AccountPagerAdapter(getSupportFragmentManager(), this,
+        AccountPagerAdapter adapter = new AccountPagerAdapter(getSupportFragmentManager(),
                 accountId);
         String[] pageTitles = {
-            getString(R.string.title_statuses),
-            getString(R.string.title_follows),
-            getString(R.string.title_followers)
+                getString(R.string.title_statuses),
+                getString(R.string.title_media)
         };
         adapter.setPageTitles(pageTitles);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        final ViewPager viewPager = findViewById(R.id.pager);
         int pageMargin = getResources().getDimensionPixelSize(R.dimen.tab_page_margin);
         viewPager.setPageMargin(pageMargin);
         Drawable pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
                 R.drawable.tab_page_margin_dark);
         viewPager.setPageMarginDrawable(pageMarginDrawable);
         viewPager.setAdapter(adapter);
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        viewPager.setOffscreenPageLimit(0);
         tabLayout.setupWithViewPager(viewPager);
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            if (tab != null) {
-                tab.setCustomView(adapter.getTabView(i, tabLayout));
+
+        View.OnClickListener accountListClickListener = v -> {
+            AccountListActivity.Type type;
+            switch (v.getId()) {
+                case R.id.followers_tv:
+                    type = AccountListActivity.Type.FOLLOWERS;
+                    break;
+                case R.id.following_tv:
+                    type = AccountListActivity.Type.FOLLOWING;
+                    break;
+                default:
+                    throw new AssertionError();
             }
-        }
+            Intent intent = AccountListActivity.newIntent(AccountActivity.this, type,
+                    accountId);
+            startActivity(intent);
+        };
+        followersTextView.setOnClickListener(accountListClickListener);
+        followingTextView.setOnClickListener(accountListClickListener);
+
+        statusesTextView.setOnClickListener(v -> {
+            // Make nice ripple effect on tab
+
+            //noinspection ConstantConditions
+            tabLayout.getTabAt(0).select();
+            final View poorTabView = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0);
+            poorTabView.setPressed(true);
+            tabLayout.postDelayed(() -> poorTabView.setPressed(false), 300);
+        });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("accountId", accountId);
+        outState.putSerializable("followState", followState);
+        outState.putBoolean("blocking", blocking);
+        outState.putBoolean("muting", muting);
+        super.onSaveInstanceState(outState);
     }
 
     private void obtainAccount() {
-        mastodonAPI.account(accountId).enqueue(new Callback<Account>() {
+        mastodonApi.account(accountId).enqueue(new Callback<Account>() {
             @Override
-            public void onResponse(Call<Account> call, retrofit2.Response<Account> response) {
+            public void onResponse(@NonNull Call<Account> call,
+                                   @NonNull Response<Account> response) {
                 if (response.isSuccessful()) {
                     onObtainAccountSuccess(response.body());
                 } else {
@@ -177,145 +287,172 @@ public class AccountActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<Account> call, Throwable t) {
+            public void onFailure(@NonNull Call<Account> call, @NonNull Throwable t) {
                 onObtainAccountFailure();
             }
         });
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putString("accountId", accountId);
-        super.onSaveInstanceState(outState);
-    }
-
     private void onObtainAccountSuccess(Account account) {
         loadedAccount = account;
 
-        TextView username = (TextView) findViewById(R.id.account_username);
-        TextView displayName = (TextView) findViewById(R.id.account_display_name);
-        TextView note = (TextView) findViewById(R.id.account_note);
-        CircularImageView avatar = (CircularImageView) findViewById(R.id.account_avatar);
-        ImageView header = (ImageView) findViewById(R.id.account_header);
+        TextView username = findViewById(R.id.account_username);
+        TextView displayName = findViewById(R.id.account_display_name);
+        TextView note = findViewById(R.id.account_note);
 
         String usernameFormatted = String.format(
-                getString(R.string.status_username_format), account.username);
+                getString(R.string.status_username_format), account.getUsername());
         username.setText(usernameFormatted);
 
-        displayName.setText(account.getDisplayName());
+        displayName.setText(account.getName());
 
-        note.setText(account.note);
-        note.setLinksClickable(true);
-        note.setMovementMethod(LinkMovementMethod.getInstance());
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(account.getName());
 
-        if (account.locked) {
+            String subtitle = String.format(getString(R.string.status_username_format),
+                    account.getUsername());
+            getSupportActionBar().setSubtitle(subtitle);
+        }
+
+        LinkHelper.setClickableText(note, account.getNote(), null, new LinkListener() {
+            @Override
+            public void onViewTag(String tag) {
+                Intent intent = new Intent(AccountActivity.this, ViewTagActivity.class);
+                intent.putExtra("hashtag", tag);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onViewAccount(String id) {
+                Intent intent = new Intent(AccountActivity.this, AccountActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+            }
+        });
+
+        if (account.getLocked()) {
             accountLockedView.setVisibility(View.VISIBLE);
         } else {
             accountLockedView.setVisibility(View.GONE);
         }
 
         Picasso.with(this)
-                .load(account.avatar)
+                .load(account.getAvatar())
                 .placeholder(R.drawable.avatar_default)
-                .error(R.drawable.avatar_error)
                 .into(avatar);
         Picasso.with(this)
-                .load(account.header)
-                .placeholder(R.drawable.account_header_missing)
+                .load(account.getHeader())
+                .placeholder(R.drawable.account_header_default)
                 .into(header);
 
-        NumberFormat nf = NumberFormat.getInstance();
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
-        // Add counts to the tabs in the TabLayout.
-        String[] counts = {
-            nf.format(Integer.parseInt(account.statusesCount)),
-            nf.format(Integer.parseInt(account.followingCount)),
-            nf.format(Integer.parseInt(account.followersCount)),
-        };
+        String followersCount = numberFormat.format(account.getFollowersCount());
+        String followingCount = numberFormat.format(account.getFollowingCount());
+        String statusesCount = numberFormat.format(account.getStatusesCount());
+        followersTextView.setText(getString(R.string.title_x_followers, followersCount));
+        followingTextView.setText(getString(R.string.title_x_following, followingCount));
+        statusesTextView.setText(getString(R.string.title_x_statuses, statusesCount));
 
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            if (tab != null) {
-                View view = tab.getCustomView();
-                if (view != null) {
-                    TextView total = (TextView) view.findViewById(R.id.total);
-                    total.setText(counts[i]);
-                }
-            }
-        }
     }
 
     private void onObtainAccountFailure() {
         Snackbar.make(tabLayout, R.string.error_generic, Snackbar.LENGTH_LONG)
-                .setAction(R.string.action_retry, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        obtainAccount();
-                    }
-                })
+                .setAction(R.string.action_retry, v -> obtainAccount())
                 .show();
     }
 
     private void obtainRelationships() {
         List<String> ids = new ArrayList<>(1);
         ids.add(accountId);
-        mastodonAPI.relationships(ids).enqueue(new Callback<List<Relationship>>() {
+        mastodonApi.relationships(ids).enqueue(new Callback<List<Relationship>>() {
             @Override
-            public void onResponse(Call<List<Relationship>> call, retrofit2.Response<List<Relationship>> response) {
-                if (response.isSuccessful()) {
-                    Relationship relationship = response.body().get(0);
-                    onObtainRelationshipsSuccess(relationship.following, relationship.blocking, relationship.muting);
+            public void onResponse(@NonNull Call<List<Relationship>> call,
+                                   @NonNull Response<List<Relationship>> response) {
+                List<Relationship> relationships = response.body();
+                if (response.isSuccessful() && relationships != null) {
+                    Relationship relationship = relationships.get(0);
+                    onObtainRelationshipsSuccess(relationship);
                 } else {
                     onObtainRelationshipsFailure(new Exception(response.message()));
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Relationship>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Relationship>> call, @NonNull Throwable t) {
                 onObtainRelationshipsFailure((Exception) t);
             }
         });
     }
 
-    private void onObtainRelationshipsSuccess(boolean following, boolean blocking, boolean muting) {
-        this.following = following;
-        this.blocking = blocking;
-        this.muting = muting;
+    private void onObtainRelationshipsSuccess(Relationship relation) {
+        if (relation.getFollowing()) {
+            followState = FollowState.FOLLOWING;
+        } else if (relation.getRequested()) {
+            followState = FollowState.REQUESTED;
+        } else {
+            followState = FollowState.NOT_FOLLOWING;
+        }
+        this.blocking = relation.getBlocking();
+        this.muting = relation.getMuting();
 
-        if (!following || !blocking || !muting) {
-            invalidateOptionsMenu();
+        if (relation.getFollowedBy()) {
+            followsYouView.setVisibility(View.VISIBLE);
+        } else {
+            followsYouView.setVisibility(View.GONE);
         }
 
         updateButtons();
     }
 
-    private void updateFollowButton(FloatingActionButton button) {
-        if (following) {
-            button.setImageResource(R.drawable.ic_person_minus_24px);
-            button.setContentDescription(getString(R.string.action_unfollow));
-        } else {
-            button.setImageResource(R.drawable.ic_person_add_24dp);
-            button.setContentDescription(getString(R.string.action_follow));
+    private void updateFollowButton(Button button) {
+        switch (followState) {
+            case NOT_FOLLOWING: {
+                button.setText(R.string.action_follow);
+                break;
+            }
+            case REQUESTED: {
+                button.setText(R.string.state_follow_requested);
+                break;
+            }
+            case FOLLOWING: {
+                button.setText(R.string.action_unfollow);
+                break;
+            }
         }
     }
 
     private void updateButtons() {
         invalidateOptionsMenu();
 
-        final FloatingActionButton floatingBtn = (FloatingActionButton) findViewById(R.id.floating_btn);
-
-        if(!isSelf && !blocking) {
+        if (!isSelf && !blocking) {
             floatingBtn.show();
+            followBtn.setVisibility(View.VISIBLE);
 
-            updateFollowButton(floatingBtn);
+            updateFollowButton(followBtn);
 
-            floatingBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    follow(accountId);
-                    updateFollowButton(floatingBtn);
+            floatingBtn.setOnClickListener(v -> mention());
+
+            followBtn.setOnClickListener(v -> {
+                switch (followState) {
+                    case NOT_FOLLOWING: {
+                        follow(accountId);
+                        break;
+                    }
+                    case REQUESTED: {
+                        showFollowRequestPendingDialog();
+                        break;
+                    }
+                    case FOLLOWING: {
+                        showUnfollowWarningDialog();
+                        break;
+                    }
                 }
+                updateFollowButton(followBtn);
             });
+        } else {
+            floatingBtn.hide();
+            followBtn.setVisibility(View.GONE);
         }
     }
 
@@ -329,18 +466,26 @@ public class AccountActivity extends BaseActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    private String getFollowAction() {
+        switch (followState) {
+            default:
+            case NOT_FOLLOWING:
+                return getString(R.string.action_follow);
+            case REQUESTED:
+            case FOLLOWING:
+                return getString(R.string.action_unfollow);
+        }
+    }
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (!isSelf) {
             MenuItem follow = menu.findItem(R.id.action_follow);
-            String title;
-            if (following) {
-                title = getString(R.string.action_unfollow);
-            } else {
-                title = getString(R.string.action_follow);
-            }
-            follow.setTitle(title);
+            follow.setTitle(getFollowAction());
+            follow.setVisible(followState != FollowState.REQUESTED);
+
             MenuItem block = menu.findItem(R.id.action_block);
+            String title;
             if (blocking) {
                 title = getString(R.string.action_unblock);
             } else {
@@ -366,10 +511,20 @@ public class AccountActivity extends BaseActivity {
     private void follow(final String id) {
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
-            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
-                if (response.isSuccessful()) {
-                    following = response.body().following;
-                    // TODO: display message/indicator when "requested" is true (i.e. when the follow is awaiting approval)
+            public void onResponse(@NonNull Call<Relationship> call,
+                                   @NonNull Response<Relationship> response) {
+                Relationship relationship = response.body();
+                if (response.isSuccessful() && relationship != null) {
+                    if (relationship.getFollowing()) {
+                        followState = FollowState.FOLLOWING;
+                    } else if (relationship.getRequested()) {
+                        followState = FollowState.REQUESTED;
+                        Snackbar.make(container, R.string.state_follow_requested,
+                                Snackbar.LENGTH_LONG).show();
+                    } else {
+                        followState = FollowState.NOT_FOLLOWING;
+                        broadcast(TimelineReceiver.Types.UNFOLLOW_ACCOUNT, id);
+                    }
                     updateButtons();
                 } else {
                     onFollowFailure(id);
@@ -377,37 +532,56 @@ public class AccountActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<Relationship> call, Throwable t) {
+            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {
                 onFollowFailure(id);
             }
         };
 
-        if (following) {
-            mastodonAPI.unfollowAccount(id).enqueue(cb);
-        } else {
-            mastodonAPI.followAccount(id).enqueue(cb);
+        Assert.expect(followState != FollowState.REQUESTED);
+        switch (followState) {
+            case NOT_FOLLOWING: {
+                mastodonApi.followAccount(id).enqueue(cb);
+                break;
+            }
+            case FOLLOWING: {
+                mastodonApi.unfollowAccount(id).enqueue(cb);
+                break;
+            }
         }
     }
 
     private void onFollowFailure(final String id) {
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                follow(id);
-            }
-        };
-        View anyView = findViewById(R.id.activity_account);
-        Snackbar.make(anyView, R.string.error_generic, Snackbar.LENGTH_LONG)
+        View.OnClickListener listener = v -> follow(id);
+        Snackbar.make(container, R.string.error_generic, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_retry, listener)
+                .show();
+    }
+
+    private void showFollowRequestPendingDialog() {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.dialog_message_follow_request)
+                .setPositiveButton(android.R.string.ok, null)
+                .show();
+    }
+
+    private void showUnfollowWarningDialog() {
+        DialogInterface.OnClickListener unfollowListener = (dialogInterface, i) -> follow(accountId);
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.dialog_unfollow_warning)
+                .setPositiveButton(android.R.string.ok, unfollowListener)
+                .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
 
     private void block(final String id) {
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
-            public void onResponse(Call<Relationship> call, retrofit2.Response<Relationship> response) {
-                if (response.isSuccessful()) {
-                    blocking = response.body().blocking;
+            public void onResponse(@NonNull Call<Relationship> call,
+                                   @NonNull Response<Relationship> response) {
+                Relationship relationship = response.body();
+                if (response.isSuccessful() && relationship != null) {
+                    broadcast(TimelineReceiver.Types.BLOCK_ACCOUNT, id);
+                    blocking = relationship.getBlocking();
                     updateButtons();
                 } else {
                     onBlockFailure(id);
@@ -415,37 +589,33 @@ public class AccountActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<Relationship> call, Throwable t) {
+            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {
                 onBlockFailure(id);
             }
         };
         if (blocking) {
-            mastodonAPI.unblockAccount(id).enqueue(cb);
+            mastodonApi.unblockAccount(id).enqueue(cb);
         } else {
-            mastodonAPI.blockAccount(id).enqueue(cb);
+            mastodonApi.blockAccount(id).enqueue(cb);
         }
     }
 
     private void onBlockFailure(final String id) {
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                block(id);
-            }
-        };
-        View anyView = findViewById(R.id.activity_account);
-        Snackbar.make(anyView, R.string.error_generic, Snackbar.LENGTH_LONG)
+        View.OnClickListener listener = v -> block(id);
+        Snackbar.make(container, R.string.error_generic, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_retry, listener)
                 .show();
     }
 
-
     private void mute(final String id) {
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
-            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
-                if (response.isSuccessful()) {
-                    muting = response.body().muting;
+            public void onResponse(@NonNull Call<Relationship> call,
+                                   @NonNull Response<Relationship> response) {
+                Relationship relationship = response.body();
+                if (response.isSuccessful() && relationship != null) {
+                    broadcast(TimelineReceiver.Types.MUTE_ACCOUNT, id);
+                    muting = relationship.getMuting();
                     updateButtons();
                 } else {
                     onMuteFailure(id);
@@ -453,31 +623,42 @@ public class AccountActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<Relationship> call, Throwable t) {
+            public void onFailure(@NonNull Call<Relationship> call, @NonNull Throwable t) {
                 onMuteFailure(id);
             }
         };
 
         if (muting) {
-            mastodonAPI.unmuteAccount(id).enqueue(cb);
+            mastodonApi.unmuteAccount(id).enqueue(cb);
         } else {
-            mastodonAPI.muteAccount(id).enqueue(cb);
+            mastodonApi.muteAccount(id).enqueue(cb);
         }
     }
 
     private void onMuteFailure(final String id) {
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mute(id);
-            }
-        };
-        View anyView = findViewById(R.id.activity_account);
-        Snackbar.make(anyView, R.string.error_generic, Snackbar.LENGTH_LONG)
+        View.OnClickListener listener = v -> mute(id);
+        Snackbar.make(container, R.string.error_generic, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_retry, listener)
                 .show();
     }
 
+    private boolean mention() {
+        if (loadedAccount == null) {
+            // If the account isn't loaded yet, eat the input.
+            return false;
+        }
+        Intent intent = new ComposeActivity.IntentBuilder()
+                .mentionedUsernames(Collections.singleton(loadedAccount.getUsername()))
+                .build(this);
+        startActivity(intent);
+        return true;
+    }
+
+    private void broadcast(String action, String id) {
+        Intent intent = new Intent(action);
+        intent.putExtra("id", id);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -487,23 +668,14 @@ public class AccountActivity extends BaseActivity {
                 return true;
             }
             case R.id.action_mention: {
-                if (loadedAccount == null) {
-                    // If the account isn't loaded yet, eat the input.
-                    return false;
-                }
-                Intent intent = new Intent(this, ComposeActivity.class);
-                intent.putExtra("mentioned_usernames", new String[] { loadedAccount.username });
-                startActivity(intent);
-                return true;
+                return mention();
             }
             case R.id.action_open_in_web: {
                 if (loadedAccount == null) {
                     // If the account isn't loaded yet, eat the input.
                     return false;
                 }
-                Uri uri = Uri.parse(loadedAccount.url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+                LinkHelper.openLink(loadedAccount.getUrl(), this);
                 return true;
             }
             case R.id.action_follow: {
@@ -520,5 +692,19 @@ public class AccountActivity extends BaseActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Nullable
+    @Override
+    public FloatingActionButton getActionButton() {
+        if (!isSelf && !blocking) {
+            return floatingBtn;
+        }
+        return null;
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
     }
 }

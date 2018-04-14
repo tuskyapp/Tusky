@@ -15,53 +15,34 @@
 
 package com.keylesspalace.tusky;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Window;
-import android.view.WindowManager;
+
+import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.util.NotificationHelper;
 
 public class SplashActivity extends AppCompatActivity {
-    private static final int SPLASH_TIME_OUT = 2000;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("lightTheme", false)) {
-            setTheme(R.style.AppTheme_Light);
-        }
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        setContentView(R.layout.activity_splash);
-
         /* Determine whether the user is currently logged in, and if so go ahead and load the
          * timeline. Otherwise, start the activity_login screen. */
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        String domain = preferences.getString("domain", null);
-        String accessToken = preferences.getString("accessToken", null);
 
-        final Intent intent;
+        NotificationHelper.deleteLegacyNotificationChannels(this);
 
-        if (domain != null && accessToken != null) {
+        AccountEntity activeAccount = TuskyApplication.getInstance(this).getServiceLocator()
+                .get(AccountManager.class).getActiveAccount();
+
+        Intent intent;
+        if (activeAccount != null) {
             intent = new Intent(this, MainActivity.class);
         } else {
-            intent = new Intent(this, LoginActivity.class);
+            intent = LoginActivity.getIntent(this, false);
         }
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(intent);
-                finish();
-            }
-        }, SPLASH_TIME_OUT);
+        startActivity(intent);
+        finish();
     }
 }

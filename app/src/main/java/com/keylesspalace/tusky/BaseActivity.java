@@ -25,55 +25,46 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Spanned;
 import android.util.TypedValue;
 import android.view.Menu;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.evernote.android.job.JobManager;
+import com.evernote.android.job.JobRequest;
+import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.util.ThemeUtils;
 
-import java.io.IOException;
-
-import okhttp3.Dispatcher;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-/* There isn't presently a way to globally change the theme of a whole application at runtime, just
- * individual activities. So, each activity has to set its theme before any views are created. And
- * the most expedient way to accomplish this was to put it in a base class and just have every
- * activity extend from it. */
-public class BaseActivity extends AppCompatActivity {
-    private static final String TAG = "BaseActivity"; // logging tag
-
-    protected MastodonAPI mastodonAPI;
-    protected TuskyAPI tuskyAPI;
-    protected Dispatcher mastodonApiDispatcher;
+public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        redirectIfNotLoggedIn();
-        createMastodonAPI();
-        createTuskyAPI();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("lightTheme", false)) {
-            setTheme(R.style.AppTheme_Light);
+        /* There isn't presently a way to globally change the theme of a whole application at
+         * runtime, just individual activities. So, each activity has to set its theme before any
+         * views are created. */
+        String theme = preferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT);
+        ThemeUtils.setAppNightMode(theme);
+
+        int style;
+        switch (preferences.getString("statusTextSize", "medium")) {
+            case "large":
+                style = R.style.TextSizeLarge;
+                break;
+            case "small":
+                style = R.style.TextSizeSmall;
+                break;
+            case "medium":
+            default:
+                style = R.style.TextSizeMedium;
+                break;
+
         }
-    }
+        getTheme().applyStyle(style, false);
 
-    @Override
-    protected void onDestroy() {
-        if(mastodonApiDispatcher != null) mastodonApiDispatcher.cancelAll();
-        super.onDestroy();
+        redirectIfNotLoggedIn();
     }
 
     @Override
@@ -96,77 +87,24 @@ public class BaseActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 
-    protected String getAccessToken() {
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        return preferences.getString("accessToken", null);
+    protected SharedPreferences getPrivatePreferences() {
+        return getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
     }
 
-    protected boolean arePushNotificationsEnabled() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return preferences.getBoolean("notificationsEnabled", true);
-    }
-
-    protected String getBaseUrl() {
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        return "https://" + preferences.getString("domain", null);
-    }
-
-    protected void createMastodonAPI() {
-        mastodonApiDispatcher = new Dispatcher();
-
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Spanned.class, new SpannedTypeAdapter())
-                .create();
-
-        OkHttpClient okHttpClient = OkHttpUtils.getCompatibleClientBuilder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request originalRequest = chain.request();
-
-                        Request.Builder builder = originalRequest.newBuilder();
-                        String accessToken = getAccessToken();
-                        if (accessToken != null) {
-                            builder.header("Authorization", String.format("Bearer %s",
-                                    accessToken));
-                        }
-                        Request newRequest = builder.build();
-
-                        return chain.proceed(newRequest);
-                    }
-                })
-                .dispatcher(mastodonApiDispatcher)
-                .build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getBaseUrl())
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        mastodonAPI = retrofit.create(MastodonAPI.class);
-    }
-
-    protected void createTuskyAPI() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.tusky_api_url))
-                .client(OkHttpUtils.getCompatibleClient())
-                .build();
-
-        tuskyAPI = retrofit.create(TuskyAPI.class);
-    }
-
-    protected void redirectIfNotLoggedIn() {
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        String domain = preferences.getString("domain", null);
-        String accessToken = preferences.getString("accessToken", null);
-        if (domain == null || accessToken == null) {
+    protected boolean redirectIfNotLoggedIn() {
+        // This is very ugly but we cannot inject into parent class and injecting into every
+        // subclass seems inconvenient as well.
+        AccountEntity account = ((TuskyApplication) getApplicationContext())
+                .getServiceLocator().get(AccountManager.class)
+                .getActiveAccount();
+        if (account == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -188,30 +126,30 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void enablePushNotifications() {
-        tuskyAPI.register(getBaseUrl(), getAccessToken(), FirebaseInstanceId.getInstance().getToken()).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                Log.d(TAG, "Enable push notifications response: " + response.message());
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d(TAG, "Enable push notifications failed: " + t.getMessage());
-            }
-        });
+        // schedule job to pull notifications
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String minutesString = preferences.getString("pullNotificationCheckInterval", "15");
+        long minutes = Long.valueOf(minutesString);
+        if (minutes < 15) {
+            preferences.edit().putString("pullNotificationCheckInterval", "15").apply();
+            minutes = 15;
+        }
+        setPullNotificationCheckInterval(minutes);
     }
 
     protected void disablePushNotifications() {
-        tuskyAPI.unregister(getBaseUrl(), getAccessToken()).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                Log.d(TAG, "Disable push notifications response: " + response.message());
-            }
+        // Cancel the repeating call for "pull" notifications.
+        JobManager.instance().cancelAllForTag(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG);
+    }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d(TAG, "Disable push notifications failed: " + t.getMessage());
-            }
-        });
+    protected void setPullNotificationCheckInterval(long minutes) {
+        long checkInterval = 1000 * 60 * minutes;
+
+        new JobRequest.Builder(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG)
+                .setPeriodic(checkInterval)
+                .setUpdateCurrent(true)
+                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                .build()
+                .scheduleAsync();
     }
 }

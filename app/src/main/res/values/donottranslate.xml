@@ -1,10 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Tusky</string>
-    <string name="app_website" translatable="false">https://tusky.keylesspalace.com</string>
-    <string name="tusky_api_url" translatable="false">https://tuskynotifier.keylesspalace.com</string>
+    <string name="app_website" translatable="false">https://tuskyapp.github.io/</string>
 
     <string name="oauth_scheme" translatable="false">oauth2redirect</string>
-    <string name="oauth_redirect_host" translatable="false">com.keylesspalace.tusky</string>
     <string name="preferences_file_key" translatable="false">com.keylesspalace.tusky.PREFERENCES</string>
+
+    <string name="status_sensitive_media_template" translatable="false">&lt;b>%1$s&lt;/b>&lt;br>%2$s</string>
+
+    <string-array name="pull_notification_check_intervals" inputType="integer">
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+        <item>120</item>
+    </string-array>
+
+    <string-array name="post_privacy_values">
+        <item>public</item>
+        <item>unlisted</item>
+        <item>private</item>
+    </string-array>
+
+    <string-array name="status_text_size_values">
+        <item>small</item>
+        <item>medium</item>
+        <item>large</item>
+    </string-array>
+
+    <string-array name="app_theme_values">
+        <item>night</item>
+        <item>day</item>
+        <item>auto</item>
+    </string-array>
+
 </resources>
