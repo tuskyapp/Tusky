@@ -31,7 +31,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcel;
@@ -972,20 +971,12 @@ public final class ComposeActivity
     }
 
     private void initiateMediaPicking() {
-        Intent intent;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        } else {
-            intent = new Intent(Intent.ACTION_GET_CONTENT);
-        }
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            intent.setType("image/* video/*");
-        } else {
-            String[] mimeTypes = new String[]{"image/*", "video/*"};
-            intent.setType("*/*");
-            intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-        }
+
+        String[] mimeTypes = new String[]{"image/*", "video/*"};
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
         startActivityForResult(intent, MEDIA_PICK_RESULT);
     }
 
@@ -1283,7 +1274,7 @@ public final class ComposeActivity
         super.onActivityResult(requestCode, resultCode, intent);
         if (resultCode == RESULT_OK && requestCode == MEDIA_PICK_RESULT && intent != null) {
             Uri uri = intent.getData();
-            if (uri != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (uri != null) {
                 // this is necessary so the SendTootService can access the uri later
                 final int takeFlags = intent.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
                 getContentResolver().takePersistableUriPermission(uri, takeFlags);

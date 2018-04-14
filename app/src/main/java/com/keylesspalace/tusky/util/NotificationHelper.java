@@ -89,21 +89,18 @@ public class NotificationHelper {
             currentNotifications = new JSONArray();
         }
 
-        boolean alreadyContains = false;
-
         for (int i = 0; i < currentNotifications.length(); i++) {
             try {
                 if (currentNotifications.getString(i).equals(body.getAccount().getName())) {
-                    alreadyContains = true;
+                    currentNotifications.remove(i);
+                    break;
                 }
             } catch (JSONException e) {
                 Log.d(TAG, Log.getStackTraceString(e));
             }
         }
 
-        if (!alreadyContains) {
-            currentNotifications.put(body.getAccount().getName());
-        }
+        currentNotifications.put(body.getAccount().getName());
 
         account.setActiveNotifications(currentNotifications.toString());
 

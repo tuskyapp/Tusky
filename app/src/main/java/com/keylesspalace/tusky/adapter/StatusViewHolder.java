@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
@@ -52,11 +51,8 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         Context context = avatar.getContext();
         boolean hasReblog = rebloggedUrl != null && !rebloggedUrl.isEmpty();
         int padding = hasReblog ? Utils.dpToPx(context, 12) : 0;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            avatar.setPaddingRelative(0, 0, padding, padding);
-        } else {
-            avatar.setPadding(0, 0, padding, padding);
-        }
+
+        avatar.setPaddingRelative(0, 0, padding, padding);
 
         if (hasReblog) {
             avatarReblog.setVisibility(View.VISIBLE);
