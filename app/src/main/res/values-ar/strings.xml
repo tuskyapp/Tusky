@@ -39,7 +39,7 @@
     <string name="title_x_following"><b >%s</b> مُتابَعين</string>
     <string name="title_x_statuses"><b >%s</b> منشور</string>
 
-    <string name="status_username_format">\\@%s</string>
+    <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s رقّي</string>
     <string name="status_sensitive_media_title">محتوى حساس</string>
     <string name="status_media_hidden_title">وسائط مخفية</string>
@@ -128,13 +128,13 @@
 
     <string name="login_connection">جاري الإتصال ...</string>
 
-    <string name="dialog_whats_an_instance">بإمكانك إدخال عنوان أي مثيل خادوم ماستدون هنا. على سبيل المثال mastodon.social أو icosahedron.website أو social.tchncs.de أوالإطلاع على <a href=\"https://instances.social\" >لاكتشاف المزيد !</a>    \n
+    <string name="dialog_whats_an_instance">بإمكانك إدخال عنوان أي مثيل خادوم ماستدون هنا. على سبيل المثال mastodon.social أو icosahedron.website أو social.tchncs.de أوالإطلاع على <a href="https://instances.social" >لاكتشاف المزيد !</a>    \n
  \n
  إن كنت لا تملك حسابا بإمكانك إدخال إسم مثيل خادوم تريد الإنظمام إليه قصد إنشاء حسابك عليه.\n
  \n
  نعني بمثيل الخادوم المكان الذي استُضِيف فيه حسابك و يمكنك التواصل مع أصدقائك و متابعيك و كأنكم على موقع واحد و ذلك حتى و إن كانت حساباتهم مُستضافة على مثيلات خوادم أخرى.   \n
  \n
- للمزيد مِن التفاصيل إطّلع على <a href=\"https://joinmastodon.org\" >joinmastodon.org</a>.</string>
+ للمزيد مِن التفاصيل إطّلع على <a href="https://joinmastodon.org" >joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">تتمة رفع الوسائط</string>
     <string name="dialog_message_uploading_media">جاري الرفع ...</string>
     <string name="dialog_download_image">تنزيل</string>
