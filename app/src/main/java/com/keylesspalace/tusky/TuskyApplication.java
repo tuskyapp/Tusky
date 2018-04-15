@@ -24,6 +24,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.text.emoji.EmojiCompat;
+import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.evernote.android.job.JobManager;
@@ -96,12 +98,18 @@ public class TuskyApplication extends Application implements HasActivityInjector
 
         initAppInjector();
         initPicasso();
+        initEmojiCompat();
 
         JobManager.create(this).addJobCreator(notificationPullJobCreator);
         uiModeManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
 
         //necessary for Android < APi 21
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
+    private void initEmojiCompat() {
+        EmojiCompat.Config config = new BundledEmojiCompatConfig(getApplicationContext()).setReplaceAll(true);
+        EmojiCompat.init(config);
     }
 
     protected void initAppInjector() {

@@ -80,7 +80,7 @@
                         app:layout_constraintEnd_toEndOf="@id/follow_btn"
                         app:layout_constraintTop_toBottomOf="@id/follow_btn" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/account_display_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                         app:srcCompat="@drawable/reblog_disabled_light"
                         tools:visibility="visible" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/account_note"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

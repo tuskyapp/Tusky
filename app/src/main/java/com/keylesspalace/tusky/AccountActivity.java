@@ -31,6 +31,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.text.emoji.EmojiCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewCompat;
@@ -307,7 +308,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         displayName.setText(account.getName());
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(account.getName());
+            getSupportActionBar().setTitle(EmojiCompat.get().process(account.getName()));
 
             String subtitle = String.format(getString(R.string.status_username_format),
                     account.getUsername());
