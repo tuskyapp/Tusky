@@ -108,7 +108,7 @@ public class TuskyApplication extends Application implements HasActivityInjector
     }
 
     private void initEmojiCompat() {
-        EmojiCompat.Config config = new BundledEmojiCompatConfig(getApplicationContext()).setReplaceAll(true);
+        EmojiCompat.Config config = new BundledEmojiCompatConfig(getApplicationContext());
         EmojiCompat.init(config);
     }
 
