@@ -165,8 +165,6 @@ public final class ComposeActivity
     private static final String REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra";
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
 
-    private static int maximumTootCharacters = STATUS_CHARACTER_LIMIT;
-
     @Inject
     public MastodonApi mastodonApi;
     @Inject
@@ -204,6 +202,7 @@ public final class ComposeActivity
     private int currentFlags;
     private Uri photoUploadUri;
     private int savedTootUid = 0;
+    private int maximumTootCharacters = STATUS_CHARACTER_LIMIT;
 
     private SaveTootHelper saveTootHelper;
 
