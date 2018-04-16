@@ -92,10 +92,10 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
     public MastodonApi mastodonApi;
     @Inject
     public DispatchingAndroidInjector<Fragment> fragmentInjector;
+    @Inject
+    public AccountManager accountManager;
 
     private static int COMPOSE_RESULT = 1;
-
-    AccountManager accountManager;
 
     private FloatingActionButton composeButton;
     private AccountHeader headerResult;
