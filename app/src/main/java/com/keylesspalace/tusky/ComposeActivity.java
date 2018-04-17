@@ -86,7 +86,7 @@ import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
-import com.keylesspalace.tusky.db.EmojiListEntity;
+import com.keylesspalace.tusky.db.InstanceEntity;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
@@ -202,6 +202,7 @@ public final class ComposeActivity
     private int currentFlags;
     private Uri photoUploadUri;
     private int savedTootUid = 0;
+    private List<Emoji> emojiList;
     private int maximumTootCharacters = STATUS_CHARACTER_LIMIT;
 
     private SaveTootHelper saveTootHelper;
@@ -267,12 +268,28 @@ public final class ComposeActivity
                     if (response.isSuccessful() && response.body().getMaxTootChars() != null) {
                         maximumTootCharacters = response.body().getMaxTootChars();
                         updateVisibleCharactersLeft();
+                        cacheInstanceMetadata(activeAccount);
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<Instance> call, @NonNull Throwable t) {
-                    // Fallback to default/previous maximum character value
+                    Log.w(TAG, "error loading instance data", t);
+                    loadCachedInstanceMetadata(activeAccount);
+                }
+            });
+
+            mastodonApi.getCustomEmojis().enqueue(new Callback<List<Emoji>>() {
+                @Override
+                public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
+                    emojiList = response.body();
+                    cacheInstanceMetadata(activeAccount);
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<List<Emoji>> call, @NonNull Throwable t) {
+                    Log.w(TAG, "error loading custom emojis", t);
+                    loadCachedInstanceMetadata(activeAccount);
                 }
             });
         } else {
@@ -291,32 +308,6 @@ public final class ComposeActivity
         emojiBehavior = BottomSheetBehavior.from(emojiView);
 
         emojiView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false));
-
-        mastodonApi.getCustomEmojis().enqueue(new Callback<List<Emoji>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
-                List<Emoji> emojiList = response.body();
-
-                if (emojiList != null) {
-
-                    emojiView.setAdapter(new EmojiAdapter(emojiList, ComposeActivity.this));
-
-                    EmojiListEntity emojiListEntity = new EmojiListEntity(activeAccount.getDomain(), emojiList);
-
-                    TuskyApplication.getDB().emojiListDao().insertOrReplace(emojiListEntity);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Emoji>> call, @NonNull Throwable t) {
-                Log.w(TAG, "error loading custom emojis", t);
-                EmojiListEntity emojiListEntity = TuskyApplication.getDB().emojiListDao().loadEmojisForInstance(activeAccount.getDomain());
-
-                if(emojiListEntity != null) {
-                    emojiView.setAdapter(new EmojiAdapter(emojiListEntity.getEmojiList(), ComposeActivity.this));
-                }
-            }
-        });
 
         // Setup the interface buttons.
         tootButton.setOnClickListener(v -> onSendClicked());
@@ -1443,6 +1434,26 @@ public final class ComposeActivity
     @Override
     public void onEmojiSelected(@NotNull String shortcode) {
         textEditor.getText().insert(textEditor.getSelectionStart(), ":"+shortcode+": ");
+    }
+
+    private void loadCachedInstanceMetadata(@NotNull AccountEntity activeAccount)
+    {
+        InstanceEntity instanceEntity = TuskyApplication.getDB().instanceDao().loadMetadataForInstance(activeAccount.getDomain());
+
+        if(instanceEntity != null) {
+            Integer max = instanceEntity.getMaximumTootCharacters();
+            maximumTootCharacters = (max == null ? STATUS_CHARACTER_LIMIT : max.intValue());
+            emojiList = instanceEntity.getEmojiList();
+            if (emojiList != null) {
+                emojiView.setAdapter(new EmojiAdapter(emojiList, ComposeActivity.this));
+            }
+        }
+    }
+
+    private void cacheInstanceMetadata(@NotNull AccountEntity activeAccount)
+    {
+        InstanceEntity instanceEntity = new InstanceEntity(activeAccount.getDomain(), emojiList, maximumTootCharacters);
+        TuskyApplication.getDB().instanceDao().insertOrReplace(instanceEntity);
     }
 
     public static final class QueuedMedia {

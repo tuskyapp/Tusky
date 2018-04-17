@@ -25,8 +25,9 @@ import com.keylesspalace.tusky.entity.Emoji
 
 @Entity
 @TypeConverters(Converters::class)
-data class EmojiListEntity(@field:PrimaryKey var instance: String,
-                           val emojiList: List<Emoji>)
+data class InstanceEntity(@field:PrimaryKey var instance: String,
+                          val emojiList: List<Emoji>?,
+                          val maximumTootCharacters: Int?)
 
 
 class Converters {
