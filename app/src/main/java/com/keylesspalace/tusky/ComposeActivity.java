@@ -147,7 +147,7 @@ public final class ComposeActivity
         Injectable, InputConnectionCompat.OnCommitContentListener {
 
     private static final String TAG = "ComposeActivity"; // logging tag
-    private static final int STATUS_CHARACTER_LIMIT = 500;
+    static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 8388608; // 8MiB
     private static final int MEDIA_PICK_RESULT = 1;
     private static final int MEDIA_TAKE_PHOTO_RESULT = 2;
@@ -1450,6 +1450,12 @@ public final class ComposeActivity
     {
         InstanceEntity instanceEntity = new InstanceEntity(activeAccount.getDomain(), emojiList, maximumTootCharacters);
         TuskyApplication.getDB().instanceDao().insertOrReplace(instanceEntity);
+    }
+
+    // Accessors for testing, hence package scope
+    int getMaximumTootCharacters()
+    {
+        return maximumTootCharacters;
     }
 
     public static final class QueuedMedia {
