@@ -20,6 +20,7 @@ import android.widget.EditText
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.network.MastodonApi
 import okhttp3.Request
 import org.junit.Assert.assertFalse
@@ -102,6 +103,28 @@ class ComposeActivityTest {
             }
 
             override fun enqueue(callback: Callback<List<Emoji>>?) {}
+        })
+        `when`(apiMock.instance()).thenReturn(object: Call<Instance> {
+            override fun isExecuted(): Boolean {
+                return false
+            }
+            override fun clone(): Call<Instance> {
+                throw Error("not implemented")
+            }
+            override fun isCanceled(): Boolean {
+                throw Error("not implemented")
+            }
+            override fun cancel() {
+                throw Error("not implemented")
+            }
+            override fun execute(): Response<Instance> {
+                throw Error("not implemented")
+            }
+            override fun request(): Request {
+                throw Error("not implemented")
+            }
+
+            override fun enqueue(callback: Callback<Instance>?) {}
         })
 
         activity.mastodonApi = apiMock
