@@ -1,4 +1,5 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2018 Jeremiasz Nelz <remi6397(a)gmail.com>
+ * Copyright 2017 Andrew Dawson
  *
  * This file is a part of Tusky.
  *
