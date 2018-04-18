@@ -226,6 +226,7 @@ public final class ComposeActivity
         emojiButton = findViewById(R.id.composeEmojiButton);
         hideMediaToggle = findViewById(R.id.composeHideMediaButton);
         emojiView = findViewById(R.id.emojiView);
+        emojiList = new ArrayList<>();
 
         saveTootHelper = new SaveTootHelper(TuskyApplication.getDB().tootDao(), this);
 
