@@ -3,14 +3,14 @@
 
     <string name="error_generic">Wystąpił błąd.</string>
     <string name="error_empty">To nie może pozostać puste.</string>
-    <string name="error_invalid_domain">Wprowadzono nieprawidłową domenę</string>
+    <string name="error_invalid_domain">Wprowadzono nieprawidłową domenę.</string>
     <string name="error_failed_app_registration">Nie udało się uwierzytelnić z tą instancją.</string>
     <string name="error_no_web_browser_found">Nie znaleziono przeglądarki internetowej.</string>
     <string name="error_authorization_unknown">Wystąpił nieokreślony błąd podczas próby autoryzacji.</string>
     <string name="error_authorization_denied">Odmówiono autoryzacji.</string>
     <string name="error_retrieving_oauth_token">Nie udało się uzyskać tokenu logowania.</string>
     <string name="error_compose_character_limit">Zbyt długi wpis!</string>
-    <string name="error_media_upload_size">Plik może mieć maksymalnie 8MB.</string>
+    <string name="error_media_upload_size">Plik może mieć maksymalnie 8 MB.</string>
     <string name="error_media_upload_type">Ten format pliku nie może zostać wysłany.</string>
     <string name="error_media_upload_opening">Nie można otworzyć tego pliku.</string>
     <string name="error_media_upload_permission">Wymagane jest pozwolenie na dostęp do plików z urządzenia.</string>
@@ -18,9 +18,11 @@
     <string name="error_media_upload_image_or_video">Do wpisu nie mogą być dołączone jednocześnie obrazy i pliki wideo.</string>
     <string name="error_media_upload_sending">Wysyłanie nie powiodło się.</string>
     <string name="error_report_too_few_statuses">Musisz zgłosić przynajmniej jeden wpis.</string>
+    <string name="error_invalid_regex">Nieprawidłowe wyrażenie regularne.</string>
 
 
     <string name="title_home">Strona główna</string>
+    <string name="title_advanced">Zaawansowane</string>
     <string name="title_notifications">Powiadomienia</string>
     <string name="title_public_local">Lokalne</string>
     <string name="title_public_federated">Federalne</string>
@@ -54,7 +56,7 @@
 
     <string name="notification_reblog_format">%s podbił Twój post</string>
     <string name="notification_favourite_format">%s dodał Twój post do ulubionych</string>
-    <string name="notification_follow_format">%s zaczął Cię śledzić cię</string>
+    <string name="notification_follow_format">%s zaczął Cię śledzić</string>
 
 
     <string name="report_username_format">Zgłoś @%s</string>
@@ -66,8 +68,8 @@
     <string name="action_favourite">Dodaj do ulubionych</string>
     <string name="action_more">Więcej</string>
     <string name="action_compose">Napisz</string>
-    <string name="action_login">Zaloguj z Mastodon</string>
-    <string name="action_logout">Wyloguj</string>
+    <string name="action_login">Zaloguj się Kontem Mastodon</string>
+    <string name="action_logout">Wyloguj się</string>
     <string name="action_logout_confirm">Czy na pewno chcesz wylogować się z konta %1$s?</string>
     <string name="action_follow">Śledź</string>
     <string name="action_unfollow">Przestań śledzić</string>
@@ -95,7 +97,7 @@
     <string name="action_unmute">Cofnij wyciszenie</string>
     <string name="action_mention">Wspomnij</string>
     <string name="action_hide_media">Ukryj zawartość multimedialną</string>
-    <string name="action_open_drawer">Otwórz szufladę</string>
+    <string name="action_open_drawer">Otwórz szufladkę</string>
     <string name="action_save">Zapisz</string>
     <string name="action_edit_profile">Edytuj profil</string>
     <string name="action_undo">Cofnij</string>
@@ -103,9 +105,12 @@
     <string name="action_reject">Odrzuć</string>
     <string name="action_search">Szukaj</string>
     <string name="action_access_saved_toot">Szkice</string>
+    <string name="action_toggle_visibility">Widoczność wpisu</string>
+    <string name="action_content_warning">Ostrzeżenie o zawartości</string>
+    <string name="action_emoji_keyboard">Klawiatura emoji</string>
 
 
-    <string name="send_status_link_to">Udostępnij link do wpisu do…</string>
+    <string name="send_status_link_to">Udostępnij link do wpisu…</string>
     <string name="send_status_content_to">Udostępnij wpis do…</string>
 
 
@@ -115,7 +120,7 @@
 
 
     <string name="hint_domain">Jaka instancja?</string>
-    <string name="hint_compose">Co ci chodzi po głowie?</string>
+    <string name="hint_compose">Co Ci chodzi po głowie?</string>
     <string name="hint_content_warning">Ostrzeżenie o zawartości</string>
     <string name="hint_display_name">Nazwa wyświetlana</string>
     <string name="hint_note">Biografia</string>
@@ -135,14 +140,14 @@
     <string name="login_connection">Łączenie…</string>
 
 
-    <string name="dialog_whats_an_instance">Domenę lub adres instancji może zostać wprowadzona tutaj,
+    <string name="dialog_whats_an_instance">Tutaj można wprowadzić domenę lub adres instancji,
         np. mastodon.social, icosahedron.website, social.tchncs.de, i
         <a href="https://instances.social">wiele więcej!</a>
-        \n\nJeżeli nie posiadasz jeszcze konta, wprowadź tu nazwę instancji, na której chcesz się zarejestrowa.
+        \n\nJeżeli nie posiadasz jeszcze konta, wprowadź tu nazwę instancji, na której chcesz się zarejestrować.
         Instancja jest miejscem, na którym znajduje się twoje konto,
         lecz komunikując się z innymi serwerami, działa tak,
         jakby były jednym portalem.
-        Możesz znaleźć więcej informacji na <a href="https://joinmastodon.org">joinmastodon.org</a>.
+        Więcej informacji można znaleźć na <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
     <string name="dialog_title_finishing_media_upload">Kończenie wysyłania treści</string>
     <string name="dialog_message_uploading_media">Wysyłanie…</string>
@@ -158,7 +163,7 @@
 
 
     <string name="pref_title_notification_settings">Powiadomienia</string>
-    <string name="pref_summary_notifications">dla konta%1$s</string>
+    <string name="pref_summary_notifications">dla konta %1$s</string>
     <string name="pref_title_pull_notification_check_interval">Częstotliwość sprawdzania</string>
     <string name="pref_title_edit_notification_settings">Edytuj powiadomienia</string>
     <string name="pref_title_notifications_enabled">Powiadomienia natychmiastowe</string>
@@ -187,6 +192,7 @@
     <string name="pref_title_status_tabs">Karty</string>
     <string name="pref_title_show_boosts">Pokazuj podbicia</string>
     <string name="pref_title_show_replies">Pokazuj odpowiedzi</string>
+    <string name="pref_title_filter_regex">Filtruj z użyciem wyrażeń regularnych</string>
     <string name="pref_title_show_media_preview">Pokazuj podgląd zawartości multimedialnej</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">Proxy HTTP</string>
@@ -200,7 +206,7 @@
         <item>25 minut</item>
         <item>30 minut</item>
         <item>45 minut</item>
-        <item>1 godzina</item>
+        <item>1 godzinę</item>
         <item>2 godziny</item>
     </string-array>
 
@@ -234,7 +240,7 @@
     <string name="notification_channel_favourite_description">Powiadomienia o dodaniu wpisów do ulubionych</string>
 
 
-    <string name="notification_mention_format">%s wspomniał o tobie</string>
+    <string name="notification_mention_format">%s wspomniał o Tobie</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s i %4$d innych</string>
     <string name="notification_summary_medium">%1$s, %2$s, i %3$s</string>
     <string name="notification_summary_small">%1$s i %2$s</string>
@@ -245,8 +251,7 @@
 
 
     <string name="about_title_activity">O programie</string>
-    <string name="about_tusky_license">Tusky jest wolnym i otwartoźródłowym oprogramowaniem. Jest dostępny na licencji GNU General Public License w wersji trzeciej. Możesz przeczytać treść licencji tutaj: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
-    <!-- It would be nice to change the link to link to Polish translation of GPLv3… -->
+    <string name="about_tusky_license">Tusky jest wolnym i otwartoźródłowym oprogramowaniem. Jest on dostępny na licencji GNU General Public License w wersji trzeciej. Możesz przeczytać przetłumaczoną treść licencji <a href="https://web.archive.org/web/20171024013739/http://itlaw.computerworld.pl/wp-content/uploads/2008/03/powszechna-licencja-publiczna-gnu_v2.pdf">tutaj</a>.</string>
     <string name="about_project_site">
         Strona projektu:\n
         https://tuskyapp.github.io
@@ -270,26 +275,26 @@
     <string name="no_content">brak zawartości</string>
 
 
-    <string name="abbreviated_in_years">w %dy</string>
-    <string name="abbreviated_in_days">w %dd</string>
-    <string name="abbreviated_in_hours">w %dh</string>
-    <string name="abbreviated_in_minutes">w %dm</string>
+    <string name="abbreviated_in_years">w %d lata</string>
+    <string name="abbreviated_in_days">w %d dni</string>
+    <string name="abbreviated_in_hours">w %d godz.</string>
+    <string name="abbreviated_in_minutes">w %d min.</string>
     <string name="abbreviated_in_seconds">w %ds</string>
-    <string name="abbreviated_years_ago">%dy temu</string>
-    <string name="abbreviated_days_ago">%dd temu</string>
-    <string name="abbreviated_hours_ago">%dh temu</string>
-    <string name="abbreviated_minutes_ago">%dm temu</string>
+    <string name="abbreviated_years_ago">%d lat temu</string>
+    <string name="abbreviated_days_ago">%d dni temu</string>
+    <string name="abbreviated_hours_ago">%d godz. temu</string>
+    <string name="abbreviated_minutes_ago">%d min. temu</string>
     <string name="abbreviated_seconds_ago">%ds temu</string>
 
 
     <string name="follows_you">Śledzi Cię</string>
-    <string name="pref_title_alway_show_sensitive_media">Zawsze wyświetlaj zawartość NSFW</string>
+    <string name="pref_title_alway_show_sensitive_media">Zawsze wyświetlaj wrażliwą zawartość</string>
     <string name="title_media">Zawartość multimedialna</string>
-    <string name="replying_to">Odpowiadasz na @%s</string>
+    <string name="replying_to">Odpowiadasz na wpis autorstwa @%s</string>
     <string name="load_more_placeholder_text">załaduj więcej</string>
     
     <string name="add_account_name">Dodaj konto</string>
-    <string name="add_account_description">Dodaj nowe konto Mastodona</string>
+    <string name="add_account_description">Dodaj nowe Konto Mastodon</string>
     
     <string name="action_lists">Listy</string>
     <string name="title_lists">Listy</string>
@@ -301,6 +306,17 @@
     <string name="hint_describe_for_visually_impaired">Opis dla osób korzystających z ułatwień dostępności</string>
     <string name="action_set_caption">Ustaw podpis</string>
     <string name="action_remove_media">Usuń</string>
+    <string name="lock_account_label">Zablokuj konto</string>
+    <string name="lock_account_label_description">Wymaga od Ciebie ręcznej akceptacji próśb o śledzenie</string>
+    <string name="compose_save_draft">Czy chcesz zapisać szkic?</string>
+    <string name="send_toot_notification_title">Wysyłanie wpisu…</string>
+    <string name="send_toot_notification_error_title">Wystąpił błąd podczas wysyłania wpisu</string>
+    <string name="send_toot_notification_channel_name">Wysyłanie wpisów</string>
+    <string name="send_toot_notification_cancel_title">Anulowano wysyłanie</string>
+    <string name="send_toot_notification_saved_content">Kopia wpisu została zapisana jako szkic</string> 
 
+    <string name="download_image">Pobieranie %1$s…</string>
+
+    <string name="action_copy_link">Skopiuj odnośnik</string>
 
 </resources>

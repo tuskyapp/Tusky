@@ -17,8 +17,10 @@
     <string name="error_media_upload_image_or_video">无法在嘟文中同时插入视频和图片。</string>
     <string name="error_media_upload_sending">媒体文件上传失败。</string>
     <string name="error_report_too_few_statuses">至少要报告 1 则嘟文。</string>
+    <string name="error_invalid_regex">正则表达式无效</string>
 
     <string name="title_home">主页</string>
+    <string name="title_advanced">高级</string>
     <string name="title_notifications">通知</string>
     <string name="title_public_local">本站时间轴</string>
     <string name="title_public_federated">跨站公共时间轴</string>
@@ -95,6 +97,9 @@
     <string name="action_reject">拒绝</string>
     <string name="action_search">搜索</string>
     <string name="action_access_saved_toot">草稿</string>
+    <string name="action_toggle_visibility">设置嘟文可见范围</string>
+    <string name="action_content_warning">设置内容提醒信息</string>
+    <string name="action_emoji_keyboard">插入 Emoji 表情</string>
 
     <string name="download_image">正在下载 %1$s…</string>
 
@@ -109,7 +114,7 @@
 
     <string name="hint_domain">域名</string>
     <string name="hint_compose">有什么新鲜事？</string>
-    <string name="hint_content_warning">折叠部分的警告信息</string>
+    <string name="hint_content_warning">内容提醒</string>
     <string name="hint_display_name">昵称</string>
     <string name="hint_note">简介</string>
     <string name="hint_search">搜索…</string>
@@ -169,6 +174,7 @@
     <string name="pref_title_status_tabs">选项卡</string>
     <string name="pref_title_show_boosts">显示转嘟</string>
     <string name="pref_title_show_replies">显示回复</string>
+    <string name="pref_title_filter_regex">使用正则表达式过滤</string>
     <string name="pref_title_show_media_preview">显示预览图</string>
     <string name="pref_title_proxy_settings">代理</string>
     <string name="pref_title_http_proxy_settings">HTTP 代理</string>
@@ -275,5 +281,13 @@
     <string name="hint_describe_for_visually_impaired">为视觉障碍者提供的描述</string>
     <string name="action_set_caption">设置图片标题</string>
     <string name="action_remove_media">移除</string>
+    <string name="lock_account_label">保护你的帐户（锁嘟）</string>
+    <string name="lock_account_label_description">你需要手动审核所有关注请求</string>
+    <string name="compose_save_draft">保存为草稿？</string>
+    <string name="send_toot_notification_title">正在发送...</string>
+    <string name="send_toot_notification_error_title">发送失败</string>
+    <string name="send_toot_notification_channel_name">嘟文发送中</string>
+    <string name="send_toot_notification_cancel_title">发送已被取消</string>
+    <string name="send_toot_notification_saved_content">嘟文已保存到草稿</string>
 
 </resources>

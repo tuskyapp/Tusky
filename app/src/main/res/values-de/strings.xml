@@ -249,5 +249,22 @@
     <string name="compose_active_account_description">verfassen mit %1$s</string>
     <string name="pref_title_app_theme">App-Thema</string>
     <string name="action_logout_confirm">Bist du sicher, dass du dich aus dem Konto %1$s ausloggen möchtest?</string>
+    <string name="lock_account_label">Gesperrtes Profil</string>
+    <string name="lock_account_label_description">Wer dir folgen möchte, muss um deine Erlaubnis bitten</string>
+    <string name="compose_save_draft">Entwurf speichern?</string>
+    <string name="send_toot_notification_cancel_title">Senden abgebrochen</string>
+    <string name="title_advanced">Erweitert</string>
+    <string name="action_toggle_visibility">Beitragssichtbarkeit</string>
+    <string name="action_emoji_keyboard">Emoji</string>
+    <string name="pref_title_filter_regex">Mit regulärem Ausdruck filtern</string>
+    <string name="error_invalid_regex">Ungültiger regulärer Ausdruck</string>
+    <string name="action_content_warning">Inhaltswarnung</string>
+    <string name="send_toot_notification_title">Beitrag senden...</string>
+    <string name="send_toot_notification_error_title">Fehler beim senden</string>
+    <string name="send_toot_notification_saved_content">Eine Kopie des Beitrags wurde in deine Entwürfe gespeichert</string>
+    <string name="send_toot_notification_channel_name">Beiträge senden</string>
+
+    <string name="error_no_custom_emojis">Deine Instanz %s hat keine Emojis definiert</string>
+
 
 </resources>
