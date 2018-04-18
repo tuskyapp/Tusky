@@ -63,6 +63,8 @@
     <string name="report_comment_hint">Dodatkowe komentarze?</string>
 
 
+    <string name="label_quick_reply">Odpowiedz…</string>
+    <string name="action_quick_reply">Odpowiedz</string>
     <string name="action_reply">Odpowiedz</string>
     <string name="action_reblog">Podbij</string>
     <string name="action_favourite">Dodaj do ulubionych</string>
@@ -318,5 +320,7 @@
     <string name="download_image">Pobieranie %1$s…</string>
 
     <string name="action_copy_link">Skopiuj odnośnik</string>
+    <string name="status_sent">Wysłano!</string>
+    <string name="status_sent_long">Pomyślnie wysłano odpowiedź.</string>
 
 </resources>

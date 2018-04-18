@@ -20,6 +20,7 @@ import android.app.Application;
 import android.app.Service;
 import android.app.UiModeManager;
 import android.arch.persistence.room.Room;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -40,11 +41,12 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
+import dagger.android.HasBroadcastReceiverInjector;
 import dagger.android.HasServiceInjector;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
-public class TuskyApplication extends Application implements HasActivityInjector, HasServiceInjector {
+public class TuskyApplication extends Application implements HasActivityInjector, HasServiceInjector, HasBroadcastReceiverInjector {
     public static final String APP_THEME_DEFAULT = ThemeUtils.THEME_NIGHT;
 
     private static AppDatabase db;
@@ -53,6 +55,8 @@ public class TuskyApplication extends Application implements HasActivityInjector
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
     @Inject
     DispatchingAndroidInjector<Service> dispatchingServiceInjector;
+    @Inject
+    DispatchingAndroidInjector<BroadcastReceiver> dispatchingBroadcastReceiverInjector;
     @Inject
     NotificationPullJobCreator notificationPullJobCreator;
 
@@ -139,6 +143,11 @@ public class TuskyApplication extends Application implements HasActivityInjector
     @Override
     public AndroidInjector<Service> serviceInjector() {
         return dispatchingServiceInjector;
+    }
+
+    @Override
+    public AndroidInjector<BroadcastReceiver> broadcastReceiverInjector() {
+        return dispatchingBroadcastReceiverInjector;
     }
 
     public interface ServiceLocator {

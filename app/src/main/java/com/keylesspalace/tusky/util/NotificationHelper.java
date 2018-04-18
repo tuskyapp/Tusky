@@ -27,17 +27,24 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.RemoteInput;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Notification;
+import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver;
+import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver;
+import com.keylesspalace.tusky.service.SendTootService;
 import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
@@ -46,6 +53,9 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class NotificationHelper {
@@ -57,13 +67,31 @@ public class NotificationHelper {
 
     private static final String TAG = "NotificationHelper";
 
+    public static final String REPLY_ACTION = "REPLY_ACTION";
+
+    public static final String KEY_REPLY = "KEY_REPLY";
+
+    public static final String KEY_SENDER_ACCOUNT = "KEY_SENDER_ACCOUNT";
+
+    public static final String KEY_RECIPIENT = "KEY_RECIPIENT";
+
+    public static final String KEY_NOTIFICATION_ID = "KEY_NOTIFICATION_ID";
+
+    public static final String KEY_CITED_STATUS = "KEY_CITED_STATUS";
+
+    public static final String KEY_VISIBILITY = "KEY_VISIBILITY";
+
+    public static final String KEY_SPOILER = "KEY_SPOILER";
+
+    public static final String KEY_MENTIONS = "KEY_MENTIONS";
+
     /**
      * notification channels used on Android O+
      **/
-    private static final String CHANNEL_MENTION = "CHANNEL_MENTION";
-    private static final String CHANNEL_FOLLOW = "CHANNEL_FOLLOW";
-    private static final String CHANNEL_BOOST = "CHANNEL_BOOST";
-    private static final String CHANNEL_FAVOURITE = " CHANNEL_FAVOURITE";
+    public static final String CHANNEL_MENTION = "CHANNEL_MENTION";
+    public static final String CHANNEL_FOLLOW = "CHANNEL_FOLLOW";
+    public static final String CHANNEL_BOOST = "CHANNEL_BOOST";
+    public static final String CHANNEL_FAVOURITE = " CHANNEL_FAVOURITE";
 
     /**
      * Takes a given Mastodon notification and either creates a new Android notification or updates
@@ -104,75 +132,145 @@ public class NotificationHelper {
 
         account.setActiveNotifications(currentNotifications.toString());
 
-        //no need to save account, this will be done in the calling function
+        // Notification group member
+        // =========================
+        final NotificationCompat.Builder builder = newNotification(context, body, account, false);
 
-        Intent resultIntent = new Intent(context, MainActivity.class);
-        resultIntent.putExtra(ACCOUNT_ID, account.getId());
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(MainActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent((int) account.getId(),
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentTitle(titleForType(context, body))
+                .setContentText(bodyForType(body));
 
-        Intent deleteIntent = new Intent(context, NotificationClearBroadcastReceiver.class);
-        deleteIntent.putExtra(ACCOUNT_ID, account.getId());
-        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, (int) account.getId(), deleteIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        if (body.getType() == Notification.Type.MENTION) {
+            builder.setStyle(new NotificationCompat.BigTextStyle()
+                    .bigText(bodyForType(body)));
+        }
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, getChannelId(account, body))
-                .setSmallIcon(R.drawable.ic_notify)
-                .setContentIntent(resultPendingIntent)
-                .setDeleteIntent(deletePendingIntent)
-                .setColor(ContextCompat.getColor(context, (R.color.primary)))
-                .setDefaults(0); // So it doesn't ring twice, notify only in Target callback
+        //load the avatar synchronously
+        Bitmap accountAvatar;
+        try {
+            accountAvatar = Picasso.with(context)
+                    .load(body.getAccount().getAvatar())
+                    .transform(new RoundedTransformation(20))
+                    .get();
+        } catch (IOException e) {
+            Log.d(TAG, "error loading account avatar", e);
+            accountAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.avatar_default);
+        }
 
-        setupPreferences(account, builder);
+        builder.setLargeIcon(accountAvatar);
 
-        if (currentNotifications.length() == 1) {
-            builder.setContentTitle(titleForType(context, body))
-                    .setContentText(bodyForType(body));
+        // Reply to mention action; RemoteInput is available from KitKat Watch, but buttons are available from Nougat
+        if (body.getType() == Notification.Type.MENTION
+                && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            RemoteInput replyRemoteInput = new RemoteInput.Builder(KEY_REPLY)
+                    .setLabel(context.getString(R.string.label_quick_reply))
+                    .build();
 
-            if (body.getType() == Notification.Type.MENTION) {
-                builder.setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(bodyForType(body)));
-            }
+            PendingIntent replyPendingIntent = getStatusReplyIntent(context, body, account);
 
-            //load the avatar synchronously
-            Bitmap accountAvatar;
-            try {
-                accountAvatar = Picasso.with(context)
-                        .load(body.getAccount().getAvatar())
-                        .transform(new RoundedTransformation(20))
-                        .get();
-            } catch (IOException e) {
-                Log.d(TAG, "error loading account avatar", e);
-                accountAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.avatar_default);
-            }
+            NotificationCompat.Action replyAction =
+                    new NotificationCompat.Action.Builder(R.drawable.ic_reply_24dp,
+                            context.getString(R.string.action_quick_reply), replyPendingIntent)
+                            .addRemoteInput(replyRemoteInput)
+                            .build();
 
-            builder.setLargeIcon(accountAvatar);
+            builder.addAction(replyAction);
+        }
 
-        } else {
+        builder.setSubText(account.getFullName());
+        builder.setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
+        builder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
+        builder.setOnlyAlertOnce(true);
+
+        // Summary
+        // =======
+        final NotificationCompat.Builder summaryBuilder = newNotification(context, body, account, true);
+
+        if (currentNotifications.length() != 1) {
             try {
                 String title = context.getString(R.string.notification_title_summary, currentNotifications.length());
                 String text = joinNames(context, currentNotifications);
-                builder.setContentTitle(title)
+                summaryBuilder.setContentTitle(title)
                         .setContentText(text);
             } catch (JSONException e) {
                 Log.d(TAG, Log.getStackTraceString(e));
             }
         }
 
-        builder.setSubText(account.getFullName());
+        summaryBuilder.setSubText(account.getFullName());
+        summaryBuilder.setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
+        summaryBuilder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
+        summaryBuilder.setOnlyAlertOnce(true);
+        summaryBuilder.setGroupSummary(true);
 
-        builder.setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
-        builder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
-
-        builder.setOnlyAlertOnce(true);
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
         //noinspection ConstantConditions
-        notificationManager.notify((int) account.getId(), builder.build());
+        notificationManager.notify(Integer.valueOf(body.getId()), builder.build());
+        if (currentNotifications.length() == 1) {
+            notificationManager.notify((int) account.getId(), builder.setGroupSummary(true).build());
+        } else {
+            notificationManager.notify((int) account.getId(), summaryBuilder.build());
+        }
+    }
+
+    private static NotificationCompat.Builder newNotification(Context context, Notification body, AccountEntity account, boolean summary) {
+        Intent resultIntent = new Intent(context, MainActivity.class);
+        resultIntent.putExtra(ACCOUNT_ID, account.getId());
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(summary ? (int) account.getId() : Integer.parseInt(body.getId()),
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent deleteIntent = new Intent(context, NotificationClearBroadcastReceiver.class);
+        deleteIntent.putExtra(ACCOUNT_ID, account.getId());
+        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, summary ? (int) account.getId() : Integer.parseInt(body.getId()), deleteIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, getChannelId(account, body))
+                .setSmallIcon(R.drawable.ic_notify)
+                .setContentIntent(resultPendingIntent)
+                .setDeleteIntent(deletePendingIntent)
+                .setColor(ContextCompat.getColor(context, (R.color.primary)))
+                .setGroup(account.getAccountId())
+                .setDefaults(0); // So it doesn't ring twice, notify only in Target callback
+
+        setupPreferences(account, builder);
+
+        return builder;
+    }
+
+    private static PendingIntent getStatusReplyIntent(Context context, Notification body, AccountEntity account) {
+        Status status = body.getStatus();
+
+        String inReplyToId = status.getId();
+        Status actionableStatus = status.getActionableStatus();
+        Status.Visibility replyVisibility = actionableStatus.getVisibility();
+        String contentWarning = actionableStatus.getSpoilerText();
+        Status.Mention[] mentions = actionableStatus.getMentions();
+        List<String> mentionedUsernames = new ArrayList<>();
+        mentionedUsernames.add(actionableStatus.getAccount().getUsername());
+        for (Status.Mention mention : mentions) {
+            mentionedUsernames.add(mention.getUsername());
+        }
+        mentionedUsernames.removeAll(Collections.singleton(account.getUsername()));
+        mentionedUsernames = new ArrayList<>(new LinkedHashSet<>(mentionedUsernames));
+
+        Intent replyIntent = new Intent(context, SendStatusBroadcastReceiver.class)
+                .setAction(REPLY_ACTION)
+                .putExtra(KEY_SENDER_ACCOUNT, account.getId())
+                .putExtra(KEY_NOTIFICATION_ID, body.getId())
+                .putExtra(KEY_CITED_STATUS, Long.parseLong(inReplyToId))
+                .putExtra(KEY_VISIBILITY, replyVisibility)
+                .putExtra(KEY_SPOILER, contentWarning)
+                .putExtra(KEY_MENTIONS, mentionedUsernames.toArray(new String[0]));
+
+        PendingIntent pendingReplyIntent = PendingIntent.getBroadcast(context.getApplicationContext(),
+                Integer.parseInt(body.getId()),
+                replyIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        return pendingReplyIntent;
     }
 
     public static void createNotificationChannelsForAccount(AccountEntity account, Context context) {

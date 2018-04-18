@@ -56,6 +56,7 @@
     <string name="report_username_format">Report @%s</string>
     <string name="report_comment_hint">Additional comments?</string>
 
+    <string name="action_quick_reply">Reply</string>
     <string name="action_reply">Reply</string>
     <string name="action_reblog">Boost</string>
     <string name="action_favourite">Favourite</string>
@@ -112,6 +113,9 @@
     <string name="confirmation_unblocked">User unblocked</string>
     <string name="confirmation_unmuted">User unmuted</string>
 
+    <string name="status_sent">Sent!</string>
+    <string name="status_sent_long">Reply sent successfully.</string>
+
     <string name="hint_domain">Which instance?</string>
     <string name="hint_compose">What\'s happening?</string>
     <string name="hint_content_warning">Content warning</string>
@@ -121,6 +125,7 @@
 
     <string name="search_no_results">No results</string>
 
+    <string name="label_quick_reply">Reply…</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Header</string>
 
@@ -290,7 +295,7 @@
     <string name="lock_account_label">Lock account</string>
     <string name="lock_account_label_description">Requires you to manually approve followers</string>
     <string name="compose_save_draft">Save draft?</string>
-    <string name="send_toot_notification_title">Sending Toot...</string>
+    <string name="send_toot_notification_title">Sending Toot…</string>
     <string name="send_toot_notification_error_title">Error sending toot</string>
     <string name="send_toot_notification_channel_name">Sending Toots</string>
     <string name="send_toot_notification_cancel_title">Sending cancelled</string>
