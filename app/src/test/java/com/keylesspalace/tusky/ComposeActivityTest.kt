@@ -104,7 +104,7 @@ class ComposeActivityTest {
 
             override fun enqueue(callback: Callback<List<Emoji>>?) {}
         })
-        `when`(apiMock.instance()).thenReturn(object: Call<Instance> {
+        `when`(apiMock.instance).thenReturn(object: Call<Instance> {
             override fun isExecuted(): Boolean {
                 return false
             }

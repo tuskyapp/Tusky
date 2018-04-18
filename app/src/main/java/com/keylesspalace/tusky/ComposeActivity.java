@@ -262,7 +262,7 @@ public final class ComposeActivity
                     getString(R.string.compose_active_account_description,
                             activeAccount.getFullName()));
 
-            mastodonApi.instance().enqueue(new Callback<Instance>() {
+            mastodonApi.getInstance().enqueue(new Callback<Instance>() {
                 @Override
                 public void onResponse(@NonNull Call<Instance> call, @NonNull Response<Instance> response) {
                     if (response.isSuccessful() && response.body().getMaxTootChars() != null) {

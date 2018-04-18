@@ -273,5 +273,5 @@ public interface MastodonApi {
     Call<List<Emoji>> getCustomEmojis();
 
     @GET("api/v1/instance")
-    Call<Instance> instance();
+    Call<Instance> getInstance();
 }
