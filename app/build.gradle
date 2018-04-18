@@ -8,10 +8,10 @@ android {
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.keylesspalace.tusky"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 27
-        versionCode 34
-        versionName "1.5.2"
+        versionCode 36
+        versionName "1.6.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
     }
@@ -87,7 +87,7 @@ dependencies {
 
     testImplementation "org.robolectric:robolectric:3.8"
     testImplementation "org.mockito:mockito-inline:2.17.0"
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 

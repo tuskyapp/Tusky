@@ -17,6 +17,7 @@ package com.keylesspalace.tusky;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Service;
 import android.app.UiModeManager;
 import android.arch.persistence.room.Room;
 import android.content.Context;
@@ -39,16 +40,19 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
+import dagger.android.HasServiceInjector;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
-public class TuskyApplication extends Application implements HasActivityInjector {
+public class TuskyApplication extends Application implements HasActivityInjector, HasServiceInjector {
     public static final String APP_THEME_DEFAULT = ThemeUtils.THEME_NIGHT;
 
     private static AppDatabase db;
     private AccountManager accountManager;
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
+    @Inject
+    DispatchingAndroidInjector<Service> dispatchingServiceInjector;
     @Inject
     NotificationPullJobCreator notificationPullJobCreator;
 
@@ -75,7 +79,7 @@ public class TuskyApplication extends Application implements HasActivityInjector
 
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
                 .allowMainThreadQueries()
-                .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5)
+                .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5, AppDatabase.MIGRATION_5_6)
                 .build();
         accountManager = new AccountManager(db);
         serviceLocator = new ServiceLocator() {
@@ -90,7 +94,7 @@ public class TuskyApplication extends Application implements HasActivityInjector
             }
         };
 
-        AppInjector.INSTANCE.init(this);
+        initAppInjector();
         initPicasso();
 
         JobManager.create(this).addJobCreator(notificationPullJobCreator);
@@ -98,6 +102,10 @@ public class TuskyApplication extends Application implements HasActivityInjector
 
         //necessary for Android < APi 21
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
+    protected void initAppInjector() {
+        AppInjector.INSTANCE.init(this);
     }
 
     protected void initPicasso() {
@@ -126,6 +134,11 @@ public class TuskyApplication extends Application implements HasActivityInjector
     @Override
     public AndroidInjector<Activity> activityInjector() {
         return dispatchingAndroidInjector;
+    }
+
+    @Override
+    public AndroidInjector<Service> serviceInjector() {
+        return dispatchingServiceInjector;
     }
 
     public interface ServiceLocator {

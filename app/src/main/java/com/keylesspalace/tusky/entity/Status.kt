@@ -31,8 +31,8 @@ data class Status(
         val emojis: List<Emoji>,
         @SerializedName("reblogs_count") val reblogsCount: Int,
         @SerializedName("favourites_count") val favouritesCount: Int,
-        var reblogged: Boolean?,
-        var favourited: Boolean?,
+        var reblogged: Boolean = false,
+        var favourited: Boolean = false,
         var sensitive: Boolean,
         @SerializedName("spoiler_text") val spoilerText: String,
         val visibility: Visibility,
@@ -129,11 +129,6 @@ data class Status(
     class Application {
         var name: String? = null
         var website: String? = null
-    }
-
-    class Emoji {
-        val shortcode: String? = null
-        val url: String? = null
     }
 
     companion object {

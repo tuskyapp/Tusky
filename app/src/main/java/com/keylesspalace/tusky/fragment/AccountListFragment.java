@@ -31,7 +31,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.AccountActivity;
-import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.AccountAdapter;
 import com.keylesspalace.tusky.adapter.BlocksAdapter;

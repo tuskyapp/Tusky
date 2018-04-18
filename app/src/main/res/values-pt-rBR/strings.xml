@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Autorização negada.</string>
     <string name="error_retrieving_oauth_token">Falha ao adquirir token de entrada.</string>
     <string name="error_compose_character_limit">A postagem é muito longa!</string>
-    <string name="error_media_upload_size">O arquivo deve ser menor que 4MB.</string>
+    <string name="error_media_upload_size">O arquivo deve ser menor que 8MB.</string>
     <string name="error_media_upload_type">Esse tipo de arquivo não pode ser enviado.</string>
     <string name="error_media_upload_opening">Esse arquvo não pode ser aberto.</string>
     <string name="error_media_upload_permission">Permissão para ler mídia é necessária.</string>
@@ -69,7 +69,6 @@
     <string name="action_send">TOOT</string>
     <string name="action_send_public">TOOT!</string>
     <string name="action_retry">Tentar novamente</string>
-    <string name="action_hide_text">Esconder texto com aviso de conteúdo</string>
     <string name="action_close">Fechar</string>
     <string name="action_view_profile">Perfil</string>
     <string name="action_view_preferences">Preferências</string>
@@ -79,14 +78,13 @@
     <string name="action_view_follow_requests">Solicitações de seguidor</string>
     <string name="action_view_media">Mídia</string>
     <string name="action_open_in_web">Abrir no navegador</string>
-    <string name="action_photo_pick">Adicionar mídia</string>
+    <string name="action_add_media">Adicionar mídia</string>
     <string name="action_photo_take">Tirar foto</string>
     <string name="action_share">Compartilhar</string>
     <string name="action_mute">Silenciar</string>
     <string name="action_unmute">Retirar silêncio</string>
     <string name="action_mention">Mencionar</string>
     <string name="action_hide_media">Esconder mídia</string>
-    <string name="action_compose_options">Opções</string>
     <string name="action_open_drawer">Abrir gaveta</string>
     <string name="action_save">Salvar</string>
     <string name="action_edit_profile">Editar perfil</string>
@@ -103,7 +101,6 @@
     <string name="send_status_link_to">Compartilhar URL do toot no…</string>
     <string name="send_status_content_to">Compartilhar toot no…</string>
 
-    <string name="confirmation_send">Toot!</string>
     <string name="confirmation_reported">Enviado!</string>
     <string name="confirmation_unblocked">Usuário desbloqueado</string>
     <string name="confirmation_unmuted">Silêncio retirado</string>
@@ -209,7 +206,6 @@
     <string name="state_follow_requested">Solicitação enviada</string>
 
     <string name="no_content">sem conteúdo</string>
-    <string name="action_save_one_toot">Toot salvo!</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">em %dy</string>

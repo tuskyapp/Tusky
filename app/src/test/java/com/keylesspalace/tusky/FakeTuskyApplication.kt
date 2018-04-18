@@ -8,6 +8,10 @@ class FakeTuskyApplication : TuskyApplication() {
 
     lateinit var locator: ServiceLocator
 
+    override fun initAppInjector() {
+        // No-op
+    }
+
     override fun initPicasso() {
         // No-op
     }
