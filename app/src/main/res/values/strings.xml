@@ -77,56 +77,56 @@
     <string name="action_view_profile">Profiel</string>
     <string name="action_view_preferences">Voorkeuren</string>
     <string name="action_view_favourites">Favorieten</string>
-    <string name="action_view_muted">Muted gebruikers</string>
+    <string name="action_view_muted">Gedempte gebruikers</string>
     <string name="action_view_blocks">Geblokkeerde gebruikers</string>
-    <string name="action_view_follow_requests">Follow Requests</string>
+    <string name="action_view_follow_requests">Volgers verzoeken</string>
     <string name="action_view_media">Media</string>
     <string name="action_open_in_web">Open in browser</string>
-    <string name="action_add_media">Add media</string>
-    <string name="action_photo_take">Take photo</string>
-    <string name="action_share">Share</string>
-    <string name="action_mute">Mute</string>
-    <string name="action_unmute">Unmute</string>
-    <string name="action_mention">Mention</string>
-    <string name="action_hide_media">Hide media</string>
-    <string name="action_open_drawer">Open drawer</string>
-    <string name="action_save">Save</string>
-    <string name="action_edit_profile">Edit profile</string>
-    <string name="action_undo">Undo</string>
-    <string name="action_accept">Accept</string>
-    <string name="action_reject">Reject</string>
-    <string name="action_search">Search</string>
-    <string name="action_access_saved_toot">Drafts</string>
-    <string name="action_toggle_visibility">Toot visibility</string>
-    <string name="action_content_warning">Content warning</string>
+    <string name="action_add_media">Voeg media toe</string>
+    <string name="action_photo_take">Neem een foto</string>
+    <string name="action_share">Delen</string>
+    <string name="action_mute">Dempen</string>
+    <string name="action_unmute">Niet langer dempen</string>
+    <string name="action_mention">Vernoemen</string>
+    <string name="action_hide_media">Media verbergen</string>
+    <string name="action_open_drawer">Open schuif</string>
+    <string name="action_save">Opslaan</string>
+    <string name="action_edit_profile">Bewerk profiel</string>
+    <string name="action_undo">Ongedaan maken</string>
+    <string name="action_accept">Accepteren</string>
+    <string name="action_reject">Verwerpen</string>
+    <string name="action_search">Zoeken</string>
+    <string name="action_access_saved_toot">Kladjes</string>
+    <string name="action_toggle_visibility">Zichtbaarheid Toot</string>
+    <string name="action_content_warning">Content waarschuwing</string>
     <string name="action_emoji_keyboard">Emoji keyboard</string>
 
-    <string name="download_image">Downloading %1$s</string>
+    <string name="download_image">Aan het downloaden %1$s</string>
 
-    <string name="action_copy_link">Copy the link</string>
+    <string name="action_copy_link">Kopieer de link</string>
 
-    <string name="send_status_link_to">Share toot URL to…</string>
-    <string name="send_status_content_to">Share toot to…</string>
+    <string name="send_status_link_to">Deel de toot URL op…</string>
+    <string name="send_status_content_to">Deel de toot op…</string>
 
-    <string name="confirmation_reported">Sent!</string>
-    <string name="confirmation_unblocked">User unblocked</string>
-    <string name="confirmation_unmuted">User unmuted</string>
+    <string name="confirmation_reported">Verzonden!</string>
+    <string name="confirmation_unblocked">Gebruiker gedeblokkeerd</string>
+    <string name="confirmation_unmuted">Gebruiker niet langer gedempt</string>
 
-    <string name="hint_domain">Which instance?</string>
-    <string name="hint_compose">What\'s happening?</string>
-    <string name="hint_content_warning">Content warning</string>
-    <string name="hint_display_name">Display name</string>
+    <string name="hint_domain">Welke instance?</string>
+    <string name="hint_compose">Wat gebeurt er?</string>
+    <string name="hint_content_warning">Content waarschuwing</string>
+    <string name="hint_display_name">Laat de naam zien</string>
     <string name="hint_note">Bio</string>
-    <string name="hint_search">Search…</string>
+    <string name="hint_search">Zoeken…</string>
 
-    <string name="search_no_results">No results</string>
+    <string name="search_no_results">Geen resultaten</string>
 
     <string name="label_avatar">Avatar</string>
-    <string name="label_header">Header</string>
+    <string name="label_header">Hoofding</string>
 
-    <string name="link_whats_an_instance">What\'s an instance?</string>
+    <string name="link_whats_an_instance">Wat is een instance?</string>
 
-    <string name="login_connection">Connecting…</string>
+    <string name="login_connection">Verbinden…</string>
 
     <string name="dialog_whats_an_instance">The address or domain of any instance can be entered
         here, such as mastodon.social, icosahedron.website, social.tchncs.de, and
