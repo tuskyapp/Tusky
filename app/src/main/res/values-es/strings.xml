@@ -231,7 +231,7 @@
 
     <string name="description_account_locked">Cuenta protegida</string>
 
-    <string name="about_title_activity">About</string>
+    <string name="about_title_activity">Acerca de</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tusky es un software libre y de código abierto.
         Está licenciado bajo la licencia "GNU General Public License Version 3".
