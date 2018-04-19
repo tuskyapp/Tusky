@@ -48,6 +48,8 @@ import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -250,7 +252,28 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         startActivity(intent);
     }
 
+    // https://mastodon.foo.bar/@User/43456787654678
+    // https://pleroma.foo.bar/notice/43456787654678
+    private static boolean looksLikeMastodonUrl(String urlString) {
+        URI uri;
+        try {
+            uri = new URI(urlString);
+        } catch (URISyntaxException e) {
+            return false;
+        }
+
+        return (uri.getQuery() == null &&
+                uri.getFragment() == null &&
+                uri.getPath() != null &&
+                uri.getPath().matches("^/(@|notice).*/\\d+$"));
+    }
+
     protected void onViewURL(String url) {
+        if (!looksLikeMastodonUrl(url)) {
+            LinkHelper.openLink(url, getContext());
+            return;
+        }
+
         Call<SearchResults> call = mastodonApi.search(url, true);
         call.enqueue(new Callback<SearchResults>() {
             @Override
