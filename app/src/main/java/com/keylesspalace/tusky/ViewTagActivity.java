@@ -52,6 +52,7 @@ public class ViewTagActivity extends BaseActivity implements HasSupportFragmentI
             bar.setDisplayHomeAsUpEnabled(true);
             bar.setDisplayShowHomeEnabled(true);
         }
+        setupBottomSheet();
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.TAG, hashtag);

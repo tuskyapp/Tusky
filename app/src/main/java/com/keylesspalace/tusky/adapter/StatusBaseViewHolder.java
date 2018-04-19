@@ -1,6 +1,8 @@
 package com.keylesspalace.tusky.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Emoji;
@@ -491,13 +494,25 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
+                if (position != RecyclerView.NO_POSITION && !((BaseActivity)getActivity(v)).getIsSearching()) {
                     listener.onViewThread(position);
                 }
             }
         };
         content.setOnClickListener(viewThreadListener);
         container.setOnClickListener(viewThreadListener);
+    }
+
+    private Activity getActivity(View view)
+    {
+        Context context = view.getContext();
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity)context;
+            }
+            context = ((ContextWrapper)context).getBaseContext();
+        }
+        return null;
     }
 
     void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,

@@ -80,6 +80,8 @@
         app:layout_anchor="@id/tab_layout"
         app:layout_anchorGravity="bottom" />
 
+    <include layout="@layout/item_status_bottom_sheet" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floating_btn"
         android:layout_width="wrap_content"

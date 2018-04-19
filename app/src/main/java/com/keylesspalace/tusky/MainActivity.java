@@ -131,6 +131,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
         ImageButton drawerToggle = findViewById(R.id.drawer_toggle);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.pager);
+        setupBottomSheet();
 
         floatingBtn.setOnClickListener(v -> {
             Intent composeIntent = new Intent(getApplicationContext(), ComposeActivity.class);

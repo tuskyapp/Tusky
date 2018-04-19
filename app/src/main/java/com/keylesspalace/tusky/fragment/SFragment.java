@@ -29,6 +29,7 @@ import android.text.Spanned;
 import android.view.View;
 
 import com.keylesspalace.tusky.AccountActivity;
+import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ReportActivity;
@@ -278,6 +279,11 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         call.enqueue(new Callback<SearchResults>() {
             @Override
             public void onResponse(@NonNull Call<SearchResults> call, @NonNull Response<SearchResults> response) {
+                BaseActivity activity = (BaseActivity)getActivity();
+                boolean cancelRequested = activity.getCancelSearchRequested(url);
+                activity.onEndSearch(url);
+                if (cancelRequested)
+                    return;
                 if (response.isSuccessful()) {
                     List<Status> statuses = response.body().getStatuses();
                     if (statuses != null && !statuses.isEmpty()) {
@@ -294,9 +300,14 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
 
             @Override
             public void onFailure(@NonNull Call<SearchResults> call, @NonNull Throwable t) {
-                LinkHelper.openLink(url, getContext());
+                BaseActivity activity = (BaseActivity)getActivity();
+                boolean cancelRequested = activity.getCancelSearchRequested(url);
+                activity.onEndSearch(url);
+                if (!cancelRequested)
+                    LinkHelper.openLink(url, getContext());
             }
         });
         callList.add(call);
+        ((BaseActivity)getActivity()).onBeginSearch(url);
     }
 }

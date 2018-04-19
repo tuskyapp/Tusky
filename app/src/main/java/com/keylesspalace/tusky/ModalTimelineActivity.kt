@@ -59,6 +59,7 @@ class ModalTimelineActivity : BaseActivity(), ActionButtonActivity, HasSupportFr
                     .replace(R.id.content_frame, TimelineFragment.newInstance(kind, argument))
                     .commit()
         }
+        setupBottomSheet()
     }
 
     override fun getActionButton(): FloatingActionButton? = null
