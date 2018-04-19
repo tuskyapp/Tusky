@@ -40,10 +40,10 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
     @Inject
     lateinit var accountManager: AccountManager
 
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override fun onReceive(context: Context, intent: Intent) {
         AndroidInjection.inject(this, context)
 
-        if (intent!!.action == NotificationHelper.REPLY_ACTION) {
+        if (intent.action == NotificationHelper.REPLY_ACTION) {
             val message = getReplyMessage(intent)
             val notification = intent.getStringExtra(NotificationHelper.KEY_NOTIFICATION_ID)
             val sender = intent.getLongExtra(NotificationHelper.KEY_SENDER_ACCOUNT, -1)
@@ -54,8 +54,17 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
             val account = accountManager.getAccountById(sender)
 
-            val sendIntent = SendTootService.sendTootIntent(context!!, mentions.map { "@$it" }.joinToString(" ") + " " + message.toString(), spoiler,
-                    visibility, false, Arrays.asList(), Arrays.asList(), citedStatus.toString(),
+            val text = mentions.joinToString(" ", postfix = " ") { "@$it" } + message.toString()
+
+            val sendIntent = SendTootService.sendTootIntent(
+                    context,
+                    text,
+                    spoiler,
+                    visibility,
+                    false,
+                    Arrays.asList(),
+                    Arrays.asList(),
+                    citedStatus.toString(),
                     null,
                     null,
                     null, account!!, 0)
