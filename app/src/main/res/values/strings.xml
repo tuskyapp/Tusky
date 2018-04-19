@@ -128,133 +128,130 @@
 
     <string name="login_connection">Verbinden…</string>
 
-    <string name="dialog_whats_an_instance">The address or domain of any instance can be entered
-        here, such as mastodon.social, icosahedron.website, social.tchncs.de, and
-        <a href="https://instances.social">more!</a>
-        \n\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to
-        join and create an account there.\n\nAn instance is a single place where your account is
-        hosted, but you can easily communicate with and follow folks on other instances as though
-        you were on the same site.
-        \n\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>.
+    <string name="dialog_whats_an_instance">Je kunt hier het domeinadres van gelijk welke instance invullen, zoals mastodon.social, icosahedron.website, social.tchncs.de, en
+        <a href="https://instances.social">meer!</a>
+        \n\nAls je nog geen account hebt, kun je de naam van de instance waarvan je lid wilt worden hier invullen en daar een account aanmaken.\n\nEen instance is de enige plaats waar je account gehost wordt, maar je kunt gemakkelijk communiceren met mensen op andere instances en deze ook volgen alsof
+        je op dezelfde site zou zitten.
+        \n\nJe kunt meer informatie vinden op <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
-    <string name="dialog_title_finishing_media_upload">Finishing Media Upload</string>
-    <string name="dialog_message_uploading_media">Uploading…</string>
+    <string name="dialog_title_finishing_media_upload">Media upload beëindigen</string>
+    <string name="dialog_message_uploading_media">Aan het uploaden…</string>
     <string name="dialog_download_image">Download</string>
-    <string name="dialog_message_follow_request">Follow request pending: awaiting their response</string>
-    <string name="dialog_unfollow_warning">Unfollow this account?</string>
+    <string name="dialog_message_follow_request">Verzoek van een volger in de wachtrij: wachtend op hun antwoord</string>
+    <string name="dialog_unfollow_warning">Deze account ontvolgen?</string>
 
-    <string name="visibility_public">Public: Post to public timelines</string>
-    <string name="visibility_unlisted">Unlisted: Do not show in public timelines</string>
-    <string name="visibility_private">Followers-Only: Post to followers only</string>
-    <string name="visibility_direct">Direct: Post to mentioned users only</string>
+    <string name="visibility_public">Publiek: op publieke tijdlijnen posten</string>
+    <string name="visibility_unlisted">Verborgen: laat dit niet op publieke tijdlijnen bekijken</string>
+    <string name="visibility_private">Alleen voor volgens: post alleen naar volgers: Post to followers only</string>
+    <string name="visibility_direct">Direct: Post alleen bestemd voor de genoemde gebruikers</string>
 
-    <string name="pref_title_notification_settings">Notifications</string>
-    <string name="pref_title_edit_notification_settings">Edit Notifications</string>
+    <string name="pref_title_notification_settings">Meldingen</string>
+    <string name="pref_title_edit_notification_settings">Edit Meldingen</string>
     <string name="pref_title_notifications_enabled">Notifications</string>
-    <string name="pref_summary_notifications">for account %1$s</string>
+    <string name="pref_summary_notifications">voor account %1$s</string>
     <string name="pref_title_pull_notification_check_interval">Check Interval</string>
     <string name="pref_title_notification_alerts">Alerts</string>
-    <string name="pref_title_notification_alert_sound">Notify with a sound</string>
-    <string name="pref_title_notification_alert_vibrate">Notify with vibration</string>
-    <string name="pref_title_notification_alert_light">Notify with light</string>
-    <string name="pref_title_notification_filters">Notify me when</string>
-    <string name="pref_title_notification_filter_mentions">mentioned</string>
-    <string name="pref_title_notification_filter_follows">followed</string>
-    <string name="pref_title_notification_filter_reblogs">my posts are boosted</string>
-    <string name="pref_title_notification_filter_favourites">my posts are favourited</string>
-    <string name="pref_title_appearance_settings">Appearance</string>
-    <string name="pref_title_app_theme">App Theme</string>
+    <string name="pref_title_notification_alert_sound">Melding met geluid</string>
+    <string name="pref_title_notification_alert_vibrate">Melden met trillen</string>
+    <string name="pref_title_notification_alert_light">Melden met licht</string>
+    <string name="pref_title_notification_filters">Waarschuw mij wanneer</string>
+    <string name="pref_title_notification_filter_mentions">genoemd</string>
+    <string name="pref_title_notification_filter_follows">gevolgd</string>
+    <string name="pref_title_notification_filter_reblogs">mijn posts zijn geboost</string>
+    <string name="pref_title_notification_filter_favourites">mijn posts zijn favoriet</string>
+    <string name="pref_title_appearance_settings">Uiterlijk</string>
+    <string name="pref_title_app_theme">App Thema</string>
 
     <string-array name="app_theme_names">
-        <item>Dark</item>
-        <item>Light</item>
-        <item>Automatic at sunset</item>
+        <item>Donker</item>
+        <item>Licht</item>
+        <item>Automatisch bij zonsondergang</item>
     </string-array>
 
     <string name="pref_title_browser_settings">Browser</string>
-    <string name="pref_title_custom_tabs">Use Chrome Custom Tabs</string>
-    <string name="pref_title_hide_follow_button">Hide compose button while scrolling</string>
-    <string name="pref_title_status_filter">Timeline filtering</string>
+    <string name="pref_title_custom_tabs">Gebruik Chrome Custom Tabs</string>
+    <string name="pref_title_hide_follow_button">Verberg de compose button onder het scrollen</string>
+    <string name="pref_title_status_filter">Tijdlijn filteren</string>
     <string name="pref_title_status_tabs">Tabs</string>
-    <string name="pref_title_show_boosts">Show boosts</string>
-    <string name="pref_title_show_replies">Show replies</string>
-    <string name="pref_title_filter_regex">Filter out by regular expressions</string>
-    <string name="pref_title_show_media_preview">Show media previews</string>
+    <string name="pref_title_show_boosts">Laat boosts zien</string>
+    <string name="pref_title_show_replies">Laat antwoorden zien</string>
+    <string name="pref_title_filter_regex">Filteren op basis van algemene uitdrukkingen</string>
+    <string name="pref_title_show_media_preview">Laat media previews zien</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP proxy</string>
-    <string name="pref_title_http_proxy_enable">Enable HTTP proxy</string>
+    <string name="pref_title_http_proxy_enable">Laat HTTP proxy toe</string>
     <string name="pref_title_http_proxy_server">HTTP proxy server</string>
-    <string name="pref_title_http_proxy_port">HTTP proxy port</string>
+    <string name="pref_title_http_proxy_port">HTTP proxy poort</string>
 
     <string-array name="pull_notification_check_interval_names">
-        <item>15 minutes</item>
-        <item>20 minutes</item>
-        <item>25 minutes</item>
-        <item>30 minutes</item>
-        <item>45 minutes</item>
-        <item>1 hour</item>
-        <item>2 hours</item>
+        <item>15 minuten</item>
+        <item>20 minuten</item>
+        <item>25 minuten</item>
+        <item>30 minuten</item>
+        <item>45 minuten</item>
+        <item>1 uur</item>
+        <item>2 uur</item>
     </string-array>
 
-    <string name="pref_default_post_privacy">Default post privacy</string>
-    <string name="pref_publishing">Publishing</string>
+    <string name="pref_default_post_privacy">Standaard post privacy</string>
+    <string name="pref_publishing">Publiceren</string>
 
     <string-array name="post_privacy_names">
-        <item>Public</item>
-        <item>Unlisted</item>
-        <item>Followers-only</item>
+        <item>Publiek</item>
+        <item>Verborgen</item>
+        <item>Alleen volgers</item>
     </string-array>
 
-    <string name="pref_status_text_size">Status text size</string>
+    <string name="pref_status_text_size">Tekstgrootte status</string>
 
     <string-array name="status_text_size_names">
-        <item>Small</item>
+        <item>Klein</item>
         <item>Medium</item>
-        <item>Large</item>
+        <item>Groot</item>
     </string-array>
 
-    <string name="notification_channel_mention_name">New Mentions</string>
-    <string name="notification_channel_mention_descriptions">Notifications about new mentions</string>
-    <string name="notification_channel_follow_name">New Followers</string>
-    <string name="notification_channel_follow_description">Notifications about new followers</string>
+    <string name="notification_channel_mention_name">Nieuwe vermeldingen</string>
+    <string name="notification_channel_mention_descriptions">Meldingen over nieuwe vermeldingen</string>
+    <string name="notification_channel_follow_name">Nieuwe volgers</string>
+    <string name="notification_channel_follow_description">Meldingen over nieuwe volgers</string>
     <string name="notification_channel_boost_name">Boosts</string>
-    <string name="notification_channel_boost_description">Notifications when your toots get boosted</string>
-    <string name="notification_channel_favourite_name">Favourites</string>
-    <string name="notification_channel_favourite_description">Notifications when your toots get marked as favourite</string>
+    <string name="notification_channel_boost_description">Meldingen wanneer je toots geboost worden</string>
+    <string name="notification_channel_favourite_name">Favorieten</string>
+    <string name="notification_channel_favourite_description">Meldingen wanneer je toots als favoriet worden gemarkeerd</string>
 
 
-    <string name="notification_mention_format">%s mentioned you</string>
-    <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
-    <string name="notification_summary_medium">%1$s, %2$s, and %3$s</string>
-    <string name="notification_summary_small">%1$s and %2$s</string>
-    <string name="notification_title_summary">%d new interactions</string>
+    <string name="notification_mention_format">%s vermeldde jou</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s en %4$d anderen</string>
+    <string name="notification_summary_medium">%1$s, %2$s, en %3$s</string>
+    <string name="notification_summary_small">%1$s en %2$s</string>
+    <string name="notification_title_summary">%d nieuwe interacties</string>
 
-    <string name="description_account_locked">Locked Account</string>
+    <string name="description_account_locked">Gelockte Account</string>
 
-    <string name="about_title_activity">About</string>
+    <string name="about_title_activity">Over</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky is free and open-source software.
-        It is licensed under the GNU General Public License Version 3.
-        You can view the license here: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Tusky is gratis en open source software.
+        Het heeft een licentie onder de GNU General Public License Version 3.
+        Je kunt de licentie hier bekijken: https://www.gnu.org/licenses/gpl-3.0.nl.html</string>
     <!-- note to translators: the url can be changed to link to the localized version of the license -->
     <string name="about_project_site">
         Project website:\n
         https://tuskyapp.github.io
     </string>
     <string name="about_bug_feature_request_site">
-        Bug reports &amp; feature requests:\n
+        Foutmeldingen &amp; feature requests:\n
         https://github.com/tuskyapp/Tusky/issues
     </string>
-    <string name="about_tusky_account">Tusky\'s Profile</string>
+    <string name="about_tusky_account">Tusky\'s Profiel</string>
 
-    <string name="status_share_content">Share content of toot</string>
-    <string name="status_share_link">Share link to toot</string>
-    <string name="status_media_images">Images</string>
+    <string name="status_share_content">Deel de inhoud van de toot</string>
+    <string name="status_share_link">Deel de link op een toot</string>
+    <string name="status_media_images">Afbeeldingen</string>
     <string name="status_media_video">Video</string>
 
-    <string name="state_follow_requested">Follow requested</string>
+    <string name="state_follow_requested">Aanvraag tot volgen</string>
 
-    <string name="no_content">no content</string>
+    <string name="no_content">Geen content</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">in %dy</string>
