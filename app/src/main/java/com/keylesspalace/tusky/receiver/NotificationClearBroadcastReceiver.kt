@@ -19,17 +19,21 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 
-import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.util.NotificationHelper
+import dagger.android.AndroidInjection
+import javax.inject.Inject
 
 class NotificationClearBroadcastReceiver : BroadcastReceiver() {
+
+    @Inject
+    lateinit var accountManager: AccountManager
+
     override fun onReceive(context: Context, intent: Intent) {
+        AndroidInjection.inject(this, context)
 
         val accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1)
 
-        val accountManager = TuskyApplication.getInstance(context)
-                .serviceLocator.get(AccountManager::class.java)
         val account = accountManager.getAccountById(accountId)
         if (account != null) {
             account.activeNotifications = "[]"

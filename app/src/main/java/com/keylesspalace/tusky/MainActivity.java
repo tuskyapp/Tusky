@@ -107,9 +107,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
         Intent intent = getIntent();
         int tabPosition = 0;
 
-        accountManager = TuskyApplication.getInstance(this).getServiceLocator()
-                .get(AccountManager.class);
-
         if (intent != null) {
             long accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1);
 
