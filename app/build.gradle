@@ -75,7 +75,7 @@ dependencies {
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     kapt 'android.arch.persistence.room:compiler:1.0.0'
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     testImplementation 'junit:junit:4.12'
 
