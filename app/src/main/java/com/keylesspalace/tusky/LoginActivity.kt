@@ -50,6 +50,8 @@ class LoginActivity : AppCompatActivity(), Injectable {
 
     @Inject
     lateinit var mastodonApi: MastodonApi
+    @Inject
+    lateinit var accountManager: AccountManager
 
     private lateinit var preferences: SharedPreferences
     private var domain: String = ""
@@ -286,9 +288,7 @@ class LoginActivity : AppCompatActivity(), Injectable {
 
         setLoading(true)
 
-        TuskyApplication.getInstance(this).serviceLocator
-                .get(AccountManager::class.java)
-                .addAccount(accessToken, domain)
+        accountManager.addAccount(accessToken, domain)
 
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
