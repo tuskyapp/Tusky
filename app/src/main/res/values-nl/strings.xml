@@ -1,4 +1,5 @@
-<string name="error_generic">Er deed zich een fout voor.</string>
+<resources>
+    <string name="error_generic">Er deed zich een fout voor.</string>
     <string name="error_empty">Dit mag niet leeg zijn.</string>
     <string name="error_invalid_domain">Ongeldig domein ingevoerd</string>
     <string name="error_failed_app_registration">Verificatie mislukt op deze instance.</string>
