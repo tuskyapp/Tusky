@@ -34,18 +34,15 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
-import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver;
 import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver;
-import com.keylesspalace.tusky.service.SendTootService;
 import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
@@ -54,7 +51,6 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -72,13 +68,15 @@ public class NotificationHelper {
 
     public static final String KEY_REPLY = "KEY_REPLY";
 
-    public static final String KEY_SENDER_ACCOUNT = "KEY_SENDER_ACCOUNT";
+    public static final String KEY_SENDER_ACCOUNT_ID = "KEY_SENDER_ACCOUNT_ID";
 
-    public static final String KEY_RECIPIENT = "KEY_RECIPIENT";
+    public static final String KEY_SENDER_ACCOUNT_IDENTIFIER = "KEY_SENDER_ACCOUNT_IDENTIFIER";
+
+    public static final String KEY_SENDER_ACCOUNT_FULL_NAME = "KEY_SENDER_ACCOUNT_FULL_NAME";
 
     public static final String KEY_NOTIFICATION_ID = "KEY_NOTIFICATION_ID";
 
-    public static final String KEY_CITED_STATUS = "KEY_CITED_STATUS";
+    public static final String KEY_CITED_STATUS_ID = "KEY_CITED_STATUS_ID";
 
     public static final String KEY_VISIBILITY = "KEY_VISIBILITY";
 
@@ -92,7 +90,7 @@ public class NotificationHelper {
     public static final String CHANNEL_MENTION = "CHANNEL_MENTION";
     public static final String CHANNEL_FOLLOW = "CHANNEL_FOLLOW";
     public static final String CHANNEL_BOOST = "CHANNEL_BOOST";
-    public static final String CHANNEL_FAVOURITE = " CHANNEL_FAVOURITE";
+    public static final String CHANNEL_FAVOURITE = "CHANNEL_FAVOURITE";
 
     /**
      * Takes a given Mastodon notification and either creates a new Android notification or updates
@@ -259,19 +257,19 @@ public class NotificationHelper {
 
         Intent replyIntent = new Intent(context, SendStatusBroadcastReceiver.class)
                 .setAction(REPLY_ACTION)
-                .putExtra(KEY_SENDER_ACCOUNT, account.getId())
+                .putExtra(KEY_SENDER_ACCOUNT_ID, account.getId())
+                .putExtra(KEY_SENDER_ACCOUNT_IDENTIFIER, account.getIdentifier())
+                .putExtra(KEY_SENDER_ACCOUNT_FULL_NAME, account.getFullName())
                 .putExtra(KEY_NOTIFICATION_ID, body.getId())
-                .putExtra(KEY_CITED_STATUS, Long.parseLong(inReplyToId))
+                .putExtra(KEY_CITED_STATUS_ID, Long.parseLong(inReplyToId))
                 .putExtra(KEY_VISIBILITY, replyVisibility)
                 .putExtra(KEY_SPOILER, contentWarning)
                 .putExtra(KEY_MENTIONS, mentionedUsernames.toArray(new String[0]));
 
-        PendingIntent pendingReplyIntent = PendingIntent.getBroadcast(context.getApplicationContext(),
+        return PendingIntent.getBroadcast(context.getApplicationContext(),
                 Integer.parseInt(body.getId()),
                 replyIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-
-        return pendingReplyIntent;
     }
 
     public static void createNotificationChannelsForAccount(AccountEntity account, Context context) {

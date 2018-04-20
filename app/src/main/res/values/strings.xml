@@ -18,6 +18,7 @@
     <string name="error_media_upload_sending">The upload failed.</string>
     <string name="error_report_too_few_statuses">At least one status must be reported.</string>
     <string name="error_invalid_regex">Invalid regular expression</string>
+    <string name="error_sender_account_gone">Error sending toot.</string>
 
     <string name="title_home">Home</string>
     <string name="title_advanced">Advanced</string>

@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.ContextWrapper
 import android.content.Intent
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
@@ -25,15 +24,15 @@ import android.support.v4.app.RemoteInput
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.service.SendTootService
 import com.keylesspalace.tusky.util.NotificationHelper
 import dagger.android.AndroidInjection
 import java.util.*
 import javax.inject.Inject
+
+private const val TAG = "SendStatusBR"
 
 class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
@@ -45,56 +44,78 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
         if (intent.action == NotificationHelper.REPLY_ACTION) {
             val message = getReplyMessage(intent)
-            val notification = intent.getStringExtra(NotificationHelper.KEY_NOTIFICATION_ID)
-            val sender = intent.getLongExtra(NotificationHelper.KEY_SENDER_ACCOUNT, -1)
-            val citedStatus = intent.getLongExtra(NotificationHelper.KEY_CITED_STATUS, -1)
+            val notificationId = intent.getStringExtra(NotificationHelper.KEY_NOTIFICATION_ID)
+            val senderId = intent.getLongExtra(NotificationHelper.KEY_SENDER_ACCOUNT_ID, -1)
+            val senderIdentifier = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_IDENTIFIER)
+            val senderFullName = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_FULL_NAME)
+            val citedStatusId = intent.getLongExtra(NotificationHelper.KEY_CITED_STATUS_ID, -1)
             val visibility = intent.getSerializableExtra(NotificationHelper.KEY_VISIBILITY) as Status.Visibility
             val spoiler = intent.getStringExtra(NotificationHelper.KEY_SPOILER)
             val mentions = intent.getStringArrayExtra(NotificationHelper.KEY_MENTIONS)
 
-            val account = accountManager.getAccountById(sender)
-
-            val text = mentions.joinToString(" ", postfix = " ") { "@$it" } + message.toString()
-
-            val sendIntent = SendTootService.sendTootIntent(
-                    context,
-                    text,
-                    spoiler,
-                    visibility,
-                    false,
-                    Arrays.asList(),
-                    Arrays.asList(),
-                    citedStatus.toString(),
-                    null,
-                    null,
-                    null, account!!, 0)
-
-            context.startService(sendIntent)
-
-            val builder = NotificationCompat.Builder(context, NotificationHelper.CHANNEL_MENTION + account.identifier)
-                    .setSmallIcon(R.drawable.ic_notify)
-                    .setColor(ContextCompat.getColor(context, (R.color.primary)))
-                    .setGroup(account.accountId)
-                    .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
-
-            builder.setContentTitle(context.getString(R.string.status_sent))
-            builder.setContentText(context.getString(R.string.status_sent_long))
-
-            builder.setSubText(account.fullName);
-            builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-            builder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
-            builder.setOnlyAlertOnce(true);
+            val account = accountManager.getAccountById(senderId)
 
             val notificationManager = NotificationManagerCompat.from(context)
 
-            notificationManager.notify(notification.toInt(), builder.build())
+            if (account == null) {
+                Log.w(TAG, "Account \"$senderId\" not found in database. Aborting quick reply!")
+
+                val builder = NotificationCompat.Builder(context, NotificationHelper.CHANNEL_MENTION + senderIdentifier)
+                        .setSmallIcon(R.drawable.ic_notify)
+                        .setColor(ContextCompat.getColor(context, (R.color.primary)))
+                        .setGroup(senderFullName)
+                        .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
+
+                builder.setContentTitle(context.getString(R.string.error_generic))
+                builder.setContentText(context.getString(R.string.error_sender_account_gone))
+
+                builder.setSubText(senderFullName)
+                builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                builder.setCategory(NotificationCompat.CATEGORY_SOCIAL)
+                builder.setOnlyAlertOnce(true)
+
+                notificationManager.notify(notificationId.toInt(), builder.build())
+            } else {
+                val text = mentions.joinToString(" ", postfix = " ") { "@$it" } + message.toString()
+
+                val sendIntent = SendTootService.sendTootIntent(
+                        context,
+                        text,
+                        spoiler,
+                        visibility,
+                        false,
+                        Arrays.asList(),
+                        Arrays.asList(),
+                        citedStatusId.toString(),
+                        null,
+                        null,
+                        null, account!!, 0)
+
+                context.startService(sendIntent)
+
+                val builder = NotificationCompat.Builder(context, NotificationHelper.CHANNEL_MENTION + senderIdentifier)
+                        .setSmallIcon(R.drawable.ic_notify)
+                        .setColor(ContextCompat.getColor(context, (R.color.primary)))
+                        .setGroup(senderFullName)
+                        .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
+
+                builder.setContentTitle(context.getString(R.string.status_sent))
+                builder.setContentText(context.getString(R.string.status_sent_long))
+
+                builder.setSubText(senderFullName)
+                builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                builder.setCategory(NotificationCompat.CATEGORY_SOCIAL)
+                builder.setOnlyAlertOnce(true)
+
+                notificationManager.notify(notificationId.toInt(), builder.build())
+            }
         }
     }
 
     private fun getReplyMessage(intent: Intent): CharSequence {
         val remoteInput = RemoteInput.getResultsFromIntent(intent)
 
-        return remoteInput.getCharSequence(NotificationHelper.KEY_REPLY);
+        return remoteInput.getCharSequence(NotificationHelper.KEY_REPLY)
     }
 
 }
