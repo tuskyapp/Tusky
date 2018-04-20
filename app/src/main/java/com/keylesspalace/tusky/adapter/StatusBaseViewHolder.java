@@ -494,25 +494,13 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION && !((BaseActivity)getActivity(v)).getIsSearching()) {
+                if (position != RecyclerView.NO_POSITION) {
                     listener.onViewThread(position);
                 }
             }
         };
         content.setOnClickListener(viewThreadListener);
         container.setOnClickListener(viewThreadListener);
-    }
-
-    private Activity getActivity(View view)
-    {
-        Context context = view.getContext();
-        while (context instanceof ContextWrapper) {
-            if (context instanceof Activity) {
-                return (Activity)context;
-            }
-            context = ((ContextWrapper)context).getBaseContext();
-        }
-        return null;
     }
 
     void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,

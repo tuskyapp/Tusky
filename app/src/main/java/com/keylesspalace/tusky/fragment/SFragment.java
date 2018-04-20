@@ -44,6 +44,7 @@ import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
+import com.keylesspalace.tusky.interfaces.SearchManager;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.HtmlUtils;
@@ -67,11 +68,12 @@ import retrofit2.Response;
  * adapters. I feel like the profile pages and thread viewer, which I haven't made yet, will also
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
-public abstract class SFragment extends BaseFragment implements AdapterItemRemover {
+public abstract class SFragment extends BaseFragment implements AdapterItemRemover, SearchManager {
     protected static final int COMPOSE_RESULT = 1;
 
     protected String loggedInAccountId;
     protected String loggedInUsername;
+    protected String searchUrl;
 
     protected abstract TimelineCases timelineCases();
 
@@ -225,10 +227,12 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
     }
 
     protected void viewThread(Status status) {
-        Intent intent = new Intent(getContext(), ViewThreadActivity.class);
-        intent.putExtra("id", status.getActionableId());
-        intent.putExtra("url", status.getActionableStatus().getUrl());
-        startActivity(intent);
+        if (!getIsSearching()) {
+            Intent intent = new Intent(getContext(), ViewThreadActivity.class);
+            intent.putExtra("id", status.getActionableId());
+            intent.putExtra("url", status.getActionableStatus().getUrl());
+            startActivity(intent);
+        }
     }
 
     protected void viewTag(String tag) {
@@ -269,6 +273,40 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
                 uri.getPath().matches("^/(@|notice).*/\\d+$"));
     }
 
+    @Override
+    public void onBeginSearch(@NonNull String url) {
+        searchUrl = url;
+        ((BaseActivity)getActivity()).onBeginSearch(this);
+    }
+
+    @Override
+    public boolean getCancelSearchRequested(@NonNull String url) {
+        return !url.equals(searchUrl);
+    }
+
+    @Override
+    public boolean getIsSearching() {
+        return searchUrl != null;
+    }
+
+    @Override
+    public void onEndSearch(@NonNull String url) {
+        if (url.equals(searchUrl)) {
+            // Don't clear query if there's no match,
+            // since we might just now be getting the response for a canceled search
+            searchUrl = null;
+            ((BaseActivity)getActivity()).onEndSearch();
+        }
+    }
+
+    @Override
+    public void cancelActiveSearch()
+    {
+        if (getIsSearching()) {
+            onEndSearch(searchUrl);
+        }
+    }
+
     protected void onViewURL(String url) {
         if (!looksLikeMastodonUrl(url)) {
             LinkHelper.openLink(url, getContext());
@@ -279,11 +317,11 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         call.enqueue(new Callback<SearchResults>() {
             @Override
             public void onResponse(@NonNull Call<SearchResults> call, @NonNull Response<SearchResults> response) {
-                BaseActivity activity = (BaseActivity)getActivity();
-                boolean cancelRequested = activity.getCancelSearchRequested(url);
-                activity.onEndSearch(url);
-                if (cancelRequested)
+                if (getCancelSearchRequested(url)) {
                     return;
+                }
+
+                onEndSearch(url);
                 if (response.isSuccessful()) {
                     List<Status> statuses = response.body().getStatuses();
                     if (statuses != null && !statuses.isEmpty()) {
@@ -300,14 +338,13 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
 
             @Override
             public void onFailure(@NonNull Call<SearchResults> call, @NonNull Throwable t) {
-                BaseActivity activity = (BaseActivity)getActivity();
-                boolean cancelRequested = activity.getCancelSearchRequested(url);
-                activity.onEndSearch(url);
-                if (!cancelRequested)
+                if (!getCancelSearchRequested(url)) {
+                    onEndSearch(url);
                     LinkHelper.openLink(url, getContext());
+                }
             }
         });
         callList.add(call);
-        ((BaseActivity)getActivity()).onBeginSearch(url);
+        onBeginSearch(url);
     }
 }

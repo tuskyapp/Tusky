@@ -36,11 +36,12 @@ import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.interfaces.SearchManager;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected BottomSheetBehavior bottomSheet;
-    private String searchUrl;
+    protected SearchManager searchManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -168,7 +169,8 @@ public abstract class BaseActivity extends AppCompatActivity {
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 switch(newState) {
                     case BottomSheetBehavior.STATE_HIDDEN:
-                        searchUrl = null;
+                        if (searchManager != null)
+                            searchManager.cancelActiveSearch();
                         break;
                     default:
                         break;
@@ -177,7 +179,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
             }
         });
     }
@@ -192,25 +193,13 @@ public abstract class BaseActivity extends AppCompatActivity {
             bottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
-    public void onBeginSearch(@NonNull String url) {
-        searchUrl = url;
+    public void onBeginSearch(@NonNull SearchManager searchManager) {
+        this.searchManager = searchManager;
         showQuerySheet();
     }
 
-    public boolean getCancelSearchRequested(@NonNull String url) {
-        return !url.equals(searchUrl);
-    }
-
-    public boolean getIsSearching() {
-        return searchUrl != null;
-    }
-
-    public void onEndSearch(@NonNull String url) {
-        if (url.equals(searchUrl)) {
-            // Don't clear query if there's no match,
-            // since we might just now be getting the response for a canceled search
-            searchUrl = null;
-            hideQuerySheet();
-        }
+    public void onEndSearch() {
+        searchManager = null;
+        hideQuerySheet();
     }
 }
