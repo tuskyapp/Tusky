@@ -87,7 +87,7 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE IF NOT EXISTS `InstanceEntity` (`instance` TEXT NOT NULL, `emojiList` TEXT, `maximumTootCharacters` INTEGER, PRIMARY KEY(`instance`))");
-            database.execSQL("INSERT INTO `InstanceEntity` SELECT * FROM `EmojiListEntity`;");
+            database.execSQL("INSERT OR REPLACE INTO `InstanceEntity` SELECT `instance`,`emojiList`,NULL FROM `EmojiListEntity`;");
             database.execSQL("DROP TABLE `EmojiListEntity`;");
         }
     };
