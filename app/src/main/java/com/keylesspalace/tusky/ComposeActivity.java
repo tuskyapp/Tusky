@@ -275,14 +275,17 @@ public final class ComposeActivity
 
         emojiView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false));
 
+        enableButton(emojiButton, false, false);
+
         mastodonApi.getCustomEmojis().enqueue(new Callback<List<Emoji>>() {
             @Override
             public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
                 List<Emoji> emojiList = response.body();
 
                 if (emojiList != null) {
-
                     emojiView.setAdapter(new EmojiAdapter(emojiList, ComposeActivity.this));
+
+                    enableButton(emojiButton, true, emojiList.size() > 0);
 
                     EmojiListEntity emojiListEntity = new EmojiListEntity(activeAccount.getDomain(), emojiList);
 
@@ -297,6 +300,7 @@ public final class ComposeActivity
 
                 if(emojiListEntity != null) {
                     emojiView.setAdapter(new EmojiAdapter(emojiListEntity.getEmojiList(), ComposeActivity.this));
+                    enableButton(emojiButton, true, emojiListEntity.getEmojiList().size() > 0);
                 }
             }
         });
@@ -705,14 +709,24 @@ public final class ComposeActivity
     }
 
     private void showEmojis() {
-        if (emojiBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || emojiBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-            emojiBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-            addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
-        } else {
-            emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        if(emojiView.getAdapter() != null) {
+            if(emojiView.getAdapter().getItemCount() == 0) {
+                String errorMessage = getString(R.string.error_no_custom_emojis, accountManager.getActiveAccount().getDomain());
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+            } else {
+                if (emojiBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || emojiBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                    emojiBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                    addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+                } else {
+                    emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                }
+            }
+
         }
+
     }
 
     private void openPickDialog() {
@@ -980,16 +994,10 @@ public final class ComposeActivity
         startActivityForResult(intent, MEDIA_PICK_RESULT);
     }
 
-    private void enableMediaButtons() {
-        pickButton.setEnabled(true);
-        ThemeUtils.setDrawableTint(this, pickButton.getDrawable(),
-                android.R.attr.textColorTertiary);
-    }
-
-    private void disableMediaButtons() {
-        pickButton.setEnabled(false);
-        ThemeUtils.setDrawableTint(this, pickButton.getDrawable(),
-                R.attr.compose_media_button_disabled_tint);
+    private void enableButton(ImageButton button, boolean clickable, boolean colorActive) {
+        button.setEnabled(clickable);
+        ThemeUtils.setDrawableTint(this, button.getDrawable(),
+                colorActive ? android.R.attr.textColorTertiary : R.attr.compose_media_button_disabled_tint);
     }
 
     private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize,
@@ -1016,11 +1024,11 @@ public final class ComposeActivity
         if (queuedCount == 1) {
             // If there's one video in the queue it is full, so disable the button to queue more.
             if (item.type == QueuedMedia.Type.VIDEO) {
-                disableMediaButtons();
+                enableButton(pickButton, false, false);
             }
         } else if (queuedCount >= Status.MAX_MEDIA_ATTACHMENTS) {
             // Limit the total media attachments, also.
-            disableMediaButtons();
+            enableButton(pickButton, false, false);
         }
 
         updateHideMediaToggle();
@@ -1127,7 +1135,7 @@ public final class ComposeActivity
             updateHideMediaToggle();
         }
 
-        enableMediaButtons();
+        enableButton(pickButton, true, true);
         cancelReadyingMedia(item);
     }
 

@@ -10,8 +10,8 @@ android {
         applicationId "com.keylesspalace.tusky"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 35
-        versionName "1.6.0"
+        versionCode 36
+        versionName "1.6.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
     }
@@ -75,7 +75,7 @@ dependencies {
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     kapt 'android.arch.persistence.room:compiler:1.0.0'
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     testImplementation 'junit:junit:4.12'
 

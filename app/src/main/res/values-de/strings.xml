@@ -264,4 +264,7 @@
     <string name="send_toot_notification_saved_content">Eine Kopie des Beitrags wurde in deine Entwürfe gespeichert</string>
     <string name="send_toot_notification_channel_name">Beiträge senden</string>
 
+    <string name="error_no_custom_emojis">Deine Instanz %s hat keine Emojis definiert</string>
+
+
 </resources>

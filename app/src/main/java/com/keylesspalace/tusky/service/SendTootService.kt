@@ -46,6 +46,7 @@ class SendTootService: Service(), Injectable {
 
     private val timer = Timer()
 
+    private val notificationManager by lazy { getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
 
     override fun onCreate() {
         AndroidInjection.inject(this)
@@ -66,8 +67,6 @@ class SendTootService: Service(), Injectable {
             if (tootToSend == null) {
                 throw IllegalStateException("SendTootService started without $KEY_TOOT extra")
             }
-
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val channel = NotificationChannel(CHANNEL_ID, getString(R.string.send_toot_notification_channel_name), NotificationManager.IMPORTANCE_LOW)
@@ -124,6 +123,8 @@ class SendTootService: Service(), Injectable {
 
         if(account == null) {
             tootsToSend.remove(tootId)
+            notificationManager.cancel(tootId)
+            stopSelfWhenDone()
             return
         }
 
@@ -148,7 +149,6 @@ class SendTootService: Service(), Injectable {
             override fun onResponse(call: Call<Status>, response: Response<Status>) {
 
                 tootsToSend.remove(tootId)
-                val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
                 if (response.isSuccessful) {
 
@@ -160,10 +160,7 @@ class SendTootService: Service(), Injectable {
                         saveTootHelper.deleteDraft(tootToSend.savedTootUid)
                     }
 
-                    if (tootsToSend.isEmpty()) {
-                        ServiceCompat.stopForeground(this@SendTootService, ServiceCompat.STOP_FOREGROUND_REMOVE)
-                        stopSelf()
-                    }
+                    stopSelfWhenDone()
 
                     notificationManager.cancel(tootId)
 
@@ -179,10 +176,7 @@ class SendTootService: Service(), Injectable {
 
                     notificationManager.notify(tootId, builder.build())
 
-                    if (tootsToSend.isEmpty()) {
-                        ServiceCompat.stopForeground(this@SendTootService, ServiceCompat.STOP_FOREGROUND_DETACH)
-                        stopSelf()
-                    }
+                    stopSelfWhenDone()
 
                 }
             }
@@ -205,6 +199,13 @@ class SendTootService: Service(), Injectable {
 
     }
 
+    private fun stopSelfWhenDone() {
+        if (tootsToSend.isEmpty()) {
+            ServiceCompat.stopForeground(this@SendTootService, ServiceCompat.STOP_FOREGROUND_DETACH)
+            stopSelf()
+        }
+    }
+
     private fun cancelSending(tootId: Int) {
         val tootToCancel = tootsToSend.remove(tootId)
         if(tootToCancel != null) {
@@ -212,8 +213,6 @@ class SendTootService: Service(), Injectable {
             sendCall?.cancel()
 
             saveTootToDrafts(tootToCancel)
-
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             val builder = NotificationCompat.Builder(this@SendTootService, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_notify)

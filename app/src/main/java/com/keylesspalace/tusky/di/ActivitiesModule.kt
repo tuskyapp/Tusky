@@ -66,4 +66,8 @@ abstract class ActivitiesModule {
 
     @ContributesAndroidInjector()
     abstract fun contributesSplashActivity(): SplashActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributesReportActivity(): ReportActivity
+
 }
