@@ -316,10 +316,6 @@ class LoginActivity : AppCompatActivity(), Injectable {
             // Strip any schemes out.
             var s = domain.replaceFirst("http://", "")
             s = s.replaceFirst("https://", "")
-
-            //strip out any slashes that might have been added
-            s = s.replace("/", "")
-
             // If a username was included (e.g. username@example.com), just take what's after the '@'.
             val at = s.lastIndexOf('@')
             if (at != -1) {
