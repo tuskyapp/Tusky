@@ -80,7 +80,7 @@
     <string name="action_open_in_web">Dobrir al navegador</string>
     <string name="action_add_media">Ajustar un mèdia</string>
     <string name="action_photo_take">Prendre una fotografia</string>
-    <string name="action_share">PArtejar</string>
+    <string name="action_share">Partejar</string>
     <string name="action_mute">Silenciar</string>
     <string name="action_unmute">Quitar de silenciar</string>
     <string name="action_mention">Mencionar</string>
@@ -99,7 +99,7 @@
     <string name="action_copy_link">Copiar lo ligam</string>
   
     <string name="send_status_link_to">Partejar l\'URL del tt a...</string>
-    <string name="send_status_content_to"Partejar vòstre tut a...</string>
+    <string name="send_status_content_to">Partejar vòstre tut a...</string>
 
     <string name="confirmation_reported">Enviat !</string>
     <string name="confirmation_unblocked">Utilizaire desblocat</string>
