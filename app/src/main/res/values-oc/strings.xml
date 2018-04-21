@@ -1,22 +1,22 @@
 <resources>
 
-    <string name="error_generic">S\'es produït una error.</string>
+    <string name="error_generic">S\'es produch una error.</string>
     <string name="error_empty">Aquò pot pas èsser void.</string>
     <string name="error_invalid_domain">Lo domeni picat es pas valid</string>
     <string name="error_failed_app_registration">L\'autenticacion en aquesta instància a fracassat.</string>
-    <string name="error_no_web_browser_found">No s\'ha trobat cap navegador web a usar.</string>
-    <string name="error_authorization_unknown">S\'ha produït un error d\'autorització no identificat.</string>
-    <string name="error_authorization_denied">L\'autorització s\'ha denegat.</string>
-    <string name="error_retrieving_oauth_token">L\'obtenció del testimoni d\'inici de sessió ha fallat.</string>
-    <string name="error_compose_character_limit">L\'estat és massa llarg!</string>
-    <string name="error_media_upload_size">El fitxer ha de ser inferior a 8MB.</string>
-    <string name="error_media_upload_type">Aquest tipus de fitxer no es pot pujar.</string>
-    <string name="error_media_upload_opening">Aquest tipus de fitxer no es pot obrir.</string>
-    <string name="error_media_upload_permission">Cal permís de lectura del mitjà.</string>
-    <string name="error_media_download_permission">Cal pemís d\'escriptura en el mitjà.</string>
-    <string name="error_media_upload_image_or_video">No es poden adjuntar imatges i vídeos en el mateix estat.</string>
-    <string name="error_media_upload_sending">La pujada ha fallat.</string>
-    <string name="error_report_too_few_statuses">Com a mínim has de denunciar un estat.</string>
+    <string name="error_no_web_browser_found"Cap de navegador web pas trobat d’utilizar.</string>
+    <string name="error_authorization_unknown">S\'es produch una error d\'autoritzacion pas identificada.</string>
+    <string name="error_authorization_denied">L\'autoritzacion es estada regetada.</string>
+    <string name="error_retrieving_oauth_token">Fracàs de l’obtencion del testimoni d\'iniciacion de session.</string>
+    <string name="error_compose_character_limit">L\'estatut es tròp long !</string>
+    <string name="error_media_upload_size">Lo fichièr a d’èsser inferior a 8Mo.</string>
+    <string name="error_media_upload_type">Aqueste tip de fichièr se pòt pas mandar.</string>
+    <string name="error_media_upload_opening">Aqueste tip de fichièr se pòt pas dobrir.</string>
+    <string name="error_media_upload_permission">Cal permís de lectura del mèdia.</string>
+    <string name="error_media_download_permission">Cal pemís d\'escritura dins lo mèdia.</string>
+    <string name="error_media_upload_image_or_video">Se pòt pas ajustar imatges e una vidèo dins lo meteis estatut.</string>
+    <string name="error_media_upload_sending">Fracàs en mandar.</string>
+    <string name="error_report_too_few_statuses">Cal almens denonciar un estatut.</string>
 
     <string name="title_home">Acuèlh</string>
     <string name="title_notifications">Notificacions</string>
@@ -73,19 +73,19 @@
     <string name="action_view_profile">Perfil</string>
     <string name="action_view_preferences">Preferéncias</string>
     <string name="action_view_favourites">Preferits</string>
-    <string name="action_view_mutes">Usuaris silenciats</string>
-    <string name="action_view_blocks">Usuaris blocats</string>
-    <string name="action_view_follow_requests">Peticions de seguiment</string>
-    <string name="action_view_media">Multimèdia</string>
-    <string name="action_open_in_web">Obre al navegador</string>
-    <string name="action_add_media">Afegeix multimètida</string>
-    <string name="action_photo_take">Fes una foto</string>
-    <string name="action_share">Comparteix</string>
-    <string name="action_mute">Silencia</string>
+    <string name="action_view_mutes">Utilizaires silenciats</string>
+    <string name="action_view_blocks">Utilizaires blocats</string>
+    <string name="action_view_follow_requests">Demandas d’abonament</string>
+    <string name="action_view_media">Muèdia</string>
+    <string name="action_open_in_web">Dobrir al navegador</string>
+    <string name="action_add_media">Ajustar un mèdia</string>
+    <string name="action_photo_take">Prendre una fotografia</string>
+    <string name="action_share">PArtejar</string>
+    <string name="action_mute">Silenciar</string>
     <string name="action_unmute">Quitar de silenciar</string>
     <string name="action_mention">Mencionar</string>
     <string name="action_hide_media">Amagar los mèdias</string>
-    <string name="action_open_drawer">Open drawer</string>
+    <string name="action_open_drawer">Dobrir lo repertòri</string>
     <string name="action_save">Enregistrar</string>
     <string name="action_edit_profile">Modificar lo perfil</string>
     <string name="action_undo">Anullar</string>
@@ -98,12 +98,12 @@
 
     <string name="action_copy_link">Copiar lo ligam</string>
   
-    <string name="send_status_link_to">Comparteix l\'URL del toot a...</string>
-    <string name="send_status_content_to">Comparteix el toot a...</string>
+    <string name="send_status_link_to">Partejar l\'URL del tt a...</string>
+    <string name="send_status_content_to"Partejar vòstre tut a...</string>
 
     <string name="confirmation_reported">Enviat !</string>
-    <string name="confirmation_unblocked">Usuari desblocat</string>
-    <string name="confirmation_unmuted">Usuari sense silenciar</string>
+    <string name="confirmation_unblocked">Utilizaire desblocat</string>
+    <string name="confirmation_unmuted">Utilizaire sortit del silenci</string>
 
     <string name="hint_domain">Quina instància ?</string>
     <string name="hint_compose">A de qué pensatz ?</string>
@@ -129,30 +129,30 @@
         , però pots comunicar-te fàcilment i seguir amics d\'altres instàncies com si fossiu en el mateix lloc.
         \n\nTens més informació a <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
-    <string name="dialog_title_finishing_media_upload">S\'està finalitzant la pujada de materila multimèdia</string>
+    <string name="dialog_title_finishing_media_upload">Finalizacion del mandadís del mèdia</string>
     <string name="dialog_message_uploading_media">Mandadís...</string>
     <string name="dialog_download_image">Telecargar</string>
-    <string name="dialog_message_follow_request">Follow request pending: awaiting their response</string>
+    <string name="dialog_message_follow_request">Demanda d’abonament en espèra : responsas esperadas</string>
     <string name="dialog_unfollow_warning">Volètz quitar de seguir aqueste compte ?</string>
 
-    <string name="visibility_public">Pública : és visible a la cronologia pública</string>
-    <string name="visibility_unlisted">Pas listada : no és visible a les cronologies públiques</string>
-    <string name="visibility_private">Solament seguidors : només és visible per al teus seguidors</string>
-    <string name="visibility_direct">Dirècta : només és visible per als usuaris mencionats</string>
+    <string name="visibility_public">Publica : es visibla a la cronologia publica</string>
+    <string name="visibility_unlisted">Pas listada :es pas visibla a las cronologias publicas</string>
+    <string name="visibility_private">Solament seguidors : pas que visibla pels vòstres seguidors</string>
+    <string name="visibility_direct">Dirècta : pas que visibla al monde mencionats</string>
 
     <string name="pref_title_notification_settings">Notificacions</string>
-    <string name="pref_title_edit_notification_settings">Edita les notificacions</string>
+    <string name="pref_title_edit_notification_settings">Modificar las notificacions</string>
     <string name="pref_title_notifications_enabled">Notificacions</string>
-    <string name="pref_title_pull_notification_check_interval">Comprova l\'interval</string>
-    <string name="pref_title_notification_alerts">Alertes</string>
-    <string name="pref_title_notification_alert_sound">Notifica amb un so</string>
-    <string name="pref_title_notification_alert_vibrate">Notifica amb una vibració</string>
-    <string name="pref_title_notification_alert_light">Notifica amb el llum led</string>
-    <string name="pref_title_notification_filters">Notifica\'m si</string>
-    <string name="pref_title_notification_filter_mentions">em mencionen</string>
-    <string name="pref_title_notification_filter_follows">em segueixen</string>
-    <string name="pref_title_notification_filter_reblogs">retootejen les meves publicacions</string>
-    <string name="pref_title_notification_filter_favourites">marquen com a preferit les meves publicacions</string>
+    <string name="pref_title_pull_notification_check_interval">Comprovar l\'interval</string>
+    <string name="pref_title_notification_alerts">Alèrtas</string>
+    <string name="pref_title_notification_alert_sound">Notificar amb un son</string>
+    <string name="pref_title_notification_alert_vibrate">Notificra amb una vibracion</string>
+    <string name="pref_title_notification_alert_light">Notificar amb lo lum led</string>
+    <string name="pref_title_notification_filters">Notificar me se</string>
+    <string name="pref_title_notification_filter_mentions">òm me menciona</string>
+    <string name="pref_title_notification_filter_follows">òm me sèc</string>
+    <string name="pref_title_notification_filter_reblogs">òm parteja mas publicacions</string>
+    <string name="pref_title_notification_filter_favourites">òm me met mos tuts en favorit</string>
     <string name="pref_title_appearance_settings">Aparença</string>
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Onglets personalizats de Chrome</string>
@@ -210,8 +210,8 @@
 
     <string name="about_title_activity">A prepaus</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky és programari gratuït, lliure i de codi obert.
-        Està llicenciat en els termes de la Llicència Pública General GNU versió 3.
+    <string name="about_tusky_license">Tusky es programa gratuït, liure e de còdi dobèrt.
+        Es publicat jols tèrms de la licéncia publica generala GNU version 3.
         Podeu trobar les llicència aquí: https://www.gnu.org/licenses/gpl-3.0.ca.html</string>
     <!-- note to translators: the url can be changed to link to the localized version of the license -->
     <string name="about_project_site">
