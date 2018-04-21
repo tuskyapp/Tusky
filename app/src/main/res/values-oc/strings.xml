@@ -4,7 +4,7 @@
     <string name="error_empty">Aquò pot pas èsser void.</string>
     <string name="error_invalid_domain">Lo domeni picat es pas valid</string>
     <string name="error_failed_app_registration">L\'autenticacion en aquesta instància a fracassat.</string>
-    <string name="error_no_web_browser_found"Cap de navegador web pas trobat d’utilizar.</string>
+    <string name="error_no_web_browser_found">Cap de navegador web pas trobat d’utilizar.</string>
     <string name="error_authorization_unknown">S\'es produch una error d\'autoritzacion pas identificada.</string>
     <string name="error_authorization_denied">L\'autoritzacion es estada regetada.</string>
     <string name="error_retrieving_oauth_token">Fracàs de l’obtencion del testimoni d\'iniciacion de session.</string>
