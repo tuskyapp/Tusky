@@ -50,8 +50,6 @@ public class FavouritesActivity extends BaseActivity implements HasSupportFragme
             bar.setDisplayShowHomeEnabled(true);
         }
 
-        setupBottomSheet();
-
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.FAVOURITES);
         fragmentTransaction.replace(R.id.fragment_container, fragment);

@@ -22,14 +22,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.PopupMenu;
 import android.text.Spanned;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.keylesspalace.tusky.AccountActivity;
-import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ReportActivity;
@@ -44,7 +45,6 @@ import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
-import com.keylesspalace.tusky.interfaces.SearchManager;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.HtmlUtils;
@@ -68,7 +68,7 @@ import retrofit2.Response;
  * adapters. I feel like the profile pages and thread viewer, which I haven't made yet, will also
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
-public abstract class SFragment extends BaseFragment implements AdapterItemRemover, SearchManager {
+public abstract class SFragment extends BaseFragment implements AdapterItemRemover {
     protected static final int COMPOSE_RESULT = 1;
 
     protected String loggedInAccountId;
@@ -76,6 +76,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
     protected String searchUrl;
 
     protected abstract TimelineCases timelineCases();
+    protected BottomSheetBehavior bottomSheet;
 
     @Inject
     protected MastodonApi mastodonApi;
@@ -89,6 +90,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
             loggedInAccountId = activeAccount.getAccountId();
             loggedInUsername = activeAccount.getUsername();
         }
+        setupBottomSheet(getView());
     }
 
     @Override
@@ -273,34 +275,29 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
                 uri.getPath().matches("^/(@|notice).*/\\d+$"));
     }
 
-    @Override
-    public void onBeginSearch(@NonNull String url) {
+    private void onBeginSearch(@NonNull String url) {
         searchUrl = url;
-        ((BaseActivity)getActivity()).onBeginSearch(this);
+        showQuerySheet();
     }
 
-    @Override
-    public boolean getCancelSearchRequested(@NonNull String url) {
+    private boolean getCancelSearchRequested(@NonNull String url) {
         return !url.equals(searchUrl);
     }
 
-    @Override
-    public boolean getIsSearching() {
+    private boolean getIsSearching() {
         return searchUrl != null;
     }
 
-    @Override
-    public void onEndSearch(@NonNull String url) {
+    private void onEndSearch(@NonNull String url) {
         if (url.equals(searchUrl)) {
             // Don't clear query if there's no match,
             // since we might just now be getting the response for a canceled search
             searchUrl = null;
-            ((BaseActivity)getActivity()).onEndSearch();
+            hideQuerySheet();
         }
     }
 
-    @Override
-    public void cancelActiveSearch()
+    private void cancelActiveSearch()
     {
         if (getIsSearching()) {
             onEndSearch(searchUrl);
@@ -346,5 +343,40 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         });
         callList.add(call);
         onBeginSearch(url);
+    }
+
+    protected void setupBottomSheet(View view)
+    {
+        LinearLayout bottomSheetLayout = view.findViewById(R.id.item_status_bottom_sheet);
+        if (bottomSheetLayout != null) {
+            bottomSheet = BottomSheetBehavior.from(bottomSheetLayout);
+            bottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
+            bottomSheet.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                @Override
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                    switch(newState) {
+                        case BottomSheetBehavior.STATE_HIDDEN:
+                            cancelActiveSearch();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                @Override
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                }
+            });
+        }
+    }
+
+    private void showQuerySheet() {
+        if (bottomSheet != null)
+            bottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    private void hideQuerySheet() {
+        if (bottomSheet != null)
+            bottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 }

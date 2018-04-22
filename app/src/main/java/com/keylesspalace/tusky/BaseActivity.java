@@ -23,25 +23,18 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Menu;
-import android.view.View;
-import android.widget.LinearLayout;
 
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
-import com.keylesspalace.tusky.interfaces.SearchManager;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 public abstract class BaseActivity extends AppCompatActivity {
-    protected BottomSheetBehavior bottomSheet;
-    protected SearchManager searchManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -158,48 +151,5 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                 .build()
                 .scheduleAsync();
-    }
-
-    protected void setupBottomSheet()
-    {
-        bottomSheet = BottomSheetBehavior.from((LinearLayout)findViewById(R.id.item_status_bottom_sheet));
-        bottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
-        bottomSheet.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                switch(newState) {
-                    case BottomSheetBehavior.STATE_HIDDEN:
-                        if (searchManager != null)
-                            searchManager.cancelActiveSearch();
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-            }
-        });
-    }
-
-    private void showQuerySheet() {
-        if (bottomSheet != null)
-            bottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
-    }
-
-    private void hideQuerySheet() {
-        if (bottomSheet != null)
-            bottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
-    }
-
-    public void onBeginSearch(@NonNull SearchManager searchManager) {
-        this.searchManager = searchManager;
-        showQuerySheet();
-    }
-
-    public void onEndSearch() {
-        searchManager = null;
-        hideQuerySheet();
     }
 }

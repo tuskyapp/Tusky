@@ -203,7 +203,6 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         floatingBtn.hide();
         followBtn.setVisibility(View.GONE);
         followsYouView.setVisibility(View.GONE);
-        setupBottomSheet();
 
         // Obtain information to fill out the profile.
         obtainAccount();

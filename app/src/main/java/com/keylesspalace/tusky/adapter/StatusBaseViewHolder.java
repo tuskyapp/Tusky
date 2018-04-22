@@ -1,8 +1,6 @@
 package com.keylesspalace.tusky.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -19,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Emoji;

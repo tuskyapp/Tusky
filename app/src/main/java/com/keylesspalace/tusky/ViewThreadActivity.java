@@ -57,7 +57,6 @@ public class ViewThreadActivity extends BaseActivity implements HasSupportFragme
         Fragment fragment = ViewThreadFragment.newInstance(id);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
-        setupBottomSheet();
     }
 
     @Override
