@@ -59,7 +59,6 @@
         android:layout_below="@id/status_name_bar"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
-        android:textIsSelectable="true"
         android:textSize="?attr/status_text_large"
         tools:text="CW this is a long long long long long long long long content warning" />
 
@@ -91,7 +90,6 @@
         android:focusable="true"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
-        android:textIsSelectable="true"
         android:textSize="?attr/status_text_large" />
 
     <LinearLayout

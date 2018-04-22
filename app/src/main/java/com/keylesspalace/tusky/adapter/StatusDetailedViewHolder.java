@@ -1,5 +1,7 @@
 package com.keylesspalace.tusky.adapter;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Card;
@@ -93,6 +96,20 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
         favourites.setText(numberFormat.format(status.getFavouritesCount()));
         setApplication(status.getApplication());
 
+        View.OnLongClickListener longClickListener = view -> {
+            TextView textView = (TextView)view;
+            ClipboardManager clipboard = (ClipboardManager) view.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("toot", textView.getText());
+            clipboard.setPrimaryClip(clip);
+
+            Toast.makeText(view.getContext(), R.string.copy_to_clipboard_success, Toast.LENGTH_SHORT).show();
+
+            return true;
+        };
+
+        content.setOnLongClickListener(longClickListener);
+        contentWarningDescription.setOnLongClickListener(longClickListener);
+
         if(status.getAttachments().length == 0 && status.getCard() != null && !TextUtils.isEmpty(status.getCard().getUrl())) {
             final Card card = status.getCard();
             cardView.setVisibility(View.VISIBLE);
@@ -134,15 +151,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 cardImage.setVisibility(View.GONE);
             }
 
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    LinkHelper.openLink(card.getUrl(), v.getContext());
-
-                }
-
-            });
+            cardView.setOnClickListener(v -> LinkHelper.openLink(card.getUrl(), v.getContext()));
 
         } else {
             cardView.setVisibility(View.GONE);

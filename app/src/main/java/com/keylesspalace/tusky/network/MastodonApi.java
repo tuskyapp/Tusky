@@ -53,6 +53,7 @@ import retrofit2.http.Query;
 public interface MastodonApi {
     String ENDPOINT_AUTHORIZE = "/oauth/authorize";
     String DOMAIN_HEADER = "domain";
+    String PLACEHOLDER_DOMAIN = "dummy.placeholder";
 
     @GET("api/v1/timelines/home")
     Call<List<Status>> homeTimeline(
@@ -246,6 +247,7 @@ public interface MastodonApi {
     @FormUrlEncoded
     @POST("api/v1/apps")
     Call<AppCredentials> authenticateApp(
+            @Header(DOMAIN_HEADER) String domain,
             @Field("client_name") String clientName,
             @Field("redirect_uris") String redirectUris,
             @Field("scopes") String scopes,
@@ -254,6 +256,7 @@ public interface MastodonApi {
     @FormUrlEncoded
     @POST("oauth/token")
     Call<AccessToken> fetchOAuthToken(
+            @Header(DOMAIN_HEADER) String domain,
             @Field("client_id") String clientId,
             @Field("client_secret") String clientSecret,
             @Field("redirect_uri") String redirectUri,

@@ -236,7 +236,12 @@
     <string name="about_tusky_license">Tusky is free and open-source software.
         It is licensed under the GNU General Public License Version 3.
         You can view the license here: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
-    <!-- note to translators: the url can be changed to link to the localized version of the license -->
+    <!-- note to translators:
+         * you should think of “free” as in “free speech,” not as in “free beer”.
+           We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
+           to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
+         * the url can be changed to link to the localized version of the license.
+    -->
     <string name="about_project_site">
         Project website:\n
         https://tuskyapp.github.io
@@ -297,5 +302,6 @@
     <string name="send_toot_notification_saved_content">A copy of the toot has been saved to your drafts</string>
 
     <string name="error_no_custom_emojis">Your instance %s does not have any custom emojis</string>
+    <string name="copy_to_clipboard_success">Copied to clipboard</string>
 
 </resources>

@@ -221,6 +221,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
             EditProfileActivity.PickType.HEADER -> {
                 startActivityForResult(intent, HEADER_PICK_RESULT)
             }
+            EditProfileActivity.PickType.NOTHING -> { /* do nothing */ }
         }
     }
 
@@ -329,6 +330,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 headerPreview.visibility = View.INVISIBLE
                 headerButton.setImageDrawable(null)
             }
+            EditProfileActivity.PickType.NOTHING -> { /* do nothing */ }
         }
     }
 
@@ -410,6 +412,8 @@ class EditProfileActivity : BaseActivity(), Injectable {
                         headerButton.setImageResource(R.drawable.ic_add_a_photo_32dp)
                         headerChanged = true
                     }
+                    EditProfileActivity.PickType.NOTHING -> { /* do nothing */ }
+
                 }
             }
 

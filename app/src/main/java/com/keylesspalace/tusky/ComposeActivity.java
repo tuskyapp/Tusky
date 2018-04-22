@@ -126,6 +126,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -226,7 +227,7 @@ public final class ComposeActivity
         emojiButton = findViewById(R.id.composeEmojiButton);
         hideMediaToggle = findViewById(R.id.composeHideMediaButton);
         emojiView = findViewById(R.id.emojiView);
-        emojiList = new ArrayList<>();
+        emojiList = Collections.emptyList();
 
         saveTootHelper = new SaveTootHelper(TuskyApplication.getDB().tootDao(), this);
 

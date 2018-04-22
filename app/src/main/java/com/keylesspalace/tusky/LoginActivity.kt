@@ -32,21 +32,26 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.AppCredentials
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.CustomTabsHelper
-import com.keylesspalace.tusky.util.OkHttpUtils
 import com.keylesspalace.tusky.util.ThemeUtils
 import kotlinx.android.synthetic.main.activity_login.*
+import okhttp3.HttpUrl
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), Injectable {
+
+    @Inject
+    lateinit var mastodonApi: MastodonApi
+    @Inject
+    lateinit var accountManager: AccountManager
 
     private lateinit var preferences: SharedPreferences
     private var domain: String = ""
@@ -64,8 +69,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val theme = preferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT)
-        ThemeUtils.setAppNightMode(theme)
+        val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
+        ThemeUtils.setAppNightMode(theme, this)
 
         setContentView(R.layout.activity_login)
 
@@ -114,16 +119,6 @@ class LoginActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
     }
 
-    private fun getApiFor(domain: String): MastodonApi {
-        val retrofit = Retrofit.Builder()
-                .baseUrl("https://" + domain)
-                .client(OkHttpUtils.getCompatibleClient(preferences))
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-        return retrofit.create(MastodonApi::class.java)
-    }
-
     /**
      * Obtain the oauth client credentials for this app. This is only necessary the first time the
      * app is run on a given server instance. So, after the first authentication, they are
@@ -133,7 +128,15 @@ class LoginActivity : AppCompatActivity() {
 
         loginButton.isEnabled = false
 
-        domain = validateDomain(domainEditText.text.toString())
+        domain = canonicalizeDomain(domainEditText.text.toString())
+
+        try {
+            HttpUrl.Builder().host(domain).scheme("https").build()
+        } catch (e: IllegalArgumentException) {
+            setLoading(false)
+            domainEditText.error = getString(R.string.error_invalid_domain)
+            return
+        }
 
         val callback = object : Callback<AppCredentials> {
             override fun onResponse(call: Call<AppCredentials>,
@@ -159,16 +162,11 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        try {
-            getApiFor(domain)
-                    .authenticateApp(getString(R.string.app_name), oauthRedirectUri,
-                            OAUTH_SCOPES, getString(R.string.app_website))
-                    .enqueue(callback)
-            setLoading(true)
-        } catch (e: IllegalArgumentException) {
-            setLoading(false)
-            domainEditText.error = getString(R.string.error_invalid_domain)
-        }
+        mastodonApi
+                .authenticateApp(domain, getString(R.string.app_name), oauthRedirectUri,
+                        OAUTH_SCOPES, getString(R.string.app_website))
+                .enqueue(callback)
+        setLoading(true)
 
     }
 
@@ -250,7 +248,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
 
-                getApiFor(domain).fetchOAuthToken(clientId, clientSecret, redirectUri, code,
+                mastodonApi.fetchOAuthToken(domain, clientId, clientSecret, redirectUri, code,
                         "authorization_code").enqueue(callback)
             } else if (error != null) {
                 /* Authorization failed. Put the error response where the user can read it and they
@@ -290,9 +288,7 @@ class LoginActivity : AppCompatActivity() {
 
         setLoading(true)
 
-        TuskyApplication.getInstance(this).serviceLocator
-                .get(AccountManager::class.java)
-                .addAccount(accessToken, domain)
+        accountManager.addAccount(accessToken, domain)
 
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -316,14 +312,10 @@ class LoginActivity : AppCompatActivity() {
         }
 
         /** Make sure the user-entered text is just a fully-qualified domain name.  */
-        private fun validateDomain(domain: String): String {
+        private fun canonicalizeDomain(domain: String): String {
             // Strip any schemes out.
             var s = domain.replaceFirst("http://", "")
             s = s.replaceFirst("https://", "")
-
-            //strip out any slashes that might have been added
-            s = s.replace("/", "")
-
             // If a username was included (e.g. username@example.com), just take what's after the '@'.
             val at = s.lastIndexOf('@')
             if (at != -1) {
