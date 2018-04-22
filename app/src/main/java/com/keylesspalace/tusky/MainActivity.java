@@ -104,6 +104,8 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         Intent intent = getIntent();
         int tabPosition = 0;
 
@@ -121,7 +123,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
             }
         }
 
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         FloatingActionButton floatingBtn = findViewById(R.id.floating_btn);
