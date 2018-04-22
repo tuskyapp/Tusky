@@ -302,5 +302,6 @@
     <string name="send_toot_notification_saved_content">A copy of the toot has been saved to your drafts</string>
 
     <string name="error_no_custom_emojis">Your instance %s does not have any custom emojis</string>
+    <string name="copy_to_clipboard_success">Copied to clipboard</string>
 
 </resources>
