@@ -31,7 +31,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcel;
@@ -199,6 +198,8 @@ public final class ComposeActivity
     private Status.Visibility statusVisibility;     // The current values of the options that will be applied
     private boolean statusMarkSensitive; // to the status being composed.
     private boolean statusHideText;
+    private String startingText = "";
+    private String startingContentWarning = "";
     private InputContentInfoCompat currentInputContentInfo;
     private int currentFlags;
     private Uri photoUploadUri;
@@ -340,7 +341,6 @@ public final class ComposeActivity
          * state. */
         Status.Visibility startingVisibility = Status.Visibility.UNKNOWN;
         boolean startingHideText;
-        String startingContentWarning = null;
         ArrayList<SavedQueuedMedia> savedMediaQueued = null;
         if (savedInstanceState != null) {
             startingVisibility = Status.Visibility.byNum(
@@ -403,7 +403,8 @@ public final class ComposeActivity
             // If come from SavedTootActivity
             String savedTootText = intent.getStringExtra(SAVED_TOOT_TEXT_EXTRA);
             if (!TextUtils.isEmpty(savedTootText)) {
-                textEditor.append(savedTootText);
+                startingText = savedTootText;
+                textEditor.setText(savedTootText);
             }
 
             String savedJsonUrls = intent.getStringExtra(SAVED_JSON_URLS_EXTRA);
@@ -488,7 +489,8 @@ public final class ComposeActivity
                 builder.append(name);
                 builder.append(' ');
             }
-            textEditor.setText(builder);
+            startingText = builder.toString();
+            textEditor.setText(startingText);
             textEditor.setSelection(textEditor.length());
         }
 
@@ -1380,9 +1382,15 @@ public final class ComposeActivity
     }
 
     private void handleCloseButton() {
-        if (!TextUtils.isEmpty(textEditor.getText())
-                || !TextUtils.isEmpty(contentWarningEditor.getText())
-                || !mediaQueued.isEmpty()) {
+        CharSequence contentText = textEditor.getText();
+        CharSequence contentWarning = contentWarningEditor.getText();
+
+        boolean textChanged = !(TextUtils.isEmpty(contentText) || startingText.startsWith(contentText.toString()));
+        boolean contentWarningChanged = contentWarningBar.getVisibility() == View.VISIBLE &&
+                !TextUtils.isEmpty(contentWarning) && !startingContentWarning.startsWith(contentWarning.toString());
+        boolean mediaChanged = !mediaQueued.isEmpty();
+
+        if (textChanged || contentWarningChanged || mediaChanged) {
             new AlertDialog.Builder(this)
                     .setMessage(R.string.compose_save_draft)
                     .setPositiveButton(R.string.action_save, (d, w) -> saveDraftAndFinish())
@@ -1432,13 +1440,12 @@ public final class ComposeActivity
         textEditor.getText().insert(textEditor.getSelectionStart(), ":"+shortcode+": ");
     }
 
-    private void loadCachedInstanceMetadata(@NotNull AccountEntity activeAccount)
-    {
+    private void loadCachedInstanceMetadata(@NotNull AccountEntity activeAccount) {
         InstanceEntity instanceEntity = TuskyApplication.getDB().instanceDao().loadMetadataForInstance(activeAccount.getDomain());
 
         if(instanceEntity != null) {
             Integer max = instanceEntity.getMaximumTootCharacters();
-            maximumTootCharacters = (max == null ? STATUS_CHARACTER_LIMIT : max.intValue());
+            maximumTootCharacters = (max == null ? STATUS_CHARACTER_LIMIT : max);
             emojiList = instanceEntity.getEmojiList();
             if (emojiList != null) {
                 emojiView.setAdapter(new EmojiAdapter(emojiList, ComposeActivity.this));
