@@ -52,6 +52,7 @@ import retrofit2.http.Query;
 public interface MastodonApi {
     String ENDPOINT_AUTHORIZE = "/oauth/authorize";
     String DOMAIN_HEADER = "domain";
+    String PLACEHOLDER_DOMAIN = "dummy.placeholder";
 
     @GET("api/v1/timelines/home")
     Call<List<Status>> homeTimeline(

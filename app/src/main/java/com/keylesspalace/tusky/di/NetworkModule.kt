@@ -16,7 +16,7 @@
 
 package com.keylesspalace.tusky.di
 
-import android.content.SharedPreferences
+import android.content.Context
 import android.text.Spanned
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -77,8 +77,8 @@ class NetworkModule {
     @Provides
     @Singleton
     fun providesHttpClient(interceptors: @JvmSuppressWildcards Set<Interceptor>,
-                           preferences: SharedPreferences): OkHttpClient {
-        return OkHttpUtils.getCompatibleClientBuilder(preferences)
+                           context: Context): OkHttpClient {
+        return OkHttpUtils.getCompatibleClientBuilder(context)
                 .apply {
                     interceptors.fold(this) { b, i ->
                         b.addInterceptor(i)
@@ -92,7 +92,7 @@ class NetworkModule {
     @Singleton
     fun providesRetrofit(httpClient: OkHttpClient,
                          converters: @JvmSuppressWildcards Set<Converter.Factory>): Retrofit {
-        return Retrofit.Builder().baseUrl("https://dummy.placeholder/")
+        return Retrofit.Builder().baseUrl("https://"+MastodonApi.PLACEHOLDER_DOMAIN)
                 .client(httpClient)
                 .let { builder ->
                     // Doing it this way in case builder will be immutable so we return the final

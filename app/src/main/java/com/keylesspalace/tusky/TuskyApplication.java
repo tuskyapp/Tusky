@@ -55,6 +55,7 @@ public class TuskyApplication extends Application implements HasActivityInjector
     DispatchingAndroidInjector<Service> dispatchingServiceInjector;
     @Inject
     NotificationPullJobCreator notificationPullJobCreator;
+    @Inject OkHttpClient okHttpClient;
 
     public static AppDatabase getDB() {
         return db;
@@ -111,15 +112,7 @@ public class TuskyApplication extends Application implements HasActivityInjector
     protected void initPicasso() {
         // Initialize Picasso configuration
         Picasso.Builder builder = new Picasso.Builder(this);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        OkHttpClient.Builder okHttpBuilder = OkHttpUtils.getCompatibleClientBuilder(preferences);
-
-        int cacheSize = 10*1024*1024; // 10 MiB
-
-        okHttpBuilder.cache(new Cache(getCacheDir(), cacheSize));
-
-        builder.downloader(new OkHttp3Downloader(okHttpBuilder.build()));
+        builder.downloader(new OkHttp3Downloader(okHttpClient));
         if (BuildConfig.DEBUG) {
             builder.listener((picasso, uri, exception) -> exception.printStackTrace());
         }
