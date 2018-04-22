@@ -21,6 +21,7 @@ import android.text.Spanned
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializer
+import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.json.SpannedTypeAdapter
 import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
@@ -31,8 +32,8 @@ import dagger.Provides
 import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 import dagger.multibindings.IntoSet
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -67,26 +68,18 @@ class NetworkModule {
     fun providesConverterFactory(gson: Gson): Converter.Factory = GsonConverterFactory.create(gson)
 
     @Provides
-    @IntoSet
     @Singleton
-    fun providesAuthInterceptor(accountManager: AccountManager): Interceptor {
-        // should accept AccountManager here probably but I don't want to break things yet
-        return InstanceSwitchAuthInterceptor(accountManager)
-    }
-
-    @Provides
-    @Singleton
-    fun providesHttpClient(interceptors: @JvmSuppressWildcards Set<Interceptor>,
+    fun providesHttpClient(accountManager: AccountManager,
                            context: Context): OkHttpClient {
         return OkHttpUtils.getCompatibleClientBuilder(context)
                 .apply {
-                    interceptors.fold(this) { b, i ->
-                        b.addInterceptor(i)
+                    addInterceptor(InstanceSwitchAuthInterceptor(accountManager))
+                    if (BuildConfig.DEBUG) {
+                        addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
                     }
                 }
                 .build()
     }
-
 
     @Provides
     @Singleton

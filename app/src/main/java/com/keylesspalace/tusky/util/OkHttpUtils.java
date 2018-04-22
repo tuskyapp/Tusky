@@ -50,7 +50,6 @@ import okhttp3.ConnectionSpec;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 public class OkHttpUtils {
     private static final String TAG = "OkHttpUtils"; // logging tag
@@ -100,10 +99,6 @@ public class OkHttpUtils {
         if (httpProxyEnabled && !httpServer.isEmpty() && (httpPort > 0) && (httpPort < 65535)) {
             InetSocketAddress address = InetSocketAddress.createUnresolved(httpServer, httpPort);
             builder.proxy(new Proxy(Proxy.Type.HTTP, address));
-        }
-
-        if(BuildConfig.DEBUG) {
-            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC));
         }
 
         return enableHigherTlsOnPreLollipop(builder);
