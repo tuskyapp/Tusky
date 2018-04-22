@@ -13,7 +13,7 @@
     <string name="error_media_upload_opening">Dat bestand kon niet worden geopend.</string>
     <string name="error_media_upload_permission">Er is toestemming nodig om deze media te lezen.</string>
     <string name="error_media_download_permission">Er is toestemming nodig om media op te slaan.</string>
-    <string name="error_media_upload_image_or_video">Afbeeldingen en video's kunnen niet samen bij dezelfde status worden gevoegd.</string>
+    <string name="error_media_upload_image_or_video">Afbeeldingen en video\'s kunnen niet samen bij dezelfde status worden gevoegd.</string>
     <string name="error_media_upload_sending">Het uploaden mislukte.</string>
     <string name="error_report_too_few_statuses">Minstens een status moet gerapporteerd worden.</string>
     <string name="error_invalid_regex">Ongeldige reguliere uitdrukking</string>
