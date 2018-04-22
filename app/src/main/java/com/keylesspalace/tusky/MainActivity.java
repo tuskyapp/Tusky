@@ -92,10 +92,10 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
     public MastodonApi mastodonApi;
     @Inject
     public DispatchingAndroidInjector<Fragment> fragmentInjector;
+    @Inject
+    public AccountManager accountManager;
 
     private static int COMPOSE_RESULT = 1;
-
-    AccountManager accountManager;
 
     private FloatingActionButton composeButton;
     private AccountHeader headerResult;
@@ -106,9 +106,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         int tabPosition = 0;
-
-        accountManager = TuskyApplication.getInstance(this).getServiceLocator()
-                .get(AccountManager.class);
 
         if (intent != null) {
             long accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1);
