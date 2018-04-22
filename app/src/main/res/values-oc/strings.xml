@@ -1,0 +1,254 @@
+<resources>
+
+    <string name="error_generic">S\'es produch una error.</string>
+    <string name="error_empty">Aquò pot pas èsser void.</string>
+    <string name="error_invalid_domain">Lo domeni picat es pas valid</string>
+    <string name="error_failed_app_registration">L\'autenticacion en aquesta instància a fracassat.</string>
+    <string name="error_no_web_browser_found">Cap de navegador web pas trobat d’utilizar.</string>
+    <string name="error_authorization_unknown">S\'es produch una error d\'autoritzacion pas identificada.</string>
+    <string name="error_authorization_denied">L\'autoritzacion es estada regetada.</string>
+    <string name="error_retrieving_oauth_token">Fracàs de l’obtencion del testimoni d\'iniciacion de session.</string>
+    <string name="error_compose_character_limit">L\'estatut es tròp long !</string>
+    <string name="error_media_upload_size">Lo fichièr a d’èsser inferior a 8Mo.</string>
+    <string name="error_media_upload_type">Aqueste tip de fichièr se pòt pas mandar.</string>
+    <string name="error_media_upload_opening">Aqueste tip de fichièr se pòt pas dobrir.</string>
+    <string name="error_media_upload_permission">Cal permís de lectura del mèdia.</string>
+    <string name="error_media_download_permission">Cal pemís d\'escritura dins lo mèdia.</string>
+    <string name="error_media_upload_image_or_video">Se pòt pas ajustar imatges e una vidèo dins lo meteis estatut.</string>
+    <string name="error_media_upload_sending">Fracàs en mandar.</string>
+    <string name="error_report_too_few_statuses">Cal almens denonciar un estatut.</string>
+
+    <string name="title_home">Acuèlh</string>
+    <string name="title_notifications">Notificacions</string>
+    <string name="title_public_local">Local</string>
+    <string name="title_public_federated">Federacion</string>
+    <string name="title_view_thread">Tut</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">Pòsts</string>
+    <string name="title_follows">Abonament</string>
+    <string name="title_followers">Seguidors</string>
+    <string name="title_favourites">Preferits</string>
+    <string name="title_mutes">Utilizaires silenciats</string>
+    <string name="title_blocks">Utilizaires blocats</string>
+    <string name="title_follow_requests">Demandas d’abonament</string>
+    <string name="title_edit_profile">Modificar lo perfil</string>
+    <string name="title_saved_toot">Borrolhons</string>
+    <string name="title_x_followers"><b>%s</b> seguidors</string>
+    <string name="title_x_following"><b>%s</b> abonaments</string>
+    <string name="title_x_statuses"><b>%s</b> publicacions</string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s partejat</string>
+    <string name="status_sensitive_media_title">Contengut sensible</string>
+    <string name="status_sensitive_media_directions">Clicar per mostrar</string>
+    <string name="status_content_warning_show_more">Mostrar mai</string>
+    <string name="status_content_warning_show_less">Mostrar mens</string>
+
+    <string name="footer_empty">I a pas res aquí. Davalatz per  actualizar !</string>
+
+    <string name="notification_reblog_format">%s a partajat vòstre tut</string>
+    <string name="notification_favourite_format">%s a aimat vòstre tut</string>
+    <string name="notification_follow_format">%s vos sèc</string>
+
+    <string name="report_username_format">Denonciar @%s</string>
+    <string name="report_comment_hint">Cap comentari addicional ?</string>
+
+    <string name="action_reply">Respondre</string>
+    <string name="action_reblog">Partejar</string>
+    <string name="action_favourite">Aimar</string>
+    <string name="action_more">Mai</string>
+    <string name="action_compose">Redactar</string>
+    <string name="action_login">Inicia sessió amb Mastodon</string>
+    <string name="action_logout">Tanca sessió</string>
+    <string name="action_follow">Seguir</string>
+    <string name="action_unfollow">Quitar de seguir</string>
+    <string name="action_block">Blocar</string>
+    <string name="action_unblock">Quitar de blocar</string>
+    <string name="action_report">Denonciar</string>
+    <string name="action_delete">Escafar</string>
+    <string name="action_send">TUT</string>
+    <string name="action_send_public">TUT !</string>
+    <string name="action_retry">Tornar ensajar</string>
+    <string name="action_close">Tampar</string>
+    <string name="action_view_profile">Perfil</string>
+    <string name="action_view_preferences">Preferéncias</string>
+    <string name="action_view_favourites">Preferits</string>
+    <string name="action_view_mutes">Utilizaires silenciats</string>
+    <string name="action_view_blocks">Utilizaires blocats</string>
+    <string name="action_view_follow_requests">Demandas d’abonament</string>
+    <string name="action_view_media">Muèdia</string>
+    <string name="action_open_in_web">Dobrir al navegador</string>
+    <string name="action_add_media">Ajustar un mèdia</string>
+    <string name="action_photo_take">Prendre una fotografia</string>
+    <string name="action_share">Partejar</string>
+    <string name="action_mute">Silenciar</string>
+    <string name="action_unmute">Quitar de silenciar</string>
+    <string name="action_mention">Mencionar</string>
+    <string name="action_hide_media">Amagar los mèdias</string>
+    <string name="action_open_drawer">Dobrir lo repertòri</string>
+    <string name="action_save">Enregistrar</string>
+    <string name="action_edit_profile">Modificar lo perfil</string>
+    <string name="action_undo">Anullar</string>
+    <string name="action_accept">Acceptar</string>
+    <string name="action_reject">Regetar</string>
+    <string name="action_search">Cercar</string>
+    <string name="action_access_saved_toot">Borrolhons</string>
+
+    <string name="download_image">Telecargament %1$s</string>
+
+    <string name="action_copy_link">Copiar lo ligam</string>
+  
+    <string name="send_status_link_to">Partejar l\'URL del tt a...</string>
+    <string name="send_status_content_to">Partejar vòstre tut a...</string>
+
+    <string name="confirmation_reported">Enviat !</string>
+    <string name="confirmation_unblocked">Utilizaire desblocat</string>
+    <string name="confirmation_unmuted">Utilizaire sortit del silenci</string>
+
+    <string name="hint_domain">Quina instància ?</string>
+    <string name="hint_compose">A de qué pensatz ?</string>
+    <string name="hint_content_warning">Avis de contengut</string>
+    <string name="hint_display_name">Nom visible</string>
+    <string name="hint_note">Biografia</string>
+    <string name="hint_search">Cercar...</string>
+
+    <string name="search_no_results">I a pas cap de resulat</string>
+
+    <string name="label_avatar">Avatar</string>
+    <string name="label_header">Bandièra</string>
+
+    <string name="link_whats_an_instance">Que es una instància ?</string>
+
+    <string name="login_connection">Connexion...</string>
+
+    <string name="dialog_whats_an_instance">Aquí pots introduir l\'adreça o domini de qualsevol instància,
+        com ara mastodont.cat, mastodon.social, icosahedron.website o
+        <a href="https://instances.social">fòrca mai !</a>
+        \n\nSi encara no tens cap copte, pots introduir el nom de la instància on t\'agradaria
+        unir-te i crear un compte allà.\n\nUna instànica és un únic lloc on el teu compte s\'hostatja
+        , però pots comunicar-te fàcilment i seguir amics d\'altres instàncies com si fossiu en el mateix lloc.
+        \n\nTens més informació a <a href="https://joinmastodon.org">joinmastodon.org</a>.
+    </string>
+    <string name="dialog_title_finishing_media_upload">Finalizacion del mandadís del mèdia</string>
+    <string name="dialog_message_uploading_media">Mandadís...</string>
+    <string name="dialog_download_image">Telecargar</string>
+    <string name="dialog_message_follow_request">Demanda d’abonament en espèra : responsas esperadas</string>
+    <string name="dialog_unfollow_warning">Volètz quitar de seguir aqueste compte ?</string>
+
+    <string name="visibility_public">Publica : es visibla a la cronologia publica</string>
+    <string name="visibility_unlisted">Pas listada :es pas visibla a las cronologias publicas</string>
+    <string name="visibility_private">Solament seguidors : pas que visibla pels vòstres seguidors</string>
+    <string name="visibility_direct">Dirècta : pas que visibla al monde mencionats</string>
+
+    <string name="pref_title_notification_settings">Notificacions</string>
+    <string name="pref_title_edit_notification_settings">Modificar las notificacions</string>
+    <string name="pref_title_notifications_enabled">Notificacions</string>
+    <string name="pref_title_pull_notification_check_interval">Comprovar l\'interval</string>
+    <string name="pref_title_notification_alerts">Alèrtas</string>
+    <string name="pref_title_notification_alert_sound">Notificar amb un son</string>
+    <string name="pref_title_notification_alert_vibrate">Notificra amb una vibracion</string>
+    <string name="pref_title_notification_alert_light">Notificar amb lo lum led</string>
+    <string name="pref_title_notification_filters">Notificar me se</string>
+    <string name="pref_title_notification_filter_mentions">òm me menciona</string>
+    <string name="pref_title_notification_filter_follows">òm me sèc</string>
+    <string name="pref_title_notification_filter_reblogs">òm parteja mas publicacions</string>
+    <string name="pref_title_notification_filter_favourites">òm me met mos tuts en favorit</string>
+    <string name="pref_title_appearance_settings">Aparença</string>
+    <string name="pref_title_browser_settings">Navegador</string>
+    <string name="pref_title_custom_tabs">Onglets personalizats de Chrome</string>
+    <string name="pref_title_hide_follow_button">Amagar lo boton de redaccion en desplaçament</string>
+    <string name="pref_title_status_filter">Filtre de la cronologia</string>
+    <string name="pref_title_status_tabs">Onglets</string>
+    <string name="pref_title_show_boosts">Mostrar los retuts</string>
+    <string name="pref_title_show_replies">Mostrar las responsas</string>
+    <string name="pref_title_show_media_preview">Mostrar los apercebuts</string>
+
+    <string-array name="pull_notification_check_interval_names">
+        <item>15 minutas</item>
+        <item>20 minutas</item>
+        <item>25 minutas</item>
+        <item>30 minutas</item>
+        <item>45 minutas</item>
+        <item>1 ora</item>
+        <item>2 ores</item>
+    </string-array>
+
+    <string name="pref_default_post_privacy">Privacitat predeterminada dels tuts</string>
+    <string name="pref_publishing">Publicacion</string>
+
+    <string-array name="post_privacy_names">
+        <item>Publica</item>
+        <item>Pas listada</item>
+        <item>Seguidors solament</item>
+    </string-array>
+
+    <string name="pref_status_text_size">Talha de text de l\'estatut</string>
+
+    <string-array name="status_text_size_names">
+        <item>Pichona</item>
+        <item>Mejana</item>
+        <item>Granda</item>
+    </string-array>
+    
+    <string name="notification_channel_mention_name">Mencions nòvas</string>
+    <string name="notification_channel_mention_descriptions">Notificacions de mencions noves</string>
+    <string name="notification_channel_follow_name">Seguidors nòus</string>
+    <string name="notification_channel_follow_description">Notificacions de nòus seguidors</string>
+    <string name="notification_channel_boost_name">Retuts</string>
+    <string name="notification_channel_boost_description">Notificacions de compartiment de vòstres tuts</string>
+    <string name="notification_channel_favourite_name">Preferits</string>
+    <string name="notification_channel_favourite_description">Notificacions s’agradan vòstres tuts</string>
+
+
+    <string name="notification_mention_format">%s vos mencionan</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s e %4$d mai</string>
+    <string name="notification_summary_medium">%1$s, %2$s e %3$s</string>
+    <string name="notification_summary_small">%1$s e %2$s</string>
+    <string name="notification_title_summary">%d interaccions nòvas</string>
+
+    <string name="description_account_locked">Compte blocat</string>
+
+    <string name="about_title_activity">A prepaus</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Tusky es programa gratuït, liure e de còdi dobèrt.
+        Es publicat jols tèrms de la licéncia publica generala GNU version 3.
+        Podeu trobar les llicència aquí: https://www.gnu.org/licenses/gpl-3.0.ca.html</string>
+    <!-- note to translators: the url can be changed to link to the localized version of the license -->
+    <string name="about_project_site">
+        Site web del projècte :\n
+        https://tuskyapp.github.io
+    </string>
+    <string name="about_bug_feature_request_site">
+        Rapòrts d\'errors e demandas de foncionalitats :\n
+        https://github.com/tuskyapp/Tusky/issues
+    </string>
+    <string name="about_tusky_account">Perfil de Tusky</string>
+
+    <string name="status_share_content">Partejar lo contengut del tut</string>
+    <string name="status_share_link">Partejar lo ligam del tut</string>
+    <string name="status_media_images">Imatges</string>
+    <string name="status_media_video">Vidèo</string>
+
+    <string name="state_follow_requested">Demanda d’abonament</string>
+
+    <string name="no_content">I a pas cap de contengut</string>
+
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">en %d ans</string>
+    <string name="abbreviated_in_days">en %dd</string>
+    <string name="abbreviated_in_hours">en %dh</string>
+    <string name="abbreviated_in_minutes">en %dm</string>
+    <string name="abbreviated_in_seconds">en %ds</string>
+    <string name="abbreviated_years_ago">%d ans</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
+
+    <string name="follows_you">Vos sèc</string>
+    <string name="pref_title_alway_show_sensitive_media">Mostrar lo contengut sensible (NSFW)</string>
+    <string name="title_media">Mèdia</string>
+    <string name="replying_to">En responsa a @%s</string>
+    <string name="load_more_placeholder_text">cargar mai</string>
+
+</resources>
