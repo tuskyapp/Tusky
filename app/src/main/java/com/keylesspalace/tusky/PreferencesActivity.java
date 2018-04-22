@@ -105,7 +105,7 @@ public class PreferencesActivity extends BaseActivity
         switch (key) {
             case "appTheme": {
                 String theme = sharedPreferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT);
-                ThemeUtils.setAppNightMode(theme);
+                ThemeUtils.setAppNightMode(theme, this);
                 restartActivitiesOnExit = true;
 
                 // recreate() could be used instead, but it doesn't have an animation B).

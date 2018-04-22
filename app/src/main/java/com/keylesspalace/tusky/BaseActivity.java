@@ -46,7 +46,7 @@ public abstract class BaseActivity extends AppCompatActivity {
          * runtime, just individual activities. So, each activity has to set its theme before any
          * views are created. */
         String theme = preferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT);
-        ThemeUtils.setAppNightMode(theme);
+        ThemeUtils.setAppNightMode(theme, this);
 
         int style;
         switch (preferences.getString("statusTextSize", "medium")) {

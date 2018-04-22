@@ -91,7 +91,7 @@ public class ThemeUtils {
         drawable.setColorFilter(getColor(context, attribute), PorterDuff.Mode.SRC_IN);
     }
 
-    public static void setAppNightMode(String flavor) {
+    public static void setAppNightMode(String flavor, Context context) {
         int mode;
         switch (flavor) {
             default:
@@ -107,7 +107,8 @@ public class ThemeUtils {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            TuskyApplication.getUiModeManager().setNightMode(mode);
+            UiModeManager uiModeManager = (UiModeManager)context.getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
+            uiModeManager.setNightMode(mode);
         } else {
             AppCompatDelegate.setDefaultNightMode(mode);
         }

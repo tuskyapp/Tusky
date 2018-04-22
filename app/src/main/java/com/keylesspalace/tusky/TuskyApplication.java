@@ -61,16 +61,9 @@ public class TuskyApplication extends Application implements HasActivityInjector
         return db;
     }
 
-    private static UiModeManager uiModeManager;
-
-    public static UiModeManager getUiModeManager() {
-        return uiModeManager;
-    }
-
     public static TuskyApplication getInstance(@NonNull Context context) {
         return (TuskyApplication) context.getApplicationContext();
     }
-
 
     private ServiceLocator serviceLocator;
 
@@ -99,7 +92,6 @@ public class TuskyApplication extends Application implements HasActivityInjector
         initPicasso();
 
         JobManager.create(this).addJobCreator(notificationPullJobCreator);
-        uiModeManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
 
         //necessary for Android < APi 21
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
