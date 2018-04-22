@@ -31,6 +31,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcel;
@@ -85,11 +86,12 @@ import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
-import com.keylesspalace.tusky.db.EmojiListEntity;
+import com.keylesspalace.tusky.db.InstanceEntity;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Emoji;
+import com.keylesspalace.tusky.entity.Instance;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.ProgressRequestBody;
@@ -124,6 +126,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -200,6 +203,8 @@ public final class ComposeActivity
     private int currentFlags;
     private Uri photoUploadUri;
     private int savedTootUid = 0;
+    private List<Emoji> emojiList;
+    private int maximumTootCharacters = STATUS_CHARACTER_LIMIT;
 
     private SaveTootHelper saveTootHelper;
 
@@ -222,6 +227,7 @@ public final class ComposeActivity
         emojiButton = findViewById(R.id.composeEmojiButton);
         hideMediaToggle = findViewById(R.id.composeHideMediaButton);
         emojiView = findViewById(R.id.emojiView);
+        emojiList = Collections.emptyList();
 
         saveTootHelper = new SaveTootHelper(TuskyApplication.getDB().tootDao(), this);
 
@@ -258,6 +264,37 @@ public final class ComposeActivity
                     getString(R.string.compose_active_account_description,
                             activeAccount.getFullName()));
 
+            mastodonApi.getInstance().enqueue(new Callback<Instance>() {
+                @Override
+                public void onResponse(@NonNull Call<Instance> call, @NonNull Response<Instance> response) {
+                    if (response.isSuccessful() && response.body().getMaxTootChars() != null) {
+                        maximumTootCharacters = response.body().getMaxTootChars();
+                        updateVisibleCharactersLeft();
+                        cacheInstanceMetadata(activeAccount);
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<Instance> call, @NonNull Throwable t) {
+                    Log.w(TAG, "error loading instance data", t);
+                    loadCachedInstanceMetadata(activeAccount);
+                }
+            });
+
+            mastodonApi.getCustomEmojis().enqueue(new Callback<List<Emoji>>() {
+                @Override
+                public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
+                    emojiList = response.body();
+                    enableButton(emojiButton, true, emojiList.size() > 0);
+                    cacheInstanceMetadata(activeAccount);
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<List<Emoji>> call, @NonNull Throwable t) {
+                    Log.w(TAG, "error loading custom emojis", t);
+                    loadCachedInstanceMetadata(activeAccount);
+                }
+            });
         } else {
             // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
             return;
@@ -276,34 +313,6 @@ public final class ComposeActivity
         emojiView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false));
 
         enableButton(emojiButton, false, false);
-
-        mastodonApi.getCustomEmojis().enqueue(new Callback<List<Emoji>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
-                List<Emoji> emojiList = response.body();
-
-                if (emojiList != null) {
-                    emojiView.setAdapter(new EmojiAdapter(emojiList, ComposeActivity.this));
-
-                    enableButton(emojiButton, true, emojiList.size() > 0);
-
-                    EmojiListEntity emojiListEntity = new EmojiListEntity(activeAccount.getDomain(), emojiList);
-
-                    TuskyApplication.getDB().emojiListDao().insertOrReplace(emojiListEntity);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Emoji>> call, @NonNull Throwable t) {
-                Log.w(TAG, "error loading custom emojis", t);
-                EmojiListEntity emojiListEntity = TuskyApplication.getDB().emojiListDao().loadEmojisForInstance(activeAccount.getDomain());
-
-                if(emojiListEntity != null) {
-                    emojiView.setAdapter(new EmojiAdapter(emojiListEntity.getEmojiList(), ComposeActivity.this));
-                    enableButton(emojiButton, true, emojiListEntity.getEmojiList().size() > 0);
-                }
-            }
-        });
 
         // Setup the interface buttons.
         tootButton.setOnClickListener(v -> onSendClicked());
@@ -761,7 +770,7 @@ public final class ComposeActivity
     }
 
     private void updateVisibleCharactersLeft() {
-        int charactersLeft = STATUS_CHARACTER_LIMIT - textEditor.length();
+        int charactersLeft = maximumTootCharacters - textEditor.length();
         if (statusHideText) {
             charactersLeft -= contentWarningEditor.length();
         }
@@ -914,7 +923,7 @@ public final class ComposeActivity
         if (characterCount <= 0 && mediaQueued.size()==0) {
             textEditor.setError(getString(R.string.error_empty));
             enableButtons();
-        } else if (characterCount <= STATUS_CHARACTER_LIMIT) {
+        } else if (characterCount <= maximumTootCharacters) {
             sendStatus(contentText, visibility, sensitive, spoilerText);
 
         } else {
@@ -1421,6 +1430,27 @@ public final class ComposeActivity
     @Override
     public void onEmojiSelected(@NotNull String shortcode) {
         textEditor.getText().insert(textEditor.getSelectionStart(), ":"+shortcode+": ");
+    }
+
+    private void loadCachedInstanceMetadata(@NotNull AccountEntity activeAccount)
+    {
+        InstanceEntity instanceEntity = TuskyApplication.getDB().instanceDao().loadMetadataForInstance(activeAccount.getDomain());
+
+        if(instanceEntity != null) {
+            Integer max = instanceEntity.getMaximumTootCharacters();
+            maximumTootCharacters = (max == null ? STATUS_CHARACTER_LIMIT : max.intValue());
+            emojiList = instanceEntity.getEmojiList();
+            if (emojiList != null) {
+                emojiView.setAdapter(new EmojiAdapter(emojiList, ComposeActivity.this));
+                enableButton(emojiButton, true, emojiList.size() > 0);
+            }
+        }
+    }
+
+    private void cacheInstanceMetadata(@NotNull AccountEntity activeAccount)
+    {
+        InstanceEntity instanceEntity = new InstanceEntity(activeAccount.getDomain(), emojiList, maximumTootCharacters);
+        TuskyApplication.getDB().instanceDao().insertOrReplace(instanceEntity);
     }
 
     public static final class QueuedMedia {

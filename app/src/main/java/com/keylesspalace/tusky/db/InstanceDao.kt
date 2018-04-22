@@ -21,11 +21,10 @@ import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 
 @Dao
-interface EmojiListDao {
+interface InstanceDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrReplace(emojiList: EmojiListEntity)
+    fun insertOrReplace(instance: InstanceEntity)
 
-    @Query("SELECT * FROM EmojiListEntity WHERE instance = :instance LIMIT 1")
-    fun loadEmojisForInstance(instance: String): EmojiListEntity?
-
+    @Query("SELECT * FROM InstanceEntity WHERE instance = :instance LIMIT 1")
+    fun loadMetadataForInstance(instance: String): InstanceEntity?
 }
