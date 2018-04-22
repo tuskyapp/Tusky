@@ -41,6 +41,7 @@ import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.ViewVideoActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.entity.Status;
@@ -259,8 +260,12 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         startActivity(intent);
     }
 
+    // https://mastodon.foo.bar/@User
     // https://mastodon.foo.bar/@User/43456787654678
+    // https://pleroma.foo.bar/users/User
+    // https://pleroma.foo.bar/users/43456787654678
     // https://pleroma.foo.bar/notice/43456787654678
+    // https://pleroma.foo.bar/objects/d4643c42-3ae0-4b73-b8b0-c725f5819207
     private static boolean looksLikeMastodonUrl(String urlString) {
         URI uri;
         try {
@@ -269,10 +274,17 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
             return false;
         }
 
-        return (uri.getQuery() == null &&
-                uri.getFragment() == null &&
-                uri.getPath() != null &&
-                uri.getPath().matches("^/(@|notice).*/\\d+$"));
+        if (uri.getQuery() != null ||
+                uri.getFragment() != null ||
+                uri.getPath() == null) {
+            return false;
+        }
+
+        String path = uri.getPath();
+        return path.matches("^/@[^/]*$") ||
+                path.matches("^/users/[^/]+$") ||
+                path.matches("^/(@|notice)[^/]*/\\d+$") ||
+                path.matches("^/objects/[-a-f0-9]+$");
     }
 
     private void onBeginSearch(@NonNull String url) {
@@ -320,13 +332,17 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
 
                 onEndSearch(url);
                 if (response.isSuccessful()) {
+                    // According to the mastodon API doc, if the search query is a url,
+                    // only exact matches for statuses or accounts are returned
+                    // which is good, because pleroma returns a different url
+                    // than the public post link
                     List<Status> statuses = response.body().getStatuses();
+                    List<Account> accounts = response.body().getAccounts();
                     if (statuses != null && !statuses.isEmpty()) {
-                        // According to the mastodon API doc, if the search query is a url,
-                        // only exact matches for statuses or accounts are returned
-                        // which is good, because pleroma returns a different url
-                        // than the public post link
                         viewThread(statuses.get(0));
+                        return;
+                    } else if (accounts != null && !accounts.isEmpty()) {
+                        viewAccount(accounts.get(0).getId());
                         return;
                     }
                 }

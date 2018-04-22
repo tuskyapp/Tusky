@@ -117,8 +117,12 @@ public class LinkHelper {
                     builder.removeSpan(span);
                     builder.setSpan(newSpan, start, end, flags);
                 } else {
-                    // TODO: search for foreign accounts
-                    ClickableSpan newSpan = new CustomURLSpan(span.getURL());
+                    CustomURLSpan newSpan = new CustomURLSpan(span.getURL()) {
+                        @Override
+                        public void onClick(View widget) {
+                            listener.onViewURL(getURL());
+                        }
+                    };
                     builder.removeSpan(span);
                     builder.setSpan(newSpan, start, end, flags);
                 }

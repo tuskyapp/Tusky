@@ -303,6 +303,6 @@
 
     <string name="error_no_custom_emojis">Your instance %s does not have any custom emojis</string>
     <string name="copy_to_clipboard_success">Copied to clipboard</string>
-    <string name="querying_status_title">Querying status...</string>
+    <string name="performing_lookup_title">Performing lookup...</string>
 
 </resources>
