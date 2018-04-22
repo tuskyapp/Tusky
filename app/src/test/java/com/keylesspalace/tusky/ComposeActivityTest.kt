@@ -190,7 +190,9 @@ class ComposeActivityTest {
     fun whenInitialInstanceRequestFails_defaultValueIsUsed() {
         instanceResponseCallback = {
             call: Call<Instance>?, callback: Callback<Instance>? ->
-            callback?.onResponse(call, Response.error(400, ResponseBody.create(null, "")))
+            if (call != null) {
+                callback?.onResponse(call, Response.error(400, ResponseBody.create(null, "")))
+            }
         }
         setupActivity()
         assertEquals(ComposeActivity.STATUS_CHARACTER_LIMIT, activity.maximumTootCharacters)
@@ -244,7 +246,9 @@ class ComposeActivityTest {
     {
         return {
             call: Call<Instance>?, callback: Callback<Instance>? ->
-            callback?.onResponse(call, Response.success(getInstanceWithMaximumTootCharacters(maximumTootCharacters)))
+            if (call != null) {
+                callback?.onResponse(call, Response.success(getInstanceWithMaximumTootCharacters(maximumTootCharacters)))
+            }
         }
     }
 }
