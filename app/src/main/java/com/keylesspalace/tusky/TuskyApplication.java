@@ -108,7 +108,9 @@ public class TuskyApplication extends Application implements HasActivityInjector
 
     private void initEmojiCompat() {
         EmojiCompat.Config config;
-        config = new FileEmojiCompatConfig(getApplicationContext(), "/storage/emulated/0/NotoColorEmojiCompat.ttf");
+        config = new FileEmojiCompatConfig(getApplicationContext(),
+                "/storage/emulated/0/NotoColorEmojiCompat.ttf")
+            .setReplaceAll(true);
         EmojiCompat.init(config);
     }
 
