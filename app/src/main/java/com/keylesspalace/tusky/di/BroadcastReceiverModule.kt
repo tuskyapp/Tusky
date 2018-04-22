@@ -13,19 +13,14 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.db
+package com.keylesspalace.tusky.di
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
-@Dao
-interface EmojiListDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrReplace(emojiList: EmojiListEntity)
-
-    @Query("SELECT * FROM EmojiListEntity WHERE instance = :instance LIMIT 1")
-    fun loadEmojisForInstance(instance: String): EmojiListEntity?
-
+@Module
+abstract class BroadcastReceiverModule {
+    @ContributesAndroidInjector
+    abstract fun contributeNotificationClearBroadcastReceiver() : NotificationClearBroadcastReceiver
 }

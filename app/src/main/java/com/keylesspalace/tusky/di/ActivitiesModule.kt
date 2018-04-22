@@ -60,4 +60,14 @@ abstract class ActivitiesModule {
 
     @ContributesAndroidInjector()
     abstract fun contributesAboutActivity(): AboutActivity
+
+    @ContributesAndroidInjector()
+    abstract fun contributesLoginActivity(): LoginActivity
+
+    @ContributesAndroidInjector()
+    abstract fun contributesSplashActivity(): SplashActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributesReportActivity(): ReportActivity
+
 }

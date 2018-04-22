@@ -30,13 +30,13 @@ import android.support.v7.app.AppCompatDelegate;
 import android.util.TypedValue;
 import android.widget.ImageView;
 
-import com.keylesspalace.tusky.TuskyApplication;
-
 /**
  * Provides runtime compatibility to obtain theme information and re-theme views, especially where
  * the ability to do so is not supported in resource files.
  */
 public class ThemeUtils {
+    public static final String APP_THEME_DEFAULT = ThemeUtils.THEME_NIGHT;
+
     public static final String THEME_NIGHT = "night";
     public static final String THEME_DAY = "day";
     public static final String THEME_AUTO = "auto";
@@ -91,7 +91,7 @@ public class ThemeUtils {
         drawable.setColorFilter(getColor(context, attribute), PorterDuff.Mode.SRC_IN);
     }
 
-    public static void setAppNightMode(String flavor) {
+    public static void setAppNightMode(String flavor, Context context) {
         int mode;
         switch (flavor) {
             default:
@@ -107,7 +107,8 @@ public class ThemeUtils {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            TuskyApplication.getUiModeManager().setNightMode(mode);
+            UiModeManager uiModeManager = (UiModeManager)context.getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
+            uiModeManager.setNightMode(mode);
         } else {
             AppCompatDelegate.setDefaultNightMode(mode);
         }
