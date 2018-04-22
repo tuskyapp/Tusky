@@ -25,7 +25,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.text.emoji.EmojiCompat;
-import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.evernote.android.job.JobManager;
@@ -108,7 +107,8 @@ public class TuskyApplication extends Application implements HasActivityInjector
     }
 
     private void initEmojiCompat() {
-        EmojiCompat.Config config = new BundledEmojiCompatConfig(getApplicationContext());
+        EmojiCompat.Config config;
+        config = new FileEmojiCompatConfig(getApplicationContext(), "/storage/emulated/0/NotoColorEmojiCompat.ttf");
         EmojiCompat.init(config);
     }
 
