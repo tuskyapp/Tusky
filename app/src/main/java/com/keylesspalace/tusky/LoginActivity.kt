@@ -69,7 +69,7 @@ class LoginActivity : AppCompatActivity(), Injectable {
         super.onCreate(savedInstanceState)
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val theme = preferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT)
+        val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
         ThemeUtils.setAppNightMode(theme, this)
 
         setContentView(R.layout.activity_login)

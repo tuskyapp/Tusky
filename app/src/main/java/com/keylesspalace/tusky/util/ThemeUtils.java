@@ -30,13 +30,13 @@ import android.support.v7.app.AppCompatDelegate;
 import android.util.TypedValue;
 import android.widget.ImageView;
 
-import com.keylesspalace.tusky.TuskyApplication;
-
 /**
  * Provides runtime compatibility to obtain theme information and re-theme views, especially where
  * the ability to do so is not supported in resource files.
  */
 public class ThemeUtils {
+    public static final String APP_THEME_DEFAULT = ThemeUtils.THEME_NIGHT;
+
     public static final String THEME_NIGHT = "night";
     public static final String THEME_DAY = "day";
     public static final String THEME_AUTO = "auto";

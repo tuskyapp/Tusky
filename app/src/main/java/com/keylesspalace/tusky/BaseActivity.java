@@ -45,7 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
          * views are created. */
-        String theme = preferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT);
+        String theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
         ThemeUtils.setAppNightMode(theme, this);
 
         int style;

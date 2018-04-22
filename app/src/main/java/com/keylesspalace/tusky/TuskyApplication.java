@@ -18,11 +18,9 @@ package com.keylesspalace.tusky;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
-import android.app.UiModeManager;
 import android.arch.persistence.room.Room;
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
 
@@ -31,8 +29,6 @@ import com.jakewharton.picasso.OkHttp3Downloader;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.di.AppInjector;
-import com.keylesspalace.tusky.util.OkHttpUtils;
-import com.keylesspalace.tusky.util.ThemeUtils;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -40,19 +36,19 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
+import dagger.android.HasBroadcastReceiverInjector;
 import dagger.android.HasServiceInjector;
-import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
-public class TuskyApplication extends Application implements HasActivityInjector, HasServiceInjector {
-    public static final String APP_THEME_DEFAULT = ThemeUtils.THEME_NIGHT;
-
+public class TuskyApplication extends Application implements HasActivityInjector, HasServiceInjector, HasBroadcastReceiverInjector {
     private static AppDatabase db;
     private AccountManager accountManager;
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
     @Inject
     DispatchingAndroidInjector<Service> dispatchingServiceInjector;
+    @Inject
+    DispatchingAndroidInjector<BroadcastReceiver> dispatchingBroadcastReceiverInjector;
     @Inject
     NotificationPullJobCreator notificationPullJobCreator;
     @Inject OkHttpClient okHttpClient;
@@ -124,6 +120,11 @@ public class TuskyApplication extends Application implements HasActivityInjector
     @Override
     public AndroidInjector<Service> serviceInjector() {
         return dispatchingServiceInjector;
+    }
+
+    @Override
+    public AndroidInjector<BroadcastReceiver> broadcastReceiverInjector() {
+        return dispatchingBroadcastReceiverInjector;
     }
 
     public interface ServiceLocator {
