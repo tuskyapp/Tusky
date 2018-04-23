@@ -258,11 +258,6 @@ public class ViewThreadFragment extends SFragment implements
     }
 
     @Override
-    public void onViewURL(String url) {
-        super.onViewURL(url);
-    }
-
-    @Override
     public void onOpenReblog(int position) {
         // there should be no reblogs in the thread but let's implement it to be sure
         super.openReblog(statuses.get(position));

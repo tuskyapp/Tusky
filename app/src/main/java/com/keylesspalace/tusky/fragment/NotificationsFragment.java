@@ -377,11 +377,6 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onViewURL(String url) {
-        super.onViewURL(url);
-    }
-
-    @Override
     public void onOpenReblog(int position) {
         Notification notification = notifications.get(position).getAsRight();
         onViewAccount(notification.getAccount().getId());

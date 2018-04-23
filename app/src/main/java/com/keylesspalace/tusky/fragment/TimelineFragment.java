@@ -454,11 +454,6 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public void onViewURL(String url) {
-        super.onViewURL(url);
-    }
-
-    @Override
     public void onViewTag(String tag) {
         if (kind == Kind.TAG && hashtagOrId.equals(tag)) {
             // If already viewing a tag page, then ignore any request to view that tag again.

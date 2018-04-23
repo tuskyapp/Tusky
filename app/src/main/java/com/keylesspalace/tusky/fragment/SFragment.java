@@ -230,7 +230,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
     }
 
     protected void viewThread(Status status) {
-        if (!getIsSearching()) {
+        if (!isSearching()) {
             Intent intent = new Intent(getContext(), ViewThreadActivity.class);
             intent.putExtra("id", status.getActionableId());
             intent.putExtra("url", status.getActionableStatus().getUrl());
@@ -296,7 +296,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         return !url.equals(searchUrl);
     }
 
-    private boolean getIsSearching() {
+    private boolean isSearching() {
         return searchUrl != null;
     }
 
@@ -311,12 +311,12 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
 
     private void cancelActiveSearch()
     {
-        if (getIsSearching()) {
+        if (isSearching()) {
             onEndSearch(searchUrl);
         }
     }
 
-    protected void onViewURL(String url) {
+    public void onViewURL(String url) {
         if (!looksLikeMastodonUrl(url)) {
             LinkHelper.openLink(url, getContext());
             return;
