@@ -76,7 +76,6 @@
     <string name="action_view_profile">Profiel</string>
     <string name="action_view_preferences">Voorkeuren</string>
     <string name="action_view_favourites">Favorieten</string>
-    <string name="action_view_muted">Gedempte gebruikers</string>
     <string name="action_view_blocks">Geblokkeerde gebruikers</string>
     <string name="action_view_follow_requests">Volgers verzoeken</string>
     <string name="action_view_media">Media</string>
