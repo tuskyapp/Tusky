@@ -286,7 +286,7 @@ public final class ComposeActivity
                 @Override
                 public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
                     emojiList = response.body();
-                    enableButton(emojiButton, true, emojiList.size() > 0);
+                    setEmojiList(emojiList);
                     cacheInstanceMetadata(activeAccount);
                 }
 
@@ -1447,15 +1447,19 @@ public final class ComposeActivity
             Integer max = instanceEntity.getMaximumTootCharacters();
             maximumTootCharacters = (max == null ? STATUS_CHARACTER_LIMIT : max);
             emojiList = instanceEntity.getEmojiList();
-            if (emojiList != null) {
-                emojiView.setAdapter(new EmojiAdapter(emojiList, ComposeActivity.this));
-                enableButton(emojiButton, true, emojiList.size() > 0);
-            }
+            setEmojiList(emojiList);
+            updateVisibleCharactersLeft();
         }
     }
 
-    private void cacheInstanceMetadata(@NotNull AccountEntity activeAccount)
-    {
+    private void setEmojiList(@Nullable List<Emoji> emojiList) {
+        if (emojiList != null) {
+            emojiView.setAdapter(new EmojiAdapter(emojiList, ComposeActivity.this));
+            enableButton(emojiButton, true, emojiList.size() > 0);
+        }
+    }
+
+    private void cacheInstanceMetadata(@NotNull AccountEntity activeAccount) {
         InstanceEntity instanceEntity = new InstanceEntity(activeAccount.getDomain(), emojiList, maximumTootCharacters);
         TuskyApplication.getDB().instanceDao().insertOrReplace(instanceEntity);
     }
