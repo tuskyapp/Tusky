@@ -22,10 +22,12 @@ import android.app.UiModeManager;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.text.emoji.EmojiCompat;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
 
 import com.evernote.android.job.JobManager;
 import com.jakewharton.picasso.OkHttp3Downloader;
@@ -35,6 +37,9 @@ import com.keylesspalace.tusky.di.AppInjector;
 import com.keylesspalace.tusky.util.OkHttpUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.IOException;
 
 import javax.inject.Inject;
 
@@ -102,15 +107,38 @@ public class TuskyApplication extends Application implements HasActivityInjector
         JobManager.create(this).addJobCreator(notificationPullJobCreator);
         uiModeManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
 
-        //necessary for Android < APi 21
+        //necessary for Android < API 21
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
+    /**
+     * This method will try to load the emoji font "EmojiCompat.ttf" which should be located at
+     * [Internal Storage]/Android/com.keylesspalace.tusky/files/EmojiCompat.ttf.
+     * If there is no font available it will use a dummy configuration to prevent crashing the app.
+     */
     private void initEmojiCompat() {
+        // Declaration
         EmojiCompat.Config config;
-        config = new FileEmojiCompatConfig(getApplicationContext(),
-                "/storage/emulated/0/NotoColorEmojiCompat.ttf")
-            .setReplaceAll(true);
+        // Try to find the font
+        File fontFile = new File(getExternalFilesDir(null), "EmojiCompat.ttf");
+        if(fontFile.exists()) {
+            // It's there!
+            config = new FileEmojiCompatConfig(fontFile)
+                    // The user probably wants to get a consistent experience
+                    .setReplaceAll(true);
+        }
+        else {
+            /*
+                If there's no font available, we'll use a minimal fallback font which only
+                includes the flags of CN, DE, ES, FR, IT, JP, KR, RU, US.
+                However this font won't replace these flags if they are present (which should be the case).
+                This has to be done in order to prevent the app from crashing because of an unitialized
+                EmojiCompat.
+                This fallback is only ~50 kBytes (uncompressed), so it won't add too much bloat.
+            */
+            config = new AssetEmojiCompatConfig(getApplicationContext(), "NoEmojiCompat.ttf");
+        }
+        // So we can finally initialize EmojiCompat!
         EmojiCompat.init(config);
     }
 
