@@ -18,24 +18,18 @@ package com.keylesspalace.tusky;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
-import android.app.UiModeManager;
 import android.arch.persistence.room.Room;
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.text.emoji.EmojiCompat;
 import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
 
 import com.evernote.android.job.JobManager;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.di.AppInjector;
-import com.keylesspalace.tusky.util.OkHttpUtils;
-import com.keylesspalace.tusky.util.ThemeUtils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -46,13 +40,11 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
+import dagger.android.HasBroadcastReceiverInjector;
 import dagger.android.HasServiceInjector;
-import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
-public class TuskyApplication extends Application implements HasActivityInjector, HasServiceInjector {
-    public static final String APP_THEME_DEFAULT = ThemeUtils.THEME_NIGHT;
-
+public class TuskyApplication extends Application implements HasActivityInjector, HasServiceInjector, HasBroadcastReceiverInjector {
     private static AppDatabase db;
     private AccountManager accountManager;
     @Inject
@@ -60,22 +52,18 @@ public class TuskyApplication extends Application implements HasActivityInjector
     @Inject
     DispatchingAndroidInjector<Service> dispatchingServiceInjector;
     @Inject
+    DispatchingAndroidInjector<BroadcastReceiver> dispatchingBroadcastReceiverInjector;
+    @Inject
     NotificationPullJobCreator notificationPullJobCreator;
+    @Inject OkHttpClient okHttpClient;
 
     public static AppDatabase getDB() {
         return db;
     }
 
-    private static UiModeManager uiModeManager;
-
-    public static UiModeManager getUiModeManager() {
-        return uiModeManager;
-    }
-
     public static TuskyApplication getInstance(@NonNull Context context) {
         return (TuskyApplication) context.getApplicationContext();
     }
-
 
     private ServiceLocator serviceLocator;
 
@@ -85,7 +73,7 @@ public class TuskyApplication extends Application implements HasActivityInjector
 
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
                 .allowMainThreadQueries()
-                .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5, AppDatabase.MIGRATION_5_6)
+                .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5, AppDatabase.MIGRATION_5_6, AppDatabase.MIGRATION_6_7)
                 .build();
         accountManager = new AccountManager(db);
         serviceLocator = new ServiceLocator() {
@@ -105,7 +93,6 @@ public class TuskyApplication extends Application implements HasActivityInjector
         initEmojiCompat();
 
         JobManager.create(this).addJobCreator(notificationPullJobCreator);
-        uiModeManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
 
         //necessary for Android < API 21
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -149,15 +136,7 @@ public class TuskyApplication extends Application implements HasActivityInjector
     protected void initPicasso() {
         // Initialize Picasso configuration
         Picasso.Builder builder = new Picasso.Builder(this);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        OkHttpClient.Builder okHttpBuilder = OkHttpUtils.getCompatibleClientBuilder(preferences);
-
-        int cacheSize = 10*1024*1024; // 10 MiB
-
-        okHttpBuilder.cache(new Cache(getCacheDir(), cacheSize));
-
-        builder.downloader(new OkHttp3Downloader(okHttpBuilder.build()));
+        builder.downloader(new OkHttp3Downloader(okHttpClient));
         if (BuildConfig.DEBUG) {
             builder.listener((picasso, uri, exception) -> exception.printStackTrace());
         }
@@ -177,6 +156,11 @@ public class TuskyApplication extends Application implements HasActivityInjector
     @Override
     public AndroidInjector<Service> serviceInjector() {
         return dispatchingServiceInjector;
+    }
+
+    @Override
+    public AndroidInjector<BroadcastReceiver> broadcastReceiverInjector() {
+        return dispatchingBroadcastReceiverInjector;
     }
 
     public interface ServiceLocator {

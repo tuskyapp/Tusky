@@ -15,8 +15,10 @@
 
 package com.keylesspalace.tusky.util;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -43,11 +45,11 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.Cache;
 import okhttp3.ConnectionSpec;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 public class OkHttpUtils {
     private static final String TAG = "OkHttpUtils"; // logging tag
@@ -65,7 +67,11 @@ public class OkHttpUtils {
      * TLS 1.1 and 1.2 have to be manually enabled on API levels 16-20.
      */
     @NonNull
-    public static OkHttpClient.Builder getCompatibleClientBuilder(SharedPreferences preferences) {
+    public static OkHttpClient.Builder getCompatibleClientBuilder(@NonNull Context context) {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+
         boolean httpProxyEnabled = preferences.getBoolean("httpProxyEnabled", false);
         String httpServer = preferences.getString("httpProxyServer", "");
         int httpPort = Integer.parseInt(preferences.getString("httpProxyPort", "-1"));
@@ -81,10 +87,13 @@ public class OkHttpUtils {
         specList.add(fallback);
         specList.add(ConnectionSpec.CLEARTEXT);
 
+        int cacheSize = 10*1024*1024; // 10 MiB
+
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .addInterceptor(getUserAgentInterceptor())
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
+                .cache(new Cache(context.getCacheDir(), cacheSize))
                 .connectionSpecs(specList);
 
         if (httpProxyEnabled && !httpServer.isEmpty() && (httpPort > 0) && (httpPort < 65535)) {
@@ -92,16 +101,7 @@ public class OkHttpUtils {
             builder.proxy(new Proxy(Proxy.Type.HTTP, address));
         }
 
-        if(BuildConfig.DEBUG) {
-            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC));
-        }
-
         return enableHigherTlsOnPreLollipop(builder);
-    }
-
-    @NonNull
-    public static OkHttpClient getCompatibleClient(SharedPreferences preferences) {
-        return getCompatibleClientBuilder(preferences).build();
     }
 
     /**

@@ -46,6 +46,7 @@ class SendTootService: Service(), Injectable {
 
     private val timer = Timer()
 
+    private val notificationManager by lazy { getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
 
     override fun onCreate() {
         AndroidInjection.inject(this)
@@ -67,8 +68,6 @@ class SendTootService: Service(), Injectable {
                 throw IllegalStateException("SendTootService started without $KEY_TOOT extra")
             }
 
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val channel = NotificationChannel(CHANNEL_ID, getString(R.string.send_toot_notification_channel_name), NotificationManager.IMPORTANCE_LOW)
                 notificationManager.createNotificationChannel(channel)
@@ -87,25 +86,22 @@ class SendTootService: Service(), Injectable {
                     .setProgress(1, 0, true)
                     .setOngoing(true)
                     .setColor(ContextCompat.getColor(this, R.color.primary))
-                    .addAction(0, getString(android.R.string.cancel), cancelSendingIntent(notificationId))
+                    .addAction(0, getString(android.R.string.cancel), cancelSendingIntent(sendingNotificationId))
 
             if(tootsToSend.size == 0 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_DETACH)
-                startForeground(notificationId, builder.build())
+                startForeground(sendingNotificationId, builder.build())
             } else {
-                notificationManager.notify(notificationId, builder.build())
+                notificationManager.notify(sendingNotificationId, builder.build())
             }
 
-            tootsToSend[notificationId] = tootToSend
-            sendToot(notificationId)
-
-            notificationId--
+            tootsToSend[sendingNotificationId] = tootToSend
+            sendToot(sendingNotificationId--)
 
         } else {
 
             if(intent.hasExtra(KEY_CANCEL)) {
                 cancelSending(intent.getIntExtra(KEY_CANCEL, 0))
-                stopSelf(intent.getIntExtra(KEY_CANCEL, 0))
             }
 
         }
@@ -124,6 +120,8 @@ class SendTootService: Service(), Injectable {
 
         if(account == null) {
             tootsToSend.remove(tootId)
+            notificationManager.cancel(tootId)
+            stopSelfWhenDone()
             return
         }
 
@@ -148,7 +146,6 @@ class SendTootService: Service(), Injectable {
             override fun onResponse(call: Call<Status>, response: Response<Status>) {
 
                 tootsToSend.remove(tootId)
-                val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
                 if (response.isSuccessful) {
 
@@ -158,11 +155,6 @@ class SendTootService: Service(), Injectable {
                     // If the status was loaded from a draft, delete the draft and associated media files.
                     if(tootToSend.savedTootUid != 0) {
                         saveTootHelper.deleteDraft(tootToSend.savedTootUid)
-                    }
-
-                    if (tootsToSend.isEmpty()) {
-                        ServiceCompat.stopForeground(this@SendTootService, ServiceCompat.STOP_FOREGROUND_REMOVE)
-                        stopSelf()
                     }
 
                     notificationManager.cancel(tootId)
@@ -177,14 +169,13 @@ class SendTootService: Service(), Injectable {
                             .setContentText(getString(R.string.send_toot_notification_saved_content))
                             .setColor(ContextCompat.getColor(this@SendTootService, R.color.primary))
 
-                    notificationManager.notify(tootId, builder.build())
-
-                    if (tootsToSend.isEmpty()) {
-                        ServiceCompat.stopForeground(this@SendTootService, ServiceCompat.STOP_FOREGROUND_DETACH)
-                        stopSelf()
-                    }
+                    notificationManager.cancel(tootId)
+                    notificationManager.notify(errorNotificationId--, builder.build())
 
                 }
+
+                stopSelfWhenDone()
+
             }
 
             override fun onFailure(call: Call<Status>, t: Throwable) {
@@ -205,6 +196,14 @@ class SendTootService: Service(), Injectable {
 
     }
 
+    private fun stopSelfWhenDone() {
+
+        if (tootsToSend.isEmpty()) {
+            ServiceCompat.stopForeground(this@SendTootService, ServiceCompat.STOP_FOREGROUND_REMOVE)
+            stopSelf()
+        }
+    }
+
     private fun cancelSending(tootId: Int) {
         val tootToCancel = tootsToSend.remove(tootId)
         if(tootToCancel != null) {
@@ -212,8 +211,6 @@ class SendTootService: Service(), Injectable {
             sendCall?.cancel()
 
             saveTootToDrafts(tootToCancel)
-
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             val builder = NotificationCompat.Builder(this@SendTootService, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_notify)
@@ -226,13 +223,9 @@ class SendTootService: Service(), Injectable {
             timer.schedule(object : TimerTask() {
                 override fun run() {
                     notificationManager.cancel(tootId)
+                    stopSelfWhenDone()
                 }
             }, 5000)
-
-            if (tootsToSend.isEmpty()) {
-                ServiceCompat.stopForeground(this@SendTootService, ServiceCompat.STOP_FOREGROUND_DETACH)
-                stopSelf()
-            }
 
         }
     }
@@ -268,7 +261,8 @@ class SendTootService: Service(), Injectable {
 
         private const val MAX_RETRY_INTERVAL = 60*1000L // 1 minute
 
-        private var notificationId = -1 // use negative ids to not clash with other notis
+        private var sendingNotificationId = -1 // use negative ids to not clash with other notis
+        private var errorNotificationId = Int.MIN_VALUE // use even more negative ids to not clash with other notis
 
         @JvmStatic
         fun sendTootIntent(context: Context,

@@ -13,32 +13,38 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.receiver
+package com.keylesspalace.tusky
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.NotificationHelper
-import dagger.android.AndroidInjection
+
 import javax.inject.Inject
 
-class NotificationClearBroadcastReceiver : BroadcastReceiver() {
+class SplashActivity : AppCompatActivity(), Injectable {
 
     @Inject
     lateinit var accountManager: AccountManager
 
-    override fun onReceive(context: Context, intent: Intent) {
-        AndroidInjection.inject(this, context)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        val accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1)
+        /** delete old notification channels that were in use in Tusky 1.4 */
+        NotificationHelper.deleteLegacyNotificationChannels(this)
 
-        val account = accountManager.getAccountById(accountId)
-        if (account != null) {
-            account.activeNotifications = "[]"
-            accountManager.saveAccount(account)
+        /** Determine whether the user is currently logged in, and if so go ahead and load the
+         *  timeline. Otherwise, start the activity_login screen. */
+
+        val intent = if (accountManager.activeAccount != null) {
+            Intent(this, MainActivity::class.java)
+        } else {
+            LoginActivity.getIntent(this, false)
         }
+        startActivity(intent)
+        finish()
     }
-
 }

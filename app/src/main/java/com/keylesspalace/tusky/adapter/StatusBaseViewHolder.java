@@ -41,7 +41,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private View container;
     private TextView displayName;
     private TextView username;
-    private TextView content;
     private ImageButton replyButton;
     private SparkButton reblogButton;
     private SparkButton favouriteButton;
@@ -59,11 +58,12 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private TextView sensitiveMediaWarning;
     private View sensitiveMediaShow;
     private TextView mediaLabel;
-    private TextView contentWarningDescription;
     private ToggleButton contentWarningButton;
 
     ImageView avatar;
     TextView timestampInfo;
+    TextView content;
+    TextView contentWarningDescription;
 
     StatusBaseViewHolder(View itemView) {
         super(itemView);

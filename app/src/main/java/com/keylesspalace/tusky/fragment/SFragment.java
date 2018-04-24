@@ -44,8 +44,8 @@ import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.HtmlUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
@@ -89,7 +89,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         Status.Visibility replyVisibility = actionableStatus.getVisibility();
         String contentWarning = actionableStatus.getSpoilerText();
         Status.Mention[] mentions = actionableStatus.getMentions();
-        List<String> mentionedUsernames = new ArrayList<>();
+        Set<String> mentionedUsernames = new LinkedHashSet<>();
         mentionedUsernames.add(actionableStatus.getAccount().getUsername());
         for (Status.Mention mention : mentions) {
             mentionedUsernames.add(mention.getUsername());

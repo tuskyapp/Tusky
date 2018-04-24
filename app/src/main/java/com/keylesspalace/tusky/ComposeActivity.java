@@ -85,11 +85,12 @@ import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
-import com.keylesspalace.tusky.db.EmojiListEntity;
+import com.keylesspalace.tusky.db.InstanceEntity;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Emoji;
+import com.keylesspalace.tusky.entity.Instance;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.ProgressRequestBody;
@@ -124,6 +125,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -196,10 +198,14 @@ public final class ComposeActivity
     private Status.Visibility statusVisibility;     // The current values of the options that will be applied
     private boolean statusMarkSensitive; // to the status being composed.
     private boolean statusHideText;
+    private String startingText = "";
+    private String startingContentWarning = "";
     private InputContentInfoCompat currentInputContentInfo;
     private int currentFlags;
     private Uri photoUploadUri;
     private int savedTootUid = 0;
+    private List<Emoji> emojiList;
+    private int maximumTootCharacters = STATUS_CHARACTER_LIMIT;
 
     private SaveTootHelper saveTootHelper;
 
@@ -222,6 +228,7 @@ public final class ComposeActivity
         emojiButton = findViewById(R.id.composeEmojiButton);
         hideMediaToggle = findViewById(R.id.composeHideMediaButton);
         emojiView = findViewById(R.id.emojiView);
+        emojiList = Collections.emptyList();
 
         saveTootHelper = new SaveTootHelper(TuskyApplication.getDB().tootDao(), this);
 
@@ -258,6 +265,37 @@ public final class ComposeActivity
                     getString(R.string.compose_active_account_description,
                             activeAccount.getFullName()));
 
+            mastodonApi.getInstance().enqueue(new Callback<Instance>() {
+                @Override
+                public void onResponse(@NonNull Call<Instance> call, @NonNull Response<Instance> response) {
+                    if (response.isSuccessful() && response.body().getMaxTootChars() != null) {
+                        maximumTootCharacters = response.body().getMaxTootChars();
+                        updateVisibleCharactersLeft();
+                        cacheInstanceMetadata(activeAccount);
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<Instance> call, @NonNull Throwable t) {
+                    Log.w(TAG, "error loading instance data", t);
+                    loadCachedInstanceMetadata(activeAccount);
+                }
+            });
+
+            mastodonApi.getCustomEmojis().enqueue(new Callback<List<Emoji>>() {
+                @Override
+                public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
+                    emojiList = response.body();
+                    setEmojiList(emojiList);
+                    cacheInstanceMetadata(activeAccount);
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<List<Emoji>> call, @NonNull Throwable t) {
+                    Log.w(TAG, "error loading custom emojis", t);
+                    loadCachedInstanceMetadata(activeAccount);
+                }
+            });
         } else {
             // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
             return;
@@ -275,31 +313,7 @@ public final class ComposeActivity
 
         emojiView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false));
 
-        mastodonApi.getCustomEmojis().enqueue(new Callback<List<Emoji>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
-                List<Emoji> emojiList = response.body();
-
-                if (emojiList != null) {
-
-                    emojiView.setAdapter(new EmojiAdapter(emojiList, ComposeActivity.this));
-
-                    EmojiListEntity emojiListEntity = new EmojiListEntity(activeAccount.getDomain(), emojiList);
-
-                    TuskyApplication.getDB().emojiListDao().insertOrReplace(emojiListEntity);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Emoji>> call, @NonNull Throwable t) {
-                Log.w(TAG, "error loading custom emojis", t);
-                EmojiListEntity emojiListEntity = TuskyApplication.getDB().emojiListDao().loadEmojisForInstance(activeAccount.getDomain());
-
-                if(emojiListEntity != null) {
-                    emojiView.setAdapter(new EmojiAdapter(emojiListEntity.getEmojiList(), ComposeActivity.this));
-                }
-            }
-        });
+        enableButton(emojiButton, false, false);
 
         // Setup the interface buttons.
         tootButton.setOnClickListener(v -> onSendClicked());
@@ -327,7 +341,6 @@ public final class ComposeActivity
          * state. */
         Status.Visibility startingVisibility = Status.Visibility.UNKNOWN;
         boolean startingHideText;
-        String startingContentWarning = null;
         ArrayList<SavedQueuedMedia> savedMediaQueued = null;
         if (savedInstanceState != null) {
             startingVisibility = Status.Visibility.byNum(
@@ -390,7 +403,8 @@ public final class ComposeActivity
             // If come from SavedTootActivity
             String savedTootText = intent.getStringExtra(SAVED_TOOT_TEXT_EXTRA);
             if (!TextUtils.isEmpty(savedTootText)) {
-                textEditor.append(savedTootText);
+                startingText = savedTootText;
+                textEditor.setText(savedTootText);
             }
 
             String savedJsonUrls = intent.getStringExtra(SAVED_JSON_URLS_EXTRA);
@@ -475,7 +489,8 @@ public final class ComposeActivity
                 builder.append(name);
                 builder.append(' ');
             }
-            textEditor.setText(builder);
+            startingText = builder.toString();
+            textEditor.setText(startingText);
             textEditor.setSelection(textEditor.length());
         }
 
@@ -705,14 +720,24 @@ public final class ComposeActivity
     }
 
     private void showEmojis() {
-        if (emojiBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || emojiBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-            emojiBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-            addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
-        } else {
-            emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        if(emojiView.getAdapter() != null) {
+            if(emojiView.getAdapter().getItemCount() == 0) {
+                String errorMessage = getString(R.string.error_no_custom_emojis, accountManager.getActiveAccount().getDomain());
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+            } else {
+                if (emojiBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || emojiBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                    emojiBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                    addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+                } else {
+                    emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                }
+            }
+
         }
+
     }
 
     private void openPickDialog() {
@@ -747,7 +772,7 @@ public final class ComposeActivity
     }
 
     private void updateVisibleCharactersLeft() {
-        int charactersLeft = STATUS_CHARACTER_LIMIT - textEditor.length();
+        int charactersLeft = maximumTootCharacters - textEditor.length();
         if (statusHideText) {
             charactersLeft -= contentWarningEditor.length();
         }
@@ -900,7 +925,7 @@ public final class ComposeActivity
         if (characterCount <= 0 && mediaQueued.size()==0) {
             textEditor.setError(getString(R.string.error_empty));
             enableButtons();
-        } else if (characterCount <= STATUS_CHARACTER_LIMIT) {
+        } else if (characterCount <= maximumTootCharacters) {
             sendStatus(contentText, visibility, sensitive, spoilerText);
 
         } else {
@@ -980,16 +1005,10 @@ public final class ComposeActivity
         startActivityForResult(intent, MEDIA_PICK_RESULT);
     }
 
-    private void enableMediaButtons() {
-        pickButton.setEnabled(true);
-        ThemeUtils.setDrawableTint(this, pickButton.getDrawable(),
-                android.R.attr.textColorTertiary);
-    }
-
-    private void disableMediaButtons() {
-        pickButton.setEnabled(false);
-        ThemeUtils.setDrawableTint(this, pickButton.getDrawable(),
-                R.attr.compose_media_button_disabled_tint);
+    private void enableButton(ImageButton button, boolean clickable, boolean colorActive) {
+        button.setEnabled(clickable);
+        ThemeUtils.setDrawableTint(this, button.getDrawable(),
+                colorActive ? android.R.attr.textColorTertiary : R.attr.compose_media_button_disabled_tint);
     }
 
     private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize,
@@ -1016,11 +1035,11 @@ public final class ComposeActivity
         if (queuedCount == 1) {
             // If there's one video in the queue it is full, so disable the button to queue more.
             if (item.type == QueuedMedia.Type.VIDEO) {
-                disableMediaButtons();
+                enableButton(pickButton, false, false);
             }
         } else if (queuedCount >= Status.MAX_MEDIA_ATTACHMENTS) {
             // Limit the total media attachments, also.
-            disableMediaButtons();
+            enableButton(pickButton, false, false);
         }
 
         updateHideMediaToggle();
@@ -1127,7 +1146,7 @@ public final class ComposeActivity
             updateHideMediaToggle();
         }
 
-        enableMediaButtons();
+        enableButton(pickButton, true, true);
         cancelReadyingMedia(item);
     }
 
@@ -1363,9 +1382,15 @@ public final class ComposeActivity
     }
 
     private void handleCloseButton() {
-        if (!TextUtils.isEmpty(textEditor.getText())
-                || !TextUtils.isEmpty(contentWarningEditor.getText())
-                || !mediaQueued.isEmpty()) {
+        CharSequence contentText = textEditor.getText();
+        CharSequence contentWarning = contentWarningEditor.getText();
+
+        boolean textChanged = !(TextUtils.isEmpty(contentText) || startingText.startsWith(contentText.toString()));
+        boolean contentWarningChanged = contentWarningBar.getVisibility() == View.VISIBLE &&
+                !TextUtils.isEmpty(contentWarning) && !startingContentWarning.startsWith(contentWarning.toString());
+        boolean mediaChanged = !mediaQueued.isEmpty();
+
+        if (textChanged || contentWarningChanged || mediaChanged) {
             new AlertDialog.Builder(this)
                     .setMessage(R.string.compose_save_draft)
                     .setPositiveButton(R.string.action_save, (d, w) -> saveDraftAndFinish())
@@ -1413,6 +1438,30 @@ public final class ComposeActivity
     @Override
     public void onEmojiSelected(@NotNull String shortcode) {
         textEditor.getText().insert(textEditor.getSelectionStart(), ":"+shortcode+": ");
+    }
+
+    private void loadCachedInstanceMetadata(@NotNull AccountEntity activeAccount) {
+        InstanceEntity instanceEntity = TuskyApplication.getDB().instanceDao().loadMetadataForInstance(activeAccount.getDomain());
+
+        if(instanceEntity != null) {
+            Integer max = instanceEntity.getMaximumTootCharacters();
+            maximumTootCharacters = (max == null ? STATUS_CHARACTER_LIMIT : max);
+            emojiList = instanceEntity.getEmojiList();
+            setEmojiList(emojiList);
+            updateVisibleCharactersLeft();
+        }
+    }
+
+    private void setEmojiList(@Nullable List<Emoji> emojiList) {
+        if (emojiList != null) {
+            emojiView.setAdapter(new EmojiAdapter(emojiList, ComposeActivity.this));
+            enableButton(emojiButton, true, emojiList.size() > 0);
+        }
+    }
+
+    private void cacheInstanceMetadata(@NotNull AccountEntity activeAccount) {
+        InstanceEntity instanceEntity = new InstanceEntity(activeAccount.getDomain(), emojiList, maximumTootCharacters);
+        TuskyApplication.getDB().instanceDao().insertOrReplace(instanceEntity);
     }
 
     public static final class QueuedMedia {

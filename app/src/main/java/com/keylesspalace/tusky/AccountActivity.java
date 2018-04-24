@@ -89,6 +89,8 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     @Inject
     public MastodonApi mastodonApi;
     @Inject
+    public AccountManager accountManager;
+    @Inject
     public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
     private String accountId;
@@ -208,8 +210,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         // Obtain information to fill out the profile.
         obtainAccount();
 
-        AccountEntity activeAccount = TuskyApplication.getInstance(this).getServiceLocator()
-                .get(AccountManager.class).getActiveAccount();
+        AccountEntity activeAccount = accountManager.getActiveAccount();
 
         if (accountId.equals(activeAccount.getAccountId())) {
             isSelf = true;
