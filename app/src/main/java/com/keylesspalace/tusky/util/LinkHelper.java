@@ -158,7 +158,6 @@ public class LinkHelper {
      */
     public static void openLinkInBrowser(Uri uri, Context context) {
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        intent.putExtra(Browser.EXTRA_APPLICATION_ID, context.getPackageName());
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
