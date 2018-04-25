@@ -34,12 +34,12 @@ data class InstanceEntity(
 class Converters {
 
     @TypeConverter
-    fun jsonToList(emojiListJson: String): List<Emoji> {
+    fun jsonToList(emojiListJson: String?): List<Emoji>? {
         return Gson().fromJson(emojiListJson, object : TypeToken<List<Emoji>>() {}.type)
     }
 
     @TypeConverter
-    fun listToJson(emojiList: List<Emoji>): String {
+    fun listToJson(emojiList: List<Emoji>?): String {
         return Gson().toJson(emojiList)
     }
 }
