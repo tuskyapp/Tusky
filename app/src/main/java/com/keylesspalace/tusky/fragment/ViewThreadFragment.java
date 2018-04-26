@@ -191,7 +191,7 @@ public class ViewThreadFragment extends SFragment implements
                     StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
 
                     statuses.setPairedItem(position, newViewData);
-                    adapter.setItem(position, newViewData, true);
+                    adapter.setItem(position, newViewData, false);
                 }
             }
 
@@ -224,7 +224,7 @@ public class ViewThreadFragment extends SFragment implements
                     StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
 
                     statuses.setPairedItem(position, newViewData);
-                    adapter.setItem(position, newViewData, true);
+                    adapter.setItem(position, newViewData, false);
                 }
             }
 
@@ -400,13 +400,10 @@ public class ViewThreadFragment extends SFragment implements
         swipeRefreshLayout.setRefreshing(false);
         if (view != null) {
             Snackbar.make(view, R.string.error_generic, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.action_retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            sendThreadRequest(id);
-                            sendStatusRequest(id);
-                            sendCardRequest(id);
-                        }
+                    .setAction(R.string.action_retry, v -> {
+                        sendThreadRequest(id);
+                        sendStatusRequest(id);
+                        sendCardRequest(id);
                     })
                     .show();
         } else {
