@@ -393,18 +393,15 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         contentWarningDescription.setVisibility(View.VISIBLE);
         contentWarningButton.setVisibility(View.VISIBLE);
         contentWarningButton.setChecked(expanded);
-        contentWarningButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                contentWarningDescription.invalidate();
-                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
-                    listener.onExpandedChange(isChecked, getAdapterPosition());
-                }
-                if (isChecked) {
-                    content.setVisibility(View.VISIBLE);
-                } else {
-                    content.setVisibility(View.GONE);
-                }
+        contentWarningButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            contentWarningDescription.invalidate();
+            if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                listener.onExpandedChange(isChecked, getAdapterPosition());
+            }
+            if (isChecked) {
+                content.setVisibility(View.VISIBLE);
+            } else {
+                content.setVisibility(View.GONE);
             }
         });
         if (expanded) {
