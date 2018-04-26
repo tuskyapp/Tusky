@@ -74,20 +74,14 @@ public class LinkHelper {
             int end = builder.getSpanEnd(span);
             int flags = builder.getSpanFlags(span);
             CharSequence text = builder.subSequence(start, end);
+            ClickableSpan customSpan = null;
+
             if (text.charAt(0) == '#') {
                 final String tag = text.subSequence(1, text.length()).toString();
-                ClickableSpan newSpan = new ClickableSpan() {
+                customSpan = new ClickableSpanNoUnderline() {
                     @Override
-                    public void onClick(View widget) {
-                        listener.onViewTag(tag);
-                    }
-                    @Override public void updateDrawState(TextPaint ds) {
-                        super.updateDrawState(ds);
-                        ds.setUnderlineText(false);
-                    }
+                    public void onClick(View widget) { listener.onViewTag(tag); }
                 };
-                builder.removeSpan(span);
-                builder.setSpan(newSpan, start, end, flags);
             } else if (text.charAt(0) == '@' && mentions != null && mentions.length > 0) {
                 String accountUsername = text.subSequence(1, text.length()).toString();
                 /* There may be multiple matches for users on different instances with the same
@@ -104,28 +98,23 @@ public class LinkHelper {
                 }
                 if (id != null) {
                     final String accountId = id;
-                    ClickableSpan newSpan = new ClickableSpan() {
+                    customSpan = new ClickableSpanNoUnderline() {
                         @Override
-                        public void onClick(View widget) {
-                            listener.onViewAccount(accountId);
-                        }
-                        @Override public void updateDrawState(TextPaint ds) {
-                            super.updateDrawState(ds);
-                            ds.setUnderlineText(false);
-                        }
+                        public void onClick(View widget) { listener.onViewAccount(accountId); }
                     };
-                    builder.removeSpan(span);
-                    builder.setSpan(newSpan, start, end, flags);
-                } else {
-                    ClickableSpan newSpan = new CustomURLSpan(span.getURL());
-                    builder.removeSpan(span);
-                    builder.setSpan(newSpan, start, end, flags);
                 }
-            } else {
-                ClickableSpan newSpan = new CustomURLSpan(span.getURL());
-                builder.removeSpan(span);
-                builder.setSpan(newSpan, start, end, flags);
             }
+
+            if (customSpan == null) {
+                customSpan = new CustomURLSpan(span.getURL()) {
+                    @Override
+                    public void onClick(View widget) {
+                        listener.onViewURL(getURL());
+                    }
+                };
+            }
+            builder.removeSpan(span);
+            builder.setSpan(customSpan, start, end, flags);
         }
         view.setText(builder);
         view.setLinksClickable(true);

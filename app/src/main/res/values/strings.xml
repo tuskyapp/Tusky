@@ -307,5 +307,6 @@
     <string name="system_default">System default</string>
     <string name="download_fonts">You\'ll need to download these fonts first</string>
     <string name="loading">Loading…</string>
+    <string name="performing_lookup_title">Performing lookup...</string>
 
 </resources>

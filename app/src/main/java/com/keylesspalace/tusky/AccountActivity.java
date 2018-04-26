@@ -330,6 +330,11 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
                 intent.putExtra("id", id);
                 startActivity(intent);
             }
+
+            @Override
+            public void onViewURL(String url) {
+                LinkHelper.openLink(url, note.getContext());
+            }
         });
 
         if (account.getLocked()) {

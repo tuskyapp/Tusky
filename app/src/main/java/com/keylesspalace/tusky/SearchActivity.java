@@ -39,6 +39,7 @@ import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.network.MastodonApi;
+import com.keylesspalace.tusky.util.LinkHelper;
 
 import javax.inject.Inject;
 
@@ -139,6 +140,11 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         Intent intent = new Intent(this, ViewTagActivity.class);
         intent.putExtra("hashtag", tag);
         startActivity(intent);
+    }
+
+    @Override
+    public void onViewURL(String url) {
+        LinkHelper.openLink(url, getApplicationContext());
     }
 
     private void handleIntent(Intent intent) {
