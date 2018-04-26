@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="72dp">
+
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@color/colorAccent"/>
+    <TextView
+        android:id="@+id/emoji_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="8dp"
+        android:text="Emoji font"
+        android:textColor="@color/text_color_primary_light"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="56dp"
+        android:text="It's the best. Everyone says so!!"
+        app:layout_constraintTop_toBottomOf="@id/emoji_name"
+        app:layout_constraintStart_toStartOf="@id/emoji_name" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="72dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/emoji_name"
+        app:layout_constraintTop_toBottomOf="@id/emoji_name"
+        android:indeterminate="true"
+        android:visibility="gone"/>
+
+    <ImageButton
+        android:id="@+id/download_emoji_button"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:paddingBottom="36dp"
+        android:paddingTop="36dp"
+        android:paddingEnd="36dp"
+        android:paddingStart="36dp"
+        android:layout_marginEnd="-20dp"
+        android:layout_marginStart="-20dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:background="@drawable/button_ripple"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_file_download_black_24dp"
+        android:tint="@color/colorAccent"
+        app:layout_constraintVertical_bias="0.5"
+        android:focusable="true"
+        android:contentDescription="@string/download_fonts"
+        android:visibility="visible"/>
+
+    <ImageButton
+        android:id="@+id/cancel_emoji_download"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:paddingBottom="36dp"
+        android:paddingTop="36dp"
+        android:paddingEnd="36dp"
+        android:paddingStart="36dp"
+        android:layout_marginEnd="-20dp"
+        android:layout_marginStart="-20dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:background="@drawable/button_ripple"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_cancel_black_24dp"
+        android:tint="@color/colorAccent"
+        app:layout_constraintVertical_bias="0.5"
+        android:focusable="true"
+        android:contentDescription="@android:string/cancel"
+        android:visibility="gone"/>
+
+
+    <RadioButton
+        android:id="@+id/emoji_radio"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/emoji_name"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+
+
+
+</android.support.constraint.ConstraintLayout>

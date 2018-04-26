@@ -33,7 +33,6 @@ import com.keylesspalace.tusky.di.AppInjector;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.IOException;
 
 import javax.inject.Inject;
 
@@ -127,6 +126,7 @@ public class TuskyApplication extends Application implements HasActivityInjector
         }
         // So we can finally initialize EmojiCompat!
         EmojiCompat.init(config);
+        EmojiCompat.reset(config);
     }
 
     protected void initAppInjector() {
