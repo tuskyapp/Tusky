@@ -28,7 +28,7 @@ import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
 import com.keylesspalace.tusky.R;
-import com.varunest.sparkbutton.helpers.Utils;
+import at.connyduck.sparkbutton.helpers.Utils;
 
 public final class ProgressImageView extends AppCompatImageView {
 
