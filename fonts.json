@@ -12,8 +12,8 @@
         "name": "Twemoji",
         "display": "Twemoji",
         "subtitle": "Mastodon's standard font",
-        "img": "??/twemoji.png",
-        "url": "??/twemoji.ttf",
+        "img": "https://github.com/twitter/twemoji/raw/gh-pages/2/72x72/1f914.png",
+        "url": "https://github.com/C1710/Tusky/raw/fEmojiCompat/emojicompat/TwemojiCompat.ttf",
         "src": "https://github.com/twitter/twemoji"
     }
 ]
