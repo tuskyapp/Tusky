@@ -21,6 +21,7 @@ import android.app.Service;
 import android.arch.persistence.room.Room;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.text.emoji.EmojiCompat;
 import android.support.v7.app.AppCompatDelegate;
@@ -30,6 +31,7 @@ import com.jakewharton.picasso.OkHttp3Downloader;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.di.AppInjector;
+import com.keylesspalace.tusky.entity.EmojiCompatFont;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -105,28 +107,16 @@ public class TuskyApplication extends Application implements HasActivityInjector
     private void initEmojiCompat() {
         // Declaration
         EmojiCompat.Config config;
-        // Try to find the font
-        File fontFile = new File(getExternalFilesDir(null), "EmojiCompat.ttf");
-        if(fontFile.exists()) {
-            // It's there!
-            config = new FileEmojiCompatConfig(fontFile)
-                    // The user probably wants to get a consistent experience
-                    .setReplaceAll(true);
-        }
-        else {
-            /*
-                If there's no font available, we'll use a minimal fallback font which only
-                includes the flags of CN, DE, ES, FR, IT, JP, KR, RU, US.
-                However this font won't replace these flags if they are present (which should be the case).
-                This has to be done in order to prevent the app from crashing because of an unitialized
-                EmojiCompat.
-                This fallback is only ~50 kBytes (uncompressed), so it won't add too much bloat.
-            */
-            config = new AssetEmojiCompatConfig(getApplicationContext(), "NoEmojiCompat.ttf");
-        }
-        // So we can finally initialize EmojiCompat!
+        // Load the font information
+        String emojiPreference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+                .getString(EmojiPreference.FONT_PREFERENCE, "");
+        EmojiCompatFont font = EmojiCompatFont.parseFont(emojiPreference);
+        font.setBaseDirectory(new File(getApplicationContext().getExternalFilesDir(null), "emoji"));
+        // FileEmojiCompat will handle any non-existing font and provide a fallback solution.
+        config = font.getConfig(getApplicationContext())
+                // The user probably wants to get a consistent experience
+                .setReplaceAll(true);
         EmojiCompat.init(config);
-        EmojiCompat.reset(config);
     }
 
     protected void initAppInjector() {

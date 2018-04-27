@@ -5,6 +5,7 @@
     android:layout_height="72dp">
 
     <com.pkmmte.view.CircularImageView
+        android:id="@+id/emojicompat_thumb"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
@@ -12,37 +13,40 @@
         android:layout_marginBottom="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@color/colorAccent"/>
+        app:srcCompat="@drawable/ic_emoji_24dp"/>
     <TextView
-        android:id="@+id/emoji_name"
+        android:id="@+id/emojicompat_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:layout_marginTop="8dp"
         android:text="Emoji font"
-        android:textColor="@color/text_color_primary_light"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/emojicompat_subtitle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="56dp"
+        android:layout_marginEnd="72dp"
         android:text="It's the best. Everyone says so!!"
-        app:layout_constraintTop_toBottomOf="@id/emoji_name"
-        app:layout_constraintStart_toStartOf="@id/emoji_name" />
+        app:layout_constraintTop_toBottomOf="@id/emojicompat_name"
+        app:layout_constraintStart_toStartOf="@id/emojicompat_name"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <ProgressBar
+        android:id="@+id/emojicompat_progress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="72dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/emoji_name"
-        app:layout_constraintTop_toBottomOf="@id/emoji_name"
+        app:layout_constraintStart_toStartOf="@id/emojicompat_name"
+        app:layout_constraintTop_toBottomOf="@id/emojicompat_name"
         android:indeterminate="true"
         android:visibility="gone"/>
 
@@ -93,13 +97,13 @@
 
     <RadioButton
         android:id="@+id/emoji_radio"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="20dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/emoji_name"
+        app:layout_constraintStart_toEndOf="@id/emojicompat_name"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="1"
         android:visibility="gone"/>
 
 

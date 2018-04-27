@@ -50,6 +50,8 @@ dependencies {
     implementation('com.mikepenz:materialdrawer:6.0.7@aar') {
         transitive = true
     }
+    // GSON is used to parse the EmojiCompat font-list
+    implementation "com.google.code.gson:gson:2.8.2"
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support:customtabs:$supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
@@ -75,8 +77,6 @@ dependencies {
     implementation "com.android.support:support-emoji:$supportLibraryVersion"
     implementation "com.android.support:support-emoji-bundled:$supportLibraryVersion"
     implementation "com.android.support:support-emoji-appcompat:$supportLibraryVersion"
-    // GSon is used to parse the EmojiCompat font-list
-    implementation "com.google.code.gson:gson:2.8.2"
     //room
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     kapt 'android.arch.persistence.room:compiler:1.0.0'
