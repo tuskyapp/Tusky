@@ -100,22 +100,28 @@ public class TuskyApplication extends Application implements HasActivityInjector
     }
 
     /**
-     * This method will try to load the emoji font "EmojiCompat.ttf" which should be located at
-     * [Internal Storage]/Android/com.keylesspalace.tusky/files/EmojiCompat.ttf.
-     * If there is no font available it will use a dummy configuration to prevent crashing the app.
+     * This method will load the EmojiCompat font which has been selected.
+     * If this font does not work or if the user hasn't selected one (yet), it will use a
+     * fallback solution instead which won't make any visible difference to using no EmojiCompat at all.
      */
     private void initEmojiCompat() {
         // Declaration
         EmojiCompat.Config config;
-        // Load the font information
+        // Load the font information from the Shared Preferences
         String emojiPreference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
                 .getString(EmojiPreference.FONT_PREFERENCE, "");
+        // Produce a valid font out of it
         EmojiCompatFont font = EmojiCompatFont.parseFont(emojiPreference);
+        /*
+            The font doesn't know where its files are located (yet) since it can't find the ExternalFilesDir
+            on it's own
+         */
         font.setBaseDirectory(new File(getApplicationContext().getExternalFilesDir(null), "emoji"));
         // FileEmojiCompat will handle any non-existing font and provide a fallback solution.
         config = font.getConfig(getApplicationContext())
                 // The user probably wants to get a consistent experience
                 .setReplaceAll(true);
+        // That's it! We can load the new EmojiCompat font!
         EmojiCompat.init(config);
     }
 

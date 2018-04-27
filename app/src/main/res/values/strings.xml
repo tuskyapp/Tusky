@@ -305,7 +305,7 @@
     <string name="copy_to_clipboard_success">Copied to clipboard</string>
     <string name="emoji_style">Emoji style</string>
     <string name="system_default">System default</string>
-    <string name="download_fonts">You\'ll need to download these fonts first</string>
+    <string name="download_fonts">You\'ll need to download these emoji sets first</string>
     <string name="loading">Loading…</string>
     <string name="performing_lookup_title">Performing lookup...</string>
 

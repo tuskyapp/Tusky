@@ -268,7 +268,7 @@
     <string name="copy_to_clipboard_success">In die Zwischenablage kopiert</string>
     <string name="emoji_style">Emoji-Stil</string>
     <string name="system_default">System-Standard</string>
-    <string name="download_fonts">Du musst diese Schriftarten zunächst herunterladen.</string>
+    <string name="download_fonts">Du musst diese Emoji-Sets zunächst herunterladen.</string>
     <string name="loading">Lädt…</string>
 
 </resources>

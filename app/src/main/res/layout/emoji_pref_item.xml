@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="72dp">
 
+    <!--This is a thumbnail picture-->
     <com.pkmmte.view.CircularImageView
         android:id="@+id/emojicompat_thumb"
         android:layout_width="48dp"
@@ -14,6 +15,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_emoji_24dp"/>
+
+    <!--This is the font's name-->
     <TextView
         android:id="@+id/emojicompat_name"
         android:layout_width="wrap_content"
@@ -25,6 +28,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--A short caption...-->
     <TextView
         android:id="@+id/emojicompat_subtitle"
         android:layout_width="0dp"
@@ -37,6 +41,7 @@
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!--This progress bar is shown while the font is downloading.-->
     <ProgressBar
         android:id="@+id/emojicompat_progress"
         style="?android:attr/progressBarStyleHorizontal"
@@ -50,6 +55,7 @@
         android:indeterminate="true"
         android:visibility="gone"/>
 
+    <!--Click on it and the font will be downloaded!-->
     <ImageButton
         android:id="@+id/download_emoji_button"
         android:layout_width="72dp"
@@ -72,6 +78,8 @@
         android:contentDescription="@string/download_fonts"
         android:visibility="visible"/>
 
+    <!--TODO: enable this button again-->
+    <!--You should be able to cancel the download-->
     <ImageButton
         android:id="@+id/cancel_emoji_download"
         android:layout_width="72dp"
@@ -94,7 +102,7 @@
         android:contentDescription="@android:string/cancel"
         android:visibility="gone"/>
 
-
+    <!--You'll probably want to select an emoji font, don't you?-->
     <RadioButton
         android:id="@+id/emoji_radio"
         android:layout_width="72dp"

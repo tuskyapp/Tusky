@@ -6,6 +6,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <!--Shown while loading the font list-->
         <ProgressBar
             android:id="@+id/emoji_loading"
             android:layout_width="wrap_content"
@@ -15,6 +16,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
+        <!--Shown while loading the font list-->
         <TextView
             android:id="@+id/emoji_loading_label"
             android:layout_width="wrap_content"
@@ -26,12 +28,14 @@
             app:layout_constraintTop_toBottomOf="@+id/emoji_loading" />
     </android.support.constraint.ConstraintLayout>
 
+    <!--This is a list containing all emoji fonts-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/emoji_font_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         />
+    <!--There's a short explanation that you'll need to download the emoji fonts first-->
     <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/emoji_download_label"
         android:layout_width="match_parent"
