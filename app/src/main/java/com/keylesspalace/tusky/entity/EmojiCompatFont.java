@@ -36,6 +36,7 @@ public class EmojiCompatFont {
                     "System Default",
                     "",
                     "",
+                    "",
                     "");
     // The directory where the necessary files are/will be stored.
     // This is usually the [internal storage]/Android/com.keylessplace.tusky/files/emoji folder
@@ -47,18 +48,25 @@ public class EmojiCompatFont {
      * @param display The name which is displayed in the emoji style picker.
      * @param subtitle A caption which is also shown.
      * @param img The URL of a thumbnail image
+     * @param url The URL of the TTF file
      * @param src The URL of the GitHub repo of the font's project
      */
-    private EmojiCompatFont(String name,
+    public EmojiCompatFont(String name,
                            String display,
                            String subtitle,
                            String img,
+                           String url,
                            String src) {
         this.name = name;
         this.display = display;
         this.subtitle = subtitle;
         this.img = img;
+        this.url = url;
         this.src = src;
+    }
+
+    public EmojiCompatFont() {
+        this("", "", "", "", "", "");
     }
 
 
@@ -75,9 +83,10 @@ public class EmojiCompatFont {
                            String display,
                            String subtitle,
                            String img,
+                           String url,
                            String src,
                            File baseDirectory) {
-       this(name, display, subtitle, img, src);
+       this(name, display, subtitle, img, url, src);
        this.baseDirectory = baseDirectory;
     }
 

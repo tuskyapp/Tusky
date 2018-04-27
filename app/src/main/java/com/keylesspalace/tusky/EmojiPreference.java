@@ -97,12 +97,16 @@ public class EmojiPreference extends DialogPreference {
         // This is the font list which stores all the necessary information on the emoji fonts.
         File fontList = new File(emojiFolder, "fonts.json");
         // The Adapter will use this list to well... list these fonts.
-        adapter = new EmojiFontAdapter(fontList, emojiFolder, selected);
+        adapter = new EmojiFontAdapter(emojiFolder, selected);
         // We don't need to download the list again and again.
         // TODO: Check if it's useful to download the list again. (i.e. if an update was made)
         if(!fontList.exists()) {
             // Download fonts
             new FontListDownloader(adapter, this::onDownloaded).execute(fontList);
+        }
+        else {
+            onDownloaded(fontList);
+            adapter.onDownloaded(fontList);
         }
         // Configure the RecyclerView
         fontRecycler.setItemAnimator(new DefaultItemAnimator());
@@ -202,8 +206,6 @@ public class EmojiPreference extends DialogPreference {
     @Override
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
-        // Okay. We can initialize our emoji font list
-        initRecycler(view);
         // We'll assign the Views to two groups in order to make it easier to
         // go from Loading... to You'll need to download even more!
         loading = new View[loadingIds.length];
@@ -214,6 +216,8 @@ public class EmojiPreference extends DialogPreference {
         for(int i = 0; i < finishedIds.length; i++) {
             finished[i] = view.findViewById(finishedIds[i]);
         }
+        // Okay. We can initialize our emoji font list
+        initRecycler(view);
     }
 
     /**

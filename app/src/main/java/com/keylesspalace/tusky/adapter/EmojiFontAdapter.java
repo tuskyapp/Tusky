@@ -36,7 +36,7 @@ public class EmojiFontAdapter extends RecyclerView.Adapter<EmojiFontAdapter.Emoj
         implements EmojiPreference.EmojiFontListener {
 
     // All fonts available in this list
-    private ArrayList<EmojiCompatFont> fonts;
+    private ArrayList<EmojiCompatFont> fonts = new ArrayList<>();
     // The currently selected font which will be chosen when clicking OK
     private EmojiCompatFont selected;
     // All Radio buttons.
@@ -47,16 +47,13 @@ public class EmojiFontAdapter extends RecyclerView.Adapter<EmojiFontAdapter.Emoj
 
     /**
      * Create a new EmojiFontAdapter to fill the selector GUI
-     * @param fontList A file containing a list of all downloadable fonts in JSON format
      * @param dlDir The directory with all the emoji files
      * @param selected the currently selected emoji font (maybe system default?)
      */
-    public EmojiFontAdapter(File fontList, File dlDir, EmojiCompatFont selected) {
+    public EmojiFontAdapter(File dlDir, EmojiCompatFont selected) {
         super();
         this.dlDir = dlDir;
         this.selected = selected;
-        // Yes, this is an interface method which is called, but redundancy has to be reduced.
-        onDownloaded(fontList);
     }
 
     /**
@@ -70,12 +67,14 @@ public class EmojiFontAdapter extends RecyclerView.Adapter<EmojiFontAdapter.Emoj
         Gson gson = new Gson();
         // This is actually copied from their user guide
         Type emojiFontType = new TypeToken<ArrayList<EmojiCompatFont>>(){}.getType();
+        ArrayList<EmojiCompatFont> fonts;
         try {
-            ArrayList<EmojiCompatFont> fonts =
+            fonts =
                     gson.fromJson(new InputStreamReader(new FileInputStream(fontList)), emojiFontType);
         }
         catch (JsonSyntaxException ex) {
             ex.printStackTrace();
+            return new ArrayList<>();
         }
         // The font objects don't have their base directory yet...
         for(EmojiCompatFont font: fonts) {
@@ -200,7 +199,7 @@ public class EmojiFontAdapter extends RecyclerView.Adapter<EmojiFontAdapter.Emoj
                     // We're interested in selecting the font!
                     radioButton.setVisibility(View.VISIBLE);
                     // Since the user just downloaded this file, they'll probably want to choose it as well.
-                    radioButton.toggle();
+                    radioButton.callOnClick();
                 }
             }
         }
