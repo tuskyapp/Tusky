@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.keylesspalace.tusky.EmojiPreference;
 import com.keylesspalace.tusky.R;
@@ -69,8 +70,13 @@ public class EmojiFontAdapter extends RecyclerView.Adapter<EmojiFontAdapter.Emoj
         Gson gson = new Gson();
         // This is actually copied from their user guide
         Type emojiFontType = new TypeToken<ArrayList<EmojiCompatFont>>(){}.getType();
-        ArrayList<EmojiCompatFont> fonts =
-                gson.fromJson(new InputStreamReader(new FileInputStream(fontList)), emojiFontType);
+        try {
+            ArrayList<EmojiCompatFont> fonts =
+                    gson.fromJson(new InputStreamReader(new FileInputStream(fontList)), emojiFontType);
+        }
+        catch (JsonSyntaxException ex) {
+            ex.printStackTrace();
+        }
         // The font objects don't have their base directory yet...
         for(EmojiCompatFont font: fonts) {
             font.setBaseDirectory(dlDir);
