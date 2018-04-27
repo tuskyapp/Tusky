@@ -12,6 +12,11 @@
             android:summary="%s"
             android:title="@string/pref_title_app_theme" />
 
+        <com.keylesspalace.tusky.EmojiPreference
+            android:defaultValue="@string/system_default"
+            android:key="emojiCompat"
+            android:title="@string/emoji_style"/>
+
         <ListPreference
             android:defaultValue="medium"
             android:entries="@array/status_text_size_names"

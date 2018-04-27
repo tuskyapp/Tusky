@@ -99,8 +99,6 @@ public class TimelineFragment extends SFragment implements
 
     @Inject
     TimelineCases timelineCases;
-    @Inject
-    MastodonApi mastodonApi;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private TimelineAdapter adapter;
