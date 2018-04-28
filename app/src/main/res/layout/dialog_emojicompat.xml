@@ -25,6 +25,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="20dp"
             android:text="@string/loading"
+            android:textColor="?android:attr/textColorSecondary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emoji_loading" />
     </android.support.constraint.ConstraintLayout>
@@ -49,6 +50,7 @@
         android:paddingEnd="24dp"
         android:paddingStart="24dp"
         android:text="@string/download_fonts"
+        android:textColor="?android:attr/textColorSecondary"
         android:visibility="gone"/>
 
 </android.support.constraint.ConstraintLayout>

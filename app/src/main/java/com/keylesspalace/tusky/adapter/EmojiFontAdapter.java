@@ -142,26 +142,20 @@ public class EmojiFontAdapter extends RecyclerView.Adapter<EmojiFontAdapter.Emoj
      * This class got a little big, but it's the interface between the GUI and the backend.
      */
     class EmojiFontViewHolder extends RecyclerView.ViewHolder implements EmojiCompatFont.Downloader.EmojiDownloadListener{
-        // This is where we'll see the thumbnail picture
         private final ImageView thumb;
-        // This is the font's title view
         private final TextView fontView;
-        // The caption
         private final TextView subtitle;
-        // The button to download the font (it's not shown after the download has begun)
         private final ImageButton downloadButton;
 
         // These two are only shown during the download
-        // This button is supposed to be cklicked when the user decides to cancel the download
         // TODO: It's currently disabled
         private final ImageButton cancelDownload;
-        // This is the progress bar indicating that the download is still ongoing.
         // TODO: Update progress
         private final ProgressBar downloadProgress;
 
         // This button is only shown when the download has been finished.
-        // It can be selected to select a font
         private final RadioButton radioButton;
+        private final View container;
 
         // The font which is represented by this entry
         private EmojiCompatFont font;
@@ -177,6 +171,8 @@ public class EmojiFontAdapter extends RecyclerView.Adapter<EmojiFontAdapter.Emoj
             this.downloadProgress = itemView.findViewById(R.id.emojicompat_progress);
             this.radioButton = itemView.findViewById(R.id.emoji_radio);
             this.cancelDownload = itemView.findViewById(R.id.cancel_emoji_download);
+            this.container = itemView.findViewById(R.id.emojicompat_container);
+
             this.applicationContext = itemView.getContext().getApplicationContext();
         }
 
@@ -199,7 +195,9 @@ public class EmojiFontAdapter extends RecyclerView.Adapter<EmojiFontAdapter.Emoj
                     // We're interested in selecting the font!
                     radioButton.setVisibility(View.VISIBLE);
                     // Since the user just downloaded this file, they'll probably want to choose it as well.
-                    radioButton.callOnClick();
+                    radioButton.performClick();
+                    container.setOnClickListener((v) -> radioButton.performClick());
+                    container.setClickable(true);
                 }
             }
         }
@@ -278,6 +276,13 @@ public class EmojiFontAdapter extends RecyclerView.Adapter<EmojiFontAdapter.Emoj
                 downloadButton.setVisibility(GONE);
                 // But we need the selection button
                 radioButton.setVisibility(View.VISIBLE);
+                container.setOnClickListener((v) -> radioButton.performClick());
+                container.setClickable(true);
+            }
+            else {
+                radioButton.setVisibility(GONE);
+                container.setOnClickListener(null);
+                container.setClickable(false);
             }
 
             // Selecting the radio button is supposed to do something too...
