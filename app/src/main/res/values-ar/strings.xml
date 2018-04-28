@@ -17,8 +17,10 @@
     <string name="error_media_upload_image_or_video">لا يمكنك إرفاق كلا من الصور و الفيديوهات في نفس المنشور.</string>
     <string name="error_media_upload_sending">اخفقت عملية الرفع.</string>
     <string name="error_report_too_few_statuses">يجب على الأقل اختيار منشور واحد للإبلاغ عنه.</string>
+    <string name="error_invalid_regex">العبارة المنطقية خاطئة</string>
 
     <string name="title_home">الرئيسية</string>
+    <string name="title_advanced">الخيارات المتقدمة</string>
     <string name="title_notifications">الاشعارات</string>
     <string name="title_public_local">المحلية</string>
     <string name="title_public_federated">الفدرالية</string>
@@ -33,6 +35,7 @@
     <string name="title_follow_requests">طلبات المتابعة</string>
     <string name="title_edit_profile">عدل ملفك الشخصي</string>
     <string name="title_saved_toot">المسودات</string>
+
     <string name="title_x_followers"><b>%s</b> متابِعين</string>
     <string name="title_x_following"><b>%s</b> مُتابَعين</string>
     <string name="title_x_statuses"><b>%s</b> منشور</string>
@@ -71,7 +74,6 @@
     <string name="action_send">تبويق</string>
     <string name="action_send_public">بوّق</string>
     <string name="action_retry">إعادة المحاولة</string>
-    <string name="action_hide_text">اخفي النص وراء تحذير</string>
     <string name="action_close">إغلاق</string>
     <string name="action_view_profile">الملف الشخصي</string>
     <string name="action_view_preferences">التفضيلات</string>
@@ -81,14 +83,13 @@
     <string name="action_view_follow_requests">طلبات المتابعة</string>
     <string name="action_view_media">وسائط</string>
     <string name="action_open_in_web">إفتح في متصفح</string>
-    <string name="action_photo_pick">إضافة وسائط</string>
+    <string name="action_add_media">إضافة وسائط</string>
     <string name="action_photo_take">أخذ صورة</string>
     <string name="action_share">شارك</string>
     <string name="action_mute">أكتم</string>
     <string name="action_unmute">إلغاء الكتم</string>
     <string name="action_mention">أذكر</string>
     <string name="action_hide_media">إخفاء الوسائط</string>
-    <string name="action_compose_options">خيارات</string>
     <string name="action_open_drawer">إفتح الدرج</string>
     <string name="action_save">إحفظ</string>
     <string name="action_edit_profile">تعديل الملف الشخصي</string>
@@ -97,6 +98,9 @@
     <string name="action_reject">رفض</string>
     <string name="action_search">البحث</string>
     <string name="action_access_saved_toot">المسودات</string>
+    <string name="action_toggle_visibility">كيفية عرض التبويق</string>
+    <string name="action_content_warning">تحذير عن المحتوى</string>
+    <string name="action_emoji_keyboard">لوحة مفاتيح الإيموجي</string>
 
     <string name="download_image">تنزيل %1$s</string>
 
@@ -105,7 +109,6 @@
     <string name="send_status_link_to">شارك رابط التبويق على ...</string>
     <string name="send_status_content_to">شارك التبويق على …</string>
 
-    <string name="confirmation_send">بَوِّق</string>
     <string name="confirmation_reported">تم الإرسال !</string>
     <string name="confirmation_unblocked">تم فك الحجب عن الحساب</string>
     <string name="confirmation_unmuted">تم فك الكتم عن الحساب</string>
@@ -126,12 +129,19 @@
 
     <string name="login_connection">جاري الإتصال ...</string>
 
+    <string name="dialog_whats_an_instance">بإمكانك إدخال عنوان أي مثيل خادوم ماستدون هنا. على سبيل المثال mastodon.social أو icosahedron.website أو social.tchncs.de أوالإطلاع على <a href="https://instances.social" >لاكتشاف المزيد !</a>    \n
+ \n
+ إن كنت لا تملك حسابا بإمكانك إدخال إسم مثيل خادوم تريد الإنظمام إليه قصد إنشاء حسابك عليه.\n
+ \n
+ نعني بمثيل الخادوم المكان الذي استُضِيف فيه حسابك و يمكنك التواصل مع أصدقائك و متابعيك و كأنكم على موقع واحد و ذلك حتى و إن كانت حساباتهم مُستضافة على مثيلات خوادم أخرى.   \n
+ \n
+ للمزيد مِن التفاصيل إطّلع على <a href="https://joinmastodon.org" >joinmastodon.org</a>.</string>
+
     <string name="dialog_title_finishing_media_upload">تتمة رفع الوسائط</string>
     <string name="dialog_message_uploading_media">جاري الرفع ...</string>
     <string name="dialog_download_image">تنزيل</string>
     <string name="dialog_message_follow_request">طلب المتابعة معلق : في إنتظار الرد</string>
     <string name="dialog_unfollow_warning">هل تود إلغاء متابعة هذا الحساب ؟</string>
-    <string name="dialog_reply_not_found">تعذرت عملية إرسال هذا المنشور. إنّ المنشور الذي تود الرد عليه غير متوفر. هل تود حذف نص الرد ؟</string>
 
     <string name="visibility_public">عمومي : ينشر على الخيوط العمومية</string>
     <string name="visibility_unlisted">غير مدرج : لا يُعرَض على الخيوط العمومية</string>
@@ -168,6 +178,7 @@
     <string name="pref_title_status_tabs">الألسنة</string>
     <string name="pref_title_show_boosts">عرض الترقيات</string>
     <string name="pref_title_show_replies">عرض الردود</string>
+    <string name="pref_title_filter_regex">التصفية عن طريق عبارات منطقية</string>
     <string name="pref_title_show_media_preview">إظهار معاينات الوسائط</string>
     <string name="pref_title_proxy_settings">البروكسي</string>
     <string name="pref_title_http_proxy_settings">بروكسي HTTP</string>
@@ -222,6 +233,7 @@
 
     <string name="about_title_activity">عن التطبيق</string>
     <string name="about_tusky_version">توسكي %s</string>
+
     <string name="about_tusky_license">Tuksy برنامج حر و مفتوح المصدر.
         مطور تحت رخصة GNU General Public License Version 3.
         يمكنكم الإطلاع على الرخصة على : https://www.gnu.org/licenses/gpl-3.0.en.html</string>
@@ -244,7 +256,6 @@
     <string name="state_follow_requested">طلب متابعة</string>
 
     <string name="no_content">ليس هناك محتوى</string>
-    <string name="action_save_one_toot">تم حفظ التبويق !</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">في %dy</string>
@@ -277,5 +288,13 @@
     <string name="hint_describe_for_visually_impaired">وصف للمعاقين بصريًا</string>
     <string name="action_set_caption">إضافة شرح</string>
     <string name="action_remove_media">حذف</string>
+    <string name="lock_account_label">تجميد الحساب</string>
+    <string name="lock_account_label_description">يتطلب منك قبول طلبات المتابَعة يدويا</string>
+    <string name="compose_save_draft">هل تود الإحتفاظ بالمسودة ؟</string>
+    <string name="send_toot_notification_title">جارٍ إرسال التبويق …</string>
+    <string name="send_toot_notification_error_title">خطأ أثناء عملية إرسال التبويق</string>
+    <string name="send_toot_notification_channel_name">إرسال التبويقات</string>
+    <string name="send_toot_notification_cancel_title">أُلغيَ الإرسال</string>
+    <string name="send_toot_notification_saved_content">تم الإحتفاظ بنسخة مِن التبويق في مسوداتك</string>
 
 </resources>

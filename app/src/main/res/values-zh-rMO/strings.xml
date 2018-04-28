@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">授權被拒絕。</string>
     <string name="error_retrieving_oauth_token">無法獲取登錄信息。</string>
     <string name="error_compose_character_limit">嘟文太長了！</string>
-    <string name="error_media_upload_size">文件大小限制 4MB。</string>
+    <string name="error_media_upload_size">文件大小限制 8MB。</string>
     <string name="error_media_upload_type">無法上傳此類型的文件。</string>
     <string name="error_media_upload_opening">此文件無法打開。</string>
     <string name="error_media_upload_permission">需要授予 Tusky 讀取媒體文件的權限。</string>
@@ -17,8 +17,10 @@
     <string name="error_media_upload_image_or_video">無法在嘟文中同時插入視頻和圖片。</string>
     <string name="error_media_upload_sending">媒體文件上傳失敗。</string>
     <string name="error_report_too_few_statuses">至少要報告 1 則嘟文。</string>
+    <string name="error_invalid_regex">正則表達式無效</string>
 
     <string name="title_home">主頁</string>
+    <string name="title_advanced">高級</string>
     <string name="title_notifications">通知</string>
     <string name="title_public_local">本站時間軸</string>
     <string name="title_public_federated">跨站公共時間軸</string>
@@ -71,7 +73,6 @@
     <string name="action_send">發嘟</string>
     <string name="action_send_public">發嘟</string>
     <string name="action_retry">重試</string>
-    <string name="action_hide_text">隱藏文字內容</string>
     <string name="action_close">關閉</string>
     <string name="action_view_profile">個人資料</string>
     <string name="action_view_preferences">設置</string>
@@ -81,14 +82,13 @@
     <string name="action_view_follow_requests">關注請求</string>
     <string name="action_view_media">媒體</string>
     <string name="action_open_in_web">在瀏覽器中打開</string>
-    <string name="action_photo_pick">從相冊中選擇</string>
+    <string name="action_add_media">從相冊中選擇</string>
     <string name="action_photo_take">拍照</string>
     <string name="action_share">分享</string>
     <string name="action_mute">隱藏</string>
     <string name="action_unmute">取消隱藏</string>
     <string name="action_mention">提及</string>
     <string name="action_hide_media">隱藏媒體文件</string>
-    <string name="action_compose_options">選項</string>
     <string name="action_open_drawer">打開應用抽屜</string>
     <string name="action_save">保存</string>
     <string name="action_edit_profile">編輯個人資料</string>
@@ -97,6 +97,9 @@
     <string name="action_reject">拒絕</string>
     <string name="action_search">搜索</string>
     <string name="action_access_saved_toot">草稿</string>
+    <string name="action_toggle_visibility">設置嘟文可見範圍</string>
+    <string name="action_content_warning">設置內容提醒信息</string>
+    <string name="action_emoji_keyboard">插入 Emoji 表情</string>
 
     <string name="download_image">正在下載 %1$s…</string>
 
@@ -105,14 +108,13 @@
     <string name="send_status_link_to">分享鏈接到…</string>
     <string name="send_status_content_to">分享嘟文到…</string>
 
-    <string name="confirmation_send">嘟文已發送！</string>
     <string name="confirmation_reported">報告已發送！</string>
     <string name="confirmation_unblocked">用户已被屏蔽</string>
     <string name="confirmation_unmuted">用户已被隱藏</string>
 
     <string name="hint_domain">域名</string>
     <string name="hint_compose">有什麼新鮮事？</string>
-    <string name="hint_content_warning">摺疊部分的警告信息</string>
+    <string name="hint_content_warning">內容提醒</string>
     <string name="hint_display_name">暱稱</string>
     <string name="hint_note">簡介</string>
     <string name="hint_search">搜索…</string>
@@ -136,7 +138,6 @@
     <string name="dialog_download_image">下載</string>
     <string name="dialog_message_follow_request">關注請求已發送，等待對方回覆</string>
     <string name="dialog_unfollow_warning">不再關注此用户？</string>
-    <string name="dialog_reply_not_found">回覆發表失敗，被回覆的嘟文不可用。是否轉換成普通嘟文？</string>
 
     <string name="visibility_public">公開：所有人可見，並會出現在公共時間軸上</string>
     <string name="visibility_unlisted">不公開：所有人可見，但不會出現在公共時間軸上</string>
@@ -173,6 +174,7 @@
     <string name="pref_title_status_tabs">選項卡</string>
     <string name="pref_title_show_boosts">顯示轉嘟</string>
     <string name="pref_title_show_replies">顯示回覆</string>
+    <string name="pref_title_filter_regex">使用正則表達式過濾</string>
     <string name="pref_title_show_media_preview">顯示預覽圖</string>
     <string name="pref_title_proxy_settings">代理</string>
     <string name="pref_title_http_proxy_settings">HTTP 代理</string>
@@ -247,7 +249,6 @@
     <string name="state_follow_requested">已發送關注請求</string>
 
     <string name="no_content">無內容</string>
-    <string name="action_save_one_toot">嘟文已保存。</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%d 年內</string>
@@ -280,5 +281,13 @@
     <string name="hint_describe_for_visually_impaired">為視覺障礙者提供的描述</string>
     <string name="action_set_caption">設置圖片標題</string>
     <string name="action_remove_media">移除</string>
+    <string name="lock_account_label">保護你的帳户（鎖嘟）</string>
+    <string name="lock_account_label_description">你需要手動審核所有關注請求</string>
+    <string name="compose_save_draft">保存為草稿？</string>
+    <string name="send_toot_notification_title">正在發送...</string>
+    <string name="send_toot_notification_error_title">發送失敗</string>
+    <string name="send_toot_notification_channel_name">嘟文發送中</string>
+    <string name="send_toot_notification_cancel_title">發送已被取消</string>
+    <string name="send_toot_notification_saved_content">嘟文已保存到草稿</string>
 
 </resources>

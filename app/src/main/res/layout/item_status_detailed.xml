@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:sparkbutton="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/status_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:paddingLeft="14dp"
     android:paddingRight="14dp">
 
@@ -59,8 +62,7 @@
         android:layout_below="@id/status_name_bar"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
-        android:textIsSelectable="true"
-        android:textSize="?attr/status_text_medium"
+        android:textSize="?attr/status_text_large"
         tools:text="CW this is a long long long long long long long long content warning" />
 
     <ToggleButton
@@ -68,20 +70,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/status_content_warning_description"
-        android:layout_centerHorizontal="true"
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
         android:background="?attr/content_warning_button"
         android:minHeight="0dp"
         android:minWidth="150dp"
-        android:paddingBottom="6dp"
+        android:paddingBottom="4dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="6dp"
+        android:paddingTop="4dp"
         android:textAllCaps="true"
         android:textOff="@string/status_content_warning_show_more"
         android:textOn="@string/status_content_warning_show_less"
-        android:textSize="?attr/status_text_medium" />
+        android:textSize="?attr/status_text_large" />
 
     <TextView
         android:id="@+id/status_content"
@@ -92,7 +93,6 @@
         android:focusable="true"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
-        android:textIsSelectable="true"
         android:textSize="?attr/status_text_large" />
 
     <LinearLayout
@@ -265,7 +265,7 @@
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="@+id/status_media_preview_container"
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_container"
-            app:srcCompat="@drawable/ic_remove_red_eye_black_24dp" />
+            app:srcCompat="@drawable/ic_eye_24dp" />
 
         <TextView
             android:id="@+id/status_sensitive_media_warning"
@@ -333,18 +333,18 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <com.varunest.sparkbutton.SparkButton
+        <at.connyduck.sparkbutton.SparkButton
             android:id="@+id/status_reblog"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:clipToPadding="false"
             android:contentDescription="@string/action_reblog"
             android:padding="4dp"
-            app:sparkbutton_activeImage="@drawable/reblog_active"
-            app:sparkbutton_iconSize="28dp"
-            app:sparkbutton_inActiveImage="?attr/status_reblog_inactive_drawable"
-            app:sparkbutton_primaryColor="@color/status_reblog_button_marked_dark"
-            app:sparkbutton_secondaryColor="@color/status_reblog_button_marked_light" />
+            sparkbutton:activeImage="@drawable/reblog_active"
+            sparkbutton:iconSize="28dp"
+            sparkbutton:inactiveImage="?attr/status_reblog_inactive_drawable"
+            sparkbutton:primaryColor="@color/status_reblog_button_marked_dark"
+            sparkbutton:secondaryColor="@color/status_reblog_button_marked_light" />
 
         <TextView
             android:id="@+id/status_reblogs"
@@ -357,18 +357,18 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <com.varunest.sparkbutton.SparkButton
+        <at.connyduck.sparkbutton.SparkButton
             android:id="@+id/status_favourite"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:clipToPadding="false"
             android:contentDescription="@string/action_favourite"
             android:padding="4dp"
-            app:sparkbutton_activeImage="?attr/status_favourite_active_drawable"
-            app:sparkbutton_iconSize="28dp"
-            app:sparkbutton_inActiveImage="?attr/status_favourite_inactive_drawable"
-            app:sparkbutton_primaryColor="@color/status_favourite_button_marked_dark"
-            app:sparkbutton_secondaryColor="@color/status_favourite_button_marked_light" />
+            sparkbutton:activeImage="?attr/status_favourite_active_drawable"
+            sparkbutton:iconSize="28dp"
+            sparkbutton:inactiveImage="?attr/status_favourite_inactive_drawable"
+            sparkbutton:primaryColor="@color/status_favourite_button_marked_dark"
+            sparkbutton:secondaryColor="@color/status_favourite_button_marked_light" />
 
         <TextView
             android:id="@+id/status_favourites"

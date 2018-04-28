@@ -29,7 +29,6 @@ import android.support.design.widget.TabLayout;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -43,7 +42,6 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
-import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.NotificationHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -94,10 +92,10 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
     public MastodonApi mastodonApi;
     @Inject
     public DispatchingAndroidInjector<Fragment> fragmentInjector;
+    @Inject
+    public AccountManager accountManager;
 
     private static int COMPOSE_RESULT = 1;
-
-    AccountManager accountManager;
 
     private FloatingActionButton composeButton;
     private AccountHeader headerResult;
@@ -106,11 +104,10 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         Intent intent = getIntent();
         int tabPosition = 0;
-
-        accountManager = TuskyApplication.getInstance(this).getServiceLocator()
-                .get(AccountManager.class);
 
         if (intent != null) {
             long accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1);
@@ -126,7 +123,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
             }
         }
 
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         FloatingActionButton floatingBtn = findViewById(R.id.floating_btn);
@@ -240,16 +236,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
                     .apply();
         }
 
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == COMPOSE_RESULT && resultCode == ComposeActivity.RESULT_OK) {
-            Intent intent = new Intent(TimelineReceiver.Types.STATUS_COMPOSED);
-            LocalBroadcastManager.getInstance(getApplicationContext())
-                    .sendBroadcast(intent);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

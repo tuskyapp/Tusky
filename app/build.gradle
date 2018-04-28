@@ -8,10 +8,10 @@ android {
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.keylesspalace.tusky"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 27
-        versionCode 34
-        versionName "1.5.2"
+        versionCode 37
+        versionName "1.7.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
     }
@@ -43,11 +43,11 @@ android {
     }
 }
 
-ext.supportLibraryVersion = '27.1.0'
+ext.supportLibraryVersion = '27.1.1'
 ext.daggerVersion = '2.15'
 
 dependencies {
-    implementation('com.mikepenz:materialdrawer:6.0.6@aar') {
+    implementation('com.mikepenz:materialdrawer:6.0.7@aar') {
         transitive = true
     }
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
@@ -63,19 +63,19 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
     implementation 'com.pkmmte.view:circularimageview:1.1'
-    implementation 'com.github.varunest:sparkbutton:1.0.5'
+    implementation 'com.github.connyduck:sparkbutton:1.0.0'
     implementation 'com.github.chrisbanes:PhotoView:2.1.3'
     implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
-    implementation('com.theartofdev.edmodo:android-image-cropper:2.6.0') {
+    implementation('com.theartofdev.edmodo:android-image-cropper:2.7.0') {
         exclude group: 'com.android.support'
     }
     implementation 'com.evernote:android-job:1.2.5'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     //room
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     kapt 'android.arch.persistence.room:compiler:1.0.0'
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     testImplementation 'junit:junit:4.12'
 
@@ -86,8 +86,8 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     testImplementation "org.robolectric:robolectric:3.8"
-    testImplementation "org.mockito:mockito-inline:2.17.0"
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+    testImplementation "org.mockito:mockito-inline:2.18.3"
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 

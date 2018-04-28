@@ -19,6 +19,10 @@ package com.keylesspalace.tusky
 import android.widget.EditText
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.Instance
+import com.keylesspalace.tusky.network.MastodonApi
+import okhttp3.Request
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -30,6 +34,9 @@ import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /**
  * Created by charlag on 3/7/18.
@@ -43,6 +50,7 @@ class ComposeActivityTest {
     lateinit var application: FakeTuskyApplication
     lateinit var serviceLocator: TuskyApplication.ServiceLocator
     lateinit var accountManagerMock: AccountManager
+    lateinit var apiMock: MastodonApi
 
     val account = AccountEntity(
             id = 1,
@@ -67,13 +75,66 @@ class ComposeActivityTest {
     fun before() {
         val controller = Robolectric.buildActivity(ComposeActivity::class.java)
         activity = controller.get()
+
         accountManagerMock = Mockito.mock(AccountManager::class.java)
         serviceLocator = Mockito.mock(TuskyApplication.ServiceLocator::class.java)
         `when`(serviceLocator.get(AccountManager::class.java)).thenReturn(accountManagerMock)
         `when`(accountManagerMock.activeAccount).thenReturn(account)
+
+        apiMock = Mockito.mock(MastodonApi::class.java)
+        `when`(apiMock.customEmojis).thenReturn(object: Call<List<Emoji>> {
+            override fun isExecuted(): Boolean {
+                return false
+            }
+            override fun clone(): Call<List<Emoji>> {
+                throw Error("not implemented")
+            }
+            override fun isCanceled(): Boolean {
+                throw Error("not implemented")
+            }
+            override fun cancel() {
+                throw Error("not implemented")
+            }
+            override fun execute(): Response<List<Emoji>> {
+                throw Error("not implemented")
+            }
+            override fun request(): Request {
+                throw Error("not implemented")
+            }
+
+            override fun enqueue(callback: Callback<List<Emoji>>?) {}
+        })
+        `when`(apiMock.instance).thenReturn(object: Call<Instance> {
+            override fun isExecuted(): Boolean {
+                return false
+            }
+            override fun clone(): Call<Instance> {
+                throw Error("not implemented")
+            }
+            override fun isCanceled(): Boolean {
+                throw Error("not implemented")
+            }
+            override fun cancel() {
+                throw Error("not implemented")
+            }
+            override fun execute(): Response<Instance> {
+                throw Error("not implemented")
+            }
+            override fun request(): Request {
+                throw Error("not implemented")
+            }
+
+            override fun enqueue(callback: Callback<Instance>?) {}
+        })
+
+        activity.mastodonApi = apiMock
         activity.accountManager = accountManagerMock
         application = activity.application as FakeTuskyApplication
         application.locator = serviceLocator
+
+        `when`(accountManagerMock.activeAccount).thenReturn(account)
+
+
         controller.create().start()
     }
 
@@ -115,6 +176,6 @@ class ComposeActivityTest {
     }
 
     private fun insertSomeTextInContent() {
-        activity.findViewById<EditText>(R.id.compose_edit_field).setText("Some text")
+        activity.findViewById<EditText>(R.id.composeEditField).setText("Some text")
     }
 }

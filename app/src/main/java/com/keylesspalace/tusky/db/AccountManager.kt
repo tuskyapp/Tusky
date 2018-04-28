@@ -15,9 +15,7 @@
 
 package com.keylesspalace.tusky.db
 
-import android.arch.persistence.room.Database
 import android.util.Log
-import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.entity.Account
 
 /**

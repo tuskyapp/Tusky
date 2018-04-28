@@ -38,7 +38,6 @@ import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.db.AccountEntity;
@@ -49,7 +48,6 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.CollectionUtil;
@@ -107,7 +105,7 @@ public class NotificationsFragment extends SFragment implements
     @Inject
     public TimelineCases timelineCases;
     @Inject
-    public MastodonApi mastodonApi;
+    AccountManager accountManager;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayoutManager layoutManager;
@@ -606,8 +604,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void saveNewestNotificationId(List<Notification> notifications) {
-        AccountManager accountManager = TuskyApplication.getInstance(getContext())
-                .getServiceLocator().get(AccountManager.class);
+
         AccountEntity account = accountManager.getActiveAccount();
         BigInteger lastNoti = new BigInteger(account.getLastNotificationId());
 

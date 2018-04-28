@@ -19,6 +19,7 @@ import android.widget.ToggleButton;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Attachment;
+import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
@@ -30,8 +31,8 @@ import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
 import com.squareup.picasso.Picasso;
-import com.varunest.sparkbutton.SparkButton;
-import com.varunest.sparkbutton.SparkEventListener;
+import at.connyduck.sparkbutton.SparkButton;
+import at.connyduck.sparkbutton.SparkEventListener;
 
 import java.util.Date;
 import java.util.List;
@@ -40,7 +41,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private View container;
     private TextView displayName;
     private TextView username;
-    private TextView content;
     private ImageButton replyButton;
     private SparkButton reblogButton;
     private SparkButton favouriteButton;
@@ -58,11 +58,12 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private TextView sensitiveMediaWarning;
     private View sensitiveMediaShow;
     private TextView mediaLabel;
-    private TextView contentWarningDescription;
     private ToggleButton contentWarningButton;
 
     ImageView avatar;
     TextView timestampInfo;
+    TextView content;
+    TextView contentWarningDescription;
 
     StatusBaseViewHolder(View itemView) {
         super(itemView);
@@ -106,7 +107,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         username.setText(usernameText);
     }
 
-    private void setContent(Spanned content, Status.Mention[] mentions, List<Status.Emoji> emojis,
+    private void setContent(Spanned content, Status.Mention[] mentions, List<Emoji> emojis,
                             StatusActionListener listener) {
         Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, this.content);
 
@@ -384,7 +385,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         sensitiveMediaShow.setVisibility(View.GONE);
     }
 
-    private void setSpoilerText(String spoilerText, List<Status.Emoji> emojis,
+    private void setSpoilerText(String spoilerText, List<Emoji> emojis,
                                 final boolean expanded, final StatusActionListener listener) {
         CharSequence emojiSpoiler =
                 CustomEmojiHelper.emojifyString(spoilerText, emojis, contentWarningDescription);
@@ -392,18 +393,15 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         contentWarningDescription.setVisibility(View.VISIBLE);
         contentWarningButton.setVisibility(View.VISIBLE);
         contentWarningButton.setChecked(expanded);
-        contentWarningButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                contentWarningDescription.invalidate();
-                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
-                    listener.onExpandedChange(isChecked, getAdapterPosition());
-                }
-                if (isChecked) {
-                    content.setVisibility(View.VISIBLE);
-                } else {
-                    content.setVisibility(View.GONE);
-                }
+        contentWarningButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            contentWarningDescription.invalidate();
+            if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                listener.onExpandedChange(isChecked, getAdapterPosition());
+            }
+            if (isChecked) {
+                content.setVisibility(View.VISIBLE);
+            } else {
+                content.setVisibility(View.GONE);
             }
         });
         if (expanded) {

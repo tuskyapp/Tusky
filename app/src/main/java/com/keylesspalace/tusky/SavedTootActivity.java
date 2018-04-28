@@ -15,27 +15,29 @@
 
 package com.keylesspalace.tusky;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.keylesspalace.tusky.adapter.SavedTootAdapter;
 import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
+import com.keylesspalace.tusky.receiver.TimelineReceiver;
+import com.keylesspalace.tusky.util.SaveTootHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.lang.ref.WeakReference;
@@ -43,10 +45,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.SavedTootAction {
-    private static final String TAG = "SavedTootActivity"; // logging tag
 
     // dao
     private static TootDao tootDao = TuskyApplication.getDB().tootDao();
+
+    private SaveTootHelper saveTootHelper;
 
     // ui
     private SavedTootAdapter adapter;
@@ -55,9 +58,27 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
     private List<TootEntity> toots = new ArrayList<>();
     @Nullable private AsyncTask<?, ?, ?> asyncTask;
 
+    private BroadcastReceiver broadcastReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        saveTootHelper = new SaveTootHelper(tootDao, this);
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                fetchToots();
+            }
+        };
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(TimelineReceiver.Types.STATUS_COMPOSED);
+
+        LocalBroadcastManager.getInstance(this)
+                .registerReceiver(broadcastReceiver, intentFilter);
+
         setContentView(R.layout.activity_saved_toot);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -97,6 +118,12 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
@@ -122,19 +149,9 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
 
     @Override
     public void delete(int position, TootEntity item) {
-        // Delete any media files associated with the status.
-        ArrayList<String> uris = new Gson().fromJson(item.getUrls(),
-                new TypeToken<ArrayList<String>>() {}.getType());
-        if (uris != null) {
-            for (String uriString : uris) {
-                Uri uri = Uri.parse(uriString);
-                if (getContentResolver().delete(uri, null, null) == 0) {
-                    Log.e(TAG, String.format("Did not delete file %s.", uriString));
-                }
-            }
-        }
-        // update DB
-        tootDao.delete(item.getUid());
+
+        saveTootHelper.deleteDraft(item);
+
         toots.remove(position);
         // update adapter
         if (adapter != null) {

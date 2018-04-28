@@ -22,6 +22,8 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.AppCredentials;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
+import com.keylesspalace.tusky.entity.Emoji;
+import com.keylesspalace.tusky.entity.Instance;
 import com.keylesspalace.tusky.entity.MastoList;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Relationship;
@@ -51,6 +53,7 @@ import retrofit2.http.Query;
 public interface MastodonApi {
     String ENDPOINT_AUTHORIZE = "/oauth/authorize";
     String DOMAIN_HEADER = "domain";
+    String PLACEHOLDER_DOMAIN = "dummy.placeholder";
 
     @GET("api/v1/timelines/home")
     Call<List<Status>> homeTimeline(
@@ -101,12 +104,15 @@ public interface MastodonApi {
     @FormUrlEncoded
     @POST("api/v1/statuses")
     Call<Status> createStatus(
+            @Header("Authorization") String auth,
+            @Header(DOMAIN_HEADER) String domain,
             @Field("status") String text,
             @Field("in_reply_to_id") String inReplyToId,
             @Field("spoiler_text") String warningText,
             @Field("visibility") String visibility,
             @Field("sensitive") Boolean sensitive,
-            @Field("media_ids[]") List<String> mediaIds);
+            @Field("media_ids[]") List<String> mediaIds,
+            @Header("Idempotency-Key") String idempotencyKey);
     @GET("api/v1/statuses/{id}")
     Call<Status> status(@Path("id") String statusId);
     @GET("api/v1/statuses/{id}/context")
@@ -241,6 +247,7 @@ public interface MastodonApi {
     @FormUrlEncoded
     @POST("api/v1/apps")
     Call<AppCredentials> authenticateApp(
+            @Header(DOMAIN_HEADER) String domain,
             @Field("client_name") String clientName,
             @Field("redirect_uris") String redirectUris,
             @Field("scopes") String scopes,
@@ -249,6 +256,7 @@ public interface MastodonApi {
     @FormUrlEncoded
     @POST("oauth/token")
     Call<AccessToken> fetchOAuthToken(
+            @Header(DOMAIN_HEADER) String domain,
             @Field("client_id") String clientId,
             @Field("client_secret") String clientSecret,
             @Field("redirect_uri") String redirectUri,
@@ -263,4 +271,10 @@ public interface MastodonApi {
 
     @GET("/api/v1/lists")
     Call<List<MastoList>> getLists();
+
+    @GET("/api/v1/custom_emojis")
+    Call<List<Emoji>> getCustomEmojis();
+
+    @GET("api/v1/instance")
+    Call<Instance> getInstance();
 }
