@@ -216,7 +216,7 @@ public final class ViewThreadFragment extends SFragment implements
                     StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
 
                     statuses.setPairedItem(position, newViewData);
-                    adapter.setItem(position, newViewData, true);
+                    adapter.setItem(position, newViewData, false);
                 }
             }
 
@@ -249,7 +249,7 @@ public final class ViewThreadFragment extends SFragment implements
                     StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
 
                     statuses.setPairedItem(position, newViewData);
-                    adapter.setItem(position, newViewData, true);
+                    adapter.setItem(position, newViewData, false);
                 }
             }
 

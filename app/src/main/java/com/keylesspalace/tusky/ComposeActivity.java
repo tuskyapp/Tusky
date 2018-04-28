@@ -114,7 +114,7 @@ import com.keylesspalace.tusky.view.TootButton;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
-import com.varunest.sparkbutton.helpers.Utils;
+import at.connyduck.sparkbutton.helpers.Utils;
 
 import org.jetbrains.annotations.NotNull;
 

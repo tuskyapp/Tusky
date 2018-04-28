@@ -2,7 +2,7 @@
     <dimen name="status_display_name_padding_end">4dp</dimen>
     <dimen name="status_avatar_padding">10dp</dimen>
     <dimen name="status_reblogged_bar_padding_top">8dp</dimen>
-    <dimen name="status_media_preview_margin_top">4dp</dimen>
+    <dimen name="status_media_preview_margin_top">8dp</dimen>
     <dimen name="status_media_preview_height">100dp</dimen>
     <dimen name="status_detail_media_preview_height">130dp</dimen>
     <dimen name="compose_media_preview_margin">8dp</dimen>

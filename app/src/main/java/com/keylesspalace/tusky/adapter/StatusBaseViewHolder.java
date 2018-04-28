@@ -31,8 +31,8 @@ import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
 import com.squareup.picasso.Picasso;
-import com.varunest.sparkbutton.SparkButton;
-import com.varunest.sparkbutton.SparkEventListener;
+import at.connyduck.sparkbutton.SparkButton;
+import at.connyduck.sparkbutton.SparkEventListener;
 
 import java.util.Date;
 import java.util.List;
