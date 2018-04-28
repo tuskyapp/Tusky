@@ -287,5 +287,6 @@
     <string name="send_toot_notification_channel_name">Отправка постов</string>
     <string name="send_toot_notification_cancel_title">Отправка отменена</string>
     <string name="send_toot_notification_saved_content">Копия поста сохранена в ваши черновики</string>
+    <string name="expand_collapse_all_statuses">Раскрыть/свернуть все статусы</string>
 
 </resources>
