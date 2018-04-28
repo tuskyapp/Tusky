@@ -31,7 +31,7 @@ import com.jakewharton.picasso.OkHttp3Downloader;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.di.AppInjector;
-import com.keylesspalace.tusky.entity.EmojiCompatFont;
+import com.keylesspalace.tusky.util.EmojiCompatFont;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;

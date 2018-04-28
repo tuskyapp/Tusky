@@ -15,6 +15,7 @@
         <com.keylesspalace.tusky.EmojiPreference
             android:defaultValue="@string/system_default"
             android:key="emojiCompat"
+            android:summary="@string/system_default"
             android:title="@string/emoji_style"/>
 
         <ListPreference

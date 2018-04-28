@@ -45,11 +45,6 @@ public class FileEmojiCompatConfig extends EmojiCompat.Config {
      */
     private final boolean fallback;
 
-    /**
-     * Create a new configuration for EmojiCompat
-     * @param path The file name/path of the requested font
-     * @param context The context is needed in order to provide the fallback font
-     */
     public FileEmojiCompatConfig(@NonNull Context context,
                                  // NEW
                                  @NonNull String path) {
@@ -57,11 +52,6 @@ public class FileEmojiCompatConfig extends EmojiCompat.Config {
         this(context, new File(path));
     }
 
-    /**
-     * Create a new configuration for EmojiCompat
-     * @param fontFile The File containing the requested font
-     * @param context The context is needed in order to provide the fallback font
-     */
     public FileEmojiCompatConfig(@NonNull Context context, File fontFile) {
         super(new FileMetadataLoader(context, fontFile));
         fallback = fontFile == null || !fontFile.exists();
@@ -99,9 +89,7 @@ public class FileEmojiCompatConfig extends EmojiCompat.Config {
 
         // Copied from BundledEmojiCompatConfig
         @Override
-        @RequiresApi(19)
         public void load(@NonNull EmojiCompat.MetadataRepoLoaderCallback loaderCallback) {
-            //Preconditions.checkNotNull(loaderCallback, "loaderCallback cannot be null");
             final InitRunnable runnable = new InitRunnable(mContext, loaderCallback, file);
             final Thread thread = new Thread(runnable);
             thread.setDaemon(false);

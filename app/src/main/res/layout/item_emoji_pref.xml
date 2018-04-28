@@ -2,10 +2,11 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="72dp">
+    android:layout_height="72dp"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!--This is a thumbnail picture-->
-    <com.pkmmte.view.CircularImageView
+    <ImageView
         android:id="@+id/emojicompat_thumb"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -23,8 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:layout_marginTop="8dp"
-        android:text="Emoji font"
-        android:textSize="16sp"
+        tools:text="Emoji font"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,11 +37,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="72dp"
-        android:text="It's the best. Everyone says so!!"
+        tools:text="It's the best. Everyone says so!!"
         app:layout_constraintTop_toBottomOf="@id/emojicompat_name"
         app:layout_constraintStart_toStartOf="@id/emojicompat_name"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="12sp"/>
 
     <!--This progress bar is shown while the font is downloading.-->
     <ProgressBar
@@ -64,15 +68,12 @@
         android:paddingTop="36dp"
         android:paddingEnd="36dp"
         android:paddingStart="36dp"
-        android:layout_marginEnd="-20dp"
-        android:layout_marginStart="-20dp"
-        style="?android:attr/borderlessButtonStyle"
-        android:background="@drawable/button_ripple"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_file_download_black_24dp"
-        android:tint="@color/colorAccent"
+        android:tint="@color/colorPrimary"
         app:layout_constraintVertical_bias="0.5"
         android:focusable="true"
         android:contentDescription="@string/download_fonts"
@@ -88,15 +89,12 @@
         android:paddingTop="36dp"
         android:paddingEnd="36dp"
         android:paddingStart="36dp"
-        android:layout_marginEnd="-20dp"
-        android:layout_marginStart="-20dp"
-        style="?android:attr/borderlessButtonStyle"
-        android:background="@drawable/button_ripple"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_cancel_black_24dp"
-        android:tint="@color/colorAccent"
+        android:tint="@color/colorPrimary"
         app:layout_constraintVertical_bias="0.5"
         android:focusable="true"
         android:contentDescription="@android:string/cancel"

@@ -75,7 +75,6 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     // EmojiCompat
     implementation "com.android.support:support-emoji:$supportLibraryVersion"
-    implementation "com.android.support:support-emoji-bundled:$supportLibraryVersion"
     implementation "com.android.support:support-emoji-appcompat:$supportLibraryVersion"
     //room
     implementation 'android.arch.persistence.room:runtime:1.0.0'

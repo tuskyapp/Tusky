@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.entity;
+package com.keylesspalace.tusky.util;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.keylesspalace.tusky.FileEmojiCompatConfig;
 import com.keylesspalace.tusky.R;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,15 +18,16 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okio.BufferedSink;
 import okio.Okio;
+import okio.Source;
 
 
-// TODO: It might be possible that this is not a class that belongs to the entity-package...
 /**
  * This class bundles information about an emoji font as well as many convenient actions.
  */
 public class EmojiCompatFont {
     // These are the items which are also present in the JSON files
-    private String name, display, subtitle, img, url, src;
+    private final String name, display, subtitle, img, url, src;
+    private AsyncTask fontDownloader;
     /**
      * This is a special font as it's basically no EmojiCompat font.
      * Whenever the "system font" is used, another font called 'NoEmojiCompat.ttf' is used which
@@ -226,7 +228,22 @@ public class EmojiCompatFont {
      * @throws FileNotFoundException This is thrown when attempting to download for SYSTEM_DEFAULT
      */
     public void downloadFont(Downloader.EmojiDownloadListener... listeners) throws FileNotFoundException {
-        new Downloader(this, getUrl(), "application/woff", listeners).execute(getFont());
+        fontDownloader = new Downloader(
+                this,
+                getUrl(),
+                "application/woff",
+                listeners)
+                .execute(getFont());
+    }
+
+    /**
+     * Stops downloading the font. If no one started a font download, nothing happens.
+     */
+    public void cancelDownload() {
+        if(fontDownloader != null) {
+            fontDownloader.cancel(false);
+            fontDownloader = null;
+        }
     }
 
     /**
@@ -242,6 +259,7 @@ public class EmojiCompatFont {
         // The font belonging to this download
         private final EmojiCompatFont font;
         private static final String TAG = "Emoji-Font Downloader";
+        private static long BUFFER_SIZE = 2048;
 
         Downloader(EmojiCompatFont font, String url, String mimetype, EmojiDownloadListener... listeners) {
             super();
@@ -255,7 +273,6 @@ public class EmojiCompatFont {
         protected File doInBackground(File... files){
             // Only download to one file...
             File downloadFile = files[0];
-            BufferedSink sink;
             try {
                 // It is possible (and very likely) that the file does not exist yet
                 if (!downloadFile.exists()) {
@@ -266,17 +283,35 @@ public class EmojiCompatFont {
                         .addHeader("Content-Type", mimetype)
                         .build();
                 Response response = client.newCall(request).execute();
-                sink = Okio.buffer(Okio.sink(downloadFile));
+                BufferedSink sink = Okio.buffer(Okio.sink(downloadFile));
+                Source source = null;
                 try {
                     // Download!
                     if (response.body() != null) {
-                        sink.writeAll(response.body().source());
+                        source = response.body().source();
+                        try {
+                            while (!isCancelled()) {
+                                    sink.write(response.body().source(), BUFFER_SIZE);
+                            }
+                        } catch (EOFException ex) {
+                                /*
+                                 This means we've finished downloading the file since sink.write
+                                 will throw an EOFException when the file to be read is empty.
+                                */
+                        }
                     } else {
                         Log.e(TAG, "downloading " + url + " failed. No content to download.");
                     }
                 }
                 finally {
+                    if(source != null) {
+                        source.close();
+                    }
                     sink.close();
+                    // This if uses side effects to delete the File.
+                    if(isCancelled() && !downloadFile.delete()) {
+                        Log.e(TAG, "Could not delete file " + downloadFile + ".");
+                    }
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();

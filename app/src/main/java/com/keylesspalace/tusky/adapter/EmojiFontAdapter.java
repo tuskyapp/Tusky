@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -17,8 +18,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.keylesspalace.tusky.EmojiPreference;
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.entity.EmojiCompatFont;
-import com.pkmmte.view.CircularImageView;
+import com.keylesspalace.tusky.util.EmojiCompatFont;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -94,7 +94,7 @@ public class EmojiFontAdapter extends RecyclerView.Adapter<EmojiFontAdapter.Emoj
     @Override
     public EmojiFontViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View item = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.emoji_pref_item, parent, false);
+                .inflate(R.layout.item_emoji_pref, parent, false);
         // All radio buttons need to be stored to uncheck them later
         radioButtons.add(item.findViewById(R.id.emoji_radio));
         return new EmojiFontViewHolder(item);
@@ -143,7 +143,7 @@ public class EmojiFontAdapter extends RecyclerView.Adapter<EmojiFontAdapter.Emoj
      */
     class EmojiFontViewHolder extends RecyclerView.ViewHolder implements EmojiCompatFont.Downloader.EmojiDownloadListener{
         // This is where we'll see the thumbnail picture
-        private final CircularImageView thumb;
+        private final ImageView thumb;
         // This is the font's title view
         private final TextView fontView;
         // The caption
@@ -166,7 +166,7 @@ public class EmojiFontAdapter extends RecyclerView.Adapter<EmojiFontAdapter.Emoj
         // The font which is represented by this entry
         private EmojiCompatFont font;
         // The Application's context is (only) needed to translate the "System default" string
-        private Context applicationContext;
+        private final Context applicationContext;
 
         EmojiFontViewHolder(View itemView) {
             super(itemView);
@@ -258,7 +258,14 @@ public class EmojiFontAdapter extends RecyclerView.Adapter<EmojiFontAdapter.Emoj
                     downloadProgress.setVisibility(View.VISIBLE);
                     subtitle.setVisibility(GONE);
                     // TODO: Make the cancel button work
-                    // cancelDownload.setVisibility(View.VISIBLE);
+                    cancelDownload.setVisibility(View.VISIBLE);
+                    cancelDownload.setOnClickListener((cancel) -> {
+                        font.cancelDownload();
+                        downloadButton.setVisibility(View.VISIBLE);
+                        subtitle.setVisibility(View.VISIBLE);
+                        downloadProgress.setVisibility(GONE);
+                        cancel.setVisibility(GONE);
+                    });
                     downloadButton.setVisibility(GONE);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();

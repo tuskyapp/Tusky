@@ -13,7 +13,7 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.keylesspalace.tusky.adapter.EmojiFontAdapter;
-import com.keylesspalace.tusky.entity.EmojiCompatFont;
+import com.keylesspalace.tusky.util.EmojiCompatFont;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,8 +28,8 @@ import okio.Okio;
  * This Preference lets the user select their preferred emoji font
  */
 public class EmojiPreference extends DialogPreference {
+    private static final String TAG = "EmojiPreference";
     // TODO: Add a real URL
-    // The font list will be downloaded from this URL
     private static final String FONTS_URL = "https://raw.githubusercontent.com/C1710/Tusky/emojiSettings/fonts.json";
     // These two Arrays contain the Views shown...
     // ...when the font list hasn't been loaded yet
@@ -40,9 +40,9 @@ public class EmojiPreference extends DialogPreference {
     private static final int[] loadingIds = {R.id.emoji_loading_label, R.id.emoji_loading};
     private static final int[] finishedIds = {R.id.emoji_font_list, R.id.emoji_download_label};
     // We'll need a Context to get some String resources. Thanks, Android!
-    private Context context;
+    private final Context context;
     // This is where the emoji fonts are stored
-    private File emojiFolder;
+    private final File emojiFolder;
     // TODO: It might be possible that you could use a more lightweight solution...
     // Which font is the selected one?
     private EmojiCompatFont selected;
@@ -62,7 +62,7 @@ public class EmojiPreference extends DialogPreference {
         // 2. We'll need it later to translate one String
 
         // Set the content of the dialog
-        setDialogLayoutResource(R.layout.emojicompat_dialog);
+        setDialogLayoutResource(R.layout.dialog_emojicompat);
         // This should be pretty straightforward...
         setPositiveButtonText(android.R.string.ok);
         setNegativeButtonText(android.R.string.cancel);
@@ -77,6 +77,8 @@ public class EmojiPreference extends DialogPreference {
         // Since the directory is not stored in the JSON, we'll need to manually add a directory
         // in order to let it find its files
         selected.setBaseDirectory(emojiFolder);
+        // This is probably not the best style, but
+        setSummary(selected.getDisplay(context));
     }
 
 
@@ -144,7 +146,7 @@ public class EmojiPreference extends DialogPreference {
      */
     private static class FontListDownloader extends AsyncTask<File, Void, File> {
         // All the objects interested about (?) this download
-        private EmojiFontListener[] listeners;
+        private final EmojiFontListener[] listeners;
 
         FontListDownloader(EmojiFontListener... listeners) {
             super();
@@ -177,7 +179,7 @@ public class EmojiPreference extends DialogPreference {
                         // GOGOGO! DOWNLOAD!
                         sink.writeAll(response.body().source());
                     } else {
-                        Log.e("FUCK", "downloadFonts: Source empty");
+                        Log.e(TAG, "downloadFonts: Source empty");
                     }
                 }
                 finally {
@@ -247,6 +249,7 @@ public class EmojiPreference extends DialogPreference {
                 .edit()
                 .putString(FONT_PREFERENCE, json)
                 .apply();
+        setSummary(selected.getDisplay(getContext()));
     }
 
     /**
