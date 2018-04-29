@@ -34,8 +34,6 @@ import com.keylesspalace.tusky.di.AppInjector;
 import com.keylesspalace.tusky.util.EmojiCompatFont;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
-
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
@@ -105,23 +103,14 @@ public class TuskyApplication extends Application implements HasActivityInjector
      * fallback solution instead which won't make any visible difference to using no EmojiCompat at all.
      */
     private void initEmojiCompat() {
-        // Declaration
-        EmojiCompat.Config config;
-        // Load the font information from the Shared Preferences
-        String emojiPreference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-                .getString(EmojiPreference.FONT_PREFERENCE, "");
-        // Produce a valid font out of it
-        EmojiCompatFont font = EmojiCompatFont.parseFont(emojiPreference);
-        /*
-            The font doesn't know where its files are located (yet) since it can't find the ExternalFilesDir
-            on it's own
-         */
-        font.setBaseDirectory(new File(getApplicationContext().getExternalFilesDir(null), "emoji"));
+        int emojiSelection = PreferenceManager
+                .getDefaultSharedPreferences(getApplicationContext())
+                .getInt(EmojiPreference.FONT_PREFERENCE, 0);
+        EmojiCompatFont font = EmojiCompatFont.byId(emojiSelection);
         // FileEmojiCompat will handle any non-existing font and provide a fallback solution.
-        config = font.getConfig(getApplicationContext())
+        EmojiCompat.Config config = font.getConfig(getApplicationContext())
                 // The user probably wants to get a consistent experience
                 .setReplaceAll(true);
-        // That's it! We can load the new EmojiCompat font!
         EmojiCompat.init(config);
     }
 

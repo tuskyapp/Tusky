@@ -4,43 +4,26 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="20dp">
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <!--Shown while loading the font list-->
-        <ProgressBar
-            android:id="@+id/emoji_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
 
-        <!--Shown while loading the font list-->
-        <TextView
-            android:id="@+id/emoji_loading_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/loading"
-            android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emoji_loading" />
-    </android.support.constraint.ConstraintLayout>
-
-    <!--This is a list containing all emoji fonts-->
-    <android.support.v7.widget.RecyclerView
+    <LinearLayout
         android:id="@+id/emoji_font_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="20dp"
-        android:visibility="gone"
-        />
+        android:orientation="vertical">
+        <include
+            android:id="@+id/item_blobmoji"
+            layout="@layout/item_emoji_pref" />
+
+        <include
+            android:id="@+id/item_twemoji"
+            layout="@layout/item_emoji_pref"/>
+        <include
+            android:id="@+id/item_nomoji"
+            layout="@layout/item_emoji_pref" />
+    </LinearLayout>
+
     <!--There's a short explanation that you'll need to download the emoji fonts first-->
-    <android.support.text.emoji.widget.EmojiTextView
+    <TextView
         android:id="@+id/emoji_download_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,7 +33,6 @@
         android:paddingEnd="24dp"
         android:paddingStart="24dp"
         android:text="@string/download_fonts"
-        android:textColor="?android:attr/textColorSecondary"
-        android:visibility="gone"/>
+        android:textColor="?android:attr/textColorSecondary"/>
 
 </android.support.constraint.ConstraintLayout>

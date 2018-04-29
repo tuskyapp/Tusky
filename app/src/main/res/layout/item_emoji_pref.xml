@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/emojicompat_container"
     android:layout_width="match_parent"
     android:layout_height="72dp"
@@ -28,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:layout_marginTop="8dp"
-        tools:text="Emoji font"
+        tools:text="@string/system_default"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,12 +37,12 @@
 
     <!--A short caption...-->
     <TextView
-        android:id="@+id/emojicompat_subtitle"
+        android:id="@+id/emojicompat_caption"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="72dp"
-        tools:text="It's the best. Everyone says so!!"
+        tools:text=""
         app:layout_constraintTop_toBottomOf="@id/emojicompat_name"
         app:layout_constraintStart_toStartOf="@id/emojicompat_name"
         app:layout_constraintHorizontal_bias="0"
@@ -60,12 +61,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/emojicompat_name"
         app:layout_constraintTop_toBottomOf="@id/emojicompat_name"
-        android:indeterminate="true"
+        android:indeterminate="false"
         android:visibility="gone"/>
 
     <!--Click on it and the font will be downloaded!-->
     <ImageButton
-        android:id="@+id/download_emoji_button"
+        android:id="@+id/emojicompat_download"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_margin="12dp"
@@ -78,12 +79,12 @@
         app:layout_constraintVertical_bias="0.5"
         android:focusable="true"
         android:contentDescription="@string/download_fonts"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
     <!--TODO: enable this button again-->
     <!--You should be able to cancel the download-->
     <ImageButton
-        android:id="@+id/cancel_emoji_download"
+        android:id="@+id/emojicompat_download_cancel"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_margin="12dp"
@@ -102,7 +103,7 @@
     <!--RadioButtons have a very strange behavior when it comes to their size.
         That's why the width is set to such an unusual value.-->
     <RadioButton
-        android:id="@+id/emoji_radio"
+        android:id="@+id/emojicompat_radio"
         android:layout_width="52dp"
         android:layout_height="72dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -110,8 +111,8 @@
         app:layout_constraintStart_toEndOf="@id/emojicompat_name"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="1"
-        android:visibility="gone"/>
+        android:visibility="visible" />
 
 
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>

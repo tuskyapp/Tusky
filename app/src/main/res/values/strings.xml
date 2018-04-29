@@ -309,5 +309,9 @@
     <string name="loading">Loading…</string>
     <string name="performing_lookup_title">Performing lookup...</string>
     <string name="expand_collapse_all_statuses">Expand/Collapse all statuses</string>
+    <string name="restart_required">App restart required</string>
+    <string name="restart_emoji">You\'ll need to restart Tusky in order to apply these changes</string>
+    <string name="later">Later</string>
+    <string name="restart">Restart</string>
 
 </resources>

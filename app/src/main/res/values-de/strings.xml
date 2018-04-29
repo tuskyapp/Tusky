@@ -270,5 +270,9 @@
     <string name="system_default">System-Standard</string>
     <string name="download_fonts">Du musst diese Emoji-Sets zunächst herunterladen.</string>
     <string name="loading">Lädt…</string>
+    <string name="restart_required">App-Neustart erforderlich</string>
+    <string name="restart_emoji">Du musst Tusky neustarten um die Änderungen anzuwenden</string>
+    <string name="later">Später</string>
+    <string name="restart">Neustarten</string>
 
 </resources>
