@@ -29,6 +29,7 @@
         android:layout_marginTop="14dp"
         android:layout_toEndOf="@+id/status_avatar"
         android:gravity="center_vertical"
+        android:minHeight="48dp"
         android:orientation="vertical">
 
         <TextView
@@ -74,7 +75,7 @@
         android:layout_marginTop="4dp"
         android:background="?attr/content_warning_button"
         android:minHeight="0dp"
-        android:minWidth="150dp"
+        android:minWidth="160dp"
         android:paddingBottom="4dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
@@ -93,7 +94,8 @@
         android:focusable="true"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
-        android:textSize="?attr/status_text_large" />
+        android:textSize="?attr/status_text_large"
+        tools:text="Status content. Can be pretty long. " />
 
     <LinearLayout
         android:id="@+id/card_view"
