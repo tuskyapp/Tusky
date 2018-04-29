@@ -56,8 +56,7 @@ public class EmojiCompatFont {
                     "Twemoji",
                     "Mastodon's standard emoji",
                     R.drawable.ic_twemoji,
-                    //"https://tuskyapp.github.io/hosted/emoji/TwemojiCompat.ttf",
-                    "https://github.com/C1710/tuskyapp.github.io/raw/master/hosted/emoji/TwemojiCompat.ttf",
+                    "https://tuskyapp.github.io/hosted/emoji/TwemojiCompat.ttf",
                     "https://github.com/twitter/twemoji"
             );
 
