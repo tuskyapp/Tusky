@@ -32,21 +32,22 @@ public class EmojiCompatFont {
     private static final String DIRECTORY = "emoji";
 
     // These are the items which are also present in the JSON files
-    private final String name, display, caption, url, src;
-    private final int img;
+    private final String name, display, url, src;
+    // The thumbnail image and the caption are provided as resource ids
+    private final int img, caption;
     private AsyncTask fontDownloader;
     // The system font gets some special behavior...
     public static final EmojiCompatFont SYSTEM_DEFAULT =
             new EmojiCompatFont("system-default",
                     "System Default",
-                    "",
+                    R.string.caption_systememoji,
                     R.drawable.ic_emoji_24dp,
                     "",
                     "");
     private static final EmojiCompatFont BLOBMOJI =
             new EmojiCompatFont("Blobmoji",
                     "Blobmoji",
-                    "An emoji-set based on the beloved Blob emojis",
+                    R.string.caption_blobmoji,
                     R.drawable.ic_blobmoji,
                     "https://tuskyapp.github.io/hosted/emoji/BlobmojiCompat.ttf",
                     "https://github.com/c1710/blobmoji"
@@ -54,7 +55,7 @@ public class EmojiCompatFont {
     private static final EmojiCompatFont TWEMOJI =
             new EmojiCompatFont("Twemoji",
                     "Twemoji",
-                    "Mastodon's standard emoji",
+                    R.string.caption_twemoji,
                     R.drawable.ic_twemoji,
                     "https://tuskyapp.github.io/hosted/emoji/TwemojiCompat.ttf",
                     "https://github.com/twitter/twemoji"
@@ -69,7 +70,7 @@ public class EmojiCompatFont {
 
     private EmojiCompatFont(String name,
                             String display,
-                            String caption,
+                            int caption,
                             int img,
                             String url,
                             String src) {
@@ -108,8 +109,8 @@ public class EmojiCompatFont {
         return this != SYSTEM_DEFAULT ? display : context.getString(R.string.system_default);
     }
 
-    public String getCaption() {
-        return caption;
+    public String getCaption(Context context) {
+        return context.getResources().getString(caption);
     }
 
     public String getUrl() {

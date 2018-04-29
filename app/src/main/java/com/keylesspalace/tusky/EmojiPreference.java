@@ -83,7 +83,7 @@ public class EmojiPreference extends DialogPreference {
 
         // Initialize all the views
         title.setText(font.getDisplay(context));
-        caption.setText(font.getCaption());
+        caption.setText(font.getCaption(context));
         thumb.setImageDrawable(font.getThumb(context));
 
         // There needs to be a list of all the radio buttons in order to uncheck them when one is selected
