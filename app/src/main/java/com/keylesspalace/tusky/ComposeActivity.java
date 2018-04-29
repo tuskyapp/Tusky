@@ -114,7 +114,7 @@ import com.keylesspalace.tusky.view.TootButton;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
-import com.varunest.sparkbutton.helpers.Utils;
+import at.connyduck.sparkbutton.helpers.Utils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -147,7 +147,7 @@ public final class ComposeActivity
         Injectable, InputConnectionCompat.OnCommitContentListener {
 
     private static final String TAG = "ComposeActivity"; // logging tag
-    private static final int STATUS_CHARACTER_LIMIT = 500;
+    static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 8388608; // 8MiB
     private static final int MEDIA_PICK_RESULT = 1;
     private static final int MEDIA_TAKE_PHOTO_RESULT = 2;
@@ -1462,6 +1462,12 @@ public final class ComposeActivity
     private void cacheInstanceMetadata(@NotNull AccountEntity activeAccount) {
         InstanceEntity instanceEntity = new InstanceEntity(activeAccount.getDomain(), emojiList, maximumTootCharacters);
         TuskyApplication.getDB().instanceDao().insertOrReplace(instanceEntity);
+    }
+
+    // Accessors for testing, hence package scope
+    int getMaximumTootCharacters()
+    {
+        return maximumTootCharacters;
     }
 
     public static final class QueuedMedia {

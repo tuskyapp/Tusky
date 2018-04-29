@@ -36,6 +36,7 @@ import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.adapter.ThreadAdapter;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Attachment;
@@ -61,7 +62,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ViewThreadFragment extends SFragment implements
+public final class ViewThreadFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, Injectable {
     private static final String TAG = "ViewThreadFragment";
 
@@ -78,7 +79,7 @@ public class ViewThreadFragment extends SFragment implements
 
     private int statusIndex = 0;
 
-    private PairedList<Status, StatusViewData.Concrete> statuses =
+    private final PairedList<Status, StatusViewData.Concrete> statuses =
             new PairedList<>(new Function<Status, StatusViewData.Concrete>() {
                 @Override
                 public StatusViewData.Concrete apply(Status input) {
@@ -109,7 +110,8 @@ public class ViewThreadFragment extends SFragment implements
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.primary);
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
+                ThemeUtils.getColor(context, android.R.attr.colorBackground));
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -158,6 +160,29 @@ public class ViewThreadFragment extends SFragment implements
         onRefresh();
     }
 
+    public void onRevealPressed() {
+        boolean allExpanded = allExpanded();
+        for (int i = 0; i < statuses.size(); i++) {
+            StatusViewData.Concrete newViewData =
+                    new StatusViewData.Concrete.Builder(statuses.getPairedItem(i))
+                            .setIsExpanded(!allExpanded)
+                            .createStatusViewData();
+            statuses.setPairedItem(i, newViewData);
+        }
+        adapter.setStatuses(statuses.getPairedCopy());
+    }
+
+    private boolean allExpanded() {
+        boolean allExpanded = true;
+        for (int i = 0; i < statuses.size(); i++) {
+            if (!statuses.getPairedItem(i).isExpanded()) {
+                allExpanded = false;
+                break;
+            }
+        }
+        return allExpanded;
+    }
+
     @Override
     public void onRefresh() {
         sendStatusRequest(thisThreadsStatusId);
@@ -191,7 +216,7 @@ public class ViewThreadFragment extends SFragment implements
                     StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
 
                     statuses.setPairedItem(position, newViewData);
-                    adapter.setItem(position, newViewData, true);
+                    adapter.setItem(position, newViewData, false);
                 }
             }
 
@@ -224,7 +249,7 @@ public class ViewThreadFragment extends SFragment implements
                     StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
 
                     statuses.setPairedItem(position, newViewData);
-                    adapter.setItem(position, newViewData, true);
+                    adapter.setItem(position, newViewData, false);
                 }
             }
 
@@ -271,6 +296,7 @@ public class ViewThreadFragment extends SFragment implements
                         .createStatusViewData();
         statuses.setPairedItem(position, newViewData);
         adapter.setItem(position, newViewData, false);
+        updateRevealIcon();
     }
 
     @Override
@@ -400,13 +426,10 @@ public class ViewThreadFragment extends SFragment implements
         swipeRefreshLayout.setRefreshing(false);
         if (view != null) {
             Snackbar.make(view, R.string.error_generic, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.action_retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            sendThreadRequest(id);
-                            sendStatusRequest(id);
-                            sendCardRequest(id);
-                        }
+                    .setAction(R.string.action_retry, v -> {
+                        sendThreadRequest(id);
+                        sendStatusRequest(id);
+                        sendCardRequest(id);
                     })
                     .show();
         } else {
@@ -433,6 +456,7 @@ public class ViewThreadFragment extends SFragment implements
         }
         statuses.setPairedItem(i, viewData);
         adapter.addItem(i, viewData);
+        updateRevealIcon();
         return i;
     }
 
@@ -492,6 +516,7 @@ public class ViewThreadFragment extends SFragment implements
             throw new AssertionError(error);
         }
         adapter.addAll(descendantsViewData);
+        updateRevealIcon();
     }
 
     private void showCard(Card card) {
@@ -510,5 +535,26 @@ public class ViewThreadFragment extends SFragment implements
     public void clear() {
         statuses.clear();
         adapter.clear();
+    }
+
+    private void updateRevealIcon() {
+        ViewThreadActivity activity = ((ViewThreadActivity) getActivity());
+        if (activity == null) return;
+
+        boolean hasAnyWarnings = false;
+        // Statuses are updated from the main thread so nothing should change while iterating
+        for (int i = 0; i < statuses.size(); i++) {
+            if (statuses.get(i).getSpoilerText() != null
+                    && !statuses.get(i).getSpoilerText().isEmpty()) {
+                hasAnyWarnings = true;
+                break;
+            }
+        }
+        if (!hasAnyWarnings) {
+                activity.setRevealButtonState(ViewThreadActivity.REVEAL_BUTTON_HIDDEN);
+                return;
+        }
+        activity.setRevealButtonState(allExpanded() ? ViewThreadActivity.REVEAL_BUTTON_HIDE :
+                ViewThreadActivity.REVEAL_BUTTON_REVEAL);
     }
 }
