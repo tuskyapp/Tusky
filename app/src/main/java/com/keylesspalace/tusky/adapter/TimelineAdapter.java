@@ -125,6 +125,16 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         if (notifyAdapter) notifyItemChanged(position);
     }
 
+    public void insertItem(int position, StatusViewData viewData) {
+        statuses.add(position, viewData);
+        notifyItemInserted(position);
+    }
+
+    public void removeItem(int position) {
+        statuses.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public void clear() {
         statuses.clear();
         notifyDataSetChanged();

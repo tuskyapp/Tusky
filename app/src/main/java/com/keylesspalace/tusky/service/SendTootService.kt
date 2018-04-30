@@ -15,6 +15,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TuskyApplication
+import com.keylesspalace.tusky.appstore.AppStore
+import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
@@ -38,6 +40,8 @@ class SendTootService: Service(), Injectable {
     lateinit var mastodonApi: MastodonApi
     @Inject
     lateinit var accountManager: AccountManager
+    @Inject
+    lateinit var appStore: AppStore
 
     private lateinit var saveTootHelper: SaveTootHelper
 
@@ -151,6 +155,7 @@ class SendTootService: Service(), Injectable {
 
                     val intent = Intent(TimelineReceiver.Types.STATUS_COMPOSED)
                     LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
+                    response.body()?.let(::StatusComposedEvent)?.let(appStore::dispatch)
 
                     // If the status was loaded from a draft, delete the draft and associated media files.
                     if(tootToSend.savedTootUid != 0) {

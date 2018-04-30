@@ -31,6 +31,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,14 @@ import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
+import com.keylesspalace.tusky.appstore.AppStore;
+import com.keylesspalace.tusky.appstore.BlockEvent;
+import com.keylesspalace.tusky.appstore.FavoriteEvent;
+import com.keylesspalace.tusky.appstore.MuteEvent;
+import com.keylesspalace.tusky.appstore.ReblogEvent;
+import com.keylesspalace.tusky.appstore.StatusComposedEvent;
+import com.keylesspalace.tusky.appstore.StatusDeletedEvent;
+import com.keylesspalace.tusky.appstore.UnfollowEvent;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
@@ -57,6 +66,8 @@ import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
+import com.uber.autodispose.AutoDispose;
+import com.uber.autodispose.android.ViewScopeProvider;
 
 import java.util.Iterator;
 import java.util.List;
@@ -99,6 +110,8 @@ public class TimelineFragment extends SFragment implements
 
     @Inject
     TimelineCases timelineCases;
+    @Inject
+    AppStore appStore;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private TimelineAdapter adapter;
@@ -113,7 +126,6 @@ public class TimelineFragment extends SFragment implements
     private boolean filterRemoveRegex;
     private Matcher filterRemoveRegexMatcher;
     private boolean hideFab;
-    private TimelineReceiver timelineReceiver;
     private boolean topLoading;
     private int topFetches;
     private boolean bottomLoading;
@@ -216,11 +228,8 @@ public class TimelineFragment extends SFragment implements
 
         String regexFilter = preferences.getString("tabFilterRegex", "");
         filterRemoveRegex = (kind == Kind.HOME || kind == Kind.PUBLIC_LOCAL || kind == Kind.PUBLIC_FEDERATED) && !regexFilter.isEmpty();
-        if (filterRemoveRegex) filterRemoveRegexMatcher = Pattern.compile(regexFilter, Pattern.CASE_INSENSITIVE).matcher("");
-
-        timelineReceiver = new TimelineReceiver(this, this);
-        LocalBroadcastManager.getInstance(context.getApplicationContext())
-                .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(kind));
+        if (filterRemoveRegex)
+            filterRemoveRegexMatcher = Pattern.compile(regexFilter, Pattern.CASE_INSENSITIVE).matcher("");
 
         statuses.clear();
         topLoading = false;
@@ -230,7 +239,56 @@ public class TimelineFragment extends SFragment implements
         bottomId = null;
         topId = null;
 
+        // CWs are expanded without animation, buttons animate itself, we don't need it basically
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        appStore.getEvents()
+                .as(AutoDispose.autoDisposable(ViewScopeProvider.from(view)))
+                .subscribe(event -> {
+                    if (event instanceof FavoriteEvent) {
+                        FavoriteEvent favEvent = ((FavoriteEvent) event);
+                        handleFavEvent(favEvent);
+                    } else if (event instanceof ReblogEvent) {
+                        ReblogEvent reblogEvent = (ReblogEvent) event;
+                        handleReblogEvent(reblogEvent);
+                    } else if (event instanceof UnfollowEvent) {
+                        if (kind == Kind.HOME) {
+                            String id = ((UnfollowEvent) event).getAccountId();
+                            removeAllByAccountId(id);
+                        }
+                    } else if (event instanceof BlockEvent) {
+                        String id = ((BlockEvent) event).getAccountId();
+                        removeAllByAccountId(id);
+                    } else if (event instanceof MuteEvent) {
+                        String id = ((MuteEvent) event).getAccountId();
+                        removeAllByAccountId(id);
+                    } else if (event instanceof StatusDeletedEvent) {
+                        String id = ((StatusDeletedEvent) event).getStatusId();
+                        deleteStatusById(id);
+                    } else if (event instanceof StatusComposedEvent) {
+                        Status status = ((StatusComposedEvent) event).getStatus();
+                        handleStatusComposeEvent(status);
+                    }
+                });
+    }
+
+    private void deleteStatusById(String id) {
+        for (int i = 0; i < statuses.size(); i++) {
+            Either<Placeholder, Status> either = statuses.get(i);
+            if (either.isRight()
+                    && id.equals(either.getAsRight().getId())) {
+                statuses.remove(either);
+                adapter.removeItem(i);
+                break;
+            }
+        }
     }
 
     @Override
@@ -311,7 +369,6 @@ public class TimelineFragment extends SFragment implements
                 tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
             }
         }
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(timelineReceiver);
         super.onDestroyView();
     }
 
@@ -333,22 +390,7 @@ public class TimelineFragment extends SFragment implements
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
 
                 if (response.isSuccessful()) {
-                    status.setReblogged(reblog);
-
-                    if (status.getReblog() != null) {
-                        status.getReblog().setReblogged(reblog);
-                    }
-
-                    Pair<StatusViewData.Concrete, Integer> actual =
-                            findStatusAndPosition(position, status);
-                    if (actual == null) return;
-
-                    StatusViewData newViewData =
-                            new StatusViewData.Builder(actual.first)
-                                    .setReblogged(reblog)
-                                    .createStatusViewData();
-                    statuses.setPairedItem(actual.second, newViewData);
-                    adapter.changeItem(actual.second, newViewData, false);
+                    setRebloggedForStatus(position, status, reblog);
                 }
             }
 
@@ -357,6 +399,25 @@ public class TimelineFragment extends SFragment implements
                 Log.d(TAG, "Failed to reblog status " + status.getId(), t);
             }
         });
+    }
+
+    private void setRebloggedForStatus(int position, Status status, boolean reblog) {
+        status.setReblogged(reblog);
+
+        if (status.getReblog() != null) {
+            status.getReblog().setReblogged(reblog);
+        }
+
+        Pair<StatusViewData.Concrete, Integer> actual =
+                findStatusAndPosition(position, status);
+        if (actual == null) return;
+
+        StatusViewData newViewData =
+                new StatusViewData.Builder(actual.first)
+                        .setReblogged(reblog)
+                        .createStatusViewData();
+        statuses.setPairedItem(actual.second, newViewData);
+        adapter.changeItem(actual.second, newViewData, true);
     }
 
     @Override
@@ -368,22 +429,7 @@ public class TimelineFragment extends SFragment implements
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
 
                 if (response.isSuccessful()) {
-                    status.setFavourited(favourite);
-
-                    if (status.getReblog() != null) {
-                        status.getReblog().setFavourited(favourite);
-                    }
-
-                    Pair<StatusViewData.Concrete, Integer> actual =
-                            findStatusAndPosition(position, status);
-                    if (actual == null) return;
-
-                    StatusViewData newViewData = new StatusViewData
-                            .Builder(actual.first)
-                            .setFavourited(favourite)
-                            .createStatusViewData();
-                    statuses.setPairedItem(actual.second, newViewData);
-                    adapter.changeItem(actual.second, newViewData, false);
+                    setFavouriteForStatus(position, status, favourite);
                 }
             }
 
@@ -392,6 +438,25 @@ public class TimelineFragment extends SFragment implements
                 Log.d(TAG, "Failed to favourite status " + status.getId(), t);
             }
         });
+    }
+
+    private void setFavouriteForStatus(int position, Status status, boolean favourite) {
+        status.setFavourited(favourite);
+
+        if (status.getReblog() != null) {
+            status.getReblog().setFavourited(favourite);
+        }
+
+        Pair<StatusViewData.Concrete, Integer> actual =
+                findStatusAndPosition(position, status);
+        if (actual == null) return;
+
+        StatusViewData newViewData = new StatusViewData
+                .Builder(actual.first)
+                .setFavourited(favourite)
+                .createStatusViewData();
+        statuses.setPairedItem(actual.second, newViewData);
+        adapter.changeItem(actual.second, newViewData, true);
     }
 
     @Override
@@ -824,6 +889,19 @@ public class TimelineFragment extends SFragment implements
         return false;
     }
 
+    private int findStatusOrReblogPositionById(@NonNull String statusId) {
+        for (int i = 0; i < statuses.size(); i++) {
+            Status status = statuses.get(i).getAsRightOrNull();
+            if (status != null
+                    && (statusId.equals(status.getId())
+                    || (status.getReblog() != null
+                    && statusId.equals(status.getReblog().getId())))) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     private final Function<Status, Either<Placeholder, Status>> statusLifter =
             Either::right;
 
@@ -848,6 +926,29 @@ public class TimelineFragment extends SFragment implements
             positionToUpdate = position;
         }
         return new Pair<>(statusToUpdate, positionToUpdate);
+    }
+
+    private void handleReblogEvent(@NonNull ReblogEvent reblogEvent) {
+        int pos = findStatusOrReblogPositionById(reblogEvent.getStatusId());
+        if (pos < 0) return;
+        Status status = statuses.get(pos).getAsRight();
+        setRebloggedForStatus(pos, status, reblogEvent.getReblog());
+    }
+
+    private void handleFavEvent(@NonNull FavoriteEvent favEvent) {
+        int pos = findStatusOrReblogPositionById(favEvent.getStatusId());
+        if (pos < 0) return;
+        Status status = statuses.get(pos).getAsRight();
+        setFavouriteForStatus(pos, status, favEvent.getFavourite());
+    }
+
+    private void handleStatusComposeEvent(@NonNull Status status) {
+        // Insert new status to the top and placeholder beneath it because there may be a gap
+        // between new post and what we already know
+        statuses.add(0, Either.right(status));
+        statuses.add(1, Either.left(Placeholder.INSTANCE));
+        adapter.insertItem(0, statuses.getPairedItem(0));
+        adapter.insertItem(1, statuses.getPairedItem(1));
     }
 
     private List<Either<Placeholder, Status>> listStatusList(List<Status> list) {

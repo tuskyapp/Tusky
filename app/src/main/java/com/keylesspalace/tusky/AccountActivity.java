@@ -46,6 +46,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.keylesspalace.tusky.appstore.AppStore;
+import com.keylesspalace.tusky.appstore.BlockEvent;
+import com.keylesspalace.tusky.appstore.MuteEvent;
+import com.keylesspalace.tusky.appstore.UnfollowEvent;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Account;
@@ -91,6 +95,8 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     public AccountManager accountManager;
     @Inject
     public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+    @Inject
+    public AppStore appstore;
 
     private String accountId;
     private FollowState followState;
@@ -530,6 +536,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
                     } else {
                         followState = FollowState.NOT_FOLLOWING;
                         broadcast(TimelineReceiver.Types.UNFOLLOW_ACCOUNT, id);
+                        appstore.dispatch(new UnfollowEvent(id));
                     }
                     updateButtons();
                 } else {
@@ -587,6 +594,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
                 Relationship relationship = response.body();
                 if (response.isSuccessful() && relationship != null) {
                     broadcast(TimelineReceiver.Types.BLOCK_ACCOUNT, id);
+                    appstore.dispatch(new BlockEvent(id));
                     blocking = relationship.getBlocking();
                     updateButtons();
                 } else {
@@ -621,6 +629,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
                 Relationship relationship = response.body();
                 if (response.isSuccessful() && relationship != null) {
                     broadcast(TimelineReceiver.Types.MUTE_ACCOUNT, id);
+                    appstore.dispatch(new MuteEvent(id));
                     muting = relationship.getMuting();
                     updateButtons();
                 } else {
