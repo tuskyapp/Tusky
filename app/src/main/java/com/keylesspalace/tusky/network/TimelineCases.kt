@@ -15,12 +15,11 @@
 
 package com.keylesspalace.tusky.network
 
-import android.content.Intent
-import android.support.v4.content.LocalBroadcastManager
 import com.keylesspalace.tusky.appstore.AppStore
+import com.keylesspalace.tusky.appstore.BlockEvent
+import com.keylesspalace.tusky.appstore.MuteEvent
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.receiver.TimelineReceiver
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -40,7 +39,7 @@ interface TimelineCases {
 
 class TimelineCasesImpl(
         private val mastodonApi: MastodonApi,
-        private val broadcastManager: LocalBroadcastManager
+        private val appStore: AppStore
 ) : TimelineCases {
     override fun reblogWithCallback(status: Status, reblog: Boolean, callback: Callback<Status>) {
         val id = status.actionableId
@@ -71,9 +70,7 @@ class TimelineCasesImpl(
 
             override fun onFailure(call: Call<Relationship>, t: Throwable) {}
         })
-        val intent = Intent(TimelineReceiver.Types.MUTE_ACCOUNT)
-        intent.putExtra("id", id)
-        broadcastManager.sendBroadcast(intent)
+        appStore.dispatch(MuteEvent(id))
     }
 
     override fun block(id: String) {
@@ -83,9 +80,8 @@ class TimelineCasesImpl(
 
             override fun onFailure(call: Call<Relationship>, t: Throwable) {}
         })
-        val intent = Intent(TimelineReceiver.Types.BLOCK_ACCOUNT)
-        intent.putExtra("id", id)
-        broadcastManager.sendBroadcast(intent)
+        appStore.dispatch(BlockEvent(id))
+
     }
 
     override fun delete(id: String) {

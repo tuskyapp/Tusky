@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.appstore.AppStore
 import com.keylesspalace.tusky.appstore.AppStoreImpl
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.network.TimelineCasesImpl
@@ -57,8 +58,8 @@ class AppModule {
 
     @Provides
     fun providesTimelineUseCases(api: MastodonApi,
-                                 broadcastManager: LocalBroadcastManager): TimelineCases {
-        return TimelineCasesImpl(api, broadcastManager)
+                                 appStore: AppStore): TimelineCases {
+        return TimelineCasesImpl(api, appStore)
     }
 
     @Provides
@@ -70,4 +71,8 @@ class AppModule {
     @Provides
     @Singleton
     fun providesAppStore(): AppStore = AppStoreImpl
+
+    @Provides
+    @Singleton
+    fun providesDatabase(app: TuskyApplication): AppDatabase = TuskyApplication.getDB()
 }

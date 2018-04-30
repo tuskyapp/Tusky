@@ -70,4 +70,7 @@ abstract class ActivitiesModule {
     @ContributesAndroidInjector
     abstract fun contributesReportActivity(): ReportActivity
 
+    @ContributesAndroidInjector
+    abstract fun contribtuesSavedTootActivity(): SavedTootActivity
+
 }

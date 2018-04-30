@@ -58,7 +58,6 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.pager.AccountPagerAdapter;
-import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.Assert;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
@@ -535,7 +534,6 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
                                 Snackbar.LENGTH_LONG).show();
                     } else {
                         followState = FollowState.NOT_FOLLOWING;
-                        broadcast(TimelineReceiver.Types.UNFOLLOW_ACCOUNT, id);
                         appstore.dispatch(new UnfollowEvent(id));
                     }
                     updateButtons();
@@ -593,7 +591,6 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
                                    @NonNull Response<Relationship> response) {
                 Relationship relationship = response.body();
                 if (response.isSuccessful() && relationship != null) {
-                    broadcast(TimelineReceiver.Types.BLOCK_ACCOUNT, id);
                     appstore.dispatch(new BlockEvent(id));
                     blocking = relationship.getBlocking();
                     updateButtons();
@@ -628,7 +625,6 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
                                    @NonNull Response<Relationship> response) {
                 Relationship relationship = response.body();
                 if (response.isSuccessful() && relationship != null) {
-                    broadcast(TimelineReceiver.Types.MUTE_ACCOUNT, id);
                     appstore.dispatch(new MuteEvent(id));
                     muting = relationship.getMuting();
                     updateButtons();
