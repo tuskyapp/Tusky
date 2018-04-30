@@ -262,6 +262,10 @@ public class EmojiPreference extends DialogPreference {
                         })).show();
             }
         }
+        else {
+            // This line is needed in order to reset the radio buttons later
+            selected = original;
+        }
     }
 
 }
