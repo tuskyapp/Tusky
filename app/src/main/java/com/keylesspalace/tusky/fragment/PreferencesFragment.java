@@ -284,13 +284,20 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
             Boolean httpProxyEnabled = sharedPreferences.getBoolean("httpProxyEnabled", false);
 
             String httpServer = sharedPreferences.getString("httpProxyServer", "");
-            int httpPort = Integer.parseInt(sharedPreferences.getString("httpProxyPort", "-1"));
 
-            if (httpProxyEnabled && !httpServer.isEmpty() && (httpPort > 0 && httpPort < 65535)) {
-                httpProxyPref.setSummary(httpServer + ":" + httpPort);
-            } else {
-                httpProxyPref.setSummary("");
+            try {
+                int httpPort = Integer.parseInt(sharedPreferences.getString("httpProxyPort", "-1"));
+
+                if (httpProxyEnabled && !httpServer.isEmpty() && (httpPort > 0 && httpPort < 65535)) {
+                    httpProxyPref.setSummary(httpServer + ":" + httpPort);
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                // user has entered wrong port, fall back to empty summary
             }
+
+            httpProxyPref.setSummary("");
+
         }
     }
 }
