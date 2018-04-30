@@ -204,6 +204,7 @@ public class EmojiCompatFont {
             try {
                 // It is possible (and very likely) that the file does not exist yet
                 if (!downloadFile.exists()) {
+                    downloadFile.getParentFile().mkdirs();
                     downloadFile.createNewFile();
                 }
                 OkHttpClient client = new OkHttpClient();

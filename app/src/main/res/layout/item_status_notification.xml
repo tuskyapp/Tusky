@@ -8,7 +8,8 @@
     android:paddingLeft="14dp"
     android:paddingRight="14dp">
 
-    <android.support.text.emoji.widget.EmojiTextView
+    <!--TODO: Check if this needs emoji support-->
+    <TextView
         android:id="@+id/notification_top_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,7 +48,7 @@
             android:textStyle="normal|bold"
             tools:text="Ente" />
 
-        <android.support.text.emoji.widget.EmojiTextView
+        <TextView
             android:id="@+id/status_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

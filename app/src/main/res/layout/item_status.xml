@@ -68,7 +68,7 @@
             android:textStyle="normal|bold"
             tools:text="Ente" />
 
-        <android.support.text.emoji.widget.EmojiTextView
+        <TextView
             android:id="@+id/status_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -265,6 +265,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!--TODO: Check if this needs emoji support-->
         <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/status_media_label"
             android:layout_width="wrap_content"
