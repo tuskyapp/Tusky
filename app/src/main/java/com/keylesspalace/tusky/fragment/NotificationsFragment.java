@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.fragment;
 
 import android.app.Activity;
 import android.arch.core.util.Function;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -208,13 +209,14 @@ public class NotificationsFragment extends SFragment implements
         super.onPostCreate();
         appStore.getEvents()
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this)))
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(event -> {
                     if (event instanceof FavoriteEvent) {
                         handleFavEvent((FavoriteEvent) event);
                     } else if (event instanceof ReblogEvent) {
                         handleReblogEvent((ReblogEvent) event);
-                    } if (event instanceof BlockEvent) {
+                    }
+                    if (event instanceof BlockEvent) {
                         removeAllByAccountId(((BlockEvent) event).getAccountId());
                     }
                 });

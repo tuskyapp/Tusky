@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.fragment;
 
 import android.arch.core.util.Function;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -252,7 +253,7 @@ public class TimelineFragment extends SFragment implements
 
         appStore.getEvents()
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this)))
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(event -> {
                     if (event instanceof FavoriteEvent) {
                         FavoriteEvent favEvent = ((FavoriteEvent) event);

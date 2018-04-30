@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky;
 
+import android.arch.lifecycle.Lifecycle;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -77,7 +78,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
         appStore.getEvents()
                 .observeOn(AndroidSchedulers.mainThread())
                 .ofType(StatusComposedEvent.class)
-                .as(autoDisposable(from(this)))
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe((__) -> this.fetchToots());
 
         setContentView(R.layout.activity_saved_toot);

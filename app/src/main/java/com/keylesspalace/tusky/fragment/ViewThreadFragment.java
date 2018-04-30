@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.fragment;
 
 import android.arch.core.util.Function;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -72,6 +73,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.uber.autodispose.AutoDispose.*;
+import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.*;
+
 public final class ViewThreadFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, Injectable {
     private static final String TAG = "ViewThreadFragment";
@@ -126,7 +130,7 @@ public final class ViewThreadFragment extends SFragment implements
 
         appStore.getEvents()
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(event -> {
                     if (event instanceof FavoriteEvent) {
                         handleFavEvent((FavoriteEvent) event);
