@@ -27,10 +27,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +42,11 @@ import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
+import com.keylesspalace.tusky.appstore.AppStore;
+import com.keylesspalace.tusky.appstore.BlockEvent;
+import com.keylesspalace.tusky.appstore.FavoriteEvent;
+import com.keylesspalace.tusky.appstore.ReblogEvent;
+import com.keylesspalace.tusky.appstore.UnfollowEvent;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
@@ -60,6 +67,8 @@ import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
+import com.uber.autodispose.AutoDispose;
+import com.uber.autodispose.android.ViewScopeProvider;
 
 import java.math.BigInteger;
 import java.util.Iterator;
@@ -106,6 +115,8 @@ public class NotificationsFragment extends SFragment implements
     public TimelineCases timelineCases;
     @Inject
     AccountManager accountManager;
+    @Inject
+    AppStore appStore;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayoutManager layoutManager;
@@ -114,7 +125,6 @@ public class NotificationsFragment extends SFragment implements
     private NotificationsAdapter adapter;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private boolean hideFab;
-    private TimelineReceiver timelineReceiver;
     private boolean topLoading;
     private int topFetches;
     private boolean bottomLoading;
@@ -181,10 +191,6 @@ public class NotificationsFragment extends SFragment implements
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         recyclerView.setAdapter(adapter);
 
-        timelineReceiver = new TimelineReceiver(this);
-        LocalBroadcastManager.getInstance(context.getApplicationContext())
-                .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(null));
-
         notifications.clear();
         topLoading = false;
         topFetches = 0;
@@ -193,7 +199,45 @@ public class NotificationsFragment extends SFragment implements
         bottomId = null;
         topId = null;
 
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        appStore.getEvents()
+                .as(AutoDispose.autoDisposable(ViewScopeProvider.from(view)))
+                .subscribe(event -> {
+                    if (event instanceof FavoriteEvent) {
+                        handleFavEvent((FavoriteEvent) event);
+                    } else if (event instanceof ReblogEvent) {
+                        handleReblogEvent((ReblogEvent) event);
+                    } if (event instanceof BlockEvent) {
+                        removeAllByAccountId(((BlockEvent) event).getAccountId());
+                    }
+                });
+    }
+
+    private void handleFavEvent(FavoriteEvent event) {
+        Pair<Integer, Notification> posAndNotification =
+                findReplyPosition(event.getStatusId());
+        if (posAndNotification == null) return;
+        //noinspection ConstantConditions
+        setFavovouriteForStatus(posAndNotification.first,
+                posAndNotification.second.getStatus(),
+                event.getFavourite());
+    }
+
+    private void handleReblogEvent(ReblogEvent event) {
+        Pair<Integer, Notification> posAndNotification = findReplyPosition(event.getStatusId());
+        if (posAndNotification == null) return;
+        //noinspection ConstantConditions
+        setReblogForStatus(posAndNotification.first,
+                posAndNotification.second.getStatus(),
+                event.getReblog());
     }
 
     @Override
@@ -266,9 +310,6 @@ public class NotificationsFragment extends SFragment implements
         } else {
             TabLayout tabLayout = activity.findViewById(R.id.tab_layout);
             tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
-
-            LocalBroadcastManager.getInstance(activity)
-                    .unregisterReceiver(timelineReceiver);
         }
 
         super.onDestroyView();
@@ -292,24 +333,7 @@ public class NotificationsFragment extends SFragment implements
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
-                    status.setReblogged(reblog);
-
-                    if (status.getReblog() != null) {
-                        status.getReblog().setReblogged(reblog);
-                    }
-
-                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
-
-                    StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
-                    viewDataBuilder.setReblogged(reblog);
-
-                    NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
-                            viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
-                            viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
-
-                    notifications.setPairedItem(position, newViewData);
-
-                    adapter.updateItemWithNotify(position, newViewData, false);
+                    setReblogForStatus(position, status, reblog);
                 }
             }
 
@@ -318,6 +342,27 @@ public class NotificationsFragment extends SFragment implements
                 Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.getId(), t);
             }
         });
+    }
+
+    private void setReblogForStatus(int position, Status status, boolean reblog) {
+        status.setReblogged(reblog);
+
+        if (status.getReblog() != null) {
+            status.getReblog().setReblogged(reblog);
+        }
+
+        NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
+
+        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
+        viewDataBuilder.setReblogged(reblog);
+
+        NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
+                viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
+                viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
+
+        notifications.setPairedItem(position, newViewData);
+
+        adapter.updateItemWithNotify(position, newViewData, true);
     }
 
 
@@ -329,24 +374,7 @@ public class NotificationsFragment extends SFragment implements
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
-                    status.setFavourited(favourite);
-
-                    if (status.getReblog() != null) {
-                        status.getReblog().setFavourited(favourite);
-                    }
-
-                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
-
-                    StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
-                    viewDataBuilder.setFavourited(favourite);
-
-                    NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
-                            viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
-                            viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
-
-                    notifications.setPairedItem(position, newViewData);
-
-                    adapter.updateItemWithNotify(position, newViewData, false);
+                    setFavovouriteForStatus(position, status, favourite);
 
                 }
             }
@@ -356,6 +384,27 @@ public class NotificationsFragment extends SFragment implements
                 Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.getId(), t);
             }
         });
+    }
+
+    private void setFavovouriteForStatus(int position, Status status, boolean favourite) {
+        status.setFavourited(favourite);
+
+        if (status.getReblog() != null) {
+            status.getReblog().setFavourited(favourite);
+        }
+
+        NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
+
+        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
+        viewDataBuilder.setFavourited(favourite);
+
+        NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
+                viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
+                viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
+
+        notifications.setPairedItem(position, newViewData);
+
+        adapter.updateItemWithNotify(position, newViewData, true);
     }
 
     @Override
@@ -622,8 +671,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private boolean isBiggerThan(BigInteger newId, BigInteger lastShownNotificationId) {
-
-        return lastShownNotificationId.compareTo(newId) == -1;
+        return lastShownNotificationId.compareTo(newId) < 0;
     }
 
     private void update(@Nullable List<Notification> newNotifications, @Nullable String fromId,
@@ -734,5 +782,21 @@ public class NotificationsFragment extends SFragment implements
         adapter.clear();
         notifications.clear();
         sendFetchNotificationsRequest(null, null, FetchEnd.TOP, -1);
+    }
+
+    @Nullable
+    private Pair<Integer, Notification> findReplyPosition(@NonNull String statusId) {
+        for (int i = 0; i < notifications.size(); i++) {
+            Notification notification = notifications.get(i).getAsRightOrNull();
+            if (notification != null
+                    && notification.getStatus() != null
+                    && notification.getType() == Notification.Type.MENTION
+                    && (statusId.equals(notification.getStatus().getId())
+                    || (notification.getStatus().getReblog() != null
+                    && statusId.equals(notification.getStatus().getReblog().getId())))) {
+                return new Pair<>(i, notification);
+            }
+        }
+        return null;
     }
 }
