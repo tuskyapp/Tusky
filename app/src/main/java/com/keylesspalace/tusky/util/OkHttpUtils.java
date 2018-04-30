@@ -71,10 +71,15 @@ public class OkHttpUtils {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-
         boolean httpProxyEnabled = preferences.getBoolean("httpProxyEnabled", false);
         String httpServer = preferences.getString("httpProxyServer", "");
-        int httpPort = Integer.parseInt(preferences.getString("httpProxyPort", "-1"));
+        int httpPort;
+        try {
+            httpPort = Integer.parseInt(preferences.getString("httpProxyPort", "-1"));
+        } catch (NumberFormatException e) {
+            // user has entered wrong port, fall back to no proxy
+            httpPort = -1;
+        }
 
         ConnectionSpec fallback = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
                 .allEnabledCipherSuites()
