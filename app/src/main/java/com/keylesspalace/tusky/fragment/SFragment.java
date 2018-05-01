@@ -20,12 +20,15 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.PopupMenu;
 import android.text.Spanned;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.keylesspalace.tusky.AccountActivity;
 import com.keylesspalace.tusky.ComposeActivity;
@@ -38,14 +41,27 @@ import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.ViewVideoActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
+import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
+import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.HtmlUtils;
+import com.keylesspalace.tusky.util.LinkHelper;
 
-import java.util.ArrayList;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+
+import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
@@ -58,8 +74,13 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
 
     protected String loggedInAccountId;
     protected String loggedInUsername;
+    protected String searchUrl;
 
     protected abstract TimelineCases timelineCases();
+    protected BottomSheetBehavior bottomSheet;
+
+    @Inject
+    protected MastodonApi mastodonApi;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -70,6 +91,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
             loggedInAccountId = activeAccount.getAccountId();
             loggedInUsername = activeAccount.getUsername();
         }
+        setupBottomSheet(getView());
     }
 
     @Override
@@ -89,7 +111,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         Status.Visibility replyVisibility = actionableStatus.getVisibility();
         String contentWarning = actionableStatus.getSpoilerText();
         Status.Mention[] mentions = actionableStatus.getMentions();
-        List<String> mentionedUsernames = new ArrayList<>();
+        Set<String> mentionedUsernames = new LinkedHashSet<>();
         mentionedUsernames.add(actionableStatus.getAccount().getUsername());
         for (Status.Mention mention : mentions) {
             mentionedUsernames.add(mention.getUsername());
@@ -208,10 +230,12 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
     }
 
     protected void viewThread(Status status) {
-        Intent intent = new Intent(getContext(), ViewThreadActivity.class);
-        intent.putExtra("id", status.getActionableId());
-        intent.putExtra("url", status.getActionableStatus().getUrl());
-        startActivity(intent);
+        if (!isSearching()) {
+            Intent intent = new Intent(getContext(), ViewThreadActivity.class);
+            intent.putExtra("id", status.getActionableId());
+            intent.putExtra("url", status.getActionableStatus().getUrl());
+            startActivity(intent);
+        }
     }
 
     protected void viewTag(String tag) {
@@ -234,5 +258,141 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         intent.putExtra("status_id", statusId);
         intent.putExtra("status_content", HtmlUtils.toHtml(statusContent));
         startActivity(intent);
+    }
+
+    // https://mastodon.foo.bar/@User
+    // https://mastodon.foo.bar/@User/43456787654678
+    // https://pleroma.foo.bar/users/User
+    // https://pleroma.foo.bar/users/43456787654678
+    // https://pleroma.foo.bar/notice/43456787654678
+    // https://pleroma.foo.bar/objects/d4643c42-3ae0-4b73-b8b0-c725f5819207
+    private static boolean looksLikeMastodonUrl(String urlString) {
+        URI uri;
+        try {
+            uri = new URI(urlString);
+        } catch (URISyntaxException e) {
+            return false;
+        }
+
+        if (uri.getQuery() != null ||
+                uri.getFragment() != null ||
+                uri.getPath() == null) {
+            return false;
+        }
+
+        String path = uri.getPath();
+        return path.matches("^/@[^/]*$") ||
+                path.matches("^/users/[^/]+$") ||
+                path.matches("^/(@|notice)[^/]*/\\d+$") ||
+                path.matches("^/objects/[-a-f0-9]+$");
+    }
+
+    private void onBeginSearch(@NonNull String url) {
+        searchUrl = url;
+        showQuerySheet();
+    }
+
+    private boolean getCancelSearchRequested(@NonNull String url) {
+        return !url.equals(searchUrl);
+    }
+
+    private boolean isSearching() {
+        return searchUrl != null;
+    }
+
+    private void onEndSearch(@NonNull String url) {
+        if (url.equals(searchUrl)) {
+            // Don't clear query if there's no match,
+            // since we might just now be getting the response for a canceled search
+            searchUrl = null;
+            hideQuerySheet();
+        }
+    }
+
+    private void cancelActiveSearch()
+    {
+        if (isSearching()) {
+            onEndSearch(searchUrl);
+        }
+    }
+
+    public void onViewURL(String url) {
+        if (!looksLikeMastodonUrl(url)) {
+            LinkHelper.openLink(url, getContext());
+            return;
+        }
+
+        Call<SearchResults> call = mastodonApi.search(url, true);
+        call.enqueue(new Callback<SearchResults>() {
+            @Override
+            public void onResponse(@NonNull Call<SearchResults> call, @NonNull Response<SearchResults> response) {
+                if (getCancelSearchRequested(url)) {
+                    return;
+                }
+
+                onEndSearch(url);
+                if (response.isSuccessful()) {
+                    // According to the mastodon API doc, if the search query is a url,
+                    // only exact matches for statuses or accounts are returned
+                    // which is good, because pleroma returns a different url
+                    // than the public post link
+                    List<Status> statuses = response.body().getStatuses();
+                    List<Account> accounts = response.body().getAccounts();
+                    if (statuses != null && !statuses.isEmpty()) {
+                        viewThread(statuses.get(0));
+                        return;
+                    } else if (accounts != null && !accounts.isEmpty()) {
+                        viewAccount(accounts.get(0).getId());
+                        return;
+                    }
+                }
+                LinkHelper.openLink(url, getContext());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SearchResults> call, @NonNull Throwable t) {
+                if (!getCancelSearchRequested(url)) {
+                    onEndSearch(url);
+                    LinkHelper.openLink(url, getContext());
+                }
+            }
+        });
+        callList.add(call);
+        onBeginSearch(url);
+    }
+
+    protected void setupBottomSheet(View view)
+    {
+        LinearLayout bottomSheetLayout = view.findViewById(R.id.item_status_bottom_sheet);
+        if (bottomSheetLayout != null) {
+            bottomSheet = BottomSheetBehavior.from(bottomSheetLayout);
+            bottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
+            bottomSheet.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                @Override
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                    switch(newState) {
+                        case BottomSheetBehavior.STATE_HIDDEN:
+                            cancelActiveSearch();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                @Override
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                }
+            });
+        }
+    }
+
+    private void showQuerySheet() {
+        if (bottomSheet != null)
+            bottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    private void hideQuerySheet() {
+        if (bottomSheet != null)
+            bottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 }

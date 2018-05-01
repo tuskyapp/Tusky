@@ -7,4 +7,11 @@
         android:title="@string/action_open_in_web"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_reveal"
+        android:title="@string/expand_collapse_all_statuses"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_eye_24dp" />
+
+
 </menu>

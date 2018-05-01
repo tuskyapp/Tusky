@@ -35,8 +35,16 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 public class ViewThreadActivity extends BaseActivity implements HasSupportFragmentInjector {
 
+    public static final int REVEAL_BUTTON_HIDDEN = 1;
+    public static final int REVEAL_BUTTON_REVEAL = 2;
+    public static final int REVEAL_BUTTON_HIDE = 3;
+
+    private int revealButtonState = REVEAL_BUTTON_HIDDEN;
+
     @Inject
     public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
+    private ViewThreadFragment fragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +62,7 @@ public class ViewThreadActivity extends BaseActivity implements HasSupportFragme
 
         String id = getIntent().getStringExtra("id");
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = ViewThreadFragment.newInstance(id);
+        fragment = ViewThreadFragment.newInstance(id);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }
@@ -62,7 +70,24 @@ public class ViewThreadActivity extends BaseActivity implements HasSupportFragme
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.view_thread_toolbar, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_reveal);
+        menuItem.setVisible(revealButtonState != REVEAL_BUTTON_HIDDEN);
+        menuItem.setIcon(revealButtonState == REVEAL_BUTTON_REVEAL ?
+        R.drawable.ic_eye_24dp : R.drawable.ic_hide_media_24dp);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public void setRevealButtonState(int state) {
+        switch (state) {
+            case REVEAL_BUTTON_HIDDEN:
+            case REVEAL_BUTTON_REVEAL:
+            case REVEAL_BUTTON_HIDE:
+                this.revealButtonState = state;
+                invalidateOptionsMenu();
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid reveal button state: " + state);
+        }
     }
 
     @Override
@@ -74,6 +99,10 @@ public class ViewThreadActivity extends BaseActivity implements HasSupportFragme
             }
             case R.id.action_open_in_web: {
                 LinkHelper.openLink(getIntent().getStringExtra("url"), this);
+                return true;
+            }
+            case R.id.action_reveal: {
+                fragment.onRevealPressed();
                 return true;
             }
         }

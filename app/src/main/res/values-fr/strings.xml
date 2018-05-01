@@ -33,10 +33,14 @@
     <string name="title_edit_profile">Editer votre profil</string>
     <string name="title_follow_requests">Demande de suivi</string>
     <string name="title_saved_toot">Pouet sauvegardés</string>
+    <string name="title_x_followers"><b >%s</b> Abonnés</string>
+    <string name="title_x_following"><b >%s</b> Abonnements</string>
+    <string name="title_x_statuses"><b >%s</b> Pouets</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s a boosté</string>
     <string name="status_sensitive_media_title">Média sensible</string>
+    <string name="status_media_hidden_title">Media caché</string>
     <string name="status_sensitive_media_directions">Cliquer pour voir</string>
     <string name="status_content_warning_show_more">Voir plus</string>
     <string name="status_content_warning_show_less">Voir moins</string>
@@ -57,6 +61,7 @@
     <string name="action_compose">Répondre</string>
     <string name="action_login">Se connecter à Mastodon</string>
     <string name="action_logout">Déconnexion</string>
+    <string name="action_logout_confirm">Êtes vous certain de vouloir déconnecter le compte %1$s?</string>
     <string name="action_follow">Suivre</string>
     <string name="action_unfollow">Ne plus suivre</string>
     <string name="action_block">Bloquer</string>
@@ -79,6 +84,8 @@
     <string name="action_mute">Rendre muet</string>
     <string name="action_unmute">Redonner la parole</string>
     <string name="action_mention">Mention</string>
+    <string name="action_hide_media">Cacher le media</string>
+    <string name="action_compose_options">Options</string>
     <string name="action_open_drawer">Ouvrir le menu</string>
     <string name="action_save">Sauvegarder</string>
     <string name="action_edit_profile">Modifier le profil</string>
@@ -91,11 +98,16 @@
     <string name="action_search">Rechercher</string>
     <string name="action_access_saved_toot">Pouets sauvegardés</string>
 
-    <string name="send_status_link_to">Partager l’URL de votre pouet avec…</string>
-    <string name="send_status_content_to">Partager le pouet avec…</string>
     <string name="download_image">Téléchargement de %1$s</string>
 
-    <string name="confirmation_reported">Envoyé !</string>
+
+    <string name="send_status_link_to">Partager l’URL de votre pouet avec…</string>
+    <string name="send_status_content_to">Partager le pouet avec…</string>
+
+    <string name="confirmation_reported">Envoyé !</string>
+    <string name="confirmation_send">Pouet !</string>
+    <string name="confirmation_unblocked">Utilisateur débloqué</string>
+    <string name="confirmation_unmuted">Le compte n\'est plus muet</string>
 
     <string name="hint_domain">Quelle instance ?</string>
     <string name="hint_compose">Quoi de neuf ?</string>
@@ -167,14 +179,6 @@
 
     <string name="state_follow_requested">Demande effectuée</string>
 
-    <string name="confirmation_unblocked">Utilisateur débloqué</string>
-
-    <string name="title_x_followers"><b>%s</b> Abonnés</string>
-    <string name="title_x_following"><b>%s</b> Abonnements</string>
-    <string name="title_x_statuses"><b>%s</b> Pouets</string>
-    <string name="status_media_hidden_title">Media caché</string>
-    <string name="action_hide_media">Cacher le media</string>
-    <string name="confirmation_unmuted">Le compte n\'est plus muet</string>
     <string name="search_no_results">Aucun résultat</string>
     <string name="dialog_unfollow_warning">Ne plus suivre ce compte?</string>
     <string name="pref_summary_notifications">pour le compte %1$s</string>
@@ -241,7 +245,17 @@
     <string name="status_media_video">Videos</string>
     <string name="no_content">aucun contenu</string>
 
-    <string name="action_logout_confirm">Êtes vous certain de vouloir déconnecter le compte %1$s?</string>
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">en %dy</string>
+    <string name="abbreviated_in_days">en %dd</string>
+    <string name="abbreviated_in_hours">en %dh</string>
+    <string name="abbreviated_in_minutes">en %dm</string>
+    <string name="abbreviated_in_seconds">en %ds</string>
+    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
 
     <string name="follows_you">Vous suit</string>
     <string name="title_media">Media</string>
@@ -261,4 +275,7 @@
     <string name="hint_describe_for_visually_impaired">Décrire pour les mal voyants</string>
     <string name="action_set_caption">Mettre une légende</string>
     <string name="action_remove_media">Supprimer le média</string>
+    <string name="lock_account_label">Verrouiller le compte</string>
+    <string name="lock_account_label_description">Nécessite que vous approuviez manuellement les abonnements</string>
+
 </resources>

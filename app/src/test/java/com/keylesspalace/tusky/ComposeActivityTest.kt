@@ -16,14 +16,17 @@
 
 package com.keylesspalace.tusky
 
+import android.text.SpannedString
 import android.widget.EditText
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.network.MastodonApi
 import okhttp3.Request
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import okhttp3.ResponseBody
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -69,9 +72,10 @@ class ComposeActivityTest {
             notificationVibration = true,
             notificationLight = true
     )
+    var instanceResponseCallback: ((Call<Instance>?, Callback<Instance>?)->Unit)? = null
 
     @Before
-    fun before() {
+    fun setupActivity() {
         val controller = Robolectric.buildActivity(ComposeActivity::class.java)
         activity = controller.get()
 
@@ -102,6 +106,30 @@ class ComposeActivityTest {
             }
 
             override fun enqueue(callback: Callback<List<Emoji>>?) {}
+        })
+        `when`(apiMock.instance).thenReturn(object: Call<Instance> {
+            override fun isExecuted(): Boolean {
+                return false
+            }
+            override fun clone(): Call<Instance> {
+                throw Error("not implemented")
+            }
+            override fun isCanceled(): Boolean {
+                throw Error("not implemented")
+            }
+            override fun cancel() {
+                throw Error("not implemented")
+            }
+            override fun execute(): Response<Instance> {
+                throw Error("not implemented")
+            }
+            override fun request(): Request {
+                throw Error("not implemented")
+            }
+
+            override fun enqueue(callback: Callback<Instance>?) {
+                instanceResponseCallback?.invoke(this, callback)
+            }
         })
 
         activity.mastodonApi = apiMock
@@ -143,6 +171,33 @@ class ComposeActivityTest {
         // We would like to check for dialog but Robolectric doesn't work with AppCompat v7 yet
     }
 
+    @Test
+    fun whenMaximumTootCharsIsNull_defaultLimitIsUsed() {
+        instanceResponseCallback = getSuccessResponseCallbackWithMaximumTootCharacters(null)
+        setupActivity()
+        assertEquals(ComposeActivity.STATUS_CHARACTER_LIMIT, activity.maximumTootCharacters)
+    }
+
+    @Test
+    fun whenMaximumTootCharsIsPopulated_customLimitIsUsed() {
+        val customMaximum = 1000
+        instanceResponseCallback = getSuccessResponseCallbackWithMaximumTootCharacters(customMaximum)
+        setupActivity()
+        assertEquals(customMaximum, activity.maximumTootCharacters)
+    }
+
+    @Test
+    fun whenInitialInstanceRequestFails_defaultValueIsUsed() {
+        instanceResponseCallback = {
+            call: Call<Instance>?, callback: Callback<Instance>? ->
+            if (call != null) {
+                callback?.onResponse(call, Response.error(400, ResponseBody.create(null, "")))
+            }
+        }
+        setupActivity()
+        assertEquals(ComposeActivity.STATUS_CHARACTER_LIMIT, activity.maximumTootCharacters)
+    }
+
     private fun clickUp() {
         val menuItem = RoboMenuItem(android.R.id.home)
         activity.onOptionsItemSelected(menuItem)
@@ -154,5 +209,46 @@ class ComposeActivityTest {
 
     private fun insertSomeTextInContent() {
         activity.findViewById<EditText>(R.id.composeEditField).setText("Some text")
+    }
+
+    private fun getInstanceWithMaximumTootCharacters(maximumTootCharacters: Int?): Instance
+    {
+        return Instance(
+                "https://example.token",
+                "Example dot Token",
+                "Example instance for testing",
+                "admin@example.token",
+                "2.6.3",
+                HashMap<String, String>(),
+                null,
+                null,
+                listOf("en"),
+                Account(
+                        "1",
+                        "admin",
+                        "admin",
+                        "admin",
+                        SpannedString(""),
+                        "https://example.token",
+                        "",
+                        "",
+                        false,
+                        0,
+                        0,
+                        0,
+                        null
+                ),
+                maximumTootCharacters
+        )
+    }
+
+    private fun getSuccessResponseCallbackWithMaximumTootCharacters(maximumTootCharacters: Int?): (Call<Instance>?, Callback<Instance>?) -> Unit
+    {
+        return {
+            call: Call<Instance>?, callback: Callback<Instance>? ->
+            if (call != null) {
+                callback?.onResponse(call, Response.success(getInstanceWithMaximumTootCharacters(maximumTootCharacters)))
+            }
+        }
     }
 }
