@@ -26,6 +26,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.util.ObjectsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -69,6 +70,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -187,50 +189,22 @@ public class TimelineFragment extends SFragment implements
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Bundle arguments = getArguments();
+        Bundle arguments = Objects.requireNonNull(getArguments());
         kind = Kind.valueOf(arguments.getString(KIND_ARG));
-        if (kind == Kind.TAG || kind == Kind.USER || kind == Kind.LIST) {
+            if (kind == Kind.TAG || kind == Kind.USER || kind == Kind.LIST) {
             hashtagOrId = arguments.getString(HASHTAG_OR_ID_ARG);
         }
 
         final View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
 
-        // Setup the SwipeRefreshLayout.
-        Context context = getContext();
-        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.primary);
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
-        // Setup the RecyclerView.
         recyclerView = rootView.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration divider = new DividerItemDecoration(
-                context, layoutManager.getOrientation());
-        Drawable drawable = ThemeUtils.getDrawable(context, R.attr.status_divider_drawable,
-                R.drawable.status_divider_dark);
-        divider.setDrawable(drawable);
-        recyclerView.addItemDecoration(divider);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+
         adapter = new TimelineAdapter(this);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
-                getActivity());
-        preferences.registerOnSharedPreferenceChangeListener(this);
-        alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
-        boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
-        adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
-        recyclerView.setAdapter(adapter);
 
-        boolean filter = preferences.getBoolean("tabFilterHomeReplies", true);
-        filterRemoveReplies = kind == Kind.HOME && !filter;
-
-        filter = preferences.getBoolean("tabFilterHomeBoosts", true);
-        filterRemoveReblogs = kind == Kind.HOME && !filter;
-
-        String regexFilter = preferences.getString("tabFilterRegex", "");
-        filterRemoveRegex = (kind == Kind.HOME || kind == Kind.PUBLIC_LOCAL || kind == Kind.PUBLIC_FEDERATED) && !regexFilter.isEmpty();
-        if (filterRemoveRegex)
-            filterRemoveRegexMatcher = Pattern.compile(regexFilter, Pattern.CASE_INSENSITIVE).matcher("");
+        setupSwipeRefreshLayout();
+        setupRecyclerView();
+        setupTimelinePreferences();
 
         statuses.clear();
         topLoading = false;
@@ -240,16 +214,64 @@ public class TimelineFragment extends SFragment implements
         bottomId = null;
         topId = null;
 
+        return rootView;
+    }
+
+    private void setupTimelinePreferences() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
+                getActivity());
+        preferences.registerOnSharedPreferenceChangeListener(this);
+        alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
+        boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
+        adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
+
+        boolean filter = preferences.getBoolean("tabFilterHomeReplies", true);
+        filterRemoveReplies = kind == Kind.HOME && !filter;
+
+        filter = preferences.getBoolean("tabFilterHomeBoosts", true);
+        filterRemoveReblogs = kind == Kind.HOME && !filter;
+
+        String regexFilter = preferences.getString("tabFilterRegex", "");
+        filterRemoveRegex = (kind == Kind.HOME
+                || kind == Kind.PUBLIC_LOCAL
+                || kind == Kind.PUBLIC_FEDERATED)
+                && !regexFilter.isEmpty();
+
+        if (filterRemoveRegex) {
+            filterRemoveRegexMatcher = Pattern.compile(regexFilter, Pattern.CASE_INSENSITIVE)
+                    .matcher("");
+        }
+    }
+
+    private void setupSwipeRefreshLayout() {
+        Context context = Objects.requireNonNull(getContext());
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.primary);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context,
+                android.R.attr.colorBackground));
+    }
+
+    private void setupRecyclerView() {
+        Context context = Objects.requireNonNull(getContext());
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration divider = new DividerItemDecoration(
+                context, layoutManager.getOrientation());
+        Drawable drawable = ThemeUtils.getDrawable(context, R.attr.status_divider_drawable,
+                R.drawable.status_divider_dark);
+        divider.setDrawable(drawable);
+        recyclerView.addItemDecoration(divider);
+
         // CWs are expanded without animation, buttons animate itself, we don't need it basically
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
-        return rootView;
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onPostCreate() {
         super.onPostCreate();
-
 
         appStore.getEvents()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -299,7 +321,7 @@ public class TimelineFragment extends SFragment implements
         super.onActivityCreated(savedInstanceState);
 
         if (jumpToTopAllowed()) {
-            TabLayout layout = getActivity().findViewById(R.id.tab_layout);
+            TabLayout layout = Objects.requireNonNull(getActivity()).findViewById(R.id.tab_layout);
             if (layout != null) {
                 onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
                     @Override
@@ -367,7 +389,8 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void onDestroyView() {
         if (jumpToTopAllowed()) {
-            TabLayout tabLayout = getActivity().findViewById(R.id.tab_layout);
+            TabLayout tabLayout = Objects.requireNonNull(getActivity())
+                    .findViewById(R.id.tab_layout);
             if (tabLayout != null) {
                 tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
             }

@@ -45,7 +45,6 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.entity.Status;
-import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.HtmlUtils;
@@ -69,7 +68,7 @@ import retrofit2.Response;
  * adapters. I feel like the profile pages and thread viewer, which I haven't made yet, will also
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
-public abstract class SFragment extends BaseFragment implements AdapterItemRemover {
+public abstract class SFragment extends BaseFragment {
     protected static final int COMPOSE_RESULT = 1;
 
     protected String loggedInAccountId;
@@ -77,6 +76,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
     protected String searchUrl;
 
     protected abstract TimelineCases timelineCases();
+    protected abstract void removeItem(int position);
     protected BottomSheetBehavior bottomSheet;
 
     @Inject
