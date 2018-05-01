@@ -34,9 +34,11 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.TuskyApplication;
+import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Notification;
@@ -66,6 +68,8 @@ public class NotificationHelper {
 
     public static final String REPLY_ACTION = "REPLY_ACTION";
 
+    public static final String COMPOSE_ACTION = "COMPOSE_ACTION";
+
     public static final String KEY_REPLY = "KEY_REPLY";
 
     public static final String KEY_SENDER_ACCOUNT_ID = "KEY_SENDER_ACCOUNT_ID";
@@ -83,6 +87,10 @@ public class NotificationHelper {
     public static final String KEY_SPOILER = "KEY_SPOILER";
 
     public static final String KEY_MENTIONS = "KEY_MENTIONS";
+
+    public static final String KEY_CITED_TEXT = "KEY_CITED_TEXT";
+
+    public static final String KEY_CITED_AUTHOR_LOCAL = "KEY_CITED_AUTHOR_LOCAL";
 
     /**
      * notification channels used on Android O+
@@ -164,15 +172,24 @@ public class NotificationHelper {
                     .setLabel(context.getString(R.string.label_quick_reply))
                     .build();
 
-            PendingIntent replyPendingIntent = getStatusReplyIntent(context, body, account);
+            PendingIntent quickReplyPendingIntent = getStatusReplyIntent(REPLY_ACTION, context, body, account);
 
-            NotificationCompat.Action replyAction =
+            NotificationCompat.Action quickReplyAction =
                     new NotificationCompat.Action.Builder(R.drawable.ic_reply_24dp,
-                            context.getString(R.string.action_quick_reply), replyPendingIntent)
+                            context.getString(R.string.action_quick_reply), quickReplyPendingIntent)
                             .addRemoteInput(replyRemoteInput)
                             .build();
 
-            builder.addAction(replyAction);
+            builder.addAction(quickReplyAction);
+
+            PendingIntent composePendingIntent = getStatusReplyIntent(COMPOSE_ACTION, context, body, account);
+
+            NotificationCompat.Action composeAction =
+                    new NotificationCompat.Action.Builder(R.drawable.ic_reply_24dp,
+                            context.getString(R.string.action_compose_shortcut), composePendingIntent)
+                            .build();
+
+            builder.addAction(composeAction);
         }
 
         builder.setSubText(account.getFullName());
@@ -213,12 +230,22 @@ public class NotificationHelper {
     }
 
     private static NotificationCompat.Builder newNotification(Context context, Notification body, AccountEntity account, boolean summary) {
-        Intent resultIntent = new Intent(context, MainActivity.class);
-        resultIntent.putExtra(ACCOUNT_ID, account.getId());
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(MainActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(summary ? (int) account.getId() : Integer.parseInt(body.getId()),
+        Intent summaryResultIntent = new Intent(context, MainActivity.class);
+        summaryResultIntent.putExtra(ACCOUNT_ID, account.getId());
+        TaskStackBuilder summaryStackBuilder = TaskStackBuilder.create(context);
+        summaryStackBuilder.addParentStack(MainActivity.class);
+        summaryStackBuilder.addNextIntent(summaryResultIntent);
+
+        PendingIntent summaryResultPendingIntent = summaryStackBuilder.getPendingIntent(Integer.parseInt(body.getId()),
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent eventResultIntent = new Intent(context, ViewThreadActivity.class);
+        eventResultIntent.putExtra("id", body.getStatus().getId());
+        TaskStackBuilder eventStackBuilder = TaskStackBuilder.create(context);
+        eventStackBuilder.addParentStack(ViewThreadActivity.class);
+        eventStackBuilder.addNextIntent(eventResultIntent);
+
+        PendingIntent eventResultPendingIntent = eventStackBuilder.getPendingIntent((int) account.getId(),
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent deleteIntent = new Intent(context, NotificationClearBroadcastReceiver.class);
@@ -228,7 +255,7 @@ public class NotificationHelper {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, getChannelId(account, body))
                 .setSmallIcon(R.drawable.ic_notify)
-                .setContentIntent(resultPendingIntent)
+                .setContentIntent(summary ? summaryResultPendingIntent : eventResultPendingIntent)
                 .setDeleteIntent(deletePendingIntent)
                 .setColor(ContextCompat.getColor(context, (R.color.primary)))
                 .setGroup(account.getAccountId())
@@ -239,9 +266,11 @@ public class NotificationHelper {
         return builder;
     }
 
-    private static PendingIntent getStatusReplyIntent(Context context, Notification body, AccountEntity account) {
+    private static PendingIntent getStatusReplyIntent(String action, Context context, Notification body, AccountEntity account) {
         Status status = body.getStatus();
 
+        String citedLocalAuthor = status.getAccount().getLocalUsername();
+        String citedText = status.getContent().toString();
         String inReplyToId = status.getId();
         Status actionableStatus = status.getActionableStatus();
         Status.Visibility replyVisibility = actionableStatus.getVisibility();
@@ -256,7 +285,9 @@ public class NotificationHelper {
         mentionedUsernames = new ArrayList<>(new LinkedHashSet<>(mentionedUsernames));
 
         Intent replyIntent = new Intent(context, SendStatusBroadcastReceiver.class)
-                .setAction(REPLY_ACTION)
+                .setAction(action)
+                .putExtra(KEY_CITED_AUTHOR_LOCAL, citedLocalAuthor)
+                .putExtra(KEY_CITED_TEXT, citedText)
                 .putExtra(KEY_SENDER_ACCOUNT_ID, account.getId())
                 .putExtra(KEY_SENDER_ACCOUNT_IDENTIFIER, account.getIdentifier())
                 .putExtra(KEY_SENDER_ACCOUNT_FULL_NAME, account.getFullName())

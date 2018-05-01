@@ -23,6 +23,7 @@ import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.app.RemoteInput
 import android.support.v4.content.ContextCompat
 import android.util.Log
+import com.keylesspalace.tusky.ComposeActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
@@ -31,6 +32,7 @@ import com.keylesspalace.tusky.util.NotificationHelper
 import dagger.android.AndroidInjection
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 private const val TAG = "SendStatusBR"
 
@@ -42,20 +44,25 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         AndroidInjection.inject(this, context)
 
+        val notificationId = intent.getStringExtra(NotificationHelper.KEY_NOTIFICATION_ID)
+        val senderId = intent.getLongExtra(NotificationHelper.KEY_SENDER_ACCOUNT_ID, -1)
+        val senderIdentifier = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_IDENTIFIER)
+        val senderFullName = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_FULL_NAME)
+        val citedStatusId = intent.getLongExtra(NotificationHelper.KEY_CITED_STATUS_ID, -1)
+        val visibility = intent.getSerializableExtra(NotificationHelper.KEY_VISIBILITY) as Status.Visibility
+        val spoiler = intent.getStringExtra(NotificationHelper.KEY_SPOILER)
+        val mentions = intent.getStringArrayExtra(NotificationHelper.KEY_MENTIONS)
+        val citedText = intent.getStringExtra(NotificationHelper.KEY_CITED_TEXT)
+        val localAuthorId = intent.getStringExtra(NotificationHelper.KEY_CITED_AUTHOR_LOCAL)
+
+        val account = accountManager.getAccountById(senderId)
+
+        val notificationManager = NotificationManagerCompat.from(context)
+
+
         if (intent.action == NotificationHelper.REPLY_ACTION) {
+
             val message = getReplyMessage(intent)
-            val notificationId = intent.getStringExtra(NotificationHelper.KEY_NOTIFICATION_ID)
-            val senderId = intent.getLongExtra(NotificationHelper.KEY_SENDER_ACCOUNT_ID, -1)
-            val senderIdentifier = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_IDENTIFIER)
-            val senderFullName = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_FULL_NAME)
-            val citedStatusId = intent.getLongExtra(NotificationHelper.KEY_CITED_STATUS_ID, -1)
-            val visibility = intent.getSerializableExtra(NotificationHelper.KEY_VISIBILITY) as Status.Visibility
-            val spoiler = intent.getStringExtra(NotificationHelper.KEY_SPOILER)
-            val mentions = intent.getStringArrayExtra(NotificationHelper.KEY_MENTIONS)
-
-            val account = accountManager.getAccountById(senderId)
-
-            val notificationManager = NotificationManagerCompat.from(context)
 
             if (account == null) {
                 Log.w(TAG, "Account \"$senderId\" not found in database. Aborting quick reply!")
@@ -89,7 +96,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                         citedStatusId.toString(),
                         null,
                         null,
-                        null, account!!, 0)
+                        null, account, 0)
 
                 context.startService(sendIntent)
 
@@ -109,6 +116,18 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
                 notificationManager.notify(notificationId.toInt(), builder.build())
             }
+        } else if (intent.action == NotificationHelper.COMPOSE_ACTION) {
+
+            val intent = ComposeActivity.IntentBuilder()
+                    .inReplyToId(citedStatusId.toString())
+                    .replyVisibility(visibility)
+                    .contentWarning(spoiler)
+                    .mentionedUsernames(Arrays.asList(*mentions))
+                    .repyingStatusAuthor(localAuthorId)
+                    .replyingStatusContent(citedText)
+                    .build(context)
+
+            context.startActivity(intent)
         }
     }
 

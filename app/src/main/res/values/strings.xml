@@ -301,5 +301,6 @@
     <string name="send_toot_notification_channel_name">Sending Toots</string>
     <string name="send_toot_notification_cancel_title">Sending cancelled</string>
     <string name="send_toot_notification_saved_content">A copy of the toot has been saved to your drafts</string>
+    <string name="action_compose_shortcut">Compose</string>
 
 </resources>
