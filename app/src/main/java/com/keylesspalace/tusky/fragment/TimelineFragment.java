@@ -969,6 +969,23 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void handleStatusComposeEvent(@NonNull Status status) {
+        switch (kind) {
+            case HOME:
+            case PUBLIC_FEDERATED:
+            case PUBLIC_LOCAL:
+                break;
+            case USER:
+                if (status.getAccount().getId().equals(hashtagOrId)) {
+                    break;
+                } else {
+                    return;
+                }
+            case TAG:
+            case FAVOURITES:
+            case LIST:
+                return;
+        }
+
         // Insert new status to the top and placeholder beneath it because there may be a gap
         // between new post and what we already know
         statuses.add(0, Either.right(status));
