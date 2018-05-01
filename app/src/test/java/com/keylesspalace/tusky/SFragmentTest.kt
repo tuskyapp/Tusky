@@ -97,7 +97,7 @@ class SFragmentTest {
     @RunWith(Parameterized::class)
     class UrlMatchingTests(val url: String, val expectedResult: Boolean) {
         companion object {
-            @Parameterized.Parameters(name = "{0}")
+            @Parameterized.Parameters(name = "match_{0}")
             @JvmStatic
             fun data() : Iterable<Any> {
                 return listOf(
@@ -136,113 +136,124 @@ class SFragmentTest {
     }
 
     @Test
-    fun beginEndSearch_setIsSearching() {
+    fun beginEndSearch_setIsSearching_isSearchingAfterBegin() {
+        fragment.onBeginSearch("https://mastodon.foo.bar/@User")
+        Assert.assertTrue(fragment.isSearching)
+    }
+
+    @Test
+    fun beginEndSearch_setIsSearching_isNotSearchingAfterEnd() {
         val validUrl = "https://mastodon.foo.bar/@User"
-        val invalidUrl = ""
-
         fragment.onBeginSearch(validUrl)
-        Assert.assertTrue(fragment.isSearching)
-
-        fragment.onEndSearch(invalidUrl)
-        Assert.assertTrue(fragment.isSearching)
-
         fragment.onEndSearch(validUrl)
         Assert.assertFalse(fragment.isSearching)
     }
 
     @Test
+    fun beginEndSearch_setIsSearching_doesNotCancelSearchWhenResponseFromPreviousSearchIsReceived() {
+        val validUrl = "https://mastodon.foo.bar/@User"
+        val invalidUrl = ""
+
+        fragment.onBeginSearch(validUrl)
+        fragment.onEndSearch(invalidUrl)
+        Assert.assertTrue(fragment.isSearching)
+    }
+
+    @Test
     fun cancelActiveSearch() {
+        val url = "https://mastodon.foo.bar/@User"
+
+        fragment.onBeginSearch(url)
+        fragment.cancelActiveSearch()
+        Assert.assertFalse(fragment.isSearching)
+    }
+
+    @Test
+    fun getCancelSearchRequested_detectsURL() {
         val firstUrl = "https://mastodon.foo.bar/@User"
         val secondUrl = "https://mastodon.foo.bar/@meh"
 
         fragment.onBeginSearch(firstUrl)
-        Assert.assertTrue(fragment.isSearching)
-
         fragment.cancelActiveSearch()
-        Assert.assertFalse(fragment.isSearching)
 
         fragment.onBeginSearch(secondUrl)
-        Assert.assertTrue(fragment.isSearching)
         Assert.assertTrue(fragment.getCancelSearchRequested(firstUrl))
         Assert.assertFalse(fragment.getCancelSearchRequested(secondUrl))
-
-        fragment.onEndSearch(secondUrl)
-        Assert.assertFalse(fragment.isSearching)
     }
 
     @Test
-    fun search_inIdealConditions_returnsRequestedResults() {
+    fun search_inIdealConditions_returnsRequestedResults_forAccount() {
         fragment.onViewURL(accountQuery)
-        Assert.assertTrue(fragment.isSearching)
         accountCallback.invokeCallback()
-        Assert.assertFalse(fragment.isSearching)
         Assert.assertEquals(account.id, fragment.accountId)
+    }
 
+    @Test
+    fun search_inIdealConditions_returnsRequestedResults_forStatus() {
         fragment.onViewURL(statusQuery)
-        Assert.assertTrue(fragment.isSearching)
         statusCallback.invokeCallback()
-        Assert.assertFalse(fragment.isSearching)
         Assert.assertEquals(status, fragment.status)
+    }
 
+    @Test
+    fun search_inIdealConditions_returnsRequestedResults_forNonMastodonURL() {
         fragment.onViewURL(nonMastodonQuery)
-        Assert.assertTrue(fragment.isSearching)
         emptyCallback.invokeCallback()
-        Assert.assertFalse(fragment.isSearching)
         Assert.assertEquals(nonMastodonQuery, fragment.url)
     }
 
     @Test
-    fun search_withCancellation_doesNotLoadUrl() {
+    fun search_withCancellation_doesNotLoadUrl_forAccount() {
         fragment.onViewURL(accountQuery)
         Assert.assertTrue(fragment.isSearching)
         fragment.cancelActiveSearch()
         Assert.assertFalse(fragment.isSearching)
         accountCallback.invokeCallback()
         Assert.assertEquals(null, fragment.accountId)
+    }
 
-        fragment.onViewURL(statusQuery)
-        Assert.assertTrue(fragment.isSearching)
+    @Test
+    fun search_withCancellation_doesNotLoadUrl_forStatus() {
+        fragment.onViewURL(accountQuery)
         fragment.cancelActiveSearch()
-        Assert.assertFalse(fragment.isSearching)
-        statusCallback.invokeCallback()
-        Assert.assertEquals(null, fragment.status)
+        accountCallback.invokeCallback()
+        Assert.assertEquals(null, fragment.accountId)
+    }
 
+    @Test
+    fun search_withCancellation_doesNotLoadUrl_forNonMastodonURL() {
         fragment.onViewURL(nonMastodonQuery)
-        Assert.assertTrue(fragment.isSearching)
         fragment.cancelActiveSearch()
-        Assert.assertFalse(fragment.isSearching)
         emptyCallback.invokeCallback()
         Assert.assertEquals(null, fragment.url)
     }
 
     @Test
     fun search_withPreviousCancellation_completes() {
-        // begin account search
+        // begin/cancel account search
         fragment.onViewURL(accountQuery)
-        Assert.assertTrue(fragment.isSearching)
-
-        // cancel account search
         fragment.cancelActiveSearch()
 
         // begin status search
         fragment.onViewURL(statusQuery)
-        Assert.assertTrue(fragment.isSearching)
 
         // return response from account search
         accountCallback.invokeCallback()
-        Assert.assertEquals(null, fragment.accountId)
 
         // ensure that status search is still ongoing
         Assert.assertTrue(fragment.isSearching)
         statusCallback.invokeCallback()
-        Assert.assertFalse(fragment.isSearching)
+
+        // ensure that the result of the status search was recorded
+        // and the account search wasn't
         Assert.assertEquals(status, fragment.status)
+        Assert.assertEquals(null, fragment.accountId)
     }
 
     class FakeSearchResults : Call<SearchResults>
     {
-        var searchResults: SearchResults
-        var callback: Callback<SearchResults>? = null
+        private var searchResults: SearchResults
+        private var callback: Callback<SearchResults>? = null
 
         constructor() {
             searchResults = SearchResults(Collections.emptyList(), Collections.emptyList(), Collections.emptyList())
@@ -264,20 +275,20 @@ class SFragmentTest {
             this.callback = callback
         }
 
-        override fun isExecuted(): Boolean { TODO("not implemented") }
-        override fun clone(): Call<SearchResults> { TODO("not implemented") }
-        override fun isCanceled(): Boolean { TODO("not implemented") }
-        override fun cancel() { TODO("not implemented") }
-        override fun execute(): Response<SearchResults> { TODO("not implemented") }
-        override fun request(): Request { TODO("not implemented") }
+        override fun isExecuted(): Boolean { throw NotImplementedError() }
+        override fun clone(): Call<SearchResults> { throw NotImplementedError() }
+        override fun isCanceled(): Boolean { throw NotImplementedError() }
+        override fun cancel() { throw NotImplementedError() }
+        override fun execute(): Response<SearchResults> { throw NotImplementedError() }
+        override fun request(): Request { throw NotImplementedError() }
     }
 
-    class FakeSFragment : SFragment {
+    class FakeSFragment : SFragment() {
         var status: Status? = null
         var accountId: String? = null
         var url: String? = null
 
-        constructor(): super() {
+        init {
             callList = mutableListOf()
         }
 
@@ -293,8 +304,8 @@ class SFragmentTest {
             this.status = status
         }
 
-        override fun removeItem(position: Int) { TODO("not implemented") }
-        override fun removeAllByAccountId(accountId: String?) { TODO("not implemented") }
-        override fun timelineCases(): TimelineCases { TODO("not implemented") }
+        override fun removeItem(position: Int) { throw NotImplementedError() }
+        override fun removeAllByAccountId(accountId: String?) { throw NotImplementedError() }
+        override fun timelineCases(): TimelineCases { throw NotImplementedError() }
     }
 }
