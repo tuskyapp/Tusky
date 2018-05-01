@@ -70,6 +70,7 @@
     <string name="action_favourite">Dodaj do ulubionych</string>
     <string name="action_more">Więcej</string>
     <string name="action_compose">Napisz</string>
+    <string name="action_compose_shortcut">Odpisz</string>
     <string name="action_login">Zaloguj się Kontem Mastodon</string>
     <string name="action_logout">Wyloguj się</string>
     <string name="action_logout_confirm">Czy na pewno chcesz wylogować się z konta %1$s?</string>
