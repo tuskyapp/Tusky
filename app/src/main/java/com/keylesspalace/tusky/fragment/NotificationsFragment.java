@@ -215,8 +215,7 @@ public class NotificationsFragment extends SFragment implements
                         handleFavEvent((FavoriteEvent) event);
                     } else if (event instanceof ReblogEvent) {
                         handleReblogEvent((ReblogEvent) event);
-                    }
-                    if (event instanceof BlockEvent) {
+                    } else if (event instanceof BlockEvent) {
                         removeAllByAccountId(((BlockEvent) event).getAccountId());
                     }
                 });
