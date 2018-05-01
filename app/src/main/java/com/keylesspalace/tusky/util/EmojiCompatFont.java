@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.keylesspalace.tusky.FileEmojiCompatConfig;
 import com.keylesspalace.tusky.R;
 
 import java.io.EOFException;
@@ -14,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
+import de.c1710.filemojicompat.FileEmojiCompatConfig;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
