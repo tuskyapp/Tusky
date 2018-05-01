@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.network
 import com.keylesspalace.tusky.appstore.AppStore
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.MuteEvent
+import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
 import okhttp3.ResponseBody
@@ -91,6 +92,7 @@ class TimelineCasesImpl(
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
         })
+        appStore.dispatch(StatusDeletedEvent(id))
     }
 
 }

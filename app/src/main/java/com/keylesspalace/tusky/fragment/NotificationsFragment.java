@@ -524,8 +524,7 @@ public class NotificationsFragment extends SFragment implements
         adapter.update(notifications.getPairedCopy());
     }
 
-    @Override
-    public void removeAllByAccountId(String accountId) {
+    private void removeAllByAccountId(String accountId) {
         // using iterator to safely remove items while iterating
         Iterator<Either<Placeholder, Notification>> iterator = notifications.iterator();
         while (iterator.hasNext()) {

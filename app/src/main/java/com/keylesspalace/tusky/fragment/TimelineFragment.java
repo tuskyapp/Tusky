@@ -112,9 +112,9 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Inject
-    TimelineCases timelineCases;
+    public TimelineCases timelineCases;
     @Inject
-    AppStore appStore;
+    public AppStore appStore;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private TimelineAdapter adapter;
@@ -623,7 +623,6 @@ public class TimelineFragment extends SFragment implements
         adapter.update(statuses.getPairedCopy());
     }
 
-    @Override
     public void removeAllByAccountId(String accountId) {
         // using iterator to safely remove items while iterating
         Iterator<Either<Placeholder, Status>> iterator = statuses.iterator();
@@ -650,7 +649,8 @@ public class TimelineFragment extends SFragment implements
     }
 
     private boolean actionButtonPresent() {
-        return kind != Kind.TAG && kind != Kind.FAVOURITES;
+        return kind != Kind.TAG && kind != Kind.FAVOURITES &&
+                getActivity() instanceof ActionButtonActivity;
     }
 
     private void jumpToTop() {

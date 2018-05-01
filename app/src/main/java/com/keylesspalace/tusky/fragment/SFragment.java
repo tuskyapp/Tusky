@@ -80,7 +80,7 @@ public abstract class SFragment extends BaseFragment {
     protected BottomSheetBehavior bottomSheet;
 
     @Inject
-    protected MastodonApi mastodonApi;
+    public MastodonApi mastodonApi;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

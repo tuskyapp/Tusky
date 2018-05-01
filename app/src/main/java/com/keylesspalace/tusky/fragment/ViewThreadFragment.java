@@ -381,8 +381,7 @@ public final class ViewThreadFragment extends SFragment implements
         adapter.setStatuses(statuses.getPairedCopy());
     }
 
-    @Override
-    public void removeAllByAccountId(String accountId) {
+    private void removeAllByAccountId(String accountId) {
         Status status = null;
         if (!statuses.isEmpty()) {
             status = statuses.get(statusIndex);
@@ -602,15 +601,24 @@ public final class ViewThreadFragment extends SFragment implements
         Status eventStatus = event.getStatus();
         if (eventStatus.getInReplyToId() == null) return;
 
-        // If new status is a reply to some status in the thread, insert new status after it
-        for (int i = 0; i < statuses.size(); i++) {
-            Status status = statuses.get(i);
-            if (eventStatus.getInReplyToId().equals(status.getId())) {
-                statuses.add(i + 1, status);
-                adapter.addItem(i + 1, statuses.getPairedItem(i));
-                break;
+        if (eventStatus.getInReplyToId().equals(statuses.get(statusIndex).getId())) {
+            insertStatus(eventStatus, statuses.size());
+        } else {
+            // If new status is a reply to some status in the thread, insert new status after it
+            // We only check statuses below main status, ones on top don't belong to this thread
+            for (int i = statusIndex; i < statuses.size(); i++) {
+                Status status = statuses.get(i);
+                if (eventStatus.getInReplyToId().equals(status.getId())) {
+                    insertStatus(eventStatus, i + 1);
+                    break;
+                }
             }
         }
+    }
+
+    private void insertStatus(Status status, int at) {
+        statuses.add(at, status);
+        adapter.addItem(at, statuses.getPairedItem(at));
     }
 
     private void handleStatusDeletedEvent(StatusDeletedEvent event) {
