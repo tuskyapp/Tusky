@@ -25,6 +25,8 @@ import okhttp3.Request
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 import org.mockito.Mockito.*
@@ -92,48 +94,45 @@ class SFragmentTest {
         fragment.mastodonApi = apiMock
     }
 
-    @Test
-    fun matchesMastodonUrls()
-    {
-        val urls = listOf(
-                "https://mastodon.foo.bar/@User",
-                "http://mastodon.foo.bar/@abc123",
-                "https://mastodon.foo.bar/@user/345667890345678",
-                "https://mastodon.foo.bar/@user/3",
-                "https://pleroma.foo.bar/users/meh3223",
-                "https://pleroma.foo.bar/users/2345",
-                "https://pleroma.foo.bar/notice/9",
-                "https://pleroma.foo.bar/notice/9345678",
-                "https://pleroma.foo.bar/objects/abcdef-123-abcd-9876543"
-        )
+    @RunWith(Parameterized::class)
+    class UrlMatchingTests(val url: String, val expectedResult: Boolean) {
+        companion object {
+            @Parameterized.Parameters(name = "{0}")
+            @JvmStatic
+            fun data() : Iterable<Any> {
+                return listOf(
+                    arrayOf("https://mastodon.foo.bar/@User", true),
+                    arrayOf("http://mastodon.foo.bar/@abc123", true),
+                    arrayOf("https://mastodon.foo.bar/@user/345667890345678", true),
+                    arrayOf("https://mastodon.foo.bar/@user/3", true),
+                    arrayOf("https://pleroma.foo.bar/users/meh3223", true),
+                    arrayOf("https://pleroma.foo.bar/users/2345", true),
+                    arrayOf("https://pleroma.foo.bar/notice/9", true),
+                    arrayOf("https://pleroma.foo.bar/notice/9345678", true),
+                    arrayOf("https://pleroma.foo.bar/objects/abcdef-123-abcd-9876543", true),
+                    arrayOf("https://google.com/", false),
+                    arrayOf("https://mastodon.foo.bar/@User?foo=bar", false),
+                    arrayOf("https://mastodon.foo.bar/@User#foo", false),
+                    arrayOf("http://mastodon.foo.bar/@", false),
+                    arrayOf("http://mastodon.foo.bar/@/345678", false),
+                    arrayOf("https://mastodon.foo.bar/@user/345667890345678/", false),
+                    arrayOf("https://mastodon.foo.bar/@user/3abce", false),
+                    arrayOf("https://pleroma.foo.bar/users/", false),
+                    arrayOf("https://pleroma.foo.bar/user/2345", false),
+                    arrayOf("https://pleroma.foo.bar/notice/wat", false),
+                    arrayOf("https://pleroma.foo.bar/notices/123456", false),
+                    arrayOf("https://pleroma.foo.bar/object/abcdef-123-abcd-9876543", false),
+                    arrayOf("https://pleroma.foo.bar/objects/xabcdef-123-abcd-9876543", false),
+                    arrayOf("https://pleroma.foo.bar/objects/xabcdef-123-abcd-9876543/", false),
+                    arrayOf("https://pleroma.foo.bar/objects/xabcdef-123-abcd_9876543", false)
+                )
+            }
+        }
 
-        for(url in urls)
-            Assert.assertTrue("Failed to match $url", SFragment.looksLikeMastodonUrl(url));
-    }
-
-    @Test
-    fun rejectsNonMastodonUrls()
-    {
-        val urls = listOf(
-                "https://google.com/",
-                "https://mastodon.foo.bar/@User?foo=bar",
-                "https://mastodon.foo.bar/@User#foo",
-                "http://mastodon.foo.bar/@",
-                "http://mastodon.foo.bar/@/345678",
-                "https://mastodon.foo.bar/@user/345667890345678/",
-                "https://mastodon.foo.bar/@user/3abce",
-                "https://pleroma.foo.bar/users/",
-                "https://pleroma.foo.bar/user/2345",
-                "https://pleroma.foo.bar/notice/wat",
-                "https://pleroma.foo.bar/notices/123456",
-                "https://pleroma.foo.bar/object/abcdef-123-abcd-9876543",
-                "https://pleroma.foo.bar/objects/xabcdef-123-abcd-9876543",
-                "https://pleroma.foo.bar/objects/xabcdef-123-abcd-9876543/",
-                "https://pleroma.foo.bar/objects/xabcdef-123-abcd_9876543"
-        )
-
-        for(url in urls)
-            Assert.assertFalse("Matched invalid url $url", SFragment.looksLikeMastodonUrl(url));
+        @Test
+        fun test() {
+            Assert.assertEquals(expectedResult, SFragment.looksLikeMastodonUrl(url))
+        }
     }
 
     @Test
