@@ -315,9 +315,9 @@
     <string name="caption_systememoji">Your device\'s default emoji set</string>
     <string name="caption_blobmoji">An emoji set based n the beloved Blob emojis</string>
     <string name="caption_twemoji">Mastodon\'s standard emoji set</string>
-    <string name="about_emoji">Tusky uses emoji fonts provided by Twemoji (https://github.com/twitter/Twemoji)
-        and Blobmoji (https://github.com/c1710/Blobmoji).</string>
+    <string name="about_emoji">Tusky uses emoji fonts provided by Twemoji - https://github.com/twitter/Twemoji
+        and Blobmoji - https://github.com/c1710/Blobmoji</string>
     <string name="license_blobmoji">Blobmoji is licensed under the Apache 2.0 license</string>
-    <string name="license_twemoji">Twemoji is licensed as CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)</string>
+    <string name="license_twemoji">Twemoji is licensed as CC-BY 4.0 - https://creativecommons.org/licenses/by/4.0/</string>
 
 </resources>
