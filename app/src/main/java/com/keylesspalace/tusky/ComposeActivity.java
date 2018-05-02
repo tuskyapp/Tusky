@@ -62,6 +62,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -163,6 +164,8 @@ public final class ComposeActivity
     private static final String MENTIONED_USERNAMES_EXTRA = "netnioned_usernames";
     private static final String REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra";
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
+    // Mastodon only counts URLs as this long in terms of status character limits
+    private static final int MAXIMUM_URL_LENGTH = 23;
 
     @Inject
     public MastodonApi mastodonApi;
@@ -458,7 +461,6 @@ public final class ComposeActivity
         textEditor.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                updateVisibleCharactersLeft();
             }
 
             @Override
@@ -468,6 +470,7 @@ public final class ComposeActivity
             @Override
             public void afterTextChanged(Editable editable) {
                 SpanUtils.highlightSpans(editable, mentionColour);
+                updateVisibleCharactersLeft();
             }
         });
 
@@ -766,7 +769,14 @@ public final class ComposeActivity
     }
 
     private void updateVisibleCharactersLeft() {
-        int charactersLeft = maximumTootCharacters - textEditor.length();
+        int offset = 0;
+        URLSpan[] urlSpans = textEditor.getUrls();
+        if (urlSpans != null) {
+            for (URLSpan span : urlSpans) {
+                offset += Math.max(0, span.getURL().length() - MAXIMUM_URL_LENGTH);
+            }
+        }
+        int charactersLeft = maximumTootCharacters - textEditor.length() + offset;
         if (statusHideText) {
             charactersLeft -= contentWarningEditor.length();
         }

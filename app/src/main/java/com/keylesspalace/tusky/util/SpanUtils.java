@@ -38,13 +38,18 @@ public class SpanUtils {
     private static Pattern MENTION_PATTERN =
             Pattern.compile(MENTION_REGEX, Pattern.CASE_INSENSITIVE);
 
+    private static final String URL_REGEX = "(?:(^|\\b)https?:[^\\s]+)";
+    private static Pattern URL_PATTERN = Pattern.compile(URL_REGEX, Pattern.CASE_INSENSITIVE);
+
     private static class FindCharsResult {
         int charIndex;
         int stringIndex;
+        boolean atWordBreak;
 
         FindCharsResult() {
             charIndex = -1;
             stringIndex = -1;
+            atWordBreak = false;
         }
     }
 
@@ -65,45 +70,19 @@ public class SpanUtils {
     }
 
     private static FindCharsResult findStart(String string, int fromIndex, char[] chars) {
-        final int length = string.length();
-        while (fromIndex < length) {
-            FindCharsResult found = findChars(string, fromIndex, chars);
-            int i = found.stringIndex;
-            if (i < 0) {
-                break;
-            } else if (i == 0 || i >= 1 && Character.isWhitespace(string.codePointBefore(i))) {
-                return found;
-            } else {
-                fromIndex = i + 1;
-            }
+        FindCharsResult found = findChars(string, fromIndex, chars);
+        int i = found.stringIndex;
+        if (i < 0) {
+            return new FindCharsResult();
+        } else if (i == 0 || i >= 1 && Character.isWhitespace(string.codePointBefore(i))) {
+            found.atWordBreak = true;
         }
-        return new FindCharsResult();
+        return found;
     }
 
-    private static int findEndOfHashtag(String string, int fromIndex) {
-        Matcher matcher = TAG_PATTERN.matcher(string);
-        if (fromIndex >= 1) {
-            fromIndex--;
-        }
-        boolean found = matcher.find(fromIndex);
-        if (found) {
-            return matcher.end();
-        } else {
-            return -1;
-        }
-    }
-
-    private static int findEndOfMention(String string, int fromIndex) {
-        Matcher matcher = MENTION_PATTERN.matcher(string);
-        if (fromIndex >= 1) {
-            fromIndex--;
-        }
-        boolean found = matcher.find(fromIndex);
-        if (found) {
-            return matcher.end();
-        } else {
-            return -1;
-        }
+    private static int findEndOfPattern(String string, int fromIndex, Pattern pattern) {
+        Matcher matcher = pattern.matcher(string);
+        return matcher.find(fromIndex) ? matcher.end() : -1;
     }
 
     /** Takes text containing mentions and hashtags and makes them the given colour. */
@@ -119,24 +98,34 @@ public class SpanUtils {
         int start;
         int end = 0;
         while (end < n) {
-            char[] chars = { '#', '@' };
+            char[] chars = { ':', '#', '@' };
             FindCharsResult found = findStart(string, end, chars);
             start = found.stringIndex;
             if (start < 0) {
                 break;
             }
             if (found.charIndex == 0) {
-                end = findEndOfHashtag(string, start);
-            } else if (found.charIndex == 1) {
-                end = findEndOfMention(string, start);
+                int aNewStart = Math.max(0, start - 5);
+                end = findEndOfPattern(string, aNewStart, URL_PATTERN);
+                if (end >= 0) {
+                    text.setSpan(new CustomURLSpan(string.substring(aNewStart, end)), aNewStart, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                }
+            } else if (found.charIndex == 1 && found.atWordBreak) {
+                end = findEndOfPattern(string, Math.max(0, start - 1), TAG_PATTERN);
+                if (end >= 0) {
+                    text.setSpan(new ForegroundColorSpan(colour), start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                }
+            } else if (found.charIndex == 2 && found.atWordBreak) {
+                end = findEndOfPattern(string, Math.max(0, start - 1), MENTION_PATTERN);
+                if (end >= 0) {
+                    text.setSpan(new ForegroundColorSpan(colour), start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                }
             } else {
                 break;
             }
             if (end < 0) {
                 break;
             }
-            text.setSpan(new ForegroundColorSpan(colour), start, end,
-                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
     }
 }
