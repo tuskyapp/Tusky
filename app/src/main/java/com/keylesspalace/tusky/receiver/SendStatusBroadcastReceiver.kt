@@ -117,6 +117,8 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
             }
         } else if (intent.action == NotificationHelper.COMPOSE_ACTION) {
 
+            notificationManager.cancel(notificationId.toInt())
+
             val intent = ComposeActivity.IntentBuilder()
                     .inReplyToId(citedStatusId)
                     .replyVisibility(visibility)
