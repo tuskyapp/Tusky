@@ -57,7 +57,7 @@
     <string name="report_username_format">Report @%s</string>
     <string name="report_comment_hint">Additional comments?</string>
 
-    <string name="action_quick_reply">Reply</string>
+    <string name="action_quick_reply">Quick Reply</string>
     <string name="action_reply">Reply</string>
     <string name="action_reblog">Boost</string>
     <string name="action_favourite">Favourite</string>
