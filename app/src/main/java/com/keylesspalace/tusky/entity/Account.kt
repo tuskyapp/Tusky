@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.entity
 
+import android.annotation.SuppressLint
 import android.os.Parcel
 import android.os.Parcelable
 import android.text.Spanned
@@ -25,6 +26,7 @@ import kotlinx.android.parcel.Parceler
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.WriteWith
 
+@SuppressLint("ParcelCreator")
 @Parcelize
 data class Account(
         val id: String,
@@ -71,6 +73,7 @@ data class Account(
 }
 
 @Parcelize
+@SuppressLint("ParcelCreator")
 data class AccountSource(
         val privacy: Status.Visibility,
         val sensitive: Boolean,
