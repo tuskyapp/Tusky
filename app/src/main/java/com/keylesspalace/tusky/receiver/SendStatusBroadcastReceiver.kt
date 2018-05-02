@@ -43,7 +43,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         AndroidInjection.inject(this, context)
 
-        val notificationId = intent.getStringExtra(NotificationHelper.KEY_NOTIFICATION_ID)
+        val notificationId = intent.getIntExtra(NotificationHelper.KEY_NOTIFICATION_ID, -1)
         val senderId = intent.getLongExtra(NotificationHelper.KEY_SENDER_ACCOUNT_ID, -1)
         val senderIdentifier = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_IDENTIFIER)
         val senderFullName = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_FULL_NAME)
@@ -80,7 +80,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                 builder.setCategory(NotificationCompat.CATEGORY_SOCIAL)
                 builder.setOnlyAlertOnce(true)
 
-                notificationManager.notify(notificationId.toInt(), builder.build())
+                notificationManager.notify(notificationId, builder.build())
             } else {
                 val text = mentions.joinToString(" ", postfix = " ") { "@$it" } + message.toString()
 
@@ -113,11 +113,11 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                 builder.setCategory(NotificationCompat.CATEGORY_SOCIAL)
                 builder.setOnlyAlertOnce(true)
 
-                notificationManager.notify(notificationId.toInt(), builder.build())
+                notificationManager.notify(notificationId, builder.build())
             }
         } else if (intent.action == NotificationHelper.COMPOSE_ACTION) {
 
-            notificationManager.cancel(notificationId.toInt())
+            notificationManager.cancel(notificationId)
 
             val intent = ComposeActivity.IntentBuilder()
                     .inReplyToId(citedStatusId)

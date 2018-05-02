@@ -58,6 +58,8 @@ import java.util.List;
 
 public class NotificationHelper {
 
+    private static int notificationId = 0;
+
     /**
      * constants used in Intents
      */
@@ -142,6 +144,8 @@ public class NotificationHelper {
         // =========================
         final NotificationCompat.Builder builder = newNotification(context, body, account, false);
 
+        notificationId++;
+
         builder.setContentTitle(titleForType(context, body))
                 .setContentText(bodyForType(body));
 
@@ -220,7 +224,7 @@ public class NotificationHelper {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
         //noinspection ConstantConditions
-        notificationManager.notify(Integer.valueOf(body.getId()), builder.build());
+        notificationManager.notify(notificationId, builder.build());
         if (currentNotifications.length() == 1) {
             notificationManager.notify((int) account.getId(), builder.setGroupSummary(true).build());
         } else {
@@ -235,7 +239,7 @@ public class NotificationHelper {
         summaryStackBuilder.addParentStack(MainActivity.class);
         summaryStackBuilder.addNextIntent(summaryResultIntent);
 
-        PendingIntent summaryResultPendingIntent = summaryStackBuilder.getPendingIntent(Integer.parseInt(body.getId()),
+        PendingIntent summaryResultPendingIntent = summaryStackBuilder.getPendingIntent(notificationId,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent eventResultIntent = new Intent(context, ViewThreadActivity.class);
@@ -249,7 +253,7 @@ public class NotificationHelper {
 
         Intent deleteIntent = new Intent(context, NotificationClearBroadcastReceiver.class);
         deleteIntent.putExtra(ACCOUNT_ID, account.getId());
-        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, summary ? (int) account.getId() : Integer.parseInt(body.getId()), deleteIntent,
+        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, summary ? (int) account.getId() : notificationId, deleteIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, getChannelId(account, body))
@@ -290,14 +294,14 @@ public class NotificationHelper {
                 .putExtra(KEY_SENDER_ACCOUNT_ID, account.getId())
                 .putExtra(KEY_SENDER_ACCOUNT_IDENTIFIER, account.getIdentifier())
                 .putExtra(KEY_SENDER_ACCOUNT_FULL_NAME, account.getFullName())
-                .putExtra(KEY_NOTIFICATION_ID, body.getId())
+                .putExtra(KEY_NOTIFICATION_ID, notificationId)
                 .putExtra(KEY_CITED_STATUS_ID, inReplyToId)
                 .putExtra(KEY_VISIBILITY, replyVisibility)
                 .putExtra(KEY_SPOILER, contentWarning)
                 .putExtra(KEY_MENTIONS, mentionedUsernames.toArray(new String[0]));
 
         return PendingIntent.getBroadcast(context.getApplicationContext(),
-                Integer.parseInt(body.getId()),
+                notificationId,
                 replyIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
     }
