@@ -34,7 +34,6 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.TuskyApplication;
@@ -292,7 +291,7 @@ public class NotificationHelper {
                 .putExtra(KEY_SENDER_ACCOUNT_IDENTIFIER, account.getIdentifier())
                 .putExtra(KEY_SENDER_ACCOUNT_FULL_NAME, account.getFullName())
                 .putExtra(KEY_NOTIFICATION_ID, body.getId())
-                .putExtra(KEY_CITED_STATUS_ID, Long.parseLong(inReplyToId))
+                .putExtra(KEY_CITED_STATUS_ID, inReplyToId)
                 .putExtra(KEY_VISIBILITY, replyVisibility)
                 .putExtra(KEY_SPOILER, contentWarning)
                 .putExtra(KEY_MENTIONS, mentionedUsernames.toArray(new String[0]));

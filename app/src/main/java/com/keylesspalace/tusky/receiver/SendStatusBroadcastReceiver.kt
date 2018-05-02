@@ -32,7 +32,6 @@ import com.keylesspalace.tusky.util.NotificationHelper
 import dagger.android.AndroidInjection
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 private const val TAG = "SendStatusBR"
 
@@ -48,7 +47,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
         val senderId = intent.getLongExtra(NotificationHelper.KEY_SENDER_ACCOUNT_ID, -1)
         val senderIdentifier = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_IDENTIFIER)
         val senderFullName = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_FULL_NAME)
-        val citedStatusId = intent.getLongExtra(NotificationHelper.KEY_CITED_STATUS_ID, -1)
+        val citedStatusId = intent.getStringExtra(NotificationHelper.KEY_CITED_STATUS_ID)
         val visibility = intent.getSerializableExtra(NotificationHelper.KEY_VISIBILITY) as Status.Visibility
         val spoiler = intent.getStringExtra(NotificationHelper.KEY_SPOILER)
         val mentions = intent.getStringArrayExtra(NotificationHelper.KEY_MENTIONS)
@@ -91,9 +90,9 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                         spoiler,
                         visibility,
                         false,
-                        Arrays.asList(),
-                        Arrays.asList(),
-                        citedStatusId.toString(),
+                        emptyList(),
+                        emptyList(),
+                        citedStatusId,
                         null,
                         null,
                         null, account, 0)
@@ -119,7 +118,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
         } else if (intent.action == NotificationHelper.COMPOSE_ACTION) {
 
             val intent = ComposeActivity.IntentBuilder()
-                    .inReplyToId(citedStatusId.toString())
+                    .inReplyToId(citedStatusId)
                     .replyVisibility(visibility)
                     .contentWarning(spoiler)
                     .mentionedUsernames(Arrays.asList(*mentions))
