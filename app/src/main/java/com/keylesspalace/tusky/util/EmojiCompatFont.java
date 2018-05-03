@@ -267,7 +267,6 @@ public class EmojiCompatFont {
 
         @Override
         public void onPostExecute(File downloadedFile) {
-            // TODO: Notify if downloading the file failed
             if(!failed && downloadedFile.exists()) {
                 for (EmojiDownloadListener listener : listeners) {
                     listener.onDownloaded(font);
