@@ -119,7 +119,9 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
             notificationManager.cancel(notificationId)
 
-            val intent = ComposeActivity.IntentBuilder()
+            accountManager.setActiveAccount(senderId)
+
+            val composeIntent = ComposeActivity.IntentBuilder()
                     .inReplyToId(citedStatusId)
                     .replyVisibility(visibility)
                     .contentWarning(spoiler)
@@ -128,7 +130,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                     .replyingStatusContent(citedText)
                     .build(context)
 
-            context.startActivity(intent)
+            context.startActivity(composeIntent)
         }
     }
 
