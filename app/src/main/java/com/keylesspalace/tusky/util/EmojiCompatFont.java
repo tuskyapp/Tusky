@@ -190,6 +190,7 @@ public class EmojiCompatFont {
         private final EmojiCompatFont font;
         private static final String TAG = "Emoji-Font Downloader";
         private static long CHUNK_SIZE = 4096;
+        private boolean failed = false;
 
         Downloader(EmojiCompatFont font, EmojiDownloadListener... listeners) {
             super();
@@ -215,30 +216,29 @@ public class EmojiCompatFont {
                 BufferedSink sink = Okio.buffer(Okio.sink(downloadFile));
                 Source source = null;
                 try {
+                    long size = 0;
                     // Download!
-                    if (response.body() != null && response.isSuccessful()) {
-                        long size = response.body().contentLength();
+                    if (response.body() != null
+                            && response.isSuccessful()
+                            && (size = response.body().contentLength()) > 0) {
                         float progress = 0;
                         source = response.body().source();
                         try {
                             while (!isCancelled()) {
-                                    sink.write(response.body().source(), CHUNK_SIZE);
-                                    progress += CHUNK_SIZE;
-                                    publishProgress(progress / size);
+                                sink.write(response.body().source(), CHUNK_SIZE);
+                                progress += CHUNK_SIZE;
+                                publishProgress(progress / size);
                             }
                         } catch (EOFException ex) {
-                                /*
-                                 This means we've finished downloading the file since sink.write
-                                 will throw an EOFException when the file to be read is empty.
-                                */
+                            /*
+                             This means we've finished downloading the file since sink.write
+                             will throw an EOFException when the file to be read is empty.
+                            */
                         }
                     } else {
                         Log.e(TAG, "downloading " + font.getUrl() + " failed. No content to download.");
                         Log.e(TAG, "Status code: " + response.code());
-                        downloadFile.delete();
-                        for(EmojiDownloadListener listener: listeners) {
-                            listener.onFailed();
-                        }
+                        failed = true;
                     }
                 }
                 finally {
@@ -248,11 +248,12 @@ public class EmojiCompatFont {
                     sink.close();
                     // This 'if' uses side effects to delete the File.
                     if(isCancelled() && !downloadFile.delete()) {
-                        Log.e(TAG, "Could not delete file " + downloadFile + ".");
+                        Log.e(TAG, "Could not delete file " + downloadFile);
                     }
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
+                failed = true;
             }
             return downloadFile;
         }
@@ -267,10 +268,22 @@ public class EmojiCompatFont {
         @Override
         public void onPostExecute(File downloadedFile) {
             // TODO: Notify if downloading the file failed
-            if(downloadedFile.exists()) {
+            if(!failed && downloadedFile.exists()) {
                 for (EmojiDownloadListener listener : listeners) {
                     listener.onDownloaded(font);
                 }
+            }
+            else {
+                fail(downloadedFile);
+            }
+        }
+
+        private void fail(File failedFile) {
+            if(failedFile.exists() && !failedFile.delete()) {
+                Log.e(TAG, "Could not delete file " + failedFile);
+            }
+            for(EmojiDownloadListener listener : listeners) {
+                listener.onFailed();
             }
         }
 

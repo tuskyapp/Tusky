@@ -280,5 +280,6 @@
         und Blobmoji - https://github.com/c1710/Blobmoji</string>
     <string name="license_blobmoji">Blobmoji ist lizenziert nach der Apache 2.0-Lizenz</string>
     <string name="license_twemoji">Twemoji ist als CC-BY-4.0 lizenziert - https://creativecommons.org/licenses/by/4.0/</string>
+    <string name="download_failed">Download fehlgeschlagen.</string>
 
 </resources>

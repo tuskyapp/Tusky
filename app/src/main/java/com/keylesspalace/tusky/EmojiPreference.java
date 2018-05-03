@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.keylesspalace.tusky.util.EmojiCompatFont;
 
@@ -137,6 +138,12 @@ public class EmojiPreference extends DialogPreference {
                 else {
                     progressBar.setProgress((int) progress);
                 }
+            }
+
+            @Override
+            public void onFailed() {
+                Toast.makeText(getContext(), R.string.download_failed, Toast.LENGTH_SHORT).show();
+                updateItem(font, container);
             }
         });
     }
