@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.network.MastodonApi
 import okhttp3.Request
 import okhttp3.ResponseBody
+import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -198,6 +199,23 @@ class ComposeActivityTest {
         assertEquals(ComposeActivity.STATUS_CHARACTER_LIMIT, activity.maximumTootCharacters)
     }
 
+    @Test
+    fun whenTextContainsUrl_onlyEllipsizedURLIsCountedAgainstCharacterLimit() {
+        val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
+        val additionalContent = "Check out this @image #search result: "
+        insertSomeTextInContent(additionalContent + url)
+        Assert.assertEquals(activity.calculateRemainingCharacters(), activity.maximumTootCharacters - additionalContent.length - ComposeActivity.MAXIMUM_URL_LENGTH)
+    }
+
+    @Test
+    fun whenTextContainsMultipleURLs_allURLsGetEllipsized() {
+        val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
+        val additionalContent = " Check out this @image #search result: "
+        insertSomeTextInContent(url + additionalContent + url)
+        Assert.assertEquals(activity.calculateRemainingCharacters(),
+               activity.maximumTootCharacters - additionalContent.length - (ComposeActivity.MAXIMUM_URL_LENGTH * 2))
+    }
+
     private fun clickUp() {
         val menuItem = RoboMenuItem(android.R.id.home)
         activity.onOptionsItemSelected(menuItem)
@@ -207,8 +225,8 @@ class ComposeActivityTest {
         activity.onBackPressed()
     }
 
-    private fun insertSomeTextInContent() {
-        activity.findViewById<EditText>(R.id.composeEditField).setText("Some text")
+    private fun insertSomeTextInContent(text: String? = null) {
+        activity.findViewById<EditText>(R.id.composeEditField).setText(text ?: "Some text")
     }
 
     private fun getInstanceWithMaximumTootCharacters(maximumTootCharacters: Int?): Instance

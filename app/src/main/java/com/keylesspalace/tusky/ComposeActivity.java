@@ -165,7 +165,7 @@ public final class ComposeActivity
     private static final String REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra";
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
     // Mastodon only counts URLs as this long in terms of status character limits
-    private static final int MAXIMUM_URL_LENGTH = 23;
+    static final int MAXIMUM_URL_LENGTH = 23;
 
     @Inject
     public MastodonApi mastodonApi;
@@ -768,7 +768,7 @@ public final class ComposeActivity
         setStatusVisibility(visibility);
     }
 
-    private void updateVisibleCharactersLeft() {
+    int calculateRemainingCharacters() {
         int offset = 0;
         URLSpan[] urlSpans = textEditor.getUrls();
         if (urlSpans != null) {
@@ -776,11 +776,15 @@ public final class ComposeActivity
                 offset += Math.max(0, span.getURL().length() - MAXIMUM_URL_LENGTH);
             }
         }
-        int charactersLeft = maximumTootCharacters - textEditor.length() + offset;
+        int remaining = maximumTootCharacters - textEditor.length() + offset;
         if (statusHideText) {
-            charactersLeft -= contentWarningEditor.length();
+            remaining -= contentWarningEditor.length();
         }
-        this.charactersLeft.setText(String.format(Locale.getDefault(), "%d", charactersLeft));
+        return remaining;
+    }
+
+    private void updateVisibleCharactersLeft() {
+        this.charactersLeft.setText(String.format(Locale.getDefault(), "%d", calculateRemainingCharacters()));
     }
 
     private void onContentWarningChanged() {
