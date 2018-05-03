@@ -26,6 +26,4 @@
         android:text="@string/search_no_results"
         android:visibility="gone" />
 
-    <include layout="@layout/item_status_bottom_sheet" />
-
 </android.support.design.widget.CoordinatorLayout>

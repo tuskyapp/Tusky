@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -91,7 +92,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
             loggedInAccountId = activeAccount.getAccountId();
             loggedInUsername = activeAccount.getUsername();
         }
-        setupBottomSheet(getView());
+        setupBottomSheet();
     }
 
     @Override
@@ -366,28 +367,30 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         onBeginSearch(url);
     }
 
-    protected void setupBottomSheet(View view)
-    {
-        LinearLayout bottomSheetLayout = view.findViewById(R.id.item_status_bottom_sheet);
-        if (bottomSheetLayout != null) {
-            bottomSheet = BottomSheetBehavior.from(bottomSheetLayout);
-            bottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
-            bottomSheet.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-                @Override
-                public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                    switch(newState) {
-                        case BottomSheetBehavior.STATE_HIDDEN:
-                            cancelActiveSearch();
-                            break;
-                        default:
-                            break;
+    protected void setupBottomSheet() {
+        Activity activity = getActivity();
+        if(activity != null){
+            LinearLayout bottomSheetLayout = activity.findViewById(R.id.item_status_bottom_sheet);
+            if (bottomSheetLayout != null) {
+                bottomSheet = BottomSheetBehavior.from(bottomSheetLayout);
+                bottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
+                bottomSheet.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                    @Override
+                    public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                        switch (newState) {
+                            case BottomSheetBehavior.STATE_HIDDEN:
+                                cancelActiveSearch();
+                                break;
+                            default:
+                                break;
+                        }
                     }
-                }
 
-                @Override
-                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                }
-            });
+                    @Override
+                    public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                    }
+                });
+            }
         }
     }
 
