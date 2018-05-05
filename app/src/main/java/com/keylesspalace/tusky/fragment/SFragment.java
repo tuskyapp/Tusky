@@ -53,6 +53,7 @@ import com.keylesspalace.tusky.util.LinkHelper;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -194,15 +195,18 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         popup.show();
     }
 
-    protected void viewMedia(String[] urls, int urlIndex, Attachment.Type type,
+    protected void viewMedia(List<Attachment> attachments, int urlIndex,
                              @Nullable View view) {
+        final Attachment active = attachments.get(urlIndex);
+        Attachment.Type type = active.getType();
         switch (type) {
             case IMAGE: {
                 Intent intent = new Intent(getContext(), ViewMediaActivity.class);
-                intent.putExtra("urls", urls);
-                intent.putExtra("urlIndex", urlIndex);
+                intent.putParcelableArrayListExtra(ViewMediaActivity.ATTACHMENTS_EXTRA,
+                        new ArrayList<>(attachments));
+                intent.putExtra(ViewMediaActivity.INDEX_EXTRA, urlIndex);
                 if (view != null) {
-                    String url = urls[urlIndex];
+                    String url = active.getUrl();
                     ViewCompat.setTransitionName(view, url);
                     ActivityOptionsCompat options =
                             ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
@@ -216,7 +220,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
             case GIFV:
             case VIDEO: {
                 Intent intent = new Intent(getContext(), ViewVideoActivity.class);
-                intent.putExtra("url", urls[urlIndex]);
+                intent.putExtra("url", active.getUrl());
                 startActivity(intent);
                 break;
             }

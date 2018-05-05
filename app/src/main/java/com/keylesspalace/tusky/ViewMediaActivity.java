@@ -39,25 +39,48 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.fragment.ViewMediaFragment;
 import com.keylesspalace.tusky.pager.ImagePagerAdapter;
 import com.keylesspalace.tusky.view.ImageViewPager;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment.PhotoActionsListener {
+import kotlin.jvm.functions.Function0;
+
+public final class ViewMediaActivity extends BaseActivity
+        implements ViewMediaFragment.PhotoActionsListener {
+    public static final String ATTACHMENTS_EXTRA = "attachments";
+    public static final String INDEX_EXTRA = "index";
+
     private static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
     private ImageViewPager viewPager;
     private View anyView;
-    private String[] imageUrls;
+    private List<Attachment> attachments;
     private Toolbar toolbar;
 
     private boolean isToolbarVisible = true;
+    private final List<ToolbarVisibilityListener> toolbarVisibilityListeners = new ArrayList<>();
+
+    public interface ToolbarVisibilityListener {
+        void onToolbarVisiblityChanged(boolean isVisible);
+    }
+
+    public Function0 addToolbarVisibilityListener(ToolbarVisibilityListener listener) {
+        this.toolbarVisibilityListeners.add(listener);
+        listener.onToolbarVisiblityChanged(isToolbarVisible);
+        return () -> toolbarVisibilityListeners.remove(listener);
+    }
+
+    public boolean isToolbarVisible() {
+        return isToolbarVisible;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,12 +96,12 @@ public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment
 
         // Gather the parameters.
         Intent intent = getIntent();
-        imageUrls = intent.getStringArrayExtra("urls");
-        int initialPosition = intent.getIntExtra("urlIndex", 0);
+        attachments = intent.getParcelableArrayListExtra(ATTACHMENTS_EXTRA);
+        int initialPosition = intent.getIntExtra(INDEX_EXTRA, 0);
 
         // Setup the view pager.
         final ImagePagerAdapter adapter = new ImagePagerAdapter(getSupportFragmentManager(),
-                imageUrls, initialPosition);
+                attachments, initialPosition);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(initialPosition);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -106,23 +129,15 @@ public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setTitle(adapter.getPageTitle(initialPosition));
         }
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                supportFinishAfterTransition();
+        toolbar.setNavigationOnClickListener(v -> supportFinishAfterTransition());
+        toolbar.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+            switch (id) {
+                case R.id.action_download:
+                    downloadImage();
+                    break;
             }
-        });
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int id = item.getItemId();
-                switch (id) {
-                    case R.id.action_download:
-                        downloadImage();
-                        break;
-                }
-                return true;
-            }
+            return true;
         });
 
         View decorView = getWindow().getDecorView();
@@ -161,8 +176,12 @@ public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment
     @Override
     public void onPhotoTap() {
         isToolbarVisible = !isToolbarVisible;
+        for (ToolbarVisibilityListener listener : toolbarVisibilityListeners) {
+            listener.onToolbarVisiblityChanged(isToolbarVisible);
+        }
         final int visibility = isToolbarVisible ? View.VISIBLE : View.INVISIBLE;
         int alpha = isToolbarVisible ? 1 : 0;
+
         toolbar.animate().alpha(alpha)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
@@ -184,12 +203,7 @@ public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment
                     downloadImage();
                 } else {
                     doErrorDialog(R.string.error_media_download_permission, R.string.action_retry,
-                            new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    downloadImage();
-                                }
-                            });
+                            v -> downloadImage());
                 }
                 break;
             }
@@ -214,7 +228,7 @@ public class ViewMediaActivity extends BaseActivity implements ViewMediaFragment
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         } else {
-            String url = imageUrls[viewPager.getCurrentItem()];
+            String url = attachments.get(viewPager.getCurrentItem()).getUrl();
             Uri uri = Uri.parse(url);
 
             String filename = new File(url).getName();

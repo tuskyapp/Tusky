@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center"
     android:clickable="true">
 
@@ -17,5 +18,17 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/tv_media_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        tools:text="Some media description"
+        android:background="#60000000"
+        android:textColor="#eee"
+        android:padding="8dp"
+        android:textAlignment="center"
+        />
 
 </RelativeLayout>

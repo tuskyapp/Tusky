@@ -15,13 +15,16 @@
 
 package com.keylesspalace.tusky.entity
 
+import android.os.Parcelable
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonParseException
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Attachment(
         var id: String,
         var url: String,
@@ -29,7 +32,7 @@ data class Attachment(
         @SerializedName("text_url") val textUrl: String?,
         var type: Type,
         var description: String?
-) {
+) : Parcelable {
 
     @JsonAdapter(MediaTypeDeserializer::class)
     enum class Type {

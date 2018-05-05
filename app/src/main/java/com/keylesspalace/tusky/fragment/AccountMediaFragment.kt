@@ -200,8 +200,9 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         when (type) {
             Attachment.Type.IMAGE -> {
                 val intent = Intent(context, ViewMediaActivity::class.java)
-                intent.putExtra("urls", urls)
-                intent.putExtra("urlIndex", currentIndex)
+                intent.putParcelableArrayListExtra(ViewMediaActivity.ATTACHMENTS_EXTRA,
+                        ArrayList(items))
+                intent.putExtra(ViewMediaActivity.INDEX_EXTRA, currentIndex)
                 if (view != null && activity != null) {
                     val url = urls[currentIndex]
                     ViewCompat.setTransitionName(view, url)
