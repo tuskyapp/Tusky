@@ -274,7 +274,7 @@
     <string name="later">Später</string>
     <string name="restart">Neustarten</string>
     <string name="caption_systememoji">Die Standard-Emojis deines Geräts</string>
-    <string name="caption_blobmoji">Ein Emoji-Set, das auf den "Blob"-Emojis basiert</string>
+    <string name="caption_blobmoji">Ein Emoji–Set, das auf den "Blob"–Emojis aus Android 4.4–7.1 basiert</string>
     <string name="caption_twemoji">Die Standard-Emojis von Mastodon</string>
     <string name="about_emoji">
         Tusky benutzt die folgenden Emoji-Schriftarten:\n
