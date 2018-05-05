@@ -65,6 +65,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="image/*" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="web+mastodon" android:host="share"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".ViewVideoActivity"
@@ -76,7 +82,14 @@
         <activity android:name=".ViewTagActivity" />
         <activity android:name=".ViewMediaActivity"
             android:theme="@style/AppThemeBase" />
-        <activity android:name=".AccountActivity" />
+        <activity android:name=".AccountActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="web+mastodon" android:host="follow"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".PreferencesActivity" />
         <activity android:name=".FavouritesActivity" />

@@ -1,4 +1,5 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2018 Jeremiasz Nelz
+ * Copyright 2017 Andrew Dawson
  *
  * This file is a part of Tusky.
  *
@@ -22,6 +23,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
@@ -61,10 +63,12 @@ import com.keylesspalace.tusky.util.ThemeUtils;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -114,6 +118,8 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     private boolean hideFab;
     private int oldOffset;
 
+    private boolean intentFollow = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,7 +144,36 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
             muting = savedInstanceState.getBoolean("muting");
         } else {
             Intent intent = getIntent();
-            accountId = intent.getStringExtra("id");
+
+            if (intent.hasExtra("id")) {
+                accountId = intent.getStringExtra("id");
+            }
+
+            if (Objects.equals(intent.getScheme(), "web+mastodon")
+                    && intent.getData() != null
+                    && intent.getData().getQueryParameterNames().contains("uri")) {
+                // TODO: move this to separate thread
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+                StrictMode.setThreadPolicy(policy);
+
+                try {
+                    List<Account> accounts = mastodonApi.searchAccounts(intent.getData()
+                            .getQueryParameter("uri")
+                            .replaceFirst("^acct:", ""), true, 1)
+                            .execute().body();
+                    if (accounts != null && !accounts.isEmpty()) {
+                        accountId = accounts.get(0).getId();
+                    } else {
+                        finish();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    finish();
+                }
+
+                intentFollow = true;
+            }
             followState = FollowState.NOT_FOLLOWING;
             blocking = false;
             muting = false;
@@ -360,6 +395,9 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         followingTextView.setText(getString(R.string.title_x_following, followingCount));
         statusesTextView.setText(getString(R.string.title_x_statuses, statusesCount));
 
+        if (intentFollow) {
+            showFollowWarningDialog();
+        }
     }
 
     private void onObtainAccountFailure() {
@@ -567,6 +605,15 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         new AlertDialog.Builder(this)
                 .setMessage(R.string.dialog_message_follow_request)
                 .setPositiveButton(android.R.string.ok, null)
+                .show();
+    }
+
+    private void showFollowWarningDialog() {
+        DialogInterface.OnClickListener followListener = (dialogInterface, i) -> follow(accountId);
+        new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.dialog_follow_warning, loadedAccount.getUsername()))
+                .setPositiveButton(android.R.string.yes, followListener)
+                .setNegativeButton(android.R.string.no, null)
                 .show();
     }
 

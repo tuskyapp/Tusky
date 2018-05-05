@@ -130,6 +130,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -373,6 +374,13 @@ public final class ComposeActivity
         ArrayList<String> loadedDraftMediaUris = null;
         inReplyToId = null;
         if (intent != null) {
+
+            if (Objects.equals(intent.getScheme(), "web+mastodon")
+                    && intent.getData() != null
+                    && intent.getData().getQueryParameterNames().contains("text")) {
+                String shareText = intent.getData().getQueryParameter("text");
+                textEditor.setText(shareText);
+            }
 
             if (startingVisibility == Status.Visibility.UNKNOWN) {
                 Status.Visibility replyVisibility = Status.Visibility.byNum(
