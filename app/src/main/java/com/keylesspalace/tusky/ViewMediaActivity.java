@@ -46,23 +46,33 @@ import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.fragment.ViewMediaFragment;
 import com.keylesspalace.tusky.pager.ImagePagerAdapter;
 import com.keylesspalace.tusky.view.ImageViewPager;
+import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function0;
 
 public final class ViewMediaActivity extends BaseActivity
         implements ViewMediaFragment.PhotoActionsListener {
-    public static final String ATTACHMENTS_EXTRA = "attachments";
-    public static final String INDEX_EXTRA = "index";
+    private static final String ATTACHMENTS_EXTRA = "attachments";
+    private static final String INDEX_EXTRA = "index";
+
+    public static Intent newIntent(Context context, List<AttachmentViewData> attachments,
+                                   int index) {
+        final Intent intent = new Intent(context, ViewMediaActivity.class);
+        intent.putParcelableArrayListExtra(ATTACHMENTS_EXTRA, new ArrayList<>(attachments));
+        intent.putExtra(INDEX_EXTRA, index);
+        return intent;
+    }
 
     private static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
     private ImageViewPager viewPager;
     private View anyView;
-    private List<Attachment> attachments;
+    private List<AttachmentViewData> attachments;
     private Toolbar toolbar;
 
     private boolean isToolbarVisible = true;
@@ -99,9 +109,11 @@ public final class ViewMediaActivity extends BaseActivity
         attachments = intent.getParcelableArrayListExtra(ATTACHMENTS_EXTRA);
         int initialPosition = intent.getIntExtra(INDEX_EXTRA, 0);
 
+        List<Attachment> realAttachs =
+                CollectionsKt.map(attachments, AttachmentViewData::getAttachment);
         // Setup the view pager.
         final ImagePagerAdapter adapter = new ImagePagerAdapter(getSupportFragmentManager(),
-                attachments, initialPosition);
+                realAttachs, initialPosition);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(initialPosition);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -135,6 +147,9 @@ public final class ViewMediaActivity extends BaseActivity
             switch (id) {
                 case R.id.action_download:
                     downloadImage();
+                    break;
+                case R.id.action_open_status:
+                    onOpenStatus();
                     break;
             }
             return true;
@@ -228,7 +243,7 @@ public final class ViewMediaActivity extends BaseActivity
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         } else {
-            String url = attachments.get(viewPager.getCurrentItem()).getUrl();
+            String url = attachments.get(viewPager.getCurrentItem()).getAttachment().getUrl();
             Uri uri = Uri.parse(url);
 
             String filename = new File(url).getName();
@@ -247,5 +262,11 @@ public final class ViewMediaActivity extends BaseActivity
 
             downloadManager.enqueue(request);
         }
+    }
+
+    private void onOpenStatus() {
+        final AttachmentViewData attach = attachments.get(viewPager.getCurrentItem());
+        startActivity(ViewThreadActivity.startIntent(this, attach.getStatusId(),
+                attach.getStatusUrl()));
     }
 }

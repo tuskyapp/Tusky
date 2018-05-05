@@ -50,6 +50,7 @@ import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -195,16 +196,15 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         popup.show();
     }
 
-    protected void viewMedia(List<Attachment> attachments, int urlIndex,
-                             @Nullable View view) {
-        final Attachment active = attachments.get(urlIndex);
+    protected void viewMedia(int urlIndex, Status status, @Nullable View view) {
+        final Status actionable = status.getActionableStatus();
+        final Attachment active = actionable.getAttachments().get(urlIndex);
         Attachment.Type type = active.getType();
         switch (type) {
             case IMAGE: {
-                Intent intent = new Intent(getContext(), ViewMediaActivity.class);
-                intent.putParcelableArrayListExtra(ViewMediaActivity.ATTACHMENTS_EXTRA,
-                        new ArrayList<>(attachments));
-                intent.putExtra(ViewMediaActivity.INDEX_EXTRA, urlIndex);
+                final List<AttachmentViewData> attachments = AttachmentViewData.list(actionable);
+                final Intent intent = ViewMediaActivity.newIntent(getContext(), attachments,
+                        urlIndex);
                 if (view != null) {
                     String url = active.getUrl();
                     ViewCompat.setTransitionName(view, url);
@@ -235,10 +235,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
 
     protected void viewThread(Status status) {
         if (!isSearching()) {
-            Intent intent = new Intent(getContext(), ViewThreadActivity.class);
-            intent.putExtra("id", status.getActionableId());
-            intent.putExtra("url", status.getActionableStatus().getUrl());
-            startActivity(intent);
+            startActivity(ViewThreadActivity.startIntentFromStatus(getContext(), status));
         }
     }
 

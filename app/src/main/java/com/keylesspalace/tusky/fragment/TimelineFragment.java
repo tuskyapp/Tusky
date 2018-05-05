@@ -446,7 +446,7 @@ public class TimelineFragment extends SFragment implements
     public void onViewMedia(int position, int attachmentIndex, View view) {
         Status status = statuses.get(position).getAsRightOrNull();
         if (status == null) return;
-        super.viewMedia(status.getActionableStatus().getAttachments(), attachmentIndex, view);
+        super.viewMedia(attachmentIndex, status, view);
     }
 
     @Override

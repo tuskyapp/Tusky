@@ -368,7 +368,7 @@ public class NotificationsFragment extends SFragment implements
     public void onViewMedia(int position, int attachmentIndex, View view) {
         Notification notification = notifications.get(position).getAsRightOrNull();
         if (notification == null || notification.getStatus() == null) return;
-        super.viewMedia(notification.getStatus().getAttachments(), attachmentIndex, view);
+        super.viewMedia(attachmentIndex, notification.getStatus(), view);
     }
 
     @Override

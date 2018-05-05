@@ -305,5 +305,6 @@
     <string name="copy_to_clipboard_success">Copied to clipboard</string>
     <string name="performing_lookup_title">Performing lookup...</string>
     <string name="expand_collapse_all_statuses">Expand/Collapse all statuses</string>
+    <string name="action_open_toot">Open toot</string>
 
 </resources>

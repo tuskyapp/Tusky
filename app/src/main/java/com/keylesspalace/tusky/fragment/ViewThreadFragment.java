@@ -269,7 +269,7 @@ public final class ViewThreadFragment extends SFragment implements
     @Override
     public void onViewMedia(int position, int attachmentIndex, View view) {
         Status status = statuses.get(position);
-        super.viewMedia(status.getActionableStatus().getAttachments(), attachmentIndex, view);
+        super.viewMedia(attachmentIndex, status, view);
     }
 
     @Override

@@ -38,6 +38,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.view.SquareImageView
+import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
@@ -74,7 +75,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
     private var currentCall: Call<List<Status>>? = null
     private val statuses = mutableListOf<Status>()
     private var fetchingStatus = FetchingStatus.NOT_FETCHING
-    lateinit private var swipeLayout: SwipeRefreshLayout
+    private lateinit var swipeLayout: SwipeRefreshLayout
 
     private val callback = object : Callback<List<Status>> {
         override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
@@ -90,9 +91,9 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             body?.let { fetched ->
                 statuses.addAll(0, fetched)
                 // flatMap requires iterable but I don't want to box each array into list
-                val result = mutableListOf<Attachment>()
+                val result = mutableListOf<AttachmentViewData>()
                 for (status in fetched) {
-                    result.addAll(status.attachments)
+                    result.addAll(AttachmentViewData.list(status))
                 }
                 adapter.addTop(result)
             }
@@ -114,9 +115,9 @@ class AccountMediaFragment : BaseFragment(), Injectable {
                 statuses.addAll(fetched)
                 Log.d(TAG, "now there are ${statuses.size} statuses")
                 // flatMap requires iterable but I don't want to box each array into list
-                val result = mutableListOf<Attachment>()
+                val result = mutableListOf<AttachmentViewData>()
                 for (status in fetched) {
-                    result.addAll(status.attachments)
+                    result.addAll(AttachmentViewData.list(status))
                 }
                 adapter.addBottom(result)
             }
@@ -193,18 +194,14 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         }
     }
 
-    private fun viewMedia(items: List<Attachment>, currentIndex: Int, view: View?) {
-        val urls = items.map { it.url }.toTypedArray()
-        val type = items[currentIndex].type
+    private fun viewMedia(items: List<AttachmentViewData>, currentIndex: Int, view: View?) {
+        val type = items[currentIndex].attachment.type
 
         when (type) {
             Attachment.Type.IMAGE -> {
-                val intent = Intent(context, ViewMediaActivity::class.java)
-                intent.putParcelableArrayListExtra(ViewMediaActivity.ATTACHMENTS_EXTRA,
-                        ArrayList(items))
-                intent.putExtra(ViewMediaActivity.INDEX_EXTRA, currentIndex)
+                val intent = ViewMediaActivity.newIntent(context, items, currentIndex)
                 if (view != null && activity != null) {
-                    val url = urls[currentIndex]
+                    val url = items[currentIndex].attachment.url
                     ViewCompat.setTransitionName(view, url)
                     val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity!!, view, url)
                     startActivity(intent, options.toBundle())
@@ -214,7 +211,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             }
             Attachment.Type.GIFV, Attachment.Type.VIDEO -> {
                 val intent = Intent(context, ViewVideoActivity::class.java)
-                intent.putExtra("url", urls[currentIndex])
+                intent.putExtra("url", items[currentIndex].attachment.url)
                 startActivity(intent)
             }
             Attachment.Type.UNKNOWN -> {
@@ -233,16 +230,16 @@ class AccountMediaFragment : BaseFragment(), Injectable {
 
         var baseItemColor = Color.BLACK
 
-        private val items = mutableListOf<Attachment>()
+        private val items = mutableListOf<AttachmentViewData>()
         private val itemBgBaseHSV = FloatArray(3)
         private val random = Random()
 
-        fun addTop(newItems: List<Attachment>) {
+        fun addTop(newItems: List<AttachmentViewData>) {
             items.addAll(0, newItems)
             notifyItemRangeInserted(0, newItems.size)
         }
 
-        fun addBottom(newItems: List<Attachment>) {
+        fun addBottom(newItems: List<AttachmentViewData>) {
             if (newItems.isEmpty()) return
 
             val oldLen = items.size
@@ -269,7 +266,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             holder.imageView.setBackgroundColor(Color.HSVToColor(itemBgBaseHSV))
             val item = items[position]
             Picasso.with(holder.imageView.context)
-                    .load(item.previewUrl)
+                    .load(item.attachment.previewUrl)
                     .into(holder.imageView)
         }
 

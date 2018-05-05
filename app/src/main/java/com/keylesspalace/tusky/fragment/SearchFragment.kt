@@ -177,7 +177,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
         val status = searchAdapter.getStatusAtPosition(position) ?: return
-        viewMedia(status.attachments, attachmentIndex, view)
+        viewMedia(attachmentIndex, status, view)
     }
 
     override fun onViewThread(position: Int) {

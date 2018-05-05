@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,8 +26,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.fragment.ViewThreadFragment;
 import com.keylesspalace.tusky.util.LinkHelper;
+
+import java.net.URL;
 
 import javax.inject.Inject;
 
@@ -33,11 +38,25 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class ViewThreadActivity extends BaseActivity implements HasSupportFragmentInjector {
+public final class ViewThreadActivity extends BaseActivity implements HasSupportFragmentInjector {
 
     public static final int REVEAL_BUTTON_HIDDEN = 1;
     public static final int REVEAL_BUTTON_REVEAL = 2;
     public static final int REVEAL_BUTTON_HIDE = 3;
+
+    public static Intent startIntent(Context context, String id, String url) {
+        Intent intent = new Intent(context, ViewThreadActivity.class);
+        intent.putExtra(ID_EXTRA, id);
+        intent.putExtra(URL_EXTRA, url);
+        return intent;
+    }
+
+    public static Intent startIntentFromStatus(Context context, Status status) {
+        return startIntent(context, status.getActionableId(), status.getActionableStatus().getUrl());
+    }
+
+    private static final String ID_EXTRA = "id";
+    private static final String URL_EXTRA = "url";
 
     private int revealButtonState = REVEAL_BUTTON_HIDDEN;
 
@@ -60,7 +79,7 @@ public class ViewThreadActivity extends BaseActivity implements HasSupportFragme
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
-        String id = getIntent().getStringExtra("id");
+        String id = getIntent().getStringExtra(ID_EXTRA);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragment = ViewThreadFragment.newInstance(id);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -98,7 +117,7 @@ public class ViewThreadActivity extends BaseActivity implements HasSupportFragme
                 return true;
             }
             case R.id.action_open_in_web: {
-                LinkHelper.openLink(getIntent().getStringExtra("url"), this);
+                LinkHelper.openLink(getIntent().getStringExtra(URL_EXTRA), this);
                 return true;
             }
             case R.id.action_reveal: {
