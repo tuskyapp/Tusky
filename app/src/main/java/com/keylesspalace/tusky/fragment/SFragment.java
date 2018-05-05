@@ -270,7 +270,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
     // https://pleroma.foo.bar/users/43456787654678
     // https://pleroma.foo.bar/notice/43456787654678
     // https://pleroma.foo.bar/objects/d4643c42-3ae0-4b73-b8b0-c725f5819207
-    private static boolean looksLikeMastodonUrl(String urlString) {
+    static boolean looksLikeMastodonUrl(String urlString) {
         URI uri;
         try {
             uri = new URI(urlString);
@@ -285,26 +285,27 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         }
 
         String path = uri.getPath();
-        return path.matches("^/@[^/]*$") ||
+        return path.matches("^/@[^/]+$") ||
                 path.matches("^/users/[^/]+$") ||
-                path.matches("^/(@|notice)[^/]*/\\d+$") ||
+                path.matches("^/@[^/]+/\\d+$") ||
+                path.matches("^/notice/\\d+$") ||
                 path.matches("^/objects/[-a-f0-9]+$");
     }
 
-    private void onBeginSearch(@NonNull String url) {
+    void onBeginSearch(@NonNull String url) {
         searchUrl = url;
         showQuerySheet();
     }
 
-    private boolean getCancelSearchRequested(@NonNull String url) {
+    boolean getCancelSearchRequested(@NonNull String url) {
         return !url.equals(searchUrl);
     }
 
-    private boolean isSearching() {
+    boolean isSearching() {
         return searchUrl != null;
     }
 
-    private void onEndSearch(@NonNull String url) {
+    void onEndSearch(@NonNull String url) {
         if (url.equals(searchUrl)) {
             // Don't clear query if there's no match,
             // since we might just now be getting the response for a canceled search
@@ -313,16 +314,20 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         }
     }
 
-    private void cancelActiveSearch()
+    void cancelActiveSearch()
     {
         if (isSearching()) {
             onEndSearch(searchUrl);
         }
     }
 
+    void openLink(@NonNull String url) {
+        LinkHelper.openLink(url, getContext());
+    }
+
     public void onViewURL(String url) {
         if (!looksLikeMastodonUrl(url)) {
-            LinkHelper.openLink(url, getContext());
+            openLink(url);
             return;
         }
 
@@ -350,14 +355,14 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
                         return;
                     }
                 }
-                LinkHelper.openLink(url, getContext());
+                openLink(url);
             }
 
             @Override
             public void onFailure(@NonNull Call<SearchResults> call, @NonNull Throwable t) {
                 if (!getCancelSearchRequested(url)) {
                     onEndSearch(url);
-                    LinkHelper.openLink(url, getContext());
+                    openLink(url);
                 }
             }
         });
