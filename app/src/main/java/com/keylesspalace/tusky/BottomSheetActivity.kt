@@ -17,6 +17,7 @@ package com.keylesspalace.tusky
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.annotation.VisibleForTesting
 import android.support.design.widget.BottomSheetBehavior
 import android.view.View
 import android.widget.LinearLayout
@@ -37,8 +38,8 @@ import java.net.URISyntaxException
 
 abstract class BottomSheetActivity : BaseActivity() {
 
-    private lateinit var bottomSheet: BottomSheetBehavior<LinearLayout>
-    private var searchUrl: String? = null
+    lateinit var bottomSheet: BottomSheetBehavior<LinearLayout>
+    var searchUrl: String? = null
 
     abstract fun getMastodonApi(): MastodonApi
 
@@ -62,7 +63,7 @@ abstract class BottomSheetActivity : BaseActivity() {
 
     }
 
-    fun viewUrl(url: String) {
+    open fun viewUrl(url: String) {
         if (!looksLikeMastodonUrl(url)) {
             openLink(url)
             return
@@ -106,7 +107,7 @@ abstract class BottomSheetActivity : BaseActivity() {
         onBeginSearch(url)
     }
 
-    fun viewThread(status: Status) {
+    open fun viewThread(status: Status) {
         if (!isSearching()) {
             val intent = Intent(this, ViewThreadActivity::class.java)
             intent.putExtra("id", status.actionableId)
@@ -115,54 +116,30 @@ abstract class BottomSheetActivity : BaseActivity() {
         }
     }
 
-    fun viewAccount(id: String) {
+    open fun viewAccount(id: String) {
         val intent = Intent(this, AccountActivity::class.java)
         intent.putExtra("id", id)
         startActivity(intent)
     }
 
-    // https://mastodon.foo.bar/@User
-    // https://mastodon.foo.bar/@User/43456787654678
-    // https://pleroma.foo.bar/users/User
-    // https://pleroma.foo.bar/users/43456787654678
-    // https://pleroma.foo.bar/notice/43456787654678
-    // https://pleroma.foo.bar/objects/d4643c42-3ae0-4b73-b8b0-c725f5819207
-    private fun looksLikeMastodonUrl(urlString: String): Boolean {
-        val uri: URI
-        try {
-            uri = URI(urlString)
-        } catch (e: URISyntaxException) {
-            return false
-        }
-
-        if (uri.query != null ||
-                uri.fragment != null ||
-                uri.path == null) {
-            return false
-        }
-
-        val path = uri.path
-        return path.matches("^/@[^/]+$".toRegex()) ||
-                path.matches("^/users/[^/]+$".toRegex()) ||
-                path.matches("^/@[^/]+/\\d+$".toRegex()) ||
-                path.matches("^/notice/\\d+$".toRegex()) ||
-                path.matches("^/objects/[-a-f0-9]+$".toRegex())
-    }
-
-    private fun onBeginSearch(url: String) {
+    @VisibleForTesting
+    fun onBeginSearch(url: String) {
         searchUrl = url
         showQuerySheet()
     }
 
-    private fun getCancelSearchRequested(url: String): Boolean {
+    @VisibleForTesting
+    fun getCancelSearchRequested(url: String): Boolean {
         return url != searchUrl
     }
 
-    private fun isSearching(): Boolean {
+    @VisibleForTesting
+    fun isSearching(): Boolean {
         return searchUrl != null
     }
 
-    private fun onEndSearch(url: String?) {
+    @VisibleForTesting
+    fun onEndSearch(url: String?) {
         if (url == searchUrl) {
             // Don't clear query if there's no match,
             // since we might just now be getting the response for a canceled search
@@ -171,13 +148,15 @@ abstract class BottomSheetActivity : BaseActivity() {
         }
     }
 
-    private fun cancelActiveSearch() {
+    @VisibleForTesting
+    fun cancelActiveSearch() {
         if (isSearching()) {
             onEndSearch(searchUrl)
         }
     }
 
-    private fun openLink(url: String) {
+    @VisibleForTesting
+    open fun openLink(url: String) {
         LinkHelper.openLink(url, this)
     }
 
@@ -188,4 +167,32 @@ abstract class BottomSheetActivity : BaseActivity() {
     private fun hideQuerySheet() {
             bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
     }
+}
+
+// https://mastodon.foo.bar/@User
+// https://mastodon.foo.bar/@User/43456787654678
+// https://pleroma.foo.bar/users/User
+// https://pleroma.foo.bar/users/43456787654678
+// https://pleroma.foo.bar/notice/43456787654678
+// https://pleroma.foo.bar/objects/d4643c42-3ae0-4b73-b8b0-c725f5819207
+fun looksLikeMastodonUrl(urlString: String): Boolean {
+    val uri: URI
+    try {
+        uri = URI(urlString)
+    } catch (e: URISyntaxException) {
+        return false
+    }
+
+    if (uri.query != null ||
+            uri.fragment != null ||
+            uri.path == null) {
+        return false
+    }
+
+    val path = uri.path
+    return path.matches("^/@[^/]+$".toRegex()) ||
+            path.matches("^/users/[^/]+$".toRegex()) ||
+            path.matches("^/@[^/]+/\\d+$".toRegex()) ||
+            path.matches("^/notice/\\d+$".toRegex()) ||
+            path.matches("^/objects/[-a-f0-9]+$".toRegex())
 }
