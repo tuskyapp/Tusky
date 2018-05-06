@@ -1,4 +1,5 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2018 Jeremiasz Nelz <remi6397(a)gmail.com>
+ * Copyright 2017 Andrew Dawson
  *
  * This file is a part of Tusky.
  *
@@ -167,6 +168,7 @@ public final class ComposeActivity
     private static final String MENTIONED_USERNAMES_EXTRA = "netnioned_usernames";
     private static final String REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra";
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
+    private static final String ACCOUNT_PRESET = "ACCOUNT_PRESET";
 
     @Inject
     public MastodonApi mastodonApi;
@@ -252,7 +254,6 @@ public final class ComposeActivity
         final AccountEntity activeAccount = accountManager.getActiveAccount();
 
         composeAvatar = findViewById(R.id.composeAvatar);
-        composeAvatar.setOnClickListener(v -> showAccountSwitchDialog());
 
         if (activeAccount != null) {
             if (TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
@@ -592,6 +593,14 @@ public final class ComposeActivity
         }
 
         textEditor.requestFocus();
+
+        if (inReplyToId == null) {
+            composeAvatar.setOnClickListener(v -> showAccountSwitchDialog());
+
+            if (!intent.hasExtra(ACCOUNT_PRESET) && (getCallingActivity() == null || !getCallingActivity().getClassName().equals(MainActivity.class.getName()))) {
+                showAccountSwitchDialog();
+            }
+        }
     }
 
     private void showAccountSwitchDialog() {
@@ -610,6 +619,7 @@ public final class ComposeActivity
             dialog.dismiss();
 
             Intent intent = getIntent();
+            intent.putExtra(ACCOUNT_PRESET, true);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();

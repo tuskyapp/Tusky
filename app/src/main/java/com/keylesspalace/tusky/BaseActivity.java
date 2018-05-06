@@ -1,4 +1,5 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2018 Jeremiasz Nelz <remi6397(a)gmail.com>
+ * Copyright 2017 Andrew Dawson
  *
  * This file is a part of Tusky.
  *
@@ -25,6 +26,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 
@@ -38,8 +40,12 @@ import javax.inject.Inject;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
+    private static final String TAG = "BaseActivity";
+
     @Inject
     public AccountManager accountManager;
+
+    protected long lastActiveAccount = -1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +62,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         long accountId = getIntent().getLongExtra("account", -1);
         if (accountId != -1) {
             accountManager.setActiveAccount(accountId);
+        }
+
+        if (accountManager != null) {
+            lastActiveAccount = accountManager.getActiveAccount().getId();
         }
 
         int style;
@@ -75,6 +85,21 @@ public abstract class BaseActivity extends AppCompatActivity {
         getTheme().applyStyle(style, false);
 
         redirectIfNotLoggedIn();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: resuming");
+
+        // check if account was switched somewhere else
+        if (accountManager != null) {
+            AccountEntity activeAccount = accountManager.getActiveAccount();
+            if (lastActiveAccount != -1
+                    && activeAccount.getId() != lastActiveAccount) {
+                accountManager.setActiveAccount(lastActiveAccount);
+            }
+        }
     }
 
     @Override
