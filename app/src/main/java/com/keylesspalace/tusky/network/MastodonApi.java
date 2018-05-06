@@ -95,10 +95,12 @@ public interface MastodonApi {
 
     @Multipart
     @POST("api/v1/media")
-    Call<Attachment> uploadMedia(@Part MultipartBody.Part file);
+    Call<Attachment> uploadMedia(@Header(DOMAIN_HEADER) String domain,
+                                 @Part MultipartBody.Part file);
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")
-    Call<Attachment> updateMedia(@Path("mediaId") String mediaId,
+    Call<Attachment> updateMedia(@Header(DOMAIN_HEADER) String domain,
+                                 @Path("mediaId") String mediaId,
                                  @Field("description") String description);
 
     @FormUrlEncoded
@@ -154,6 +156,7 @@ public interface MastodonApi {
 
     @GET("api/v1/accounts/search")
     Call<List<Account>> searchAccounts(
+            @Nullable @Header(DOMAIN_HEADER) String domain,
             @Query("q") String q,
             @Query("resolve") Boolean resolve,
             @Query("limit") Integer limit);
@@ -273,8 +276,8 @@ public interface MastodonApi {
     Call<List<MastoList>> getLists();
 
     @GET("/api/v1/custom_emojis")
-    Call<List<Emoji>> getCustomEmojis();
+    Call<List<Emoji>> getCustomEmojis(@Header(DOMAIN_HEADER) String domain);
 
     @GET("api/v1/instance")
-    Call<Instance> getInstance();
+    Call<Instance> getInstance(@Header(DOMAIN_HEADER) String domain);
 }

@@ -173,6 +173,8 @@ public final class ComposeActivity
     @Inject
     public MastodonApi mastodonApi;
 
+    public AccountEntity actionAccount;
+
     private TextView replyTextView;
     private TextView replyContentTextView;
     private EditTextTyped textEditor;
@@ -256,51 +258,8 @@ public final class ComposeActivity
         composeAvatar = findViewById(R.id.composeAvatar);
 
         if (activeAccount != null) {
-            if (TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
-                composeAvatar.setImageResource(R.drawable.avatar_default);
-            } else {
-                Picasso.with(this).load(activeAccount.getProfilePictureUrl())
-                        .transform(new RoundedTransformation(25))
-                        .error(R.drawable.avatar_default)
-                        .placeholder(R.drawable.avatar_default)
-                        .into(composeAvatar);
-            }
 
-            composeAvatar.setContentDescription(
-                    getString(R.string.compose_active_account_description,
-                            activeAccount.getFullName()));
-
-            mastodonApi.getInstance().enqueue(new Callback<Instance>() {
-                @Override
-                public void onResponse(@NonNull Call<Instance> call, @NonNull Response<Instance> response) {
-                    if (response.isSuccessful() && response.body().getMaxTootChars() != null) {
-                        maximumTootCharacters = response.body().getMaxTootChars();
-                        updateVisibleCharactersLeft();
-                        cacheInstanceMetadata(activeAccount);
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<Instance> call, @NonNull Throwable t) {
-                    Log.w(TAG, "error loading instance data", t);
-                    loadCachedInstanceMetadata(activeAccount);
-                }
-            });
-
-            mastodonApi.getCustomEmojis().enqueue(new Callback<List<Emoji>>() {
-                @Override
-                public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
-                    emojiList = response.body();
-                    setEmojiList(emojiList);
-                    cacheInstanceMetadata(activeAccount);
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<List<Emoji>> call, @NonNull Throwable t) {
-                    Log.w(TAG, "error loading custom emojis", t);
-                    loadCachedInstanceMetadata(activeAccount);
-                }
-            });
+            setActionAccount(activeAccount);
         } else {
             // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
             return;
@@ -605,6 +564,56 @@ public final class ComposeActivity
         }
     }
 
+    private void setActionAccount(AccountEntity activeAccount) {
+        actionAccount = activeAccount;
+
+        if (TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
+            composeAvatar.setImageResource(R.drawable.avatar_default);
+        } else {
+            Picasso.with(this).load(activeAccount.getProfilePictureUrl())
+                    .transform(new RoundedTransformation(25))
+                    .error(R.drawable.avatar_default)
+                    .placeholder(R.drawable.avatar_default)
+                    .into(composeAvatar);
+        }
+
+        composeAvatar.setContentDescription(
+                getString(R.string.compose_active_account_description,
+                        activeAccount.getFullName()));
+
+        mastodonApi.getInstance(activeAccount.getDomain()).enqueue(new Callback<Instance>() {
+            @Override
+            public void onResponse(@NonNull Call<Instance> call, @NonNull Response<Instance> response) {
+                if (response.isSuccessful() && response.body().getMaxTootChars() != null) {
+                    maximumTootCharacters = response.body().getMaxTootChars();
+                    updateVisibleCharactersLeft();
+                    cacheInstanceMetadata(activeAccount);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Instance> call, @NonNull Throwable t) {
+                Log.w(TAG, "error loading instance data", t);
+                loadCachedInstanceMetadata(activeAccount);
+            }
+        });
+
+        mastodonApi.getCustomEmojis(activeAccount.getDomain()).enqueue(new Callback<List<Emoji>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
+                emojiList = response.body();
+                setEmojiList(emojiList);
+                cacheInstanceMetadata(activeAccount);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Emoji>> call, @NonNull Throwable t) {
+                Log.w(TAG, "error loading custom emojis", t);
+                loadCachedInstanceMetadata(activeAccount);
+            }
+        });
+    }
+
     private void showAccountSwitchDialog(boolean cancelable) {
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         RecyclerView recyclerView = (RecyclerView)inflater.inflate(R.layout.account_selection_dialog, null, false);
@@ -621,15 +630,8 @@ public final class ComposeActivity
 
         AlertDialog dialog = builder.create();
         AccountListAdapter adapter = new AccountListAdapter(accountManager.getAllAccountsOrderedByActive(), account -> {
-            accountManager.setActiveAccount(account);
+            setActionAccount(account);
             dialog.dismiss();
-
-            Intent intent = getIntent();
-            intent.putExtra(ACCOUNT_PRESET, true);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         });
         recyclerView.setAdapter(adapter);
         dialog.show();
@@ -775,7 +777,7 @@ public final class ComposeActivity
 
         if(emojiView.getAdapter() != null) {
             if(emojiView.getAdapter().getItemCount() == 0) {
-                String errorMessage = getString(R.string.error_no_custom_emojis, accountManager.getActiveAccount().getDomain());
+                String errorMessage = getString(R.string.error_no_custom_emojis, actionAccount.getDomain());
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
             } else {
                 if (emojiBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || emojiBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
@@ -912,7 +914,7 @@ public final class ComposeActivity
                 getIntent().getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
                 getIntent().getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA),
                 getIntent().getStringExtra(SAVED_JSON_URLS_EXTRA),
-                accountManager.getActiveAccount(), savedTootUid);
+                actionAccount, savedTootUid);
 
         startService(sendIntent);
 
@@ -1157,7 +1159,7 @@ public final class ComposeActivity
         input.setText(item.description);
 
         DialogInterface.OnClickListener okListener = (dialog, which) -> {
-            mastodonApi.updateMedia(item.id, input.getText().toString())
+            mastodonApi.updateMedia(actionAccount.getDomain(), item.id, input.getText().toString())
                     .enqueue(new Callback<Attachment>() {
                         @Override
                         public void onResponse(@NonNull Call<Attachment> call, @NonNull Response<Attachment> response) {
@@ -1290,7 +1292,7 @@ public final class ComposeActivity
 
         MultipartBody.Part body = MultipartBody.Part.createFormData("file", filename, fileBody);
 
-        item.uploadRequest = mastodonApi.uploadMedia(body);
+        item.uploadRequest = mastodonApi.uploadMedia(actionAccount.getDomain(), body);
 
         item.uploadRequest.enqueue(new Callback<Attachment>() {
             @Override
@@ -1480,7 +1482,7 @@ public final class ComposeActivity
     public List<Account> searchAccounts(String mention) {
         ArrayList<Account> resultList = new ArrayList<>();
         try {
-            List<Account> accountList = mastodonApi.searchAccounts(mention, false, 40)
+            List<Account> accountList = mastodonApi.searchAccounts(actionAccount.getDomain(), mention, false, 40)
                     .execute()
                     .body();
             if (accountList != null) {

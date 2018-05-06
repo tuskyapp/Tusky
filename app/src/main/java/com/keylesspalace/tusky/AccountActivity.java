@@ -150,7 +150,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
                     && intent.getData() != null
                     && intent.getData().getQueryParameterNames().contains("uri")) {
 
-                mastodonApi.searchAccounts(intent.getData()
+                mastodonApi.searchAccounts(null, intent.getData()
                         .getQueryParameter("uri")
                         .replaceFirst("^acct:", ""), true, 1).enqueue(new Callback<List<Account>>() {
                     @Override

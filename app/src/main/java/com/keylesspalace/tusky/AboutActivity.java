@@ -92,7 +92,7 @@ public class AboutActivity extends BaseActivity implements Injectable {
                 onSearchFailed();
             }
         };
-        mastodonApi.searchAccounts("Tusky@mastodon.social", true, null).enqueue(callback);
+        mastodonApi.searchAccounts(null, "Tusky@mastodon.social", true, null).enqueue(callback);
     }
 
     private void onSearchFailed() {
