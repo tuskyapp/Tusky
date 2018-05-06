@@ -101,26 +101,18 @@ class SpanUtilsTest {
         }
 
         override fun <T : Any?> getSpans(start: Int, end: Int, type: Class<T>?): Array<T> {
-            var tSpans = mutableListOf<T>()
-            for (span in spans) {
-                val tSpan = span as T
-                if (tSpan != null && span.start >= start && span.end <= end) {
-                    tSpans.add(tSpan)
-                }
+            val matching = if (type == null) {
+                ArrayList<T>()
+            } else {
+                spans.filter ({ it.start >= start && it.end <= end && (it.span as T) != null })
+                        .map({ it -> it.span })
+                        .let { ArrayList(it) }
             }
-
-            // This tomfoolery is because kotlin refuses to statically instantiate an Array<T>
-            // e.g. via arrayOf() or toTypedArray()
-            // when T is not known at compile time
-            val result = java.lang.reflect.Array.newInstance(type, tSpans.size) as Array<T>
-            for ((index, tSpan) in tSpans.withIndex()) {
-                result[index] = tSpan
-            }
-            return result
+            return matching.toArray() as Array<T>
         }
 
         override fun removeSpan(what: Any?) {
-            spans.removeIf({ span -> span == what})
+            spans.removeIf({ span -> span.span == what})
         }
 
         override fun toString(): String {
