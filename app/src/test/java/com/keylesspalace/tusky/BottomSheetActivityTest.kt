@@ -31,7 +31,6 @@ import org.junit.runners.Parameterized
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 import org.mockito.Mockito.*
-import org.robolectric.Robolectric
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -290,6 +289,7 @@ class BottomSheetActivityTest {
         var link: String? = null
 
         init {
+            @Suppress("UNCHECKED_CAST")
             bottomSheet = Mockito.mock(BottomSheetBehavior::class.java) as BottomSheetBehavior<LinearLayout>
             callList = arrayListOf()
         }

@@ -61,8 +61,6 @@ import com.keylesspalace.tusky.util.ThemeUtils;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -716,7 +714,7 @@ public final class AccountActivity extends BottomSheetActivity implements Action
         return dispatchingAndroidInjector;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public MastodonApi getMastodonApi() {
         return mastodonApi;

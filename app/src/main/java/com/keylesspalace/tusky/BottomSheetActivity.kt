@@ -51,10 +51,8 @@ abstract class BottomSheetActivity : BaseActivity() {
             bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
             bottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
                 override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    when (newState) {
-                        BottomSheetBehavior.STATE_HIDDEN -> cancelActiveSearch()
-                        else -> {
-                        }
+                   if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                        cancelActiveSearch()
                     }
                 }
 
