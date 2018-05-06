@@ -29,39 +29,36 @@ class AccountListAdapter(private val accountList: List<AccountEntity>,
                          private val onAccountSelectedListener : OnAccountSelectedListener)
     : RecyclerView.Adapter<AccountListAdapter.AccountListViewHolder>() {
 
-    lateinit var avatar: CircularImageView
-    lateinit var username: TextView
-    lateinit var displayName: TextView
-
     override fun getItemCount(): Int {
         return accountList.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountListViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_account, parent, false) as RelativeLayout
-        avatar = view.findViewById(R.id.account_avatar)
-        username = view.findViewById(R.id.account_username)
-        displayName = view.findViewById(R.id.account_display_name)
         return AccountListViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: AccountListViewHolder, position: Int) {
         val account = accountList[position]
 
-        Picasso.with(holder.accountItem.context).load(account.profilePictureUrl)
+        Picasso.with(holder.layout.context).load(account.profilePictureUrl)
                 .error(R.drawable.avatar_default)
                 .placeholder(R.drawable.avatar_default)
-                .into(avatar)
+                .into(holder.avatar)
 
-        displayName.text = account.displayName
-        username.text = account.username
+        holder.displayName.text = account.displayName
+        holder.username.text = account.username
 
-        holder.accountItem.setOnClickListener {
+        holder.layout.setOnClickListener {
             onAccountSelectedListener.onAccountSelected(account)
         }
     }
 
-    class AccountListViewHolder(val accountItem: RelativeLayout) : RecyclerView.ViewHolder(accountItem)
+    class AccountListViewHolder(val layout: RelativeLayout) : RecyclerView.ViewHolder(layout) {
+        val avatar: CircularImageView = layout.findViewById(R.id.account_avatar)
+        val displayName: TextView = layout.findViewById(R.id.account_display_name)
+        val username: TextView = layout.findViewById(R.id.account_username)
+    }
 
 }
 
