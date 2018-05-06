@@ -25,7 +25,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.keylesspalace.tusky.fragment.ViewThreadFragment;
+import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.LinkHelper;
+
+import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
@@ -33,7 +36,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class ViewThreadActivity extends BaseActivity implements HasSupportFragmentInjector {
+public class ViewThreadActivity extends BottomSheetActivity implements HasSupportFragmentInjector {
 
     public static final int REVEAL_BUTTON_HIDDEN = 1;
     public static final int REVEAL_BUTTON_REVEAL = 2;
@@ -41,6 +44,8 @@ public class ViewThreadActivity extends BaseActivity implements HasSupportFragme
 
     private int revealButtonState = REVEAL_BUTTON_HIDDEN;
 
+    @Inject
+    public MastodonApi mastodonApi;
     @Inject
     public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
@@ -112,5 +117,11 @@ public class ViewThreadActivity extends BaseActivity implements HasSupportFragme
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
+    }
+
+    @NotNull
+    @Override
+    public MastodonApi getMastodonApi() {
+        return mastodonApi;
     }
 }

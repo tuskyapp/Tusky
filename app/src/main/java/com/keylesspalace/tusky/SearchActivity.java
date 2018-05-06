@@ -30,6 +30,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.keylesspalace.tusky.fragment.SearchFragment;
+import com.keylesspalace.tusky.network.MastodonApi;
+
+import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
@@ -37,9 +40,10 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class SearchActivity extends BaseActivity implements SearchView.OnQueryTextListener,
+public class SearchActivity extends BottomSheetActivity implements SearchView.OnQueryTextListener,
         HasSupportFragmentInjector {
-
+    @Inject
+    public MastodonApi mastodonApi;
     @Inject
     public DispatchingAndroidInjector<Fragment> fragmentInjector;
 
@@ -138,5 +142,11 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentInjector;
+    }
+
+    @NotNull
+    @Override
+    public MastodonApi getMastodonApi() {
+        return mastodonApi;
     }
 }

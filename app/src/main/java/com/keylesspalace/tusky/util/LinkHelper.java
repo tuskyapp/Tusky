@@ -20,12 +20,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.provider.Browser;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
@@ -109,7 +107,7 @@ public class LinkHelper {
                 customSpan = new CustomURLSpan(span.getURL()) {
                     @Override
                     public void onClick(View widget) {
-                        listener.onViewURL(getURL());
+                        listener.onViewUrl(getURL());
                     }
                 };
             }
