@@ -619,8 +619,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
 
     private void showFollowWarningDialog() {
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        LinearLayout dialogView = (LinearLayout) inflater.inflate(R.layout.account_selection_dialog, null, false);
-        RecyclerView recyclerView = dialogView.findViewById(R.id.account_list);
+        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.account_selection_dialog, null, false);
 
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -628,7 +627,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.dialog_follow_pick_account, loadedAccount.getUsername()))
                 .setNegativeButton(android.R.string.cancel, null)
-                .setView(dialogView)
+                .setView(recyclerView)
                 .create();
         AccountListAdapter adapter = new AccountListAdapter(accountManager.getAllAccountsOrderedByActive(), account -> {
             accountManager.setActiveAccount(account);

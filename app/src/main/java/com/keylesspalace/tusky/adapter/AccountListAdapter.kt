@@ -25,7 +25,13 @@ import com.keylesspalace.tusky.db.AccountEntity
 import com.pkmmte.view.CircularImageView
 import com.squareup.picasso.Picasso
 
-class AccountListAdapter(private val accountList: List<AccountEntity>, private val onAccountSelectedListener : OnAccountSelectedListener) : RecyclerView.Adapter<AccountListAdapter.AccountListViewHolder>() {
+class AccountListAdapter(private val accountList: List<AccountEntity>,
+                         private val onAccountSelectedListener : OnAccountSelectedListener)
+    : RecyclerView.Adapter<AccountListAdapter.AccountListViewHolder>() {
+
+    lateinit var avatar: CircularImageView
+    lateinit var username: TextView
+    lateinit var displayName: TextView
 
     override fun getItemCount(): Int {
         return accountList.size
@@ -33,22 +39,21 @@ class AccountListAdapter(private val accountList: List<AccountEntity>, private v
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountListViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_account, parent, false) as RelativeLayout
+        avatar = view.findViewById(R.id.account_avatar)
+        username = view.findViewById(R.id.account_username)
+        displayName = view.findViewById(R.id.account_display_name)
         return AccountListViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: AccountListViewHolder, position: Int) {
         val account = accountList[position]
 
-        val avatar = holder.accountItem.findViewById<CircularImageView>(R.id.account_avatar)
         Picasso.with(holder.accountItem.context).load(account.profilePictureUrl)
                 .error(R.drawable.avatar_default)
                 .placeholder(R.drawable.avatar_default)
                 .into(avatar)
 
-        val displayName = holder.accountItem.findViewById<TextView>(R.id.account_display_name)
         displayName.text = account.displayName
-
-        val username = holder.accountItem.findViewById<TextView>(R.id.account_username)
         username.text = account.username
 
         holder.accountItem.setOnClickListener {

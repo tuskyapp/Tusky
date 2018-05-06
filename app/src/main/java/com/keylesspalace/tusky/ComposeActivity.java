@@ -597,7 +597,9 @@ public final class ComposeActivity
         if (inReplyToId == null) {
             composeAvatar.setOnClickListener(v -> showAccountSwitchDialog(true));
 
-            if (!intent.hasExtra(ACCOUNT_PRESET) && !intent.hasExtra(SAVED_TOOT_UID_EXTRA) && (getCallingActivity() == null || !getCallingActivity().getClassName().equals(MainActivity.class.getName()))) {
+            if (!intent.hasExtra(ACCOUNT_PRESET)
+                    && !intent.hasExtra(SAVED_TOOT_UID_EXTRA)
+                    && (getCallingActivity() == null || !getCallingActivity().getClassName().equals(MainActivity.class.getName()))) {
                 showAccountSwitchDialog(false);
             }
         }
@@ -605,14 +607,13 @@ public final class ComposeActivity
 
     private void showAccountSwitchDialog(boolean cancelable) {
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        LinearLayout dialogView = (LinearLayout) inflater.inflate(R.layout.account_selection_dialog, null, false);
-        RecyclerView recyclerView = dialogView.findViewById(R.id.account_list);
+        RecyclerView recyclerView = (RecyclerView)inflater.inflate(R.layout.account_selection_dialog, null, false);
 
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setView(dialogView);
+                .setView(recyclerView);
 
         if (!cancelable) {
             builder.setOnCancelListener(dialogInterface -> finish());
