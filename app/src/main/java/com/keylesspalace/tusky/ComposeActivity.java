@@ -56,6 +56,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -63,6 +64,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,6 +82,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.keylesspalace.tusky.adapter.AccountListAdapter;
 import com.keylesspalace.tusky.adapter.EmojiAdapter;
 import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener;
@@ -185,6 +188,8 @@ public final class ComposeActivity
     private ImageButton emojiButton;
     private ImageButton hideMediaToggle;
 
+    private ImageView composeAvatar;
+
     private ComposeOptionsView composeOptionsView;
     private BottomSheetBehavior composeOptionsBehavior;
     private BottomSheetBehavior addMediaBehavior;
@@ -249,9 +254,10 @@ public final class ComposeActivity
         // setup the account image
         final AccountEntity activeAccount = accountManager.getActiveAccount();
 
-        if (activeAccount != null) {
-            ImageView composeAvatar = findViewById(R.id.composeAvatar);
+        composeAvatar = findViewById(R.id.composeAvatar);
+        composeAvatar.setOnClickListener(v -> showAccountSwitchDialog());
 
+        if (activeAccount != null) {
             if (TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
                 composeAvatar.setImageResource(R.drawable.avatar_default);
             } else {
@@ -589,6 +595,31 @@ public final class ComposeActivity
         }
 
         textEditor.requestFocus();
+    }
+
+    private void showAccountSwitchDialog() {
+        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        LinearLayout dialogView = (LinearLayout) inflater.inflate(R.layout.account_selection_dialog, null, false);
+        RecyclerView recyclerView = dialogView.findViewById(R.id.account_list);
+
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+        AccountListAdapter adapter = new AccountListAdapter(accountManager.getAllAccountsOrderedByActive(), account -> {
+            accountManager.setActiveAccount(account);
+            dialog.dismiss();
+
+            Intent intent = getIntent();
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        });
+        recyclerView.setAdapter(adapter);
+        dialog.show();
     }
 
     @Override
