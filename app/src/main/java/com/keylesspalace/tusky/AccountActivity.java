@@ -92,8 +92,6 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     @Inject
     public MastodonApi mastodonApi;
     @Inject
-    public AccountManager accountManager;
-    @Inject
     public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
     private String accountId;

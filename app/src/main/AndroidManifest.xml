@@ -114,6 +114,11 @@
 
         <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
 
+        <receiver
+            android:name=".receiver.SendStatusBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
         <service
             tools:targetApi="24"
             android:name="com.keylesspalace.tusky.service.TuskyTileService"
