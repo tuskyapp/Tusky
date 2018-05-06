@@ -30,7 +30,7 @@ class SpanUtilsTest {
     }
 
     @RunWith(Parameterized::class)
-    class MatchingTests(val thingToHighlight: String) {
+    class MatchingTests(private val thingToHighlight: String) {
         companion object {
             @Parameterized.Parameters(name = "{0}")
             @JvmStatic
@@ -93,8 +93,8 @@ class SpanUtilsTest {
         }
     }
 
-    class FakeSpannable(val text: String) : Spannable {
-        var spans = mutableListOf<BoundedSpan>()
+    class FakeSpannable(private val text: String) : Spannable {
+        val spans = mutableListOf<BoundedSpan>()
 
         override fun setSpan(what: Any?, start: Int, end: Int, flags: Int) {
             spans.add(BoundedSpan(what, start, end))
@@ -130,7 +130,7 @@ class SpanUtilsTest {
         override val length: Int
             get() = text.length
 
-        class BoundedSpan(val span: Any?, val start: Int, val end: Int) { }
+        class BoundedSpan(val span: Any?, val start: Int, val end: Int)
 
         override fun nextSpanTransition(start: Int, limit: Int, type: Class<*>?): Int {
             throw NotImplementedError()

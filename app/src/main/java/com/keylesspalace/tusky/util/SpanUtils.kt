@@ -45,16 +45,8 @@ class SpanUtils {
             var end: Int = -1
         }
 
-        private class PatternFinder {
-            val searchCharacter: Char
-            val pattern: Pattern
-            val searchPrefixWidth: Int
-
-            constructor(searchCharacter: Char, regex: String, searchPrefixWidth: Int) {
-                this.searchCharacter = searchCharacter
-                pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE)
-                this.searchPrefixWidth = searchPrefixWidth
-            }
+        private class PatternFinder(val searchCharacter: Char, regex: String, val searchPrefixWidth: Int) {
+            val pattern: Pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE)
         }
 
         private fun <T> clearSpans(text: Spannable, spanClass: Class<T>) {
