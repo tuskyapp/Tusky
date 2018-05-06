@@ -148,7 +148,7 @@
     <string name="dialog_download_image">Download</string>
     <string name="dialog_message_follow_request">Follow request pending: awaiting their response</string>
     <string name="dialog_unfollow_warning">Unfollow this account?</string>
-    <string name="dialog_follow_warning">Do you want to follow %1$s?</string>
+    <string name="dialog_follow_pick_account">Select account to follow %1$s</string>
 
     <string name="visibility_public">Public: Post to public timelines</string>
     <string name="visibility_unlisted">Unlisted: Do not show in public timelines</string>

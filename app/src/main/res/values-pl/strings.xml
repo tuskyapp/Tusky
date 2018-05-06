@@ -157,7 +157,7 @@
     <string name="dialog_download_image">Pobierz</string>
     <string name="dialog_message_follow_request">Oczekująca prośba o możliwość śledzenia: oczekiwanie na odpowiedź</string>
     <string name="dialog_unfollow_warning">Czy chcesz przestać śledzić to konto?</string>
-    <string name="dialog_follow_warning">Czy chcesz zacząć śledzić %1$s?</string>
+    <string name="dialog_follow_pick_account">Wybierz konto aby śledzić %1$s</string>
 
 
     <string name="visibility_public">Publiczne: Opublikuj na publicznych osiach czasu</string>

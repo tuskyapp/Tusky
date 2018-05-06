@@ -38,16 +38,21 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.keylesspalace.tusky.adapter.AccountListAdapter;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Account;
@@ -116,7 +121,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     private boolean hideFab;
     private int oldOffset;
 
-    private boolean intentFollow = false;
+    public static final String AUTHORIZE_FOLLOW = "authorize_follow";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -143,35 +148,44 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         } else {
             Intent intent = getIntent();
 
+            if (Objects.equals(intent.getScheme(), "web+mastodon")
+                    && !intent.hasExtra("id")
+                    && intent.getData() != null
+                    && intent.getData().getQueryParameterNames().contains("uri")) {
+
+                mastodonApi.searchAccounts(intent.getData()
+                        .getQueryParameter("uri")
+                        .replaceFirst("^acct:", ""), true, 1).enqueue(new Callback<List<Account>>() {
+                    @Override
+                    public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
+                        if (response.body().size() < 1) {
+                            finish();
+                            return;
+                        }
+
+                        Account toFollow = response.body().get(0);
+
+                        Intent intent = getIntent();
+                        intent.putExtra("id", toFollow.getId());
+                        intent.putExtra(AUTHORIZE_FOLLOW, true);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Account>> call, Throwable t) {
+                        finish();
+                    }
+                });
+
+                return;
+            }
+
             if (intent.hasExtra("id")) {
                 accountId = intent.getStringExtra("id");
             }
 
-            if (Objects.equals(intent.getScheme(), "web+mastodon")
-                    && intent.getData() != null
-                    && intent.getData().getQueryParameterNames().contains("uri")) {
-                // TODO: move this to separate thread
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
-                StrictMode.setThreadPolicy(policy);
-
-                try {
-                    List<Account> accounts = mastodonApi.searchAccounts(intent.getData()
-                            .getQueryParameter("uri")
-                            .replaceFirst("^acct:", ""), true, 1)
-                            .execute().body();
-                    if (accounts != null && !accounts.isEmpty()) {
-                        accountId = accounts.get(0).getId();
-                    } else {
-                        finish();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    finish();
-                }
-
-                intentFollow = true;
-            }
             followState = FollowState.NOT_FOLLOWING;
             blocking = false;
             muting = false;
@@ -393,7 +407,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         followingTextView.setText(getString(R.string.title_x_following, followingCount));
         statusesTextView.setText(getString(R.string.title_x_statuses, statusesCount));
 
-        if (intentFollow) {
+        if (getIntent().hasExtra(AUTHORIZE_FOLLOW)) {
             showFollowWarningDialog();
         }
     }
@@ -607,12 +621,26 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     }
 
     private void showFollowWarningDialog() {
-        DialogInterface.OnClickListener followListener = (dialogInterface, i) -> follow(accountId);
-        new AlertDialog.Builder(this)
-                .setMessage(getString(R.string.dialog_follow_warning, loadedAccount.getUsername()))
-                .setPositiveButton(android.R.string.yes, followListener)
-                .setNegativeButton(android.R.string.no, null)
-                .show();
+        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        LinearLayout dialogView = (LinearLayout) inflater.inflate(R.layout.account_selection_dialog, null, false);
+        RecyclerView recyclerView = dialogView.findViewById(R.id.account_list);
+
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.dialog_follow_pick_account, loadedAccount.getUsername()))
+                .setNegativeButton(android.R.string.cancel, null)
+                .setView(dialogView)
+                .create();
+        AccountListAdapter adapter = new AccountListAdapter(accountManager.getAllAccountsOrderedByActive(), account -> {
+            accountManager.setActiveAccount(account);
+            dialog.dismiss();
+
+            follow(accountId);
+        });
+        recyclerView.setAdapter(adapter);
+        dialog.show();
     }
 
     private void showUnfollowWarningDialog() {
