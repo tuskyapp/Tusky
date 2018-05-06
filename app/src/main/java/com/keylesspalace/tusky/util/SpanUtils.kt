@@ -5,6 +5,7 @@ import android.text.Spanned
 import android.text.style.CharacterStyle
 import android.text.style.ForegroundColorSpan
 import android.text.style.URLSpan
+import android.util.Patterns.WEB_URL
 import java.util.regex.Pattern
 
 class SpanUtils {
@@ -78,13 +79,21 @@ class SpanUtils {
             val matcher = pattern.matcher(string)
             if (matcher.find(result.start)) {
                 // Once we have API level 26+, we can use named captures...
-                result.end = matcher.end()
+                val end = matcher.end()
                 result.start = matcher.start()
                 if (Character.isWhitespace(string.codePointAt(result.start))) {
                     ++result.start
                 }
-            } else {
-                result.end = -1
+                when(result.matchType) {
+                    FoundMatchType.HTTP_URL, FoundMatchType.HTTPS_URL -> {
+                        // Preliminary url patterns are fast/permissive, now we'll do full validation
+                        if (WEB_URL == null || // This doesn't get mocked for tests :-|
+                                WEB_URL.matcher(string.substring(result.start, end)).matches()) {
+                            result.end = end
+                        }
+                    }
+                    else -> result.end = end
+                }
             }
         }
 
