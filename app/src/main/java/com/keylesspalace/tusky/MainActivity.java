@@ -94,8 +94,6 @@ public class MainActivity extends BottomSheetActivity implements ActionButtonAct
     public MastodonApi mastodonApi;
     @Inject
     public DispatchingAndroidInjector<Fragment> fragmentInjector;
-    @Inject
-    public AccountManager accountManager;
 
     private static int COMPOSE_RESULT = 1;
 

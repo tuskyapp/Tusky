@@ -296,6 +296,6 @@
     <string name="send_toot_notification_cancel_title">Envío cancelado</string>
     <string name="send_toot_notification_saved_content">Una copia del post se ha guardado en borradores</string>
 
-    <string name="error_no_custom_emojis">Su instancia %s no ofrece emoticonos</string>
+    <string name="error_no_custom_emojis">Su instancia %s no ofrece emojis personalizados</string>
 
 </resources>

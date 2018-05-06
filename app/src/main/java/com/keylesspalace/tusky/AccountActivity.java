@@ -88,8 +88,6 @@ public final class AccountActivity extends BottomSheetActivity implements Action
     @Inject
     public MastodonApi mastodonApi;
     @Inject
-    public AccountManager accountManager;
-    @Inject
     public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
     private String accountId;
