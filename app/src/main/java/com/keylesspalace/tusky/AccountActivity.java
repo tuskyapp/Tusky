@@ -61,6 +61,8 @@ import com.keylesspalace.tusky.util.ThemeUtils;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,7 +77,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public final class AccountActivity extends BaseActivity implements ActionButtonActivity,
+public final class AccountActivity extends BottomSheetActivity implements ActionButtonActivity,
         HasSupportFragmentInjector {
     private static final String TAG = "AccountActivity"; // logging tag
 
@@ -331,8 +333,8 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
             }
 
             @Override
-            public void onViewURL(String url) {
-                LinkHelper.openLink(url, note.getContext());
+            public void onViewUrl(String url) {
+                viewUrl(url);
             }
         });
 
@@ -712,5 +714,11 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
+    }
+
+    @NotNull
+    @Override
+    public MastodonApi getMastodonApi() {
+        return mastodonApi;
     }
 }

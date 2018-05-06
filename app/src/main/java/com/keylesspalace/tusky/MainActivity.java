@@ -60,6 +60,8 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +74,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends BaseActivity implements ActionButtonActivity,
+public class MainActivity extends BottomSheetActivity implements ActionButtonActivity,
         HasSupportFragmentInjector {
     private static final String TAG = "MainActivity"; // logging tag
     private static final long DRAWER_ITEM_ADD_ACCOUNT = -13;
@@ -551,5 +553,11 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentInjector;
+    }
+
+    @NotNull
+    @Override
+    public MastodonApi getMastodonApi() {
+        return mastodonApi;
     }
 }

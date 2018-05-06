@@ -34,7 +34,14 @@ import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+
 public abstract class BaseActivity extends AppCompatActivity {
+
+    protected List<Call> callList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +72,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         getTheme().applyStyle(style, false);
 
         redirectIfNotLoggedIn();
+
+        callList = new ArrayList<>();
+
     }
 
     @Override
@@ -151,5 +161,13 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                 .build()
                 .scheduleAsync();
+    }
+
+    @Override
+    protected void onDestroy() {
+        for (Call call : callList) {
+            call.cancel();
+        }
+        super.onDestroy();
     }
 }
