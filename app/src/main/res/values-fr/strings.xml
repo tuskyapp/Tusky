@@ -85,7 +85,6 @@
     <string name="action_unmute">Redonner la parole</string>
     <string name="action_mention">Mention</string>
     <string name="action_hide_media">Cacher le media</string>
-    <string name="action_compose_options">Options</string>
     <string name="action_open_drawer">Ouvrir le menu</string>
     <string name="action_save">Sauvegarder</string>
     <string name="action_edit_profile">Modifier le profil</string>
@@ -105,7 +104,6 @@
     <string name="send_status_content_to">Partager le pouet avec…</string>
 
     <string name="confirmation_reported">Envoyé !</string>
-    <string name="confirmation_send">Pouet !</string>
     <string name="confirmation_unblocked">Utilisateur débloqué</string>
     <string name="confirmation_unmuted">Le compte n\'est plus muet</string>
 

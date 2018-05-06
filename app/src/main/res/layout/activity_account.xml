@@ -232,4 +232,6 @@
         android:contentDescription="@string/action_mention"
         app:srcCompat="@drawable/ic_create_24dp" />
 
+    <include layout="@layout/item_status_bottom_sheet"/>
+
 </android.support.design.widget.CoordinatorLayout>

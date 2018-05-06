@@ -1,4 +1,5 @@
-/* Copyright 2018 Conny Duck
+/* Copyright 2018 Jeremiasz Nelz <remi6397(a)gmail.com>
+ * Copyright 2018 Conny Duck
  *
  * This file is a part of Tusky.
  *
@@ -15,12 +16,16 @@
 
 package com.keylesspalace.tusky.di
 
+import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver
 import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class BroadcastReceiverModule {
+    @ContributesAndroidInjector
+    abstract fun contributeSendStatusBroadcastReceiver() : SendStatusBroadcastReceiver
+
     @ContributesAndroidInjector
     abstract fun contributeNotificationClearBroadcastReceiver() : NotificationClearBroadcastReceiver
 }

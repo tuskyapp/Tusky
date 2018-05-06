@@ -76,7 +76,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public final class AccountActivity extends BaseActivity implements ActionButtonActivity,
+public final class AccountActivity extends BottomSheetActivity implements ActionButtonActivity,
         HasSupportFragmentInjector {
     private static final String TAG = "AccountActivity"; // logging tag
 
@@ -88,8 +88,6 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
 
     @Inject
     public MastodonApi mastodonApi;
-    @Inject
-    public AccountManager accountManager;
     @Inject
     public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
@@ -332,8 +330,8 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
             }
 
             @Override
-            public void onViewURL(String url) {
-                LinkHelper.openLink(url, note.getContext());
+            public void onViewUrl(String url) {
+                viewUrl(url);
             }
         });
 
@@ -713,5 +711,11 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
+    }
+
+    @NonNull
+    @Override
+    public MastodonApi getMastodonApi() {
+        return mastodonApi;
     }
 }

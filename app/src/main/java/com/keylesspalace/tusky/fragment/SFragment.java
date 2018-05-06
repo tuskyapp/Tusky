@@ -20,48 +20,34 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.PopupMenu;
 import android.text.Spanned;
 import android.view.View;
-import android.widget.LinearLayout;
 
-import com.keylesspalace.tusky.AccountActivity;
+import com.keylesspalace.tusky.BottomSheetActivity;
 import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ReportActivity;
 import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
-import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.ViewVideoActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
-import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
-import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.HtmlUtils;
-import com.keylesspalace.tusky.util.LinkHelper;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
@@ -74,10 +60,10 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
 
     protected String loggedInAccountId;
     protected String loggedInUsername;
-    protected String searchUrl;
 
     protected abstract TimelineCases timelineCases();
-    protected BottomSheetBehavior bottomSheet;
+
+    private BottomSheetActivity bottomSheetActivity;
 
     @Inject
     protected MastodonApi mastodonApi;
@@ -91,7 +77,6 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
             loggedInAccountId = activeAccount.getAccountId();
             loggedInUsername = activeAccount.getUsername();
         }
-        setupBottomSheet(getView());
     }
 
     @Override
@@ -100,9 +85,31 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof BottomSheetActivity) {
+            bottomSheetActivity = (BottomSheetActivity)context;
+        } else {
+            throw new IllegalStateException("Fragment must be attached to a BottomSheetActivity!");
+        }
+    }
+
     protected void openReblog(@Nullable final Status status) {
         if (status == null) return;
-        viewAccount(status.getAccount().getId());
+        bottomSheetActivity.viewAccount(status.getAccount().getId());
+    }
+
+    protected void viewThread(Status status) {
+        bottomSheetActivity.viewThread(status);
+    }
+
+    protected void viewAccount(String accountId) {
+        bottomSheetActivity.viewAccount(accountId);
+    }
+
+    public void onViewUrl(String url) {
+        bottomSheetActivity.viewUrl(url);
     }
 
     protected void reply(Status status) {
@@ -229,24 +236,9 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         }
     }
 
-    protected void viewThread(Status status) {
-        if (!isSearching()) {
-            Intent intent = new Intent(getContext(), ViewThreadActivity.class);
-            intent.putExtra("id", status.getActionableId());
-            intent.putExtra("url", status.getActionableStatus().getUrl());
-            startActivity(intent);
-        }
-    }
-
     protected void viewTag(String tag) {
         Intent intent = new Intent(getContext(), ViewTagActivity.class);
         intent.putExtra("hashtag", tag);
-        startActivity(intent);
-    }
-
-    protected void viewAccount(String id) {
-        Intent intent = new Intent(getContext(), AccountActivity.class);
-        intent.putExtra("id", id);
         startActivity(intent);
     }
 
@@ -260,144 +252,5 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         startActivity(intent);
     }
 
-    // https://mastodon.foo.bar/@User
-    // https://mastodon.foo.bar/@User/43456787654678
-    // https://pleroma.foo.bar/users/User
-    // https://pleroma.foo.bar/users/43456787654678
-    // https://pleroma.foo.bar/notice/43456787654678
-    // https://pleroma.foo.bar/objects/d4643c42-3ae0-4b73-b8b0-c725f5819207
-    static boolean looksLikeMastodonUrl(String urlString) {
-        URI uri;
-        try {
-            uri = new URI(urlString);
-        } catch (URISyntaxException e) {
-            return false;
-        }
 
-        if (uri.getQuery() != null ||
-                uri.getFragment() != null ||
-                uri.getPath() == null) {
-            return false;
-        }
-
-        String path = uri.getPath();
-        return path.matches("^/@[^/]+$") ||
-                path.matches("^/users/[^/]+$") ||
-                path.matches("^/@[^/]+/\\d+$") ||
-                path.matches("^/notice/\\d+$") ||
-                path.matches("^/objects/[-a-f0-9]+$");
-    }
-
-    void onBeginSearch(@NonNull String url) {
-        searchUrl = url;
-        showQuerySheet();
-    }
-
-    boolean getCancelSearchRequested(@NonNull String url) {
-        return !url.equals(searchUrl);
-    }
-
-    boolean isSearching() {
-        return searchUrl != null;
-    }
-
-    void onEndSearch(@NonNull String url) {
-        if (url.equals(searchUrl)) {
-            // Don't clear query if there's no match,
-            // since we might just now be getting the response for a canceled search
-            searchUrl = null;
-            hideQuerySheet();
-        }
-    }
-
-    void cancelActiveSearch()
-    {
-        if (isSearching()) {
-            onEndSearch(searchUrl);
-        }
-    }
-
-    void openLink(@NonNull String url) {
-        LinkHelper.openLink(url, getContext());
-    }
-
-    public void onViewURL(String url) {
-        if (!looksLikeMastodonUrl(url)) {
-            openLink(url);
-            return;
-        }
-
-        Call<SearchResults> call = mastodonApi.search(url, true);
-        call.enqueue(new Callback<SearchResults>() {
-            @Override
-            public void onResponse(@NonNull Call<SearchResults> call, @NonNull Response<SearchResults> response) {
-                if (getCancelSearchRequested(url)) {
-                    return;
-                }
-
-                onEndSearch(url);
-                if (response.isSuccessful()) {
-                    // According to the mastodon API doc, if the search query is a url,
-                    // only exact matches for statuses or accounts are returned
-                    // which is good, because pleroma returns a different url
-                    // than the public post link
-                    List<Status> statuses = response.body().getStatuses();
-                    List<Account> accounts = response.body().getAccounts();
-                    if (statuses != null && !statuses.isEmpty()) {
-                        viewThread(statuses.get(0));
-                        return;
-                    } else if (accounts != null && !accounts.isEmpty()) {
-                        viewAccount(accounts.get(0).getId());
-                        return;
-                    }
-                }
-                openLink(url);
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<SearchResults> call, @NonNull Throwable t) {
-                if (!getCancelSearchRequested(url)) {
-                    onEndSearch(url);
-                    openLink(url);
-                }
-            }
-        });
-        callList.add(call);
-        onBeginSearch(url);
-    }
-
-    protected void setupBottomSheet(View view)
-    {
-        LinearLayout bottomSheetLayout = view.findViewById(R.id.item_status_bottom_sheet);
-        if (bottomSheetLayout != null) {
-            bottomSheet = BottomSheetBehavior.from(bottomSheetLayout);
-            bottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
-            bottomSheet.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-                @Override
-                public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                    switch(newState) {
-                        case BottomSheetBehavior.STATE_HIDDEN:
-                            cancelActiveSearch();
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
-                @Override
-                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                }
-            });
-        }
-    }
-
-    private void showQuerySheet() {
-        if (bottomSheet != null)
-            bottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
-    }
-
-    private void hideQuerySheet() {
-        if (bottomSheet != null)
-            bottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
-    }
 }

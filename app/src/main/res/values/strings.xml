@@ -18,6 +18,7 @@
     <string name="error_media_upload_sending">The upload failed.</string>
     <string name="error_report_too_few_statuses">At least one status must be reported.</string>
     <string name="error_invalid_regex">Invalid regular expression</string>
+    <string name="error_sender_account_gone">Error sending toot.</string>
 
     <string name="title_home">Home</string>
     <string name="title_advanced">Advanced</string>
@@ -56,6 +57,7 @@
     <string name="report_username_format">Report @%s</string>
     <string name="report_comment_hint">Additional comments?</string>
 
+    <string name="action_quick_reply">Quick Reply</string>
     <string name="action_reply">Reply</string>
     <string name="action_reblog">Boost</string>
     <string name="action_favourite">Favourite</string>
@@ -112,6 +114,9 @@
     <string name="confirmation_unblocked">User unblocked</string>
     <string name="confirmation_unmuted">User unmuted</string>
 
+    <string name="status_sent">Sent!</string>
+    <string name="status_sent_long">Reply sent successfully.</string>
+
     <string name="hint_domain">Which instance?</string>
     <string name="hint_compose">What\'s happening?</string>
     <string name="hint_content_warning">Content warning</string>
@@ -121,6 +126,7 @@
 
     <string name="search_no_results">No results</string>
 
+    <string name="label_quick_reply">Reply…</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Header</string>
 
@@ -295,11 +301,12 @@
     <string name="lock_account_label">Lock account</string>
     <string name="lock_account_label_description">Requires you to manually approve followers</string>
     <string name="compose_save_draft">Save draft?</string>
-    <string name="send_toot_notification_title">Sending Toot...</string>
+    <string name="send_toot_notification_title">Sending Toot…</string>
     <string name="send_toot_notification_error_title">Error sending toot</string>
     <string name="send_toot_notification_channel_name">Sending Toots</string>
     <string name="send_toot_notification_cancel_title">Sending cancelled</string>
     <string name="send_toot_notification_saved_content">A copy of the toot has been saved to your drafts</string>
+    <string name="action_compose_shortcut">Compose</string>
 
     <string name="error_no_custom_emojis">Your instance %s does not have any custom emojis</string>
     <string name="copy_to_clipboard_success">Copied to clipboard</string>
