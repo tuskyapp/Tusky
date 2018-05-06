@@ -26,7 +26,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 
@@ -39,8 +38,6 @@ import com.keylesspalace.tusky.util.ThemeUtils;
 import javax.inject.Inject;
 
 public abstract class BaseActivity extends AppCompatActivity {
-
-    private static final String TAG = "BaseActivity";
 
     @Inject
     public AccountManager accountManager;
@@ -90,7 +87,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume: resuming");
 
         // check if account was switched somewhere else
         if (accountManager != null) {
