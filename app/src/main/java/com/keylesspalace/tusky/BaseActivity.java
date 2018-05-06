@@ -34,7 +34,12 @@ import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
+import javax.inject.Inject;
+
 public abstract class BaseActivity extends AppCompatActivity {
+
+    @Inject
+    public AccountManager accountManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +52,11 @@ public abstract class BaseActivity extends AppCompatActivity {
          * views are created. */
         String theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
         ThemeUtils.setAppNightMode(theme, this);
+
+        long accountId = getIntent().getLongExtra("account", -1);
+        if (accountId != -1) {
+            accountManager.setActiveAccount(accountId);
+        }
 
         int style;
         switch (preferences.getString("statusTextSize", "medium")) {
