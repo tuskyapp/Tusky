@@ -521,7 +521,6 @@ public class NotificationHelper {
         return null;
     }
 
-    @Nullable
     private static String bodyForType(Notification notification) {
         switch (notification.getType()) {
             case FOLLOW:

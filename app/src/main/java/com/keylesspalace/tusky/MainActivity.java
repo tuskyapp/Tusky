@@ -37,7 +37,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.keylesspalace.tusky.db.AccountEntity;
-import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.network.MastodonApi;
@@ -266,12 +265,6 @@ public class MainActivity extends BottomSheetActivity implements ActionButtonAct
             }
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    // Fix for GitHub issues #190, #259 (MainActivity won't restart on screen rotation.)
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
     }
 
     private void tintTab(TabLayout.Tab tab, boolean tinted) {
