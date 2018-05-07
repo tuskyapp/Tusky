@@ -1,5 +1,4 @@
-/* Copyright 2018 Jeremiasz Nelz
- * Copyright 2017 Andrew Dawson
+/* Copyright 2017 Andrew Dawson
  *
  * This file is a part of Tusky.
  *
@@ -37,11 +36,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,8 +46,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.keylesspalace.tusky.adapter.AccountListAdapter;
 import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
@@ -69,7 +65,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -80,7 +75,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public final class AccountActivity extends BaseActivity implements ActionButtonActivity,
+public final class AccountActivity extends BottomSheetActivity implements ActionButtonActivity,
         HasSupportFragmentInjector {
     private static final String TAG = "AccountActivity"; // logging tag
 
@@ -99,7 +94,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     private FollowState followState;
     private boolean blocking;
     private boolean muting;
-    private boolean notFollowable;
+    private boolean isSelf;
     private Account loadedAccount;
 
     private CircularImageView avatar;
@@ -116,8 +111,6 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
 
     private boolean hideFab;
     private int oldOffset;
-
-    public static final String AUTHORIZE_FOLLOW = "authorize_follow";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -136,7 +129,6 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         followingTextView = findViewById(R.id.following_tv);
         statusesTextView = findViewById(R.id.statuses_btn);
 
-        boolean externalFollow = false;
         if (savedInstanceState != null) {
             accountId = savedInstanceState.getString("accountId");
             followState = (FollowState) savedInstanceState.getSerializable("followState");
@@ -144,39 +136,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
             muting = savedInstanceState.getBoolean("muting");
         } else {
             Intent intent = getIntent();
-
-            if (Objects.equals(intent.getScheme(), "web+mastodon")
-                    && !intent.hasExtra("id")
-                    && intent.getData() != null
-                    && intent.getData().getQueryParameterNames().contains("uri")) {
-
-                externalFollow = true;
-
-                mastodonApi.searchAccounts(null, intent.getData()
-                        .getQueryParameter("uri")
-                        .replaceFirst("^acct:", ""), true, 1).enqueue(new Callback<List<Account>>() {
-                    @Override
-                    public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
-                        if (!response.isSuccessful() || response.body().size() < 1) {
-                            finish();
-                            return;
-                        }
-
-                        loadedAccount = response.body().get(0);
-                        accountId = loadedAccount.getId();
-                        initViews(null);
-                        showFollowWarningDialog(loadedAccount);
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Account>> call, Throwable t) {
-                        finish();
-                    }
-                });
-            } else if (intent.hasExtra("id")) {
-                accountId = intent.getStringExtra("id");
-            }
-
+            accountId = intent.getStringExtra("id");
             followState = FollowState.NOT_FOLLOWING;
             blocking = false;
             muting = false;
@@ -227,7 +187,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
                     ThemeUtils.setDrawableTint(context, toolbar.getOverflowIcon(), attribute);
                 }
 
-                if (floatingBtn != null && hideFab && !notFollowable && !blocking) {
+                if (floatingBtn != null && hideFab && !isSelf && !blocking) {
                     if (verticalOffset > oldOffset) {
                         floatingBtn.show();
                     }
@@ -244,22 +204,15 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         followBtn.setVisibility(View.GONE);
         followsYouView.setVisibility(View.GONE);
 
-        AccountEntity activeAccount = accountManager.getActiveAccount();
-        if (!externalFollow) {
-            initViews(activeAccount);
-        }
-
-    }
-
-    private void initViews(@Nullable AccountEntity activeAccount) {
-
         // Obtain information to fill out the profile.
         obtainAccount();
 
-        if (activeAccount == null || accountId.equals(activeAccount.getAccountId())) {
-            notFollowable = true;
+        AccountEntity activeAccount = accountManager.getActiveAccount();
+
+        if (accountId.equals(activeAccount.getAccountId())) {
+            isSelf = true;
         } else {
-            notFollowable = false;
+            isSelf = false;
             obtainRelationships();
         }
 
@@ -376,8 +329,8 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
             }
 
             @Override
-            public void onViewURL(String url) {
-                LinkHelper.openLink(url, note.getContext());
+            public void onViewUrl(String url) {
+                viewUrl(url);
             }
         });
 
@@ -404,6 +357,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         followersTextView.setText(getString(R.string.title_x_followers, followersCount));
         followingTextView.setText(getString(R.string.title_x_following, followingCount));
         statusesTextView.setText(getString(R.string.title_x_statuses, statusesCount));
+
     }
 
     private void onObtainAccountFailure() {
@@ -415,7 +369,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     private void obtainRelationships() {
         List<String> ids = new ArrayList<>(1);
         ids.add(accountId);
-        mastodonApi.relationships(null, null, ids).enqueue(new Callback<List<Relationship>>() {
+        mastodonApi.relationships(ids).enqueue(new Callback<List<Relationship>>() {
             @Override
             public void onResponse(@NonNull Call<List<Relationship>> call,
                                    @NonNull Response<List<Relationship>> response) {
@@ -475,7 +429,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     private void updateButtons() {
         invalidateOptionsMenu();
 
-        if (!notFollowable && !blocking) {
+        if (!isSelf && !blocking) {
             floatingBtn.show();
             followBtn.setVisibility(View.VISIBLE);
 
@@ -529,7 +483,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (!notFollowable) {
+        if (!isSelf) {
             MenuItem follow = menu.findItem(R.id.action_follow);
             follow.setTitle(getFollowAction());
             follow.setVisible(followState != FollowState.REQUESTED);
@@ -590,7 +544,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         Assert.expect(followState != FollowState.REQUESTED);
         switch (followState) {
             case NOT_FOLLOWING: {
-                mastodonApi.followAccount(null, null, id).enqueue(cb);
+                mastodonApi.followAccount(id).enqueue(cb);
                 break;
             }
             case FOLLOWING: {
@@ -612,71 +566,6 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
                 .setMessage(R.string.dialog_message_follow_request)
                 .setPositiveButton(android.R.string.ok, null)
                 .show();
-    }
-
-    private void showFollowWarningDialog(Account toFollow) {
-        List<AccountEntity> allAccounts = accountManager.getAllAccountsOrderedByActive();
-        List<AccountEntity> availableAccounts = new ArrayList<>();
-        for (AccountEntity account : allAccounts) {
-            List<String> ids = new ArrayList<>(1);
-            ids.add(toFollow.getId());
-            mastodonApi.relationships(account.getAccessToken(), account.getDomain(), ids).enqueue(new Callback<List<Relationship>>() {
-                @Override
-                public void onResponse(@NonNull Call<List<Relationship>> call,
-                                       @NonNull Response<List<Relationship>> response) {
-                    List<Relationship> relationships = response.body();
-                    if (response.isSuccessful() && relationships != null && !relationships.get(0).getFollowing()) {
-                        availableAccounts.add(account);
-                    }
-                    allAccounts.remove(account);
-                    if (allAccounts.isEmpty()) {
-                        if (availableAccounts.isEmpty()) {
-                            finish();
-                            return;
-                        }
-                        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-                        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.account_selection_dialog, null, false);
-
-                        recyclerView.setHasFixedSize(true);
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(AccountActivity.this);
-                        recyclerView.setLayoutManager(layoutManager);
-                        AlertDialog dialog = new AlertDialog.Builder(AccountActivity.this)
-                                .setOnCancelListener(d -> finish())
-                                .setTitle(getString(R.string.dialog_follow_pick_account, toFollow.getUsername()))
-                                .setNegativeButton(android.R.string.cancel, (d, w) -> finish())
-                                .setView(recyclerView)
-                                .create();
-
-                        AccountListAdapter adapter = new AccountListAdapter(availableAccounts,
-                                acc -> authorizeFollow(toFollow, acc));
-                        recyclerView.setAdapter(adapter);
-                        dialog.show();
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<List<Relationship>> call, @NonNull Throwable t) {
-                }
-            });
-        }
-    }
-
-    private void authorizeFollow(Account toFollow, AccountEntity actionAccount) {
-        mastodonApi.followAccount(
-                actionAccount.getAccessToken(),
-                actionAccount.getDomain(),
-                toFollow.getId())
-                .enqueue(new Callback<Relationship>() {
-            @Override
-            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
-                finish();
-            }
-
-            @Override
-            public void onFailure(Call<Relationship> call, Throwable t) {
-                finish();
-            }
-        });
     }
 
     private void showUnfollowWarningDialog() {
@@ -812,7 +701,7 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     @Nullable
     @Override
     public FloatingActionButton getActionButton() {
-        if (!notFollowable && !blocking) {
+        if (!isSelf && !blocking) {
             return floatingBtn;
         }
         return null;
@@ -821,5 +710,11 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
+    }
+
+    @NonNull
+    @Override
+    public MastodonApi getMastodonApi() {
+        return mastodonApi;
     }
 }
