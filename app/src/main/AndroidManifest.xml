@@ -159,7 +159,19 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".AuthorizeFollowActivity"></activity>
+        <activity android:name=".AuthorizeFollowActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="follow"
+                    android:scheme="web+mastodon" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
