@@ -102,7 +102,7 @@ import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.MediaUtils;
 import com.keylesspalace.tusky.util.MentionTokenizer;
 import com.keylesspalace.tusky.util.SaveTootHelper;
-import com.keylesspalace.tusky.util.SpanUtils;
+import com.keylesspalace.tusky.util.SpanUtilsKt;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.ComposeOptionsListener;
@@ -457,7 +457,7 @@ public final class ComposeActivity
         // Setup the main text field.
         textEditor.setOnCommitContentListener(this);
         final int mentionColour = ThemeUtils.getColor(this, R.attr.compose_mention_color);
-        SpanUtils.highlightSpans(textEditor.getText(), mentionColour);
+        SpanUtilsKt.highlightSpans(textEditor.getText(), mentionColour);
         textEditor.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -469,7 +469,7 @@ public final class ComposeActivity
 
             @Override
             public void afterTextChanged(Editable editable) {
-                SpanUtils.highlightSpans(editable, mentionColour);
+                SpanUtilsKt.highlightSpans(editable, mentionColour);
                 updateVisibleCharactersLeft();
             }
         });
