@@ -10,7 +10,6 @@ import android.view.MenuItem
 import android.widget.FrameLayout
 import com.keylesspalace.tusky.fragment.TimelineFragment
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
-import com.keylesspalace.tusky.network.MastodonApi
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -18,8 +17,6 @@ import javax.inject.Inject
 
 class ModalTimelineActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportFragmentInjector {
 
-    @Inject
-    lateinit var api: MastodonApi
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
@@ -77,10 +74,6 @@ class ModalTimelineActivity : BottomSheetActivity(), ActionButtonActivity, HasSu
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
         return dispatchingAndroidInjector
-    }
-
-    override fun getMastodonApi(): MastodonApi {
-        return api
     }
 
 }

@@ -51,7 +51,6 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.LinkListener;
-import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.pager.AccountPagerAdapter;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.Assert;
@@ -84,8 +83,6 @@ public final class AccountActivity extends BottomSheetActivity implements Action
         REQUESTED,
     }
 
-    @Inject
-    public MastodonApi mastodonApi;
     @Inject
     public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
@@ -711,9 +708,4 @@ public final class AccountActivity extends BottomSheetActivity implements Action
         return dispatchingAndroidInjector;
     }
 
-    @NonNull
-    @Override
-    public MastodonApi getMastodonApi() {
-        return mastodonApi;
-    }
 }

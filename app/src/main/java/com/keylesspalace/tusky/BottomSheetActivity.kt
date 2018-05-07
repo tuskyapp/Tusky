@@ -30,6 +30,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.net.URI
 import java.net.URISyntaxException
+import javax.inject.Inject
 
 /** this is the base class for all activities that open links
  *  links are checked against the api if they are mastodon links so they can be openend in Tusky
@@ -41,7 +42,8 @@ abstract class BottomSheetActivity : BaseActivity() {
     lateinit var bottomSheet: BottomSheetBehavior<LinearLayout>
     var searchUrl: String? = null
 
-    abstract fun getMastodonApi(): MastodonApi
+    @Inject
+    lateinit var mastodonApi: MastodonApi
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -67,7 +69,7 @@ abstract class BottomSheetActivity : BaseActivity() {
             return
         }
 
-        val call = getMastodonApi().search(url, true)
+        val call = mastodonApi.search(url, true)
         call.enqueue(object : Callback<SearchResults> {
             override fun onResponse(call: Call<SearchResults>, response: Response<SearchResults>) {
                 if (getCancelSearchRequested(url)) {

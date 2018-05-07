@@ -25,10 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.keylesspalace.tusky.fragment.ViewThreadFragment;
-import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.LinkHelper;
-
-import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
@@ -44,8 +41,6 @@ public class ViewThreadActivity extends BottomSheetActivity implements HasSuppor
 
     private int revealButtonState = REVEAL_BUTTON_HIDDEN;
 
-    @Inject
-    public MastodonApi mastodonApi;
     @Inject
     public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
@@ -119,9 +114,4 @@ public class ViewThreadActivity extends BottomSheetActivity implements HasSuppor
         return dispatchingAndroidInjector;
     }
 
-    @NotNull
-    @Override
-    public MastodonApi getMastodonApi() {
-        return mastodonApi;
-    }
 }

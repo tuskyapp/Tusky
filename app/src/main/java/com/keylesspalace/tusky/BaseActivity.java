@@ -32,6 +32,7 @@ import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ import javax.inject.Inject;
 
 import retrofit2.Call;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements Injectable {
 
     protected List<Call> callList;
 
@@ -111,20 +112,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         return getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
     }
 
-    protected boolean redirectIfNotLoggedIn() {
+    protected void redirectIfNotLoggedIn() {
         // This is very ugly but we cannot inject into parent class and injecting into every
         // subclass seems inconvenient as well.
-        AccountEntity account = ((TuskyApplication) getApplicationContext())
-                .getServiceLocator().get(AccountManager.class)
-                .getActiveAccount();
+        AccountEntity account = accountManager.getActiveAccount();
         if (account == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
-            return true;
         }
-        return false;
     }
 
     @Override
