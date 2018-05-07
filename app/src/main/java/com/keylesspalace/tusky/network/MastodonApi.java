@@ -54,6 +54,7 @@ public interface MastodonApi {
     String ENDPOINT_AUTHORIZE = "/oauth/authorize";
     String DOMAIN_HEADER = "domain";
     String PLACEHOLDER_DOMAIN = "dummy.placeholder";
+    String TOKEN_HEADER = "auth_token";
 
     @GET("api/v1/timelines/home")
     Call<List<Status>> homeTimeline(
@@ -194,7 +195,9 @@ public interface MastodonApi {
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
     @POST("api/v1/accounts/{id}/follow")
-    Call<Relationship> followAccount(@Path("id") String accountId);
+    Call<Relationship> followAccount(@Nullable @Header(TOKEN_HEADER) String token,
+                                     @Nullable @Header(DOMAIN_HEADER) String domain,
+                                     @Path("id") String accountId);
     @POST("api/v1/accounts/{id}/unfollow")
     Call<Relationship> unfollowAccount(@Path("id") String accountId);
     @POST("api/v1/accounts/{id}/block")
@@ -207,7 +210,9 @@ public interface MastodonApi {
     Call<Relationship> unmuteAccount(@Path("id") String accountId);
 
     @GET("api/v1/accounts/relationships")
-    Call<List<Relationship>> relationships(@Query("id[]") List<String> accountIds);
+    Call<List<Relationship>> relationships(@Nullable @Header(TOKEN_HEADER) String token,
+                                           @Nullable @Header(DOMAIN_HEADER) String domain,
+                                           @Query("id[]") List<String> accountIds);
 
     @GET("api/v1/blocks")
     Call<List<Account>> blocks(
