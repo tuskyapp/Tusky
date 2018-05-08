@@ -113,8 +113,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     }
 
     protected void redirectIfNotLoggedIn() {
-        // This is very ugly but we cannot inject into parent class and injecting into every
-        // subclass seems inconvenient as well.
         AccountEntity account = accountManager.getActiveAccount();
         if (account == null) {
             Intent intent = new Intent(this, LoginActivity.class);
