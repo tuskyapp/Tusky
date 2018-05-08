@@ -37,7 +37,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class SearchActivity extends BaseActivity implements SearchView.OnQueryTextListener,
+public class SearchActivity extends BottomSheetActivity implements SearchView.OnQueryTextListener,
         HasSupportFragmentInjector {
 
     @Inject
@@ -139,4 +139,5 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentInjector;
     }
+
 }

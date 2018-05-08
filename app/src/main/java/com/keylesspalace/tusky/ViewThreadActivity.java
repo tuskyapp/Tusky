@@ -33,7 +33,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class ViewThreadActivity extends BaseActivity implements HasSupportFragmentInjector {
+public class ViewThreadActivity extends BottomSheetActivity implements HasSupportFragmentInjector {
 
     public static final int REVEAL_BUTTON_HIDDEN = 1;
     public static final int REVEAL_BUTTON_REVEAL = 2;
@@ -113,4 +113,5 @@ public class ViewThreadActivity extends BaseActivity implements HasSupportFragme
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }
+
 }

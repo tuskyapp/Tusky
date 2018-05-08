@@ -32,9 +32,22 @@ import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
-public abstract class BaseActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import retrofit2.Call;
+
+public abstract class BaseActivity extends AppCompatActivity implements Injectable {
+
+    protected List<Call> callList;
+
+    @Inject
+    public AccountManager accountManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +60,11 @@ public abstract class BaseActivity extends AppCompatActivity {
          * views are created. */
         String theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
         ThemeUtils.setAppNightMode(theme, this);
+
+        long accountId = getIntent().getLongExtra("account", -1);
+        if (accountId != -1) {
+            accountManager.setActiveAccount(accountId);
+        }
 
         int style;
         switch (preferences.getString("statusTextSize", "medium")) {
@@ -65,6 +83,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         getTheme().applyStyle(style, false);
 
         redirectIfNotLoggedIn();
+
+        callList = new ArrayList<>();
+
     }
 
     @Override
@@ -91,20 +112,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         return getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
     }
 
-    protected boolean redirectIfNotLoggedIn() {
-        // This is very ugly but we cannot inject into parent class and injecting into every
-        // subclass seems inconvenient as well.
-        AccountEntity account = ((TuskyApplication) getApplicationContext())
-                .getServiceLocator().get(AccountManager.class)
-                .getActiveAccount();
+    protected void redirectIfNotLoggedIn() {
+        AccountEntity account = accountManager.getActiveAccount();
         if (account == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
-            return true;
         }
-        return false;
     }
 
     @Override
@@ -151,5 +166,13 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                 .build()
                 .scheduleAsync();
+    }
+
+    @Override
+    protected void onDestroy() {
+        for (Call call : callList) {
+            call.cancel();
+        }
+        super.onDestroy();
     }
 }

@@ -37,10 +37,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.keylesspalace.tusky.db.AccountEntity;
-import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
-import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
 import com.keylesspalace.tusky.util.NotificationHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
@@ -72,7 +70,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends BaseActivity implements ActionButtonActivity,
+public class MainActivity extends BottomSheetActivity implements ActionButtonActivity,
         HasSupportFragmentInjector {
     private static final String TAG = "MainActivity"; // logging tag
     private static final long DRAWER_ITEM_ADD_ACCOUNT = -13;
@@ -89,11 +87,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
     private static final long DRAWER_ITEM_LISTS = 10;
 
     @Inject
-    public MastodonApi mastodonApi;
-    @Inject
     public DispatchingAndroidInjector<Fragment> fragmentInjector;
-    @Inject
-    public AccountManager accountManager;
 
     private static int COMPOSE_RESULT = 1;
 
@@ -266,12 +260,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
             }
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    // Fix for GitHub issues #190, #259 (MainActivity won't restart on screen rotation.)
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
     }
 
     private void tintTab(TabLayout.Tab tab, boolean tinted) {
@@ -552,4 +540,5 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentInjector;
     }
+
 }

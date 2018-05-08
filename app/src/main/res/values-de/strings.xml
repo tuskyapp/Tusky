@@ -259,12 +259,20 @@
     <string name="pref_title_filter_regex">Mit regulärem Ausdruck filtern</string>
     <string name="error_invalid_regex">Ungültiger regulärer Ausdruck</string>
     <string name="action_content_warning">Inhaltswarnung</string>
-    <string name="send_toot_notification_title">Beitrag senden...</string>
+    <string name="send_toot_notification_title">Beitrag senden…</string>
     <string name="send_toot_notification_error_title">Fehler beim senden</string>
     <string name="send_toot_notification_saved_content">Eine Kopie des Beitrags wurde in deine Entwürfe gespeichert</string>
     <string name="send_toot_notification_channel_name">Beiträge senden</string>
 
     <string name="error_no_custom_emojis">Deine Instanz %s hat keine Emojis definiert</string>
     <string name="copy_to_clipboard_success">In die Zwischenablage kopiert</string>
+    <string name="error_sender_account_gone">Fehler beim Senden des Status</string>
+    <string name="label_quick_reply">Antworten…</string>
+    <string name="status_sent_long">Antwort erfolgreich gesendet.</string>
+    <string name="status_sent">Gesendet!</string>
+    <string name="action_quick_reply">Schnell antworten</string>
+    <string name="expand_collapse_all_statuses">Alle Beiträge aus/einklappen</string>
+    <string name="action_compose_shortcut">Antworten</string>
+    <string name="performing_lookup_title">Nachschlagen…</string>
 
 </resources>

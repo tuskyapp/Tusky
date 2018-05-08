@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 data class Instance (
         val uri: String,

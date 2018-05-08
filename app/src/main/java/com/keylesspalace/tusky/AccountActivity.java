@@ -47,12 +47,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.keylesspalace.tusky.db.AccountEntity;
-import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.LinkListener;
-import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.pager.AccountPagerAdapter;
 import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.Assert;
@@ -75,7 +73,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public final class AccountActivity extends BaseActivity implements ActionButtonActivity,
+public final class AccountActivity extends BottomSheetActivity implements ActionButtonActivity,
         HasSupportFragmentInjector {
     private static final String TAG = "AccountActivity"; // logging tag
 
@@ -85,10 +83,6 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
         REQUESTED,
     }
 
-    @Inject
-    public MastodonApi mastodonApi;
-    @Inject
-    public AccountManager accountManager;
     @Inject
     public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
@@ -331,8 +325,8 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
             }
 
             @Override
-            public void onViewURL(String url) {
-                LinkHelper.openLink(url, note.getContext());
+            public void onViewUrl(String url) {
+                viewUrl(url);
             }
         });
 
@@ -713,4 +707,5 @@ public final class AccountActivity extends BaseActivity implements ActionButtonA
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }
+
 }

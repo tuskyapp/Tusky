@@ -31,7 +31,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class ViewTagActivity extends BaseActivity implements HasSupportFragmentInjector {
+public class ViewTagActivity extends BottomSheetActivity implements HasSupportFragmentInjector {
 
     @Inject
     public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -74,4 +74,5 @@ public class ViewTagActivity extends BaseActivity implements HasSupportFragmentI
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }
+
 }
