@@ -623,7 +623,7 @@ public class NotificationsFragment extends SFragment implements
 
     private boolean isBiggerThan(BigInteger newId, BigInteger lastShownNotificationId) {
 
-        return lastShownNotificationId.compareTo(newId) == -1;
+        return lastShownNotificationId.compareTo(newId) < 0;
     }
 
     private void update(@Nullable List<Notification> newNotifications, @Nullable String fromId,

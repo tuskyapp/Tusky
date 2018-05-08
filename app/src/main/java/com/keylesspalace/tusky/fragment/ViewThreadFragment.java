@@ -29,6 +29,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,7 +101,6 @@ public final class ViewThreadFragment extends SFragment implements
         return timelineCases;
     }
 
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -532,11 +532,6 @@ public final class ViewThreadFragment extends SFragment implements
         }
     }
 
-    public void clear() {
-        statuses.clear();
-        adapter.clear();
-    }
-
     private void updateRevealIcon() {
         ViewThreadActivity activity = ((ViewThreadActivity) getActivity());
         if (activity == null) return;
@@ -544,8 +539,7 @@ public final class ViewThreadFragment extends SFragment implements
         boolean hasAnyWarnings = false;
         // Statuses are updated from the main thread so nothing should change while iterating
         for (int i = 0; i < statuses.size(); i++) {
-            if (statuses.get(i).getSpoilerText() != null
-                    && !statuses.get(i).getSpoilerText().isEmpty()) {
+            if (!TextUtils.isEmpty(statuses.get(i).getSpoilerText())) {
                 hasAnyWarnings = true;
                 break;
             }

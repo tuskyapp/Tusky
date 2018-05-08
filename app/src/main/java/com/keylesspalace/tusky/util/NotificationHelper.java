@@ -264,6 +264,7 @@ public class NotificationHelper {
                 .setDeleteIntent(deletePendingIntent)
                 .setColor(ContextCompat.getColor(context, (R.color.primary)))
                 .setGroup(account.getAccountId())
+                .setAutoCancel(true)
                 .setDefaults(0); // So it doesn't ring twice, notify only in Target callback
 
         setupPreferences(account, builder);
@@ -521,7 +522,6 @@ public class NotificationHelper {
         return null;
     }
 
-    @Nullable
     private static String bodyForType(Notification notification) {
         switch (notification.getType()) {
             case FOLLOW:

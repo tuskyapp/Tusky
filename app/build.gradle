@@ -44,7 +44,7 @@ android {
 }
 
 ext.supportLibraryVersion = '27.1.1'
-ext.daggerVersion = '2.15'
+ext.daggerVersion = '2.16'
 
 dependencies {
     implementation('com.mikepenz:materialdrawer:6.0.7@aar') {
