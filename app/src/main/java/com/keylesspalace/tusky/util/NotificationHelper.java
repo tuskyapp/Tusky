@@ -37,7 +37,6 @@ import android.util.Log;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.TuskyApplication;
-import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Notification;
@@ -371,17 +370,22 @@ public class NotificationHelper {
         }
     }
 
-    public static void deleteLegacyNotificationChannels(Context context) {
-        // delete the notification channels that where used before the multi account mode was introduced to avoid confusion
+    public static void deleteLegacyNotificationChannels(Context context, AccountManager accountManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
+            // used until Tusky 1.4
             //noinspection ConstantConditions
             notificationManager.deleteNotificationChannel(CHANNEL_MENTION);
             notificationManager.deleteNotificationChannel(CHANNEL_FAVOURITE);
             notificationManager.deleteNotificationChannel(CHANNEL_BOOST);
             notificationManager.deleteNotificationChannel(CHANNEL_FOLLOW);
+
+            // used until Tusky 1.7
+            for(AccountEntity account: accountManager.getAllAccountsOrderedByActive()) {
+                notificationManager.deleteNotificationChannel(CHANNEL_FAVOURITE+" "+account.getIdentifier());
+            }
         }
     }
 

@@ -33,8 +33,8 @@ class SplashActivity : AppCompatActivity(), Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /** delete old notification channels that were in use in Tusky 1.4 */
-        NotificationHelper.deleteLegacyNotificationChannels(this)
+        /** delete old notification channels */
+        NotificationHelper.deleteLegacyNotificationChannels(this, accountManager)
 
         /** Determine whether the user is currently logged in, and if so go ahead and load the
          *  timeline. Otherwise, start the activity_login screen. */
