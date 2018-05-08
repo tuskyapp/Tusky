@@ -24,10 +24,11 @@ import android.widget.TextView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.FollowingAccountListAdapter.FollowState.*
 import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.entity.Account
 import com.pkmmte.view.CircularImageView
 import com.squareup.picasso.Picasso
 
-class FollowingAccountListAdapter(private val accountList: List<Pair<AccountEntity, FollowState>>,
+class FollowingAccountListAdapter(private val accountList: MutableList<Pair<AccountEntity, FollowState>>,
                                   private val onFollowingAccountSelectedListener: OnFollowingAccountSelectedListener)
     : RecyclerView.Adapter<FollowingAccountListAdapter.FollowingAccountListViewHolder>() {
 
@@ -65,7 +66,20 @@ class FollowingAccountListAdapter(private val accountList: List<Pair<AccountEnti
         })
 
         holder.followButton.setOnClickListener {
-            onFollowingAccountSelectedListener.onFollowingAccountSelected(account)
+            onFollowingAccountSelectedListener.onFollowingAccountSelected(account, position)
+        }
+    }
+
+    fun updateAccount(account: AccountEntity, followState: FollowingAccountListAdapter.FollowState) {
+        val position = accountList.indexOfFirst { it.first == account }
+        if (position in 0 until accountList.size) {
+            accountList[position] = account to followState
+
+            notifyItemChanged(position)
+        } else {
+            accountList.add(account to followState)
+
+            notifyItemInserted(accountList.size - 1)
         }
     }
 
@@ -79,5 +93,5 @@ class FollowingAccountListAdapter(private val accountList: List<Pair<AccountEnti
 }
 
 interface OnFollowingAccountSelectedListener {
-    fun onFollowingAccountSelected(account: AccountEntity)
+    fun onFollowingAccountSelected(account: AccountEntity, position: Int)
 }

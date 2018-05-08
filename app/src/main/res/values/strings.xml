@@ -155,6 +155,8 @@
     <string name="visibility_private">Followers-Only: Post to followers only</string>
     <string name="visibility_direct">Direct: Post to mentioned users only</string>
 
+    <string name="qs_tile">Compose Toot</string>
+
     <string name="pref_title_notification_settings">Notifications</string>
     <string name="pref_title_edit_notification_settings">Edit Notifications</string>
     <string name="pref_title_notifications_enabled">Notifications</string>
