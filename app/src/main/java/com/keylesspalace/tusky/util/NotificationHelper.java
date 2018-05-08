@@ -243,11 +243,10 @@ public class NotificationHelper {
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         // we have to switch account here
-        Intent eventResultIntent = new Intent(context, ViewThreadActivity.class);
-        eventResultIntent.putExtra("account", account.getId());
-        eventResultIntent.putExtra("id", body.getStatus().getId());
+        Intent eventResultIntent = new Intent(context, MainActivity.class);
+        eventResultIntent.putExtra(ACCOUNT_ID, account.getId());
         TaskStackBuilder eventStackBuilder = TaskStackBuilder.create(context);
-        eventStackBuilder.addParentStack(ViewThreadActivity.class);
+        eventStackBuilder.addParentStack(MainActivity.class);
         eventStackBuilder.addNextIntent(eventResultIntent);
 
         PendingIntent eventResultPendingIntent = eventStackBuilder.getPendingIntent((int) account.getId(),
