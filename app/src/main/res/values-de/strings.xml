@@ -270,9 +270,9 @@
     <string name="label_quick_reply">Antworten…</string>
     <string name="status_sent_long">Antwort erfolgreich gesendet.</string>
     <string name="status_sent">Gesendet!</string>
-    <string name="action_quick_reply">schnell antworten</string>
+    <string name="action_quick_reply">Schnell antworten</string>
     <string name="expand_collapse_all_statuses">Alle Beiträge aus/einklappen</string>
-    <string name="action_compose_shortcut">antworten</string>
+    <string name="action_compose_shortcut">Antworten</string>
     <string name="performing_lookup_title">Nachschlagen…</string>
 
 </resources>
