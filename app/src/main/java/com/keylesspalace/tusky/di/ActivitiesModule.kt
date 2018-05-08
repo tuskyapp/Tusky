@@ -74,4 +74,16 @@ abstract class ActivitiesModule {
     @ContributesAndroidInjector
     abstract fun contributesReportActivity(): ReportActivity
 
+    @ContributesAndroidInjector
+    abstract fun contributesSavedTootActivity(): SavedTootActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributesSPreferencesActivity(): PreferencesActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributesViewMediaActivity(): ViewMediaActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributesViewVideoActivity(): ViewVideoActivity
+
 }
