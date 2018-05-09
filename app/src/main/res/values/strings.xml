@@ -50,9 +50,9 @@
 
     <string name="footer_empty">Nothing here. Pull down to refresh!</string>
 
-    <string name="notification_reblog_format">%s boosted your toot</string>
-    <string name="notification_favourite_format">%s favourited your toot</string>
-    <string name="notification_follow_format">%s followed you</string>
+    <string name="notification_reblog_format">boosted your toot</string>
+    <string name="notification_favourite_format">favourited your toot</string>
+    <string name="notification_follow_format">followed you</string>
 
     <string name="report_username_format">Report @%s</string>
     <string name="report_comment_hint">Additional comments?</string>

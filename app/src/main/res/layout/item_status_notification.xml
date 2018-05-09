@@ -8,27 +8,42 @@
     android:paddingLeft="14dp"
     android:paddingRight="14dp">
 
-    <TextView
-        android:id="@+id/notification_top_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/notification_top_bar"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="6dp"
         android:layout_marginTop="8dp"
-        android:drawablePadding="10dp"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:paddingStart="28dp"
-        android:textColor="?android:textColorSecondary"
-        android:textSize="?attr/status_text_medium"
-        tools:text="Someone favourited your status" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/notification_top_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="28dp"
+            android:drawablePadding="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="?attr/status_text_medium"
+            tools:text="Someone" />
+        <TextView
+            android:id="@+id/notification_top_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/notification_top_id"
+            android:layout_marginLeft="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="?attr/status_text_medium"
+            tools:text="favourited your status" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/status_name_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/notification_top_text"
+        android:layout_below="@+id/notification_top_bar"
         android:layout_toEndOf="@+id/notification_status_avatar"
         android:paddingBottom="4dp">
 
@@ -119,7 +134,7 @@
         android:id="@+id/notification_status_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_below="@id/notification_top_text"
+        android:layout_below="@id/notification_top_bar"
         android:layout_marginBottom="14dp"
         android:layout_marginEnd="14dp"
         android:layout_marginRight="14dp"
