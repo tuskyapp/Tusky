@@ -372,17 +372,14 @@ public final class ComposeActivity
         if (intent != null) {
 
             if (startingVisibility == Status.Visibility.UNKNOWN) {
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                Status.Visibility preferredVisibility = Status.Visibility.byString(
+                        preferences.getString("defaultPostPrivacy",
+                                Status.Visibility.PUBLIC.serverString()));
                 Status.Visibility replyVisibility = Status.Visibility.byNum(
                         intent.getIntExtra(REPLY_VISIBILITY_EXTRA, Status.Visibility.UNKNOWN.getNum()));
 
-                if (replyVisibility != Status.Visibility.UNKNOWN) {
-                    startingVisibility = replyVisibility;
-                } else {
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-                    startingVisibility = Status.Visibility.byString(
-                            preferences.getString("defaultPostPrivacy",
-                                    Status.Visibility.PUBLIC.serverString()));
-                }
+                startingVisibility = Status.Visibility.byNum(Math.max(preferredVisibility.getNum(), replyVisibility.getNum()));
             }
 
             inReplyToId = intent.getStringExtra(IN_REPLY_TO_ID_EXTRA);
