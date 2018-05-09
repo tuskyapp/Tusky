@@ -282,20 +282,17 @@ class BottomSheetActivityTest {
         override fun request(): Request { throw NotImplementedError() }
     }
 
-    class FakeBottomSheetActivity(val api: MastodonApi) : BottomSheetActivity() {
+    class FakeBottomSheetActivity(api: MastodonApi) : BottomSheetActivity() {
 
         var status: Status? = null
         var accountId: String? = null
         var link: String? = null
 
         init {
+            mastodonApi = api
             @Suppress("UNCHECKED_CAST")
             bottomSheet = Mockito.mock(BottomSheetBehavior::class.java) as BottomSheetBehavior<LinearLayout>
             callList = arrayListOf()
-        }
-
-        override fun getMastodonApi(): MastodonApi {
-            return api
         }
 
         override fun openLink(url: String) {

@@ -24,9 +24,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.keylesspalace.tusky.fragment.TimelineFragment;
-import com.keylesspalace.tusky.network.MastodonApi;
-
-import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
@@ -36,8 +33,6 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 public class ViewTagActivity extends BottomSheetActivity implements HasSupportFragmentInjector {
 
-    @Inject
-    public MastodonApi mastodonApi;
     @Inject
     public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
@@ -80,9 +75,4 @@ public class ViewTagActivity extends BottomSheetActivity implements HasSupportFr
         return dispatchingAndroidInjector;
     }
 
-    @NotNull
-    @Override
-    public MastodonApi getMastodonApi() {
-        return mastodonApi;
-    }
 }

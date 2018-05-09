@@ -37,7 +37,6 @@ import android.util.Log;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.TuskyApplication;
-import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Notification;
@@ -243,11 +242,10 @@ public class NotificationHelper {
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         // we have to switch account here
-        Intent eventResultIntent = new Intent(context, ViewThreadActivity.class);
-        eventResultIntent.putExtra("account", account.getId());
-        eventResultIntent.putExtra("id", body.getStatus().getId());
+        Intent eventResultIntent = new Intent(context, MainActivity.class);
+        eventResultIntent.putExtra(ACCOUNT_ID, account.getId());
         TaskStackBuilder eventStackBuilder = TaskStackBuilder.create(context);
-        eventStackBuilder.addParentStack(ViewThreadActivity.class);
+        eventStackBuilder.addParentStack(MainActivity.class);
         eventStackBuilder.addNextIntent(eventResultIntent);
 
         PendingIntent eventResultPendingIntent = eventStackBuilder.getPendingIntent((int) account.getId(),
@@ -264,6 +262,7 @@ public class NotificationHelper {
                 .setDeleteIntent(deletePendingIntent)
                 .setColor(ContextCompat.getColor(context, (R.color.primary)))
                 .setGroup(account.getAccountId())
+                .setAutoCancel(true)
                 .setDefaults(0); // So it doesn't ring twice, notify only in Target callback
 
         setupPreferences(account, builder);
@@ -371,17 +370,22 @@ public class NotificationHelper {
         }
     }
 
-    public static void deleteLegacyNotificationChannels(Context context) {
-        // delete the notification channels that where used before the multi account mode was introduced to avoid confusion
+    public static void deleteLegacyNotificationChannels(Context context, AccountManager accountManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
+            // used until Tusky 1.4
             //noinspection ConstantConditions
             notificationManager.deleteNotificationChannel(CHANNEL_MENTION);
             notificationManager.deleteNotificationChannel(CHANNEL_FAVOURITE);
             notificationManager.deleteNotificationChannel(CHANNEL_BOOST);
             notificationManager.deleteNotificationChannel(CHANNEL_FOLLOW);
+
+            // used until Tusky 1.7
+            for(AccountEntity account: accountManager.getAllAccountsOrderedByActive()) {
+                notificationManager.deleteNotificationChannel(CHANNEL_FAVOURITE+" "+account.getIdentifier());
+            }
         }
     }
 
@@ -521,7 +525,6 @@ public class NotificationHelper {
         return null;
     }
 
-    @Nullable
     private static String bodyForType(Notification notification) {
         switch (notification.getType()) {
             case FOLLOW:
