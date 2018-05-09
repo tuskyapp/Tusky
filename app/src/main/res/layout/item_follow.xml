@@ -11,27 +11,43 @@
     android:paddingLeft="14dp"
     android:paddingRight="14dp">
 
-    <TextView
-        android:id="@+id/notification_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+    <RelativeLayout
+        android:id="@+id/follow_notification_bar"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="6dp"
         android:layout_marginTop="8dp"
-        android:drawablePadding="10dp"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:paddingStart="28dp"
-        android:textColor="?android:textColorTertiary"
-        android:textSize="?attr/status_text_medium"
-        tools:text="Someone followed you" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/follow_notification_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="28dp"
+            android:drawablePadding="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="?attr/status_text_medium"
+            tools:text="Someone" />
+        <TextView
+            android:id="@+id/follow_notification_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/follow_notification_id"
+            android:layout_marginLeft="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="?android:textColorTertiary"
+            android:textSize="?attr/status_text_medium"
+            android:text="@string/notification_follow_format" />
+    </RelativeLayout>
 
     <ImageView
-        android:id="@+id/notification_avatar"
+        android:id="@+id/follow_notification_avatar"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/notification_text"
+        android:layout_below="@+id/follow_notification_bar"
         android:layout_marginEnd="14dp"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/action_view_profile"
@@ -42,8 +58,8 @@
         android:id="@+id/notification_display_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/notification_text"
-        android:layout_toEndOf="@id/notification_avatar"
+        android:layout_below="@+id/follow_notification_bar"
+        android:layout_toEndOf="@id/follow_notification_avatar"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorPrimary"
@@ -56,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/notification_display_name"
-        android:layout_toEndOf="@id/notification_avatar"
+        android:layout_toEndOf="@id/follow_notification_avatar"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorSecondary"

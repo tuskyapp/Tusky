@@ -249,30 +249,28 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     }
 
     private static class FollowViewHolder extends RecyclerView.ViewHolder {
-        private TextView message;
+        private TextView messageDisplayName;
         private TextView usernameView;
         private TextView displayNameView;
         private ImageView avatar;
 
         FollowViewHolder(View itemView) {
             super(itemView);
-            message = itemView.findViewById(R.id.notification_text);
+            messageDisplayName = itemView.findViewById(R.id.follow_notification_id);
             usernameView = itemView.findViewById(R.id.notification_username);
             displayNameView = itemView.findViewById(R.id.notification_display_name);
-            avatar = itemView.findViewById(R.id.notification_avatar);
+            avatar = itemView.findViewById(R.id.follow_notification_avatar);
             //workaround because Android < API 21 does not support setting drawableLeft from xml when it is a vector image
-            Drawable followIcon = ContextCompat.getDrawable(message.getContext(), R.drawable.ic_person_add_24dp);
-            message.setCompoundDrawablesWithIntrinsicBounds(followIcon, null, null, null);
+            Drawable followIcon = ContextCompat.getDrawable(messageDisplayName.getContext(), R.drawable.ic_person_add_24dp);
+            messageDisplayName.setCompoundDrawablesWithIntrinsicBounds(followIcon, null, null, null);
         }
 
         void setMessage(String displayName, String username, String avatarUrl) {
-            Context context = message.getContext();
+            Context context = messageDisplayName.getContext();
 
-            String format = context.getString(R.string.notification_follow_format);
-            String wholeMessage = String.format(format, displayName);
-            message.setText(wholeMessage);
+            messageDisplayName.setText(displayName);
 
-            format = context.getString(R.string.status_username_format);
+            String format = context.getString(R.string.status_username_format);
             String wholeUsername = String.format(format, username);
             usernameView.setText(wholeUsername);
 
@@ -298,6 +296,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private static class StatusNotificationViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, ToggleButton.OnCheckedChangeListener {
         private final TextView message;
+        private final ViewGroup messageContainer;
+        private final TextView messageDisplayName;
         private final View statusNameBar;
         private final TextView displayName;
         private final TextView username;
@@ -317,6 +317,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         StatusNotificationViewHolder(View itemView) {
             super(itemView);
             message = itemView.findViewById(R.id.notification_top_text);
+            messageContainer = itemView.findViewById(R.id.notification_top_bar);
+            messageDisplayName = itemView.findViewById(R.id.notification_top_id);
             statusNameBar = itemView.findViewById(R.id.status_name_bar);
             displayName = itemView.findViewById(R.id.status_display_name);
             username = itemView.findViewById(R.id.status_username);
@@ -334,6 +336,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
             container.setOnClickListener(this);
             message.setOnClickListener(this);
+            messageContainer.setOnClickListener(this);
+            messageDisplayName.setOnClickListener(this);
             statusContent.setOnClickListener(this);
             contentWarningButton.setOnCheckedChangeListener(this);
         }
@@ -388,7 +392,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             Notification.Type type = notificationViewData.getType();
 
             Context context = message.getContext();
-            String format;
+            String messageText;
             Drawable icon;
             switch (type) {
                 default:
@@ -399,7 +403,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                                 R.color.status_favourite_button_marked_dark), PorterDuff.Mode.SRC_ATOP);
                     }
 
-                    format = context.getString(R.string.notification_favourite_format);
+                    messageText = context.getString(R.string.notification_favourite_format);
                     break;
                 }
                 case REBLOG: {
@@ -409,16 +413,16 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                                 R.color.color_accent_dark), PorterDuff.Mode.SRC_ATOP);
                     }
 
-                    format = context.getString(R.string.notification_reblog_format);
+                    messageText = context.getString(R.string.notification_reblog_format);
                     break;
                 }
             }
-            message.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
-            String wholeMessage = String.format(format, displayName);
-            final SpannableStringBuilder str = new SpannableStringBuilder(wholeMessage);
+            messageDisplayName.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+            final SpannableStringBuilder str = new SpannableStringBuilder(displayName);
             str.setSpan(new StyleSpan(Typeface.BOLD), 0, displayName.length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            message.setText(str);
+            messageDisplayName.setText(str);
+            message.setText(messageText);
 
             if (statusViewData != null) {
                 boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
@@ -468,6 +472,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case R.id.notification_content:
                     if (notificationActionListener != null) notificationActionListener.onViewStatusForNotificationId(notificationId);
                     break;
+                case R.id.notification_top_id:
+                case R.id.notification_top_bar:
                 case R.id.notification_top_text:
                     if (notificationActionListener != null) notificationActionListener.onViewAccount(accountId);
                     break;
