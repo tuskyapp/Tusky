@@ -32,5 +32,5 @@ jobs:
           name: Build apk
           command: ./gradlew assembleRelease --no-daemon --stacktrace
       - store_artifacts:
-          path: app/build/outputs/apk/release
+          path: app/release/app-release.apk
           destination: apks/
