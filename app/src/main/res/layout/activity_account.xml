@@ -179,7 +179,7 @@
                 android:layout_gravity="top"
                 android:background="@android:color/transparent"
                 app:layout_collapseMode="pin"
-                app:popupTheme="?attr/account_toolbar_popup_theme" />
+                app:popupTheme="?attr/toolbar_popup_theme" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

@@ -74,7 +74,7 @@
         <item name="account_header_background_color">@color/account_header_background_light</item>
         <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark</item> <!--Default to dark on purpose, because header backgrounds with gradients are always dark.-->
         <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_light</item>
-        <item name="account_toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Light</item>
+        <item name="toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Light</item>
         <item name="compose_close_button_tint">@color/toolbar_icon_light</item>
         <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_light</item>
         <item name="compose_mention_color">@color/compose_mention_light</item>
