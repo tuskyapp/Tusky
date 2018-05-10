@@ -443,9 +443,10 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public void onViewMedia(String[] urls, int urlIndex, Attachment.Type type,
-                            View view) {
-        super.viewMedia(urls, urlIndex, type, view);
+    public void onViewMedia(int position, int attachmentIndex, View view) {
+        Status status = statuses.get(position).getAsRightOrNull();
+        if (status == null) return;
+        super.viewMedia(attachmentIndex, status, view);
     }
 
     @Override

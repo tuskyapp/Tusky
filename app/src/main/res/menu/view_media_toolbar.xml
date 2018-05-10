@@ -6,4 +6,8 @@
         android:icon="@drawable/ic_file_download_black_24dp"
         android:title="@string/dialog_download_image"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_open_status"
+        android:title="@string/action_open_toot"
+        app:showAsAction="never" />
 </menu>

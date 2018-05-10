@@ -27,7 +27,7 @@
     <attr name="account_header_background_color" format="reference|color" />
     <attr name="account_toolbar_icon_tint_uncollapsed" format="reference|color" />
     <attr name="account_toolbar_icon_tint_collapsed" format="reference|color" />
-    <attr name="account_toolbar_popup_theme" format="reference" />
+    <attr name="toolbar_popup_theme" format="reference" />
     <attr name="compose_close_button_tint" format="reference|color" />
     <attr name="compose_media_button_disabled_tint" format="reference|color" />
     <attr name="compose_mention_color" format="reference|color" />

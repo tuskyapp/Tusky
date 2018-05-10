@@ -36,7 +36,7 @@ data class Status(
         var sensitive: Boolean,
         @SerializedName("spoiler_text") val spoilerText: String,
         val visibility: Visibility,
-        @SerializedName("media_attachments") var attachments: Array<Attachment>,
+        @SerializedName("media_attachments") var attachments: List<Attachment>,
         val mentions: Array<Mention>,
         val application: Application?
 ) {

@@ -15,28 +15,39 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.github.chrisbanes.photoview.OnOutsidePhotoTapListener;
-import com.github.chrisbanes.photoview.OnSingleFlingListener;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.ViewMediaActivity;
+import com.keylesspalace.tusky.entity.Attachment;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-public class ViewMediaFragment extends BaseFragment {
+import java.util.Objects;
+
+import kotlin.jvm.functions.Function0;
+
+public final class ViewMediaFragment extends BaseFragment {
     public interface PhotoActionsListener {
         void onBringUp();
+
         void onDismiss();
+
         void onPhotoTap();
     }
 
@@ -44,13 +55,20 @@ public class ViewMediaFragment extends BaseFragment {
     private PhotoActionsListener photoActionsListener;
     private View rootView;
     private PhotoView photoView;
+    private TextView descriptionView;
+
+    private boolean showingDescription;
+    private boolean isDescriptionVisible;
+    private Function0 toolbarVisibiltyDisposable;
 
     private static final String ARG_START_POSTPONED_TRANSITION = "startPostponedTransition";
+    private static final String ATTACH_ARG = "attach";
 
-    public static ViewMediaFragment newInstance(String url, boolean shouldStartPostponedTransition) {
+    public static ViewMediaFragment newInstance(@NonNull Attachment attachment,
+                                                boolean shouldStartPostponedTransition) {
         Bundle arguments = new Bundle();
         ViewMediaFragment fragment = new ViewMediaFragment();
-        arguments.putString("url", url);
+        arguments.putParcelable(ATTACH_ARG, attachment);
         arguments.putBoolean(ARG_START_POSTPONED_TRANSITION, shouldStartPostponedTransition);
 
         fragment.setArguments(arguments);
@@ -64,43 +82,42 @@ public class ViewMediaFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_view_media, container, false);
         photoView = rootView.findViewById(R.id.view_media_image);
+        descriptionView = rootView.findViewById(R.id.tv_media_description);
 
-        final Bundle arguments = getArguments();
-        final String url = arguments.getString("url");
+        final Bundle arguments = Objects.requireNonNull(getArguments(), "Empty arguments");
+        final Attachment attachment = arguments.getParcelable(ATTACH_ARG);
+        final String url = attachment.getUrl();
+        @Nullable final String description = attachment.getDescription();
+
+        descriptionView.setText(description);
+        showingDescription = !TextUtils.isEmpty(description);
+        isDescriptionVisible = showingDescription;
+
+        // Setting visibility without animations so it looks nice when you scroll images
+        //noinspection ConstantConditions
+        descriptionView.setVisibility(showingDescription
+        && (((ViewMediaActivity) getActivity())).isToolbarVisible()
+                ? View.VISIBLE : View.GONE);
 
         attacher = new PhotoViewAttacher(photoView);
 
         // Clicking outside the photo closes the viewer.
-        attacher.setOnOutsidePhotoTapListener(new OnOutsidePhotoTapListener() {
-            @Override
-            public void onOutsidePhotoTap(ImageView imageView) {
-                photoActionsListener.onDismiss();
-            }
-        });
+        attacher.setOnOutsidePhotoTapListener(imageView -> photoActionsListener.onDismiss());
 
-        attacher.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                photoActionsListener.onPhotoTap();
-            }
-        });
+        attacher.setOnClickListener(v -> onMediaTap());
 
         /* A vertical swipe motion also closes the viewer. This is especially useful when the photo
          * mostly fills the screen so clicking outside is difficult. */
-        attacher.setOnSingleFlingListener(new OnSingleFlingListener() {
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-                                   float velocityY) {
-                if (Math.abs(velocityY) > Math.abs(velocityX)) {
-                    photoActionsListener.onDismiss();
-                    return true;
-                }
-                return false;
+        attacher.setOnSingleFlingListener((e1, e2, velocityX, velocityY) -> {
+            if (Math.abs(velocityY) > Math.abs(velocityX)) {
+                photoActionsListener.onDismiss();
+                return true;
             }
+            return false;
         });
 
         ViewCompat.setTransitionName(photoView, url);
@@ -150,7 +167,35 @@ public class ViewMediaFragment extends BaseFragment {
             loadImageFromNetwork(url, photoView);
         }
 
+        toolbarVisibiltyDisposable = ((ViewMediaActivity) getActivity())
+                .addToolbarVisibilityListener(this::onToolbarVisibilityChange);
+
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (toolbarVisibiltyDisposable != null) toolbarVisibiltyDisposable.invoke();
+        super.onDestroyView();
+    }
+
+    private void onMediaTap() {
+        photoActionsListener.onPhotoTap();
+    }
+
+    private void onToolbarVisibilityChange(boolean visible) {
+        isDescriptionVisible = showingDescription && visible;
+        final int visibility = isDescriptionVisible ? View.VISIBLE : View.INVISIBLE;
+        int alpha = isDescriptionVisible ? 1 : 0;
+        descriptionView.animate().alpha(alpha)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        descriptionView.setVisibility(visibility);
+                        animation.removeListener(this);
+                    }
+                })
+                .start();
     }
 
     @Override

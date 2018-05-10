@@ -1,4 +1,7 @@
 version: 2
+machine:
+  environment:
+    GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
 jobs:
   build:
     working_directory: ~/code

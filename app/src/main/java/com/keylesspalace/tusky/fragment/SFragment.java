@@ -43,8 +43,10 @@ import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.HtmlUtils;
+import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -201,15 +203,17 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         popup.show();
     }
 
-    protected void viewMedia(String[] urls, int urlIndex, Attachment.Type type,
-                             @Nullable View view) {
+    protected void viewMedia(int urlIndex, Status status, @Nullable View view) {
+        final Status actionable = status.getActionableStatus();
+        final Attachment active = actionable.getAttachments().get(urlIndex);
+        Attachment.Type type = active.getType();
         switch (type) {
             case IMAGE: {
-                Intent intent = new Intent(getContext(), ViewMediaActivity.class);
-                intent.putExtra("urls", urls);
-                intent.putExtra("urlIndex", urlIndex);
+                final List<AttachmentViewData> attachments = AttachmentViewData.list(actionable);
+                final Intent intent = ViewMediaActivity.newIntent(getContext(), attachments,
+                        urlIndex);
                 if (view != null) {
-                    String url = urls[urlIndex];
+                    String url = active.getUrl();
                     ViewCompat.setTransitionName(view, url);
                     ActivityOptionsCompat options =
                             ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
@@ -223,7 +227,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
             case GIFV:
             case VIDEO: {
                 Intent intent = new Intent(getContext(), ViewVideoActivity.class);
-                intent.putExtra("url", urls[urlIndex]);
+                intent.putExtra("url", active.getUrl());
                 startActivity(intent);
                 break;
             }
