@@ -8,6 +8,7 @@
     android:paddingLeft="14dp"
     android:paddingRight="14dp">
 
+    <!--TODO: Check if this needs emoji support-->
     <TextView
         android:id="@+id/notification_top_text"
         android:layout_width="wrap_content"
@@ -32,7 +33,7 @@
         android:layout_toEndOf="@+id/notification_status_avatar"
         android:paddingBottom="4dp">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/status_display_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,7 +72,7 @@
 
     </RelativeLayout>
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/notification_content_warning_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -103,7 +104,7 @@
         android:textOn="@string/status_content_warning_show_less"
         android:textSize="?attr/status_text_medium" />
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/notification_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -16,10 +16,12 @@
 package com.keylesspalace.tusky.view
 
 import android.content.Context
+import android.support.text.emoji.widget.EmojiEditTextHelper
 import android.support.v13.view.inputmethod.EditorInfoCompat
 import android.support.v13.view.inputmethod.InputConnectionCompat
 import android.support.v7.widget.AppCompatMultiAutoCompleteTextView
 import android.text.InputType
+import android.text.method.KeyListener
 import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
@@ -29,11 +31,17 @@ class EditTextTyped @JvmOverloads constructor(context: Context,
     : AppCompatMultiAutoCompleteTextView(context, attributeSet) {
 
     private var onCommitContentListener: InputConnectionCompat.OnCommitContentListener? = null
+    private val emojiEditTextHelper: EmojiEditTextHelper = EmojiEditTextHelper(this)
 
     init {
         //fix a bug with autocomplete and some keyboards
         val newInputType = inputType and (inputType xor InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE)
         inputType = newInputType
+        super.setKeyListener(getEmojiEditTextHelper().getKeyListener(keyListener))
+    }
+
+    override fun setKeyListener(input: KeyListener) {
+        super.setKeyListener(getEmojiEditTextHelper().getKeyListener(input))
     }
 
     fun setOnCommitContentListener(listener: InputConnectionCompat.OnCommitContentListener) {
@@ -44,10 +52,14 @@ class EditTextTyped @JvmOverloads constructor(context: Context,
         val connection = super.onCreateInputConnection(editorInfo)
         return if (onCommitContentListener != null) {
             EditorInfoCompat.setContentMimeTypes(editorInfo, arrayOf("image/*"))
-            InputConnectionCompat.createWrapper(connection, editorInfo,
-                    onCommitContentListener!!)
+            getEmojiEditTextHelper().onCreateInputConnection(InputConnectionCompat.createWrapper(connection, editorInfo,
+                    onCommitContentListener!!), editorInfo)!!
         } else {
             connection
         }
+    }
+
+    private fun getEmojiEditTextHelper(): EmojiEditTextHelper {
+        return emojiEditTextHelper
     }
 }
