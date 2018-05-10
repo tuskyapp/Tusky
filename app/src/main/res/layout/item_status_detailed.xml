@@ -32,7 +32,7 @@
         android:minHeight="48dp"
         android:orientation="vertical">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/status_display_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
 
     </LinearLayout>
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/status_content_warning_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
         android:textOn="@string/status_content_warning_show_less"
         android:textSize="?attr/status_text_large" />
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/status_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -123,7 +123,8 @@
             android:paddingRight="6dp"
             android:paddingTop="6dp">
 
-            <TextView
+            <!--TODO: check if this needs emoji support-->
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/card_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -134,7 +135,8 @@
                 android:textColor="?android:textColorPrimary"
                 android:textSize="?attr/status_text_medium" />
 
-            <TextView
+            <!--TODO: Check if this needs emoji support-->
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/card_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -269,7 +271,8 @@
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_container"
             app:srcCompat="@drawable/ic_eye_24dp" />
 
-        <TextView
+        <!--TODO: Check if this needs emoji support-->
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/status_sensitive_media_warning"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -287,7 +290,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <!--TODO: Check if this needs emoji support-->
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/status_media_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

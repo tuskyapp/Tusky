@@ -22,7 +22,9 @@
         android:gravity="center_vertical"
         android:orientation="vertical">
 
-        <TextView
+        <!--TODO: Check if this needs emoji support-->
+        <!--FIXME: The placeholder texts seem to be swapped-->
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/display_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
