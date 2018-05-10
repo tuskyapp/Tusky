@@ -37,4 +37,4 @@ jobs:
             /opt/android/sdk/build-tools/27.0.3/apksigner sign --ks debug.keystore --out app-release.apk --ks-pass pass:android app-release-aligned.apk
       - store_artifacts:
           path: app-release.apk
-          destination: apks/
+          destination: app-release.apk
