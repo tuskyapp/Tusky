@@ -30,7 +30,10 @@ jobs:
           path: app/build/test-results
       - run:
           name: Build apk
-          command: ./gradlew assembleRelease --no-daemon --stacktrace
+          command: |
+            ./gradlew assembleRelease --no-daemon --stacktrace
+            zipalign -v -p 4 app/build/outputs/apk/release/app-release-unsigned.apk app-release-aligned.apk
+            apksigner sign --ks ~/.android/debug.keystore --out app-release.apk --ks-pass pass:android app-release-aligned.apk
       - store_artifacts:
-          path: app/release/app-release.apk
+          path: app-release.apk
           destination: apks/
