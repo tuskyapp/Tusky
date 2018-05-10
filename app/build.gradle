@@ -10,8 +10,8 @@ android {
         applicationId "com.keylesspalace.tusky"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 37
-        versionName "1.7.0"
+        versionCode 38
+        versionName "1.8.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
     }
@@ -44,7 +44,7 @@ android {
 }
 
 ext.supportLibraryVersion = '27.1.1'
-ext.daggerVersion = '2.15'
+ext.daggerVersion = '2.16'
 
 dependencies {
     implementation('com.mikepenz:materialdrawer:6.0.7@aar') {

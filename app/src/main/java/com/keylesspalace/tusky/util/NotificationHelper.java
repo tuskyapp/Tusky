@@ -1,4 +1,5 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2018 Jeremiasz Nelz <remi6397(a)gmail.com>
+ * Copyright 2017 Andrew Dawson
  *
  * This file is a part of Tusky.
  *
@@ -23,21 +24,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.RemoteInput;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Notification;
+import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver;
+import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver;
 import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
@@ -46,9 +53,13 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class NotificationHelper {
+
+    private static int notificationId = 0;
 
     /**
      * constants used in Intents
@@ -57,13 +68,39 @@ public class NotificationHelper {
 
     private static final String TAG = "NotificationHelper";
 
+    public static final String REPLY_ACTION = "REPLY_ACTION";
+
+    public static final String COMPOSE_ACTION = "COMPOSE_ACTION";
+
+    public static final String KEY_REPLY = "KEY_REPLY";
+
+    public static final String KEY_SENDER_ACCOUNT_ID = "KEY_SENDER_ACCOUNT_ID";
+
+    public static final String KEY_SENDER_ACCOUNT_IDENTIFIER = "KEY_SENDER_ACCOUNT_IDENTIFIER";
+
+    public static final String KEY_SENDER_ACCOUNT_FULL_NAME = "KEY_SENDER_ACCOUNT_FULL_NAME";
+
+    public static final String KEY_NOTIFICATION_ID = "KEY_NOTIFICATION_ID";
+
+    public static final String KEY_CITED_STATUS_ID = "KEY_CITED_STATUS_ID";
+
+    public static final String KEY_VISIBILITY = "KEY_VISIBILITY";
+
+    public static final String KEY_SPOILER = "KEY_SPOILER";
+
+    public static final String KEY_MENTIONS = "KEY_MENTIONS";
+
+    public static final String KEY_CITED_TEXT = "KEY_CITED_TEXT";
+
+    public static final String KEY_CITED_AUTHOR_LOCAL = "KEY_CITED_AUTHOR_LOCAL";
+
     /**
      * notification channels used on Android O+
      **/
-    private static final String CHANNEL_MENTION = "CHANNEL_MENTION";
-    private static final String CHANNEL_FOLLOW = "CHANNEL_FOLLOW";
-    private static final String CHANNEL_BOOST = "CHANNEL_BOOST";
-    private static final String CHANNEL_FAVOURITE = " CHANNEL_FAVOURITE";
+    public static final String CHANNEL_MENTION = "CHANNEL_MENTION";
+    public static final String CHANNEL_FOLLOW = "CHANNEL_FOLLOW";
+    public static final String CHANNEL_BOOST = "CHANNEL_BOOST";
+    public static final String CHANNEL_FAVOURITE = "CHANNEL_FAVOURITE";
 
     /**
      * Takes a given Mastodon notification and either creates a new Android notification or updates
@@ -104,75 +141,172 @@ public class NotificationHelper {
 
         account.setActiveNotifications(currentNotifications.toString());
 
-        //no need to save account, this will be done in the calling function
+        // Notification group member
+        // =========================
+        final NotificationCompat.Builder builder = newNotification(context, body, account, false);
 
-        Intent resultIntent = new Intent(context, MainActivity.class);
-        resultIntent.putExtra(ACCOUNT_ID, account.getId());
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(MainActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent((int) account.getId(),
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        notificationId++;
 
-        Intent deleteIntent = new Intent(context, NotificationClearBroadcastReceiver.class);
-        deleteIntent.putExtra(ACCOUNT_ID, account.getId());
-        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, (int) account.getId(), deleteIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentTitle(titleForType(context, body))
+                .setContentText(bodyForType(body));
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, getChannelId(account, body))
-                .setSmallIcon(R.drawable.ic_notify)
-                .setContentIntent(resultPendingIntent)
-                .setDeleteIntent(deletePendingIntent)
-                .setColor(ContextCompat.getColor(context, (R.color.primary)))
-                .setDefaults(0); // So it doesn't ring twice, notify only in Target callback
+        if (body.getType() == Notification.Type.MENTION) {
+            builder.setStyle(new NotificationCompat.BigTextStyle()
+                    .bigText(bodyForType(body)));
+        }
 
-        setupPreferences(account, builder);
+        //load the avatar synchronously
+        Bitmap accountAvatar;
+        try {
+            accountAvatar = Picasso.with(context)
+                    .load(body.getAccount().getAvatar())
+                    .transform(new RoundedTransformation(20))
+                    .get();
+        } catch (IOException e) {
+            Log.d(TAG, "error loading account avatar", e);
+            accountAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.avatar_default);
+        }
 
-        if (currentNotifications.length() == 1) {
-            builder.setContentTitle(titleForType(context, body))
-                    .setContentText(bodyForType(body));
+        builder.setLargeIcon(accountAvatar);
 
-            if (body.getType() == Notification.Type.MENTION) {
-                builder.setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(bodyForType(body)));
-            }
+        // Reply to mention action; RemoteInput is available from KitKat Watch, but buttons are available from Nougat
+        if (body.getType() == Notification.Type.MENTION
+                && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            RemoteInput replyRemoteInput = new RemoteInput.Builder(KEY_REPLY)
+                    .setLabel(context.getString(R.string.label_quick_reply))
+                    .build();
 
-            //load the avatar synchronously
-            Bitmap accountAvatar;
-            try {
-                accountAvatar = Picasso.with(context)
-                        .load(body.getAccount().getAvatar())
-                        .transform(new RoundedTransformation(20))
-                        .get();
-            } catch (IOException e) {
-                Log.d(TAG, "error loading account avatar", e);
-                accountAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.avatar_default);
-            }
+            PendingIntent quickReplyPendingIntent = getStatusReplyIntent(REPLY_ACTION, context, body, account);
 
-            builder.setLargeIcon(accountAvatar);
+            NotificationCompat.Action quickReplyAction =
+                    new NotificationCompat.Action.Builder(R.drawable.ic_reply_24dp,
+                            context.getString(R.string.action_quick_reply), quickReplyPendingIntent)
+                            .addRemoteInput(replyRemoteInput)
+                            .build();
 
-        } else {
+            builder.addAction(quickReplyAction);
+
+            PendingIntent composePendingIntent = getStatusReplyIntent(COMPOSE_ACTION, context, body, account);
+
+            NotificationCompat.Action composeAction =
+                    new NotificationCompat.Action.Builder(R.drawable.ic_reply_24dp,
+                            context.getString(R.string.action_compose_shortcut), composePendingIntent)
+                            .build();
+
+            builder.addAction(composeAction);
+        }
+
+        builder.setSubText(account.getFullName());
+        builder.setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
+        builder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
+        builder.setOnlyAlertOnce(true);
+
+        // Summary
+        // =======
+        final NotificationCompat.Builder summaryBuilder = newNotification(context, body, account, true);
+
+        if (currentNotifications.length() != 1) {
             try {
                 String title = context.getString(R.string.notification_title_summary, currentNotifications.length());
                 String text = joinNames(context, currentNotifications);
-                builder.setContentTitle(title)
+                summaryBuilder.setContentTitle(title)
                         .setContentText(text);
             } catch (JSONException e) {
                 Log.d(TAG, Log.getStackTraceString(e));
             }
         }
 
-        builder.setSubText(account.getFullName());
+        summaryBuilder.setSubText(account.getFullName());
+        summaryBuilder.setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
+        summaryBuilder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
+        summaryBuilder.setOnlyAlertOnce(true);
+        summaryBuilder.setGroupSummary(true);
 
-        builder.setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
-        builder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
-
-        builder.setOnlyAlertOnce(true);
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
         //noinspection ConstantConditions
-        notificationManager.notify((int) account.getId(), builder.build());
+        notificationManager.notify(notificationId, builder.build());
+        if (currentNotifications.length() == 1) {
+            notificationManager.notify((int) account.getId(), builder.setGroupSummary(true).build());
+        } else {
+            notificationManager.notify((int) account.getId(), summaryBuilder.build());
+        }
+    }
+
+    private static NotificationCompat.Builder newNotification(Context context, Notification body, AccountEntity account, boolean summary) {
+        Intent summaryResultIntent = new Intent(context, MainActivity.class);
+        summaryResultIntent.putExtra(ACCOUNT_ID, account.getId());
+        TaskStackBuilder summaryStackBuilder = TaskStackBuilder.create(context);
+        summaryStackBuilder.addParentStack(MainActivity.class);
+        summaryStackBuilder.addNextIntent(summaryResultIntent);
+
+        PendingIntent summaryResultPendingIntent = summaryStackBuilder.getPendingIntent(notificationId,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // we have to switch account here
+        Intent eventResultIntent = new Intent(context, MainActivity.class);
+        eventResultIntent.putExtra(ACCOUNT_ID, account.getId());
+        TaskStackBuilder eventStackBuilder = TaskStackBuilder.create(context);
+        eventStackBuilder.addParentStack(MainActivity.class);
+        eventStackBuilder.addNextIntent(eventResultIntent);
+
+        PendingIntent eventResultPendingIntent = eventStackBuilder.getPendingIntent((int) account.getId(),
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent deleteIntent = new Intent(context, NotificationClearBroadcastReceiver.class);
+        deleteIntent.putExtra(ACCOUNT_ID, account.getId());
+        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, summary ? (int) account.getId() : notificationId, deleteIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, getChannelId(account, body))
+                .setSmallIcon(R.drawable.ic_notify)
+                .setContentIntent(summary ? summaryResultPendingIntent : eventResultPendingIntent)
+                .setDeleteIntent(deletePendingIntent)
+                .setColor(BuildConfig.DEBUG ? Color.parseColor("#19A341") : ContextCompat.getColor(context, R.color.primary))
+                .setGroup(account.getAccountId())
+                .setAutoCancel(true)
+                .setDefaults(0); // So it doesn't ring twice, notify only in Target callback
+
+        setupPreferences(account, builder);
+
+        return builder;
+    }
+
+    private static PendingIntent getStatusReplyIntent(String action, Context context, Notification body, AccountEntity account) {
+        Status status = body.getStatus();
+
+        String citedLocalAuthor = status.getAccount().getLocalUsername();
+        String citedText = status.getContent().toString();
+        String inReplyToId = status.getId();
+        Status actionableStatus = status.getActionableStatus();
+        Status.Visibility replyVisibility = actionableStatus.getVisibility();
+        String contentWarning = actionableStatus.getSpoilerText();
+        Status.Mention[] mentions = actionableStatus.getMentions();
+        List<String> mentionedUsernames = new ArrayList<>();
+        mentionedUsernames.add(actionableStatus.getAccount().getUsername());
+        for (Status.Mention mention : mentions) {
+            mentionedUsernames.add(mention.getUsername());
+        }
+        mentionedUsernames.removeAll(Collections.singleton(account.getUsername()));
+        mentionedUsernames = new ArrayList<>(new LinkedHashSet<>(mentionedUsernames));
+
+        Intent replyIntent = new Intent(context, SendStatusBroadcastReceiver.class)
+                .setAction(action)
+                .putExtra(KEY_CITED_AUTHOR_LOCAL, citedLocalAuthor)
+                .putExtra(KEY_CITED_TEXT, citedText)
+                .putExtra(KEY_SENDER_ACCOUNT_ID, account.getId())
+                .putExtra(KEY_SENDER_ACCOUNT_IDENTIFIER, account.getIdentifier())
+                .putExtra(KEY_SENDER_ACCOUNT_FULL_NAME, account.getFullName())
+                .putExtra(KEY_NOTIFICATION_ID, notificationId)
+                .putExtra(KEY_CITED_STATUS_ID, inReplyToId)
+                .putExtra(KEY_VISIBILITY, replyVisibility)
+                .putExtra(KEY_SPOILER, contentWarning)
+                .putExtra(KEY_MENTIONS, mentionedUsernames.toArray(new String[0]));
+
+        return PendingIntent.getBroadcast(context.getApplicationContext(),
+                notificationId,
+                replyIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public static void createNotificationChannelsForAccount(AccountEntity account, Context context) {
@@ -238,17 +372,22 @@ public class NotificationHelper {
         }
     }
 
-    public static void deleteLegacyNotificationChannels(Context context) {
-        // delete the notification channels that where used before the multi account mode was introduced to avoid confusion
+    public static void deleteLegacyNotificationChannels(Context context, AccountManager accountManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
+            // used until Tusky 1.4
             //noinspection ConstantConditions
             notificationManager.deleteNotificationChannel(CHANNEL_MENTION);
             notificationManager.deleteNotificationChannel(CHANNEL_FAVOURITE);
             notificationManager.deleteNotificationChannel(CHANNEL_BOOST);
             notificationManager.deleteNotificationChannel(CHANNEL_FOLLOW);
+
+            // used until Tusky 1.7
+            for(AccountEntity account: accountManager.getAllAccountsOrderedByActive()) {
+                notificationManager.deleteNotificationChannel(CHANNEL_FAVOURITE+" "+account.getIdentifier());
+            }
         }
     }
 
@@ -388,7 +527,6 @@ public class NotificationHelper {
         return null;
     }
 
-    @Nullable
     private static String bodyForType(Notification notification) {
         switch (notification.getType()) {
             case FOLLOW:

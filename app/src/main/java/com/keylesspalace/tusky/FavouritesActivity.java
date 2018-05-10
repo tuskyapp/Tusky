@@ -31,7 +31,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class FavouritesActivity extends BaseActivity implements HasSupportFragmentInjector {
+public class FavouritesActivity extends BottomSheetActivity implements HasSupportFragmentInjector {
 
     @Inject
     public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -71,4 +71,5 @@ public class FavouritesActivity extends BaseActivity implements HasSupportFragme
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }
+
 }

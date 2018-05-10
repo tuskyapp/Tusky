@@ -84,7 +84,6 @@ import com.keylesspalace.tusky.adapter.EmojiAdapter;
 import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener;
 import com.keylesspalace.tusky.db.AccountEntity;
-import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.InstanceEntity;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Account;
@@ -167,8 +166,6 @@ public final class ComposeActivity
 
     @Inject
     public MastodonApi mastodonApi;
-    @Inject
-    public AccountManager accountManager;
 
     private TextView replyTextView;
     private TextView replyContentTextView;
@@ -375,17 +372,14 @@ public final class ComposeActivity
         if (intent != null) {
 
             if (startingVisibility == Status.Visibility.UNKNOWN) {
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                Status.Visibility preferredVisibility = Status.Visibility.byString(
+                        preferences.getString("defaultPostPrivacy",
+                                Status.Visibility.PUBLIC.serverString()));
                 Status.Visibility replyVisibility = Status.Visibility.byNum(
                         intent.getIntExtra(REPLY_VISIBILITY_EXTRA, Status.Visibility.UNKNOWN.getNum()));
 
-                if (replyVisibility != Status.Visibility.UNKNOWN) {
-                    startingVisibility = replyVisibility;
-                } else {
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-                    startingVisibility = Status.Visibility.byString(
-                            preferences.getString("defaultPostPrivacy",
-                                    Status.Visibility.PUBLIC.serverString()));
-                }
+                startingVisibility = Status.Visibility.byNum(Math.max(preferredVisibility.getNum(), replyVisibility.getNum()));
             }
 
             inReplyToId = intent.getStringExtra(IN_REPLY_TO_ID_EXTRA);
@@ -527,7 +521,7 @@ public final class ComposeActivity
         } else if (savedMediaQueued != null) {
             for (SavedQueuedMedia item : savedMediaQueued) {
                 Bitmap preview = MediaUtils.getImageThumbnail(getContentResolver(), item.uri, THUMBNAIL_SIZE);
-                addMediaToQueue(item.type, preview, item.uri, item.mediaSize, item.readyStage, item.description);
+                addMediaToQueue(item.id, item.type, preview, item.uri, item.mediaSize, item.readyStage, item.description);
             }
         } else if (intent != null && savedInstanceState == null) {
             /* Get incoming images being sent through a share action from another app. Only do this
@@ -587,7 +581,7 @@ public final class ComposeActivity
     protected void onSaveInstanceState(Bundle outState) {
         ArrayList<SavedQueuedMedia> savedMediaQueued = new ArrayList<>();
         for (QueuedMedia item : mediaQueued) {
-            savedMediaQueued.add(new SavedQueuedMedia(item.type, item.uri,
+            savedMediaQueued.add(new SavedQueuedMedia(item.id, item.type, item.uri,
                     item.mediaSize, item.readyStage, item.description));
         }
         outState.putParcelableArrayList("savedMediaQueued", savedMediaQueued);
@@ -1011,10 +1005,15 @@ public final class ComposeActivity
                 colorActive ? android.R.attr.textColorTertiary : R.attr.compose_media_button_disabled_tint);
     }
 
-    private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize,
-                                 QueuedMedia.ReadyStage readyStage, @Nullable String description) {
+    private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize) {
+        addMediaToQueue(null, type, preview, uri, mediaSize, null, null);
+    }
+
+    private void addMediaToQueue(@Nullable String id, QueuedMedia.Type type, Bitmap preview, Uri uri,
+                                 long mediaSize, QueuedMedia.ReadyStage readyStage, @Nullable String description) {
         final QueuedMedia item = new QueuedMedia(type, uri, new ProgressImageView(this),
                 mediaSize, description);
+        item.id = id;
         item.readyStage = readyStage;
         ImageView view = item.preview;
         Resources resources = getResources();
@@ -1324,7 +1323,7 @@ public final class ComposeActivity
                     }
                     Bitmap bitmap = MediaUtils.getVideoThumbnail(this, uri, THUMBNAIL_SIZE);
                     if (bitmap != null) {
-                        addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize, null, null);
+                        addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize);
                     } else {
                         displayTransientError(R.string.error_media_upload_opening);
                     }
@@ -1333,7 +1332,7 @@ public final class ComposeActivity
                 case "image": {
                     Bitmap bitmap = MediaUtils.getImageThumbnail(contentResolver, uri, THUMBNAIL_SIZE);
                     if (bitmap != null) {
-                        addMediaToQueue(QueuedMedia.Type.IMAGE, bitmap, uri, mediaSize, null, null);
+                        addMediaToQueue(QueuedMedia.Type.IMAGE, bitmap, uri, mediaSize);
                     } else {
                         displayTransientError(R.string.error_media_upload_opening);
                     }
@@ -1516,13 +1515,15 @@ public final class ComposeActivity
                 return new SavedQueuedMedia[size];
             }
         };
+        String id;
         QueuedMedia.Type type;
         Uri uri;
         long mediaSize;
         QueuedMedia.ReadyStage readyStage;
         String description;
 
-        SavedQueuedMedia(QueuedMedia.Type type, Uri uri, long mediaSize, QueuedMedia.ReadyStage readyStage, String description) {
+        SavedQueuedMedia(String id, QueuedMedia.Type type, Uri uri, long mediaSize, QueuedMedia.ReadyStage readyStage, String description) {
+            this.id = id;
             this.type = type;
             this.uri = uri;
             this.mediaSize = mediaSize;
@@ -1531,6 +1532,7 @@ public final class ComposeActivity
         }
 
         SavedQueuedMedia(Parcel parcel) {
+            id = parcel.readString();
             type = (QueuedMedia.Type) parcel.readSerializable();
             uri = parcel.readParcelable(Uri.class.getClassLoader());
             mediaSize = parcel.readLong();
@@ -1545,6 +1547,7 @@ public final class ComposeActivity
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(id);
             dest.writeSerializable(type);
             dest.writeParcelable(uri, flags);
             dest.writeLong(mediaSize);

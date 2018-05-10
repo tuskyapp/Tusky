@@ -22,5 +22,5 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ServicesModule {
     @ContributesAndroidInjector
-    abstract fun contributeMyService(): SendTootService
+    abstract fun contributesSendTootService(): SendTootService
 }

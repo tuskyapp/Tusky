@@ -30,15 +30,13 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.fragment.ViewThreadFragment;
 import com.keylesspalace.tusky.util.LinkHelper;
 
-import java.net.URL;
-
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public final class ViewThreadActivity extends BaseActivity implements HasSupportFragmentInjector {
+public class ViewThreadActivity extends BottomSheetActivity implements HasSupportFragmentInjector {
 
     public static final int REVEAL_BUTTON_HIDDEN = 1;
     public static final int REVEAL_BUTTON_REVEAL = 2;
@@ -132,4 +130,5 @@ public final class ViewThreadActivity extends BaseActivity implements HasSupport
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }
+
 }
