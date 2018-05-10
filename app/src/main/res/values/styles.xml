@@ -33,8 +33,9 @@
     </style>
 
     <!--Light Application Theme Styles-->
-    <style name="AppTheme" parent="AppThemeBase"/>
-    <style name="AppThemeBase" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="TuskyTheme" parent="TuskyBaseTheme"/>
+    <style name="TuskyDialogActivityTheme" parent="@style/TuskyTheme" />
+    <style name="TuskyBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/color_primary_light</item>
         <item name="colorPrimaryDark">@color/color_primary_dark_light</item>
         <item name="colorAccent">@color/color_accent_light</item>

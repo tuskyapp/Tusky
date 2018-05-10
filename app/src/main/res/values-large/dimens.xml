@@ -1,0 +1,3 @@
+<resources>
+    <dimen name="compose_activity_scrollview_height">400dp</dimen>
+</resources>
