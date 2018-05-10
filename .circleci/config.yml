@@ -32,8 +32,8 @@ jobs:
           name: Build apk
           command: |
             ./gradlew assembleRelease --no-daemon --stacktrace
-            zipalign -v -p 4 app/build/outputs/apk/release/app-release-unsigned.apk app-release-aligned.apk
-            apksigner sign --ks ~/.android/debug.keystore --out app-release.apk --ks-pass pass:android app-release-aligned.apk
+            /opt/android/sdk/build-tools/27.0.3/zipalign -v -p 4 app/build/outputs/apk/release/app-release-unsigned.apk app-release-aligned.apk
+            /opt/android/sdk/build-tools/27.0.3/apksigner sign --ks ~/.android/debug.keystore --out app-release.apk --ks-pass pass:android app-release-aligned.apk
       - store_artifacts:
           path: app-release.apk
           destination: apks/
