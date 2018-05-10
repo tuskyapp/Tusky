@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center"
-    android:clickable="true">
+    android:clickable="true"
+    android:focusable="true">
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/view_media_image"
@@ -24,11 +25,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        tools:text="Some media description"
         android:background="#60000000"
-        android:textColor="#eee"
+        android:lineSpacingMultiplier="1.1"
         android:padding="8dp"
         android:textAlignment="center"
-        />
+        android:textColor="#eee"
+        tools:text="Some media description" />
 
 </RelativeLayout>
