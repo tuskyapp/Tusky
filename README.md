@@ -26,3 +26,6 @@ If you have any bug reports, feature requests or questions please open an issue 
 
 This app was developed by [Vavassor@mastodon.social](https://mastodon.social/users/Vavassor).
 The current maintainer is [ConnyDuck@mastodon.social](https://mastodon.social/users/ConnyDuck).
+
+### Development chatroom
+https://riot.im/app/#/room/#Tusky:matrix.org
