@@ -1,4 +1,4 @@
-Tusky is a client for Mastodon, a free and open-source social network server. Share words, photos, and videos with folks!
+Tusky is a lightweight client for Mastodon, a free and open-source social network server.
 
 • Material Design
 • Most Mastodon APIs implemented
@@ -7,8 +7,4 @@ Tusky is a client for Mastodon, a free and open-source social network server. Sh
 • Drafts – compose toots and save them for later
 • Completely open-source – no non-free dependencies like Google services
 
-Mastodon is decentralized, meaning anyone can run Mastodon and participate in the social network seamlessly.
-
 To learn more about Mastodon, visit https://joinmastodon.org/
-
-Tusky is also itself open-source, it's source code is available at https://github.com/Vavassor/Tusky
