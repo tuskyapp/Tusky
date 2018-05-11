@@ -456,7 +456,7 @@ public final class ComposeActivity
 
         // Setup the main text field.
         textEditor.setOnCommitContentListener(this);
-        final int mentionColour = ThemeUtils.getColor(this, R.attr.compose_mention_color);
+        final int mentionColour = textEditor.getLinkTextColors().getDefaultColor();
         SpanUtilsKt.highlightSpans(textEditor.getText(), mentionColour);
         textEditor.addTextChangedListener(new TextWatcher() {
             @Override
