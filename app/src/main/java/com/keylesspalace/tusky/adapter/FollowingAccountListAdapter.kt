@@ -84,7 +84,7 @@ class FollowingAccountListAdapter(private val authorizeFollowList: MutableList<A
             }
 
             if (oldAuthorizeFollow.anyPendingTransaction != anyPendingTransaction) {
-                authorizeFollowList[position].followState = followState
+                authorizeFollowList[position].anyPendingTransaction = anyPendingTransaction
 
                 changed = true
             }
