@@ -17,8 +17,11 @@
     <string name="error_media_upload_image_or_video">Se pòt pas ajustar imatges e una vidèo dins lo meteis estatut.</string>
     <string name="error_media_upload_sending">Fracàs en mandar.</string>
     <string name="error_report_too_few_statuses">Cal almens denonciar un estatut.</string>
+    <string name="error_invalid_regex">Expression regulara invalida</string>
+    <string name="error_sender_account_gone">Error en enviar lo tut.</string>
 
     <string name="title_home">Acuèlh</string>
+    <string name="title_advanced">Advançat</string>
     <string name="title_notifications">Notificacions</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Federacion</string>
@@ -40,6 +43,7 @@
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s partejat</string>
     <string name="status_sensitive_media_title">Contengut sensible</string>
+    <string name="status_media_hidden_title">Mèdia amagat</string>
     <string name="status_sensitive_media_directions">Clicar per mostrar</string>
     <string name="status_content_warning_show_more">Mostrar mai</string>
     <string name="status_content_warning_show_less">Mostrar mens</string>
@@ -53,13 +57,15 @@
     <string name="report_username_format">Denonciar @%s</string>
     <string name="report_comment_hint">Cap comentari addicional ?</string>
 
+    <string name="action_quick_reply">Responsa rapida</string>
     <string name="action_reply">Respondre</string>
     <string name="action_reblog">Partejar</string>
     <string name="action_favourite">Aimar</string>
     <string name="action_more">Mai</string>
     <string name="action_compose">Redactar</string>
-    <string name="action_login">Inicia sessió amb Mastodon</string>
-    <string name="action_logout">Tanca sessió</string>
+    <string name="action_login">Començar la session amb Mastodon</string>
+    <string name="action_logout">Tampar la session</string>
+    <string name="action_logout_confirm">Volètz vertadièrament vos desconnectar del compte %1$s ?</string>
     <string name="action_follow">Seguir</string>
     <string name="action_unfollow">Quitar de seguir</string>
     <string name="action_block">Blocar</string>
@@ -93,11 +99,14 @@
     <string name="action_reject">Regetar</string>
     <string name="action_search">Cercar</string>
     <string name="action_access_saved_toot">Borrolhons</string>
+    <string name="action_toggle_visibility">Visibilitat del tut</string>
+    <string name="action_content_warning">Avís de contengut</string>
+    <string name="action_emoji_keyboard">Clavièr Emoji</string>
 
     <string name="download_image">Telecargament %1$s</string>
 
     <string name="action_copy_link">Copiar lo ligam</string>
-  
+
     <string name="send_status_link_to">Partejar l\'URL del tt a...</string>
     <string name="send_status_content_to">Partejar vòstre tut a...</string>
 
@@ -105,15 +114,19 @@
     <string name="confirmation_unblocked">Utilizaire desblocat</string>
     <string name="confirmation_unmuted">Utilizaire sortit del silenci</string>
 
+    <string name="confirmation_reported">Enviat !</string>
+    <string name="status_sent_long">Responsa ben enviada.</string>
+
     <string name="hint_domain">Quina instància ?</string>
     <string name="hint_compose">A de qué pensatz ?</string>
     <string name="hint_content_warning">Avis de contengut</string>
     <string name="hint_display_name">Nom visible</string>
     <string name="hint_note">Biografia</string>
-    <string name="hint_search">Cercar...</string>
+    <string name="hint_search">Cercar…</string>
 
     <string name="search_no_results">I a pas cap de resulat</string>
 
+    <string name="label_quick_reply">Responsa…</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Bandièra</string>
 
@@ -143,6 +156,7 @@
     <string name="pref_title_notification_settings">Notificacions</string>
     <string name="pref_title_edit_notification_settings">Modificar las notificacions</string>
     <string name="pref_title_notifications_enabled">Notificacions</string>
+    <string name="pref_summary_notifications">pel compte %1$s</string>
     <string name="pref_title_pull_notification_check_interval">Comprovar l\'interval</string>
     <string name="pref_title_notification_alerts">Alèrtas</string>
     <string name="pref_title_notification_alert_sound">Notificar amb un son</string>
@@ -154,13 +168,22 @@
     <string name="pref_title_notification_filter_reblogs">òm parteja mas publicacions</string>
     <string name="pref_title_notification_filter_favourites">òm me met mos tuts en favorit</string>
     <string name="pref_title_appearance_settings">Aparença</string>
+    <string name="pref_title_app_theme">Tèma de l’app</string>
+    
+    <string-array name="app_theme_names">
+        <item>Escur</item>
+        <item>Luminós</item>
+        <item>Alba automatica</item>
+   </string-array>
+    
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Onglets personalizats de Chrome</string>
     <string name="pref_title_hide_follow_button">Amagar lo boton de redaccion en desplaçament</string>
     <string name="pref_title_status_filter">Filtre de la cronologia</string>
     <string name="pref_title_status_tabs">Onglets</string>
     <string name="pref_title_show_boosts">Mostrar los retuts</string>
-    <string name="pref_title_show_replies">Mostrar las responsas</string>
+    <string name="pref_title_show_replies">Mostrar las responsas</string> 
+    <string name="pref_title_filter_regex">Filtrar amb d’expressions regularas</string>
     <string name="pref_title_show_media_preview">Mostrar los apercebuts</string>
 
     <string-array name="pull_notification_check_interval_names">
