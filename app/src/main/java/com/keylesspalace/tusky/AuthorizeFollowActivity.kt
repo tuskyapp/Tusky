@@ -86,6 +86,7 @@ class AuthorizeFollowActivity : BaseActivity(), Injectable, OnFollowingAccountSe
 
         if (!authorizeFollow.anyPendingTransaction) {
             when (authorizeFollow.followState) {
+                REQUESTED,
                 NOT_FOLLOWING -> mastodonApi.followAccount(authorizeFollow.accountEntity.accessToken,
                         authorizeFollow.accountEntity.domain,
                         authorizeFollow.subjectAccount.id)
@@ -94,7 +95,6 @@ class AuthorizeFollowActivity : BaseActivity(), Injectable, OnFollowingAccountSe
                         authorizeFollow.accountEntity.domain,
                         authorizeFollow.subjectAccount.id)
                         .enqueue(followCb)
-                REQUESTED -> handleFollowRequest(authorizeFollow)
             }
         }
 
@@ -103,10 +103,6 @@ class AuthorizeFollowActivity : BaseActivity(), Injectable, OnFollowingAccountSe
     private fun onNetworkError() {
         Toast.makeText(this, R.string.error_generic, Toast.LENGTH_LONG)
                 .show()
-    }
-
-    private fun handleFollowRequest(authorizeFollow: AuthorizeFollow) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
