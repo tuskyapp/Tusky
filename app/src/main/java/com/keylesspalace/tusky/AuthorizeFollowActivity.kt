@@ -131,7 +131,7 @@ class AuthorizeFollowActivity : BaseActivity(), Injectable, OnFollowingAccountSe
         adapter = FollowingAccountListAdapter(mutableListOf(), this)
         recyclerView.adapter = adapter
 
-        cancelButton.setOnClickListener({ finish() })
+        cancelButton.setOnClickListener { finish() }
 
         for (account in accountManager.getAllAccountsOrderedByActive()) {
             loadAccount(account)

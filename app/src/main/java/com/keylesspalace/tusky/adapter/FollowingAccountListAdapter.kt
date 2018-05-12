@@ -30,9 +30,10 @@ import com.keylesspalace.tusky.entity.AuthorizeFollow
 import com.pkmmte.view.CircularImageView
 import com.squareup.picasso.Picasso
 
-class FollowingAccountListAdapter(private val authorizeFollowList: MutableList<AuthorizeFollow>,
-                                  private val onFollowingAccountSelectedListener: OnFollowingAccountSelectedListener)
-    : RecyclerView.Adapter<FollowingAccountListAdapter.FollowingAccountListViewHolder>() {
+class FollowingAccountListAdapter(
+        private val authorizeFollowList: MutableList<AuthorizeFollow>,
+        private val onFollowingAccountSelectedListener: OnFollowingAccountSelectedListener
+) : RecyclerView.Adapter<FollowingAccountListAdapter.FollowingAccountListViewHolder>() {
 
     enum class FollowState {
         NOT_FOLLOWING,
