@@ -62,7 +62,6 @@ class AuthorizeFollowActivity : BaseActivity(), Injectable, OnFollowingAccountSe
             override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {
                 if (!response.isSuccessful || response.body() == null) {
                     onNetworkError()
-                    authorizeFollow.followState
                     (recyclerView.adapter as FollowingAccountListAdapter).updateAccount(authorizeFollow.accountEntity, authorizeFollow.followState, anyPendingTransaction = false)
 
                     return
