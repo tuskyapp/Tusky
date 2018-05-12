@@ -1482,7 +1482,7 @@ public final class ComposeActivity
     public List<Account> searchAccounts(String mention) {
         ArrayList<Account> resultList = new ArrayList<>();
         try {
-            List<Account> accountList = mastodonApi.searchAccounts(actionAccount.getDomain(), mention, false, 40)
+            List<Account> accountList = mastodonApi.searchAccounts(actionAccount.getAccessToken(), actionAccount.getDomain(), mention, false, 40)
                     .execute()
                     .body();
             if (accountList != null) {

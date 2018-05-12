@@ -145,7 +145,11 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".AuthorizeFollowActivity">
+        <activity android:name=".AuthorizeFollowActivity"
+            android:theme="@style/Theme.DialogActivity"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:label="@string/dialog_follow_authorization">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

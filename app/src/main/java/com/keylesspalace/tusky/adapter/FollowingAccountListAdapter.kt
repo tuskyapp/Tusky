@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.adapter
 
 import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RelativeLayout
@@ -25,10 +26,11 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.FollowingAccountListAdapter.FollowState.*
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.AuthorizeFollow
 import com.pkmmte.view.CircularImageView
 import com.squareup.picasso.Picasso
 
-class FollowingAccountListAdapter(private val accountList: MutableList<Pair<AccountEntity, FollowState>>,
+class FollowingAccountListAdapter(private val authorizeFollowList: MutableList<AuthorizeFollow>,
                                   private val onFollowingAccountSelectedListener: OnFollowingAccountSelectedListener)
     : RecyclerView.Adapter<FollowingAccountListAdapter.FollowingAccountListViewHolder>() {
 
@@ -39,7 +41,7 @@ class FollowingAccountListAdapter(private val accountList: MutableList<Pair<Acco
     }
 
     override fun getItemCount(): Int {
-        return accountList.size
+        return authorizeFollowList.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowingAccountListViewHolder {
@@ -48,38 +50,52 @@ class FollowingAccountListAdapter(private val accountList: MutableList<Pair<Acco
     }
 
     override fun onBindViewHolder(holder: FollowingAccountListViewHolder, position: Int) {
-        val account = accountList[position].first
-        val followState = accountList[position].second
+        val follow = authorizeFollowList[position]
 
-        Picasso.with(holder.layout.context).load(account.profilePictureUrl)
+        Picasso.with(holder.layout.context).load(follow.accountEntity.profilePictureUrl)
                 .error(R.drawable.avatar_default)
                 .placeholder(R.drawable.avatar_default)
                 .into(holder.avatar)
 
-        holder.displayName.text = account.displayName
-        holder.username.text = account.username
+        holder.displayName.text = follow.accountEntity.displayName
+        holder.username.text = follow.accountEntity.username
 
-        holder.followButton.setText(when (followState) {
+        holder.followButton.setText(when (follow.followState) {
             NOT_FOLLOWING -> R.string.action_follow
             FOLLOWING -> R.string.action_unfollow
             REQUESTED -> R.string.state_follow_requested
         })
 
         holder.followButton.setOnClickListener {
-            onFollowingAccountSelectedListener.onFollowingAccountSelected(account, position)
+            onFollowingAccountSelectedListener.onFollowingAccountSelected(follow)
         }
     }
 
-    fun updateAccount(account: AccountEntity, followState: FollowingAccountListAdapter.FollowState) {
-        val position = accountList.indexOfFirst { it.first == account }
-        if (position in 0 until accountList.size) {
-            accountList[position] = account to followState
+    fun updateAccount(accountEntity: AccountEntity, followState: FollowState, account: Account? = null, anyPendingTransaction: Boolean = false) {
+        val position = authorizeFollowList.indexOfFirst { it.accountEntity == accountEntity }
+        if (position >= 0) {
+            var changed = false
+            val oldAuthorizeFollow = authorizeFollowList[position]
 
-            notifyItemChanged(position)
-        } else {
-            accountList.add(account to followState)
+            if (oldAuthorizeFollow.followState != followState) {
+                authorizeFollowList[position].followState = followState
 
-            notifyItemInserted(accountList.size - 1)
+                changed = true
+            }
+
+            if (oldAuthorizeFollow.anyPendingTransaction != anyPendingTransaction) {
+                authorizeFollowList[position].followState = followState
+
+                changed = true
+            }
+
+            if (changed) {
+                notifyItemChanged(position)
+            }
+        } else if (account != null) {
+            authorizeFollowList.add(AuthorizeFollow(accountEntity, account, followState, anyPendingTransaction))
+
+            notifyItemInserted(authorizeFollowList.size - 1)
         }
     }
 
@@ -93,5 +109,5 @@ class FollowingAccountListAdapter(private val accountList: MutableList<Pair<Acco
 }
 
 interface OnFollowingAccountSelectedListener {
-    fun onFollowingAccountSelected(account: AccountEntity, position: Int)
+    fun onFollowingAccountSelected(authorizeFollow: AuthorizeFollow)
 }

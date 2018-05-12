@@ -157,6 +157,7 @@ public interface MastodonApi {
 
     @GET("api/v1/accounts/search")
     Call<List<Account>> searchAccounts(
+            @Nullable @Header(TOKEN_HEADER) String token,
             @Nullable @Header(DOMAIN_HEADER) String domain,
             @Query("q") String q,
             @Query("resolve") Boolean resolve,
@@ -199,7 +200,9 @@ public interface MastodonApi {
                                      @Nullable @Header(DOMAIN_HEADER) String domain,
                                      @Path("id") String accountId);
     @POST("api/v1/accounts/{id}/unfollow")
-    Call<Relationship> unfollowAccount(@Path("id") String accountId);
+    Call<Relationship> unfollowAccount(@Nullable @Header(TOKEN_HEADER) String token,
+                                       @Nullable @Header(DOMAIN_HEADER) String domain,
+                                       @Path("id") String accountId);
     @POST("api/v1/accounts/{id}/block")
     Call<Relationship> blockAccount(@Path("id") String accountId);
     @POST("api/v1/accounts/{id}/unblock")

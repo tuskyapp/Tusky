@@ -123,4 +123,17 @@
         <item name="android:textSize">?attr/status_text_medium</item>
     </style>
 
+
+    <style name="Theme.DialogActivity" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+
+        <item name="android:windowAnimationStyle">@style/DialogAnimations</item>
+    </style>
+
+    <style name="DialogAnimations">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
 </resources>

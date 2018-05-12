@@ -18,14 +18,18 @@ package com.keylesspalace.tusky
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.LocalBroadcastManager
-import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SimpleItemAnimator
+import android.widget.Button
+import android.widget.Toast
 import com.keylesspalace.tusky.adapter.FollowingAccountListAdapter
+import com.keylesspalace.tusky.adapter.FollowingAccountListAdapter.FollowState.*
 import com.keylesspalace.tusky.adapter.OnFollowingAccountSelectedListener
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.AuthorizeFollow
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.network.MastodonApi
 import retrofit2.Call
@@ -39,13 +43,10 @@ class AuthorizeFollowActivity : BaseActivity(), Injectable, OnFollowingAccountSe
     lateinit var mastodonApi : MastodonApi
 
     lateinit var recyclerView: RecyclerView
-    lateinit var cancelButton: AppCompatButton
+    lateinit var cancelButton: Button
     lateinit var adapter: FollowingAccountListAdapter
 
     private var toFollowUsername: String? = null
-
-    private val followingAccounts: MutableList<Pair<AccountEntity, FollowingAccountListAdapter.FollowState>> =
-            emptyList<Pair<AccountEntity, FollowingAccountListAdapter.FollowState>>().toMutableList()
 
     private fun broadcast(action: String, id: String) {
         val intent = Intent(action)
@@ -53,15 +54,64 @@ class AuthorizeFollowActivity : BaseActivity(), Injectable, OnFollowingAccountSe
         LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
     }
 
-    override fun onFollowingAccountSelected(account: AccountEntity, position: Int) {
+    override fun onFollowingAccountSelected(authorizeFollow: AuthorizeFollow) {
+        (recyclerView.adapter as FollowingAccountListAdapter).updateAccount(authorizeFollow.accountEntity, authorizeFollow.followState, anyPendingTransaction = true)
 
+        val followCb = object : Callback<Relationship> {
+            override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {
+                if (!response.isSuccessful || response.body() == null) {
+                    onNetworkError()
+                    authorizeFollow.followState
+                    (recyclerView.adapter as FollowingAccountListAdapter).updateAccount(authorizeFollow.accountEntity, authorizeFollow.followState, anyPendingTransaction = false)
+
+                    return
+                }
+
+                val relationship = response.body()!!
+                val newFollowState = when {
+                    relationship.following -> FOLLOWING
+                    relationship.requested -> REQUESTED
+                    else -> NOT_FOLLOWING
+                }
+
+                (recyclerView.adapter as FollowingAccountListAdapter).updateAccount(authorizeFollow.accountEntity, newFollowState, anyPendingTransaction = false)
+            }
+
+            override fun onFailure(call: Call<Relationship>, t: Throwable) {
+                onNetworkError()
+                (recyclerView.adapter as FollowingAccountListAdapter).updateAccount(authorizeFollow.accountEntity, authorizeFollow.followState, anyPendingTransaction = false)
+            }
+
+        }
+
+        if (!authorizeFollow.anyPendingTransaction) {
+            when (authorizeFollow.followState) {
+                NOT_FOLLOWING -> mastodonApi.followAccount(authorizeFollow.accountEntity.accessToken,
+                        authorizeFollow.accountEntity.domain,
+                        authorizeFollow.subjectAccount.id)
+                        .enqueue(followCb)
+                FOLLOWING -> mastodonApi.unfollowAccount(authorizeFollow.accountEntity.accessToken,
+                        authorizeFollow.accountEntity.domain,
+                        authorizeFollow.subjectAccount.id)
+                        .enqueue(followCb)
+                REQUESTED -> handleFollowRequest(authorizeFollow)
+            }
+        }
+
+    }
+
+    private fun onNetworkError() {
+        Toast.makeText(this, R.string.error_generic, Toast.LENGTH_LONG)
+                .show()
+    }
+
+    private fun handleFollowRequest(authorizeFollow: AuthorizeFollow) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authorize_follow)
-
-
 
         if (intent.hasExtra("username")) {
             toFollowUsername = intent.getStringExtra("username")
@@ -77,8 +127,9 @@ class AuthorizeFollowActivity : BaseActivity(), Injectable, OnFollowingAccountSe
         cancelButton = findViewById(R.id.cancel_button)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
+        (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
-        adapter = FollowingAccountListAdapter(followingAccounts, this)
+        adapter = FollowingAccountListAdapter(mutableListOf(), this)
         recyclerView.adapter = adapter
 
         cancelButton.setOnClickListener({ finish() })
@@ -95,19 +146,21 @@ class AuthorizeFollowActivity : BaseActivity(), Injectable, OnFollowingAccountSe
                 val result = response.body()?.get(0)
                 if (response.isSuccessful && result != null) {
                     queryAccount(account, result)
+                } else {
+                    onNetworkError()
                 }
             }
 
             override fun onFailure(call: Call<List<Account>>, t: Throwable?) {
-
+                onNetworkError()
             }
 
         }
 
-        mastodonApi.searchAccounts(account.domain, toFollowUsername, true, 1).enqueue(cb)
+        mastodonApi.searchAccounts(account.accessToken, account.domain, toFollowUsername, true, 1).enqueue(cb)
     }
 
-    private fun queryAccount(account: AccountEntity, toFollowAcc: Account) {
+    private fun queryAccount(accountEntity: AccountEntity, account: Account) {
 
         val cb = object : Callback<List<Relationship>> {
 
@@ -115,23 +168,23 @@ class AuthorizeFollowActivity : BaseActivity(), Injectable, OnFollowingAccountSe
                 val relationship = response.body()?.get(0)
                 if (response.isSuccessful && relationship != null) {
                     val followState = when {
-                        relationship.following -> FollowingAccountListAdapter.FollowState.FOLLOWING
-                        relationship.requested -> FollowingAccountListAdapter.FollowState.REQUESTED
-                        else -> FollowingAccountListAdapter.FollowState.NOT_FOLLOWING
+                        relationship.following -> FOLLOWING
+                        relationship.requested -> REQUESTED
+                        else -> NOT_FOLLOWING
                     }
 
-                    followingAccounts.add(account to followState)
-                    (recyclerView.adapter as FollowingAccountListAdapter).updateAccount(account, followState)
+                    (recyclerView.adapter as FollowingAccountListAdapter).updateAccount(accountEntity, followState, account = account)
                 } else {
+                    onNetworkError()
                 }
             }
 
             override fun onFailure(call: Call<List<Relationship>>, t: Throwable?) {
-
+                onNetworkError()
             }
         }
 
-        mastodonApi.relationships(account.accessToken, account.domain, listOf(toFollowAcc.id)).enqueue(cb)
+        mastodonApi.relationships(accountEntity.accessToken, accountEntity.domain, listOf(account.id)).enqueue(cb)
     }
 
 }

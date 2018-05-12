@@ -548,7 +548,7 @@ public final class AccountActivity extends BottomSheetActivity implements Action
                 break;
             }
             case FOLLOWING: {
-                mastodonApi.unfollowAccount(id).enqueue(cb);
+                mastodonApi.unfollowAccount(null, null, id).enqueue(cb);
                 break;
             }
         }
