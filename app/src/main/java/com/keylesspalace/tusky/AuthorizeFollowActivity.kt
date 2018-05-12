@@ -32,6 +32,7 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.AuthorizeFollow
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.receiver.TimelineReceiver
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -71,7 +72,10 @@ class AuthorizeFollowActivity : BaseActivity(), Injectable, OnFollowingAccountSe
                 val newFollowState = when {
                     relationship.following -> FOLLOWING
                     relationship.requested -> REQUESTED
-                    else -> NOT_FOLLOWING
+                    else -> {
+                        broadcast(TimelineReceiver.Types.UNFOLLOW_ACCOUNT, authorizeFollow.subjectAccount.id)
+                        NOT_FOLLOWING
+                    }
                 }
 
                 (recyclerView.adapter as FollowingAccountListAdapter).updateAccount(authorizeFollow.accountEntity, newFollowState, anyPendingTransaction = false)
