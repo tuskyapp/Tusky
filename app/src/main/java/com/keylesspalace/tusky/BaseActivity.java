@@ -1,4 +1,5 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2018 Jeremiasz Nelz <remi6397(a)gmail.com>
+ * Copyright 2017 Andrew Dawson
  *
  * This file is a part of Tusky.
  *
@@ -49,6 +50,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     @Inject
     public AccountManager accountManager;
 
+    protected long lastActiveAccount = -1;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +67,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         long accountId = getIntent().getLongExtra("account", -1);
         if (accountId != -1) {
             accountManager.setActiveAccount(accountId);
+        }
+
+        if (accountManager != null) {
+            lastActiveAccount = accountManager.getActiveAccount().getId();
         }
 
         int style;
@@ -86,6 +93,20 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
 
         callList = new ArrayList<>();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // check if account was switched somewhere else
+        if (accountManager != null) {
+            AccountEntity activeAccount = accountManager.getActiveAccount();
+            if (lastActiveAccount != -1
+                    && activeAccount.getId() != lastActiveAccount) {
+                accountManager.setActiveAccount(lastActiveAccount);
+            }
+        }
     }
 
     @Override

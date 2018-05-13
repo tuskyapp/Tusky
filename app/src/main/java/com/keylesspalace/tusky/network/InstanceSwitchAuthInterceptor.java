@@ -49,8 +49,13 @@ public final class InstanceSwitchAuthInterceptor implements Interceptor {
 
             Request.Builder builder = originalRequest.newBuilder();
 
+            String authorizationHeader = originalRequest.header(MastodonApi.TOKEN_HEADER);
             String instanceHeader = originalRequest.header(MastodonApi.DOMAIN_HEADER);
-            if (instanceHeader != null) {
+            if (instanceHeader != null && authorizationHeader != null) {
+                builder.url(swapHost(originalRequest.url(), instanceHeader))
+                        .header("Authorization",
+                                String.format("Bearer %s", authorizationHeader));
+            } else if (instanceHeader != null) {
                 // use domain explicitly specified in custom header
                 builder.url(swapHost(originalRequest.url(), instanceHeader));
                 builder.removeHeader(MastodonApi.DOMAIN_HEADER);

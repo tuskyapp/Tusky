@@ -366,7 +366,7 @@ public final class AccountActivity extends BottomSheetActivity implements Action
     private void obtainRelationships() {
         List<String> ids = new ArrayList<>(1);
         ids.add(accountId);
-        mastodonApi.relationships(ids).enqueue(new Callback<List<Relationship>>() {
+        mastodonApi.relationships(null, null, ids).enqueue(new Callback<List<Relationship>>() {
             @Override
             public void onResponse(@NonNull Call<List<Relationship>> call,
                                    @NonNull Response<List<Relationship>> response) {
@@ -541,11 +541,11 @@ public final class AccountActivity extends BottomSheetActivity implements Action
         Assert.expect(followState != FollowState.REQUESTED);
         switch (followState) {
             case NOT_FOLLOWING: {
-                mastodonApi.followAccount(id).enqueue(cb);
+                mastodonApi.followAccount(null, null, id).enqueue(cb);
                 break;
             }
             case FOLLOWING: {
-                mastodonApi.unfollowAccount(id).enqueue(cb);
+                mastodonApi.unfollowAccount(null, null, id).enqueue(cb);
                 break;
             }
         }

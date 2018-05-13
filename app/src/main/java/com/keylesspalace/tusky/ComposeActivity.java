@@ -1,4 +1,5 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2018 Jeremiasz Nelz <remi6397(a)gmail.com>
+ * Copyright 2017 Andrew Dawson
  *
  * This file is a part of Tusky.
  *
@@ -56,6 +57,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -63,6 +65,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,6 +83,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.keylesspalace.tusky.adapter.AccountListAdapter;
 import com.keylesspalace.tusky.adapter.EmojiAdapter;
 import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener;
@@ -113,7 +117,6 @@ import com.keylesspalace.tusky.view.TootButton;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
-import at.connyduck.sparkbutton.helpers.Utils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -129,9 +132,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
+import at.connyduck.sparkbutton.helpers.Utils;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -163,9 +168,12 @@ public final class ComposeActivity
     private static final String MENTIONED_USERNAMES_EXTRA = "netnioned_usernames";
     private static final String REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra";
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
+    private static final String ACCOUNT_PRESET = "ACCOUNT_PRESET";
 
     @Inject
     public MastodonApi mastodonApi;
+
+    public AccountEntity actionAccount;
 
     private TextView replyTextView;
     private TextView replyContentTextView;
@@ -180,6 +188,8 @@ public final class ComposeActivity
     private Button contentWarningButton;
     private ImageButton emojiButton;
     private ImageButton hideMediaToggle;
+
+    private ImageView composeAvatar;
 
     private ComposeOptionsView composeOptionsView;
     private BottomSheetBehavior composeOptionsBehavior;
@@ -245,54 +255,11 @@ public final class ComposeActivity
         // setup the account image
         final AccountEntity activeAccount = accountManager.getActiveAccount();
 
+        composeAvatar = findViewById(R.id.composeAvatar);
+
         if (activeAccount != null) {
-            ImageView composeAvatar = findViewById(R.id.composeAvatar);
 
-            if (TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
-                composeAvatar.setImageResource(R.drawable.avatar_default);
-            } else {
-                Picasso.with(this).load(activeAccount.getProfilePictureUrl())
-                        .transform(new RoundedTransformation(25))
-                        .error(R.drawable.avatar_default)
-                        .placeholder(R.drawable.avatar_default)
-                        .into(composeAvatar);
-            }
-
-            composeAvatar.setContentDescription(
-                    getString(R.string.compose_active_account_description,
-                            activeAccount.getFullName()));
-
-            mastodonApi.getInstance().enqueue(new Callback<Instance>() {
-                @Override
-                public void onResponse(@NonNull Call<Instance> call, @NonNull Response<Instance> response) {
-                    if (response.isSuccessful() && response.body().getMaxTootChars() != null) {
-                        maximumTootCharacters = response.body().getMaxTootChars();
-                        updateVisibleCharactersLeft();
-                        cacheInstanceMetadata(activeAccount);
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<Instance> call, @NonNull Throwable t) {
-                    Log.w(TAG, "error loading instance data", t);
-                    loadCachedInstanceMetadata(activeAccount);
-                }
-            });
-
-            mastodonApi.getCustomEmojis().enqueue(new Callback<List<Emoji>>() {
-                @Override
-                public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
-                    emojiList = response.body();
-                    setEmojiList(emojiList);
-                    cacheInstanceMetadata(activeAccount);
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<List<Emoji>> call, @NonNull Throwable t) {
-                    Log.w(TAG, "error loading custom emojis", t);
-                    loadCachedInstanceMetadata(activeAccount);
-                }
-            });
+            setActionAccount(activeAccount);
         } else {
             // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
             return;
@@ -370,6 +337,13 @@ public final class ComposeActivity
         ArrayList<String> loadedDraftMediaUris = null;
         inReplyToId = null;
         if (intent != null) {
+
+            if (Objects.equals(intent.getScheme(), "web+mastodon")
+                    && intent.getData() != null
+                    && intent.getData().getQueryParameterNames().contains("text")) {
+                String shareText = intent.getData().getQueryParameter("text");
+                textEditor.setText(shareText);
+            }
 
             if (startingVisibility == Status.Visibility.UNKNOWN) {
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -575,6 +549,89 @@ public final class ComposeActivity
         }
 
         textEditor.requestFocus();
+
+        if (inReplyToId == null) {
+            composeAvatar.setOnClickListener(v -> showAccountSwitchDialog(true));
+
+            if (!intent.hasExtra(ACCOUNT_PRESET)
+                    && !intent.hasExtra(SAVED_TOOT_UID_EXTRA)
+                    && (getCallingActivity() == null || !getCallingActivity().getClassName().equals(MainActivity.class.getName()))) {
+                showAccountSwitchDialog(false);
+            }
+        }
+    }
+
+    private void setActionAccount(AccountEntity activeAccount) {
+        actionAccount = activeAccount;
+
+        if (TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
+            composeAvatar.setImageResource(R.drawable.avatar_default);
+        } else {
+            Picasso.with(this).load(activeAccount.getProfilePictureUrl())
+                    .transform(new RoundedTransformation(25))
+                    .error(R.drawable.avatar_default)
+                    .placeholder(R.drawable.avatar_default)
+                    .into(composeAvatar);
+        }
+
+        composeAvatar.setContentDescription(
+                getString(R.string.compose_active_account_description,
+                        activeAccount.getFullName()));
+
+        mastodonApi.getInstance(activeAccount.getDomain()).enqueue(new Callback<Instance>() {
+            @Override
+            public void onResponse(@NonNull Call<Instance> call, @NonNull Response<Instance> response) {
+                if (response.isSuccessful() && response.body().getMaxTootChars() != null) {
+                    maximumTootCharacters = response.body().getMaxTootChars();
+                    updateVisibleCharactersLeft();
+                    cacheInstanceMetadata(activeAccount);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Instance> call, @NonNull Throwable t) {
+                Log.w(TAG, "error loading instance data", t);
+                loadCachedInstanceMetadata(activeAccount);
+            }
+        });
+
+        mastodonApi.getCustomEmojis(activeAccount.getDomain()).enqueue(new Callback<List<Emoji>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
+                emojiList = response.body();
+                setEmojiList(emojiList);
+                cacheInstanceMetadata(activeAccount);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Emoji>> call, @NonNull Throwable t) {
+                Log.w(TAG, "error loading custom emojis", t);
+                loadCachedInstanceMetadata(activeAccount);
+            }
+        });
+    }
+
+    private void showAccountSwitchDialog(boolean cancelable) {
+        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        RecyclerView recyclerView = (RecyclerView)inflater.inflate(R.layout.account_selection_dialog, null, false);
+
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setView(recyclerView);
+
+        if (!cancelable) {
+            builder.setOnCancelListener(dialogInterface -> finish());
+        }
+
+        AlertDialog dialog = builder.create();
+        AccountListAdapter adapter = new AccountListAdapter(accountManager.getAllAccountsOrderedByActive(), account -> {
+            setActionAccount(account);
+            dialog.dismiss();
+        });
+        recyclerView.setAdapter(adapter);
+        dialog.show();
     }
 
     @Override
@@ -717,7 +774,7 @@ public final class ComposeActivity
 
         if(emojiView.getAdapter() != null) {
             if(emojiView.getAdapter().getItemCount() == 0) {
-                String errorMessage = getString(R.string.error_no_custom_emojis, accountManager.getActiveAccount().getDomain());
+                String errorMessage = getString(R.string.error_no_custom_emojis, actionAccount.getDomain());
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
             } else {
                 if (emojiBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || emojiBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
@@ -854,7 +911,7 @@ public final class ComposeActivity
                 getIntent().getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
                 getIntent().getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA),
                 getIntent().getStringExtra(SAVED_JSON_URLS_EXTRA),
-                accountManager.getActiveAccount(), savedTootUid);
+                actionAccount, savedTootUid);
 
         startService(sendIntent);
 
@@ -1099,7 +1156,7 @@ public final class ComposeActivity
         input.setText(item.description);
 
         DialogInterface.OnClickListener okListener = (dialog, which) -> {
-            mastodonApi.updateMedia(item.id, input.getText().toString())
+            mastodonApi.updateMedia(actionAccount.getDomain(), item.id, input.getText().toString())
                     .enqueue(new Callback<Attachment>() {
                         @Override
                         public void onResponse(@NonNull Call<Attachment> call, @NonNull Response<Attachment> response) {
@@ -1232,7 +1289,7 @@ public final class ComposeActivity
 
         MultipartBody.Part body = MultipartBody.Part.createFormData("file", filename, fileBody);
 
-        item.uploadRequest = mastodonApi.uploadMedia(body);
+        item.uploadRequest = mastodonApi.uploadMedia(actionAccount.getDomain(), body);
 
         item.uploadRequest.enqueue(new Callback<Attachment>() {
             @Override
@@ -1422,7 +1479,7 @@ public final class ComposeActivity
     public List<Account> searchAccounts(String mention) {
         ArrayList<Account> resultList = new ArrayList<>();
         try {
-            List<Account> accountList = mastodonApi.searchAccounts(mention, false, 40)
+            List<Account> accountList = mastodonApi.searchAccounts(actionAccount.getAccessToken(), actionAccount.getDomain(), mention, false, 40)
                     .execute()
                     .body();
             if (accountList != null) {

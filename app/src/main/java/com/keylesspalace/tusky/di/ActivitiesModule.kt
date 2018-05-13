@@ -29,6 +29,9 @@ abstract class ActivitiesModule {
     @ContributesAndroidInjector
     abstract fun contributesBaseActivity(): BaseActivity
 
+    @ContributesAndroidInjector
+    abstract fun contributesAuthorizeFollowActivity(): AuthorizeFollowActivity
+
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributesMainActivity(): MainActivity
 

@@ -54,6 +54,7 @@ public interface MastodonApi {
     String ENDPOINT_AUTHORIZE = "/oauth/authorize";
     String DOMAIN_HEADER = "domain";
     String PLACEHOLDER_DOMAIN = "dummy.placeholder";
+    String TOKEN_HEADER = "auth_token";
 
     @GET("api/v1/timelines/home")
     Call<List<Status>> homeTimeline(
@@ -95,10 +96,12 @@ public interface MastodonApi {
 
     @Multipart
     @POST("api/v1/media")
-    Call<Attachment> uploadMedia(@Part MultipartBody.Part file);
+    Call<Attachment> uploadMedia(@Header(DOMAIN_HEADER) String domain,
+                                 @Part MultipartBody.Part file);
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")
-    Call<Attachment> updateMedia(@Path("mediaId") String mediaId,
+    Call<Attachment> updateMedia(@Header(DOMAIN_HEADER) String domain,
+                                 @Path("mediaId") String mediaId,
                                  @Field("description") String description);
 
     @FormUrlEncoded
@@ -154,6 +157,8 @@ public interface MastodonApi {
 
     @GET("api/v1/accounts/search")
     Call<List<Account>> searchAccounts(
+            @Nullable @Header(TOKEN_HEADER) String token,
+            @Nullable @Header(DOMAIN_HEADER) String domain,
             @Query("q") String q,
             @Query("resolve") Boolean resolve,
             @Query("limit") Integer limit);
@@ -191,9 +196,13 @@ public interface MastodonApi {
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
     @POST("api/v1/accounts/{id}/follow")
-    Call<Relationship> followAccount(@Path("id") String accountId);
+    Call<Relationship> followAccount(@Nullable @Header(TOKEN_HEADER) String token,
+                                     @Nullable @Header(DOMAIN_HEADER) String domain,
+                                     @Path("id") String accountId);
     @POST("api/v1/accounts/{id}/unfollow")
-    Call<Relationship> unfollowAccount(@Path("id") String accountId);
+    Call<Relationship> unfollowAccount(@Nullable @Header(TOKEN_HEADER) String token,
+                                       @Nullable @Header(DOMAIN_HEADER) String domain,
+                                       @Path("id") String accountId);
     @POST("api/v1/accounts/{id}/block")
     Call<Relationship> blockAccount(@Path("id") String accountId);
     @POST("api/v1/accounts/{id}/unblock")
@@ -204,7 +213,9 @@ public interface MastodonApi {
     Call<Relationship> unmuteAccount(@Path("id") String accountId);
 
     @GET("api/v1/accounts/relationships")
-    Call<List<Relationship>> relationships(@Query("id[]") List<String> accountIds);
+    Call<List<Relationship>> relationships(@Nullable @Header(TOKEN_HEADER) String token,
+                                           @Nullable @Header(DOMAIN_HEADER) String domain,
+                                           @Query("id[]") List<String> accountIds);
 
     @GET("api/v1/blocks")
     Call<List<Account>> blocks(
@@ -273,8 +284,8 @@ public interface MastodonApi {
     Call<List<MastoList>> getLists();
 
     @GET("/api/v1/custom_emojis")
-    Call<List<Emoji>> getCustomEmojis();
+    Call<List<Emoji>> getCustomEmojis(@Header(DOMAIN_HEADER) String domain);
 
     @GET("api/v1/instance")
-    Call<Instance> getInstance();
+    Call<Instance> getInstance(@Header(DOMAIN_HEADER) String domain);
 }
