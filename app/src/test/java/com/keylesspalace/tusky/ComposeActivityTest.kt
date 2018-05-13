@@ -20,6 +20,8 @@ import android.text.SpannedString
 import android.widget.EditText
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.InstanceDao
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Instance
@@ -32,6 +34,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -49,8 +52,6 @@ import retrofit2.Response
 class ComposeActivityTest {
 
     lateinit var activity: ComposeActivity
-    lateinit var application: FakeTuskyApplication
-    lateinit var serviceLocator: TuskyApplication.ServiceLocator
     lateinit var accountManagerMock: AccountManager
     lateinit var apiMock: MastodonApi
 
@@ -80,9 +81,6 @@ class ComposeActivityTest {
         activity = controller.get()
 
         accountManagerMock = Mockito.mock(AccountManager::class.java)
-        serviceLocator = Mockito.mock(TuskyApplication.ServiceLocator::class.java)
-        `when`(serviceLocator.get(AccountManager::class.java)).thenReturn(accountManagerMock)
-        `when`(accountManagerMock.activeAccount).thenReturn(account)
 
         apiMock = Mockito.mock(MastodonApi::class.java)
         `when`(apiMock.customEmojis).thenReturn(object: Call<List<Emoji>> {
@@ -132,10 +130,13 @@ class ComposeActivityTest {
             }
         })
 
+        val instanceDaoMock = mock(InstanceDao::class.java)
+        val dbMock = mock(AppDatabase::class.java)
+        `when`(dbMock.instanceDao()).thenReturn(instanceDaoMock)
+
         activity.mastodonApi = apiMock
         activity.accountManager = accountManagerMock
-        application = activity.application as FakeTuskyApplication
-        application.locator = serviceLocator
+        activity.database = dbMock
 
         `when`(accountManagerMock.activeAccount).thenReturn(account)
 

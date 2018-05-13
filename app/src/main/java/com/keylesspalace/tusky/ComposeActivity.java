@@ -169,8 +169,6 @@ public final class ComposeActivity
     @Inject
     public MastodonApi mastodonApi;
     @Inject
-    public AccountManager accountManager;
-    @Inject
     public AppDatabase database;
 
     private TextView replyTextView;
