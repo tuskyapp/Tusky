@@ -41,7 +41,7 @@
         <item name="account_header_background_color">@color/account_header_background_dark</item>
         <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark</item>
         <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_dark</item>
-        <item name="account_toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Dark</item>
+        <item name="toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Dark</item>
         <item name="compose_close_button_tint">@color/toolbar_icon_dark</item>
         <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_dark</item>
         <item name="compose_mention_color">@color/color_accent_dark</item>

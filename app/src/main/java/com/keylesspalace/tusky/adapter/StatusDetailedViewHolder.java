@@ -110,7 +110,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
         content.setOnLongClickListener(longClickListener);
         contentWarningDescription.setOnLongClickListener(longClickListener);
 
-        if(status.getAttachments().length == 0 && status.getCard() != null && !TextUtils.isEmpty(status.getCard().getUrl())) {
+        if(status.getAttachments().size() == 0 && status.getCard() != null && !TextUtils.isEmpty(status.getCard().getUrl())) {
             final Card card = status.getCard();
             cardView.setVisibility(View.VISIBLE);
             cardTitle.setText(card.getTitle());

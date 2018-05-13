@@ -80,7 +80,7 @@
                         app:layout_constraintEnd_toEndOf="@id/follow_btn"
                         app:layout_constraintTop_toBottomOf="@id/follow_btn" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/account_display_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                         app:srcCompat="@drawable/reblog_disabled_light"
                         tools:visibility="visible" />
 
-                    <TextView
+                    <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/account_note"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -179,7 +179,7 @@
                 android:layout_gravity="top"
                 android:background="@android:color/transparent"
                 app:layout_collapseMode="pin"
-                app:popupTheme="?attr/account_toolbar_popup_theme" />
+                app:popupTheme="?attr/toolbar_popup_theme" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -231,5 +231,7 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/action_mention"
         app:srcCompat="@drawable/ic_create_24dp" />
+
+    <include layout="@layout/item_status_bottom_sheet"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -25,6 +25,10 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivitiesModule {
+
+    @ContributesAndroidInjector
+    abstract fun contributesBaseActivity(): BaseActivity
+
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributesMainActivity(): MainActivity
 
@@ -71,6 +75,15 @@ abstract class ActivitiesModule {
     abstract fun contributesReportActivity(): ReportActivity
 
     @ContributesAndroidInjector
-    abstract fun contribtuesSavedTootActivity(): SavedTootActivity
+    abstract fun contributesSavedTootActivity(): SavedTootActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributesSPreferencesActivity(): PreferencesActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributesViewMediaActivity(): ViewMediaActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributesViewVideoActivity(): ViewVideoActivity
 
 }

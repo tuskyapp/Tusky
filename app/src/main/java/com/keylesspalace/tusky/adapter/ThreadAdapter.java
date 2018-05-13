@@ -45,6 +45,7 @@ public class ThreadAdapter extends RecyclerView.Adapter {
         detailedStatusPosition = RecyclerView.NO_POSITION;
     }
 
+    @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {

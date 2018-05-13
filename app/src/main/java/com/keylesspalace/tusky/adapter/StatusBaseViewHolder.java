@@ -11,7 +11,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +30,7 @@ import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
 import com.squareup.picasso.Picasso;
+
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
 
@@ -149,7 +149,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     protected void showContent(boolean show) {
-        if(show) {
+        if (show) {
             container.setVisibility(View.VISIBLE);
             container.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         } else {
@@ -159,7 +159,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setIsReply(boolean isReply) {
-        if(isReply) {
+        if (isReply) {
             replyButton.setImageResource(R.drawable.ic_reply_all_24dp);
         } else {
             replyButton.setImageResource(R.drawable.ic_reply_24dp);
@@ -200,7 +200,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         favouriteButton.setChecked(favourited);
     }
 
-    private void setMediaPreviews(final Attachment[] attachments, boolean sensitive,
+    private void setMediaPreviews(final List<Attachment> attachments, boolean sensitive,
                                   final StatusActionListener listener, boolean showingContent) {
         final ImageView[] previews = {
                 mediaPreview0, mediaPreview1, mediaPreview2, mediaPreview3
@@ -214,18 +214,13 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 ThemeUtils.getDrawableId(itemView.getContext(), R.attr.media_preview_unloaded_drawable,
                         android.R.color.black);
 
-        final int n = Math.min(attachments.length, Status.MAX_MEDIA_ATTACHMENTS);
-
-        final String[] urls = new String[n];
-        for (int i = 0; i < n; i++) {
-            urls[i] = attachments[i].getUrl();
-        }
+        final int n = Math.min(attachments.size(), Status.MAX_MEDIA_ATTACHMENTS);
 
         for (int i = 0; i < n; i++) {
-            String previewUrl = attachments[i].getPreviewUrl();
-            String description = attachments[i].getDescription();
+            String previewUrl = attachments.get(i).getPreviewUrl();
+            String description = attachments.get(i).getDescription();
 
-            if(TextUtils.isEmpty(description)) {
+            if (TextUtils.isEmpty(description)) {
                 previews[i].setContentDescription(context.getString(R.string.action_view_media));
             } else {
                 previews[i].setContentDescription(description);
@@ -244,28 +239,19 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                         .into(previews[i]);
             }
 
-            final Attachment.Type type = attachments[i].getType();
+            final Attachment.Type type = attachments.get(i).getType();
             if (type == Attachment.Type.VIDEO | type == Attachment.Type.GIFV) {
                 overlays[i].setVisibility(View.VISIBLE);
             } else {
                 overlays[i].setVisibility(View.GONE);
             }
 
-            if (urls[i] == null || urls[i].isEmpty()) {
-                previews[i].setOnClickListener(null);
-            } else {
-                final int urlIndex = i;
-                previews[i].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listener.onViewMedia(urls, urlIndex, type, v);
-                    }
-                });
-            }
+            final int urlIndex = i;
+            previews[i].setOnClickListener(v -> listener.onViewMedia(getAdapterPosition(), urlIndex, v));
 
-            if(n <= 2) {
-                previews[0].getLayoutParams().height = getMediaPreviewHeight(context)*2;
-                previews[1].getLayoutParams().height = getMediaPreviewHeight(context)*2;
+            if (n <= 2) {
+                previews[0].getLayoutParams().height = getMediaPreviewHeight(context) * 2;
+                previews[1].getLayoutParams().height = getMediaPreviewHeight(context) * 2;
             } else {
                 previews[0].getLayoutParams().height = getMediaPreviewHeight(context);
                 previews[1].getLayoutParams().height = getMediaPreviewHeight(context);
@@ -275,7 +261,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
 
         String hiddenContentText;
-        if(sensitive) {
+        if (sensitive) {
             hiddenContentText = context.getString(R.string.status_sensitive_media_template,
                     context.getString(R.string.status_sensitive_media_title),
                     context.getString(R.string.status_sensitive_media_directions));
@@ -290,25 +276,19 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         sensitiveMediaWarning.setVisibility(showingContent ? View.GONE : View.VISIBLE);
         sensitiveMediaShow.setVisibility(showingContent ? View.VISIBLE : View.GONE);
-        sensitiveMediaShow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
-                    listener.onContentHiddenChange(false, getAdapterPosition());
-                }
-                v.setVisibility(View.GONE);
-                sensitiveMediaWarning.setVisibility(View.VISIBLE);
+        sensitiveMediaShow.setOnClickListener(v -> {
+            if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                listener.onContentHiddenChange(false, getAdapterPosition());
             }
+            v.setVisibility(View.GONE);
+            sensitiveMediaWarning.setVisibility(View.VISIBLE);
         });
-        sensitiveMediaWarning.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
-                    listener.onContentHiddenChange(true, getAdapterPosition());
-                }
-                v.setVisibility(View.GONE);
-                sensitiveMediaShow.setVisibility(View.VISIBLE);
+        sensitiveMediaWarning.setOnClickListener(v -> {
+            if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                listener.onContentHiddenChange(true, getAdapterPosition());
             }
+            v.setVisibility(View.GONE);
+            sensitiveMediaShow.setVisibility(View.VISIBLE);
         });
 
 
@@ -342,9 +322,9 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void setMediaLabel(Attachment[] attachments, boolean sensitive,
+    private void setMediaLabel(List<Attachment> attachments, boolean sensitive,
                                final StatusActionListener listener) {
-        if (attachments.length == 0) {
+        if (attachments.size() == 0) {
             mediaLabel.setVisibility(View.GONE);
             return;
         }
@@ -352,7 +332,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         // Set the label's text.
         Context context = itemView.getContext();
-        String labelText = getLabelTypeText(context, attachments[0].getType());
+        String labelText = getLabelTypeText(context, attachments.get(0).getType());
         if (sensitive) {
             String sensitiveText = context.getString(R.string.status_sensitive_media_title);
             labelText += String.format(" (%s)", sensitiveText);
@@ -360,24 +340,12 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         mediaLabel.setText(labelText);
 
         // Set the icon next to the label.
-        int drawableId = getLabelIcon(attachments[0].getType());
+        int drawableId = getLabelIcon(attachments.get(0).getType());
         Drawable drawable = AppCompatResources.getDrawable(context, drawableId);
         ThemeUtils.setDrawableTint(context, drawable, android.R.attr.textColorTertiary);
         mediaLabel.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 
-        // Set the listener for the media view action.
-        int n = Math.min(attachments.length, Status.MAX_MEDIA_ATTACHMENTS);
-        final String[] urls = new String[n];
-        for (int i = 0; i < n; i++) {
-            urls[i] = attachments[i].getUrl();
-        }
-        final Attachment.Type type = attachments[0].getType();
-        mediaLabel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onViewMedia(urls, 0, type, null);
-            }
-        });
+        mediaLabel.setOnClickListener(v -> listener.onViewMedia(getAdapterPosition(), 0, null));
     }
 
     private void hideSensitiveMediaWarning() {
@@ -484,13 +452,10 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
          * if it contains URLSpans without also setting its listener. The surrounding spans will
          * just eat the clicks instead of deferring to the parent listener, but WILL respond to a
          * listener directly on the TextView, for whatever reason. */
-        View.OnClickListener viewThreadListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    listener.onViewThread(position);
-                }
+        View.OnClickListener viewThreadListener = v -> {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onViewThread(position);
             }
         };
         content.setOnClickListener(viewThreadListener);
@@ -507,12 +472,12 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         setAvatar(status.getAvatar(), status.getRebloggedAvatar());
         setReblogged(status.isReblogged());
         setFavourited(status.isFavourited());
-        Attachment[] attachments = status.getAttachments();
+        List<Attachment> attachments = status.getAttachments();
         boolean sensitive = status.isSensitive();
         if (mediaPreviewEnabled) {
             setMediaPreviews(attachments, sensitive, listener, status.isShowingContent());
 
-            if (attachments.length == 0) {
+            if (attachments.size() == 0) {
                 hideSensitiveMediaWarning();
 //                videoIndicator.setVisibility(View.GONE);
             }

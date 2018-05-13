@@ -7,13 +7,19 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.network.MastodonApi;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -50,6 +56,7 @@ public class AboutActivity extends BaseActivity implements Injectable {
 
         appAccountButton = findViewById(R.id.tusky_profile_button);
         appAccountButton.setOnClickListener(v -> onAccountButtonClick());
+        setupAboutEmoji();
     }
 
     private void onAccountButtonClick() {
@@ -108,5 +115,40 @@ public class AboutActivity extends BaseActivity implements Injectable {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setupAboutEmoji() {
+        // Inflate the TextView containing the Apache 2.0 license text.
+        TextView apacheView = findViewById(R.id.license_apache);
+        BufferedReader reader = null;
+        try {
+            InputStream apacheLicense = getAssets().open("LICENSE_APACHE");
+            StringBuilder builder = new StringBuilder();
+            reader = new BufferedReader(
+                    new InputStreamReader(apacheLicense, "UTF-8"));
+            String line;
+            while((line = reader.readLine()) != null) {
+                builder.append(line);
+                builder.append('\n');
+            }
+            reader.close();
+            apacheView.setText(builder);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Set up the button action
+        ImageButton expand = findViewById(R.id.about_blobmoji_expand);
+        expand.setOnClickListener(v ->
+        {
+            if(apacheView.getVisibility() == View.GONE) {
+                apacheView.setVisibility(View.VISIBLE);
+                ((ImageButton) v).setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
+            }
+            else {
+                apacheView.setVisibility(View.GONE);
+                ((ImageButton) v).setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
+            }
+        });
     }
 }

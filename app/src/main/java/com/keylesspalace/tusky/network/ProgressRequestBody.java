@@ -49,7 +49,7 @@ public final class ProgressRequestBody extends RequestBody {
     }
 
     @Override
-    public long contentLength() throws IOException {
+    public long contentLength() {
         return content.length;
     }
 

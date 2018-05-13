@@ -21,7 +21,9 @@ import android.app.Service;
 import android.arch.persistence.room.Room;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.text.emoji.EmojiCompat;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.evernote.android.job.JobManager;
@@ -29,6 +31,7 @@ import com.jakewharton.picasso.OkHttp3Downloader;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.di.AppInjector;
+import com.keylesspalace.tusky.util.EmojiCompatFont;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -86,11 +89,29 @@ public class TuskyApplication extends Application implements HasActivityInjector
 
         initAppInjector();
         initPicasso();
+        initEmojiCompat();
 
         JobManager.create(this).addJobCreator(notificationPullJobCreator);
 
-        //necessary for Android < APi 21
+        //necessary for Android < API 21
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
+    /**
+     * This method will load the EmojiCompat font which has been selected.
+     * If this font does not work or if the user hasn't selected one (yet), it will use a
+     * fallback solution instead which won't make any visible difference to using no EmojiCompat at all.
+     */
+    private void initEmojiCompat() {
+        int emojiSelection = PreferenceManager
+                .getDefaultSharedPreferences(getApplicationContext())
+                .getInt(EmojiPreference.FONT_PREFERENCE, 0);
+        EmojiCompatFont font = EmojiCompatFont.byId(emojiSelection);
+        // FileEmojiCompat will handle any non-existing font and provide a fallback solution.
+        EmojiCompat.Config config = font.getConfig(getApplicationContext())
+                // The user probably wants to get a consistent experience
+                .setReplaceAll(true);
+        EmojiCompat.init(config);
     }
 
     protected void initAppInjector() {

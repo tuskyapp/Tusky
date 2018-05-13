@@ -23,13 +23,14 @@ import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Status;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by charlag on 11/07/2017.
- *
+ * <p>
  * Class to represent data required to display either a notification or a placeholder.
  * It is either a {@link StatusViewData.Concrete} or a {@link StatusViewData.Placeholder}.
  */
@@ -47,7 +48,7 @@ public abstract class StatusViewData {
         @Nullable
         private final String spoilerText;
         private final Status.Visibility visibility;
-        private final Attachment[] attachments;
+        private final List<Attachment> attachments;
         @Nullable
         private final String rebloggedByUsername;
         @Nullable
@@ -74,7 +75,7 @@ public abstract class StatusViewData {
         private final Card card;
 
         public Concrete(String id, Spanned content, boolean reblogged, boolean favourited,
-                        @Nullable String spoilerText, Status.Visibility visibility, Attachment[] attachments,
+                        @Nullable String spoilerText, Status.Visibility visibility, List<Attachment> attachments,
                         @Nullable String rebloggedByUsername, @Nullable String rebloggedAvatar, boolean sensitive, boolean isExpanded,
                         boolean isShowingContent, String userFullName, String nickname, String avatar,
                         Date createdAt, int reblogsCount, int favouritesCount, @Nullable String inReplyToId,
@@ -132,7 +133,7 @@ public abstract class StatusViewData {
             return visibility;
         }
 
-        public Attachment[] getAttachments() {
+        public List<Attachment> getAttachments() {
             return attachments;
         }
 
@@ -234,7 +235,7 @@ public abstract class StatusViewData {
         private boolean favourited;
         private String spoilerText;
         private Status.Visibility visibility;
-        private Attachment[] attachments;
+        private List<Attachment> attachments;
         private String rebloggedByUsername;
         private String rebloggedAvatar;
         private boolean isSensitive;
@@ -264,7 +265,7 @@ public abstract class StatusViewData {
             favourited = viewData.favourited;
             spoilerText = viewData.spoilerText;
             visibility = viewData.visibility;
-            attachments = viewData.attachments == null ? null : viewData.attachments.clone();
+            attachments = viewData.attachments == null ? null : new ArrayList<>(viewData.attachments);
             rebloggedByUsername = viewData.rebloggedByUsername;
             rebloggedAvatar = viewData.rebloggedAvatar;
             isSensitive = viewData.isSensitive;
@@ -315,7 +316,7 @@ public abstract class StatusViewData {
             return this;
         }
 
-        public Builder setAttachments(Attachment[] attachments) {
+        public Builder setAttachments(List<Attachment> attachments) {
             this.attachments = attachments;
             return this;
         }

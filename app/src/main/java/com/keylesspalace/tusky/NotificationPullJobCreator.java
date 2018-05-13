@@ -131,7 +131,7 @@ public final class NotificationPullJobCreator implements JobCreator {
         }
 
         private boolean isBiggerThan(BigInteger newId, BigInteger lastShownNotificationId) {
-            return lastShownNotificationId.compareTo(newId) == -1;
+            return lastShownNotificationId.compareTo(newId) < 0;
         }
     }
 }

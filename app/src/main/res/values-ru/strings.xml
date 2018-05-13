@@ -18,6 +18,7 @@
     <string name="error_media_upload_sending">Загрузка не удалась.</string>
     <string name="error_report_too_few_statuses">Должен быть выбран хотя бы один статус.</string>
     <string name="error_invalid_regex">Неправильное регулярное выражение</string>
+    <string name="error_sender_account_gone">Ошибка при отправке поста.</string>
 
     <string name="title_home">Дом</string>
     <string name="title_advanced">Дополнительно</string>
@@ -56,6 +57,7 @@
     <string name="report_username_format">Пожаловаться на @%s</string>
     <string name="report_comment_hint">Дополнительные комментарии?</string>
 
+    <string name="action_quick_reply">Быстрый ответ</string>
     <string name="action_reply">Ответить</string>
     <string name="action_reblog">Продвинуть</string>
     <string name="action_favourite">Нравится</string>
@@ -112,6 +114,9 @@
     <string name="confirmation_unblocked">Пользователь разблокирован</string>
     <string name="confirmation_unmuted">Глушение снято</string>
 
+    <string name="status_sent">Отправлено!</string>
+    <string name="status_sent_long">Ответ успешно отправлен.</string>
+    
     <string name="hint_domain">Какой узел?</string>
     <string name="hint_compose">Что происходит?</string>
     <string name="hint_content_warning">Предупреждение о содержании</string>
@@ -121,6 +126,7 @@
 
     <string name="search_no_results">Нет результатов</string>
 
+    <string name="label_quick_reply">Ответ…</string>
     <string name="label_avatar">Аватар</string>
     <string name="label_header">Заголовок</string>
 
@@ -282,11 +288,15 @@
     <string name="lock_account_label">Закрыть аккаунт</string>
     <string name="lock_account_label_description">Вам придётся вручную подтверждать подписчиков</string>
     <string name="compose_save_draft">Сохранить черновик?</string>
-    <string name="send_toot_notification_title">Отправка поста...</string>
+    <string name="send_toot_notification_title">Отправка поста…</string>
     <string name="send_toot_notification_error_title">Ошибка при отправке поста</string>
     <string name="send_toot_notification_channel_name">Отправка постов</string>
     <string name="send_toot_notification_cancel_title">Отправка отменена</string>
     <string name="send_toot_notification_saved_content">Копия поста сохранена в ваши черновики</string>
     <string name="expand_collapse_all_statuses">Раскрыть/свернуть все статусы</string>
+    <string name="action_compose_shortcut">Написать</string>
 
+    <string name="error_no_custom_emojis">У вашего узла %s нет сторонних эмодзи</string>
+    <string name="copy_to_clipboard_success">Скопировано в буфер обмена</string>
+    <string name="performing_lookup_title">Производится поиск...</string>  
 </resources>

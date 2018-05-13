@@ -18,6 +18,7 @@
     <string name="error_media_upload_sending">The upload failed.</string>
     <string name="error_report_too_few_statuses">At least one status must be reported.</string>
     <string name="error_invalid_regex">Invalid regular expression</string>
+    <string name="error_sender_account_gone">Error sending toot.</string>
 
     <string name="title_home">Home</string>
     <string name="title_advanced">Advanced</string>
@@ -56,6 +57,7 @@
     <string name="report_username_format">Report @%s</string>
     <string name="report_comment_hint">Additional comments?</string>
 
+    <string name="action_quick_reply">Quick Reply</string>
     <string name="action_reply">Reply</string>
     <string name="action_reblog">Boost</string>
     <string name="action_favourite">Favourite</string>
@@ -112,6 +114,9 @@
     <string name="confirmation_unblocked">User unblocked</string>
     <string name="confirmation_unmuted">User unmuted</string>
 
+    <string name="status_sent">Sent!</string>
+    <string name="status_sent_long">Reply sent successfully.</string>
+
     <string name="hint_domain">Which instance?</string>
     <string name="hint_compose">What\'s happening?</string>
     <string name="hint_content_warning">Content warning</string>
@@ -121,6 +126,7 @@
 
     <string name="search_no_results">No results</string>
 
+    <string name="label_quick_reply">Reply…</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Header</string>
 
@@ -295,15 +301,36 @@
     <string name="lock_account_label">Lock account</string>
     <string name="lock_account_label_description">Requires you to manually approve followers</string>
     <string name="compose_save_draft">Save draft?</string>
-    <string name="send_toot_notification_title">Sending Toot...</string>
+    <string name="send_toot_notification_title">Sending Toot…</string>
     <string name="send_toot_notification_error_title">Error sending toot</string>
     <string name="send_toot_notification_channel_name">Sending Toots</string>
     <string name="send_toot_notification_cancel_title">Sending cancelled</string>
     <string name="send_toot_notification_saved_content">A copy of the toot has been saved to your drafts</string>
+    <string name="action_compose_shortcut">Compose</string>
 
     <string name="error_no_custom_emojis">Your instance %s does not have any custom emojis</string>
     <string name="copy_to_clipboard_success">Copied to clipboard</string>
+    <string name="emoji_style">Emoji style</string>
+    <string name="system_default">System default</string>
+    <string name="download_fonts">You\'ll need to download these emoji sets first</string>
     <string name="performing_lookup_title">Performing lookup...</string>
     <string name="expand_collapse_all_statuses">Expand/Collapse all statuses</string>
+    <string name="action_open_toot">Open toot</string>
+    <string name="restart_required">App restart required</string>
+    <string name="restart_emoji">You\'ll need to restart Tusky in order to apply these changes</string>
+    <string name="later">Later</string>
+    <string name="restart">Restart</string>
+    <string name="caption_systememoji">Your device\'s default emoji set</string>
+    <string name="caption_blobmoji">An emoji set based on the Blob emojis known from Android 4.4–7.1</string>
+    <string name="caption_twemoji">Mastodon\'s standard emoji set</string>
+    <string name="about_emoji">
+        Tusky uses the following emoji sets:\n
+        Twemoji by Twitter - https://github.com/twitter/Twemoji\n
+        Blobmoji by C1710, based on Noto-Emoji - https://github.com/c1710/Blobmoji\n
+        Twemoji has been modified in order to use it with the EmojiCompat library
+    </string>
+    <string name="license_blobmoji">Blobmoji is licensed under the Apache license 2.0</string>
+    <string name="license_twemoji">Twemoji is licensed as CC-BY 4.0 - https://creativecommons.org/licenses/by/4.0/</string>
+    <string name="download_failed">Download failed</string>
 
 </resources>

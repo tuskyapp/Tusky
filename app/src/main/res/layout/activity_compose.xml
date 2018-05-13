@@ -48,7 +48,7 @@
                 tools:text="Reply to @username"
                 tools:visibility="visible" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/composeReplyContentView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <EditText
+                <android.support.text.emoji.widget.EmojiEditText
                     android:id="@+id/composeContentWarningField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

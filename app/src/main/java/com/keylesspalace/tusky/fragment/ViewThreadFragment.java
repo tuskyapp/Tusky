@@ -31,6 +31,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -314,9 +315,9 @@ public final class ViewThreadFragment extends SFragment implements
     }
 
     @Override
-    public void onViewMedia(String[] urls, int urlIndex, Attachment.Type type,
-                            View view) {
-        super.viewMedia(urls, urlIndex, type, view);
+    public void onViewMedia(int position, int attachmentIndex, View view) {
+        Status status = statuses.get(position);
+        super.viewMedia(attachmentIndex, status, view);
     }
 
     @Override
@@ -648,8 +649,7 @@ public final class ViewThreadFragment extends SFragment implements
         boolean hasAnyWarnings = false;
         // Statuses are updated from the main thread so nothing should change while iterating
         for (int i = 0; i < statuses.size(); i++) {
-            if (statuses.get(i).getSpoilerText() != null
-                    && !statuses.get(i).getSpoilerText().isEmpty()) {
+            if (!TextUtils.isEmpty(statuses.get(i).getSpoilerText())) {
                 hasAnyWarnings = true;
                 break;
             }
