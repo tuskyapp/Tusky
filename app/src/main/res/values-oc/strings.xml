@@ -175,7 +175,7 @@
         <item>Luminós</item>
         <item>Alba automatica</item>
    </string-array>
-    
+
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Onglets personalizats de Chrome</string>
     <string name="pref_title_hide_follow_button">Amagar lo boton de redaccion en desplaçament</string>
@@ -185,6 +185,12 @@
     <string name="pref_title_show_replies">Mostrar las responsas</string> 
     <string name="pref_title_filter_regex">Filtrar amb d’expressions regularas</string>
     <string name="pref_title_show_media_preview">Mostrar los apercebuts</string>
+
+    <string name="pref_title_proxy_settings">Proxy</string>
+    <string name="pref_title_http_proxy_settings">Proxy HTTP</string>
+    <string name="pref_title_http_proxy_enable">Activar lo proxy HTTP</string>
+    <string name="pref_title_http_proxy_server">Servidor proxy HTTP</string>
+    <string name="pref_title_http_proxy_port">Pòrt del servidor proxy HTTP</string>
 
     <string-array name="pull_notification_check_interval_names">
         <item>15 minutas</item>
@@ -212,7 +218,7 @@
         <item>Mejana</item>
         <item>Granda</item>
     </string-array>
-    
+
     <string name="notification_channel_mention_name">Mencions nòvas</string>
     <string name="notification_channel_mention_descriptions">Notificacions de mencions noves</string>
     <string name="notification_channel_follow_name">Seguidors nòus</string>
@@ -236,7 +242,12 @@
     <string name="about_tusky_license">Tusky es programa gratuït, liure e de còdi dobèrt.
         Es publicat jols tèrms de la licéncia publica generala GNU version 3.
         Podeu trobar les llicència aquí: https://www.gnu.org/licenses/gpl-3.0.ca.html</string>
-    <!-- note to translators: the url can be changed to link to the localized version of the license -->
+        <!-- note to translators:
+         * you should think of “free” as in “free speech,” not as in “free beer”.
+           We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
+           to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
+         * the url can be changed to link to the localized version of the license.
+    -->
     <string name="about_project_site">
         Site web del projècte :\n
         https://tuskyapp.github.io
@@ -273,5 +284,54 @@
     <string name="title_media">Mèdia</string>
     <string name="replying_to">En responsa a @%s</string>
     <string name="load_more_placeholder_text">cargar mai</string>
+
+
+    <string name="add_account_name">Apondre un compte</string>
+    <string name="add_account_description">Apondre un nòu compte Mastodon</string>
+
+    <string name="action_lists">Listas</string>
+    <string name="title_lists">Listas</string>
+    <string name="title_list_timeline">Flux de la lista</string>
+
+    <string name="compose_active_account_description">Publicar amb lo compte %1$s</string>
+
+    <string name="error_failed_set_caption">Fracàs en apondre una legenda</string>
+    <string name="hint_describe_for_visually_impaired">Descripcion pels mal vesents</string>
+    <string name="action_set_caption">Apondre una legenda</string>
+    <string name="action_remove_media">Levar</string>
+    <string name="lock_account_label">Clavar lo compte</string>
+    <string name="lock_account_label_description">Demanda que validetz manualament los seguidors</string>
+    <string name="compose_save_draft">Salvar lo borrolhon ?</string>
+    <string name="send_toot_notification_title">Mandadís del tut…</string>
+    <string name="send_toot_notification_error_title">Error en enviar lo tut</string>
+    <string name="send_toot_notification_channel_name">Mandadís dels tuts</string>
+    <string name="send_toot_notification_cancel_title">Mandadís anullat</string>
+    <string name="send_toot_notification_saved_content">Una còpia del tut es estat salvat dins los borrolhons</string>
+    <string name="action_compose_shortcut">Escriure</string>
+
+    <string name="error_no_custom_emojis">L’instància %s es pas compatibla amb los emoji personalizats</string>
+    <string name="copy_to_clipboard_success">Copiat al quichapapièr</string>
+    <string name="emoji_style">Estil dels Emoji</string>
+    <string name="system_default">Çò del sistèma</string>
+    <string name="download_fonts">D’en primièr vos cal telecargar los emojis seguents</string>
+    <string name="performing_lookup_title">Recèrca...</string>
+    <string name="expand_collapse_all_statuses">Desplegar/Plegar totes los estatuts</string>
+    <string name="action_open_toot">Dobrir lo tut</string>
+    <string name="restart_required">Reaviada necessària</string>
+    <string name="restart_emoji">Vos caldrà reaviar Tusky per aplicar aquestes cambiaments</string>
+    <string name="later">Mai tard</string>
+    <string name="restart">Reaviar</string>
+    <string name="caption_systememoji">Los emoji per defaut de vòstre aparelh</string>
+    <string name="caption_blobmoji">Emoji basats en Blob emojis coneguts d\'Android 4.4–7.1</string>
+    <string name="caption_twemoji">Emoji estandards de Mastodon</string>
+    <string name="about_emoji">
+        Tusky utiliza los emojis seguents :\n
+        Twemoji de Twitter - https://github.com/twitter/Twemoji\n
+        Blobmoji de C1710, basat sus on Noto-Emoji - https://github.com/c1710/Blobmoji\n
+        Twemoji es estat modificat per èsser utilizat amb la bibliotèca EmojiCompat
+    </string>
+    <string name="license_blobmoji">Blobmoji es jos licéncia dels tèrmes d’Apache license 2.0</string>
+    <string name="license_twemoji">Twemoji es jos licéncia CC-BY 4.0 - https://creativecommons.org/licenses/by/4.0/</string>
+    <string name="download_failed">Fracàs del telecargament</string>
 
 </resources>
