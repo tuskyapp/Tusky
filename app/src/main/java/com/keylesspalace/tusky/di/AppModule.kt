@@ -22,8 +22,8 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import android.support.v4.content.LocalBroadcastManager
 import com.keylesspalace.tusky.TuskyApplication
-import com.keylesspalace.tusky.appstore.AppStore
-import com.keylesspalace.tusky.appstore.AppStoreImpl
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.EventHubImpl
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
@@ -58,8 +58,8 @@ class AppModule {
 
     @Provides
     fun providesTimelineUseCases(api: MastodonApi,
-                                 appStore: AppStore): TimelineCases {
-        return TimelineCasesImpl(api, appStore)
+                                 eventHub: EventHub): TimelineCases {
+        return TimelineCasesImpl(api, eventHub)
     }
 
     @Provides
@@ -70,7 +70,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesAppStore(): AppStore = AppStoreImpl
+    fun providesEventHub(): EventHub = EventHubImpl
 
     @Provides
     @Singleton

@@ -47,7 +47,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.keylesspalace.tusky.appstore.AppStore;
+import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.BlockEvent;
 import com.keylesspalace.tusky.appstore.MuteEvent;
 import com.keylesspalace.tusky.appstore.UnfollowEvent;
@@ -90,7 +90,7 @@ public final class AccountActivity extends BottomSheetActivity implements Action
     @Inject
     public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
     @Inject
-    public AppStore appstore;
+    public EventHub appstore;
 
     private String accountId;
     private FollowState followState;

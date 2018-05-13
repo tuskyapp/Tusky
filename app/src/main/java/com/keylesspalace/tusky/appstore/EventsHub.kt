@@ -6,12 +6,12 @@ import io.reactivex.subjects.PublishSubject
 interface Event
 interface Dispatchable : Event
 
-interface AppStore {
+interface EventHub {
     val events: Observable<Event>
     fun dispatch(event: Dispatchable)
 }
 
-object AppStoreImpl : AppStore {
+object EventHubImpl : EventHub {
 
     private val eventsSubject = PublishSubject.create<Event>()
     override val events: Observable<Event> = eventsSubject

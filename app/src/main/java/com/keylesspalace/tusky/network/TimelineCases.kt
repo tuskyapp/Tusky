@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.network
 
-import com.keylesspalace.tusky.appstore.AppStore
+import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.MuteEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
@@ -40,7 +40,7 @@ interface TimelineCases {
 
 class TimelineCasesImpl(
         private val mastodonApi: MastodonApi,
-        private val appStore: AppStore
+        private val eventHub: EventHub
 ) : TimelineCases {
     override fun reblogWithCallback(status: Status, reblog: Boolean, callback: Callback<Status>) {
         val id = status.actionableId
@@ -71,7 +71,7 @@ class TimelineCasesImpl(
 
             override fun onFailure(call: Call<Relationship>, t: Throwable) {}
         })
-        appStore.dispatch(MuteEvent(id))
+        eventHub.dispatch(MuteEvent(id))
     }
 
     override fun block(id: String) {
@@ -81,7 +81,7 @@ class TimelineCasesImpl(
 
             override fun onFailure(call: Call<Relationship>, t: Throwable) {}
         })
-        appStore.dispatch(BlockEvent(id))
+        eventHub.dispatch(BlockEvent(id))
 
     }
 
@@ -92,7 +92,7 @@ class TimelineCasesImpl(
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
         })
-        appStore.dispatch(StatusDeletedEvent(id))
+        eventHub.dispatch(StatusDeletedEvent(id))
     }
 
 }

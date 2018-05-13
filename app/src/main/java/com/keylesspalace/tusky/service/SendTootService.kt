@@ -13,7 +13,7 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.app.ServiceCompat
 import android.support.v4.content.ContextCompat
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.appstore.AppStore
+import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
@@ -40,7 +40,7 @@ class SendTootService : Service(), Injectable {
     @Inject
     lateinit var accountManager: AccountManager
     @Inject
-    lateinit var appStore: AppStore
+    lateinit var eventHub: EventHub
     @Inject
     lateinit var database: AppDatabase
 
@@ -154,7 +154,7 @@ class SendTootService : Service(), Injectable {
                         saveTootHelper.deleteDraft(tootToSend.savedTootUid)
                     }
 
-                    response.body()?.let(::StatusComposedEvent)?.let(appStore::dispatch)
+                    response.body()?.let(::StatusComposedEvent)?.let(eventHub::dispatch)
 
                     notificationManager.cancel(tootId)
 

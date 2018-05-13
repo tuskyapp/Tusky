@@ -26,7 +26,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.util.ObjectsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -42,7 +41,7 @@ import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
-import com.keylesspalace.tusky.appstore.AppStore;
+import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.BlockEvent;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
 import com.keylesspalace.tusky.appstore.MuteEvent;
@@ -51,7 +50,6 @@ import com.keylesspalace.tusky.appstore.StatusComposedEvent;
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent;
 import com.keylesspalace.tusky.appstore.UnfollowEvent;
 import com.keylesspalace.tusky.di.Injectable;
-import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
@@ -114,7 +112,7 @@ public class TimelineFragment extends SFragment implements
     @Inject
     public TimelineCases timelineCases;
     @Inject
-    public AppStore appStore;
+    public EventHub eventHub;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private TimelineAdapter adapter;
@@ -273,7 +271,7 @@ public class TimelineFragment extends SFragment implements
     public void onPostCreate() {
         super.onPostCreate();
 
-        appStore.getEvents()
+        eventHub.getEvents()
                 .observeOn(AndroidSchedulers.mainThread())
                 .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(event -> {

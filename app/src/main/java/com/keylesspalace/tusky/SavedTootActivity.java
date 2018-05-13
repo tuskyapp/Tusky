@@ -31,7 +31,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.keylesspalace.tusky.adapter.SavedTootAdapter;
-import com.keylesspalace.tusky.appstore.AppStore;
+import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.StatusComposedEvent;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.db.TootDao;
@@ -65,7 +65,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
     private AsyncTask<?, ?, ?> asyncTask;
 
     @Inject
-    AppStore appStore;
+    EventHub eventHub;
     @Inject
     AppDatabase database;
 
@@ -75,7 +75,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
 
         saveTootHelper = new SaveTootHelper(database.tootDao(), this);
 
-        appStore.getEvents()
+        eventHub.getEvents()
                 .observeOn(AndroidSchedulers.mainThread())
                 .ofType(StatusComposedEvent.class)
                 .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
