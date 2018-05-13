@@ -114,7 +114,6 @@
     <string name="confirmation_unblocked">Utilizaire desblocat</string>
     <string name="confirmation_unmuted">Utilizaire sortit del silenci</string>
 
-    <string name="confirmation_reported">Enviat !</string>
     <string name="status_sent_long">Responsa ben enviada.</string>
 
     <string name="hint_domain">Quina instància ?</string>
