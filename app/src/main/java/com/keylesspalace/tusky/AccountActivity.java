@@ -15,26 +15,27 @@
 
 package com.keylesspalace.tusky;
 
+import android.animation.ArgbEvaluator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.AttrRes;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.Px;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.text.emoji.EmojiCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -57,7 +58,7 @@ import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.Assert;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
-import com.pkmmte.view.CircularImageView;
+import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -77,6 +78,7 @@ import retrofit2.Response;
 public final class AccountActivity extends BottomSheetActivity implements ActionButtonActivity,
         HasSupportFragmentInjector {
     private static final String TAG = "AccountActivity"; // logging tag
+    private static ArgbEvaluator argbEvaluator = new ArgbEvaluator();
 
     private enum FollowState {
         NOT_FOLLOWING,
@@ -94,8 +96,9 @@ public final class AccountActivity extends BottomSheetActivity implements Action
     private boolean isSelf;
     private Account loadedAccount;
 
-    private CircularImageView avatar;
+    private ImageView avatar;
     private ImageView header;
+    private View profileInfoContainer;
     private FloatingActionButton floatingBtn;
     private Button followBtn;
     private TextView followsYouView;
@@ -106,16 +109,29 @@ public final class AccountActivity extends BottomSheetActivity implements Action
     private TextView followingTextView;
     private TextView statusesTextView;
 
+    // fields for scroll animation
     private boolean hideFab;
     private int oldOffset;
+    private @ColorInt int toolbarColor;
+    private @ColorInt int backgroundColor;
+    private @ColorInt int statusBarColor;
+    private @Px int avatarSize;
+    private @Px int titleVisibleHeight;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+
         setContentView(R.layout.activity_account);
 
         avatar = findViewById(R.id.account_avatar);
         header = findViewById(R.id.account_header);
+        profileInfoContainer = findViewById(R.id.account_header_info);
         floatingBtn = findViewById(R.id.floating_btn);
         followBtn = findViewById(R.id.follow_btn);
         followsYouView = findViewById(R.id.account_follows_you);
@@ -151,10 +167,15 @@ public final class AccountActivity extends BottomSheetActivity implements Action
         }
 
         hideFab = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("fabHide", false);
+        toolbarColor = ThemeUtils.getColor(this, R.attr.toolbar_background_color);
+        backgroundColor = ThemeUtils.getColor(this, android.R.attr.colorBackground);
+        statusBarColor = ThemeUtils.getColor(this, R.attr.colorPrimaryDark);
+        avatarSize = getResources().getDimensionPixelSize(R.dimen.account_activity_avatar_size);
+        titleVisibleHeight = getResources().getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height);
 
         // Add a listener to change the toolbar icon color when it enters/exits its collapsed state.
         AppBarLayout appBarLayout = findViewById(R.id.account_app_bar_layout);
-        final CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsing_toolbar);
+
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @AttrRes
             int priorAttribute = R.attr.account_toolbar_icon_tint_uncollapsed;
@@ -162,8 +183,10 @@ public final class AccountActivity extends BottomSheetActivity implements Action
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 @AttrRes int attribute;
-                if (collapsingToolbar.getHeight() + verticalOffset
-                        < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
+
+                Log.d(TAG, "titleVisibleHeight");
+
+                if (titleVisibleHeight + verticalOffset < 0) {
 
                     toolbar.setTitleTextColor(ThemeUtils.getColor(AccountActivity.this,
                             android.R.attr.textColorPrimary));
@@ -193,6 +216,26 @@ public final class AccountActivity extends BottomSheetActivity implements Action
                     }
                 }
                 oldOffset = verticalOffset;
+
+                float scaledAvatarSize = (avatarSize + verticalOffset) / (float)avatarSize;
+
+                avatar.setScaleX(scaledAvatarSize);
+                avatar.setScaleY(scaledAvatarSize);
+
+                avatar.setVisibility(scaledAvatarSize <= 0 ? View.GONE : View.VISIBLE);
+
+                float transparencyPercent = Math.abs(verticalOffset) / (float) titleVisibleHeight;
+                if(transparencyPercent> 1) transparencyPercent = 1;
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getWindow().setStatusBarColor((int) new ArgbEvaluator().evaluate(transparencyPercent, Color.TRANSPARENT, statusBarColor));
+                }
+
+                int evaluatedToolbarColor = (int) argbEvaluator.evaluate(transparencyPercent, Color.TRANSPARENT, toolbarColor);
+                int evaluatedTabBarColor = (int) argbEvaluator.evaluate(transparencyPercent, backgroundColor, toolbarColor);
+                toolbar.setBackgroundColor(evaluatedToolbarColor);
+                profileInfoContainer.setBackgroundColor(evaluatedTabBarColor);
+                tabLayout.setBackgroundColor(evaluatedTabBarColor);
             }
         });
 
@@ -303,7 +346,8 @@ public final class AccountActivity extends BottomSheetActivity implements Action
         displayName.setText(account.getName());
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(EmojiCompat.get().process(account.getName()));
+            //EmojiCompat.get().process(
+            getSupportActionBar().setTitle(account.getName());
 
             String subtitle = String.format(getString(R.string.status_username_format),
                     account.getUsername());
@@ -339,6 +383,7 @@ public final class AccountActivity extends BottomSheetActivity implements Action
 
         Picasso.with(this)
                 .load(account.getAvatar())
+                .transform(new RoundedTransformation(25))
                 .placeholder(R.drawable.avatar_default)
                 .into(avatar);
         Picasso.with(this)
@@ -351,9 +396,9 @@ public final class AccountActivity extends BottomSheetActivity implements Action
         String followersCount = numberFormat.format(account.getFollowersCount());
         String followingCount = numberFormat.format(account.getFollowingCount());
         String statusesCount = numberFormat.format(account.getStatusesCount());
-        followersTextView.setText(getString(R.string.title_x_followers, followersCount));
-        followingTextView.setText(getString(R.string.title_x_following, followingCount));
-        statusesTextView.setText(getString(R.string.title_x_statuses, statusesCount));
+        followersTextView.setText(followersCount);
+        followingTextView.setText(followingCount);
+        statusesTextView.setText(statusesCount);
 
     }
 
