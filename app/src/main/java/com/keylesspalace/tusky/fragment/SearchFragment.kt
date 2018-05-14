@@ -29,7 +29,6 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.adapter.SearchResultsAdapter
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.SearchResults
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.StatusActionListener
@@ -58,7 +57,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
         alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false)
         mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true)
 
@@ -106,13 +105,17 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
     }
 
     private fun displayNoResults() {
-        searchProgressBar.visibility = View.GONE
-        searchNoResultsText.visibility = View.VISIBLE
+        if(isAdded) {
+            searchProgressBar.visibility = View.GONE
+            searchNoResultsText.visibility = View.VISIBLE
+        }
     }
 
     private fun hideFeedback() {
-        searchProgressBar.visibility = View.GONE
-        searchNoResultsText.visibility = View.GONE
+        if(isAdded) {
+            searchProgressBar.visibility = View.GONE
+            searchNoResultsText.visibility = View.GONE
+        }
     }
 
     override fun timelineCases(): TimelineCases {
