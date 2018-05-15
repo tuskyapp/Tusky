@@ -122,7 +122,8 @@ public final class AccountActivity extends BottomSheetActivity implements Action
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
@@ -172,6 +173,9 @@ public final class AccountActivity extends BottomSheetActivity implements Action
         statusBarColor = ThemeUtils.getColor(this, R.attr.colorPrimaryDark);
         avatarSize = getResources().getDimensionPixelSize(R.dimen.account_activity_avatar_size);
         titleVisibleHeight = getResources().getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height);
+
+        ThemeUtils.setDrawableTint(this, toolbar.getNavigationIcon(), R.attr.account_toolbar_icon_tint_uncollapsed);
+        ThemeUtils.setDrawableTint(this, toolbar.getOverflowIcon(), R.attr.account_toolbar_icon_tint_uncollapsed);
 
         // Add a listener to change the toolbar icon color when it enters/exits its collapsed state.
         AppBarLayout appBarLayout = findViewById(R.id.account_app_bar_layout);
