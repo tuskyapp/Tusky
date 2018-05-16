@@ -1,7 +1,8 @@
 <resources>
     <!--Dark Application Theme Styles-->
-    <style name="AppTheme" parent="AppThemeBase"/>
-    <style name="AppThemeBase" parent="Theme.AppCompat.NoActionBar">
+    <style name="TuskyTheme" parent="TuskyBaseTheme"/>
+    <style name="TuskyDialogActivityTheme" parent="@style/TuskyTheme" />
+    <style name="TuskyBaseTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/color_primary_dark</item>
         <item name="colorPrimaryDark">@color/color_primary_dark_dark</item>
         <item name="colorAccent">@color/color_accent_dark</item>
