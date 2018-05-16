@@ -20,4 +20,8 @@
 
     <dimen name="compose_activity_snackbar_elevation">16dp</dimen>
 
+    <dimen name="compose_activity_scrollview_height">-1px</dimen> <!-- match_parent -->
+
+    <dimen name="timeline_width">-1px</dimen> <!-- match_parent -->
+
 </resources>
