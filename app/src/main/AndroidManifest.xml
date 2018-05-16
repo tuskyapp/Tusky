@@ -15,7 +15,7 @@
         android:label="@string/app_name"
         android:name=".TuskyApplication"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/TuskyTheme">
 
         <activity
             android:name=".SplashActivity"
@@ -49,6 +49,7 @@
         </activity>
         <activity
             android:name=".ComposeActivity"
+            android:theme="@style/TuskyDialogActivityTheme"
             android:windowSoftInputMode="stateVisible|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -68,14 +69,14 @@
         </activity>
         <activity
             android:name=".ViewVideoActivity"
-            android:theme="@style/AppThemeBase"
+            android:theme="@style/TuskyBaseTheme"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".ViewThreadActivity"
             android:configChanges="orientation|screenSize" />
         <activity android:name=".ViewTagActivity" />
         <activity android:name=".ViewMediaActivity"
-            android:theme="@style/AppThemeBase" />
+            android:theme="@style/TuskyBaseTheme" />
         <activity android:name=".AccountActivity" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".PreferencesActivity" />
