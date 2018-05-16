@@ -2,18 +2,18 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_account"
+    android:id="@+id/accountCoordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/account_app_bar_layout"
+        android:id="@+id/accountAppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
+            android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:contentScrim="?attr/toolbar_background_color"
@@ -22,7 +22,7 @@
             app:titleEnabled="false">
 
             <ImageView
-                android:id="@+id/account_header"
+                android:id="@+id/accountHeaderImageView"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:layout_alignTop="@+id/account_header_info"
@@ -34,13 +34,13 @@
                 tools:background="#000" />
 
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/account_header_info"
+                android:id="@+id/accountHeaderInfoContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="180dp">
 
                 <Button
-                    android:id="@+id/follow_btn"
+                    android:id="@+id/accountFollowButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -51,18 +51,18 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/account_follows_you"
+                    android:id="@+id/accountFollowsYouTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:text="@string/follows_you"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="?attr/status_text_medium"
-                    app:layout_constraintEnd_toEndOf="@id/follow_btn"
-                    app:layout_constraintTop_toBottomOf="@id/follow_btn" />
+                    app:layout_constraintEnd_toEndOf="@id/accountFollowButton"
+                    app:layout_constraintTop_toBottomOf="@id/accountFollowButton" />
 
                 <android.support.text.emoji.widget.EmojiTextView
-                    android:id="@+id/account_display_name"
+                    android:id="@+id/accountDisplayNameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -77,7 +77,7 @@
                     tools:text="Tusky Mastodon Client" />
 
                 <TextView
-                    android:id="@+id/account_username"
+                    android:id="@+id/accountUsernameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -87,24 +87,24 @@
                     android:textColor="?android:textColorSecondary"
                     android:textSize="?attr/status_text_medium"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/account_display_name"
+                    app:layout_constraintTop_toBottomOf="@id/accountDisplayNameTextView"
                     tools:text="\@Tusky" />
 
                 <ImageView
-                    android:id="@+id/account_locked"
+                    android:id="@+id/accountLockedImageView"
                     android:layout_width="16sp"
                     android:layout_height="16sp"
                     android:layout_marginStart="4dp"
                     android:contentDescription="@string/description_account_locked"
                     android:tint="?android:textColorSecondary"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@id/account_username"
-                    app:layout_constraintLeft_toRightOf="@id/account_username"
+                    app:layout_constraintBottom_toBottomOf="@id/accountUsernameTextView"
+                    app:layout_constraintLeft_toRightOf="@id/accountUsernameTextView"
                     app:srcCompat="@drawable/reblog_disabled_light"
                     tools:visibility="visible" />
 
                 <android.support.text.emoji.widget.EmojiTextView
-                    android:id="@+id/account_note"
+                    android:id="@+id/accountNoteTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/account_username"
@@ -114,24 +114,24 @@
                     android:paddingTop="10dp"
                     android:textColor="?android:textColorTertiary"
                     android:textSize="?attr/status_text_medium"
-                    app:layout_constraintTop_toBottomOf="@id/account_username"
+                    app:layout_constraintTop_toBottomOf="@id/accountUsernameTextView"
                     tools:text="This is a test description. Descriptions can be quite looooong." />
 
                 <TextView
-                    android:id="@+id/followers_tv"
+                    android:id="@+id/accountFollowersTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:fontFamily="sans-serif-medium"
                     android:textColor="@color/account_tab_font_color"
                     android:textSize="?attr/status_text_medium"
-                    app:layout_constraintBottom_toTopOf="@+id/followers_tv_h"
-                    app:layout_constraintEnd_toEndOf="@+id/followers_tv_h"
-                    app:layout_constraintStart_toStartOf="@+id/followers_tv_h"
+                    app:layout_constraintBottom_toTopOf="@+id/accountFollowersDescription"
+                    app:layout_constraintEnd_toEndOf="@+id/accountFollowersDescription"
+                    app:layout_constraintStart_toStartOf="@+id/accountFollowersDescription"
                     tools:text="1234" />
 
                 <TextView
-                    android:id="@+id/followers_tv_h"
+                    android:id="@+id/accountFollowersDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="6dp"
@@ -139,25 +139,25 @@
                     android:textColor="@color/account_tab_font_color"
                     android:textSize="?attr/status_text_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/following_tv_h"
+                    app:layout_constraintEnd_toStartOf="@id/accountFollowingDescription"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/account_note" />
+                    app:layout_constraintTop_toBottomOf="@id/accountNoteTextView" />
 
                 <TextView
-                    android:id="@+id/following_tv"
+                    android:id="@+id/accountFollowingTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:textColor="@color/account_tab_font_color"
                     android:textSize="?attr/status_text_medium"
-                    app:layout_constraintBottom_toTopOf="@+id/following_tv_h"
-                    app:layout_constraintEnd_toEndOf="@+id/following_tv_h"
-                    app:layout_constraintStart_toStartOf="@+id/following_tv_h"
+                    app:layout_constraintBottom_toTopOf="@+id/accountFollowingDescription"
+                    app:layout_constraintEnd_toEndOf="@+id/accountFollowingDescription"
+                    app:layout_constraintStart_toStartOf="@+id/accountFollowingDescription"
                     tools:text="500" />
 
                 <TextView
-                    android:id="@+id/following_tv_h"
+                    android:id="@+id/accountFollowingDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="6dp"
@@ -165,25 +165,25 @@
                     android:textColor="@color/account_tab_font_color"
                     android:textSize="?attr/status_text_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/statuses_btn_h"
+                    app:layout_constraintEnd_toStartOf="@id/accountStatusesDescription"
                     app:layout_constraintHorizontal_chainStyle="spread"
-                    app:layout_constraintStart_toEndOf="@id/followers_tv_h"
-                    app:layout_constraintTop_toBottomOf="@id/account_note" />
+                    app:layout_constraintStart_toEndOf="@id/accountFollowersDescription"
+                    app:layout_constraintTop_toBottomOf="@id/accountNoteTextView" />
 
                 <TextView
-                    android:id="@+id/statuses_btn"
+                    android:id="@+id/accountStatusesTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:textColor="@color/account_tab_font_color"
                     android:textSize="?attr/status_text_medium"
-                    app:layout_constraintBottom_toTopOf="@+id/statuses_btn_h"
-                    app:layout_constraintEnd_toEndOf="@+id/statuses_btn_h"
-                    app:layout_constraintStart_toStartOf="@+id/statuses_btn_h"
+                    app:layout_constraintBottom_toTopOf="@+id/accountStatusesDescription"
+                    app:layout_constraintEnd_toEndOf="@+id/accountStatusesDescription"
+                    app:layout_constraintStart_toStartOf="@+id/accountStatusesDescription"
                     tools:text="3000" />
 
                 <TextView
-                    android:id="@+id/statuses_btn_h"
+                    android:id="@+id/accountStatusesDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="6dp"
@@ -193,13 +193,13 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_chainStyle="spread"
-                    app:layout_constraintStart_toEndOf="@id/following_tv_h"
-                    app:layout_constraintTop_toBottomOf="@id/account_note" />
+                    app:layout_constraintStart_toEndOf="@id/accountFollowingDescription"
+                    app:layout_constraintTop_toBottomOf="@id/accountNoteTextView" />
             </android.support.constraint.ConstraintLayout>
 
             <!-- TODO check if there is a better way to get the statusbar height than just using 24dp -->
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/accountToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="top"
@@ -211,7 +211,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
 
         <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout"
+            android:id="@+id/accountTabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?android:colorBackground"
@@ -236,7 +236,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
+        android:id="@+id/accountFragmentViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
@@ -247,11 +247,11 @@
         android:layout_height="2dp"
         android:background="@drawable/material_drawer_shadow_bottom"
         android:visibility="visible"
-        app:layout_anchor="@id/tab_layout"
+        app:layout_anchor="@id/accountTabLayout"
         app:layout_anchorGravity="bottom" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floating_btn"
+        android:id="@+id/accountFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -262,14 +262,14 @@
     <include layout="@layout/item_status_bottom_sheet" />
 
     <ImageView
-        android:id="@+id/account_avatar"
+        android:id="@+id/accountAvatarImageView"
         android:layout_width="@dimen/account_activity_avatar_size"
         android:layout_height="@dimen/account_activity_avatar_size"
         android:layout_marginStart="16dp"
         android:background="@drawable/avatar_background"
         android:padding="3dp"
         android:src="@drawable/avatar_default"
-        app:layout_anchor="@+id/account_header_info"
+        app:layout_anchor="@+id/accountHeaderInfoContainer"
         app:layout_anchorGravity="top"
         app:layout_scrollFlags="scroll" />
 
