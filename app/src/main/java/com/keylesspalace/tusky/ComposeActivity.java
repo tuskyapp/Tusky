@@ -62,6 +62,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -101,7 +102,7 @@ import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.MediaUtils;
 import com.keylesspalace.tusky.util.MentionTokenizer;
 import com.keylesspalace.tusky.util.SaveTootHelper;
-import com.keylesspalace.tusky.util.SpanUtils;
+import com.keylesspalace.tusky.util.SpanUtilsKt;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.ComposeOptionsListener;
@@ -163,6 +164,8 @@ public final class ComposeActivity
     private static final String MENTIONED_USERNAMES_EXTRA = "netnioned_usernames";
     private static final String REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra";
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
+    // Mastodon only counts URLs as this long in terms of status character limits
+    static final int MAXIMUM_URL_LENGTH = 23;
 
     @Inject
     public MastodonApi mastodonApi;
@@ -453,12 +456,11 @@ public final class ComposeActivity
 
         // Setup the main text field.
         textEditor.setOnCommitContentListener(this);
-        final int mentionColour = ThemeUtils.getColor(this, R.attr.compose_mention_color);
-        SpanUtils.highlightSpans(textEditor.getText(), mentionColour);
+        final int mentionColour = textEditor.getLinkTextColors().getDefaultColor();
+        SpanUtilsKt.highlightSpans(textEditor.getText(), mentionColour);
         textEditor.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                updateVisibleCharactersLeft();
             }
 
             @Override
@@ -467,7 +469,8 @@ public final class ComposeActivity
 
             @Override
             public void afterTextChanged(Editable editable) {
-                SpanUtils.highlightSpans(editable, mentionColour);
+                SpanUtilsKt.highlightSpans(editable, mentionColour);
+                updateVisibleCharactersLeft();
             }
         });
 
@@ -765,12 +768,23 @@ public final class ComposeActivity
         setStatusVisibility(visibility);
     }
 
-    private void updateVisibleCharactersLeft() {
-        int charactersLeft = maximumTootCharacters - textEditor.length();
-        if (statusHideText) {
-            charactersLeft -= contentWarningEditor.length();
+    int calculateRemainingCharacters() {
+        int offset = 0;
+        URLSpan[] urlSpans = textEditor.getUrls();
+        if (urlSpans != null) {
+            for (URLSpan span : urlSpans) {
+                offset += Math.max(0, span.getURL().length() - MAXIMUM_URL_LENGTH);
+            }
         }
-        this.charactersLeft.setText(String.format(Locale.getDefault(), "%d", charactersLeft));
+        int remaining = maximumTootCharacters - textEditor.length() + offset;
+        if (statusHideText) {
+            remaining -= contentWarningEditor.length();
+        }
+        return remaining;
+    }
+
+    private void updateVisibleCharactersLeft() {
+        this.charactersLeft.setText(String.format(Locale.getDefault(), "%d", calculateRemainingCharacters()));
     }
 
     private void onContentWarningChanged() {
