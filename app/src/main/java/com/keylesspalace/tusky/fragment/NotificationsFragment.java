@@ -29,6 +29,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +38,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
@@ -68,6 +71,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -118,8 +122,11 @@ public class NotificationsFragment extends SFragment implements
     EventHub eventHub;
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private TextView nothingMessageView;
+
+    private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private NotificationsAdapter adapter;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
@@ -167,11 +174,14 @@ public class NotificationsFragment extends SFragment implements
         @NonNull Context context = inflater.getContext(); // from inflater to silence warning
         // Setup the SwipeRefreshLayout.
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
+        progressBar = rootView.findViewById(R.id.progress_bar);
+        nothingMessageView = rootView.findViewById(R.id.nothing_message);
+
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.primary);
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
         // Setup the RecyclerView.
-        recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -199,6 +209,7 @@ public class NotificationsFragment extends SFragment implements
         topId = null;
 
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        setupNothingView();
 
         return rootView;
     }
@@ -218,6 +229,16 @@ public class NotificationsFragment extends SFragment implements
                         removeAllByAccountId(((BlockEvent) event).getAccountId());
                     }
                 });
+    }
+
+    private void setupNothingView() {
+        Drawable top = AppCompatResources.getDrawable(Objects.requireNonNull(getContext()),
+                R.drawable.elephant_friend);
+        if (top != null) {
+            top.setBounds(0, 0, top.getIntrinsicWidth() / 2, top.getIntrinsicHeight() / 2);
+        }
+        nothingMessageView.setCompoundDrawables(null, top, null, null);
+        nothingMessageView.setVisibility(View.GONE);
     }
 
     private void handleFavEvent(FavoriteEvent event) {
@@ -637,6 +658,7 @@ public class NotificationsFragment extends SFragment implements
             adapter.setFooterState(FooterViewHolder.State.END);
         }
         swipeRefreshLayout.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void onFetchNotificationsFailure(Exception exception, FetchEnd fetchEnd, int position) {
@@ -649,6 +671,7 @@ public class NotificationsFragment extends SFragment implements
         }
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
         fulfillAnyQueuedFetches(fetchEnd);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void saveNewestNotificationId(List<Notification> notifications) {

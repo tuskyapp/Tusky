@@ -28,6 +28,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.content.res.AppCompatResources;
+import android.support.v7.recyclerview.extensions.AsyncDifferConfig;
+import android.support.v7.recyclerview.extensions.AsyncListDiffer;
+import android.support.v7.util.DiffUtil;
+import android.support.v7.util.ListUpdateCallback;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,13 +41,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
-import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
-import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.BlockEvent;
+import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
 import com.keylesspalace.tusky.appstore.MuteEvent;
 import com.keylesspalace.tusky.appstore.ReblogEvent;
@@ -65,16 +70,16 @@ import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -115,10 +120,13 @@ public class TimelineFragment extends SFragment implements
     public EventHub eventHub;
 
     private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private TextView nothingMessageView;
+
     private TimelineAdapter adapter;
     private Kind kind;
     private String hashtagOrId;
-    private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
@@ -135,6 +143,7 @@ public class TimelineFragment extends SFragment implements
     private String bottomId;
     @Nullable
     private String topId;
+    private long maxPlaceholderId = -1;
 
     private boolean alwaysShowSensitiveMedia;
 
@@ -151,7 +160,8 @@ public class TimelineFragment extends SFragment implements
                     if (status != null) {
                         return ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia);
                     } else {
-                        return new StatusViewData.Placeholder(false);
+                        Placeholder placeholder = input.getAsLeft();
+                        return new StatusViewData.Placeholder(placeholder.id, false);
                     }
                 }
             });
@@ -174,13 +184,14 @@ public class TimelineFragment extends SFragment implements
     }
 
     private static final class Placeholder {
-        private final static Placeholder INSTANCE = new Placeholder();
+        final long id;
 
-        public static Placeholder getInstance() {
-            return INSTANCE;
+        public static Placeholder getInstance(long id) {
+            return new Placeholder(id);
         }
 
-        private Placeholder() {
+        private Placeholder(long id) {
+            this.id = id;
         }
     }
 
@@ -189,7 +200,7 @@ public class TimelineFragment extends SFragment implements
                              Bundle savedInstanceState) {
         Bundle arguments = Objects.requireNonNull(getArguments());
         kind = Kind.valueOf(arguments.getString(KIND_ARG));
-            if (kind == Kind.TAG || kind == Kind.USER || kind == Kind.LIST) {
+        if (kind == Kind.TAG || kind == Kind.USER || kind == Kind.LIST) {
             hashtagOrId = arguments.getString(HASHTAG_OR_ID_ARG);
         }
 
@@ -197,20 +208,28 @@ public class TimelineFragment extends SFragment implements
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        progressBar = rootView.findViewById(R.id.progress_bar);
+        nothingMessageView = rootView.findViewById(R.id.nothing_message);
 
         adapter = new TimelineAdapter(this);
 
+        statuses.clear();
+
         setupSwipeRefreshLayout();
         setupRecyclerView();
+        updateAdapter();
         setupTimelinePreferences();
+        setupNothingView();
 
-        statuses.clear();
         topLoading = false;
         topFetches = 0;
         bottomLoading = false;
         bottomFetches = 0;
         bottomId = null;
         topId = null;
+
+
+        sendFetchTimelineRequest(null, null, FetchEnd.BOTTOM, -1);
 
         return rootView;
     }
@@ -308,7 +327,7 @@ public class TimelineFragment extends SFragment implements
             if (either.isRight()
                     && id.equals(either.getAsRight().getId())) {
                 statuses.remove(either);
-                adapter.removeItem(i);
+                updateAdapter();
                 break;
             }
         }
@@ -396,6 +415,16 @@ public class TimelineFragment extends SFragment implements
         super.onDestroyView();
     }
 
+    private void setupNothingView() {
+        Drawable top = AppCompatResources.getDrawable(Objects.requireNonNull(getContext()),
+                R.drawable.elephant_friend);
+        if (top != null) {
+            top.setBounds(0, 0, top.getIntrinsicWidth() / 2, top.getIntrinsicHeight() / 2);
+        }
+        nothingMessageView.setCompoundDrawables(null, top, null, null);
+        nothingMessageView.setVisibility(View.GONE);
+    }
+
     @Override
     public void onRefresh() {
         sendFetchTimelineRequest(null, topId, FetchEnd.TOP, -1);
@@ -441,7 +470,7 @@ public class TimelineFragment extends SFragment implements
                         .setReblogged(reblog)
                         .createStatusViewData();
         statuses.setPairedItem(actual.second, newViewData);
-        adapter.changeItem(actual.second, newViewData, true);
+        updateAdapter();
     }
 
     @Override
@@ -480,7 +509,7 @@ public class TimelineFragment extends SFragment implements
                 .setFavourited(favourite)
                 .createStatusViewData();
         statuses.setPairedItem(actual.second, newViewData);
-        adapter.changeItem(actual.second, newViewData, true);
+        updateAdapter();
     }
 
     @Override
@@ -499,7 +528,7 @@ public class TimelineFragment extends SFragment implements
                 ((StatusViewData.Concrete) statuses.getPairedItem(position)))
                 .setIsExpanded(expanded).createStatusViewData();
         statuses.setPairedItem(position, newViewData);
-        adapter.changeItem(position, newViewData, false);
+        updateAdapter();
     }
 
     @Override
@@ -508,7 +537,7 @@ public class TimelineFragment extends SFragment implements
                 ((StatusViewData.Concrete) statuses.getPairedItem(position)))
                 .setIsShowingSensitiveContent(isShowing).createStatusViewData();
         statuses.setPairedItem(position, newViewData);
-        adapter.changeItem(position, newViewData, false);
+        updateAdapter();
     }
 
     @Override
@@ -523,9 +552,10 @@ public class TimelineFragment extends SFragment implements
             }
             sendFetchTimelineRequest(fromStatus.getId(), toStatus.getId(), FetchEnd.MIDDLE, position);
 
-            StatusViewData newViewData = new StatusViewData.Placeholder(true);
+            Placeholder placeholder = statuses.get(position).getAsLeft();
+            StatusViewData newViewData = new StatusViewData.Placeholder(placeholder.id, true);
             statuses.setPairedItem(position, newViewData);
-            adapter.changeItem(position, newViewData, false);
+            updateAdapter();
         } else {
             Log.e(TAG, "error loading more");
         }
@@ -619,7 +649,7 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void removeItem(int position) {
         statuses.remove(position);
-        adapter.update(statuses.getPairedCopy());
+        updateAdapter();
     }
 
     public void removeAllByAccountId(String accountId) {
@@ -631,7 +661,7 @@ public class TimelineFragment extends SFragment implements
                 iterator.remove();
             }
         }
-        adapter.update(statuses.getPairedCopy());
+        updateAdapter();
     }
 
     private void onLoadMore() {
@@ -697,7 +727,8 @@ public class TimelineFragment extends SFragment implements
             /* When this is called by the EndlessScrollListener it cannot refresh the footer state
              * using adapter.notifyItemChanged. So its necessary to postpone doing so until a
              * convenient time for the UI thread using a Runnable. */
-            recyclerView.post(() -> adapter.setFooterState(FooterViewHolder.State.LOADING));
+            // TODO: add spinner here
+            //recyclerView.post(() -> adapter.setFooterState(FooterViewHolder.State.LOADING));
         }
 
         Callback<List<Status>> callback = new Callback<List<Status>>() {
@@ -766,25 +797,30 @@ public class TimelineFragment extends SFragment implements
             }
         }
         fulfillAnyQueuedFetches(fetchEnd);
-        if (statuses.size() == 0 && adapter.getItemCount() == 1) {
-            adapter.setFooterState(FooterViewHolder.State.EMPTY);
-        } else {
-            adapter.setFooterState(FooterViewHolder.State.END);
-        }
+        progressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
+        if (statuses.size() == 0) {
+            nothingMessageView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void onFetchTimelineFailure(Exception exception, FetchEnd fetchEnd, int position) {
         swipeRefreshLayout.setRefreshing(false);
 
         if (fetchEnd == FetchEnd.MIDDLE && !statuses.get(position).isRight()) {
-            StatusViewData newViewData = new StatusViewData.Placeholder(false);
+            Placeholder placeholder = statuses.get(position).getAsLeftOrNull();
+            StatusViewData newViewData;
+            if (placeholder == null) {
+                placeholder = newPlaceholder();
+            }
+            newViewData = new StatusViewData.Placeholder(placeholder.id, false);
             statuses.setPairedItem(position, newViewData);
-            adapter.changeItem(position, newViewData, true);
+            updateAdapter();
         }
 
         Log.e(TAG, "Fetch Failure: " + exception.getMessage());
         fulfillAnyQueuedFetches(fetchEnd);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void fulfillAnyQueuedFetches(FetchEnd fetchEnd) {
@@ -847,14 +883,14 @@ public class TimelineFragment extends SFragment implements
             int newIndex = liftedNew.indexOf(statuses.get(0));
             if (newIndex == -1) {
                 if (index == -1 && fullFetch) {
-                    liftedNew.add(Either.left(Placeholder.getInstance()));
+                    liftedNew.add(Either.left(newPlaceholder()));
                 }
                 statuses.addAll(0, liftedNew);
             } else {
                 statuses.addAll(0, liftedNew.subList(0, newIndex));
             }
         }
-        adapter.update(statuses.getPairedCopy());
+        updateAdapter();
     }
 
     private void addItems(List<Status> newStatuses, @Nullable String fromId) {
@@ -867,19 +903,10 @@ public class TimelineFragment extends SFragment implements
         // types by ID anyway and we should change equals() for Status, I think, so this makes sense
         if (last != null && !findStatus(newStatuses, last.getId())) {
             statuses.addAll(listStatusList(newStatuses));
-            List<StatusViewData> newViewDatas = statuses.getPairedCopy()
-                    .subList(statuses.size() - newStatuses.size(), statuses.size());
-            if (BuildConfig.DEBUG && newStatuses.size() != newViewDatas.size()) {
-                String error = String.format(Locale.getDefault(),
-                        "Incorrectly got statusViewData sublist." +
-                                " newStatuses.size == %d newViewDatas.size == %d, statuses.size == %d",
-                        newStatuses.size(), newViewDatas.size(), statuses.size());
-                throw new AssertionError(error);
-            }
             if (fromId != null) {
                 bottomId = fromId;
             }
-            adapter.addItems(newViewDatas);
+            updateAdapter();
         }
     }
 
@@ -890,18 +917,18 @@ public class TimelineFragment extends SFragment implements
         }
 
         if (ListUtils.isEmpty(newStatuses)) {
-            adapter.update(statuses.getPairedCopy());
+            updateAdapter();
             return;
         }
 
         List<Either<Placeholder, Status>> liftedNew = listStatusList(newStatuses);
 
         if (fullFetch) {
-            liftedNew.add(Either.left(Placeholder.getInstance()));
+            liftedNew.add(Either.left(newPlaceholder()));
         }
 
         statuses.addAll(pos, liftedNew);
-        adapter.update(statuses.getPairedCopy());
+        updateAdapter();
 
     }
 
@@ -984,16 +1011,66 @@ public class TimelineFragment extends SFragment implements
             case LIST:
                 return;
         }
-
-        // Insert new status to the top and placeholder beneath it because there may be a gap
-        // between new post and what we already know
-        statuses.add(0, Either.right(status));
-        statuses.add(1, Either.left(Placeholder.INSTANCE));
-        adapter.insertItem(0, statuses.getPairedItem(0));
-        adapter.insertItem(1, statuses.getPairedItem(1));
+        onRefresh();
     }
 
     private List<Either<Placeholder, Status>> listStatusList(List<Status> list) {
         return CollectionUtil.map(list, statusLifter);
     }
+
+    private Placeholder newPlaceholder() {
+        Placeholder placeholder = Placeholder.getInstance(maxPlaceholderId);
+        maxPlaceholderId--;
+        return placeholder;
+    }
+
+    private void updateAdapter() {
+        List<StatusViewData> viewDataList = statuses.getPairedCopy();
+        adapter.update(viewDataList);
+        differ.submitList(viewDataList);
+    }
+
+    private final ListUpdateCallback listUpdateCallback = new ListUpdateCallback() {
+        @Override
+        public void onInserted(int position, int count) {
+            adapter.notifyItemRangeInserted(position, count);
+            if (position == 0) {
+                recyclerView.post(() -> layoutManager.scrollToPosition(0));
+            }
+        }
+
+        @Override
+        public void onRemoved(int position, int count) {
+            adapter.notifyItemRangeRemoved(position, count);
+        }
+
+        @Override
+        public void onMoved(int fromPosition, int toPosition) {
+            adapter.notifyItemMoved(fromPosition, toPosition);
+        }
+
+        @Override
+        public void onChanged(int position, int count, Object payload) {
+            adapter.notifyItemRangeChanged(position, count, payload);
+        }
+    };
+
+
+    private final AsyncListDiffer<StatusViewData>
+            differ = new AsyncListDiffer<>(listUpdateCallback,
+            new AsyncDifferConfig.Builder<>(diffCallback).build());
+
+    private static final DiffUtil.ItemCallback<StatusViewData> diffCallback
+            = new DiffUtil.ItemCallback<StatusViewData>() {
+
+        @Override
+        public boolean areItemsTheSame(StatusViewData oldItem, StatusViewData newItem) {
+            return oldItem.getViewDataId() == newItem.getViewDataId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(StatusViewData oldItem, StatusViewData newItem) {
+            return oldItem.deepEquals(newItem);
+        }
+    };
 }
