@@ -70,8 +70,6 @@ import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -80,6 +78,7 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -718,18 +717,20 @@ public class TimelineFragment extends SFragment implements
             topFetches++;
             return;
         }
-        if (fetchEnd == FetchEnd.BOTTOM && bottomLoading) {
-            bottomFetches++;
-            return;
+        if (fetchEnd == FetchEnd.BOTTOM) {
+            if (bottomLoading) {
+                bottomFetches++;
+                return;
+            }
+            bottomLoading = true;
         }
 
-        if (fromId != null || adapter.getItemCount() <= 1) {
-            /* When this is called by the EndlessScrollListener it cannot refresh the footer state
-             * using adapter.notifyItemChanged. So its necessary to postpone doing so until a
-             * convenient time for the UI thread using a Runnable. */
-            // TODO: add spinner here
-            //recyclerView.post(() -> adapter.setFooterState(FooterViewHolder.State.LOADING));
-        }
+        // it crashes the app currently
+//        Placeholder placeholder = newPlaceholder();
+//        statuses.add(Either.left(placeholder));
+//        statuses.setPairedItem(statuses.size() - 1,
+//                new StatusViewData.Placeholder(placeholder.id, true));
+//        updateAdapter();
 
         Callback<List<Status>> callback = new Callback<List<Status>>() {
             @Override
@@ -755,6 +756,15 @@ public class TimelineFragment extends SFragment implements
 
     private void onFetchTimelineSuccess(List<Status> statuses, String linkHeader,
                                         FetchEnd fetchEnd, int pos) {
+
+        // Remove "load more" placeholder
+        if (!this.statuses.isEmpty()) {
+            Either<Placeholder, Status> last = this.statuses.get(this.statuses.size() - 1);
+            if (last.getAsLeftOrNull() != null) {
+                this.statuses.remove(this.statuses.size() - 1);
+            }
+        }
+
         // We filled the hole (or reached the end) if the server returned less statuses than we
         // we asked for.
         boolean fullFetch = statuses.size() >= LOAD_AT_ONCE;
@@ -799,7 +809,7 @@ public class TimelineFragment extends SFragment implements
         fulfillAnyQueuedFetches(fetchEnd);
         progressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
-        if (statuses.size() == 0) {
+        if (this.statuses.size() == 0) {
             nothingMessageView.setVisibility(View.VISIBLE);
         }
     }
@@ -1034,7 +1044,7 @@ public class TimelineFragment extends SFragment implements
         @Override
         public void onInserted(int position, int count) {
             adapter.notifyItemRangeInserted(position, count);
-            if (position == 0) {
+            if (position == 0 && layoutManager.findFirstVisibleItemPosition() == 0) {
                 recyclerView.post(() -> layoutManager.scrollToPosition(0));
             }
         }

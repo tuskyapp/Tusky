@@ -68,11 +68,9 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         StatusViewData status = statuses.get(position);
         if (status instanceof StatusViewData.Placeholder) {
-            if (!((StatusViewData.Placeholder) status).isLoading()) {
-                PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
-                holder.setup(!((StatusViewData.Placeholder) status).isLoading(),
-                        statusListener);
-            }
+            PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
+            holder.setup(!((StatusViewData.Placeholder) status).isLoading(),
+                    statusListener, ((StatusViewData.Placeholder) status).isLoading());
         } else {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             holder.setupWithStatus((StatusViewData.Concrete) status,
