@@ -66,6 +66,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private NotificationActionListener notificationActionListener;
     private FooterViewHolder.State footerState;
     private boolean mediaPreviewEnabled;
+    private BidiFormatter bidiFormatter;
 
     public NotificationsAdapter(StatusActionListener statusListener,
                                 NotificationActionListener notificationActionListener) {
@@ -75,6 +76,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         this.notificationActionListener = notificationActionListener;
         footerState = FooterViewHolder.State.END;
         mediaPreviewEnabled = true;
+        bidiFormatter = BidiFormatter.getInstance();
     }
 
     @NonNull
@@ -149,7 +151,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                                 concreteNotificaton.getAccount().getAvatar());
                     }
 
-                    holder.setMessage(concreteNotificaton, statusListener);
+                    holder.setMessage(concreteNotificaton, statusListener, bidiFormatter);
                     holder.setupButtons(notificationActionListener,
                             concreteNotificaton.getAccount().getId(),
                             concreteNotificaton.getId());
@@ -158,7 +160,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case FOLLOW: {
                     FollowViewHolder holder = (FollowViewHolder) viewHolder;
                     holder.setMessage(concreteNotificaton.getAccount().getName(),
-                            concreteNotificaton.getAccount().getUsername(), concreteNotificaton.getAccount().getAvatar());
+                            concreteNotificaton.getAccount().getUsername(), concreteNotificaton.getAccount().getAvatar(), bidiFormatter);
                     holder.setupButtons(notificationActionListener, concreteNotificaton.getAccount().getId());
                     break;
                 }
@@ -266,11 +268,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             message.setCompoundDrawablesWithIntrinsicBounds(followIcon, null, null, null);
         }
 
-        void setMessage(String displayName, String username, String avatarUrl) {
+        void setMessage(String displayName, String username, String avatarUrl, BidiFormatter bidiFormatter) {
             Context context = message.getContext();
 
             String format = context.getString(R.string.notification_follow_format);
-            String wrappedDisplayName = BidiFormatter.getInstance().unicodeWrap(displayName);
+            String wrappedDisplayName = bidiFormatter.unicodeWrap(displayName);
             String wholeMessage = String.format(format, wrappedDisplayName);
             message.setText(wholeMessage);
 
@@ -383,10 +385,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             timestampInfo.setContentDescription(readoutAloud);
         }
 
-        void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener) {
+        void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener, BidiFormatter bidiFormatter) {
             this.statusViewData = notificationViewData.getStatusViewData();
 
-            String displayName = BidiFormatter.getInstance().unicodeWrap(notificationViewData.getAccount().getName());
+            String displayName = bidiFormatter.unicodeWrap(notificationViewData.getAccount().getName());
             Notification.Type type = notificationViewData.getType();
 
             Context context = message.getContext();
