@@ -137,12 +137,13 @@ public class TimelineFragment extends SFragment implements
     private boolean topLoading;
     private int topFetches;
     private boolean bottomLoading;
-    private int bottomFetches;
+
     @Nullable
     private String bottomId;
     @Nullable
     private String topId;
     private long maxPlaceholderId = -1;
+    private boolean didLoadEverythingBottom;
 
     private boolean alwaysShowSensitiveMedia;
 
@@ -210,7 +211,7 @@ public class TimelineFragment extends SFragment implements
         progressBar = rootView.findViewById(R.id.progress_bar);
         nothingMessageView = rootView.findViewById(R.id.nothing_message);
 
-        adapter = new TimelineAdapter(this);
+        adapter = new TimelineAdapter(dataSource, this);
 
         statuses.clear();
 
@@ -222,12 +223,11 @@ public class TimelineFragment extends SFragment implements
 
         topLoading = false;
         topFetches = 0;
-        bottomLoading = false;
-        bottomFetches = 0;
         bottomId = null;
         topId = null;
 
 
+        bottomLoading = true;
         sendFetchTimelineRequest(null, null, FetchEnd.BOTTOM, -1);
 
         return rootView;
@@ -386,7 +386,7 @@ public class TimelineFragment extends SFragment implements
                 }
 
                 @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                public void onLoadMore(int totalItemsCount, RecyclerView view) {
                     TimelineFragment.this.onLoadMore();
                 }
             };
@@ -394,7 +394,7 @@ public class TimelineFragment extends SFragment implements
             // Just use the basic scroll listener to load more statuses.
             scrollListener = new EndlessOnScrollListener(layoutManager) {
                 @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                public void onLoadMore(int totalItemsCount, RecyclerView view) {
                     TimelineFragment.this.onLoadMore();
                 }
             };
@@ -664,11 +664,30 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void onLoadMore() {
+        if (didLoadEverythingBottom || bottomLoading) {
+            return;
+        }
+        bottomLoading = true;
+
+        Either<Placeholder, Status> last = statuses.get(statuses.size() - 1);
+        Placeholder placeholder;
+        if (last.isRight()) {
+            placeholder = newPlaceholder();
+            statuses.add(Either.left(placeholder));
+        } else {
+            placeholder = last.getAsLeft();
+        }
+        statuses.setPairedItem(statuses.size() - 1,
+                new StatusViewData.Placeholder(placeholder.id, true));
+
+        updateAdapter();
+
         sendFetchTimelineRequest(bottomId, null, FetchEnd.BOTTOM, -1);
     }
 
     private void fullyRefresh() {
-        adapter.clear();
+        statuses.clear();
+        updateAdapter();
         sendFetchTimelineRequest(null, null, FetchEnd.TOP, -1);
     }
 
@@ -717,20 +736,6 @@ public class TimelineFragment extends SFragment implements
             topFetches++;
             return;
         }
-        if (fetchEnd == FetchEnd.BOTTOM) {
-            if (bottomLoading) {
-                bottomFetches++;
-                return;
-            }
-            bottomLoading = true;
-        }
-
-        // it crashes the app currently
-//        Placeholder placeholder = newPlaceholder();
-//        statuses.add(Either.left(placeholder));
-//        statuses.setPairedItem(statuses.size() - 1,
-//                new StatusViewData.Placeholder(placeholder.id, true));
-//        updateAdapter();
 
         Callback<List<Status>> callback = new Callback<List<Status>>() {
             @Override
@@ -757,14 +762,6 @@ public class TimelineFragment extends SFragment implements
     private void onFetchTimelineSuccess(List<Status> statuses, String linkHeader,
                                         FetchEnd fetchEnd, int pos) {
 
-        // Remove "load more" placeholder
-        if (!this.statuses.isEmpty()) {
-            Either<Placeholder, Status> last = this.statuses.get(this.statuses.size() - 1);
-            if (last.getAsLeftOrNull() != null) {
-                this.statuses.remove(this.statuses.size() - 1);
-            }
-        }
-
         // We filled the hole (or reached the end) if the server returned less statuses than we
         // we asked for.
         boolean fullFetch = statuses.size() >= LOAD_AT_ONCE;
@@ -789,6 +786,9 @@ public class TimelineFragment extends SFragment implements
                 String fromId = null;
                 if (next != null) {
                     fromId = next.uri.getQueryParameter("max_id");
+                }
+                if (statuses.size() == 0) {
+                    didLoadEverythingBottom = true;
                 }
                 if (adapter.getItemCount() > 1) {
                     addItems(statuses, fromId);
@@ -837,9 +837,9 @@ public class TimelineFragment extends SFragment implements
         switch (fetchEnd) {
             case BOTTOM: {
                 bottomLoading = false;
-                if (bottomFetches > 0) {
-                    bottomFetches--;
-                    onLoadMore();
+                if (!statuses.isEmpty() && !statuses.get(statuses.size() - 1).isRight()) {
+                    statuses.remove(statuses.size() - 1);
+                    updateAdapter();
                 }
                 break;
             }
@@ -907,8 +907,13 @@ public class TimelineFragment extends SFragment implements
         if (ListUtils.isEmpty(newStatuses)) {
             return;
         }
-        int end = statuses.size();
-        Status last = statuses.get(end - 1).getAsRightOrNull();
+        Status last = null;
+        for (int i = statuses.size() - 1; i >= 0; i--) {
+            if (statuses.get(i).isRight()) {
+                last = statuses.get(i).getAsRight();
+                break;
+            }
+        }
         // I was about to replace findStatus with indexOf but it is incorrect to compare value
         // types by ID anyway and we should change equals() for Status, I think, so this makes sense
         if (last != null && !findStatus(newStatuses, last.getId())) {
@@ -1035,9 +1040,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void updateAdapter() {
-        List<StatusViewData> viewDataList = statuses.getPairedCopy();
-        adapter.update(viewDataList);
-        differ.submitList(viewDataList);
+        differ.submitList(statuses.getPairedCopy());
     }
 
     private final ListUpdateCallback listUpdateCallback = new ListUpdateCallback() {
@@ -1069,6 +1072,19 @@ public class TimelineFragment extends SFragment implements
     private final AsyncListDiffer<StatusViewData>
             differ = new AsyncListDiffer<>(listUpdateCallback,
             new AsyncDifferConfig.Builder<>(diffCallback).build());
+
+    private final TimelineAdapter.AdapterDataSource<StatusViewData> dataSource =
+            new TimelineAdapter.AdapterDataSource<StatusViewData>() {
+                @Override
+                public int getItemCount() {
+                    return differ.getCurrentList().size();
+                }
+
+                @Override
+                public StatusViewData getItemAt(int pos) {
+                    return differ.getCurrentList().get(pos);
+                }
+            };
 
     private static final DiffUtil.ItemCallback<StatusViewData> diffCallback
             = new DiffUtil.ItemCallback<StatusViewData>() {

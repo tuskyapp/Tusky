@@ -16,9 +16,6 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.recyclerview.extensions.AsyncListDiffer;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,20 +25,25 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public final class TimelineAdapter extends RecyclerView.Adapter {
+
+    public interface AdapterDataSource<T> {
+        int getItemCount();
+
+        T getItemAt(int pos);
+    }
+
     private static final int VIEW_TYPE_STATUS = 0;
     private static final int VIEW_TYPE_PLACEHOLDER = 2;
 
-    private List<StatusViewData> statuses;
-    private StatusActionListener statusListener;
+    private final AdapterDataSource<StatusViewData> dataSource;
+    private final StatusActionListener statusListener;
     private boolean mediaPreviewEnabled;
 
-    public TimelineAdapter(StatusActionListener statusListener) {
+    public TimelineAdapter(AdapterDataSource<StatusViewData> dataSource,
+                           StatusActionListener statusListener) {
         super();
-        statuses = new ArrayList<>();
+        this.dataSource = dataSource;
         this.statusListener = statusListener;
         mediaPreviewEnabled = true;
     }
@@ -66,7 +68,7 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        StatusViewData status = statuses.get(position);
+        StatusViewData status = dataSource.getItemAt(position);
         if (status instanceof StatusViewData.Placeholder) {
             PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
             holder.setup(!((StatusViewData.Placeholder) status).isLoading(),
@@ -80,29 +82,16 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return statuses.size();
+        return dataSource.getItemCount();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (statuses.get(position) instanceof StatusViewData.Placeholder) {
+        if (dataSource.getItemAt(position) instanceof StatusViewData.Placeholder) {
             return VIEW_TYPE_PLACEHOLDER;
         } else {
             return VIEW_TYPE_STATUS;
         }
-    }
-
-    public void update(@Nullable List<StatusViewData> newStatuses) {
-        if (newStatuses == null || newStatuses.isEmpty()) {
-            return;
-        }
-        statuses.clear();
-        statuses.addAll(newStatuses);
-    }
-
-    public void clear() {
-        statuses.clear();
-        notifyDataSetChanged();
     }
 
     public void setMediaPreviewEnabled(boolean enabled) {
@@ -111,9 +100,6 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
 
     @Override
     public long getItemId(int position) {
-        if (position >= statuses.size()) {
-            return 0;
-        }
-        return statuses.get(position).getViewDataId();
+        return dataSource.getItemAt(position).getViewDataId();
     }
 }

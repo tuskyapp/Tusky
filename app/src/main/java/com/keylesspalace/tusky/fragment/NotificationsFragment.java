@@ -314,7 +314,7 @@ public class NotificationsFragment extends SFragment implements
             }
 
             @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+            public void onLoadMore(int totalItemsCount, RecyclerView view) {
                 NotificationsFragment.this.onLoadMore();
             }
         };
