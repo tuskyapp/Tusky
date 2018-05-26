@@ -36,6 +36,7 @@ import com.keylesspalace.tusky.interfaces.LinkListener;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 public class LinkHelper {
     private static String getDomain(String urlString) {
@@ -63,7 +64,7 @@ public class LinkHelper {
      * @param listener to notify about particular spans that are clicked
      */
     public static void setClickableText(TextView view, Spanned content,
-            @Nullable Status.Mention[] mentions, final LinkListener listener) {
+                                        @Nullable List<Status.Mention> mentions, final LinkListener listener) {
 
         SpannableStringBuilder builder = new SpannableStringBuilder(content);
         URLSpan[] urlSpans = content.getSpans(0, content.length(), URLSpan.class);
@@ -80,7 +81,7 @@ public class LinkHelper {
                     @Override
                     public void onClick(View widget) { listener.onViewTag(tag); }
                 };
-            } else if (text.charAt(0) == '@' && mentions != null && mentions.length > 0) {
+            } else if (text.charAt(0) == '@' && mentions != null && mentions.size() > 0) {
                 String accountUsername = text.subSequence(1, text.length()).toString();
                 /* There may be multiple matches for users on different instances with the same
                  * username. If a match has the same domain we know it's for sure the same, but if

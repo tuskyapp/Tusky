@@ -79,7 +79,7 @@ class BottomSheetActivityTest {
             "",
             Status.Visibility.PUBLIC,
             listOf(),
-            arrayOf(),
+            listOf(),
             null
     )
     private val statusCallback = FakeSearchResults(status)

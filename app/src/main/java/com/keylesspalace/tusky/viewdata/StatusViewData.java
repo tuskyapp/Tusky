@@ -24,9 +24,11 @@ import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Status;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by charlag on 11/07/2017.
@@ -39,6 +41,10 @@ public abstract class StatusViewData {
 
     private StatusViewData() {
     }
+
+    public abstract long getViewDataId();
+
+    public abstract boolean deepEquals(StatusViewData other);
 
     public static final class Concrete extends StatusViewData {
         private final String id;
@@ -66,7 +72,7 @@ public abstract class StatusViewData {
         private final String inReplyToId;
         // I would rather have something else but it would be too much of a rewrite
         @Nullable
-        private final Status.Mention[] mentions;
+        private final List<Status.Mention> mentions;
         private final String senderId;
         private final boolean rebloggingEnabled;
         private final Status.Application application;
@@ -79,7 +85,7 @@ public abstract class StatusViewData {
                         @Nullable String rebloggedByUsername, @Nullable String rebloggedAvatar, boolean sensitive, boolean isExpanded,
                         boolean isShowingContent, String userFullName, String nickname, String avatar,
                         Date createdAt, int reblogsCount, int favouritesCount, @Nullable String inReplyToId,
-                        @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
+                        @Nullable List<Status.Mention> mentions, String senderId, boolean rebloggingEnabled,
                         Status.Application application, List<Emoji> emojis, @Nullable Card card) {
             this.id = id;
             this.content = content;
@@ -197,7 +203,7 @@ public abstract class StatusViewData {
         }
 
         @Nullable
-        public Status.Mention[] getMentions() {
+        public List<Status.Mention> getMentions() {
             return mentions;
         }
 
@@ -214,17 +220,88 @@ public abstract class StatusViewData {
             return card;
         }
 
+        @Override
+        public long getViewDataId() {
+            // Chance of collision is super low and impact of mistake is low as well
+            return getId().hashCode();
+        }
+
+        public boolean deepEquals(StatusViewData o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Concrete concrete = (Concrete) o;
+            return reblogged == concrete.reblogged &&
+                    favourited == concrete.favourited &&
+                    isSensitive == concrete.isSensitive &&
+                    isExpanded == concrete.isExpanded &&
+                    isShowingContent == concrete.isShowingContent &&
+                    reblogsCount == concrete.reblogsCount &&
+                    favouritesCount == concrete.favouritesCount &&
+                    rebloggingEnabled == concrete.rebloggingEnabled &&
+                    Objects.equals(id, concrete.id) &&
+                    Objects.equals(content, concrete.content) &&
+                    Objects.equals(spoilerText, concrete.spoilerText) &&
+                    visibility == concrete.visibility &&
+                    Objects.equals(attachments, concrete.attachments) &&
+                    Objects.equals(rebloggedByUsername, concrete.rebloggedByUsername) &&
+                    Objects.equals(rebloggedAvatar, concrete.rebloggedAvatar) &&
+                    Objects.equals(userFullName, concrete.userFullName) &&
+                    Objects.equals(nickname, concrete.nickname) &&
+                    Objects.equals(avatar, concrete.avatar) &&
+                    Objects.equals(createdAt, concrete.createdAt) &&
+                    Objects.equals(inReplyToId, concrete.inReplyToId) &&
+                    Objects.equals(mentions, concrete.mentions) &&
+                    Objects.equals(senderId, concrete.senderId) &&
+                    Objects.equals(application, concrete.application) &&
+                    Objects.equals(emojis, concrete.emojis) &&
+                    Objects.equals(card, concrete.card);
+        }
     }
 
     public static final class Placeholder extends StatusViewData {
         private final boolean isLoading;
+        private final long id;
 
-        public Placeholder(boolean isLoading) {
+        public Placeholder(long id, boolean isLoading) {
+            this.id = id;
             this.isLoading = isLoading;
         }
 
         public boolean isLoading() {
             return isLoading;
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        @Override
+        public long getViewDataId() {
+            return id;
+        }
+
+        @Override
+        public boolean deepEquals(StatusViewData other) {
+            if (!(other instanceof Placeholder)) return false;
+            Placeholder that = (Placeholder) other;
+            return isLoading == that.isLoading && id == that.id;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Placeholder that = (Placeholder) o;
+
+            return deepEquals(that);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = (isLoading ? 1 : 0);
+            result = 31 * result + (int) (id ^ (id >>> 32));
+            return result;
         }
     }
 
@@ -248,7 +325,7 @@ public abstract class StatusViewData {
         private int reblogsCount;
         private int favouritesCount;
         private String inReplyToId;
-        private Status.Mention[] mentions;
+        private List<Status.Mention> mentions;
         private String senderId;
         private boolean rebloggingEnabled;
         private Status.Application application;
@@ -278,7 +355,7 @@ public abstract class StatusViewData {
             reblogsCount = viewData.reblogsCount;
             favouritesCount = viewData.favouritesCount;
             inReplyToId = viewData.inReplyToId;
-            mentions = viewData.mentions == null ? null : viewData.mentions.clone();
+            mentions = viewData.mentions == null ? null : new ArrayList<>(viewData.mentions);
             senderId = viewData.senderId;
             rebloggingEnabled = viewData.rebloggingEnabled;
             application = viewData.application;
@@ -381,7 +458,7 @@ public abstract class StatusViewData {
             return this;
         }
 
-        public Builder setMentions(Status.Mention[] mentions) {
+        public Builder setMentions(List<Status.Mention> mentions) {
             this.mentions = mentions;
             return this;
         }

@@ -47,13 +47,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.keylesspalace.tusky.appstore.EventHub;
+import com.keylesspalace.tusky.appstore.BlockEvent;
+import com.keylesspalace.tusky.appstore.MuteEvent;
+import com.keylesspalace.tusky.appstore.UnfollowEvent;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.pager.AccountPagerAdapter;
-import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.Assert;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
@@ -86,6 +89,8 @@ public final class AccountActivity extends BottomSheetActivity implements Action
 
     @Inject
     public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+    @Inject
+    public EventHub appstore;
 
     private String accountId;
     private FollowState followState;
@@ -524,7 +529,7 @@ public final class AccountActivity extends BottomSheetActivity implements Action
                                 Snackbar.LENGTH_LONG).show();
                     } else {
                         followState = FollowState.NOT_FOLLOWING;
-                        broadcast(TimelineReceiver.Types.UNFOLLOW_ACCOUNT, id);
+                        appstore.dispatch(new UnfollowEvent(id));
                     }
                     updateButtons();
                 } else {
@@ -581,7 +586,7 @@ public final class AccountActivity extends BottomSheetActivity implements Action
                                    @NonNull Response<Relationship> response) {
                 Relationship relationship = response.body();
                 if (response.isSuccessful() && relationship != null) {
-                    broadcast(TimelineReceiver.Types.BLOCK_ACCOUNT, id);
+                    appstore.dispatch(new BlockEvent(id));
                     blocking = relationship.getBlocking();
                     updateButtons();
                 } else {
@@ -615,7 +620,7 @@ public final class AccountActivity extends BottomSheetActivity implements Action
                                    @NonNull Response<Relationship> response) {
                 Relationship relationship = response.body();
                 if (response.isSuccessful() && relationship != null) {
-                    broadcast(TimelineReceiver.Types.MUTE_ACCOUNT, id);
+                    appstore.dispatch(new MuteEvent(id));
                     muting = relationship.getMuting();
                     updateButtons();
                 } else {

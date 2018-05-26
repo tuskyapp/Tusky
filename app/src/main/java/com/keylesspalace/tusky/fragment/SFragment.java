@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.PopupMenu;
@@ -39,7 +40,6 @@ import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
-import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.HtmlUtils;
@@ -57,18 +57,19 @@ import javax.inject.Inject;
  * adapters. I feel like the profile pages and thread viewer, which I haven't made yet, will also
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
-public abstract class SFragment extends BaseFragment implements AdapterItemRemover {
+public abstract class SFragment extends BaseFragment {
     protected static final int COMPOSE_RESULT = 1;
 
     protected String loggedInAccountId;
     protected String loggedInUsername;
 
     protected abstract TimelineCases timelineCases();
+    protected abstract void removeItem(int position);
 
     private BottomSheetActivity bottomSheetActivity;
 
     @Inject
-    protected MastodonApi mastodonApi;
+    public MastodonApi mastodonApi;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -119,7 +120,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         Status actionableStatus = status.getActionableStatus();
         Status.Visibility replyVisibility = actionableStatus.getVisibility();
         String contentWarning = actionableStatus.getSpoilerText();
-        Status.Mention[] mentions = actionableStatus.getMentions();
+        List<Status.Mention> mentions = actionableStatus.getMentions();
         Set<String> mentionedUsernames = new LinkedHashSet<>();
         mentionedUsernames.add(actionableStatus.getAccount().getUsername());
         for (Status.Mention mention : mentions) {

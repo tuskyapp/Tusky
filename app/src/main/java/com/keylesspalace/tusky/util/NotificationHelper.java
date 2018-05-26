@@ -283,7 +283,7 @@ public class NotificationHelper {
         Status actionableStatus = status.getActionableStatus();
         Status.Visibility replyVisibility = actionableStatus.getVisibility();
         String contentWarning = actionableStatus.getSpoilerText();
-        Status.Mention[] mentions = actionableStatus.getMentions();
+        List<Status.Mention> mentions = actionableStatus.getMentions();
         List<String> mentionedUsernames = new ArrayList<>();
         mentionedUsernames.add(actionableStatus.getAccount().getUsername());
         for (Status.Mention mention : mentions) {

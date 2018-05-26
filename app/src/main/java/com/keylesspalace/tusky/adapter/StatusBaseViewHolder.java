@@ -107,7 +107,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         username.setText(usernameText);
     }
 
-    private void setContent(Spanned content, Status.Mention[] mentions, List<Emoji> emojis,
+    private void setContent(Spanned content, List<Status.Mention> mentions, List<Emoji> emojis,
                             StatusActionListener listener) {
         Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, this.content);
 
