@@ -33,6 +33,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.RemoteInput;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.text.BidiFormatter;
 import android.util.Log;
 
 import com.keylesspalace.tusky.BuildConfig;
@@ -119,6 +120,7 @@ public class NotificationHelper {
 
         String rawCurrentNotifications = account.getActiveNotifications();
         JSONArray currentNotifications;
+        BidiFormatter bidiFormatter = BidiFormatter.getInstance();
 
         try {
             currentNotifications = new JSONArray(rawCurrentNotifications);
@@ -147,7 +149,7 @@ public class NotificationHelper {
 
         notificationId++;
 
-        builder.setContentTitle(titleForType(context, body))
+        builder.setContentTitle(titleForType(context, body, bidiFormatter))
                 .setContentText(bodyForType(body));
 
         if (body.getType() == Notification.Type.MENTION) {
@@ -208,7 +210,7 @@ public class NotificationHelper {
         if (currentNotifications.length() != 1) {
             try {
                 String title = context.getString(R.string.notification_title_summary, currentNotifications.length());
-                String text = joinNames(context, currentNotifications);
+                String text = joinNames(context, currentNotifications, bidiFormatter);
                 summaryBuilder.setContentTitle(title)
                         .setContentText(text);
             } catch (JSONException e) {
@@ -491,38 +493,49 @@ public class NotificationHelper {
         }
     }
 
+    private static String wrapItemAt(JSONArray array, int index, BidiFormatter bidiFormatter) throws JSONException {
+        return bidiFormatter.unicodeWrap(array.get(index).toString());
+    }
+
     @Nullable
-    private static String joinNames(Context context, JSONArray array) throws JSONException {
+    private static String joinNames(Context context, JSONArray array, BidiFormatter bidiFormatter) throws JSONException {
         if (array.length() > 3) {
             int length = array.length();
             return String.format(context.getString(R.string.notification_summary_large),
-                    array.get(length - 1), array.get(length - 2), array.get(length - 3), length - 3);
+                    wrapItemAt(array, length - 1, bidiFormatter),
+                    wrapItemAt(array, length - 2, bidiFormatter),
+                    wrapItemAt(array, length - 3, bidiFormatter),
+                    length - 3);
         } else if (array.length() == 3) {
             return String.format(context.getString(R.string.notification_summary_medium),
-                    array.get(2), array.get(1), array.get(0));
+                    wrapItemAt(array, 2, bidiFormatter),
+                    wrapItemAt(array, 1, bidiFormatter),
+                    wrapItemAt(array, 0, bidiFormatter));
         } else if (array.length() == 2) {
             return String.format(context.getString(R.string.notification_summary_small),
-                    array.get(1), array.get(0));
+                    wrapItemAt(array, 1, bidiFormatter),
+                    wrapItemAt(array, 0, bidiFormatter));
         }
 
         return null;
     }
 
     @Nullable
-    private static String titleForType(Context context, Notification notification) {
+    private static String titleForType(Context context, Notification notification, BidiFormatter bidiFormatter) {
+        String accountName = bidiFormatter.unicodeWrap(notification.getAccount().getName());
         switch (notification.getType()) {
             case MENTION:
                 return String.format(context.getString(R.string.notification_mention_format),
-                        notification.getAccount().getName());
+                        accountName);
             case FOLLOW:
                 return String.format(context.getString(R.string.notification_follow_format),
-                        notification.getAccount().getName());
+                        accountName);
             case FAVOURITE:
                 return String.format(context.getString(R.string.notification_favourite_format),
-                        notification.getAccount().getName());
+                        accountName);
             case REBLOG:
                 return String.format(context.getString(R.string.notification_reblog_format),
-                        notification.getAccount().getName());
+                        accountName);
         }
         return null;
     }
