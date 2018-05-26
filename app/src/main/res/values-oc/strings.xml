@@ -17,8 +17,11 @@
     <string name="error_media_upload_image_or_video">Se pòt pas ajustar imatges e una vidèo dins lo meteis estatut.</string>
     <string name="error_media_upload_sending">Fracàs en mandar.</string>
     <string name="error_report_too_few_statuses">Cal almens denonciar un estatut.</string>
+    <string name="error_invalid_regex">Expression regulara invalida</string>
+    <string name="error_sender_account_gone">Error en enviar lo tut.</string>
 
     <string name="title_home">Acuèlh</string>
+    <string name="title_advanced">Advançat</string>
     <string name="title_notifications">Notificacions</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Federacion</string>
@@ -40,6 +43,7 @@
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s partejat</string>
     <string name="status_sensitive_media_title">Contengut sensible</string>
+    <string name="status_media_hidden_title">Mèdia amagat</string>
     <string name="status_sensitive_media_directions">Clicar per mostrar</string>
     <string name="status_content_warning_show_more">Mostrar mai</string>
     <string name="status_content_warning_show_less">Mostrar mens</string>
@@ -53,13 +57,15 @@
     <string name="report_username_format">Denonciar @%s</string>
     <string name="report_comment_hint">Cap comentari addicional ?</string>
 
+    <string name="action_quick_reply">Responsa rapida</string>
     <string name="action_reply">Respondre</string>
     <string name="action_reblog">Partejar</string>
     <string name="action_favourite">Aimar</string>
     <string name="action_more">Mai</string>
     <string name="action_compose">Redactar</string>
-    <string name="action_login">Inicia sessió amb Mastodon</string>
-    <string name="action_logout">Tanca sessió</string>
+    <string name="action_login">Començar la session amb Mastodon</string>
+    <string name="action_logout">Tampar la session</string>
+    <string name="action_logout_confirm">Volètz vertadièrament vos desconnectar del compte %1$s ?</string>
     <string name="action_follow">Seguir</string>
     <string name="action_unfollow">Quitar de seguir</string>
     <string name="action_block">Blocar</string>
@@ -93,11 +99,14 @@
     <string name="action_reject">Regetar</string>
     <string name="action_search">Cercar</string>
     <string name="action_access_saved_toot">Borrolhons</string>
+    <string name="action_toggle_visibility">Visibilitat del tut</string>
+    <string name="action_content_warning">Avís de contengut</string>
+    <string name="action_emoji_keyboard">Clavièr Emoji</string>
 
     <string name="download_image">Telecargament %1$s</string>
 
     <string name="action_copy_link">Copiar lo ligam</string>
-  
+
     <string name="send_status_link_to">Partejar l\'URL del tt a...</string>
     <string name="send_status_content_to">Partejar vòstre tut a...</string>
 
@@ -105,15 +114,18 @@
     <string name="confirmation_unblocked">Utilizaire desblocat</string>
     <string name="confirmation_unmuted">Utilizaire sortit del silenci</string>
 
+    <string name="status_sent_long">Responsa ben enviada.</string>
+
     <string name="hint_domain">Quina instància ?</string>
     <string name="hint_compose">A de qué pensatz ?</string>
     <string name="hint_content_warning">Avis de contengut</string>
     <string name="hint_display_name">Nom visible</string>
     <string name="hint_note">Biografia</string>
-    <string name="hint_search">Cercar...</string>
+    <string name="hint_search">Cercar…</string>
 
     <string name="search_no_results">I a pas cap de resulat</string>
 
+    <string name="label_quick_reply">Responsa…</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Bandièra</string>
 
@@ -143,6 +155,7 @@
     <string name="pref_title_notification_settings">Notificacions</string>
     <string name="pref_title_edit_notification_settings">Modificar las notificacions</string>
     <string name="pref_title_notifications_enabled">Notificacions</string>
+    <string name="pref_summary_notifications">pel compte %1$s</string>
     <string name="pref_title_pull_notification_check_interval">Comprovar l\'interval</string>
     <string name="pref_title_notification_alerts">Alèrtas</string>
     <string name="pref_title_notification_alert_sound">Notificar amb un son</string>
@@ -154,14 +167,29 @@
     <string name="pref_title_notification_filter_reblogs">òm parteja mas publicacions</string>
     <string name="pref_title_notification_filter_favourites">òm me met mos tuts en favorit</string>
     <string name="pref_title_appearance_settings">Aparença</string>
+    <string name="pref_title_app_theme">Tèma de l’app</string>
+    
+    <string-array name="app_theme_names">
+        <item>Escur</item>
+        <item>Luminós</item>
+        <item>Alba automatica</item>
+   </string-array>
+
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Onglets personalizats de Chrome</string>
     <string name="pref_title_hide_follow_button">Amagar lo boton de redaccion en desplaçament</string>
     <string name="pref_title_status_filter">Filtre de la cronologia</string>
     <string name="pref_title_status_tabs">Onglets</string>
     <string name="pref_title_show_boosts">Mostrar los retuts</string>
-    <string name="pref_title_show_replies">Mostrar las responsas</string>
+    <string name="pref_title_show_replies">Mostrar las responsas</string> 
+    <string name="pref_title_filter_regex">Filtrar amb d’expressions regularas</string>
     <string name="pref_title_show_media_preview">Mostrar los apercebuts</string>
+
+    <string name="pref_title_proxy_settings">Proxy</string>
+    <string name="pref_title_http_proxy_settings">Proxy HTTP</string>
+    <string name="pref_title_http_proxy_enable">Activar lo proxy HTTP</string>
+    <string name="pref_title_http_proxy_server">Servidor proxy HTTP</string>
+    <string name="pref_title_http_proxy_port">Pòrt del servidor proxy HTTP</string>
 
     <string-array name="pull_notification_check_interval_names">
         <item>15 minutas</item>
@@ -189,7 +217,7 @@
         <item>Mejana</item>
         <item>Granda</item>
     </string-array>
-    
+
     <string name="notification_channel_mention_name">Mencions nòvas</string>
     <string name="notification_channel_mention_descriptions">Notificacions de mencions noves</string>
     <string name="notification_channel_follow_name">Seguidors nòus</string>
@@ -213,7 +241,12 @@
     <string name="about_tusky_license">Tusky es programa gratuït, liure e de còdi dobèrt.
         Es publicat jols tèrms de la licéncia publica generala GNU version 3.
         Podeu trobar les llicència aquí: https://www.gnu.org/licenses/gpl-3.0.ca.html</string>
-    <!-- note to translators: the url can be changed to link to the localized version of the license -->
+        <!-- note to translators:
+         * you should think of “free” as in “free speech,” not as in “free beer”.
+           We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
+           to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
+         * the url can be changed to link to the localized version of the license.
+    -->
     <string name="about_project_site">
         Site web del projècte :\n
         https://tuskyapp.github.io
@@ -250,5 +283,54 @@
     <string name="title_media">Mèdia</string>
     <string name="replying_to">En responsa a @%s</string>
     <string name="load_more_placeholder_text">cargar mai</string>
+
+
+    <string name="add_account_name">Apondre un compte</string>
+    <string name="add_account_description">Apondre un nòu compte Mastodon</string>
+
+    <string name="action_lists">Listas</string>
+    <string name="title_lists">Listas</string>
+    <string name="title_list_timeline">Flux de la lista</string>
+
+    <string name="compose_active_account_description">Publicar amb lo compte %1$s</string>
+
+    <string name="error_failed_set_caption">Fracàs en apondre una legenda</string>
+    <string name="hint_describe_for_visually_impaired">Descripcion pels mal vesents</string>
+    <string name="action_set_caption">Apondre una legenda</string>
+    <string name="action_remove_media">Levar</string>
+    <string name="lock_account_label">Clavar lo compte</string>
+    <string name="lock_account_label_description">Demanda que validetz manualament los seguidors</string>
+    <string name="compose_save_draft">Salvar lo borrolhon ?</string>
+    <string name="send_toot_notification_title">Mandadís del tut…</string>
+    <string name="send_toot_notification_error_title">Error en enviar lo tut</string>
+    <string name="send_toot_notification_channel_name">Mandadís dels tuts</string>
+    <string name="send_toot_notification_cancel_title">Mandadís anullat</string>
+    <string name="send_toot_notification_saved_content">Una còpia del tut es estat salvat dins los borrolhons</string>
+    <string name="action_compose_shortcut">Escriure</string>
+
+    <string name="error_no_custom_emojis">L’instància %s es pas compatibla amb los emoji personalizats</string>
+    <string name="copy_to_clipboard_success">Copiat al quichapapièr</string>
+    <string name="emoji_style">Estil dels Emoji</string>
+    <string name="system_default">Çò del sistèma</string>
+    <string name="download_fonts">D’en primièr vos cal telecargar los emojis seguents</string>
+    <string name="performing_lookup_title">Recèrca...</string>
+    <string name="expand_collapse_all_statuses">Desplegar/Plegar totes los estatuts</string>
+    <string name="action_open_toot">Dobrir lo tut</string>
+    <string name="restart_required">Reaviada necessària</string>
+    <string name="restart_emoji">Vos caldrà reaviar Tusky per aplicar aquestes cambiaments</string>
+    <string name="later">Mai tard</string>
+    <string name="restart">Reaviar</string>
+    <string name="caption_systememoji">Los emoji per defaut de vòstre aparelh</string>
+    <string name="caption_blobmoji">Emoji basats en Blob emojis coneguts d\'Android 4.4–7.1</string>
+    <string name="caption_twemoji">Emoji estandards de Mastodon</string>
+    <string name="about_emoji">
+        Tusky utiliza los emojis seguents :\n
+        Twemoji de Twitter - https://github.com/twitter/Twemoji\n
+        Blobmoji de C1710, basat sus on Noto-Emoji - https://github.com/c1710/Blobmoji\n
+        Twemoji es estat modificat per èsser utilizat amb la bibliotèca EmojiCompat
+    </string>
+    <string name="license_blobmoji">Blobmoji es jos licéncia dels tèrmes d’Apache license 2.0</string>
+    <string name="license_twemoji">Twemoji es jos licéncia CC-BY 4.0 - https://creativecommons.org/licenses/by/4.0/</string>
+    <string name="download_failed">Fracàs del telecargament</string>
 
 </resources>

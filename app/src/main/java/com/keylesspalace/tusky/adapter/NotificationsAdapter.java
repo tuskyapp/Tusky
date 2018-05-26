@@ -24,6 +24,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.support.v4.text.BidiFormatter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -65,6 +66,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private NotificationActionListener notificationActionListener;
     private FooterViewHolder.State footerState;
     private boolean mediaPreviewEnabled;
+    private BidiFormatter bidiFormatter;
 
     public NotificationsAdapter(StatusActionListener statusListener,
                                 NotificationActionListener notificationActionListener) {
@@ -74,6 +76,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         this.notificationActionListener = notificationActionListener;
         footerState = FooterViewHolder.State.END;
         mediaPreviewEnabled = true;
+        bidiFormatter = BidiFormatter.getInstance();
     }
 
     @NonNull
@@ -148,7 +151,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                                 concreteNotificaton.getAccount().getAvatar());
                     }
 
-                    holder.setMessage(concreteNotificaton, statusListener);
+                    holder.setMessage(concreteNotificaton, statusListener, bidiFormatter);
                     holder.setupButtons(notificationActionListener,
                             concreteNotificaton.getAccount().getId(),
                             concreteNotificaton.getId());
@@ -157,7 +160,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case FOLLOW: {
                     FollowViewHolder holder = (FollowViewHolder) viewHolder;
                     holder.setMessage(concreteNotificaton.getAccount().getName(),
-                            concreteNotificaton.getAccount().getUsername(), concreteNotificaton.getAccount().getAvatar());
+                            concreteNotificaton.getAccount().getUsername(), concreteNotificaton.getAccount().getAvatar(), bidiFormatter);
                     holder.setupButtons(notificationActionListener, concreteNotificaton.getAccount().getId());
                     break;
                 }
@@ -265,18 +268,19 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             message.setCompoundDrawablesWithIntrinsicBounds(followIcon, null, null, null);
         }
 
-        void setMessage(String displayName, String username, String avatarUrl) {
+        void setMessage(String displayName, String username, String avatarUrl, BidiFormatter bidiFormatter) {
             Context context = message.getContext();
 
             String format = context.getString(R.string.notification_follow_format);
-            String wholeMessage = String.format(format, displayName);
+            String wrappedDisplayName = bidiFormatter.unicodeWrap(displayName);
+            String wholeMessage = String.format(format, wrappedDisplayName);
             message.setText(wholeMessage);
 
             format = context.getString(R.string.status_username_format);
             String wholeUsername = String.format(format, username);
             usernameView.setText(wholeUsername);
 
-            displayNameView.setText(displayName);
+            displayNameView.setText(wrappedDisplayName);
 
             if (TextUtils.isEmpty(avatarUrl)) {
                 avatar.setImageResource(R.drawable.avatar_default);
@@ -381,10 +385,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             timestampInfo.setContentDescription(readoutAloud);
         }
 
-        void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener) {
+        void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener, BidiFormatter bidiFormatter) {
             this.statusViewData = notificationViewData.getStatusViewData();
 
-            String displayName = notificationViewData.getAccount().getName();
+            String displayName = bidiFormatter.unicodeWrap(notificationViewData.getAccount().getName());
             Notification.Type type = notificationViewData.getType();
 
             Context context = message.getContext();
