@@ -25,12 +25,26 @@ import android.support.annotation.NonNull;
  * DB version & declare DAO
  */
 
-@Database(entities = {TootEntity.class, AccountEntity.class, InstanceEntity.class}, version = 7, exportSchema = false)
+@Database(
+        entities = {
+                TootEntity.class,
+                AccountEntity.class,
+                InstanceEntity.class,
+                TimelineStatusEntity.class,
+                TimelineAccountEntity.class
+        },
+        version = 8,
+        exportSchema = false
+)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TootDao tootDao();
+
     public abstract AccountDao accountDao();
+
     public abstract InstanceDao instanceDao();
+
+    public abstract TimelineDao timelineDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
@@ -89,6 +103,13 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("CREATE TABLE IF NOT EXISTS `InstanceEntity` (`instance` TEXT NOT NULL, `emojiList` TEXT, `maximumTootCharacters` INTEGER, PRIMARY KEY(`instance`))");
             database.execSQL("INSERT OR REPLACE INTO `InstanceEntity` SELECT `instance`,`emojiList`,NULL FROM `EmojiListEntity`;");
             database.execSQL("DROP TABLE `EmojiListEntity`;");
+        }
+    };
+
+    public static final Migration MIGRATION_7_8 = new Migration(7, 8) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            throw new AssertionError("TODO");
         }
     };
 }

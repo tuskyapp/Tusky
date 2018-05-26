@@ -54,12 +54,14 @@ import com.keylesspalace.tusky.appstore.ReblogEvent;
 import com.keylesspalace.tusky.appstore.StatusComposedEvent;
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent;
 import com.keylesspalace.tusky.appstore.UnfollowEvent;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
+import com.keylesspalace.tusky.repository.TimelineRepository;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
@@ -79,6 +81,8 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -117,6 +121,8 @@ public class TimelineFragment extends SFragment implements
     public TimelineCases timelineCases;
     @Inject
     public EventHub eventHub;
+    @Inject
+    public TimelineRepository timeilneRepo;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -146,6 +152,8 @@ public class TimelineFragment extends SFragment implements
     private boolean didLoadEverythingBottom;
 
     private boolean alwaysShowSensitiveMedia;
+
+    private CompositeDisposable disposable = new CompositeDisposable();
 
     @Override
     protected TimelineCases timelineCases() {
@@ -741,26 +749,37 @@ public class TimelineFragment extends SFragment implements
             return;
         }
 
-        Callback<List<Status>> callback = new Callback<List<Status>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Status>> call, @NonNull Response<List<Status>> response) {
-                if (response.isSuccessful()) {
-                    String linkHeader = response.headers().get("Link");
-                    onFetchTimelineSuccess(response.body(), linkHeader, fetchEnd, pos);
-                } else {
-                    onFetchTimelineFailure(new Exception(response.message()), fetchEnd, pos);
+        if (kind == Kind.HOME) {
+            disposable.add(
+                    timeilneRepo.getStatuses(fromId, uptoId, LOAD_AT_ONCE)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                    (result) -> onFetchTimelineSuccess(result, null, fetchEnd, pos),
+                                    (err) -> onFetchTimelineFailure(new Exception(err), fetchEnd, pos)
+                            )
+            );
+        } else {
+            Callback<List<Status>> callback = new Callback<List<Status>>() {
+                @Override
+                public void onResponse(@NonNull Call<List<Status>> call, @NonNull Response<List<Status>> response) {
+                    if (response.isSuccessful()) {
+                        String linkHeader = response.headers().get("Link");
+                        onFetchTimelineSuccess(response.body(), linkHeader, fetchEnd, pos);
+                    } else {
+                        onFetchTimelineFailure(new Exception(response.message()), fetchEnd, pos);
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<List<Status>> call, @NonNull Throwable t) {
-                onFetchTimelineFailure((Exception) t, fetchEnd, pos);
-            }
-        };
+                @Override
+                public void onFailure(@NonNull Call<List<Status>> call, @NonNull Throwable t) {
+                    onFetchTimelineFailure((Exception) t, fetchEnd, pos);
+                }
+            };
 
-        Call<List<Status>> listCall = getFetchCallByTimelineType(kind, hashtagOrId, fromId, uptoId);
-        callList.add(listCall);
-        listCall.enqueue(callback);
+            Call<List<Status>> listCall = getFetchCallByTimelineType(kind, hashtagOrId, fromId, uptoId);
+            callList.add(listCall);
+            listCall.enqueue(callback);
+        }
     }
 
     private void onFetchTimelineSuccess(List<Status> statuses, String linkHeader,

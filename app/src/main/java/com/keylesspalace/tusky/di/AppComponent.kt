@@ -33,7 +33,8 @@ import javax.inject.Singleton
     AndroidInjectionModule::class,
     ActivitiesModule::class,
     ServicesModule::class,
-    BroadcastReceiverModule::class
+    BroadcastReceiverModule::class,
+    RespotioryModule::class
 ])
 interface AppComponent {
     @Component.Builder
