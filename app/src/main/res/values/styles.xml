@@ -1,33 +1,33 @@
 <resources>
 
-    <style name="TextSizeSmall">
-        <item name="status_text_small">12dp</item>
-        <item name="status_text_medium">14dp</item>
-        <item name="status_text_large">16dp</item>
+    <style name="TextSizeSmallest">
+        <item name="status_text_small">10sp</item>
+        <item name="status_text_medium">12sp</item>
+        <item name="status_text_large">14sp</item>
     </style>
 
-    <style name="TextSizeSmaller">
-        <item name="status_text_small">13dp</item>
-        <item name="status_text_medium">15dp</item>
-        <item name="status_text_large">17dp</item>
+    <style name="TextSizeSmall">
+        <item name="status_text_small">12sp</item>
+        <item name="status_text_medium">14sp</item>
+        <item name="status_text_large">16sp</item>
     </style>
 
     <style name="TextSizeMedium">
-        <item name="status_text_small">14dp</item>
-        <item name="status_text_medium">16dp</item>
-        <item name="status_text_large">18dp</item>
-    </style>
-
-    <style name="TextSizeLarger">
-        <item name="status_text_small">15dp</item>
-        <item name="status_text_medium">17dp</item>
-        <item name="status_text_large">19dp</item>`
+        <item name="status_text_small">14sp</item>
+        <item name="status_text_medium">16sp</item>
+        <item name="status_text_large">18sp</item>
     </style>
 
     <style name="TextSizeLarge">
-        <item name="status_text_small">16dp</item>
-        <item name="status_text_medium">18dp</item>
-        <item name="status_text_large">20dp</item>
+        <item name="status_text_small">16sp</item>
+        <item name="status_text_medium">18sp</item>
+        <item name="status_text_large">20sp</item>
+    </style>
+
+    <style name="TextSizeLargest">
+        <item name="status_text_small">18sp</item>
+        <item name="status_text_medium">20sp</item>
+        <item name="status_text_large">22sp</item>`
     </style>
 
     <style name="TabLayoutTextStyle" parent="TextAppearance.Design.Tab">
@@ -39,7 +39,7 @@
         <item name="android:textColorSecondary">@color/text_color_secondary_dark</item>
         <item name="android:textColorTertiary">@color/text_color_tertiary_dark</item>
     </style>
-    
+
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splash</item>
         <item name="colorPrimaryDark">@color/color_primary_dark_dark</item>

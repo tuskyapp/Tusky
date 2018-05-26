@@ -77,21 +77,21 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     private int textStyle(String name) {
         int style;
         switch (name) {
+            case "smallest":
+                style = R.style.TextSizeSmallest;
+                break;
             case "small":
                 style = R.style.TextSizeSmall;
-                break;
-            case "smaller":
-                style = R.style.TextSizeSmaller;
                 break;
             case "medium":
             default:
                 style = R.style.TextSizeMedium;
                 break;
-            case "larger":
-                style = R.style.TextSizeLarger;
-                break;
             case "large":
                 style = R.style.TextSizeLarge;
+                break;
+            case "largest":
+                style = R.style.TextSizeLargest;
                 break;
         }
         return style;
