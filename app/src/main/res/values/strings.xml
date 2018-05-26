@@ -215,7 +215,9 @@
 
     <string-array name="status_text_size_names">
         <item>Small</item>
+        <item>Smaller</item>
         <item>Medium</item>
+        <item>Larger</item>
         <item>Large</item>
     </string-array>
 

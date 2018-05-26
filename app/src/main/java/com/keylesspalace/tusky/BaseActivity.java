@@ -66,26 +66,35 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
             accountManager.setActiveAccount(accountId);
         }
 
-        int style;
-        switch (preferences.getString("statusTextSize", "medium")) {
-            case "large":
-                style = R.style.TextSizeLarge;
-                break;
-            case "small":
-                style = R.style.TextSizeSmall;
-                break;
-            case "medium":
-            default:
-                style = R.style.TextSizeMedium;
-                break;
-
-        }
+        int style = textStyle(preferences.getString("statusTextSize", "medium"));
         getTheme().applyStyle(style, false);
 
         redirectIfNotLoggedIn();
 
         callList = new ArrayList<>();
+    }
 
+    private int textStyle(String name) {
+        int style;
+        switch (name) {
+            case "small":
+                style = R.style.TextSizeSmall;
+                break;
+            case "smaller":
+                style = R.style.TextSizeSmaller;
+                break;
+            case "medium":
+            default:
+                style = R.style.TextSizeMedium;
+                break;
+            case "larger":
+                style = R.style.TextSizeLarger;
+                break;
+            case "large":
+                style = R.style.TextSizeLarge;
+                break;
+        }
+        return style;
     }
 
     @Override
