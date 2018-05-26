@@ -213,7 +213,6 @@ public class TimelineFragment extends SFragment implements
 
         adapter = new TimelineAdapter(dataSource, this);
 
-        statuses.clear();
 
         setupSwipeRefreshLayout();
         setupRecyclerView();
@@ -227,8 +226,13 @@ public class TimelineFragment extends SFragment implements
         topId = null;
 
 
-        bottomLoading = true;
-        sendFetchTimelineRequest(null, null, FetchEnd.BOTTOM, -1);
+        if (statuses.isEmpty()) {
+            progressBar.setVisibility(View.VISIBLE);
+            bottomLoading = true;
+            sendFetchTimelineRequest(null, null, FetchEnd.BOTTOM, -1);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
 
         return rootView;
     }
@@ -787,10 +791,13 @@ public class TimelineFragment extends SFragment implements
                 if (next != null) {
                     fromId = next.uri.getQueryParameter("max_id");
                 }
-                if (statuses.size() == 0) {
-                    didLoadEverythingBottom = true;
+                if (!this.statuses.isEmpty()
+                        && !this.statuses.get(this.statuses.size() - 1).isRight()) {
+                    this.statuses.remove(this.statuses.size() - 1);
+                    updateAdapter();
                 }
-                if (adapter.getItemCount() > 1) {
+                int oldSize = this.statuses.size();
+                if (this.statuses.size() > 1) {
                     addItems(statuses, fromId);
                 } else {
                     /* If this is the first fetch, also save the id from the "previous" link and
@@ -802,6 +809,11 @@ public class TimelineFragment extends SFragment implements
                         uptoId = previous.uri.getQueryParameter("since_id");
                     }
                     updateStatuses(statuses, fromId, uptoId, fullFetch);
+                }
+                if (this.statuses.size() == oldSize) {
+                    // This may be a brittle check but seems like it works
+                    // Can we check it using headers somehow? Do all server support them?
+                    didLoadEverythingBottom = true;
                 }
                 break;
             }
@@ -837,10 +849,6 @@ public class TimelineFragment extends SFragment implements
         switch (fetchEnd) {
             case BOTTOM: {
                 bottomLoading = false;
-                if (!statuses.isEmpty() && !statuses.get(statuses.size() - 1).isRight()) {
-                    statuses.remove(statuses.size() - 1);
-                    updateAdapter();
-                }
                 break;
             }
             case TOP: {
@@ -879,7 +887,7 @@ public class TimelineFragment extends SFragment implements
             topId = toId;
         }
 
-        List<Either<Placeholder, Status>> liftedNew = listStatusList(newStatuses);
+        List<Either<Placeholder, Status>> liftedNew = liftStatusList(newStatuses);
 
         if (statuses.isEmpty()) {
             statuses.addAll(liftedNew);
@@ -917,7 +925,7 @@ public class TimelineFragment extends SFragment implements
         // I was about to replace findStatus with indexOf but it is incorrect to compare value
         // types by ID anyway and we should change equals() for Status, I think, so this makes sense
         if (last != null && !findStatus(newStatuses, last.getId())) {
-            statuses.addAll(listStatusList(newStatuses));
+            statuses.addAll(liftStatusList(newStatuses));
             if (fromId != null) {
                 bottomId = fromId;
             }
@@ -936,7 +944,7 @@ public class TimelineFragment extends SFragment implements
             return;
         }
 
-        List<Either<Placeholder, Status>> liftedNew = listStatusList(newStatuses);
+        List<Either<Placeholder, Status>> liftedNew = liftStatusList(newStatuses);
 
         if (fullFetch) {
             liftedNew.add(Either.left(newPlaceholder()));
@@ -1029,7 +1037,7 @@ public class TimelineFragment extends SFragment implements
         onRefresh();
     }
 
-    private List<Either<Placeholder, Status>> listStatusList(List<Status> list) {
+    private List<Either<Placeholder, Status>> liftStatusList(List<Status> list) {
         return CollectionUtil.map(list, statusLifter);
     }
 
@@ -1047,7 +1055,10 @@ public class TimelineFragment extends SFragment implements
         @Override
         public void onInserted(int position, int count) {
             adapter.notifyItemRangeInserted(position, count);
-            if (position == 0 && layoutManager.findFirstVisibleItemPosition() == 0) {
+            if (position == 0
+                    && layoutManager.findFirstVisibleItemPosition() == 0
+                    && (swipeRefreshLayout.getVisibility() == View.VISIBLE
+                    || progressBar.getVisibility() == View.VISIBLE)) {
                 recyclerView.post(() -> layoutManager.scrollToPosition(0));
             }
         }
