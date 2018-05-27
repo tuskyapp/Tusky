@@ -158,7 +158,7 @@ class TimelineRepostiryImpl(
     private fun Status.toEntity(timelineUserId: Long, instance: String): TimelineStatusEntity {
         val actionable = actionableStatus
         return TimelineStatusEntity(
-                serverId = reblog?.id ?: id,
+                serverId = id,
                 url = actionable.url,
                 instance = instance,
                 timelineUserId = timelineUserId,
@@ -167,7 +167,7 @@ class TimelineRepostiryImpl(
                 inReplyToAccountId = actionable.inReplyToAccountId,
                 content = HtmlUtils.toHtml(actionable.content),
                 createdAt = actionable.createdAt.time,
-                emojis = gson.toJson(emojis),
+                emojis = gson.toJson(actionable.emojis),
                 reblogsCount = actionable.reblogsCount,
                 favouritesCount = actionable.favouritesCount,
                 reblogged = actionable.reblogged,
@@ -175,10 +175,10 @@ class TimelineRepostiryImpl(
                 sensitive = actionable.sensitive,
                 spoilerText = actionable.spoilerText,
                 visibility = actionable.visibility,
-                attachments = gson.toJson(attachments),
-                mentions = gson.toJson(mentions),
-                application = gson.toJson(application),
-                realServerId = if (reblog != null) id else "",
+                attachments = gson.toJson(actionable.attachments),
+                mentions = gson.toJson(actionable.mentions),
+                application = gson.toJson(actionable.application),
+                realServerId = reblog?.id ?: "",
                 reblogUri = reblog?.url,
                 reblogAccountId = if (reblog != null) account.id else ""
         )
