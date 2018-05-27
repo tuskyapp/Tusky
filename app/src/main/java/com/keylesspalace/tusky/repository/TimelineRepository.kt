@@ -34,19 +34,18 @@ class TimelineRepostiryImpl(
         val instance = acc.domain
         return timelineDao.getStatusesForAccount(accountId, maxId, sinceId, limit)
                 .flatMap { dbResult ->
-                    if (dbResult.isEmpty()) {
+                    if (dbResult.size < 2) {
                         mastodonApi.homeTimelineSingle(maxId, sinceId, limit)
                                 .doAfterSuccess { serverResult ->
                                     for (status in serverResult) {
-                                        val author = timelineDao.insertAccount(
+                                        timelineDao.insertAccount(
                                                 status.account.toEntity(instance)
                                         )
-                                        val reblogAuthor = status.reblog?.account
+                                        status.reblog?.account
                                                 ?.toEntity(instance)
-                                                ?.let(timelineDao::insertAccount) ?: 0
+                                                ?.let(timelineDao::insertAccount)
                                         timelineDao.insertStatus(
-                                                status.toEntity(accountId, author, instance,
-                                                        reblogAuthor)
+                                                status.toEntity(accountId, instance)
                                         )
                                     }
                                 }
@@ -58,7 +57,6 @@ class TimelineRepostiryImpl(
 
     private fun Account.toEntity(instance: String): TimelineAccountEntity {
         return TimelineAccountEntity(
-                id = 0,
                 serverId = id,
                 instance = instance,
                 localUsername = localUsername,
@@ -108,7 +106,8 @@ class TimelineRepostiryImpl(
         }
 
         val newStatus = Status(
-                id = status.serverId,
+                // if it's a reblog, fetch embedded id from the field, otherwise it's just an id
+                id = if (status.realServerId.isNotEmpty()) status.realServerId else status.serverId,
                 url = status.url,
                 account = account.toAccount(),
                 inReplyToId = status.inReplyToId,
@@ -130,7 +129,8 @@ class TimelineRepostiryImpl(
         )
         return if (status.reblogUri != null) {
             Status(
-                    id = status.reblogServerId!!,
+                    // it's a reblog, id is in the serverId field
+                    id = status.serverId,
                     url = status.reblogUri!!,
                     account = reblogAccount!!.toAccount(),
                     reblog = newStatus,
@@ -155,16 +155,13 @@ class TimelineRepostiryImpl(
         }
     }
 
-    private fun Status.toEntity(timelineUserId: Long, author: Long, instance: String,
-                                reblogAccountId: Long): TimelineStatusEntity {
+    private fun Status.toEntity(timelineUserId: Long, instance: String): TimelineStatusEntity {
         val actionable = actionableStatus
         return TimelineStatusEntity(
-                id = 0,
-                serverId = actionable.id,
+                serverId = reblog?.id ?: id,
                 url = actionable.url,
                 instance = instance,
                 timelineUserId = timelineUserId,
-                authorLocalId = author,
                 authorServerId = actionable.account.id,
                 inReplyToId = actionable.inReplyToId,
                 inReplyToAccountId = actionable.inReplyToAccountId,
@@ -181,9 +178,9 @@ class TimelineRepostiryImpl(
                 attachments = gson.toJson(attachments),
                 mentions = gson.toJson(mentions),
                 application = gson.toJson(application),
-                reblogServerId = reblog?.id,
+                realServerId = if (reblog != null) id else "",
                 reblogUri = reblog?.url,
-                reblogAccountId = reblogAccountId
+                reblogAccountId = reblog?.account?.id ?: ""
         )
     }
 }

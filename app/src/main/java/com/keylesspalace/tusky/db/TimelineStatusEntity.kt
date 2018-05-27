@@ -11,27 +11,28 @@ import com.keylesspalace.tusky.entity.Status
  * *reblogged* status and we embed "reblog status" into reblogged status. This reversed
  * relationship takes much less space and is much faster to fetch (no N+1 type queries or JSON
  * serialization).
- * "Reblog status", if present, is marked by [reblogServerId], [reblogUri] and [reblogAccountId]
+ * "Reblog status", if present, is marked by [realServerId], [reblogUri] and [reblogAccountId]
  * fields.
+ *
+ * If it's not a reblog: [serverId] is real id.
+ * If it's a reblog: [serverId] is a reblog id while embedded status id is stored in [realServerId]
  */
 @Entity(
         tableName = "timeline_status",
+        primaryKeys = ["timelineUserId", "serverId", "realServerId"],
         foreignKeys = ([
             ForeignKey(
                     entity = TimelineAccountEntity::class,
-                    parentColumns = ["id"],
-                    childColumns = ["authorLocalId"]
+                    parentColumns = ["serverId", "instance"],
+                    childColumns = ["authorServerId", "instance"]
             )
         ])
 )
 @TypeConverters(TootEntity.Converters::class)
 data class TimelineStatusEntity(
-        @PrimaryKey(autoGenerate = true)
-        val id: Long,
         val serverId: String,
         val url: String,
         val timelineUserId: Long,
-        val authorLocalId: Long,
         val authorServerId: String,
         val instance: String,
         val inReplyToId: String?,
@@ -49,15 +50,16 @@ data class TimelineStatusEntity(
         val attachments: String?,
         val mentions: String?,
         val application: String?,
-        val reblogServerId: String?,
+        val realServerId: String,
         val reblogUri: String?,
-        val reblogAccountId: Long
+        val reblogAccountId: String
 )
 
-@Entity(tableName = "timeline_account")
+@Entity(
+        tableName = "timeline_account",
+        primaryKeys = ["serverId", "instance"]
+)
 data class TimelineAccountEntity(
-        @PrimaryKey(autoGenerate = true)
-        val id: Long,
         val serverId: String,
         val instance: String,
         val localUsername: String,
