@@ -38,13 +38,16 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import com.keylesspalace.tusky.appstore.BlockEvent
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.MuteEvent
+import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.pager.AccountPagerAdapter
-import com.keylesspalace.tusky.receiver.TimelineReceiver
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.view.RoundedTransformation
 import com.keylesspalace.tusky.viewmodel.AccountViewModel
@@ -62,6 +65,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var eventHub: EventHub
 
     private lateinit var viewModel: AccountViewModel
 
@@ -119,10 +124,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             }
 
             if(it is Success) {
-                if (relation?.following == false) {
-                    broadcast(TimelineReceiver.Types.UNFOLLOW_ACCOUNT, accountId)
-                } else  if (relation?.blocking == true) {
-                    broadcast(TimelineReceiver.Types.BLOCK_ACCOUNT, accountId)
+                when {
+                    //TODO this sends too many events
+                    relation?.following == false -> eventHub.dispatch(UnfollowEvent(accountId))
+                    relation?.blocking == true -> eventHub.dispatch(BlockEvent(accountId))
+                    relation?.muting == true -> eventHub.dispatch(MuteEvent(accountId))
                 }
             }
 
