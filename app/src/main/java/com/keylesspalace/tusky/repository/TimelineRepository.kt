@@ -105,11 +105,11 @@ class TimelineRepostiryImpl(
             gson.fromJson(it, Status.Application::class.java)
         }
 
-        val newStatus = Status(
+        val contentStatus = Status(
                 // if it's a reblog, fetch embedded id from the field, otherwise it's just an id
                 id = if (status.realServerId.isNotEmpty()) status.realServerId else status.serverId,
                 url = status.url,
-                account = account.toAccount(),
+                account = (reblogAccount ?: account).toAccount(),
                 inReplyToId = status.inReplyToId,
                 inReplyToAccountId = status.inReplyToAccountId,
                 reblog = null,
@@ -132,12 +132,12 @@ class TimelineRepostiryImpl(
                     // it's a reblog, id is in the serverId field
                     id = status.serverId,
                     url = status.reblogUri!!,
-                    account = reblogAccount!!.toAccount(),
-                    reblog = newStatus,
+                    account =  account.toAccount(),
+                    reblog = contentStatus,
                     inReplyToId = null,
                     inReplyToAccountId = null,
                     content = SpannedString(""),
-                    createdAt = newStatus.createdAt, // Fake and it doesn't matter
+                    createdAt = contentStatus.createdAt, // Fake and it doesn't matter
                     emojis = listOf(),
                     reblogsCount = 0,
                     favourited = false,
@@ -151,7 +151,7 @@ class TimelineRepostiryImpl(
                     application = null
             )
         } else {
-            newStatus
+            contentStatus
         }
     }
 
@@ -180,7 +180,7 @@ class TimelineRepostiryImpl(
                 application = gson.toJson(application),
                 realServerId = if (reblog != null) id else "",
                 reblogUri = reblog?.url,
-                reblogAccountId = reblog?.account?.id ?: ""
+                reblogAccountId = if (reblog != null) account.id else ""
         )
     }
 }
