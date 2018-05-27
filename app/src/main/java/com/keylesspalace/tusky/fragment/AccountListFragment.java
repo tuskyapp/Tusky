@@ -154,7 +154,7 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         // Just use the basic scroll listener to load more accounts.
         scrollListener = new EndlessOnScrollListener(layoutManager) {
             @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+            public void onLoadMore(int totalItemsCount, RecyclerView view) {
                 AccountListFragment.this.onLoadMore(view);
             }
         };

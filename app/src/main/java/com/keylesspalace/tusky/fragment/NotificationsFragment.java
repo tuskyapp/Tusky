@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.fragment;
 
 import android.app.Activity;
 import android.arch.core.util.Function;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -26,30 +27,36 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
+import com.keylesspalace.tusky.appstore.EventHub;
+import com.keylesspalace.tusky.appstore.BlockEvent;
+import com.keylesspalace.tusky.appstore.FavoriteEvent;
+import com.keylesspalace.tusky.appstore.ReblogEvent;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
-import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.TimelineCases;
-import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
@@ -64,12 +71,17 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
@@ -106,15 +118,19 @@ public class NotificationsFragment extends SFragment implements
     public TimelineCases timelineCases;
     @Inject
     AccountManager accountManager;
+    @Inject
+    EventHub eventHub;
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private TextView nothingMessageView;
+
+    private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private NotificationsAdapter adapter;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private boolean hideFab;
-    private TimelineReceiver timelineReceiver;
     private boolean topLoading;
     private int topFetches;
     private boolean bottomLoading;
@@ -158,11 +174,14 @@ public class NotificationsFragment extends SFragment implements
         @NonNull Context context = inflater.getContext(); // from inflater to silence warning
         // Setup the SwipeRefreshLayout.
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
+        progressBar = rootView.findViewById(R.id.progress_bar);
+        nothingMessageView = rootView.findViewById(R.id.nothing_message);
+
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.primary);
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
         // Setup the RecyclerView.
-        recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -181,10 +200,6 @@ public class NotificationsFragment extends SFragment implements
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         recyclerView.setAdapter(adapter);
 
-        timelineReceiver = new TimelineReceiver(this);
-        LocalBroadcastManager.getInstance(context.getApplicationContext())
-                .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(null));
-
         notifications.clear();
         topLoading = false;
         topFetches = 0;
@@ -193,7 +208,56 @@ public class NotificationsFragment extends SFragment implements
         bottomId = null;
         topId = null;
 
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        setupNothingView();
+
         return rootView;
+    }
+
+    @Override
+    public void onPostCreate() {
+        super.onPostCreate();
+        eventHub.getEvents()
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(event -> {
+                    if (event instanceof FavoriteEvent) {
+                        handleFavEvent((FavoriteEvent) event);
+                    } else if (event instanceof ReblogEvent) {
+                        handleReblogEvent((ReblogEvent) event);
+                    } else if (event instanceof BlockEvent) {
+                        removeAllByAccountId(((BlockEvent) event).getAccountId());
+                    }
+                });
+    }
+
+    private void setupNothingView() {
+        Drawable top = AppCompatResources.getDrawable(Objects.requireNonNull(getContext()),
+                R.drawable.elephant_friend);
+        if (top != null) {
+            top.setBounds(0, 0, top.getIntrinsicWidth() / 2, top.getIntrinsicHeight() / 2);
+        }
+        nothingMessageView.setCompoundDrawables(null, top, null, null);
+        nothingMessageView.setVisibility(View.GONE);
+    }
+
+    private void handleFavEvent(FavoriteEvent event) {
+        Pair<Integer, Notification> posAndNotification =
+                findReplyPosition(event.getStatusId());
+        if (posAndNotification == null) return;
+        //noinspection ConstantConditions
+        setFavovouriteForStatus(posAndNotification.first,
+                posAndNotification.second.getStatus(),
+                event.getFavourite());
+    }
+
+    private void handleReblogEvent(ReblogEvent event) {
+        Pair<Integer, Notification> posAndNotification = findReplyPosition(event.getStatusId());
+        if (posAndNotification == null) return;
+        //noinspection ConstantConditions
+        setReblogForStatus(posAndNotification.first,
+                posAndNotification.second.getStatus(),
+                event.getReblog());
     }
 
     @Override
@@ -250,7 +314,7 @@ public class NotificationsFragment extends SFragment implements
             }
 
             @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+            public void onLoadMore(int totalItemsCount, RecyclerView view) {
                 NotificationsFragment.this.onLoadMore();
             }
         };
@@ -266,9 +330,6 @@ public class NotificationsFragment extends SFragment implements
         } else {
             TabLayout tabLayout = activity.findViewById(R.id.tab_layout);
             tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
-
-            LocalBroadcastManager.getInstance(activity)
-                    .unregisterReceiver(timelineReceiver);
         }
 
         super.onDestroyView();
@@ -292,24 +353,7 @@ public class NotificationsFragment extends SFragment implements
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
-                    status.setReblogged(reblog);
-
-                    if (status.getReblog() != null) {
-                        status.getReblog().setReblogged(reblog);
-                    }
-
-                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
-
-                    StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
-                    viewDataBuilder.setReblogged(reblog);
-
-                    NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
-                            viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
-                            viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
-
-                    notifications.setPairedItem(position, newViewData);
-
-                    adapter.updateItemWithNotify(position, newViewData, false);
+                    setReblogForStatus(position, status, reblog);
                 }
             }
 
@@ -318,6 +362,27 @@ public class NotificationsFragment extends SFragment implements
                 Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.getId(), t);
             }
         });
+    }
+
+    private void setReblogForStatus(int position, Status status, boolean reblog) {
+        status.setReblogged(reblog);
+
+        if (status.getReblog() != null) {
+            status.getReblog().setReblogged(reblog);
+        }
+
+        NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
+
+        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
+        viewDataBuilder.setReblogged(reblog);
+
+        NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
+                viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
+                viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
+
+        notifications.setPairedItem(position, newViewData);
+
+        adapter.updateItemWithNotify(position, newViewData, true);
     }
 
 
@@ -329,24 +394,7 @@ public class NotificationsFragment extends SFragment implements
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
-                    status.setFavourited(favourite);
-
-                    if (status.getReblog() != null) {
-                        status.getReblog().setFavourited(favourite);
-                    }
-
-                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
-
-                    StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
-                    viewDataBuilder.setFavourited(favourite);
-
-                    NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
-                            viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
-                            viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
-
-                    notifications.setPairedItem(position, newViewData);
-
-                    adapter.updateItemWithNotify(position, newViewData, false);
+                    setFavovouriteForStatus(position, status, favourite);
 
                 }
             }
@@ -356,6 +404,27 @@ public class NotificationsFragment extends SFragment implements
                 Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.getId(), t);
             }
         });
+    }
+
+    private void setFavovouriteForStatus(int position, Status status, boolean favourite) {
+        status.setFavourited(favourite);
+
+        if (status.getReblog() != null) {
+            status.getReblog().setFavourited(favourite);
+        }
+
+        NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
+
+        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
+        viewDataBuilder.setFavourited(favourite);
+
+        NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
+                viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
+                viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
+
+        notifications.setPairedItem(position, newViewData);
+
+        adapter.updateItemWithNotify(position, newViewData, true);
     }
 
     @Override
@@ -475,8 +544,7 @@ public class NotificationsFragment extends SFragment implements
         adapter.update(notifications.getPairedCopy());
     }
 
-    @Override
-    public void removeAllByAccountId(String accountId) {
+    private void removeAllByAccountId(String accountId) {
         // using iterator to safely remove items while iterating
         Iterator<Either<Placeholder, Notification>> iterator = notifications.iterator();
         while (iterator.hasNext()) {
@@ -590,6 +658,7 @@ public class NotificationsFragment extends SFragment implements
             adapter.setFooterState(FooterViewHolder.State.END);
         }
         swipeRefreshLayout.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void onFetchNotificationsFailure(Exception exception, FetchEnd fetchEnd, int position) {
@@ -602,6 +671,7 @@ public class NotificationsFragment extends SFragment implements
         }
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
         fulfillAnyQueuedFetches(fetchEnd);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void saveNewestNotificationId(List<Notification> notifications) {
@@ -623,7 +693,6 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private boolean isBiggerThan(BigInteger newId, BigInteger lastShownNotificationId) {
-
         return lastShownNotificationId.compareTo(newId) < 0;
     }
 
@@ -735,5 +804,21 @@ public class NotificationsFragment extends SFragment implements
         adapter.clear();
         notifications.clear();
         sendFetchNotificationsRequest(null, null, FetchEnd.TOP, -1);
+    }
+
+    @Nullable
+    private Pair<Integer, Notification> findReplyPosition(@NonNull String statusId) {
+        for (int i = 0; i < notifications.size(); i++) {
+            Notification notification = notifications.get(i).getAsRightOrNull();
+            if (notification != null
+                    && notification.getStatus() != null
+                    && notification.getType() == Notification.Type.MENTION
+                    && (statusId.equals(notification.getStatus().getId())
+                    || (notification.getStatus().getReblog() != null
+                    && statusId.equals(notification.getStatus().getReblog().getId())))) {
+                return new Pair<>(i, notification);
+            }
+        }
+        return null;
     }
 }

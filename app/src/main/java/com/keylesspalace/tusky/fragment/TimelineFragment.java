@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.fragment;
 
 import android.arch.core.util.Function;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -25,29 +26,40 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.content.res.AppCompatResources;
+import android.support.v7.recyclerview.extensions.AsyncDifferConfig;
+import android.support.v7.recyclerview.extensions.AsyncListDiffer;
+import android.support.v7.util.DiffUtil;
+import android.support.v7.util.ListUpdateCallback;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
-import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
+import com.keylesspalace.tusky.appstore.BlockEvent;
+import com.keylesspalace.tusky.appstore.EventHub;
+import com.keylesspalace.tusky.appstore.FavoriteEvent;
+import com.keylesspalace.tusky.appstore.MuteEvent;
+import com.keylesspalace.tusky.appstore.ReblogEvent;
+import com.keylesspalace.tusky.appstore.StatusComposedEvent;
+import com.keylesspalace.tusky.appstore.StatusDeletedEvent;
+import com.keylesspalace.tusky.appstore.UnfollowEvent;
 import com.keylesspalace.tusky.di.Injectable;
-import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
-import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
@@ -60,15 +72,19 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
 public class TimelineFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
@@ -98,13 +114,18 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Inject
-    TimelineCases timelineCases;
+    public TimelineCases timelineCases;
+    @Inject
+    public EventHub eventHub;
 
     private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private TextView nothingMessageView;
+
     private TimelineAdapter adapter;
     private Kind kind;
     private String hashtagOrId;
-    private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
@@ -113,15 +134,16 @@ public class TimelineFragment extends SFragment implements
     private boolean filterRemoveRegex;
     private Matcher filterRemoveRegexMatcher;
     private boolean hideFab;
-    private TimelineReceiver timelineReceiver;
     private boolean topLoading;
     private int topFetches;
     private boolean bottomLoading;
-    private int bottomFetches;
+
     @Nullable
     private String bottomId;
     @Nullable
     private String topId;
+    private long maxPlaceholderId = -1;
+    private boolean didLoadEverythingBottom;
 
     private boolean alwaysShowSensitiveMedia;
 
@@ -138,7 +160,8 @@ public class TimelineFragment extends SFragment implements
                     if (status != null) {
                         return ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia);
                     } else {
-                        return new StatusViewData.Placeholder(false);
+                        Placeholder placeholder = input.getAsLeft();
+                        return new StatusViewData.Placeholder(placeholder.id, false);
                     }
                 }
             });
@@ -161,20 +184,21 @@ public class TimelineFragment extends SFragment implements
     }
 
     private static final class Placeholder {
-        private final static Placeholder INSTANCE = new Placeholder();
+        final long id;
 
-        public static Placeholder getInstance() {
-            return INSTANCE;
+        public static Placeholder getInstance(long id) {
+            return new Placeholder(id);
         }
 
-        private Placeholder() {
+        private Placeholder(long id) {
+            this.id = id;
         }
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Bundle arguments = getArguments();
+        Bundle arguments = Objects.requireNonNull(getArguments());
         kind = Kind.valueOf(arguments.getString(KIND_ARG));
         if (kind == Kind.TAG || kind == Kind.USER || kind == Kind.LIST) {
             hashtagOrId = arguments.getString(HASHTAG_OR_ID_ARG);
@@ -182,14 +206,73 @@ public class TimelineFragment extends SFragment implements
 
         final View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
 
-        // Setup the SwipeRefreshLayout.
-        Context context = getContext();
+        recyclerView = rootView.findViewById(R.id.recycler_view);
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        progressBar = rootView.findViewById(R.id.progress_bar);
+        nothingMessageView = rootView.findViewById(R.id.nothing_message);
+
+        adapter = new TimelineAdapter(dataSource, this);
+
+
+        setupSwipeRefreshLayout();
+        setupRecyclerView();
+        updateAdapter();
+        setupTimelinePreferences();
+        setupNothingView();
+
+        topLoading = false;
+        topFetches = 0;
+        bottomId = null;
+        topId = null;
+
+
+        if (statuses.isEmpty()) {
+            progressBar.setVisibility(View.VISIBLE);
+            bottomLoading = true;
+            sendFetchTimelineRequest(null, null, FetchEnd.BOTTOM, -1);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
+
+        return rootView;
+    }
+
+    private void setupTimelinePreferences() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
+                getActivity());
+        preferences.registerOnSharedPreferenceChangeListener(this);
+        alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
+        boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
+        adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
+
+        boolean filter = preferences.getBoolean("tabFilterHomeReplies", true);
+        filterRemoveReplies = kind == Kind.HOME && !filter;
+
+        filter = preferences.getBoolean("tabFilterHomeBoosts", true);
+        filterRemoveReblogs = kind == Kind.HOME && !filter;
+
+        String regexFilter = preferences.getString("tabFilterRegex", "");
+        filterRemoveRegex = (kind == Kind.HOME
+                || kind == Kind.PUBLIC_LOCAL
+                || kind == Kind.PUBLIC_FEDERATED)
+                && !regexFilter.isEmpty();
+
+        if (filterRemoveRegex) {
+            filterRemoveRegexMatcher = Pattern.compile(regexFilter, Pattern.CASE_INSENSITIVE)
+                    .matcher("");
+        }
+    }
+
+    private void setupSwipeRefreshLayout() {
+        Context context = Objects.requireNonNull(getContext());
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.primary);
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
-        // Setup the RecyclerView.
-        recyclerView = rootView.findViewById(R.id.recycler_view);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context,
+                android.R.attr.colorBackground));
+    }
+
+    private void setupRecyclerView() {
+        Context context = Objects.requireNonNull(getContext());
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -199,38 +282,58 @@ public class TimelineFragment extends SFragment implements
                 R.drawable.status_divider_dark);
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
-        adapter = new TimelineAdapter(this);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
-                getActivity());
-        preferences.registerOnSharedPreferenceChangeListener(this);
-        alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
-        boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
-        adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
+
+        // CWs are expanded without animation, buttons animate itself, we don't need it basically
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+
         recyclerView.setAdapter(adapter);
+    }
 
-        boolean filter = preferences.getBoolean("tabFilterHomeReplies", true);
-        filterRemoveReplies = kind == Kind.HOME && !filter;
+    @Override
+    public void onPostCreate() {
+        super.onPostCreate();
 
-        filter = preferences.getBoolean("tabFilterHomeBoosts", true);
-        filterRemoveReblogs = kind == Kind.HOME && !filter;
+        eventHub.getEvents()
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(event -> {
+                    if (event instanceof FavoriteEvent) {
+                        FavoriteEvent favEvent = ((FavoriteEvent) event);
+                        handleFavEvent(favEvent);
+                    } else if (event instanceof ReblogEvent) {
+                        ReblogEvent reblogEvent = (ReblogEvent) event;
+                        handleReblogEvent(reblogEvent);
+                    } else if (event instanceof UnfollowEvent) {
+                        if (kind == Kind.HOME) {
+                            String id = ((UnfollowEvent) event).getAccountId();
+                            removeAllByAccountId(id);
+                        }
+                    } else if (event instanceof BlockEvent) {
+                        String id = ((BlockEvent) event).getAccountId();
+                        removeAllByAccountId(id);
+                    } else if (event instanceof MuteEvent) {
+                        String id = ((MuteEvent) event).getAccountId();
+                        removeAllByAccountId(id);
+                    } else if (event instanceof StatusDeletedEvent) {
+                        String id = ((StatusDeletedEvent) event).getStatusId();
+                        deleteStatusById(id);
+                    } else if (event instanceof StatusComposedEvent) {
+                        Status status = ((StatusComposedEvent) event).getStatus();
+                        handleStatusComposeEvent(status);
+                    }
+                });
+    }
 
-        String regexFilter = preferences.getString("tabFilterRegex", "");
-        filterRemoveRegex = (kind == Kind.HOME || kind == Kind.PUBLIC_LOCAL || kind == Kind.PUBLIC_FEDERATED) && !regexFilter.isEmpty();
-        if (filterRemoveRegex) filterRemoveRegexMatcher = Pattern.compile(regexFilter, Pattern.CASE_INSENSITIVE).matcher("");
-
-        timelineReceiver = new TimelineReceiver(this, this);
-        LocalBroadcastManager.getInstance(context.getApplicationContext())
-                .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(kind));
-
-        statuses.clear();
-        topLoading = false;
-        topFetches = 0;
-        bottomLoading = false;
-        bottomFetches = 0;
-        bottomId = null;
-        topId = null;
-
-        return rootView;
+    private void deleteStatusById(String id) {
+        for (int i = 0; i < statuses.size(); i++) {
+            Either<Placeholder, Status> either = statuses.get(i);
+            if (either.isRight()
+                    && id.equals(either.getAsRight().getId())) {
+                statuses.remove(either);
+                updateAdapter();
+                break;
+            }
+        }
     }
 
     @Override
@@ -238,7 +341,7 @@ public class TimelineFragment extends SFragment implements
         super.onActivityCreated(savedInstanceState);
 
         if (jumpToTopAllowed()) {
-            TabLayout layout = getActivity().findViewById(R.id.tab_layout);
+            TabLayout layout = Objects.requireNonNull(getActivity()).findViewById(R.id.tab_layout);
             if (layout != null) {
                 onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
                     @Override
@@ -287,7 +390,7 @@ public class TimelineFragment extends SFragment implements
                 }
 
                 @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                public void onLoadMore(int totalItemsCount, RecyclerView view) {
                     TimelineFragment.this.onLoadMore();
                 }
             };
@@ -295,7 +398,7 @@ public class TimelineFragment extends SFragment implements
             // Just use the basic scroll listener to load more statuses.
             scrollListener = new EndlessOnScrollListener(layoutManager) {
                 @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                public void onLoadMore(int totalItemsCount, RecyclerView view) {
                     TimelineFragment.this.onLoadMore();
                 }
             };
@@ -306,13 +409,23 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void onDestroyView() {
         if (jumpToTopAllowed()) {
-            TabLayout tabLayout = getActivity().findViewById(R.id.tab_layout);
+            TabLayout tabLayout = Objects.requireNonNull(getActivity())
+                    .findViewById(R.id.tab_layout);
             if (tabLayout != null) {
                 tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
             }
         }
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(timelineReceiver);
         super.onDestroyView();
+    }
+
+    private void setupNothingView() {
+        Drawable top = AppCompatResources.getDrawable(Objects.requireNonNull(getContext()),
+                R.drawable.elephant_friend);
+        if (top != null) {
+            top.setBounds(0, 0, top.getIntrinsicWidth() / 2, top.getIntrinsicHeight() / 2);
+        }
+        nothingMessageView.setCompoundDrawables(null, top, null, null);
+        nothingMessageView.setVisibility(View.GONE);
     }
 
     @Override
@@ -333,22 +446,7 @@ public class TimelineFragment extends SFragment implements
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
 
                 if (response.isSuccessful()) {
-                    status.setReblogged(reblog);
-
-                    if (status.getReblog() != null) {
-                        status.getReblog().setReblogged(reblog);
-                    }
-
-                    Pair<StatusViewData.Concrete, Integer> actual =
-                            findStatusAndPosition(position, status);
-                    if (actual == null) return;
-
-                    StatusViewData newViewData =
-                            new StatusViewData.Builder(actual.first)
-                                    .setReblogged(reblog)
-                                    .createStatusViewData();
-                    statuses.setPairedItem(actual.second, newViewData);
-                    adapter.changeItem(actual.second, newViewData, false);
+                    setRebloggedForStatus(position, status, reblog);
                 }
             }
 
@@ -357,6 +455,25 @@ public class TimelineFragment extends SFragment implements
                 Log.d(TAG, "Failed to reblog status " + status.getId(), t);
             }
         });
+    }
+
+    private void setRebloggedForStatus(int position, Status status, boolean reblog) {
+        status.setReblogged(reblog);
+
+        if (status.getReblog() != null) {
+            status.getReblog().setReblogged(reblog);
+        }
+
+        Pair<StatusViewData.Concrete, Integer> actual =
+                findStatusAndPosition(position, status);
+        if (actual == null) return;
+
+        StatusViewData newViewData =
+                new StatusViewData.Builder(actual.first)
+                        .setReblogged(reblog)
+                        .createStatusViewData();
+        statuses.setPairedItem(actual.second, newViewData);
+        updateAdapter();
     }
 
     @Override
@@ -368,22 +485,7 @@ public class TimelineFragment extends SFragment implements
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
 
                 if (response.isSuccessful()) {
-                    status.setFavourited(favourite);
-
-                    if (status.getReblog() != null) {
-                        status.getReblog().setFavourited(favourite);
-                    }
-
-                    Pair<StatusViewData.Concrete, Integer> actual =
-                            findStatusAndPosition(position, status);
-                    if (actual == null) return;
-
-                    StatusViewData newViewData = new StatusViewData
-                            .Builder(actual.first)
-                            .setFavourited(favourite)
-                            .createStatusViewData();
-                    statuses.setPairedItem(actual.second, newViewData);
-                    adapter.changeItem(actual.second, newViewData, false);
+                    setFavouriteForStatus(position, status, favourite);
                 }
             }
 
@@ -392,6 +494,25 @@ public class TimelineFragment extends SFragment implements
                 Log.d(TAG, "Failed to favourite status " + status.getId(), t);
             }
         });
+    }
+
+    private void setFavouriteForStatus(int position, Status status, boolean favourite) {
+        status.setFavourited(favourite);
+
+        if (status.getReblog() != null) {
+            status.getReblog().setFavourited(favourite);
+        }
+
+        Pair<StatusViewData.Concrete, Integer> actual =
+                findStatusAndPosition(position, status);
+        if (actual == null) return;
+
+        StatusViewData newViewData = new StatusViewData
+                .Builder(actual.first)
+                .setFavourited(favourite)
+                .createStatusViewData();
+        statuses.setPairedItem(actual.second, newViewData);
+        updateAdapter();
     }
 
     @Override
@@ -410,7 +531,7 @@ public class TimelineFragment extends SFragment implements
                 ((StatusViewData.Concrete) statuses.getPairedItem(position)))
                 .setIsExpanded(expanded).createStatusViewData();
         statuses.setPairedItem(position, newViewData);
-        adapter.changeItem(position, newViewData, false);
+        updateAdapter();
     }
 
     @Override
@@ -419,7 +540,7 @@ public class TimelineFragment extends SFragment implements
                 ((StatusViewData.Concrete) statuses.getPairedItem(position)))
                 .setIsShowingSensitiveContent(isShowing).createStatusViewData();
         statuses.setPairedItem(position, newViewData);
-        adapter.changeItem(position, newViewData, false);
+        updateAdapter();
     }
 
     @Override
@@ -434,9 +555,10 @@ public class TimelineFragment extends SFragment implements
             }
             sendFetchTimelineRequest(fromStatus.getId(), toStatus.getId(), FetchEnd.MIDDLE, position);
 
-            StatusViewData newViewData = new StatusViewData.Placeholder(true);
+            Placeholder placeholder = statuses.get(position).getAsLeft();
+            StatusViewData newViewData = new StatusViewData.Placeholder(placeholder.id, true);
             statuses.setPairedItem(position, newViewData);
-            adapter.changeItem(position, newViewData, false);
+            updateAdapter();
         } else {
             Log.e(TAG, "error loading more");
         }
@@ -530,10 +652,9 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void removeItem(int position) {
         statuses.remove(position);
-        adapter.update(statuses.getPairedCopy());
+        updateAdapter();
     }
 
-    @Override
     public void removeAllByAccountId(String accountId) {
         // using iterator to safely remove items while iterating
         Iterator<Either<Placeholder, Status>> iterator = statuses.iterator();
@@ -543,15 +664,34 @@ public class TimelineFragment extends SFragment implements
                 iterator.remove();
             }
         }
-        adapter.update(statuses.getPairedCopy());
+        updateAdapter();
     }
 
     private void onLoadMore() {
+        if (didLoadEverythingBottom || bottomLoading) {
+            return;
+        }
+        bottomLoading = true;
+
+        Either<Placeholder, Status> last = statuses.get(statuses.size() - 1);
+        Placeholder placeholder;
+        if (last.isRight()) {
+            placeholder = newPlaceholder();
+            statuses.add(Either.left(placeholder));
+        } else {
+            placeholder = last.getAsLeft();
+        }
+        statuses.setPairedItem(statuses.size() - 1,
+                new StatusViewData.Placeholder(placeholder.id, true));
+
+        updateAdapter();
+
         sendFetchTimelineRequest(bottomId, null, FetchEnd.BOTTOM, -1);
     }
 
     private void fullyRefresh() {
-        adapter.clear();
+        statuses.clear();
+        updateAdapter();
         sendFetchTimelineRequest(null, null, FetchEnd.TOP, -1);
     }
 
@@ -560,7 +700,8 @@ public class TimelineFragment extends SFragment implements
     }
 
     private boolean actionButtonPresent() {
-        return kind != Kind.TAG && kind != Kind.FAVOURITES;
+        return kind != Kind.TAG && kind != Kind.FAVOURITES &&
+                getActivity() instanceof ActionButtonActivity;
     }
 
     private void jumpToTop() {
@@ -599,17 +740,6 @@ public class TimelineFragment extends SFragment implements
             topFetches++;
             return;
         }
-        if (fetchEnd == FetchEnd.BOTTOM && bottomLoading) {
-            bottomFetches++;
-            return;
-        }
-
-        if (fromId != null || adapter.getItemCount() <= 1) {
-            /* When this is called by the EndlessScrollListener it cannot refresh the footer state
-             * using adapter.notifyItemChanged. So its necessary to postpone doing so until a
-             * convenient time for the UI thread using a Runnable. */
-            recyclerView.post(() -> adapter.setFooterState(FooterViewHolder.State.LOADING));
-        }
 
         Callback<List<Status>> callback = new Callback<List<Status>>() {
             @Override
@@ -635,6 +765,7 @@ public class TimelineFragment extends SFragment implements
 
     private void onFetchTimelineSuccess(List<Status> statuses, String linkHeader,
                                         FetchEnd fetchEnd, int pos) {
+
         // We filled the hole (or reached the end) if the server returned less statuses than we
         // we asked for.
         boolean fullFetch = statuses.size() >= LOAD_AT_ONCE;
@@ -660,7 +791,13 @@ public class TimelineFragment extends SFragment implements
                 if (next != null) {
                     fromId = next.uri.getQueryParameter("max_id");
                 }
-                if (adapter.getItemCount() > 1) {
+                if (!this.statuses.isEmpty()
+                        && !this.statuses.get(this.statuses.size() - 1).isRight()) {
+                    this.statuses.remove(this.statuses.size() - 1);
+                    updateAdapter();
+                }
+                int oldSize = this.statuses.size();
+                if (this.statuses.size() > 1) {
                     addItems(statuses, fromId);
                 } else {
                     /* If this is the first fetch, also save the id from the "previous" link and
@@ -673,39 +810,45 @@ public class TimelineFragment extends SFragment implements
                     }
                     updateStatuses(statuses, fromId, uptoId, fullFetch);
                 }
+                if (this.statuses.size() == oldSize) {
+                    // This may be a brittle check but seems like it works
+                    // Can we check it using headers somehow? Do all server support them?
+                    didLoadEverythingBottom = true;
+                }
                 break;
             }
         }
         fulfillAnyQueuedFetches(fetchEnd);
-        if (statuses.size() == 0 && adapter.getItemCount() == 1) {
-            adapter.setFooterState(FooterViewHolder.State.EMPTY);
-        } else {
-            adapter.setFooterState(FooterViewHolder.State.END);
-        }
+        progressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
+        if (this.statuses.size() == 0) {
+            nothingMessageView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void onFetchTimelineFailure(Exception exception, FetchEnd fetchEnd, int position) {
         swipeRefreshLayout.setRefreshing(false);
 
         if (fetchEnd == FetchEnd.MIDDLE && !statuses.get(position).isRight()) {
-            StatusViewData newViewData = new StatusViewData.Placeholder(false);
+            Placeholder placeholder = statuses.get(position).getAsLeftOrNull();
+            StatusViewData newViewData;
+            if (placeholder == null) {
+                placeholder = newPlaceholder();
+            }
+            newViewData = new StatusViewData.Placeholder(placeholder.id, false);
             statuses.setPairedItem(position, newViewData);
-            adapter.changeItem(position, newViewData, true);
+            updateAdapter();
         }
 
         Log.e(TAG, "Fetch Failure: " + exception.getMessage());
         fulfillAnyQueuedFetches(fetchEnd);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void fulfillAnyQueuedFetches(FetchEnd fetchEnd) {
         switch (fetchEnd) {
             case BOTTOM: {
                 bottomLoading = false;
-                if (bottomFetches > 0) {
-                    bottomFetches--;
-                    onLoadMore();
-                }
                 break;
             }
             case TOP: {
@@ -744,7 +887,7 @@ public class TimelineFragment extends SFragment implements
             topId = toId;
         }
 
-        List<Either<Placeholder, Status>> liftedNew = listStatusList(newStatuses);
+        List<Either<Placeholder, Status>> liftedNew = liftStatusList(newStatuses);
 
         if (statuses.isEmpty()) {
             statuses.addAll(liftedNew);
@@ -758,39 +901,35 @@ public class TimelineFragment extends SFragment implements
             int newIndex = liftedNew.indexOf(statuses.get(0));
             if (newIndex == -1) {
                 if (index == -1 && fullFetch) {
-                    liftedNew.add(Either.left(Placeholder.getInstance()));
+                    liftedNew.add(Either.left(newPlaceholder()));
                 }
                 statuses.addAll(0, liftedNew);
             } else {
                 statuses.addAll(0, liftedNew.subList(0, newIndex));
             }
         }
-        adapter.update(statuses.getPairedCopy());
+        updateAdapter();
     }
 
     private void addItems(List<Status> newStatuses, @Nullable String fromId) {
         if (ListUtils.isEmpty(newStatuses)) {
             return;
         }
-        int end = statuses.size();
-        Status last = statuses.get(end - 1).getAsRightOrNull();
+        Status last = null;
+        for (int i = statuses.size() - 1; i >= 0; i--) {
+            if (statuses.get(i).isRight()) {
+                last = statuses.get(i).getAsRight();
+                break;
+            }
+        }
         // I was about to replace findStatus with indexOf but it is incorrect to compare value
         // types by ID anyway and we should change equals() for Status, I think, so this makes sense
         if (last != null && !findStatus(newStatuses, last.getId())) {
-            statuses.addAll(listStatusList(newStatuses));
-            List<StatusViewData> newViewDatas = statuses.getPairedCopy()
-                    .subList(statuses.size() - newStatuses.size(), statuses.size());
-            if (BuildConfig.DEBUG && newStatuses.size() != newViewDatas.size()) {
-                String error = String.format(Locale.getDefault(),
-                        "Incorrectly got statusViewData sublist." +
-                                " newStatuses.size == %d newViewDatas.size == %d, statuses.size == %d",
-                        newStatuses.size(), newViewDatas.size(), statuses.size());
-                throw new AssertionError(error);
-            }
+            statuses.addAll(liftStatusList(newStatuses));
             if (fromId != null) {
                 bottomId = fromId;
             }
-            adapter.addItems(newViewDatas);
+            updateAdapter();
         }
     }
 
@@ -801,18 +940,18 @@ public class TimelineFragment extends SFragment implements
         }
 
         if (ListUtils.isEmpty(newStatuses)) {
-            adapter.update(statuses.getPairedCopy());
+            updateAdapter();
             return;
         }
 
-        List<Either<Placeholder, Status>> liftedNew = listStatusList(newStatuses);
+        List<Either<Placeholder, Status>> liftedNew = liftStatusList(newStatuses);
 
         if (fullFetch) {
-            liftedNew.add(Either.left(Placeholder.getInstance()));
+            liftedNew.add(Either.left(newPlaceholder()));
         }
 
         statuses.addAll(pos, liftedNew);
-        adapter.update(statuses.getPairedCopy());
+        updateAdapter();
 
     }
 
@@ -823,6 +962,19 @@ public class TimelineFragment extends SFragment implements
             }
         }
         return false;
+    }
+
+    private int findStatusOrReblogPositionById(@NonNull String statusId) {
+        for (int i = 0; i < statuses.size(); i++) {
+            Status status = statuses.get(i).getAsRightOrNull();
+            if (status != null
+                    && (statusId.equals(status.getId())
+                    || (status.getReblog() != null
+                    && statusId.equals(status.getReblog().getId())))) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private final Function<Status, Either<Placeholder, Status>> statusLifter =
@@ -851,7 +1003,111 @@ public class TimelineFragment extends SFragment implements
         return new Pair<>(statusToUpdate, positionToUpdate);
     }
 
-    private List<Either<Placeholder, Status>> listStatusList(List<Status> list) {
+    private void handleReblogEvent(@NonNull ReblogEvent reblogEvent) {
+        int pos = findStatusOrReblogPositionById(reblogEvent.getStatusId());
+        if (pos < 0) return;
+        Status status = statuses.get(pos).getAsRight();
+        setRebloggedForStatus(pos, status, reblogEvent.getReblog());
+    }
+
+    private void handleFavEvent(@NonNull FavoriteEvent favEvent) {
+        int pos = findStatusOrReblogPositionById(favEvent.getStatusId());
+        if (pos < 0) return;
+        Status status = statuses.get(pos).getAsRight();
+        setFavouriteForStatus(pos, status, favEvent.getFavourite());
+    }
+
+    private void handleStatusComposeEvent(@NonNull Status status) {
+        switch (kind) {
+            case HOME:
+            case PUBLIC_FEDERATED:
+            case PUBLIC_LOCAL:
+                break;
+            case USER:
+                if (status.getAccount().getId().equals(hashtagOrId)) {
+                    break;
+                } else {
+                    return;
+                }
+            case TAG:
+            case FAVOURITES:
+            case LIST:
+                return;
+        }
+        onRefresh();
+    }
+
+    private List<Either<Placeholder, Status>> liftStatusList(List<Status> list) {
         return CollectionUtil.map(list, statusLifter);
     }
+
+    private Placeholder newPlaceholder() {
+        Placeholder placeholder = Placeholder.getInstance(maxPlaceholderId);
+        maxPlaceholderId--;
+        return placeholder;
+    }
+
+    private void updateAdapter() {
+        differ.submitList(statuses.getPairedCopy());
+    }
+
+    private final ListUpdateCallback listUpdateCallback = new ListUpdateCallback() {
+        @Override
+        public void onInserted(int position, int count) {
+            adapter.notifyItemRangeInserted(position, count);
+            if (position == 0
+                    && layoutManager.findFirstVisibleItemPosition() == 0
+                    && (swipeRefreshLayout.getVisibility() == View.VISIBLE
+                    || progressBar.getVisibility() == View.VISIBLE)) {
+                recyclerView.post(() -> layoutManager.scrollToPosition(0));
+            }
+        }
+
+        @Override
+        public void onRemoved(int position, int count) {
+            adapter.notifyItemRangeRemoved(position, count);
+        }
+
+        @Override
+        public void onMoved(int fromPosition, int toPosition) {
+            adapter.notifyItemMoved(fromPosition, toPosition);
+        }
+
+        @Override
+        public void onChanged(int position, int count, Object payload) {
+            adapter.notifyItemRangeChanged(position, count, payload);
+        }
+    };
+
+
+    private final AsyncListDiffer<StatusViewData>
+            differ = new AsyncListDiffer<>(listUpdateCallback,
+            new AsyncDifferConfig.Builder<>(diffCallback).build());
+
+    private final TimelineAdapter.AdapterDataSource<StatusViewData> dataSource =
+            new TimelineAdapter.AdapterDataSource<StatusViewData>() {
+                @Override
+                public int getItemCount() {
+                    return differ.getCurrentList().size();
+                }
+
+                @Override
+                public StatusViewData getItemAt(int pos) {
+                    return differ.getCurrentList().get(pos);
+                }
+            };
+
+    private static final DiffUtil.ItemCallback<StatusViewData> diffCallback
+            = new DiffUtil.ItemCallback<StatusViewData>() {
+
+        @Override
+        public boolean areItemsTheSame(StatusViewData oldItem, StatusViewData newItem) {
+            return oldItem.getViewDataId() == newItem.getViewDataId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(StatusViewData oldItem, StatusViewData newItem) {
+            return oldItem.deepEquals(newItem);
+        }
+    };
 }
