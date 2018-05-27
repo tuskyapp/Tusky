@@ -113,7 +113,7 @@
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@id/account_username"
                         app:layout_constraintLeft_toRightOf="@id/account_username"
-                        app:srcCompat="@drawable/reblog_disabled_light"
+                        app:srcCompat="@drawable/reblog_private_light"
                         tools:visibility="visible" />
 
                     <android.support.text.emoji.widget.EmojiTextView

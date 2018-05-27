@@ -12,6 +12,8 @@
                 android:title="@string/status_share_content"/>
         </menu>
     </item>
+    <item android:visible="false" android:id="@+id/status_reblog_private" android:title="@string/reblog_private"/>
+    <item android:visible="false" android:id="@+id/status_unreblog_private" android:title="@string/unreblog_private"/>
     <item android:title="@string/action_delete"
         android:id="@+id/status_delete" />
 </menu>
