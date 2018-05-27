@@ -146,7 +146,7 @@
     <string name="dialog_title_finishing_media_upload">Finishing Media Upload</string>
     <string name="dialog_message_uploading_media">Uploading…</string>
     <string name="dialog_download_image">Download</string>
-    <string name="dialog_message_follow_request">Follow request pending: awaiting their response</string>
+    <string name="dialog_message_cancel_follow_request">Revoke the follow request?</string>
     <string name="dialog_unfollow_warning">Unfollow this account?</string>
 
     <string name="visibility_public">Public: Post to public timelines</string>

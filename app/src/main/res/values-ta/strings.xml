@@ -129,7 +129,6 @@
     <string name="dialog_title_finishing_media_upload">மீடியா பதிவேற்றம் முடிகிறது</string>
     <string name="dialog_message_uploading_media">ஏற்றுகிறது ...</string>
     <string name="dialog_download_image">பதிவிறக்க</string>
-    <string name="dialog_message_follow_request">கோரிக்கை நிலுவையில் உள்ளது, அவர்களின் பதிலுக்காக காத்திருக்கிறது</string>
     <string name="dialog_unfollow_warning">இந்த கணக்கை பின்பற்ற வேண்டாமா?</string>
 
     <string name="visibility_public">அனைவருக்கும் காண்பி</string>

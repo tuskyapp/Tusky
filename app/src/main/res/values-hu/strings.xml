@@ -130,7 +130,6 @@
     <string name="dialog_title_finishing_media_upload">Média feltöltés befejezése</string>
     <string name="dialog_message_uploading_media">Feltöltés…</string>
     <string name="dialog_download_image">Letöltés</string>
-    <string name="dialog_message_follow_request">Követési kérés függőben: várjuk a válaszát</string>
     <string name="dialog_unfollow_warning">Követés megszüntetése?</string>
 
     <string name="visibility_public">Nyilvános: Nyilvános idővonalra való posztolás</string>

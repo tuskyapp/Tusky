@@ -136,7 +136,6 @@
     <string name="dialog_title_finishing_media_upload">正在結束上傳…</string>
     <string name="dialog_message_uploading_media">正在上傳…</string>
     <string name="dialog_download_image">下載</string>
-    <string name="dialog_message_follow_request">關注請求已發送，等待對方回覆</string>
     <string name="dialog_unfollow_warning">不再關注此用户？</string>
 
     <string name="visibility_public">公開：所有人可見，並會出現在公共時間軸上</string>

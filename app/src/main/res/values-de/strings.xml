@@ -177,7 +177,7 @@
     <string name="action_view_follow_requests">Folgeanfragen</string>
     <string name="state_follow_requested">Folgeanfrage gesendet</string>
     <string name="confirmation_unmuted">Stummschaltung aufgehoben</string>
-    <string name="dialog_message_follow_request">Folgeanfrage gesendet: Warten auf Antwort</string>
+    <string name="dialog_message_cancel_follow_request">Folgeanfrage zurückziehen?</string>
     <string name="title_edit_profile">Dein Profil bearbeiten</string>
     <string name="login_connection">Verbinden…</string>
 

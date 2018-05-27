@@ -140,7 +140,6 @@
     <string name="dialog_title_finishing_media_upload">Terminando de subir multimedia</string>
     <string name="dialog_message_uploading_media">Subiendo…</string>
     <string name="dialog_download_image">Descargar</string>
-    <string name="dialog_message_follow_request">Solicitud enviada: esperando respuesta</string>
     <string name="dialog_unfollow_warning">¿Dejar de seguir esta cuenta?</string>
 
     <string name="visibility_public">Público: Mostrar en historias públicas</string>

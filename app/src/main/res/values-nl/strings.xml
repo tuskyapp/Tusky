@@ -135,7 +135,6 @@
     <string name="dialog_title_finishing_media_upload">Media upload beëindigen</string>
     <string name="dialog_message_uploading_media">Aan het uploaden…</string>
     <string name="dialog_download_image">Download</string>
-    <string name="dialog_message_follow_request">Verzoek van een volger in de wachtrij: wachtend op hun antwoord</string>
     <string name="dialog_unfollow_warning">Deze account ontvolgen?</string>
 
     <string name="visibility_public">Publiek: op publieke tijdlijnen posten</string>

@@ -19,7 +19,6 @@ import android.animation.ArgbEvaluator
 import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -485,16 +484,16 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
     private fun showFollowRequestPendingDialog() {
         AlertDialog.Builder(this)
-                .setMessage(R.string.dialog_message_follow_request)
-                .setPositiveButton(android.R.string.ok, null)
+                .setMessage(R.string.dialog_message_cancel_follow_request)
+                .setPositiveButton(android.R.string.ok){_, _ -> changeFollowState(accountId)}
+                .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
 
     private fun showUnfollowWarningDialog() {
-        val unfollowListener = { _: DialogInterface, _: Int -> changeFollowState(accountId) }
         AlertDialog.Builder(this)
                 .setMessage(R.string.dialog_unfollow_warning)
-                .setPositiveButton(android.R.string.ok, unfollowListener)
+                .setPositiveButton(android.R.string.ok) {_, _ -> changeFollowState(accountId)}
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }

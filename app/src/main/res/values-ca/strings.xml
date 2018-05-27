@@ -132,7 +132,6 @@
     <string name="dialog_title_finishing_media_upload">S\'està finalitzant la pujada de materila multimèdia</string>
     <string name="dialog_message_uploading_media">S\'està pujant...</string>
     <string name="dialog_download_image">Baixa</string>
-    <string name="dialog_message_follow_request">Follow request pending: awaiting their response</string>
     <string name="dialog_unfollow_warning">Vols deixar de seguir aquest compte?</string>
 
     <string name="visibility_public">Pública: és visible a la cronologia pública</string>
