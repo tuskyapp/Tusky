@@ -124,6 +124,29 @@ data class Status(
 
         @SerializedName("username")
         var localUsername: String? = null
+
+      override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Mention
+
+        if (id != other.id) return false
+        if (url != other.url) return false
+        if (username != other.username) return false
+        if (localUsername != other.localUsername) return false
+
+        return true
+      }
+
+      override fun hashCode(): Int {
+        var result = id?.hashCode() ?: 0
+        result = 31 * result + (url?.hashCode() ?: 0)
+        result = 31 * result + (username?.hashCode() ?: 0)
+        result = 31 * result + (localUsername?.hashCode() ?: 0)
+        return result
+      }
+
     }
 
     class Application {

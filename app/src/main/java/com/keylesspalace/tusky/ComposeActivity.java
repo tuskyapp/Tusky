@@ -85,6 +85,8 @@ import com.keylesspalace.tusky.adapter.EmojiAdapter;
 import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener;
 import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.db.InstanceEntity;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Account;
@@ -169,6 +171,8 @@ public final class ComposeActivity
 
     @Inject
     public MastodonApi mastodonApi;
+    @Inject
+    public AppDatabase database;
 
     private TextView replyTextView;
     private TextView replyContentTextView;
@@ -230,7 +234,7 @@ public final class ComposeActivity
         emojiView = findViewById(R.id.emojiView);
         emojiList = Collections.emptyList();
 
-        saveTootHelper = new SaveTootHelper(TuskyApplication.getDB().tootDao(), this);
+        saveTootHelper = new SaveTootHelper(database.tootDao(), this);
 
         // Setup the toolbar.
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -1454,7 +1458,8 @@ public final class ComposeActivity
     }
 
     private void loadCachedInstanceMetadata(@NotNull AccountEntity activeAccount) {
-        InstanceEntity instanceEntity = TuskyApplication.getDB().instanceDao().loadMetadataForInstance(activeAccount.getDomain());
+        InstanceEntity instanceEntity = database.instanceDao()
+                .loadMetadataForInstance(activeAccount.getDomain());
 
         if(instanceEntity != null) {
             Integer max = instanceEntity.getMaximumTootCharacters();
@@ -1474,7 +1479,7 @@ public final class ComposeActivity
 
     private void cacheInstanceMetadata(@NotNull AccountEntity activeAccount) {
         InstanceEntity instanceEntity = new InstanceEntity(activeAccount.getDomain(), emojiList, maximumTootCharacters);
-        TuskyApplication.getDB().instanceDao().insertOrReplace(instanceEntity);
+        database.instanceDao().insertOrReplace(instanceEntity);
     }
 
     // Accessors for testing, hence package scope

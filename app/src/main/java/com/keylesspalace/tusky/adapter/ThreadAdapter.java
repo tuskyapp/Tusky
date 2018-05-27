@@ -118,6 +118,11 @@ public class ThreadAdapter extends RecyclerView.Adapter {
         notifyItemRangeInserted(end, statuses.size());
     }
 
+    public void removeItem(int position) {
+        statuses.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public void clear() {
         statuses.clear();
         detailedStatusPosition = RecyclerView.NO_POSITION;

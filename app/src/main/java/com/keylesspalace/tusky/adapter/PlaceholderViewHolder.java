@@ -18,30 +18,35 @@ package com.keylesspalace.tusky.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 
-public class PlaceholderViewHolder extends RecyclerView.ViewHolder {
+public final class PlaceholderViewHolder extends RecyclerView.ViewHolder {
 
     private Button loadMoreButton;
-
+    private ProgressBar progressBar;
 
     PlaceholderViewHolder(View itemView) {
         super(itemView);
         loadMoreButton = itemView.findViewById(R.id.button_load_more);
-
+        progressBar = itemView.findViewById(R.id.progress_bar);
     }
 
-    public void setup(boolean enabled, final StatusActionListener listener){
+    public void setup(boolean enabled, final StatusActionListener listener) {
+        this.setup(enabled, listener, false);
+    }
+
+    public void setup(boolean enabled, final StatusActionListener listener, boolean progress) {
+        loadMoreButton.setVisibility(progress ? View.GONE : View.VISIBLE);
+        progressBar.setVisibility(progress ? View.VISIBLE : View.GONE);
+
         loadMoreButton.setEnabled(enabled);
-        if(enabled) {
-            loadMoreButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    loadMoreButton.setEnabled(false);
-                    listener.onLoadMore(getAdapterPosition());
-                }
+        if (enabled) {
+            loadMoreButton.setOnClickListener(v -> {
+                loadMoreButton.setEnabled(false);
+                listener.onLoadMore(getAdapterPosition());
             });
         }
     }
