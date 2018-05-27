@@ -37,9 +37,9 @@
                 android:id="@+id/accountHeaderInfoContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="16dp"
+                android:layout_marginTop="180dp"
                 android:paddingEnd="16dp"
-                android:layout_marginTop="180dp">
+                android:paddingStart="16dp">
 
                 <Button
                     android:id="@+id/accountFollowButton"
@@ -107,14 +107,14 @@
                     android:id="@+id/accountBadgeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
                     android:layout_marginStart="8dp"
-                    app:layout_goneMarginStart="0dp"
+                    android:layout_marginTop="6dp"
                     android:background="@drawable/profile_badge_background"
                     android:text="@string/profile_badge_bot_text"
                     android:textSize="?attr/status_text_small"
                     app:layout_constraintStart_toEndOf="@id/accountFollowsYouTextView"
-                    app:layout_constraintTop_toBottomOf="@id/accountUsernameTextView" />
+                    app:layout_constraintTop_toBottomOf="@id/accountUsernameTextView"
+                    app:layout_goneMarginStart="0dp" />
 
                 <android.support.constraint.Barrier
                     android:id="@+id/labelBarrier"
@@ -232,24 +232,13 @@
             android:id="@+id/accountTabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:background="?android:colorBackground"
             app:tabGravity="fill"
+            style="@style/TuskyTabAppearance"
             app:tabIndicatorHeight="3dp"
-            app:tabMaxWidth="0dp"
             app:tabSelectedTextColor="?attr/colorAccent"
-            app:tabTextAppearance="@style/TuskyTabAppearance">
-
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fitsSystemWindows="true" />
-
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fitsSystemWindows="true" />
-
-        </android.support.design.widget.TabLayout>
+            app:tabTextAppearance="@style/TuskyTabAppearance"/>
 
     </android.support.design.widget.AppBarLayout>
 

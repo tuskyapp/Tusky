@@ -31,7 +31,6 @@ import android.support.design.widget.AppBarLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
-import android.support.v4.content.LocalBroadcastManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -257,7 +256,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
         // Setup the tabs and timeline pager.
         val adapter = AccountPagerAdapter(supportFragmentManager, accountId)
-        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_media))
+        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_media))
         adapter.setPageTitles(pageTitles)
         accountFragmentViewPager.pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
         val pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
@@ -508,12 +507,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 .build(this)
         startActivity(intent)
         return true
-    }
-
-    private fun broadcast(action: String, id: String?) {
-        val intent = Intent(action)
-        intent.putExtra("id", id)
-        LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

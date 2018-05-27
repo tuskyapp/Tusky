@@ -103,6 +103,7 @@ public class TimelineFragment extends SFragment implements
         PUBLIC_FEDERATED,
         TAG,
         USER,
+        USER_WITH_REPLIES,
         FAVOURITES,
         LIST
     }
@@ -200,7 +201,7 @@ public class TimelineFragment extends SFragment implements
                              Bundle savedInstanceState) {
         Bundle arguments = Objects.requireNonNull(getArguments());
         kind = Kind.valueOf(arguments.getString(KIND_ARG));
-        if (kind == Kind.TAG || kind == Kind.USER || kind == Kind.LIST) {
+        if (kind == Kind.TAG || kind == Kind.USER || kind == Kind.USER_WITH_REPLIES|| kind == Kind.LIST) {
             hashtagOrId = arguments.getString(HASHTAG_OR_ID_ARG);
         }
 
@@ -587,7 +588,7 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onViewAccount(String id) {
-        if (kind == Kind.USER && hashtagOrId.equals(id)) {
+        if ((kind == Kind.USER || kind == Kind.USER_WITH_REPLIES) && hashtagOrId.equals(id)) {
             /* If already viewing an account page, then any requests to view that account page
              * should be ignored. */
             return;
@@ -724,7 +725,9 @@ public class TimelineFragment extends SFragment implements
             case TAG:
                 return api.hashtagTimeline(tagOrId, null, fromId, uptoId, LOAD_AT_ONCE);
             case USER:
-                return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, null);
+                return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, true, null);
+            case USER_WITH_REPLIES:
+                return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, null, null);
             case FAVOURITES:
                 return api.favourites(fromId, uptoId, LOAD_AT_ONCE);
             case LIST:
@@ -1024,6 +1027,7 @@ public class TimelineFragment extends SFragment implements
             case PUBLIC_LOCAL:
                 break;
             case USER:
+            case USER_WITH_REPLIES:
                 if (status.getAccount().getId().equals(hashtagOrId)) {
                     break;
                 } else {
