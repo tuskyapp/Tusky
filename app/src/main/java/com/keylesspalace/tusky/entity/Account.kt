@@ -41,7 +41,8 @@ data class Account(
         @SerializedName("followers_count") val followersCount: Int,
         @SerializedName("following_count") val followingCount: Int,
         @SerializedName("statuses_count") val statusesCount: Int,
-        val source: AccountSource?
+        val source: AccountSource?,
+        val bot: Boolean
 
 ) : Parcelable {
 

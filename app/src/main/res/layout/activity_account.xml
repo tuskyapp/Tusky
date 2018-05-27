@@ -37,35 +37,24 @@
                 android:id="@+id/accountHeaderInfoContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:layout_marginTop="180dp">
 
                 <Button
                     android:id="@+id/accountFollowButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="6dp"
                     android:textColor="@android:color/white"
                     android:textSize="?attr/status_text_medium"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/accountFollowsYouTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:text="@string/follows_you"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="?attr/status_text_medium"
-                    app:layout_constraintEnd_toEndOf="@id/accountFollowButton"
-                    app:layout_constraintTop_toBottomOf="@id/accountFollowButton" />
-
                 <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/accountDisplayNameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginTop="62dp"
                     android:ellipsize="end"
                     android:maxLines="1"
@@ -74,14 +63,13 @@
                     android:textStyle="normal|bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Tusky Mastodon Client" />
+                    tools:text="Tusky Mastodon Client " />
 
                 <TextView
                     android:id="@+id/accountUsernameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="16dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textColor="?android:textColorSecondary"
@@ -98,23 +86,53 @@
                     android:contentDescription="@string/description_account_locked"
                     android:tint="?android:textColorSecondary"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@id/accountUsernameTextView"
-                    app:layout_constraintLeft_toRightOf="@id/accountUsernameTextView"
+                    app:layout_constraintBottom_toBottomOf="@+id/accountUsernameTextView"
+                    app:layout_constraintStart_toEndOf="@+id/accountUsernameTextView"
+                    app:layout_constraintTop_toTopOf="@+id/accountUsernameTextView"
                     app:srcCompat="@drawable/reblog_disabled_light"
                     tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/accountFollowsYouTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/profile_badge_background"
+                    android:text="@string/follows_you"
+                    android:textSize="?attr/status_text_small"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/accountUsernameTextView" />
+
+                <TextView
+                    android:id="@+id/accountBadgeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_goneMarginStart="0dp"
+                    android:background="@drawable/profile_badge_background"
+                    android:text="@string/profile_badge_bot_text"
+                    android:textSize="?attr/status_text_small"
+                    app:layout_constraintStart_toEndOf="@id/accountFollowsYouTextView"
+                    app:layout_constraintTop_toBottomOf="@id/accountUsernameTextView" />
+
+                <android.support.constraint.Barrier
+                    android:id="@+id/labelBarrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="accountFollowsYouTextView,accountBadgeTextView" />
 
                 <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/accountNoteTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/account_username"
+                    android:layout_below="@id/labelBarrier"
                     android:paddingBottom="32dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
                     android:paddingTop="10dp"
                     android:textColor="?android:textColorTertiary"
                     android:textSize="?attr/status_text_medium"
-                    app:layout_constraintTop_toBottomOf="@id/accountUsernameTextView"
+                    app:layout_constraintTop_toBottomOf="@id/labelBarrier"
                     tools:text="This is a test description. Descriptions can be quite looooong." />
 
                 <TextView

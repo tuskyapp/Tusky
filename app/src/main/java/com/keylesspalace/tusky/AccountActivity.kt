@@ -326,6 +326,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             } else {
                 View.GONE
             }
+            accountBadgeTextView.visibility = if (account.bot) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
             Picasso.with(this)
                     .load(account.avatar)
                     .transform(RoundedTransformation(25f))

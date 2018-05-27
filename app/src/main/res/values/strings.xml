@@ -332,5 +332,6 @@
     <string name="license_blobmoji">Blobmoji is licensed under the Apache license 2.0</string>
     <string name="license_twemoji">Twemoji is licensed as CC-BY 4.0 - https://creativecommons.org/licenses/by/4.0/</string>
     <string name="download_failed">Download failed</string>
+    <string name="profile_badge_bot_text">Bot</string>
 
 </resources>
