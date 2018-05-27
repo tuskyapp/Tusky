@@ -295,7 +295,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             loadedAccount = account
             val usernameFormatted = getString(R.string.status_username_format, account.username)
             accountUsernameTextView.text = usernameFormatted
-            accountDisplayNameTextView.text = account.name
+            accountDisplayNameTextView.text = CustomEmojiHelper.emojifyString(account.name, account.emojis, accountDisplayNameTextView)
             if (supportActionBar != null) {
                 //EmojiCompat.get().process(
                 supportActionBar!!.title = account.name
@@ -304,7 +304,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                         account.username)
                 supportActionBar!!.subtitle = subtitle
             }
-            LinkHelper.setClickableText(accountNoteTextView, account.note, null, object : LinkListener {
+            val emojifiedNote = CustomEmojiHelper.emojifyText(account.note, account.emojis, accountNoteTextView)
+            LinkHelper.setClickableText(accountNoteTextView, emojifiedNote, null, object : LinkListener {
                 override fun onViewTag(tag: String) {
                     val intent = Intent(this@AccountActivity, ViewTagActivity::class.java)
                     intent.putExtra("hashtag", tag)
