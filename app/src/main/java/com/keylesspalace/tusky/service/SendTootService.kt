@@ -12,15 +12,15 @@ import android.os.Parcelable
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.ServiceCompat
 import android.support.v4.content.ContextCompat
-import android.support.v4.content.LocalBroadcastManager
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.TuskyApplication
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.receiver.TimelineReceiver
 import com.keylesspalace.tusky.util.SaveTootHelper
 import com.keylesspalace.tusky.util.StringUtils
 import dagger.android.AndroidInjection
@@ -30,14 +30,19 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class SendTootService: Service(), Injectable {
+class SendTootService : Service(), Injectable {
 
     @Inject
     lateinit var mastodonApi: MastodonApi
     @Inject
     lateinit var accountManager: AccountManager
+    @Inject
+    lateinit var eventHub: EventHub
+    @Inject
+    lateinit var database: AppDatabase
 
     private lateinit var saveTootHelper: SaveTootHelper
 
@@ -50,7 +55,7 @@ class SendTootService: Service(), Injectable {
 
     override fun onCreate() {
         AndroidInjection.inject(this)
-        saveTootHelper = SaveTootHelper(TuskyApplication.getDB().tootDao(), this)
+        saveTootHelper = SaveTootHelper(database.tootDao(), this)
         super.onCreate()
     }
 
@@ -60,13 +65,9 @@ class SendTootService: Service(), Injectable {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
 
-        if(intent.hasExtra(KEY_TOOT)) {
-
+        if (intent.hasExtra(KEY_TOOT)) {
             val tootToSend = intent.getParcelableExtra<TootToSend>(KEY_TOOT)
-
-            if (tootToSend == null) {
-                throw IllegalStateException("SendTootService started without $KEY_TOOT extra")
-            }
+                    ?: throw IllegalStateException("SendTootService started without $KEY_TOOT extra")
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val channel = NotificationChannel(CHANNEL_ID, getString(R.string.send_toot_notification_channel_name), NotificationManager.IMPORTANCE_LOW)
@@ -88,7 +89,7 @@ class SendTootService: Service(), Injectable {
                     .setColor(ContextCompat.getColor(this, R.color.primary))
                     .addAction(0, getString(android.R.string.cancel), cancelSendingIntent(sendingNotificationId))
 
-            if(tootsToSend.size == 0 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (tootsToSend.size == 0 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_DETACH)
                 startForeground(sendingNotificationId, builder.build())
             } else {
@@ -100,7 +101,7 @@ class SendTootService: Service(), Injectable {
 
         } else {
 
-            if(intent.hasExtra(KEY_CANCEL)) {
+            if (intent.hasExtra(KEY_CANCEL)) {
                 cancelSending(intent.getIntExtra(KEY_CANCEL, 0))
             }
 
@@ -118,7 +119,7 @@ class SendTootService: Service(), Injectable {
         // when account == null, user has logged out, cancel sending
         val account = accountManager.getAccountById(tootToSend.accountId)
 
-        if(account == null) {
+        if (account == null) {
             tootsToSend.remove(tootId)
             notificationManager.cancel(tootId)
             stopSelfWhenDone()
@@ -142,20 +143,18 @@ class SendTootService: Service(), Injectable {
 
         sendCalls[tootId] = sendCall
 
-        val callback = object: Callback<Status> {
+        val callback = object : Callback<Status> {
             override fun onResponse(call: Call<Status>, response: Response<Status>) {
 
                 tootsToSend.remove(tootId)
 
                 if (response.isSuccessful) {
-
-                    val intent = Intent(TimelineReceiver.Types.STATUS_COMPOSED)
-                    LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
-
                     // If the status was loaded from a draft, delete the draft and associated media files.
-                    if(tootToSend.savedTootUid != 0) {
+                    if (tootToSend.savedTootUid != 0) {
                         saveTootHelper.deleteDraft(tootToSend.savedTootUid)
                     }
+
+                    response.body()?.let(::StatusComposedEvent)?.let(eventHub::dispatch)
 
                     notificationManager.cancel(tootId)
 
@@ -179,7 +178,7 @@ class SendTootService: Service(), Injectable {
             }
 
             override fun onFailure(call: Call<Status>, t: Throwable) {
-                var backoff = 1000L*tootToSend.retries
+                var backoff = TimeUnit.SECONDS.toMillis(tootToSend.retries.toLong())
                 if (backoff > MAX_RETRY_INTERVAL) {
                     backoff = MAX_RETRY_INTERVAL
                 }
@@ -206,7 +205,7 @@ class SendTootService: Service(), Injectable {
 
     private fun cancelSending(tootId: Int) {
         val tootToCancel = tootsToSend.remove(tootId)
-        if(tootToCancel != null) {
+        if (tootToCancel != null) {
             val sendCall = sendCalls.remove(tootId)
             sendCall?.cancel()
 
@@ -259,7 +258,7 @@ class SendTootService: Service(), Injectable {
         private const val KEY_CANCEL = "cancel_id"
         private const val CHANNEL_ID = "send_toots"
 
-        private const val MAX_RETRY_INTERVAL = 60*1000L // 1 minute
+        private val MAX_RETRY_INTERVAL = TimeUnit.MINUTES.toMillis(1)
 
         private var sendingNotificationId = -1 // use negative ids to not clash with other notis
         private var errorNotificationId = Int.MIN_VALUE // use even more negative ids to not clash with other notis
@@ -320,4 +319,4 @@ data class TootToSend(val text: String,
                       val accountId: Long,
                       val savedTootUid: Int,
                       val idempotencyKey: String,
-                      var retries: Int): Parcelable
+                      var retries: Int) : Parcelable

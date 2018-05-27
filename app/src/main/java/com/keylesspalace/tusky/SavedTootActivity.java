@@ -15,15 +15,12 @@
 
 package com.keylesspalace.tusky;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,9 +31,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.keylesspalace.tusky.adapter.SavedTootAdapter;
+import com.keylesspalace.tusky.appstore.EventHub;
+import com.keylesspalace.tusky.appstore.StatusComposedEvent;
+import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
-import com.keylesspalace.tusky.receiver.TimelineReceiver;
+import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.util.SaveTootHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
@@ -44,10 +44,15 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.SavedTootAction {
+import javax.inject.Inject;
 
-    // dao
-    private static TootDao tootDao = TuskyApplication.getDB().tootDao();
+import io.reactivex.android.schedulers.AndroidSchedulers;
+
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
+
+public final class SavedTootActivity extends BaseActivity implements SavedTootAdapter.SavedTootAction,
+        Injectable {
 
     private SaveTootHelper saveTootHelper;
 
@@ -56,28 +61,25 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
     private TextView noContent;
 
     private List<TootEntity> toots = new ArrayList<>();
-    @Nullable private AsyncTask<?, ?, ?> asyncTask;
+    @Nullable
+    private AsyncTask<?, ?, ?> asyncTask;
 
-    private BroadcastReceiver broadcastReceiver;
+    @Inject
+    EventHub eventHub;
+    @Inject
+    AppDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        saveTootHelper = new SaveTootHelper(tootDao, this);
+        saveTootHelper = new SaveTootHelper(database.tootDao(), this);
 
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                fetchToots();
-            }
-        };
-
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(TimelineReceiver.Types.STATUS_COMPOSED);
-
-        LocalBroadcastManager.getInstance(this)
-                .registerReceiver(broadcastReceiver, intentFilter);
+        eventHub.getEvents()
+                .observeOn(AndroidSchedulers.mainThread())
+                .ofType(StatusComposedEvent.class)
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe((__) -> this.fetchToots());
 
         setContentView(R.layout.activity_saved_toot);
 
@@ -118,12 +120,6 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
@@ -135,7 +131,7 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
     }
 
     private void fetchToots() {
-        asyncTask = new FetchPojosTask(this)
+        asyncTask = new FetchPojosTask(this, database.tootDao())
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -178,9 +174,11 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
     static final class FetchPojosTask extends AsyncTask<Void, Void, List<TootEntity>> {
 
         private final WeakReference<SavedTootActivity> activityRef;
+        private final TootDao tootDao;
 
-        FetchPojosTask(SavedTootActivity activity) {
+        FetchPojosTask(SavedTootActivity activity, TootDao tootDao) {
             this.activityRef = new WeakReference<>(activity);
+            this.tootDao = tootDao;
         }
 
         @Override
@@ -194,13 +192,12 @@ public class SavedTootActivity extends BaseActivity implements SavedTootAdapter.
             SavedTootActivity activity = activityRef.get();
             if (activity == null) return;
 
+            activity.toots.clear();
             activity.toots.addAll(pojos);
 
             // set ui
             activity.setNoContent(pojos.size());
-            List<TootEntity> toots = new ArrayList<>(pojos.size());
-            toots.addAll(pojos);
-            activity.adapter.setItems(toots);
+            activity.adapter.setItems(activity.toots);
             activity.adapter.notifyDataSetChanged();
         }
     }

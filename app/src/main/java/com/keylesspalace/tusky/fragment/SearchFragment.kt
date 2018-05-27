@@ -126,10 +126,6 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
         searchAdapter.removeStatusAtPosition(position)
     }
 
-    override fun removeAllByAccountId(accountId: String?) {
-        // not supported
-    }
-
     override fun onReply(position: Int) {
         val status = searchAdapter.getStatusAtPosition(position)
         if(status != null) {
