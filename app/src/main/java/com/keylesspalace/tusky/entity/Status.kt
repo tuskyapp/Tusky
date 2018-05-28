@@ -98,7 +98,7 @@ data class Status(
     }
 
     fun rebloggingAllowed(): Boolean {
-        return (visibility != Visibility.PRIVATE && visibility != Visibility.DIRECT && visibility != Visibility.UNKNOWN)
+        return (visibility != Visibility.DIRECT && visibility != Visibility.UNKNOWN)
     }
 
     override fun equals(other: Any?): Boolean {

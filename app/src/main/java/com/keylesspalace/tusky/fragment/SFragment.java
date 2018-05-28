@@ -21,11 +21,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.PopupMenu;
 import android.text.Spanned;
+import android.view.Menu;
 import android.view.View;
 
 import com.keylesspalace.tusky.BottomSheetActivity;
@@ -65,6 +65,8 @@ public abstract class SFragment extends BaseFragment {
 
     protected abstract TimelineCases timelineCases();
     protected abstract void removeItem(int position);
+
+    protected abstract void onReblog(final boolean reblog, final int position);
 
     private BottomSheetActivity bottomSheetActivity;
 
@@ -150,6 +152,13 @@ public abstract class SFragment extends BaseFragment {
             popup.inflate(R.menu.status_more);
         } else {
             popup.inflate(R.menu.status_more_for_user);
+            Menu menu = popup.getMenu();
+            if (status.getVisibility() == Status.Visibility.PRIVATE) {
+                boolean reblogged = status.getReblogged();
+                if (status.getReblog() != null) reblogged = status.getReblog().getReblogged();
+                menu.findItem(R.id.status_reblog_private).setVisible(!reblogged);
+                menu.findItem(R.id.status_unreblog_private).setVisible(reblogged);
+            }
         }
         popup.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -191,6 +200,14 @@ public abstract class SFragment extends BaseFragment {
                 }
                 case R.id.status_report: {
                     openReportPage(accountId, accountUsename, id, content);
+                    return true;
+                }
+                case R.id.status_unreblog_private: {
+                    onReblog(false, position);
+                    return true;
+                }
+                case R.id.status_reblog_private: {
+                    onReblog(true, position);
                     return true;
                 }
                 case R.id.status_delete: {
