@@ -345,6 +345,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
                 accountMovedView.visibility = View.VISIBLE
 
+                // necessary because accountMovedView is now replaced in layout hierachy
+                findViewById<View>(R.id.accountMovedView).setOnClickListener {
+                    onViewAccount(movedAccount.id)
+                }
+
                 accountMovedDisplayName.text = movedAccount.name
                 accountMovedUsername.text = getString(R.string.status_username_format, movedAccount.username)
 
