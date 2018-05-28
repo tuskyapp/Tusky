@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.entity
 
-import android.annotation.SuppressLint
 import android.os.Parcel
 import android.os.Parcelable
 import android.text.Spanned
@@ -26,7 +25,6 @@ import kotlinx.android.parcel.Parceler
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.WriteWith
 
-@SuppressLint("ParcelCreator")
 @Parcelize
 data class Account(
         val id: String,
@@ -43,7 +41,8 @@ data class Account(
         @SerializedName("statuses_count") val statusesCount: Int,
         val source: AccountSource?,
         val bot: Boolean,
-        val emojis: List<Emoji> = emptyList()
+        val emojis: List<Emoji> = emptyList(),
+        val fields: List<Field> = emptyList()
 
 ) : Parcelable {
 
@@ -64,20 +63,25 @@ data class Account(
         return account?.id == this.id
     }
 
-    object SpannedParceler : Parceler<Spanned> {
-        override fun create(parcel: Parcel) = HtmlUtils.fromHtml(parcel.readString())
-
-        override fun Spanned.write(parcel: Parcel, flags: Int) {
-            parcel.writeString(HtmlUtils.toHtml(this))
-        }
-    }
-
 }
 
 @Parcelize
-@SuppressLint("ParcelCreator")
 data class AccountSource(
         val privacy: Status.Visibility,
         val sensitive: Boolean,
         val note: String
 ): Parcelable
+
+@Parcelize
+data class Field (
+        val name:String,
+        val value: @WriteWith<SpannedParceler>() Spanned
+): Parcelable
+
+object SpannedParceler : Parceler<Spanned> {
+    override fun create(parcel: Parcel): Spanned = HtmlUtils.fromHtml(parcel.readString())
+
+    override fun Spanned.write(parcel: Parcel, flags: Int) {
+        parcel.writeString(HtmlUtils.toHtml(this))
+    }
+}

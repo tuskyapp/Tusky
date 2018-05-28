@@ -112,9 +112,11 @@
                     android:background="@drawable/profile_badge_background"
                     android:text="@string/profile_badge_bot_text"
                     android:textSize="?attr/status_text_small"
+                    android:visibility="gone"
                     app:layout_constraintStart_toEndOf="@id/accountFollowsYouTextView"
                     app:layout_constraintTop_toBottomOf="@id/accountUsernameTextView"
-                    app:layout_goneMarginStart="0dp" />
+                    app:layout_goneMarginStart="0dp"
+                    tools:visibility="visible" />
 
                 <android.support.constraint.Barrier
                     android:id="@+id/labelBarrier"
@@ -128,12 +130,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/labelBarrier"
-                    android:paddingBottom="32dp"
+                    android:lineSpacingMultiplier="1.1"
                     android:paddingTop="10dp"
                     android:textColor="?android:textColorTertiary"
                     android:textSize="?attr/status_text_medium"
                     app:layout_constraintTop_toBottomOf="@id/labelBarrier"
                     tools:text="This is a test description. Descriptions can be quite looooong." />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/accountFieldList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="32dp"
+                    app:layout_constraintTop_toBottomOf="@id/accountNoteTextView"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_account_field" />
 
                 <TextView
                     android:id="@+id/accountFollowersTextView"
@@ -160,7 +171,7 @@
                     app:layout_constraintEnd_toStartOf="@id/accountFollowingDescription"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/accountNoteTextView" />
+                    app:layout_constraintTop_toBottomOf="@id/accountFieldList" />
 
                 <TextView
                     android:id="@+id/accountFollowingTextView"
@@ -186,7 +197,7 @@
                     app:layout_constraintEnd_toStartOf="@id/accountStatusesDescription"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toEndOf="@id/accountFollowersDescription"
-                    app:layout_constraintTop_toBottomOf="@id/accountNoteTextView" />
+                    app:layout_constraintTop_toBottomOf="@id/accountFieldList" />
 
                 <TextView
                     android:id="@+id/accountStatusesTextView"
@@ -212,7 +223,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toEndOf="@id/accountFollowingDescription"
-                    app:layout_constraintTop_toBottomOf="@id/accountNoteTextView" />
+                    app:layout_constraintTop_toBottomOf="@id/accountFieldList" />
             </android.support.constraint.ConstraintLayout>
 
             <!-- TODO check if there is a better way to get the statusbar height than just using 24dp -->
@@ -230,15 +241,15 @@
 
         <android.support.design.widget.TabLayout
             android:id="@+id/accountTabLayout"
+            style="@style/TuskyTabAppearance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="?android:colorBackground"
             app:tabGravity="fill"
-            style="@style/TuskyTabAppearance"
             app:tabIndicatorHeight="3dp"
             app:tabSelectedTextColor="?attr/colorAccent"
-            app:tabTextAppearance="@style/TuskyTabAppearance"/>
+            app:tabTextAppearance="@style/TuskyTabAppearance" />
 
     </android.support.design.widget.AppBarLayout>
 

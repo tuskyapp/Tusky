@@ -31,11 +31,13 @@ import android.support.design.widget.AppBarLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import com.keylesspalace.tusky.adapter.AccountFieldAdapter
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MuteEvent
@@ -57,7 +59,7 @@ import kotlinx.android.synthetic.main.activity_account.*
 import java.text.NumberFormat
 import javax.inject.Inject
 
-class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportFragmentInjector {
+class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportFragmentInjector, LinkListener {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
@@ -67,6 +69,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     lateinit var eventHub: EventHub
 
     private lateinit var viewModel: AccountViewModel
+
+    private val accountFieldAdapter = AccountFieldAdapter(this)
 
     private lateinit var accountId: String
     private var followState: FollowState? = null
@@ -123,7 +127,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
             if(it is Success) {
                 when {
-                    //TODO this sends too many events
+                //TODO this sends too many events
                     relation?.following == false -> eventHub.dispatch(UnfollowEvent(accountId))
                     relation?.blocking == true -> eventHub.dispatch(BlockEvent(accountId))
                     relation?.muting == true -> eventHub.dispatch(MuteEvent(accountId))
@@ -163,7 +167,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         supportActionBar?.title = null
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
 
         hideFab = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("fabHide", false)
 
@@ -254,6 +257,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             viewModel.obtainRelationship(accountId)
         }
 
+        // setup the RecyclerView for the account fields
+        accountFieldList.isNestedScrollingEnabled = false
+        accountFieldList.layoutManager = LinearLayoutManager(this)
+        accountFieldList.adapter = accountFieldAdapter
+
         // Setup the tabs and timeline pager.
         val adapter = AccountPagerAdapter(supportFragmentManager, accountId)
         val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_media))
@@ -303,23 +311,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 supportActionBar!!.subtitle = subtitle
             }
             val emojifiedNote = CustomEmojiHelper.emojifyText(account.note, account.emojis, accountNoteTextView)
-            LinkHelper.setClickableText(accountNoteTextView, emojifiedNote, null, object : LinkListener {
-                override fun onViewTag(tag: String) {
-                    val intent = Intent(this@AccountActivity, ViewTagActivity::class.java)
-                    intent.putExtra("hashtag", tag)
-                    startActivity(intent)
-                }
+            LinkHelper.setClickableText(accountNoteTextView, emojifiedNote, null, this)
 
-                override fun onViewAccount(id: String) {
-                    val intent = Intent(this@AccountActivity, AccountActivity::class.java)
-                    intent.putExtra("id", id)
-                    startActivity(intent)
-                }
-
-                override fun onViewUrl(url: String) {
-                    viewUrl(url)
-                }
-            })
             accountLockedImageView.visibility = if (account.locked) {
                 View.VISIBLE
             } else {
@@ -339,6 +332,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                     .load(account.header)
                     .placeholder(R.drawable.account_header_default)
                     .into(accountHeaderImageView)
+
+            accountFieldAdapter.fields = account.fields
+            accountFieldAdapter.emojis = account.emojis
+            accountFieldAdapter.notifyDataSetChanged()
+
             val numberFormat = NumberFormat.getNumberInstance()
             accountFollowersTextView.text = numberFormat.format(account.followersCount)
             accountFollowingTextView.text = numberFormat.format(account.followingCount)
@@ -508,6 +506,23 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         startActivity(intent)
         return true
     }
+
+    override fun onViewTag(tag: String) {
+        val intent = Intent(this@AccountActivity, ViewTagActivity::class.java)
+        intent.putExtra("hashtag", tag)
+        startActivity(intent)
+    }
+
+    override fun onViewAccount(id: String) {
+        val intent = Intent(this@AccountActivity, AccountActivity::class.java)
+        intent.putExtra("id", id)
+        startActivity(intent)
+    }
+
+    override fun onViewUrl(url: String) {
+        viewUrl(url)
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
