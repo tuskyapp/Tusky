@@ -335,4 +335,6 @@
     <string name="download_failed">Download failed</string>
     <string name="profile_badge_bot_text">Bot</string>
 
+    <string name="account_moved_description">%1$s has moved to:</string>
+
 </resources>

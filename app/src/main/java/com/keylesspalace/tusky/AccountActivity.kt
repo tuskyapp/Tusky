@@ -21,6 +21,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -31,6 +32,8 @@ import android.support.design.widget.AppBarLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.support.v4.widget.TextViewCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
@@ -56,6 +59,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_account.*
+import kotlinx.android.synthetic.main.view_account_moved.*
 import java.text.NumberFormat
 import javax.inject.Inject
 
@@ -180,7 +184,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         ThemeUtils.setDrawableTint(this, accountToolbar.overflowIcon, R.attr.account_toolbar_icon_tint_uncollapsed)
 
         // Add a listener to change the toolbar icon color when it enters/exits its collapsed state.
-
         accountAppBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
             @AttrRes
             internal var priorAttribute = R.attr.account_toolbar_icon_tint_uncollapsed
@@ -304,11 +307,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountDisplayNameTextView.text = CustomEmojiHelper.emojifyString(account.name, account.emojis, accountDisplayNameTextView)
             if (supportActionBar != null) {
                 //EmojiCompat.get().process(
-                supportActionBar!!.title = account.name
+                supportActionBar?.title = account.name
 
                 val subtitle = String.format(getString(R.string.status_username_format),
                         account.username)
-                supportActionBar!!.subtitle = subtitle
+                supportActionBar?.subtitle = subtitle
             }
             val emojifiedNote = CustomEmojiHelper.emojifyText(account.note, account.emojis, accountNoteTextView)
             LinkHelper.setClickableText(accountNoteTextView, emojifiedNote, null, this)
@@ -336,6 +339,40 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountFieldAdapter.fields = account.fields
             accountFieldAdapter.emojis = account.emojis
             accountFieldAdapter.notifyDataSetChanged()
+
+            if(account.moved != null) {
+                val movedAccount = account.moved
+
+                accountMovedView.visibility = View.VISIBLE
+
+                accountMovedDisplayName.text = movedAccount.name
+                accountMovedUsername.text = getString(R.string.status_username_format, movedAccount.username)
+
+                Picasso.with(this)
+                        .load(movedAccount.avatar)
+                        .transform(RoundedTransformation(25f))
+                        .placeholder(R.drawable.avatar_default)
+                        .into(accountMovedAvatar)
+
+                accountMovedText.text = getString(R.string.account_moved_description, movedAccount.displayName)
+
+                // this is necessary because API 19 can't handle vactor compound drawables
+                val movedIcon = ContextCompat.getDrawable(this, R.drawable.ic_briefcase)?.mutate()
+                val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+                movedIcon?.setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
+
+                TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(accountMovedText, movedIcon, null, null, null)
+
+                accountFollowersTextView.visibility = View.GONE
+                accountFollowingTextView.visibility = View.GONE
+                accountStatusesTextView.visibility = View.GONE
+                accountFollowersDescription.visibility = View.GONE
+                accountFollowingDescription.visibility = View.GONE
+                accountStatusesDescription.visibility = View.GONE
+                accountTabLayout.visibility = View.GONE
+                accountFragmentViewPager.visibility = View.GONE
+                accountTabBottomShadow.visibility = View.GONE
+            }
 
             val numberFormat = NumberFormat.getNumberInstance()
             accountFollowersTextView.text = numberFormat.format(account.followersCount)
@@ -393,7 +430,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private fun updateButtons() {
         invalidateOptionsMenu()
 
-        if (!isSelf && !blocking) {
+        if (!isSelf && !blocking && loadedAccount?.moved == null) {
             accountFloatingActionButton.show()
             accountFollowButton.visibility = View.VISIBLE
 

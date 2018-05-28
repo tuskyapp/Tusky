@@ -42,7 +42,8 @@ data class Account(
         val source: AccountSource?,
         val bot: Boolean,
         val emojis: List<Emoji> = emptyList(),
-        val fields: List<Field> = emptyList()
+        val fields: List<Field> = emptyList(),
+        val moved: Account? = null
 
 ) : Parcelable {
 
