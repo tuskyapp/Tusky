@@ -275,5 +275,47 @@
     <string name="action_remove_media">Supprimer le média</string>
     <string name="lock_account_label">Verrouiller le compte</string>
     <string name="lock_account_label_description">Nécessite que vous approuviez manuellement les abonnements</string>
+    <string name="error_invalid_regex">Expression régulière invalide</string>
+    <string name="error_sender_account_gone">Erreur lors de l\'envoi du Pouet.</string>
+    <string name="title_advanced">Avancé</string>
+    <string name="action_quick_reply">Réponse Rapide</string>
+    <string name="action_toggle_visibility">Visibilité du Pouet</string>
+    <string name="action_content_warning">Avertissement du contenu</string>
+    <string name="action_emoji_keyboard">Clavier d\'Emoji</string>
+    <string name="status_sent">Envoyé!</string>
+    <string name="status_sent_long">Réponse envoyé avec succès.</string>
+    <string name="label_quick_reply">Répondre...</string>
+    <string name="pref_title_filter_regex">Filtrer par expression régulière</string>
+    <string name="compose_save_draft">Sauver en tant que brouillon?</string>
+    <string name="send_toot_notification_title">Envoi du Pouet…</string>
+    <string name="send_toot_notification_error_title">Erreur lors de l\'envoi du pouet</string>
+    <string name="send_toot_notification_channel_name">Envoi des Pouets</string>
+    <string name="send_toot_notification_cancel_title">Envoi annulé</string>
+    <string name="send_toot_notification_saved_content">Une copie du pouet a été sauvegardé dans vos brouillons</string>
+    <string name="action_compose_shortcut">Écrire</string>
+    <string name="error_no_custom_emojis">Votre instance %s n\'a pas d\'emojis customisés</string>
+    <string name="copy_to_clipboard_success">Copié dans le presse-papier</string>
+    <string name="emoji_style">Style d\'Emoji</string>
+    <string name="later">Plus tard</string>
+    <string name="restart">Relancer</string>
+    <string name="caption_systememoji">Votre jeu d\'emoji par défaut</string>
+    <string name="caption_blobmoji">Un jeu d\'emoji basé sur les emoji \"blob\"</string>
+    <string name="caption_twemoji">Le jeu d\'emoji standard de Mastodon</string>
+    <string name="download_failed">Échec du téléchargement</string>
+    <string name="reblog_private">Booster vers l\'audience originale</string>
+    <string name="unreblog_private">Dé-booster</string>
+    <string name="action_open_toot">Ouvrir le pouet</string>
+    <string name="restart_required">Un redémarrage de l\'application est requis</string>
+    <string name="expand_collapse_all_statuses">Déplier/Replier tout les statuts</string>
+    <string name="system_default">Défaut du système</string>
+    <string name="download_fonts">Vous devez commencer par télécharger ces jeux d\'emoji</string>
+    <string name="performing_lookup_title">Recherche en cours…</string>
+    <string name="restart_emoji">Vous devez relancer Tusky pour appliquer ces changements</string>
+    <string name="about_emoji">
+        Tusky utilise les jeux d\'emoji suivants:\n
+        Twemoji par Twitter - https://github.com/twitter/Twemoji\n
+        Blobmoji par C1710, basé sur Noto-Emoji - https://github.com/c1710/Blobmoji\n
+        Twemoji a été modifié pour pouvoir être utilisé avec la librairie EmojiCompat
+    </string>
 
 </resources>
