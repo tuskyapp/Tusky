@@ -1,12 +1,12 @@
 <resources>
 
-    <string name="error_generic">An error occurred.</string>
-    <string name="error_empty">This cannot be empty.</string>
-    <string name="error_invalid_domain">Invalid domain entered</string>
-    <string name="error_failed_app_registration">Failed authenticating with that instance.</string>
-    <string name="error_no_web_browser_found">Couldn\'t find a web browser to use.</string>
-    <string name="error_authorization_unknown">An unidentified authorization error occurred.</string>
-    <string name="error_authorization_denied">Authorization was denied.</string>
+    <string name="error_generic">Ett fel inträffade.</string>
+    <string name="error_empty">Denna kan inte vara tom.</string>
+    <string name="error_invalid_domain">Ogiltigt domän</string>
+    <string name="error_failed_app_registration">Misslyckades med att autentisera med den instansen.</string>
+    <string name="error_no_web_browser_found">Det gick inte att hitta en webbläsare att använda.</string>
+    <string name="error_authorization_unknown">Ett oidentifierat behörighetsfel inträffade.</string>
+    <string name="error_authorization_denied">Auktorisation nekades.</string>
     <string name="error_retrieving_oauth_token">Failed getting a login token.</string>
     <string name="error_compose_character_limit">The status is too long!</string>
     <string name="error_media_upload_size">The file must be less than 8MB.</string>
