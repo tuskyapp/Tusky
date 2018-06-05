@@ -1,0 +1,196 @@
+<resources>
+
+    <string name="error_generic">Ett fel inträffade.</string>
+    <string name="error_empty">Det här kan inte vara tomt.</string>
+    <string name="error_invalid_domain">Ogiltigt domän angett</string>
+    <string name="error_failed_app_registration">Misslyckades med att autentisera med den instansen.</string>
+    <string name="error_no_web_browser_found">Det gick inte att hitta en webbläsare.</string>
+    <string name="error_authorization_unknown">Ett oidentifierat behörighetsfel inträffade.</string>
+    <string name="error_authorization_denied">Ingen behörighet.</string>
+    <string name="error_retrieving_oauth_token">Misslyckades med att få ett inloggnings-token.</string>
+    <string name="error_compose_character_limit">Statusen är för lång!</string>
+    <string name="error_media_upload_size">Filen måste vara mindre än 8MB.</string>
+    <string name="error_media_upload_type">Den typen av fil kan inte laddas upp.</string>
+    <string name="error_media_upload_opening">Den filen kunde inte öppnas.</string>
+    <string name="error_media_upload_permission">Tillstånd att läsa media krävs.</string>
+    <string name="error_media_download_permission">Tillstånd att lagra media krävs.</string>
+    <string name="error_media_upload_image_or_video">Bilder och videoklipp kan inte båda bifogas i samma status.</string>
+    <string name="error_media_upload_sending">Uppladdningen misslyckades.</string>
+    <string name="error_report_too_few_statuses">Minst en status måste rapporteras.</string>
+    <string name="error_invalid_regex">Ogiltigt regular expression</string>
+    <string name="error_sender_account_gone">Misslyckades med att få ett inloggningsnamn.</string>
+
+
+
+    <string name="footer_empty">Inget här. Dra ner för att uppdatera!</string>
+
+
+
+    <string name="action_quick_reply">Snabbsvar</string>
+    <string name="action_reply">Svara</string>
+    <string name="action_reblog">Boost</string>
+    <string name="action_favourite">Favorit</string>
+    <string name="action_more">Mer</string>
+    <string name="action_compose">Skriva</string>
+    <string name="action_login">Logga in med Mastodon</string>
+    <string name="action_logout">Logga ut</string>
+    <string name="action_logout_confirm">Är du säker på att du vill logga ut från kontot %1$s?</string>
+    <string name="action_follow">Följ</string>
+    <string name="action_unfollow">Avfölj</string>
+    <string name="action_block">Blockera</string>
+    <string name="action_unblock">Avblockera</string>
+    <string name="action_report">Rapportera</string>
+    <string name="action_delete">Radera</string>
+    <string name="action_send">TOOT</string>
+    <string name="action_send_public">TOOT!</string>
+    <string name="action_retry">Försök igen</string>
+    <string name="action_close">Stäng</string>
+    <string name="action_view_profile">Profil</string>
+    <string name="action_view_preferences">Inställningar</string>
+    <string name="action_view_favourites">Favoriter</string>
+    <string name="action_view_mutes">Tystade användare</string>
+    <string name="action_view_blocks">Blockerade användare</string>
+    <string name="action_view_follow_requests">Följförfrågningar</string>
+    <string name="action_view_media">Media</string>
+    <string name="action_open_in_web">Öppna i webbläsare</string>
+    <string name="action_add_media">Lägg till media</string>
+    <string name="action_photo_take">Ta foto</string>
+    <string name="action_share">Dela</string>
+    <string name="action_mute">Tysta</string>
+    <string name="action_unmute">sätt på ljud</string>
+    <string name="action_mention">Omnämna</string>
+    <string name="action_hide_media">Dölj media</string>
+    <string name="action_open_drawer">Öppna låda</string>
+    <string name="action_save">Spara</string>
+    <string name="action_edit_profile">Redigera profil</string>
+    <string name="action_undo">Ångra</string>
+    <string name="action_accept">Acceptera</string>
+    <string name="action_reject">Avvisa</string>
+    <string name="action_search">Sök</string>
+    <string name="action_access_saved_toot">Utkast</string>
+    <string name="action_toggle_visibility">Toot synlighet</string>
+    <string name="action_content_warning">Innehållsvarning</string>
+    <string name="action_emoji_keyboard">Emoji-tangentbord</string>
+
+    <string name="download_image">Laddar ned %1$s</string>
+
+    <string name="action_copy_link">Kopiera länken</string>
+
+
+    <string name="confirmation_reported">Skickat!</string>
+    <string name="confirmation_unblocked">Användare avblockerad</string>
+    <string name="confirmation_unmuted">User ljud på</string>
+
+
+    <string name="hint_domain">Vilken instans?</string>
+    <string name="hint_compose">Vad händer?</string>
+    <string name="hint_content_warning">Innehållsvarning</string>
+    <string name="hint_display_name">Visningsnamn</string>
+    <string name="hint_note">Bio</string>
+    <string name="hint_search">Sök…</string>
+
+
+    <string name="label_quick_reply">Svara…</string>
+    <string name="label_avatar">Avatar</string>
+    <string name="label_header">Rubrik</string>
+
+    <string name="link_whats_an_instance">Vad är en instans?</string>
+
+    <string name="login_connection">Ansluter...</string>
+
+    <string name="dialog_whats_an_instance">The address or domain of any instance can be entered         here, such as mastodon.social, icosahedron.website, social.tchncs.de, and         <a href="https://instances.social" >more!</a>         \n
+     \n
+     If you don\'t yet have an account, you can enter the name of the instance you\'d like to         join and create an account there.\n
+     \n
+     An instance is a single place where your account is         hosted, but you can easily communicate with and follow folks on other instances as though         you were on the same site.         \n
+     \n
+     More info can be found at <a href="https://joinmastodon.org" >joinmastodon.org</a>.</string>
+    <string name="dialog_title_finishing_media_upload">Uppladdning av media</string>
+    <string name="dialog_message_uploading_media">Laddar upp...</string>
+    <string name="dialog_download_image">Ladda ned</string>
+    <string name="dialog_message_follow_request">Följefterfrågan: väntar på deras svar</string>
+    <string name="dialog_unfollow_warning">Avfölja detta konto?</string>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <string name="description_account_locked">Låst konto</string>
+
+    <string name="about_title_activity">Om</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Tusky is free and open-source software.         It is licensed under the GNU General Public License Version 3.         You can view the license here: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <!-- note to translators:
+         * you should think of “free” as in “free speech,” not as in “free beer”.
+           We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
+           to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
+         * the url can be changed to link to the localized version of the license.
+    -->
+    <string name="about_project_site">Tuskys webbsida:\n
+                  https://tuskyapp.github.io</string>
+    <string name="about_bug_feature_request_site">Buggrapporter &amp; funktionsförslag:\n
+                  https://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_tusky_account">Tusky\'s Profil</string>
+
+
+
+    <string name="no_content">inget innehåll</string>
+
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">om %dy</string>
+    <string name="abbreviated_in_days">om %dd</string>
+    <string name="abbreviated_in_hours">om %dh</string>
+    <string name="abbreviated_in_minutes">om %dm</string>
+    <string name="abbreviated_in_seconds">om %ds</string>
+    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
+
+    <string name="follows_you">Följer dig</string>
+    <string name="load_more_placeholder_text">ladda mer</string>
+
+    <string name="add_account_name">Lägg till konto</string>
+    <string name="add_account_description">Lägg till ett nytt Mastodonkonto</string>
+
+    <string name="action_lists">Listor</string>
+
+    <string name="compose_active_account_description">Inlägg med kontot %1$s</string>
+
+    <string name="error_failed_set_caption">Misslyckades med att ange bildtext</string>
+    <string name="hint_describe_for_visually_impaired">Beskriv för synskadade</string>
+    <string name="action_set_caption">Ange bildtext</string>
+    <string name="action_remove_media">Ta bort</string>
+    <string name="lock_account_label">Lås konto</string>
+    <string name="lock_account_label_description">Kräver dig att manuellt godkänna följare</string>
+    <string name="compose_save_draft">Spara utkast?</string>
+    <string name="action_compose_shortcut">Skriva</string>
+
+    <string name="error_no_custom_emojis">Din instans %s har inga anpassade emojis</string>
+    <string name="copy_to_clipboard_success">Kopierat till urklipp</string>
+    <string name="emoji_style">Emojis</string>
+    <string name="download_fonts">Du behöver ladda ned dessa emojis först</string>
+    <string name="expand_collapse_all_statuses">Expandera / Dölj alla status</string>
+    <string name="action_open_toot">Öppna toot</string>
+    <string name="later">Senare</string>
+    <string name="caption_systememoji">Your device\'s default emoji set</string>
+    <string name="caption_blobmoji">An emoji set based on the Blob emojis known from Android 4.4–7.1</string>
+    <string name="caption_twemoji">Mastodon\'s standard emojis</string>
+    <string name="about_emoji">Tusky använder följande emoji set:\n
+                  Twemoji by Twitter - https://github.com/twitter/Twemoji\n
+                  Blobmoji by C1710, based on Noto-Emoji - https://github.com/c1710/Blobmoji\n
+                  Twemoji has been modified in order to use it with the EmojiCompat library</string>
+    <string name="license_blobmoji">Blobmoji är licenserade under Apache licensen 2.0</string>
+    <string name="license_twemoji">Twemoji är licenserade som CC-BY 4.0 - https://creativecommons.org/licenses/by/4.0/</string>
+    <string name="download_failed">Nedladdning misslyckad</string>
+
+</resources>
