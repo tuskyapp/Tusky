@@ -1,0 +1,307 @@
+
+<!-- File "app/src/main/res/values-sv/strings.xml" --> 
+<resources>
+
+    <string name="error_generic">Ett fel inträffade.</string>
+    <string name="error_empty">Det här kan inte vara tomt.</string>
+    <string name="error_invalid_domain">Ogiltigt domän angett</string>
+    <string name="error_failed_app_registration">Misslyckades med att autentisera med den instansen.</string>
+    <string name="error_no_web_browser_found">Det gick inte att hitta en webbläsare.</string>
+    <string name="error_authorization_unknown">Ett oidentifierat behörighetsfel inträffade.</string>
+    <string name="error_authorization_denied">Ingen behörighet.</string>
+    <string name="error_retrieving_oauth_token">Misslyckades med att få ett inloggnings-token.</string>
+    <string name="error_compose_character_limit">Statusen är för lång!</string>
+    <string name="error_media_upload_size">Filen måste vara mindre än 8MB.</string>
+    <string name="error_media_upload_type">Den typen av fil kan inte laddas upp.</string>
+    <string name="error_media_upload_opening">Den filen kunde inte öppnas.</string>
+    <string name="error_media_upload_permission">Tillstånd att läsa media krävs.</string>
+    <string name="error_media_download_permission">Tillstånd att lagra media krävs.</string>
+    <string name="error_media_upload_image_or_video">Bilder och videoklipp kan inte båda bifogas i samma status.</string>
+    <string name="error_media_upload_sending">Uppladdningen misslyckades.</string>
+    <string name="error_report_too_few_statuses">Minst en status måste rapporteras.</string>
+    <string name="error_invalid_regex">Ogiltigt reguljärt uttryck</string>
+    <string name="error_sender_account_gone">Misslyckades med att få ett inloggningsnamn.</string>
+
+    <string name="title_home">Hem</string>
+    <string name="title_advanced">Avancerat</string>
+    <string name="title_notifications">Notifikationer</string>
+    <string name="title_public_local">Lokal</string>
+    <string name="title_public_federated">Federerat</string>
+    <string name="title_view_thread">Toot</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">Inlägg</string>
+    <string name="title_follows">Följer</string>
+    <string name="title_followers">Följare</string>
+    <string name="title_favourites">Favoriter</string>
+    <string name="title_mutes">Tystade användare</string>
+    <string name="title_blocks">Blockerade användare</string>
+    <string name="title_follow_requests">Följarförfrågningar</string>
+    <string name="title_edit_profile">Ändra din profil</string>
+    <string name="title_saved_toot">Utkast</string>
+    <string name="title_x_followers"><b >%s</b> Följare</string>
+    <string name="title_x_following"><b >%s</b> Följer</string>
+    <string name="title_x_statuses"><b >%s</b> Inlägg</string>
+
+    <string name="status_username_format">\\@%s</string>
+    <string name="status_boosted_format">%s boostad</string>
+    <string name="status_sensitive_media_title">Känsligt innehåll</string>
+    <string name="status_media_hidden_title">Dold media</string>
+    <string name="status_sensitive_media_directions">Klicka för att se</string>
+    <string name="status_content_warning_show_more">Visa mer</string>
+    <string name="status_content_warning_show_less">Visa mindre</string>
+
+    <string name="footer_empty">Inget här. Dra ner för att uppdatera!</string>
+
+    <string name="notification_reblog_format">%s boostade din toot</string>
+    <string name="notification_favourite_format">%s favoriserade din toot</string>
+    <string name="notification_follow_format">%s följer dig</string>
+
+    <string name="report_username_format">Rapportera @%s</string>
+    <string name="report_comment_hint">Ytterligare kommentarer?</string>
+
+    <string name="action_quick_reply">Snabbsvar</string>
+    <string name="action_reply">Svara</string>
+    <string name="action_reblog">Boost</string>
+    <string name="action_favourite">Favorit</string>
+    <string name="action_more">Mer</string>
+    <string name="action_compose">Skriva</string>
+    <string name="action_login">Logga in med Mastodon</string>
+    <string name="action_logout">Logga ut</string>
+    <string name="action_logout_confirm">Är du säker på att du vill logga ut från kontot %1$s?</string>
+    <string name="action_follow">Följ</string>
+    <string name="action_unfollow">Avfölj</string>
+    <string name="action_block">Blockera</string>
+    <string name="action_unblock">Avblockera</string>
+    <string name="action_report">Rapportera</string>
+    <string name="action_delete">Radera</string>
+    <string name="action_send">TOOT</string>
+    <string name="action_send_public">TOOT!</string>
+    <string name="action_retry">Försök igen</string>
+    <string name="action_close">Stäng</string>
+    <string name="action_view_profile">Profil</string>
+    <string name="action_view_preferences">Inställningar</string>
+    <string name="action_view_favourites">Favoriter</string>
+    <string name="action_view_mutes">Tystade användare</string>
+    <string name="action_view_blocks">Blockerade användare</string>
+    <string name="action_view_follow_requests">Följförfrågningar</string>
+    <string name="action_view_media">Media</string>
+    <string name="action_open_in_web">Öppna i webbläsare</string>
+    <string name="action_add_media">Lägg till media</string>
+    <string name="action_photo_take">Ta foto</string>
+    <string name="action_share">Dela</string>
+    <string name="action_mute">Tysta</string>
+    <string name="action_unmute">Sätt på ljud</string>
+    <string name="action_mention">Omnämn</string>
+    <string name="action_hide_media">Dölj media</string>
+    <string name="action_open_drawer">Öppna låda</string>
+    <string name="action_save">Spara</string>
+    <string name="action_edit_profile">Redigera profil</string>
+    <string name="action_undo">Ångra</string>
+    <string name="action_accept">Acceptera</string>
+    <string name="action_reject">Avvisa</string>
+    <string name="action_search">Sök</string>
+    <string name="action_access_saved_toot">Utkast</string>
+    <string name="action_toggle_visibility">Toot synlighet</string>
+    <string name="action_content_warning">Innehållsvarning</string>
+    <string name="action_emoji_keyboard">Emoji-tangentbord</string>
+
+    <string name="download_image">Laddar ned %1$s</string>
+
+    <string name="action_copy_link">Kopiera länken</string>
+
+    <string name="send_status_link_to">Dela toot-URL till ...</string>
+    <string name="send_status_content_to">Dela toot till ...</string>
+
+    <string name="confirmation_reported">Skickat!</string>
+    <string name="confirmation_unblocked">Användare avblockerad</string>
+    <string name="confirmation_unmuted">Ljud på för användaren</string>
+
+    <string name="status_sent">Skickat!</string>
+    <string name="status_sent_long">Svar skickat framgångsrikt.</string>
+
+    <string name="hint_domain">Vilken instans?</string>
+    <string name="hint_compose">Vad händer?</string>
+    <string name="hint_content_warning">Innehållsvarning</string>
+    <string name="hint_display_name">Visningsnamn</string>
+    <string name="hint_note">Bio</string>
+    <string name="hint_search">Sök…</string>
+
+    <string name="search_no_results">Inga resultat</string>
+
+    <string name="label_quick_reply">Svara…</string>
+    <string name="label_avatar">Avatar</string>
+    <string name="label_header">Bakgrundsbild</string>
+
+    <string name="link_whats_an_instance">Vad är en instans?</string>
+
+    <string name="login_connection">Ansluter...</string>
+
+    <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och <a href="https://instances.social"> mer! </a>\n
+  \n
+  Om du inte har något konto kan du ange namnet på instansen du vill ansluta till och skapa ett konto där.\n
+  \n
+  En instans är en plats där ditt konto finns, men du kan enkelt kommunicera med och följa andra personer på andra instanser, som om du var på samma sajt.\n
+  \n
+  Mer information finns på \n
+  <a href="https://joinmastodon.org"> joinmastodon.org </a>.</string>
+    <string name="dialog_title_finishing_media_upload">Uppladdning av media</string>
+    <string name="dialog_message_uploading_media">Laddar upp...</string>
+    <string name="dialog_download_image">Ladda ned</string>
+    <string name="dialog_message_follow_request">Följförfrågan: väntar på deras svar</string>
+    <string name="dialog_unfollow_warning">Avfölja detta konto?</string>
+
+    <string name="visibility_public">Offentlig: Skicka till offentliga tidslinjer</string>
+    <string name="visibility_unlisted">Olistad: Visa inte i offentliga tidslinjer</string>
+    <string name="visibility_private">Enbart-följare: Posta enbart till följare</string>
+    <string name="visibility_direct">Direkt: Posta endast till nämnda användare</string>
+
+    <string name="pref_title_notification_settings">Notifieringar</string>
+    <string name="pref_title_edit_notification_settings">Redigera notifieringar</string>
+    <string name="pref_title_notifications_enabled">Notifieringar</string>
+    <string name="pref_summary_notifications">för konto %1$s</string>
+    <string name="pref_title_pull_notification_check_interval">Uppdateringsintervall</string>
+    <string name="pref_title_notification_alerts">Alarm</string>
+    <string name="pref_title_notification_alert_sound">Meddela med ljud</string>
+    <string name="pref_title_notification_alert_vibrate">Meddela med vibration</string>
+    <string name="pref_title_notification_alert_light">Notifieringar med ljus</string>
+    <string name="pref_title_notification_filters">Meddela mig när</string>
+    <string name="pref_title_notification_filter_mentions">nämnd</string>
+    <string name="pref_title_notification_filter_follows">följt</string>
+    <string name="pref_title_notification_filter_reblogs">mina inlägg är boostade</string>
+    <string name="pref_title_notification_filter_favourites">mina inlägg är favoriserade</string>
+    <string name="pref_title_appearance_settings">Utseende</string>
+    <string name="pref_title_app_theme">App Tema</string>
+
+
+    <string name="pref_title_browser_settings">Webbläsare</string>
+    <string name="pref_title_custom_tabs">Använd Chrome-anpassade flikar</string>
+    <string name="pref_title_hide_follow_button">Dölj toot-knappen medan du scrollar</string>
+    <string name="pref_title_status_filter">Tidslinje filtrering</string>
+    <string name="pref_title_status_tabs">Flikar</string>
+    <string name="pref_title_show_boosts">Visa boosts</string>
+    <string name="pref_title_show_replies">Visa svar</string>
+    <string name="pref_title_filter_regex">Filtrera ut med regelbundna uttryck</string>
+    <string name="pref_title_show_media_preview">Visa förhandsgranskningar av media</string>
+    <string name="pref_title_proxy_settings">Proxy</string>
+    <string name="pref_title_http_proxy_settings">HTTP proxy</string>
+    <string name="pref_title_http_proxy_enable">Aktivera HTTP-proxy</string>
+    <string name="pref_title_http_proxy_server">HTTP proxy server</string>
+    <string name="pref_title_http_proxy_port">HTTP proxy port</string>
+
+
+    <string name="pref_default_post_privacy">Standardinställning för toots</string>
+    <string name="pref_publishing">Publicering</string>
+
+
+    <string name="pref_status_text_size">Status textstorlek</string>
+
+
+    <string name="notification_channel_mention_name">Nya omnämnanden</string>
+    <string name="notification_channel_mention_descriptions">Notifieringar om nya omnämnanden</string>
+    <string name="notification_channel_follow_name">Nya följare</string>
+    <string name="notification_channel_follow_description">Notifieringar om nya följare</string>
+    <string name="notification_channel_boost_name">Boosts</string>
+    <string name="notification_channel_boost_description">Notifieringar när dina toots blir boostade</string>
+    <string name="notification_channel_favourite_name">Favoriter</string>
+    <string name="notification_channel_favourite_description">Notifieringar när dina toots blir markerade som favoriter</string>
+
+
+    <string name="notification_mention_format">%s omnämnande dig</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s och %4$d andra</string>
+    <string name="notification_summary_medium">%1$s, %2$s, och %3$s</string>
+    <string name="notification_summary_small">%1$s och %2$s</string>
+    <string name="notification_title_summary">%d nya interaktioner</string>
+
+    <string name="description_account_locked">Låst konto</string>
+
+    <string name="about_title_activity">Om</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Tusky är gratis och programvara med öppen källkod. Det är licensierat under GNU General Public License version 3. Du kan visa licensen här: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <!-- note to translators:
+         * you should think of “free” as in “free speech,” not as in “free beer”.
+           We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
+           to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
+         * the url can be changed to link to the localized version of the license.
+    -->
+    <string name="about_project_site">Tuskys webbsida:\n
+                       https://tuskyapp.github.io</string>
+    <string name="about_bug_feature_request_site">Buggrapporter &amp; funktionsförslag:\n
+                       https://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_tusky_account">Tusky\'s Profil</string>
+
+    <string name="status_share_content">Dela innehåll av toot</string>
+    <string name="status_share_link">Dela länk till toot</string>
+    <string name="status_media_images">Bilder</string>
+    <string name="status_media_video">Video</string>
+
+    <string name="state_follow_requested">Följarförfrågning</string>
+
+    <string name="no_content">inget innehåll</string>
+
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">om %dy</string>
+    <string name="abbreviated_in_days">om %dd</string>
+    <string name="abbreviated_in_hours">om %dh</string>
+    <string name="abbreviated_in_minutes">om %dm</string>
+    <string name="abbreviated_in_seconds">om %ds</string>
+    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
+
+    <string name="follows_you">Följer dig</string>
+    <string name="pref_title_alway_show_sensitive_media">Visa alltid allt (nsfw) innehåll</string>
+    <string name="title_media">Media</string>
+    <string name="replying_to">Svarar till @%s</string>
+    <string name="load_more_placeholder_text">ladda mer</string>
+
+    <string name="add_account_name">Lägg till konto</string>
+    <string name="add_account_description">Lägg till ett nytt Mastodon-konto</string>
+
+    <string name="action_lists">Listor</string>
+    <string name="title_lists">Listor</string>
+    <string name="title_list_timeline">Lista tidslinje</string>
+
+    <string name="compose_active_account_description">Inlägg med kontot %1$s</string>
+
+    <string name="error_failed_set_caption">Misslyckades med att ange bildtext</string>
+    <string name="hint_describe_for_visually_impaired">Beskriv för synskadade</string>
+    <string name="action_set_caption">Ange bildtext</string>
+    <string name="action_remove_media">Ta bort</string>
+    <string name="lock_account_label">Lås konto</string>
+    <string name="lock_account_label_description">Kräver dig att manuellt godkänna följare</string>
+    <string name="compose_save_draft">Spara utkast?</string>
+    <string name="send_toot_notification_title">Skickar toot ...</string>
+    <string name="send_toot_notification_error_title">Fel vid sändning av toot</string>
+    <string name="send_toot_notification_channel_name">Skickar Toots</string>
+    <string name="send_toot_notification_cancel_title">Sändning avbruten</string>
+    <string name="send_toot_notification_saved_content">En kopia av tooten har sparats i dina utkast</string>
+    <string name="action_compose_shortcut">Skriv</string>
+
+    <string name="error_no_custom_emojis">Din instans %s har inga anpassade emojis</string>
+    <string name="copy_to_clipboard_success">Kopierat till urklipp</string>
+    <string name="emoji_style">Emojis</string>
+    <string name="system_default">Systemstandard</string>
+    <string name="download_fonts">Du behöver ladda ned dessa emojis först</string>
+    <string name="performing_lookup_title">Utför sökning ...</string>
+    <string name="expand_collapse_all_statuses">Expandera / Dölj alla status</string>
+    <string name="action_open_toot">Öppna toot</string>
+    <string name="restart_required">App omstart krävs</string>
+    <string name="restart_emoji">Du måste starta om Tusky för att kunna tillämpa ändringarna</string>
+    <string name="later">Senare</string>
+    <string name="restart">Starta om</string>
+    <string name="caption_systememoji">Standard-emojis för din enhet</string>
+    <string name="caption_blobmoji">Emojis baserade på The Blob emojis kända från Android 4.4–7.1</string>
+    <string name="caption_twemoji">Mastodon\'s standard emojis</string>
+    <string name="about_emoji">Tusky använder följande emojis:\n
+                       Twemoji by Twitter - https://github.com/twitter/Twemoji\n
+                       Blobmoji by C1710, based on Noto-Emoji - https://github.com/c1710/Blobmoji\n
+                       Twemoji has been modified in order to use it with the EmojiCompat library</string>
+    <string name="license_blobmoji">Blobmoji är licenserade under Apache licensen 2.0</string>
+    <string name="license_twemoji">Twemoji är licenserade som CC-BY 4.0 - https://creativecommons.org/licenses/by/4.0/</string>
+    <string name="download_failed">Nedladdning misslyckad</string>
+    <string name="reblog_private">Boost till original publik</string>
+    <string name="unreblog_private">Avboosta</string>
+
+</resources>
