@@ -207,11 +207,11 @@
 
     <string name="pref_status_text_size">حجم الخط</string>
 
-    <string-array name="status_text_size_names">
-        <item>صغير</item>
-        <item>متوسط</item>
-        <item>كبير</item>
-    </string-array>
+    <!--<string-array name="status_text_size_names">-->
+        <!--<item>صغير</item>-->
+        <!--<item>متوسط</item>-->
+        <!--<item>كبير</item>-->
+    <!--</string-array>-->
 
     <string name="notification_channel_mention_name">إشارات جديدة</string>
     <string name="notification_channel_mention_descriptions">الإخطارات عندما يشار إليك</string>
