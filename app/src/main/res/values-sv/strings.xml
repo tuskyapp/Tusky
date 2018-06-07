@@ -1,5 +1,5 @@
 
-<!-- File "app/src/main/res/values/strings.xml" -->
+<!-- File "app/src/main/res/values-sv/strings.xml" --> 
 <resources>
 
     <string name="error_generic">Ett fel inträffade.</string>
