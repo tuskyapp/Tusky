@@ -174,13 +174,22 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     // This should only be called after setReblogged, in order to override the tint correctly.
     private void setRebloggingEnabled(boolean enabled, Status.Visibility visibility) {
-        reblogButton.setEnabled(enabled);
+        reblogButton.setEnabled(enabled && visibility != Status.Visibility.PRIVATE);
 
         if (enabled) {
-            int inactiveId = ThemeUtils.getDrawableId(reblogButton.getContext(),
-                    R.attr.status_reblog_inactive_drawable, R.drawable.reblog_inactive_dark);
+            int inactiveId;
+            int activeId;
+            if (visibility == Status.Visibility.PRIVATE) {
+                inactiveId = ThemeUtils.getDrawableId(reblogButton.getContext(),
+                        R.attr.status_reblog_disabled_drawable, R.drawable.reblog_private_dark);
+                activeId = R.drawable.reblog_private_active;
+            } else {
+                inactiveId = ThemeUtils.getDrawableId(reblogButton.getContext(),
+                        R.attr.status_reblog_inactive_drawable, R.drawable.reblog_inactive_dark);
+                activeId = R.drawable.reblog_active;
+            }
             reblogButton.setInactiveImage(inactiveId);
-            reblogButton.setActiveImage(R.drawable.reblog_active);
+            reblogButton.setActiveImage(activeId);
         } else {
             int disabledId;
             if (visibility == Status.Visibility.DIRECT) {
@@ -188,7 +197,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                         R.attr.status_reblog_direct_drawable, R.drawable.reblog_direct_dark);
             } else {
                 disabledId = ThemeUtils.getDrawableId(reblogButton.getContext(),
-                        R.attr.status_reblog_disabled_drawable, R.drawable.reblog_disabled_dark);
+                        R.attr.status_reblog_disabled_drawable, R.drawable.reblog_private_dark);
             }
             reblogButton.setInactiveImage(disabledId);
             reblogButton.setActiveImage(disabledId);

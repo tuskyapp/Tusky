@@ -215,11 +215,11 @@
 
     <string name="pref_status_text_size">Taille du texte pour les status</string>
 
-    <string-array name="status_text_size_names">
-        <item>Petit</item>
-        <item>Moyen</item>
-        <item>Grand</item>
-    </string-array>
+    <!--<string-array name="status_text_size_names">-->
+        <!--<item>Petit</item>-->
+        <!--<item>Moyen</item>-->
+        <!--<item>Grand</item>-->
+    <!--</string-array>-->
 
     <string name="pref_title_alway_show_sensitive_media">Toujours afficher le contenu sensible</string>
 

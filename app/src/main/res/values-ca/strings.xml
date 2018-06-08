@@ -183,11 +183,11 @@
 
     <string name="pref_status_text_size">Mida de text de l\'estat</string>
 
-    <string-array name="status_text_size_names">
-        <item>Petita</item>
-        <item>Mitjana</item>
-        <item>Gran</item>
-    </string-array>
+    <!--<string-array name="status_text_size_names">-->
+        <!--<item>Petita</item>-->
+        <!--<item>Mitjana</item>-->
+        <!--<item>Gran</item>-->
+    <!--</string-array>-->
     
     <string name="notification_channel_mention_name">Mencions noves</string>
     <string name="notification_channel_mention_descriptions">Notificacions sobre mencions noves</string>

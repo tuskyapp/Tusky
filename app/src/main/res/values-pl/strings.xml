@@ -224,11 +224,11 @@
     <string name="pref_status_text_size">Rozmiar tekstu wpisów</string>
 
 
-    <string-array name="status_text_size_names">
-        <item>Mały</item>
-        <item>Średni</item>
-        <item>Duży</item>
-    </string-array>
+    <!--<string-array name="status_text_size_names">-->
+        <!--<item>Mały</item>-->
+        <!--<item>Średni</item>-->
+        <!--<item>Duży</item>-->
+    <!--</string-array>-->
 
 
 

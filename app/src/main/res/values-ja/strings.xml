@@ -201,11 +201,11 @@
 
     <string name="pref_status_text_size">トゥートのテキストサイズ</string>
 
-    <string-array name="status_text_size_names">
-        <item>小</item>
-        <item>中</item>
-        <item>大</item>
-    </string-array>
+    <!--<string-array name="status_text_size_names">-->
+        <!--<item>小</item>-->
+        <!--<item>中</item>-->
+        <!--<item>大</item>-->
+    <!--</string-array>-->
 
     <string name="notification_channel_mention_name">新しい返信</string>
     <string name="notification_channel_mention_descriptions">新しい返信の通知</string>

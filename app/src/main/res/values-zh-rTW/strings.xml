@@ -202,11 +202,11 @@
 
     <string name="pref_status_text_size">字體大小</string>
 
-    <string-array name="status_text_size_names">
-        <item>小</item>
-        <item>中</item>
-        <item>大</item>
-    </string-array>
+    <!--<string-array name="status_text_size_names">-->
+        <!--<item>小</item>-->
+        <!--<item>中</item>-->
+        <!--<item>大</item>-->
+    <!--</string-array>-->
 
     <string name="notification_channel_mention_name">被提及</string>
     <string name="notification_channel_mention_descriptions">當有用戶在嘟文中提及我時</string>

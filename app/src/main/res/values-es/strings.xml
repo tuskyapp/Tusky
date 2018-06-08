@@ -206,11 +206,11 @@
 
     <string name="pref_status_text_size">Tamaño del texto</string>
 
-    <string-array name="status_text_size_names">
-        <item>Pequeño</item>
-        <item>Medio</item>
-        <item>Grande</item>
-    </string-array>
+    <!--<string-array name="status_text_size_names">-->
+        <!--<item>Pequeño</item>-->
+        <!--<item>Medio</item>-->
+        <!--<item>Grande</item>-->
+    <!--</string-array>-->
 
     <string name="notification_channel_mention_name">Nuevas menciones</string>
     <string name="notification_channel_mention_descriptions">Notificaciones de nuevas menciones</string>

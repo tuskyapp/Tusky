@@ -211,11 +211,11 @@
 
     <string name="pref_status_text_size">Talha de text de l\'estatut</string>
 
-    <string-array name="status_text_size_names">
-        <item>Pichona</item>
-        <item>Mejana</item>
-        <item>Granda</item>
-    </string-array>
+    <!--<string-array name="status_text_size_names">-->
+        <!--<item>Pichona</item>-->
+        <!--<item>Mejana</item>-->
+        <!--<item>Granda</item>-->
+    <!--</string-array>-->
 
     <string name="notification_channel_mention_name">Mencions nòvas</string>
     <string name="notification_channel_mention_descriptions">Notificacions de mencions noves</string>

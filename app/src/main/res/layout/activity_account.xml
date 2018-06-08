@@ -89,7 +89,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/accountUsernameTextView"
                     app:layout_constraintStart_toEndOf="@+id/accountUsernameTextView"
                     app:layout_constraintTop_toTopOf="@+id/accountUsernameTextView"
-                    app:srcCompat="@drawable/reblog_disabled_light"
+                    app:srcCompat="@drawable/reblog_private_light"
                     tools:visibility="visible" />
 
                 <TextView

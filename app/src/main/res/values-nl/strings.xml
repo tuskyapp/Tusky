@@ -201,11 +201,11 @@
 
     <string name="pref_status_text_size">Tekstgrootte status</string>
 
-    <string-array name="status_text_size_names">
-        <item>Klein</item>
-        <item>Medium</item>
-        <item>Groot</item>
-    </string-array>
+    <!--<string-array name="status_text_size_names">-->
+        <!--<item>Klein</item>-->
+        <!--<item>Medium</item>-->
+        <!--<item>Groot</item>-->
+    <!--</string-array>-->
 
     <string name="notification_channel_mention_name">Nieuwe vermeldingen</string>
     <string name="notification_channel_mention_descriptions">Meldingen over nieuwe vermeldingen</string>

@@ -210,11 +210,11 @@
 
     <string name="pref_status_text_size">Размер текста статусов</string>
 
-    <string-array name="status_text_size_names">
-        <item>Маленький</item>
-        <item>Средний</item>
-        <item>Большой</item>
-    </string-array>
+    <!--<string-array name="status_text_size_names">-->
+        <!--<item>Маленький</item>-->
+        <!--<item>Средний</item>-->
+        <!--<item>Большой</item>-->
+    <!--</string-array>-->
 
     <string name="notification_channel_mention_name">Новые упоминания</string>
     <string name="notification_channel_mention_descriptions">Уведомлять о новых упоминаниях</string>

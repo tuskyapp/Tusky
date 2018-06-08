@@ -194,11 +194,11 @@
 
     <string name="pref_status_text_size">நிலை உரை அளவு</string>
 
-    <string-array name="status_text_size_names">
-        <item>சிறிய</item>
-        <item>நடுதர</item>
-        <item>பெரிய</item>
-    </string-array>
+    <!--<string-array name="status_text_size_names">-->
+        <!--<item>சிறிய</item>-->
+        <!--<item>நடுதர</item>-->
+        <!--<item>பெரிய</item>-->
+    <!--</string-array>-->
 
     <string name="notification_channel_mention_name">புதிய குறிப்புகள்</string>
     <string name="notification_channel_mention_descriptions">புதிய குறிப்புகள் பற்றிய அறிவிப்புகள்</string>

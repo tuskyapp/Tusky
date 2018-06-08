@@ -69,14 +69,15 @@ dependencies {
     implementation('com.theartofdev.edmodo:android-image-cropper:2.7.0') {
         exclude group: 'com.android.support'
     }
-    implementation 'com.evernote:android-job:1.2.5'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.evernote:android-job:1.2.6'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.1'
     // EmojiCompat
     implementation "com.android.support:support-emoji:$supportLibraryVersion"
     implementation "com.android.support:support-emoji-appcompat:$supportLibraryVersion"
     implementation "de.c1710:filemojicompat:1.0.5"
     // architecture components
     implementation 'android.arch.lifecycle:extensions:1.1.1'
+    //room
     implementation 'android.arch.persistence.room:runtime:1.1.0'
     kapt 'android.arch.persistence.room:compiler:1.1.0'
 
@@ -100,6 +101,6 @@ dependencies {
 
     implementation 'io.reactivex.rxjava2:rxjava:2.1.12'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'com.uber.autodispose:autodispose-android-archcomponents:0.7.0'
-    implementation 'com.uber.autodispose:autodispose-kotlin:0.7.0'
+    implementation 'com.uber.autodispose:autodispose-android-archcomponents:0.8.0'
+    implementation 'com.uber.autodispose:autodispose-kotlin:0.8.0'
 }
