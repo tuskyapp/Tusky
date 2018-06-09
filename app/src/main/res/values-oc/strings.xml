@@ -332,5 +332,7 @@
     <string name="license_blobmoji">Blobmoji es jos licéncia dels tèrmes d’Apache license 2.0</string>
     <string name="license_twemoji">Twemoji es jos licéncia CC-BY 4.0 - https://creativecommons.org/licenses/by/4.0/</string>
     <string name="download_failed">Fracàs del telecargament</string>
+    <string name="reblog_private">Partejar al public d’origina</string>
+    <string name="unreblog_private">Quitar de partejar</string>
 
 </resources>
