@@ -230,7 +230,7 @@
                     app:layout_constraintTop_toBottomOf="@id/accountStatusesTextView" />
             </android.support.constraint.ConstraintLayout>
 
-            <!-- TODO check if there is a better way to get the statusbar height than just using 24dp -->
+            <!-- 24dp is the size of the statusbar  -->
             <android.support.v7.widget.Toolbar
                 android:id="@+id/accountToolbar"
                 android:layout_width="match_parent"
