@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky
 
 import android.animation.ArgbEvaluator
+import android.app.Activity
 import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -39,7 +40,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import com.keylesspalace.tusky.adapter.AccountFieldAdapter
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
@@ -116,21 +116,21 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel  = ViewModelProviders.of(this, viewModelFactory)[AccountViewModel::class.java]
+        viewModel = ViewModelProviders.of(this, viewModelFactory)[AccountViewModel::class.java]
 
         viewModel.accountData.observe(this, Observer<Resource<Account>> {
-            when(it) {
+            when (it) {
                 is Success -> onAccountChanged(it.data)
                 is Error -> onObtainAccountFailure()
             }
         })
         viewModel.relationshipData.observe(this, Observer<Resource<Relationship>> {
             val relation = it?.data
-            if(it != null) {
+            if (it != null) {
                 onRelationshipChanged(relation)
             }
 
-            if(it is Success) {
+            if (it is Success) {
                 when {
                 //TODO this sends too many events
                     relation?.following == false -> eventHub.dispatch(UnfollowEvent(accountId))
@@ -139,7 +139,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 }
             }
 
-            if(it is Error) {
+            if (it is Error) {
                 Snackbar.make(accountCoordinatorLayout, R.string.error_generic, Snackbar.LENGTH_LONG).show()
             }
 
@@ -256,6 +256,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
         if (accountId == activeAccount?.accountId) {
             isSelf = true
+            updateButtons()
         } else {
             isSelf = false
             viewModel.obtainRelationship(accountId)
@@ -301,7 +302,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     }
 
     private fun onAccountChanged(account: Account?) {
-        if(account != null) {
+        if (account != null) {
             loadedAccount = account
             val usernameFormatted = getString(R.string.status_username_format, account.username)
             accountUsernameTextView.text = usernameFormatted
@@ -341,7 +342,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountFieldAdapter.emojis = account.emojis
             accountFieldAdapter.notifyDataSetChanged()
 
-            if(account.moved != null) {
+            if (account.moved != null) {
                 val movedAccount = account.moved
 
                 accountMovedView.visibility = View.VISIBLE
@@ -384,11 +385,40 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountFollowersTextView.text = numberFormat.format(account.followersCount)
             accountFollowingTextView.text = numberFormat.format(account.followingCount)
             accountStatusesTextView.text = numberFormat.format(account.statusesCount)
+
+            accountFloatingActionButton.setOnClickListener { _ -> mention() }
+
+            accountFollowButton.setOnClickListener { _ ->
+                if (isSelf) {
+                    val intent = Intent(this@AccountActivity, EditProfileActivity::class.java)
+                    startActivityForResult(intent, EDIT_ACCOUNT)
+                    return@setOnClickListener
+                }
+                when (followState) {
+                    AccountActivity.FollowState.NOT_FOLLOWING -> {
+                        changeFollowState(accountId)
+                    }
+                    AccountActivity.FollowState.REQUESTED -> {
+                        showFollowRequestPendingDialog()
+                    }
+                    AccountActivity.FollowState.FOLLOWING -> {
+                        showUnfollowWarningDialog()
+                    }
+                }
+                updateFollowButton()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == EDIT_ACCOUNT && resultCode == Activity.RESULT_OK) {
+            viewModel.obtainAccount(accountId, true)
         }
     }
 
     private fun onRelationshipChanged(relation: Relationship?) {
-        if(relation != null) {
+        if (relation != null) {
             followState = when {
                 relation.following -> FollowState.FOLLOWING
                 relation.requested -> FollowState.REQUESTED
@@ -420,16 +450,20 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 .show()
     }
 
-    private fun updateFollowButton(button: Button) {
+    private fun updateFollowButton() {
+        if(isSelf) {
+            accountFollowButton.setText(R.string.action_edit_own_profile)
+            return
+        }
         when (followState) {
             AccountActivity.FollowState.NOT_FOLLOWING -> {
-                button.setText(R.string.action_follow)
+                accountFollowButton.setText(R.string.action_follow)
             }
             AccountActivity.FollowState.REQUESTED -> {
-                button.setText(R.string.state_follow_requested)
+                accountFollowButton.setText(R.string.state_follow_requested)
             }
             AccountActivity.FollowState.FOLLOWING -> {
-                button.setText(R.string.action_unfollow)
+                accountFollowButton.setText(R.string.action_unfollow)
             }
         }
     }
@@ -437,28 +471,16 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private fun updateButtons() {
         invalidateOptionsMenu()
 
-        if (!isSelf && !blocking && loadedAccount?.moved == null) {
+        if (!blocking && loadedAccount?.moved == null) {
             accountFloatingActionButton.show()
             accountFollowButton.visibility = View.VISIBLE
 
-            updateFollowButton(accountFollowButton)
+            updateFollowButton()
 
-            accountFloatingActionButton.setOnClickListener { _ -> mention() }
-
-            accountFollowButton.setOnClickListener { _ ->
-                when (followState) {
-                    AccountActivity.FollowState.NOT_FOLLOWING -> {
-                        changeFollowState(accountId)
-                    }
-                    AccountActivity.FollowState.REQUESTED -> {
-                        showFollowRequestPendingDialog()
-                    }
-                    AccountActivity.FollowState.FOLLOWING -> {
-                        showUnfollowWarningDialog()
-                    }
-                }
-                updateFollowButton(accountFollowButton)
+            if(!isSelf) {
+                accountFloatingActionButton.hide()
             }
+
         } else {
             accountFloatingActionButton.hide()
             accountFollowButton.visibility = View.GONE
@@ -490,9 +512,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 getString(R.string.action_mute)
             }
 
-            if(followState == FollowState.FOLLOWING) {
+            if (followState == FollowState.FOLLOWING) {
                 val showReblogs = menu.findItem(R.id.action_show_reblogs)
-                showReblogs.title = if(showingReblogs) {
+                showReblogs.title = if (showingReblogs) {
                     getString(R.string.action_hide_reblogs)
                 } else {
                     getString(R.string.action_show_reblogs)
@@ -513,7 +535,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     }
 
     private fun changeFollowState(id: String) {
-        if(followState == FollowState.NOT_FOLLOWING) {
+        if (followState == FollowState.NOT_FOLLOWING) {
             viewModel.follow(id)
         } else {
             viewModel.unfollow(id)
@@ -521,7 +543,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     }
 
     private fun changeBlockState(id: String) {
-        if(blocking) {
+        if (blocking) {
             viewModel.unblock(id)
         } else {
             viewModel.block(id)
@@ -529,7 +551,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     }
 
     private fun changeMuteState(id: String) {
-        if(muting) {
+        if (muting) {
             viewModel.mute(id)
         } else {
             viewModel.unmute(id)
@@ -537,7 +559,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     }
 
     private fun changeShowReblogsState(id: String) {
-        if(showingReblogs) {
+        if (showingReblogs) {
             viewModel.hideReblogs(id)
         } else {
             viewModel.showReblogs(id)
@@ -547,7 +569,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private fun showFollowRequestPendingDialog() {
         AlertDialog.Builder(this)
                 .setMessage(R.string.dialog_message_cancel_follow_request)
-                .setPositiveButton(android.R.string.ok){_, _ -> changeFollowState(accountId)}
+                .setPositiveButton(android.R.string.ok) { _, _ -> changeFollowState(accountId) }
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
@@ -555,7 +577,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private fun showUnfollowWarningDialog() {
         AlertDialog.Builder(this)
                 .setMessage(R.string.dialog_unfollow_warning)
-                .setPositiveButton(android.R.string.ok) {_, _ -> changeFollowState(accountId)}
+                .setPositiveButton(android.R.string.ok) { _, _ -> changeFollowState(accountId) }
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
@@ -639,6 +661,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
     companion object {
         private const val TAG = "AccountActivity"
+        private const val EDIT_ACCOUNT = 1457
         private val argbEvaluator = ArgbEvaluator()
     }
 

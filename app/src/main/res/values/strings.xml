@@ -97,6 +97,7 @@
     <string name="action_open_drawer">Open drawer</string>
     <string name="action_save">Save</string>
     <string name="action_edit_profile">Edit profile</string>
+    <string name="action_edit_own_profile">Edit</string>
     <string name="action_undo">Undo</string>
     <string name="action_accept">Accept</string>
     <string name="action_reject">Reject</string>

@@ -22,8 +22,8 @@ class AccountViewModel  @Inject constructor(
     val relationshipData = MutableLiveData<Resource<Relationship>>()
 
 
-    fun obtainAccount(accountId: String) {
-        if(accountData.value == null) {
+    fun obtainAccount(accountId: String, reload: Boolean = false) {
+        if(accountData.value == null || reload) {
 
             accountData.postValue(Loading())
 
