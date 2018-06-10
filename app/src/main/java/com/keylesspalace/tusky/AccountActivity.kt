@@ -239,7 +239,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 accountAvatarImageView.scaleX = scaledAvatarSize
                 accountAvatarImageView.scaleY = scaledAvatarSize
 
-                accountAvatarImageView.visibility = if (scaledAvatarSize <= 0) View.GONE else View.VISIBLE
+                accountAvatarImageView.visible(scaledAvatarSize > 0)
 
                 var transparencyPercent = Math.abs(verticalOffset) / titleVisibleHeight.toFloat()
                 if (transparencyPercent > 1) transparencyPercent = 1f
@@ -258,8 +258,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
         // Initialise the default UI states.
         accountFloatingActionButton.hide()
-        accountFollowButton.visibility = View.GONE
-        accountFollowsYouTextView.visibility = View.GONE
+        accountFollowButton.hide()
+        accountFollowsYouTextView.hide()
 
         // Obtain information to fill out the profile.
         viewModel.obtainAccount(accountId)
@@ -297,8 +297,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 R.id.accountFollowingTextView -> AccountListActivity.Type.FOLLOWING
                 else -> throw AssertionError()
             }
-            val intent = AccountListActivity.newIntent(this@AccountActivity, type,
-                    accountId)
+            val intent = AccountListActivity.newIntent(this@AccountActivity, type, accountId)
             startActivity(intent)
         }
         accountFollowersTextView.setOnClickListener(accountListClickListener)
@@ -330,16 +329,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             val emojifiedNote = CustomEmojiHelper.emojifyText(account.note, account.emojis, accountNoteTextView)
             LinkHelper.setClickableText(accountNoteTextView, emojifiedNote, null, this)
 
-            accountLockedImageView.visibility = if (account.locked) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-            accountBadgeTextView.visibility = if (account.bot) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
+            accountLockedImageView.visible(account.locked)
+            accountBadgeTextView.visible(account.bot)
+
             Picasso.with(this)
                     .load(account.avatar)
                     .transform(RoundedTransformation(25f))
@@ -357,7 +349,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             if (account.moved != null) {
                 val movedAccount = account.moved
 
-                accountMovedView.visibility = View.VISIBLE
+                accountMovedView.show()
 
                 // necessary because accountMovedView is now replaced in layout hierachy
                 findViewById<View>(R.id.accountMovedView).setOnClickListener {
@@ -382,15 +374,15 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
                 TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(accountMovedText, movedIcon, null, null, null)
 
-                accountFollowersTextView.visibility = View.GONE
-                accountFollowingTextView.visibility = View.GONE
-                accountStatusesTextView.visibility = View.GONE
-                accountFollowersDescription.visibility = View.GONE
-                accountFollowingDescription.visibility = View.GONE
-                accountStatusesDescription.visibility = View.GONE
-                accountTabLayout.visibility = View.GONE
-                accountFragmentViewPager.visibility = View.GONE
-                accountTabBottomShadow.visibility = View.GONE
+                accountFollowersTextView.hide()
+                accountFollowingTextView.hide()
+                accountStatusesTextView.hide()
+                accountFollowersDescription.hide()
+                accountFollowingDescription.hide()
+                accountStatusesDescription.hide()
+                accountTabLayout.hide()
+                accountFragmentViewPager.hide()
+                accountTabBottomShadow.hide()
             }
 
             val numberFormat = NumberFormat.getNumberInstance()
@@ -439,11 +431,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             blocking = relation.blocking
             muting = relation.muting
             showingReblogs = relation.showingReblogs
-            if (relation.followedBy) {
-                accountFollowsYouTextView.visibility = View.VISIBLE
-            } else {
-                accountFollowsYouTextView.visibility = View.GONE
-            }
+
+            accountFollowsYouTextView.visible(relation.followedBy)
+
             updateButtons()
         }
     }
@@ -484,18 +474,19 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         invalidateOptionsMenu()
 
         if (!blocking && loadedAccount?.moved == null) {
-            accountFloatingActionButton.show()
-            accountFollowButton.visibility = View.VISIBLE
 
+            accountFollowButton.show()
             updateFollowButton()
 
-            if(!isSelf) {
+            if(isSelf) {
                 accountFloatingActionButton.hide()
+            } else {
+                accountFloatingActionButton.show()
             }
 
         } else {
             accountFloatingActionButton.hide()
-            accountFollowButton.visibility = View.GONE
+            accountFollowButton.hide()
         }
     }
 
@@ -672,7 +663,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     }
 
     companion object {
-        private const val TAG = "AccountActivity"
         private const val EDIT_ACCOUNT = 1457
         private val argbEvaluator = ArgbEvaluator()
     }
