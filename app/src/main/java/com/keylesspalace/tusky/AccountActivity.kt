@@ -80,6 +80,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private var followState: FollowState? = null
     private var blocking: Boolean = false
     private var muting: Boolean = false
+    private var showingReblogs: Boolean = false
     private var isSelf: Boolean = false
     private var loadedAccount: Account? = null
 
@@ -395,6 +396,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             }
             blocking = relation.blocking
             muting = relation.muting
+            showingReblogs = relation.showingReblogs
             if (relation.followedBy) {
                 accountFollowsYouTextView.visibility = View.VISIBLE
             } else {
@@ -475,24 +477,37 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             follow.isVisible = followState != FollowState.REQUESTED
 
             val block = menu.findItem(R.id.action_block)
-            var title = if (blocking) {
+            block.title = if (blocking) {
                 getString(R.string.action_unblock)
             } else {
                 getString(R.string.action_block)
             }
-            block.title = title
+
             val mute = menu.findItem(R.id.action_mute)
-            title = if (muting) {
+            mute.title = if (muting) {
                 getString(R.string.action_unmute)
             } else {
                 getString(R.string.action_mute)
             }
-            mute.title = title
+
+            if(followState == FollowState.FOLLOWING) {
+                val showReblogs = menu.findItem(R.id.action_show_reblogs)
+                showReblogs.title = if(showingReblogs) {
+                    getString(R.string.action_hide_reblogs)
+                } else {
+                    getString(R.string.action_show_reblogs)
+                }
+
+            } else {
+                menu.removeItem(R.id.action_show_reblogs)
+            }
+
         } else {
             // It shouldn't be possible to block or follow yourself.
             menu.removeItem(R.id.action_follow)
             menu.removeItem(R.id.action_block)
             menu.removeItem(R.id.action_mute)
+            menu.removeItem(R.id.action_show_reblogs)
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -518,6 +533,14 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             viewModel.mute(id)
         } else {
             viewModel.unmute(id)
+        }
+    }
+
+    private fun changeShowReblogsState(id: String) {
+        if(showingReblogs) {
+            viewModel.hideReblogs(id)
+        } else {
+            viewModel.showReblogs(id)
         }
     }
 
@@ -593,6 +616,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             }
             R.id.action_mute -> {
                 changeMuteState(accountId)
+                return true
+            }
+
+            R.id.action_show_reblogs -> {
+                changeShowReblogsState(accountId)
                 return true
             }
         }

@@ -37,6 +37,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -209,8 +210,9 @@ public interface MastodonApi {
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
 
+    @FormUrlEncoded
     @POST("api/v1/accounts/{id}/follow")
-    Call<Relationship> followAccount(@Path("id") String accountId);
+    Call<Relationship> followAccount(@Path("id") String accountId, @Field("reblogs") boolean showReblogs);
 
     @POST("api/v1/accounts/{id}/unfollow")
     Call<Relationship> unfollowAccount(@Path("id") String accountId);

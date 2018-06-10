@@ -22,4 +22,9 @@
         android:title="@string/action_block"
         app:showAsAction="never" />
 
+    <item android:id="@+id/action_show_reblogs"
+        android:title="@string/action_hide_reblogs"
+        app:showAsAction="never" />
+
+
 </menu>

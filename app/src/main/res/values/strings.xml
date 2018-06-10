@@ -71,6 +71,8 @@
     <string name="action_unfollow">Unfollow</string>
     <string name="action_block">Block</string>
     <string name="action_unblock">Unblock</string>
+    <string name="action_hide_reblogs">Hide boosts</string>
+    <string name="action_show_reblogs">Show boosts</string>
     <string name="action_report">Report</string>
     <string name="action_delete">Delete</string>
     <string name="action_send">TOOT</string>

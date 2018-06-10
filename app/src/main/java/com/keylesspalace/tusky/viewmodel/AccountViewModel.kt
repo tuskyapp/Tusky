@@ -89,7 +89,15 @@ class AccountViewModel  @Inject constructor(
         changeRelationship(RelationShipAction.UNMUTE, id)
     }
 
-    private fun changeRelationship(relationshipAction: RelationShipAction, id: String) {
+    fun showReblogs(id: String) {
+        changeRelationship(RelationShipAction.FOLLOW, id, true)
+    }
+
+    fun hideReblogs(id: String) {
+        changeRelationship(RelationShipAction.FOLLOW, id, false)
+    }
+
+    private fun changeRelationship(relationshipAction: RelationShipAction, id: String, showReblogs: Boolean = true) {
         val relation = relationshipData.value?.data
         val account = accountData.value?.data
 
@@ -131,7 +139,7 @@ class AccountViewModel  @Inject constructor(
         }
 
         when(relationshipAction) {
-            RelationShipAction.FOLLOW ->  mastodonApi.followAccount(id).enqueue(callback)
+            RelationShipAction.FOLLOW ->  mastodonApi.followAccount(id, showReblogs).enqueue(callback)
             RelationShipAction.UNFOLLOW ->  mastodonApi.unfollowAccount(id).enqueue(callback)
             RelationShipAction.BLOCK ->  mastodonApi.blockAccount(id).enqueue(callback)
             RelationShipAction.UNBLOCK ->  mastodonApi.unblockAccount(id).enqueue(callback)
