@@ -91,7 +91,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     @ColorInt
     private var backgroundColor: Int = 0
     @ColorInt
-    private var statusBarColor: Int = 0
+    private var statusBarColorTransparent: Int = 0
+    @ColorInt
+    private var statusBarColorOpaque: Int = 0
     @Px
     private var avatarSize: Int = 0
     @Px
@@ -186,7 +188,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
         toolbarColor = ThemeUtils.getColor(this, R.attr.toolbar_background_color)
         backgroundColor = ThemeUtils.getColor(this, android.R.attr.colorBackground)
-        statusBarColor = ThemeUtils.getColor(this, R.attr.colorPrimaryDark)
+        statusBarColorTransparent = ContextCompat.getColor(this, R.color.header_background_filter)
+        statusBarColorOpaque = ThemeUtils.getColor(this, R.attr.colorPrimaryDark)
         avatarSize = resources.getDimensionPixelSize(R.dimen.account_activity_avatar_size)
         titleVisibleHeight = resources.getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height)
 
@@ -242,7 +245,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 if (transparencyPercent > 1) transparencyPercent = 1f
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.statusBarColor = ArgbEvaluator().evaluate(transparencyPercent, Color.TRANSPARENT, statusBarColor) as Int
+                    window.statusBarColor = ArgbEvaluator().evaluate(transparencyPercent, statusBarColorTransparent, statusBarColorOpaque) as Int
                 }
 
                 val evaluatedToolbarColor = argbEvaluator.evaluate(transparencyPercent, Color.TRANSPARENT, toolbarColor) as Int
