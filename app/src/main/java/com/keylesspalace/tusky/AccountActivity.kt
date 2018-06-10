@@ -285,7 +285,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 R.drawable.tab_page_margin_dark)
         accountFragmentViewPager.setPageMarginDrawable(pageMarginDrawable)
         accountFragmentViewPager.adapter = adapter
-        accountFragmentViewPager.offscreenPageLimit = 0
+        accountFragmentViewPager.offscreenPageLimit = 2
         accountTabLayout.setupWithViewPager(accountFragmentViewPager)
 
         val accountListClickListener = { v: View ->
