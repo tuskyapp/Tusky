@@ -29,11 +29,10 @@ import android.preference.PreferenceManager
 import android.support.annotation.AttrRes
 import android.support.annotation.ColorInt
 import android.support.annotation.Px
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
+import android.support.design.widget.*
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewCompat
 import android.support.v4.widget.TextViewCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
@@ -166,6 +165,16 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             muting = false
         }
         loadedAccount = null
+
+        // set toolbar top margin according to system window insets
+        ViewCompat.setOnApplyWindowInsetsListener(accountCoordinatorLayout) { _, insets ->
+            val top = insets.systemWindowInsetTop
+
+            val toolbarParams = accountToolbar.layoutParams as CollapsingToolbarLayout.LayoutParams
+            toolbarParams.topMargin = top
+
+            insets.consumeSystemWindowInsets()
+        }
 
         // Setup the toolbar.
         setSupportActionBar(accountToolbar)

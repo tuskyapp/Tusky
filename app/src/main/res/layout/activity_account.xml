@@ -230,13 +230,12 @@
                     app:layout_constraintTop_toBottomOf="@id/accountStatusesTextView" />
             </android.support.constraint.ConstraintLayout>
 
-            <!-- 24dp is the size of the statusbar  -->
+            <!-- top margin equal to statusbar size will be set programmatically -->
             <android.support.v7.widget.Toolbar
                 android:id="@+id/accountToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="top"
-                android:layout_marginTop="24dp"
                 android:background="@android:color/transparent"
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways"
