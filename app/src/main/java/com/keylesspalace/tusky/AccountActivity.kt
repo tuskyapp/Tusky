@@ -94,10 +94,15 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private var statusBarColorTransparent: Int = 0
     @ColorInt
     private var statusBarColorOpaque: Int = 0
+    @ColorInt
+    private var textColorPrimary: Int = 0
+    @ColorInt
+    private var textColorSecondary: Int = 0
     @Px
-    private var avatarSize: Int = 0
+    private var avatarSize: Float = 0f
     @Px
     private var titleVisibleHeight: Int = 0
+
 
     private val followAction: String
         get() {
@@ -190,7 +195,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         backgroundColor = ThemeUtils.getColor(this, android.R.attr.colorBackground)
         statusBarColorTransparent = ContextCompat.getColor(this, R.color.header_background_filter)
         statusBarColorOpaque = ThemeUtils.getColor(this, R.attr.colorPrimaryDark)
-        avatarSize = resources.getDimensionPixelSize(R.dimen.account_activity_avatar_size)
+        textColorPrimary = ThemeUtils.getColor(this, android.R.attr.textColorPrimary)
+        textColorSecondary = ThemeUtils.getColor(this, android.R.attr.textColorSecondary)
+        avatarSize = resources.getDimensionPixelSize(R.dimen.account_activity_avatar_size).toFloat()
         titleVisibleHeight = resources.getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height)
 
         ThemeUtils.setDrawableTint(this, accountToolbar.navigationIcon, R.attr.account_toolbar_icon_tint_uncollapsed)
@@ -204,11 +211,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
 
                 @AttrRes val attribute = if (titleVisibleHeight + verticalOffset < 0) {
-
-                    accountToolbar.setTitleTextColor(ThemeUtils.getColor(this@AccountActivity,
-                            android.R.attr.textColorPrimary))
-                    accountToolbar.setSubtitleTextColor(ThemeUtils.getColor(this@AccountActivity,
-                            android.R.attr.textColorSecondary))
+                    accountToolbar.setTitleTextColor(textColorPrimary)
+                    accountToolbar.setSubtitleTextColor(textColorSecondary)
 
                     R.attr.account_toolbar_icon_tint_collapsed
                 } else {
@@ -234,7 +238,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 }
                 oldOffset = verticalOffset
 
-                val scaledAvatarSize = (avatarSize + verticalOffset) / avatarSize.toFloat()
+                val scaledAvatarSize = (avatarSize + verticalOffset) / avatarSize
 
                 accountAvatarImageView.scaleX = scaledAvatarSize
                 accountAvatarImageView.scaleY = scaledAvatarSize
@@ -245,7 +249,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 if (transparencyPercent > 1) transparencyPercent = 1f
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.statusBarColor = ArgbEvaluator().evaluate(transparencyPercent, statusBarColorTransparent, statusBarColorOpaque) as Int
+                    window.statusBarColor = argbEvaluator.evaluate(transparencyPercent, statusBarColorTransparent, statusBarColorOpaque) as Int
                 }
 
                 val evaluatedToolbarColor = argbEvaluator.evaluate(transparencyPercent, Color.TRANSPARENT, toolbarColor) as Int
