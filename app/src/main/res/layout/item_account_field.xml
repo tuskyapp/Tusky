@@ -9,7 +9,7 @@
 
     <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/accountFieldName"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
@@ -18,7 +18,7 @@
         android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toStartOf="@+id/accountFieldValue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_default="wrap"
+        app:layout_constrainedWidth="true"
         app:layout_constraintWidth_max="160dp"
         tools:text="Field title " />
 
