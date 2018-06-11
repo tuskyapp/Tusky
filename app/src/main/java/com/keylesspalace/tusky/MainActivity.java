@@ -477,7 +477,6 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         Picasso.with(MainActivity.this)
                 .load(me.getHeader())
-                .placeholder(R.drawable.account_header_default)
                 .into(background);
 
         accountManager.updateActiveAccount(me);

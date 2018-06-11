@@ -33,7 +33,6 @@
     <color name="status_divider_dark">#2f3441</color>
     <color name="tab_page_margin_dark">#1a1c23</color>
     <color name="account_toolbar_icon_collapsed_dark">#FFFFFF</color>
-    <color name="account_header_background_dark">#000000</color>
     <color name="compose_media_button_disabled_dark">#586173</color>
     <color name="compose_mention_dark">#AFBFCF</color>
     <color name="report_status_background_dark">#000000</color>
@@ -66,7 +65,6 @@
     <color name="status_divider_light">#cfcfcf</color>
     <color name="tab_page_margin_light">#cfcfcf</color>
     <color name="account_toolbar_icon_collapsed_light">#DE000000</color>
-    <color name="account_header_background_light">#EFEFEF</color>
     <color name="compose_media_button_disabled_light">#a3a5ab</color>
     <color name="compose_mention_light">#2F5F6F</color>
     <color name="report_status_background_light">#EFEFEF</color>

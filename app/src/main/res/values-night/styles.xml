@@ -36,7 +36,7 @@
         <item name="conversation_thread_line_drawable">@drawable/conversation_thread_line_dark</item>
         <item name="tab_icon_selected_tint">@color/color_accent_dark</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_dark</item>
-        <item name="account_header_background_color">@color/account_header_background_dark</item>
+        <item name="account_header_background_color">@color/color_background_dark</item>
         <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark</item>
         <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_dark</item>
         <item name="toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Dark</item>

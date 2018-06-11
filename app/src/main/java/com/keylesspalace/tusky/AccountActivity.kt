@@ -340,7 +340,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                     .into(accountAvatarImageView)
             Picasso.with(this)
                     .load(account.header)
-                    .placeholder(R.drawable.account_header_default)
                     .into(accountHeaderImageView)
 
             accountFieldAdapter.fields = account.fields
@@ -368,7 +367,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
                 accountMovedText.text = getString(R.string.account_moved_description, movedAccount.displayName)
 
-                // this is necessary because API 19 can't handle vactor compound drawables
+                // this is necessary because API 19 can't handle vector compound drawables
                 val movedIcon = ContextCompat.getDrawable(this, R.drawable.ic_briefcase)?.mutate()
                 val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
                 movedIcon?.setColorFilter(textColor, PorterDuff.Mode.SRC_IN)

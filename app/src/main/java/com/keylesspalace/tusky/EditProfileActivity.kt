@@ -155,7 +155,6 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 if (!headerChanged) {
                     Picasso.with(headerPreview.context)
                             .load(me.header)
-                            .placeholder(R.drawable.account_header_default)
                             .into(headerPreview)
                 }
             }
