@@ -117,7 +117,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         viewModel.accountData.observe(this, Observer<Resource<Account>> {
             when (it) {
                 is Success -> onAccountChanged(it.data)
-                is Error -> onObtainAccountFailure()
+                is Error -> {
+                    Snackbar.make(accountCoordinatorLayout, R.string.error_generic, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.action_retry) { reload() }
+                            .show()
+                }
             }
         })
         viewModel.relationshipData.observe(this, Observer<Resource<Relationship>> {
@@ -136,7 +140,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             }
 
             if (it is Error) {
-                Snackbar.make(accountCoordinatorLayout, R.string.error_generic, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(accountCoordinatorLayout, R.string.error_generic, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.action_retry) { reload() }
+                        .show()
             }
 
         })
@@ -440,10 +446,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         super.onSaveInstanceState(outState)
     }
 
-    private fun onObtainAccountFailure() {
-        Snackbar.make(accountCoordinatorLayout, R.string.error_generic, Snackbar.LENGTH_LONG)
-                //        .setAction(R.string.action_retry) { obtainAccount() }
-                .show()
+    private fun reload() {
+        viewModel.obtainAccount(accountId, true)
+        viewModel.obtainRelationship(accountId)
     }
 
     private fun updateFollowButton() {
