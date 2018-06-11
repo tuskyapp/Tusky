@@ -103,16 +103,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     @Px
     private var titleVisibleHeight: Int = 0
 
-
-    private val followAction: String
-        get() {
-            return when (followState) {
-                AccountActivity.FollowState.NOT_FOLLOWING -> getString(R.string.action_follow)
-                AccountActivity.FollowState.REQUESTED, AccountActivity.FollowState.FOLLOWING -> getString(R.string.action_unfollow)
-                else -> getString(R.string.action_follow)
-            }
-        }
-
     private enum class FollowState {
         NOT_FOLLOWING,
         FOLLOWING,
@@ -132,7 +122,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         })
         viewModel.relationshipData.observe(this, Observer<Resource<Relationship>> {
             val relation = it?.data
-            if (it != null) {
+            if (relation != null) {
                 onRelationshipChanged(relation)
             }
 
@@ -420,26 +410,26 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        //reload account when returning from EditProfileActivity
         if(requestCode == EDIT_ACCOUNT && resultCode == Activity.RESULT_OK) {
             viewModel.obtainAccount(accountId, true)
         }
     }
 
-    private fun onRelationshipChanged(relation: Relationship?) {
-        if (relation != null) {
-            followState = when {
-                relation.following -> FollowState.FOLLOWING
-                relation.requested -> FollowState.REQUESTED
-                else -> FollowState.NOT_FOLLOWING
-            }
-            blocking = relation.blocking
-            muting = relation.muting
-            showingReblogs = relation.showingReblogs
-
-            accountFollowsYouTextView.visible(relation.followedBy)
-
-            updateButtons()
+    private fun onRelationshipChanged(relation: Relationship) {
+        followState = when {
+            relation.following -> FollowState.FOLLOWING
+            relation.requested -> FollowState.REQUESTED
+            else -> FollowState.NOT_FOLLOWING
         }
+        blocking = relation.blocking
+        muting = relation.muting
+        showingReblogs = relation.showingReblogs
+
+        accountFollowsYouTextView.visible(relation.followedBy)
+
+        updateButtons()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -502,7 +492,12 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         if (!isSelf) {
             val follow = menu.findItem(R.id.action_follow)
-            follow.title = followAction
+            follow.title = if (followState == FollowState.NOT_FOLLOWING) {
+                getString(R.string.action_follow)
+            } else {
+                getString(R.string.action_unfollow)
+            }
+
             follow.isVisible = followState != FollowState.REQUESTED
 
             val block = menu.findItem(R.id.action_block)
@@ -589,16 +584,13 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 .show()
     }
 
-    private fun mention(): Boolean {
-        if (loadedAccount == null) {
-            // If the account isn't loaded yet, eat the input.
-            return false
-        }
+    private fun mention() {
+        loadedAccount ?: return
+
         val intent = ComposeActivity.IntentBuilder()
                 .mentionedUsernames(setOf(loadedAccount!!.username))
                 .build(this)
         startActivity(intent)
-        return true
     }
 
     override fun onViewTag(tag: String) {
@@ -617,7 +609,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         viewUrl(url)
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -625,14 +616,14 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 return true
             }
             R.id.action_mention -> {
-                return mention()
+                mention()
+                return true
             }
             R.id.action_open_in_web -> {
-                if (loadedAccount == null) {
-                    // If the account isn't loaded yet, eat the input.
-                    return false
+                // If the account isn't loaded yet, eat the input.
+                if (loadedAccount != null) {
+                    LinkHelper.openLink(loadedAccount?.url, this)
                 }
-                LinkHelper.openLink(loadedAccount?.url, this)
                 return true
             }
             R.id.action_follow -> {

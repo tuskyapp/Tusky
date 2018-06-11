@@ -49,7 +49,8 @@
                     android:textColor="@android:color/white"
                     android:textSize="?attr/status_text_medium"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Follow" />
 
                 <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/accountDisplayNameTextView"
@@ -100,8 +101,10 @@
                     android:background="@drawable/profile_badge_background"
                     android:text="@string/follows_you"
                     android:textSize="?attr/status_text_small"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/accountUsernameTextView" />
+                    app:layout_constraintTop_toBottomOf="@id/accountUsernameTextView"
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/accountBadgeTextView"
@@ -289,9 +292,9 @@
         android:layout_marginStart="16dp"
         android:background="@drawable/avatar_background"
         android:padding="3dp"
-        android:src="@drawable/avatar_default"
         app:layout_anchor="@+id/accountHeaderInfoContainer"
         app:layout_anchorGravity="top"
-        app:layout_scrollFlags="scroll" />
+        app:layout_scrollFlags="scroll"
+        app:srcCompat="@drawable/avatar_default" />
 
 </android.support.design.widget.CoordinatorLayout>
