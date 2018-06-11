@@ -117,8 +117,7 @@ abstract class BottomSheetActivity : BaseActivity() {
     }
 
     open fun viewAccount(id: String) {
-        val intent = Intent(this, AccountActivity::class.java)
-        intent.putExtra("id", id)
+        val intent = AccountActivity.getIntent(this, id)
         startActivity(intent)
     }
 

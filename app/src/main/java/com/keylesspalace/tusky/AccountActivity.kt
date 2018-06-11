@@ -20,6 +20,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -156,13 +157,13 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         setContentView(R.layout.activity_account)
 
         if (savedInstanceState != null) {
-            accountId = savedInstanceState.getString("accountId")
-            followState = savedInstanceState.getSerializable("followState") as FollowState
-            blocking = savedInstanceState.getBoolean("blocking")
-            muting = savedInstanceState.getBoolean("muting")
+            accountId = savedInstanceState.getString(KEY_ACCOUNT_ID)
+            followState = savedInstanceState.getSerializable(KEY_FOLLOW_STATE) as FollowState
+            blocking = savedInstanceState.getBoolean(KEY_BLOCKING)
+            muting = savedInstanceState.getBoolean(KEY_MUTING)
         } else {
             val intent = intent
-            accountId = intent.getStringExtra("id")
+            accountId = intent.getStringExtra(KEY_ACCOUNT_ID)
             followState = FollowState.NOT_FOLLOWING
             blocking = false
             muting = false
@@ -423,6 +424,14 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(KEY_ACCOUNT_ID, accountId)
+        outState.putSerializable(KEY_FOLLOW_STATE, followState)
+        outState.putBoolean(KEY_BLOCKING, blocking)
+        outState.putBoolean(KEY_MUTING, muting)
+        super.onSaveInstanceState(outState)
+    }
+
     private fun onRelationshipChanged(relation: Relationship) {
         followState = when {
             relation.following -> FollowState.FOLLOWING
@@ -436,14 +445,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         accountFollowsYouTextView.visible(relation.followedBy)
 
         updateButtons()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString("accountId", accountId)
-        outState.putSerializable("followState", followState)
-        outState.putBoolean("blocking", blocking)
-        outState.putBoolean("muting", muting)
-        super.onSaveInstanceState(outState)
     }
 
     private fun reload() {
@@ -663,8 +664,21 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     }
 
     companion object {
+
         private const val EDIT_ACCOUNT = 1457
+
+        private const val KEY_ACCOUNT_ID = "id"
+        private const val KEY_FOLLOW_STATE = "followState"
+        private const val KEY_BLOCKING = "blocking"
+        private const val KEY_MUTING = "muting"
         private val argbEvaluator = ArgbEvaluator()
+
+        @JvmStatic
+        fun getIntent(context: Context, accountId: String): Intent {
+            val intent = Intent(context, AccountActivity::class.java)
+            intent.putExtra(KEY_ACCOUNT_ID, accountId)
+            return intent
+        }
     }
 
 }

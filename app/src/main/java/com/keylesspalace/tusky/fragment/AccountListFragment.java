@@ -167,9 +167,11 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
 
     @Override
     public void onViewAccount(String id) {
-        Intent intent = new Intent(getContext(), AccountActivity.class);
-        intent.putExtra("id", id);
-        startActivity(intent);
+        Context context = getContext();
+        if(context != null) {
+            Intent intent = AccountActivity.getIntent(context, id);
+            startActivity(intent);
+        }
     }
 
     @Override
