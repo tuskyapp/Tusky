@@ -29,6 +29,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.ViewVideoActivity
@@ -76,17 +78,22 @@ class AccountMediaFragment : BaseFragment(), Injectable {
     private val statuses = mutableListOf<Status>()
     private var fetchingStatus = FetchingStatus.NOT_FETCHING
     private lateinit var swipeLayout: SwipeRefreshLayout
+    private lateinit var progressBar: ProgressBar
+    private lateinit var nothingMessageView: TextView
 
     private val callback = object : Callback<List<Status>> {
         override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
             swipeLayout.isRefreshing = false
+            progressBar.visibility = View.GONE
+
             Log.d(TAG, "Failed to fetch account media", t)
         }
 
         override fun onResponse(call: Call<List<Status>>, response: Response<List<Status>>) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
             swipeLayout.isRefreshing = false
+            progressBar.visibility = View.GONE
             val body = response.body()
             body?.let { fetched ->
                 statuses.addAll(0, fetched)
@@ -96,6 +103,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
                     result.addAll(AttachmentViewData.list(status))
                 }
                 adapter.addTop(result)
+                nothingMessageView.visibility = if (statuses.isEmpty()) View.VISIBLE else View.GONE
             }
         }
     }
@@ -125,14 +133,14 @@ class AccountMediaFragment : BaseFragment(), Injectable {
 
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_timeline, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
+        swipeLayout = view.findViewById(R.id.swipe_refresh_layout)
+        progressBar = view.findViewById(R.id.progress_bar)
+        nothingMessageView = view.findViewById(R.id.nothing_message)
+
         val columnCount = context?.resources?.getInteger(R.integer.profile_media_column_count) ?: 2
         val layoutManager = GridLayoutManager(context, columnCount)
 
@@ -145,7 +153,6 @@ class AccountMediaFragment : BaseFragment(), Injectable {
 
         val accountId = arguments?.getString(ACCOUNT_ID_ARG)
 
-        swipeLayout = view.findViewById(R.id.swipe_refresh_layout)
         swipeLayout.setOnRefreshListener {
             if (fetchingStatus != FetchingStatus.NOT_FETCHING) return@setOnRefreshListener
             currentCall = if (statuses.isEmpty()) {
@@ -160,6 +167,8 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         }
         swipeLayout.setColorSchemeResources(R.color.primary)
         swipeLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground))
+
+        nothingMessageView.visibility = View.GONE
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
