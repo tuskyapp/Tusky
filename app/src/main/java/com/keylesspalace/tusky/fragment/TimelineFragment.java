@@ -310,14 +310,20 @@ public class TimelineFragment extends SFragment implements
                             removeAllByAccountId(id);
                         }
                     } else if (event instanceof BlockEvent) {
-                        String id = ((BlockEvent) event).getAccountId();
-                        removeAllByAccountId(id);
+                        if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
+                            String id = ((BlockEvent) event).getAccountId();
+                            removeAllByAccountId(id);
+                        }
                     } else if (event instanceof MuteEvent) {
-                        String id = ((MuteEvent) event).getAccountId();
-                        removeAllByAccountId(id);
+                        if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
+                            String id = ((MuteEvent) event).getAccountId();
+                            removeAllByAccountId(id);
+                        }
                     } else if (event instanceof StatusDeletedEvent) {
-                        String id = ((StatusDeletedEvent) event).getStatusId();
-                        deleteStatusById(id);
+                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
+                                String id = ((StatusDeletedEvent) event).getStatusId();
+                                deleteStatusById(id);
+                            }
                     } else if (event instanceof StatusComposedEvent) {
                         Status status = ((StatusComposedEvent) event).getStatus();
                         handleStatusComposeEvent(status);
