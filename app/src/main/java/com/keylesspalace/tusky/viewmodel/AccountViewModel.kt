@@ -2,6 +2,10 @@ package com.keylesspalace.tusky.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.keylesspalace.tusky.appstore.BlockEvent
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.MuteEvent
+import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.network.MastodonApi
@@ -15,7 +19,8 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class AccountViewModel  @Inject constructor(
-            private val mastodonApi: MastodonApi
+            private val mastodonApi: MastodonApi,
+            private val eventHub: EventHub
     ): ViewModel() {
 
     val accountData = MutableLiveData<Resource<Account>>()
@@ -44,24 +49,29 @@ class AccountViewModel  @Inject constructor(
         }
     }
 
-    fun obtainRelationship(accountId: String) {
+    fun obtainRelationship(accountId: String, reload: Boolean = false) {
+        if(relationshipData.value == null || reload) {
 
-        val ids = listOf(accountId)
-        mastodonApi.relationships(ids).enqueue(object : Callback<List<Relationship>> {
-            override fun onResponse(call: Call<List<Relationship>>,
-                                    response: Response<List<Relationship>>) {
-                val relationships = response.body()
-                if (response.isSuccessful && relationships != null) {
-                    val relationship = relationships[0]
-                    relationshipData.postValue(Success(relationship))
-                } else {
-                    relationshipData.postValue(Error())                }
-            }
+            relationshipData.postValue(Loading())
 
-            override fun onFailure(call: Call<List<Relationship>>, t: Throwable) {
-                relationshipData.postValue(Error())
-            }
-        })
+            val ids = listOf(accountId)
+            mastodonApi.relationships(ids).enqueue(object : Callback<List<Relationship>> {
+                override fun onResponse(call: Call<List<Relationship>>,
+                                        response: Response<List<Relationship>>) {
+                    val relationships = response.body()
+                    if (response.isSuccessful && relationships != null) {
+                        val relationship = relationships[0]
+                        relationshipData.postValue(Success(relationship))
+                    } else {
+                        relationshipData.postValue(Error())
+                    }
+                }
+
+                override fun onFailure(call: Call<List<Relationship>>, t: Throwable) {
+                    relationshipData.postValue(Error())
+                }
+            })
+        }
     }
 
     fun follow(id: String) {
@@ -126,7 +136,15 @@ class AccountViewModel  @Inject constructor(
                                     response: Response<Relationship>) {
                 val relationship = response.body()
                 if (response.isSuccessful && relationship != null) {
-                    relationshipData.postValue(Success(response.body()))
+                    relationshipData.postValue(Success(relationship))
+
+                    when (relationshipAction) {
+                        RelationShipAction.UNFOLLOW -> eventHub.dispatch(UnfollowEvent(id))
+                        RelationShipAction.BLOCK -> eventHub.dispatch(BlockEvent(id))
+                        RelationShipAction.MUTE -> eventHub.dispatch(MuteEvent(id))
+                        else -> {}
+                    }
+
                 } else {
                     relationshipData.postValue(Error(relation))
                 }

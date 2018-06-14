@@ -41,10 +41,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import com.keylesspalace.tusky.adapter.AccountFieldAdapter
-import com.keylesspalace.tusky.appstore.BlockEvent
-import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.MuteEvent
-import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
@@ -69,8 +65,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    @Inject
-    lateinit var eventHub: EventHub
 
     private lateinit var viewModel: AccountViewModel
 
@@ -129,15 +123,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             val relation = it?.data
             if (relation != null) {
                 onRelationshipChanged(relation)
-            }
-
-            if (it is Success) {
-                when {
-                //TODO this sends too many events
-                    relation?.following == false -> eventHub.dispatch(UnfollowEvent(accountId))
-                    relation?.blocking == true -> eventHub.dispatch(BlockEvent(accountId))
-                    relation?.muting == true -> eventHub.dispatch(MuteEvent(accountId))
-                }
             }
 
             if (it is Error) {
@@ -559,9 +544,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
     private fun changeMuteState(id: String) {
         if (muting) {
-            viewModel.mute(id)
-        } else {
             viewModel.unmute(id)
+        } else {
+            viewModel.mute(id)
         }
     }
 
