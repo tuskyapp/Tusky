@@ -31,6 +31,7 @@ import android.support.annotation.AttrRes
 import android.support.annotation.ColorInt
 import android.support.annotation.Px
 import android.support.design.widget.*
+import android.support.text.emoji.EmojiCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
@@ -305,8 +306,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountUsernameTextView.text = usernameFormatted
             accountDisplayNameTextView.text = CustomEmojiHelper.emojifyString(account.name, account.emojis, accountDisplayNameTextView)
             if (supportActionBar != null) {
-                //EmojiCompat.get().process(
-                supportActionBar?.title = account.name
+                supportActionBar?.title = EmojiCompat.get().process(account.name)
 
                 val subtitle = String.format(getString(R.string.status_username_format),
                         account.username)
