@@ -172,7 +172,6 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
              * test, and keep trying at smaller sizes. The initial estimate should be good for
              * many cases, so it should only iterate once, but the loop is used to be absolutely
              * sure it gets downsized to below the limit. */
-            int iterations = 0;
             int scaledImageSize = 1024;
             do {
                 stream.reset();
@@ -208,12 +207,11 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
                 } else {
                     format = Bitmap.CompressFormat.PNG;
                 }
-                reorientedBitmap.compress(format, 75, stream);
+                reorientedBitmap.compress(format, 85, stream);
                 reorientedBitmap.recycle();
                 scaledImageSize /= 2;
-                iterations++;
             } while (stream.size() > sizeLimit);
-            Assert.expect(iterations < 3);
+
             resultList.add(stream.toByteArray());
             if (isCancelled()) {
                 return false;
