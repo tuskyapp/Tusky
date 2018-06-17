@@ -142,18 +142,12 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
         setContentView(R.layout.activity_account)
 
-        if (savedInstanceState != null) {
-            accountId = savedInstanceState.getString(KEY_ACCOUNT_ID)
-            followState = savedInstanceState.getSerializable(KEY_FOLLOW_STATE) as FollowState
-            blocking = savedInstanceState.getBoolean(KEY_BLOCKING)
-            muting = savedInstanceState.getBoolean(KEY_MUTING)
-        } else {
-            val intent = intent
-            accountId = intent.getStringExtra(KEY_ACCOUNT_ID)
-            followState = FollowState.NOT_FOLLOWING
-            blocking = false
-            muting = false
-        }
+        val intent = intent
+        accountId = intent.getStringExtra(KEY_ACCOUNT_ID)
+        followState = FollowState.NOT_FOLLOWING
+        blocking = false
+        muting = false
+
         loadedAccount = null
 
         // set toolbar top margin according to system window insets
@@ -188,8 +182,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
         // Add a listener to change the toolbar icon color when it enters/exits its collapsed state.
         accountAppBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
-            @AttrRes
-            internal var priorAttribute = R.attr.account_toolbar_icon_tint_uncollapsed
+            @AttrRes var priorAttribute = R.attr.account_toolbar_icon_tint_uncollapsed
 
             override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
 
@@ -284,8 +277,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 R.id.accountFollowingTextView -> AccountListActivity.Type.FOLLOWING
                 else -> throw AssertionError()
             }
-            val intent = AccountListActivity.newIntent(this@AccountActivity, type, accountId)
-            startActivity(intent)
+            val accountListIntent = AccountListActivity.newIntent(this, type, accountId)
+            startActivity(accountListIntent)
         }
         accountFollowersTextView.setOnClickListener(accountListClickListener)
         accountFollowingTextView.setOnClickListener(accountListClickListener)
@@ -385,7 +378,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 }
                 when (followState) {
                     AccountActivity.FollowState.NOT_FOLLOWING -> {
-                        changeFollowState(accountId)
+                        viewModel.changeFollowState(accountId)
                     }
                     AccountActivity.FollowState.REQUESTED -> {
                         showFollowRequestPendingDialog()
@@ -410,9 +403,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(KEY_ACCOUNT_ID, accountId)
-        outState.putSerializable(KEY_FOLLOW_STATE, followState)
-        outState.putBoolean(KEY_BLOCKING, blocking)
-        outState.putBoolean(KEY_MUTING, muting)
         super.onSaveInstanceState(outState)
     }
 
@@ -526,42 +516,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         return super.onPrepareOptionsMenu(menu)
     }
 
-    private fun changeFollowState(id: String) {
-        if (followState == FollowState.NOT_FOLLOWING) {
-            viewModel.follow(id)
-        } else {
-            viewModel.unfollow(id)
-        }
-    }
-
-    private fun changeBlockState(id: String) {
-        if (blocking) {
-            viewModel.unblock(id)
-        } else {
-            viewModel.block(id)
-        }
-    }
-
-    private fun changeMuteState(id: String) {
-        if (muting) {
-            viewModel.unmute(id)
-        } else {
-            viewModel.mute(id)
-        }
-    }
-
-    private fun changeShowReblogsState(id: String) {
-        if (showingReblogs) {
-            viewModel.hideReblogs(id)
-        } else {
-            viewModel.showReblogs(id)
-        }
-    }
-
     private fun showFollowRequestPendingDialog() {
         AlertDialog.Builder(this)
                 .setMessage(R.string.dialog_message_cancel_follow_request)
-                .setPositiveButton(android.R.string.ok) { _, _ -> changeFollowState(accountId) }
+                .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeFollowState(accountId) }
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
@@ -569,28 +527,28 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private fun showUnfollowWarningDialog() {
         AlertDialog.Builder(this)
                 .setMessage(R.string.dialog_unfollow_warning)
-                .setPositiveButton(android.R.string.ok) { _, _ -> changeFollowState(accountId) }
+                .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeFollowState(accountId) }
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
 
     private fun mention() {
-        loadedAccount ?: return
-
-        val intent = ComposeActivity.IntentBuilder()
-                .mentionedUsernames(setOf(loadedAccount!!.username))
-                .build(this)
-        startActivity(intent)
+        loadedAccount?.let {
+            val intent = ComposeActivity.IntentBuilder()
+                    .mentionedUsernames(setOf(it.username))
+                    .build(this)
+            startActivity(intent)
+        }
     }
 
     override fun onViewTag(tag: String) {
-        val intent = Intent(this@AccountActivity, ViewTagActivity::class.java)
+        val intent = Intent(this, ViewTagActivity::class.java)
         intent.putExtra("hashtag", tag)
         startActivity(intent)
     }
 
     override fun onViewAccount(id: String) {
-        val intent = Intent(this@AccountActivity, AccountActivity::class.java)
+        val intent = Intent(this, AccountActivity::class.java)
         intent.putExtra("id", id)
         startActivity(intent)
     }
@@ -617,20 +575,20 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 return true
             }
             R.id.action_follow -> {
-                changeFollowState(accountId)
+                viewModel.changeFollowState(accountId)
                 return true
             }
             R.id.action_block -> {
-                changeBlockState(accountId)
+                viewModel.changeBlockState(accountId)
                 return true
             }
             R.id.action_mute -> {
-                changeMuteState(accountId)
+                viewModel.changeMuteState(accountId)
                 return true
             }
 
             R.id.action_show_reblogs -> {
-                changeShowReblogsState(accountId)
+                viewModel.changeShowReblogsState(accountId)
                 return true
             }
         }
@@ -652,9 +610,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         private const val EDIT_ACCOUNT = 1457
 
         private const val KEY_ACCOUNT_ID = "id"
-        private const val KEY_FOLLOW_STATE = "followState"
-        private const val KEY_BLOCKING = "blocking"
-        private const val KEY_MUTING = "muting"
         private val argbEvaluator = ArgbEvaluator()
 
         @JvmStatic

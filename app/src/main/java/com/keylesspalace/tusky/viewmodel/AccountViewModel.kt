@@ -26,13 +26,16 @@ class AccountViewModel  @Inject constructor(
     val accountData = MutableLiveData<Resource<Account>>()
     val relationshipData = MutableLiveData<Resource<Relationship>>()
 
+    private val callList: MutableList<Call<*>> = mutableListOf()
+
 
     fun obtainAccount(accountId: String, reload: Boolean = false) {
         if(accountData.value == null || reload) {
 
             accountData.postValue(Loading())
 
-            mastodonApi.account(accountId).enqueue(object : Callback<Account> {
+            val call = mastodonApi.account(accountId)
+                    call.enqueue(object : Callback<Account> {
                 override fun onResponse(call: Call<Account>,
                                         response: Response<Account>) {
                     if (response.isSuccessful) {
@@ -46,6 +49,8 @@ class AccountViewModel  @Inject constructor(
                     accountData.postValue(Error())
                 }
             })
+
+            callList.add(call)
         }
     }
 
@@ -55,7 +60,8 @@ class AccountViewModel  @Inject constructor(
             relationshipData.postValue(Loading())
 
             val ids = listOf(accountId)
-            mastodonApi.relationships(ids).enqueue(object : Callback<List<Relationship>> {
+            val call = mastodonApi.relationships(ids)
+                    call.enqueue(object : Callback<List<Relationship>> {
                 override fun onResponse(call: Call<List<Relationship>>,
                                         response: Response<List<Relationship>>) {
                     val relationships = response.body()
@@ -71,40 +77,41 @@ class AccountViewModel  @Inject constructor(
                     relationshipData.postValue(Error())
                 }
             })
+
+            callList.add(call)
         }
     }
 
-    fun follow(id: String) {
-        changeRelationship(RelationShipAction.FOLLOW, id)
+    fun changeFollowState(id: String) {
+        if (relationshipData.value?.data?.following == true) {
+            changeRelationship(RelationShipAction.UNFOLLOW, id)
+        } else {
+            changeRelationship(RelationShipAction.FOLLOW, id)
+        }
     }
 
-    fun unfollow(id: String) {
-        changeRelationship(RelationShipAction.UNFOLLOW, id)
+    fun changeBlockState(id: String) {
+        if (relationshipData.value?.data?.blocking == true) {
+            changeRelationship(RelationShipAction.UNBLOCK, id)
+        } else {
+            changeRelationship(RelationShipAction.BLOCK, id)
+        }
     }
 
-
-    fun block(id: String) {
-        changeRelationship(RelationShipAction.BLOCK, id)
+    fun changeMuteState(id: String) {
+        if (relationshipData.value?.data?.muting == true) {
+            changeRelationship(RelationShipAction.UNMUTE, id)
+        } else {
+            changeRelationship(RelationShipAction.MUTE, id)
+        }
     }
 
-    fun unblock(id: String) {
-        changeRelationship(RelationShipAction.UNBLOCK, id)
-    }
-
-    fun mute(id: String) {
-        changeRelationship(RelationShipAction.MUTE, id)
-    }
-
-    fun unmute(id: String) {
-        changeRelationship(RelationShipAction.UNMUTE, id)
-    }
-
-    fun showReblogs(id: String) {
-        changeRelationship(RelationShipAction.FOLLOW, id, true)
-    }
-
-    fun hideReblogs(id: String) {
-        changeRelationship(RelationShipAction.FOLLOW, id, false)
+    fun changeShowReblogsState(id: String) {
+        if (relationshipData.value?.data?.showingReblogs == true) {
+            changeRelationship(RelationShipAction.FOLLOW, id, false)
+        } else {
+            changeRelationship(RelationShipAction.FOLLOW, id, true)
+        }
     }
 
     private fun changeRelationship(relationshipAction: RelationShipAction, id: String, showReblogs: Boolean = true) {
@@ -156,20 +163,24 @@ class AccountViewModel  @Inject constructor(
             }
         }
 
-        when(relationshipAction) {
-            RelationShipAction.FOLLOW ->  mastodonApi.followAccount(id, showReblogs).enqueue(callback)
-            RelationShipAction.UNFOLLOW ->  mastodonApi.unfollowAccount(id).enqueue(callback)
-            RelationShipAction.BLOCK ->  mastodonApi.blockAccount(id).enqueue(callback)
-            RelationShipAction.UNBLOCK ->  mastodonApi.unblockAccount(id).enqueue(callback)
-            RelationShipAction.MUTE ->  mastodonApi.muteAccount(id).enqueue(callback)
-            RelationShipAction.UNMUTE ->  mastodonApi.unmuteAccount(id).enqueue(callback)
+        val call = when(relationshipAction) {
+            RelationShipAction.FOLLOW ->  mastodonApi.followAccount(id, showReblogs)
+            RelationShipAction.UNFOLLOW ->  mastodonApi.unfollowAccount(id)
+            RelationShipAction.BLOCK ->  mastodonApi.blockAccount(id)
+            RelationShipAction.UNBLOCK ->  mastodonApi.unblockAccount(id)
+            RelationShipAction.MUTE ->  mastodonApi.muteAccount(id)
+            RelationShipAction.UNMUTE ->  mastodonApi.unmuteAccount(id)
         }
+
+        call.enqueue(callback)
+        callList.add(call)
 
     }
 
     override fun onCleared() {
-
-        
+        callList.forEach {
+            it.cancel()
+        }
     }
 
     enum class RelationShipAction {
