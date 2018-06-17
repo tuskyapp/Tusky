@@ -1064,11 +1064,15 @@ public final class ComposeActivity
         if (item.readyStage != QueuedMedia.ReadyStage.UPLOADED) {
             waitForMediaLatch.countUp();
 
-            if (type == QueuedMedia.Type.IMAGE &&
-                    (mediaSize > STATUS_MEDIA_SIZE_LIMIT || MediaUtils.getImageSquarePixels(getContentResolver(), item.uri) > STATUS_MEDIA_PIXEL_SIZE_LIMIT)) {
-                downsizeMedia(item);
-            } else {
-                uploadMedia(item);
+            try {
+                if (type == QueuedMedia.Type.IMAGE &&
+                        (mediaSize > STATUS_MEDIA_SIZE_LIMIT || MediaUtils.getImageSquarePixels(getContentResolver(), item.uri) > STATUS_MEDIA_PIXEL_SIZE_LIMIT)) {
+                    downsizeMedia(item);
+                } else {
+                    uploadMedia(item);
+                }
+            } catch (FileNotFoundException e) {
+                onUploadFailure(item, false);
             }
         }
     }

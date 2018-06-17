@@ -127,13 +127,9 @@ public class MediaUtils {
         return bitmap;
     }
 
-    public static long getImageSquarePixels(ContentResolver contentResolver, Uri uri) {
+    public static long getImageSquarePixels(ContentResolver contentResolver, Uri uri) throws FileNotFoundException {
         InputStream input;
-        try {
-            input = contentResolver.openInputStream(uri);
-        } catch (FileNotFoundException e) {
-            return -1;
-        }
+        input = contentResolver.openInputStream(uri);
 
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
