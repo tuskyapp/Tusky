@@ -22,7 +22,7 @@
             android:paddingTop="24dp">
 
             <TextView
-                android:id="@+id/versionTV"
+                android:id="@+id/versionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -45,7 +45,6 @@
                 android:textIsSelectable="true"/>
 
             <TextView
-                android:id="@+id/projectURL_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:autoLink="web"
@@ -57,7 +56,6 @@
                 android:textIsSelectable="true" />
 
             <TextView
-                android:id="@+id/featuresURL_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:autoLink="web"
@@ -69,7 +67,7 @@
                 android:textIsSelectable="true" />
 
             <Button
-                android:id="@+id/tusky_profile_button"
+                android:id="@+id/tuskyProfileButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingMultiplier="1.2"
@@ -97,5 +95,7 @@
     </ScrollView>
 
     <include layout="@layout/toolbar_shadow_shim" />
+
+    <include layout="@layout/item_status_bottom_sheet" />
 
 </android.support.design.widget.CoordinatorLayout>
