@@ -85,7 +85,6 @@ import com.keylesspalace.tusky.adapter.EmojiAdapter;
 import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener;
 import com.keylesspalace.tusky.db.AccountEntity;
-import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.db.InstanceEntity;
 import com.keylesspalace.tusky.di.Injectable;
@@ -151,6 +150,7 @@ public final class ComposeActivity
     private static final String TAG = "ComposeActivity"; // logging tag
     static final int STATUS_CHARACTER_LIMIT = 500;
     private static final int STATUS_MEDIA_SIZE_LIMIT = 8388608; // 8MiB
+    private static final int STATUS_MEDIA_PIXEL_SIZE_LIMIT = 16777216; // 4096^2 Pixels
     private static final int MEDIA_PICK_RESULT = 1;
     private static final int MEDIA_TAKE_PHOTO_RESULT = 2;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
@@ -1063,10 +1063,16 @@ public final class ComposeActivity
 
         if (item.readyStage != QueuedMedia.ReadyStage.UPLOADED) {
             waitForMediaLatch.countUp();
-            if (mediaSize > STATUS_MEDIA_SIZE_LIMIT && type == QueuedMedia.Type.IMAGE) {
-                downsizeMedia(item);
-            } else {
-                uploadMedia(item);
+
+            try {
+                if (type == QueuedMedia.Type.IMAGE &&
+                        (mediaSize > STATUS_MEDIA_SIZE_LIMIT || MediaUtils.getImageSquarePixels(getContentResolver(), item.uri) > STATUS_MEDIA_PIXEL_SIZE_LIMIT)) {
+                    downsizeMedia(item);
+                } else {
+                    uploadMedia(item);
+                }
+            } catch (FileNotFoundException e) {
+                onUploadFailure(item, false);
             }
         }
     }

@@ -126,4 +126,17 @@ public class MediaUtils {
         source.recycle();
         return bitmap;
     }
+
+    public static long getImageSquarePixels(ContentResolver contentResolver, Uri uri) throws FileNotFoundException {
+        InputStream input;
+        input = contentResolver.openInputStream(uri);
+
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeStream(input, null, options);
+
+        IOUtils.closeQuietly(input);
+
+        return (long) options.outWidth * options.outHeight;
+    }
 }
