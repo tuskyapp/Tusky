@@ -144,7 +144,6 @@
     <string name="dialog_title_finishing_media_upload">Завершается загрузка медиаконтента</string>
     <string name="dialog_message_uploading_media">Загружается…</string>
     <string name="dialog_download_image">Скачать</string>
-    <string name="dialog_message_follow_request">Статус запроса на подписку: ожидается ответ</string>
     <string name="dialog_unfollow_warning">Отписаться от этого аккаунта?</string>
 
     <string name="visibility_public">Публичный: Показать в публичных лентах</string>

@@ -28,6 +28,7 @@
     <string name="title_view_thread">Toot</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Posts</string>
+    <string name="title_statuses_with_replies">With replies</string>
     <string name="title_follows">Follows</string>
     <string name="title_followers">Followers</string>
     <string name="title_favourites">Favourites</string>
@@ -70,6 +71,8 @@
     <string name="action_unfollow">Unfollow</string>
     <string name="action_block">Block</string>
     <string name="action_unblock">Unblock</string>
+    <string name="action_hide_reblogs">Hide boosts</string>
+    <string name="action_show_reblogs">Show boosts</string>
     <string name="action_report">Report</string>
     <string name="action_delete">Delete</string>
     <string name="action_send">TOOT</string>
@@ -94,6 +97,7 @@
     <string name="action_open_drawer">Open drawer</string>
     <string name="action_save">Save</string>
     <string name="action_edit_profile">Edit profile</string>
+    <string name="action_edit_own_profile">Edit</string>
     <string name="action_undo">Undo</string>
     <string name="action_accept">Accept</string>
     <string name="action_reject">Reject</string>
@@ -146,7 +150,7 @@
     <string name="dialog_title_finishing_media_upload">Finishing Media Upload</string>
     <string name="dialog_message_uploading_media">Uploading…</string>
     <string name="dialog_download_image">Download</string>
-    <string name="dialog_message_follow_request">Follow request pending: awaiting their response</string>
+    <string name="dialog_message_cancel_follow_request">Revoke the follow request?</string>
     <string name="dialog_unfollow_warning">Unfollow this account?</string>
 
     <string name="visibility_public">Public: Post to public timelines</string>
@@ -334,6 +338,10 @@
     <string name="license_blobmoji">Blobmoji is licensed under the Apache license 2.0</string>
     <string name="license_twemoji">Twemoji is licensed as CC-BY 4.0 - https://creativecommons.org/licenses/by/4.0/</string>
     <string name="download_failed">Download failed</string>
+
+    <string name="profile_badge_bot_text">Bot</string>
+    <string name="account_moved_description">%1$s has moved to:</string>
+
     <string name="reblog_private">Boost to original audience</string>
     <string name="unreblog_private">Unboost</string>
 

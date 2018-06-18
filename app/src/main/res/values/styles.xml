@@ -63,11 +63,7 @@
         <item name="android:textColorPrimary">@color/text_color_primary_light</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
         <item name="android:textColorTertiary">@color/text_color_tertiary_light</item>
-        <item name="android:textColorPrimaryInverse">@color/text_color_primary_inverse_light</item>
-        <item name="android:textColorSecondaryInverse">@color/text_color_secondary_inverse_light
-        </item>
-        <item name="android:textColorTertiaryInverse">@color/text_color_tertiary_inverse_light
-        </item>
+
         <item name="android:actionMenuTextColor">@color/text_color_primary_light</item>
 
         <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheetDialog.Light</item>
@@ -93,7 +89,7 @@
         </item>
         <item name="tab_icon_selected_tint">@color/color_accent_light</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_light</item>
-        <item name="account_header_background_color">@color/account_header_background_light</item>
+        <item name="account_header_background_color">@color/color_primary_dark_light</item>
         <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark
         </item> <!--Default to dark on purpose, because header backgrounds with gradients are always dark.-->
         <item name="account_toolbar_icon_tint_collapsed">

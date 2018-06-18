@@ -217,8 +217,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
     }
 
     override fun onViewAccount(id: String) {
-        val intent = Intent(context, AccountActivity::class.java)
-        intent.putExtra("id", id)
+        val intent = AccountActivity.getIntent(requireContext(), id)
         startActivity(intent)
     }
 

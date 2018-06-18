@@ -14,9 +14,6 @@
         <item name="android:textColorPrimary">@color/text_color_primary_dark</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_dark</item>
         <item name="android:textColorTertiary">@color/text_color_tertiary_dark</item>
-        <item name="android:textColorPrimaryInverse">@color/text_color_primary_inverse_dark</item>
-        <item name="android:textColorSecondaryInverse">@color/text_color_secondary_inverse_dark</item>
-        <item name="android:textColorTertiaryInverse">@color/text_color_tertiary_inverse_dark</item>
         <item name="android:actionMenuTextColor">@color/text_color_primary_dark</item>
 
         <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheetDialog.Dark</item>
@@ -39,7 +36,7 @@
         <item name="conversation_thread_line_drawable">@drawable/conversation_thread_line_dark</item>
         <item name="tab_icon_selected_tint">@color/color_accent_dark</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_dark</item>
-        <item name="account_header_background_color">@color/account_header_background_dark</item>
+        <item name="account_header_background_color">@color/color_background_dark</item>
         <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark</item>
         <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_dark</item>
         <item name="toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Dark</item>

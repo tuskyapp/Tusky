@@ -393,8 +393,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         //open profile when active image was clicked
         if (current && activeAccount != null) {
-            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-            intent.putExtra("id", activeAccount.getAccountId());
+            Intent intent = AccountActivity.getIntent(this, activeAccount.getAccountId());
             startActivity(intent);
             return true;
         }
@@ -478,7 +477,6 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         Picasso.with(MainActivity.this)
                 .load(me.getHeader())
-                .placeholder(R.drawable.account_header_default)
                 .into(background);
 
         accountManager.updateActiveAccount(me);

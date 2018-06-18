@@ -42,6 +42,9 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
                 return TimelineFragment.newInstance(TimelineFragment.Kind.USER, accountId);
             }
             case 1: {
+                return TimelineFragment.newInstance(TimelineFragment.Kind.USER_WITH_REPLIES, accountId);
+            }
+            case 2: {
                 return AccountMediaFragment.newInstance(accountId);
             }
             default: {
@@ -52,7 +55,7 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override

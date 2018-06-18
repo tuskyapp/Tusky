@@ -156,10 +156,10 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             if (fetchingStatus != FetchingStatus.NOT_FETCHING) return@setOnRefreshListener
             currentCall = if (statuses.isEmpty()) {
                 fetchingStatus = FetchingStatus.INITIAL_FETCHING
-                api.accountStatuses(accountId, null, null, null, true)
+                api.accountStatuses(accountId, null, null, null, null, true)
             } else {
                 fetchingStatus = FetchingStatus.REFRESHING
-                api.accountStatuses(accountId, null, statuses[0].id, null, true)
+                api.accountStatuses(accountId, null, statuses[0].id, null, null, true)
             }
             currentCall?.enqueue(callback)
 
@@ -179,7 +179,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
                         statuses.lastOrNull()?.let { last ->
                             Log.d(TAG, "Requesting statuses with max_id: ${last.id}, (bottom)")
                             fetchingStatus = FetchingStatus.FETCHING_BOTTOM
-                            currentCall = api.accountStatuses(accountId, last.id, null, null, true)
+                            currentCall = api.accountStatuses(accountId, last.id, null, null, null, true)
                             currentCall?.enqueue(bottomCallback)
                         }
                     }
@@ -195,7 +195,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         val accountId = arguments?.getString(ACCOUNT_ID_ARG)
         if (fetchingStatus == FetchingStatus.NOT_FETCHING && statuses.isEmpty()) {
             fetchingStatus = FetchingStatus.INITIAL_FETCHING
-            currentCall = api.accountStatuses(accountId, null, null, null, true)
+            currentCall = api.accountStatuses(accountId, null, null, null, null, true)
             currentCall?.enqueue(callback)
         }
     }

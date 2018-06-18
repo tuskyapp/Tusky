@@ -155,7 +155,6 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 if (!headerChanged) {
                     Picasso.with(headerPreview.context)
                             .load(me.header)
-                            .placeholder(R.drawable.account_header_default)
                             .into(headerPreview)
                 }
             }
@@ -289,6 +288,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
         if (displayName == null && note == null && locked == null && avatar == null && header == null) {
             /** if nothing has changed, there is no need to make a network request */
+            setResult(Activity.RESULT_OK)
             finish()
             return
         }
@@ -302,6 +302,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 privatePreferences.edit()
                         .putBoolean("refreshProfileHeader", true)
                         .apply()
+                setResult(Activity.RESULT_OK)
                 finish()
             }
 

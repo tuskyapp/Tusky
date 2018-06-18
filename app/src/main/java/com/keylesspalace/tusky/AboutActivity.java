@@ -69,8 +69,7 @@ public class AboutActivity extends BaseActivity implements Injectable {
     }
 
     private void viewAccount(String id) {
-        Intent intent = new Intent(this, AccountActivity.class);
-        intent.putExtra("id", id);
+        Intent intent = AccountActivity.getIntent(this, id);
         startActivity(intent);
     }
 

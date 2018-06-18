@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="12dp"
+    android:paddingTop="12dp">
+
+    <android.support.text.emoji.widget.EmojiTextView
+        android:id="@+id/accountMovedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="6dp"
+        android:textSize="?attr/status_text_medium"
+        tools:text="Account has moved" />
+
+    <ImageView
+        android:id="@+id/accountMovedAvatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/accountMovedText"
+        tools:src="@drawable/avatar_default" />
+
+
+    <android.support.text.emoji.widget.EmojiTextView
+        android:id="@+id/accountMovedDisplayName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_large"
+        android:textStyle="normal|bold"
+        app:layout_constraintBottom_toTopOf="@id/accountMovedUsername"
+        app:layout_constraintStart_toEndOf="@id/accountMovedAvatar"
+        app:layout_constraintTop_toTopOf="@id/accountMovedAvatar"
+        tools:text="Display name" />
+
+    <TextView
+        android:id="@+id/accountMovedUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintBottom_toBottomOf="@id/accountMovedAvatar"
+        app:layout_constraintStart_toEndOf="@id/accountMovedAvatar"
+        app:layout_constraintTop_toBottomOf="@id/accountMovedDisplayName"
+        tools:text="\@username" />
+
+</android.support.constraint.ConstraintLayout>

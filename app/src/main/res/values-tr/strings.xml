@@ -115,7 +115,6 @@
     <string name="dialog_title_finishing_media_upload">Medya Yükleme Bittiriliyor</string>
     <string name="dialog_message_uploading_media">Yükleniyor…</string>
     <string name="dialog_download_image">İndir</string>
-    <string name="dialog_message_follow_request">Takip etme istekleri: yanıt bekleniyor</string>
 
     <string name="visibility_public">Kamu: Herkese açık ve sosyal çizelgelerinde çıkar</string>
     <string name="visibility_unlisted">Saklı: Herkese açık ancak sosyal çizelgesinde çıkmaz</string>

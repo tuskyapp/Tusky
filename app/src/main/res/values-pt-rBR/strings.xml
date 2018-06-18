@@ -133,7 +133,6 @@
     <string name="dialog_title_finishing_media_upload">Envio de mídia terminando</string>
     <string name="dialog_message_uploading_media">Enviando…</string>
     <string name="dialog_download_image">Baixar</string>
-    <string name="dialog_message_follow_request">Solicitação pendente: esperando por resposta</string>
     <string name="dialog_unfollow_warning">Deixar de seguir esta conta?</string>
 
     <string name="visibility_public">Público: Postar em timelines públicas</string>

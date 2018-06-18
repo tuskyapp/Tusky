@@ -155,7 +155,6 @@
     <string name="dialog_title_finishing_media_upload">Kończenie wysyłania treści</string>
     <string name="dialog_message_uploading_media">Wysyłanie…</string>
     <string name="dialog_download_image">Pobierz</string>
-    <string name="dialog_message_follow_request">Oczekująca prośba o możliwość śledzenia: oczekiwanie na odpowiedź</string>
     <string name="dialog_unfollow_warning">Czy chcesz przestać śledzić to konto?</string>
 
 

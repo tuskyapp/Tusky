@@ -136,7 +136,6 @@
     <string name="dialog_title_finishing_media_upload">メディアをアップロードしています</string>
     <string name="dialog_message_uploading_media">アップロード中…</string>
     <string name="dialog_download_image">ダウンロード</string>
-    <string name="dialog_message_follow_request">フォローリクエストの承認待ち：返答を待っています</string>
     <string name="dialog_unfollow_warning">このアカウントをフォロー解除しますか？</string>
 
     <string name="visibility_public">公開：公開タイムラインに投稿する</string>
