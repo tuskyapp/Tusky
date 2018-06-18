@@ -156,81 +156,96 @@
                     android:layout="@layout/view_account_moved"
                     app:layout_constraintTop_toBottomOf="@id/accountFieldList" />
 
-                <TextView
-                    android:id="@+id/accountFollowersTextView"
+                <LinearLayout
+                    android:id="@+id/accountFollowers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@android:color/transparent"
-                    android:fontFamily="sans-serif-medium"
-                    android:textColor="@color/account_tab_font_color"
-                    android:textSize="?attr/status_text_medium"
-                    app:layout_constraintEnd_toEndOf="@+id/accountFollowersDescription"
-                    app:layout_constraintStart_toStartOf="@+id/accountFollowersDescription"
-                    app:layout_constraintTop_toBottomOf="@id/accountMovedView"
-                    tools:text="1234" />
-
-                <TextView
-                    android:id="@+id/accountFollowersDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="6dp"
-                    android:text="@string/title_followers"
-                    android:textColor="@color/account_tab_font_color"
-                    android:textSize="?attr/status_text_medium"
-                    app:layout_constraintEnd_toStartOf="@id/accountFollowingDescription"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@id/accountFollowing"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/accountFollowersTextView" />
+                    app:layout_constraintTop_toBottomOf="@id/accountMovedView">
 
-                <TextView
-                    android:id="@+id/accountFollowingTextView"
+                    <TextView
+                        android:id="@+id/accountFollowersTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@android:color/transparent"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/account_tab_font_color"
+                        android:textSize="?attr/status_text_medium"
+                        tools:text="1234" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="6dp"
+                        android:text="@string/title_followers"
+                        android:textColor="@color/account_tab_font_color"
+                        android:textSize="?attr/status_text_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/accountFollowing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:textColor="@color/account_tab_font_color"
-                    android:textSize="?attr/status_text_medium"
-                    app:layout_constraintEnd_toEndOf="@+id/accountFollowingDescription"
-                    app:layout_constraintStart_toStartOf="@+id/accountFollowingDescription"
-                    app:layout_constraintTop_toBottomOf="@id/accountMovedView"
-                    tools:text="500" />
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@id/accountStatuses"
+                    app:layout_constraintStart_toEndOf="@id/accountFollowers"
+                    app:layout_constraintTop_toBottomOf="@id/accountMovedView">
 
-                <TextView
-                    android:id="@+id/accountFollowingDescription"
+                    <TextView
+                        android:id="@+id/accountFollowingTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/account_tab_font_color"
+                        android:textSize="?attr/status_text_medium"
+                        tools:text="500" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="6dp"
+                        android:text="@string/title_follows"
+                        android:textColor="@color/account_tab_font_color"
+                        android:textSize="?attr/status_text_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/accountStatuses"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="6dp"
-                    android:text="@string/title_follows"
-                    android:textColor="@color/account_tab_font_color"
-                    android:textSize="?attr/status_text_medium"
-                    app:layout_constraintEnd_toStartOf="@id/accountStatusesDescription"
-                    app:layout_constraintStart_toEndOf="@id/accountFollowersDescription"
-                    app:layout_constraintTop_toBottomOf="@id/accountFollowingTextView" />
-
-                <TextView
-                    android:id="@+id/accountStatusesTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:textColor="@color/account_tab_font_color"
-                    android:textSize="?attr/status_text_medium"
-                    app:layout_constraintEnd_toEndOf="@+id/accountStatusesDescription"
-                    app:layout_constraintStart_toStartOf="@+id/accountStatusesDescription"
-                    app:layout_constraintTop_toBottomOf="@id/accountMovedView"
-                    tools:text="3000" />
-
-                <TextView
-                    android:id="@+id/accountStatusesDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="6dp"
-                    android:text="@string/title_statuses"
-                    android:textColor="@color/account_tab_font_color"
-                    android:textSize="?attr/status_text_medium"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/accountFollowingDescription"
-                    app:layout_constraintTop_toBottomOf="@id/accountStatusesTextView" />
+                    app:layout_constraintStart_toEndOf="@id/accountFollowing"
+                    app:layout_constraintTop_toBottomOf="@id/accountMovedView">
+
+                    <TextView
+                        android:id="@+id/accountStatusesTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/account_tab_font_color"
+                        android:textSize="?attr/status_text_medium"
+                        tools:text="3000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="6dp"
+                        android:text="@string/title_statuses"
+                        android:textColor="@color/account_tab_font_color"
+                        android:textSize="?attr/status_text_medium" />
+                </LinearLayout>
             </android.support.constraint.ConstraintLayout>
 
             <!-- top margin equal to statusbar size will be set programmatically -->

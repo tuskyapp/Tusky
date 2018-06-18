@@ -273,17 +273,17 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
         val accountListClickListener = { v: View ->
             val type = when (v.id) {
-                R.id.accountFollowersTextView -> AccountListActivity.Type.FOLLOWERS
-                R.id.accountFollowingTextView -> AccountListActivity.Type.FOLLOWING
+                R.id.accountFollowers-> AccountListActivity.Type.FOLLOWERS
+                R.id.accountFollowing -> AccountListActivity.Type.FOLLOWING
                 else -> throw AssertionError()
             }
             val accountListIntent = AccountListActivity.newIntent(this, type, accountId)
             startActivity(accountListIntent)
         }
-        accountFollowersTextView.setOnClickListener(accountListClickListener)
-        accountFollowingTextView.setOnClickListener(accountListClickListener)
+        accountFollowers.setOnClickListener(accountListClickListener)
+        accountFollowing.setOnClickListener(accountListClickListener)
 
-        accountStatusesTextView.setOnClickListener {
+        accountStatuses.setOnClickListener {
             // Make nice ripple effect on tab
             accountTabLayout.getTabAt(0)!!.select()
             val poorTabView = (accountTabLayout.getChildAt(0) as ViewGroup).getChildAt(0)
@@ -352,12 +352,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
                 TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(accountMovedText, movedIcon, null, null, null)
 
-                accountFollowersTextView.hide()
-                accountFollowingTextView.hide()
-                accountStatusesTextView.hide()
-                accountFollowersDescription.hide()
-                accountFollowingDescription.hide()
-                accountStatusesDescription.hide()
+                accountFollowers.hide()
+                accountFollowing.hide()
+                accountStatuses.hide()
                 accountTabLayout.hide()
                 accountFragmentViewPager.hide()
                 accountTabBottomShadow.hide()
