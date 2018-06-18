@@ -147,7 +147,6 @@
     <string name="dialog_title_finishing_media_upload">Uppladdning av media</string>
     <string name="dialog_message_uploading_media">Laddar upp...</string>
     <string name="dialog_download_image">Ladda ned</string>
-    <string name="dialog_message_follow_request">Följförfrågan: väntar på deras svar</string>
     <string name="dialog_unfollow_warning">Avfölja detta konto?</string>
 
     <string name="visibility_public">Offentlig: Skicka till offentliga tidslinjer</string>
