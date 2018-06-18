@@ -96,8 +96,9 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     protected abstract int getMediaPreviewHeight(Context context);
 
-    private void setDisplayName(String name) {
-        displayName.setText(name);
+    private void setDisplayName(String name, List<Emoji> customEmojis) {
+        CharSequence emojifiedName = CustomEmojiHelper.emojifyString(name, customEmojis, displayName);
+        displayName.setText(emojifiedName);
     }
 
     private void setUsername(String name) {
@@ -399,19 +400,11 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
          * bugs where other statuses in the list would be removed or added and cause the position
          * here to become outdated. So, getting the adapter position at the time the listener is
          * actually called is the appropriate solution. */
-        avatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onViewAccount(accountId);
-            }
-        });
-        replyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    listener.onReply(position);
-                }
+        avatar.setOnClickListener(v -> listener.onViewAccount(accountId));
+        replyButton.setOnClickListener(v -> {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onReply(position);
             }
         });
         reblogButton.setEventListener(new SparkEventListener() {
@@ -448,13 +441,10 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             public void onEventAnimationStart(ImageView button, boolean buttonState) {
             }
         });
-        moreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    listener.onMore(v, position);
-                }
+        moreButton.setOnClickListener(v -> {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onMore(v, position);
             }
         });
         /* Even though the content TextView is a child of the container, it won't respond to clicks
@@ -473,11 +463,11 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
                          boolean mediaPreviewEnabled) {
-        setDisplayName(status.getUserFullName());
+        setDisplayName(status.getUserFullName(), status.getAccountEmojis());
         setUsername(status.getNickname());
         setCreatedAt(status.getCreatedAt());
         setIsReply(status.getInReplyToId() != null);
-        setContent(status.getContent(), status.getMentions(), status.getEmojis(), listener);
+        setContent(status.getContent(), status.getMentions(), status.getStatusEmojis(), listener);
         setAvatar(status.getAvatar(), status.getRebloggedAvatar());
         setReblogged(status.isReblogged());
         setFavourited(status.isFavourited());
@@ -488,7 +478,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             if (attachments.size() == 0) {
                 hideSensitiveMediaWarning();
-//                videoIndicator.setVisibility(View.GONE);
             }
             // Hide the unused label.
             mediaLabel.setVisibility(View.GONE);
@@ -500,7 +489,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             mediaPreview2.setVisibility(View.GONE);
             mediaPreview3.setVisibility(View.GONE);
             hideSensitiveMediaWarning();
-//            videoIndicator.setVisibility(View.GONE);
         }
 
         setupButtons(listener, status.getSenderId());
@@ -508,7 +496,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (status.getSpoilerText() == null || status.getSpoilerText().isEmpty()) {
             hideSpoilerText();
         } else {
-            setSpoilerText(status.getSpoilerText(), status.getEmojis(), status.isExpanded(), listener);
+            setSpoilerText(status.getSpoilerText(), status.getStatusEmojis(), status.isExpanded(), listener);
         }
     }
 

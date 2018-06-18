@@ -1,5 +1,6 @@
 package com.keylesspalace.tusky.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
+import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -21,8 +23,9 @@ public class MutesAdapter extends AccountAdapter {
         super(accountActionListener);
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             default:
             case VIEW_TYPE_MUTED_USER: {
@@ -39,11 +42,11 @@ public class MutesAdapter extends AccountAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (position < accountList.size()) {
             MutedUserViewHolder holder = (MutedUserViewHolder) viewHolder;
             holder.setupWithAccount(accountList.get(position));
-            holder.setupActionListener(accountActionListener, true, position);
+            holder.setupActionListener(accountActionListener, position);
         } else {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
             holder.setState(footerState);
@@ -76,7 +79,8 @@ public class MutesAdapter extends AccountAdapter {
 
         void setupWithAccount(Account account) {
             id = account.getId();
-            displayName.setText(account.getName());
+            CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(), account.getEmojis(), displayName);
+            displayName.setText(emojifiedName);
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.getUsername());
             username.setText(formattedUsername);
@@ -86,20 +90,9 @@ public class MutesAdapter extends AccountAdapter {
                     .into(avatar);
         }
 
-        void setupActionListener(final AccountActionListener listener, final boolean muted,
-                final int position) {
-            unmute.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onMute(!muted, id, position);
-                }
-            });
-            avatar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onViewAccount(id);
-                }
-            });
+        void setupActionListener(final AccountActionListener listener, final int position) {
+            unmute.setOnClickListener(v -> listener.onMute(false, id, position));
+            avatar.setOnClickListener(v -> listener.onViewAccount(id));
         }
     }
 }
