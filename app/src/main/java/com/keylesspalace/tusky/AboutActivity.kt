@@ -1,17 +1,19 @@
 package com.keylesspalace.tusky
 
+import android.content.Intent
 import android.os.Bundle
+import android.support.annotation.StringRes
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.method.LinkMovementMethod
+import android.text.style.URLSpan
+import android.text.util.Linkify
 import android.view.MenuItem
-import android.view.View
-import android.widget.ImageButton
-
+import android.widget.TextView
 import com.keylesspalace.tusky.di.Injectable
-import kotlinx.android.synthetic.main.about_emoji.*
+import com.keylesspalace.tusky.util.CustomURLSpan
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
 
 class AboutActivity : BottomSheetActivity(), Injectable {
 
@@ -29,8 +31,18 @@ class AboutActivity : BottomSheetActivity(), Injectable {
 
         versionTextView.text = getString(R.string.about_tusky_version, BuildConfig.VERSION_NAME)
 
-        tuskyProfileButton.setOnClickListener { onAccountButtonClick() }
-        setupAboutEmoji()
+        aboutLicenseInfoTextView.setClickableTextWithoutUnderlines(R.string.about_tusky_license)
+        aboutWebsiteInfoTextView.setClickableTextWithoutUnderlines(R.string.about_project_site)
+        aboutBugsFeaturesInfoTextView.setClickableTextWithoutUnderlines(R.string.about_bug_feature_request_site)
+
+        tuskyProfileButton.setOnClickListener {
+            onAccountButtonClick()
+        }
+
+        aboutLicensesButton.setOnClickListener {
+            startActivity(Intent(this, LicenseActivity::class.java))
+        }
+
     }
 
     private fun onAccountButtonClick() {
@@ -47,35 +59,29 @@ class AboutActivity : BottomSheetActivity(), Injectable {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setupAboutEmoji() {
-        // Inflate the TextView containing the Apache 2.0 license text.
-        try {
-            val apacheLicense = assets.open("LICENSE_APACHE")
-            val builder = StringBuilder()
-            val reader = BufferedReader(
-                    InputStreamReader(apacheLicense, "UTF-8"))
-            var line = reader.readLine()
-            while (line != null) {
-                builder.append(line)
-                builder.append('\n')
-                line = reader.readLine()
-            }
-            reader.close()
-            apacheView.text = builder
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+}
 
-        // Set up the button action
-        val expand = findViewById<ImageButton>(R.id.about_blobmoji_expand)
-        expand.setOnClickListener { v ->
-            if (apacheView.visibility == View.GONE) {
-                apacheView.visibility = View.VISIBLE
-                (v as ImageButton).setImageResource(R.drawable.ic_arrow_drop_up_black_24dp)
-            } else {
-                apacheView.visibility = View.GONE
-                (v as ImageButton).setImageResource(R.drawable.ic_arrow_drop_down_black_24dp)
-            }
-        }
+private fun TextView.setClickableTextWithoutUnderlines(@StringRes textId: Int) {
+
+    val text = SpannableString(context.getText(textId))
+
+    Linkify.addLinks(text, Linkify.WEB_URLS)
+
+    val builder = SpannableStringBuilder(text)
+    val urlSpans = text.getSpans(0, text.length, URLSpan::class.java)
+    for (span in urlSpans) {
+        val start = builder.getSpanStart(span)
+        val end = builder.getSpanEnd(span)
+        val flags = builder.getSpanFlags(span)
+
+        val customSpan = object : CustomURLSpan(span.url) {}
+
+        builder.removeSpan(span)
+        builder.setSpan(customSpan, start, end, flags)
     }
+
+    setText(builder)
+    linksClickable = true
+    movementMethod = LinkMovementMethod.getInstance()
+
 }
