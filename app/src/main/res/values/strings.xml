@@ -40,6 +40,8 @@
     <string name="title_x_followers"><b>%s</b> Followers</string>
     <string name="title_x_following"><b>%s</b> Following</string>
     <string name="title_x_statuses"><b>%s</b> Posts</string>
+    <string name="title_licenses">Licenses</string>
+
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boosted</string>
@@ -329,14 +331,7 @@
     <string name="caption_systememoji">Your device\'s default emoji set</string>
     <string name="caption_blobmoji">An emoji set based on the Blob emojis known from Android 4.4–7.1</string>
     <string name="caption_twemoji">Mastodon\'s standard emoji set</string>
-    <string name="about_emoji">
-        Tusky uses the following emoji sets:\n
-        Twemoji by Twitter - https://github.com/twitter/Twemoji\n
-        Blobmoji by C1710, based on Noto-Emoji - https://github.com/c1710/Blobmoji\n
-        Twemoji has been modified in order to use it with the EmojiCompat library
-    </string>
-    <string name="license_blobmoji">Blobmoji is licensed under the Apache license 2.0</string>
-    <string name="license_twemoji">Twemoji is licensed as CC-BY 4.0 - https://creativecommons.org/licenses/by/4.0/</string>
+
     <string name="download_failed">Download failed</string>
 
     <string name="profile_badge_bot_text">Bot</string>
@@ -344,5 +339,9 @@
 
     <string name="reblog_private">Boost to original audience</string>
     <string name="unreblog_private">Unboost</string>
+
+    <string name="license_description">Tusky contains code and assets from the following open source projects:</string>
+    <string name="license_apache_2">Licensed under the Apache License (copy below)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
 
 </resources>

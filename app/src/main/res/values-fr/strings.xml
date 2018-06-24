@@ -310,11 +310,6 @@
     <string name="download_fonts">Vous devez commencer par télécharger ces jeux d\'emoji</string>
     <string name="performing_lookup_title">Recherche en cours…</string>
     <string name="restart_emoji">Vous devez relancer Tusky pour appliquer ces changements</string>
-    <string name="about_emoji">
-        Tusky utilise les jeux d\'emoji suivants:\n
-        Twemoji par Twitter - https://github.com/twitter/Twemoji\n
-        Blobmoji par C1710, basé sur Noto-Emoji - https://github.com/c1710/Blobmoji\n
-        Twemoji a été modifié pour pouvoir être utilisé avec la librairie EmojiCompat
-    </string>
+
 
 </resources>

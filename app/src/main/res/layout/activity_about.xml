@@ -94,16 +94,15 @@
                     android:id="@+id/aboutLicensesButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:autoLink="web"
+                    android:layout_marginTop="12dp"
+                    android:padding="12dp"
                     android:lineSpacingMultiplier="1.2"
                     android:paddingEnd="@dimen/text_content_margin"
                     android:paddingStart="@dimen/text_content_margin"
                     android:text="@string/title_licenses"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/primary"
-                    android:textIsSelectable="true" />
+                    android:textColor="@color/primary" />
 
             </LinearLayout>
 

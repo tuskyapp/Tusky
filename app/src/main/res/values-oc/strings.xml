@@ -322,14 +322,7 @@
     <string name="caption_systememoji">Los emoji per defaut de vòstre aparelh</string>
     <string name="caption_blobmoji">Emoji basats en Blob emojis coneguts d\'Android 4.4–7.1</string>
     <string name="caption_twemoji">Emoji estandards de Mastodon</string>
-    <string name="about_emoji">
-        Tusky utiliza los emojis seguents :\n
-        Twemoji de Twitter - https://github.com/twitter/Twemoji\n
-        Blobmoji de C1710, basat sus on Noto-Emoji - https://github.com/c1710/Blobmoji\n
-        Twemoji es estat modificat per èsser utilizat amb la bibliotèca EmojiCompat
-    </string>
-    <string name="license_blobmoji">Blobmoji es jos licéncia dels tèrmes d’Apache license 2.0</string>
-    <string name="license_twemoji">Twemoji es jos licéncia CC-BY 4.0 - https://creativecommons.org/licenses/by/4.0/</string>
+
     <string name="download_failed">Fracàs del telecargament</string>
     <string name="reblog_private">Partejar al public d’origina</string>
     <string name="unreblog_private">Quitar de partejar</string>
