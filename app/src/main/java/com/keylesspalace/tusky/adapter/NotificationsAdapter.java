@@ -143,7 +143,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     } else {
                         holder.showNotificationContent(true);
 
-                        holder.setDisplayName(statusViewData.getUserFullName());
+                        holder.setDisplayName(statusViewData.getUserFullName(), statusViewData.getAccountEmojis());
                         holder.setUsername(statusViewData.getNickname());
                         holder.setCreatedAt(statusViewData.getCreatedAt());
 
@@ -352,8 +352,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
         }
 
-        private void setDisplayName(String name) {
-            displayName.setText(name);
+        private void setDisplayName(String name, List<Emoji> emojis) {
+            CharSequence emojifiedName = CustomEmojiHelper.emojifyString(name, emojis, displayName);
+            displayName.setText(emojifiedName);
         }
 
         private void setUsername(String name) {
@@ -489,7 +490,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             }
 
             Spanned content = statusViewData.getContent();
-            List<Emoji> emojis = statusViewData.getEmojis();
+            List<Emoji> emojis = statusViewData.getStatusEmojis();
 
             Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, statusContent);
 
@@ -497,7 +498,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
 
             Spanned emojifiedContentWarning =
-                    CustomEmojiHelper.emojifyString(statusViewData.getSpoilerText(), statusViewData.getEmojis(), contentWarningDescriptionTextView);
+                    CustomEmojiHelper.emojifyString(statusViewData.getSpoilerText(), statusViewData.getStatusEmojis(), contentWarningDescriptionTextView);
             contentWarningDescriptionTextView.setText(emojifiedContentWarning);
         }
 

@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +33,9 @@ public class FollowAdapter extends AccountAdapter {
         super(accountActionListener);
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             default:
             case VIEW_TYPE_ACCOUNT: {
@@ -50,7 +52,7 @@ public class FollowAdapter extends AccountAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (position < accountList.size()) {
             AccountViewHolder holder = (AccountViewHolder) viewHolder;
             holder.setupWithAccount(accountList.get(position));

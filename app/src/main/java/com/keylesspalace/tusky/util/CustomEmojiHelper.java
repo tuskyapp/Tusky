@@ -46,7 +46,7 @@ public class CustomEmojiHelper {
      * @param textView a reference to the textView the emojis will be shown in
      * @return the text with the shortcodes replaced by EmojiSpans
      */
-    public static Spanned emojifyText(Spanned text, List<Emoji> emojis, final TextView textView) {
+    public static Spanned emojifyText(@NonNull Spanned text, @NonNull List<Emoji> emojis, @NonNull final TextView textView) {
 
         if (!emojis.isEmpty()) {
 
@@ -71,7 +71,7 @@ public class CustomEmojiHelper {
         return text;
     }
 
-    public static Spanned emojifyString(String string, List<Emoji> emojis, final TextView textView) {
+    public static Spanned emojifyString(@NonNull String string, @NonNull List<Emoji> emojis, @NonNull final TextView textView) {
         return emojifyText(new SpannedString(string), emojis, textView);
     }
 

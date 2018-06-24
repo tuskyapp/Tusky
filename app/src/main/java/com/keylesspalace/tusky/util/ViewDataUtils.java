@@ -56,7 +56,8 @@ public final class ViewDataUtils {
                 .setSenderId(visibleStatus.getAccount().getId())
                 .setRebloggingEnabled(visibleStatus.rebloggingAllowed())
                 .setApplication(visibleStatus.getApplication())
-                .setEmojis(visibleStatus.getEmojis())
+                .setStatusEmojis(visibleStatus.getEmojis())
+                .setAccountEmojis(visibleStatus.getAccount().getEmojis())
                 .createStatusViewData();
     }
 

@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
+import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -36,8 +38,9 @@ public class FollowRequestsAdapter extends AccountAdapter {
         super(accountActionListener);
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             default:
             case VIEW_TYPE_FOLLOW_REQUEST: {
@@ -54,7 +57,7 @@ public class FollowRequestsAdapter extends AccountAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (position < accountList.size()) {
             FollowRequestViewHolder holder = (FollowRequestViewHolder) viewHolder;
             holder.setupWithAccount(accountList.get(position));
@@ -93,7 +96,8 @@ public class FollowRequestsAdapter extends AccountAdapter {
 
         void setupWithAccount(Account account) {
             id = account.getId();
-            displayName.setText(account.getName());
+            CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(), account.getEmojis(), displayName);
+            displayName.setText(emojifiedName);
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.getUsername());
             username.setText(formattedUsername);
@@ -104,30 +108,19 @@ public class FollowRequestsAdapter extends AccountAdapter {
         }
 
         void setupActionListener(final AccountActionListener listener) {
-            accept.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onRespondToFollowRequest(true, id, position);
-                    }
+            accept.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onRespondToFollowRequest(true, id, position);
                 }
             });
-            reject.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onRespondToFollowRequest(false, id, position);
-                    }
+            reject.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onRespondToFollowRequest(false, id, position);
                 }
             });
-            avatar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onViewAccount(id);
-                }
-            });
+            avatar.setOnClickListener(v -> listener.onViewAccount(id));
         }
     }
 }

@@ -76,7 +76,8 @@ public abstract class StatusViewData {
         private final String senderId;
         private final boolean rebloggingEnabled;
         private final Status.Application application;
-        private final List<Emoji> emojis;
+        private final List<Emoji> statusEmojis;
+        private final List<Emoji> accountEmojis;
         @Nullable
         private final Card card;
 
@@ -86,7 +87,7 @@ public abstract class StatusViewData {
                         boolean isShowingContent, String userFullName, String nickname, String avatar,
                         Date createdAt, int reblogsCount, int favouritesCount, @Nullable String inReplyToId,
                         @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
-                        Status.Application application, List<Emoji> emojis, @Nullable Card card) {
+                        Status.Application application, List<Emoji> statusEmojis, List<Emoji> accountEmojis, @Nullable Card card) {
             this.id = id;
             this.content = content;
             this.reblogged = reblogged;
@@ -110,7 +111,8 @@ public abstract class StatusViewData {
             this.senderId = senderId;
             this.rebloggingEnabled = rebloggingEnabled;
             this.application = application;
-            this.emojis = emojis;
+            this.statusEmojis = statusEmojis;
+            this.accountEmojis = accountEmojis;
             this.card = card;
         }
 
@@ -211,8 +213,12 @@ public abstract class StatusViewData {
             return application;
         }
 
-        public List<Emoji> getEmojis() {
-            return emojis;
+        public List<Emoji> getStatusEmojis() {
+            return statusEmojis;
+        }
+
+        public List<Emoji> getAccountEmojis() {
+            return accountEmojis;
         }
 
         @Nullable
@@ -252,7 +258,8 @@ public abstract class StatusViewData {
                 Arrays.equals(mentions, concrete.mentions) &&
                 Objects.equals(senderId, concrete.senderId) &&
                 Objects.equals(application, concrete.application) &&
-                Objects.equals(emojis, concrete.emojis) &&
+                    Objects.equals(statusEmojis, concrete.statusEmojis) &&
+                    Objects.equals(accountEmojis, concrete.accountEmojis) &&
                 Objects.equals(card, concrete.card);
         }
     }
@@ -324,7 +331,8 @@ public abstract class StatusViewData {
         private String senderId;
         private boolean rebloggingEnabled;
         private Status.Application application;
-        private List<Emoji> emojis;
+        private List<Emoji> statusEmojis;
+        private List<Emoji> accountEmojis;
         private Card card;
 
         public Builder() {
@@ -354,7 +362,8 @@ public abstract class StatusViewData {
             senderId = viewData.senderId;
             rebloggingEnabled = viewData.rebloggingEnabled;
             application = viewData.application;
-            emojis = viewData.getEmojis();
+            statusEmojis = viewData.getStatusEmojis();
+            accountEmojis = viewData.getAccountEmojis();
             card = viewData.getCard();
         }
 
@@ -473,8 +482,13 @@ public abstract class StatusViewData {
             return this;
         }
 
-        public Builder setEmojis(List<Emoji> emojis) {
-            this.emojis = emojis;
+        public Builder setStatusEmojis(List<Emoji> emojis) {
+            this.statusEmojis = emojis;
+            return this;
+        }
+
+        public Builder setAccountEmojis(List<Emoji> emojis) {
+            this.accountEmojis = emojis;
             return this;
         }
 
@@ -484,14 +498,15 @@ public abstract class StatusViewData {
         }
 
         public StatusViewData.Concrete createStatusViewData() {
-            if (this.emojis == null) emojis = Collections.emptyList();
+            if (this.statusEmojis == null) statusEmojis = Collections.emptyList();
+            if (this.accountEmojis == null) accountEmojis = Collections.emptyList();
             if (this.createdAt == null) createdAt = new Date();
 
             return new StatusViewData.Concrete(id, content, reblogged, favourited, spoilerText, visibility,
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
                     isShowingContent, userFullName, nickname, avatar, createdAt, reblogsCount,
                     favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application,
-                    emojis, card);
+                    statusEmojis, accountEmojis, card);
         }
     }
 }

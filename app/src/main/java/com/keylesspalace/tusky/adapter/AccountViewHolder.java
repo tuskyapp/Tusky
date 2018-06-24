@@ -9,6 +9,7 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.LinkListener;
+import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -32,7 +33,8 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
         String format = username.getContext().getString(R.string.status_username_format);
         String formattedUsername = String.format(format, account.getUsername());
         username.setText(formattedUsername);
-        displayName.setText(account.getName());
+        CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(), account.getEmojis(), displayName);
+        displayName.setText(emojifiedName);
         Context context = avatar.getContext();
         Picasso.with(context)
                 .load(account.getAvatar())
@@ -41,20 +43,10 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
     }
 
     void setupActionListener(final AccountActionListener listener) {
-        container.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onViewAccount(accountId);
-            }
-        });
+        container.setOnClickListener(v -> listener.onViewAccount(accountId));
     }
 
     void setupLinkListener(final LinkListener listener) {
-        container.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onViewAccount(accountId);
-            }
-        });
+        container.setOnClickListener(v -> listener.onViewAccount(accountId));
     }
 }
