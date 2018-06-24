@@ -138,7 +138,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 license:license="@string/license_apache_2"
-                license:link="https://github.com/ArthurHub/Android-Image-Cropper"
+                license:link="https://github.com/C1710/blobmoji"
                 license:name="FileMojiCompat" />
 
             <com.keylesspalace.tusky.view.LicenseCard
