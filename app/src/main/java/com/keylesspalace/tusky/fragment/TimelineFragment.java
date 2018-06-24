@@ -78,6 +78,7 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
+import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -1065,11 +1066,8 @@ public class TimelineFragment extends SFragment implements
         @Override
         public void onInserted(int position, int count) {
             adapter.notifyItemRangeInserted(position, count);
-            if (position == 0
-                    && layoutManager.findFirstVisibleItemPosition() == 0
-                    && (swipeRefreshLayout.getVisibility() == View.VISIBLE
-                    || progressBar.getVisibility() == View.VISIBLE)) {
-                recyclerView.post(() -> layoutManager.scrollToPosition(0));
+            if (position == 0) {
+                recyclerView.scrollBy(0, Utils.dpToPx(Objects.requireNonNull(getContext()), -30));
             }
         }
 
