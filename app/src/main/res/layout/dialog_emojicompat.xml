@@ -1,38 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="20dp">
+    android:paddingTop="16dp">
 
     <LinearLayout
         android:id="@+id/emoji_font_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <include
             android:id="@+id/item_blobmoji"
             layout="@layout/item_emoji_pref" />
 
         <include
             android:id="@+id/item_twemoji"
-            layout="@layout/item_emoji_pref"/>
+            layout="@layout/item_emoji_pref" />
+
         <include
             android:id="@+id/item_nomoji"
             layout="@layout/item_emoji_pref" />
     </LinearLayout>
 
-    <!--There's a short explanation that you'll need to download the emoji fonts first-->
     <TextView
         android:id="@+id/emoji_download_label"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/emoji_font_list"
-        android:paddingBottom="24dp"
-        android:paddingTop="20dp"
+        android:lineSpacingMultiplier="1.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingBottom="8dp"
         android:paddingEnd="24dp"
         android:paddingStart="24dp"
+        android:paddingTop="16dp"
         android:text="@string/download_fonts"
-        android:textColor="?android:attr/textColorSecondary"/>
+        android:textColor="?android:attr/textColorSecondary"
+        app:layout_constraintTop_toBottomOf="@+id/emoji_font_list" />
 
 </android.support.constraint.ConstraintLayout>

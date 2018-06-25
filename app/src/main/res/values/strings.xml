@@ -325,7 +325,7 @@
     <string name="later">Later</string>
     <string name="restart">Restart</string>
     <string name="caption_systememoji">Your device\'s default emoji set</string>
-    <string name="caption_blobmoji">An emoji set based on the Blob emojis known from Android 4.4–7.1</string>
+    <string name="caption_blobmoji">The Blob emojis known from Android 4.4–7.1</string>
     <string name="caption_twemoji">Mastodon\'s standard emoji set</string>
 
     <string name="download_failed">Download failed</string>
