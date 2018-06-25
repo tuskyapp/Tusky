@@ -310,7 +310,7 @@
     <string name="later">Не сейчас</string>
     <string name="restart">Перезапустить</string>
     <string name="caption_systememoji">Набор эмодзи по умолчанию</string>
-    <string name="caption_blobmoji">Набор эмодзи, основанный на эмодзи из Android 4.4-7.1</string>
+    <string name="caption_blobmoji">Набор эмодзи Blob из Android 4.4-7.1</string>
     <string name="caption_twemoji">Стандартный набор эмодзи в Mastodon</string>
 
     <string name="download_failed">Загрузка не удалась</string>
