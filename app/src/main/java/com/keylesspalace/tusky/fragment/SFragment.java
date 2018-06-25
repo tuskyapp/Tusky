@@ -58,8 +58,6 @@ import javax.inject.Inject;
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
 public abstract class SFragment extends BaseFragment {
-    protected static final int COMPOSE_RESULT = 1;
-
     protected String loggedInAccountId;
     protected String loggedInUsername;
 
@@ -137,7 +135,7 @@ public abstract class SFragment extends BaseFragment {
                 .repyingStatusAuthor(actionableStatus.getAccount().getLocalUsername())
                 .replyingStatusContent(actionableStatus.getContent().toString())
                 .build(getContext());
-        startActivityForResult(intent, COMPOSE_RESULT);
+        startActivity(intent);
     }
 
     protected void more(final Status status, View view, final int position) {

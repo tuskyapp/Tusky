@@ -266,7 +266,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void setupSwipeRefreshLayout() {
-        Context context = Objects.requireNonNull(getContext());
+        Context context = requireContext();
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.primary);
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context,
@@ -274,7 +274,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void setupRecyclerView() {
-        Context context = Objects.requireNonNull(getContext());
+        Context context = requireContext();
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -349,7 +349,7 @@ public class TimelineFragment extends SFragment implements
         super.onActivityCreated(savedInstanceState);
 
         if (jumpToTopAllowed()) {
-            TabLayout layout = Objects.requireNonNull(getActivity()).findViewById(R.id.tab_layout);
+            TabLayout layout = requireActivity().findViewById(R.id.tab_layout);
             if (layout != null) {
                 onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
                     @Override
@@ -417,8 +417,7 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void onDestroyView() {
         if (jumpToTopAllowed()) {
-            TabLayout tabLayout = Objects.requireNonNull(getActivity())
-                    .findViewById(R.id.tab_layout);
+            TabLayout tabLayout = requireActivity().findViewById(R.id.tab_layout);
             if (tabLayout != null) {
                 tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
             }
@@ -427,8 +426,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void setupNothingView() {
-        Drawable top = AppCompatResources.getDrawable(Objects.requireNonNull(getContext()),
-                R.drawable.elephant_friend);
+        Drawable top = AppCompatResources.getDrawable(requireContext(), R.drawable.elephant_friend);
         if (top != null) {
             top.setBounds(0, 0, top.getIntrinsicWidth() / 2, top.getIntrinsicHeight() / 2);
         }
@@ -663,7 +661,7 @@ public class TimelineFragment extends SFragment implements
         updateAdapter();
     }
 
-    public void removeAllByAccountId(String accountId) {
+    private void removeAllByAccountId(String accountId) {
         // using iterator to safely remove items while iterating
         Iterator<Either<Placeholder, Status>> iterator = statuses.iterator();
         while (iterator.hasNext()) {
@@ -1067,7 +1065,7 @@ public class TimelineFragment extends SFragment implements
         public void onInserted(int position, int count) {
             adapter.notifyItemRangeInserted(position, count);
             if (position == 0) {
-                recyclerView.scrollBy(0, Utils.dpToPx(Objects.requireNonNull(getContext()), -30));
+                recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30));
             }
         }
 

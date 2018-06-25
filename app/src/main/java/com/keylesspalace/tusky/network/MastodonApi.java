@@ -37,7 +37,6 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -185,7 +184,6 @@ public interface MastodonApi {
      * @param limit Limit returned statuses (current API limits: default - 20, max - 40)
      * @param excludeReplies only return statuses that are no replies
      * @param onlyMedia only return statuses that have media attached
-     * @return
      */
     @GET("api/v1/accounts/{id}/statuses")
     Call<List<Status>> accountStatuses(

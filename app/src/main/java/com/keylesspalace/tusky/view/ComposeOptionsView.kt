@@ -38,7 +38,7 @@ class ComposeOptionsView @JvmOverloads constructor(context: Context, attrs: Attr
             directRadioButton.setButtonDrawable(R.drawable.ic_email_24dp)
         }
 
-        visibilityRadioGroup.setOnCheckedChangeListener({ _, checkedId ->
+        visibilityRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             val visibility = when (checkedId) {
                 R.id.publicRadioButton ->
                     Status.Visibility.PUBLIC
@@ -52,7 +52,7 @@ class ComposeOptionsView @JvmOverloads constructor(context: Context, attrs: Attr
                     Status.Visibility.PUBLIC
             }
             listener?.onVisibilityChanged(visibility)
-        })
+        }
     }
 
     fun setStatusVisibility(visibility: Status.Visibility) {

@@ -216,7 +216,7 @@ public class EmojiCompatFont {
                 BufferedSink sink = Okio.buffer(Okio.sink(downloadFile));
                 Source source = null;
                 try {
-                    long size = 0;
+                    long size;
                     // Download!
                     if (response.body() != null
                             && response.isSuccessful()
