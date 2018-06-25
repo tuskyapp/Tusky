@@ -285,5 +285,18 @@
 
     <string name="download_failed">Download fehlgeschlagen.</string>
     <string name="profile_badge_bot_text">Bot</string>
+    <string name="title_licenses">Lizenzen</string>
+    <string name="title_statuses_with_replies">mit Antworten</string>
+    <string name="account_moved_description">%1$s ist umgezogen auf:</string>
+    <string name="reblog_private">An ursprüngliches Publikum teilen</string>
+    <string name="unreblog_private">nicht mehr teilen</string>
+
+    <string name="license_description">Tusky enthält Code und Inhalte von den folgenden Open-Source-Projekten:</string>
+    <string name="license_apache_2">Lizensiert unter der Apache-Lizenz (s. u.)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="action_open_toot">Beitrag öffnen</string>
+    <string name="action_hide_reblogs">Geteilte Beiträge verbergen</string>
+    <string name="action_show_reblogs">Geteilte Beiträge anzeigen</string>
+    <string name="action_edit_own_profile">Bearbeiten</string>
 
 </resources>
