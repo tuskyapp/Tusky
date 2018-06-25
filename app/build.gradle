@@ -73,7 +73,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
     implementation 'com.evernote:android-job:1.2.6'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     // EmojiCompat
     implementation "com.android.support:support-emoji:$supportLibraryVersion"
     implementation "com.android.support:support-emoji-appcompat:$supportLibraryVersion"
@@ -81,8 +81,8 @@ dependencies {
     // architecture components
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     //room
-    implementation 'android.arch.persistence.room:runtime:1.1.0'
-    kapt 'android.arch.persistence.room:compiler:1.1.0'
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
+    kapt 'android.arch.persistence.room:compiler:1.1.1'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
