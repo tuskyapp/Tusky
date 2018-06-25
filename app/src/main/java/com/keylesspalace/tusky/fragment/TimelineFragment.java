@@ -136,8 +136,6 @@ public class TimelineFragment extends SFragment implements
     private boolean filterRemoveRegex;
     private Matcher filterRemoveRegexMatcher;
     private boolean hideFab;
-    private boolean topLoading;
-    private int topFetches;
     private boolean bottomLoading;
 
     @Nullable
@@ -222,11 +220,8 @@ public class TimelineFragment extends SFragment implements
         setupTimelinePreferences();
         setupNothingView();
 
-        topLoading = false;
-        topFetches = 0;
         bottomId = null;
         topId = null;
-
 
         if (statuses.isEmpty()) {
             progressBar.setVisibility(View.VISIBLE);
@@ -701,7 +696,8 @@ public class TimelineFragment extends SFragment implements
     private void fullyRefresh() {
         statuses.clear();
         updateAdapter();
-        sendFetchTimelineRequest(null, null, FetchEnd.TOP, -1);
+        bottomLoading = true;
+        sendFetchTimelineRequest(null, null, FetchEnd.BOTTOM, -1);
     }
 
     private boolean jumpToTopAllowed() {
@@ -745,12 +741,6 @@ public class TimelineFragment extends SFragment implements
 
     private void sendFetchTimelineRequest(@Nullable String fromId, @Nullable String uptoId,
                                           final FetchEnd fetchEnd, final int pos) {
-        /* If there is a fetch already ongoing, record however many fetches are requested and
-         * fulfill them after it's complete. */
-        if (fetchEnd == FetchEnd.TOP && topLoading) {
-            topFetches++;
-            return;
-        }
 
         Callback<List<Status>> callback = new Callback<List<Status>>() {
             @Override
@@ -860,14 +850,6 @@ public class TimelineFragment extends SFragment implements
         switch (fetchEnd) {
             case BOTTOM: {
                 bottomLoading = false;
-                break;
-            }
-            case TOP: {
-                topLoading = false;
-                if (topFetches > 0) {
-                    topFetches--;
-                    onRefresh();
-                }
                 break;
             }
         }
