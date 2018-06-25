@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="StatusButton">
-        <attr name="state_marked" format="boolean" />
+    <declare-styleable name="LicenseCard">
+        <attr name="name" format="string|reference" />
+        <attr name="license" format="string|reference" />
+        <attr name="link" format="string|reference" />
+        <attr name="description" format="string|reference" />
     </declare-styleable>
 
     <!--Themed Attributes-->

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:license="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.keylesspalace.tusky.AboutActivity">
+
+    <include layout="@layout/toolbar_basic" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:orientation="vertical"
+            android:paddingBottom="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="18dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:lineSpacingMultiplier="1.1"
+                android:text="@string/license_description" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_apache_2"
+                license:link="https://developer.android.com/topic/libraries/support-library/"
+                license:name="Android Support Library" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_apache_2"
+                license:link="https://developer.android.com/topic/libraries/architecture/"
+                license:name="Android Architecture Components" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_apache_2"
+                license:link="https://square.github.io/okhttp/"
+                license:name="OkHttp" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_apache_2"
+                license:link="https://square.github.io/retrofit/"
+                license:name="Retrofit" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_apache_2"
+                license:link="https://square.github.io/picasso/"
+                license:name="Picasso" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_apache_2"
+                license:link="https://google.github.io/dagger/"
+                license:name="Dagger 2" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_apache_2"
+                license:link="https://github.com/mikepenz/MaterialDrawer"
+                license:name="MaterialDrawer" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_apache_2"
+                license:link="https://github.com/connyduck/SparkButton"
+                license:name="SparkButton" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_apache_2"
+                license:link="https://github.com/chrisbanes/PhotoView"
+                license:name="PhotoView" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_apache_2"
+                license:link="https://github.com/ArthurHub/Android-Image-Cropper"
+                license:name="Android Image Cropper" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_apache_2"
+                license:link="https://github.com/C1710/blobmoji"
+                license:name="FileMojiCompat" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_cc_by_4"
+                license:link="https://twemoji.twitter.com/"
+                license:name="Twemoji" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_cc_by_4"
+                license:name="Blobmoji" />
+
+            <TextView
+                android:id="@+id/licenseApacheTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="18dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="12dp"
+                android:textSize="12sp" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <include layout="@layout/toolbar_shadow_shim" />
+
+    <include layout="@layout/item_status_bottom_sheet" />
+
+</android.support.design.widget.CoordinatorLayout>

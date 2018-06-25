@@ -99,6 +99,7 @@
         </activity>
         <activity android:name=".ListsActivity" />
         <activity android:name=".ModalTimelineActivity" />
+        <activity android:name=".LicenseActivity" />
 
         <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
 

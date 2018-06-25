@@ -293,12 +293,7 @@
     <string name="caption_systememoji">Standard-emojis för din enhet</string>
     <string name="caption_blobmoji">Emojis baserade på The Blob emojis kända från Android 4.4–7.1</string>
     <string name="caption_twemoji">Mastodon\'s standard emojis</string>
-    <string name="about_emoji">Tusky använder följande emojis:\n
-                       Twemoji by Twitter - https://github.com/twitter/Twemoji\n
-                       Blobmoji by C1710, based on Noto-Emoji - https://github.com/c1710/Blobmoji\n
-                       Twemoji has been modified in order to use it with the EmojiCompat library</string>
-    <string name="license_blobmoji">Blobmoji är licenserade under Apache licensen 2.0</string>
-    <string name="license_twemoji">Twemoji är licenserade som CC-BY 4.0 - https://creativecommons.org/licenses/by/4.0/</string>
+
     <string name="download_failed">Nedladdning misslyckad</string>
     <string name="reblog_private">Boost till original publik</string>
     <string name="unreblog_private">Avboosta</string>
