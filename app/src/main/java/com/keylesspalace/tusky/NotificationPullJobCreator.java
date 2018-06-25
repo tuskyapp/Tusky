@@ -114,6 +114,7 @@ public final class NotificationPullJobCreator implements JobCreator {
             Collections.reverse(notificationList);
             BigInteger newId = new BigInteger(account.getLastNotificationId());
             BigInteger newestId = BigInteger.ZERO;
+            boolean isFirstOfBatch = true;
 
             for (Notification notification : notificationList) {
                 BigInteger currentId = new BigInteger(notification.getId());
@@ -122,7 +123,8 @@ public final class NotificationPullJobCreator implements JobCreator {
                 }
 
                 if (isBiggerThan(currentId, newId)) {
-                    NotificationHelper.make(context, notification, account);
+                    NotificationHelper.make(context, notification, account, isFirstOfBatch);
+                    isFirstOfBatch = false;
                 }
             }
 

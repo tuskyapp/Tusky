@@ -112,7 +112,7 @@ public class NotificationHelper {
      * @param account the account for which the notification should be shown
      */
 
-    public static void make(final Context context, Notification body, AccountEntity account) {
+    public static void make(final Context context, Notification body, AccountEntity account, boolean isFirstOfBatch) {
 
         if (!filterNotification(account, body, context)) {
             return;
@@ -202,6 +202,11 @@ public class NotificationHelper {
         builder.setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
         builder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
         builder.setOnlyAlertOnce(true);
+
+        // only alert for the first notification of a batch to avoid multiple alerts at once
+        if(!isFirstOfBatch) {
+            builder.setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY);
+        }
 
         // Summary
         // =======
