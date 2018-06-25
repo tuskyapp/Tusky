@@ -32,9 +32,6 @@
     <string name="title_follow_requests">பின்பற்ற கோரிக்கை</string>
     <string name="title_edit_profile">சுயவிவரத்தை திருத்த</string>
     <string name="title_saved_toot">வரைவுகள்</string>
-    <string name="title_x_followers"><b>%s</b> பின்பற்றுபவர்கள்</string>
-    <string name="title_x_following"><b>%s</b> பின்பற்றுகிறார்</string>
-    <string name="title_x_statuses"><b>%s</b> பதிவுகள்</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s உயர்த்தப்படுகிறது</string>

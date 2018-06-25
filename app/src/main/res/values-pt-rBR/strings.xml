@@ -33,9 +33,6 @@
     <string name="title_follow_requests">Solicitações de seguidor</string>
     <string name="title_edit_profile">Edite seu perfil</string>
     <string name="title_saved_toot">Rascunhos</string>
-    <string name="title_x_followers"><b>%s</b> Seguidores</string>
-    <string name="title_x_following"><b>%s</b> Seguindo</string>
-    <string name="title_x_statuses"><b>%s</b> Postagens</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s compartilhou</string>

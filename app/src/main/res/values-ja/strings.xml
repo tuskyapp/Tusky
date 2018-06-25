@@ -33,9 +33,6 @@
     <string name="title_follow_requests">フォローリクエスト</string>
     <string name="title_edit_profile">プロフィールを編集</string>
     <string name="title_saved_toot">下書き</string>
-    <string name="title_x_followers">フォロワー <b>%s</b></string>
-    <string name="title_x_following">フォロー <b>%s</b></string>
-    <string name="title_x_statuses">投稿 <b>%s</b></string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%sさんがブーストしました</string>

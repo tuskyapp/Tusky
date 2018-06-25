@@ -33,9 +33,6 @@
     <string name="title_follow_requests">Peticions de seguiment</string>
     <string name="title_edit_profile">Edita el perfil</string>
     <string name="title_saved_toot">Esborranys</string>
-    <string name="title_x_followers"><b>%s</b> seguidors</string>
-    <string name="title_x_following"><b>%s</b> seguint</string>
-    <string name="title_x_statuses"><b>%s</b> publicacions</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s tootejat</string>
