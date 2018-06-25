@@ -610,8 +610,11 @@ public class TimelineFragment extends SFragment implements
             }
             case "mediaPreviewEnabled": {
                 boolean enabled = sharedPreferences.getBoolean("mediaPreviewEnabled", true);
-                adapter.setMediaPreviewEnabled(enabled);
-                fullyRefresh();
+                boolean oldMediaPreviewEnabled = adapter.getMediaPreviewEnabled();
+                if(enabled != oldMediaPreviewEnabled) {
+                    adapter.setMediaPreviewEnabled(enabled);
+                    fullyRefresh();
+                }
                 break;
             }
             case "tabFilterHomeReplies": {
