@@ -1,6 +1,5 @@
 <resources>
 
-
     <string name="error_generic">Wystąpił błąd.</string>
     <string name="error_empty">To nie może pozostać puste.</string>
     <string name="error_invalid_domain">Wprowadzono nieprawidłową domenę.</string>
@@ -19,7 +18,7 @@
     <string name="error_media_upload_sending">Wysyłanie nie powiodło się.</string>
     <string name="error_report_too_few_statuses">Musisz zgłosić przynajmniej jeden wpis.</string>
     <string name="error_invalid_regex">Nieprawidłowe wyrażenie regularne.</string>
-
+    <string name="error_sender_account_gone">Wysyłanie wpisu nie powiodło się.</string>
 
     <string name="title_home">Strona główna</string>
     <string name="title_advanced">Zaawansowane</string>
@@ -29,6 +28,7 @@
     <string name="title_view_thread">Wątek</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Posty</string>
+    <string name="title_statuses_with_replies">Z odpowiedziami</string>
     <string name="title_follows">Śledzeni</string>
     <string name="title_followers">Śledzący</string>
     <string name="title_favourites">Ulubione</string>
@@ -37,6 +37,7 @@
     <string name="title_follow_requests">Prośby o możliwość śledzenia</string>
     <string name="title_edit_profile">Edytuj profil</string>
     <string name="title_saved_toot">Szkice</string>
+    <string name="title_licenses">Licencje</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s podbił</string>
@@ -46,35 +47,30 @@
     <string name="status_content_warning_show_more">Pokaż więcej</string>
     <string name="status_content_warning_show_less">Ukryj</string>
 
-
     <string name="footer_empty">Pusto! Pociągnij, aby odświeżyć.</string>
-
 
     <string name="notification_reblog_format">%s podbił Twój post</string>
     <string name="notification_favourite_format">%s dodał Twój post do ulubionych</string>
     <string name="notification_follow_format">%s zaczął Cię śledzić</string>
 
-
     <string name="report_username_format">Zgłoś @%s</string>
     <string name="report_comment_hint">Dodatkowe komentarze?</string>
 
-
-    <string name="label_quick_reply">Odpowiedz…</string>
     <string name="action_quick_reply">Szybka odpowiedź</string>
     <string name="action_reply">Odpowiedz</string>
     <string name="action_reblog">Podbij</string>
     <string name="action_favourite">Dodaj do ulubionych</string>
     <string name="action_more">Więcej</string>
     <string name="action_compose">Napisz</string>
-    <string name="action_compose_shortcut">Odpowiedz</string>
     <string name="action_login">Zaloguj się Kontem Mastodon</string>
     <string name="action_logout">Wyloguj się</string>
     <string name="action_logout_confirm">Czy na pewno chcesz wylogować się z konta %1$s?</string>
     <string name="action_follow">Śledź</string>
     <string name="action_unfollow">Przestań śledzić</string>
-
     <string name="action_block">Zablokuj</string>
     <string name="action_unblock">Odblokuj</string>
+    <string name="action_hide_reblogs">Ukryj podbicia</string>
+    <string name="action_show_reblogs">Pokaż podbicia</string>
     <string name="action_report">Zgłoś</string>
     <string name="action_delete">Usuń</string>
     <string name="action_send">Wyślij</string>
@@ -99,6 +95,7 @@
     <string name="action_open_drawer">Otwórz szufladkę</string>
     <string name="action_save">Zapisz</string>
     <string name="action_edit_profile">Edytuj profil</string>
+    <string name="action_edit_own_profile">Edytuj</string>
     <string name="action_undo">Cofnij</string>
     <string name="action_accept">Akceptuj</string>
     <string name="action_reject">Odrzuć</string>
@@ -108,15 +105,19 @@
     <string name="action_content_warning">Ostrzeżenie o zawartości</string>
     <string name="action_emoji_keyboard">Klawiatura emoji</string>
 
+    <string name="download_image">Pobieranie %1$s</string>
 
-    <string name="send_status_link_to">Udostępnij link do wpisu…</string>
+    <string name="action_copy_link">Skopiuj odnośnik</string>
+
+    <string name="send_status_link_to">Udostępnij odnośnik do wpisu…</string>
     <string name="send_status_content_to">Udostępnij wpis do…</string>
-
+    
+    <string name="status_sent">Wysłano!</string>
+    <string name="status_sent_long">Pomyślnie wysłano odpowiedź.</string>
 
     <string name="confirmation_reported">Wyślij!</string>
     <string name="confirmation_unblocked">Odblokowano użytkownika</string>
     <string name="confirmation_unmuted">Cofnięto wyciszenie użytkownika</string>
-
 
     <string name="hint_domain">Jaka instancja?</string>
     <string name="hint_compose">Co Ci chodzi po głowie?</string>
@@ -125,19 +126,15 @@
     <string name="hint_note">Biografia</string>
     <string name="hint_search">Szukaj…</string>
 
-
     <string name="search_no_results">Brak wyników</string>
 
-
+    <string name="label_quick_reply">Odpowiedz…</string>
     <string name="label_avatar">Obraz profilowy</string>
     <string name="label_header">Nagłówek</string>
 
-
     <string name="link_whats_an_instance">Czym jest instancja?</string>
 
-
     <string name="login_connection">Łączenie…</string>
-
 
     <string name="dialog_whats_an_instance">Tutaj można wprowadzić domenę lub adres instancji,
         np. mastodon.social, icosahedron.website, social.tchncs.de, i
@@ -151,20 +148,19 @@
     <string name="dialog_title_finishing_media_upload">Kończenie wysyłania treści</string>
     <string name="dialog_message_uploading_media">Wysyłanie…</string>
     <string name="dialog_download_image">Pobierz</string>
+    <string name="dialog_message_cancel_follow_request">Czy chcesz anulować prośbę o możliwość śledzenia?</string>
     <string name="dialog_unfollow_warning">Czy chcesz przestać śledzić to konto?</string>
-
 
     <string name="visibility_public">Publiczne: Opublikuj na publicznych osiach czasu</string>
     <string name="visibility_unlisted">Niepubliczne: Nie wyświetlaj na publicznych osiach czasu</string>
     <string name="visibility_private">Tylko śledzeni: Wyświetlaj tylko śledzonym</string>
     <string name="visibility_direct">Bezpośrednio: Widoczne tylko dla wspomnianych</string>
 
-
     <string name="pref_title_notification_settings">Powiadomienia</string>
+    <string name="pref_title_edit_notification_settings">Edytuj powiadomienia</string>
+    <string name="pref_title_notifications_enabled">Powiadomienia</string>
     <string name="pref_summary_notifications">dla konta %1$s</string>
     <string name="pref_title_pull_notification_check_interval">Częstotliwość sprawdzania</string>
-    <string name="pref_title_edit_notification_settings">Edytuj powiadomienia</string>
-    <string name="pref_title_notifications_enabled">Powiadomienia natychmiastowe</string>
     <string name="pref_title_notification_alerts">Alerty</string>
     <string name="pref_title_notification_alert_sound">Powiadamiaj dźwiękiem</string>
     <string name="pref_title_notification_alert_vibrate">Powiadamiaj wibracją</string>
@@ -219,14 +215,13 @@
 
     <string name="pref_status_text_size">Rozmiar tekstu wpisów</string>
 
-
-    <!--<string-array name="status_text_size_names">-->
-        <!--<item>Mały</item>-->
-        <!--<item>Średni</item>-->
-        <!--<item>Duży</item>-->
-    <!--</string-array>-->
-
-
+    <string-array name="status_text_size_names">
+        <item>Najmniejszy</item>
+        <item>Mały</item>
+        <item>Średni</item>
+        <item>Duży</item>
+        <item>Ogromny</item>
+    </string-array>
 
     <string name="notification_channel_mention_name">Nowe wspomnienia</string>
     <string name="notification_channel_mention_descriptions">Powiadomienia o nowych wspomnieniach</string>
@@ -244,12 +239,19 @@
     <string name="notification_summary_small">%1$s i %2$s</string>
     <string name="notification_title_summary">%d nowych powiadomień</string>
 
-
     <string name="description_account_locked">Konto zablokowane</string>
 
-
-    <string name="about_title_activity">O programie</string>
-    <string name="about_tusky_license">Tusky jest wolnym i otwartoźródłowym oprogramowaniem. Jest on dostępny na licencji GNU General Public License w wersji trzeciej. Możesz przeczytać przetłumaczoną treść licencji <a href="https://web.archive.org/web/20171024013739/http://itlaw.computerworld.pl/wp-content/uploads/2008/03/powszechna-licencja-publiczna-gnu_v2.pdf">tutaj</a>.</string>
+    <string name="about_title_activity">O programie</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Tusky jest wolnym i otwartoźródłowym oprogramowaniem.
+        Jest on dostępny na licencji GNU General Public License w wersji trzeciej.
+        Możesz przeczytać przetłumaczoną treść licencji <a href="https://web.archive.org/web/20171024013739/http://itlaw.computerworld.pl/wp-content/uploads/2008/03/powszechna-licencja-publiczna-gnu_v2.pdf">tutaj</a>.</string>
+    
+    
+    
+    
+    
+    
     <string name="about_project_site">
         Strona projektu:\n
         https://tuskyapp.github.io
@@ -260,15 +262,12 @@
     </string>
     <string name="about_tusky_account">Profil Tusky’ego</string>
 
-
     <string name="status_share_content">Udostępnij zawartość postu</string>
     <string name="status_share_link">Udostępnij link do postu</string>
     <string name="status_media_images">Obrazy</string>
     <string name="status_media_video">Wideo</string>
 
-
     <string name="state_follow_requested">Wysłano prośbę o możliwość śledzenia</string>
-
 
     <string name="no_content">brak zawartości</string>
 
@@ -283,7 +282,6 @@
     <string name="abbreviated_hours_ago">%d godz. temu</string>
     <string name="abbreviated_minutes_ago">%d min. temu</string>
     <string name="abbreviated_seconds_ago">%ds temu</string>
-
 
     <string name="follows_you">Śledzi Cię</string>
     <string name="pref_title_alway_show_sensitive_media">Zawsze wyświetlaj wrażliwą zawartość</string>
@@ -312,11 +310,34 @@
     <string name="send_toot_notification_channel_name">Wysyłanie wpisów</string>
     <string name="send_toot_notification_cancel_title">Anulowano wysyłanie</string>
     <string name="send_toot_notification_saved_content">Kopia wpisu została zapisana jako szkic</string> 
+    <string name="action_compose_shortcut">Wyślij</string>
 
-    <string name="download_image">Pobieranie %1$s…</string>
+    <string name="error_no_custom_emojis">Twoja instancja %s nie używa żadnych niestandardowych emoji</string>
+    <string name="copy_to_clipboard_success">Skopiowano do schowka</string>
+    <string name="emoji_style">Styl emoji</string>
+    <string name="system_default">Domyślny systemu</string>
+    <string name="download_fonts">Musisz najpierw pobrać te zestawy emoji</string>
+    <string name="performing_lookup_title">Wyszukiwanie…</string>
+    <string name="expand_collapse_all_statuses">Rozwiń/zwiń wszystkie wpisy</string>
+    <string name="action_open_toot">Otwórz wpis</string>
+    <string name="restart_required">Wymagane jest ponowne uruchomienie</string>
+    <string name="restart_emoji">Musisz uruchomić ponownie Tuskyego, aby zastosować zmiany</string>
+    <string name="later">Później</string>
+    <string name="restart">Uruchom ponownie</string>
+    <string name="caption_systememoji">Domyślny zestaw emoji tego urządzenia</string>
+    <string name="caption_blobmoji">Emoji Blob znane z Androida 4.4–7.1</string>
+    <string name="caption_twemoji">Standardowy zestaw emoji Mastodona</string>
 
-    <string name="action_copy_link">Skopiuj odnośnik</string>
-    <string name="status_sent">Wysłano!</string>
-    <string name="status_sent_long">Pomyślnie wysłano odpowiedź.</string>
+    <string name="download_failed">Pobieranie nie powiodło się</string>
+
+    <string name="profile_badge_bot_text">Bot</string>
+    <string name="account_moved_description">%1$s przeniósł się na:</string>
+
+    <string name="reblog_private">Podbij grupie docelowej autora oryginału</string>
+    <string name="unreblog_private">Cofnij podbicie</string>
+
+    <string name="license_description">Tusky zawiera kod i zasoby następujących projektów open source:</string>
+    <string name="license_apache_2">Na licencji Apache (kopia poniżej)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
 
 </resources>
