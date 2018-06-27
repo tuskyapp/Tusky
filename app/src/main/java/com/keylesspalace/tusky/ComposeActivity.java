@@ -861,10 +861,10 @@ public final class ComposeActivity
     private void sendStatus(String content, Status.Visibility visibility, boolean sensitive,
                             String spoilerText) {
         ArrayList<String> mediaIds = new ArrayList<>();
-        ArrayList<String> mediaUris = new ArrayList<>();
+        ArrayList<Uri> mediaUris = new ArrayList<>();
         for (QueuedMedia item : mediaQueued) {
             mediaIds.add(item.id);
-            mediaUris.add(item.uri.toString());
+            mediaUris.add(item.uri);
         }
 
         Intent sendIntent = SendTootService.sendTootIntent(this, content, spoilerText,
@@ -1008,7 +1008,7 @@ public final class ComposeActivity
     }
 
     private void initiateMediaPicking() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
         String[] mimeTypes = new String[]{"image/*", "video/*"};
