@@ -37,6 +37,7 @@ public final class ProgressImageView extends AppCompatImageView {
     private RectF biggerRect = new RectF();
     private Paint circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint clearPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint markPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     public ProgressImageView(Context context) {
         super(context);
@@ -59,6 +60,11 @@ public final class ProgressImageView extends AppCompatImageView {
         circlePaint.setStyle(Paint.Style.STROKE);
 
         clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+
+        markPaint.setColor(ContextCompat.getColor(getContext(), R.color.description_marker_unselected));
+        markPaint.setStyle(Paint.Style.STROKE);
+        markPaint.setStrokeWidth(Utils.dpToPx(getContext(), 4));
+        markPaint.setStrokeCap(Paint.Cap.ROUND);
     }
 
     public void setProgress(int progress) {
@@ -71,12 +77,14 @@ public final class ProgressImageView extends AppCompatImageView {
         invalidate();
     }
 
+    public void setChecked(boolean checked) {
+        this.markPaint.setColor(ContextCompat.getColor(getContext(), checked ? R.color.colorPrimary : R.color.description_marker_unselected));
+        invalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (progress == -1) {
-            return;
-        }
 
         float angle = (progress / 100f) * 360 - 90;
         float halfWidth = canvas.getWidth() / 2;
@@ -86,8 +94,24 @@ public final class ProgressImageView extends AppCompatImageView {
         int margin = 8;
         biggerRect.set(progressRect.left - margin, progressRect.top - margin, progressRect.right + margin, progressRect.bottom + margin);
         canvas.saveLayer(biggerRect, null, Canvas.ALL_SAVE_FLAG);
-        canvas.drawOval(progressRect, circlePaint);
-        canvas.drawArc(biggerRect, angle, 360 - angle - 90, true, clearPaint);
+        if (progress != -1) {
+            canvas.drawOval(progressRect, circlePaint);
+            canvas.drawArc(biggerRect, angle, 360 - angle - 90, true, clearPaint);
+        }
         canvas.restore();
+
+        int markWidth = Utils.dpToPx(getContext(), 16);
+        int markMargin = Utils.dpToPx(getContext(), 6);
+        int leftMarkPointX = canvas.getWidth() - markMargin - markWidth;
+        int leftMarkPointY = canvas.getHeight() - markMargin - (markWidth / 2);
+
+        int bottomPointX = leftMarkPointX + (markWidth / 2);
+        int bottomPointY = canvas.getHeight() - markMargin;
+        canvas.drawLine(leftMarkPointX, leftMarkPointY, bottomPointX, bottomPointY, markPaint);
+
+        int rightPointX = canvas.getWidth() - markMargin;
+        int rightPointY = canvas.getHeight() - markWidth - markMargin;
+
+        canvas.drawLine(bottomPointX, bottomPointY, rightPointX, rightPointY, markPaint);
     }
 }

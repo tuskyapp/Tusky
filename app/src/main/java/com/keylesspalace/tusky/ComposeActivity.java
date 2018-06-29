@@ -1130,6 +1130,7 @@ public final class ComposeActivity
                             Attachment attachment = response.body();
                             if (response.isSuccessful() && attachment != null) {
                                 item.description = attachment.getDescription();
+                                item.preview.setChecked(item.description != null && !item.description.isEmpty());
                                 dialog.dismiss();
                             } else {
                                 showFailedCaptionMessage();
