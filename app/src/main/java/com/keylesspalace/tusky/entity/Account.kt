@@ -41,8 +41,8 @@ data class Account(
         @SerializedName("statuses_count") val statusesCount: Int,
         val source: AccountSource?,
         val bot: Boolean,
-        val emojis: List<Emoji> = emptyList(),
-        val fields: List<Field> = emptyList(),
+        val emojis: List<Emoji>?,  // nullable for backward compatibility
+        val fields: List<Field>?,  //nullable for backward compatibility
         val moved: Account? = null
 
 ) : Parcelable {

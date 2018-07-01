@@ -325,8 +325,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                     .load(account.header)
                     .into(accountHeaderImageView)
 
-            accountFieldAdapter.fields = account.fields
-            accountFieldAdapter.emojis = account.emojis
+            accountFieldAdapter.fields = account.fields ?: emptyList()
+            accountFieldAdapter.emojis = account.emojis ?: emptyList()
             accountFieldAdapter.notifyDataSetChanged()
 
             if (account.moved != null) {

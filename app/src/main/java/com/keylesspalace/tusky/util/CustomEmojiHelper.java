@@ -42,13 +42,13 @@ public class CustomEmojiHelper {
     /**
      * replaces emoji shortcodes in a text with EmojiSpans
      * @param text the text containing custom emojis
-     * @param emojis a list of the custom emojis
+     * @param emojis a list of the custom emojis (nullable for backward compatibility with old mastodon instances)
      * @param textView a reference to the textView the emojis will be shown in
      * @return the text with the shortcodes replaced by EmojiSpans
      */
-    public static Spanned emojifyText(@NonNull Spanned text, @NonNull List<Emoji> emojis, @NonNull final TextView textView) {
+    public static Spanned emojifyText(@NonNull Spanned text, @Nullable List<Emoji> emojis, @NonNull final TextView textView) {
 
-        if (!emojis.isEmpty()) {
+        if (emojis != null && !emojis.isEmpty()) {
 
             SpannableStringBuilder builder = new SpannableStringBuilder(text);
             for (Emoji emoji : emojis) {
@@ -71,7 +71,7 @@ public class CustomEmojiHelper {
         return text;
     }
 
-    public static Spanned emojifyString(@NonNull String string, @NonNull List<Emoji> emojis, @NonNull final TextView textView) {
+    public static Spanned emojifyString(@NonNull String string, @Nullable List<Emoji> emojis, @NonNull final TextView textView) {
         return emojifyText(new SpannedString(string), emojis, textView);
     }
 
