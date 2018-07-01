@@ -38,6 +38,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.interfaces.LinkListener;
@@ -159,8 +160,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 }
                 case FOLLOW: {
                     FollowViewHolder holder = (FollowViewHolder) viewHolder;
-                    holder.setMessage(concreteNotificaton.getAccount().getName(),
-                            concreteNotificaton.getAccount().getUsername(), concreteNotificaton.getAccount().getAvatar(), bidiFormatter);
+                    holder.setMessage(concreteNotificaton.getAccount(), bidiFormatter);
                     holder.setupButtons(notificationActionListener, concreteNotificaton.getAccount().getId());
                     break;
                 }
@@ -268,25 +268,28 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             message.setCompoundDrawablesWithIntrinsicBounds(followIcon, null, null, null);
         }
 
-        void setMessage(String displayName, String username, String avatarUrl, BidiFormatter bidiFormatter) {
+        void setMessage(Account account, BidiFormatter bidiFormatter) {
             Context context = message.getContext();
 
             String format = context.getString(R.string.notification_follow_format);
-            String wrappedDisplayName = bidiFormatter.unicodeWrap(displayName);
+            String wrappedDisplayName = bidiFormatter.unicodeWrap(account.getName());
             String wholeMessage = String.format(format, wrappedDisplayName);
-            message.setText(wholeMessage);
+            CharSequence emojifiedMessage = CustomEmojiHelper.emojifyString(wholeMessage, account.getEmojis(), message);
+            message.setText(emojifiedMessage);
 
             format = context.getString(R.string.status_username_format);
-            String wholeUsername = String.format(format, username);
-            usernameView.setText(wholeUsername);
+            String username = String.format(format, account.getUsername());
+            usernameView.setText(username);
 
-            displayNameView.setText(wrappedDisplayName);
+            CharSequence emojifiedDisplayName = CustomEmojiHelper.emojifyString(wrappedDisplayName, account.getEmojis(), usernameView);
 
-            if (TextUtils.isEmpty(avatarUrl)) {
+            displayNameView.setText(emojifiedDisplayName);
+
+            if (TextUtils.isEmpty(account.getAvatar())) {
                 avatar.setImageResource(R.drawable.avatar_default);
             } else {
                 Picasso.with(context)
-                        .load(avatarUrl)
+                        .load(account.getAvatar())
                         .fit()
                         .transform(new RoundedTransformation(25))
                         .placeholder(R.drawable.avatar_default)

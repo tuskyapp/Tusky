@@ -8,8 +8,7 @@
     android:paddingLeft="14dp"
     android:paddingRight="14dp">
 
-    <!--TODO: Check if this needs emoji support-->
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/notification_top_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
