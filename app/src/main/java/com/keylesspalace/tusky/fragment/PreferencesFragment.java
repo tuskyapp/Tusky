@@ -69,7 +69,7 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
         addPreferencesFromResource(preference);
 
         Preference emojiPreference = findPreference("emojiCompat");
-        if(emojiPreference != null && Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+        if(emojiPreference != null && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             //disable emoji fonts on Android 5 because they cause problems
             ((PreferenceCategory)findPreference("categoryAppearance")).removePreference(emojiPreference);
         }
