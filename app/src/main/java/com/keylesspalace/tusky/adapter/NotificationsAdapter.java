@@ -423,7 +423,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             final SpannableStringBuilder str = new SpannableStringBuilder(wholeMessage);
             str.setSpan(new StyleSpan(Typeface.BOLD), 0, displayName.length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            message.setText(str);
+            CharSequence emojifiedText = CustomEmojiHelper.emojifyText(str, notificationViewData.getAccount().getEmojis(), message);
+            message.setText(emojifiedText);
 
             if (statusViewData != null) {
                 boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
