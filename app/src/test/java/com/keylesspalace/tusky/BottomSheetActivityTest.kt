@@ -58,7 +58,9 @@ class BottomSheetActivityTest {
             0,
             0,
             null,
-            false
+            false,
+            emptyList(),
+            emptyList()
     )
     private val accountCallback = FakeSearchResults(account)
 
