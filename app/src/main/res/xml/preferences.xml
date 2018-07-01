@@ -2,7 +2,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="@string/preferences_file_key">
 
-    <PreferenceCategory android:title="@string/pref_title_appearance_settings">
+    <PreferenceCategory android:title="@string/pref_title_appearance_settings"
+        android:key="categoryAppearance">
 
         <ListPreference
             android:defaultValue="night"
