@@ -39,7 +39,7 @@
     <string name="title_saved_toot">Rascunhos</string>
     <string name="title_licenses">Licenças</string>
 
-    <string name="status_username_format">\\@%s</string>
+    <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s compartilhou</string>
     <string name="status_sensitive_media_title">Mídia sensível</string>
     <string name="status_media_hidden_title">Mídia escondida</string>
@@ -169,17 +169,23 @@
     <string name="pref_title_notification_filter_reblogs">minhas postagens forem compartilhadas</string>
     <string name="pref_title_notification_filter_favourites">minhas postagens forem favoritadas</string>
     <string name="pref_title_appearance_settings">Aparência</string>
-    <string name="pref_title_app_theme">Tema do aplicativo</string>
+    <string name="pref_title_app_theme">Temas do app</string>
+
+    <string-array name="app_theme_names">
+        <item>Noturno</item>
+        <item>Diurno</item>
+        <item>Automático</item>
+    </string-array>
 
 
     <string name="pref_title_browser_settings">Navegador</string>
-    <string name="pref_title_custom_tabs">Usar abas customizadas do Chrome</string>
-    <string name="pref_title_hide_follow_button">Esconder botão de composição enquanto rolar página</string>
+    <string name="pref_title_custom_tabs">Usar abas do Chrome</string>
+    <string name="pref_title_hide_follow_button">Esconder botão de composição ao rolar página</string>
     <string name="pref_title_status_filter">Filtragem da timeline</string>
     <string name="pref_title_status_tabs">Abas</string>
     <string name="pref_title_show_boosts">Mostrar compartilhamentos</string>
     <string name="pref_title_show_replies">Mostrar respostas</string>
-    <string name="pref_title_filter_regex">Filtrar através de expressões regulares</string>
+    <string name="pref_title_filter_regex">Filtrar com expressões regulares</string>
     <string name="pref_title_show_media_preview">Mostrar prévias de mídia</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">Proxy HTTP</string>
@@ -187,12 +193,36 @@
     <string name="pref_title_http_proxy_server">Servidor do proxy HTTP</string>
     <string name="pref_title_http_proxy_port">Porta do proxy HTTP</string>
 
+    <string-array name="pull_notification_check_interval_names">
+        <item>15 minutos</item>
+        <item>20 minutos</item>
+        <item>25 minutos</item>
+        <item>30 minutos</item>
+        <item>45 minutos</item>
+        <item>1 hora</item>
+        <item>2 horas</item>
+    </string-array>
+
 
     <string name="pref_default_post_privacy">Privacidade padrão dos posts</string>
-    <string name="pref_publishing">Publicando</string>
+    <string name="pref_publishing">Publicação</string>
+
+    <string-array name="post_privacy_names">
+        <item>Público</item>
+        <item>Não-listado</item>
+        <item>Privado</item>
+    </string-array>
 
 
     <string name="pref_status_text_size">Tamanho da fonte das postagens</string>
+
+    <string-array name="status_text_size_names">
+        <item>Menor</item>
+        <item>Pequeno</item>
+        <item>Médio</item>
+        <item>Grande</item>
+        <item>Maior</item>
+    </string-array>
 
 
     <string name="notification_channel_mention_name">Novas Menções</string>
@@ -256,7 +286,7 @@
     <string name="load_more_placeholder_text">carregar mais</string>
 
     <string name="add_account_name">Adicionar conta</string>
-    <string name="add_account_description">Adicionar nova conta do Mastodon</string>
+    <string name="add_account_description">Adicionar nova conta</string>
 
     <string name="action_lists">Listas</string>
     <string name="title_lists">Listas</string>
@@ -282,7 +312,7 @@
     <string name="copy_to_clipboard_success">Copiado para a área de transferência</string>
     <string name="emoji_style">Estilo de emoji</string>
     <string name="system_default">Padrão do sistema</string>
-    <string name="download_fonts">Você precisará baixar esses conjuntos de emojis primeiro</string>
+    <string name="download_fonts">É necessário baixar esses conjuntos antes de usá-los</string>
     <string name="performing_lookup_title">Realizando consulta...</string>
     <string name="expand_collapse_all_statuses">Expandir/Esconder todas as postagens</string>
     <string name="action_open_toot">Abrir toot</string>
@@ -290,8 +320,8 @@
     <string name="restart_emoji">É preciso reiniciar o Tusky para aplicar essas mudanças</string>
     <string name="later">Anterior</string>
     <string name="restart">Reiniciar</string>
-    <string name="caption_systememoji">Conjunto de emojis padrão do seu dispositivo</string>
-    <string name="caption_blobmoji">Emojis do Android pelas versões 4.4 até 7.1</string>
+    <string name="caption_systememoji">Emojis padrão do seu dispositivo</string>
+    <string name="caption_blobmoji">Emojis do Android presentes da versão 4.4 até 7.1</string>
     <string name="caption_twemoji">Conjunto de emojis padrão do Mastodon</string>
 
     <string name="download_failed">O download falhou</string>
