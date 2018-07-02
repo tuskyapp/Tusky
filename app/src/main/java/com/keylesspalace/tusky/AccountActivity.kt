@@ -299,7 +299,12 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountUsernameTextView.text = usernameFormatted
             accountDisplayNameTextView.text = CustomEmojiHelper.emojifyString(account.name, account.emojis, accountDisplayNameTextView)
             if (supportActionBar != null) {
-                supportActionBar?.title = EmojiCompat.get().process(account.name)
+                try {
+                    supportActionBar?.title = EmojiCompat.get().process(account.name)
+                } catch (e: IllegalStateException) {
+                    // some Android versions seem to have problems with custom emoji fonts
+                    supportActionBar?.title = account.name
+                }
 
                 val subtitle = String.format(getString(R.string.status_username_format),
                         account.username)
@@ -320,8 +325,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                     .load(account.header)
                     .into(accountHeaderImageView)
 
-            accountFieldAdapter.fields = account.fields
-            accountFieldAdapter.emojis = account.emojis
+            accountFieldAdapter.fields = account.fields ?: emptyList()
+            accountFieldAdapter.emojis = account.emojis ?: emptyList()
             accountFieldAdapter.notifyDataSetChanged()
 
             if (account.moved != null) {

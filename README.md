@@ -14,8 +14,10 @@ Tusky is a beautiful Android client for [Mastodon](https://github.com/tootsuite/
 - Material Design
 - Most Mastodon APIs implemented
 - Multi-Account support
-- Dark and Light theme with the possibility to auto-switch based on the time of day
+- Dark and light theme with the possibility to auto-switch based on the time of day
 - Drafts - compose toots and save them for later
+- Choose between different emoji styles 
+- Optimized for all screen sizes
 - Completely open-source - no non-free dependencies like Google services
 
 ### Support

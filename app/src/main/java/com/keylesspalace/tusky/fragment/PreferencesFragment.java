@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.support.annotation.XmlRes;
 import android.text.Editable;
@@ -66,6 +67,12 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
         int preference = getArguments().getInt("preference");
 
         addPreferencesFromResource(preference);
+
+        Preference emojiPreference = findPreference("emojiCompat");
+        if(emojiPreference != null && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            //disable emoji fonts on Android 5 because they cause problems
+            ((PreferenceCategory)findPreference("categoryAppearance")).removePreference(emojiPreference);
+        }
 
         Preference regexPref = findPreference("tabFilterRegex");
         if (regexPref != null) regexPref.setOnPreferenceClickListener(pref -> {
