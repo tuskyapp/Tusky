@@ -29,7 +29,7 @@
     <string name="title_follows">Folgt</string>
     <string name="title_followers">Folgende</string>
     <string name="title_favourites">Favoriten</string>
-    <string name="title_blocks">Blockierte Accounts</string>
+    <string name="title_blocks">Blockierte Profile</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s teilte</string>
@@ -67,7 +67,7 @@
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Einstellungen</string>
     <string name="action_view_favourites">Favoriten</string>
-    <string name="action_view_blocks">Blockierte Accounts</string>
+    <string name="action_view_blocks">Blockierte Profile</string>
     <string name="action_view_media">Medien</string>
     <string name="action_open_in_web">Im Browser öffnen</string>
     <string name="action_add_media">Füge Medien hinzu</string>
@@ -112,10 +112,10 @@
     <string name="dialog_message_uploading_media">Lade hoch…</string>
     <string name="dialog_download_image">Herunterladen</string>
 
-    <string name="visibility_public">Öffentlich: Für jedermann sichtbar</string>
+    <string name="visibility_public">Öffentlich: Für alle sichtbar</string>
     <string name="visibility_unlisted">Ungelistet: Nicht in der öffentlichen Timeline sichtbar</string>
     <string name="visibility_private">Nur Folgende: Nur für Folgende sichtbar</string>
-    <string name="visibility_direct">Direkt: Nur für erwähnte Nutzer sichtbar</string>
+    <string name="visibility_direct">Direkt: Nur für Erwähnte sichtbar</string>
 
     <string name="pref_title_notification_settings">Benachrichtigungen</string>
     <string name="pref_title_edit_notification_settings">Benachrichtigungseinstellungen</string>
@@ -164,11 +164,11 @@
     <string name="notification_summary_small">%1$s und %2$s</string>
     <string name="notification_title_summary">%d neue Interaktionen</string>
 
-    <string name="description_account_locked">Gesperrter Account</string>
+    <string name="description_account_locked">Gesperrtes Profil</string>
     <string name="action_undo">rückgängig machen</string>
-    <string name="action_view_mutes">Stummgeschaltene Accounts</string>
+    <string name="action_view_mutes">Stummgeschaltete Profile</string>
     <string name="confirmation_unblocked">entblockt</string>
-    <string name="title_mutes">Stummgeschaltene Nutzer</string>
+    <string name="title_mutes">Stummgeschaltete Profile</string>
     <string name="title_follow_requests">Folgeanfrage</string>
     <string name="status_share_link">Link teilen</string>
     <string name="status_share_content">Inhalt teilen</string>
@@ -212,7 +212,7 @@
     <string name="follows_you">Folgt dir</string>
     <string name="action_copy_link">Link kopieren</string>
     <string name="download_image">%1$s heruntergeladen</string>
-    <string name="dialog_unfollow_warning">Willst du diesem Account wirklich nicht mehr folgen?</string>
+    <string name="dialog_unfollow_warning">Willst du diesem Profil wirklich nicht mehr folgen?</string>
     <string name="pref_title_alway_show_sensitive_media">Heikle Inhalte immer anzeigen</string>
     <string name="notification_channel_boost_name">Geteilte Beiträge</string>
     <string name="notification_channel_boost_description">Benachrichtigungen wenn deine Beiträge geteilt werden</string>
