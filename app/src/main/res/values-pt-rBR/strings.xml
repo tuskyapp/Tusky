@@ -206,6 +206,14 @@
 
     <string name="pref_status_text_size">Tamanho da fonte das postagens</string>
 
+    <string-array name="status_text_size_names">
+        <item>Menor</item>
+        <item>Pequeno</item>
+        <item>Médio</item>
+        <item>Grande</item>
+        <item>Maior</item>
+    </string-array>
+
 
     <string name="notification_channel_mention_name">Novas Menções</string>
     <string name="notification_channel_mention_descriptions">Notificações sobre novas menções</string>
