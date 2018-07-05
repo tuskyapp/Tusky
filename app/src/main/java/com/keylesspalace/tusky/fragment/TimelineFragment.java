@@ -261,7 +261,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void setupSwipeRefreshLayout() {
-        Context context = requireContext();
+        Context context = swipeRefreshLayout.getContext();
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.primary);
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context,
@@ -269,7 +269,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void setupRecyclerView() {
-        Context context = requireContext();
+        Context context = recyclerView.getContext();
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -1049,8 +1049,9 @@ public class TimelineFragment extends SFragment implements
         @Override
         public void onInserted(int position, int count) {
             adapter.notifyItemRangeInserted(position, count);
-            if (position == 0) {
-                recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30));
+            Context context = getContext();
+            if (position == 0 && context != null) {
+                recyclerView.scrollBy(0, Utils.dpToPx(context, -30));
             }
         }
 
