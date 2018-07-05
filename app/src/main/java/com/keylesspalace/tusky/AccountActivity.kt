@@ -72,7 +72,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private val accountFieldAdapter = AccountFieldAdapter(this)
 
     private lateinit var accountId: String
-    private var followState: FollowState? = null
+    private var followState: FollowState = FollowState.NOT_FOLLOWING
     private var blocking: Boolean = false
     private var muting: Boolean = false
     private var showingReblogs: Boolean = false
@@ -144,9 +144,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
         val intent = intent
         accountId = intent.getStringExtra(KEY_ACCOUNT_ID)
-        followState = FollowState.NOT_FOLLOWING
-        blocking = false
-        muting = false
 
         loadedAccount = null
 
@@ -299,12 +296,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountUsernameTextView.text = usernameFormatted
             accountDisplayNameTextView.text = CustomEmojiHelper.emojifyString(account.name, account.emojis, accountDisplayNameTextView)
             if (supportActionBar != null) {
-                try {
-                    supportActionBar?.title = EmojiCompat.get().process(account.name)
-                } catch (e: IllegalStateException) {
-                    // some Android versions seem to have problems with custom emoji fonts
-                    supportActionBar?.title = account.name
-                }
+                supportActionBar?.title = EmojiCompat.get().process(account.name)
 
                 val subtitle = String.format(getString(R.string.status_username_format),
                         account.username)

@@ -77,7 +77,7 @@ dependencies {
     // EmojiCompat
     implementation "com.android.support:support-emoji:$supportLibraryVersion"
     implementation "com.android.support:support-emoji-appcompat:$supportLibraryVersion"
-    implementation "de.c1710:filemojicompat:1.0.5"
+    implementation "de.c1710:filemojicompat:1.0.14"
     // architecture components
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     //room

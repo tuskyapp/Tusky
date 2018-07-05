@@ -68,12 +68,6 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
 
         addPreferencesFromResource(preference);
 
-        Preference emojiPreference = findPreference("emojiCompat");
-        if(emojiPreference != null && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
-            //disable emoji fonts on Android 5 because they cause problems
-            ((PreferenceCategory)findPreference("categoryAppearance")).removePreference(emojiPreference);
-        }
-
         Preference regexPref = findPreference("tabFilterRegex");
         if (regexPref != null) regexPref.setOnPreferenceClickListener(pref -> {
             // Reset the error dialog when shown; if the dialog was closed with the cancel button
