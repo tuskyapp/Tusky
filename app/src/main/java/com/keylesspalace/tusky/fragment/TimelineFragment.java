@@ -196,14 +196,21 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         Bundle arguments = Objects.requireNonNull(getArguments());
         kind = Kind.valueOf(arguments.getString(KIND_ARG));
-        if (kind == Kind.TAG || kind == Kind.USER || kind == Kind.USER_WITH_REPLIES|| kind == Kind.LIST) {
+        if (kind == Kind.TAG
+                || kind == Kind.USER
+                || kind == Kind.USER_WITH_REPLIES
+                || kind == Kind.LIST) {
             hashtagOrId = arguments.getString(HASHTAG_OR_ID_ARG);
         }
+    }
 
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
