@@ -26,7 +26,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.fragment.ViewThreadFragment;
 import com.keylesspalace.tusky.util.LinkHelper;
 
@@ -49,12 +48,9 @@ public class ViewThreadActivity extends BottomSheetActivity implements HasSuppor
         return intent;
     }
 
-    public static Intent startIntentFromStatus(Context context, Status status) {
-        return startIntent(context, status.getActionableId(), status.getActionableStatus().getUrl());
-    }
-
     private static final String ID_EXTRA = "id";
     private static final String URL_EXTRA = "url";
+    private static final String FRAGMENT_TAG = "ViewThreadFragment_";
 
     private int revealButtonState = REVEAL_BUTTON_HIDDEN;
 
@@ -78,9 +74,14 @@ public class ViewThreadActivity extends BottomSheetActivity implements HasSuppor
         }
 
         String id = getIntent().getStringExtra(ID_EXTRA);
+
+        fragment = (ViewThreadFragment)getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG + id);
+        if(fragment == null) {
+            fragment = ViewThreadFragment.newInstance(id);
+        }
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragment = ViewThreadFragment.newInstance(id);
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.replace(R.id.fragment_container, fragment, FRAGMENT_TAG + id);
         fragmentTransaction.commit();
     }
 
