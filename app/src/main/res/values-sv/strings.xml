@@ -39,7 +39,7 @@
     <string name="title_edit_profile">Ändra din profil</string>
     <string name="title_saved_toot">Utkast</string>
 
-    <string name="status_username_format">\\@%s</string>
+    <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boostad</string>
     <string name="status_sensitive_media_title">Känsligt innehåll</string>
     <string name="status_media_hidden_title">Dold media</string>
