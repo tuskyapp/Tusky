@@ -206,6 +206,9 @@ public class TimelineFragment extends SFragment implements
                 || kind == Kind.LIST) {
             hashtagOrId = arguments.getString(HASHTAG_OR_ID_ARG);
         }
+
+        adapter = new TimelineAdapter(dataSource, this);
+
     }
 
     @Override
@@ -217,9 +220,6 @@ public class TimelineFragment extends SFragment implements
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         progressBar = rootView.findViewById(R.id.progress_bar);
         nothingMessageView = rootView.findViewById(R.id.nothing_message);
-
-        adapter = new TimelineAdapter(dataSource, this);
-
 
         setupSwipeRefreshLayout();
         setupRecyclerView();
@@ -835,22 +835,24 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void onFetchTimelineFailure(Exception exception, FetchEnd fetchEnd, int position) {
-        swipeRefreshLayout.setRefreshing(false);
+        if(isAdded()) {
+            swipeRefreshLayout.setRefreshing(false);
 
-        if (fetchEnd == FetchEnd.MIDDLE && !statuses.get(position).isRight()) {
-            Placeholder placeholder = statuses.get(position).getAsLeftOrNull();
-            StatusViewData newViewData;
-            if (placeholder == null) {
-                placeholder = newPlaceholder();
+            if (fetchEnd == FetchEnd.MIDDLE && !statuses.get(position).isRight()) {
+                Placeholder placeholder = statuses.get(position).getAsLeftOrNull();
+                StatusViewData newViewData;
+                if (placeholder == null) {
+                    placeholder = newPlaceholder();
+                }
+                newViewData = new StatusViewData.Placeholder(placeholder.id, false);
+                statuses.setPairedItem(position, newViewData);
+                updateAdapter();
             }
-            newViewData = new StatusViewData.Placeholder(placeholder.id, false);
-            statuses.setPairedItem(position, newViewData);
-            updateAdapter();
-        }
 
-        Log.e(TAG, "Fetch Failure: " + exception.getMessage());
-        fulfillAnyQueuedFetches(fetchEnd);
-        progressBar.setVisibility(View.GONE);
+            Log.e(TAG, "Fetch Failure: " + exception.getMessage());
+            fulfillAnyQueuedFetches(fetchEnd);
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     private void fulfillAnyQueuedFetches(FetchEnd fetchEnd) {
@@ -1055,10 +1057,12 @@ public class TimelineFragment extends SFragment implements
     private final ListUpdateCallback listUpdateCallback = new ListUpdateCallback() {
         @Override
         public void onInserted(int position, int count) {
-            adapter.notifyItemRangeInserted(position, count);
-            Context context = getContext();
-            if (position == 0 && context != null) {
-                recyclerView.scrollBy(0, Utils.dpToPx(context, -30));
+            if(isAdded()) {
+                adapter.notifyItemRangeInserted(position, count);
+                Context context = getContext();
+                if (position == 0 && context != null) {
+                    recyclerView.scrollBy(0, Utils.dpToPx(context, -30));
+                }
             }
         }
 
