@@ -38,6 +38,7 @@ public final class ProgressImageView extends AppCompatImageView {
     private Paint circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint clearPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint markPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint markBgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     public ProgressImageView(Context context) {
         super(context);
@@ -61,10 +62,14 @@ public final class ProgressImageView extends AppCompatImageView {
 
         clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
 
-        markPaint.setColor(ContextCompat.getColor(getContext(), R.color.description_marker_unselected));
+        markPaint.setColor(ContextCompat.getColor(getContext(), R.color.md_white_1000));
         markPaint.setStyle(Paint.Style.STROKE);
-        markPaint.setStrokeWidth(Utils.dpToPx(getContext(), 4));
+        markPaint.setTextSize(Utils.dpToPx(getContext(), 16));
         markPaint.setStrokeCap(Paint.Cap.ROUND);
+
+        markBgPaint.setStyle(Paint.Style.FILL);
+        markBgPaint.setColor(ContextCompat.getColor(getContext(),
+                R.color.description_marker_unselected));
     }
 
     public void setProgress(int progress) {
@@ -78,7 +83,8 @@ public final class ProgressImageView extends AppCompatImageView {
     }
 
     public void setChecked(boolean checked) {
-        this.markPaint.setColor(ContextCompat.getColor(getContext(), checked ? R.color.colorPrimary : R.color.description_marker_unselected));
+        this.markBgPaint.setColor(ContextCompat.getColor(getContext(),
+                checked ? R.color.colorPrimary : R.color.description_marker_unselected));
         invalidate();
     }
 
@@ -100,18 +106,17 @@ public final class ProgressImageView extends AppCompatImageView {
         }
         canvas.restore();
 
-        int markWidth = Utils.dpToPx(getContext(), 16);
-        int markMargin = Utils.dpToPx(getContext(), 6);
-        int leftMarkPointX = canvas.getWidth() - markMargin - markWidth;
-        int leftMarkPointY = canvas.getHeight() - markMargin - (markWidth / 2);
+        int markWidth = Utils.dpToPx(getContext(), 14);
+        int circleMargin = Utils.dpToPx(getContext(), 14);
 
-        int bottomPointX = leftMarkPointX + (markWidth / 2);
-        int bottomPointY = canvas.getHeight() - markMargin;
-        canvas.drawLine(leftMarkPointX, leftMarkPointY, bottomPointX, bottomPointY, markPaint);
+        int circleY = canvas.getHeight() - circleMargin - markWidth / 2;
+        int circleX = canvas.getWidth() - circleMargin - markWidth / 2;
 
-        int rightPointX = canvas.getWidth() - markMargin;
-        int rightPointY = canvas.getHeight() - markWidth - markMargin;
+        canvas.drawCircle(circleX, circleY, markWidth, markBgPaint);
 
-        canvas.drawLine(bottomPointX, bottomPointY, rightPointX, rightPointY, markPaint);
+        canvas.drawText("A"
+                , circleX - markPaint.measureText("A") / 2,
+                circleY + markPaint.getTextSize() / 2.6f,
+                markPaint);
     }
 }
