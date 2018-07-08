@@ -79,16 +79,20 @@ class AccountMediaFragment : BaseFragment(), Injectable {
     private val callback = object : Callback<List<Status>> {
         override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
-            swipe_refresh_layout.isRefreshing = false
-            progress_bar.visibility = View.GONE
+            if(isAdded) {
+                swipe_refresh_layout.isRefreshing = false
+                progress_bar.visibility = View.GONE
+            }
 
             Log.d(TAG, "Failed to fetch account media", t)
         }
 
         override fun onResponse(call: Call<List<Status>>, response: Response<List<Status>>) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
-            swipe_refresh_layout.isRefreshing = false
-            progress_bar.visibility = View.GONE
+            if(isAdded) {
+                swipe_refresh_layout.isRefreshing = false
+                progress_bar.visibility = View.GONE
+            }
             val body = response.body()
             body?.let { fetched ->
                 statuses.addAll(0, fetched)
@@ -221,6 +225,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             }/* Intentionally do nothing. This case is here is to handle when new attachment
                  * types are added to the API before code is added here to handle them. So, the
                  * best fallback is to just show the preview and ignore requests to view them. */
+
         }
     }
 
