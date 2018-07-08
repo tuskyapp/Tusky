@@ -119,6 +119,8 @@ public final class ViewThreadFragment extends SFragment implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        thisThreadsStatusId = getArguments().getString("id");
+
         adapter = new ThreadAdapter(this);
     }
 
@@ -179,7 +181,6 @@ public final class ViewThreadFragment extends SFragment implements
         recyclerView.setAdapter(adapter);
 
         statuses.clear();
-        thisThreadsStatusId = null;
 
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
@@ -190,7 +191,6 @@ public final class ViewThreadFragment extends SFragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        thisThreadsStatusId = getArguments().getString("id");
         onRefresh();
     }
 
@@ -598,7 +598,7 @@ public final class ViewThreadFragment extends SFragment implements
         Status eventStatus = event.getStatus();
         if (eventStatus.getInReplyToId() == null) return;
 
-        if (eventStatus.getInReplyToId().equals(statuses.get(statusIndex).getId())) {
+        if (eventStatus.getInReplyToId().equals(thisThreadsStatusId)) {
             insertStatus(eventStatus, statuses.size());
         } else {
             // If new status is a reply to some status in the thread, insert new status after it
