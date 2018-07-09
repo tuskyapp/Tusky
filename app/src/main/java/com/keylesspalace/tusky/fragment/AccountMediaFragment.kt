@@ -36,6 +36,7 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.SquareImageView
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.squareup.picasso.Picasso
@@ -92,17 +93,18 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             if(isAdded) {
                 swipe_refresh_layout.isRefreshing = false
                 progress_bar.visibility = View.GONE
-            }
-            val body = response.body()
-            body?.let { fetched ->
-                statuses.addAll(0, fetched)
-                // flatMap requires iterable but I don't want to box each array into list
-                val result = mutableListOf<AttachmentViewData>()
-                for (status in fetched) {
-                    result.addAll(AttachmentViewData.list(status))
+
+                val body = response.body()
+                body?.let { fetched ->
+                    statuses.addAll(0, fetched)
+                    // flatMap requires iterable but I don't want to box each array into list
+                    val result = mutableListOf<AttachmentViewData>()
+                    for (status in fetched) {
+                        result.addAll(AttachmentViewData.list(status))
+                    }
+                    adapter.addTop(result)
+                    nothing_message.visible(statuses.isEmpty())
                 }
-                adapter.addTop(result)
-                nothing_message.visibility = if (statuses.isEmpty()) View.VISIBLE else View.GONE
             }
         }
     }
