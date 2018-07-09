@@ -1,4 +1,5 @@
 <resources>
+
     <string name="error_generic">Er deed zich een fout voor.</string>
     <string name="error_empty">Dit mag niet leeg zijn.</string>
     <string name="error_invalid_domain">Ongeldige domeinnaam ingevoerd</string>
@@ -19,14 +20,14 @@
     <string name="error_invalid_regex">Ongeldige reguliere uitdrukking</string>
     <string name="error_sender_account_gone">Fout tijdens verzenden toot</string>
 
-    <string name="title_home">Home</string>
+    <string name="title_home">Start</string>
     <string name="title_advanced">Gevorderd</string>
     <string name="title_notifications">Notificaties</string>
     <string name="title_public_local">Lokaal</string>
     <string name="title_public_federated">Federated</string>
     <string name="title_view_thread">Toot</string>
     <string name="title_tag">#%s</string>
-    <string name="title_statuses">Posts</string>
+    <string name="title_statuses">Toots</string>
     <string name="title_statuses_with_replies">Met reacties</string>
     <string name="title_follows">Volgen</string>
     <string name="title_followers">Volgers</string>
@@ -38,7 +39,7 @@
     <string name="title_saved_toot">Concepten</string>
     <string name="title_licenses">Licenties</string>
 
-    <string name="status_username_format">\@%s</string>
+    <string name="status_username_format">\\@%s</string>
     <string name="status_boosted_format">%s boostte</string>
     <string name="status_sensitive_media_title">Gevoelige inhoud</string>
     <string name="status_media_hidden_title">Verborgen media</string>
@@ -135,10 +136,13 @@
 
     <string name="login_connection">Aan het verbinden</string>
 
-    <string name="dialog_whats_an_instance">Het adres of domein van elke Mastodonserver kan hier worden ingevoerd, zoals mastodon.social, mastodon.nl, octodon.social en <a href="https://instances.social">nog veel meer!</a>
-        \n\nWanneer je nog geen account hebt, kun je de naam van de Mastodon-server waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken.\n\nEen Mastodonserver (Engels: instance) is een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten.
-        \n\nMeer informatie kun je vinden op <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
+    <string name="dialog_whats_an_instance">Het adres of domein van elke Mastodonserver kan hier worden ingevoerd, zoals mastodon.social, mastodon.nl, octodon.social en <a href="https://instances.social" >nog veel meer!</a>         \n
+    \n
+    Wanneer je nog geen account hebt, kun je de naam van de Mastodon-server waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken.\n
+    \n
+    Een Mastodonserver (Engels: instance) is een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten.         \n
+    \n
+    Meer informatie kun je vinden op <a href="https://joinmastodon.org" >joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Uploaden media bijna voltooid</string>
     <string name="dialog_message_uploading_media">Aan het uploaden</string>
     <string name="dialog_download_image">Download</string>
@@ -154,7 +158,7 @@
     <string name="pref_title_edit_notification_settings">Meldingen bewerken</string>
     <string name="pref_title_notifications_enabled">Meldingen</string>
     <string name="pref_summary_notifications">voor account %1$s</string>
-    <string name="pref_title_pull_notification_check_interval">Controlefrequentie </string>
+    <string name="pref_title_pull_notification_check_interval">Controlefrequentie</string>
     <string name="pref_title_notification_alerts">Waarschuwen met</string>
     <string name="pref_title_notification_alert_sound">geluid</string>
     <string name="pref_title_notification_alert_vibrate">trillen</string>
@@ -162,8 +166,8 @@
     <string name="pref_title_notification_filters">Waarschuw mij wanneer</string>
     <string name="pref_title_notification_filter_mentions">ik word vermeld</string>
     <string name="pref_title_notification_filter_follows">ik word gevolgd</string>
-    <string name="pref_title_notification_filter_reblogs">mijn toots worden geboost</string>
-    <string name="pref_title_notification_filter_favourites">mijn toots als favoriet worden gemarkeerd</string>
+    <string name="pref_title_notification_filter_reblogs">mijn toots werden geboost</string>
+    <string name="pref_title_notification_filter_favourites">mijn toots werden als favoriet gemarkeerd</string>
     <string name="pref_title_appearance_settings">Uiterlijk</string>
     <string name="pref_title_app_theme">Thema</string>
 
@@ -212,10 +216,16 @@
     <string name="about_title_activity">Over</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tusky is opensource- en vrije software. De licentie valt onder de GNU Algemene Publieke Licentie versie 3. Je kunt de licentie hier bekijken: https://www.gnu.org/licenses/gpl-3.0.nl.html</string>
+    <!-- note to translators:
+         * you should think of “free” as in “free speech,” not as in “free beer”.
+           We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
+           to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
+         * the url can be changed to link to the localized version of the license.
+    -->
     <string name="about_project_site">Projectwebsite:\n
-               https://tuskyapp.github.io</string>
+                    https://tuskyapp.github.io</string>
     <string name="about_bug_feature_request_site">Foutmeldingen &amp; nieuwe functies aanvragen:\n
-               https://github.com/tuskyapp/Tusky/issues</string>
+                    https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tusky\'s profiel</string>
 
     <string name="status_share_content">Deel de inhoud van de toot</string>
