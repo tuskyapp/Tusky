@@ -201,11 +201,27 @@ class ComposeActivityTest {
     }
 
     @Test
-    fun whenTextContainsUrl_onlyEllipsizedURLIsCountedAgainstCharacterLimit() {
+    fun whenTextContainsNoUrl_everyCharacterIsCounted() {
+        val content = "This is test content please ignore thx "
+        insertSomeTextInContent(content)
+        Assert.assertEquals(activity.calculateTextLength(), content.length)
+    }
+
+    @Test
+    fun whenTextContainsUrl_onlyEllipsizedURLIsCounted() {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = "Check out this @image #search result: "
         insertSomeTextInContent(additionalContent + url)
-        Assert.assertEquals(activity.calculateRemainingCharacters(), activity.maximumTootCharacters - additionalContent.length - ComposeActivity.MAXIMUM_URL_LENGTH)
+        Assert.assertEquals(activity.calculateTextLength(), additionalContent.length + ComposeActivity.MAXIMUM_URL_LENGTH)
+    }
+
+    @Test
+    fun whenTextContainsMultipleUrls_onlyEllipsizedURLIsCounted() {
+        val shortUrl = "https://tusky.app"
+        val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
+        val additionalContent = " Check out this @image #search result: "
+        insertSomeTextInContent(shortUrl + additionalContent + url)
+        Assert.assertEquals(activity.calculateTextLength(), additionalContent.length + shortUrl.length + ComposeActivity.MAXIMUM_URL_LENGTH)
     }
 
     @Test
@@ -213,8 +229,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = " Check out this @image #search result: "
         insertSomeTextInContent(url + additionalContent + url)
-        Assert.assertEquals(activity.calculateRemainingCharacters(),
-               activity.maximumTootCharacters - additionalContent.length - (ComposeActivity.MAXIMUM_URL_LENGTH * 2))
+        Assert.assertEquals(activity.calculateTextLength(), additionalContent.length + (ComposeActivity.MAXIMUM_URL_LENGTH * 2))
     }
 
     private fun clickUp() {

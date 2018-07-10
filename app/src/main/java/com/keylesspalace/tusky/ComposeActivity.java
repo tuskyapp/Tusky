@@ -772,7 +772,7 @@ public final class ComposeActivity
         setStatusVisibility(visibility);
     }
 
-    int calculateRemainingCharacters() {
+    int calculateTextLength() {
         int offset = 0;
         URLSpan[] urlSpans = textEditor.getUrls();
         if (urlSpans != null) {
@@ -780,15 +780,15 @@ public final class ComposeActivity
                 offset += Math.max(0, span.getURL().length() - MAXIMUM_URL_LENGTH);
             }
         }
-        int remaining = maximumTootCharacters - textEditor.length() + offset;
+        int length = textEditor.length() - offset;
         if (statusHideText) {
-            remaining -= contentWarningEditor.length();
+            length += contentWarningEditor.length();
         }
-        return remaining;
+        return length;
     }
 
     private void updateVisibleCharactersLeft() {
-        this.charactersLeft.setText(String.format(Locale.getDefault(), "%d", calculateRemainingCharacters()));
+        this.charactersLeft.setText(String.format(Locale.getDefault(), "%d", maximumTootCharacters - calculateTextLength()));
     }
 
     private void onContentWarningChanged() {
@@ -925,15 +925,13 @@ public final class ComposeActivity
     }
 
     private void onReadySuccess(Status.Visibility visibility, boolean sensitive) {
-        /* Validate the status meets the character limit. This has to be delayed until after all
-         * uploads finish because their links are added when the upload succeeds and that affects
-         * whether the limit is met or not. */
+        /* Validate the status meets the character limit. */
         String contentText = textEditor.getText().toString();
         String spoilerText = "";
         if (statusHideText) {
             spoilerText = contentWarningEditor.getText().toString();
         }
-        int characterCount = contentText.length() + spoilerText.length();
+        int characterCount = calculateTextLength();
         if (characterCount <= 0 && mediaQueued.size()==0) {
             textEditor.setError(getString(R.string.error_empty));
             enableButtons();
