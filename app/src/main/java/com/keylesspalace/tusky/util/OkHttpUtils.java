@@ -92,7 +92,7 @@ public class OkHttpUtils {
         specList.add(fallback);
         specList.add(ConnectionSpec.CLEARTEXT);
 
-        int cacheSize = 10*1024*1024; // 10 MiB
+        int cacheSize = 25*1024*1024; // 25 MiB
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .addInterceptor(getUserAgentInterceptor())
