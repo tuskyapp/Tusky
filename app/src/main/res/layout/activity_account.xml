@@ -269,6 +269,7 @@
             android:background="?android:colorBackground"
             app:tabGravity="fill"
             app:tabIndicatorHeight="3dp"
+            app:tabMaxWidth="0dp"
             app:tabSelectedTextColor="?attr/colorAccent"
             app:tabTextAppearance="@style/TuskyTabAppearance" />
 
