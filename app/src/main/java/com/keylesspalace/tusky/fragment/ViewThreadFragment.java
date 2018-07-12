@@ -125,28 +125,6 @@ public final class ViewThreadFragment extends SFragment implements
     }
 
     @Override
-    public void onPostCreate() {
-        super.onPostCreate();
-
-        eventHub.getEvents()
-                .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-                .subscribe(event -> {
-                    if (event instanceof FavoriteEvent) {
-                        handleFavEvent((FavoriteEvent) event);
-                    } else if (event instanceof ReblogEvent) {
-                        handleReblogEvent((ReblogEvent) event);
-                    } else if (event instanceof BlockEvent) {
-                        removeAllByAccountId(((BlockEvent) event).getAccountId());
-                    } else if (event instanceof StatusComposedEvent) {
-                        handleStatusComposedEvent((StatusComposedEvent) event);
-                    } else if (event instanceof StatusDeletedEvent) {
-                        handleStatusDeletedEvent((StatusDeletedEvent) event);
-                    }
-                });
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_view_thread, container, false);
@@ -192,6 +170,23 @@ public final class ViewThreadFragment extends SFragment implements
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         onRefresh();
+
+        eventHub.getEvents()
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(event -> {
+                    if (event instanceof FavoriteEvent) {
+                        handleFavEvent((FavoriteEvent) event);
+                    } else if (event instanceof ReblogEvent) {
+                        handleReblogEvent((ReblogEvent) event);
+                    } else if (event instanceof BlockEvent) {
+                        removeAllByAccountId(((BlockEvent) event).getAccountId());
+                    } else if (event instanceof StatusComposedEvent) {
+                        handleStatusComposedEvent((StatusComposedEvent) event);
+                    } else if (event instanceof StatusDeletedEvent) {
+                        handleStatusDeletedEvent((StatusDeletedEvent) event);
+                    }
+                });
     }
 
     public void onRevealPressed() {

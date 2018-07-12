@@ -293,47 +293,6 @@ public class TimelineFragment extends SFragment implements
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void onPostCreate() {
-        super.onPostCreate();
-
-        eventHub.getEvents()
-                .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-                .subscribe(event -> {
-                    if (event instanceof FavoriteEvent) {
-                        FavoriteEvent favEvent = ((FavoriteEvent) event);
-                        handleFavEvent(favEvent);
-                    } else if (event instanceof ReblogEvent) {
-                        ReblogEvent reblogEvent = (ReblogEvent) event;
-                        handleReblogEvent(reblogEvent);
-                    } else if (event instanceof UnfollowEvent) {
-                        if (kind == Kind.HOME) {
-                            String id = ((UnfollowEvent) event).getAccountId();
-                            removeAllByAccountId(id);
-                        }
-                    } else if (event instanceof BlockEvent) {
-                        if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
-                            String id = ((BlockEvent) event).getAccountId();
-                            removeAllByAccountId(id);
-                        }
-                    } else if (event instanceof MuteEvent) {
-                        if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
-                            String id = ((MuteEvent) event).getAccountId();
-                            removeAllByAccountId(id);
-                        }
-                    } else if (event instanceof StatusDeletedEvent) {
-                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
-                                String id = ((StatusDeletedEvent) event).getStatusId();
-                                deleteStatusById(id);
-                            }
-                    } else if (event instanceof StatusComposedEvent) {
-                        Status status = ((StatusComposedEvent) event).getStatus();
-                        handleStatusComposeEvent(status);
-                    }
-                });
-    }
-
     private void deleteStatusById(String id) {
         for (int i = 0; i < statuses.size(); i++) {
             Either<Placeholder, Status> either = statuses.get(i);
@@ -414,6 +373,42 @@ public class TimelineFragment extends SFragment implements
             };
         }
         recyclerView.addOnScrollListener(scrollListener);
+
+        eventHub.getEvents()
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(event -> {
+                    if (event instanceof FavoriteEvent) {
+                        FavoriteEvent favEvent = ((FavoriteEvent) event);
+                        handleFavEvent(favEvent);
+                    } else if (event instanceof ReblogEvent) {
+                        ReblogEvent reblogEvent = (ReblogEvent) event;
+                        handleReblogEvent(reblogEvent);
+                    } else if (event instanceof UnfollowEvent) {
+                        if (kind == Kind.HOME) {
+                            String id = ((UnfollowEvent) event).getAccountId();
+                            removeAllByAccountId(id);
+                        }
+                    } else if (event instanceof BlockEvent) {
+                        if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
+                            String id = ((BlockEvent) event).getAccountId();
+                            removeAllByAccountId(id);
+                        }
+                    } else if (event instanceof MuteEvent) {
+                        if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
+                            String id = ((MuteEvent) event).getAccountId();
+                            removeAllByAccountId(id);
+                        }
+                    } else if (event instanceof StatusDeletedEvent) {
+                        if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
+                            String id = ((StatusDeletedEvent) event).getStatusId();
+                            deleteStatusById(id);
+                        }
+                    } else if (event instanceof StatusComposedEvent) {
+                        Status status = ((StatusComposedEvent) event).getStatus();
+                        handleStatusComposeEvent(status);
+                    }
+                });
     }
 
     @Override
