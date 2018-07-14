@@ -296,7 +296,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountUsernameTextView.text = usernameFormatted
             accountDisplayNameTextView.text = CustomEmojiHelper.emojifyString(account.name, account.emojis, accountDisplayNameTextView)
             if (supportActionBar != null) {
-                supportActionBar?.title = EmojiCompat.get().process(account.name)
+                try {
+                    supportActionBar?.title = EmojiCompat.get().process(account.name)
+                } catch (e: IllegalStateException) {
+                    supportActionBar?.title = account.name
+                }
 
                 val subtitle = String.format(getString(R.string.status_username_format),
                         account.username)
