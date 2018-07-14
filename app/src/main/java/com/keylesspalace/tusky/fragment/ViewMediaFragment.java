@@ -209,6 +209,7 @@ public final class ViewMediaFragment extends BaseFragment {
         Picasso.with(getContext())
                 .load(url)
                 .noPlaceholder()
+                .networkPolicy(NetworkPolicy.NO_STORE)
                 .into(photoView, new Callback() {
                     @Override
                     public void onSuccess() {
