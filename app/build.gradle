@@ -3,6 +3,15 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+def getGitSha = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short' , 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
 android {
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
@@ -21,8 +30,15 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug {
+        debug { }
+    }
+
+    flavorDimensions "color"
+    productFlavors {
+        blue { }
+        green {
             applicationIdSuffix ".test"
+            versionNameSuffix "-"+getGitSha()
         }
     }
 
