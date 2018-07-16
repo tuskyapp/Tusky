@@ -20,6 +20,10 @@ Tusky is a beautiful Android client for [Mastodon](https://github.com/tootsuite/
 - Optimized for all screen sizes
 - Completely open-source - no non-free dependencies like Google services
 
+### Testing
+
+The nightly build from master is [available on Google Play](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky.test). 
+
 ### Support
 
 If you have any bug reports, feature requests or questions please open an issue or send us a toot at [Tusky@mastodon.social](https://mastodon.social/@Tusky)!
