@@ -22,14 +22,14 @@
 
     <string name="title_home">Start</string>
     <string name="title_advanced">Gevorderd</string>
-    <string name="title_notifications">Notificaties</string>
+    <string name="title_notifications">Meldingen</string>
     <string name="title_public_local">Lokaal</string>
-    <string name="title_public_federated">Federated</string>
+    <string name="title_public_federated">Globaal</string>
     <string name="title_view_thread">Toot</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Toots</string>
     <string name="title_statuses_with_replies">Met reacties</string>
-    <string name="title_follows">Volgt</string>
+    <string name="title_follows">Volgend</string>
     <string name="title_followers">Volgers</string>
     <string name="title_favourites">Favorieten</string>
     <string name="title_mutes">Genegeerde gebruikers</string>
@@ -39,7 +39,7 @@
     <string name="title_saved_toot">Concepten</string>
     <string name="title_licenses">Licenties</string>
 
-    <string name="status_username_format">\\@%s</string>
+    <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boostte</string>
     <string name="status_sensitive_media_title">Gevoelige inhoud</string>
     <string name="status_media_hidden_title">Verborgen media</string>
@@ -86,7 +86,7 @@
     <string name="action_view_media">Media</string>
     <string name="action_open_in_web">Open in webbrowser</string>
     <string name="action_add_media">Media toevoegen</string>
-    <string name="action_photo_take">Foto of video maken</string>
+    <string name="action_photo_take">Foto maken</string>
     <string name="action_share">Delen</string>
     <string name="action_mute">Negeren</string>
     <string name="action_unmute">Niet langer negeren</string>
@@ -116,11 +116,11 @@
     <string name="confirmation_unblocked">Gebruiker is gedeblokkeerd</string>
     <string name="confirmation_unmuted">Gebruiker wordt niet langer genegeerd</string>
 
-    <string name="status_sent">Verzenden!</string>
+    <string name="status_sent">Verzonden!</string>
     <string name="status_sent_long">Reactie succesvol verzonden.</string>
 
     <string name="hint_domain">Welke Mastodonserver?</string>
-    <string name="hint_compose">Wat wil je kwijt</string>
+    <string name="hint_compose">Wat wil je kwijt?</string>
     <string name="hint_content_warning">Waarschuwingstekst</string>
     <string name="hint_display_name">Weergavenaam</string>
     <string name="hint_note">Bio</string>
@@ -138,7 +138,7 @@
 
     <string name="dialog_whats_an_instance">Het adres of domein van elke Mastodonserver kan hier worden ingevoerd, zoals mastodon.social, mastodon.nl, octodon.social en <a href="https://instances.social" >nog veel meer!</a>         \n
     \n
-    Wanneer je nog geen account hebt, kun je de naam van de Mastodon-server waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken.\n
+    Wanneer je nog geen account hebt, kun je de naam van de Mastodonserver waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken.\n
     \n
     Een Mastodonserver (Engels: instance) is een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten.         \n
     \n
@@ -167,13 +167,18 @@
     <string name="pref_title_notification_filter_mentions">ik word vermeld</string>
     <string name="pref_title_notification_filter_follows">ik word gevolgd</string>
     <string name="pref_title_notification_filter_reblogs">mijn toots werden geboost</string>
-    <string name="pref_title_notification_filter_favourites">mijn toots werden als favoriet gemarkeerd</string>
+    <string name="pref_title_notification_filter_favourites">mijn toots als favoriet werden gemarkeerd</string>
     <string name="pref_title_appearance_settings">Uiterlijk</string>
     <string name="pref_title_app_theme">Thema</string>
 
+    <string-array name="app_theme_names">
+        <item>Donker</item>
+        <item>Licht</item>
+        <item>Automatisch tijdens zonsondergang</item>
+    </string-array>
 
     <string name="pref_title_browser_settings">Webbrowser</string>
-    <string name="pref_title_custom_tabs">Gebruik Chrome aangepaste tabbladen</string>
+    <string name="pref_title_custom_tabs">Aangepaste tabbladen gebruiken</string>
     <string name="pref_title_hide_follow_button">Verberg volgknop tijdens scrollen</string>
     <string name="pref_title_status_filter">Filteren</string>
     <string name="pref_title_status_tabs">Tijdlijnen</string>
@@ -187,13 +192,34 @@
     <string name="pref_title_http_proxy_server">Serveradres van HTTP-proxy</string>
     <string name="pref_title_http_proxy_port">Poort van HTTP-proxy</string>
 
+    <string-array name="pull_notification_check_interval_names">
+        <item>15 minuten</item>
+        <item>20 minuten</item>
+        <item>25 minuten</item>
+        <item>30 minuten</item>
+        <item>45 minuten</item>
+        <item>1 uur</item>
+        <item>2 uur</item>
+    </string-array>
 
     <string name="pref_default_post_privacy">Standaardzichtbaarheid van jouw toots</string>
     <string name="pref_publishing">Publiceren</string>
 
+    <string-array name="post_privacy_names">
+        <item>Openbaar: op openbare tijdlijnen tonen</item>
+        <item>Minder openbaar</item>
+        <item>Alleen volgers</item>
+    </string-array>
 
     <string name="pref_status_text_size">Tekstgrootte van toots</string>
 
+    <string-array name="status_text_size_names">
+        <item>Kleinst</item>
+        <item>Klein</item>
+        <item>Standaard</item>
+        <item>Groot</item>
+        <item>Grootst</item>
+    </string-array>
 
     <string name="notification_channel_mention_name">Nieuwe vermeldingen</string>
     <string name="notification_channel_mention_descriptions">Meldingen over nieuwe vermeldingen</string>
@@ -256,7 +282,7 @@
     <string name="load_more_placeholder_text">meer laden</string>
 
     <string name="add_account_name">Account toevoegen</string>
-    <string name="add_account_description">Een nieuw Mastodon-account toevoegen</string>
+    <string name="add_account_description">Een nieuw Mastodonaccount toevoegen</string>
 
     <string name="action_lists">Lijsten</string>
     <string name="title_lists">Lijsten</string>
@@ -271,7 +297,7 @@
     <string name="lock_account_label">Account besloten maken</string>
     <string name="lock_account_label_description">Handmatige goedkeuring vereist voor volgers</string>
     <string name="compose_save_draft">Concept bewaren?</string>
-    <string name="send_toot_notification_title">Toot aan het verzenden...</string>
+    <string name="send_toot_notification_title">Toot aan het verzenden…</string>
     <string name="send_toot_notification_error_title">Verzenden van toot mislukt</string>
     <string name="send_toot_notification_channel_name">Toots aan het verzenden</string>
     <string name="send_toot_notification_cancel_title">Verzenden geannuleerd</string>
@@ -279,8 +305,8 @@
     <string name="action_compose_shortcut">Toot schrijven</string>
 
     <string name="error_no_custom_emojis">Jouw server %s heeft geen lokale emojis</string>
-    <string name="copy_to_clipboard_success">Gekopieerd naar het klembord</string>
-    <string name="emoji_style">Emoji-stijl</string>
+    <string name="copy_to_clipboard_success">Naar het klembord gekopieerd</string>
+    <string name="emoji_style">Emojistijl</string>
     <string name="system_default">Systeemstandaard</string>
     <string name="download_fonts">Je moet eerst deze emoji-sets downloaden</string>
     <string name="performing_lookup_title">Aan het zoeken…</string>
@@ -290,9 +316,9 @@
     <string name="restart_emoji">Je moet Tusky herstarten om deze veranderingen te kunnen doorvoeren</string>
     <string name="later">Later</string>
     <string name="restart">Herstarten</string>
-    <string name="caption_systememoji">Standaard emoji-set van jouw apparaat</string>
+    <string name="caption_systememoji">Standaard emojiset van jouw apparaat</string>
     <string name="caption_blobmoji">De Blob-emojis van Android 4.4–7.1</string>
-    <string name="caption_twemoji">Standaard emoji-set van Mastodon</string>
+    <string name="caption_twemoji">Standaard emojiset van Mastodon</string>
 
     <string name="download_failed">Downloaden mislukt</string>
 
@@ -307,3 +333,4 @@
     <string name="license_cc_by_4">CC-BY 4.0</string>
 
 </resources>
+
