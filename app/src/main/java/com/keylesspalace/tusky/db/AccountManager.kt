@@ -57,7 +57,7 @@ class AccountManager(db: AppDatabase) {
             accountDao.insertOrReplace(it)
         }
 
-        activeAccount = AccountEntity(id = 0, domain = domain, accessToken = accessToken, isActive = true)
+        activeAccount = AccountEntity(id = 0, domain = domain.toLowerCase(), accessToken = accessToken, isActive = true)
 
     }
 
