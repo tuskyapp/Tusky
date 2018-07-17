@@ -206,7 +206,7 @@
     <string name="pref_publishing">Publiceren</string>
 
     <string-array name="post_privacy_names">
-        <item>Openbaar: op openbare tijdlijnen tonen</item>
+        <item>Openbaar</item>
         <item>Minder openbaar</item>
         <item>Alleen volgers</item>
     </string-array>
