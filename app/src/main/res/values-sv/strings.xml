@@ -1,5 +1,4 @@
-
-<!-- File "app/src/main/res/values-sv/strings.xml" --> 
+<!-- File "app/src/main/res/values-sv/strings.xml" -->
 <resources>
 
     <string name="error_generic">Ett fel inträffade.</string>
@@ -9,7 +8,7 @@
     <string name="error_no_web_browser_found">Det gick inte att hitta en webbläsare.</string>
     <string name="error_authorization_unknown">Ett oidentifierat behörighetsfel inträffade.</string>
     <string name="error_authorization_denied">Ingen behörighet.</string>
-    <string name="error_retrieving_oauth_token">Misslyckades med att få ett inloggnings-token.</string>
+    <string name="error_retrieving_oauth_token">Misslyckades med att få en inloggnings-token.</string>
     <string name="error_compose_character_limit">Statusen är för lång!</string>
     <string name="error_media_upload_size">Filen måste vara mindre än 8MB.</string>
     <string name="error_media_upload_type">Den typen av fil kan inte laddas upp.</string>
@@ -25,11 +24,12 @@
     <string name="title_home">Hem</string>
     <string name="title_advanced">Avancerat</string>
     <string name="title_notifications">Notifikationer</string>
-    <string name="title_public_local">Lokal</string>
+    <string name="title_public_local">Offentlig</string>
     <string name="title_public_federated">Federerat</string>
     <string name="title_view_thread">Toot</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Inlägg</string>
+    <string name="title_statuses_with_replies">Med svar</string>
     <string name="title_follows">Följer</string>
     <string name="title_followers">Följare</string>
     <string name="title_favourites">Favoriter</string>
@@ -38,9 +38,10 @@
     <string name="title_follow_requests">Följarförfrågningar</string>
     <string name="title_edit_profile">Ändra din profil</string>
     <string name="title_saved_toot">Utkast</string>
+    <string name="title_licenses">Licenser</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s boostad</string>
+    <string name="status_boosted_format">%s boostade</string>
     <string name="status_sensitive_media_title">Känsligt innehåll</string>
     <string name="status_media_hidden_title">Dold media</string>
     <string name="status_sensitive_media_directions">Klicka för att se</string>
@@ -69,6 +70,8 @@
     <string name="action_unfollow">Avfölj</string>
     <string name="action_block">Blockera</string>
     <string name="action_unblock">Avblockera</string>
+    <string name="action_hide_reblogs">Dölj boosts</string>
+    <string name="action_show_reblogs">Visa boosts</string>
     <string name="action_report">Rapportera</string>
     <string name="action_delete">Radera</string>
     <string name="action_send">TOOT</string>
@@ -80,7 +83,7 @@
     <string name="action_view_favourites">Favoriter</string>
     <string name="action_view_mutes">Tystade användare</string>
     <string name="action_view_blocks">Blockerade användare</string>
-    <string name="action_view_follow_requests">Följförfrågningar</string>
+    <string name="action_view_follow_requests">Följarförfrågningar</string>
     <string name="action_view_media">Media</string>
     <string name="action_open_in_web">Öppna i webbläsare</string>
     <string name="action_add_media">Lägg till media</string>
@@ -93,6 +96,7 @@
     <string name="action_open_drawer">Öppna låda</string>
     <string name="action_save">Spara</string>
     <string name="action_edit_profile">Redigera profil</string>
+    <string name="action_edit_own_profile">Redigera</string>
     <string name="action_undo">Ångra</string>
     <string name="action_accept">Acceptera</string>
     <string name="action_reject">Avvisa</string>
@@ -134,16 +138,17 @@
     <string name="login_connection">Ansluter...</string>
 
     <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och <a href="https://instances.social"> mer! </a>\n
-  \n
-  Om du inte har något konto kan du ange namnet på instansen du vill ansluta till och skapa ett konto där.\n
-  \n
-  En instans är en plats där ditt konto finns, men du kan enkelt kommunicera med och följa andra personer på andra instanser, som om du var på samma sajt.\n
-  \n
-  Mer information finns på \n
-  <a href="https://joinmastodon.org"> joinmastodon.org </a>.</string>
+      \n
+      Om du inte har något konto kan du ange namnet på instansen du vill ansluta till och skapa ett konto där.\n
+      \n
+      En instans är en plats där ditt konto finns, men du kan enkelt kommunicera med och följa andra personer på andra instanser, som om du var på samma sajt.\n
+      \n
+      Mer information finns på \n
+      <a href="https://joinmastodon.org" > joinmastodon.org </a>.</string>
     <string name="dialog_title_finishing_media_upload">Uppladdning av media</string>
     <string name="dialog_message_uploading_media">Laddar upp...</string>
     <string name="dialog_download_image">Ladda ned</string>
+    <string name="dialog_message_cancel_follow_request">Återkalla följningsförfrågan?</string>
     <string name="dialog_unfollow_warning">Avfölja detta konto?</string>
 
     <string name="visibility_public">Offentlig: Skicka till offentliga tidslinjer</string>
@@ -212,7 +217,7 @@
 
     <string name="about_title_activity">Om</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky är gratis och programvara med öppen källkod. Det är licensierat under GNU General Public License version 3. Du kan visa licensen här: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Tusky är fri programvara med öppen källkod. Det är licensierat under GNU General Public License version 3. Du kan läsa licensen här: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -220,9 +225,9 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">Tuskys webbsida:\n
-                       https://tuskyapp.github.io</string>
+                           https://tuskyapp.github.io</string>
     <string name="about_bug_feature_request_site">Buggrapporter &amp; funktionsförslag:\n
-                       https://github.com/tuskyapp/Tusky/issues</string>
+                           https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tusky\'s Profil</string>
 
     <string name="status_share_content">Dela innehåll av toot</string>
@@ -292,7 +297,15 @@
     <string name="caption_twemoji">Mastodon\'s standard emojis</string>
 
     <string name="download_failed">Nedladdning misslyckad</string>
-    <string name="reblog_private">Boost till original publik</string>
+
+    <string name="profile_badge_bot_text">Bot</string>
+    <string name="account_moved_description">%1$s har flyttat till:</string>
+
+    <string name="reblog_private">Boosta till original publik</string>
     <string name="unreblog_private">Avboosta</string>
+
+    <string name="license_description">Tusky innehåller kod och tillgångar från följande öppen källkodsprojekt:</string>
+    <string name="license_apache_2">Licensenserad under the Apache License (copy below)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
 
 </resources>
