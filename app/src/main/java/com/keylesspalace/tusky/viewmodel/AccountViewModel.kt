@@ -83,7 +83,8 @@ class AccountViewModel  @Inject constructor(
     }
 
     fun changeFollowState(id: String) {
-        if (relationshipData.value?.data?.following == true) {
+        val relationship = relationshipData.value?.data
+        if (relationship?.following == true || relationship?.requested == true) {
             changeRelationship(RelationShipAction.UNFOLLOW, id)
         } else {
             changeRelationship(RelationShipAction.FOLLOW, id)
