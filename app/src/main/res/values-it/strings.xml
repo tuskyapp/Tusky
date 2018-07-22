@@ -39,7 +39,7 @@
     <string name="title_saved_toot">Bozze</string>
     <string name="title_licenses">Licenze</string>
 
-    <string name="status_username_format">\\@%s</string>
+    <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boostato</string>
     <string name="status_sensitive_media_title">Contenuto sensibile</string>
     <string name="status_media_hidden_title">Media nascosto</string>
