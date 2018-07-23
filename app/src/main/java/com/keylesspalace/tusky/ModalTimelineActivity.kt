@@ -5,20 +5,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
-import android.widget.FrameLayout
 import com.keylesspalace.tusky.fragment.TimelineFragment
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
 class ModalTimelineActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportFragmentInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
     companion object {
         private const val ARG_KIND = "kind"
@@ -34,15 +30,13 @@ class ModalTimelineActivity : BottomSheetActivity(), ActionButtonActivity, HasSu
         }
 
     }
-
-    lateinit var contentFrame: FrameLayout
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_modal_timeline)
-        contentFrame = findViewById(R.id.content_frame)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         val bar = supportActionBar
         if (bar != null) {
@@ -51,18 +45,17 @@ class ModalTimelineActivity : BottomSheetActivity(), ActionButtonActivity, HasSu
             bar.setDisplayShowHomeEnabled(true)
         }
 
-        if (supportFragmentManager.findFragmentById(R.id.content_frame) == null) {
+        if (supportFragmentManager.findFragmentById(R.id.contentFrame) == null) {
             val kind = intent?.getSerializableExtra(ARG_KIND) as? TimelineFragment.Kind
                     ?: TimelineFragment.Kind.HOME
             val argument = intent?.getStringExtra(ARG_ARG)
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, TimelineFragment.newInstance(kind, argument))
+                    .replace(R.id.contentFrame, TimelineFragment.newInstance(kind, argument))
                     .commit()
         }
     }
 
     override fun getActionButton(): FloatingActionButton? = null
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {

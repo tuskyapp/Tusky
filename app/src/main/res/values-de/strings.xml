@@ -301,7 +301,7 @@
     <string name="unreblog_private">nicht mehr teilen</string>
 
     <string name="license_description">Tusky enthält Code und Inhalte von den folgenden Open-Source-Projekten:</string>
-    <string name="license_apache_2">Lizensiert unter der Apache-Lizenz (s. u.)</string>
+    <string name="license_apache_2">Lizenziert unter der Apache-Lizenz (s. u.)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="action_open_toot">Beitrag öffnen</string>
     <string name="action_hide_reblogs">Geteilte Beiträge verbergen</string>
