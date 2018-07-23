@@ -27,6 +27,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -39,7 +40,6 @@ import android.util.Log;
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Notification;
@@ -316,7 +316,7 @@ public class NotificationHelper {
                 PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    public static void createNotificationChannelsForAccount(AccountEntity account, Context context) {
+    public static void createNotificationChannelsForAccount(@NonNull AccountEntity account, @NonNull Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -368,7 +368,7 @@ public class NotificationHelper {
         }
     }
 
-    public static void deleteNotificationChannelsForAccount(AccountEntity account, Context context) {
+    public static void deleteNotificationChannelsForAccount(@NonNull AccountEntity account, @NonNull Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -379,7 +379,7 @@ public class NotificationHelper {
         }
     }
 
-    public static void deleteLegacyNotificationChannels(Context context, AccountManager accountManager) {
+    public static void deleteLegacyNotificationChannels(@NonNull Context context, @NonNull AccountManager accountManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -398,7 +398,7 @@ public class NotificationHelper {
         }
     }
 
-    public static boolean areNotificationsEnabled(Context context) {
+    public static boolean areNotificationsEnabled(@NonNull Context context, @NonNull AccountManager accountManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             // on Android >= O, notifications are enabled, if at least one channel is enabled
@@ -419,15 +419,12 @@ public class NotificationHelper {
 
         } else {
             // on Android < O, notifications are enabled, if at least one account has notification enabled
-            return TuskyApplication.getInstance(context).getServiceLocator()
-                    .get(AccountManager.class).areNotificationsEnabled();
+            return accountManager.areNotificationsEnabled();
         }
 
     }
 
-    public static void clearNotificationsForActiveAccount(Context context) {
-        AccountManager accountManager = TuskyApplication.getInstance(context).getServiceLocator()
-                .get(AccountManager.class);
+    public static void clearNotificationsForActiveAccount(@NonNull Context context, @NonNull AccountManager accountManager) {
         AccountEntity account = accountManager.getActiveAccount();
         if (account != null) {
             account.setActiveNotifications("[]");

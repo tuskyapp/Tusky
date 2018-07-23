@@ -74,5 +74,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesDatabase(app: TuskyApplication): AppDatabase = TuskyApplication.getDB()
+    fun providesDatabase(app: TuskyApplication): AppDatabase {
+        return app.serviceLocator.get(AppDatabase::class.java)
+    }
 }

@@ -44,8 +44,6 @@ import dagger.android.HasServiceInjector;
 import okhttp3.OkHttpClient;
 
 public class TuskyApplication extends Application implements HasActivityInjector, HasServiceInjector, HasBroadcastReceiverInjector {
-    private static AppDatabase db;
-    private AccountManager accountManager;
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
     @Inject
@@ -54,33 +52,36 @@ public class TuskyApplication extends Application implements HasActivityInjector
     DispatchingAndroidInjector<BroadcastReceiver> dispatchingBroadcastReceiverInjector;
     @Inject
     NotificationPullJobCreator notificationPullJobCreator;
-    @Inject OkHttpClient okHttpClient;
+    @Inject
+    OkHttpClient okHttpClient;
 
-    public static AppDatabase getDB() {
-        return db;
-    }
+    private AppDatabase appDatabase;
+    private AccountManager accountManager;
+
+    private ServiceLocator serviceLocator;
 
     public static TuskyApplication getInstance(@NonNull Context context) {
         return (TuskyApplication) context.getApplicationContext();
     }
 
-    private ServiceLocator serviceLocator;
-
     @Override
     public void onCreate() {
         super.onCreate();
 
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
+        appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
                 .allowMainThreadQueries()
                 .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5, AppDatabase.MIGRATION_5_6, AppDatabase.MIGRATION_6_7)
                 .build();
-        accountManager = new AccountManager(db);
+        accountManager = new AccountManager(appDatabase);
         serviceLocator = new ServiceLocator() {
             @Override
             public <T> T get(Class<T> clazz) {
                 if (clazz.equals(AccountManager.class)) {
                     //noinspection unchecked
                     return (T) accountManager;
+                } else if (clazz.equals(AppDatabase.class)) {
+                    //noinspection unchecked
+                    return (T) appDatabase;
                 } else {
                     throw new IllegalArgumentException("Unknown service " + clazz);
                 }
