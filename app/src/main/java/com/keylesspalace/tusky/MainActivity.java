@@ -185,7 +185,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                 tintTab(tab, true);
 
                 if (tab.getPosition() == 1) {
-                    NotificationHelper.clearNotificationsForActiveAccount(MainActivity.this);
+                    NotificationHelper.clearNotificationsForActiveAccount(MainActivity.this, accountManager);
                 }
             }
 
@@ -204,7 +204,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         }
 
         // Setup push notifications
-        if (NotificationHelper.areNotificationsEnabled(this)) {
+        if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
             enablePushNotifications();
         } else {
             disablePushNotifications();
@@ -217,7 +217,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     protected void onResume() {
         super.onResume();
 
-        NotificationHelper.clearNotificationsForActiveAccount(this);
+        NotificationHelper.clearNotificationsForActiveAccount(this, accountManager);
 
         /* After editing a profile, the profile header in the navigation drawer needs to be
          * refreshed */
@@ -433,7 +433,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
                         AccountEntity newAccount = accountManager.logActiveAccountOut();
 
-                        if (!NotificationHelper.areNotificationsEnabled(MainActivity.this))
+                        if (!NotificationHelper.areNotificationsEnabled(MainActivity.this, accountManager))
                             disablePushNotifications();
 
                         Intent intent;
