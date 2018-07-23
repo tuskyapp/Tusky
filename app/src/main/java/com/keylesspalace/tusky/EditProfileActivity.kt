@@ -36,6 +36,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.IOUtils
+import com.keylesspalace.tusky.util.MediaUtils
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_edit_profile.*
@@ -446,23 +447,9 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
         override fun doInBackground(vararg uris: Uri): Boolean? {
             val uri = uris[0]
-            val inputStream: InputStream?
-            try {
-                inputStream = contentResolver.openInputStream(uri)
-            } catch (e: FileNotFoundException) {
-                Log.d(TAG, Log.getStackTraceString(e))
-                return false
-            }
 
-            val sourceBitmap: Bitmap?
-            try {
-                sourceBitmap = BitmapFactory.decodeStream(inputStream, null, null)
-            } catch (error: OutOfMemoryError) {
-                Log.d(TAG, Log.getStackTraceString(error))
-                return false
-            } finally {
-                IOUtils.closeQuietly(inputStream)
-            }
+            val sourceBitmap = MediaUtils.getSampledBitmap(contentResolver, uri, resizeWidth, resizeHeight)
+
             if (sourceBitmap == null) {
                 return false
             }

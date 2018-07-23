@@ -131,21 +131,6 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
         return orientation;
     }
 
-    private static int calculateInSampleSize(int width, int height, int requiredScale) {
-        int inSampleSize = 1;
-        if (height > requiredScale || width > requiredScale) {
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-            /* Calculate the largest inSampleSize value that is a power of 2 and keeps both height
-             * and width larger than the requested height and width. */
-            while (halfHeight / inSampleSize >= requiredScale
-                    && halfWidth / inSampleSize >= requiredScale) {
-                inSampleSize *= 2;
-            }
-        }
-        return inSampleSize;
-    }
-
     @Override
     protected Boolean doInBackground(Uri... uris) {
         resultList = new ArrayList<>();
@@ -160,8 +145,6 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeStream(inputStream, null, options);
-            int beforeWidth = options.outWidth;
-            int beforeHeight = options.outHeight;
             IOUtils.closeQuietly(inputStream);
             // Get EXIF data, for orientation info.
             int orientation = getOrientation(uri, contentResolver);
@@ -180,8 +163,7 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
                 } catch (FileNotFoundException e) {
                     return false;
                 }
-                options.inSampleSize = calculateInSampleSize(beforeWidth, beforeHeight,
-                        scaledImageSize);
+                options.inSampleSize = MediaUtils.calculateInSampleSize(options, scaledImageSize, scaledImageSize);
                 options.inJustDecodeBounds = false;
                 Bitmap scaledBitmap;
                 try {
