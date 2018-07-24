@@ -146,8 +146,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         val intent = intent
         accountId = intent.getStringExtra(KEY_ACCOUNT_ID)
 
-        loadedAccount = null
-
         // set toolbar top margin according to system window insets
         ViewCompat.setOnApplyWindowInsetsListener(accountCoordinatorLayout) { _, insets ->
             val top = insets.systemWindowInsetTop
@@ -322,11 +320,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                     .load(account.header)
                     .into(accountHeaderImageView)
 
-            accountAvatarImageView.setOnClickListener {
-                val intent = ViewMediaActivity.newAvatarIntent(it.context, account.avatar)
+            accountAvatarImageView.setOnClickListener { avatarView ->
+                val intent = ViewMediaActivity.newAvatarIntent(avatarView.context, account.avatar)
 
-                ViewCompat.setTransitionName(it, account.avatar)
-                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this@AccountActivity, it, account.avatar)
+                ViewCompat.setTransitionName(avatarView, account.avatar)
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, avatarView, account.avatar)
 
                 startActivity(intent, options.toBundle())
             }
