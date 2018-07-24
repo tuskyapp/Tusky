@@ -49,8 +49,8 @@ jobs:
             keytool -genkey -v -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android -keyalg RSA -dname "C=US, O=Android, CN=Android Debug"
             /opt/android/sdk/build-tools/27.0.3/apksigner sign --ks debug.keystore --out app-release.apk --ks-pass pass:android app-release-aligned.apk
       - store_artifacts:
-          path: app-release.apk
-          destination: app-release.apk
+          path: app-blue-release.apk
+          destination: app-blue-release.apk
 workflows:
   version: 2
   test-and-build:
