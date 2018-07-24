@@ -35,6 +35,7 @@
     <string-array name="app_theme_values">
         <item>night</item>
         <item>day</item>
+        <item>black</item>
         <item>auto</item>
     </string-array>
 

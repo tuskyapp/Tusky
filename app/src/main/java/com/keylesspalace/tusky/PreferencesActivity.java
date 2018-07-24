@@ -24,6 +24,7 @@ import android.support.annotation.StringRes;
 import android.support.annotation.XmlRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.keylesspalace.tusky.fragment.PreferencesFragment;
@@ -105,6 +106,7 @@ public class PreferencesActivity extends BaseActivity
         switch (key) {
             case "appTheme": {
                 String theme = sharedPreferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
+                Log.d("activeTheme", theme);
                 ThemeUtils.setAppNightMode(theme, this);
                 restartActivitiesOnExit = true;
 
