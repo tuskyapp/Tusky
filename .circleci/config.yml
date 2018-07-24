@@ -44,7 +44,7 @@ jobs:
       - run:
           name: Build apk
           command: |
-            ./gradlew assembleRelease --no-daemon --stacktrace
+            ./gradlew assembleBlueRelease --no-daemon --stacktrace
             /opt/android/sdk/build-tools/27.0.3/zipalign -v -p 4 app/build/outputs/apk/release/app-release-unsigned.apk app-release-aligned.apk
             keytool -genkey -v -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android -keyalg RSA -dname "C=US, O=Android, CN=Android Debug"
             /opt/android/sdk/build-tools/27.0.3/apksigner sign --ks debug.keystore --out app-release.apk --ks-pass pass:android app-release-aligned.apk
