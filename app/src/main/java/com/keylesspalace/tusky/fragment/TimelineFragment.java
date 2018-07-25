@@ -723,7 +723,7 @@ public class TimelineFragment extends SFragment implements
         switch (kind) {
             default:
             case HOME:
-                return api.homeTimeline(fromId, uptoId, null);
+                return api.homeTimeline(fromId, uptoId, LOAD_AT_ONCE);
             case PUBLIC_FEDERATED:
                 return api.publicTimeline(null, fromId, uptoId, LOAD_AT_ONCE);
             case PUBLIC_LOCAL:
