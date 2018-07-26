@@ -31,6 +31,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcel;
@@ -494,6 +495,11 @@ public final class ComposeActivity
             startingText = builder.toString();
             textEditor.setText(startingText);
             textEditor.setSelection(textEditor.length());
+        }
+
+        // work around Android platform bug -> https://issuetracker.google.com/issues/67102093
+        if(Build.VERSION.SDK_INT == Build.VERSION_CODES.O || Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1 ) {
+            textEditor.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
 
         // Initialise the content warning editor.
