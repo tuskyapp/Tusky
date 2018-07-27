@@ -164,6 +164,7 @@
     <string-array name="app_theme_names">
         <item>Oscuro</item>
         <item>Claro</item>
+        <item>Negro</item>
         <item>Automático</item>
     </string-array>
 

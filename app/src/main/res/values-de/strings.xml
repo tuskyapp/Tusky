@@ -165,6 +165,7 @@
     <string-array name="app_theme_names">
         <item>Dunkel</item>
         <item>Hell</item>
+        <item>Schwarz</item>
         <item>Automatisch bei Sonnenuntergang</item>
     </string-array>
 

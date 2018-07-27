@@ -172,6 +172,7 @@
     <string-array name="app_theme_names">
         <item>Тёмная</item>
         <item>Светлая</item>
+        <item>Черный</item>
         <item>Автоматическая (по времени)</item>
     </string-array>
 
