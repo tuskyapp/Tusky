@@ -63,8 +63,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         Log.d("activeTheme", theme);
         if (theme.equals("black")) {
             setTheme(R.style.TuskyBlackTheme);
-        } else {
-            setTheme(R.style.TuskyTheme);
         }
         ThemeUtils.setAppNightMode(theme, this);
 

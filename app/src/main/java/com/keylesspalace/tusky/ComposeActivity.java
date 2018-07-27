@@ -215,6 +215,11 @@ public final class ComposeActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
+        if (theme.equals("black")) {
+            setTheme(R.style.TuskyDialogActivityBlackTheme);
+        }
         setContentView(R.layout.activity_compose);
 
         replyTextView = findViewById(R.id.composeReplyView);
@@ -380,7 +385,6 @@ public final class ComposeActivity
         if (intent != null) {
 
             if (startingVisibility == Status.Visibility.UNKNOWN) {
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
                 Status.Visibility preferredVisibility = Status.Visibility.byString(
                         preferences.getString("defaultPostPrivacy",
                                 Status.Visibility.PUBLIC.serverString()));

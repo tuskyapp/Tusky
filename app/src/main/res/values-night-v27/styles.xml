@@ -10,6 +10,5 @@
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase">
         <item name="android:navigationBarColor">@color/window_background_black</item>
         <item name="android:navigationBarDividerColor">@color/window_background_black</item>
-        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 </resources>
