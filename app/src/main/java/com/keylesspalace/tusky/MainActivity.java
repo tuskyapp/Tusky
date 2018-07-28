@@ -499,11 +499,11 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         List<AccountEntity> allAccounts = accountManager.getAllAccountsOrderedByActive();
 
-        //remove profiles before adding them again to avoid duplicates
-        List<IProfile> profiles = new ArrayList<>(headerResult.getProfiles());
-        for (IProfile profile : profiles) {
-            if (profile.getIdentifier() != DRAWER_ITEM_ADD_ACCOUNT) {
-                headerResult.removeProfile(profile);
+        // reuse the already existing "add account" item
+        List<IProfile> profiles = new ArrayList<>(allAccounts.size()+1);
+        for (IProfile profile: headerResult.getProfiles()) {
+            if (profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT) {
+                profiles.add(profile);
             }
         }
 
@@ -511,7 +511,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
             CharSequence emojifiedName = CustomEmojiHelper.emojifyString(acc.getDisplayName(), acc.getEmojis(), headerResult.getView());
             emojifiedName = EmojiCompat.get().process(emojifiedName);
 
-            headerResult.addProfiles(
+            profiles.add(
                     new ProfileDrawerItem()
                             .withName(emojifiedName)
                             .withIcon(acc.getProfilePictureUrl())
@@ -520,6 +520,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                             .withEmail(acc.getFullName()));
 
         }
+        headerResult.setProfiles(profiles);
 
     }
 
