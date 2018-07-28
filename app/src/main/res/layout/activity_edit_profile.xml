@@ -53,7 +53,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="-40dp">
 
-                <com.pkmmte.view.CircularImageView
+                <ImageView
                     android:id="@+id/avatarPreview"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -65,7 +65,7 @@
                     android:layout_height="80dp"
                     android:background="@drawable/round_button"
                     android:contentDescription="@string/label_avatar"
-                    android:elevation="4dp"
+                    android:elevation="40dp"
                     app:srcCompat="@drawable/ic_add_a_photo_32dp" />
 
                 <ProgressBar

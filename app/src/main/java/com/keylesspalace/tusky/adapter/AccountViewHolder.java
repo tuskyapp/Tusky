@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.keylesspalace.tusky.R;
@@ -10,14 +11,14 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
-import com.pkmmte.view.CircularImageView;
+import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
 class AccountViewHolder extends RecyclerView.ViewHolder {
     private View container;
     private TextView username;
     private TextView displayName;
-    private CircularImageView avatar;
+    private ImageView avatar;
     private String accountId;
 
     AccountViewHolder(View itemView) {
@@ -38,6 +39,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
         Context context = avatar.getContext();
         Picasso.with(context)
                 .load(account.getAvatar())
+                .transform(new RoundedTransformation(25))
                 .placeholder(R.drawable.avatar_default)
                 .into(avatar);
     }

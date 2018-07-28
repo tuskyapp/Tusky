@@ -21,13 +21,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
-import com.pkmmte.view.CircularImageView;
+import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
 public class BlocksAdapter extends AccountAdapter {
@@ -78,7 +79,7 @@ public class BlocksAdapter extends AccountAdapter {
     }
 
     static class BlockedUserViewHolder extends RecyclerView.ViewHolder {
-        private CircularImageView avatar;
+        private ImageView avatar;
         private TextView username;
         private TextView displayName;
         private ImageButton unblock;
@@ -101,6 +102,7 @@ public class BlocksAdapter extends AccountAdapter {
             username.setText(formattedUsername);
             Picasso.with(avatar.getContext())
                     .load(account.getAvatar())
+                    .transform(new RoundedTransformation(25))
                     .placeholder(R.drawable.avatar_default)
                     .into(avatar);
         }
