@@ -37,6 +37,7 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.IOUtils
 import com.keylesspalace.tusky.util.MediaUtils
+import com.keylesspalace.tusky.view.RoundedTransformation
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_edit_profile.*
@@ -81,6 +82,8 @@ class EditProfileActivity : BaseActivity(), Injectable {
     private var avatarChanged: Boolean = false
     private var headerChanged: Boolean = false
 
+    private val roundedTransformation = RoundedTransformation(25f)
+
     @Inject
     lateinit var mastodonApi: MastodonApi
 
@@ -112,7 +115,8 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
             if (avatarChanged) {
                 val avatar = BitmapFactory.decodeFile(getCacheFileForName(AVATAR_FILE_NAME).absolutePath)
-                avatarPreview.setImageBitmap(avatar)
+                val roundAvatar = roundedTransformation.transform(avatar)
+                avatarPreview.setImageBitmap(roundAvatar)
             }
             if (headerChanged) {
                 val header = BitmapFactory.decodeFile(getCacheFileForName(HEADER_FILE_NAME).absolutePath)
@@ -150,6 +154,8 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 if (!avatarChanged) {
                     Picasso.with(avatarPreview.context)
                             .load(me.avatar)
+                            .transform(roundedTransformation)
+                            .transform(RoundedTransformation(25f))
                             .placeholder(R.drawable.avatar_default)
                             .into(avatarPreview)
                 }
@@ -403,7 +409,8 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 endMediaPicking()
                 when (pickType) {
                     EditProfileActivity.PickType.AVATAR -> {
-                        avatarPreview.setImageBitmap(resizedImage)
+                        val roundAvatar = roundedTransformation.transform(resizedImage)
+                        avatarPreview.setImageBitmap(roundAvatar)
                         avatarPreview.visibility = View.VISIBLE
                         avatarButton.setImageResource(R.drawable.ic_add_a_photo_32dp)
                         avatarChanged = true
