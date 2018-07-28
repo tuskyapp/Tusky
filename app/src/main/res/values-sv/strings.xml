@@ -41,7 +41,7 @@
     <string name="title_licenses">Licenser</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s boostade</string>
+    <string name="status_boosted_format">%s knuffade</string>
     <string name="status_sensitive_media_title">Känsligt innehåll</string>
     <string name="status_media_hidden_title">Dold media</string>
     <string name="status_sensitive_media_directions">Klicka för att se</string>
@@ -50,7 +50,7 @@
 
     <string name="footer_empty">Inget här. Dra ner för att uppdatera!</string>
 
-    <string name="notification_reblog_format">%s boostade din toot</string>
+    <string name="notification_reblog_format">%s knuffade din toot</string>
     <string name="notification_favourite_format">%s favoriserade din toot</string>
     <string name="notification_follow_format">%s följer dig</string>
 
@@ -59,7 +59,7 @@
 
     <string name="action_quick_reply">Snabbsvar</string>
     <string name="action_reply">Svara</string>
-    <string name="action_reblog">Boost</string>
+    <string name="action_reblog">Knuffa</string>
     <string name="action_favourite">Favorit</string>
     <string name="action_more">Mer</string>
     <string name="action_compose">Skriva</string>
@@ -70,8 +70,8 @@
     <string name="action_unfollow">Avfölj</string>
     <string name="action_block">Blockera</string>
     <string name="action_unblock">Avblockera</string>
-    <string name="action_hide_reblogs">Dölj boosts</string>
-    <string name="action_show_reblogs">Visa boosts</string>
+    <string name="action_hide_reblogs">Dölj knuffar</string>
+    <string name="action_show_reblogs">Visa knuffar</string>
     <string name="action_report">Rapportera</string>
     <string name="action_delete">Radera</string>
     <string name="action_send">TOOT</string>
