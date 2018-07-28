@@ -23,8 +23,8 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.support.v4.text.BidiFormatter;
+import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -46,7 +46,6 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
-import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
@@ -291,7 +290,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 Picasso.with(context)
                         .load(account.getAvatar())
                         .fit()
-                        .transform(new RoundedTransformation(25))
                         .placeholder(R.drawable.avatar_default)
                         .into(avatar);
             }
@@ -454,7 +452,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 Picasso.with(context)
                         .load(statusAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
-                        .transform(new RoundedTransformation(25))
                         .into(statusAvatar);
             }
 
@@ -465,7 +462,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                         .load(notificationAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
                         .fit()
-                        .transform(new RoundedTransformation(25))
                         .into(notificationAvatar);
             }
         }

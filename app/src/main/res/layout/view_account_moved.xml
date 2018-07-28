@@ -15,7 +15,7 @@
         android:textSize="?attr/status_text_medium"
         tools:text="Account has moved" />
 
-    <ImageView
+    <com.keylesspalace.tusky.view.RoundedImageView
         android:id="@+id/accountMovedAvatar"
         android:layout_width="48dp"
         android:layout_height="48dp"

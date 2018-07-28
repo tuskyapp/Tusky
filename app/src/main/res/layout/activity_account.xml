@@ -301,7 +301,7 @@
 
     <include layout="@layout/item_status_bottom_sheet" />
 
-    <ImageView
+    <com.keylesspalace.tusky.view.RoundedImageView
         android:id="@+id/accountAvatarImageView"
         android:layout_width="@dimen/account_activity_avatar_size"
         android:layout_height="@dimen/account_activity_avatar_size"
@@ -312,5 +312,4 @@
         app:layout_anchorGravity="top"
         app:layout_scrollFlags="scroll"
         app:srcCompat="@drawable/avatar_default" />
-
 </android.support.design.widget.CoordinatorLayout>

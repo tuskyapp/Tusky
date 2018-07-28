@@ -13,7 +13,7 @@
         android:layout_marginBottom="8dp"
         android:background="@android:color/transparent">
 
-        <ImageView
+        <com.keylesspalace.tusky.view.RoundedImageView
             android:id="@+id/composeAvatar"
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
