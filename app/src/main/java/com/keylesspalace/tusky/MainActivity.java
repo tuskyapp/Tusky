@@ -511,7 +511,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
             CharSequence emojifiedName = CustomEmojiHelper.emojifyString(acc.getDisplayName(), acc.getEmojis(), headerResult.getView());
             emojifiedName = EmojiCompat.get().process(emojifiedName);
 
-            profiles.add(
+            profiles.add(0,
                     new ProfileDrawerItem()
                             .withName(emojifiedName)
                             .withIcon(acc.getProfilePictureUrl())
