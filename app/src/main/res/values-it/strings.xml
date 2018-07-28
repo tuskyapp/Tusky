@@ -170,6 +170,11 @@
     <string name="pref_title_appearance_settings">Aspetto</string>
     <string name="pref_title_app_theme">Tema dell\'app</string>
 
+<string-array name="app_theme_names">
+        <item>Scuro</item>
+        <item>Chiaro</item>
+        <item>Automatico al tramonto</item>
+</string-array>
 
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Usa Tab Personalizzate di Chrome</string>
@@ -186,12 +191,34 @@
     <string name="pref_title_http_proxy_server">Server proxy HTTP</string>
     <string name="pref_title_http_proxy_port">Porta proxy HTTP</string>
 
+<string-array name="pull_notification_check_interval_names">
+        <item>15 minuti</item>
+        <item>20 minuti</item>
+        <item>25 minuti</item>
+        <item>30 minuti</item>
+        <item>45 minuti</item>
+        <item>1 ora</item>
+        <item>2 ore</item>
+</string-array>
 
     <string name="pref_default_post_privacy">Privacy di default dei post</string>
     <string name="pref_publishing">Pubblicando</string>
 
+<string-array name="post_privacy_names">
+        <item>Publico</item>
+        <item>Non elencato</item>
+        <item>Solo Follower</item>
+</string-array>
 
     <string name="pref_status_text_size">Dimensione del testo dello stato</string>
+
+<string-array name="status_text_size_names">
+        <item>Piccolissimo</item>
+        <item>Piccolo</item>
+        <item>Normale</item>
+        <item>Grande</item>
+        <item>Grandissimo</item>
+</string-array>
 
 
     <string name="notification_channel_mention_name">Nuove Menzioni</string>
