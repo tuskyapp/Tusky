@@ -22,8 +22,11 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
@@ -33,12 +36,12 @@ import at.connyduck.sparkbutton.helpers.Utils;
 public final class ProgressImageView extends AppCompatImageView {
 
     private int progress = -1;
-    private RectF progressRect = new RectF();
-    private RectF biggerRect = new RectF();
-    private Paint circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Paint clearPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Paint markPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Paint markBgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final RectF progressRect = new RectF();
+    private final RectF biggerRect = new RectF();
+    private final Paint circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint clearPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint markBgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Drawable captionDrawable;
 
     public ProgressImageView(Context context) {
         super(context);
@@ -62,14 +65,10 @@ public final class ProgressImageView extends AppCompatImageView {
 
         clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
 
-        markPaint.setColor(ContextCompat.getColor(getContext(), R.color.md_white_1000));
-        markPaint.setStyle(Paint.Style.STROKE);
-        markPaint.setTextSize(Utils.dpToPx(getContext(), 16));
-        markPaint.setStrokeCap(Paint.Cap.ROUND);
-
         markBgPaint.setStyle(Paint.Style.FILL);
         markBgPaint.setColor(ContextCompat.getColor(getContext(),
                 R.color.description_marker_unselected));
+        captionDrawable = AppCompatResources.getDrawable(getContext(), R.drawable.spellcheck);
     }
 
     public void setProgress(int progress) {
@@ -106,17 +105,19 @@ public final class ProgressImageView extends AppCompatImageView {
         }
         canvas.restore();
 
-        int markWidth = Utils.dpToPx(getContext(), 14);
+        int circleRadius = Utils.dpToPx(getContext(), 14);
         int circleMargin = Utils.dpToPx(getContext(), 14);
 
-        int circleY = canvas.getHeight() - circleMargin - markWidth / 2;
-        int circleX = canvas.getWidth() - circleMargin - markWidth / 2;
+        int circleY = canvas.getHeight() - circleMargin - circleRadius / 2;
+        int circleX = canvas.getWidth() - circleMargin - circleRadius / 2;
 
-        canvas.drawCircle(circleX, circleY, markWidth, markBgPaint);
+        canvas.drawCircle(circleX, circleY, circleRadius, markBgPaint);
 
-        canvas.drawText("A"
-                , circleX - markPaint.measureText("A") / 2,
-                circleY + markPaint.getTextSize() / 2.6f,
-                markPaint);
+        captionDrawable.setBounds(canvas.getWidth() - circleMargin - circleRadius,
+                canvas.getHeight() - circleMargin - circleRadius,
+                canvas.getWidth() - circleMargin,
+                canvas.getHeight() - circleMargin);
+        DrawableCompat.setTint(captionDrawable, Color.WHITE);
+        captionDrawable.draw(canvas);
     }
 }
