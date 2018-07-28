@@ -26,6 +26,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.text.emoji.EmojiCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -39,6 +40,7 @@ import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
+import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.NotificationHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -506,9 +508,12 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         }
 
         for (AccountEntity acc : allAccounts) {
+            CharSequence emojifiedName = CustomEmojiHelper.emojifyString(acc.getDisplayName(), acc.getEmojis(), headerResult.getView());
+            emojifiedName = EmojiCompat.get().process(emojifiedName);
+
             headerResult.addProfiles(
                     new ProfileDrawerItem()
-                            .withName(acc.getDisplayName())
+                            .withName(emojifiedName)
                             .withIcon(acc.getProfilePictureUrl())
                             .withNameShown(true)
                             .withIdentifier(acc.getId())
