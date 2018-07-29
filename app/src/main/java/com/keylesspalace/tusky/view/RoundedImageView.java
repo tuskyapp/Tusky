@@ -34,17 +34,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewOutlineProvider;
-
-import at.connyduck.sparkbutton.helpers.Utils;
 
 public class RoundedImageView extends AppCompatImageView {
 
@@ -56,6 +51,7 @@ public class RoundedImageView extends AppCompatImageView {
     private static final int DEFAULT_BORDER_WIDTH = 0;
     private static final int DEFAULT_BORDER_COLOR = Color.BLACK;
     private static final int DEFAULT_CIRCLE_BACKGROUND_COLOR = Color.TRANSPARENT;
+    private static float ROUNDED_PERCENT = 25;
 
     private final RectF mDrawableRect = new RectF();
     private final RectF mBorderRect = new RectF();
@@ -65,8 +61,6 @@ public class RoundedImageView extends AppCompatImageView {
     private final Paint mBorderPaint = new Paint();
     private final Paint mCircleBackgroundPaint = new Paint();
 
-    private int mBorderColor = DEFAULT_BORDER_COLOR;
-    private int mBorderWidth = DEFAULT_BORDER_WIDTH;
     private int mCircleBackgroundColor = DEFAULT_CIRCLE_BACKGROUND_COLOR;
 
     private Bitmap mBitmap;
@@ -81,9 +75,6 @@ public class RoundedImageView extends AppCompatImageView {
 
     private boolean mReady;
     private boolean mSetupPending;
-    private boolean mBorderOverlay;
-    private boolean mDisableCircularTransformation;
-    private float roundedPercent = 25;
 
     public RoundedImageView(Context context) {
         super(context);
@@ -136,10 +127,6 @@ public class RoundedImageView extends AppCompatImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (mDisableCircularTransformation) {
-            super.onDraw(canvas);
-            return;
-        }
 
         if (mBitmap == null) {
             return;
@@ -150,9 +137,6 @@ public class RoundedImageView extends AppCompatImageView {
                     mCircleBackgroundPaint);
         }
         canvas.drawRoundRect(mDrawableRect, mDrawableRadius, mDrawableRadius, mBitmapPaint);
-        if (mBorderWidth > 0) {
-            canvas.drawRoundRect(mBorderRect, mDrawableRadius, mBorderRadius, mBorderPaint);
-        }
     }
 
     @Override
@@ -171,116 +155,6 @@ public class RoundedImageView extends AppCompatImageView {
     public void setPaddingRelative(int start, int top, int end, int bottom) {
         super.setPaddingRelative(start, top, end, bottom);
         setup();
-    }
-
-    public int getBorderColor() {
-        return mBorderColor;
-    }
-
-    public void setBorderColor(@ColorInt int borderColor) {
-        if (borderColor == mBorderColor) {
-            return;
-        }
-
-        mBorderColor = borderColor;
-        mBorderPaint.setColor(mBorderColor);
-        invalidate();
-    }
-
-    public int getCircleBackgroundColor() {
-        return mCircleBackgroundColor;
-    }
-
-    public void setCircleBackgroundColor(@ColorInt int circleBackgroundColor) {
-        if (circleBackgroundColor == mCircleBackgroundColor) {
-            return;
-        }
-
-        mCircleBackgroundColor = circleBackgroundColor;
-        mCircleBackgroundPaint.setColor(circleBackgroundColor);
-        invalidate();
-    }
-
-    public void setCircleBackgroundColorResource(@ColorRes int circleBackgroundRes) {
-        setCircleBackgroundColor(getContext().getResources().getColor(circleBackgroundRes));
-    }
-
-    /**
-     * Return the color drawn behind the circle-shaped drawable.
-     *
-     * @return The color drawn behind the drawable
-     *
-     * @deprecated Use {@link #getCircleBackgroundColor()} instead.
-     */
-    @Deprecated
-    public int getFillColor() {
-        return getCircleBackgroundColor();
-    }
-
-    /**
-     * Set a color to be drawn behind the circle-shaped drawable. Note that
-     * this has no effect if the drawable is opaque or no drawable is set.
-     *
-     * @param fillColor The color to be drawn behind the drawable
-     *
-     * @deprecated Use {@link #setCircleBackgroundColor(int)} instead.
-     */
-    @Deprecated
-    public void setFillColor(@ColorInt int fillColor) {
-        setCircleBackgroundColor(fillColor);
-    }
-
-    /**
-     * Set a color to be drawn behind the circle-shaped drawable. Note that
-     * this has no effect if the drawable is opaque or no drawable is set.
-     *
-     * @param fillColorRes The color resource to be resolved to a color and
-     *                     drawn behind the drawable
-     *
-     * @deprecated Use {@link #setCircleBackgroundColorResource(int)} instead.
-     */
-    @Deprecated
-    public void setFillColorResource(@ColorRes int fillColorRes) {
-        setCircleBackgroundColorResource(fillColorRes);
-    }
-
-    public int getBorderWidth() {
-        return mBorderWidth;
-    }
-
-    public void setBorderWidth(int borderWidth) {
-        if (borderWidth == mBorderWidth) {
-            return;
-        }
-
-        mBorderWidth = borderWidth;
-        setup();
-    }
-
-    public boolean isBorderOverlay() {
-        return mBorderOverlay;
-    }
-
-    public void setBorderOverlay(boolean borderOverlay) {
-        if (borderOverlay == mBorderOverlay) {
-            return;
-        }
-
-        mBorderOverlay = borderOverlay;
-        setup();
-    }
-
-    public boolean isDisableCircularTransformation() {
-        return mDisableCircularTransformation;
-    }
-
-    public void setDisableCircularTransformation(boolean disableCircularTransformation) {
-        if (mDisableCircularTransformation == disableCircularTransformation) {
-            return;
-        }
-
-        mDisableCircularTransformation = disableCircularTransformation;
-        initializeBitmap();
     }
 
     @Override
@@ -358,11 +232,7 @@ public class RoundedImageView extends AppCompatImageView {
     }
 
     private void initializeBitmap() {
-        if (mDisableCircularTransformation) {
-            mBitmap = null;
-        } else {
-            mBitmap = getBitmapFromDrawable(getDrawable());
-        }
+        mBitmap = getBitmapFromDrawable(getDrawable());
         setup();
     }
 
@@ -388,8 +258,8 @@ public class RoundedImageView extends AppCompatImageView {
 
         mBorderPaint.setStyle(Paint.Style.STROKE);
         mBorderPaint.setAntiAlias(true);
-        mBorderPaint.setColor(mBorderColor);
-        mBorderPaint.setStrokeWidth(mBorderWidth);
+        mBorderPaint.setColor(DEFAULT_BORDER_COLOR);
+        mBorderPaint.setStrokeWidth(DEFAULT_BORDER_WIDTH);
 
         mCircleBackgroundPaint.setStyle(Paint.Style.FILL);
         mCircleBackgroundPaint.setAntiAlias(true);
@@ -401,15 +271,12 @@ public class RoundedImageView extends AppCompatImageView {
         mBorderRect.set(calculateBounds());
 
         float shorterSideBorder = Math.min(mBorderRect.width(), mBorderRect.height());
-        mBorderRadius = shorterSideBorder / 2 * roundedPercent / 100;
+        mBorderRadius = shorterSideBorder / 2 * ROUNDED_PERCENT / 100;
 
         mDrawableRect.set(mBorderRect);
-        if (!mBorderOverlay && mBorderWidth > 0) {
-            mDrawableRect.inset(mBorderWidth - 1.0f, mBorderWidth - 1.0f);
-        }
 
         float shorterSide = Math.min(mDrawableRect.width(), mDrawableRect.height());
-        mDrawableRadius = shorterSide / 2 * roundedPercent / 100;
+        mDrawableRadius = shorterSide / 2 * ROUNDED_PERCENT / 100;
 
 
         applyColorFilter();
@@ -418,7 +285,7 @@ public class RoundedImageView extends AppCompatImageView {
     }
 
     private RectF calculateBounds() {
-        int availableWidth  = getWidth() - getPaddingLeft() - getPaddingRight();
+        int availableWidth = getWidth() - getPaddingLeft() - getPaddingRight();
         int availableHeight = getHeight() - getPaddingTop() - getPaddingBottom();
 
         int sideLength = Math.min(availableWidth, availableHeight);
@@ -450,15 +317,6 @@ public class RoundedImageView extends AppCompatImageView {
         mBitmapShader.setLocalMatrix(mShaderMatrix);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return inTouchableArea(event.getX(), event.getY()) && super.onTouchEvent(event);
-    }
-
-    private boolean inTouchableArea(float x, float y) {
-        return Math.pow(x - mBorderRect.centerX(), 2) + Math.pow(y - mBorderRect.centerY(), 2) <= Math.pow(mBorderRadius, 2);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private class OutlineProvider extends ViewOutlineProvider {
 
@@ -466,7 +324,7 @@ public class RoundedImageView extends AppCompatImageView {
         public void getOutline(View view, Outline outline) {
             Rect bounds = new Rect();
             mBorderRect.roundOut(bounds);
-            outline.setRoundRect(bounds, bounds.width() / 2.0f);
+            outline.setRoundRect(bounds, mBorderRadius);
         }
 
     }
