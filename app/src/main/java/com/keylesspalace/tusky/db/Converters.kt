@@ -22,13 +22,15 @@ import com.keylesspalace.tusky.entity.Emoji
 
 class Converters {
 
+    private val gson = Gson()
+
     @TypeConverter
     fun jsonToEmojiList(emojiListJson: String?): List<Emoji>? {
-        return Gson().fromJson(emojiListJson, object : TypeToken<List<Emoji>>() {}.type)
+        return gson.fromJson(emojiListJson, object : TypeToken<List<Emoji>>() {}.type)
     }
 
     @TypeConverter
     fun emojiListToJson(emojiList: List<Emoji>?): String {
-        return Gson().toJson(emojiList)
+        return gson.toJson(emojiList)
     }
 }

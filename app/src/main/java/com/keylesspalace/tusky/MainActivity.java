@@ -504,6 +504,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         for (IProfile profile: headerResult.getProfiles()) {
             if (profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT) {
                 profiles.add(profile);
+                break;
             }
         }
 
