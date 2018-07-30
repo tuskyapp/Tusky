@@ -25,9 +25,9 @@ import android.widget.TextView;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.ThemeUtils;
-import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
+
 import at.connyduck.sparkbutton.helpers.Utils;
 
 public class StatusViewHolder extends StatusBaseViewHolder {
@@ -59,7 +59,6 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             Picasso.with(context)
                     .load(rebloggedUrl)
                     .placeholder(R.drawable.avatar_default)
-                    .transform(new RoundedTransformation(25))
                     .into(avatarReblog);
         } else {
             avatarReblog.setVisibility(View.GONE);

@@ -26,7 +26,7 @@
         android:textSize="?attr/status_text_medium"
         tools:text="Someone followed you" />
 
-    <ImageView
+    <com.keylesspalace.tusky.view.RoundedImageView
         android:id="@+id/notification_avatar"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -35,7 +35,7 @@
         android:layout_marginEnd="14dp"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/action_view_profile"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:textSize="?attr/status_text_medium" />
 
     <android.support.text.emoji.widget.EmojiTextView

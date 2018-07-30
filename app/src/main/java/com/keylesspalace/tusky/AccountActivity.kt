@@ -314,7 +314,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
             Picasso.with(this)
                     .load(account.avatar)
-                    .transform(RoundedTransformation(25f))
                     .placeholder(R.drawable.avatar_default)
                     .into(accountAvatarImageView)
             Picasso.with(this)
@@ -340,7 +339,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
                 Picasso.with(this)
                         .load(movedAccount.avatar)
-                        .transform(RoundedTransformation(25f))
                         .placeholder(R.drawable.avatar_default)
                         .into(accountMovedAvatar)
 

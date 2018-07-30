@@ -111,12 +111,10 @@ import com.keylesspalace.tusky.view.ComposeOptionsListener;
 import com.keylesspalace.tusky.view.ComposeOptionsView;
 import com.keylesspalace.tusky.view.EditTextTyped;
 import com.keylesspalace.tusky.view.ProgressImageView;
-import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.view.TootButton;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
-import at.connyduck.sparkbutton.helpers.Utils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -135,6 +133,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import at.connyduck.sparkbutton.helpers.Utils;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -264,7 +263,6 @@ public final class ComposeActivity
                 composeAvatar.setImageResource(R.drawable.avatar_default);
             } else {
                 Picasso.with(this).load(activeAccount.getProfilePictureUrl())
-                        .transform(new RoundedTransformation(25))
                         .error(R.drawable.avatar_default)
                         .placeholder(R.drawable.avatar_default)
                         .into(composeAvatar);

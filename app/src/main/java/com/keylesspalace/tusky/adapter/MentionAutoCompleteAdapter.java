@@ -31,7 +31,6 @@ import android.widget.TextView;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
-import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -131,7 +130,6 @@ public class MentionAutoCompleteAdapter extends ArrayAdapter<Account>
                 Picasso.with(context)
                         .load(account.getAvatar())
                         .placeholder(R.drawable.avatar_default)
-                        .transform(new RoundedTransformation(25))
                         .into(avatar);
             }
         }
