@@ -65,7 +65,7 @@ ext.daggerVersion = '2.16'
 
 // if libraries are changed here, they should also be changed in LicenseActivity
 dependencies {
-    implementation('com.mikepenz:materialdrawer:6.0.7@aar') {
+    implementation('com.mikepenz:materialdrawer:6.0.9@aar') {
         transitive = true
     }
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
