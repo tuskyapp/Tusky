@@ -153,6 +153,7 @@
     <string-array name="app_theme_names">
         <item>கருமை</item>
         <item>வெளிச்சம்</item>
+        <item>பிளாக்</item>
         <item>தானியங்கி</item>
     </string-array>
 

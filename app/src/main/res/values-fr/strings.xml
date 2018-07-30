@@ -182,6 +182,7 @@
     <string-array name="app_theme_names">
         <item>Sombre</item>
         <item>Clair</item>
+        <item>Noir</item>
         <item>Basé sur le coucher du soleil</item>
     </string-array>
 

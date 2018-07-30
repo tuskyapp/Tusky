@@ -40,6 +40,15 @@
     <color name="report_status_divider_dark">#2F2F2F</color>
     <color name="custom_tab_toolbar_dark">#313543</color>
     <color name="compose_reply_content_background_dark">#373c4b</color>
+    <!--Black Theme Colors-->
+    <color name="color_primary_black">#000000</color>
+    <color name="color_primary_dark_black">#111111</color> <!--Dark Dark-->
+    <color name="color_background_black">#000000</color>
+    <color name="window_background_black">#000000</color>
+    <color name="edit_text_color_black">#FFFFFF</color>
+    <color name="text_color_primary_black">#FFFFFF</color>
+    <color name="toolbar_background_black">#111111</color>
+    <color name="dialog_background_black">#111111</color>
     <!--Light Theme Colors-->
     <color name="color_primary_light">#dfdfdf</color>
     <color name="color_primary_dark_light">#8f8f8f</color>

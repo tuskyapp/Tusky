@@ -160,6 +160,7 @@
     <string-array name="app_theme_names">
         <item>黑夜</item>
         <item>白天</item>
+        <item>黑色</item>
         <item>自动切换</item>
     </string-array>
 

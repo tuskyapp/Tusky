@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 
@@ -59,6 +60,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
          * runtime, just individual activities. So, each activity has to set its theme before any
          * views are created. */
         String theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
+        Log.d("activeTheme", theme);
+        if (theme.equals("black")) {
+            setTheme(R.style.TuskyBlackTheme);
+        }
         ThemeUtils.setAppNightMode(theme, this);
 
         long accountId = getIntent().getLongExtra("account", -1);

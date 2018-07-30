@@ -39,6 +39,7 @@ public class ThemeUtils {
 
     public static final String THEME_NIGHT = "night";
     public static final String THEME_DAY = "day";
+    public static final String THEME_BLACK = "black";
     public static final String THEME_AUTO = "auto";
 
     public static Drawable getDrawable(Context context, @AttrRes int attribute,
@@ -100,6 +101,9 @@ public class ThemeUtils {
                 break;
             case THEME_DAY:
                 mode = UiModeManager.MODE_NIGHT_NO;
+                break;
+            case THEME_BLACK:
+                mode = UiModeManager.MODE_NIGHT_YES;
                 break;
             case THEME_AUTO:
                 mode = UiModeManager.MODE_NIGHT_AUTO;

@@ -163,6 +163,7 @@
     <string-array name="app_theme_names">
         <item>داكنة</item>
         <item>فاتحة</item>
+        <item>أسود</item>
         <item>تلقائي عند الغروب</item>
     </string-array>
 
