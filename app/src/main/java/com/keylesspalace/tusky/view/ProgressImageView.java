@@ -22,8 +22,11 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
@@ -33,10 +36,12 @@ import at.connyduck.sparkbutton.helpers.Utils;
 public final class ProgressImageView extends AppCompatImageView {
 
     private int progress = -1;
-    private RectF progressRect = new RectF();
-    private RectF biggerRect = new RectF();
-    private Paint circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Paint clearPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final RectF progressRect = new RectF();
+    private final RectF biggerRect = new RectF();
+    private final Paint circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint clearPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint markBgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Drawable captionDrawable;
 
     public ProgressImageView(Context context) {
         super(context);
@@ -59,6 +64,11 @@ public final class ProgressImageView extends AppCompatImageView {
         circlePaint.setStyle(Paint.Style.STROKE);
 
         clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+
+        markBgPaint.setStyle(Paint.Style.FILL);
+        markBgPaint.setColor(ContextCompat.getColor(getContext(),
+                R.color.description_marker_unselected));
+        captionDrawable = AppCompatResources.getDrawable(getContext(), R.drawable.spellcheck);
     }
 
     public void setProgress(int progress) {
@@ -71,12 +81,15 @@ public final class ProgressImageView extends AppCompatImageView {
         invalidate();
     }
 
+    public void setChecked(boolean checked) {
+        this.markBgPaint.setColor(ContextCompat.getColor(getContext(),
+                checked ? R.color.colorPrimary : R.color.description_marker_unselected));
+        invalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (progress == -1) {
-            return;
-        }
 
         float angle = (progress / 100f) * 360 - 90;
         float halfWidth = canvas.getWidth() / 2;
@@ -86,8 +99,25 @@ public final class ProgressImageView extends AppCompatImageView {
         int margin = 8;
         biggerRect.set(progressRect.left - margin, progressRect.top - margin, progressRect.right + margin, progressRect.bottom + margin);
         canvas.saveLayer(biggerRect, null, Canvas.ALL_SAVE_FLAG);
-        canvas.drawOval(progressRect, circlePaint);
-        canvas.drawArc(biggerRect, angle, 360 - angle - 90, true, clearPaint);
+        if (progress != -1) {
+            canvas.drawOval(progressRect, circlePaint);
+            canvas.drawArc(biggerRect, angle, 360 - angle - 90, true, clearPaint);
+        }
         canvas.restore();
+
+        int circleRadius = Utils.dpToPx(getContext(), 14);
+        int circleMargin = Utils.dpToPx(getContext(), 14);
+
+        int circleY = canvas.getHeight() - circleMargin - circleRadius / 2;
+        int circleX = canvas.getWidth() - circleMargin - circleRadius / 2;
+
+        canvas.drawCircle(circleX, circleY, circleRadius, markBgPaint);
+
+        captionDrawable.setBounds(canvas.getWidth() - circleMargin - circleRadius,
+                canvas.getHeight() - circleMargin - circleRadius,
+                canvas.getWidth() - circleMargin,
+                canvas.getHeight() - circleMargin);
+        DrawableCompat.setTint(captionDrawable, Color.WHITE);
+        captionDrawable.draw(canvas);
     }
 }

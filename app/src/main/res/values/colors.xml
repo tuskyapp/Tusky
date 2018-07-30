@@ -5,6 +5,7 @@
     <color name="toolbar_view_media">#8f000000</color>
     <color name="semi_transparent">#33000000</color>
     <color name="header_background_filter">#44000000</color>
+    <color name="description_marker_unselected">#333</color>
 
     <!--Dark Theme Colors-->
     <color name="color_primary_dark">#4c5368</color>
