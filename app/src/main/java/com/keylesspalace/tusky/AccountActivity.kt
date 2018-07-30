@@ -32,6 +32,7 @@ import android.support.annotation.ColorInt
 import android.support.annotation.Px
 import android.support.design.widget.*
 import android.support.text.emoji.EmojiCompat
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
@@ -144,8 +145,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
         val intent = intent
         accountId = intent.getStringExtra(KEY_ACCOUNT_ID)
-
-        loadedAccount = null
 
         // set toolbar top margin according to system window insets
         ViewCompat.setOnApplyWindowInsetsListener(accountCoordinatorLayout) { _, insets ->
@@ -319,6 +318,15 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             Picasso.with(this)
                     .load(account.header)
                     .into(accountHeaderImageView)
+
+            accountAvatarImageView.setOnClickListener { avatarView ->
+                val intent = ViewMediaActivity.newAvatarIntent(avatarView.context, account.avatar)
+
+                ViewCompat.setTransitionName(avatarView, account.avatar)
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, avatarView, account.avatar)
+
+                startActivity(intent, options.toBundle())
+            }
 
             accountFieldAdapter.fields = account.fields ?: emptyList()
             accountFieldAdapter.emojis = account.emojis ?: emptyList()

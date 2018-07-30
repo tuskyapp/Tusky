@@ -23,8 +23,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +33,7 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -44,6 +43,7 @@ import android.widget.Toast;
 
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.fragment.ViewMediaFragment;
+import com.keylesspalace.tusky.pager.AvatarImagePagerAdapter;
 import com.keylesspalace.tusky.pager.ImagePagerAdapter;
 import com.keylesspalace.tusky.view.ImageViewPager;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
@@ -57,14 +57,20 @@ import kotlin.jvm.functions.Function0;
 
 public final class ViewMediaActivity extends BaseActivity
         implements ViewMediaFragment.PhotoActionsListener {
-    private static final String ATTACHMENTS_EXTRA = "attachments";
-    private static final String INDEX_EXTRA = "index";
+    private static final String EXTRA_ATTACHMENTS = "attachments";
+    private static final String EXTRA_ATTACHMENT_INDEX = "index";
+    private static final String EXTRA_AVATAR_URL = "avatar";
 
-    public static Intent newIntent(Context context, List<AttachmentViewData> attachments,
-                                   int index) {
+    public static Intent newIntent(Context context, List<AttachmentViewData> attachments, int index) {
         final Intent intent = new Intent(context, ViewMediaActivity.class);
-        intent.putParcelableArrayListExtra(ATTACHMENTS_EXTRA, new ArrayList<>(attachments));
-        intent.putExtra(INDEX_EXTRA, index);
+        intent.putParcelableArrayListExtra(EXTRA_ATTACHMENTS, new ArrayList<>(attachments));
+        intent.putExtra(EXTRA_ATTACHMENT_INDEX, index);
+        return intent;
+    }
+
+    public static Intent newAvatarIntent(Context context, String url) {
+        final Intent intent = new Intent(context, ViewMediaActivity.class);
+        intent.putExtra(EXTRA_AVATAR_URL, url);
         return intent;
     }
 
@@ -72,8 +78,9 @@ public final class ViewMediaActivity extends BaseActivity
 
     private ImageViewPager viewPager;
     private View anyView;
-    private List<AttachmentViewData> attachments;
     private Toolbar toolbar;
+
+    private List<AttachmentViewData> attachments;
 
     private boolean isToolbarVisible = true;
     private final List<ToolbarVisibilityListener> toolbarVisibilityListeners = new ArrayList<>();
@@ -106,14 +113,28 @@ public final class ViewMediaActivity extends BaseActivity
 
         // Gather the parameters.
         Intent intent = getIntent();
-        attachments = intent.getParcelableArrayListExtra(ATTACHMENTS_EXTRA);
-        int initialPosition = intent.getIntExtra(INDEX_EXTRA, 0);
+        attachments = intent.getParcelableArrayListExtra(EXTRA_ATTACHMENTS);
+        int initialPosition = intent.getIntExtra(EXTRA_ATTACHMENT_INDEX, 0);
 
-        List<Attachment> realAttachs =
-                CollectionsKt.map(attachments, AttachmentViewData::getAttachment);
-        // Setup the view pager.
-        final ImagePagerAdapter adapter = new ImagePagerAdapter(getSupportFragmentManager(),
-                realAttachs, initialPosition);
+        final PagerAdapter adapter;
+
+        if(attachments != null) {
+            List<Attachment> realAttachs =
+                    CollectionsKt.map(attachments, AttachmentViewData::getAttachment);
+            // Setup the view pager.
+            adapter = new ImagePagerAdapter(getSupportFragmentManager(),
+                    realAttachs, initialPosition);
+
+        } else {
+            String avatarUrl = intent.getStringExtra(EXTRA_AVATAR_URL);
+
+            if(avatarUrl == null) {
+                throw new IllegalArgumentException("attachment list or avatar url has to be set");
+            }
+
+            adapter = new AvatarImagePagerAdapter(getSupportFragmentManager(), avatarUrl);
+        }
+
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(initialPosition);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -165,17 +186,12 @@ public final class ViewMediaActivity extends BaseActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.view_media_toolbar, menu);
-        // Manually tint all action buttons, because the theme overlay doesn't handle them properly.
-        for (int i = 0; i < menu.size(); i++) {
-            Drawable drawable = menu.getItem(i).getIcon();
-            if (drawable != null) {
-                drawable.mutate();
-                int color = ContextCompat.getColor(this, R.color.text_color_primary_dark);
-                drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-            }
+        if(attachments != null) {
+            getMenuInflater().inflate(R.menu.view_media_toolbar, menu);
+            return true;
+        } else {
+            return false;
         }
-        return true;
     }
 
     @Override
