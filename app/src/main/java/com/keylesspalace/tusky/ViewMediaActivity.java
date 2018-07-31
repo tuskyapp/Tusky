@@ -282,7 +282,7 @@ public final class ViewMediaActivity extends BaseActivity
 
     private void onOpenStatus() {
         final AttachmentViewData attach = attachments.get(viewPager.getCurrentItem());
-        startActivity(ViewThreadActivity.startIntent(this, attach.getStatusId(),
+        startActivityWithSlideInAnimation(ViewThreadActivity.startIntent(this, attach.getStatusId(),
                 attach.getStatusUrl()));
     }
 }

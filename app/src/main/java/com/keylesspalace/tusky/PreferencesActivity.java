@@ -116,8 +116,8 @@ public class PreferencesActivity extends BaseActivity
                 Bundle savedInstanceState = new Bundle();
                 saveInstanceState(savedInstanceState);
                 intent.putExtras(savedInstanceState);
-                startActivity(intent);
-                finish();
+                startActivityWithSlideInAnimation(intent);
+                finishWithSlideOutAnimation();
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
             case "statusTextSize": {
@@ -156,7 +156,7 @@ public class PreferencesActivity extends BaseActivity
             if (restartActivitiesOnExit) {
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                startActivityWithSlideInAnimation(intent);
             } else {
                 super.onBackPressed();
             }

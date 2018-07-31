@@ -148,7 +148,7 @@ public class ReportActivity extends BaseActivity implements Injectable {
     private void onSendSuccess() {
         Snackbar bar = Snackbar.make(anyView, getString(R.string.confirmation_reported), Snackbar.LENGTH_SHORT);
         bar.show();
-        finish();
+        finishWithSlideOutAnimation();
     }
 
     private void onSendFailure(final String accountId, final String[] statusIds,

@@ -50,7 +50,6 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.pager.AccountPagerAdapter
 import com.keylesspalace.tusky.util.*
-import com.keylesspalace.tusky.view.RoundedTransformation
 import com.keylesspalace.tusky.viewmodel.AccountViewModel
 import com.squareup.picasso.Picasso
 import dagger.android.AndroidInjector
@@ -274,7 +273,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 else -> throw AssertionError()
             }
             val accountListIntent = AccountListActivity.newIntent(this, type, accountId)
-            startActivity(accountListIntent)
+            startActivityWithSlideInAnimation(accountListIntent)
         }
         accountFollowers.setOnClickListener(accountListClickListener)
         accountFollowing.setOnClickListener(accountListClickListener)
@@ -541,20 +540,20 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             val intent = ComposeActivity.IntentBuilder()
                     .mentionedUsernames(setOf(it.username))
                     .build(this)
-            startActivity(intent)
+            startActivityWithSlideInAnimation(intent)
         }
     }
 
     override fun onViewTag(tag: String) {
         val intent = Intent(this, ViewTagActivity::class.java)
         intent.putExtra("hashtag", tag)
-        startActivity(intent)
+        startActivityWithSlideInAnimation(intent)
     }
 
     override fun onViewAccount(id: String) {
         val intent = Intent(this, AccountActivity::class.java)
         intent.putExtra("id", id)
-        startActivity(intent)
+        startActivityWithSlideInAnimation(intent)
     }
 
     override fun onViewUrl(url: String) {

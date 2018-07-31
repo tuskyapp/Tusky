@@ -102,23 +102,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         return style;
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransitionExit();
-    }
-
-    @Override
-    public void startActivity(Intent intent) {
+    public void startActivityWithSlideInAnimation(Intent intent) {
         super.startActivity(intent);
-        overridePendingTransitionEnter();
-    }
-
-    private void overridePendingTransitionEnter() {
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
-    private void overridePendingTransitionExit() {
+    public void finishWithSlideOutAnimation() {
+        super.finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 
@@ -131,8 +121,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         if (account == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
+            startActivityWithSlideInAnimation(intent);
+            finishWithSlideOutAnimation();
         }
     }
 

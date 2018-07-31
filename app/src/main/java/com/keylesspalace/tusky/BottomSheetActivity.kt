@@ -112,13 +112,13 @@ abstract class BottomSheetActivity : BaseActivity() {
             val intent = Intent(this, ViewThreadActivity::class.java)
             intent.putExtra("id", status.actionableId)
             intent.putExtra("url", status.actionableStatus.url)
-            startActivity(intent)
+            startActivityWithSlideInAnimation(intent)
         }
     }
 
     open fun viewAccount(id: String) {
         val intent = AccountActivity.getIntent(this, id)
-        startActivity(intent)
+        startActivityWithSlideInAnimation(intent)
     }
 
     @VisibleForTesting

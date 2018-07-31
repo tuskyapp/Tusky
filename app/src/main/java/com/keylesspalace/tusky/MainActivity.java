@@ -119,12 +119,12 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         setContentView(R.layout.activity_main);
 
-        FloatingActionButton floatingBtn = findViewById(R.id.floating_btn);
+        composeButton = findViewById(R.id.floating_btn);
         ImageButton drawerToggle = findViewById(R.id.drawer_toggle);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.pager);
 
-        floatingBtn.setOnClickListener(v -> {
+        composeButton.setOnClickListener(v -> {
             Intent composeIntent = new Intent(getApplicationContext(), ComposeActivity.class);
             startActivity(composeIntent);
         });
@@ -211,7 +211,6 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
             disablePushNotifications();
         }
 
-        composeButton = floatingBtn;
     }
 
     @Override
@@ -255,7 +254,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                 return true;
             }
             case KeyEvent.KEYCODE_SEARCH: {
-                startActivity(new Intent(this, SearchActivity.class));
+                startActivityWithSlideInAnimation(new Intent(this, SearchActivity.class));
                 return true;
             }
         }
@@ -331,38 +330,38 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
                         if (drawerItemIdentifier == DRAWER_ITEM_EDIT_PROFILE) {
                             Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_FAVOURITES) {
                             Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_MUTED_USERS) {
                             Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
                             intent.putExtra("type", AccountListActivity.Type.MUTES);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_BLOCKED_USERS) {
                             Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
                             intent.putExtra("type", AccountListActivity.Type.BLOCKS);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_SEARCH) {
                             Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_PREFERENCES) {
                             Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_ABOUT) {
                             Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_LOG_OUT) {
                             logout();
                         } else if (drawerItemIdentifier == DRAWER_ITEM_FOLLOW_REQUESTS) {
                             Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
                             intent.putExtra("type", AccountListActivity.Type.FOLLOW_REQUESTS);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_SAVED_TOOT) {
                             Intent intent = new Intent(MainActivity.this, SavedTootActivity.class);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_LISTS) {
-                            startActivity(ListsActivity.newIntent(this));
+                            startActivityWithSlideInAnimation(ListsActivity.newIntent(this));
                         }
 
                     }
@@ -390,12 +389,12 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         //open profile when active image was clicked
         if (current && activeAccount != null) {
             Intent intent = AccountActivity.getIntent(this, activeAccount.getAccountId());
-            startActivity(intent);
+            startActivityWithSlideInAnimation(intent);
             return true;
         }
         //open LoginActivity to add new account
         if (profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT) {
-            startActivity(LoginActivity.getIntent(this, true));
+            startActivityWithSlideInAnimation(LoginActivity.getIntent(this, true));
             return true;
         }
         //change Account
@@ -409,8 +408,8 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        startActivityWithSlideInAnimation(intent);
+        finishWithSlideOutAnimation();
 
         overridePendingTransition(R.anim.explode, R.anim.explode);
     }
@@ -439,8 +438,8 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                         } else {
                             intent = new Intent(MainActivity.this, MainActivity.class);
                         }
-                        startActivity(intent);
-                        finish();
+                        startActivityWithSlideInAnimation(intent);
+                        finishWithSlideOutAnimation();
                     })
                     .setNegativeButton(android.R.string.no, null)
                     .show();
