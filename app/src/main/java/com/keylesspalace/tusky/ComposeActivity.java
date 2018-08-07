@@ -885,7 +885,7 @@ public final class ComposeActivity
 
         startService(sendIntent);
 
-        finish();
+        finishWithoutSlideOutAnimation();
 
     }
 
@@ -1424,10 +1424,10 @@ public final class ComposeActivity
             new AlertDialog.Builder(this)
                     .setMessage(R.string.compose_save_draft)
                     .setPositiveButton(R.string.action_save, (d, w) -> saveDraftAndFinish())
-                    .setNegativeButton(R.string.action_delete, (d, w) -> finish())
+                    .setNegativeButton(R.string.action_delete, (d, w) -> finishWithoutSlideOutAnimation())
                     .show();
         } else {
-            finish();
+            finishWithoutSlideOutAnimation();
         }
     }
 

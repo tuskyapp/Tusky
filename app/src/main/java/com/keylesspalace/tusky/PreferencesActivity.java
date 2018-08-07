@@ -117,7 +117,7 @@ public class PreferencesActivity extends BaseActivity
                 saveInstanceState(savedInstanceState);
                 intent.putExtras(savedInstanceState);
                 startActivityWithSlideInAnimation(intent);
-                finishWithSlideOutAnimation();
+                finish();
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
             case "statusTextSize": {

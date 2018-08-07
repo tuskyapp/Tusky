@@ -409,7 +409,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivityWithSlideInAnimation(intent);
-        finishWithSlideOutAnimation();
+        finishWithoutSlideOutAnimation();
 
         overridePendingTransition(R.anim.explode, R.anim.explode);
     }
@@ -438,8 +438,8 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                         } else {
                             intent = new Intent(MainActivity.this, MainActivity.class);
                         }
-                        startActivityWithSlideInAnimation(intent);
-                        finishWithSlideOutAnimation();
+                        startActivity(intent);
+                        finishWithoutSlideOutAnimation();
                     })
                     .setNegativeButton(android.R.string.no, null)
                     .show();

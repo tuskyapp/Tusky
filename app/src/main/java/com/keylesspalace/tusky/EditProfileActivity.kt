@@ -290,7 +290,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         if (displayName == null && note == null && locked == null && avatar == null && header == null) {
             /** if nothing has changed, there is no need to make a network request */
             setResult(Activity.RESULT_OK)
-            finishWithSlideOutAnimation()
+            finish()
             return
         }
 
@@ -304,7 +304,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                         .putBoolean("refreshProfileHeader", true)
                         .apply()
                 setResult(Activity.RESULT_OK)
-                finishWithSlideOutAnimation()
+                finish()
             }
 
             override fun onFailure(call: Call<Account>, t: Throwable) {

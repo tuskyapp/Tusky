@@ -107,9 +107,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
-    public void finishWithSlideOutAnimation() {
+    @Override
+    public void finish() {
         super.finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    public void finishWithoutSlideOutAnimation() {
+        super.finish();
     }
 
     protected SharedPreferences getPrivatePreferences() {
@@ -122,7 +127,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivityWithSlideInAnimation(intent);
-            finishWithSlideOutAnimation();
+            finish();
         }
     }
 
