@@ -25,6 +25,7 @@
     <string name="title_view_thread">Fil</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Pouets</string>
+    <string name="title_statuses_with_replies">Pouets &amp; réponses</string>
     <string name="title_follows">Abonnements</string>
     <string name="title_followers">Abonnés</string>
     <string name="title_favourites">Favoris</string>
