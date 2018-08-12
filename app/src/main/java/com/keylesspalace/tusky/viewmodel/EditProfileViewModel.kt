@@ -20,7 +20,6 @@ import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
-import android.text.SpannedString
 import android.util.Log
 import com.keylesspalace.tusky.EditProfileActivity.Companion.AVATAR_SIZE
 import com.keylesspalace.tusky.EditProfileActivity.Companion.HEADER_HEIGHT
@@ -34,6 +33,7 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -193,7 +193,13 @@ class EditProfileViewModel  @Inject constructor(
         ).enqueue(object : Callback<Account> {
             override fun onResponse(call: Call<Account>, response: Response<Account>) {
                 if (!response.isSuccessful) {
-                    saveData.postValue(Error())
+                    val errorResponse = response.errorBody()?.string()
+                    val errorMsg = if(!errorResponse.isNullOrBlank()) {
+                        JSONObject(errorResponse).optString("error", null)
+                    } else {
+                        null
+                    }
+                    saveData.postValue(Error(errorMessage = errorMsg))
                     return
                 }
                 saveData.postValue(Success(true))

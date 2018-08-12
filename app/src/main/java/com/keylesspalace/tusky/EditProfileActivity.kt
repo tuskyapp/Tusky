@@ -172,7 +172,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                     saveProgressBar.visibility = View.VISIBLE
                 }
                 is Error -> {
-                    onSaveFailure()
+                    onSaveFailure(it.errorMessage)
                 }
             }
         })
@@ -290,9 +290,10 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 this)
     }
 
-    private fun onSaveFailure() {
+    private fun onSaveFailure(msg: String?) {
         isSaving = false
-        Snackbar.make(avatarButton, R.string.error_media_upload_sending, Snackbar.LENGTH_LONG).show()
+        val errorMsg = msg ?: getString(R.string.error_media_upload_sending)
+        Snackbar.make(avatarButton, errorMsg, Snackbar.LENGTH_LONG).show()
         saveProgressBar.visibility = View.GONE
     }
 
