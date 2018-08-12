@@ -327,6 +327,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     CropImage.activity(data.data)
                             .setInitialCropWindowPaddingRatio(0f)
+                            .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
                             .setAspectRatio(AVATAR_SIZE, AVATAR_SIZE)
                             .start(this)
                 } else {
@@ -337,6 +338,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     CropImage.activity(data.data)
                             .setInitialCropWindowPaddingRatio(0f)
+                            .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
                             .setAspectRatio(HEADER_WIDTH, HEADER_HEIGHT)
                             .start(this)
                 } else {
