@@ -46,7 +46,7 @@ public class MutesAdapter extends AccountAdapter {
         if (position < accountList.size()) {
             MutedUserViewHolder holder = (MutedUserViewHolder) viewHolder;
             holder.setupWithAccount(accountList.get(position));
-            holder.setupActionListener(accountActionListener, position);
+            holder.setupActionListener(accountActionListener);
         } else {
             FooterViewHolder holder = (FooterViewHolder) viewHolder;
             holder.setState(footerState);
@@ -90,8 +90,8 @@ public class MutesAdapter extends AccountAdapter {
                     .into(avatar);
         }
 
-        void setupActionListener(final AccountActionListener listener, final int position) {
-            unmute.setOnClickListener(v -> listener.onMute(false, id, position));
+        void setupActionListener(final AccountActionListener listener) {
+            unmute.setOnClickListener(v -> listener.onMute(false, id, getAdapterPosition()));
             avatar.setOnClickListener(v -> listener.onViewAccount(id));
         }
     }
