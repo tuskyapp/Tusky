@@ -17,72 +17,67 @@ package com.keylesspalace.tusky
 
 import android.Manifest
 import android.app.Activity
-import android.content.ContentResolver
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.support.v4.widget.TextViewCompat
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
+import com.keylesspalace.tusky.adapter.AccountFieldEditAdapter
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.IOUtils
-import com.keylesspalace.tusky.util.MediaUtils
+import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.IconicsDrawable
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.*
-import java.util.*
 import javax.inject.Inject
-
-private const val TAG = "EditProfileActivity"
-
-private const val HEADER_FILE_NAME = "header.png"
-private const val AVATAR_FILE_NAME = "avatar.png"
-
-private const val KEY_OLD_DISPLAY_NAME = "OLD_DISPLAY_NAME"
-private const val KEY_OLD_NOTE = "OLD_NOTE"
-private const val KEY_OLD_LOCKED = "OLD_LOCKED"
-private const val KEY_IS_SAVING = "IS_SAVING"
-private const val KEY_CURRENTLY_PICKING = "CURRENTLY_PICKING"
-private const val KEY_AVATAR_CHANGED = "AVATAR_CHANGED"
-private const val KEY_HEADER_CHANGED = "HEADER_CHANGED"
-
-private const val AVATAR_PICK_RESULT = 1
-private const val HEADER_PICK_RESULT = 2
-private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
-private const val AVATAR_SIZE = 400
-private const val HEADER_WIDTH = 700
-private const val HEADER_HEIGHT = 335
 
 class EditProfileActivity : BaseActivity(), Injectable {
 
-    private var oldDisplayName: String? = null
-    private var oldNote: String? = null
-    private var oldLocked: Boolean = false
-    private var isSaving: Boolean = false
-    private var currentlyPicking: PickType = PickType.NOTHING
-    private var avatarChanged: Boolean = false
-    private var headerChanged: Boolean = false
+    companion object {
+        const val AVATAR_SIZE = 400
+        const val HEADER_WIDTH = 700
+        const val HEADER_HEIGHT = 335
+
+        private const val TAG = "EditProfileActivity"
+        private const val AVATAR_PICK_RESULT = 1
+        private const val HEADER_PICK_RESULT = 2
+        private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
+        private const val MAX_ACCOUNT_FIELDS = 4
+    }
 
     @Inject
     lateinit var mastodonApi: MastodonApi
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+
+    private lateinit var viewModel: EditProfileViewModel
+
+
+    private var isSaving: Boolean = false
+    private var currentlyPicking: PickType = PickType.NOTHING
+
+    private val accountFieldEditAdapter = AccountFieldEditAdapter()
 
     private enum class PickType {
         NOTHING,
@@ -94,6 +89,8 @@ class EditProfileActivity : BaseActivity(), Injectable {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
 
+        viewModel = ViewModelProviders.of(this, viewModelFactory)[EditProfileViewModel::class.java]
+
         setSupportActionBar(toolbar)
         supportActionBar?.run {
             setTitle(R.string.title_edit_profile)
@@ -101,82 +98,119 @@ class EditProfileActivity : BaseActivity(), Injectable {
             supportActionBar?.setDisplayShowHomeEnabled(true)
         }
 
-        savedInstanceState?.let {
-            oldDisplayName = it.getString(KEY_OLD_DISPLAY_NAME)
-            oldNote = it.getString(KEY_OLD_NOTE)
-            oldLocked = it.getBoolean(KEY_OLD_LOCKED)
-            isSaving = it.getBoolean(KEY_IS_SAVING)
-            currentlyPicking = it.getSerializable(KEY_CURRENTLY_PICKING) as PickType
-            avatarChanged = it.getBoolean(KEY_AVATAR_CHANGED)
-            headerChanged = it.getBoolean(KEY_HEADER_CHANGED)
-
-            if (avatarChanged) {
-                val avatar = BitmapFactory.decodeFile(getCacheFileForName(AVATAR_FILE_NAME).absolutePath)
-                avatarPreview.setImageBitmap(avatar)
-            }
-            if (headerChanged) {
-                val header = BitmapFactory.decodeFile(getCacheFileForName(HEADER_FILE_NAME).absolutePath)
-                headerPreview.setImageBitmap(header)
-            }
-        }
-
         avatarButton.setOnClickListener { onMediaPick(PickType.AVATAR) }
         headerButton.setOnClickListener { onMediaPick(PickType.HEADER) }
 
-        avatarPreview.setOnClickListener {
-            avatarPreview.setImageBitmap(null)
-            avatarPreview.visibility = View.INVISIBLE
-        }
-        headerPreview.setOnClickListener {
-            headerPreview.setImageBitmap(null)
-            headerPreview.visibility = View.INVISIBLE
-        }
+        fieldList.layoutManager = LinearLayoutManager(this@EditProfileActivity)
+        fieldList.adapter = accountFieldEditAdapter
 
-        mastodonApi.accountVerifyCredentials().enqueue(object : Callback<Account> {
-            override fun onResponse(call: Call<Account>, response: Response<Account>) {
-                if (!response.isSuccessful) {
-                    onAccountVerifyCredentialsFailed()
-                    return
-                }
-                val me = response.body()
-                oldDisplayName = me!!.displayName
-                oldNote = me.source?.note
-                oldLocked = me.locked
+        val plusDrawable = IconicsDrawable(this, GoogleMaterial.Icon.gmd_add).sizeDp(12).color(Color.WHITE)
 
-                displayNameEditText.setText(oldDisplayName)
-                noteEditText.setText(oldNote)
-                lockedCheckBox.isChecked = oldLocked
+        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(addFieldButton, plusDrawable, null, null, null)
 
-                if (!avatarChanged) {
-                    Picasso.with(avatarPreview.context)
-                            .load(me.avatar)
-                            .placeholder(R.drawable.avatar_default)
-                            .into(avatarPreview)
-                }
-                if (!headerChanged) {
-                    Picasso.with(headerPreview.context)
-                            .load(me.header)
-                            .into(headerPreview)
-                }
+        addFieldButton.setOnClickListener {
+            accountFieldEditAdapter.addField()
+            if(accountFieldEditAdapter.itemCount >= MAX_ACCOUNT_FIELDS) {
+                it.isEnabled = false
             }
 
-            override fun onFailure(call: Call<Account>, t: Throwable) {
-                onAccountVerifyCredentialsFailed()
+            scrollView.post{
+                scrollView.smoothScrollTo(0, it.bottom)
+            }
+        }
+
+        viewModel.obtainProfile()
+
+        viewModel.profileData.observe(this, Observer<Resource<Account>> {
+            when (it) {
+                is Success -> {
+                    val me = it.data
+                    if (me != null) {
+
+                        displayNameEditText.setText(me.displayName)
+                        noteEditText.setText(me.source?.note)
+                        lockedCheckBox.isChecked = me.locked
+
+                        accountFieldEditAdapter.setFields(me.source?.fields ?: emptyList())
+
+                        if(viewModel.avatarData.value == null) {
+                            Picasso.with(this@EditProfileActivity)
+                                    .load(me.avatar)
+                                    .placeholder(R.drawable.avatar_default)
+                                    .into(avatarPreview)
+                        }
+
+                        if(viewModel.headerData.value == null) {
+                            Picasso.with(this@EditProfileActivity)
+                                    .load(me.header)
+                                    .into(headerPreview)
+                        }
+
+                    }
+                }
+                is Error -> {
+                    onAccountVerifyCredentialsFailed()
+                }
             }
         })
+
+        observeImage(viewModel.avatarData, avatarPreview, avatarProgressBar)
+        observeImage(viewModel.headerData, headerPreview, headerProgressBar)
+
+        viewModel.saveData.observe(this, Observer<Resource<Boolean>> {
+            when(it) {
+                is Success -> {
+                    if(it.data == true) {
+                        privatePreferences.edit()
+                                .putBoolean("refreshProfileHeader", true)
+                                .apply()
+                    }
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
+                is Loading -> {
+                    saveProgressBar.visibility = View.VISIBLE
+                }
+                is Error -> {
+                    onSaveFailure()
+                }
+            }
+        })
+
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.run {
-            putString(KEY_OLD_DISPLAY_NAME, oldDisplayName)
-            putString(KEY_OLD_NOTE, oldNote)
-            putBoolean(KEY_OLD_LOCKED, oldLocked)
-            putBoolean(KEY_IS_SAVING, isSaving)
-            putSerializable(KEY_CURRENTLY_PICKING, currentlyPicking)
-            putBoolean(KEY_AVATAR_CHANGED, avatarChanged)
-            putBoolean(KEY_HEADER_CHANGED, headerChanged)
+    override fun onStop() {
+        super.onStop()
+        if(!isFinishing) {
+            viewModel.updateProfile(displayNameEditText.text.toString(),
+                    noteEditText.text.toString(),
+                    lockedCheckBox.isChecked,
+                    accountFieldEditAdapter.getFieldData())
         }
-        super.onSaveInstanceState(outState)
+    }
+
+    private fun observeImage(liveData: LiveData<Resource<Bitmap>>, imageView: ImageView, progressBar: View) {
+        liveData.observe(this, Observer<Resource<Bitmap>> {
+
+            when (it) {
+                is Success -> {
+                    imageView.setImageBitmap(it.data)
+                    imageView.show()
+                    progressBar.hide()
+                }
+                is Loading -> {
+                    progressBar.show()
+                }
+                is Error -> {
+                    progressBar.hide()
+                    if(!it.consumed) {
+                        onResizeFailure()
+                        it.consumed = true
+                    }
+
+                }
+            }
+        })
     }
 
     private fun onAccountVerifyCredentialsFailed() {
@@ -245,72 +279,15 @@ class EditProfileActivity : BaseActivity(), Injectable {
     }
 
     private fun save() {
-        if (isSaving || currentlyPicking != PickType.NOTHING) {
-            return
+        if (currentlyPicking != PickType.NOTHING) {
+               return
         }
 
-        isSaving = true
-        saveProgressBar.visibility = View.VISIBLE
-
-        val newDisplayName = displayNameEditText.text.toString()
-        val displayName = if (oldDisplayName == newDisplayName) {
-            null
-        } else {
-            RequestBody.create(MultipartBody.FORM, newDisplayName)
-        }
-
-        val newNote = noteEditText.text.toString()
-        val note = if (oldNote == newNote) {
-            null
-        } else {
-            RequestBody.create(MultipartBody.FORM, newNote)
-        }
-
-        val newLocked = lockedCheckBox.isChecked
-        val locked = if (oldLocked == newLocked) {
-            null
-        } else {
-            RequestBody.create(MultipartBody.FORM, newLocked.toString())
-        }
-
-        val avatar = if (avatarChanged) {
-            val avatarBody = RequestBody.create(MediaType.parse("image/png"), getCacheFileForName(AVATAR_FILE_NAME))
-            MultipartBody.Part.createFormData("avatar", getFileName(), avatarBody)
-        } else {
-            null
-        }
-
-        val header = if (headerChanged) {
-            val headerBody = RequestBody.create(MediaType.parse("image/png"), getCacheFileForName(HEADER_FILE_NAME))
-            MultipartBody.Part.createFormData("header", getFileName(), headerBody)
-        } else {
-            null
-        }
-
-        if (displayName == null && note == null && locked == null && avatar == null && header == null) {
-            /** if nothing has changed, there is no need to make a network request */
-            setResult(Activity.RESULT_OK)
-            finish()
-            return
-        }
-
-        mastodonApi.accountUpdateCredentials(displayName, note, locked, avatar, header).enqueue(object : Callback<Account> {
-            override fun onResponse(call: Call<Account>, response: Response<Account>) {
-                if (!response.isSuccessful) {
-                    onSaveFailure()
-                    return
-                }
-                privatePreferences.edit()
-                        .putBoolean("refreshProfileHeader", true)
-                        .apply()
-                setResult(Activity.RESULT_OK)
-                finish()
-            }
-
-            override fun onFailure(call: Call<Account>, t: Throwable) {
-                onSaveFailure()
-            }
-        })
+        viewModel.save(displayNameEditText.text.toString(),
+                noteEditText.text.toString(),
+                lockedCheckBox.isChecked,
+                accountFieldEditAdapter.getFieldData(),
+                this)
     }
 
     private fun onSaveFailure() {
@@ -379,131 +356,26 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
     private fun beginResize(uri: Uri) {
         beginMediaPicking()
-        val width: Int
-        val height: Int
-        val cacheFile: File
+
         when (currentlyPicking) {
             EditProfileActivity.PickType.AVATAR -> {
-                width = AVATAR_SIZE
-                height = AVATAR_SIZE
-                cacheFile = getCacheFileForName(AVATAR_FILE_NAME)
+                viewModel.newAvatar(uri, this)
             }
             EditProfileActivity.PickType.HEADER -> {
-                width = HEADER_WIDTH
-                height = HEADER_HEIGHT
-                cacheFile = getCacheFileForName(HEADER_FILE_NAME)
+                viewModel.newHeader(uri, this)
             }
             else -> {
                 throw AssertionError("PickType not set.")
             }
         }
-        ResizeImageTask(contentResolver, width, height, cacheFile, object : ResizeImageTask.Listener {
-            override fun onSuccess(resizedImage: Bitmap?) {
-                val pickType = currentlyPicking
-                endMediaPicking()
-                when (pickType) {
-                    EditProfileActivity.PickType.AVATAR -> {
-                        avatarPreview.setImageBitmap(resizedImage)
-                        avatarPreview.visibility = View.VISIBLE
-                        avatarButton.setImageResource(R.drawable.ic_add_a_photo_32dp)
-                        avatarChanged = true
-                    }
-                    EditProfileActivity.PickType.HEADER -> {
-                        headerPreview.setImageBitmap(resizedImage)
-                        headerPreview.visibility = View.VISIBLE
-                        headerButton.setImageResource(R.drawable.ic_add_a_photo_32dp)
-                        headerChanged = true
-                    }
-                    EditProfileActivity.PickType.NOTHING -> { /* do nothing */ }
 
-                }
-            }
+        currentlyPicking = PickType.NOTHING
 
-            override fun onFailure() {
-                onResizeFailure()
-            }
-        }).execute(uri)
     }
 
     private fun onResizeFailure() {
         Snackbar.make(avatarButton, R.string.error_media_upload_sending, Snackbar.LENGTH_LONG).show()
         endMediaPicking()
-    }
-
-    private fun getCacheFileForName(filename: String): File {
-        return File(cacheDir, filename)
-    }
-
-    private fun getFileName(): String {
-        return java.lang.Long.toHexString(Random().nextLong())
-    }
-
-    private class ResizeImageTask(private val contentResolver: ContentResolver,
-                                  private val resizeWidth: Int,
-                                  private val resizeHeight: Int,
-                                  private val cacheFile: File,
-                                  private val listener: Listener) : AsyncTask<Uri, Void, Boolean>() {
-        private var resultBitmap: Bitmap? = null
-
-        override fun doInBackground(vararg uris: Uri): Boolean? {
-            val uri = uris[0]
-
-            val sourceBitmap = MediaUtils.getSampledBitmap(contentResolver, uri, resizeWidth, resizeHeight)
-
-            if (sourceBitmap == null) {
-                return false
-            }
-
-            //dont upscale image if its smaller than the desired size
-            val bitmap =
-                    if (sourceBitmap.width <= resizeWidth && sourceBitmap.height <= resizeHeight) {
-                        sourceBitmap
-                    } else {
-                        Bitmap.createScaledBitmap(sourceBitmap, resizeWidth, resizeHeight, true)
-                    }
-
-            resultBitmap = bitmap
-
-            if (!saveBitmapToFile(bitmap, cacheFile)) {
-                return false
-            }
-
-            if (isCancelled) {
-                return false
-            }
-
-            return true
-        }
-
-        override fun onPostExecute(successful: Boolean) {
-            if (successful) {
-                listener.onSuccess(resultBitmap)
-            } else {
-                listener.onFailure()
-            }
-        }
-
-        fun saveBitmapToFile(bitmap: Bitmap, file: File): Boolean {
-
-            val outputStream: OutputStream
-
-            try {
-                outputStream = FileOutputStream(file)
-            } catch (e: FileNotFoundException) {
-                Log.w(TAG, Log.getStackTraceString(e))
-                return false
-            }
-
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-            IOUtils.closeQuietly(outputStream)
-
-            return true
-        }
-
-        internal interface Listener {
-            fun onSuccess(resizedImage: Bitmap?)
-            fun onFailure()
-        }
     }
 
 }

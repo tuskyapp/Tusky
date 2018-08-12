@@ -5,6 +5,7 @@ package com.keylesspalace.tusky.di
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.keylesspalace.tusky.viewmodel.AccountViewModel
+import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -16,7 +17,7 @@ import kotlin.reflect.KClass
 
 @Singleton
 class ViewModelFactory @Inject constructor(private val viewModels: MutableMap<Class<out ViewModel>, Provider<ViewModel>>) : ViewModelProvider.Factory {
-
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T = viewModels[modelClass]?.get() as T
 }
 
@@ -35,6 +36,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AccountViewModel::class)
     internal abstract fun accountViewModel(viewModel: AccountViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EditProfileViewModel::class)
+    internal abstract fun editProfileViewModel(viewModel: EditProfileViewModel): ViewModel
 
     //Add more ViewModels here
 }

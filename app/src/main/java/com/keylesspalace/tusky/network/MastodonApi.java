@@ -166,13 +166,22 @@ public interface MastodonApi {
             @Nullable @Part(value="note") RequestBody note,
             @Nullable @Part(value="locked") RequestBody locked,
             @Nullable @Part MultipartBody.Part avatar,
-            @Nullable @Part MultipartBody.Part header);
+            @Nullable @Part MultipartBody.Part header,
+            @Nullable @Part(value="fields_attributes[0][name]") RequestBody fieldName0,
+            @Nullable @Part(value="fields_attributes[0][value]") RequestBody fieldValue0,
+            @Nullable @Part(value="fields_attributes[1][name]") RequestBody fieldName1,
+            @Nullable @Part(value="fields_attributes[1][value]") RequestBody fieldValue1,
+            @Nullable @Part(value="fields_attributes[2][name]") RequestBody fieldName2,
+            @Nullable @Part(value="fields_attributes[2][value]") RequestBody fieldValue2,
+            @Nullable @Part(value="fields_attributes[3][name]") RequestBody fieldName3,
+            @Nullable @Part(value="fields_attributes[3][value]") RequestBody fieldValue3);
 
     @GET("api/v1/accounts/search")
     Call<List<Account>> searchAccounts(
             @Query("q") String q,
             @Query("resolve") Boolean resolve,
             @Query("limit") Integer limit);
+
     @GET("api/v1/accounts/{id}")
     Call<Account> account(@Path("id") String accountId);
 
