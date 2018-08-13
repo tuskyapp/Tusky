@@ -8,7 +8,7 @@
 
     <include layout="@layout/toolbar_basic" />
 
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,7 +17,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipChildren="false"
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
@@ -49,136 +48,124 @@
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/editProfileInputContainer"
-                android:layout_width="@dimen/timeline_width"
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:clipChildren="false"
-                android:orientation="vertical"
-                android:paddingTop="32dp">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="-40dp">
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp">
+                <com.keylesspalace.tusky.view.RoundedImageView
+                    android:id="@+id/avatarPreview"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:contentDescription="@null" />
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/displayNameEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginStart="16dp"
-                        android:hint="@string/hint_display_name"
-                        android:importantForAutofill="no" />
+                <ImageButton
+                    android:id="@+id/avatarButton"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/round_button"
+                    android:contentDescription="@string/label_avatar"
+                    android:elevation="4dp"
+                    app:srcCompat="@drawable/ic_add_a_photo_32dp" />
 
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/noteEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginStart="16dp"
-                        android:hint="@string/hint_note"
-                        android:importantForAutofill="no" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.v7.widget.AppCompatCheckBox
-                    android:id="@+id/lockedCheckBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="30dp"
-                    android:paddingStart="8dp"
-                    android:text="@string/lock_account_label"
-                    android:textSize="?attr/status_text_medium" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:paddingStart="40dp"
-                    android:text="@string/lock_account_label_description"
-                    android:textSize="?attr/status_text_small" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/profile_metadata_label"
-                    android:textSize="?attr/status_text_small" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/fieldList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never" />
-
-                <Button
-                    android:id="@+id/addFieldButton"
+                <ProgressBar
+                    android:id="@+id/avatarProgressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
+                    android:layout_centerInParent="true"
+                    android:indeterminate="true"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_edit_profile_display_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/displayNameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:hint="@string/hint_display_name"
+                    android:importantForAutofill="no" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_edit_profile_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/noteEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
-                    android:drawablePadding="6dp"
-                    android:text="@string/profile_metadata_add"
-                    android:textColor="#fff" />
-            </LinearLayout>
+                    android:hint="@string/hint_note"
+                    android:importantForAutofill="no" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/lockedCheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="30dp"
+                android:paddingStart="8dp"
+                android:text="@string/lock_account_label"
+                android:textSize="?attr/status_text_medium" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:paddingStart="40dp"
+                android:text="@string/lock_account_label_description"
+                android:textSize="?attr/status_text_small" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/profile_metadata_label"
+                android:textSize="?attr/status_text_small" />
+            
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:nestedScrollingEnabled="false"
+                android:clipChildren="false"
+                android:id="@+id/fieldList"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:text="@string/profile_metadata_add"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:id="@+id/addFieldButton"
+                android:textColor="#fff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="6dp" />
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_anchor="@+id/editProfileInputContainer"
-        app:layout_anchorGravity="top|start"
-        app:layout_scrollFlags="scroll">
-
-        <com.keylesspalace.tusky.view.RoundedImageView
-            android:id="@+id/avatarPreview"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:contentDescription="@null" />
-
-        <ImageButton
-            android:id="@+id/avatarButton"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/round_button"
-            android:contentDescription="@string/label_avatar"
-            android:elevation="4dp"
-            app:srcCompat="@drawable/ic_add_a_photo_32dp" />
-
-        <ProgressBar
-            android:id="@+id/avatarProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:indeterminate="true"
-            android:visibility="gone" />
-
-    </RelativeLayout>
+    </ScrollView>
 
     <include layout="@layout/toolbar_shadow_shim" />
 
