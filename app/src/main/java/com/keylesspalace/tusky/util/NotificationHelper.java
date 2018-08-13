@@ -150,11 +150,11 @@ public class NotificationHelper {
         notificationId++;
 
         builder.setContentTitle(titleForType(context, body, bidiFormatter))
-                .setContentText(bodyForType(body));
+                .setContentText(bodyForType(body, context));
 
         if (body.getType() == Notification.Type.MENTION) {
             builder.setStyle(new NotificationCompat.BigTextStyle()
-                    .bigText(bodyForType(body)));
+                    .bigText(bodyForType(body, context)));
         }
 
         //load the avatar synchronously
@@ -542,14 +542,18 @@ public class NotificationHelper {
         return null;
     }
 
-    private static String bodyForType(Notification notification) {
+    private static String bodyForType(Notification notification, @NonNull Context context) {
         switch (notification.getType()) {
             case FOLLOW:
                 return "@" + notification.getAccount().getUsername();
             case MENTION:
             case FAVOURITE:
             case REBLOG:
-                return notification.getStatus().getContent().toString();
+                if (notification.getStatus().getSensitive()) {
+                    return context.getString(R.string.status_sensitive_media_title);
+                } else {
+                    return notification.getStatus().getContent().toString();
+                }
         }
         return null;
     }
