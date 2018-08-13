@@ -549,7 +549,11 @@ public class NotificationHelper {
             case MENTION:
             case FAVOURITE:
             case REBLOG:
-                return notification.getStatus().getContent().toString();
+                if (notification.getStatus().getSensitive()) {
+                    return notification.getStatus().getSpoilerText();
+                } else {
+                    return notification.getStatus().getContent().toString();
+                }
         }
         return null;
     }
