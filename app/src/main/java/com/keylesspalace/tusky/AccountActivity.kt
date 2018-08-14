@@ -234,6 +234,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         // Initialise the default UI states.
         accountFloatingActionButton.hide()
         accountFollowButton.hide()
+        accountMuteButton.hide()
         accountFollowsYouTextView.hide()
 
         // Obtain information to fill out the profile.
@@ -389,6 +390,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 }
                 updateFollowButton()
             }
+
+            accountMuteButton.setOnClickListener { _ ->
+                viewModel.changeMuteState(accountId)
+                updateMuteButton()
+            }
         }
     }
 
@@ -427,7 +433,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     }
 
     private fun updateFollowButton() {
-        if(isSelf) {
+        if (isSelf) {
             accountFollowButton.setText(R.string.action_edit_own_profile)
             return
         }
@@ -448,6 +454,14 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         }
     }
 
+    private fun updateMuteButton() {
+        if (muting) {
+            accountMuteButton.setImageResource(R.drawable.ic_unmute_24dp)
+        } else {
+            accountMuteButton.setImageResource(R.drawable.ic_mute_24dp)
+        }
+    }
+
     private fun updateButtons() {
         invalidateOptionsMenu()
 
@@ -456,15 +470,19 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountFollowButton.show()
             updateFollowButton()
 
-            if(blocking || isSelf) {
+            if (blocking || isSelf) {
                 accountFloatingActionButton.hide()
+                accountMuteButton.hide()
             } else {
                 accountFloatingActionButton.show()
+                accountMuteButton.show()
+                updateMuteButton()
             }
 
         } else {
             accountFloatingActionButton.hide()
             accountFollowButton.hide()
+            accountMuteButton.hide()
         }
     }
 

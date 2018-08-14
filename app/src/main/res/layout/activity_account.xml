@@ -52,6 +52,18 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Follow" />
 
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/accountMuteButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="6dp"
+                    android:scaleType="fitXY"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintBottom_toBottomOf="@+id/accountFollowButton"
+                    app:layout_constraintEnd_toStartOf="@id/accountFollowButton"
+                    app:layout_constraintTop_toTopOf="@+id/accountFollowButton"
+                    app:srcCompat="@drawable/ic_unmute_24dp" />
+
                 <android.support.text.emoji.widget.EmojiTextView
                     android:id="@+id/accountDisplayNameTextView"
                     android:layout_width="wrap_content"
