@@ -402,6 +402,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                     viewModel.changeBlockState(accountId)
                     return@setOnClickListener
                 }
+                if (blocking) {
+                    viewModel.changeBlockState(accountId)
+                    return@setOnClickListener
+                }
                 when (followState) {
                     FollowState.NOT_FOLLOWING -> {
                         viewModel.changeFollowState(accountId)
