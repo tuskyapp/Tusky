@@ -397,6 +397,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                     startActivity(intent)
                     return@setOnClickListener
                 }
+                if (blocking) {
+                    viewModel.changeBlockState(accountId)
+                    return@setOnClickListener
+                }
                 when (followState) {
                     AccountActivity.FollowState.NOT_FOLLOWING -> {
                         viewModel.changeFollowState(accountId)
@@ -443,6 +447,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountFollowButton.setText(R.string.action_edit_own_profile)
             return
         }
+        if (blocking) {
+            accountFollowButton.setText(R.string.action_unblock)
+            return
+        }
         when (followState) {
             AccountActivity.FollowState.NOT_FOLLOWING -> {
                 accountFollowButton.setText(R.string.action_follow)
@@ -459,12 +467,12 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private fun updateButtons() {
         invalidateOptionsMenu()
 
-        if (!blocking && loadedAccount?.moved == null) {
+        if (loadedAccount?.moved == null) {
 
             accountFollowButton.show()
             updateFollowButton()
 
-            if (isSelf) {
+            if(blocking || isSelf) {
                 accountFloatingActionButton.hide()
             } else {
                 accountFloatingActionButton.show()
