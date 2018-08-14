@@ -31,7 +31,6 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.TextViewCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -121,10 +120,10 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
         viewModel.obtainProfile()
 
-        viewModel.profileData.observe(this, Observer<Resource<Account>> {
-            when (it) {
+        viewModel.profileData.observe(this, Observer<Resource<Account>> { profileRes ->
+            when (profileRes) {
                 is Success -> {
-                    val me = it.data
+                    val me = profileRes.data
                     if (me != null) {
 
                         displayNameEditText.setText(me.displayName)
@@ -149,7 +148,12 @@ class EditProfileActivity : BaseActivity(), Injectable {
                     }
                 }
                 is Error -> {
-                    onAccountVerifyCredentialsFailed()
+                    val snackbar = Snackbar.make(avatarButton, R.string.error_generic, Snackbar.LENGTH_LONG);
+                    snackbar.setAction(R.string.action_retry) {
+                        viewModel.obtainProfile()
+                    }
+                    snackbar.show()
+
                 }
             }
         })
@@ -211,10 +215,6 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 }
             }
         })
-    }
-
-    private fun onAccountVerifyCredentialsFailed() {
-        Log.e(TAG, "The account failed to load.")
     }
 
     private fun onMediaPick(pickType: PickType) {

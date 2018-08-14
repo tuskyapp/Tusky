@@ -62,7 +62,7 @@ class EditProfileViewModel  @Inject constructor(
     private val callList: MutableList<Call<*>> = mutableListOf()
 
     fun obtainProfile() {
-        if(profileData.value == null) {
+        if(profileData.value == null || profileData.value is Error) {
 
             profileData.postValue(Loading())
 
@@ -138,7 +138,7 @@ class EditProfileViewModel  @Inject constructor(
 
     fun save(newDisplayName: String, newNote: String, newLocked: Boolean, newFields: List<StringField>, context: Context) {
 
-        if(saveData.value is Loading) {
+        if(saveData.value is Loading || profileData.value !is Success) {
             return
         }
 
