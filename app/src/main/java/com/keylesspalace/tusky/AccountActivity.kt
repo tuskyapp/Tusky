@@ -420,6 +420,16 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 updateFollowButton()
             }
 
+            accountMuteButton.setOnClickListener { _ ->
+                viewModel.changeMuteState(accountId)
+                updateMuteButton()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
             accountMuteButton.setOnClickListener {
                 viewModel.changeMuteState(accountId)
             }
