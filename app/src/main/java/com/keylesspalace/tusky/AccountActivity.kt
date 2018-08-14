@@ -357,13 +357,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 movedIcon?.setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
 
                 TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(accountMovedText, movedIcon, null, null, null)
-
-                accountFollowers.hide()
-                accountFollowing.hide()
-                accountStatuses.hide()
-                accountTabLayout.hide()
-                accountFragmentViewPager.hide()
-                accountTabBottomShadow.hide()
             }
 
             val numberFormat = NumberFormat.getNumberInstance()
