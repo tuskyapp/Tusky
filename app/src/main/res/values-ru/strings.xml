@@ -325,5 +325,11 @@
     <string name="license_description">Tusky содержит код и элементы из следующих приложений с открытым исходным кодом:</string>
     <string name="license_apache_2">Используется лицензия Apache License (копия ниже)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+    
+    <string name="profile_metadata_label">Метаданные профиля</string>
+    <string name="profile_metadata_add">добавить данные</string>
+    <string name="profile_metadata_label_label">Заголовок</string>
+    <string name="profile_metadata_content_label">Значение</string>
 
 </resources>
