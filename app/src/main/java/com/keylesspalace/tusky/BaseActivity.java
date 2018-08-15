@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 
@@ -59,6 +60,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
          * runtime, just individual activities. So, each activity has to set its theme before any
          * views are created. */
         String theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
+        Log.d("activeTheme", theme);
+        if (theme.equals("black")) {
+            setTheme(R.style.TuskyBlackTheme);
+        }
         ThemeUtils.setAppNightMode(theme, this);
 
         long accountId = getIntent().getLongExtra("account", -1);
@@ -97,24 +102,19 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         return style;
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransitionExit();
-    }
-
-    @Override
-    public void startActivity(Intent intent) {
+    public void startActivityWithSlideInAnimation(Intent intent) {
         super.startActivity(intent);
-        overridePendingTransitionEnter();
-    }
-
-    private void overridePendingTransitionEnter() {
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
-    private void overridePendingTransitionExit() {
+    @Override
+    public void finish() {
+        super.finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    public void finishWithoutSlideOutAnimation() {
+        super.finish();
     }
 
     protected SharedPreferences getPrivatePreferences() {
@@ -126,7 +126,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         if (account == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            startActivityWithSlideInAnimation(intent);
             finish();
         }
     }

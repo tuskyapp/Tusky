@@ -32,33 +32,30 @@ public class EmojiCompatFont {
     private static final String DIRECTORY = "emoji";
 
     // These are the items which are also present in the JSON files
-    private final String name, display, url, src;
+    private final String name, display, url;
     // The thumbnail image and the caption are provided as resource ids
     private final int img, caption;
     private AsyncTask fontDownloader;
     // The system font gets some special behavior...
-    public static final EmojiCompatFont SYSTEM_DEFAULT =
+    private static final EmojiCompatFont SYSTEM_DEFAULT =
             new EmojiCompatFont("system-default",
                     "System Default",
                     R.string.caption_systememoji,
-                    R.drawable.ic_emoji_24dp,
-                    "",
+                    R.drawable.ic_emoji_34dp,
                     "");
     private static final EmojiCompatFont BLOBMOJI =
             new EmojiCompatFont("Blobmoji",
                     "Blobmoji",
                     R.string.caption_blobmoji,
                     R.drawable.ic_blobmoji,
-                    "https://tuskyapp.github.io/hosted/emoji/BlobmojiCompat.ttf",
-                    "https://github.com/c1710/blobmoji"
+                    "https://tuskyapp.github.io/hosted/emoji/BlobmojiCompat.ttf"
             );
     private static final EmojiCompatFont TWEMOJI =
             new EmojiCompatFont("Twemoji",
                     "Twemoji",
                     R.string.caption_twemoji,
                     R.drawable.ic_twemoji,
-                    "https://tuskyapp.github.io/hosted/emoji/TwemojiCompat.ttf",
-                    "https://github.com/twitter/twemoji"
+                    "https://tuskyapp.github.io/hosted/emoji/TwemojiCompat.ttf"
             );
 
     /**
@@ -67,19 +64,16 @@ public class EmojiCompatFont {
      */
     public static final EmojiCompatFont[] FONTS = {SYSTEM_DEFAULT, BLOBMOJI, TWEMOJI};
 
-
     private EmojiCompatFont(String name,
                             String display,
                             int caption,
                             int img,
-                            String url,
-                            String src) {
+                            String url) {
         this.name = name;
         this.display = display;
         this.caption = caption;
         this.img = img;
         this.url = url;
-        this.src = src;
     }
 
     /**
@@ -115,10 +109,6 @@ public class EmojiCompatFont {
 
     public String getUrl() {
         return url;
-    }
-
-    public String getSrc() {
-        return src;
     }
 
     public Drawable getThumb(Context context) {

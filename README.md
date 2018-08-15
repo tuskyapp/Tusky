@@ -1,4 +1,4 @@
-[![Translate - with Stringlate](https://img.shields.io/badge/translate%20with-stringlate-green.svg)](https://lonamiwebs.github.io/stringlate/translate?git=https%3A%2F%2Fgithub.com%2Ftuskyapp%2FTusky) [![Build Status](https://www.bitrise.io/app/55b2f0c77c4bba74/status.svg?token=elUl9fieM5K34iLRL0rpoA&branch=master)](https://www.bitrise.io/app/55b2f0c77c4bba74) [![CircleCI](https://circleci.com/gh/tuskyapp/Tusky.svg?style=svg)](https://circleci.com/gh/tuskyapp/Tusky)
+[![Translate - with Stringlate](https://img.shields.io/badge/translate%20with-stringlate-green.svg)](https://lonamiwebs.github.io/stringlate/translate?git=https%3A%2F%2Fgithub.com%2Ftuskyapp%2FTusky) [![Build Status](https://app.bitrise.io/app/55b2f0c77c4bba74/status.svg?token=elUl9fieM5K34iLRL0rpoA&branch=master)](https://app.bitrise.io/app/55b2f0c77c4bba74) [![CircleCI](https://circleci.com/gh/tuskyapp/Tusky.svg?style=svg)](https://circleci.com/gh/tuskyapp/Tusky)
 # Tusky
 
 ![](/fastlane/metadata/android/en-US/images/icon.png)
@@ -14,9 +14,15 @@ Tusky is a beautiful Android client for [Mastodon](https://github.com/tootsuite/
 - Material Design
 - Most Mastodon APIs implemented
 - Multi-Account support
-- Dark and Light theme with the possibility to auto-switch based on the time of day
+- Dark and light theme with the possibility to auto-switch based on the time of day
 - Drafts - compose toots and save them for later
+- Choose between different emoji styles 
+- Optimized for all screen sizes
 - Completely open-source - no non-free dependencies like Google services
+
+### Testing
+
+The nightly build from master is [available on Google Play](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky.test). 
 
 ### Support
 

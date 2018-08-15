@@ -70,12 +70,13 @@ public abstract class SFragment extends BaseFragment {
 
     @Inject
     public MastodonApi mastodonApi;
+    @Inject
+    public AccountManager accountManager;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        AccountEntity activeAccount = TuskyApplication.getInstance(getContext()).getServiceLocator()
-                .get(AccountManager.class).getActiveAccount();
+        AccountEntity activeAccount = accountManager.getActiveAccount();
         if (activeAccount != null) {
             loggedInAccountId = activeAccount.getAccountId();
             loggedInUsername = activeAccount.getUsername();

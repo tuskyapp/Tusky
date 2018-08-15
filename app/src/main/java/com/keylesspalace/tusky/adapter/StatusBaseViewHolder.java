@@ -26,16 +26,15 @@ import com.keylesspalace.tusky.util.DateUtils;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
-import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
 import com.squareup.picasso.Picasso;
 
-import at.connyduck.sparkbutton.SparkButton;
-import at.connyduck.sparkbutton.SparkEventListener;
-
 import java.util.Date;
 import java.util.List;
+
+import at.connyduck.sparkbutton.SparkButton;
+import at.connyduck.sparkbutton.SparkEventListener;
 
 abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private View container;
@@ -122,7 +121,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             Picasso.with(avatar.getContext())
                     .load(url)
                     .placeholder(R.drawable.avatar_default)
-                    .transform(new RoundedTransformation(25))
                     .into(avatar);
         }
     }
@@ -257,7 +255,11 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
 
             final int urlIndex = i;
-            previews[i].setOnClickListener(v -> listener.onViewMedia(getAdapterPosition(), urlIndex, v));
+            previews[i].setOnClickListener(v -> {
+                if(getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onViewMedia(getAdapterPosition(), urlIndex, v);
+                }
+            });
 
             if (n <= 2) {
                 previews[0].getLayoutParams().height = getMediaPreviewHeight(context) * 2;
@@ -275,7 +277,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             hiddenContentText = context.getString(R.string.status_sensitive_media_template,
                     context.getString(R.string.status_sensitive_media_title),
                     context.getString(R.string.status_sensitive_media_directions));
-
         } else {
             hiddenContentText = context.getString(R.string.status_sensitive_media_template,
                     context.getString(R.string.status_media_hidden_title),

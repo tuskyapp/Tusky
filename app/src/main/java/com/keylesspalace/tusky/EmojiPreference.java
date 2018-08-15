@@ -117,7 +117,7 @@ public class EmojiPreference extends DialogPreference {
 
         // Switch to downloading style
         download.setVisibility(View.GONE);
-        caption.setVisibility(View.GONE);
+        caption.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         cancel.setVisibility(View.VISIBLE);
 
@@ -248,7 +248,6 @@ public class EmojiPreference extends DialogPreference {
                         .setNegativeButton(R.string.later, null)
                         .setPositiveButton(R.string.restart, ((dialog, which) -> {
                             // Restart the app
-                            // TODO: I'm not sure if this is a good solution but it seems to work
                             // From https://stackoverflow.com/a/17166729/5070653
                             Intent launchIntent = new Intent(context, MainActivity.class);
                             PendingIntent mPendingIntent = PendingIntent.getActivity(

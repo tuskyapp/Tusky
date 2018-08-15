@@ -176,6 +176,7 @@
     <string-array name="app_theme_names">
         <item>Dark</item>
         <item>Light</item>
+        <item>Black</item>
         <item>Automatic at sunset</item>
     </string-array>
 
@@ -325,7 +326,7 @@
     <string name="later">Later</string>
     <string name="restart">Restart</string>
     <string name="caption_systememoji">Your device\'s default emoji set</string>
-    <string name="caption_blobmoji">An emoji set based on the Blob emojis known from Android 4.4–7.1</string>
+    <string name="caption_blobmoji">The Blob emojis known from Android 4.4–7.1</string>
     <string name="caption_twemoji">Mastodon\'s standard emoji set</string>
 
     <string name="download_failed">Download failed</string>
@@ -339,5 +340,11 @@
     <string name="license_description">Tusky contains code and assets from the following open source projects:</string>
     <string name="license_apache_2">Licensed under the Apache License (copy below)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <string name="profile_metadata_label">Profile metadata</string>
+    <string name="profile_metadata_add">add data</string>
+    <string name="profile_metadata_label_label">Label</string>
+    <string name="profile_metadata_content_label">Content</string>
 
 </resources>

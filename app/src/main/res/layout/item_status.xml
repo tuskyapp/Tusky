@@ -23,7 +23,7 @@
         android:textSize="?attr/status_text_medium"
         tools:text="ConnyDuck boosted" />
 
-    <ImageView
+    <com.keylesspalace.tusky.view.RoundedImageView
         android:id="@+id/status_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -31,10 +31,10 @@
         android:layout_marginEnd="14dp"
         android:layout_marginTop="14dp"
         android:contentDescription="@string/action_view_profile"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         tools:src="@drawable/avatar_default" />
 
-    <ImageView
+    <com.keylesspalace.tusky.view.RoundedImageView
         android:id="@+id/status_avatar_reblog"
         android:layout_width="24dp"
         android:layout_height="24dp"

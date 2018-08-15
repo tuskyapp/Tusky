@@ -2,13 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="72dp">
 
     <Button
         android:id="@+id/button_load_more"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="match_parent"
         android:text="@string/load_more_placeholder_text"
         android:textColor="?attr/colorAccent"
         android:textSize="?attr/status_text_medium" />
@@ -19,6 +19,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
-        tools:visibility="visible"
-        android:layout_margin="8dp"/>
+        tools:visibility="visible" />
 </FrameLayout>

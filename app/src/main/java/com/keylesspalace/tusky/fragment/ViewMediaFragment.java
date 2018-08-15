@@ -62,14 +62,25 @@ public final class ViewMediaFragment extends BaseFragment {
     private Function0 toolbarVisibiltyDisposable;
 
     private static final String ARG_START_POSTPONED_TRANSITION = "startPostponedTransition";
-    private static final String ATTACH_ARG = "attach";
+    private static final String ARG_ATTACHMENT = "attach";
+    private static final String ARG_AVATAR_URL = "avatarUrl";
 
     public static ViewMediaFragment newInstance(@NonNull Attachment attachment,
                                                 boolean shouldStartPostponedTransition) {
-        Bundle arguments = new Bundle();
+        Bundle arguments = new Bundle(2);
         ViewMediaFragment fragment = new ViewMediaFragment();
-        arguments.putParcelable(ATTACH_ARG, attachment);
+        arguments.putParcelable(ARG_ATTACHMENT, attachment);
         arguments.putBoolean(ARG_START_POSTPONED_TRANSITION, shouldStartPostponedTransition);
+
+        fragment.setArguments(arguments);
+        return fragment;
+    }
+
+    public static ViewMediaFragment newAvatarInstance(@NonNull String avatarUrl) {
+        Bundle arguments = new Bundle(2);
+        ViewMediaFragment fragment = new ViewMediaFragment();
+        arguments.putString(ARG_AVATAR_URL, avatarUrl);
+        arguments.putBoolean(ARG_START_POSTPONED_TRANSITION, true);
 
         fragment.setArguments(arguments);
         return fragment;
@@ -89,13 +100,26 @@ public final class ViewMediaFragment extends BaseFragment {
         descriptionView = rootView.findViewById(R.id.tv_media_description);
 
         final Bundle arguments = Objects.requireNonNull(getArguments(), "Empty arguments");
-        final Attachment attachment = arguments.getParcelable(ATTACH_ARG);
-        final String url = attachment.getUrl();
-        @Nullable final String description = attachment.getDescription();
+        final Attachment attachment = arguments.getParcelable(ARG_ATTACHMENT);
+        final String url;
 
-        descriptionView.setText(description);
-        showingDescription = !TextUtils.isEmpty(description);
-        isDescriptionVisible = showingDescription;
+        if(attachment != null) {
+            url = attachment.getUrl();
+
+            @Nullable final String description = attachment.getDescription();
+
+            descriptionView.setText(description);
+            showingDescription = !TextUtils.isEmpty(description);
+            isDescriptionVisible = showingDescription;
+        } else {
+            url = arguments.getString(ARG_AVATAR_URL);
+            if(url == null) {
+                throw new IllegalArgumentException("attachment or avatar url has to be set");
+            }
+
+            showingDescription = false;
+            isDescriptionVisible = false;
+        }
 
         // Setting visibility without animations so it looks nice when you scroll images
         //noinspection ConstantConditions
@@ -209,6 +233,7 @@ public final class ViewMediaFragment extends BaseFragment {
         Picasso.with(getContext())
                 .load(url)
                 .noPlaceholder()
+                .networkPolicy(NetworkPolicy.NO_STORE)
                 .into(photoView, new Callback() {
                     @Override
                     public void onSuccess() {

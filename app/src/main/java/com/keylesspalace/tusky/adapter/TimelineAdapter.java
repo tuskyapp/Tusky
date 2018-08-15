@@ -98,6 +98,10 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
         mediaPreviewEnabled = enabled;
     }
 
+    public boolean getMediaPreviewEnabled() {
+        return mediaPreviewEnabled;
+    }
+
     @Override
     public long getItemId(int position) {
         return dataSource.getItemAt(position).getViewDataId();

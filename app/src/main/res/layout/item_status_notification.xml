@@ -8,8 +8,7 @@
     android:paddingLeft="14dp"
     android:paddingRight="14dp">
 
-    <!--TODO: Check if this needs emoji support-->
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/notification_top_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -116,7 +115,7 @@
         android:textSize="?attr/status_text_medium"
         tools:text="Example status here" />
 
-    <ImageView
+    <com.keylesspalace.tusky.view.RoundedImageView
         android:id="@+id/notification_status_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -128,11 +127,11 @@
         android:contentDescription="@string/action_view_profile"
         android:paddingBottom="12dp"
         android:paddingRight="12dp"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         tools:ignore="RtlHardcoded,RtlSymmetry"
         tools:src="@drawable/avatar_default" />
 
-    <ImageView
+    <com.keylesspalace.tusky.view.RoundedImageView
         android:id="@+id/notification_notification_avatar"
         android:layout_width="24dp"
         android:layout_height="24dp"

@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky
 
 import android.animation.ArgbEvaluator
-import android.app.Activity
 import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -32,6 +31,7 @@ import android.support.annotation.ColorInt
 import android.support.annotation.Px
 import android.support.design.widget.*
 import android.support.text.emoji.EmojiCompat
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
@@ -49,7 +49,6 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.pager.AccountPagerAdapter
 import com.keylesspalace.tusky.util.*
-import com.keylesspalace.tusky.view.RoundedTransformation
 import com.keylesspalace.tusky.viewmodel.AccountViewModel
 import com.squareup.picasso.Picasso
 import dagger.android.AndroidInjector
@@ -72,7 +71,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private val accountFieldAdapter = AccountFieldAdapter(this)
 
     private lateinit var accountId: String
-    private var followState: FollowState? = null
+    private var followState: FollowState = FollowState.NOT_FOLLOWING
     private var blocking: Boolean = false
     private var muting: Boolean = false
     private var showingReblogs: Boolean = false
@@ -144,11 +143,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
         val intent = intent
         accountId = intent.getStringExtra(KEY_ACCOUNT_ID)
-        followState = FollowState.NOT_FOLLOWING
-        blocking = false
-        muting = false
-
-        loadedAccount = null
 
         // set toolbar top margin according to system window insets
         ViewCompat.setOnApplyWindowInsetsListener(accountCoordinatorLayout) { _, insets ->
@@ -278,7 +272,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 else -> throw AssertionError()
             }
             val accountListIntent = AccountListActivity.newIntent(this, type, accountId)
-            startActivity(accountListIntent)
+            startActivityWithSlideInAnimation(accountListIntent)
         }
         accountFollowers.setOnClickListener(accountListClickListener)
         accountFollowing.setOnClickListener(accountListClickListener)
@@ -299,7 +293,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountUsernameTextView.text = usernameFormatted
             accountDisplayNameTextView.text = CustomEmojiHelper.emojifyString(account.name, account.emojis, accountDisplayNameTextView)
             if (supportActionBar != null) {
-                supportActionBar?.title = EmojiCompat.get().process(account.name)
+                try {
+                    supportActionBar?.title = EmojiCompat.get().process(account.name)
+                } catch (e: IllegalStateException) {
+                    supportActionBar?.title = account.name
+                }
 
                 val subtitle = String.format(getString(R.string.status_username_format),
                         account.username)
@@ -313,15 +311,23 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
             Picasso.with(this)
                     .load(account.avatar)
-                    .transform(RoundedTransformation(25f))
                     .placeholder(R.drawable.avatar_default)
                     .into(accountAvatarImageView)
             Picasso.with(this)
                     .load(account.header)
                     .into(accountHeaderImageView)
 
-            accountFieldAdapter.fields = account.fields
-            accountFieldAdapter.emojis = account.emojis
+            accountAvatarImageView.setOnClickListener { avatarView ->
+                val intent = ViewMediaActivity.newAvatarIntent(avatarView.context, account.avatar)
+
+                ViewCompat.setTransitionName(avatarView, account.avatar)
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, avatarView, account.avatar)
+
+                startActivity(intent, options.toBundle())
+            }
+
+            accountFieldAdapter.fields = account.fields ?: emptyList()
+            accountFieldAdapter.emojis = account.emojis ?: emptyList()
             accountFieldAdapter.notifyDataSetChanged()
 
             if (account.moved != null) {
@@ -339,7 +345,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
                 Picasso.with(this)
                         .load(movedAccount.avatar)
-                        .transform(RoundedTransformation(25f))
                         .placeholder(R.drawable.avatar_default)
                         .into(accountMovedAvatar)
 
@@ -370,7 +375,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountFollowButton.setOnClickListener { _ ->
                 if (isSelf) {
                     val intent = Intent(this@AccountActivity, EditProfileActivity::class.java)
-                    startActivityForResult(intent, EDIT_ACCOUNT)
+                    startActivity(intent)
                     return@setOnClickListener
                 }
                 when (followState) {
@@ -386,15 +391,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 }
                 updateFollowButton()
             }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        //reload account when returning from EditProfileActivity
-        if(requestCode == EDIT_ACCOUNT && resultCode == Activity.RESULT_OK) {
-            viewModel.obtainAccount(accountId, true)
         }
     }
 
@@ -534,20 +530,20 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             val intent = ComposeActivity.IntentBuilder()
                     .mentionedUsernames(setOf(it.username))
                     .build(this)
-            startActivity(intent)
+            startActivityWithSlideInAnimation(intent)
         }
     }
 
     override fun onViewTag(tag: String) {
         val intent = Intent(this, ViewTagActivity::class.java)
         intent.putExtra("hashtag", tag)
-        startActivity(intent)
+        startActivityWithSlideInAnimation(intent)
     }
 
     override fun onViewAccount(id: String) {
         val intent = Intent(this, AccountActivity::class.java)
         intent.putExtra("id", id)
-        startActivity(intent)
+        startActivityWithSlideInAnimation(intent)
     }
 
     override fun onViewUrl(url: String) {
@@ -603,8 +599,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     }
 
     companion object {
-
-        private const val EDIT_ACCOUNT = 1457
 
         private const val KEY_ACCOUNT_ID = "id"
         private val argbEvaluator = ArgbEvaluator()

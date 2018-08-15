@@ -27,19 +27,9 @@ public class ListUtils {
         return list == null || list.isEmpty();
     }
 
-    /** @return 0 if list is null, or else return list.size() */
-    public static int getSize(@Nullable List list) {
-        if (list == null) {
-            return 0;
-        } else {
-            return list.size();
-        }
-    }
-
     /** @return a new ArrayList containing the elements without duplicates in the same order */
     public static <T> ArrayList<T> removeDuplicates(List<T> list) {
-        LinkedHashSet<T> set = new LinkedHashSet<>();
-        set.addAll(list);
+        LinkedHashSet<T> set = new LinkedHashSet<>(list);
         return new ArrayList<>(set);
     }
 }

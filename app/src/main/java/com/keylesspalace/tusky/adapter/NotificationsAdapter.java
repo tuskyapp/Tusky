@@ -23,8 +23,8 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.support.v4.text.BidiFormatter;
+import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -38,6 +38,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.interfaces.LinkListener;
@@ -45,7 +46,6 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
-import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
@@ -159,8 +159,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 }
                 case FOLLOW: {
                     FollowViewHolder holder = (FollowViewHolder) viewHolder;
-                    holder.setMessage(concreteNotificaton.getAccount().getName(),
-                            concreteNotificaton.getAccount().getUsername(), concreteNotificaton.getAccount().getAvatar(), bidiFormatter);
+                    holder.setMessage(concreteNotificaton.getAccount(), bidiFormatter);
                     holder.setupButtons(notificationActionListener, concreteNotificaton.getAccount().getId());
                     break;
                 }
@@ -268,27 +267,29 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             message.setCompoundDrawablesWithIntrinsicBounds(followIcon, null, null, null);
         }
 
-        void setMessage(String displayName, String username, String avatarUrl, BidiFormatter bidiFormatter) {
+        void setMessage(Account account, BidiFormatter bidiFormatter) {
             Context context = message.getContext();
 
             String format = context.getString(R.string.notification_follow_format);
-            String wrappedDisplayName = bidiFormatter.unicodeWrap(displayName);
+            String wrappedDisplayName = bidiFormatter.unicodeWrap(account.getName());
             String wholeMessage = String.format(format, wrappedDisplayName);
-            message.setText(wholeMessage);
+            CharSequence emojifiedMessage = CustomEmojiHelper.emojifyString(wholeMessage, account.getEmojis(), message);
+            message.setText(emojifiedMessage);
 
             format = context.getString(R.string.status_username_format);
-            String wholeUsername = String.format(format, username);
-            usernameView.setText(wholeUsername);
+            String username = String.format(format, account.getUsername());
+            usernameView.setText(username);
 
-            displayNameView.setText(wrappedDisplayName);
+            CharSequence emojifiedDisplayName = CustomEmojiHelper.emojifyString(wrappedDisplayName, account.getEmojis(), usernameView);
 
-            if (TextUtils.isEmpty(avatarUrl)) {
+            displayNameView.setText(emojifiedDisplayName);
+
+            if (TextUtils.isEmpty(account.getAvatar())) {
                 avatar.setImageResource(R.drawable.avatar_default);
             } else {
                 Picasso.with(context)
-                        .load(avatarUrl)
+                        .load(account.getAvatar())
                         .fit()
-                        .transform(new RoundedTransformation(25))
                         .placeholder(R.drawable.avatar_default)
                         .into(avatar);
             }
@@ -423,7 +424,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             final SpannableStringBuilder str = new SpannableStringBuilder(wholeMessage);
             str.setSpan(new StyleSpan(Typeface.BOLD), 0, displayName.length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            message.setText(str);
+            CharSequence emojifiedText = CustomEmojiHelper.emojifyText(str, notificationViewData.getAccount().getEmojis(), message);
+            message.setText(emojifiedText);
 
             if (statusViewData != null) {
                 boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
@@ -450,7 +452,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 Picasso.with(context)
                         .load(statusAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
-                        .transform(new RoundedTransformation(25))
                         .into(statusAvatar);
             }
 
@@ -461,7 +462,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                         .load(notificationAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
                         .fit()
-                        .transform(new RoundedTransformation(25))
                         .into(notificationAvatar);
             }
         }

@@ -143,7 +143,7 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
     }
 
     override fun openTimeline(listId: String) {
-        startActivity(
+        startActivityWithSlideInAnimation(
                 ModalTimelineActivity.newIntent(this, TimelineFragment.Kind.LIST, listId))
     }
 

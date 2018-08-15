@@ -41,8 +41,8 @@ data class Account(
         @SerializedName("statuses_count") val statusesCount: Int,
         val source: AccountSource?,
         val bot: Boolean,
-        val emojis: List<Emoji> = emptyList(),
-        val fields: List<Field> = emptyList(),
+        val emojis: List<Emoji>?,  // nullable for backward compatibility
+        val fields: List<Field>?,  //nullable for backward compatibility
         val moved: Account? = null
 
 ) : Parcelable {
@@ -70,13 +70,20 @@ data class Account(
 data class AccountSource(
         val privacy: Status.Visibility,
         val sensitive: Boolean,
-        val note: String
+        val note: String,
+        val fields: List<StringField>?
 ): Parcelable
 
 @Parcelize
 data class Field (
-        val name:String,
+        val name: String,
         val value: @WriteWith<SpannedParceler>() Spanned
+): Parcelable
+
+@Parcelize
+data class StringField (
+        val name: String,
+        val value: String
 ): Parcelable
 
 object SpannedParceler : Parceler<Spanned> {

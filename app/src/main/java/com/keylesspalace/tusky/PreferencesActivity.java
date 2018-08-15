@@ -24,6 +24,7 @@ import android.support.annotation.StringRes;
 import android.support.annotation.XmlRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.keylesspalace.tusky.fragment.PreferencesFragment;
@@ -105,6 +106,7 @@ public class PreferencesActivity extends BaseActivity
         switch (key) {
             case "appTheme": {
                 String theme = sharedPreferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
+                Log.d("activeTheme", theme);
                 ThemeUtils.setAppNightMode(theme, this);
                 restartActivitiesOnExit = true;
 
@@ -114,7 +116,7 @@ public class PreferencesActivity extends BaseActivity
                 Bundle savedInstanceState = new Bundle();
                 saveInstanceState(savedInstanceState);
                 intent.putExtras(savedInstanceState);
-                startActivity(intent);
+                startActivityWithSlideInAnimation(intent);
                 finish();
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
@@ -154,7 +156,7 @@ public class PreferencesActivity extends BaseActivity
             if (restartActivitiesOnExit) {
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                startActivityWithSlideInAnimation(intent);
             } else {
                 super.onBackPressed();
             }

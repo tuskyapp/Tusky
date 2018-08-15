@@ -214,30 +214,10 @@ public class NotificationsFragment extends SFragment implements
         return rootView;
     }
 
-    @Override
-    public void onPostCreate() {
-        super.onPostCreate();
-        eventHub.getEvents()
-                .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-                .subscribe(event -> {
-                    if (event instanceof FavoriteEvent) {
-                        handleFavEvent((FavoriteEvent) event);
-                    } else if (event instanceof ReblogEvent) {
-                        handleReblogEvent((ReblogEvent) event);
-                    } else if (event instanceof BlockEvent) {
-                        removeAllByAccountId(((BlockEvent) event).getAccountId());
-                    }
-                });
-    }
-
     private void setupNothingView() {
         Drawable top = AppCompatResources.getDrawable(Objects.requireNonNull(getContext()),
-                R.drawable.elephant_friend);
-        if (top != null) {
-            top.setBounds(0, 0, top.getIntrinsicWidth() / 2, top.getIntrinsicHeight() / 2);
-        }
-        nothingMessageView.setCompoundDrawables(null, top, null, null);
+                R.drawable.elephant_friend_empty);
+        nothingMessageView.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
         nothingMessageView.setVisibility(View.GONE);
     }
 
@@ -320,6 +300,19 @@ public class NotificationsFragment extends SFragment implements
         };
 
         recyclerView.addOnScrollListener(scrollListener);
+
+        eventHub.getEvents()
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(event -> {
+                    if (event instanceof FavoriteEvent) {
+                        handleFavEvent((FavoriteEvent) event);
+                    } else if (event instanceof ReblogEvent) {
+                        handleReblogEvent((ReblogEvent) event);
+                    } else if (event instanceof BlockEvent) {
+                        removeAllByAccountId(((BlockEvent) event).getAccountId());
+                    }
+                });
     }
 
     @Override

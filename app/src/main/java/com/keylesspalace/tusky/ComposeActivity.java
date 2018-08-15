@@ -31,6 +31,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcel;
@@ -63,6 +64,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.URLSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -110,12 +112,10 @@ import com.keylesspalace.tusky.view.ComposeOptionsListener;
 import com.keylesspalace.tusky.view.ComposeOptionsView;
 import com.keylesspalace.tusky.view.EditTextTyped;
 import com.keylesspalace.tusky.view.ProgressImageView;
-import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.view.TootButton;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
-import at.connyduck.sparkbutton.helpers.Utils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -134,6 +134,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import at.connyduck.sparkbutton.helpers.Utils;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -154,8 +155,6 @@ public final class ComposeActivity
     private static final int MEDIA_PICK_RESULT = 1;
     private static final int MEDIA_TAKE_PHOTO_RESULT = 2;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-    @Px
-    private static final int THUMBNAIL_SIZE = 128;
 
     private static final String SAVED_TOOT_UID_EXTRA = "saved_toot_uid";
     private static final String SAVED_TOOT_TEXT_EXTRA = "saved_toot_text";
@@ -210,12 +209,18 @@ public final class ComposeActivity
     private int savedTootUid = 0;
     private List<Emoji> emojiList;
     private int maximumTootCharacters = STATUS_CHARACTER_LIMIT;
+    private @Px int thumbnailViewSize;
 
     private SaveTootHelper saveTootHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
+        if (theme.equals("black")) {
+            setTheme(R.style.TuskyDialogActivityBlackTheme);
+        }
         setContentView(R.layout.activity_compose);
 
         replyTextView = findViewById(R.id.composeReplyView);
@@ -259,7 +264,6 @@ public final class ComposeActivity
                 composeAvatar.setImageResource(R.drawable.avatar_default);
             } else {
                 Picasso.with(this).load(activeAccount.getProfilePictureUrl())
-                        .transform(new RoundedTransformation(25))
                         .error(R.drawable.avatar_default)
                         .placeholder(R.drawable.avatar_default)
                         .into(composeAvatar);
@@ -341,6 +345,8 @@ public final class ComposeActivity
         actionPhotoTake.setOnClickListener(v -> initiateCameraApp());
         actionPhotoPick.setOnClickListener(v -> onMediaPick());
 
+        thumbnailViewSize = getResources().getDimensionPixelSize(R.dimen.compose_media_preview_size);
+
         /* Initialise all the state, or restore it from a previous run, to determine a "starting"
          * state. */
         Status.Visibility startingVisibility = Status.Visibility.UNKNOWN;
@@ -379,7 +385,6 @@ public final class ComposeActivity
         if (intent != null) {
 
             if (startingVisibility == Status.Visibility.UNKNOWN) {
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
                 Status.Visibility preferredVisibility = Status.Visibility.byString(
                         preferences.getString("defaultPostPrivacy",
                                 Status.Visibility.PUBLIC.serverString()));
@@ -495,6 +500,11 @@ public final class ComposeActivity
             textEditor.setSelection(textEditor.length());
         }
 
+        // work around Android platform bug -> https://issuetracker.google.com/issues/67102093
+        if(Build.VERSION.SDK_INT == Build.VERSION_CODES.O || Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1 ) {
+            textEditor.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+
         // Initialise the content warning editor.
         contentWarningEditor.addTextChangedListener(new TextWatcher() {
             @Override
@@ -527,7 +537,7 @@ public final class ComposeActivity
             }
         } else if (savedMediaQueued != null) {
             for (SavedQueuedMedia item : savedMediaQueued) {
-                Bitmap preview = MediaUtils.getImageThumbnail(getContentResolver(), item.uri, THUMBNAIL_SIZE);
+                Bitmap preview = MediaUtils.getImageThumbnail(getContentResolver(), item.uri, thumbnailViewSize);
                 addMediaToQueue(item.id, item.type, preview, item.uri, item.mediaSize, item.readyStage, item.description);
             }
         } else if (intent != null && savedInstanceState == null) {
@@ -772,7 +782,7 @@ public final class ComposeActivity
         setStatusVisibility(visibility);
     }
 
-    int calculateRemainingCharacters() {
+    int calculateTextLength() {
         int offset = 0;
         URLSpan[] urlSpans = textEditor.getUrls();
         if (urlSpans != null) {
@@ -780,15 +790,15 @@ public final class ComposeActivity
                 offset += Math.max(0, span.getURL().length() - MAXIMUM_URL_LENGTH);
             }
         }
-        int remaining = maximumTootCharacters - textEditor.length() + offset;
+        int length = textEditor.length() - offset;
         if (statusHideText) {
-            remaining -= contentWarningEditor.length();
+            length += contentWarningEditor.length();
         }
-        return remaining;
+        return length;
     }
 
     private void updateVisibleCharactersLeft() {
-        this.charactersLeft.setText(String.format(Locale.getDefault(), "%d", calculateRemainingCharacters()));
+        this.charactersLeft.setText(String.format(Locale.getDefault(), "%d", maximumTootCharacters - calculateTextLength()));
     }
 
     private void onContentWarningChanged() {
@@ -861,10 +871,10 @@ public final class ComposeActivity
     private void sendStatus(String content, Status.Visibility visibility, boolean sensitive,
                             String spoilerText) {
         ArrayList<String> mediaIds = new ArrayList<>();
-        ArrayList<String> mediaUris = new ArrayList<>();
+        ArrayList<Uri> mediaUris = new ArrayList<>();
         for (QueuedMedia item : mediaQueued) {
             mediaIds.add(item.id);
-            mediaUris.add(item.uri.toString());
+            mediaUris.add(item.uri);
         }
 
         Intent sendIntent = SendTootService.sendTootIntent(this, content, spoilerText,
@@ -876,7 +886,7 @@ public final class ComposeActivity
 
         startService(sendIntent);
 
-        finish();
+        finishWithoutSlideOutAnimation();
 
     }
 
@@ -925,15 +935,13 @@ public final class ComposeActivity
     }
 
     private void onReadySuccess(Status.Visibility visibility, boolean sensitive) {
-        /* Validate the status meets the character limit. This has to be delayed until after all
-         * uploads finish because their links are added when the upload succeeds and that affects
-         * whether the limit is met or not. */
+        /* Validate the status meets the character limit. */
         String contentText = textEditor.getText().toString();
         String spoilerText = "";
         if (statusHideText) {
             spoilerText = contentWarningEditor.getText().toString();
         }
-        int characterCount = contentText.length() + spoilerText.length();
+        int characterCount = calculateTextLength();
         if (characterCount <= 0 && mediaQueued.size()==0) {
             textEditor.setError(getString(R.string.error_empty));
             enableButtons();
@@ -1008,7 +1016,7 @@ public final class ComposeActivity
     }
 
     private void initiateMediaPicking() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
         String[] mimeTypes = new String[]{"image/*", "video/*"};
@@ -1035,11 +1043,10 @@ public final class ComposeActivity
         item.readyStage = readyStage;
         ImageView view = item.preview;
         Resources resources = getResources();
-        int side = resources.getDimensionPixelSize(R.dimen.compose_media_preview_side);
         int margin = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin);
         int marginBottom = resources.getDimensionPixelSize(
                 R.dimen.compose_media_preview_margin_bottom);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(side, side);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(thumbnailViewSize, thumbnailViewSize);
         layoutParams.setMargins(margin, 0, margin, marginBottom);
         view.setLayoutParams(layoutParams);
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -1104,8 +1111,14 @@ public final class ComposeActivity
 
         dialogLayout.setOrientation(LinearLayout.VERTICAL);
         ImageView imageView = new ImageView(this);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
         Picasso.with(this)
                 .load(item.uri)
+                .resize(displayMetrics.widthPixels, displayMetrics.heightPixels)
+                .onlyScaleDown()
                 .into(imageView);
 
         int margin = Utils.dpToPx(this, 4);
@@ -1130,6 +1143,7 @@ public final class ComposeActivity
                             Attachment attachment = response.body();
                             if (response.isSuccessful() && attachment != null) {
                                 item.description = attachment.getDescription();
+                                item.preview.setChecked(item.description != null && !item.description.isEmpty());
                                 dialog.dismiss();
                             } else {
                                 showFailedCaptionMessage();
@@ -1345,7 +1359,7 @@ public final class ComposeActivity
                         displayTransientError(R.string.error_media_upload_image_or_video);
                         return;
                     }
-                    Bitmap bitmap = MediaUtils.getVideoThumbnail(this, uri, THUMBNAIL_SIZE);
+                    Bitmap bitmap = MediaUtils.getVideoThumbnail(this, uri, thumbnailViewSize);
                     if (bitmap != null) {
                         addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize);
                     } else {
@@ -1354,7 +1368,7 @@ public final class ComposeActivity
                     break;
                 }
                 case "image": {
-                    Bitmap bitmap = MediaUtils.getImageThumbnail(contentResolver, uri, THUMBNAIL_SIZE);
+                    Bitmap bitmap = MediaUtils.getImageThumbnail(contentResolver, uri, thumbnailViewSize);
                     if (bitmap != null) {
                         addMediaToQueue(QueuedMedia.Type.IMAGE, bitmap, uri, mediaSize);
                     } else {
@@ -1417,10 +1431,10 @@ public final class ComposeActivity
             new AlertDialog.Builder(this)
                     .setMessage(R.string.compose_save_draft)
                     .setPositiveButton(R.string.action_save, (d, w) -> saveDraftAndFinish())
-                    .setNegativeButton(R.string.action_delete, (d, w) -> finish())
+                    .setNegativeButton(R.string.action_delete, (d, w) -> finishWithoutSlideOutAnimation())
                     .show();
         } else {
-            finish();
+            finishWithoutSlideOutAnimation();
         }
     }
 

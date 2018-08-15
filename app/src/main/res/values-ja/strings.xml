@@ -160,6 +160,7 @@
     <string-array name="app_theme_names">
         <item>Dark</item>
         <item>Light</item>
+        <item>Black</item>
         <item>日没による自動設定</item>
     </string-array>
 

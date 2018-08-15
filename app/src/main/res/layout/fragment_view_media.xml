@@ -30,6 +30,7 @@
         android:padding="8dp"
         android:textAlignment="center"
         android:textColor="#eee"
+        android:textSize="?attr/status_text_medium"
         tools:text="Some media description" />
 
 </RelativeLayout>

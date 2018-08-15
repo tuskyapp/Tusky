@@ -16,8 +16,6 @@
 package com.keylesspalace.tusky.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
@@ -28,21 +26,11 @@ import retrofit2.Call;
 
 public class BaseFragment extends Fragment {
     protected List<Call> callList;
-    private final Handler handler = new Handler(Looper.getMainLooper());
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         callList = new ArrayList<>();
-        handler.post(this::onPostCreate);
-    }
-
-    /**
-     * For actions which should happen only once per lifecycle but after onCreate.
-     * Example: subscribe for events in {@code onCreate()} but need dependencies to be injected
-     */
-    public void onPostCreate() {
-        // No-op
     }
 
     @Override

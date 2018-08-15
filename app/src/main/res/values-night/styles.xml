@@ -6,7 +6,8 @@
         <item name="colorPrimary">@color/color_primary_dark</item>
         <item name="colorPrimaryDark">@color/color_primary_dark_dark</item>
         <item name="colorAccent">@color/color_accent_dark</item>
-        <item name="colorButtonNormal">@color/button_dark</item>
+        <item name="colorButtonNormal">@color/toolbar_background_dark</item>
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
 
         <item name="android:colorBackground">@color/color_primary_dark_dark</item>
         <item name="android:windowBackground">@color/window_background_dark</item>

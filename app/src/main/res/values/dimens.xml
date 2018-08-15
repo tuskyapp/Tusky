@@ -7,7 +7,7 @@
     <dimen name="status_detail_media_preview_height">130dp</dimen>
     <dimen name="compose_media_preview_margin">8dp</dimen>
     <dimen name="compose_media_preview_margin_bottom">0dp</dimen>
-    <dimen name="compose_media_preview_side">120dp</dimen>
+    <dimen name="compose_media_preview_size">120dp</dimen>
     <dimen name="compose_options_margin">8dp</dimen>
     <dimen name="account_avatar_margin">14dp</dimen>
     <dimen name="tab_page_margin">8dp</dimen>

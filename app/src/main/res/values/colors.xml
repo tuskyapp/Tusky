@@ -5,6 +5,7 @@
     <color name="toolbar_view_media">#8f000000</color>
     <color name="semi_transparent">#33000000</color>
     <color name="header_background_filter">#44000000</color>
+    <color name="description_marker_unselected">#333</color>
 
     <!--Dark Theme Colors-->
     <color name="color_primary_dark">#4c5368</color>
@@ -39,6 +40,15 @@
     <color name="report_status_divider_dark">#2F2F2F</color>
     <color name="custom_tab_toolbar_dark">#313543</color>
     <color name="compose_reply_content_background_dark">#373c4b</color>
+    <!--Black Theme Colors-->
+    <color name="color_primary_black">#000000</color>
+    <color name="color_primary_dark_black">#111111</color> <!--Dark Dark-->
+    <color name="color_background_black">#000000</color>
+    <color name="window_background_black">#000000</color>
+    <color name="edit_text_color_black">#FFFFFF</color>
+    <color name="text_color_primary_black">#FFFFFF</color>
+    <color name="toolbar_background_black">#111111</color>
+    <color name="dialog_background_black">#111111</color>
     <!--Light Theme Colors-->
     <color name="color_primary_light">#dfdfdf</color>
     <color name="color_primary_dark_light">#8f8f8f</color>
@@ -73,5 +83,16 @@
     <color name="compose_reply_content_background_light">#e0e1e6</color>
 
     <color name="compose_media_visible_button_disabled_blue">#8c2b90d9</color>
+
+    <!-- colors used in the elephant friend drawables -->
+    <color name="elephant_friend_border_color">#121419</color>
+    <color name="elephant_friend_accent_color">@color/primary</color>
+    <color name="elephant_friend_body_color">#9BAEC8</color>
+    <color name="elephant_friend_dark_body_color_1">#8192A6</color>
+    <color name="elephant_friend_dark_body_color_2">#7F90A4</color>
+    <color name="elephant_friend_light_color_1">#CAD4E0</color>
+    <color name="elephant_friend_light_color_2">#d9e1e8</color>
+
+
 
 </resources>

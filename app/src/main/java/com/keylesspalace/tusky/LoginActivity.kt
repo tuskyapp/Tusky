@@ -70,6 +70,9 @@ class LoginActivity : AppCompatActivity(), Injectable {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
+        if (theme == "black") {
+            setTheme(R.style.TuskyBlackTheme)
+        }
         ThemeUtils.setAppNightMode(theme, this)
 
         setContentView(R.layout.activity_login)
@@ -294,6 +297,7 @@ class LoginActivity : AppCompatActivity(), Injectable {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
+        overridePendingTransition(R.anim.explode, R.anim.explode)
     }
 
     companion object {

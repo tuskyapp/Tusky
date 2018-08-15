@@ -4,8 +4,11 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.ClipData
+import android.content.ClipDescription
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.IBinder
 import android.os.Parcelable
@@ -270,7 +273,7 @@ class SendTootService : Service(), Injectable {
                            visibility: Status.Visibility,
                            sensitive: Boolean,
                            mediaIds: List<String>,
-                           mediaUris: List<String>,
+                           mediaUris: List<Uri>,
                            inReplyToId: String?,
                            replyingStatusContent: String?,
                            replyingStatusAuthorUsername: String?,
@@ -287,7 +290,7 @@ class SendTootService : Service(), Injectable {
                     visibility.serverString(),
                     sensitive,
                     mediaIds,
-                    mediaUris,
+                    mediaUris.map { it.toString() },
                     inReplyToId,
                     replyingStatusContent,
                     replyingStatusAuthorUsername,
@@ -298,6 +301,23 @@ class SendTootService : Service(), Injectable {
                     0)
 
             intent.putExtra(KEY_TOOT, tootToSend)
+
+            if(mediaUris.isNotEmpty()) {
+                // forward uri permissions
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                val uriClip = ClipData(
+                        ClipDescription("Toot Media", arrayOf("image/*", "video/*")),
+                        ClipData.Item(mediaUris[0])
+                )
+                mediaUris
+                        .drop(1)
+                        .forEach { mediaUri ->
+                            uriClip.addItem(ClipData.Item(mediaUri))
+                        }
+
+                intent.clipData = uriClip
+
+            }
 
             return intent
         }

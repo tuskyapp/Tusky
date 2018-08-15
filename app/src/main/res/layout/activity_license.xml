@@ -158,7 +158,18 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 license:license="@string/license_cc_by_4"
+                license:link="https://github.com/c1710/blobmoji"
                 license:name="Blobmoji" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_cc_by_sa_4"
+                license:link="https://github.com/tuskyapp/artwork"
+                license:name="Tusky elephant artwork" />
 
             <TextView
                 android:id="@+id/licenseApacheTextView"

@@ -40,7 +40,7 @@ class AboutActivity : BottomSheetActivity(), Injectable {
         }
 
         aboutLicensesButton.setOnClickListener {
-            startActivity(Intent(this, LicenseActivity::class.java))
+            startActivityWithSlideInAnimation(Intent(this, LicenseActivity::class.java))
         }
 
     }

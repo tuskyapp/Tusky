@@ -36,6 +36,7 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.SquareImageView
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.squareup.picasso.Picasso
@@ -79,26 +80,31 @@ class AccountMediaFragment : BaseFragment(), Injectable {
     private val callback = object : Callback<List<Status>> {
         override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
-            swipe_refresh_layout.isRefreshing = false
-            progress_bar.visibility = View.GONE
+            if(isAdded) {
+                swipe_refresh_layout.isRefreshing = false
+                progress_bar.visibility = View.GONE
+            }
 
             Log.d(TAG, "Failed to fetch account media", t)
         }
 
         override fun onResponse(call: Call<List<Status>>, response: Response<List<Status>>) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
-            swipe_refresh_layout.isRefreshing = false
-            progress_bar.visibility = View.GONE
-            val body = response.body()
-            body?.let { fetched ->
-                statuses.addAll(0, fetched)
-                // flatMap requires iterable but I don't want to box each array into list
-                val result = mutableListOf<AttachmentViewData>()
-                for (status in fetched) {
-                    result.addAll(AttachmentViewData.list(status))
+            if(isAdded) {
+                swipe_refresh_layout.isRefreshing = false
+                progress_bar.visibility = View.GONE
+
+                val body = response.body()
+                body?.let { fetched ->
+                    statuses.addAll(0, fetched)
+                    // flatMap requires iterable but I don't want to box each array into list
+                    val result = mutableListOf<AttachmentViewData>()
+                    for (status in fetched) {
+                        result.addAll(AttachmentViewData.list(status))
+                    }
+                    adapter.addTop(result)
+                    nothing_message.visible(statuses.isEmpty())
                 }
-                adapter.addTop(result)
-                nothing_message.visibility = if (statuses.isEmpty()) View.VISIBLE else View.GONE
             }
         }
     }
@@ -221,6 +227,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             }/* Intentionally do nothing. This case is here is to handle when new attachment
                  * types are added to the API before code is added here to handle them. So, the
                  * best fallback is to just show the preview and ignore requests to view them. */
+
         }
     }
 

@@ -27,6 +27,7 @@ import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.Px;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -34,11 +35,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Class who will have all the code link with Media
- * <p>
- * Motivation : try to keep the ComposeActivity "smaller" and make modular method
+ * Class with helper methods for obtaining and resizing media files
  */
 public class MediaUtils {
+    private static final String TAG = "MediaUtils";
     public static final int MEDIA_SIZE_UNKNOWN = -1;
 
     /**
@@ -65,7 +65,7 @@ public class MediaUtils {
      * Fetches the size of the media represented by the given URI, assuming it is openable and
      * the ContentResolver is able to resolve it.
      *
-     * @return the size of the media or {@link MediaUtils#MEDIA_SIZE_UNKNOWN}
+     * @return the size of the media in bytes or {@link MediaUtils#MEDIA_SIZE_UNKNOWN}
      */
     public static long getMediaSize(@NonNull ContentResolver contentResolver, @Nullable Uri uri) {
         if(uri == null) return MEDIA_SIZE_UNKNOWN;
@@ -88,30 +88,49 @@ public class MediaUtils {
     }
 
     @Nullable
-    public static Bitmap getImageThumbnail(ContentResolver contentResolver, Uri uri,
-                                            @Px int thumbnailSize) {
+    public static Bitmap getSampledBitmap(ContentResolver contentResolver, Uri uri, @Px int reqWidth, @Px int reqHeight) {
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
         InputStream stream;
         try {
             stream = contentResolver.openInputStream(uri);
         } catch (FileNotFoundException e) {
+            Log.w(TAG, e);
             return null;
         }
-        Bitmap source = BitmapFactory.decodeStream(stream);
-        if (source == null) {
-            IOUtils.closeQuietly(stream);
-            return null;
-        }
-        Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, thumbnailSize, thumbnailSize);
-        source.recycle();
+
+        BitmapFactory.decodeStream(stream, null, options);
+
+        IOUtils.closeQuietly(stream);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
         try {
-            if (stream != null) {
-                stream.close();
-            }
-        } catch (IOException e) {
-            bitmap.recycle();
+            stream = contentResolver.openInputStream(uri);
+            return BitmapFactory.decodeStream(stream, null, options);
+        } catch (FileNotFoundException e) {
+            Log.w(TAG, e);
+            return null;
+        } catch (OutOfMemoryError e) {
+            Log.e(TAG, "OutOfMemoryError while trying to get sampled Bitmap", e);
+            return null;
+        } finally {
+            IOUtils.closeQuietly(stream);
+        }
+
+    }
+
+    @Nullable
+    public static Bitmap getImageThumbnail(ContentResolver contentResolver, Uri uri, @Px int thumbnailSize) {
+        Bitmap source = getSampledBitmap(contentResolver, uri, thumbnailSize, thumbnailSize);
+        if(source == null) {
             return null;
         }
-        return bitmap;
+        return ThumbnailUtils.extractThumbnail(source, thumbnailSize, thumbnailSize, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
     }
 
     @Nullable
@@ -122,14 +141,11 @@ public class MediaUtils {
         if (source == null) {
             return null;
         }
-        Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, thumbnailSize, thumbnailSize);
-        source.recycle();
-        return bitmap;
+        return ThumbnailUtils.extractThumbnail(source, thumbnailSize, thumbnailSize, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
     }
 
     public static long getImageSquarePixels(ContentResolver contentResolver, Uri uri) throws FileNotFoundException {
-        InputStream input;
-        input = contentResolver.openInputStream(uri);
+        InputStream input = contentResolver.openInputStream(uri);
 
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -138,5 +154,26 @@ public class MediaUtils {
         IOUtils.closeQuietly(input);
 
         return (long) options.outWidth * options.outHeight;
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
 }

@@ -17,10 +17,7 @@ package com.keylesspalace.tusky.db
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
-import android.arch.persistence.room.TypeConverter
 import android.arch.persistence.room.TypeConverters
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.entity.Emoji
 
 @Entity
@@ -29,17 +26,3 @@ data class InstanceEntity(
         @field:PrimaryKey var instance: String,
         val emojiList: List<Emoji>?,
         val maximumTootCharacters: Int?)
-
-
-class Converters {
-
-    @TypeConverter
-    fun jsonToList(emojiListJson: String?): List<Emoji>? {
-        return Gson().fromJson(emojiListJson, object : TypeToken<List<Emoji>>() {}.type)
-    }
-
-    @TypeConverter
-    fun listToJson(emojiList: List<Emoji>?): String {
-        return Gson().toJson(emojiList)
-    }
-}

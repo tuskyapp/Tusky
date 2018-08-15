@@ -119,32 +119,11 @@ public final class ViewThreadFragment extends SFragment implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        thisThreadsStatusId = getArguments().getString("id");
+
         adapter = new ThreadAdapter(this);
     }
 
-    @Override
-    public void onPostCreate() {
-        super.onPostCreate();
-
-        eventHub.getEvents()
-                .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-                .subscribe(event -> {
-                    if (event instanceof FavoriteEvent) {
-                        handleFavEvent((FavoriteEvent) event);
-                    } else if (event instanceof ReblogEvent) {
-                        handleReblogEvent((ReblogEvent) event);
-                    } else if (event instanceof BlockEvent) {
-                        removeAllByAccountId(((BlockEvent) event).getAccountId());
-                    } else if (event instanceof StatusComposedEvent) {
-                        handleStatusComposedEvent((StatusComposedEvent) event);
-                    } else if (event instanceof StatusDeletedEvent) {
-                        handleStatusDeletedEvent((StatusDeletedEvent) event);
-                    }
-                });
-    }
-
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -180,7 +159,6 @@ public final class ViewThreadFragment extends SFragment implements
         recyclerView.setAdapter(adapter);
 
         statuses.clear();
-        thisThreadsStatusId = null;
 
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
@@ -191,8 +169,24 @@ public final class ViewThreadFragment extends SFragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        thisThreadsStatusId = getArguments().getString("id");
         onRefresh();
+
+        eventHub.getEvents()
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(event -> {
+                    if (event instanceof FavoriteEvent) {
+                        handleFavEvent((FavoriteEvent) event);
+                    } else if (event instanceof ReblogEvent) {
+                        handleReblogEvent((ReblogEvent) event);
+                    } else if (event instanceof BlockEvent) {
+                        removeAllByAccountId(((BlockEvent) event).getAccountId());
+                    } else if (event instanceof StatusComposedEvent) {
+                        handleStatusComposedEvent((StatusComposedEvent) event);
+                    } else if (event instanceof StatusDeletedEvent) {
+                        handleStatusDeletedEvent((StatusDeletedEvent) event);
+                    }
+                });
     }
 
     public void onRevealPressed() {
@@ -599,7 +593,7 @@ public final class ViewThreadFragment extends SFragment implements
         Status eventStatus = event.getStatus();
         if (eventStatus.getInReplyToId() == null) return;
 
-        if (eventStatus.getInReplyToId().equals(statuses.get(statusIndex).getId())) {
+        if (eventStatus.getInReplyToId().equals(thisThreadsStatusId)) {
             insertStatus(eventStatus, statuses.size());
         } else {
             // If new status is a reply to some status in the thread, insert new status after it

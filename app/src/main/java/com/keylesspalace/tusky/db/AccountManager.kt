@@ -57,7 +57,7 @@ class AccountManager(db: AppDatabase) {
             accountDao.insertOrReplace(it)
         }
 
-        activeAccount = AccountEntity(id = 0, domain = domain, accessToken = accessToken, isActive = true)
+        activeAccount = AccountEntity(id = 0, domain = domain.toLowerCase(), accessToken = accessToken, isActive = true)
 
     }
 
@@ -111,6 +111,7 @@ class AccountManager(db: AppDatabase) {
             it.username = account.username
             it.displayName = account.name
             it.profilePictureUrl = account.avatar
+            it.emojis = account.emojis ?: emptyList()
 
             Log.d(TAG, "updateActiveAccount: saving account with id " + it.id)
             it.id = accountDao.insertOrReplace(it)
