@@ -84,7 +84,7 @@
 
     <color name="compose_media_visible_button_disabled_blue">#8c2b90d9</color>
 
-    <!-- colors used in the elpahnt friend drawables -->
+    <!-- colors used in the elephant friend drawables -->
     <color name="elephant_friend_border_color">#121419</color>
     <color name="elephant_friend_accent_color">@color/primary</color>
     <color name="elephant_friend_body_color">#9BAEC8</color>
