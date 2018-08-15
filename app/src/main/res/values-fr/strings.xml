@@ -64,6 +64,8 @@
     <string name="action_unfollow">Ne plus suivre</string>
     <string name="action_block">Bloquer</string>
     <string name="action_unblock">Débloquer</string>
+    <string name="action_hide_reblogs">Cacher les boosts</string>
+    <string name="action_show_reblogs">Afficher les boosts</string>
     <string name="action_report">Signaler</string>
     <string name="action_delete">Supprimer</string>
     <string name="action_send">POUET</string>
@@ -86,6 +88,7 @@
     <string name="action_open_drawer">Ouvrir le menu</string>
     <string name="action_save">Sauvegarder</string>
     <string name="action_edit_profile">Modifier le profil</string>
+    <string name="action_edit_own_profile">Modifier</string>
     <string name="action_accept">Accepter</string>
     <string name="action_reject">Rejeter</string>
     <string name="action_undo">Annuler</string>
@@ -176,6 +179,7 @@
 
     <string name="search_no_results">Aucun résultat</string>
     <string name="dialog_unfollow_warning">Ne plus suivre ce compte?</string>
+    <string name="dialog_message_cancel_follow_request">Annuler la demande de suivi?</string>
     <string name="pref_summary_notifications">pour le compte %1$s</string>
     <string name="pref_title_pull_notification_check_interval">Interval de vérifications</string>
     <string name="pref_title_app_theme">Theme de l\'application</string>
@@ -300,6 +304,10 @@
     <string name="caption_blobmoji">Un jeu d\'emoji basé sur les emoji \"blob\"</string>
     <string name="caption_twemoji">Le jeu d\'emoji standard de Mastodon</string>
     <string name="download_failed">Échec du téléchargement</string>
+
+    <string name="profile_badge_bot_text">Robot</string>
+    <string name="account_moved_description">%1$s a déménagé vers:</string>
+
     <string name="reblog_private">Booster vers l\'audience originale</string>
     <string name="unreblog_private">Dé-booster</string>
     <string name="action_open_toot">Ouvrir le pouet</string>
