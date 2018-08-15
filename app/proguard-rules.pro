@@ -77,6 +77,7 @@
 
 # preserve line numbers for crash reporting
 -keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile
 
 # remove all logging from production apk
 -assumenosideeffects class android.util.Log {
