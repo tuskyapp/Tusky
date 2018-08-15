@@ -342,4 +342,9 @@
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
 
+    <string name="profile_metadata_label">Profile metadata</string>
+    <string name="profile_metadata_add">add data</string>
+    <string name="profile_metadata_label_label">Label</string>
+    <string name="profile_metadata_content_label">Content</string>
+
 </resources>

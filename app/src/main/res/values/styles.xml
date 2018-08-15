@@ -55,7 +55,8 @@
         <item name="colorPrimary">@color/color_primary_light</item>
         <item name="colorPrimaryDark">@color/color_primary_dark_light</item>
         <item name="colorAccent">@color/color_accent_light</item>
-        <item name="colorButtonNormal">@color/button_light</item>
+        <item name="colorButtonNormal">@color/color_primary_dark_light</item>
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
 
         <item name="android:colorBackground">@color/color_background_light</item>
         <item name="android:windowBackground">@color/window_background_light</item>
