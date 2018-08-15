@@ -42,11 +42,8 @@ public class FooterViewHolder extends RecyclerView.ViewHolder {
         progressBar = itemView.findViewById(R.id.footer_progress_bar);
         endMessage = itemView.findViewById(R.id.footer_end_message);
         Drawable top = AppCompatResources.getDrawable(itemView.getContext(),
-                R.drawable.elephant_friend);
-        if (top != null) {
-            top.setBounds(0, 0, top.getIntrinsicWidth() / 2, top.getIntrinsicHeight() / 2);
-        }
-        endMessage.setCompoundDrawables(null, top, null, null);
+                R.drawable.elephant_friend_empty);
+        endMessage.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
     }
 
     public void setState(State state) {
