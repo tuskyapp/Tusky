@@ -332,6 +332,12 @@
     <string name="license_description">Tusky bevat broncode en onderdelen van de volgende opensourceprojecten:</string>
     <string name="license_apache_2">Gelicenseerd onder de Apache-licentie (kopie hieronder)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <string name="profile_metadata_label">Metadata profiel</string>
+    <string name="profile_metadata_add">Metadata toevoegen</string>
+    <string name="profile_metadata_label_label">Label</string>
+    <string name="profile_metadata_content_label">Inhoud</string>
 
 </resources>
 
