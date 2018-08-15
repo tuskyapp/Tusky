@@ -255,7 +255,11 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
 
             final int urlIndex = i;
-            previews[i].setOnClickListener(v -> listener.onViewMedia(getAdapterPosition(), urlIndex, v));
+            previews[i].setOnClickListener(v -> {
+                if(getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onViewMedia(getAdapterPosition(), urlIndex, v);
+                }
+            });
 
             if (n <= 2) {
                 previews[0].getLayoutParams().height = getMediaPreviewHeight(context) * 2;
@@ -273,7 +277,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             hiddenContentText = context.getString(R.string.status_sensitive_media_template,
                     context.getString(R.string.status_sensitive_media_title),
                     context.getString(R.string.status_sensitive_media_directions));
-
         } else {
             hiddenContentText = context.getString(R.string.status_sensitive_media_template,
                     context.getString(R.string.status_media_hidden_title),
