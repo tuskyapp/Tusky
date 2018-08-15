@@ -39,7 +39,6 @@ import com.keylesspalace.tusky.adapter.AccountFieldEditAdapter
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -57,7 +56,6 @@ class EditProfileActivity : BaseActivity(), Injectable {
         const val HEADER_WIDTH = 700
         const val HEADER_HEIGHT = 335
 
-        private const val TAG = "EditProfileActivity"
         private const val AVATAR_PICK_RESULT = 1
         private const val HEADER_PICK_RESULT = 2
         private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
@@ -65,15 +63,10 @@ class EditProfileActivity : BaseActivity(), Injectable {
     }
 
     @Inject
-    lateinit var mastodonApi: MastodonApi
-    @Inject
     lateinit var viewModelFactory: ViewModelFactory
-
 
     private lateinit var viewModel: EditProfileViewModel
 
-
-    private var isSaving: Boolean = false
     private var currentlyPicking: PickType = PickType.NOTHING
 
     private val accountFieldEditAdapter = AccountFieldEditAdapter()
@@ -93,14 +86,14 @@ class EditProfileActivity : BaseActivity(), Injectable {
         setSupportActionBar(toolbar)
         supportActionBar?.run {
             setTitle(R.string.title_edit_profile)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
         }
 
         avatarButton.setOnClickListener { onMediaPick(PickType.AVATAR) }
         headerButton.setOnClickListener { onMediaPick(PickType.HEADER) }
 
-        fieldList.layoutManager = LinearLayoutManager(this@EditProfileActivity)
+        fieldList.layoutManager = LinearLayoutManager(this)
         fieldList.adapter = accountFieldEditAdapter
 
         val plusDrawable = IconicsDrawable(this, GoogleMaterial.Icon.gmd_add).sizeDp(12).color(Color.WHITE)
@@ -133,14 +126,14 @@ class EditProfileActivity : BaseActivity(), Injectable {
                         accountFieldEditAdapter.setFields(me.source?.fields ?: emptyList())
 
                         if(viewModel.avatarData.value == null) {
-                            Picasso.with(this@EditProfileActivity)
+                            Picasso.with(this)
                                     .load(me.avatar)
                                     .placeholder(R.drawable.avatar_default)
                                     .into(avatarPreview)
                         }
 
                         if(viewModel.headerData.value == null) {
-                            Picasso.with(this@EditProfileActivity)
+                            Picasso.with(this)
                                     .load(me.header)
                                     .into(headerPreview)
                         }
@@ -291,7 +284,6 @@ class EditProfileActivity : BaseActivity(), Injectable {
     }
 
     private fun onSaveFailure(msg: String?) {
-        isSaving = false
         val errorMsg = msg ?: getString(R.string.error_media_upload_sending)
         Snackbar.make(avatarButton, errorMsg, Snackbar.LENGTH_LONG).show()
         saveProgressBar.visibility = View.GONE
