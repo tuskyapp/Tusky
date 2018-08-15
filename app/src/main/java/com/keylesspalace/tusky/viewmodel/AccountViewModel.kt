@@ -2,10 +2,7 @@ package com.keylesspalace.tusky.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.keylesspalace.tusky.appstore.BlockEvent
-import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.MuteEvent
-import com.keylesspalace.tusky.appstore.UnfollowEvent
+import com.keylesspalace.tusky.appstore.*
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.network.MastodonApi
@@ -13,6 +10,7 @@ import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
+import io.reactivex.disposables.Disposable
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,6 +25,12 @@ class AccountViewModel  @Inject constructor(
     val relationshipData = MutableLiveData<Resource<Relationship>>()
 
     private val callList: MutableList<Call<*>> = mutableListOf()
+    private val disposable: Disposable = eventHub.events
+                .subscribe { event ->
+                    if (event is ProfileEditedEvent && event.newProfileData.id == accountData.value?.data?.id) {
+                        accountData.postValue(Success(event.newProfileData))
+                    }
+                }
 
 
     fun obtainAccount(accountId: String, reload: Boolean = false) {
@@ -182,6 +186,7 @@ class AccountViewModel  @Inject constructor(
         callList.forEach {
             it.cancel()
         }
+        disposable.dispose()
     }
 
     enum class RelationShipAction {

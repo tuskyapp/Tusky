@@ -15,8 +15,8 @@
 
 package com.keylesspalace.tusky;
 
+import android.arch.lifecycle.Lifecycle;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -36,6 +36,8 @@ import android.view.KeyEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.keylesspalace.tusky.appstore.EventHub;
+import com.keylesspalace.tusky.appstore.ProfileEditedEvent;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
@@ -67,9 +69,13 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
 public final class MainActivity extends BottomSheetActivity implements ActionButtonActivity,
         HasSupportFragmentInjector {
@@ -90,6 +96,8 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
     @Inject
     public DispatchingAndroidInjector<Fragment> fragmentInjector;
+    @Inject
+    public EventHub eventHub;
 
     private FloatingActionButton composeButton;
     private AccountHeader headerResult;
@@ -211,6 +219,15 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
             disablePushNotifications();
         }
 
+        eventHub.getEvents()
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(event -> {
+                    if (event instanceof ProfileEditedEvent) {
+                        onFetchUserInfoSuccess(((ProfileEditedEvent) event).getNewProfileData());
+                    }
+                });
+
     }
 
     @Override
@@ -218,16 +235,6 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         super.onResume();
 
         NotificationHelper.clearNotificationsForActiveAccount(this, accountManager);
-
-        /* After editing a profile, the profile header in the navigation drawer needs to be
-         * refreshed */
-        SharedPreferences preferences = getPrivatePreferences();
-        if (preferences.getBoolean("refreshProfileHeader", false)) {
-            fetchUserInfo();
-            preferences.edit()
-                    .putBoolean("refreshProfileHeader", false)
-                    .apply();
-        }
 
     }
 

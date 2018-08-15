@@ -70,13 +70,20 @@ data class Account(
 data class AccountSource(
         val privacy: Status.Visibility,
         val sensitive: Boolean,
-        val note: String
+        val note: String,
+        val fields: List<StringField>?
 ): Parcelable
 
 @Parcelize
 data class Field (
-        val name:String,
+        val name: String,
         val value: @WriteWith<SpannedParceler>() Spanned
+): Parcelable
+
+@Parcelize
+data class StringField (
+        val name: String,
+        val value: String
 ): Parcelable
 
 object SpannedParceler : Parceler<Spanned> {
