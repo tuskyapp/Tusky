@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky
 
 import android.animation.ArgbEvaluator
-import android.app.Activity
 import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -376,7 +375,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountFollowButton.setOnClickListener { _ ->
                 if (isSelf) {
                     val intent = Intent(this@AccountActivity, EditProfileActivity::class.java)
-                    startActivityForResult(intent, EDIT_ACCOUNT)
+                    startActivity(intent)
                     return@setOnClickListener
                 }
                 when (followState) {
@@ -392,15 +391,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 }
                 updateFollowButton()
             }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        //reload account when returning from EditProfileActivity
-        if(requestCode == EDIT_ACCOUNT && resultCode == Activity.RESULT_OK) {
-            viewModel.obtainAccount(accountId, true)
         }
     }
 
@@ -609,8 +599,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     }
 
     companion object {
-
-        private const val EDIT_ACCOUNT = 1457
 
         private const val KEY_ACCOUNT_ID = "id"
         private val argbEvaluator = ArgbEvaluator()

@@ -154,15 +154,9 @@ class EditProfileActivity : BaseActivity(), Injectable {
         observeImage(viewModel.avatarData, avatarPreview, avatarProgressBar)
         observeImage(viewModel.headerData, headerPreview, headerProgressBar)
 
-        viewModel.saveData.observe(this, Observer<Resource<Boolean>> {
+        viewModel.saveData.observe(this, Observer<Resource<Nothing>> {
             when(it) {
                 is Success -> {
-                    if(it.data == true) {
-                        privatePreferences.edit()
-                                .putBoolean("refreshProfileHeader", true)
-                                .apply()
-                    }
-                    setResult(Activity.RESULT_OK)
                     finish()
                 }
                 is Loading -> {

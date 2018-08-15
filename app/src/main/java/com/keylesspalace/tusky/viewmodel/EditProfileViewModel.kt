@@ -24,6 +24,8 @@ import android.util.Log
 import com.keylesspalace.tusky.EditProfileActivity.Companion.AVATAR_SIZE
 import com.keylesspalace.tusky.EditProfileActivity.Companion.HEADER_HEIGHT
 import com.keylesspalace.tusky.EditProfileActivity.Companion.HEADER_WIDTH
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.ProfileEditedEvent
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.StringField
 import com.keylesspalace.tusky.network.MastodonApi
@@ -49,13 +51,14 @@ private const val AVATAR_FILE_NAME = "avatar.png"
 private const val TAG = "EditProfileViewModel"
 
 class EditProfileViewModel  @Inject constructor(
-            private val mastodonApi: MastodonApi
+            private val mastodonApi: MastodonApi,
+            private val eventHub: EventHub
     ): ViewModel() {
 
     val profileData = MutableLiveData<Resource<Account>>()
     val avatarData = MutableLiveData<Resource<Bitmap>>()
     val headerData = MutableLiveData<Resource<Bitmap>>()
-    val saveData = MutableLiveData<Resource<Boolean>>()
+    val saveData = MutableLiveData<Resource<Nothing>>()
 
     private var oldProfileData: Account? = null
 
@@ -184,7 +187,7 @@ class EditProfileViewModel  @Inject constructor(
         if (displayName == null && note == null && locked == null && avatar == null && header == null
         && field1 == null && field2 == null && field3 == null && field4 == null) {
             /** if nothing has changed, there is no need to make a network request */
-            saveData.postValue(Success(false))
+            saveData.postValue(Success())
             return
         }
 
@@ -192,7 +195,8 @@ class EditProfileViewModel  @Inject constructor(
                 field1?.first, field1?.second, field2?.first, field2?.second, field3?.first, field3?.second, field4?.first, field4?.second
         ).enqueue(object : Callback<Account> {
             override fun onResponse(call: Call<Account>, response: Response<Account>) {
-                if (!response.isSuccessful) {
+                val newProfileData = response.body()
+                if (!response.isSuccessful || newProfileData == null) {
                     val errorResponse = response.errorBody()?.string()
                     val errorMsg = if(!errorResponse.isNullOrBlank()) {
                         JSONObject(errorResponse).optString("error", null)
@@ -202,7 +206,8 @@ class EditProfileViewModel  @Inject constructor(
                     saveData.postValue(Error(errorMessage = errorMsg))
                     return
                 }
-                saveData.postValue(Success(true))
+                saveData.postValue(Success())
+                eventHub.dispatch(ProfileEditedEvent(newProfileData))
             }
 
             override fun onFailure(call: Call<Account>, t: Throwable) {
