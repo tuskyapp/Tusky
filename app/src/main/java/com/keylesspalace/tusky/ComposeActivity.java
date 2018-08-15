@@ -64,6 +64,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.URLSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -1110,8 +1111,14 @@ public final class ComposeActivity
 
         dialogLayout.setOrientation(LinearLayout.VERTICAL);
         ImageView imageView = new ImageView(this);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
         Picasso.with(this)
                 .load(item.uri)
+                .resize(displayMetrics.widthPixels, displayMetrics.heightPixels)
+                .onlyScaleDown()
                 .into(imageView);
 
         int margin = Utils.dpToPx(this, 4);
