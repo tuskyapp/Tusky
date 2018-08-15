@@ -308,5 +308,10 @@
     <string name="action_hide_reblogs">Geteilte Beiträge verbergen</string>
     <string name="action_show_reblogs">Geteilte Beiträge anzeigen</string>
     <string name="action_edit_own_profile">Bearbeiten</string>
+    <string name="profile_metadata_label">Profil-Metadaten</string>
+    <string name="profile_metadata_label_label">Bezeichnung</string>
+    <string name="profile_metadata_content_label">Inhalt</string>
+    <string name="profile_metadata_add">Feld hinzufügen</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
 
 </resources>

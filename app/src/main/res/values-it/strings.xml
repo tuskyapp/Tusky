@@ -173,6 +173,7 @@
 <string-array name="app_theme_names">
         <item>Scuro</item>
         <item>Chiaro</item>
+        <item>Nero</item>
         <item>Automatico al tramonto</item>
 </string-array>
 

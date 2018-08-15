@@ -176,6 +176,7 @@
     <string-array name="app_theme_names">
         <item>Mörk</item>
         <item>Ljus</item>
+        <item>Svart</item>
         <item>Automatiskt vid solnedgång</item>
     </string-array>
 
