@@ -33,7 +33,7 @@
     <string name="title_follows">Följer</string>
     <string name="title_followers">Följare</string>
     <string name="title_favourites">Favoriter</string>
-    <string name="title_mutes">Tystade användare</string>
+    <string name="title_mutes">Dämpade användare</string>
     <string name="title_blocks">Blockerade användare</string>
     <string name="title_follow_requests">Följarförfrågningar</string>
     <string name="title_edit_profile">Ändra din profil</string>
@@ -81,7 +81,7 @@
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Inställningar</string>
     <string name="action_view_favourites">Favoriter</string>
-    <string name="action_view_mutes">Tystade användare</string>
+    <string name="action_view_mutes">Dämpade användare</string>
     <string name="action_view_blocks">Blockerade användare</string>
     <string name="action_view_follow_requests">Följarförfrågningar</string>
     <string name="action_view_media">Media</string>
@@ -89,8 +89,8 @@
     <string name="action_add_media">Lägg till media</string>
     <string name="action_photo_take">Ta foto</string>
     <string name="action_share">Dela</string>
-    <string name="action_mute">Tysta</string>
-    <string name="action_unmute">Sätt på ljud</string>
+    <string name="action_mute">Dämpa</string>
+    <string name="action_unmute">Återställ dämpning</string>
     <string name="action_mention">Omnämn</string>
     <string name="action_hide_media">Dölj media</string>
     <string name="action_open_drawer">Öppna låda</string>
@@ -115,7 +115,7 @@
 
     <string name="confirmation_reported">Skickat!</string>
     <string name="confirmation_unblocked">Användare avblockerad</string>
-    <string name="confirmation_unmuted">Ljudet aktiverat för användaren</string>
+    <string name="confirmation_unmuted">Användaren är inte dämpad längre</string>
 
     <string name="status_sent">Skickat!</string>
     <string name="status_sent_long">Svar skickades framgångsrikt.</string>
@@ -340,5 +340,11 @@
     <string name="license_description">Tusky innehåller kod och tillgångar från följande öppen källkodsprojekt:</string>
     <string name="license_apache_2">Licensenserad under the Apache License (copy below)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
+    
+    <string name="profile_metadata_label">Profil-metadata</string>
+    <string name="profile_metadata_add">Spara ändringar</string>
+    <string name="profile_metadata_label_label">Etikett</string>
+    <string name="profile_metadata_content_label">Innehåll</string>
 
 </resources>
+
