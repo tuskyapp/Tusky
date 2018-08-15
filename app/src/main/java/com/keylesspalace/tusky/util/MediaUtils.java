@@ -65,7 +65,7 @@ public class MediaUtils {
      * Fetches the size of the media represented by the given URI, assuming it is openable and
      * the ContentResolver is able to resolve it.
      *
-     * @return the size of the media or {@link MediaUtils#MEDIA_SIZE_UNKNOWN}
+     * @return the size of the media in bytes or {@link MediaUtils#MEDIA_SIZE_UNKNOWN}
      */
     public static long getMediaSize(@NonNull ContentResolver contentResolver, @Nullable Uri uri) {
         if(uri == null) return MEDIA_SIZE_UNKNOWN;
@@ -125,14 +125,12 @@ public class MediaUtils {
     }
 
     @Nullable
-    public static Bitmap getImageThumbnail(ContentResolver contentResolver, Uri uri,
-                                           @Px int thumbnailSize) {
+    public static Bitmap getImageThumbnail(ContentResolver contentResolver, Uri uri, @Px int thumbnailSize) {
         Bitmap source = getSampledBitmap(contentResolver, uri, thumbnailSize, thumbnailSize);
-        if(source != null) {
-            return ThumbnailUtils.extractThumbnail(source, thumbnailSize, thumbnailSize, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
-        } else {
+        if(source == null) {
             return null;
         }
+        return ThumbnailUtils.extractThumbnail(source, thumbnailSize, thumbnailSize, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
     }
 
     @Nullable
@@ -143,9 +141,7 @@ public class MediaUtils {
         if (source == null) {
             return null;
         }
-        Bitmap bitmap = ThumbnailUtils.extractThumbnail(source, thumbnailSize, thumbnailSize);
-        source.recycle();
-        return bitmap;
+        return ThumbnailUtils.extractThumbnail(source, thumbnailSize, thumbnailSize, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
     }
 
     public static long getImageSquarePixels(ContentResolver contentResolver, Uri uri) throws FileNotFoundException {
