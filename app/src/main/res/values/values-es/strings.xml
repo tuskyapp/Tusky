@@ -1,0 +1,350 @@
+<resources>
+
+    <string name="error_generic">An error occurred.</string>
+    <string name="error_empty">This cannot be empty.</string>
+    <string name="error_invalid_domain">Invalid domain entered</string>
+    <string name="error_failed_app_registration">Failed authenticating with that instance.</string>
+    <string name="error_no_web_browser_found">Couldn\'t find a web browser to use.</string>
+    <string name="error_authorization_unknown">An unidentified authorization error occurred.</string>
+    <string name="error_authorization_denied">Authorization was denied.</string>
+    <string name="error_retrieving_oauth_token">Failed getting a login token.</string>
+    <string name="error_compose_character_limit">The status is too long!</string>
+    <string name="error_media_upload_size">The file must be less than 8MB.</string>
+    <string name="error_media_upload_type">That type of file cannot be uploaded.</string>
+    <string name="error_media_upload_opening">That file could not be opened.</string>
+    <string name="error_media_upload_permission">Permission to read media is required.</string>
+    <string name="error_media_download_permission">Permission to store media is required.</string>
+    <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same status.</string>
+    <string name="error_media_upload_sending">The upload failed.</string>
+    <string name="error_report_too_few_statuses">At least one status must be reported.</string>
+    <string name="error_invalid_regex">Invalid regular expression</string>
+    <string name="error_sender_account_gone">Error sending toot.</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_advanced">Advanced</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_public_local">Local</string>
+    <string name="title_public_federated">Federated</string>
+    <string name="title_view_thread">Toot</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">Posts</string>
+    <string name="title_statuses_with_replies">With replies</string>
+    <string name="title_follows">Follows</string>
+    <string name="title_followers">Followers</string>
+    <string name="title_favourites">Favourites</string>
+    <string name="title_mutes">Muted users</string>
+    <string name="title_blocks">Blocked users</string>
+    <string name="title_follow_requests">Follow Requests</string>
+    <string name="title_edit_profile">Edit your profile</string>
+    <string name="title_saved_toot">Drafts</string>
+    <string name="title_licenses">Licenses</string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s boosted</string>
+    <string name="status_sensitive_media_title">Sensitive content</string>
+    <string name="status_media_hidden_title">Media hidden</string>
+    <string name="status_sensitive_media_directions">Click to view</string>
+    <string name="status_content_warning_show_more">Show More</string>
+    <string name="status_content_warning_show_less">Show Less</string>
+
+    <string name="footer_empty">Nothing here. Pull down to refresh!</string>
+
+    <string name="notification_reblog_format">%s boosted your toot</string>
+    <string name="notification_favourite_format">%s favourited your toot</string>
+    <string name="notification_follow_format">%s followed you</string>
+
+    <string name="report_username_format">Report @%s</string>
+    <string name="report_comment_hint">Additional comments?</string>
+
+    <string name="action_quick_reply">Quick Reply</string>
+    <string name="action_reply">Reply</string>
+    <string name="action_reblog">Boost</string>
+    <string name="action_favourite">Favourite</string>
+    <string name="action_more">More</string>
+    <string name="action_compose">Compose</string>
+    <string name="action_login">Login with Mastodon</string>
+    <string name="action_logout">Log Out</string>
+    <string name="action_logout_confirm">Are you sure you want to log out of the account %1$s?</string>
+    <string name="action_follow">Follow</string>
+    <string name="action_unfollow">Unfollow</string>
+    <string name="action_block">Block</string>
+    <string name="action_unblock">Unblock</string>
+    <string name="action_hide_reblogs">Hide boosts</string>
+    <string name="action_show_reblogs">Show boosts</string>
+    <string name="action_report">Report</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_send">TOOT</string>
+    <string name="action_send_public">TOOT!</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_close">Close</string>
+    <string name="action_view_profile">Profile</string>
+    <string name="action_view_preferences">Preferences</string>
+    <string name="action_view_favourites">Favourites</string>
+    <string name="action_view_mutes">Muted users</string>
+    <string name="action_view_blocks">Blocked users</string>
+    <string name="action_view_follow_requests">Follow Requests</string>
+    <string name="action_view_media">Media</string>
+    <string name="action_open_in_web">Open in browser</string>
+    <string name="action_add_media">Add media</string>
+    <string name="action_photo_take">Take photo</string>
+    <string name="action_share">Share</string>
+    <string name="action_mute">Mute</string>
+    <string name="action_unmute">Unmute</string>
+    <string name="action_mention">Mention</string>
+    <string name="action_hide_media">Hide media</string>
+    <string name="action_open_drawer">Open drawer</string>
+    <string name="action_save">Save</string>
+    <string name="action_edit_profile">Edit profile</string>
+    <string name="action_edit_own_profile">Edit</string>
+    <string name="action_undo">Undo</string>
+    <string name="action_accept">Accept</string>
+    <string name="action_reject">Reject</string>
+    <string name="action_search">Search</string>
+    <string name="action_access_saved_toot">Drafts</string>
+    <string name="action_toggle_visibility">Toot visibility</string>
+    <string name="action_content_warning">Content warning</string>
+    <string name="action_emoji_keyboard">Emoji keyboard</string>
+
+    <string name="download_image">Downloading %1$s</string>
+
+    <string name="action_copy_link">Copy the link</string>
+
+    <string name="send_status_link_to">Share toot URL to…</string>
+    <string name="send_status_content_to">Share toot to…</string>
+
+    <string name="confirmation_reported">Sent!</string>
+    <string name="confirmation_unblocked">User unblocked</string>
+    <string name="confirmation_unmuted">User unmuted</string>
+
+    <string name="status_sent">Sent!</string>
+    <string name="status_sent_long">Reply sent successfully.</string>
+
+    <string name="hint_domain">Which instance?</string>
+    <string name="hint_compose">What\'s happening?</string>
+    <string name="hint_content_warning">Content warning</string>
+    <string name="hint_display_name">Display name</string>
+    <string name="hint_note">Bio</string>
+    <string name="hint_search">Search…</string>
+
+    <string name="search_no_results">No results</string>
+
+    <string name="label_quick_reply">Reply…</string>
+    <string name="label_avatar">Avatar</string>
+    <string name="label_header">Header</string>
+
+    <string name="link_whats_an_instance">What\'s an instance?</string>
+
+    <string name="login_connection">Connecting…</string>
+
+    <string name="dialog_whats_an_instance">The address or domain of any instance can be entered
+        here, such as mastodon.social, icosahedron.website, social.tchncs.de, and
+        <a href="https://instances.social">more!</a>
+        \n\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to
+        join and create an account there.\n\nAn instance is a single place where your account is
+        hosted, but you can easily communicate with and follow folks on other instances as though
+        you were on the same site.
+        \n\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>.
+    </string>
+    <string name="dialog_title_finishing_media_upload">Finishing Media Upload</string>
+    <string name="dialog_message_uploading_media">Uploading…</string>
+    <string name="dialog_download_image">Download</string>
+    <string name="dialog_message_cancel_follow_request">Revoke the follow request?</string>
+    <string name="dialog_unfollow_warning">Unfollow this account?</string>
+
+    <string name="visibility_public">Public: Post to public timelines</string>
+    <string name="visibility_unlisted">Unlisted: Do not show in public timelines</string>
+    <string name="visibility_private">Followers-Only: Post to followers only</string>
+    <string name="visibility_direct">Direct: Post to mentioned users only</string>
+
+    <string name="pref_title_notification_settings">Notifications</string>
+    <string name="pref_title_edit_notification_settings">Edit Notifications</string>
+    <string name="pref_title_notifications_enabled">Notifications</string>
+    <string name="pref_summary_notifications">for account %1$s</string>
+    <string name="pref_title_pull_notification_check_interval">Check Interval</string>
+    <string name="pref_title_notification_alerts">Alerts</string>
+    <string name="pref_title_notification_alert_sound">Notify with a sound</string>
+    <string name="pref_title_notification_alert_vibrate">Notify with vibration</string>
+    <string name="pref_title_notification_alert_light">Notify with light</string>
+    <string name="pref_title_notification_filters">Notify me when</string>
+    <string name="pref_title_notification_filter_mentions">mentioned</string>
+    <string name="pref_title_notification_filter_follows">followed</string>
+    <string name="pref_title_notification_filter_reblogs">my posts are boosted</string>
+    <string name="pref_title_notification_filter_favourites">my posts are favourited</string>
+    <string name="pref_title_appearance_settings">Appearance</string>
+    <string name="pref_title_app_theme">App Theme</string>
+
+    <string-array name="app_theme_names">
+        <item>Dark</item>
+        <item>Light</item>
+        <item>Black</item>
+        <item>Automatic at sunset</item>
+    </string-array>
+
+    <string name="pref_title_browser_settings">Browser</string>
+    <string name="pref_title_custom_tabs">Use Chrome Custom Tabs</string>
+    <string name="pref_title_hide_follow_button">Hide compose button while scrolling</string>
+    <string name="pref_title_status_filter">Timeline filtering</string>
+    <string name="pref_title_status_tabs">Tabs</string>
+    <string name="pref_title_show_boosts">Show boosts</string>
+    <string name="pref_title_show_replies">Show replies</string>
+    <string name="pref_title_filter_regex">Filter out by regular expressions</string>
+    <string name="pref_title_show_media_preview">Show media previews</string>
+    <string name="pref_title_proxy_settings">Proxy</string>
+    <string name="pref_title_http_proxy_settings">HTTP proxy</string>
+    <string name="pref_title_http_proxy_enable">Enable HTTP proxy</string>
+    <string name="pref_title_http_proxy_server">HTTP proxy server</string>
+    <string name="pref_title_http_proxy_port">HTTP proxy port</string>
+
+    <string-array name="pull_notification_check_interval_names">
+        <item>15 minutes</item>
+        <item>20 minutes</item>
+        <item>25 minutes</item>
+        <item>30 minutes</item>
+        <item>45 minutes</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+    </string-array>
+
+    <string name="pref_default_post_privacy">Default post privacy</string>
+    <string name="pref_publishing">Publishing</string>
+
+    <string-array name="post_privacy_names">
+        <item>Public</item>
+        <item>Unlisted</item>
+        <item>Followers-only</item>
+    </string-array>
+
+    <string name="pref_status_text_size">Status text size</string>
+
+    <string-array name="status_text_size_names">
+        <item>Smallest</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Largest</item>
+    </string-array>
+
+    <string name="notification_channel_mention_name">New Mentions</string>
+    <string name="notification_channel_mention_descriptions">Notifications about new mentions</string>
+    <string name="notification_channel_follow_name">New Followers</string>
+    <string name="notification_channel_follow_description">Notifications about new followers</string>
+    <string name="notification_channel_boost_name">Boosts</string>
+    <string name="notification_channel_boost_description">Notifications when your toots get boosted</string>
+    <string name="notification_channel_favourite_name">Favourites</string>
+    <string name="notification_channel_favourite_description">Notifications when your toots get marked as favourite</string>
+
+
+    <string name="notification_mention_format">%s mentioned you</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
+    <string name="notification_summary_medium">%1$s, %2$s, and %3$s</string>
+    <string name="notification_summary_small">%1$s and %2$s</string>
+    <string name="notification_title_summary">%d new interactions</string>
+
+    <string name="description_account_locked">Locked Account</string>
+
+    <string name="about_title_activity">About</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Tusky is free and open-source software.
+        It is licensed under the GNU General Public License Version 3.
+        You can view the license here: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <!-- note to translators:
+         * you should think of “free” as in “free speech,” not as in “free beer”.
+           We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
+           to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
+         * the url can be changed to link to the localized version of the license.
+    -->
+    <string name="about_project_site">
+        Project website:\n
+        https://tuskyapp.github.io
+    </string>
+    <string name="about_bug_feature_request_site">
+        Bug reports &amp; feature requests:\n
+        https://github.com/tuskyapp/Tusky/issues
+    </string>
+    <string name="about_tusky_account">Tusky\'s Profile</string>
+
+    <string name="status_share_content">Share content of toot</string>
+    <string name="status_share_link">Share link to toot</string>
+    <string name="status_media_images">Images</string>
+    <string name="status_media_video">Video</string>
+
+    <string name="state_follow_requested">Follow requested</string>
+
+    <string name="no_content">no content</string>
+
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">in %dy</string>
+    <string name="abbreviated_in_days">in %dd</string>
+    <string name="abbreviated_in_hours">in %dh</string>
+    <string name="abbreviated_in_minutes">in %dm</string>
+    <string name="abbreviated_in_seconds">in %ds</string>
+    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
+
+    <string name="follows_you">Follows you</string>
+    <string name="pref_title_alway_show_sensitive_media">Always show all nsfw content</string>
+    <string name="title_media">Media</string>
+    <string name="replying_to">Replying to @%s</string>
+    <string name="load_more_placeholder_text">load more</string>
+
+    <string name="add_account_name">Add Account</string>
+    <string name="add_account_description">Add new Mastodon Account</string>
+
+    <string name="action_lists">Lists</string>
+    <string name="title_lists">Lists</string>
+    <string name="title_list_timeline">List timeline</string>
+
+    <string name="compose_active_account_description">Posting with account %1$s</string>
+
+    <string name="error_failed_set_caption">Failed to set caption</string>
+    <string name="hint_describe_for_visually_impaired">Describe for visually impaired</string>
+    <string name="action_set_caption">Set caption</string>
+    <string name="action_remove_media">Remove</string>
+    <string name="lock_account_label">Lock account</string>
+    <string name="lock_account_label_description">Requires you to manually approve followers</string>
+    <string name="compose_save_draft">Save draft?</string>
+    <string name="send_toot_notification_title">Sending Toot…</string>
+    <string name="send_toot_notification_error_title">Error sending toot</string>
+    <string name="send_toot_notification_channel_name">Sending Toots</string>
+    <string name="send_toot_notification_cancel_title">Sending cancelled</string>
+    <string name="send_toot_notification_saved_content">A copy of the toot has been saved to your drafts</string>
+    <string name="action_compose_shortcut">Compose</string>
+
+    <string name="error_no_custom_emojis">Your instance %s does not have any custom emojis</string>
+    <string name="copy_to_clipboard_success">Copied to clipboard</string>
+    <string name="emoji_style">Emoji style</string>
+    <string name="system_default">System default</string>
+    <string name="download_fonts">You\'ll need to download these emoji sets first</string>
+    <string name="performing_lookup_title">Performing lookup...</string>
+    <string name="expand_collapse_all_statuses">Expand/Collapse all statuses</string>
+    <string name="action_open_toot">Open toot</string>
+    <string name="restart_required">App restart required</string>
+    <string name="restart_emoji">You\'ll need to restart Tusky in order to apply these changes</string>
+    <string name="later">Later</string>
+    <string name="restart">Restart</string>
+    <string name="caption_systememoji">Your device\'s default emoji set</string>
+    <string name="caption_blobmoji">The Blob emojis known from Android 4.4–7.1</string>
+    <string name="caption_twemoji">Mastodon\'s standard emoji set</string>
+
+    <string name="download_failed">Download failed</string>
+
+    <string name="profile_badge_bot_text">Bot</string>
+    <string name="account_moved_description">%1$s has moved to:</string>
+
+    <string name="reblog_private">Boost to original audience</string>
+    <string name="unreblog_private">Unboost</string>
+
+    <string name="license_description">Tusky contains code and assets from the following open source projects:</string>
+    <string name="license_apache_2">Licensed under the Apache License (copy below)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <string name="profile_metadata_label">Profile metadata</string>
+    <string name="profile_metadata_add">add data</string>
+    <string name="profile_metadata_label_label">Label</string>
+    <string name="profile_metadata_content_label">Content</string>
+
+</resources>
