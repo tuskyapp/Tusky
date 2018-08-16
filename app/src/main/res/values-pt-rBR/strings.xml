@@ -138,9 +138,9 @@
 
     <string name="dialog_whats_an_instance">O endereço ou domínio de qualquer instância pode ser inserido         aqui, como mastodon.social, icosahedron.website, social.tchncs.de e         <a href="https://instances.social" >mais!</a>         \n
    \n
-   Se você não tem uma conta ainda, você pode inserir o nome da instância a qual você gostaria de         se juntar e criar uma conta lá.\n
+   Se você não tem uma conta ainda, você pode inserir o nome da instância a qual você gostaria de         participar e criar uma conta lá.\n
    \n
-   Uma instância é um lgar onde sua conta é         hospedada, mas você pode facilmente se comunicar e seguir pessoas em outras instâncias como se         vocês estivessem no mesmo site.         \n
+   Uma instância é um lugar onde sua conta é         hospedada, mas você pode facilmente se comunicar e seguir pessoas em outras instâncias como se         vocês estivessem no mesmo site.         \n
    \n
    Mais informações podem ser encontrada em <a href="https://joinmastodon.org" >joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Envio de mídia terminando</string>
@@ -174,7 +174,7 @@
     <string-array name="app_theme_names">
         <item>Noturno</item>
         <item>Diurno</item>
-        <item>Negro</item>
+        <item>AMOLED</item>
         <item>Automático</item>
     </string-array>
 
@@ -336,5 +336,11 @@
     <string name="license_description">O Tusky contém código e recursos dos seguintes projetos de código aberto:</string>
     <string name="license_apache_2">Licenciado sob a licença Apache (cópia abaixo)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <string name="profile_metadata_label">Metadados do perfil</string>
+    <string name="profile_metadata_add">Adicionar</string>
+    <string name="profile_metadata_label_label">Rótulo</string>
+    <string name="profile_metadata_content_label">Conteúdo</string>    
 
 </resources>
