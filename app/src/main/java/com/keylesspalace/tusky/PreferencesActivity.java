@@ -34,8 +34,10 @@ public class PreferencesActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private boolean restartActivitiesOnExit;
-    private @XmlRes int currentPreferences;
-    private @StringRes int currentTitle;
+    private @XmlRes
+    int currentPreferences;
+    private @StringRes
+    int currentTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +63,7 @@ public class PreferencesActivity extends BaseActivity
 
         preferences.registerOnSharedPreferenceChangeListener(this);
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             currentPreferences = R.xml.preferences;
             currentTitle = R.string.action_view_preferences;
         } else {
@@ -124,6 +126,10 @@ public class PreferencesActivity extends BaseActivity
                 restartActivitiesOnExit = true;
                 break;
             }
+            case "absoluteTimeView": {
+                restartActivitiesOnExit = true;
+                break;
+            }
             case "notificationsEnabled": {
                 boolean enabled = sharedPreferences.getBoolean("notificationsEnabled", true);
                 if (enabled) {
@@ -145,14 +151,14 @@ public class PreferencesActivity extends BaseActivity
     @Override
     public void onBackPressed() {
         //if we are not on the top level, show the top level. Else exit the activity
-        if(currentPreferences != R.xml.preferences) {
+        if (currentPreferences != R.xml.preferences) {
             showFragment(R.xml.preferences, R.string.action_view_preferences);
 
         } else {
-        /* Switching themes won't actually change the theme of activities on the back stack.
-         * Either the back stack activities need to all be recreated, or do the easier thing, which
-         * is hijack the back button press and use it to launch a new MainActivity and clear the
-         * back stack. */
+            /* Switching themes won't actually change the theme of activities on the back stack.
+             * Either the back stack activities need to all be recreated, or do the easier thing, which
+             * is hijack the back button press and use it to launch a new MainActivity and clear the
+             * back stack. */
             if (restartActivitiesOnExit) {
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
