@@ -34,10 +34,8 @@ public class PreferencesActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private boolean restartActivitiesOnExit;
-    private @XmlRes
-    int currentPreferences;
-    private @StringRes
-    int currentTitle;
+    private @XmlRes int currentPreferences;
+    private @StringRes int currentTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
