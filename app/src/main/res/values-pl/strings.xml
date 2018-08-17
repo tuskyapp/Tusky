@@ -340,5 +340,11 @@
     <string name="license_description">Tusky zawiera kod i zasoby następujących projektów open source:</string>
     <string name="license_apache_2">Na licencji Apache (kopia poniżej)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+	   <string name="profile_metadata_label">Metadane profilu</string>
+    <string name="profile_metadata_add">dodaj dane</string>
+    <string name="profile_metadata_label_label">Nazwa</string>
+    <string name="profile_metadata_content_label">Zawartość</string>
 
 </resources>
