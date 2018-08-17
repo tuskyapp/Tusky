@@ -1,9 +1,7 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.preference.PreferenceManager;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -68,7 +66,9 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     TextView content;
     TextView contentWarningDescription;
 
-    StatusBaseViewHolder(View itemView) {
+    private boolean useAbsoluteTime;
+
+    StatusBaseViewHolder(View itemView, boolean useAbsoluteTime) {
         super(itemView);
         container = itemView.findViewById(R.id.status_container);
         displayName = itemView.findViewById(R.id.status_display_name);
@@ -95,6 +95,8 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         mediaLabel = itemView.findViewById(R.id.status_media_label);
         contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
         contentWarningButton = itemView.findViewById(R.id.status_content_warning_button);
+
+        this.useAbsoluteTime = useAbsoluteTime;
     }
 
     protected abstract int getMediaPreviewHeight(Context context);
@@ -130,8 +132,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     protected void setCreatedAt(@Nullable Date createdAt) {
-        SharedPreferences defPrefs = PreferenceManager.getDefaultSharedPreferences(timestampInfo.getContext());
-        if (defPrefs.getBoolean("absoluteTimeView", true)) {
+        if (useAbsoluteTime) {
             String time = "ERROR!";
             if (createdAt != null) {
                 SimpleDateFormat sdf;
