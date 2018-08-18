@@ -231,7 +231,7 @@ class EditProfileViewModel  @Inject constructor(
 
 
     private fun calculateFieldToUpdate(newField: StringField?, fieldsUnchanged: Boolean): Pair<RequestBody, RequestBody>? {
-        if(fieldsUnchanged || newField == null || newField.name.isBlank()) {
+        if(fieldsUnchanged || newField == null) {
             return null
         }
         return Pair(
