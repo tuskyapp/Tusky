@@ -107,6 +107,13 @@ class LoginActivity : AppCompatActivity(), Injectable {
 
     }
 
+    override fun finish() {
+        super.finish()
+        if(isAdditionalLogin()) {
+            overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             onBackPressed()
