@@ -80,7 +80,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="notification_timestamp_info"
+            app:layout_constraintEnd_toStartOf="@id/notification_timestamp_info"
             app:constraint_referenced_ids="notification_name_container,notification_timestamp_info" />
 
         <android.support.text.emoji.widget.EmojiTextView
