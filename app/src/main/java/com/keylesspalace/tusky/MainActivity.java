@@ -516,7 +516,11 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         for (AccountEntity acc : allAccounts) {
             CharSequence emojifiedName = CustomEmojiHelper.emojifyString(acc.getDisplayName(), acc.getEmojis(), headerResult.getView());
-            emojifiedName = EmojiCompat.get().process(emojifiedName);
+            try {
+                emojifiedName = EmojiCompat.get().process(emojifiedName);
+            } catch (IllegalArgumentException e) {
+                Log.w("MainActivity", e);
+            }
 
             profiles.add(0,
                     new ProfileDrawerItem()
