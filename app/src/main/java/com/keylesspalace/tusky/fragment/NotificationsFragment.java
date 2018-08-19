@@ -43,7 +43,6 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.BlockEvent;
@@ -210,6 +209,8 @@ public class NotificationsFragment extends SFragment implements
 
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         setupNothingView();
+
+        sendFetchNotificationsRequest(null, topId, FetchEnd.TOP, -1);
 
         return rootView;
     }
@@ -576,7 +577,7 @@ public class NotificationsFragment extends SFragment implements
             /* When this is called by the EndlessScrollListener it cannot refresh the footer state
              * using adapter.notifyItemChanged. So its necessary to postpone doing so until a
              * convenient time for the UI thread using a Runnable. */
-            recyclerView.post(() -> adapter.setFooterState(FooterViewHolder.State.LOADING));
+       //     recyclerView.post(() -> adapter.setFooterState(FooterViewHolder.State.LOADING));
         }
 
         Call<List<Notification>> call = mastodonApi.notifications(fromId, uptoId, LOAD_AT_ONCE);
@@ -645,10 +646,10 @@ public class NotificationsFragment extends SFragment implements
         saveNewestNotificationId(notifications);
 
         fulfillAnyQueuedFetches(fetchEnd);
-        if (notifications.size() == 0 && adapter.getItemCount() == 1) {
-            adapter.setFooterState(FooterViewHolder.State.EMPTY);
+        if (notifications.size() == 0 && adapter.getItemCount() == 0) {
+            nothingMessageView.setVisibility(View.VISIBLE);
         } else {
-            adapter.setFooterState(FooterViewHolder.State.END);
+            nothingMessageView.setVisibility(View.GONE);
         }
         swipeRefreshLayout.setRefreshing(false);
         progressBar.setVisibility(View.GONE);

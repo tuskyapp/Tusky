@@ -64,7 +64,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private List<NotificationViewData> notifications;
     private StatusActionListener statusListener;
     private NotificationActionListener notificationActionListener;
-    private FooterViewHolder.State footerState;
     private boolean mediaPreviewEnabled;
     private BidiFormatter bidiFormatter;
 
@@ -74,7 +73,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         notifications = new ArrayList<>();
         this.statusListener = statusListener;
         this.notificationActionListener = notificationActionListener;
-        footerState = FooterViewHolder.State.END;
         mediaPreviewEnabled = true;
         bidiFormatter = BidiFormatter.getInstance();
     }
@@ -164,15 +162,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     break;
                 }
             }
-        } else {
-            FooterViewHolder holder = (FooterViewHolder) viewHolder;
-            holder.setState(footerState);
         }
     }
 
     @Override
     public int getItemCount() {
-        return notifications.size() + 1;
+        return notifications.size();
     }
 
     @Override
@@ -227,14 +222,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     public void clear() {
         notifications.clear();
         notifyDataSetChanged();
-    }
-
-    public void setFooterState(FooterViewHolder.State newFooterState) {
-        FooterViewHolder.State oldValue = footerState;
-        footerState = newFooterState;
-        if (footerState != oldValue) {
-            notifyItemChanged(notifications.size());
-        }
     }
 
     public void setMediaPreviewEnabled(boolean enabled) {
