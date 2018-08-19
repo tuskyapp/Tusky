@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--This applies only to favourite and rebnotificationsEnabledions.-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/notification_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -24,90 +25,101 @@
         android:textSize="?attr/status_text_medium"
         tools:text="Someone favourited your status" />
 
-    <RelativeLayout
-        android:id="@+id/status_name_bar"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/notification_name_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/notification_top_text"
         android:layout_toEndOf="@+id/notification_status_avatar"
-        android:paddingBottom="4dp">
-
-        <android.support.text.emoji.widget.EmojiTextView
-            android:id="@+id/status_display_name"
-            android:layout_width="wrap_content"
+        android:paddingBottom="4dp"
+        android:paddingTop="@dimen/status_avatar_padding">
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingEnd="@dimen/status_display_name_padding_end"
-            android:paddingStart="0dp"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-            android:textColor="?android:textColorTertiary"
-            android:textSize="?attr/status_text_medium"
-            android:textStyle="normal|bold"
-            tools:text="Ente" />
+            android:orientation="horizontal"
+            android:id="@+id/notification_name_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/notification_timestamp_info" >
+            <android.support.text.emoji.widget.EmojiTextView
+                android:id="@+id/notification_display_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingEnd="@dimen/status_display_name_padding_end"
+                android:paddingStart="0dp"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="?attr/status_text_medium"
+                android:textStyle="normal|bold"
+                tools:text="Ente" />
+
+            <TextView
+                android:id="@+id/notification_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="?attr/status_text_medium"
+                tools:text="\@Entenhausen" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/status_username"
+            android:id="@+id/notification_timestamp_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/status_display_name"
-            android:layout_toStartOf="@+id/status_timestamp_info"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="?android:textColorTertiary"
-            android:textSize="?attr/status_text_medium"
-            tools:text="\@Entenhausen" />
-
-        <TextView
-            android:id="@+id/status_timestamp_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            app:layout_constraintStart_toEndOf="@id/notification_name_container"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="4dp"
-            android:textColor="?android:textColorTertiary"
+            android:textColor="?android:textColorSecondary"
             android:textSize="?attr/status_text_medium"
             tools:text="13:37" />
 
-    </RelativeLayout>
+        <android.support.constraint.Group
+            android:id="@+id/notification_name_group"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="notification_timestamp_info"
+            app:constraint_referenced_ids="notification_name_container,notification_timestamp_info" />
 
-    <android.support.text.emoji.widget.EmojiTextView
-        android:id="@+id/notification_content_warning_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/status_name_bar"
-        android:layout_toEndOf="@id/notification_status_avatar"
-        android:lineSpacingMultiplier="1.1"
-        android:textColor="?android:textColorTertiary"
-        android:textSize="?attr/status_text_medium"
-        tools:text="Example CW text" />
+        <android.support.text.emoji.widget.EmojiTextView
+            android:id="@+id/notification_content_warning_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/notification_name_group"
+            app:layout_constraintStart_toStartOf="parent"
+            android:lineSpacingMultiplier="1.1"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="?attr/status_text_medium"
+            android:visibility="gone" />
 
-
-    <ToggleButton
-        android:id="@+id/notification_content_warning_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/notification_content_warning_description"
-        android:layout_toEndOf="@id/notification_status_avatar"
-        android:background="?attr/content_warning_button"
-        android:minHeight="0dp"
-        android:minWidth="150dp"
-        android:paddingBottom="4dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:textAllCaps="true"
-        android:textOff="@string/status_content_warning_show_more"
-        android:textOn="@string/status_content_warning_show_less"
-        android:textSize="?attr/status_text_medium" />
+        <ToggleButton
+            android:id="@+id/notification_content_warning_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/notification_content_warning_description"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:background="?attr/content_warning_button"
+            android:minHeight="0dp"
+            android:minWidth="150dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="4dp"
+            android:textAllCaps="true"
+            android:textOff="@string/status_content_warning_show_more"
+            android:textOn="@string/status_content_warning_show_less"
+            android:textSize="?attr/status_text_medium"
+            android:visibility="gone" />
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/notification_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/notification_content_warning_button"
+        android:layout_below="@id/notification_name_bar"
         android:layout_toEndOf="@+id/notification_status_avatar"
         android:lineSpacingMultiplier="1.1"
         android:paddingBottom="10dp"
@@ -135,7 +147,7 @@
         android:id="@+id/notification_notification_avatar"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_alignBottom="@+id/notification_status_avatar"
+        android:layout_alignBottom="@id/notification_status_avatar"
         android:layout_alignEnd="@id/notification_status_avatar" />
 
 </RelativeLayout>
