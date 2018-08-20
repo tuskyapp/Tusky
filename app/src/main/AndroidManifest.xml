@@ -77,7 +77,8 @@
         <activity android:name=".ViewTagActivity" />
         <activity android:name=".ViewMediaActivity"
             android:theme="@style/TuskyBaseTheme" />
-        <activity android:name=".AccountActivity" />
+        <activity android:name=".AccountActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".PreferencesActivity" />
         <activity android:name=".FavouritesActivity" />
