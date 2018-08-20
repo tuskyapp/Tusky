@@ -40,7 +40,7 @@
     <string name="title_saved_toot">임시 보관함</string>
     <string name="title_licenses">라이센스</string>
 
-    <string name="status_username_format">\\@%s</string>
+    <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s가 부스트</string>
     <string name="status_sensitive_media_title">민감한 컨텐츠</string>
     <string name="status_media_hidden_title">숨겨진 미디어</string>
