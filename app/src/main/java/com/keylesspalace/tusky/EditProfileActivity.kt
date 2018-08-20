@@ -124,6 +124,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                         lockedCheckBox.isChecked = me.locked
 
                         accountFieldEditAdapter.setFields(me.source?.fields ?: emptyList())
+                        addFieldButton.isEnabled = me.source?.fields?.size ?: 0 < MAX_ACCOUNT_FIELDS
 
                         if(viewModel.avatarData.value == null) {
                             Picasso.with(this)
