@@ -328,6 +328,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private StatusViewData.Concrete statusViewData;
 
         private boolean useAbsoluteTime;
+        private SimpleDateFormat sdf;
+        private boolean passed1day;
 
         StatusNotificationViewHolder(View itemView, boolean useAbsoluteTime) {
             super(itemView);
@@ -353,6 +355,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             contentWarningButton.setOnCheckedChangeListener(this);
 
             this.useAbsoluteTime = useAbsoluteTime;
+            sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+            passed1day = false;
         }
 
         private void showNotificationContent(boolean show) {
@@ -381,11 +385,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             if (useAbsoluteTime) {
                 String time;
                 if (createdAt != null) {
-                    SimpleDateFormat sdf;
-                    if (new Date().getTime() - createdAt.getTime() > 86400000L) {
-                        sdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
-                    } else {
-                        sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+                    if (!passed1day) {
+                        if (new Date().getTime() - createdAt.getTime() > 86400000L) {
+                            passed1day = true;
+                            sdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
+                        }
                     }
                     time = sdf.format(createdAt);
                 } else {
