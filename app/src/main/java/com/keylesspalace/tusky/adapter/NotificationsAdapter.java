@@ -388,8 +388,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                         sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
                     }
                     time = sdf.format(createdAt);
-                    timestampInfo.setText(time);
+                } else {
+                    time = "??:??:??";
                 }
+                timestampInfo.setText(time);
             } else {
                 // This is the visible timestampInfo.
                 String readout;
