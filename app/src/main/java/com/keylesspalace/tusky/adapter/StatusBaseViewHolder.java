@@ -67,8 +67,8 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     TextView contentWarningDescription;
 
     private boolean useAbsoluteTime;
-    private SimpleDateFormat sdf;
-    private boolean passed1day;
+    private SimpleDateFormat shortSdf;
+    private SimpleDateFormat longSdf;
 
     StatusBaseViewHolder(View itemView, boolean useAbsoluteTime) {
         super(itemView);
@@ -99,8 +99,8 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         contentWarningButton = itemView.findViewById(R.id.status_content_warning_button);
 
         this.useAbsoluteTime = useAbsoluteTime;
-        sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-        passed1day = false;
+        shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+        longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
     }
 
     protected abstract int getMediaPreviewHeight(Context context);
@@ -139,13 +139,11 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (useAbsoluteTime) {
             String time;
             if (createdAt != null) {
-                if (!passed1day) {
-                    if (new Date().getTime() - createdAt.getTime() > 86400000L) {
-                        passed1day = true;
-                        sdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
-                    }
+                if (System.currentTimeMillis() - createdAt.getTime() > 86400000L) {
+                    time = longSdf.format(createdAt);
+                } else {
+                    time = shortSdf.format(createdAt);
                 }
-                time = sdf.format(createdAt);
             } else {
                 time = "??:??:??";
             }
