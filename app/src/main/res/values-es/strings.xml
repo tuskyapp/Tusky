@@ -47,8 +47,8 @@
     <string name="footer_empty">Nada por aquí. ¡Arrastra hacia abajo para recargar!</string>
 
     <string name="notification_reblog_format">%s ha retooteado tu estado</string>
-    <string name="notification_favourite_format">%s marcó como favorito tu estado</string>
-    <string name="notification_follow_format">%s te siguió</string>
+    <string name="notification_favourite_format">%s ha marcado como favorito tu estado</string>
+    <string name="notification_follow_format">%s te ha seguido</string>
 
     <string name="report_username_format">Reportar @%s</string>
     <string name="report_comment_hint">¿Información adicional?</string>
@@ -80,7 +80,7 @@
     <string name="action_view_media">Multimedia</string>
     <string name="action_open_in_web">Abrir en el navegador</string>
     <string name="action_add_media">Añadir multimedia</string>
-    <string name="action_photo_take">Tomar foto</string>
+    <string name="action_photo_take">Hacer foto</string>
     <string name="action_share">Compartir</string>
     <string name="action_mute">Silenciar</string>
     <string name="action_unmute">Dejar de silenciar</string>
@@ -128,7 +128,7 @@
     <string name="dialog_whats_an_instance">Introduzca aquí dirección o dominio de cualquier instancia,
         como mastodon.social, icosahedron.website, social.tchncs.de y
         <a href="https://instances.social">más!</a>
-        \n\nSi todavia no tiene una cuenta, puede indicar el nombre de la instancia a la que quiere
+        \n\nSi todavía no tiene una cuenta, puede indicar el nombre de la instancia a la que quiere
         unirse y crear una cuenta allí.\n\nUna instancia es el sitio único donde su cuenta
         está alojada, pero puede comunicarse y seguir usuarios de otras instancias como si
         estuvieran en la misma.
@@ -220,7 +220,7 @@
     <string name="notification_channel_favourite_description">Notificaciones de posts que recibieron favorito</string>
 
 
-    <string name="notification_mention_format">%s te mencionó</string>
+    <string name="notification_mention_format">%s te ha mencionado</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s y %4$d otros</string>
     <string name="notification_summary_medium">%1$s, %2$s, y %3$s</string>
     <string name="notification_summary_small">%1$s y %2$s</string>
@@ -231,7 +231,7 @@
     <string name="about_title_activity">Acerca de</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tusky es un software libre y de código abierto.
-        Está licenciado bajo la licencia "GNU General Public License Version 3".
+        Está licenciado bajo la licencia "GNU General Public License Versión 3".
         Puedes leer sobre la misma en: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators: the url can be changed to link to the localized version of the license -->
     <string name="about_project_site">
