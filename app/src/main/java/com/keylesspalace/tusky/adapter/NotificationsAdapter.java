@@ -379,7 +379,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
         protected void setCreatedAt(@Nullable Date createdAt) {
             if (useAbsoluteTime) {
-                String time = "ERROR!";
+                String time;
                 if (createdAt != null) {
                     SimpleDateFormat sdf;
                     if (new Date().getTime() - createdAt.getTime() > 86400000L) {
