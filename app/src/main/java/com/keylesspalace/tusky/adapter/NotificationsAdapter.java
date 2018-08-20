@@ -117,7 +117,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             if (notification instanceof NotificationViewData.Placeholder) {
                 NotificationViewData.Placeholder placeholder = ((NotificationViewData.Placeholder) notification);
                 PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
-                holder.setup(!placeholder.isLoading(), statusListener);
+                holder.setup(statusListener, placeholder.isLoading());
                 return;
             }
             NotificationViewData.Concrete concreteNotificaton =
@@ -217,6 +217,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     public void addItems(List<NotificationViewData> newNotifications) {
         notifications.addAll(newNotifications);
         notifyItemRangeInserted(notifications.size(), newNotifications.size());
+    }
+
+    public void removeItemAndNotify(int position) {
+        notifications.remove(position);
+        notifyItemRemoved(position);
     }
 
     public void clear() {
