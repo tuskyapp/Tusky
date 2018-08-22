@@ -34,21 +34,16 @@ public final class PlaceholderViewHolder extends RecyclerView.ViewHolder {
         progressBar = itemView.findViewById(R.id.progress_bar);
     }
 
-    public void setup(boolean enabled, final StatusActionListener listener) {
-        this.setup(enabled, listener, false);
-    }
-
-    public void setup(boolean enabled, final StatusActionListener listener, boolean progress) {
+    public void setup(final StatusActionListener listener, boolean progress) {
         loadMoreButton.setVisibility(progress ? View.GONE : View.VISIBLE);
         progressBar.setVisibility(progress ? View.VISIBLE : View.GONE);
 
-        loadMoreButton.setEnabled(enabled);
-        if (enabled) {
-            loadMoreButton.setOnClickListener(v -> {
-                loadMoreButton.setEnabled(false);
-                listener.onLoadMore(getAdapterPosition());
-            });
-        }
+        loadMoreButton.setEnabled(true);
+        loadMoreButton.setOnClickListener(v -> {
+            loadMoreButton.setEnabled(false);
+            listener.onLoadMore(getAdapterPosition());
+        });
+
     }
 
 }

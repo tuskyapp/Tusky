@@ -43,10 +43,9 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
-import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.BlockEvent;
+import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
 import com.keylesspalace.tusky.appstore.ReblogEvent;
 import com.keylesspalace.tusky.db.AccountEntity;
@@ -69,6 +68,7 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.math.BigInteger;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -132,9 +132,7 @@ public class NotificationsFragment extends SFragment implements
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private boolean hideFab;
     private boolean topLoading;
-    private int topFetches;
     private boolean bottomLoading;
-    private int bottomFetches;
     private String bottomId;
     private String topId;
     private boolean alwaysShowSensitiveMedia;
@@ -202,14 +200,14 @@ public class NotificationsFragment extends SFragment implements
 
         notifications.clear();
         topLoading = false;
-        topFetches = 0;
         bottomLoading = false;
-        bottomFetches = 0;
         bottomId = null;
         topId = null;
 
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         setupNothingView();
+
+        sendFetchNotificationsRequest(null, topId, FetchEnd.TOP, -1);
 
         return rootView;
     }
@@ -551,6 +549,14 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void onLoadMore() {
+        Either<Placeholder, Notification> last = notifications.get(notifications.size() - 1);
+        if (last.isRight()) {
+            notifications.add(Either.left(Placeholder.getInstance()));
+            NotificationViewData viewData = new NotificationViewData.Placeholder(true);
+            notifications.setPairedItem(notifications.size() - 1, viewData);
+            recyclerView.post(() -> adapter.addItems(Collections.singletonList(viewData)));
+        }
+
         sendFetchNotificationsRequest(bottomId, null, FetchEnd.BOTTOM, -1);
     }
 
@@ -564,19 +570,16 @@ public class NotificationsFragment extends SFragment implements
         /* If there is a fetch already ongoing, record however many fetches are requested and
          * fulfill them after it's complete. */
         if (fetchEnd == FetchEnd.TOP && topLoading) {
-            topFetches++;
             return;
         }
         if (fetchEnd == FetchEnd.BOTTOM && bottomLoading) {
-            bottomFetches++;
             return;
         }
-
-        if (fromId != null || adapter.getItemCount() <= 1) {
-            /* When this is called by the EndlessScrollListener it cannot refresh the footer state
-             * using adapter.notifyItemChanged. So its necessary to postpone doing so until a
-             * convenient time for the UI thread using a Runnable. */
-            recyclerView.post(() -> adapter.setFooterState(FooterViewHolder.State.LOADING));
+        if(fetchEnd == FetchEnd.TOP) {
+            topLoading = true;
+        }
+        if(fetchEnd == FetchEnd.BOTTOM) {
+            bottomLoading = true;
         }
 
         Call<List<Notification>> call = mastodonApi.notifications(fromId, uptoId, LOAD_AT_ONCE);
@@ -624,6 +627,13 @@ public class NotificationsFragment extends SFragment implements
                 if (next != null) {
                     fromId = next.uri.getQueryParameter("max_id");
                 }
+
+                if (!this.notifications.isEmpty()
+                        && !this.notifications.get(this.notifications.size() - 1).isRight()) {
+                    this.notifications.remove(this.notifications.size() - 1);
+                    adapter.removeItemAndNotify(this.notifications.size());
+                }
+
                 if (adapter.getItemCount() > 1) {
                     addItems(notifications, fromId);
                 } else {
@@ -644,11 +654,17 @@ public class NotificationsFragment extends SFragment implements
 
         saveNewestNotificationId(notifications);
 
-        fulfillAnyQueuedFetches(fetchEnd);
-        if (notifications.size() == 0 && adapter.getItemCount() == 1) {
-            adapter.setFooterState(FooterViewHolder.State.EMPTY);
+        if(fetchEnd == FetchEnd.TOP) {
+            topLoading = false;
+        }
+        if(fetchEnd == FetchEnd.BOTTOM) {
+            bottomLoading = false;
+        }
+
+        if (notifications.size() == 0 && adapter.getItemCount() == 0) {
+            nothingMessageView.setVisibility(View.VISIBLE);
         } else {
-            adapter.setFooterState(FooterViewHolder.State.END);
+            nothingMessageView.setVisibility(View.GONE);
         }
         swipeRefreshLayout.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
@@ -663,7 +679,6 @@ public class NotificationsFragment extends SFragment implements
             adapter.updateItemWithNotify(position, placeholderVD, true);
         }
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
-        fulfillAnyQueuedFetches(fetchEnd);
         progressBar.setVisibility(View.GONE);
     }
 
@@ -710,7 +725,6 @@ public class NotificationsFragment extends SFragment implements
                 notifications.remove(0);
             }
 
-
             int newIndex = liftedNew.indexOf(notifications.get(0));
             if (newIndex == -1) {
                 if (index == -1 && liftedNew.size() >= LOAD_AT_ONCE) {
@@ -740,27 +754,6 @@ public class NotificationsFragment extends SFragment implements
                     .subList(notifications.size() - newNotifications.size(),
                             notifications.size());
             adapter.addItems(newViewDatas);
-        }
-    }
-
-    private void fulfillAnyQueuedFetches(FetchEnd fetchEnd) {
-        switch (fetchEnd) {
-            case BOTTOM: {
-                bottomLoading = false;
-                if (bottomFetches > 0) {
-                    bottomFetches--;
-                    onLoadMore();
-                }
-                break;
-            }
-            case TOP: {
-                topLoading = false;
-                if (topFetches > 0) {
-                    topFetches--;
-                    onRefresh();
-                }
-                break;
-            }
         }
     }
 

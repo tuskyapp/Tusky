@@ -71,8 +71,7 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
         StatusViewData status = dataSource.getItemAt(position);
         if (status instanceof StatusViewData.Placeholder) {
             PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
-            holder.setup(!((StatusViewData.Placeholder) status).isLoading(),
-                    statusListener, ((StatusViewData.Placeholder) status).isLoading());
+            holder.setup(statusListener, ((StatusViewData.Placeholder) status).isLoading());
         } else {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             holder.setupWithStatus((StatusViewData.Concrete) status,
