@@ -139,9 +139,9 @@ public class TimelineFragment extends SFragment implements
     private boolean bottomLoading;
 
     @Nullable
-    private String bottomId;
+    private String bottomId = null;
     @Nullable
-    private String topId;
+    private String topId = null;
     private long maxPlaceholderId = -1;
     private boolean didLoadEverythingBottom;
 
@@ -226,9 +226,6 @@ public class TimelineFragment extends SFragment implements
         updateAdapter();
         setupTimelinePreferences();
         setupNothingView();
-
-        bottomId = null;
-        topId = null;
 
         if (statuses.isEmpty()) {
             progressBar.setVisibility(View.VISIBLE);
