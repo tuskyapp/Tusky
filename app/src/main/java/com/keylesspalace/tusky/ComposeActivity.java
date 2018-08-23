@@ -159,6 +159,7 @@ public final class ComposeActivity
     private static final String SAVED_TOOT_UID_EXTRA = "saved_toot_uid";
     private static final String SAVED_TOOT_TEXT_EXTRA = "saved_toot_text";
     private static final String SAVED_JSON_URLS_EXTRA = "saved_json_urls";
+    private static final String SAVED_TOOT_VISIBILITY_EXTRA = "saved_toot_visibility";
     private static final String IN_REPLY_TO_ID_EXTRA = "in_reply_to_id";
     private static final String REPLY_VISIBILITY_EXTRA = "reply_visibilty";
     private static final String CONTENT_WARNING_EXTRA = "content_warning";
@@ -424,6 +425,11 @@ public final class ComposeActivity
             int savedTootUid = intent.getIntExtra(SAVED_TOOT_UID_EXTRA, 0);
             if (savedTootUid != 0) {
                 this.savedTootUid = savedTootUid;
+            }
+
+            int savedTootVisibility = intent.getIntExtra(SAVED_TOOT_VISIBILITY_EXTRA, Status.Visibility.UNKNOWN.getNum());
+            if (savedTootVisibility != Status.Visibility.UNKNOWN.getNum()) {
+                startingVisibility = Status.Visibility.byNum(savedTootVisibility);
             }
 
             if (intent.hasExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA)) {
@@ -1609,6 +1615,8 @@ public final class ComposeActivity
         @Nullable
         private Status.Visibility replyVisibility;
         @Nullable
+        private Status.Visibility savedVisibility;
+        @Nullable
         private String contentWarning;
         @Nullable
         private String replyingStatusAuthor;
@@ -1627,6 +1635,11 @@ public final class ComposeActivity
 
         public IntentBuilder savedJsonUrls(String jsonUrls) {
             this.savedJsonUrls = jsonUrls;
+            return this;
+        }
+
+        public IntentBuilder savedVisibility(Status.Visibility savedVisibility) {
+            this.savedVisibility = savedVisibility;
             return this;
         }
 
@@ -1681,6 +1694,9 @@ public final class ComposeActivity
             }
             if (replyVisibility != null) {
                 intent.putExtra(REPLY_VISIBILITY_EXTRA, replyVisibility.getNum());
+            }
+            if (savedVisibility != null) {
+                intent.putExtra(SAVED_TOOT_VISIBILITY_EXTRA, savedVisibility.getNum());
             }
             if (contentWarning != null) {
                 intent.putExtra(CONTENT_WARNING_EXTRA, contentWarning);
