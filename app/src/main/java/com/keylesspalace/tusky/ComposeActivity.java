@@ -1459,7 +1459,7 @@ public final class ComposeActivity
                 getIntent().getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
                 getIntent().getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA),
                 statusVisibility);
-        finish();
+        finishWithoutSlideOutAnimation();
     }
 
     @Override

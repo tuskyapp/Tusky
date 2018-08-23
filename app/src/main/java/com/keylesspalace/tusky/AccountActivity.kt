@@ -530,7 +530,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             val intent = ComposeActivity.IntentBuilder()
                     .mentionedUsernames(setOf(it.username))
                     .build(this)
-            startActivityWithSlideInAnimation(intent)
+            startActivity(intent)
         }
     }
 
