@@ -39,7 +39,7 @@
     <string name="title_saved_toot">المسودات</string>
     <string name="title_licenses">الرّخص</string>
 
-    <string name="status_username_format">\\@%s</string>
+    <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s رقّي</string>
     <string name="status_sensitive_media_title">محتوى حساس</string>
     <string name="status_media_hidden_title">وسائط مخفية</string>
