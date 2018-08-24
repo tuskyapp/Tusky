@@ -522,8 +522,10 @@ public class NotificationsFragment extends SFragment implements
             }
             case "mediaPreviewEnabled": {
                 boolean enabled = sharedPreferences.getBoolean("mediaPreviewEnabled", true);
-                adapter.setMediaPreviewEnabled(enabled);
-                fullyRefresh();
+                if (enabled != adapter.isMediaPreviewEnabled()) {
+                    adapter.setMediaPreviewEnabled(enabled);
+                    fullyRefresh();
+                }
                 break;
             }
         }

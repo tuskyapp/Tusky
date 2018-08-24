@@ -233,6 +233,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         mediaPreviewEnabled = enabled;
     }
 
+    public boolean isMediaPreviewEnabled() {
+        return mediaPreviewEnabled;
+    }
+
     public interface NotificationActionListener {
         void onViewAccount(String id);
 
