@@ -207,7 +207,7 @@ public class NotificationsFragment extends SFragment implements
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         setupNothingView();
 
-        sendFetchNotificationsRequest(null, topId, FetchEnd.TOP, -1);
+        sendFetchNotificationsRequest(null, topId, FetchEnd.BOTTOM, -1);
 
         return rootView;
     }
@@ -551,6 +551,10 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void onLoadMore() {
+        if(bottomId == null) {
+            // already loaded everything
+            return;
+        }
         Either<Placeholder, Notification> last = notifications.get(notifications.size() - 1);
         if (last.isRight()) {
             notifications.add(Either.left(Placeholder.getInstance()));
@@ -741,11 +745,9 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void addItems(List<Notification> newNotifications, @Nullable String fromId) {
+        bottomId = fromId;
         if (ListUtils.isEmpty(newNotifications)) {
             return;
-        }
-        if (fromId != null) {
-            bottomId = fromId;
         }
         int end = notifications.size();
         List<Either<Placeholder, Notification>> liftedNew = liftNotificationList(newNotifications);
