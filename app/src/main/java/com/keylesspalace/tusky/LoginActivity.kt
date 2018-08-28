@@ -154,6 +154,7 @@ class LoginActivity : AppCompatActivity(), Injectable {
                 if (!response.isSuccessful) {
                     loginButton.isEnabled = true
                     domainEditText.error = getString(R.string.error_failed_app_registration)
+                    setLoading(false)
                     Log.e(TAG, "App authentication failed. " + response.message())
                     return
                 }
