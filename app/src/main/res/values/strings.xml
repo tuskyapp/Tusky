@@ -285,7 +285,7 @@
     <string name="abbreviated_seconds_ago">%ds</string>
 
     <string name="follows_you">Follows you</string>
-    <string name="pref_title_alway_show_sensitive_media">Always show all nsfw content</string>
+    <string name="pref_title_alway_show_sensitive_media">Always show sensitive content</string>
     <string name="title_media">Media</string>
     <string name="replying_to">Replying to @%s</string>
     <string name="load_more_placeholder_text">load more</string>
