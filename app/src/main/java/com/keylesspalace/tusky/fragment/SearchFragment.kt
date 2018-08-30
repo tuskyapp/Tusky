@@ -212,6 +212,10 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
         // not needed here, search is not paginated
     }
 
+    override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
+        TODO("not implemented")
+    }
+
     companion object {
         const val TAG = "SearchFragment"
     }

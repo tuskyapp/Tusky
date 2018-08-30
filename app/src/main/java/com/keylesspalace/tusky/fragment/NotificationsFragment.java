@@ -492,6 +492,11 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
+    public void onContentCollapsedChange(boolean isCollapsed, int position) {
+        // TODO: Implement this method.
+    }
+
+    @Override
     public void onViewTag(String tag) {
         super.viewTag(tag);
     }

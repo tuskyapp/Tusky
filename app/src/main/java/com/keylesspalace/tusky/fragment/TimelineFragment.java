@@ -562,6 +562,11 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
+    public void onContentCollapsedChange(boolean isCollapsed, int position) {
+        // TODO: Implement this method.
+    }
+
+    @Override
     public void onViewMedia(int position, int attachmentIndex, View view) {
         Status status = statuses.get(position).getAsRightOrNull();
         if (status == null) return;

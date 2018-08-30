@@ -354,6 +354,11 @@ public final class ViewThreadFragment extends SFragment implements
     }
 
     @Override
+    public void onContentCollapsedChange(boolean isCollapsed, int position) {
+        // No need to implement this method as status threads always show all content in a status.
+    }
+
+    @Override
     public void onViewTag(String tag) {
         super.viewTag(tag);
     }
