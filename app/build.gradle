@@ -30,7 +30,9 @@ android {
             shrinkResources true
             proguardFiles 'proguard-rules.pro'
         }
-        debug { }
+        debug {
+            applicationIdSuffix ".debug"
+        }
     }
 
     flavorDimensions "color"
