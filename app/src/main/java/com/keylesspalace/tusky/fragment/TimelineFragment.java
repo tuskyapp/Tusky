@@ -561,9 +561,46 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
+    /**
+     * Called when the status {@link android.widget.ToggleButton} responsible for collapsing long
+     * status content is interacted with.
+     *
+     * @param isCollapsed Whether the status content is shown in a collapsed state or fully.
+     * @param position    The position of the status in the list.
+     */
     @Override
     public void onContentCollapsedChange(boolean isCollapsed, int position) {
-        // TODO: Implement this method.
+        if(position < 0 || position >= statuses.size()) {
+            Log.e(TAG, String.format("Tried to access out of bounds status position: %d of %d", position, statuses.size() - 1));
+            return;
+        }
+
+        StatusViewData status = statuses.getPairedItem(position);
+        if(!(status instanceof StatusViewData.Concrete)) {
+            // Statuses PairedList contains a base type of StatusViewData.Concrete and also doesn't
+            // check for null values when adding values to it.
+
+            // TODO: Implement @NonNull/@Nullable in PairedList insert methods
+
+            if(status == null) {
+                Log.e(TAG, String.format("Tried to access status but got null at position: %d of %d", position, statuses.size() - 1));
+            } else {
+                Log.e(TAG, String.format(
+                        "Expected StatusViewData.Concrete, got %s instead at position: %d of %d",
+                        status.getClass().getSimpleName(),
+                        position,
+                        statuses.size() -1
+                ));
+            }
+
+            return;
+        }
+
+        StatusViewData updatedStatus = new StatusViewData.Builder((StatusViewData.Concrete) status)
+                .setCollapsed(isCollapsed)
+                .createStatusViewData();
+        statuses.setPairedItem(position, updatedStatus);
+        updateAdapter();
     }
 
     @Override
