@@ -80,6 +80,7 @@ public abstract class StatusViewData {
         private final List<Emoji> accountEmojis;
         @Nullable
         private final Card card;
+        private final boolean isCollapsed; /** Whether the status is shown partially or fully */
 
         public Concrete(String id, Spanned content, boolean reblogged, boolean favourited,
                         @Nullable String spoilerText, Status.Visibility visibility, List<Attachment> attachments,
@@ -87,7 +88,8 @@ public abstract class StatusViewData {
                         boolean isShowingContent, String userFullName, String nickname, String avatar,
                         Date createdAt, int reblogsCount, int favouritesCount, @Nullable String inReplyToId,
                         @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
-                        Status.Application application, List<Emoji> statusEmojis, List<Emoji> accountEmojis, @Nullable Card card) {
+                        Status.Application application, List<Emoji> statusEmojis, List<Emoji> accountEmojis, @Nullable Card card,
+                        boolean isCollapsed) {
             this.id = id;
             this.content = content;
             this.reblogged = reblogged;
@@ -114,6 +116,7 @@ public abstract class StatusViewData {
             this.statusEmojis = statusEmojis;
             this.accountEmojis = accountEmojis;
             this.card = card;
+            this.isCollapsed = isCollapsed;
         }
 
         public String getId() {
@@ -226,6 +229,15 @@ public abstract class StatusViewData {
             return card;
         }
 
+        /**
+         * Specifies whether the content of this post is castrated to a certain length or if it is
+         * currently shown at its full length.
+         * @return Whether the post is collapsed or fully expanded.
+         */
+        public boolean isCollapsed() {
+            return isCollapsed;
+        }
+
         @Override public long getViewDataId() {
             // Chance of collision is super low and impact of mistake is low as well
             return getId().hashCode();
@@ -236,31 +248,32 @@ public abstract class StatusViewData {
             if (o == null || getClass() != o.getClass()) return false;
             Concrete concrete = (Concrete) o;
             return reblogged == concrete.reblogged &&
-                favourited == concrete.favourited &&
-                isSensitive == concrete.isSensitive &&
-                isExpanded == concrete.isExpanded &&
-                isShowingContent == concrete.isShowingContent &&
-                reblogsCount == concrete.reblogsCount &&
-                favouritesCount == concrete.favouritesCount &&
-                rebloggingEnabled == concrete.rebloggingEnabled &&
-                Objects.equals(id, concrete.id) &&
-                Objects.equals(content, concrete.content) &&
-                Objects.equals(spoilerText, concrete.spoilerText) &&
-                visibility == concrete.visibility &&
-                Objects.equals(attachments, concrete.attachments) &&
-                Objects.equals(rebloggedByUsername, concrete.rebloggedByUsername) &&
-                Objects.equals(rebloggedAvatar, concrete.rebloggedAvatar) &&
-                Objects.equals(userFullName, concrete.userFullName) &&
-                Objects.equals(nickname, concrete.nickname) &&
-                Objects.equals(avatar, concrete.avatar) &&
-                Objects.equals(createdAt, concrete.createdAt) &&
-                Objects.equals(inReplyToId, concrete.inReplyToId) &&
-                Arrays.equals(mentions, concrete.mentions) &&
-                Objects.equals(senderId, concrete.senderId) &&
-                Objects.equals(application, concrete.application) &&
+                    favourited == concrete.favourited &&
+                    isSensitive == concrete.isSensitive &&
+                    isExpanded == concrete.isExpanded &&
+                    isShowingContent == concrete.isShowingContent &&
+                    reblogsCount == concrete.reblogsCount &&
+                    favouritesCount == concrete.favouritesCount &&
+                    rebloggingEnabled == concrete.rebloggingEnabled &&
+                    Objects.equals(id, concrete.id) &&
+                    Objects.equals(content, concrete.content) &&
+                    Objects.equals(spoilerText, concrete.spoilerText) &&
+                    visibility == concrete.visibility &&
+                    Objects.equals(attachments, concrete.attachments) &&
+                    Objects.equals(rebloggedByUsername, concrete.rebloggedByUsername) &&
+                    Objects.equals(rebloggedAvatar, concrete.rebloggedAvatar) &&
+                    Objects.equals(userFullName, concrete.userFullName) &&
+                    Objects.equals(nickname, concrete.nickname) &&
+                    Objects.equals(avatar, concrete.avatar) &&
+                    Objects.equals(createdAt, concrete.createdAt) &&
+                    Objects.equals(inReplyToId, concrete.inReplyToId) &&
+                    Arrays.equals(mentions, concrete.mentions) &&
+                    Objects.equals(senderId, concrete.senderId) &&
+                    Objects.equals(application, concrete.application) &&
                     Objects.equals(statusEmojis, concrete.statusEmojis) &&
                     Objects.equals(accountEmojis, concrete.accountEmojis) &&
-                Objects.equals(card, concrete.card);
+                    Objects.equals(card, concrete.card)
+                    && isCollapsed == concrete.isCollapsed;
         }
     }
 
@@ -334,6 +347,7 @@ public abstract class StatusViewData {
         private List<Emoji> statusEmojis;
         private List<Emoji> accountEmojis;
         private Card card;
+        private boolean isCollapsed; /** Whether the status is shown partially or fully */
 
         public Builder() {
         }
@@ -497,6 +511,18 @@ public abstract class StatusViewData {
             return this;
         }
 
+        /**
+         * Configure the {@link com.keylesspalace.tusky.viewdata.StatusViewData} to start in a collapsed
+         * state, hiding partially the content of the post if it exceeds a certain amount of characters.
+         *
+         * @param collapsed Whether to show the full content of the status or not.
+         * @return This {@link com.keylesspalace.tusky.viewdata.StatusViewData.Builder} instance.
+         */
+        public Builder setCollapsed(boolean collapsed) {
+            isCollapsed = collapsed;
+            return this;
+        }
+
         public StatusViewData.Concrete createStatusViewData() {
             if (this.statusEmojis == null) statusEmojis = Collections.emptyList();
             if (this.accountEmojis == null) accountEmojis = Collections.emptyList();
@@ -506,7 +532,7 @@ public abstract class StatusViewData {
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
                     isShowingContent, userFullName, nickname, avatar, createdAt, reblogsCount,
                     favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application,
-                    statusEmojis, accountEmojis, card);
+                    statusEmojis, accountEmojis, card, isCollapsed);
         }
     }
 }
