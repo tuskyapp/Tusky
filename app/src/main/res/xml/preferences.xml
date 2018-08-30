@@ -42,6 +42,12 @@
             android:key="alwaysShowSensitiveMedia"
             android:title="@string/pref_title_alway_show_sensitive_media" />
 
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="collapseLongStatuses"
+            android:title="@string/pref_appearance_long_posts_title"
+            android:summaryOn="@string/pref_appearance_long_posts_enabled"
+            android:summaryOff="@string/pref_appearance_long_posts_disabled"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_publishing">
