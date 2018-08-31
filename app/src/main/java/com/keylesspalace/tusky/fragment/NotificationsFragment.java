@@ -40,7 +40,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
@@ -498,13 +497,6 @@ public class NotificationsFragment extends SFragment implements
         }
     }
 
-    /**
-     * Called when the status {@link android.widget.ToggleButton} responsible for collapsing long
-     * status content is interacted with.
-     *
-     * @param isCollapsed Whether the status content is shown in a collapsed state or fully.
-     * @param position    The position of the status in the list.
-     */
     @Override
     public void onContentCollapsedChange(boolean isCollapsed, int position) {
         if(position < 0 || position >= notifications.size()) {
@@ -555,13 +547,6 @@ public class NotificationsFragment extends SFragment implements
         recyclerView.post(() -> adapter.notifyItemChanged(position, notification));
     }
 
-    /**
-     * Called when the status {@link ToggleButton} responsible for collapsing long
-     * status content is interacted with.
-     *
-     * @param isCollapsed Whether the status content is shown in a collapsed state or fully.
-     * @param position    The position of the status in the list.
-     */
     @Override
     public void onNotificationContentCollapsedChange(boolean isCollapsed, int position) {
         onContentCollapsedChange(isCollapsed, position);

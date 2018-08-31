@@ -244,8 +244,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void setupTimelinePreferences() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
-                getActivity());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         preferences.registerOnSharedPreferenceChangeListener(this);
         alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
         boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
@@ -568,13 +567,6 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
-    /**
-     * Called when the status {@link android.widget.ToggleButton} responsible for collapsing long
-     * status content is interacted with.
-     *
-     * @param isCollapsed Whether the status content is shown in a collapsed state or fully.
-     * @param position    The position of the status in the list.
-     */
     @Override
     public void onContentCollapsedChange(boolean isCollapsed, int position) {
         if(position < 0 || position >= statuses.size()) {
@@ -585,21 +577,13 @@ public class TimelineFragment extends SFragment implements
         StatusViewData status = statuses.getPairedItem(position);
         if(!(status instanceof StatusViewData.Concrete)) {
             // Statuses PairedList contains a base type of StatusViewData.Concrete and also doesn't
-            // check for null values when adding values to it.
-
-            // TODO: Implement @NonNull/@Nullable in PairedList insert methods
-
-            if(status == null) {
-                Log.e(TAG, String.format("Tried to access status but got null at position: %d of %d", position, statuses.size() - 1));
-            } else {
-                Log.e(TAG, String.format(
-                        "Expected StatusViewData.Concrete, got %s instead at position: %d of %d",
-                        status.getClass().getSimpleName(),
-                        position,
-                        statuses.size() -1
-                ));
-            }
-
+            // check for null values when adding values to it although this doesn't seem to be an issue.
+            Log.e(TAG, String.format(
+                    "Expected StatusViewData.Concrete, got %s instead at position: %d of %d",
+                    status == null ? "<null>" : status.getClass().getSimpleName(),
+                    position,
+                    statuses.size() -1
+            ));
             return;
         }
 
