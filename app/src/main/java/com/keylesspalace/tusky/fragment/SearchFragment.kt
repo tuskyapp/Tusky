@@ -236,7 +236,18 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        TODO("not implemented")
+        // TODO: No out-of-bounds check in getConcreteStatusAtPosition
+        val status = searchAdapter.getConcreteStatusAtPosition(position)
+        if(status == null) {
+            Log.e(TAG, String.format("Tried to access status but got null at position: %d", position))
+            return
+        }
+
+        val updatedStatus = StatusViewData.Builder(status)
+                .setCollapsed(isCollapsed)
+                .createStatusViewData()
+        searchAdapter.updateStatusAtPosition(updatedStatus, position)
+        searchRecyclerView.post { searchAdapter.notifyItemChanged(position, updatedStatus) }
     }
 
     companion object {
