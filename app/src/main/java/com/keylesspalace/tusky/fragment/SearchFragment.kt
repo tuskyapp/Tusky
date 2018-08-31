@@ -50,6 +50,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
 
     private var alwaysShowSensitiveMedia = false
     private var mediaPreviewEnabled = true
+    private var collapseLongStatusContent = true;
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -61,9 +62,17 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
         alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false)
         mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true)
 
+        collapseLongStatusContent = preferences.getBoolean("collapseLongStatuses", true);
+
         searchRecyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         searchRecyclerView.layoutManager = LinearLayoutManager(view.context)
-        searchAdapter = SearchResultsAdapter(mediaPreviewEnabled, alwaysShowSensitiveMedia, this, this)
+        searchAdapter = SearchResultsAdapter(
+                mediaPreviewEnabled,
+                alwaysShowSensitiveMedia,
+                collapseLongStatusContent,
+                this,
+                this
+        )
         searchRecyclerView.adapter = searchAdapter
 
     }
@@ -139,7 +148,14 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
             timelineCases.reblogWithCallback(status, reblog, object: Callback<Status> {
                 override fun onResponse(call: Call<Status>?, response: Response<Status>?) {
                     status.reblogged = true
-                    searchAdapter.updateStatusAtPosition(ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia), position)
+                    searchAdapter.updateStatusAtPosition(
+                            ViewDataUtils.statusToViewData(
+                                    status,
+                                    alwaysShowSensitiveMedia,
+                                    collapseLongStatusContent
+                            ),
+                            position
+                    )
                 }
 
                 override fun onFailure(call: Call<Status>?, t: Throwable?) {
@@ -156,7 +172,14 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
             timelineCases.favouriteWithCallback(status, favourite, object: Callback<Status> {
                 override fun onResponse(call: Call<Status>?, response: Response<Status>?) {
                     status.favourited = true
-                    searchAdapter.updateStatusAtPosition(ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia), position)
+                    searchAdapter.updateStatusAtPosition(
+                            ViewDataUtils.statusToViewData(
+                                    status,
+                                    alwaysShowSensitiveMedia,
+                                    collapseLongStatusContent
+                            ),
+                            position
+                    )
                 }
 
                 override fun onFailure(call: Call<Status>?, t: Throwable?) {

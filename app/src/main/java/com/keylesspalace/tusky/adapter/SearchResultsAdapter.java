@@ -48,12 +48,16 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
 
     private boolean mediaPreviewsEnabled;
     private boolean alwaysShowSensitiveMedia;
+    private boolean collapseLongStatusContent;
 
     private LinkListener linkListener;
     private StatusActionListener statusListener;
 
-    public SearchResultsAdapter(boolean mediaPreviewsEnabled, boolean alwaysShowSensitiveMedia,
-                                LinkListener linkListener, StatusActionListener statusListener) {
+    public SearchResultsAdapter(boolean mediaPreviewsEnabled,
+                                boolean alwaysShowSensitiveMedia,
+                                boolean collapseLongStatusContent,
+                                LinkListener linkListener,
+                                StatusActionListener statusListener) {
 
         this.accountList = Collections.emptyList();
         this.statusList = Collections.emptyList();
@@ -62,6 +66,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
 
         this.mediaPreviewsEnabled = mediaPreviewsEnabled;
         this.alwaysShowSensitiveMedia = alwaysShowSensitiveMedia;
+        this.collapseLongStatusContent = collapseLongStatusContent;
 
         this.linkListener = linkListener;
         this.statusListener = statusListener;
@@ -150,7 +155,11 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
             accountList = results.getAccounts();
             statusList = results.getStatuses();
             for(Status status: results.getStatuses()) {
-                concreteStatusList.add(ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia));
+                concreteStatusList.add(ViewDataUtils.statusToViewData(
+                        status,
+                        alwaysShowSensitiveMedia,
+                        collapseLongStatusContent
+                ));
             }
             hashtagList = results.getHashtags();
 
