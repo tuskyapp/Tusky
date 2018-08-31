@@ -98,6 +98,7 @@ dependencies {
     //room
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     kapt 'android.arch.persistence.room:compiler:1.1.1'
+    implementation 'android.arch.persistence.room:rxjava2:1.1.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
     implementation "com.google.dagger:dagger:$daggerVersion"
