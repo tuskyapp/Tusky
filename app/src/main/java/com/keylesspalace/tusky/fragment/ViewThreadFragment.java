@@ -91,6 +91,7 @@ public final class ViewThreadFragment extends SFragment implements
     private String thisThreadsStatusId;
     private Card card;
     private boolean alwaysShowSensitiveMedia;
+    private boolean collapseLongStatusContent;
 
     private int statusIndex = 0;
 
@@ -98,7 +99,11 @@ public final class ViewThreadFragment extends SFragment implements
             new PairedList<>(new Function<Status, StatusViewData.Concrete>() {
                 @Override
                 public StatusViewData.Concrete apply(Status input) {
-                    return ViewDataUtils.statusToViewData(input, alwaysShowSensitiveMedia);
+                    return ViewDataUtils.statusToViewData(
+                            input,
+                            alwaysShowSensitiveMedia,
+                            collapseLongStatusContent
+                    );
                 }
             });
 
@@ -154,6 +159,7 @@ public final class ViewThreadFragment extends SFragment implements
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                 getActivity());
         alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
+        collapseLongStatusContent = preferences.getBoolean("collapseLongStatuses", true);
         boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         recyclerView.setAdapter(adapter);

@@ -146,6 +146,7 @@ public class TimelineFragment extends SFragment implements
     private boolean didLoadEverythingBottom;
 
     private boolean alwaysShowSensitiveMedia;
+    private boolean collapseLongStatusContent;
 
     @Override
     protected TimelineCases timelineCases() {
@@ -158,7 +159,11 @@ public class TimelineFragment extends SFragment implements
                 public StatusViewData apply(Either<Placeholder, Status> input) {
                     Status status = input.getAsRightOrNull();
                     if (status != null) {
-                        return ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia);
+                        return ViewDataUtils.statusToViewData(
+                                status,
+                                alwaysShowSensitiveMedia,
+                                collapseLongStatusContent
+                        );
                     } else {
                         Placeholder placeholder = input.getAsLeft();
                         return new StatusViewData.Placeholder(placeholder.id, false);
@@ -262,6 +267,8 @@ public class TimelineFragment extends SFragment implements
             filterRemoveRegexMatcher = Pattern.compile(regexFilter, Pattern.CASE_INSENSITIVE)
                     .matcher("");
         }
+
+        collapseLongStatusContent = preferences.getBoolean("collapseLongStatuses", true);
     }
 
     private void setupSwipeRefreshLayout() {
@@ -687,7 +694,12 @@ public class TimelineFragment extends SFragment implements
             case "alwaysShowSensitiveMedia": {
                 //it is ok if only newly loaded statuses are affected, no need to fully refresh
                 alwaysShowSensitiveMedia = sharedPreferences.getBoolean("alwaysShowSensitiveMedia", false);
+                break;
             }
+            case "collapseLongStatuses":
+                // As for "always show sensitive media" settings, only apply this to newer posts
+                collapseLongStatusContent = sharedPreferences.getBoolean("collapseLongStatuses", true);
+                break;
         }
     }
 
