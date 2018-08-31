@@ -115,6 +115,19 @@
         android:textSize="?attr/status_text_medium"
         tools:text="Example status here" />
 
+
+    <ToggleButton
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:id="@+id/button_toggle_notification_content"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:padding="0dp"
+            android:layout_toEndOf="@id/status_avatar"
+            android:layout_below="@id/notification_content"
+            android:textOff="@string/status_content_show_less"
+            android:textOn="@string/status_content_show_more"
+            android:visibility="gone" />
+
     <com.keylesspalace.tusky.view.RoundedImageView
         android:id="@+id/notification_status_avatar"
         android:layout_width="48dp"
