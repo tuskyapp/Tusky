@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
@@ -58,6 +59,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private View sensitiveMediaShow;
     private TextView mediaLabel;
     private ToggleButton contentWarningButton;
+    private ToggleButton contentCollapseButton;
 
     ImageView avatar;
     TextView timestampInfo;
@@ -91,6 +93,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         mediaLabel = itemView.findViewById(R.id.status_media_label);
         contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
         contentWarningButton = itemView.findViewById(R.id.status_content_warning_button);
+        contentCollapseButton = itemView.findViewById(R.id.button_toggle_content);
     }
 
     protected abstract int getMediaPreviewHeight(Context context);
@@ -468,7 +471,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         setUsername(status.getNickname());
         setCreatedAt(status.getCreatedAt());
         setIsReply(status.getInReplyToId() != null);
-        setContent(status.getContent(), status.getMentions(), status.getStatusEmojis(), listener);
         setAvatar(status.getAvatar(), status.getRebloggedAvatar());
         setReblogged(status.isReblogged());
         setFavourited(status.isFavourited());
@@ -499,7 +501,54 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         } else {
             setSpoilerText(status.getSpoilerText(), status.getStatusEmojis(), status.isExpanded(), listener);
         }
+
+        if(contentCollapseButton != null && status.isCollapsible() && (status.isExpanded() || status.getSpoilerText() == null || status.getSpoilerText().isEmpty())) {
+            contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                int position = getAdapterPosition();
+                if(position != RecyclerView.NO_POSITION) listener.onContentCollapsedChange(isChecked, position);
+            });
+
+            contentCollapseButton.setVisibility(View.VISIBLE);
+            if(status.isCollapsed()) {
+                contentCollapseButton.setChecked(true);
+                content.setFilters(new InputFilter[] {(source, start, end, dest, dstart, dend) -> {
+
+                    // Code imported from InputFilter.LengthFilter
+                    // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/text/InputFilter.java#175
+
+                    // Changes:
+                    // - After the text it adds and ellipsis to make it feel like the text continues
+                    // - Max value is 500 rather than a variable
+                    // - Trim invisible characters off the end of the 500-limited string
+                    // - Slimmed code for saving LOCs
+
+                    int keep = 50 - (dest.length() - (dend - dstart));
+                    if(keep <= 0) return "";
+                    if(keep >= end - start) return null; // keep original
+
+                    keep += start;
+
+                    while(Character.isWhitespace(source.charAt(keep - 1))) {
+                        --keep;
+                        if(keep == start) return "";
+                    }
+
+                    if(Character.isHighSurrogate(source.charAt(keep - 1))) {
+                        --keep;
+                        if(keep == start) return "";
+                    }
+
+                    return source.subSequence(start, keep) + "…";
+                }});
+            } else {
+                contentCollapseButton.setChecked(false);
+                content.setFilters(new InputFilter[] {});
+            }
+        } else if(contentCollapseButton != null) {
+            contentCollapseButton.setVisibility(View.GONE);
+            content.setFilters(new InputFilter[] {});
+        }
+
+        setContent(status.getContent(), status.getMentions(), status.getStatusEmojis(), listener);
     }
-
-
 }
