@@ -697,8 +697,8 @@ public class TimelineFragment extends SFragment implements
                 break;
             }
             case "collapseLongStatuses":
-                // As for "always show sensitive media" settings, only apply this to newer posts
                 collapseLongStatusContent = sharedPreferences.getBoolean("collapseLongStatuses", true);
+                fullyRefresh();
                 break;
         }
     }
