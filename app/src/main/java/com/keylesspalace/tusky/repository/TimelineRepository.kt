@@ -73,7 +73,12 @@ class TimelineRepostiryImpl(
                 followingCount = 0,
                 followersCount = 0,
                 statusesCount = 0,
-                source = null
+                source = null,
+                // TODO actually fill these fields
+                bot = false,
+                emojis = null,
+                fields = null,
+                moved = null
         )
     }
 
