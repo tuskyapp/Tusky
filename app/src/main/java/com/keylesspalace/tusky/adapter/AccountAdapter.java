@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 
@@ -26,60 +27,58 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AccountAdapter extends RecyclerView.Adapter {
+    static final int VIEW_TYPE_ACCOUNT = 0;
+    static final int VIEW_TYPE_FOOTER = 1;
+
+
     List<Account> accountList;
     AccountActionListener accountActionListener;
-    FooterViewHolder.State footerState;
-
-    private String topId;
-    private String bottomId;
+    private boolean bottomLoading;
 
     AccountAdapter(AccountActionListener accountActionListener) {
-        super();
-        accountList = new ArrayList<>();
+        this.accountList = new ArrayList<>();
         this.accountActionListener = accountActionListener;
-        footerState = FooterViewHolder.State.END;
+        bottomLoading = false;
     }
 
     @Override
     public int getItemCount() {
-        return accountList.size() + 1;
+        return accountList.size() + (bottomLoading ? 1 : 0);
     }
 
-    public void update(@Nullable List<Account> newAccounts, @Nullable String fromId,
-                       @Nullable String uptoId) {
-        if (newAccounts == null || newAccounts.isEmpty()) {
-            return;
-        }
-
-        bottomId = fromId;
-        topId = uptoId;
-
-        if (accountList.isEmpty()) {
-            accountList = ListUtils.removeDuplicates(newAccounts);
+    @Override
+    public int getItemViewType(int position) {
+        if (position == accountList.size() && bottomLoading) {
+            return VIEW_TYPE_FOOTER;
         } else {
-            int index = accountList.indexOf(newAccounts.get(newAccounts.size() - 1));
-            for (int i = 0; i < index; i++) {
-                accountList.remove(0);
-            }
-            int newIndex = newAccounts.indexOf(accountList.get(0));
-            if (newIndex == -1) {
-                accountList.addAll(0, newAccounts);
-            } else {
-                accountList.addAll(0, newAccounts.subList(0, newIndex));
-            }
+            return VIEW_TYPE_ACCOUNT;
         }
+    }
+
+    public void update(@NonNull List<Account> newAccounts) {
+        accountList = ListUtils.removeDuplicates(newAccounts);
         notifyDataSetChanged();
     }
 
-    public void addItems(List<Account> newAccounts, @Nullable String fromId) {
-        if (fromId != null) {
-            bottomId = fromId;
-        }
+    public void addItems(List<Account> newAccounts) {
         int end = accountList.size();
         Account last = accountList.get(end - 1);
         if (last != null && !findAccount(newAccounts, last.getId())) {
             accountList.addAll(newAccounts);
             notifyItemRangeInserted(end, newAccounts.size());
+        }
+    }
+
+    public void setBottomLoading(boolean loading) {
+        boolean wasLoading = bottomLoading;
+        if(wasLoading == loading) {
+            return;
+        }
+        bottomLoading = loading;
+        if(loading) {
+            notifyItemInserted(accountList.size());
+        } else {
+            notifyItemRemoved(accountList.size());
         }
     }
 
@@ -110,25 +109,5 @@ public abstract class AccountAdapter extends RecyclerView.Adapter {
         notifyItemInserted(position);
     }
 
-    @Nullable
-    public Account getItem(int position) {
-        if (position >= 0 && position < accountList.size()) {
-            return accountList.get(position);
-        }
-        return null;
-    }
 
-    public void setFooterState(FooterViewHolder.State newFooterState) {
-        footerState = newFooterState;
-    }
-
-    @Nullable
-    public String getBottomId() {
-        return bottomId;
-    }
-
-    @Nullable
-    public String getTopId() {
-        return topId;
-    }
 }
