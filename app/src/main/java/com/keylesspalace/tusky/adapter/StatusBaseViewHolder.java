@@ -522,7 +522,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     // - Trim invisible characters off the end of the 500-limited string
                     // - Slimmed code for saving LOCs
 
-                    int keep = 50 - (dest.length() - (dend - dstart));
+                    int keep = 500 - (dest.length() - (dend - dstart));
                     if(keep <= 0) return "";
                     if(keep >= end - start) return null; // keep original
 
