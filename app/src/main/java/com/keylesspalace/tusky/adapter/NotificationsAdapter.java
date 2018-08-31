@@ -25,6 +25,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.text.BidiFormatter;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -244,6 +245,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
         void onExpandedChange(boolean expanded, int position);
 
+        /**
+         * Called when the status {@link android.widget.ToggleButton} responsible for collapsing long
+         * status content is interacted with.
+         *
+         * @param isCollapsed Whether the status content is shown in a collapsed state or fully.
+         * @param position    The position of the status in the list.
+         */
+        void onNotificationContentCollapsedChange(boolean isCollapsed, int position);
     }
 
     private static class FollowViewHolder extends RecyclerView.ViewHolder {
@@ -309,6 +318,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private final ImageView notificationAvatar;
         private final TextView contentWarningDescriptionTextView;
         private final ToggleButton contentWarningButton;
+        private final ToggleButton contentCollapseButton; // TODO: This code SHOULD be based on StatusBaseViewHolder
 
         private String accountId;
         private String notificationId;
@@ -337,6 +347,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             message.setOnClickListener(this);
             statusContent.setOnClickListener(this);
             contentWarningButton.setOnCheckedChangeListener(this);
+
+            contentCollapseButton = itemView.findViewById(R.id.button_toggle_notification_content);
         }
 
         private void showNotificationContent(boolean show) {
@@ -346,7 +358,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             statusContent.setVisibility(show ? View.VISIBLE : View.GONE);
             statusAvatar.setVisibility(show ? View.VISIBLE : View.GONE);
             notificationAvatar.setVisibility(show ? View.VISIBLE : View.GONE);
-
         }
 
         private void setDisplayName(String name, List<Emoji> emojis) {
@@ -488,10 +499,57 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             Spanned content = statusViewData.getContent();
             List<Emoji> emojis = statusViewData.getStatusEmojis();
 
+            if(contentCollapseButton != null && statusViewData.isCollapsible() && (notificationViewData.isExpanded() || !hasSpoiler)) {
+                contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION && notificationActionListener != null) {
+                        notificationActionListener.onNotificationContentCollapsedChange(isChecked, position);
+                    }
+                });
+
+                contentCollapseButton.setVisibility(View.VISIBLE);
+                if(statusViewData.isCollapsed()) {
+                    contentCollapseButton.setChecked(true);
+                    statusContent.setFilters(new InputFilter[]{(source, start, end, dest, dstart, dend) -> {
+
+                        // Code imported from InputFilter.LengthFilter
+                        // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/text/InputFilter.java#175
+
+                        // Changes:
+                        // - After the text it adds and ellipsis to make it feel like the text continues
+                        // - Max value is 500 rather than a variable
+                        // - Trim invisible characters off the end of the 500-limited string
+                        // - Slimmed code for saving LOCs
+
+                        int keep = 500 - (dest.length() - (dend - dstart));
+                        if(keep <= 0) return "";
+                        if(keep >= end - start) return null; // keep original
+
+                        keep += start;
+
+                        while(Character.isWhitespace(source.charAt(keep - 1))) {
+                            --keep;
+                            if(keep == start) return "";
+                        }
+
+                        if(Character.isHighSurrogate(source.charAt(keep - 1))) {
+                            --keep;
+                            if(keep == start) return "";
+                        }
+
+                        return source.subSequence(start, keep) + "…";
+                    }});
+                } else {
+                    contentCollapseButton.setChecked(false);
+                    statusContent.setFilters(new InputFilter[]{});
+                }
+            } else if(contentCollapseButton != null) {
+                contentCollapseButton.setVisibility(View.GONE);
+                statusContent.setFilters(new InputFilter[]{});
+            }
+
             Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, statusContent);
-
             LinkHelper.setClickableText(statusContent, emojifiedText, statusViewData.getMentions(), listener);
-
 
             Spanned emojifiedContentWarning =
                     CustomEmojiHelper.emojifyString(statusViewData.getSpoilerText(), statusViewData.getStatusEmojis(), contentWarningDescriptionTextView);
