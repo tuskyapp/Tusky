@@ -142,8 +142,8 @@
             android:padding="0dp"
             android:layout_toEndOf="@id/status_avatar"
             android:layout_below="@id/status_content"
-            android:textOff="@string/status_content_show_more"
-            android:textOn="@string/status_content_show_less"
+            android:textOff="@string/status_content_show_less"
+            android:textOn="@string/status_content_show_more"
             android:visibility="gone" />
 
     <android.support.constraint.ConstraintLayout
