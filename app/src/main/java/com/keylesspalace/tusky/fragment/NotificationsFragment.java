@@ -533,15 +533,6 @@ public class NotificationsFragment extends SFragment implements
         }
 
         StatusViewData.Concrete status = ((NotificationViewData.Concrete) notification).getStatusViewData();
-        if(status == null) {
-            Log.e(TAG, String.format(
-                    "Tried to access status in notification but got null at position: %d of %d",
-                    position,
-                    notifications.size() - 1)
-            );
-            return;
-        }
-
         StatusViewData.Concrete updatedStatus = new StatusViewData.Builder(status)
                 .setCollapsed(isCollapsed)
                 .createStatusViewData();

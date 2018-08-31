@@ -18,6 +18,8 @@ package com.keylesspalace.tusky.viewdata;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Notification;
 
+import io.reactivex.annotations.NonNull;
+
 /**
  * Created by charlag on 12/07/2017.
  *
@@ -37,11 +39,12 @@ public abstract class NotificationViewData {
         private final Notification.Type type;
         private final String id;
         private final Account account;
+        @NonNull
         private final StatusViewData.Concrete statusViewData;
         private final boolean isExpanded;
 
         public Concrete(Notification.Type type, String id, Account account,
-                        StatusViewData.Concrete statusViewData, boolean isExpanded) {
+                        @NonNull StatusViewData.Concrete statusViewData, boolean isExpanded) {
             this.type = type;
             this.id = id;
             this.account = account;
@@ -61,6 +64,7 @@ public abstract class NotificationViewData {
             return account;
         }
 
+        @NonNull
         public StatusViewData.Concrete getStatusViewData() {
             return statusViewData;
         }
