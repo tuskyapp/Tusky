@@ -80,6 +80,7 @@ public abstract class StatusViewData {
         private final List<Emoji> accountEmojis;
         @Nullable
         private final Card card;
+        private final boolean isCollapsible; /** Whether the status meets the requirement to be collapse */
         private final boolean isCollapsed; /** Whether the status is shown partially or fully */
 
         public Concrete(String id, Spanned content, boolean reblogged, boolean favourited,
@@ -89,7 +90,7 @@ public abstract class StatusViewData {
                         Date createdAt, int reblogsCount, int favouritesCount, @Nullable String inReplyToId,
                         @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
                         Status.Application application, List<Emoji> statusEmojis, List<Emoji> accountEmojis, @Nullable Card card,
-                        boolean isCollapsed) {
+                        boolean isCollapsible, boolean isCollapsed) {
             this.id = id;
             this.content = content;
             this.reblogged = reblogged;
@@ -116,6 +117,7 @@ public abstract class StatusViewData {
             this.statusEmojis = statusEmojis;
             this.accountEmojis = accountEmojis;
             this.card = card;
+            this.isCollapsible = isCollapsible;
             this.isCollapsed = isCollapsed;
         }
 
@@ -230,8 +232,19 @@ public abstract class StatusViewData {
         }
 
         /**
-         * Specifies whether the content of this post is castrated to a certain length or if it is
-         * currently shown at its full length.
+         * Specifies whether the content of this post is allowed to be collapsed or if it should show
+         * all content regardless.
+         *
+         * @return Whether the post is collapsible or never collapsed.
+         */
+        public boolean isCollapsible() {
+            return isCollapsible;
+        }
+
+        /**
+         * Specifies whether the content of this post is currently limited in visibility to the first
+         * 500 characters or not.
+         *
          * @return Whether the post is collapsed or fully expanded.
          */
         public boolean isCollapsed() {
@@ -347,6 +360,7 @@ public abstract class StatusViewData {
         private List<Emoji> statusEmojis;
         private List<Emoji> accountEmojis;
         private Card card;
+        private boolean isCollapsible; /** Whether the status meets the requirement to be collapsed */
         private boolean isCollapsed; /** Whether the status is shown partially or fully */
 
         public Builder() {
@@ -379,6 +393,8 @@ public abstract class StatusViewData {
             statusEmojis = viewData.getStatusEmojis();
             accountEmojis = viewData.getAccountEmojis();
             card = viewData.getCard();
+            isCollapsible = viewData.isCollapsible();
+            isCollapsed = viewData.isCollapsed();
         }
 
         public Builder setId(String id) {
@@ -512,6 +528,18 @@ public abstract class StatusViewData {
         }
 
         /**
+         * Configure the {@link com.keylesspalace.tusky.viewdata.StatusViewData} to support collapsing
+         * its content limiting the visible length when collapsed at 500 characters,
+         *
+         * @param collapsible Whether the status should support being collapsed or not.
+         * @return This {@link com.keylesspalace.tusky.viewdata.StatusViewData.Builder} instance.
+         */
+        public Builder setCollapsible(boolean collapsible) {
+            isCollapsible = collapsible;
+            return this;
+        }
+
+        /**
          * Configure the {@link com.keylesspalace.tusky.viewdata.StatusViewData} to start in a collapsed
          * state, hiding partially the content of the post if it exceeds a certain amount of characters.
          *
@@ -532,7 +560,7 @@ public abstract class StatusViewData {
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
                     isShowingContent, userFullName, nickname, avatar, createdAt, reblogsCount,
                     favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application,
-                    statusEmojis, accountEmojis, card, isCollapsed);
+                    statusEmojis, accountEmojis, card, isCollapsible, isCollapsed);
         }
     }
 }
