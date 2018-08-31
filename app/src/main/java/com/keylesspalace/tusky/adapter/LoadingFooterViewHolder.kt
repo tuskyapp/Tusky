@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2018 Conny Duck
  *
  * This file is a part of Tusky.
  *
@@ -13,14 +13,9 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.adapter;
+package com.keylesspalace.tusky.adapter
 
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.support.v7.widget.RecyclerView
+import android.view.View
 
-public class LoadingFooterViewHolder extends RecyclerView.ViewHolder {
-
-    LoadingFooterViewHolder(View itemView) {
-        super(itemView);
-    }
-}
+class LoadingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

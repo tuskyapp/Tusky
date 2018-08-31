@@ -336,8 +336,6 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
     }
 
     private void fetchAccounts(String id) {
-        /* If there is a fetch already ongoing, record however many fetches are requested and
-         * fulfill them after it's complete. */
         if (fetching) {
             return;
         }
