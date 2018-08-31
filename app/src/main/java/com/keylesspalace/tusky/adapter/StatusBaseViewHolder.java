@@ -502,7 +502,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setSpoilerText(status.getSpoilerText(), status.getStatusEmojis(), status.isExpanded(), listener);
         }
 
-        if(contentCollapseButton != null && status.isCollapsible() && (status.isExpanded() || status.getSpoilerText() == null || status.getSpoilerText().isEmpty())) {
+        if(status.isCollapsible() && (status.isExpanded() || status.getSpoilerText() == null || status.getSpoilerText().isEmpty())) {
             contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION) listener.onContentCollapsedChange(isChecked, position);
@@ -544,7 +544,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 contentCollapseButton.setChecked(false);
                 content.setFilters(new InputFilter[] {});
             }
-        } else if(contentCollapseButton != null) {
+        } else {
             contentCollapseButton.setVisibility(View.GONE);
             content.setFilters(new InputFilter[] {});
         }

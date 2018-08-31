@@ -338,6 +338,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             notificationAvatar = itemView.findViewById(R.id.notification_notification_avatar);
             contentWarningDescriptionTextView = itemView.findViewById(R.id.notification_content_warning_description);
             contentWarningButton = itemView.findViewById(R.id.notification_content_warning_button);
+            contentCollapseButton = itemView.findViewById(R.id.button_toggle_notification_content);
 
             int darkerFilter = Color.rgb(123, 123, 123);
             statusAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
@@ -347,8 +348,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             message.setOnClickListener(this);
             statusContent.setOnClickListener(this);
             contentWarningButton.setOnCheckedChangeListener(this);
-
-            contentCollapseButton = itemView.findViewById(R.id.button_toggle_notification_content);
         }
 
         private void showNotificationContent(boolean show) {
@@ -499,7 +498,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             Spanned content = statusViewData.getContent();
             List<Emoji> emojis = statusViewData.getStatusEmojis();
 
-            if(contentCollapseButton != null && statusViewData.isCollapsible() && (notificationViewData.isExpanded() || !hasSpoiler)) {
+            if(statusViewData.isCollapsible() && (notificationViewData.isExpanded() || !hasSpoiler)) {
                 contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     int position = getAdapterPosition();
                     if(position != RecyclerView.NO_POSITION && notificationActionListener != null) {
@@ -543,7 +542,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     contentCollapseButton.setChecked(false);
                     statusContent.setFilters(new InputFilter[]{});
                 }
-            } else if(contentCollapseButton != null) {
+            } else {
                 contentCollapseButton.setVisibility(View.GONE);
                 statusContent.setFilters(new InputFilter[]{});
             }
