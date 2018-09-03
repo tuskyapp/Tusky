@@ -18,16 +18,11 @@ package com.keylesspalace.tusky.util;
 import android.content.ContentResolver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.Nullable;
-import android.support.media.ExifInterface;
-import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +32,6 @@ import java.util.List;
  * aspect ratio and orientation.
  */
 public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
-    private static final String TAG = "DownsizeImageTask";
     private int sizeLimit;
     private ContentResolver contentResolver;
     private Listener listener;
@@ -52,83 +46,6 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
         this.sizeLimit = sizeLimit;
         this.contentResolver = contentResolver;
         this.listener = listener;
-    }
-
-    @Nullable
-    private static Bitmap reorientBitmap(Bitmap bitmap, int orientation) {
-        Matrix matrix = new Matrix();
-        switch (orientation) {
-            default:
-            case ExifInterface.ORIENTATION_NORMAL: {
-                return bitmap;
-            }
-            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL: {
-                matrix.setScale(-1, 1);
-                break;
-            }
-            case ExifInterface.ORIENTATION_ROTATE_180: {
-                matrix.setRotate(180);
-                break;
-            }
-            case ExifInterface.ORIENTATION_FLIP_VERTICAL: {
-                matrix.setRotate(180);
-                matrix.postScale(-1, 1);
-                break;
-            }
-            case ExifInterface.ORIENTATION_TRANSPOSE: {
-                matrix.setRotate(90);
-                matrix.postScale(-1, 1);
-                break;
-            }
-            case ExifInterface.ORIENTATION_ROTATE_90: {
-                matrix.setRotate(90);
-                break;
-            }
-            case ExifInterface.ORIENTATION_TRANSVERSE: {
-                matrix.setRotate(-90);
-                matrix.postScale(-1, 1);
-                break;
-            }
-            case ExifInterface.ORIENTATION_ROTATE_270: {
-                matrix.setRotate(-90);
-                break;
-            }
-        }
-        try {
-            Bitmap result = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
-                    bitmap.getHeight(), matrix, true);
-            if (!bitmap.sameAs(result)) {
-                bitmap.recycle();
-            }
-            return result;
-        } catch (OutOfMemoryError e) {
-            return null;
-        }
-    }
-
-    private static int getOrientation(Uri uri, ContentResolver contentResolver) {
-        InputStream inputStream;
-        try {
-            inputStream = contentResolver.openInputStream(uri);
-        } catch (FileNotFoundException e) {
-            Log.d(TAG, Log.getStackTraceString(e));
-            return ExifInterface.ORIENTATION_UNDEFINED;
-        }
-        if (inputStream == null) {
-            return ExifInterface.ORIENTATION_UNDEFINED;
-        }
-        ExifInterface exifInterface;
-        try {
-            exifInterface = new ExifInterface(inputStream);
-        } catch (IOException e) {
-            Log.d(TAG, Log.getStackTraceString(e));
-            IOUtils.closeQuietly(inputStream);
-            return ExifInterface.ORIENTATION_UNDEFINED;
-        }
-        int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                ExifInterface.ORIENTATION_NORMAL);
-        IOUtils.closeQuietly(inputStream);
-        return orientation;
     }
 
     @Override
@@ -147,7 +64,7 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
             BitmapFactory.decodeStream(inputStream, null, options);
             IOUtils.closeQuietly(inputStream);
             // Get EXIF data, for orientation info.
-            int orientation = getOrientation(uri, contentResolver);
+            int orientation = MediaUtils.getImageOrientation(uri, contentResolver);
             // Then use that information to determine how much to compress.
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             /* Unfortunately, there isn't a determined worst case compression ratio for image
@@ -176,7 +93,7 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
                 if (scaledBitmap == null) {
                     return false;
                 }
-                Bitmap reorientedBitmap = reorientBitmap(scaledBitmap, orientation);
+                Bitmap reorientedBitmap = MediaUtils.reorientBitmap(scaledBitmap, orientation);
                 if (reorientedBitmap == null) {
                     scaledBitmap.recycle();
                     return false;

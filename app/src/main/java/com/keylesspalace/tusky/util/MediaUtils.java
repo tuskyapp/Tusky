@@ -20,6 +20,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -27,6 +28,7 @@ import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.Px;
+import android.support.media.ExifInterface;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
@@ -111,7 +113,9 @@ public class MediaUtils {
         options.inJustDecodeBounds = false;
         try {
             stream = contentResolver.openInputStream(uri);
-            return BitmapFactory.decodeStream(stream, null, options);
+            Bitmap bitmap = BitmapFactory.decodeStream(stream, null, options);
+            int orientation = getImageOrientation(uri, contentResolver);
+            return reorientBitmap(bitmap, orientation);
         } catch (FileNotFoundException e) {
             Log.w(TAG, e);
             return null;
@@ -175,5 +179,82 @@ public class MediaUtils {
         }
 
         return inSampleSize;
+    }
+
+    @Nullable
+    public static Bitmap reorientBitmap(Bitmap bitmap, int orientation) {
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+            default:
+            case ExifInterface.ORIENTATION_NORMAL: {
+                return bitmap;
+            }
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL: {
+                matrix.setScale(-1, 1);
+                break;
+            }
+            case ExifInterface.ORIENTATION_ROTATE_180: {
+                matrix.setRotate(180);
+                break;
+            }
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL: {
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            }
+            case ExifInterface.ORIENTATION_TRANSPOSE: {
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            }
+            case ExifInterface.ORIENTATION_ROTATE_90: {
+                matrix.setRotate(90);
+                break;
+            }
+            case ExifInterface.ORIENTATION_TRANSVERSE: {
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            }
+            case ExifInterface.ORIENTATION_ROTATE_270: {
+                matrix.setRotate(-90);
+                break;
+            }
+        }
+        try {
+            Bitmap result = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                    bitmap.getHeight(), matrix, true);
+            if (!bitmap.sameAs(result)) {
+                bitmap.recycle();
+            }
+            return result;
+        } catch (OutOfMemoryError e) {
+            return null;
+        }
+    }
+
+    public static int getImageOrientation(Uri uri, ContentResolver contentResolver) {
+        InputStream inputStream;
+        try {
+            inputStream = contentResolver.openInputStream(uri);
+        } catch (FileNotFoundException e) {
+            Log.w(TAG, e);
+            return ExifInterface.ORIENTATION_UNDEFINED;
+        }
+        if (inputStream == null) {
+            return ExifInterface.ORIENTATION_UNDEFINED;
+        }
+        ExifInterface exifInterface;
+        try {
+            exifInterface = new ExifInterface(inputStream);
+        } catch (IOException e) {
+            Log.w(TAG, e);
+            IOUtils.closeQuietly(inputStream);
+            return ExifInterface.ORIENTATION_UNDEFINED;
+        }
+        int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_NORMAL);
+        IOUtils.closeQuietly(inputStream);
+        return orientation;
     }
 }

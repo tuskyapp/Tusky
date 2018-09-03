@@ -18,6 +18,7 @@ package com.keylesspalace.tusky;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.arch.lifecycle.Lifecycle;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -135,11 +136,19 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import at.connyduck.sparkbutton.helpers.Utils;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
 public final class ComposeActivity
         extends BaseActivity
@@ -1121,11 +1130,24 @@ public final class ComposeActivity
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        Picasso.with(this)
-                .load(item.uri)
-                .resize(displayMetrics.widthPixels, displayMetrics.heightPixels)
-                .onlyScaleDown()
-                .into(imageView);
+        Single.fromCallable(() ->
+                MediaUtils.getSampledBitmap(getContentResolver(), item.uri, displayMetrics.widthPixels, displayMetrics.heightPixels))
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(new SingleObserver<Bitmap>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
+
+                    @Override
+                    public void onSuccess(Bitmap bitmap) {
+                        imageView.setImageBitmap(bitmap);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { }
+                });
+
 
         int margin = Utils.dpToPx(this, 4);
         dialogLayout.addView(imageView);
