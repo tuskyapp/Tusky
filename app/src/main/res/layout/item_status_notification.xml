@@ -120,7 +120,7 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:id="@+id/button_toggle_notification_content"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
             android:padding="0dp"
             android:layout_toEndOf="@id/status_avatar"
             android:layout_below="@id/notification_content"
