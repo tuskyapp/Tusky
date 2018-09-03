@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
@@ -511,35 +512,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             contentCollapseButton.setVisibility(View.VISIBLE);
             if(status.isCollapsed()) {
                 contentCollapseButton.setChecked(true);
-                content.setFilters(new InputFilter[] {(source, start, end, dest, dstart, dend) -> {
-
-                    // Code imported from InputFilter.LengthFilter
-                    // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/text/InputFilter.java#175
-
-                    // Changes:
-                    // - After the text it adds and ellipsis to make it feel like the text continues
-                    // - Max value is 500 rather than a variable
-                    // - Trim invisible characters off the end of the 500-limited string
-                    // - Slimmed code for saving LOCs
-
-                    int keep = 500 - (dest.length() - (dend - dstart));
-                    if(keep <= 0) return "";
-                    if(keep >= end - start) return null; // keep original
-
-                    keep += start;
-
-                    while(Character.isWhitespace(source.charAt(keep - 1))) {
-                        --keep;
-                        if(keep == start) return "";
-                    }
-
-                    if(Character.isHighSurrogate(source.charAt(keep - 1))) {
-                        --keep;
-                        if(keep == start) return "";
-                    }
-
-                    return source.subSequence(start, keep) + "…";
-                }});
+                content.setFilters(new InputFilter[] {new SmartLengthInputFilter(500)});
             } else {
                 contentCollapseButton.setChecked(false);
                 content.setFilters(new InputFilter[] {});
