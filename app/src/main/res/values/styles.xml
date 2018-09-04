@@ -172,6 +172,7 @@
         <item name="material_drawer_selected">@color/color_primary_black</item>
         <item name="material_drawer_selected_text">@color/text_color_primary_black</item>
         <item name="material_drawer_header_selection_text">@color/text_color_primary_black</item>
+        <item name="tab_page_margin_drawable">@drawable/tab_page_margin_black</item>
     </style>
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase"/>
 

@@ -49,6 +49,7 @@
     <color name="text_color_primary_black">#FFFFFF</color>
     <color name="toolbar_background_black">#111111</color>
     <color name="dialog_background_black">#111111</color>
+    <color name="tab_page_margin_black">#000000</color>
     <!--Light Theme Colors-->
     <color name="color_primary_light">#dfdfdf</color>
     <color name="color_primary_dark_light">#8f8f8f</color>
