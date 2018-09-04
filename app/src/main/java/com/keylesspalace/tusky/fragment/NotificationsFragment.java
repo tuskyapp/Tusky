@@ -506,21 +506,12 @@ public class NotificationsFragment extends SFragment implements
 
         NotificationViewData notification = notifications.getPairedItem(position);
         if(!(notification instanceof NotificationViewData.Concrete)) {
-            if(notification == null) {
-                Log.e(TAG, String.format(
-                        "Tried to access notification but got null at position: %d of %d",
-                        position,
-                        notifications.size() - 1)
-                );
-            } else {
-                Log.e(TAG, String.format(
-                        "Expected NotificationViewData.Concrete, got %s instead at position: %d of %d",
-                        notification.getClass().getSimpleName(),
-                        position,
-                        notifications.size() - 1
-                ));
-            }
-
+            Log.e(TAG, String.format(
+                    "Expected NotificationViewData.Concrete, got %s instead at position: %d of %d",
+                    notification == null ? "null" : notification.getClass().getSimpleName(),
+                    position,
+                    notifications.size() - 1
+            ));
             return;
         }
 
