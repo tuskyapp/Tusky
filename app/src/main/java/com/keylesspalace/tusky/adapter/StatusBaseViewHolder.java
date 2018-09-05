@@ -503,6 +503,8 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setSpoilerText(status.getSpoilerText(), status.getStatusEmojis(), status.isExpanded(), listener);
         }
 
+        // When viewing threads this ViewHolder is used and the main post does not have a collapse
+        // button by design so avoid crashing the app when that happens
         if(contentCollapseButton != null) {
             if(status.isCollapsible() && (status.isExpanded() || status.getSpoilerText() == null || status.getSpoilerText().isEmpty())) {
                 contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {

@@ -55,6 +55,7 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.PairedList;
+import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.ConversationLineItemDecoration;
@@ -361,7 +362,32 @@ public final class ViewThreadFragment extends SFragment implements
 
     @Override
     public void onContentCollapsedChange(boolean isCollapsed, int position) {
-        // No need to implement this method as status threads always show all content in a status.
+        if(position < 0 || position >= statuses.size()) {
+            Log.e(TAG, String.format("Tried to access out of bounds status position: %d of %d", position, statuses.size() - 1));
+            return;
+        }
+
+        StatusViewData.Concrete status = statuses.getPairedItem(position);
+        if(status == null) {
+            // Statuses PairedList contains a base type of StatusViewData.Concrete and also doesn't
+            // check for null values when adding values to it although this doesn't seem to be an issue.
+            Log.e(TAG, String.format(
+                    "Expected StatusViewData.Concrete, got null instead at position: %d of %d",
+                    position,
+                    statuses.size() - 1
+            ));
+            return;
+        }
+
+        StatusViewData.Concrete updatedStatus = new StatusViewData.Builder(status)
+                .setCollapsible(collapseLongStatusContent && !SmartLengthInputFilter.hasBadRatio(
+                        status.getContent(),
+                        SmartLengthInputFilter.LENGTH_DEFAULT
+                ))
+                .setCollapsed(isCollapsed)
+                .createStatusViewData();
+        statuses.setPairedItem(position, updatedStatus);
+        recyclerView.post(() -> adapter.setItem(position, updatedStatus, true));
     }
 
     @Override
