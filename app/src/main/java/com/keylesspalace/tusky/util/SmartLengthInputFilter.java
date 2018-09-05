@@ -72,6 +72,18 @@ public class SmartLengthInputFilter implements InputFilter {
 		this.skipIfBadRatio = skipIfBadRatio;
 	}
 
+	/**
+	 * Calculates if it's worth trimming the message at a specific limit or if the content
+	 * that will be hidden will not be enough to justify the operation.
+	 *
+	 * @param message The message to trim.
+	 * @param limit   The maximum length after trimming.
+	 * @return        Whether the message should be trimmed or not.
+	 */
+	public static boolean hasBadRatio(Spanned message, int limit) {
+		return (double) limit / message.length() > 0.75;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {

@@ -59,7 +59,10 @@ public final class ViewDataUtils {
                 .setApplication(visibleStatus.getApplication())
                 .setStatusEmojis(visibleStatus.getEmojis())
                 .setAccountEmojis(visibleStatus.getAccount().getEmojis())
-                .setCollapsible(collapseLongStatusContent && status.getContent().length() > SmartLengthInputFilter.LENGTH_DEFAULT)
+                .setCollapsible(collapseLongStatusContent && !SmartLengthInputFilter.hasBadRatio(
+                        visibleStatus.getContent(),
+                        SmartLengthInputFilter.LENGTH_DEFAULT
+                ))
                 .setCollapsed(true)
                 .createStatusViewData();
     }
