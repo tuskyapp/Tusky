@@ -285,7 +285,7 @@
     <string name="abbreviated_seconds_ago">%ds</string>
 
     <string name="follows_you">Följer dig</string>
-    <string name="pref_title_alway_show_sensitive_media">Visa alltid allt innehåll (nsfw)</string>
+    <string name="pref_title_alway_show_sensitive_media">Visa alltid allt innehåll (inkl. känsligt)</string>
     <string name="title_media">Media</string>
     <string name="replying_to">Svarar till @%s</string>
     <string name="load_more_placeholder_text">ladda mer</string>
