@@ -17,6 +17,7 @@
 package com.keylesspalace.tusky.util;
 
 import android.text.InputFilter;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
 import java.text.BreakIterator;
@@ -40,7 +41,7 @@ public class SmartLengthInputFilter implements InputFilter {
 	 * Default for maximum status length on Mastodon and default collapsing
 	 * length on Pleroma.
 	 */
-	public static final int LENGTH_DEFAULT = 50;
+	public static final int LENGTH_DEFAULT = 500;
 
 	private final int max;
 	private final boolean allowRunway;
@@ -135,6 +136,10 @@ public class SmartLengthInputFilter implements InputFilter {
 			if(keep == start) return "";
 		}
 
-		return source.subSequence(start, keep) + "…";
+		if(source instanceof Spanned) {
+			return new SpannableStringBuilder(source, start, keep).append("…");
+		} else {
+			return source.subSequence(start, keep) + "…";
+		}
 	}
 }
