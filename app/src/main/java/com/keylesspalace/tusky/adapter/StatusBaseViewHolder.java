@@ -503,23 +503,28 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setSpoilerText(status.getSpoilerText(), status.getStatusEmojis(), status.isExpanded(), listener);
         }
 
-        if(status.isCollapsible() && (status.isExpanded() || status.getSpoilerText() == null || status.getSpoilerText().isEmpty())) {
-            contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                int position = getAdapterPosition();
-                if(position != RecyclerView.NO_POSITION) listener.onContentCollapsedChange(isChecked, position);
-            });
+        if(contentCollapseButton != null) {
+            if(status.isCollapsible() && (status.isExpanded() || status.getSpoilerText() == null || status.getSpoilerText().isEmpty())) {
+                contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION)
+                        listener.onContentCollapsedChange(isChecked, position);
+                });
 
-            contentCollapseButton.setVisibility(View.VISIBLE);
-            if(status.isCollapsed()) {
-                contentCollapseButton.setChecked(true);
-                content.setFilters(new InputFilter[] {new SmartLengthInputFilter(500)});
+                contentCollapseButton.setVisibility(View.VISIBLE);
+                if(status.isCollapsed()) {
+                    contentCollapseButton.setChecked(true);
+                    content.setFilters(new InputFilter[]{
+                            new SmartLengthInputFilter(SmartLengthInputFilter.LENGTH_DEFAULT)
+                    });
+                } else {
+                    contentCollapseButton.setChecked(false);
+                    content.setFilters(new InputFilter[]{});
+                }
             } else {
-                contentCollapseButton.setChecked(false);
-                content.setFilters(new InputFilter[] {});
+                contentCollapseButton.setVisibility(View.GONE);
+                content.setFilters(new InputFilter[]{});
             }
-        } else {
-            contentCollapseButton.setVisibility(View.GONE);
-            content.setFilters(new InputFilter[] {});
         }
 
         setContent(status.getContent(), status.getMentions(), status.getStatusEmojis(), listener);

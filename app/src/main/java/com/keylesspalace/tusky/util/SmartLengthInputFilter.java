@@ -19,58 +19,103 @@ package com.keylesspalace.tusky.util;
 import android.text.InputFilter;
 import android.text.Spanned;
 
+import java.text.BreakIterator;
+
+/**
+ * A customized version of {@link android.text.InputFilter.LengthFilter} which allows smarter
+ * constraints and adds better visuals such as:
+ * <ul>
+ *     <li>Ellipsis at the end of the constrained text to show continuation.</li>
+ *     <li>Trimming of invisible characters (new lines, spaces, etc.) from the constrained text.</li>
+ *     <li>Constraints end at the end of the last "word", before a whitespace.</li>
+ *     <li>Expansion of the limit by up to 10 characters to facilitate the previous constraint.</li>
+ *     <li>Constraints are not applied if the percentage of hidden content is too small.</li>
+ * </ul>
+ *
+ * Some of these features are configurable through at instancing time.
+ */
 public class SmartLengthInputFilter implements InputFilter {
 
-	private final int max;
+	/**
+	 * Default for maximum status length on Mastodon and default collapsing
+	 * length on Pleroma.
+	 */
+	public static final int LENGTH_DEFAULT = 50;
 
+	private final int max;
+	private final boolean allowRunway;
+	private final boolean skipIfBadRatio;
+
+	/**
+	 * Creates a new {@link SmartLengthInputFilter} instance with a predefined maximum length and
+	 * all the smart constraint features this class supports.
+	 *
+	 * @param max The maximum length before trimming. May change based on other constraints.
+	 */
 	public SmartLengthInputFilter(int max) {
-		this.max = max;
+		this(max, true, true);
 	}
 
 	/**
-	 * This method is called when the buffer is going to replace the
-	 * range <code>dstart &hellip; dend</code> of <code>dest</code>
-	 * with the new text from the range <code>start &hellip; end</code>
-	 * of <code>source</code>.  Return the CharSequence that you would
-	 * like to have placed there instead, including an empty string
-	 * if appropriate, or <code>null</code> to accept the original
-	 * replacement.  Be careful to not to reject 0-length replacements,
-	 * as this is what happens when you delete text.  Also beware that
-	 * you should not attempt to make any changes to <code>dest</code>
-	 * from this method; you may only examine it for context.
-	 * <p>
-	 * Note: If <var>source</var> is an instance of {@link Spanned} or
-	 * {@link Spannable}, the span objects in the <var>source</var> should be
-	 * copied into the filtered result (i.e. the non-null return value).
-	 * {@link TextUtils#copySpansFrom} can be used for convenience if the
-	 * span boundary indices would be remaining identical relative to the source.
+	 * Fully configures a new {@link SmartLengthInputFilter} to fine tune the state of the
+	 * supported smart constraints this class supports.
 	 *
-	 * @param source
-	 * @param start
-	 * @param end
-	 * @param dest
-	 * @param dstart
-	 * @param dend
+	 * @param max            The maximum length before trimming.
+	 * @param allowRunway    Whether to extend {@param max} by an extra 10 characters
+	 *                       and trim precisely at the end of the closest word.
+	 * @param skipIfBadRatio Whether to skip trimming entirely if the trimmed content
+	 *                       will be less than 25% of the shown content.
 	 */
+	public SmartLengthInputFilter(int max, boolean allowRunway, boolean skipIfBadRatio) {
+		this.max = max;
+		this.allowRunway = allowRunway;
+		this.skipIfBadRatio = skipIfBadRatio;
+	}
+
+	/** {@inheritDoc} */
 	@Override
 	public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-		// Code imported from InputFilter.LengthFilter
+		// Code originally imported from InputFilter.LengthFilter but heavily customized.
 		// https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/text/InputFilter.java#175
 
-		// Changes:
-		// - After the text it adds and ellipsis to make it feel like the text continues
-		// - Trim invisible characters off the end of the already filtered string
-		// - Slimmed code for saving LOCs
-
+		int sourceLength = source.length();
 		int keep = max - (dest.length() - (dend - dstart));
 		if(keep <= 0) return "";
 		if(keep >= end - start) return null; // keep original
 
 		keep += start;
 
-		while(Character.isWhitespace(source.charAt(keep - 1))) {
-			--keep;
-			if(keep == start) return "";
+		// Enable skipping trimming if the ratio is not good enough
+		if(skipIfBadRatio && (double)keep / sourceLength > 0.75)
+			return null;
+
+		// Enable trimming at the end of the closest word if possible
+		if(allowRunway && Character.isLetterOrDigit(source.charAt(keep))) {
+			int boundary;
+
+			// Android N+ offer a clone of the ICU APIs in Java for better internationalization and
+			// unicode support. Using the ICU version of BreakIterator grants better support for
+			// those without having to add the ICU4J library at a minimum Api trade-off.
+			if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+				android.icu.text.BreakIterator iterator = android.icu.text.BreakIterator.getWordInstance();
+				iterator.setText(source.toString());
+				boundary = iterator.following(keep);
+				if(keep - boundary > 10) boundary = iterator.preceding(keep);
+			} else {
+				java.text.BreakIterator iterator = BreakIterator.getWordInstance();
+				iterator.setText(source.toString());
+				boundary = iterator.following(keep);
+				if(keep - boundary > 10) boundary = iterator.preceding(keep);
+			}
+
+			keep = boundary;
+		} else {
+
+			// If no runway is allowed simply remove whitespaces if present
+			while(Character.isWhitespace(source.charAt(keep - 1))) {
+				--keep;
+				if(keep == start) return "";
+			}
 		}
 
 		if(Character.isHighSurrogate(source.charAt(keep - 1))) {

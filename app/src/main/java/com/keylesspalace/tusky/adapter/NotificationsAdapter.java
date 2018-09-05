@@ -510,7 +510,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 contentCollapseButton.setVisibility(View.VISIBLE);
                 if(statusViewData.isCollapsed()) {
                     contentCollapseButton.setChecked(true);
-                    statusContent.setFilters(new InputFilter[]{new SmartLengthInputFilter(500)});
+                    statusContent.setFilters(new InputFilter[]{
+                            new SmartLengthInputFilter(SmartLengthInputFilter.LENGTH_DEFAULT)
+                    });
                 } else {
                     contentCollapseButton.setChecked(false);
                     statusContent.setFilters(new InputFilter[]{});
