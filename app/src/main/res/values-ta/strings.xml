@@ -8,7 +8,7 @@
     <string name="error_authorization_denied">அங்கீகாரம் மறுக்கப்பட்டுள்ளது</string>
     <string name="error_retrieving_oauth_token">உள்நுழைவு டோக்கனைப் பெறுவதில் தோல்வி.</string>
     <string name="error_compose_character_limit">நிலை மிக நீளமாக உள்ளது!</string>
-    <string name="error_media_upload_size">கோப்பு 4MB-க்கும் குறைவாக இருக்க வேண்டும்.</string>
+    <string name="error_image_upload_size">கோப்பு 4MB-க்கும் குறைவாக இருக்க வேண்டும்.</string>
     <string name="error_media_upload_type">இந்த வகை கோப்பை பதிவேற்ற முடியாது.</string>
     <string name="error_media_upload_opening">அந்த கோப்பை திறக்க முடியவில்லை.</string>
     <string name="error_media_upload_permission">ஊடகத்தை படிக்க அனுமதி தேவை.</string>

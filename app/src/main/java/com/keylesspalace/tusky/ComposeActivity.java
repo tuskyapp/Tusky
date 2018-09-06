@@ -159,8 +159,9 @@ public final class ComposeActivity
 
     private static final String TAG = "ComposeActivity"; // logging tag
     static final int STATUS_CHARACTER_LIMIT = 500;
-    private static final int STATUS_MEDIA_SIZE_LIMIT = 8388608; // 8MiB
-    private static final int STATUS_MEDIA_PIXEL_SIZE_LIMIT = 16777216; // 4096^2 Pixels
+    private static final int STATUS_IMAGE_SIZE_LIMIT = 8388608; // 8MiB
+    private static final int STATUS_VIDEO_SIZE_LIMIT = 41943040; // 40MiB
+    private static final int STATUS_IMAGE_PIXEL_SIZE_LIMIT = 16777216; // 4096^2 Pixels
     private static final int MEDIA_PICK_RESULT = 1;
     private static final int MEDIA_TAKE_PHOTO_RESULT = 2;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
@@ -1088,7 +1089,7 @@ public final class ComposeActivity
 
             try {
                 if (type == QueuedMedia.Type.IMAGE &&
-                        (mediaSize > STATUS_MEDIA_SIZE_LIMIT || MediaUtils.getImageSquarePixels(getContentResolver(), item.uri) > STATUS_MEDIA_PIXEL_SIZE_LIMIT)) {
+                        (mediaSize > STATUS_IMAGE_SIZE_LIMIT || MediaUtils.getImageSquarePixels(getContentResolver(), item.uri) > STATUS_IMAGE_PIXEL_SIZE_LIMIT)) {
                     downsizeMedia(item);
                 } else {
                     uploadMedia(item);
@@ -1226,7 +1227,7 @@ public final class ComposeActivity
     private void downsizeMedia(final QueuedMedia item) {
         item.readyStage = QueuedMedia.ReadyStage.DOWNSIZING;
 
-        new DownsizeImageTask(STATUS_MEDIA_SIZE_LIMIT, getContentResolver(),
+        new DownsizeImageTask(STATUS_IMAGE_SIZE_LIMIT, getContentResolver(),
                 new DownsizeImageTask.Listener() {
                     @Override
                     public void onSuccess(List<byte[]> contentList) {
@@ -1242,7 +1243,7 @@ public final class ComposeActivity
     }
 
     private void onMediaDownsizeFailure(QueuedMedia item) {
-        displayTransientError(R.string.error_media_upload_size);
+        displayTransientError(R.string.error_image_upload_size);
         removeMediaFromQueue(item);
     }
 
@@ -1378,8 +1379,8 @@ public final class ComposeActivity
             String topLevelType = mimeType.substring(0, mimeType.indexOf('/'));
             switch (topLevelType) {
                 case "video": {
-                    if (mediaSize > STATUS_MEDIA_SIZE_LIMIT) {
-                        displayTransientError(R.string.error_media_upload_size);
+                    if (mediaSize > STATUS_VIDEO_SIZE_LIMIT) {
+                        displayTransientError(R.string.error_image_upload_size);
                         return;
                     }
                     if (mediaQueued.size() > 0

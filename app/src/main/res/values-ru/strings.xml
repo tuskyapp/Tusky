@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Авторизация была отклонена.</string>
     <string name="error_retrieving_oauth_token">Не удалось получить токен авторизации.</string>
     <string name="error_compose_character_limit">Статус слишком длинный!</string>
-    <string name="error_media_upload_size">Файл должен быть не больше 8 Мбайт.</string>
+    <string name="error_image_upload_size">Файл должен быть не больше 8 Мбайт.</string>
     <string name="error_media_upload_type">Данный тип файла не может быть загружен.</string>
     <string name="error_media_upload_opening">Файл не может быть открыт.</string>
     <string name="error_media_upload_permission">Необходимо разрешение на чтение медиаконтента.</string>

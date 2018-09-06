@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">承認が拒否されました。</string>
     <string name="error_retrieving_oauth_token">ログイントークンの取得に失敗しました。</string>
     <string name="error_compose_character_limit">投稿文が長すぎます！</string>
-    <string name="error_media_upload_size">ファイルは4MB未満にしてください。</string>
+    <string name="error_image_upload_size">ファイルは4MB未満にしてください。</string>
     <string name="error_media_upload_type">その形式のファイルはアップロードできません。</string>
     <string name="error_media_upload_opening">ファイルを開けませんでした。</string>
     <string name="error_media_upload_permission">メディアの読み取り許可が必要です。</string>
