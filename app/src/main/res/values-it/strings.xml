@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">L\'autorizzazione è stata negata.</string>
     <string name="error_retrieving_oauth_token">Errore nell\'acquisizione del token di accesso.</string>
     <string name="error_compose_character_limit">Lo stato è troppo lungo!</string>
-    <string name="error_media_upload_size">La dimensione del file deve essere inferiore a 8MB.</string>
+    <string name="error_image_upload_size">La dimensione del file deve essere inferiore a 8MB.</string>
     <string name="error_media_upload_type">Questo tipo di file non può essere caricato.</string>
     <string name="error_media_upload_opening">Questo file non può essere aperto.</string>
     <string name="error_media_upload_permission">Il permesso di lettura della scheda sd è richiesto.</string>

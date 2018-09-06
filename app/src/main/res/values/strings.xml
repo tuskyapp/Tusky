@@ -9,7 +9,8 @@
     <string name="error_authorization_denied">Authorization was denied.</string>
     <string name="error_retrieving_oauth_token">Failed getting a login token.</string>
     <string name="error_compose_character_limit">The status is too long!</string>
-    <string name="error_media_upload_size">The file must be less than 8MB.</string>
+    <string name="error_image_upload_size">The file must be less than 8MB.</string>
+    <string name="error_video_upload_size">Video files must be less than 40MB.</string>
     <string name="error_media_upload_type">That type of file cannot be uploaded.</string>
     <string name="error_media_upload_opening">That file could not be opened.</string>
     <string name="error_media_upload_permission">Permission to read media is required.</string>

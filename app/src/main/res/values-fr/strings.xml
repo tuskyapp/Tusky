@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Authentification refusée.</string>
     <string name="error_retrieving_oauth_token">Impossible de récupérer le jeton d’authentification.</string>
     <string name="error_compose_character_limit">Votre pouet est trop long !</string>
-    <string name="error_media_upload_size">Le fichier doit peser moins de 8 Mo.</string>
+    <string name="error_image_upload_size">Le fichier doit peser moins de 8 Mo.</string>
     <string name="error_media_upload_type">Ce type de fichier n’est pas accepté.</string>
     <string name="error_media_upload_opening">Le fichier ne peut pas être ouvert.</string>
     <string name="error_media_upload_permission">Permission requise pour lire ce média.</string>
