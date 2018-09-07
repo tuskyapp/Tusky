@@ -21,11 +21,11 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.OutputStream;
 
 /**
  * Reduces the file size of images to fit under a given limit by resizing them, maintaining both
@@ -35,22 +35,23 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
     private int sizeLimit;
     private ContentResolver contentResolver;
     private Listener listener;
-    private List<byte[]> resultList;
+    private File tempFile;
 
     /**
      * @param sizeLimit the maximum number of bytes each image can take
      * @param contentResolver to resolve the specified images' URIs
+     * @param tempFile the file where the result will be stored
      * @param listener to whom the results are given
      */
-    public DownsizeImageTask(int sizeLimit, ContentResolver contentResolver, Listener listener) {
+    public DownsizeImageTask(int sizeLimit, ContentResolver contentResolver, File tempFile, Listener listener) {
         this.sizeLimit = sizeLimit;
         this.contentResolver = contentResolver;
+        this.tempFile = tempFile;
         this.listener = listener;
     }
 
     @Override
     protected Boolean doInBackground(Uri... uris) {
-        resultList = new ArrayList<>();
         for (Uri uri : uris) {
             InputStream inputStream;
             try {
@@ -65,8 +66,6 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
             IOUtils.closeQuietly(inputStream);
             // Get EXIF data, for orientation info.
             int orientation = MediaUtils.getImageOrientation(uri, contentResolver);
-            // Then use that information to determine how much to compress.
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
             /* Unfortunately, there isn't a determined worst case compression ratio for image
              * formats. So, the only way to tell if they're too big is to compress them and
              * test, and keep trying at smaller sizes. The initial estimate should be good for
@@ -74,7 +73,12 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
              * sure it gets downsized to below the limit. */
             int scaledImageSize = 1024;
             do {
-                stream.reset();
+                OutputStream stream;
+                try {
+                    stream = new FileOutputStream(tempFile);
+                } catch (FileNotFoundException e) {
+                    return false;
+                }
                 try {
                     inputStream = contentResolver.openInputStream(uri);
                 } catch (FileNotFoundException e) {
@@ -109,9 +113,8 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
                 reorientedBitmap.compress(format, 85, stream);
                 reorientedBitmap.recycle();
                 scaledImageSize /= 2;
-            } while (stream.size() > sizeLimit);
+            } while (tempFile.length() > sizeLimit);
 
-            resultList.add(stream.toByteArray());
             if (isCancelled()) {
                 return false;
             }
@@ -122,7 +125,7 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean successful) {
         if (successful) {
-            listener.onSuccess(resultList);
+            listener.onSuccess(tempFile);
         } else {
             listener.onFailure();
         }
@@ -131,7 +134,7 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
 
     /** Used to communicate the results of the task. */
     public interface Listener {
-        void onSuccess(List<byte[]> contentList);
+        void onSuccess(File file);
         void onFailure();
     }
 }
