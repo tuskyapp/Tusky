@@ -101,7 +101,6 @@ import com.keylesspalace.tusky.network.ProgressRequestBody;
 import com.keylesspalace.tusky.service.SendTootService;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
-import com.keylesspalace.tusky.util.IOUtils;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.MediaUtils;
 import com.keylesspalace.tusky.util.MentionTokenizer;
@@ -124,7 +123,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -996,8 +994,8 @@ public final class ComposeActivity
     @NonNull
     private File createNewImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-        String imageFileName = "Tusky_" + timeStamp + "_";
+        String randomId = StringUtils.randomAlphanumericString(12);
+        String imageFileName = "Tusky_" + randomId + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         return File.createTempFile(
                 imageFileName,  /* prefix */
@@ -1094,7 +1092,7 @@ public final class ComposeActivity
                 } else {
                     uploadMedia(item);
                 }
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 onUploadFailure(item, false);
             }
         }
@@ -1224,14 +1222,17 @@ public final class ComposeActivity
         }
     }
 
-    private void downsizeMedia(final QueuedMedia item) {
+    private void downsizeMedia(final QueuedMedia item) throws IOException {
         item.readyStage = QueuedMedia.ReadyStage.DOWNSIZING;
 
-        new DownsizeImageTask(STATUS_IMAGE_SIZE_LIMIT, getContentResolver(),
+        new DownsizeImageTask(STATUS_IMAGE_SIZE_LIMIT, getContentResolver(), createNewImageFile(),
                 new DownsizeImageTask.Listener() {
                     @Override
-                    public void onSuccess(List<byte[]> contentList) {
-                        item.content = contentList.get(0);
+                    public void onSuccess(File tempFile) {
+                        item.uri = FileProvider.getUriForFile(
+                                ComposeActivity.this,
+                                BuildConfig.APPLICATION_ID+".fileprovider",
+                                tempFile);
                         uploadMedia(item);
                     }
 
@@ -1259,32 +1260,20 @@ public final class ComposeActivity
                 StringUtils.randomAlphanumericString(10),
                 fileExtension);
 
-        byte[] content = item.content;
+        InputStream stream;
 
-        if (content == null) {
-            InputStream stream;
-
-            try {
-                stream = getContentResolver().openInputStream(item.uri);
-            } catch (FileNotFoundException e) {
-                Log.d(TAG, Log.getStackTraceString(e));
-                return;
-            }
-
-            content = MediaUtils.inputStreamGetBytes(stream);
-            IOUtils.closeQuietly(stream);
-
-            if (content == null) {
-                return;
-            }
+        try {
+            stream = getContentResolver().openInputStream(item.uri);
+        } catch (FileNotFoundException e) {
+            Log.w(TAG, e);
+            return;
         }
 
         if (mimeType == null) mimeType = "multipart/form-data";
 
         item.preview.setProgress(0);
 
-        ProgressRequestBody fileBody = new ProgressRequestBody(content, MediaType.parse(mimeType),
-                false, // If request body logging is enabled, pass true
+        ProgressRequestBody fileBody = new ProgressRequestBody(stream, MediaUtils.getMediaSize(getContentResolver(), item.uri), MediaType.parse(mimeType),
                 new ProgressRequestBody.UploadCallback() { // may reference activity longer than I would like to
                     int lastProgress = -1;
 
@@ -1544,7 +1533,6 @@ public final class ComposeActivity
         String id;
         Call<Attachment> uploadRequest;
         ReadyStage readyStage;
-        byte[] content;
         long mediaSize;
         String description;
 
