@@ -31,7 +31,7 @@
     <string name="title_statuses_with_replies">Посты и ответы</string>
     <string name="title_follows">Подписки</string>
     <string name="title_followers">Подписчики</string>
-    <string name="title_favourites">Понравившееся</string>
+    <string name="title_favourites">Избранное</string>
     <string name="title_mutes">Список глушения</string>
     <string name="title_blocks">Список блокировки</string>
     <string name="title_follow_requests">Запросы на подписку</string>
@@ -79,7 +79,7 @@
     <string name="action_close">Закрыть</string>
     <string name="action_view_profile">Профиль</string>
     <string name="action_view_preferences">Настройки</string>
-    <string name="action_view_favourites">Понравившееся</string>
+    <string name="action_view_favourites">Избранное</string>
     <string name="action_view_mutes">Список глушения</string>
     <string name="action_view_blocks">Список блокировки</string>
     <string name="action_view_follow_requests">Запросы на подписку</string>
@@ -270,7 +270,7 @@
     <string name="abbreviated_seconds_ago">%dс</string>
 
     <string name="follows_you">Подписан(а) на вас</string>
-    <string name="pref_title_alway_show_sensitive_media">Всегда показывать NSFW-контент</string>
+    <string name="pref_title_alway_show_sensitive_media">Всегда показывать чувствительный контент</string>
     <string name="title_media">Медиа</string>
     <string name="replying_to">Ответить @%s</string>
     <string name="load_more_placeholder_text">ещё</string>
