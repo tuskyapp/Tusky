@@ -17,7 +17,7 @@ android {
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.keylesspalace.tusky"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 49
         versionName "3.1"
