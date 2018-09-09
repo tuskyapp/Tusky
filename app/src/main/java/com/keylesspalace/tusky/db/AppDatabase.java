@@ -27,7 +27,7 @@ import android.support.annotation.NonNull;
 
 @Database(entities = {TootEntity.class, AccountEntity.class, InstanceEntity.class,TimelineStatusEntity.class,
                 TimelineAccountEntity.class
-        }, version = 8, exportSchema = false)
+        }, version = 9)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TootDao tootDao();
@@ -102,6 +102,49 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `emojis` TEXT NOT NULL DEFAULT '[]'");
+        }
+    };
+
+    public static final Migration MIGRATION_8_9 = new Migration(8, 9) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineAccountEntity` (" +
+                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "`serverId` TEXT NOT NULL, " +
+                    "`instance` TEXT NOT NULL, " +
+                    "`localUsername` TEXT NOT NULL, " +
+                    "`username` TEXT NOT NULL, " +
+                    "`displayName` TEXT NOT NULL, " +
+                    "`url` TEXT NOT NULL, " +
+                    "`avatar` TEXT NOT NULL)");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineStatus` (" +
+                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "`serverId` TEXT NOT NULL, " +
+                    "`url` TEXT NOT NULL, `timelineUserId` INTEGER NOT NULL, " +
+                    "`authorLocalId` INTEGER NOT NULL, " +
+                    "`authorServerId` TEXT NOT NULL, " +
+                    "`instance` TEXT NOT NULL, " +
+                    "`inReplyToId` TEXT, " +
+                    "`inReplyToAccountId` TEXT, " +
+                    "`content` TEXT NOT NULL, " +
+                    "`createdAt` INTEGER NOT NULL, " +
+                    "`emojis` TEXT, " +
+                    "`reblogsCount` INTEGER NOT NULL, " +
+                    "`favouritesCount` INTEGER NOT NULL, " +
+                    "`reblogged` INTEGER NOT NULL, " +
+                    "`favourited` INTEGER NOT NULL, " +
+                    "`sensitive` INTEGER NOT NULL, " +
+                    "`spoilerText` TEXT NOT NULL, " +
+                    "`visibility` INTEGER NOT NULL, " +
+                    "`attachments` TEXT, " +
+                    "`mentions` TEXT, " +
+                    "`application` TEXT, " +
+                    "`reblogServerId` TEXT, " +
+                    "`reblogUri` TEXT, " +
+                    "`reblogAccountId` INTEGER NOT NULL," +
+                    " FOREIGN KEY(`authorLocalId`) REFERENCES `timeline_account`(`id`) " +
+                    "ON UPDATE NO ACTION ON DELETE NO ACTION )");
         }
     };
 }

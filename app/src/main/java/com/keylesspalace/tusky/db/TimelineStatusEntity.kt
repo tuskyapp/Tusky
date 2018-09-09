@@ -15,7 +15,6 @@ import com.keylesspalace.tusky.entity.Status
  * fields.
  */
 @Entity(
-        tableName = "timeline_status",
         foreignKeys = ([
             ForeignKey(
                     entity = TimelineAccountEntity::class,
@@ -54,7 +53,7 @@ data class TimelineStatusEntity(
         val reblogAccountId: Long
 )
 
-@Entity(tableName = "timeline_account")
+@Entity
 data class TimelineAccountEntity(
         @PrimaryKey(autoGenerate = true)
         val id: Long,
