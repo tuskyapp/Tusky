@@ -347,4 +347,6 @@
     <string name="profile_metadata_label_label">Label</string>
     <string name="profile_metadata_content_label">Content</string>
 
+    <string name="pref_title_absolute_time">Use absolute time</string>
+
 </resources>

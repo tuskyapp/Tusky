@@ -245,6 +245,8 @@ public class TimelineFragment extends SFragment implements
         alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
         boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
+        boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
+        adapter.setUseAbsoluteTime(useAbsoluteTime);
 
         boolean filter = preferences.getBoolean("tabFilterHomeReplies", true);
         filterRemoveReplies = kind == Kind.HOME && !filter;
@@ -605,7 +607,7 @@ public class TimelineFragment extends SFragment implements
             case "mediaPreviewEnabled": {
                 boolean enabled = sharedPreferences.getBoolean("mediaPreviewEnabled", true);
                 boolean oldMediaPreviewEnabled = adapter.getMediaPreviewEnabled();
-                if(enabled != oldMediaPreviewEnabled) {
+                if (enabled != oldMediaPreviewEnabled) {
                     adapter.setMediaPreviewEnabled(enabled);
                     fullyRefresh();
                 }
@@ -829,7 +831,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void onFetchTimelineFailure(Exception exception, FetchEnd fetchEnd, int position) {
-        if(isAdded()) {
+        if (isAdded()) {
             swipeRefreshLayout.setRefreshing(false);
 
             if (fetchEnd == FetchEnd.MIDDLE && !statuses.get(position).isRight()) {
@@ -1051,7 +1053,7 @@ public class TimelineFragment extends SFragment implements
     private final ListUpdateCallback listUpdateCallback = new ListUpdateCallback() {
         @Override
         public void onInserted(int position, int count) {
-            if(isAdded()) {
+            if (isAdded()) {
                 adapter.notifyItemRangeInserted(position, count);
                 Context context = getContext();
                 if (position == 0 && context != null) {
