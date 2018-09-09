@@ -13,6 +13,7 @@
 
     <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/status_reblogged"
+        android:drawableStart="?attr/status_reblog_small_drawable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/status_reblogged_bar_padding_top"

@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,7 +23,6 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
 
@@ -38,10 +36,6 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         super(itemView, useAbsoluteTime);
         avatarReblog = itemView.findViewById(R.id.status_avatar_reblog);
         rebloggedBar = itemView.findViewById(R.id.status_reblogged);
-        //workaround because Android < API 21 does not support setting drawableLeft from xml when it is a vector image
-        Drawable rebloggedIcon = ThemeUtils.getDrawable(rebloggedBar.getContext(),
-                R.attr.status_reblog_small_drawable, R.drawable.ic_reblog_dark_18dp);
-        rebloggedBar.setCompoundDrawablesWithIntrinsicBounds(rebloggedIcon, null, null, null);
     }
 
     @Override
