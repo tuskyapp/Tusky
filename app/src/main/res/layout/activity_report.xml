@@ -37,6 +37,4 @@
             android:hint="@string/report_comment_hint" />
     </LinearLayout>
 
-    <include layout="@layout/toolbar_shadow_shim" />
-
 </android.support.design.widget.CoordinatorLayout>

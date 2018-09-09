@@ -7,14 +7,6 @@
 
     <include layout="@layout/toolbar_basic" />
 
-    <include
-        layout="@layout/toolbar_shadow_shim"
-        android:layout_width="0dp"
-        android:layout_height="4dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appbar" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lists_recycler"
         android:layout_width="0dp"
@@ -22,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_shadow_shim" />
+        app:layout_constraintTop_toBottomOf="parent" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
