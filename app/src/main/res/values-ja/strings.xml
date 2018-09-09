@@ -277,4 +277,6 @@
     <string name="action_set_caption">説明を設定</string>
     <string name="action_remove_media">消去</string>
 
+    <string name="pref_title_absolute_time">絶対時間で表示</string>
+
 </resources>

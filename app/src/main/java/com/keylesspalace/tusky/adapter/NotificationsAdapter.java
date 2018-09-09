@@ -50,9 +50,11 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class NotificationsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_MENTION = 0;
@@ -64,6 +66,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private StatusActionListener statusListener;
     private NotificationActionListener notificationActionListener;
     private boolean mediaPreviewEnabled;
+    private boolean useAbsoluteTime;
     private BidiFormatter bidiFormatter;
 
     public NotificationsAdapter(StatusActionListener statusListener,
@@ -73,6 +76,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         this.statusListener = statusListener;
         this.notificationActionListener = notificationActionListener;
         mediaPreviewEnabled = true;
+        useAbsoluteTime = false;
         bidiFormatter = BidiFormatter.getInstance();
     }
 
@@ -84,12 +88,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             case VIEW_TYPE_MENTION: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_status, parent, false);
-                return new StatusViewHolder(view);
+                return new StatusViewHolder(view, useAbsoluteTime);
             }
             case VIEW_TYPE_STATUS_NOTIFICATION: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_status_notification, parent, false);
-                return new StatusNotificationViewHolder(view);
+                return new StatusNotificationViewHolder(view, useAbsoluteTime);
             }
             case VIEW_TYPE_FOLLOW: {
                 View view = LayoutInflater.from(parent.getContext())
@@ -130,7 +134,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     StatusNotificationViewHolder holder = (StatusNotificationViewHolder) viewHolder;
                     StatusViewData.Concrete statusViewData = concreteNotificaton.getStatusViewData();
 
-                    if(statusViewData == null) {
+                    if (statusViewData == null) {
                         holder.showNotificationContent(false);
                     } else {
                         holder.showNotificationContent(true);
@@ -228,6 +232,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         return mediaPreviewEnabled;
     }
 
+    public void setUseAbsoluteTime(boolean useAbsoluteTime) {
+        this.useAbsoluteTime = useAbsoluteTime;
+    }
+
     public interface NotificationActionListener {
         void onViewAccount(String id);
 
@@ -306,7 +314,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private NotificationActionListener notificationActionListener;
         private StatusViewData.Concrete statusViewData;
 
-        StatusNotificationViewHolder(View itemView) {
+        private boolean useAbsoluteTime;
+        private SimpleDateFormat shortSdf;
+        private SimpleDateFormat longSdf;
+
+        StatusNotificationViewHolder(View itemView, boolean useAbsoluteTime) {
             super(itemView);
             message = itemView.findViewById(R.id.notification_top_text);
             statusNameBar = itemView.findViewById(R.id.status_name_bar);
@@ -328,6 +340,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             message.setOnClickListener(this);
             statusContent.setOnClickListener(this);
             contentWarningButton.setOnCheckedChangeListener(this);
+
+            this.useAbsoluteTime = useAbsoluteTime;
+            shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+            longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
         }
 
         private void showNotificationContent(boolean show) {
@@ -352,26 +368,40 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             username.setText(usernameText);
         }
 
-        private void setCreatedAt(@Nullable Date createdAt) {
-            // This is the visible timestampInfo.
-            String readout;
-            /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
-             * as 17 meters instead of minutes. */
-            CharSequence readoutAloud;
-            if (createdAt != null) {
-                long then = createdAt.getTime();
-                long now = new Date().getTime();
-                readout = DateUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
-                readoutAloud = android.text.format.DateUtils.getRelativeTimeSpanString(then, now,
-                        android.text.format.DateUtils.SECOND_IN_MILLIS,
-                        android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);
+        protected void setCreatedAt(@Nullable Date createdAt) {
+            if (useAbsoluteTime) {
+                String time;
+                if (createdAt != null) {
+                    if (System.currentTimeMillis() - createdAt.getTime() > 86400000L) {
+                        time = longSdf.format(createdAt);
+                    } else {
+                        time = shortSdf.format(createdAt);
+                    }
+                } else {
+                    time = "??:??:??";
+                }
+                timestampInfo.setText(time);
             } else {
-                // unknown minutes~
-                readout = "?m";
-                readoutAloud = "? minutes";
+                // This is the visible timestampInfo.
+                String readout;
+                /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
+                 * as 17 meters instead of minutes. */
+                CharSequence readoutAloud;
+                if (createdAt != null) {
+                    long then = createdAt.getTime();
+                    long now = new Date().getTime();
+                    readout = DateUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
+                    readoutAloud = android.text.format.DateUtils.getRelativeTimeSpanString(then, now,
+                            android.text.format.DateUtils.SECOND_IN_MILLIS,
+                            android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);
+                } else {
+                    // unknown minutes~
+                    readout = "?m";
+                    readoutAloud = "? minutes";
+                }
+                timestampInfo.setText(readout);
+                timestampInfo.setContentDescription(readoutAloud);
             }
-            timestampInfo.setText(readout);
-            timestampInfo.setContentDescription(readoutAloud);
         }
 
         void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener, BidiFormatter bidiFormatter) {
@@ -397,7 +427,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 }
                 case REBLOG: {
                     icon = ContextCompat.getDrawable(context, R.drawable.ic_repeat_24dp);
-                    if(icon != null) {
+                    if (icon != null) {
                         icon.setColorFilter(ContextCompat.getColor(context,
                                 R.color.color_accent_dark), PorterDuff.Mode.SRC_ATOP);
                     }
@@ -458,10 +488,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             switch (v.getId()) {
                 case R.id.notification_container:
                 case R.id.notification_content:
-                    if (notificationActionListener != null) notificationActionListener.onViewStatusForNotificationId(notificationId);
+                    if (notificationActionListener != null)
+                        notificationActionListener.onViewStatusForNotificationId(notificationId);
                     break;
                 case R.id.notification_top_text:
-                    if (notificationActionListener != null) notificationActionListener.onViewAccount(accountId);
+                    if (notificationActionListener != null)
+                        notificationActionListener.onViewAccount(accountId);
                     break;
             }
         }
