@@ -202,6 +202,8 @@ public class NotificationsFragment extends SFragment implements
         collapseLongStatusContent = preferences.getBoolean("collapseLongStatuses", true);
         boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
+        boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
+        adapter.setUseAbsoluteTime(useAbsoluteTime);
         recyclerView.setAdapter(adapter);
 
         notifications.clear();
@@ -753,19 +755,23 @@ public class NotificationsFragment extends SFragment implements
     private void saveNewestNotificationId(List<Notification> notifications) {
 
         AccountEntity account = accountManager.getActiveAccount();
-        BigInteger lastNoti = new BigInteger(account.getLastNotificationId());
+        if(account != null) {
+            BigInteger lastNoti = new BigInteger(account.getLastNotificationId());
 
-        for (Notification noti : notifications) {
-            BigInteger a = new BigInteger(noti.getId());
-            if (isBiggerThan(a, lastNoti)) {
-                lastNoti = a;
+            for (Notification noti : notifications) {
+                BigInteger a = new BigInteger(noti.getId());
+                if (isBiggerThan(a, lastNoti)) {
+                    lastNoti = a;
+                }
+            }
+
+            String lastNotificationId = lastNoti.toString();
+            if(!account.getLastNotificationId().equals(lastNotificationId)) {
+                Log.d(TAG, "saving newest noti id: " + lastNotificationId);
+                account.setLastNotificationId(lastNotificationId);
+                accountManager.saveAccount(account);
             }
         }
-
-        Log.d(TAG, "saving newest noti id: " + lastNoti);
-
-        account.setLastNotificationId(lastNoti.toString());
-        accountManager.saveAccount(account);
     }
 
     private boolean isBiggerThan(BigInteger newId, BigInteger lastShownNotificationId) {

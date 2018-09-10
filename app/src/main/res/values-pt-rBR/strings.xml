@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Autorização negada.</string>
     <string name="error_retrieving_oauth_token">Falha ao adquirir token de entrada.</string>
     <string name="error_compose_character_limit">A postagem é muito longa!</string>
-    <string name="error_media_upload_size">O arquivo deve ser menor que 8MB.</string>
+    <string name="error_image_upload_size">O arquivo deve ser menor que 8MB.</string>
     <string name="error_media_upload_type">Esse tipo de arquivo não pode ser enviado.</string>
     <string name="error_media_upload_opening">Esse arquvo não pode ser aberto.</string>
     <string name="error_media_upload_permission">Permissão para ler mídia é necessária.</string>

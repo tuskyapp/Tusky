@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Odmówiono autoryzacji.</string>
     <string name="error_retrieving_oauth_token">Nie udało się uzyskać tokenu logowania.</string>
     <string name="error_compose_character_limit">Zbyt długi wpis!</string>
-    <string name="error_media_upload_size">Plik może mieć maksymalnie 8 MB.</string>
+    <string name="error_image_upload_size">Plik może mieć maksymalnie 8 MB.</string>
     <string name="error_media_upload_type">Ten format pliku nie może zostać wysłany.</string>
     <string name="error_media_upload_opening">Nie można otworzyć tego pliku.</string>
     <string name="error_media_upload_permission">Wymagane jest pozwolenie na dostęp do plików z urządzenia.</string>

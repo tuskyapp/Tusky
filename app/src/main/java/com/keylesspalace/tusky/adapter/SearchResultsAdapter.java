@@ -49,6 +49,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
     private boolean mediaPreviewsEnabled;
     private boolean alwaysShowSensitiveMedia;
     private boolean collapseLongStatusContent;
+    private boolean useAbsoluteTime;
 
     private LinkListener linkListener;
     private StatusActionListener statusListener;
@@ -57,7 +58,8 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
                                 boolean alwaysShowSensitiveMedia,
                                 boolean collapseLongStatusContent,
                                 LinkListener linkListener,
-                                StatusActionListener statusListener) {
+                                StatusActionListener statusListener,
+                                boolean useAbsoluteTime) {
 
         this.accountList = Collections.emptyList();
         this.statusList = Collections.emptyList();
@@ -67,6 +69,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
         this.mediaPreviewsEnabled = mediaPreviewsEnabled;
         this.alwaysShowSensitiveMedia = alwaysShowSensitiveMedia;
         this.collapseLongStatusContent = collapseLongStatusContent;
+        this.useAbsoluteTime = useAbsoluteTime;
 
         this.linkListener = linkListener;
         this.statusListener = statusListener;
@@ -91,7 +94,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
             case VIEW_TYPE_STATUS: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_status, parent, false);
-                return new StatusViewHolder(view);
+                return new StatusViewHolder(view, useAbsoluteTime);
             }
         }
     }

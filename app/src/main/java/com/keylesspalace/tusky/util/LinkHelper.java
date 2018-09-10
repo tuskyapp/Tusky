@@ -126,7 +126,7 @@ public class LinkHelper {
      * @param context context
      */
     public static void openLink(String url, Context context) {
-        Uri uri = Uri.parse(url);
+        Uri uri = Uri.parse(url).normalizeScheme();
 
         boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(context)
                 .getBoolean("customTabs", false);

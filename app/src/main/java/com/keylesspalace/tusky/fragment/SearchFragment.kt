@@ -51,7 +51,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
     private var alwaysShowSensitiveMedia = false
     private var mediaPreviewEnabled = true
     private var collapseLongStatusContent = true;
-
+    private var useAbsoluteTime = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_search, container, false)
@@ -61,6 +61,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
         val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
         alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false)
         mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true)
+        useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
 
         collapseLongStatusContent = preferences.getBoolean("collapseLongStatuses", true);
 
@@ -71,8 +72,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
                 alwaysShowSensitiveMedia,
                 collapseLongStatusContent,
                 this,
-                this
-        )
+                useAbsoluteTime)
         searchRecyclerView.adapter = searchAdapter
 
     }
