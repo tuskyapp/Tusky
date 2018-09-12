@@ -36,7 +36,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Class with helper methods for obtaining and resizing media files
@@ -283,5 +286,11 @@ public class MediaUtils {
                 Log.e(TAG, "Error removing stale cached media");
             }
         }
+    }
+
+    public static String getTemporaryMediaFilename(String extension) {
+        return String.format("Tusky_Share_Media_%s.%s",
+                new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date()),
+                extension);
     }
 }

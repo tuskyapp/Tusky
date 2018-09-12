@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.DownloadManager;
@@ -26,11 +25,9 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -42,13 +39,11 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.keylesspalace.tusky.util.MediaUtils;
+
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import static com.keylesspalace.tusky.BuildConfig.APPLICATION_ID;
 
@@ -59,7 +54,6 @@ public class ViewVideoActivity extends BaseActivity {
     String url;
     String statusID;
     String statusURL;
-    private static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     private static final String TAG = "ViewVideoActivity";
     public static final String URL_EXTRA = "url";
     public static final String STATUS_ID_EXTRA = "statusID";
@@ -85,7 +79,7 @@ public class ViewVideoActivity extends BaseActivity {
             int id = item.getItemId();
             switch (id) {
                 case R.id.action_download:
-                    downloadVideo();
+                    downloadFile(url);
                     break;
                 case R.id.action_open_status:
                     onOpenStatus();
@@ -151,6 +145,22 @@ public class ViewVideoActivity extends BaseActivity {
         return true;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    downloadFile(url);
+                } else {
+                    doErrorDialog(toolbar, R.string.error_media_download_permission, R.string.action_retry, v -> downloadFile(url));
+                }
+                break;
+            }
+        }
+    }
+
     void hideToolbarAfterDelay() {
         handler.postDelayed(new Runnable() {
             @Override
@@ -169,28 +179,6 @@ public class ViewVideoActivity extends BaseActivity {
         }, 3000);
     }
 
-    private void downloadVideo() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-        } else {
-            String filename = new File(url).getName();
-            String toastText = String.format(getResources().getString(R.string.download_image), filename);
-            Toast.makeText(this.getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
-
-            DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-            request.allowScanningByMediaScanner();
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES,
-                    getString(R.string.app_name) + "/" + filename);
-
-            downloadManager.enqueue(request);
-        }
-    }
-
     private void onOpenStatus() {
         startActivityWithSlideInAnimation(ViewThreadActivity.startIntent(this, statusID, statusURL));
     }
@@ -206,9 +194,7 @@ public class ViewVideoActivity extends BaseActivity {
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         String extension = mimeTypeMap.getFileExtensionFromUrl(url);
         String mimeType = mimeTypeMap.getMimeTypeFromExtension(extension);
-        String filename = String.format("Tusky_Share_Media_%s.%s",
-                new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date()),
-                extension);
+        String filename = MediaUtils.getTemporaryMediaFilename(extension);
         File file = new File(directory, filename);
 
         DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);

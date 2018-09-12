@@ -15,10 +15,8 @@
 
 package com.keylesspalace.tusky;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -28,13 +26,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -43,12 +36,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.fragment.ViewMediaFragment;
 import com.keylesspalace.tusky.pager.AvatarImagePagerAdapter;
 import com.keylesspalace.tusky.pager.ImagePagerAdapter;
+import com.keylesspalace.tusky.util.MediaUtils;
 import com.keylesspalace.tusky.view.ImageViewPager;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 import com.squareup.picasso.Picasso;
@@ -58,11 +51,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function0;
@@ -89,10 +79,7 @@ public final class ViewMediaActivity extends BaseActivity
         return intent;
     }
 
-    private static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
-
     private ImageViewPager viewPager;
-    private View anyView;
     private Toolbar toolbar;
 
     private List<AttachmentViewData> attachments;
@@ -124,7 +111,6 @@ public final class ViewMediaActivity extends BaseActivity
         // Obtain the views.
         toolbar = findViewById(R.id.toolbar);
         viewPager = findViewById(R.id.view_pager);
-        anyView = toolbar;
 
         // Gather the parameters.
         Intent intent = getIntent();
@@ -246,55 +232,18 @@ public final class ViewMediaActivity extends BaseActivity
                                            @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     downloadImage();
                 } else {
-                    doErrorDialog(R.string.error_media_download_permission, R.string.action_retry,
-                            v -> downloadImage());
+                    doErrorDialog(toolbar, R.string.error_media_download_permission, R.string.action_retry, v -> downloadImage());
                 }
                 break;
             }
         }
     }
 
-    private void doErrorDialog(@StringRes int descriptionId, @StringRes int actionId,
-                               View.OnClickListener listener) {
-        if (anyView != null) {
-            Snackbar bar = Snackbar.make(anyView, getString(descriptionId),
-                    Snackbar.LENGTH_SHORT);
-            bar.setAction(actionId, listener);
-            bar.show();
-        }
-    }
-
     private void downloadImage() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-        } else {
-            String url = attachments.get(viewPager.getCurrentItem()).getAttachment().getUrl();
-            Uri uri = Uri.parse(url);
-
-            String filename = new File(url).getName();
-
-            String toastText = String.format(getResources().getString(R.string.download_image),
-                    filename);
-            Toast.makeText(this.getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
-
-            DownloadManager downloadManager =
-                    (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-
-            DownloadManager.Request request = new DownloadManager.Request(uri);
-            request.allowScanningByMediaScanner();
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES,
-                    getString(R.string.app_name) + "/" + filename);
-
-            downloadManager.enqueue(request);
-        }
+        downloadFile(attachments.get(viewPager.getCurrentItem()).getAttachment().getUrl());
     }
 
     private void onOpenStatus() {
@@ -316,9 +265,7 @@ public final class ViewMediaActivity extends BaseActivity
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 try {
-                    String filename = String.format("Tusky_Share_Media_%s.png",
-                            new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date()));
-                    File file = new File(directory, filename);
+                    File file = new File(directory, MediaUtils.getTemporaryMediaFilename("png"));
                     FileOutputStream stream = new FileOutputStream(file);
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     stream.close();
