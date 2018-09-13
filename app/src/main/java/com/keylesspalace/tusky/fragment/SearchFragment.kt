@@ -72,6 +72,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
                 alwaysShowSensitiveMedia,
                 collapseLongStatusContent,
                 this,
+                this,
                 useAbsoluteTime)
         searchRecyclerView.adapter = searchAdapter
 
