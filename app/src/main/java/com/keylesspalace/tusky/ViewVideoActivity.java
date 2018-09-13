@@ -15,26 +15,55 @@
 
 package com.keylesspalace.tusky;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.DownloadManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import android.widget.VideoView;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import static com.keylesspalace.tusky.BuildConfig.APPLICATION_ID;
 
 public class ViewVideoActivity extends BaseActivity {
 
     Handler handler = new Handler(Looper.getMainLooper());
     Toolbar toolbar;
+    String url;
+    String statusID;
+    String statusURL;
+    private static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    private static final String TAG = "ViewVideoActivity";
+    public static final String URL_EXTRA = "url";
+    public static final String STATUS_ID_EXTRA = "statusID";
+    public static final String STATUS_URL_EXTRA = "statusURL";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,8 +81,25 @@ public class ViewVideoActivity extends BaseActivity {
             bar.setDisplayHomeAsUpEnabled(true);
             bar.setDisplayShowHomeEnabled(true);
         }
+        toolbar.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+            switch (id) {
+                case R.id.action_download:
+                    downloadVideo();
+                    break;
+                case R.id.action_open_status:
+                    onOpenStatus();
+                    break;
+                case R.id.action_share_media:
+                    shareVideo();
+                    break;
+            }
+            return true;
+        });
 
-        String url = getIntent().getStringExtra("url");
+        url = getIntent().getStringExtra(URL_EXTRA);
+        statusID = getIntent().getStringExtra(STATUS_ID_EXTRA);
+        statusURL = getIntent().getStringExtra(STATUS_URL_EXTRA);
 
         videoView.setVideoPath(url);
         MediaController controller = new MediaController(this);
@@ -99,6 +145,12 @@ public class ViewVideoActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.view_media_toolbar, menu);
+        return true;
+    }
+
     void hideToolbarAfterDelay() {
         handler.postDelayed(new Runnable() {
             @Override
@@ -115,5 +167,60 @@ public class ViewVideoActivity extends BaseActivity {
                 });
             }
         }, 3000);
+    }
+
+    private void downloadVideo() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+        } else {
+            String filename = new File(url).getName();
+            String toastText = String.format(getResources().getString(R.string.download_image), filename);
+            Toast.makeText(this.getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
+
+            DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+            request.allowScanningByMediaScanner();
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES,
+                    getString(R.string.app_name) + "/" + filename);
+
+            downloadManager.enqueue(request);
+        }
+    }
+
+    private void onOpenStatus() {
+        startActivityWithSlideInAnimation(ViewThreadActivity.startIntent(this, statusID, statusURL));
+    }
+
+    private void shareVideo() {
+        File directory = getApplicationContext().getExternalFilesDir("Tusky");
+        if (directory == null || !(directory.exists())) {
+            Log.e(TAG, "Error obtaining directory to save temporary media.");
+            return;
+        }
+
+        Uri uri = Uri.parse(url);
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        String extension = mimeTypeMap.getFileExtensionFromUrl(url);
+        String mimeType = mimeTypeMap.getMimeTypeFromExtension(extension);
+        String filename = String.format("Tusky_Share_Media_%s.%s",
+                new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date()),
+                extension);
+        File file = new File(directory, filename);
+
+        DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setDestinationUri(Uri.fromFile(file));
+        request.setVisibleInDownloadsUi(false);
+        downloadManager.enqueue(request);
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(getApplicationContext(), APPLICATION_ID + ".fileprovider", file));
+        sendIntent.setType(mimeType);
+        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_media_to)));
     }
 }

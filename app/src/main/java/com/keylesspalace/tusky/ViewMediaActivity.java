@@ -22,7 +22,9 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,10 +35,12 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
@@ -47,19 +51,30 @@ import com.keylesspalace.tusky.pager.AvatarImagePagerAdapter;
 import com.keylesspalace.tusky.pager.ImagePagerAdapter;
 import com.keylesspalace.tusky.view.ImageViewPager;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function0;
+
+import static com.keylesspalace.tusky.BuildConfig.APPLICATION_ID;
 
 public final class ViewMediaActivity extends BaseActivity
         implements ViewMediaFragment.PhotoActionsListener {
     private static final String EXTRA_ATTACHMENTS = "attachments";
     private static final String EXTRA_ATTACHMENT_INDEX = "index";
     private static final String EXTRA_AVATAR_URL = "avatar";
+    private static final String TAG = "ViewMediaActivity";
 
     public static Intent newIntent(Context context, List<AttachmentViewData> attachments, int index) {
         final Intent intent = new Intent(context, ViewMediaActivity.class);
@@ -172,6 +187,9 @@ public final class ViewMediaActivity extends BaseActivity
                 case R.id.action_open_status:
                     onOpenStatus();
                     break;
+                case R.id.action_share_media:
+                    shareImage();
+                    break;
             }
             return true;
         });
@@ -283,5 +301,47 @@ public final class ViewMediaActivity extends BaseActivity
         final AttachmentViewData attach = attachments.get(viewPager.getCurrentItem());
         startActivityWithSlideInAnimation(ViewThreadActivity.startIntent(this, attach.getStatusId(),
                 attach.getStatusUrl()));
+    }
+
+    private void shareImage() {
+        File directory = getApplicationContext().getExternalFilesDir("Tusky");
+        if (directory == null || !(directory.exists())) {
+            Log.e(TAG, "Error obtaining directory to save temporary media.");
+            return;
+        }
+
+        Attachment attachment = attachments.get(viewPager.getCurrentItem()).getAttachment();
+        Context context = getApplicationContext();
+        Picasso.with(context).load(Uri.parse(attachment.getUrl())).into(new Target(){
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                try {
+                    String filename = String.format("Tusky_Share_Media_%s.png",
+                            new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date()));
+                    File file = new File(directory, filename);
+                    FileOutputStream stream = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    stream.close();
+
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context, APPLICATION_ID + ".fileprovider", file));
+                    sendIntent.setType("image/png");
+                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_media_to)));
+                } catch (FileNotFoundException fnfe) {
+                    Log.e(TAG, "Error writing temporary media.");
+                } catch (IOException ioe) {
+                    Log.e(TAG, "Error writing temporary media.");
+                }
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+                Log.e(TAG, "Error loading temporary media.");
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) { }
+        });
     }
 }

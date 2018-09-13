@@ -43,6 +43,7 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
+import com.keylesspalace.tusky.util.MediaUtils;
 import com.keylesspalace.tusky.util.NotificationHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -228,6 +229,8 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                     }
                 });
 
+        // Flush old media that was cached for sharing
+        MediaUtils.deleteStaleCachedMedia(getApplicationContext().getExternalFilesDir("Tusky"));
     }
 
     @Override

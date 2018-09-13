@@ -220,7 +220,9 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             }
             Attachment.Type.GIFV, Attachment.Type.VIDEO -> {
                 val intent = Intent(context, ViewVideoActivity::class.java)
-                intent.putExtra("url", items[currentIndex].attachment.url)
+                intent.putExtra(ViewVideoActivity.URL_EXTRA, items[currentIndex].attachment.url)
+                intent.putExtra(ViewVideoActivity.STATUS_ID_EXTRA, items[currentIndex].statusId)
+                intent.putExtra(ViewVideoActivity.STATUS_URL_EXTRA, items[currentIndex].statusUrl)
                 startActivity(intent)
             }
             Attachment.Type.UNKNOWN -> {

@@ -32,9 +32,11 @@ import android.support.media.ExifInterface;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Calendar;
 
 /**
  * Class with helper methods for obtaining and resizing media files
@@ -256,5 +258,30 @@ public class MediaUtils {
                 ExifInterface.ORIENTATION_NORMAL);
         IOUtils.closeQuietly(inputStream);
         return orientation;
+    }
+
+    public static void deleteStaleCachedMedia(File mediaDirectory) {
+        if (mediaDirectory == null || !(mediaDirectory.exists())) {
+            // Nothing to do
+            return;
+        }
+
+        Calendar twentyfourHoursAgo = Calendar.getInstance();
+        twentyfourHoursAgo.add(Calendar.HOUR, -24);
+        long unixTime = twentyfourHoursAgo.getTime().getTime();
+
+        File[] files = mediaDirectory.listFiles(file -> unixTime > file.lastModified());
+        if (files == null || files.length == 0) {
+            // Nothing to do
+            return;
+        }
+
+        for (File file : files) {
+            try {
+                file.delete();
+            } catch (SecurityException se) {
+                Log.e(TAG, "Error removing stale cached media");
+            }
+        }
     }
 }

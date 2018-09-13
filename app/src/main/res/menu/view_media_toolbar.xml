@@ -7,6 +7,11 @@
         android:title="@string/dialog_download_image"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/action_share_media"
+        android:icon="@drawable/dbinspector_share"
+        android:title="@string/action_share"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_open_status"
         android:title="@string/action_open_toot"
         app:showAsAction="never" />
