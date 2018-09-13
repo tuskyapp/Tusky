@@ -34,8 +34,8 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     private ImageView avatarReblog;
     private TextView rebloggedBar;
 
-    StatusViewHolder(View itemView) {
-        super(itemView);
+    StatusViewHolder(View itemView, boolean useAbsoluteTime) {
+        super(itemView, useAbsoluteTime);
         avatarReblog = itemView.findViewById(R.id.status_avatar_reblog);
         rebloggedBar = itemView.findViewById(R.id.status_reblogged);
         //workaround because Android < API 21 does not support setting drawableLeft from xml when it is a vector image

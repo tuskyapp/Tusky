@@ -17,18 +17,18 @@ package com.keylesspalace.tusky.network;
 
 import android.support.annotation.NonNull;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okio.BufferedSink;
 
 public final class ProgressRequestBody extends RequestBody {
-    private final byte[] content;
-    private final UploadCallback mListener;
+    private final InputStream content;
+    private final long contentLength;
+    private final UploadCallback uploadListener;
     private final MediaType mediaType;
-    private boolean shouldIgnoreThisPass;
 
     private static final int DEFAULT_BUFFER_SIZE = 2048;
 
@@ -36,11 +36,11 @@ public final class ProgressRequestBody extends RequestBody {
         void onProgressUpdate(int percentage);
     }
 
-    public ProgressRequestBody(final byte[] content, final MediaType mediaType, boolean shouldIgnoreFirst, final UploadCallback listener) {
+    public ProgressRequestBody(final InputStream content, long contentLength, final MediaType mediaType, final UploadCallback listener) {
         this.content = content;
+        this.contentLength = contentLength;
         this.mediaType = mediaType;
-        mListener = listener;
-        shouldIgnoreThisPass = shouldIgnoreFirst;
+        this.uploadListener = listener;
     }
 
     @Override
@@ -50,29 +50,25 @@ public final class ProgressRequestBody extends RequestBody {
 
     @Override
     public long contentLength() {
-        return content.length;
+        return contentLength;
     }
 
     @Override
     public void writeTo(@NonNull BufferedSink sink) throws IOException {
-        long length = content.length;
 
         byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
-        ByteArrayInputStream in = new ByteArrayInputStream(content);
         long uploaded = 0;
 
         try {
             int read;
-            while ((read = in.read(buffer)) != -1) {
-                if (!shouldIgnoreThisPass) {
-                    mListener.onProgressUpdate((int)(100 * uploaded / length));
-                }
+            while ((read = content.read(buffer)) != -1) {
+                uploadListener.onProgressUpdate((int)(100 * uploaded / contentLength));
+
                 uploaded += read;
                 sink.write(buffer, 0, read);
             }
         } finally {
-            in.close();
+            content.close();
         }
-        shouldIgnoreThisPass = false;
     }
 }

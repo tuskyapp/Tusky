@@ -32,8 +32,10 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
@@ -67,7 +69,11 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     TextView content;
     TextView contentWarningDescription;
 
-    StatusBaseViewHolder(View itemView) {
+    private boolean useAbsoluteTime;
+    private SimpleDateFormat shortSdf;
+    private SimpleDateFormat longSdf;
+
+    StatusBaseViewHolder(View itemView, boolean useAbsoluteTime) {
         super(itemView);
         container = itemView.findViewById(R.id.status_container);
         displayName = itemView.findViewById(R.id.status_display_name);
@@ -95,6 +101,10 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
         contentWarningButton = itemView.findViewById(R.id.status_content_warning_button);
         contentCollapseButton = itemView.findViewById(R.id.button_toggle_content);
+
+        this.useAbsoluteTime = useAbsoluteTime;
+        shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+        longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
     }
 
     protected abstract int getMediaPreviewHeight(Context context);
@@ -130,25 +140,39 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     protected void setCreatedAt(@Nullable Date createdAt) {
-        // This is the visible timestampInfo.
-        String readout;
-        /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
-         * as 17 meters instead of minutes. */
-        CharSequence readoutAloud;
-        if (createdAt != null) {
-            long then = createdAt.getTime();
-            long now = new Date().getTime();
-            readout = DateUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
-            readoutAloud = android.text.format.DateUtils.getRelativeTimeSpanString(then, now,
-                    android.text.format.DateUtils.SECOND_IN_MILLIS,
-                    android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);
+        if (useAbsoluteTime) {
+            String time;
+            if (createdAt != null) {
+                if (System.currentTimeMillis() - createdAt.getTime() > 86400000L) {
+                    time = longSdf.format(createdAt);
+                } else {
+                    time = shortSdf.format(createdAt);
+                }
+            } else {
+                time = "??:??:??";
+            }
+            timestampInfo.setText(time);
         } else {
-            // unknown minutes~
-            readout = "?m";
-            readoutAloud = "? minutes";
+            // This is the visible timestampInfo.
+            String readout;
+            /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
+             * as 17 meters instead of minutes. */
+            CharSequence readoutAloud;
+            if (createdAt != null) {
+                long then = createdAt.getTime();
+                long now = new Date().getTime();
+                readout = DateUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
+                readoutAloud = android.text.format.DateUtils.getRelativeTimeSpanString(then, now,
+                        android.text.format.DateUtils.SECOND_IN_MILLIS,
+                        android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);
+            } else {
+                // unknown minutes~
+                readout = "?m";
+                readoutAloud = "? minutes";
+            }
+            timestampInfo.setText(readout);
+            timestampInfo.setContentDescription(readoutAloud);
         }
-        timestampInfo.setText(readout);
-        timestampInfo.setContentDescription(readoutAloud);
     }
 
     protected void showContent(boolean show) {
@@ -260,7 +284,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             final int urlIndex = i;
             previews[i].setOnClickListener(v -> {
-                if(getAdapterPosition() != RecyclerView.NO_POSITION) {
+                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
                     listener.onViewMedia(getAdapterPosition(), urlIndex, v);
                 }
             });
