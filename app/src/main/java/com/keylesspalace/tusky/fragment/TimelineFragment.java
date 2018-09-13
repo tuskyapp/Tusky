@@ -306,6 +306,9 @@ public class TimelineFragment extends SFragment implements
                 break;
             }
         }
+        if(statuses.size() == 0) {
+            nothingMessageView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -858,6 +861,8 @@ public class TimelineFragment extends SFragment implements
         swipeRefreshLayout.setRefreshing(false);
         if (this.statuses.size() == 0) {
             nothingMessageView.setVisibility(View.VISIBLE);
+        } else {
+            nothingMessageView.setVisibility(View.GONE);
         }
     }
 

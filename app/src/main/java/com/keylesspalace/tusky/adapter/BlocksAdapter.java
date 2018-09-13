@@ -31,8 +31,6 @@ import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.squareup.picasso.Picasso;
 
 public class BlocksAdapter extends AccountAdapter {
-    private static final int VIEW_TYPE_BLOCKED_USER = 0;
-    private static final int VIEW_TYPE_FOOTER = 1;
 
     public BlocksAdapter(AccountActionListener accountActionListener) {
         super(accountActionListener);
@@ -43,7 +41,7 @@ public class BlocksAdapter extends AccountAdapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             default:
-            case VIEW_TYPE_BLOCKED_USER: {
+            case VIEW_TYPE_ACCOUNT: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_blocked_user, parent, false);
                 return new BlockedUserViewHolder(view);
@@ -51,29 +49,17 @@ public class BlocksAdapter extends AccountAdapter {
             case VIEW_TYPE_FOOTER: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_footer, parent, false);
-                return new FooterViewHolder(view);
+                return new LoadingFooterViewHolder(view);
             }
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        if (position < accountList.size()) {
+        if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
             BlockedUserViewHolder holder = (BlockedUserViewHolder) viewHolder;
             holder.setupWithAccount(accountList.get(position));
             holder.setupActionListener(accountActionListener);
-        } else {
-            FooterViewHolder holder = (FooterViewHolder) viewHolder;
-            holder.setState(footerState);
-        }
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == accountList.size()) {
-            return VIEW_TYPE_FOOTER;
-        } else {
-            return VIEW_TYPE_BLOCKED_USER;
         }
     }
 

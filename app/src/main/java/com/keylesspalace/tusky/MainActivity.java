@@ -420,7 +420,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivityWithSlideInAnimation(intent);
+        startActivity(intent);
         finishWithoutSlideOutAnimation();
 
         overridePendingTransition(R.anim.explode, R.anim.explode);
@@ -510,21 +510,15 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         List<AccountEntity> allAccounts = accountManager.getAllAccountsOrderedByActive();
 
-        // reuse the already existing "add account" item
         List<IProfile> profiles = new ArrayList<>(allAccounts.size()+1);
-        for (IProfile profile: headerResult.getProfiles()) {
-            if (profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT) {
-                profiles.add(profile);
-                break;
-            }
-        }
 
         for (AccountEntity acc : allAccounts) {
             CharSequence emojifiedName = CustomEmojiHelper.emojifyString(acc.getDisplayName(), acc.getEmojis(), headerResult.getView());
             emojifiedName = EmojiCompat.get().process(emojifiedName);
 
-            profiles.add(0,
+            profiles.add(
                     new ProfileDrawerItem()
+                            .withSetSelected(acc.isActive())
                             .withName(emojifiedName)
                             .withIcon(acc.getProfilePictureUrl())
                             .withNameShown(true)
@@ -532,6 +526,15 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                             .withEmail(acc.getFullName()));
 
         }
+
+        // reuse the already existing "add account" item
+        for (IProfile profile: headerResult.getProfiles()) {
+            if (profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT) {
+                profiles.add(profile);
+                break;
+            }
+        }
+        headerResult.clear();
         headerResult.setProfiles(profiles);
 
     }

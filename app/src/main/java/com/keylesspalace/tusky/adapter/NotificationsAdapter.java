@@ -58,10 +58,9 @@ import java.util.List;
 
 public class NotificationsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_MENTION = 0;
-    private static final int VIEW_TYPE_FOOTER = 1;
-    private static final int VIEW_TYPE_STATUS_NOTIFICATION = 2;
-    private static final int VIEW_TYPE_FOLLOW = 3;
-    private static final int VIEW_TYPE_PLACEHOLDER = 4;
+    private static final int VIEW_TYPE_STATUS_NOTIFICATION = 1;
+    private static final int VIEW_TYPE_FOLLOW = 2;
+    private static final int VIEW_TYPE_PLACEHOLDER = 3;
 
     private List<NotificationViewData> notifications;
     private StatusActionListener statusListener;
@@ -88,11 +87,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_status, parent, false);
                 return new StatusViewHolder(view);
-            }
-            case VIEW_TYPE_FOOTER: {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_footer, parent, false);
-                return new FooterViewHolder(view);
             }
             case VIEW_TYPE_STATUS_NOTIFICATION: {
                 View view = LayoutInflater.from(parent.getContext())
@@ -174,31 +168,28 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (position == notifications.size()) {
-            return VIEW_TYPE_FOOTER;
-        } else {
-            NotificationViewData notification = notifications.get(position);
-            if (notification instanceof NotificationViewData.Concrete) {
-                NotificationViewData.Concrete concrete = ((NotificationViewData.Concrete) notification);
-                switch (concrete.getType()) {
-                    default:
-                    case MENTION: {
-                        return VIEW_TYPE_MENTION;
-                    }
-                    case FAVOURITE:
-                    case REBLOG: {
-                        return VIEW_TYPE_STATUS_NOTIFICATION;
-                    }
-                    case FOLLOW: {
-                        return VIEW_TYPE_FOLLOW;
-                    }
+        NotificationViewData notification = notifications.get(position);
+        if (notification instanceof NotificationViewData.Concrete) {
+            NotificationViewData.Concrete concrete = ((NotificationViewData.Concrete) notification);
+            switch (concrete.getType()) {
+                default:
+                case MENTION: {
+                    return VIEW_TYPE_MENTION;
                 }
-            } else if (notification instanceof NotificationViewData.Placeholder) {
-                return VIEW_TYPE_PLACEHOLDER;
-            } else {
-                throw new AssertionError("Unknown notification type");
+                case FAVOURITE:
+                case REBLOG: {
+                    return VIEW_TYPE_STATUS_NOTIFICATION;
+                }
+                case FOLLOW: {
+                    return VIEW_TYPE_FOLLOW;
+                }
             }
+        } else if (notification instanceof NotificationViewData.Placeholder) {
+            return VIEW_TYPE_PLACEHOLDER;
+        } else {
+            throw new AssertionError("Unknown notification type");
         }
+
     }
 
     public void update(@Nullable List<NotificationViewData> newNotifications) {
@@ -375,8 +366,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private void setCreatedAt(@Nullable Date createdAt) {
             // This is the visible timestampInfo.
             String readout;
-        /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
-         * as 17 meters instead of minutes. */
+            /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
+             * as 17 meters instead of minutes. */
             CharSequence readoutAloud;
             if (createdAt != null) {
                 long then = createdAt.getTime();
