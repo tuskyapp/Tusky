@@ -122,7 +122,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="0dp"
-            android:layout_toEndOf="@id/status_avatar"
+            android:layout_toEndOf="@id/notification_status_avatar"
             android:layout_below="@id/notification_content"
             android:textOff="@string/status_content_show_less"
             android:textOn="@string/status_content_show_more"
