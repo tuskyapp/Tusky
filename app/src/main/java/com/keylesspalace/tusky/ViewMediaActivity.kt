@@ -15,8 +15,10 @@
 
 package com.keylesspalace.tusky
 
+import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -25,15 +27,21 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v4.view.ViewPager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.webkit.MimeTypeMap
+import android.widget.Toast
 import com.keylesspalace.tusky.BuildConfig.APPLICATION_ID
+import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.fragment.ViewImageFragment
 
-import com.keylesspalace.tusky.fragment.ViewMediaFragment
 import com.keylesspalace.tusky.pager.AvatarImagePagerAdapter
 import com.keylesspalace.tusky.pager.ImagePagerAdapter
 import com.keylesspalace.tusky.util.CollectionUtil.map
@@ -50,7 +58,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.ArrayList
 
-class ViewMediaActivity : BaseActivity(), ViewMediaFragment.PhotoActionsListener {
+class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener {
     companion object {
         private const val EXTRA_ATTACHMENTS = "attachments"
         private const val EXTRA_ATTACHMENT_INDEX = "index"
@@ -76,6 +84,9 @@ class ViewMediaActivity : BaseActivity(), ViewMediaFragment.PhotoActionsListener
 
     private var toolbarVisible = true
     private val toolbarVisibilityListeners = ArrayList<ToolbarVisibilityListener>()
+    private var currentDownloadSource: String? = null
+    private var currentDownloadDestination: String? = null
+
 
     interface ToolbarVisibilityListener {
         fun onToolbarVisiblityChanged(isVisible: Boolean)
@@ -114,12 +125,10 @@ class ViewMediaActivity : BaseActivity(), ViewMediaFragment.PhotoActionsListener
 
         viewPager.adapter = adapter
         viewPager.currentItem = initialPosition
-        viewPager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
+        viewPager.addOnPageChangeListener(object: ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
                 toolbar.title = adapter.getPageTitle(position)
             }
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-            override fun onPageScrollStateChanged(state: Int) {}
         })
 
         // Setup the toolbar.
@@ -133,9 +142,9 @@ class ViewMediaActivity : BaseActivity(), ViewMediaFragment.PhotoActionsListener
         toolbar.setNavigationOnClickListener { _ -> supportFinishAfterTransition() }
         toolbar.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
-                R.id.action_download -> downloadImage()
+                R.id.action_download -> downloadMedia()
                 R.id.action_open_status -> onOpenStatus()
-                R.id.action_share_media -> shareImage()
+                R.id.action_share_media -> shareMedia()
             }
             true
         }
@@ -182,16 +191,34 @@ class ViewMediaActivity : BaseActivity(), ViewMediaFragment.PhotoActionsListener
         when (requestCode) {
             PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    downloadImage()
+                    downloadMedia()
                 } else {
-                    showErrorDialog(toolbar, R.string.error_media_download_permission, R.string.action_retry) { _ -> downloadImage() }
+                    showErrorDialog(toolbar, R.string.error_media_download_permission, R.string.action_retry) { _ -> downloadMedia() }
                 }
             }
         }
     }
 
-    private fun downloadImage() {
-        downloadFile(attachments!![viewPager.currentItem].attachment.url)
+    private fun downloadMedia() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+        } else {
+            val url = attachments!![viewPager.currentItem].attachment.url
+            val filename = File(url).name;
+
+            val toastText = String.format(resources.getString(R.string.download_image), filename);
+            Toast.makeText(applicationContext, toastText, Toast.LENGTH_SHORT).show();
+
+            val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val request = DownloadManager.Request(Uri.parse(url))
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES,
+                    getString(R.string.app_name) + "/" + filename);
+            downloadManager.enqueue(request)
+        }
     }
 
     private fun onOpenStatus() {
@@ -199,7 +226,7 @@ class ViewMediaActivity : BaseActivity(), ViewMediaFragment.PhotoActionsListener
         startActivityWithSlideInAnimation(ViewThreadActivity.startIntent(this, attach.statusId, attach.statusUrl))
     }
 
-    private fun shareImage() {
+    private fun shareMedia() {
         val directory = applicationContext.getExternalFilesDir("Tusky")
         if (directory == null || !(directory.exists())) {
             Log.e(TAG, "Error obtaining directory to save temporary media.")
@@ -207,10 +234,27 @@ class ViewMediaActivity : BaseActivity(), ViewMediaFragment.PhotoActionsListener
         }
 
         val attachment = attachments!![viewPager.currentItem].attachment
-        val context = applicationContext
+        when(attachment.type) {
+            Attachment.Type.IMAGE -> shareImage(directory, attachment.url)
+            Attachment.Type.VIDEO,
+            Attachment.Type.GIFV -> shareVideo(directory, attachment.url)
+            else -> Log.e(TAG, "Unknown media format for sharing.")
+        }
+    }
+
+    private fun shareFile(file: File, mimeType: String?) {
+        val sendIntent = Intent()
+        sendIntent.action = Intent.ACTION_SEND
+        sendIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(applicationContext, "$APPLICATION_ID.fileprovider", file))
+        sendIntent.type = mimeType
+        startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_media_to)))
+    }
+
+
+    private fun shareImage(directory: File, url: String) {
         val file = File(directory, getTemporaryMediaFilename("png"))
 
-        Picasso.with(context).load(Uri.parse(attachment.url)).into(object: Target {
+        Picasso.with(applicationContext).load(Uri.parse(url)).into(object: Target {
             override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
                 try {
                     val stream = FileOutputStream(file)
@@ -230,10 +274,23 @@ class ViewMediaActivity : BaseActivity(), ViewMediaFragment.PhotoActionsListener
             override fun onPrepareLoad(placeHolderDrawable: Drawable) { }
         })
 
-        val sendIntent = Intent()
-        sendIntent.action = Intent.ACTION_SEND
-        sendIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context, "$APPLICATION_ID.fileprovider", file))
-        sendIntent.type = "image/png"
-        startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_media_to)))
+        shareFile(file, "image/png")
+    }
+
+    private fun shareVideo(directory: File, url: String) {
+        val uri = Uri.parse(url)
+        val mimeTypeMap = MimeTypeMap.getSingleton()
+        val extension = MimeTypeMap.getFileExtensionFromUrl(url)
+        val mimeType = mimeTypeMap.getMimeTypeFromExtension(extension)
+        val filename = MediaUtils.getTemporaryMediaFilename(extension)
+        val file = File(directory, filename)
+
+        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val request = DownloadManager.Request(uri)
+        request.setDestinationUri(Uri.fromFile(file))
+        request.setVisibleInDownloadsUi(false)
+        downloadManager.enqueue(request)
+
+        shareFile(file, mimeType)
     }
 }

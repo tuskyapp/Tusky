@@ -2,14 +2,14 @@ package com.keylesspalace.tusky.pager
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.app.FragmentStatePagerAdapter
 
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.fragment.ViewMediaFragment
 
 import java.util.Locale
 
-class ImagePagerAdapter(fragmentManager: FragmentManager, private val attachments: List<Attachment>, private val initialPosition: Int) : FragmentPagerAdapter(fragmentManager) {
+class ImagePagerAdapter(fragmentManager: FragmentManager, private val attachments: List<Attachment>, private val initialPosition: Int) : FragmentStatePagerAdapter(fragmentManager) {
     override fun getItem(position: Int): Fragment? {
         return if (position >= 0 && position < attachments.size) {
             ViewMediaFragment.newInstance(attachments[position], position == initialPosition)
