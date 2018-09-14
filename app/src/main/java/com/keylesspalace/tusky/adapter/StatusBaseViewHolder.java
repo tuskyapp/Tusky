@@ -41,6 +41,9 @@ import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
 
 abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
+    private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[] { SmartLengthInputFilter.INSTANCE };
+    private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
+
     private View container;
     private TextView displayName;
     private TextView username;
@@ -540,16 +543,14 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 contentCollapseButton.setVisibility(View.VISIBLE);
                 if(status.isCollapsed()) {
                     contentCollapseButton.setChecked(true);
-                    content.setFilters(new InputFilter[]{
-                            new SmartLengthInputFilter(SmartLengthInputFilter.LENGTH_DEFAULT)
-                    });
+                    content.setFilters(COLLAPSE_INPUT_FILTER);
                 } else {
                     contentCollapseButton.setChecked(false);
-                    content.setFilters(new InputFilter[]{});
+                    content.setFilters(NO_INPUT_FILTER);
                 }
             } else {
                 contentCollapseButton.setVisibility(View.GONE);
-                content.setFilters(new InputFilter[]{});
+                content.setFilters(NO_INPUT_FILTER);
             }
         }
 

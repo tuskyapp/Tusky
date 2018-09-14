@@ -64,6 +64,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_FOLLOW = 2;
     private static final int VIEW_TYPE_PLACEHOLDER = 3;
 
+    private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[] { SmartLengthInputFilter.INSTANCE };
+    private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
+
     private List<NotificationViewData> notifications;
     private StatusActionListener statusListener;
     private NotificationActionListener notificationActionListener;
@@ -533,16 +536,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 contentCollapseButton.setVisibility(View.VISIBLE);
                 if(statusViewData.isCollapsed()) {
                     contentCollapseButton.setChecked(true);
-                    statusContent.setFilters(new InputFilter[]{
-                            new SmartLengthInputFilter(SmartLengthInputFilter.LENGTH_DEFAULT)
-                    });
+                    statusContent.setFilters(COLLAPSE_INPUT_FILTER);
                 } else {
                     contentCollapseButton.setChecked(false);
-                    statusContent.setFilters(new InputFilter[]{});
+                    statusContent.setFilters(NO_INPUT_FILTER);
                 }
             } else {
                 contentCollapseButton.setVisibility(View.GONE);
-                statusContent.setFilters(new InputFilter[]{});
+                statusContent.setFilters(NO_INPUT_FILTER);
             }
 
             Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, statusContent);
