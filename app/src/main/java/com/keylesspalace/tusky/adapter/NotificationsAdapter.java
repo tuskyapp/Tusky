@@ -525,16 +525,16 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             Spanned content = statusViewData.getContent();
             List<Emoji> emojis = statusViewData.getStatusEmojis();
 
-            if(statusViewData.isCollapsible() && (notificationViewData.isExpanded() || !hasSpoiler)) {
+            if (statusViewData.isCollapsible() && (notificationViewData.isExpanded() || !hasSpoiler)) {
                 contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION && notificationActionListener != null) {
+                    if (position != RecyclerView.NO_POSITION && notificationActionListener != null) {
                         notificationActionListener.onNotificationContentCollapsedChange(isChecked, position);
                     }
                 });
 
                 contentCollapseButton.setVisibility(View.VISIBLE);
-                if(statusViewData.isCollapsed()) {
+                if (statusViewData.isCollapsed()) {
                     contentCollapseButton.setChecked(true);
                     statusContent.setFilters(COLLAPSE_INPUT_FILTER);
                 } else {

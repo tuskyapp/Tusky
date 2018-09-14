@@ -364,13 +364,13 @@ public final class ViewThreadFragment extends SFragment implements
 
     @Override
     public void onContentCollapsedChange(boolean isCollapsed, int position) {
-        if(position < 0 || position >= statuses.size()) {
+        if (position < 0 || position >= statuses.size()) {
             Log.e(TAG, String.format("Tried to access out of bounds status position: %d of %d", position, statuses.size() - 1));
             return;
         }
 
         StatusViewData.Concrete status = statuses.getPairedItem(position);
-        if(status == null) {
+        if (status == null) {
             // Statuses PairedList contains a base type of StatusViewData.Concrete and also doesn't
             // check for null values when adding values to it although this doesn't seem to be an issue.
             Log.e(TAG, String.format(

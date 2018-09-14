@@ -501,13 +501,13 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onContentCollapsedChange(boolean isCollapsed, int position) {
-        if(position < 0 || position >= notifications.size()) {
+        if (position < 0 || position >= notifications.size()) {
             Log.e(TAG, String.format("Tried to access out of bounds status position: %d of %d", position, notifications.size() - 1));
             return;
         }
 
         NotificationViewData notification = notifications.getPairedItem(position);
-        if(!(notification instanceof NotificationViewData.Concrete)) {
+        if (!(notification instanceof NotificationViewData.Concrete)) {
             Log.e(TAG, String.format(
                     "Expected NotificationViewData.Concrete, got %s instead at position: %d of %d",
                     notification == null ? "null" : notification.getClass().getSimpleName(),
@@ -617,9 +617,9 @@ public class NotificationsFragment extends SFragment implements
         // Check for out-of-bounds when loading
         // This is required to allow full-timeline reloads of collapsible statuses when the settings
         // change.
-        if(notifications.size() > 0) {
+        if (notifications.size() > 0) {
             Either<Placeholder, Notification> last = notifications.get(notifications.size() - 1);
-            if(last.isRight()) {
+            if (last.isRight()) {
                 notifications.add(Either.left(Placeholder.getInstance()));
                 NotificationViewData viewData = new NotificationViewData.Placeholder(true);
                 notifications.setPairedItem(notifications.size() - 1, viewData);

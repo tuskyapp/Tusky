@@ -145,7 +145,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
 
     override fun onReblog(reblog: Boolean, position: Int) {
         val status = searchAdapter.getStatusAtPosition(position)
-        if(status != null) {
+        if (status != null) {
             timelineCases.reblogWithCallback(status, reblog, object: Callback<Status> {
                 override fun onResponse(call: Call<Status>?, response: Response<Status>?) {
                     status.reblogged = true
@@ -162,7 +162,6 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
                 override fun onFailure(call: Call<Status>?, t: Throwable?) {
                     Log.d(TAG, "Failed to reblog status " + status.id, t)
                 }
-
             })
         }
     }

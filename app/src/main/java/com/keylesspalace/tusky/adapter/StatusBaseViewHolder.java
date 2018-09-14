@@ -532,16 +532,16 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         // When viewing threads this ViewHolder is used and the main post does not have a collapse
         // button by design so avoid crashing the app when that happens
-        if(contentCollapseButton != null) {
-            if(status.isCollapsible() && (status.isExpanded() || status.getSpoilerText() == null || status.getSpoilerText().isEmpty())) {
+        if (contentCollapseButton != null) {
+            if (status.isCollapsible() && (status.isExpanded() || status.getSpoilerText() == null || status.getSpoilerText().isEmpty())) {
                 contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION)
+                    if (position != RecyclerView.NO_POSITION)
                         listener.onContentCollapsedChange(isChecked, position);
                 });
 
                 contentCollapseButton.setVisibility(View.VISIBLE);
-                if(status.isCollapsed()) {
+                if (status.isCollapsed()) {
                     contentCollapseButton.setChecked(true);
                     content.setFilters(COLLAPSE_INPUT_FILTER);
                 } else {
