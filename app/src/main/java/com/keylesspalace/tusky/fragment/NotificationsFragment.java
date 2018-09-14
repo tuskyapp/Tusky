@@ -136,7 +136,6 @@ public class NotificationsFragment extends SFragment implements
     private String bottomId;
     private String topId;
     private boolean alwaysShowSensitiveMedia;
-    private boolean collapseLongStatusContent;
 
     @Override
     protected TimelineCases timelineCases() {
@@ -152,8 +151,7 @@ public class NotificationsFragment extends SFragment implements
                 Notification notification = input.getAsRight();
                 return ViewDataUtils.notificationToViewData(
                         notification,
-                        alwaysShowSensitiveMedia,
-                        collapseLongStatusContent
+                        alwaysShowSensitiveMedia
                 );
             } else {
                 return new NotificationViewData.Placeholder(false);
@@ -199,7 +197,6 @@ public class NotificationsFragment extends SFragment implements
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                 getActivity());
         alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
-        collapseLongStatusContent = preferences.getBoolean("collapseLongStatuses", true);
         boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
@@ -582,10 +579,6 @@ public class NotificationsFragment extends SFragment implements
                 }
                 break;
             }
-            case "collapseLongStatuses":
-                collapseLongStatusContent = sharedPreferences.getBoolean("collapseLongStatuses", true);
-                fullyRefresh();
-                break;
         }
     }
 

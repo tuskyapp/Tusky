@@ -92,7 +92,6 @@ public final class ViewThreadFragment extends SFragment implements
     private String thisThreadsStatusId;
     private Card card;
     private boolean alwaysShowSensitiveMedia;
-    private boolean collapseLongStatusContent;
 
     private int statusIndex = 0;
 
@@ -102,8 +101,7 @@ public final class ViewThreadFragment extends SFragment implements
                 public StatusViewData.Concrete apply(Status input) {
                     return ViewDataUtils.statusToViewData(
                             input,
-                            alwaysShowSensitiveMedia,
-                            collapseLongStatusContent
+                            alwaysShowSensitiveMedia
                     );
                 }
             });
@@ -160,7 +158,6 @@ public final class ViewThreadFragment extends SFragment implements
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                 getActivity());
         alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
-        collapseLongStatusContent = preferences.getBoolean("collapseLongStatuses", true);
         boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
@@ -382,7 +379,7 @@ public final class ViewThreadFragment extends SFragment implements
         }
 
         StatusViewData.Concrete updatedStatus = new StatusViewData.Builder(status)
-                .setCollapsible(collapseLongStatusContent && !SmartLengthInputFilter.hasBadRatio(
+                .setCollapsible(!SmartLengthInputFilter.hasBadRatio(
                         status.getContent(),
                         SmartLengthInputFilter.LENGTH_DEFAULT
                 ))

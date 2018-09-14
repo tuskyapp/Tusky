@@ -146,7 +146,6 @@ public class TimelineFragment extends SFragment implements
     private boolean didLoadEverythingBottom;
 
     private boolean alwaysShowSensitiveMedia;
-    private boolean collapseLongStatusContent;
 
     @Override
     protected TimelineCases timelineCases() {
@@ -161,8 +160,7 @@ public class TimelineFragment extends SFragment implements
                     if (status != null) {
                         return ViewDataUtils.statusToViewData(
                                 status,
-                                alwaysShowSensitiveMedia,
-                                collapseLongStatusContent
+                                alwaysShowSensitiveMedia
                         );
                     } else {
                         Placeholder placeholder = input.getAsLeft();
@@ -268,8 +266,6 @@ public class TimelineFragment extends SFragment implements
             filterRemoveRegexMatcher = Pattern.compile(regexFilter, Pattern.CASE_INSENSITIVE)
                     .matcher("");
         }
-
-        collapseLongStatusContent = preferences.getBoolean("collapseLongStatuses", true);
     }
 
     private void setupSwipeRefreshLayout() {
@@ -685,10 +681,6 @@ public class TimelineFragment extends SFragment implements
                 alwaysShowSensitiveMedia = sharedPreferences.getBoolean("alwaysShowSensitiveMedia", false);
                 break;
             }
-            case "collapseLongStatuses":
-                collapseLongStatusContent = sharedPreferences.getBoolean("collapseLongStatuses", true);
-                fullyRefresh();
-                break;
         }
     }
 

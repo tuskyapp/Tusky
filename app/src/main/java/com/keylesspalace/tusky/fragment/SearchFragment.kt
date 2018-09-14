@@ -50,7 +50,6 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
 
     private var alwaysShowSensitiveMedia = false
     private var mediaPreviewEnabled = true
-    private var collapseLongStatusContent = true;
     private var useAbsoluteTime = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -63,14 +62,11 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
         mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true)
         useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
 
-        collapseLongStatusContent = preferences.getBoolean("collapseLongStatuses", true);
-
         searchRecyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         searchRecyclerView.layoutManager = LinearLayoutManager(view.context)
         searchAdapter = SearchResultsAdapter(
                 mediaPreviewEnabled,
                 alwaysShowSensitiveMedia,
-                collapseLongStatusContent,
                 this,
                 this,
                 useAbsoluteTime)
@@ -152,8 +148,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
                     searchAdapter.updateStatusAtPosition(
                             ViewDataUtils.statusToViewData(
                                     status,
-                                    alwaysShowSensitiveMedia,
-                                    collapseLongStatusContent
+                                    alwaysShowSensitiveMedia
                             ),
                             position
                     )
@@ -175,8 +170,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
                     searchAdapter.updateStatusAtPosition(
                             ViewDataUtils.statusToViewData(
                                     status,
-                                    alwaysShowSensitiveMedia,
-                                    collapseLongStatusContent
+                                    alwaysShowSensitiveMedia
                             ),
                             position
                     )

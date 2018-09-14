@@ -29,8 +29,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 public final class ViewDataUtils {
     @Nullable
     public static StatusViewData.Concrete statusToViewData(@Nullable Status status,
-                                                           boolean alwaysShowSensitiveMedia,
-                                                           boolean collapseLongStatusContent) {
+                                                           boolean alwaysShowSensitiveMedia) {
         if (status == null) return null;
         Status visibleStatus = status.getReblog() == null ? status : status.getReblog();
         return new StatusViewData.Builder().setId(status.getId())
@@ -59,7 +58,7 @@ public final class ViewDataUtils {
                 .setApplication(visibleStatus.getApplication())
                 .setStatusEmojis(visibleStatus.getEmojis())
                 .setAccountEmojis(visibleStatus.getAccount().getEmojis())
-                .setCollapsible(collapseLongStatusContent && !SmartLengthInputFilter.hasBadRatio(
+                .setCollapsible(!SmartLengthInputFilter.hasBadRatio(
                         visibleStatus.getContent(),
                         SmartLengthInputFilter.LENGTH_DEFAULT
                 ))
@@ -68,16 +67,14 @@ public final class ViewDataUtils {
     }
 
     public static NotificationViewData.Concrete notificationToViewData(Notification notification,
-                                                                       boolean alwaysShowSensitiveData,
-                                                                       boolean collapseLongStatusContent) {
+                                                                       boolean alwaysShowSensitiveData) {
         return new NotificationViewData.Concrete(
                 notification.getType(),
                 notification.getId(),
                 notification.getAccount(),
                 statusToViewData(
                         notification.getStatus(),
-                        alwaysShowSensitiveData,
-                        collapseLongStatusContent
+                        alwaysShowSensitiveData
                 ),
                 false
         );
