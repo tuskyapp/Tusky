@@ -38,10 +38,21 @@ import java.text.BreakIterator;
 public class SmartLengthInputFilter implements InputFilter {
 
 	/**
-	 * Default for maximum status length on Mastodon and default collapsing
-	 * length on Pleroma.
+	 * Defines how many characters to extend beyond the limit to cut at the end of the word on the
+	 * boundary of it rather than cutting at the word preceding that one.
+	 */
+	private static final int RUNWAY = 10;
+
+	/**
+	 * Default for maximum status length on Mastodon and default collapsing length on Pleroma.
 	 */
 	public static final int LENGTH_DEFAULT = 500;
+
+	/**
+	 * Stores a reusable singleton instance of a {@link SmartLengthInputFilter} already configured
+	 * to the default maximum length of {@value #LENGTH_DEFAULT}.
+	 */
+	public static final SmartLengthInputFilter INSTANCE = new SmartLengthInputFilter(LENGTH_DEFAULT);
 
 	private final int max;
 	private final boolean allowRunway;
@@ -58,8 +69,8 @@ public class SmartLengthInputFilter implements InputFilter {
 	}
 
 	/**
-	 * Fully configures a new {@link SmartLengthInputFilter} to fine tune the state of the
-	 * supported smart constraints this class supports.
+	 * Fully configures a new {@link SmartLengthInputFilter} to fine tune the state of the supported
+	 * smart constraints this class supports.
 	 *
 	 * @param max            The maximum length before trimming.
 	 * @param allowRunway    Whether to extend {@param max} by an extra 10 characters
@@ -74,8 +85,8 @@ public class SmartLengthInputFilter implements InputFilter {
 	}
 
 	/**
-	 * Calculates if it's worth trimming the message at a specific limit or if the content
-	 * that will be hidden will not be enough to justify the operation.
+	 * Calculates if it's worth trimming the message at a specific limit or if the content that will
+	 * be hidden will not be enough to justify the operation.
 	 *
 	 * @param message The message to trim.
 	 * @param limit   The maximum length after trimming.
@@ -113,12 +124,12 @@ public class SmartLengthInputFilter implements InputFilter {
 				android.icu.text.BreakIterator iterator = android.icu.text.BreakIterator.getWordInstance();
 				iterator.setText(source.toString());
 				boundary = iterator.following(keep);
-				if(keep - boundary > 10) boundary = iterator.preceding(keep);
+				if(keep - boundary > RUNWAY) boundary = iterator.preceding(keep);
 			} else {
 				java.text.BreakIterator iterator = BreakIterator.getWordInstance();
 				iterator.setText(source.toString());
 				boundary = iterator.following(keep);
-				if(keep - boundary > 10) boundary = iterator.preceding(keep);
+				if(keep - boundary > RUNWAY) boundary = iterator.preceding(keep);
 			}
 
 			keep = boundary;
