@@ -23,7 +23,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.annotation.AttrRes
@@ -360,7 +359,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 accountStatuses.hide()
                 accountTabLayout.hide()
                 accountFragmentViewPager.hide()
-                accountTabBottomShadow.hide()
             }
 
             val numberFormat = NumberFormat.getNumberInstance()
