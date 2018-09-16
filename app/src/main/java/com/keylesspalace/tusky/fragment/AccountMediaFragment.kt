@@ -174,7 +174,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
 
         recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
-            override fun onScrolled(recycler_view: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recycler_view: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0) {
                     val itemCount = layoutManager.itemCount
                     val lastItem = layoutManager.findLastCompletelyVisibleItemPosition()
