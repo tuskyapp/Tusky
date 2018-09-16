@@ -20,8 +20,6 @@ import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
-import java.text.BreakIterator;
-
 /**
  * A customized version of {@link android.text.InputFilter.LengthFilter} which allows smarter
  * constraints and adds better visuals such as:
@@ -126,7 +124,7 @@ public class SmartLengthInputFilter implements InputFilter {
                 boundary = iterator.following(keep);
                 if (keep - boundary > RUNWAY) boundary = iterator.preceding(keep);
             } else {
-                java.text.BreakIterator iterator = BreakIterator.getWordInstance();
+                java.text.BreakIterator iterator = java.text.BreakIterator.getWordInstance();
                 iterator.setText(source.toString());
                 boundary = iterator.following(keep);
                 if (keep - boundary > RUNWAY) boundary = iterator.preceding(keep);
