@@ -17,12 +17,11 @@ android {
     buildToolsVersion '28.0.2'
     defaultConfig {
         applicationId "com.keylesspalace.tusky"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 49
         versionName "3.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary true
     }
     buildTypes {
         release {

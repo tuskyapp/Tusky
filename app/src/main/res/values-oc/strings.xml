@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">L\'autoritzacion es estada regetada.</string>
     <string name="error_retrieving_oauth_token">Fracàs de l’obtencion del testimoni d\'iniciacion de session.</string>
     <string name="error_compose_character_limit">L\'estatut es tròp long !</string>
-    <string name="error_media_upload_size">Lo fichièr a d’èsser inferior a 8Mo.</string>
+    <string name="error_image_upload_size">Lo fichièr a d’èsser inferior a 8Mo.</string>
     <string name="error_media_upload_type">Aqueste tip de fichièr se pòt pas mandar.</string>
     <string name="error_media_upload_opening">Aqueste tip de fichièr se pòt pas dobrir.</string>
     <string name="error_media_upload_permission">Cal permís de lectura del mèdia.</string>

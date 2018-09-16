@@ -29,8 +29,6 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <include layout="@layout/toolbar_shadow_shim" />
-
     <include layout="@layout/item_status_bottom_sheet"/>
 
 </android.support.design.widget.CoordinatorLayout>

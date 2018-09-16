@@ -69,7 +69,7 @@ class AccountViewModel  @Inject constructor(
                 override fun onResponse(call: Call<List<Relationship>>,
                                         response: Response<List<Relationship>>) {
                     val relationships = response.body()
-                    if (response.isSuccessful && relationships != null) {
+                    if (response.isSuccessful && relationships != null && relationships.getOrNull(0) != null) {
                         val relationship = relationships[0]
                         relationshipData.postValue(Success(relationship))
                     } else {

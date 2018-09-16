@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">تم رفض التصريح.</string>
     <string name="error_retrieving_oauth_token">فشل الحصول على رمز الدخول.</string>
     <string name="error_compose_character_limit">المنشور طويل جدا !</string>
-    <string name="error_media_upload_size">يجب أن يكون حجم الملف أقل من 4 ميغابايت.</string>
+    <string name="error_image_upload_size">يجب أن يكون حجم الملف أقل من 4 ميغابايت.</string>
     <string name="error_media_upload_type">لا يمكن رفع هذا النوع من الملفات.</string>
     <string name="error_media_upload_opening">تعذر فتح ذاك الملف.</string>
     <string name="error_media_upload_permission">التصريح لازم لقراءة الوسائط</string>

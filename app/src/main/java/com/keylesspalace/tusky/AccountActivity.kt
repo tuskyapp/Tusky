@@ -135,9 +135,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
         val decorView = window.decorView
         decorView.systemUiVisibility = decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = Color.TRANSPARENT
-        }
+        window.statusBarColor = Color.TRANSPARENT
 
         setContentView(R.layout.activity_account)
 
@@ -218,9 +216,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 var transparencyPercent = Math.abs(verticalOffset) / titleVisibleHeight.toFloat()
                 if (transparencyPercent > 1) transparencyPercent = 1f
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.statusBarColor = argbEvaluator.evaluate(transparencyPercent, statusBarColorTransparent, statusBarColorOpaque) as Int
-                }
+                window.statusBarColor = argbEvaluator.evaluate(transparencyPercent, statusBarColorTransparent, statusBarColorOpaque) as Int
 
                 val evaluatedToolbarColor = argbEvaluator.evaluate(transparencyPercent, Color.TRANSPARENT, toolbarColor) as Int
                 val evaluatedTabBarColor = argbEvaluator.evaluate(transparencyPercent, backgroundColor, toolbarColor) as Int

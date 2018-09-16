@@ -101,7 +101,6 @@ import com.keylesspalace.tusky.network.ProgressRequestBody;
 import com.keylesspalace.tusky.service.SendTootService;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
-import com.keylesspalace.tusky.util.IOUtils;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.MediaUtils;
 import com.keylesspalace.tusky.util.MentionTokenizer;
@@ -124,7 +123,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -159,8 +157,9 @@ public final class ComposeActivity
 
     private static final String TAG = "ComposeActivity"; // logging tag
     static final int STATUS_CHARACTER_LIMIT = 500;
-    private static final int STATUS_MEDIA_SIZE_LIMIT = 8388608; // 8MiB
-    private static final int STATUS_MEDIA_PIXEL_SIZE_LIMIT = 16777216; // 4096^2 Pixels
+    private static final int STATUS_IMAGE_SIZE_LIMIT = 8388608; // 8MiB
+    private static final int STATUS_VIDEO_SIZE_LIMIT = 41943040; // 40MiB
+    private static final int STATUS_IMAGE_PIXEL_SIZE_LIMIT = 16777216; // 4096^2 Pixels
     private static final int MEDIA_PICK_RESULT = 1;
     private static final int MEDIA_TAKE_PHOTO_RESULT = 2;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
@@ -995,8 +994,8 @@ public final class ComposeActivity
     @NonNull
     private File createNewImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-        String imageFileName = "Tusky_" + timeStamp + "_";
+        String randomId = StringUtils.randomAlphanumericString(12);
+        String imageFileName = "Tusky_" + randomId + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         return File.createTempFile(
                 imageFileName,  /* prefix */
@@ -1088,12 +1087,12 @@ public final class ComposeActivity
 
             try {
                 if (type == QueuedMedia.Type.IMAGE &&
-                        (mediaSize > STATUS_MEDIA_SIZE_LIMIT || MediaUtils.getImageSquarePixels(getContentResolver(), item.uri) > STATUS_MEDIA_PIXEL_SIZE_LIMIT)) {
+                        (mediaSize > STATUS_IMAGE_SIZE_LIMIT || MediaUtils.getImageSquarePixels(getContentResolver(), item.uri) > STATUS_IMAGE_PIXEL_SIZE_LIMIT)) {
                     downsizeMedia(item);
                 } else {
                     uploadMedia(item);
                 }
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 onUploadFailure(item, false);
             }
         }
@@ -1223,14 +1222,17 @@ public final class ComposeActivity
         }
     }
 
-    private void downsizeMedia(final QueuedMedia item) {
+    private void downsizeMedia(final QueuedMedia item) throws IOException {
         item.readyStage = QueuedMedia.ReadyStage.DOWNSIZING;
 
-        new DownsizeImageTask(STATUS_MEDIA_SIZE_LIMIT, getContentResolver(),
+        new DownsizeImageTask(STATUS_IMAGE_SIZE_LIMIT, getContentResolver(), createNewImageFile(),
                 new DownsizeImageTask.Listener() {
                     @Override
-                    public void onSuccess(List<byte[]> contentList) {
-                        item.content = contentList.get(0);
+                    public void onSuccess(File tempFile) {
+                        item.uri = FileProvider.getUriForFile(
+                                ComposeActivity.this,
+                                BuildConfig.APPLICATION_ID+".fileprovider",
+                                tempFile);
                         uploadMedia(item);
                     }
 
@@ -1242,7 +1244,7 @@ public final class ComposeActivity
     }
 
     private void onMediaDownsizeFailure(QueuedMedia item) {
-        displayTransientError(R.string.error_media_upload_size);
+        displayTransientError(R.string.error_image_upload_size);
         removeMediaFromQueue(item);
     }
 
@@ -1258,32 +1260,20 @@ public final class ComposeActivity
                 StringUtils.randomAlphanumericString(10),
                 fileExtension);
 
-        byte[] content = item.content;
+        InputStream stream;
 
-        if (content == null) {
-            InputStream stream;
-
-            try {
-                stream = getContentResolver().openInputStream(item.uri);
-            } catch (FileNotFoundException e) {
-                Log.d(TAG, Log.getStackTraceString(e));
-                return;
-            }
-
-            content = MediaUtils.inputStreamGetBytes(stream);
-            IOUtils.closeQuietly(stream);
-
-            if (content == null) {
-                return;
-            }
+        try {
+            stream = getContentResolver().openInputStream(item.uri);
+        } catch (FileNotFoundException e) {
+            Log.w(TAG, e);
+            return;
         }
 
         if (mimeType == null) mimeType = "multipart/form-data";
 
         item.preview.setProgress(0);
 
-        ProgressRequestBody fileBody = new ProgressRequestBody(content, MediaType.parse(mimeType),
-                false, // If request body logging is enabled, pass true
+        ProgressRequestBody fileBody = new ProgressRequestBody(stream, MediaUtils.getMediaSize(getContentResolver(), item.uri), MediaType.parse(mimeType),
                 new ProgressRequestBody.UploadCallback() { // may reference activity longer than I would like to
                     int lastProgress = -1;
 
@@ -1378,8 +1368,8 @@ public final class ComposeActivity
             String topLevelType = mimeType.substring(0, mimeType.indexOf('/'));
             switch (topLevelType) {
                 case "video": {
-                    if (mediaSize > STATUS_MEDIA_SIZE_LIMIT) {
-                        displayTransientError(R.string.error_media_upload_size);
+                    if (mediaSize > STATUS_VIDEO_SIZE_LIMIT) {
+                        displayTransientError(R.string.error_image_upload_size);
                         return;
                     }
                     if (mediaQueued.size() > 0
@@ -1543,7 +1533,6 @@ public final class ComposeActivity
         String id;
         Call<Attachment> uploadRequest;
         ReadyStage readyStage;
-        byte[] content;
         long mediaSize;
         String description;
 

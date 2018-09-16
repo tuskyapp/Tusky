@@ -3,7 +3,6 @@ package com.keylesspalace.tusky.adapter;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -137,9 +136,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                     cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                 }
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    cardView.setClipToOutline(true);
-                }
+                cardView.setClipToOutline(true);
 
                 Picasso.with(cardImage.getContext())
                         .load(card.getImage())

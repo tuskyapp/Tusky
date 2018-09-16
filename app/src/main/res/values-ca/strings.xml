@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">L\'autorització s\'ha denegat.</string>
     <string name="error_retrieving_oauth_token">L\'obtenció del testimoni d\'inici de sessió ha fallat.</string>
     <string name="error_compose_character_limit">L\'estat és massa llarg!</string>
-    <string name="error_media_upload_size">El fitxer ha de ser inferior a 8MB.</string>
+    <string name="error_image_upload_size">El fitxer ha de ser inferior a 8MB.</string>
     <string name="error_media_upload_type">Aquest tipus de fitxer no es pot pujar.</string>
     <string name="error_media_upload_opening">Aquest tipus de fitxer no es pot obrir.</string>
     <string name="error_media_upload_permission">Cal permís de lectura del mitjà.</string>

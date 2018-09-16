@@ -257,9 +257,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             usernameView = itemView.findViewById(R.id.notification_username);
             displayNameView = itemView.findViewById(R.id.notification_display_name);
             avatar = itemView.findViewById(R.id.notification_avatar);
-            //workaround because Android < API 21 does not support setting drawableLeft from xml when it is a vector image
-            Drawable followIcon = ContextCompat.getDrawable(message.getContext(), R.drawable.ic_person_add_24dp);
-            message.setCompoundDrawablesWithIntrinsicBounds(followIcon, null, null, null);
         }
 
         void setMessage(Account account, BidiFormatter bidiFormatter) {
