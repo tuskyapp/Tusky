@@ -29,6 +29,4 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/toolbar_shadow_shim" />
-
 </android.support.design.widget.CoordinatorLayout>

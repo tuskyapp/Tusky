@@ -24,7 +24,6 @@ import android.content.Context;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.text.emoji.EmojiCompat;
-import android.support.v7.app.AppCompatDelegate;
 
 import com.evernote.android.job.JobManager;
 import com.jakewharton.picasso.OkHttp3Downloader;
@@ -95,8 +94,6 @@ public class TuskyApplication extends Application implements HasActivityInjector
 
         JobManager.create(this).addJobCreator(notificationPullJobCreator);
 
-        //necessary for Android < API 21
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
     /**

@@ -179,9 +179,8 @@ public final class ViewMediaActivity extends BaseActivity
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_LOW_PROFILE;
         decorView.setSystemUiVisibility(uiOptions);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(Color.BLACK);
-        }
+        getWindow().setStatusBarColor(Color.BLACK);
+
     }
 
     @Override
