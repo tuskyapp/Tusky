@@ -214,7 +214,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         }
     }
 
-    protected void doErrorDialog(View anyView, @StringRes int descriptionId, @StringRes int actionId, View.OnClickListener listener) {
+    protected void showErrorDialog(View anyView, @StringRes int descriptionId, @StringRes int actionId, View.OnClickListener listener) {
         if (anyView != null) {
             Snackbar bar = Snackbar.make(anyView, getString(descriptionId), Snackbar.LENGTH_SHORT);
             bar.setAction(actionId, listener);

@@ -254,7 +254,7 @@ class MediaUtils {
 
             val twentyfourHoursAgo = Calendar.getInstance()
             twentyfourHoursAgo.add(Calendar.HOUR, -24)
-            val unixTime = twentyfourHoursAgo.time.time
+            val unixTime = twentyfourHoursAgo.timeInMillis
 
             val files = mediaDirectory.listFiles{ file -> unixTime > file.lastModified() && file.name.contains(MEDIA_TEMP_PREFIX) }
             if (files == null || files.isEmpty()) {

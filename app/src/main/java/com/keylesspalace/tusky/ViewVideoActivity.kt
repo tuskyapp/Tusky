@@ -138,7 +138,7 @@ class ViewVideoActivity: BaseActivity() {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     downloadFile(url)
                 } else {
-                    doErrorDialog(toolbar, R.string.error_media_download_permission, R.string.action_retry) { _ -> downloadFile(url) }
+                    showErrorDialog(toolbar, R.string.error_media_download_permission, R.string.action_retry) { _ -> downloadFile(url) }
                 }
             }
         }

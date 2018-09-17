@@ -194,7 +194,7 @@ class ViewMediaActivity : BaseActivity(), ViewMediaFragment.PhotoActionsListener
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     downloadImage()
                 } else {
-                    doErrorDialog(toolbar, R.string.error_media_download_permission, R.string.action_retry) { _ -> downloadImage() }
+                    showErrorDialog(toolbar, R.string.error_media_download_permission, R.string.action_retry) { _ -> downloadImage() }
                 }
             }
         }
