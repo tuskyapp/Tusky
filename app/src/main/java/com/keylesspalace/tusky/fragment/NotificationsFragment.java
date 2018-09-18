@@ -718,12 +718,14 @@ public class NotificationsFragment extends SFragment implements
 
     private void update(@Nullable List<Notification> newNotifications, @Nullable String fromId,
                         @Nullable String uptoId) {
-
-        bottomId = fromId;
-        topId = uptoId;
-
         if (ListUtils.isEmpty(newNotifications)) {
             return;
+        }
+        if (fromId != null) {
+            bottomId = fromId;
+        }
+        if (uptoId != null) {
+            topId = uptoId;
         }
         List<Either<Placeholder, Notification>> liftedNew =
                 liftNotificationList(newNotifications);
