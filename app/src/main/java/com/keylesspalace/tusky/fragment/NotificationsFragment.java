@@ -149,7 +149,10 @@ public class NotificationsFragment extends SFragment implements
         public NotificationViewData apply(Either<Placeholder, Notification> input) {
             if (input.isRight()) {
                 Notification notification = input.getAsRight();
-                return ViewDataUtils.notificationToViewData(notification, alwaysShowSensitiveMedia);
+                return ViewDataUtils.notificationToViewData(
+                        notification,
+                        alwaysShowSensitiveMedia
+                );
             } else {
                 return new NotificationViewData.Placeholder(false);
             }
@@ -494,6 +497,52 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
+    public void onContentCollapsedChange(boolean isCollapsed, int position) {
+        if (position < 0 || position >= notifications.size()) {
+            Log.e(TAG, String.format("Tried to access out of bounds status position: %d of %d", position, notifications.size() - 1));
+            return;
+        }
+
+        NotificationViewData notification = notifications.getPairedItem(position);
+        if (!(notification instanceof NotificationViewData.Concrete)) {
+            Log.e(TAG, String.format(
+                    "Expected NotificationViewData.Concrete, got %s instead at position: %d of %d",
+                    notification == null ? "null" : notification.getClass().getSimpleName(),
+                    position,
+                    notifications.size() - 1
+            ));
+            return;
+        }
+
+        StatusViewData.Concrete status = ((NotificationViewData.Concrete) notification).getStatusViewData();
+        StatusViewData.Concrete updatedStatus = new StatusViewData.Builder(status)
+                .setCollapsed(isCollapsed)
+                .createStatusViewData();
+
+        NotificationViewData.Concrete concreteNotification = (NotificationViewData.Concrete) notification;
+        NotificationViewData updatedNotification = new NotificationViewData.Concrete(
+                concreteNotification.getType(),
+                concreteNotification.getId(),
+                concreteNotification.getAccount(),
+                updatedStatus,
+                concreteNotification.isExpanded()
+        );
+        notifications.setPairedItem(position, updatedNotification);
+        adapter.updateItemWithNotify(position, updatedNotification, false);
+
+        // Since we cannot notify to the RecyclerView right away because it may be scrolling
+        // we run this when the RecyclerView is done doing measurements and other calculations.
+        // To test this is not bs: try getting a notification while scrolling, without wrapping
+        // notifyItemChanged in a .post() call. App will crash.
+        recyclerView.post(() -> adapter.notifyItemChanged(position, notification));
+    }
+
+    @Override
+    public void onNotificationContentCollapsedChange(boolean isCollapsed, int position) {
+        onContentCollapsedChange(isCollapsed, position);
+    }
+
+    @Override
     public void onViewTag(String tag) {
         super.viewTag(tag);
     }
@@ -557,12 +606,18 @@ public class NotificationsFragment extends SFragment implements
             // already loaded everything
             return;
         }
-        Either<Placeholder, Notification> last = notifications.get(notifications.size() - 1);
-        if (last.isRight()) {
-            notifications.add(Either.left(Placeholder.getInstance()));
-            NotificationViewData viewData = new NotificationViewData.Placeholder(true);
-            notifications.setPairedItem(notifications.size() - 1, viewData);
-            recyclerView.post(() -> adapter.addItems(Collections.singletonList(viewData)));
+
+        // Check for out-of-bounds when loading
+        // This is required to allow full-timeline reloads of collapsible statuses when the settings
+        // change.
+        if (notifications.size() > 0) {
+            Either<Placeholder, Notification> last = notifications.get(notifications.size() - 1);
+            if (last.isRight()) {
+                notifications.add(Either.left(Placeholder.getInstance()));
+                NotificationViewData viewData = new NotificationViewData.Placeholder(true);
+                notifications.setPairedItem(notifications.size() - 1, viewData);
+                recyclerView.post(() -> adapter.addItems(Collections.singletonList(viewData)));
+            }
         }
 
         sendFetchNotificationsRequest(bottomId, null, FetchEnd.BOTTOM, -1);

@@ -25,6 +25,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.text.BidiFormatter;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -46,6 +47,7 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
@@ -61,6 +63,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_STATUS_NOTIFICATION = 1;
     private static final int VIEW_TYPE_FOLLOW = 2;
     private static final int VIEW_TYPE_PLACEHOLDER = 3;
+
+    private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[] { SmartLengthInputFilter.INSTANCE };
+    private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
     private List<NotificationViewData> notifications;
     private StatusActionListener statusListener;
@@ -243,6 +248,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
         void onExpandedChange(boolean expanded, int position);
 
+        /**
+         * Called when the status {@link android.widget.ToggleButton} responsible for collapsing long
+         * status content is interacted with.
+         *
+         * @param isCollapsed Whether the status content is shown in a collapsed state or fully.
+         * @param position    The position of the status in the list.
+         */
+        void onNotificationContentCollapsedChange(boolean isCollapsed, int position);
     }
 
     private static class FollowViewHolder extends RecyclerView.ViewHolder {
@@ -305,6 +318,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private final ImageView notificationAvatar;
         private final TextView contentWarningDescriptionTextView;
         private final ToggleButton contentWarningButton;
+        private final ToggleButton contentCollapseButton; // TODO: This code SHOULD be based on StatusBaseViewHolder
 
         private String accountId;
         private String notificationId;
@@ -328,6 +342,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             notificationAvatar = itemView.findViewById(R.id.notification_notification_avatar);
             contentWarningDescriptionTextView = itemView.findViewById(R.id.notification_content_warning_description);
             contentWarningButton = itemView.findViewById(R.id.notification_content_warning_button);
+            contentCollapseButton = itemView.findViewById(R.id.button_toggle_notification_content);
 
             int darkerFilter = Color.rgb(123, 123, 123);
             statusAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
@@ -350,7 +365,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             statusContent.setVisibility(show ? View.VISIBLE : View.GONE);
             statusAvatar.setVisibility(show ? View.VISIBLE : View.GONE);
             notificationAvatar.setVisibility(show ? View.VISIBLE : View.GONE);
-
         }
 
         private void setDisplayName(String name, List<Emoji> emojis) {
@@ -508,10 +522,29 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             Spanned content = statusViewData.getContent();
             List<Emoji> emojis = statusViewData.getStatusEmojis();
 
+            if (statusViewData.isCollapsible() && (notificationViewData.isExpanded() || !hasSpoiler)) {
+                contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && notificationActionListener != null) {
+                        notificationActionListener.onNotificationContentCollapsedChange(isChecked, position);
+                    }
+                });
+
+                contentCollapseButton.setVisibility(View.VISIBLE);
+                if (statusViewData.isCollapsed()) {
+                    contentCollapseButton.setChecked(true);
+                    statusContent.setFilters(COLLAPSE_INPUT_FILTER);
+                } else {
+                    contentCollapseButton.setChecked(false);
+                    statusContent.setFilters(NO_INPUT_FILTER);
+                }
+            } else {
+                contentCollapseButton.setVisibility(View.GONE);
+                statusContent.setFilters(NO_INPUT_FILTER);
+            }
+
             Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, statusContent);
-
             LinkHelper.setClickableText(statusContent, emojifiedText, statusViewData.getMentions(), listener);
-
 
             Spanned emojifiedContentWarning =
                     CustomEmojiHelper.emojifyString(statusViewData.getSpoilerText(), statusViewData.getStatusEmojis(), contentWarningDescriptionTextView);

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
@@ -39,6 +41,9 @@ import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
 
 abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
+    private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[] { SmartLengthInputFilter.INSTANCE };
+    private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
+
     private View container;
     private TextView displayName;
     private TextView username;
@@ -60,6 +65,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private View sensitiveMediaShow;
     private TextView mediaLabel;
     private ToggleButton contentWarningButton;
+    private ToggleButton contentCollapseButton;
 
     ImageView avatar;
     TextView timestampInfo;
@@ -97,6 +103,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         mediaLabel = itemView.findViewById(R.id.status_media_label);
         contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
         contentWarningButton = itemView.findViewById(R.id.status_content_warning_button);
+        contentCollapseButton = itemView.findViewById(R.id.button_toggle_content);
 
         this.useAbsoluteTime = useAbsoluteTime;
         shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
@@ -492,7 +499,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         setUsername(status.getNickname());
         setCreatedAt(status.getCreatedAt());
         setIsReply(status.getInReplyToId() != null);
-        setContent(status.getContent(), status.getMentions(), status.getStatusEmojis(), listener);
         setAvatar(status.getAvatar(), status.getRebloggedAvatar());
         setReblogged(status.isReblogged());
         setFavourited(status.isFavourited());
@@ -523,7 +529,31 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         } else {
             setSpoilerText(status.getSpoilerText(), status.getStatusEmojis(), status.isExpanded(), listener);
         }
+
+        // When viewing threads this ViewHolder is used and the main post does not have a collapse
+        // button by design so avoid crashing the app when that happens
+        if (contentCollapseButton != null) {
+            if (status.isCollapsible() && (status.isExpanded() || status.getSpoilerText() == null || status.getSpoilerText().isEmpty())) {
+                contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION)
+                        listener.onContentCollapsedChange(isChecked, position);
+                });
+
+                contentCollapseButton.setVisibility(View.VISIBLE);
+                if (status.isCollapsed()) {
+                    contentCollapseButton.setChecked(true);
+                    content.setFilters(COLLAPSE_INPUT_FILTER);
+                } else {
+                    contentCollapseButton.setChecked(false);
+                    content.setFilters(NO_INPUT_FILTER);
+                }
+            } else {
+                contentCollapseButton.setVisibility(View.GONE);
+                content.setFilters(NO_INPUT_FILTER);
+            }
+        }
+
+        setContent(status.getContent(), status.getMentions(), status.getStatusEmojis(), listener);
     }
-
-
 }

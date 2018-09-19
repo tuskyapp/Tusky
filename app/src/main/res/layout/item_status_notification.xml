@@ -115,6 +115,28 @@
         android:textSize="?attr/status_text_medium"
         tools:text="Example status here" />
 
+
+    <ToggleButton
+            android:id="@+id/button_toggle_notification_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/notification_status_avatar"
+            android:layout_below="@id/notification_content"
+            android:textOff="@string/status_content_show_less"
+            android:textOn="@string/status_content_show_more"
+            android:background="?attr/content_warning_button"
+            android:minHeight="0dp"
+            android:minWidth="150dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:textAllCaps="true"
+            android:textSize="?attr/status_text_medium"
+            android:visibility="gone"  />
+
     <com.keylesspalace.tusky.view.RoundedImageView
         android:id="@+id/notification_status_avatar"
         android:layout_width="48dp"

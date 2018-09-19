@@ -28,4 +28,13 @@ public interface StatusActionListener extends LinkListener {
     void onExpandedChange(boolean expanded, int position);
     void onContentHiddenChange(boolean isShowing, int position);
     void onLoadMore(int position);
+
+    /**
+     * Called when the status {@link android.widget.ToggleButton} responsible for collapsing long
+     * status content is interacted with.
+     *
+     * @param isCollapsed Whether the status content is shown in a collapsed state or fully.
+     * @param position    The position of the status in the list.
+     */
+    void onContentCollapsedChange(boolean isCollapsed, int position);
 }

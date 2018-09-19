@@ -158,7 +158,10 @@ public class TimelineFragment extends SFragment implements
                 public StatusViewData apply(Either<Placeholder, Status> input) {
                     Status status = input.getAsRightOrNull();
                     if (status != null) {
-                        return ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia);
+                        return ViewDataUtils.statusToViewData(
+                                status,
+                                alwaysShowSensitiveMedia
+                        );
                     } else {
                         Placeholder placeholder = input.getAsLeft();
                         return new StatusViewData.Placeholder(placeholder.id, false);
@@ -239,8 +242,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void setupTimelinePreferences() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
-                getActivity());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         preferences.registerOnSharedPreferenceChangeListener(this);
         alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
         boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
@@ -567,6 +569,33 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
+    public void onContentCollapsedChange(boolean isCollapsed, int position) {
+        if (position < 0 || position >= statuses.size()) {
+            Log.e(TAG, String.format("Tried to access out of bounds status position: %d of %d", position, statuses.size() - 1));
+            return;
+        }
+
+        StatusViewData status = statuses.getPairedItem(position);
+        if (!(status instanceof StatusViewData.Concrete)) {
+            // Statuses PairedList contains a base type of StatusViewData.Concrete and also doesn't
+            // check for null values when adding values to it although this doesn't seem to be an issue.
+            Log.e(TAG, String.format(
+                    "Expected StatusViewData.Concrete, got %s instead at position: %d of %d",
+                    status == null ? "<null>" : status.getClass().getSimpleName(),
+                    position,
+                    statuses.size() -1
+            ));
+            return;
+        }
+
+        StatusViewData updatedStatus = new StatusViewData.Builder((StatusViewData.Concrete) status)
+                .setCollapsed(isCollapsed)
+                .createStatusViewData();
+        statuses.setPairedItem(position, updatedStatus);
+        updateAdapter();
+    }
+
+    @Override
     public void onViewMedia(int position, int attachmentIndex, View view) {
         Status status = statuses.get(position).getAsRightOrNull();
         if (status == null) return;
@@ -650,6 +679,7 @@ public class TimelineFragment extends SFragment implements
             case "alwaysShowSensitiveMedia": {
                 //it is ok if only newly loaded statuses are affected, no need to fully refresh
                 alwaysShowSensitiveMedia = sharedPreferences.getBoolean("alwaysShowSensitiveMedia", false);
+                break;
             }
         }
     }
