@@ -89,8 +89,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
     private void setRebloggedByDisplayName(String name) {
         Context context = rebloggedBar.getContext();
-        String format = context.getString(R.string.status_boosted_format);
-        String boostedText = String.format(format, name);
+        String boostedText = context.getString(R.string.status_boosted_format, name);
         rebloggedBar.setText(boostedText);
         rebloggedBar.setVisibility(View.VISIBLE);
     }
