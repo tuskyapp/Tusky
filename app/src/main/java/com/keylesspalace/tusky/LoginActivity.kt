@@ -78,7 +78,7 @@ class LoginActivity : AppCompatActivity(), Injectable {
         setContentView(R.layout.activity_login)
 
         if (savedInstanceState != null) {
-            domain = savedInstanceState.getString(DOMAIN)
+            domain = savedInstanceState.getString(DOMAIN)!!
             clientId = savedInstanceState.getString(CLIENT_ID)
             clientSecret = savedInstanceState.getString(CLIENT_SECRET)
         }
@@ -225,7 +225,7 @@ class LoginActivity : AppCompatActivity(), Injectable {
             val code = uri.getQueryParameter("code")
             val error = uri.getQueryParameter("error")
 
-            domain = preferences.getString(DOMAIN, "")
+            domain = preferences.getString(DOMAIN, "")!!
 
             if (code != null && domain.isNotEmpty()) {
                 /* During the redirect roundtrip this Activity usually dies, which wipes out the
