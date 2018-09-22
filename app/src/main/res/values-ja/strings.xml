@@ -215,7 +215,7 @@
 
     <string name="pref_status_text_size">トゥートのテキストサイズ</string>
 
-    <string-array name="status_text_size_names">-->
+    <string-array name="status_text_size_names">
         <item>最小</item>
         <item>小</item>
         <item>中</item>
@@ -280,7 +280,7 @@
     <string name="follows_you">あなたをフォロー中</string>
     <string name="pref_title_alway_show_sensitive_media">閲覧注意のコンテンツを常に表示</string>
     <string name="title_media">メディア</string>
-    <string name="replying_to">@%sに返信</string>
+    <string name="replying_to">\@%sに返信</string>
     <string name="load_more_placeholder_text">さらに読み込む</string>
 
     <string name="add_account_name">アカウントを追加</string>
