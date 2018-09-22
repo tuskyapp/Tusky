@@ -58,7 +58,7 @@ android {
     }
 }
 
-ext.supportLibraryVersion = '28.0.0-rc02'
+ext.supportLibraryVersion = '28.0.0'
 ext.daggerVersion = '2.17'
 
 
