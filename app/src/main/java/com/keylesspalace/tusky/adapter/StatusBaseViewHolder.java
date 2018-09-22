@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.util.DateUtils;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
+import com.keylesspalace.tusky.view.EmojiLinkMovementMethod;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
 import com.squareup.picasso.Picasso;
@@ -69,6 +70,14 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private boolean useAbsoluteTime;
     private SimpleDateFormat shortSdf;
     private SimpleDateFormat longSdf;
+    private StatusActionListener listener;
+
+    private final View.OnClickListener viewThreadListener = v -> {
+        int position = getAdapterPosition();
+        if (position != RecyclerView.NO_POSITION) {
+            this.listener.onViewThread(position);
+        }
+    };
 
     StatusBaseViewHolder(View itemView, boolean useAbsoluteTime) {
         super(itemView);
@@ -101,6 +110,8 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         this.useAbsoluteTime = useAbsoluteTime;
         shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
+
+        container.setOnClickListener(viewThreadListener);
     }
 
     protected abstract int getMediaPreviewHeight(Context context);
@@ -122,6 +133,8 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, this.content);
 
         LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
+
+        this.content.setMovementMethod(new EmojiLinkMovementMethod(this.viewThreadListener));
     }
 
     void setAvatar(String url, @Nullable String rebloggedUrl) {
@@ -472,22 +485,11 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 listener.onMore(v, position);
             }
         });
-        /* Even though the content TextView is a child of the container, it won't respond to clicks
-         * if it contains URLSpans without also setting its listener. The surrounding spans will
-         * just eat the clicks instead of deferring to the parent listener, but WILL respond to a
-         * listener directly on the TextView, for whatever reason. */
-        View.OnClickListener viewThreadListener = v -> {
-            int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION) {
-                listener.onViewThread(position);
-            }
-        };
-        content.setOnClickListener(viewThreadListener);
-        container.setOnClickListener(viewThreadListener);
     }
 
     void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
                          boolean mediaPreviewEnabled) {
+        this.listener = listener;
         setDisplayName(status.getUserFullName(), status.getAccountEmojis());
         setUsername(status.getNickname());
         setCreatedAt(status.getCreatedAt());
@@ -524,6 +526,4 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setSpoilerText(status.getSpoilerText(), status.getStatusEmojis(), status.isExpanded(), listener);
         }
     }
-
-
 }

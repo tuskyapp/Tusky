@@ -41,9 +41,9 @@ public class CustomEmojiHelper {
 
     /**
      * replaces emoji shortcodes in a text with EmojiSpans
-     * @param text the text containing custom emojis
+     * @param text   the text containing custom emojis
      * @param emojis a list of the custom emojis (nullable for backward compatibility with old mastodon instances)
-     * @param view a reference to the a view the emojis will be shown in (should be the TextView, but parents of the TextView are also acceptable)
+     * @param view   a reference to the a view the emojis will be shown in (should be the TextView, but parents of the TextView are also acceptable)
      * @return the text with the shortcodes replaced by EmojiSpans
      */
     public static Spanned emojifyText(@NonNull Spanned text, @Nullable List<Emoji> emojis, @NonNull final View view) {
@@ -57,7 +57,7 @@ public class CustomEmojiHelper {
                 while (matcher.find()) {
                     // We keep a span as a Picasso target, because Picasso keeps weak reference to
                     // the target so an anonymous class would likely be garbage collected.
-                    EmojiSpan span = new EmojiSpan(view);
+                    EmojiSpan span = new EmojiSpan(emoji.getShortcode(), view);
                     builder.setSpan(span, matcher.start(), matcher.end(), 0);
                     Picasso.with(view.getContext())
                             .load(emoji.getUrl())
@@ -71,17 +71,21 @@ public class CustomEmojiHelper {
         return text;
     }
 
-    public static Spanned emojifyString(@NonNull String string, @Nullable List<Emoji> emojis, @NonNull final View ciew) {
-        return emojifyText(new SpannedString(string), emojis, ciew);
+    public static Spanned emojifyString(@NonNull String string, @Nullable List<Emoji> emojis,
+                                        @NonNull final View view) {
+        return emojifyText(new SpannedString(string), emojis, view);
     }
 
 
     public static class EmojiSpan extends ReplacementSpan implements Target {
 
-        private @Nullable Drawable imageDrawable;
+        @Nullable
+        private Drawable imageDrawable;
+        private final String shortcode;
         private WeakReference<View> viewWeakReference;
 
-        EmojiSpan(View view) {
+        EmojiSpan(String shortcode, View view) {
+            this.shortcode = shortcode;
             this.viewWeakReference = new WeakReference<>(view);
         }
 
@@ -99,7 +103,7 @@ public class CustomEmojiHelper {
                 fm.bottom = metrics.bottom;
             }
 
-            return (int) (paint.getTextSize()*1.2);
+            return (int) (paint.getTextSize() * 1.2);
         }
 
         @Override
@@ -112,26 +116,31 @@ public class CustomEmojiHelper {
             imageDrawable.setBounds(0, 0, emojiSize, emojiSize);
 
             int transY = bottom - imageDrawable.getBounds().bottom;
-            transY -= paint.getFontMetricsInt().descent/2;
+            transY -= paint.getFontMetricsInt().descent / 2;
             canvas.translate(x, transY);
             imageDrawable.draw(canvas);
             canvas.restore();
         }
 
+        public String getShortcode() {
+            return shortcode;
+        }
+
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             View view = viewWeakReference.get();
-            if(view != null) {
+            if (view != null) {
                 imageDrawable = new BitmapDrawable(view.getContext().getResources(), bitmap);
                 view.invalidate();
             }
         }
 
         @Override
-        public void onBitmapFailed(Drawable errorDrawable) {}
+        public void onBitmapFailed(Drawable errorDrawable) {
+        }
 
         @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {}
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+        }
     }
-
 }
