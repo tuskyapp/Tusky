@@ -109,20 +109,20 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineAccountEntity` (" +
-                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                     "`serverId` TEXT NOT NULL, " +
+                    "`timelineUserId` INTEGER NOT NULL, " +
                     "`instance` TEXT NOT NULL, " +
                     "`localUsername` TEXT NOT NULL, " +
                     "`username` TEXT NOT NULL, " +
                     "`displayName` TEXT NOT NULL, " +
                     "`url` TEXT NOT NULL, " +
-                    "`avatar` TEXT NOT NULL)");
+                    "`avatar` TEXT NOT NULL, " +
+                    "PRIMARY KEY(`serverId`, `timelineUserId`))");
 
             database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineStatus` (" +
-                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                     "`serverId` TEXT NOT NULL, " +
-                    "`url` TEXT NOT NULL, `timelineUserId` INTEGER NOT NULL, " +
-                    "`authorLocalId` INTEGER NOT NULL, " +
+                    "`url` TEXT NOT NULL, " +
+                    "`timelineUserId` INTEGER NOT NULL, " +
                     "`authorServerId` TEXT NOT NULL, " +
                     "`instance` TEXT NOT NULL, " +
                     "`inReplyToId` TEXT, " +
@@ -141,9 +141,9 @@ public abstract class AppDatabase extends RoomDatabase {
                     "`mentions` TEXT, " +
                     "`application` TEXT, " +
                     "`reblogServerId` TEXT, " +
-                    "`reblogUri` TEXT, " +
                     "`reblogAccountId` INTEGER NOT NULL," +
-                    " FOREIGN KEY(`authorLocalId`) REFERENCES `timeline_account`(`id`) " +
+                    " PRIMARY KEY(`serverId`, `timelineUserId`)," +
+                    " FOREIGN KEY(`authorServerId`, `timelineUserId`) REFERENCES `TimelineAccountEntity`(`serverId`, `timelineUserId`) " +
                     "ON UPDATE NO ACTION ON DELETE NO ACTION )");
         }
     };

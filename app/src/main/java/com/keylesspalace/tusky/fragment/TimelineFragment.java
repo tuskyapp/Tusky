@@ -63,7 +63,6 @@ import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.repository.TimelineRepository;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
-import com.keylesspalace.tusky.util.HttpHeaderLink;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.ThemeUtils;
@@ -71,8 +70,10 @@ import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
+import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -144,10 +145,6 @@ public class TimelineFragment extends SFragment implements
     private boolean hideFab;
     private boolean bottomLoading;
 
-    @Nullable
-    private String bottomId = null;
-    @Nullable
-    private String topId = null;
     private long maxPlaceholderId = -1;
     private boolean didLoadEverythingBottom;
 
@@ -241,12 +238,45 @@ public class TimelineFragment extends SFragment implements
         if (statuses.isEmpty()) {
             progressBar.setVisibility(View.VISIBLE);
             bottomLoading = true;
-            sendFetchTimelineRequest(null, null, FetchEnd.BOTTOM, -1);
+            this.sendInitialRequest();
         } else {
             progressBar.setVisibility(View.GONE);
         }
 
         return rootView;
+    }
+
+    String actualTopId = null;
+    String topId = null;
+    String responseTopId = null;
+
+    private void sendInitialRequest() {
+        if (this.kind == Kind.HOME) {
+            // Request timeline from disk to make it quick, then replace it with timeline from
+            // the server to update it
+            this.disposable.add(this.timeilneRepo.getStatuses(null, null, LOAD_AT_ONCE, true)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .flatMap(statuses -> {
+                        if (statuses.size() > 1) {
+                            actualTopId = statuses.get(0).getId();
+                            this.statuses.addAll(liftStatusList(statuses));
+                            this.updateAdapter();
+                            this.progressBar.setVisibility(View.GONE);
+                            topId = new BigInteger(statuses.get(0).getId())
+                                    .add(BigInteger.ONE).add(BigInteger.TEN).toString();
+                        }
+                        return this.timeilneRepo.getStatuses(topId, null, LOAD_AT_ONCE, false);
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(statuses -> {
+                        responseTopId = statuses.get(0).getId();
+                        Log.d("TIMELINEF", String.format("actual %s top %s response %s", actualTopId, topId, responseTopId));
+                        this.statuses.clear();
+                        this.onFetchTimelineSuccess(statuses, FetchEnd.TOP, -1);
+                    }));
+        } else {
+            sendFetchTimelineRequest(null, null, FetchEnd.BOTTOM, -1);
+        }
     }
 
     private void setupTimelinePreferences() {
@@ -445,7 +475,8 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onRefresh() {
-        sendFetchTimelineRequest(null, topId, FetchEnd.TOP, -1);
+        sendFetchTimelineRequest(null, this.statuses.get(0).getAsRight().getId(),
+                FetchEnd.TOP, -1);
     }
 
     @Override
@@ -732,6 +763,16 @@ public class TimelineFragment extends SFragment implements
 
         updateAdapter();
 
+        String bottomId = null;
+        final ListIterator<Either<Placeholder, Status>> iterator =
+                this.statuses.listIterator(this.statuses.size());
+        while (iterator.hasPrevious()) {
+            Either<Placeholder, Status> previous = iterator.previous();
+            if (previous.isRight()) {
+                bottomId = previous.getAsRight().getId();
+                break;
+            }
+        }
         sendFetchTimelineRequest(bottomId, null, FetchEnd.BOTTOM, -1);
     }
 
@@ -786,10 +827,10 @@ public class TimelineFragment extends SFragment implements
 
         if (kind == Kind.HOME) {
             disposable.add(
-                    timeilneRepo.getStatuses(fromId, uptoId, LOAD_AT_ONCE)
+                    timeilneRepo.getStatuses(fromId, uptoId, LOAD_AT_ONCE, false)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
-                                    (result) -> onFetchTimelineSuccess(result, null, fetchEnd, pos),
+                                    (result) -> onFetchTimelineSuccess(result, fetchEnd, pos),
                                     (err) -> onFetchTimelineFailure(new Exception(err), fetchEnd, pos)
                             )
             );
@@ -798,8 +839,7 @@ public class TimelineFragment extends SFragment implements
                 @Override
                 public void onResponse(@NonNull Call<List<Status>> call, @NonNull Response<List<Status>> response) {
                     if (response.isSuccessful()) {
-                        String linkHeader = response.headers().get("Link");
-                        onFetchTimelineSuccess(response.body(), linkHeader, fetchEnd, pos);
+                        onFetchTimelineSuccess(response.body(), fetchEnd, pos);
                     } else {
                         onFetchTimelineFailure(new Exception(response.message()), fetchEnd, pos);
                     }
@@ -817,22 +857,16 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
-    private void onFetchTimelineSuccess(List<Status> statuses, String linkHeader,
+    private void onFetchTimelineSuccess(List<Status> statuses,
                                         FetchEnd fetchEnd, int pos) {
 
         // We filled the hole (or reached the end) if the server returned less statuses than we
         // we asked for.
         boolean fullFetch = statuses.size() >= LOAD_AT_ONCE;
         filterStatuses(statuses);
-        List<HttpHeaderLink> links = HttpHeaderLink.parse(linkHeader);
         switch (fetchEnd) {
             case TOP: {
-                HttpHeaderLink previous = HttpHeaderLink.findByRelationType(links, "prev");
-                String uptoId = null;
-                if (previous != null) {
-                    uptoId = previous.uri.getQueryParameter("since_id");
-                }
-                updateStatuses(statuses, null, uptoId, fullFetch);
+                updateStatuses(statuses, fullFetch);
                 break;
             }
             case MIDDLE: {
@@ -840,11 +874,6 @@ public class TimelineFragment extends SFragment implements
                 break;
             }
             case BOTTOM: {
-                HttpHeaderLink next = HttpHeaderLink.findByRelationType(links, "next");
-                String fromId = null;
-                if (next != null) {
-                    fromId = next.uri.getQueryParameter("max_id");
-                }
                 if (!this.statuses.isEmpty()
                         && !this.statuses.get(this.statuses.size() - 1).isRight()) {
                     this.statuses.remove(this.statuses.size() - 1);
@@ -852,17 +881,9 @@ public class TimelineFragment extends SFragment implements
                 }
                 int oldSize = this.statuses.size();
                 if (this.statuses.size() > 1) {
-                    addItems(statuses, fromId);
+                    addItems(statuses);
                 } else {
-                    /* If this is the first fetch, also save the id from the "previous" link and
-                     * treat this operation as a refresh so the scroll position doesn't get pushed
-                     * down to the end. */
-                    HttpHeaderLink previous = HttpHeaderLink.findByRelationType(links, "prev");
-                    String uptoId = null;
-                    if (previous != null) {
-                        uptoId = previous.uri.getQueryParameter("since_id");
-                    }
-                    updateStatuses(statuses, fromId, uptoId, fullFetch);
+                    updateStatuses(statuses, fullFetch);
                 }
                 if (this.statuses.size() == oldSize) {
                     // This may be a brittle check but seems like it works
@@ -925,16 +946,9 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
-    private void updateStatuses(List<Status> newStatuses, @Nullable String fromId,
-                                @Nullable String toId, boolean fullFetch) {
+    private void updateStatuses(List<Status> newStatuses, boolean fullFetch) {
         if (ListUtils.isEmpty(newStatuses)) {
             return;
-        }
-        if (fromId != null) {
-            bottomId = fromId;
-        }
-        if (toId != null) {
-            topId = toId;
         }
 
         List<Either<Placeholder, Status>> liftedNew = liftStatusList(newStatuses);
@@ -961,7 +975,7 @@ public class TimelineFragment extends SFragment implements
         updateAdapter();
     }
 
-    private void addItems(List<Status> newStatuses, @Nullable String fromId) {
+    private void addItems(List<Status> newStatuses) {
         if (ListUtils.isEmpty(newStatuses)) {
             return;
         }
@@ -976,9 +990,6 @@ public class TimelineFragment extends SFragment implements
         // types by ID anyway and we should change equals() for Status, I think, so this makes sense
         if (last != null && !findStatus(newStatuses, last.getId())) {
             statuses.addAll(liftStatusList(newStatuses));
-            if (fromId != null) {
-                bottomId = fromId;
-            }
             updateAdapter();
         }
     }
