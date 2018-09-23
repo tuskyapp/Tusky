@@ -15,22 +15,21 @@ import com.keylesspalace.tusky.entity.Status
  * fields.
  */
 @Entity(
+        primaryKeys = ["serverId", "timelineUserId"],
         foreignKeys = ([
             ForeignKey(
                     entity = TimelineAccountEntity::class,
-                    parentColumns = ["id"],
-                    childColumns = ["authorLocalId"]
+                    parentColumns = ["serverId", "timelineUserId"],
+                    childColumns = ["authorServerId", "timelineUserId"]
             )
         ])
 )
 @TypeConverters(TootEntity.Converters::class)
 data class TimelineStatusEntity(
-        @PrimaryKey(autoGenerate = true)
-        val id: Long,
-        val serverId: String,
+        val serverId: String, // id never flips: we need it for sorting so it's a real id
         val url: String,
+        // our local id for the logged in user in case there are multiple accounts per instance
         val timelineUserId: Long,
-        val authorLocalId: Long,
         val authorServerId: String,
         val instance: String,
         val inReplyToId: String?,
@@ -49,15 +48,15 @@ data class TimelineStatusEntity(
         val mentions: String?,
         val application: String?,
         val reblogServerId: String?,
-        val reblogUri: String?,
-        val reblogAccountId: Long
+        val reblogAccountId: String?
 )
 
-@Entity
+@Entity(
+        primaryKeys = ["serverId", "timelineUserId"]
+)
 data class TimelineAccountEntity(
-        @PrimaryKey(autoGenerate = true)
-        val id: Long,
         val serverId: String,
+        val timelineUserId: Long,
         val instance: String,
         val localUsername: String,
         val username: String,

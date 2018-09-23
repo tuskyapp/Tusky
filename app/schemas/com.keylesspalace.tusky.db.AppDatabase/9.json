@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 9,
-    "identityHash": "e42b2bfe20678ad6fe3a4d5d7d6793af",
+    "identityHash": "33e8c5c7b43387d1ced877bfb323354e",
     "entities": [
       {
         "tableName": "TootEntity",
@@ -238,14 +238,8 @@
       },
       {
         "tableName": "TimelineStatusEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `serverId` TEXT NOT NULL, `url` TEXT NOT NULL, `timelineUserId` INTEGER NOT NULL, `authorLocalId` INTEGER NOT NULL, `authorServerId` TEXT NOT NULL, `instance` TEXT NOT NULL, `inReplyToId` TEXT, `inReplyToAccountId` TEXT, `content` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `emojis` TEXT, `reblogsCount` INTEGER NOT NULL, `favouritesCount` INTEGER NOT NULL, `reblogged` INTEGER NOT NULL, `favourited` INTEGER NOT NULL, `sensitive` INTEGER NOT NULL, `spoilerText` TEXT NOT NULL, `visibility` INTEGER NOT NULL, `attachments` TEXT, `mentions` TEXT, `application` TEXT, `reblogServerId` TEXT, `reblogUri` TEXT, `reblogAccountId` INTEGER NOT NULL, FOREIGN KEY(`authorLocalId`) REFERENCES `TimelineAccountEntity`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serverId` TEXT NOT NULL, `url` TEXT NOT NULL, `timelineUserId` INTEGER NOT NULL, `authorServerId` TEXT NOT NULL, `instance` TEXT NOT NULL, `inReplyToId` TEXT, `inReplyToAccountId` TEXT, `content` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `emojis` TEXT, `reblogsCount` INTEGER NOT NULL, `favouritesCount` INTEGER NOT NULL, `reblogged` INTEGER NOT NULL, `favourited` INTEGER NOT NULL, `sensitive` INTEGER NOT NULL, `spoilerText` TEXT NOT NULL, `visibility` INTEGER NOT NULL, `attachments` TEXT, `mentions` TEXT, `application` TEXT, `reblogServerId` TEXT, `reblogAccountId` TEXT, PRIMARY KEY(`serverId`, `timelineUserId`), FOREIGN KEY(`authorServerId`, `timelineUserId`) REFERENCES `TimelineAccountEntity`(`serverId`, `timelineUserId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
           {
             "fieldPath": "serverId",
             "columnName": "serverId",
@@ -261,12 +255,6 @@
           {
             "fieldPath": "timelineUserId",
             "columnName": "timelineUserId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "authorLocalId",
-            "columnName": "authorLocalId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -379,23 +367,18 @@
             "notNull": false
           },
           {
-            "fieldPath": "reblogUri",
-            "columnName": "reblogUri",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "reblogAccountId",
             "columnName": "reblogAccountId",
-            "affinity": "INTEGER",
-            "notNull": true
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "serverId",
+            "timelineUserId"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": [
@@ -404,28 +387,30 @@
             "onDelete": "NO ACTION",
             "onUpdate": "NO ACTION",
             "columns": [
-              "authorLocalId"
+              "authorServerId",
+              "timelineUserId"
             ],
             "referencedColumns": [
-              "id"
+              "serverId",
+              "timelineUserId"
             ]
           }
         ]
       },
       {
         "tableName": "TimelineAccountEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `serverId` TEXT NOT NULL, `instance` TEXT NOT NULL, `localUsername` TEXT NOT NULL, `username` TEXT NOT NULL, `displayName` TEXT NOT NULL, `url` TEXT NOT NULL, `avatar` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serverId` TEXT NOT NULL, `timelineUserId` INTEGER NOT NULL, `instance` TEXT NOT NULL, `localUsername` TEXT NOT NULL, `username` TEXT NOT NULL, `displayName` TEXT NOT NULL, `url` TEXT NOT NULL, `avatar` TEXT NOT NULL, PRIMARY KEY(`serverId`, `timelineUserId`))",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
           {
             "fieldPath": "serverId",
             "columnName": "serverId",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timelineUserId",
+            "columnName": "timelineUserId",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -467,9 +452,10 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "serverId",
+            "timelineUserId"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
@@ -477,7 +463,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e42b2bfe20678ad6fe3a4d5d7d6793af\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"33e8c5c7b43387d1ced877bfb323354e\")"
     ]
   }
 }
