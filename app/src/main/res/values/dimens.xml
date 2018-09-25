@@ -28,4 +28,6 @@
 
     <dimen name="actionbar_elevation">4dp</dimen>
 
+    <item name="wrap_content" format="integer" type="dimen">-2</item>
+
 </resources>
