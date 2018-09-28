@@ -281,8 +281,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             CharSequence emojifiedMessage = CustomEmojiHelper.emojifyString(wholeMessage, account.getEmojis(), message);
             message.setText(emojifiedMessage);
 
-            format = context.getString(R.string.status_username_format);
-            String username = String.format(format, account.getUsername());
+            String username = context.getString(R.string.status_username_format, account.getUsername());
             usernameView.setText(username);
 
             CharSequence emojifiedDisplayName = CustomEmojiHelper.emojifyString(wrappedDisplayName, account.getEmojis(), usernameView);
@@ -313,7 +312,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private final TextView username;
         private final TextView timestampInfo;
         private final TextView statusContent;
-        private final ViewGroup container;
         private final ImageView statusAvatar;
         private final ImageView notificationAvatar;
         private final TextView contentWarningDescriptionTextView;
@@ -337,7 +335,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             username = itemView.findViewById(R.id.status_username);
             timestampInfo = itemView.findViewById(R.id.status_timestamp_info);
             statusContent = itemView.findViewById(R.id.notification_content);
-            container = itemView.findViewById(R.id.notification_container);
             statusAvatar = itemView.findViewById(R.id.notification_status_avatar);
             notificationAvatar = itemView.findViewById(R.id.notification_notification_avatar);
             contentWarningDescriptionTextView = itemView.findViewById(R.id.notification_content_warning_description);
@@ -348,7 +345,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             statusAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
             notificationAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
 
-            container.setOnClickListener(this);
+            itemView.setOnClickListener(this);
             message.setOnClickListener(this);
             statusContent.setOnClickListener(this);
             contentWarningButton.setOnCheckedChangeListener(this);
@@ -556,11 +553,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             if (getAdapterPosition() != RecyclerView.NO_POSITION) {
                 notificationActionListener.onExpandedChange(isChecked, getAdapterPosition());
             }
-            if (isChecked) {
-                statusContent.setVisibility(View.VISIBLE);
-            } else {
-                statusContent.setVisibility(View.GONE);
-            }
+            statusContent.setVisibility(isChecked ? View.VISIBLE : View.GONE);
         }
     }
 }
