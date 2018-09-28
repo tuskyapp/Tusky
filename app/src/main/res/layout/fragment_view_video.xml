@@ -8,10 +8,10 @@
     android:focusable="true">
 
     <TextView
-        android:id="@+id/tv_media_description"
+        android:id="@+id/mediaDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/video_player"
+        android:layout_above="@+id/videoPlayer"
         android:background="#60000000"
         android:lineSpacingMultiplier="1.1"
         android:padding="8dp"
@@ -21,7 +21,7 @@
         tools:text="Some media description" />
 
     <VideoView
-        android:id="@+id/video_player"
+        android:id="@+id/videoPlayer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
@@ -30,7 +30,7 @@
         />
 
     <ProgressBar
-        android:id="@+id/view_media_progress"
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

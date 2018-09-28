@@ -25,16 +25,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
-import com.github.chrisbanes.photoview.PhotoView
 
 import com.github.chrisbanes.photoview.PhotoViewAttacher
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import com.squareup.picasso.Callback
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_view_media.*
+import kotlinx.android.synthetic.main.fragment_view_image.*
 
 import java.util.Objects
 
@@ -48,9 +50,6 @@ class ViewImageFragment : ViewMediaFragment() {
     private lateinit var attacher: PhotoViewAttacher
     private lateinit var photoActionsListener: PhotoActionsListener
     private lateinit var rootView: View
-    private var photoView: ImageView? = null
-    private lateinit var descriptionView: TextView
-    private lateinit var progressBar: View
     private lateinit var toolbar: View
 
     private var showingDescription = false
@@ -67,14 +66,10 @@ class ViewImageFragment : ViewMediaFragment() {
 
     private fun setupViews(inflater: LayoutInflater, container: ViewGroup?) {
         rootView = inflater.inflate(R.layout.fragment_view_image, container, false)
-        photoView = rootView.findViewById(R.id.view_media_image)
-        progressBar = rootView.findViewById<View>(R.id.view_media_progress)
-        toolbar = activity!!.findViewById<View>(R.id.toolbar)
-        descriptionView = rootView.findViewById(R.id.tv_media_description)
+        toolbar = activity!!.toolbar
     }
 
     override fun setupMediaView(url: String) {
-        val photoView = this.photoView as PhotoView
         attacher = PhotoViewAttacher(photoView)
 
         // Clicking outside the photo closes the viewer.
@@ -160,10 +155,10 @@ class ViewImageFragment : ViewMediaFragment() {
 
         // Setting visibility without animations so it looks nice when you scroll images
         //noinspection ConstantConditions
-        descriptionView.visibility = if (showingDescription && (activity as ViewMediaActivity).isToolbarVisible()) {
-            View.VISIBLE
+        if (showingDescription && (activity as ViewMediaActivity).isToolbarVisible()) {
+            descriptionView.show()
         } else {
-            View.GONE
+            descriptionView.hide()
         }
 
         setupMediaView(url)
@@ -183,12 +178,15 @@ class ViewImageFragment : ViewMediaFragment() {
             return
         }
         isDescriptionVisible = showingDescription && visible
-        val visibility = if(isDescriptionVisible){ View.VISIBLE } else { View.INVISIBLE }
         val alpha = if(isDescriptionVisible){ 1.0f } else { 0.0f }
         descriptionView.animate().alpha(alpha)
                 .setListener(object: AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        descriptionView.visibility = visibility
+                        if (isDescriptionVisible) {
+                            descriptionView.show()
+                        } else {
+                            descriptionView.hide()
+                        }
                         animation.removeListener(this)
                     }
                 })
@@ -211,13 +209,13 @@ class ViewImageFragment : ViewMediaFragment() {
                     }
 
                     override fun onError() {
-                        progressBar.visibility = View.GONE
+                        progressBar.hide()
                     }
                 })
     }
 
     private fun finishLoadingSuccessfully() {
-        progressBar.visibility = View.GONE
+        progressBar.hide()
         attacher.update()
         photoActionsListener.onBringUp()
     }

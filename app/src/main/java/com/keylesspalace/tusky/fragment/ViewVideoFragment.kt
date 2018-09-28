@@ -27,21 +27,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
-import android.widget.TextView
 import android.widget.VideoView
 
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
+import kotlinx.android.synthetic.main.activity_view_media.*
+import kotlinx.android.synthetic.main.fragment_view_video.*
 
 import java.util.Objects
 
 class ViewVideoFragment : ViewMediaFragment() {
     private lateinit var rootView: View
-    private var videoView: VideoView? = null
-    private lateinit var progressBar: View
     private lateinit var toolbar: View
-    private lateinit var descriptionView: TextView
     private val handler = Handler(Looper.getMainLooper())
     private val hideToolbar = Runnable {
         // Hoist toolbar hiding to activity so it can track state across different fragments
@@ -60,17 +60,14 @@ class ViewVideoFragment : ViewMediaFragment() {
 
     private fun setupViews(inflater: LayoutInflater, container: ViewGroup?) {
         rootView = inflater.inflate(R.layout.fragment_view_video, container, false)
-        videoView = rootView.findViewById(R.id.video_player)
-        progressBar = rootView.findViewById<View>(R.id.view_media_progress)
-        toolbar = activity!!.findViewById<View>(R.id.toolbar)
-        descriptionView = rootView.findViewById(R.id.tv_media_description)
+        toolbar = activity!!.toolbar
         mediaActivity = activity as ViewMediaActivity
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         // Start/pause/resume video playback as fragment is shown/hidden
         super.setUserVisibleHint(isVisibleToUser)
-        if (videoView == null) {
+        if (videoPlayer == null) {
             return
         }
 
@@ -78,16 +75,16 @@ class ViewVideoFragment : ViewMediaFragment() {
             if (mediaActivity.isToolbarVisible()) {
                 handler.postDelayed(hideToolbar, TOOLBAR_HIDE_DELAY_MS)
             }
-            videoView?.start()
+            videoPlayer?.start()
         } else {
             handler.removeCallbacks(hideToolbar)
-            videoView?.pause()
+            videoPlayer?.pause()
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun setupMediaView(url: String) {
-        val videoView = videoView as VideoView
+        val videoView = videoPlayer as VideoView
         videoView.setVideoPath(url)
         val controller = MediaController(mediaActivity)
         controller.setMediaPlayer(videoView)
@@ -98,7 +95,7 @@ class ViewVideoFragment : ViewMediaFragment() {
             false
         }
         videoView.setOnPreparedListener { mp ->
-            progressBar.visibility = View.GONE
+            progressBar.hide()
             mp.isLooping = true
             if (arguments!!.getBoolean(ViewMediaFragment.ARG_START_POSTPONED_TRANSITION)) {
                 hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
@@ -127,19 +124,20 @@ class ViewVideoFragment : ViewMediaFragment() {
         }
         url = attachment.url
         val description = attachment.description
-        descriptionView.text = description
+        mediaDescription.text = description
         showingDescription = !TextUtils.isEmpty(description)
         isDescriptionVisible = showingDescription
 
         // Setting visibility without animations so it looks nice when you scroll media
         //noinspection ConstantConditions
-        descriptionView.visibility = if (showingDescription && mediaActivity.isToolbarVisible()) {
-            View.VISIBLE
+        if (showingDescription && mediaActivity.isToolbarVisible()) {
+            mediaDescription.show()
         } else {
-            View.GONE
+            mediaDescription.hide()
+
         }
 
-        ViewCompat.setTransitionName(videoView!!, url)
+        ViewCompat.setTransitionName(videoPlayer!!, url)
 
         setupMediaView(url)
 
@@ -149,17 +147,20 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (videoView == null || !userVisibleHint) {
+        if (videoPlayer == null || !userVisibleHint) {
             return
         }
 
         isDescriptionVisible = showingDescription && visible
-        val visibility = if(isDescriptionVisible){ View.VISIBLE } else { View.INVISIBLE }
         val alpha = if(isDescriptionVisible){ 1.0f } else { 0.0f }
-        descriptionView.animate().alpha(alpha)
+        mediaDescription.animate().alpha(alpha)
                 .setListener(object: AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        descriptionView.visibility = visibility
+                        if (isDescriptionVisible) {
+                            mediaDescription.show()
+                        } else {
+                            mediaDescription.hide()
+                        }
                         animation.removeListener(this)
                     }
                 })
