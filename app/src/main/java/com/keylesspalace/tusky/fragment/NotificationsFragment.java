@@ -697,7 +697,7 @@ public class NotificationsFragment extends SFragment implements
                     adapter.removeItemAndNotify(this.notifications.size());
                 }
 
-                if (adapter.getItemCount() > 1) {
+                if (adapter.getItemCount() > 0) {
                     addItems(notifications, fromId);
                 } else {
                     /* If this is the first fetch, also save the id from the "previous" link and
