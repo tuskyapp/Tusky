@@ -7,6 +7,19 @@
     android:clickable="true"
     android:focusable="true">
 
+    <TextView
+        android:id="@+id/tv_media_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/video_player"
+        android:background="#60000000"
+        android:lineSpacingMultiplier="1.1"
+        android:padding="8dp"
+        android:textAlignment="center"
+        android:textColor="#eee"
+        android:textSize="?attr/status_text_medium"
+        tools:text="Some media description" />
+
     <VideoView
         android:id="@+id/video_player"
         android:layout_width="match_parent"

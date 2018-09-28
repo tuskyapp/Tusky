@@ -26,6 +26,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.support.v4.app.ActivityCompat
@@ -84,9 +85,6 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
     private var toolbarVisible = true
     private val toolbarVisibilityListeners = ArrayList<ToolbarVisibilityListener>()
-    private var currentDownloadSource: String? = null
-    private var currentDownloadDestination: String? = null
-
 
     interface ToolbarVisibilityListener {
         fun onToolbarVisiblityChanged(isVisible: Boolean)
@@ -205,18 +203,18 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)
         } else {
             val url = attachments!![viewPager.currentItem].attachment.url
-            val filename = File(url).name;
+            val filename = File(url).name
 
-            val toastText = String.format(resources.getString(R.string.download_image), filename);
-            Toast.makeText(applicationContext, toastText, Toast.LENGTH_SHORT).show();
+            val toastText = String.format(resources.getString(R.string.download_image), filename)
+            Toast.makeText(applicationContext, toastText, Toast.LENGTH_SHORT).show()
 
             val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             val request = DownloadManager.Request(Uri.parse(url))
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES,
-                    getString(R.string.app_name) + "/" + filename);
+                    getString(R.string.app_name) + "/" + filename)
             downloadManager.enqueue(request)
         }
     }
@@ -282,7 +280,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         val mimeTypeMap = MimeTypeMap.getSingleton()
         val extension = MimeTypeMap.getFileExtensionFromUrl(url)
         val mimeType = mimeTypeMap.getMimeTypeFromExtension(extension)
-        val filename = MediaUtils.getTemporaryMediaFilename(extension)
+        val filename = getTemporaryMediaFilename(extension)
         val file = File(directory, filename)
 
         val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager

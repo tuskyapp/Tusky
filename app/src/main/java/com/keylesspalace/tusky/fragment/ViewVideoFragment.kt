@@ -15,15 +15,19 @@
 
 package com.keylesspalace.tusky.fragment
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.support.v4.view.ViewCompat
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
+import android.widget.TextView
 import android.widget.VideoView
 
 import com.keylesspalace.tusky.R
@@ -37,6 +41,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     private var videoView: VideoView? = null
     private lateinit var progressBar: View
     private lateinit var toolbar: View
+    private lateinit var descriptionView: TextView
     private val handler = Handler(Looper.getMainLooper())
     private val hideToolbar = Runnable {
         // Hoist toolbar hiding to activity so it can track state across different fragments
@@ -45,6 +50,9 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
     private lateinit var mediaActivity: ViewMediaActivity
     private val TOOLBAR_HIDE_DELAY_MS = 3000L
+
+    private var showingDescription = false
+    private var isDescriptionVisible = false
 
     companion object {
         private const val TAG = "ViewVideoFragment"
@@ -55,6 +63,7 @@ class ViewVideoFragment : ViewMediaFragment() {
         videoView = rootView.findViewById(R.id.video_player)
         progressBar = rootView.findViewById<View>(R.id.view_media_progress)
         toolbar = activity!!.findViewById<View>(R.id.toolbar)
+        descriptionView = rootView.findViewById(R.id.tv_media_description)
         mediaActivity = activity as ViewMediaActivity
     }
 
@@ -117,6 +126,18 @@ class ViewVideoFragment : ViewMediaFragment() {
             throw IllegalArgumentException("attachment has to be set")
         }
         url = attachment.url
+        val description = attachment.description
+        descriptionView.text = description
+        showingDescription = !TextUtils.isEmpty(description)
+        isDescriptionVisible = showingDescription
+
+        // Setting visibility without animations so it looks nice when you scroll media
+        //noinspection ConstantConditions
+        descriptionView.visibility = if (showingDescription && mediaActivity.isToolbarVisible()) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
 
         ViewCompat.setTransitionName(videoView!!, url)
 
@@ -131,6 +152,19 @@ class ViewVideoFragment : ViewMediaFragment() {
         if (videoView == null || !userVisibleHint) {
             return
         }
+
+        isDescriptionVisible = showingDescription && visible
+        val visibility = if(isDescriptionVisible){ View.VISIBLE } else { View.INVISIBLE }
+        val alpha = if(isDescriptionVisible){ 1.0f } else { 0.0f }
+        descriptionView.animate().alpha(alpha)
+                .setListener(object: AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        descriptionView.visibility = visibility
+                        animation.removeListener(this)
+                    }
+                })
+                .start()
+
         if (visible) {
             hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
         } else {
