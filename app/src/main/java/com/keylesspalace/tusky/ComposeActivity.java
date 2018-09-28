@@ -562,7 +562,7 @@ public final class ComposeActivity
              * instance state will be re-queued. */
             String type = intent.getType();
             if (type != null) {
-                if (type.startsWith("image/")) {
+                if (type.startsWith("image/") || type.startsWith("video/")) {
                     List<Uri> uriList = new ArrayList<>();
                     if (intent.getAction() != null) {
                         switch (intent.getAction()) {
