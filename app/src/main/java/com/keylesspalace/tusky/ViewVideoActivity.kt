@@ -24,12 +24,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.support.v4.content.FileProvider
-import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -37,19 +35,19 @@ import android.view.MotionEvent
 import android.view.View
 import android.webkit.MimeTypeMap
 import android.widget.MediaController
-import android.widget.ProgressBar
-import android.widget.VideoView
 
-import com.keylesspalace.tusky.util.MediaUtils
+import kotlinx.android.synthetic.main.activity_view_video.*
 
 import java.io.File
 
 import com.keylesspalace.tusky.BuildConfig.APPLICATION_ID
+import com.keylesspalace.tusky.util.getTemporaryMediaFilename
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 
 class ViewVideoActivity: BaseActivity() {
 
     private val handler = Handler(Looper.getMainLooper())
-    lateinit var toolbar: Toolbar
     private lateinit var url: String
     private lateinit var statusID: String
     private lateinit var statusURL: String
@@ -66,10 +64,6 @@ class ViewVideoActivity: BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_video)
 
-        val progressBar = findViewById<ProgressBar>(R.id.video_progress)
-        val videoView = findViewById<VideoView>(R.id.video_player)
-
-        toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         val bar = supportActionBar
         if (bar != null) {
@@ -91,24 +85,24 @@ class ViewVideoActivity: BaseActivity() {
         statusID = intent.getStringExtra(STATUS_ID_EXTRA)
         statusURL = intent.getStringExtra(STATUS_URL_EXTRA)
 
-        videoView.setVideoPath(url)
+        videoPlayer.setVideoPath(url)
         val controller = MediaController(this)
-        controller.setMediaPlayer(videoView)
-        videoView.setMediaController(controller)
-        videoView.requestFocus()
-        videoView.setOnPreparedListener { mp ->
-            progressBar.visibility = View.GONE
+        controller.setMediaPlayer(videoPlayer)
+        videoPlayer.setMediaController(controller)
+        videoPlayer.requestFocus()
+        videoPlayer.setOnPreparedListener { mp ->
+            videoProgressBar.hide()
             mp.isLooping = true
             hideToolbarAfterDelay()
         }
-        videoView.start()
+        videoPlayer.start()
 
-        videoView.setOnTouchListener { _, event ->
+        videoPlayer.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 handler.removeCallbacksAndMessages(null)
                 toolbar.animate().cancel()
                 toolbar.alpha = 1.0f
-                toolbar.visibility = View.VISIBLE
+                toolbar.show()
                 hideToolbarAfterDelay()
             }
             false
@@ -151,7 +145,7 @@ class ViewVideoActivity: BaseActivity() {
                     val decorView = window.decorView
                     val uiOptions = View.SYSTEM_UI_FLAG_LOW_PROFILE
                     decorView.systemUiVisibility = uiOptions
-                    toolbar.visibility = View.INVISIBLE
+                    toolbar.hide()
                     animation.removeListener(this)
                 }
             })
@@ -173,7 +167,7 @@ class ViewVideoActivity: BaseActivity() {
         val mimeTypeMap = MimeTypeMap.getSingleton()
         val extension = MimeTypeMap.getFileExtensionFromUrl(url)
         val mimeType = mimeTypeMap.getMimeTypeFromExtension(extension)
-        val filename = MediaUtils.getTemporaryMediaFilename(extension)
+        val filename = getTemporaryMediaFilename(extension)
         val file = File(directory, filename)
 
         val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager

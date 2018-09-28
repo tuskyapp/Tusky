@@ -24,11 +24,9 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.content.FileProvider
 import android.support.v4.view.ViewPager
-import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -39,11 +37,12 @@ import com.keylesspalace.tusky.fragment.ViewMediaFragment
 import com.keylesspalace.tusky.pager.AvatarImagePagerAdapter
 import com.keylesspalace.tusky.pager.ImagePagerAdapter
 import com.keylesspalace.tusky.util.CollectionUtil.map
-import com.keylesspalace.tusky.util.MediaUtils
-import com.keylesspalace.tusky.view.ImageViewPager
+import com.keylesspalace.tusky.util.getTemporaryMediaFilename
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
+
+import kotlinx.android.synthetic.main.activity_view_media.*
 
 import java.io.File
 import java.io.FileNotFoundException
@@ -73,9 +72,6 @@ class ViewMediaActivity : BaseActivity(), ViewMediaFragment.PhotoActionsListener
         }
     }
 
-    private lateinit var viewPager: ImageViewPager
-    private lateinit var toolbar: Toolbar
-
     private var attachments: ArrayList<AttachmentViewData>? = null
 
     private var toolbarVisible = true
@@ -101,12 +97,7 @@ class ViewMediaActivity : BaseActivity(), ViewMediaFragment.PhotoActionsListener
 
         supportPostponeEnterTransition()
 
-        // Obtain the views.
-        toolbar = findViewById(R.id.toolbar)
-        viewPager = findViewById(R.id.view_pager)
-
         // Gather the parameters.
-        val intent = this.intent
         attachments = intent.getParcelableArrayListExtra(EXTRA_ATTACHMENTS)
         val initialPosition = intent.getIntExtra(EXTRA_ATTACHMENT_INDEX, 0)
 
@@ -141,8 +132,7 @@ class ViewMediaActivity : BaseActivity(), ViewMediaFragment.PhotoActionsListener
         }
         toolbar.setNavigationOnClickListener { _ -> supportFinishAfterTransition() }
         toolbar.setOnMenuItemClickListener { item: MenuItem ->
-            val id = item.itemId
-            when (id) {
+            when (item.itemId) {
                 R.id.action_download -> downloadImage()
                 R.id.action_open_status -> onOpenStatus()
                 R.id.action_share_media -> shareImage()
@@ -218,7 +208,7 @@ class ViewMediaActivity : BaseActivity(), ViewMediaFragment.PhotoActionsListener
 
         val attachment = attachments!![viewPager.currentItem].attachment
         val context = applicationContext
-        val file = File(directory, MediaUtils.getTemporaryMediaFilename("png"))
+        val file = File(directory, getTemporaryMediaFilename("png"))
 
         Picasso.with(context).load(Uri.parse(attachment.url)).into(object: Target {
             override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
