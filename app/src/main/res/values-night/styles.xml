@@ -18,6 +18,7 @@
         <item name="android:actionMenuTextColor">@color/text_color_primary_dark</item>
 
         <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheetDialog.Dark</item>
+        <item name="alertDialogTheme">@style/nightDialogTheme</item>
 
         <item name="window_background">@color/window_background_dark</item>
         <item name="custom_tab_toolbar">@color/custom_tab_toolbar_dark</item>
@@ -83,6 +84,11 @@
         <item name="android:textColorPrimary">@color/text_color_primary_dark</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="nightDialogTheme" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:colorBackground">@color/color_primary_dark_dark</item>
+        <item name="colorAccent">@color/primary</item>
     </style>
 
 </resources>
