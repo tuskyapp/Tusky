@@ -84,6 +84,7 @@ import javax.inject.Inject;
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import kotlin.collections.CollectionsKt;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -255,31 +256,35 @@ public class TimelineFragment extends SFragment implements
 
     private void sendInitialRequest() {
         if (this.kind == Kind.HOME) {
-            // Request timeline from disk to make it quick, then replace it with timeline from
-            // the server to update it
-            this.disposable.add(this.timeilneRepo.getStatuses(null, null, LOAD_AT_ONCE, true)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .flatMap(statuses -> {
-                        if (statuses.size() > 1) {
-                            actualTopId = statuses.get(0).getId();
-                            this.statuses.addAll(liftStatusList(statuses));
-                            this.updateAdapter();
-                            this.progressBar.setVisibility(View.GONE);
-                            topId = new BigInteger(statuses.get(0).getId())
-                                    .add(BigInteger.ONE).add(BigInteger.TEN).toString();
-                        }
-                        return this.timeilneRepo.getStatuses(topId, null, LOAD_AT_ONCE, false);
-                    })
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(statuses -> {
-                        responseTopId = statuses.get(0).getId();
-                        Log.d("TIMELINEF", String.format("actual %s top %s response %s", actualTopId, topId, responseTopId));
-                        this.statuses.clear();
-                        this.onFetchTimelineSuccess(statuses, FetchEnd.TOP, -1);
-                    }));
+            this.tryCache();
         } else {
             sendFetchTimelineRequest(null, null, FetchEnd.BOTTOM, -1);
         }
+    }
+
+    private void tryCache() {
+        // Request timeline from disk to make it quick, then replace it with timeline from
+        // the server to update it
+        this.disposable.add(this.timeilneRepo.getStatuses(null, null, LOAD_AT_ONCE, true)
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(statuses -> {
+                    if (statuses.size() > 1) {
+                        actualTopId = statuses.get(0).getId();
+                        this.statuses.addAll(liftStatusList(statuses));
+                        this.updateAdapter();
+                        this.progressBar.setVisibility(View.GONE);
+                        topId = new BigInteger(statuses.get(0).getId())
+                                .add(BigInteger.ONE).add(BigInteger.TEN).toString();
+                    }
+                    return this.timeilneRepo.getStatuses(topId, null, LOAD_AT_ONCE, false);
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(statuses -> {
+                    responseTopId = statuses.get(0).getId();
+                    Log.d("TIMELINEF", String.format("actual %s top %s response %s", actualTopId, topId, responseTopId));
+                    this.onFetchTimelineSuccess(statuses, FetchEnd.TOP, -1);
+                    this.bottomLoading = false;
+                }));
     }
 
     private void setupTimelinePreferences() {
@@ -897,7 +902,7 @@ public class TimelineFragment extends SFragment implements
                 break;
             }
         }
-        fulfillAnyQueuedFetches(fetchEnd);
+        updateBottomLoadingState(fetchEnd);
         progressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
         if (this.statuses.size() == 0) {
@@ -923,12 +928,12 @@ public class TimelineFragment extends SFragment implements
             }
 
             Log.e(TAG, "Fetch Failure: " + exception.getMessage());
-            fulfillAnyQueuedFetches(fetchEnd);
+            updateBottomLoadingState(fetchEnd);
             progressBar.setVisibility(View.GONE);
         }
     }
 
-    private void fulfillAnyQueuedFetches(FetchEnd fetchEnd) {
+    private void updateBottomLoadingState(FetchEnd fetchEnd) {
         switch (fetchEnd) {
             case BOTTOM: {
                 bottomLoading = false;
@@ -955,27 +960,15 @@ public class TimelineFragment extends SFragment implements
             return;
         }
 
-        List<Either<Placeholder, Status>> liftedNew = liftStatusList(newStatuses);
-
-        if (statuses.isEmpty()) {
-            statuses.addAll(liftedNew);
-        } else {
-            Either<Placeholder, Status> lastOfNew = liftedNew.get(newStatuses.size() - 1);
-            int index = statuses.indexOf(lastOfNew);
-
-            for (int i = 0; i < index; i++) {
-                statuses.remove(0);
-            }
-            int newIndex = liftedNew.indexOf(statuses.get(0));
-            if (newIndex == -1) {
-                if (index == -1 && fullFetch) {
-                    liftedNew.add(Either.left(newPlaceholder()));
-                }
-                statuses.addAll(0, liftedNew);
-            } else {
-                statuses.addAll(0, liftedNew.subList(0, newIndex));
+        final Status lastNew = CollectionsKt.last(newStatuses);
+        for (int i = 0; i < this.statuses.size(); i++) {
+            Status right = this.statuses.get(i).getAsRightOrNull();
+            if (right != null && right.getId().equals(lastNew.getId())) {
+                ListUtils.removeFirstN(i + 1, this.statuses);
+                break;
             }
         }
+        this.statuses.addAll(this.liftStatusList(newStatuses));
         updateAdapter();
     }
 
