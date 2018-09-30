@@ -18,18 +18,31 @@ package com.keylesspalace.tusky.util;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 
 public class ListUtils {
-    /** @return true if list is null or else return list.isEmpty() */
+    /**
+     * @return true if list is null or else return list.isEmpty()
+     */
     public static boolean isEmpty(@Nullable List list) {
         return list == null || list.isEmpty();
     }
 
-    /** @return a new ArrayList containing the elements without duplicates in the same order */
+    /**
+     * @return a new ArrayList containing the elements without duplicates in the same order
+     */
     public static <T> ArrayList<T> removeDuplicates(List<T> list) {
         LinkedHashSet<T> set = new LinkedHashSet<>(list);
         return new ArrayList<>(set);
+    }
+
+    public static <T> void removeFirstN(int number, List<T> list) {
+        for (Iterator<T> iterator = list.listIterator(); iterator.hasNext() && number > 0; ) {
+            iterator.next();
+            iterator.remove();
+            number--;
+        }
     }
 }

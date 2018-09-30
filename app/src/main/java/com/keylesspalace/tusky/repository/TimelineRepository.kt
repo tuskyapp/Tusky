@@ -194,7 +194,7 @@ class TimelineRepostiryImpl(
                 authorServerId = actionable.account.id,
                 inReplyToId = actionable.inReplyToId,
                 inReplyToAccountId = actionable.inReplyToAccountId,
-                content = actionable.content.toString(),
+                content = HtmlUtils.toHtml(actionable.content),
                 createdAt = actionable.createdAt.time,
                 emojis = actionable.emojis.let(gson::toJson),
                 reblogsCount = actionable.reblogsCount,
