@@ -79,7 +79,7 @@
     <string name="action_retry">Försök igen</string>
     <string name="action_close">Stäng</string>
     <string name="action_view_profile">Profil</string>
-    <string name="action_view_preferences">Inställningar</string>
+    <string name="action_view_settings">Inställningar</string>
     <string name="action_view_favourites">Favoriter</string>
     <string name="action_view_mutes">Dämpade användare</string>
     <string name="action_view_blocks">Blockerade användare</string>

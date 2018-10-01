@@ -68,7 +68,7 @@
     <string name="action_retry">Tekrar dene</string>
     <string name="action_close">Kapat</string>
     <string name="action_view_profile">Profil</string>
-    <string name="action_view_preferences">Ayarlar</string>
+    <string name="action_view_settings">Ayarlar</string>
     <string name="action_view_favourites">Favoriler</string>
     <string name="action_view_mutes">Sesize alınmış kullanıcılar</string>
     <string name="action_view_blocks">Engellenmiş kullanıcılar</string>

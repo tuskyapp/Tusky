@@ -72,7 +72,7 @@
     <string name="action_retry">重試</string>
     <string name="action_close">關閉</string>
     <string name="action_view_profile">個人資料</string>
-    <string name="action_view_preferences">設置</string>
+    <string name="action_view_settings">設置</string>
     <string name="action_view_favourites">我的收藏</string>
     <string name="action_view_mutes">被隱藏的用戶</string>
     <string name="action_view_blocks">被屏蔽的用戶</string>

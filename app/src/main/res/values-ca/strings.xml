@@ -68,7 +68,7 @@
     <string name="action_retry">Torna a intentar-ho</string>
     <string name="action_close">Tanca</string>
     <string name="action_view_profile">Perfil</string>
-    <string name="action_view_preferences">Preferències</string>
+    <string name="action_view_settings">Preferències</string>
     <string name="action_view_favourites">Preferits</string>
     <string name="action_view_mutes">Usuaris silenciats</string>
     <string name="action_view_blocks">Usuaris blocats</string>

@@ -78,7 +78,7 @@
     <string name="action_retry">Reintentar</string>
     <string name="action_close">Cerrar</string>
     <string name="action_view_profile">Perfil</string>
-    <string name="action_view_preferences">Ajustes</string>
+    <string name="action_view_settings">Ajustes</string>
     <string name="action_view_favourites">Favoritos</string>
     <string name="action_view_mutes">Silenciados</string>
     <string name="action_view_blocks">Bloqueados</string>

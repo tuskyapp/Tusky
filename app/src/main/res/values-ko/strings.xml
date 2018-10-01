@@ -78,7 +78,7 @@
     <string name="action_retry">재시도</string>
     <string name="action_close">닫기</string>
     <string name="action_view_profile">프로필</string>
-    <string name="action_view_preferences">설정</string>
+    <string name="action_view_settings">설정</string>
     <string name="action_view_favourites">즐겨찾기</string>
     <string name="action_view_mutes">뮤트 된 사용자</string>
     <string name="action_view_blocks">차단된 사용자</string>

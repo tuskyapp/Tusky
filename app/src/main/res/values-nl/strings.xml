@@ -78,7 +78,7 @@
     <string name="action_retry">Opnieuw proberen</string>
     <string name="action_close">Sluiten</string>
     <string name="action_view_profile">Profiel</string>
-    <string name="action_view_preferences">Voorkeuren</string>
+    <string name="action_view_settings">Voorkeuren</string>
     <string name="action_view_favourites">Favorieten</string>
     <string name="action_view_mutes">Genegeerde gebruikers</string>
     <string name="action_view_blocks">Geblokkeerde gebruikers</string>

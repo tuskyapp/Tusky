@@ -69,7 +69,7 @@
     <string name="action_retry">மீண்டும் முயற்சி</string>
     <string name="action_close">மூடு</string>
     <string name="action_view_profile">சுயவிவரம்</string>
-    <string name="action_view_preferences">முன்னுரிமைகள்</string>
+    <string name="action_view_settings">முன்னுரிமைகள்</string>
     <string name="action_view_favourites">பிடித்தவை</string>
     <string name="action_view_mutes">ஒலி நீக்கபட்ட பயனர்கள்</string>
     <string name="action_view_blocks">தடைசெய்யபட்ட பயனர்கள்</string>
