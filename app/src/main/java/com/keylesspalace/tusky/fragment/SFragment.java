@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.text.Spanned;
 import android.view.Menu;
@@ -32,7 +33,6 @@ import com.keylesspalace.tusky.BottomSheetActivity;
 import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ReportActivity;
-import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
 import com.keylesspalace.tusky.ViewVideoActivity;
@@ -210,8 +210,7 @@ public abstract class SFragment extends BaseFragment {
                     return true;
                 }
                 case R.id.status_delete: {
-                    timelineCases().delete(id);
-                    removeItem(position);
+                    showConfirmDeleteDialog(id, position);
                     return true;
                 }
             }
@@ -273,5 +272,14 @@ public abstract class SFragment extends BaseFragment {
         startActivity(intent);
     }
 
-
+    protected void showConfirmDeleteDialog(final String id, final int position) {
+        new AlertDialog.Builder(getActivity())
+            .setMessage(R.string.dialog_delete_toot_warning)
+            .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                timelineCases().delete(id);
+                removeItem(position);
+            })
+            .setNegativeButton(android.R.string.cancel, null)
+            .show();
+    }
 }
