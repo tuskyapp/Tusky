@@ -114,6 +114,7 @@
 
     <string name="send_status_link_to">Share toot URL to…</string>
     <string name="send_status_content_to">Share toot to…</string>
+    <string name="send_media_to">Share media to…</string>
 
     <string name="confirmation_reported">Sent!</string>
     <string name="confirmation_unblocked">User unblocked</string>

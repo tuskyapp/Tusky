@@ -113,7 +113,7 @@ class EditProfileViewModel  @Inject constructor(
 
         Single.fromCallable {
             val contentResolver = context.contentResolver
-            val sourceBitmap = MediaUtils.getSampledBitmap(contentResolver, uri, resizeWidth, resizeHeight)
+            val sourceBitmap = getSampledBitmap(contentResolver, uri, resizeWidth, resizeHeight)
 
             if (sourceBitmap == null) {
                 throw Exception()

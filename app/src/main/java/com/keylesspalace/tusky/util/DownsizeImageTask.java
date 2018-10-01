@@ -27,6 +27,10 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import static com.keylesspalace.tusky.util.MediaUtilsKt.calculateInSampleSize;
+import static com.keylesspalace.tusky.util.MediaUtilsKt.getImageOrientation;
+import static com.keylesspalace.tusky.util.MediaUtilsKt.reorientBitmap;
+
 /**
  * Reduces the file size of images to fit under a given limit by resizing them, maintaining both
  * aspect ratio and orientation.
@@ -65,7 +69,7 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
             BitmapFactory.decodeStream(inputStream, null, options);
             IOUtils.closeQuietly(inputStream);
             // Get EXIF data, for orientation info.
-            int orientation = MediaUtils.getImageOrientation(uri, contentResolver);
+            int orientation = getImageOrientation(uri, contentResolver);
             /* Unfortunately, there isn't a determined worst case compression ratio for image
              * formats. So, the only way to tell if they're too big is to compress them and
              * test, and keep trying at smaller sizes. The initial estimate should be good for
@@ -84,7 +88,7 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
                 } catch (FileNotFoundException e) {
                     return false;
                 }
-                options.inSampleSize = MediaUtils.calculateInSampleSize(options, scaledImageSize, scaledImageSize);
+                options.inSampleSize = calculateInSampleSize(options, scaledImageSize, scaledImageSize);
                 options.inJustDecodeBounds = false;
                 Bitmap scaledBitmap;
                 try {
@@ -97,7 +101,7 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
                 if (scaledBitmap == null) {
                     return false;
                 }
-                Bitmap reorientedBitmap = MediaUtils.reorientBitmap(scaledBitmap, orientation);
+                Bitmap reorientedBitmap = reorientBitmap(scaledBitmap, orientation);
                 if (reorientedBitmap == null) {
                     scaledBitmap.recycle();
                     return false;

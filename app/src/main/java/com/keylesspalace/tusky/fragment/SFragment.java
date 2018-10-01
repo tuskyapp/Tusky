@@ -243,7 +243,9 @@ public abstract class SFragment extends BaseFragment {
             case GIFV:
             case VIDEO: {
                 Intent intent = new Intent(getContext(), ViewVideoActivity.class);
-                intent.putExtra("url", active.getUrl());
+                intent.putExtra(ViewVideoActivity.URL_EXTRA, active.getUrl());
+                intent.putExtra(ViewVideoActivity.STATUS_ID_EXTRA, actionable.getId());
+                intent.putExtra(ViewVideoActivity.STATUS_URL_EXTRA, actionable.getUrl());
                 startActivity(intent);
                 break;
             }
