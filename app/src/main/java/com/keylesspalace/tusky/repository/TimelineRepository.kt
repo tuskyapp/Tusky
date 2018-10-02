@@ -207,7 +207,7 @@ class TimelineRepostiryImpl(
                 attachments = actionable.attachments.let(gson::toJson),
                 mentions = actionable.mentions.let(gson::toJson),
                 application = actionable.let(gson::toJson),
-                reblogServerId = reblog?.let { this.id },
+                reblogServerId = reblog?.id,
                 reblogAccountId = reblog?.let { this.account.id }
         )
     }

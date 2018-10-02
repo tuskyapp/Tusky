@@ -72,6 +72,7 @@ import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.math.BigInteger;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -960,15 +961,27 @@ public class TimelineFragment extends SFragment implements
             return;
         }
 
-        final Status lastNew = CollectionsKt.last(newStatuses);
-        for (int i = 0; i < this.statuses.size(); i++) {
-            Status right = this.statuses.get(i).getAsRightOrNull();
-            if (right != null && right.getId().equals(lastNew.getId())) {
-                ListUtils.removeFirstN(i + 1, this.statuses);
-                break;
+        List<Either<Placeholder, Status>> liftedNew = liftStatusList(newStatuses);
+
+        if (statuses.isEmpty()) {
+            statuses.addAll(liftedNew);
+        } else {
+            Either<Placeholder, Status> lastOfNew = liftedNew.get(newStatuses.size() - 1);
+            int index = statuses.indexOf(lastOfNew);
+
+            for (int i = 0; i < index; i++) {
+                statuses.remove(0);
+            }
+            int newIndex = liftedNew.indexOf(statuses.get(0));
+            if (newIndex == -1) {
+                if (index == -1 && fullFetch) {
+                    liftedNew.add(Either.left(newPlaceholder()));
+                }
+                statuses.addAll(0, liftedNew);
+            } else {
+                statuses.addAll(0, liftedNew.subList(0, newIndex));
             }
         }
-        this.statuses.addAll(this.liftStatusList(newStatuses));
         updateAdapter();
     }
 
@@ -1165,7 +1178,7 @@ public class TimelineFragment extends SFragment implements
         }
 
         @Override
-        public boolean areContentsTheSame(StatusViewData oldItem, StatusViewData newItem) {
+        public boolean areContentsTheSame(StatusViewData oldItem, @NonNull StatusViewData newItem) {
             return oldItem.deepEquals(newItem);
         }
     };
