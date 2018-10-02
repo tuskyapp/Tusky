@@ -11,7 +11,7 @@ import com.keylesspalace.tusky.entity.Status
  * *reblogged* status and we embed "reblog status" into reblogged status. This reversed
  * relationship takes much less space and is much faster to fetch (no N+1 type queries or JSON
  * serialization).
- * "Reblog status", if present, is marked by [reblogServerId], [reblogUri] and [reblogAccountId]
+ * "Reblog status", if present, is marked by [reblogServerId], and [reblogAccountId]
  * fields.
  */
 @Entity(
@@ -47,7 +47,7 @@ data class TimelineStatusEntity(
         val attachments: String?,
         val mentions: String?,
         val application: String?,
-        val reblogServerId: String?,
+        val reblogServerId: String?, // if it has a reblogged status, it's id is stored here
         val reblogAccountId: String?
 )
 
