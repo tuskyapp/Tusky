@@ -251,10 +251,6 @@ public class TimelineFragment extends SFragment implements
         return rootView;
     }
 
-    String actualTopId = null;
-    String topId = null;
-    String responseTopId = null;
-
     private void sendInitialRequest() {
         if (this.kind == Kind.HOME) {
             this.tryCache();
@@ -269,22 +265,25 @@ public class TimelineFragment extends SFragment implements
         this.disposable.add(this.timeilneRepo.getStatuses(null, null, LOAD_AT_ONCE, true)
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(statuses -> {
+                    final String topId;
                     if (statuses.size() > 1) {
-                        actualTopId = statuses.get(0).getId();
                         this.statuses.addAll(liftStatusList(statuses));
                         this.updateAdapter();
                         this.progressBar.setVisibility(View.GONE);
+                        // Request statuses including current top to refresh all of them
                         topId = new BigInteger(statuses.get(0).getId())
-                                .add(BigInteger.ONE).add(BigInteger.TEN).toString();
+                                .add(BigInteger.ONE).toString();
+                    } else {
+                        topId = null;
                     }
                     return this.timeilneRepo.getStatuses(topId, null, LOAD_AT_ONCE, false);
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(statuses -> {
-                    responseTopId = statuses.get(0).getId();
-                    Log.d("TIMELINEF", String.format("actual %s top %s response %s", actualTopId, topId, responseTopId));
                     this.onFetchTimelineSuccess(statuses, FetchEnd.TOP, -1);
                     this.bottomLoading = false;
+                    // Get more statuses so that users know that something is there
+                    this.loadAbove();
                 }));
     }
 
@@ -485,7 +484,11 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onRefresh() {
-        sendFetchTimelineRequest(null, this.statuses.get(0).getAsRight().getId(),
+        this.loadAbove();
+    }
+
+    private void loadAbove() {
+        this.sendFetchTimelineRequest(null, this.statuses.get(0).getAsRight().getId(),
                 FetchEnd.TOP, -1);
     }
 
