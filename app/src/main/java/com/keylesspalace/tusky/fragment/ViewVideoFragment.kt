@@ -27,7 +27,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
-import android.widget.VideoView
 
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
@@ -37,10 +36,7 @@ import com.keylesspalace.tusky.util.show
 import kotlinx.android.synthetic.main.activity_view_media.*
 import kotlinx.android.synthetic.main.fragment_view_video.*
 
-import java.util.Objects
-
 class ViewVideoFragment : ViewMediaFragment() {
-    private lateinit var rootView: View
     private lateinit var toolbar: View
     private val handler = Handler(Looper.getMainLooper())
     private val hideToolbar = Runnable {
@@ -56,12 +52,6 @@ class ViewVideoFragment : ViewMediaFragment() {
 
     companion object {
         private const val TAG = "ViewVideoFragment"
-    }
-
-    private fun setupViews(inflater: LayoutInflater, container: ViewGroup?) {
-        rootView = inflater.inflate(R.layout.fragment_view_video, container, false)
-        toolbar = activity!!.toolbar
-        mediaActivity = activity as ViewMediaActivity
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -84,7 +74,7 @@ class ViewVideoFragment : ViewMediaFragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun setupMediaView(url: String) {
-        val videoView = videoPlayer as VideoView
+        val videoView = videoPlayer
         videoView.setVideoPath(url)
         val controller = MediaController(mediaActivity)
         controller.setMediaPlayer(videoView)
@@ -109,17 +99,23 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
 
     private fun hideToolbarAfterDelay(delayMilliseconds: Long) {
-        handler.postDelayed(hideToolbar , delayMilliseconds)
+        handler.postDelayed(hideToolbar, delayMilliseconds)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val arguments = Objects.requireNonNull(this.arguments, "Empty arguments")
-        val attachment = arguments!!.getParcelable<Attachment>(ViewMediaFragment.ARG_ATTACHMENT)
+        toolbar = activity!!.toolbar
+        mediaActivity = activity as ViewMediaActivity
+        return inflater.inflate(R.layout.fragment_view_video, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val arguments = this.arguments!!
+        val attachment = arguments.getParcelable<Attachment>(ViewMediaFragment.ARG_ATTACHMENT)
         val url: String
 
-        setupViews(inflater, container)
-
-        if(attachment == null) {
+        if (attachment == null) {
             throw IllegalArgumentException("attachment has to be set")
         }
         url = attachment.url
@@ -142,8 +138,6 @@ class ViewVideoFragment : ViewMediaFragment() {
         setupMediaView(url)
 
         setupToolbarVisibilityListener()
-
-        return rootView
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
@@ -152,9 +146,9 @@ class ViewVideoFragment : ViewMediaFragment() {
         }
 
         isDescriptionVisible = showingDescription && visible
-        val alpha = if(isDescriptionVisible){ 1.0f } else { 0.0f }
+        val alpha = if (isDescriptionVisible) 1.0f else 0.0f
         mediaDescription.animate().alpha(alpha)
-                .setListener(object: AnimatorListenerAdapter() {
+                .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
                         if (isDescriptionVisible) {
                             mediaDescription.show()

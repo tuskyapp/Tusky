@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.fragment
 
 import android.os.Bundle
-import android.util.Log
 
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
@@ -39,14 +38,13 @@ abstract class ViewMediaFragment : BaseFragment() {
             arguments.putParcelable(ARG_ATTACHMENT, attachment)
             arguments.putBoolean(ARG_START_POSTPONED_TRANSITION, shouldStartPostponedTransition)
 
-            var fragment: ViewMediaFragment? = null
-            when (attachment.type) {
-                Attachment.Type.IMAGE -> fragment = ViewImageFragment()
+            val fragment = when (attachment.type) {
+                Attachment.Type.IMAGE -> ViewImageFragment()
                 Attachment.Type.VIDEO,
-                Attachment.Type.GIFV -> fragment = ViewVideoFragment()
-                else -> Log.e(TAG, "Unknown media type")
+                Attachment.Type.GIFV -> ViewVideoFragment()
+                else -> throw Exception("Unknown media type: $attachment")
             }
-            fragment!!.arguments = arguments
+            fragment.arguments = arguments
             return fragment
         }
 

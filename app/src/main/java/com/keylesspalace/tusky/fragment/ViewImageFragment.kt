@@ -38,8 +38,6 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_view_media.*
 import kotlinx.android.synthetic.main.fragment_view_image.*
 
-import java.util.Objects
-
 class ViewImageFragment : ViewMediaFragment() {
     interface PhotoActionsListener {
         fun onBringUp()
@@ -49,7 +47,6 @@ class ViewImageFragment : ViewMediaFragment() {
 
     private lateinit var attacher: PhotoViewAttacher
     private lateinit var photoActionsListener: PhotoActionsListener
-    private lateinit var rootView: View
     private lateinit var toolbar: View
 
     private var showingDescription = false
@@ -62,11 +59,6 @@ class ViewImageFragment : ViewMediaFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         photoActionsListener = context as PhotoActionsListener
-    }
-
-    private fun setupViews(inflater: LayoutInflater, container: ViewGroup?) {
-        rootView = inflater.inflate(R.layout.fragment_view_image, container, false)
-        toolbar = activity!!.toolbar
     }
 
     override fun setupMediaView(url: String) {
@@ -95,7 +87,7 @@ class ViewImageFragment : ViewMediaFragment() {
                     .load(url)
                     .noFade()
                     .networkPolicy(NetworkPolicy.OFFLINE)
-                    .into(photoView, object: Callback {
+                    .into(photoView, object : Callback {
                         override fun onSuccess() {
                             // if we loaded image from disk, we should check that view is attached.
                             if (ViewCompat.isAttachedToWindow(photoView)) {
@@ -104,12 +96,13 @@ class ViewImageFragment : ViewMediaFragment() {
                                 // if view is not attached yet, wait for an attachment and
                                 // start transition when it's finally ready.
                                 photoView.addOnAttachStateChangeListener(
-                                        object: View.OnAttachStateChangeListener {
+                                        object : View.OnAttachStateChangeListener {
                                             override fun onViewAttachedToWindow(v: View?) {
                                                 finishLoadingSuccessfully()
                                                 photoView.removeOnAttachStateChangeListener(this)
                                             }
-                                            override fun onViewDetachedFromWindow(v: View?) { }
+
+                                            override fun onViewDetachedFromWindow(v: View?) {}
                                         })
                             }
                         }
@@ -129,10 +122,15 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        setupViews(inflater, container)
+        toolbar = activity!!.toolbar
+        return inflater.inflate(R.layout.fragment_view_image, container, false)
+    }
 
-        val arguments = Objects.requireNonNull(this.arguments, "Empty arguments")
-        val attachment = arguments!!.getParcelable<Attachment>(ARG_ATTACHMENT)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val arguments = this.arguments!!
+        val attachment = arguments.getParcelable<Attachment>(ARG_ATTACHMENT)
         val url: String?
 
         if (attachment != null) {
@@ -154,7 +152,6 @@ class ViewImageFragment : ViewMediaFragment() {
         }
 
         // Setting visibility without animations so it looks nice when you scroll images
-        //noinspection ConstantConditions
         if (showingDescription && (activity as ViewMediaActivity).isToolbarVisible()) {
             descriptionView.show()
         } else {
@@ -164,12 +161,10 @@ class ViewImageFragment : ViewMediaFragment() {
         setupMediaView(url)
 
         setupToolbarVisibilityListener()
-
-        return rootView
     }
 
 
-        private fun onMediaTap() {
+    private fun onMediaTap() {
         photoActionsListener.onPhotoTap()
     }
 
@@ -178,9 +173,9 @@ class ViewImageFragment : ViewMediaFragment() {
             return
         }
         isDescriptionVisible = showingDescription && visible
-        val alpha = if(isDescriptionVisible){ 1.0f } else { 0.0f }
+        val alpha = if (isDescriptionVisible) 1.0f else 0.0f
         descriptionView.animate().alpha(alpha)
-                .setListener(object: AnimatorListenerAdapter() {
+                .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
                         if (isDescriptionVisible) {
                             descriptionView.show()
@@ -203,7 +198,7 @@ class ViewImageFragment : ViewMediaFragment() {
                 .load(url)
                 .noPlaceholder()
                 .networkPolicy(NetworkPolicy.NO_STORE)
-                .into(photoView, object: Callback {
+                .into(photoView, object : Callback {
                     override fun onSuccess() {
                         finishLoadingSuccessfully()
                     }
