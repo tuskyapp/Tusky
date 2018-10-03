@@ -33,9 +33,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.View;
@@ -96,9 +94,7 @@ public class RoundedImageView extends AppCompatImageView {
         super.setScaleType(SCALE_TYPE);
         mReady = true;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setOutlineProvider(new OutlineProvider());
-        }
+        setOutlineProvider(new OutlineProvider());
 
         if (mSetupPending) {
             setup();
@@ -317,7 +313,6 @@ public class RoundedImageView extends AppCompatImageView {
         mBitmapShader.setLocalMatrix(mShaderMatrix);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private class OutlineProvider extends ViewOutlineProvider {
 
         @Override

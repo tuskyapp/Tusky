@@ -14,7 +14,6 @@ import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.squareup.picasso.Picasso;
 
 class AccountViewHolder extends RecyclerView.ViewHolder {
-    private View container;
     private TextView username;
     private TextView displayName;
     private ImageView avatar;
@@ -22,7 +21,6 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
 
     AccountViewHolder(View itemView) {
         super(itemView);
-        container = itemView.findViewById(R.id.account_container);
         username = itemView.findViewById(R.id.account_username);
         displayName = itemView.findViewById(R.id.account_display_name);
         avatar = itemView.findViewById(R.id.account_avatar);
@@ -43,10 +41,10 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
     }
 
     void setupActionListener(final AccountActionListener listener) {
-        container.setOnClickListener(v -> listener.onViewAccount(accountId));
+        itemView.setOnClickListener(v -> listener.onViewAccount(accountId));
     }
 
     void setupLinkListener(final LinkListener listener) {
-        container.setOnClickListener(v -> listener.onViewAccount(accountId));
+        itemView.setOnClickListener(v -> listener.onViewAccount(accountId));
     }
 }

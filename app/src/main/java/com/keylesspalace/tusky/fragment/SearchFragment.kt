@@ -50,7 +50,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
 
     private var alwaysShowSensitiveMedia = false
     private var mediaPreviewEnabled = true
-
+    private var useAbsoluteTime = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_search, container, false)
@@ -60,10 +60,16 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
         val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
         alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false)
         mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true)
+        useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
 
         searchRecyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         searchRecyclerView.layoutManager = LinearLayoutManager(view.context)
-        searchAdapter = SearchResultsAdapter(mediaPreviewEnabled, alwaysShowSensitiveMedia, this, this)
+        searchAdapter = SearchResultsAdapter(
+                mediaPreviewEnabled,
+                alwaysShowSensitiveMedia,
+                this,
+                this,
+                useAbsoluteTime)
         searchRecyclerView.adapter = searchAdapter
 
     }
@@ -135,17 +141,22 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
 
     override fun onReblog(reblog: Boolean, position: Int) {
         val status = searchAdapter.getStatusAtPosition(position)
-        if(status != null) {
+        if (status != null) {
             timelineCases.reblogWithCallback(status, reblog, object: Callback<Status> {
                 override fun onResponse(call: Call<Status>?, response: Response<Status>?) {
                     status.reblogged = true
-                    searchAdapter.updateStatusAtPosition(ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia), position)
+                    searchAdapter.updateStatusAtPosition(
+                            ViewDataUtils.statusToViewData(
+                                    status,
+                                    alwaysShowSensitiveMedia
+                            ),
+                            position
+                    )
                 }
 
                 override fun onFailure(call: Call<Status>?, t: Throwable?) {
                     Log.d(TAG, "Failed to reblog status " + status.id, t)
                 }
-
             })
         }
     }
@@ -156,7 +167,13 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
             timelineCases.favouriteWithCallback(status, favourite, object: Callback<Status> {
                 override fun onResponse(call: Call<Status>?, response: Response<Status>?) {
                     status.favourited = true
-                    searchAdapter.updateStatusAtPosition(ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia), position)
+                    searchAdapter.updateStatusAtPosition(
+                            ViewDataUtils.statusToViewData(
+                                    status,
+                                    alwaysShowSensitiveMedia
+                            ),
+                            position
+                    )
                 }
 
                 override fun onFailure(call: Call<Status>?, t: Throwable?) {
@@ -210,6 +227,21 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
 
     override fun onLoadMore(position: Int) {
         // not needed here, search is not paginated
+    }
+
+    override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
+        // TODO: No out-of-bounds check in getConcreteStatusAtPosition
+        val status = searchAdapter.getConcreteStatusAtPosition(position)
+        if(status == null) {
+            Log.e(TAG, String.format("Tried to access status but got null at position: %d", position))
+            return
+        }
+
+        val updatedStatus = StatusViewData.Builder(status)
+                .setCollapsed(isCollapsed)
+                .createStatusViewData()
+        searchAdapter.updateStatusAtPosition(updatedStatus, position)
+        searchRecyclerView.post { searchAdapter.notifyItemChanged(position, updatedStatus) }
     }
 
     companion object {

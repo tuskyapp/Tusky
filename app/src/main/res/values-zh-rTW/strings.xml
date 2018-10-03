@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">授權被拒絕。</string>
     <string name="error_retrieving_oauth_token">無法獲取登錄信息。</string>
     <string name="error_compose_character_limit">嘟文太長了！</string>
-    <string name="error_media_upload_size">文件大小限制 8MB。</string>
+    <string name="error_image_upload_size">文件大小限制 8MB。</string>
     <string name="error_media_upload_type">無法上傳此類型的文件。</string>
     <string name="error_media_upload_opening">此文件無法打開。</string>
     <string name="error_media_upload_permission">需要授予 Tusky 讀取媒體文件的權限。</string>

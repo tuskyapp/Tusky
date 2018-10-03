@@ -18,122 +18,44 @@ package com.keylesspalace.tusky.util;
 import android.content.ContentResolver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.Nullable;
-import android.support.media.ExifInterface;
-import android.util.Log;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.OutputStream;
+
+import static com.keylesspalace.tusky.util.MediaUtilsKt.calculateInSampleSize;
+import static com.keylesspalace.tusky.util.MediaUtilsKt.getImageOrientation;
+import static com.keylesspalace.tusky.util.MediaUtilsKt.reorientBitmap;
 
 /**
  * Reduces the file size of images to fit under a given limit by resizing them, maintaining both
  * aspect ratio and orientation.
  */
 public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
-    private static final String TAG = "DownsizeImageTask";
     private int sizeLimit;
     private ContentResolver contentResolver;
     private Listener listener;
-    private List<byte[]> resultList;
+    private File tempFile;
 
     /**
      * @param sizeLimit the maximum number of bytes each image can take
      * @param contentResolver to resolve the specified images' URIs
+     * @param tempFile the file where the result will be stored
      * @param listener to whom the results are given
      */
-    public DownsizeImageTask(int sizeLimit, ContentResolver contentResolver, Listener listener) {
+    public DownsizeImageTask(int sizeLimit, ContentResolver contentResolver, File tempFile, Listener listener) {
         this.sizeLimit = sizeLimit;
         this.contentResolver = contentResolver;
+        this.tempFile = tempFile;
         this.listener = listener;
-    }
-
-    @Nullable
-    private static Bitmap reorientBitmap(Bitmap bitmap, int orientation) {
-        Matrix matrix = new Matrix();
-        switch (orientation) {
-            default:
-            case ExifInterface.ORIENTATION_NORMAL: {
-                return bitmap;
-            }
-            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL: {
-                matrix.setScale(-1, 1);
-                break;
-            }
-            case ExifInterface.ORIENTATION_ROTATE_180: {
-                matrix.setRotate(180);
-                break;
-            }
-            case ExifInterface.ORIENTATION_FLIP_VERTICAL: {
-                matrix.setRotate(180);
-                matrix.postScale(-1, 1);
-                break;
-            }
-            case ExifInterface.ORIENTATION_TRANSPOSE: {
-                matrix.setRotate(90);
-                matrix.postScale(-1, 1);
-                break;
-            }
-            case ExifInterface.ORIENTATION_ROTATE_90: {
-                matrix.setRotate(90);
-                break;
-            }
-            case ExifInterface.ORIENTATION_TRANSVERSE: {
-                matrix.setRotate(-90);
-                matrix.postScale(-1, 1);
-                break;
-            }
-            case ExifInterface.ORIENTATION_ROTATE_270: {
-                matrix.setRotate(-90);
-                break;
-            }
-        }
-        try {
-            Bitmap result = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
-                    bitmap.getHeight(), matrix, true);
-            if (!bitmap.sameAs(result)) {
-                bitmap.recycle();
-            }
-            return result;
-        } catch (OutOfMemoryError e) {
-            return null;
-        }
-    }
-
-    private static int getOrientation(Uri uri, ContentResolver contentResolver) {
-        InputStream inputStream;
-        try {
-            inputStream = contentResolver.openInputStream(uri);
-        } catch (FileNotFoundException e) {
-            Log.d(TAG, Log.getStackTraceString(e));
-            return ExifInterface.ORIENTATION_UNDEFINED;
-        }
-        if (inputStream == null) {
-            return ExifInterface.ORIENTATION_UNDEFINED;
-        }
-        ExifInterface exifInterface;
-        try {
-            exifInterface = new ExifInterface(inputStream);
-        } catch (IOException e) {
-            Log.d(TAG, Log.getStackTraceString(e));
-            IOUtils.closeQuietly(inputStream);
-            return ExifInterface.ORIENTATION_UNDEFINED;
-        }
-        int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                ExifInterface.ORIENTATION_NORMAL);
-        IOUtils.closeQuietly(inputStream);
-        return orientation;
     }
 
     @Override
     protected Boolean doInBackground(Uri... uris) {
-        resultList = new ArrayList<>();
         for (Uri uri : uris) {
             InputStream inputStream;
             try {
@@ -147,9 +69,7 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
             BitmapFactory.decodeStream(inputStream, null, options);
             IOUtils.closeQuietly(inputStream);
             // Get EXIF data, for orientation info.
-            int orientation = getOrientation(uri, contentResolver);
-            // Then use that information to determine how much to compress.
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            int orientation = getImageOrientation(uri, contentResolver);
             /* Unfortunately, there isn't a determined worst case compression ratio for image
              * formats. So, the only way to tell if they're too big is to compress them and
              * test, and keep trying at smaller sizes. The initial estimate should be good for
@@ -157,13 +77,18 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
              * sure it gets downsized to below the limit. */
             int scaledImageSize = 1024;
             do {
-                stream.reset();
+                OutputStream stream;
+                try {
+                    stream = new FileOutputStream(tempFile);
+                } catch (FileNotFoundException e) {
+                    return false;
+                }
                 try {
                     inputStream = contentResolver.openInputStream(uri);
                 } catch (FileNotFoundException e) {
                     return false;
                 }
-                options.inSampleSize = MediaUtils.calculateInSampleSize(options, scaledImageSize, scaledImageSize);
+                options.inSampleSize = calculateInSampleSize(options, scaledImageSize, scaledImageSize);
                 options.inJustDecodeBounds = false;
                 Bitmap scaledBitmap;
                 try {
@@ -192,9 +117,8 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
                 reorientedBitmap.compress(format, 85, stream);
                 reorientedBitmap.recycle();
                 scaledImageSize /= 2;
-            } while (stream.size() > sizeLimit);
+            } while (tempFile.length() > sizeLimit);
 
-            resultList.add(stream.toByteArray());
             if (isCancelled()) {
                 return false;
             }
@@ -205,7 +129,7 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean successful) {
         if (successful) {
-            listener.onSuccess(resultList);
+            listener.onSuccess(tempFile);
         } else {
             listener.onFailure();
         }
@@ -214,7 +138,7 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
 
     /** Used to communicate the results of the task. */
     public interface Listener {
-        void onSuccess(List<byte[]> contentList);
+        void onSuccess(File file);
         void onFailure();
     }
 }

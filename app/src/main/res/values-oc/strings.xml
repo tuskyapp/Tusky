@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">L\'autoritzacion es estada regetada.</string>
     <string name="error_retrieving_oauth_token">Fracàs de l’obtencion del testimoni d\'iniciacion de session.</string>
     <string name="error_compose_character_limit">L\'estatut es tròp long !</string>
-    <string name="error_media_upload_size">Lo fichièr a d’èsser inferior a 8Mo.</string>
+    <string name="error_image_upload_size">Lo fichièr a d’èsser inferior a 8Mo.</string>
     <string name="error_media_upload_type">Aqueste tip de fichièr se pòt pas mandar.</string>
     <string name="error_media_upload_opening">Aqueste tip de fichièr se pòt pas dobrir.</string>
     <string name="error_media_upload_permission">Cal permís de lectura del mèdia.</string>
@@ -27,7 +27,8 @@
     <string name="title_public_federated">Federacion</string>
     <string name="title_view_thread">Tut</string>
     <string name="title_tag">#%s</string>
-    <string name="title_statuses">Pòsts</string>
+    <string name="title_statuses">Pòstes</string>
+    <string name="title_statuses_with_replies">Amb responsas</string>
     <string name="title_follows">Abonament</string>
     <string name="title_followers">Seguidors</string>
     <string name="title_favourites">Preferits</string>
@@ -36,6 +37,7 @@
     <string name="title_follow_requests">Demandas d’abonament</string>
     <string name="title_edit_profile">Modificar lo perfil</string>
     <string name="title_saved_toot">Borrolhons</string>
+    <string name="title_licenses">Licéncias</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s partejat</string>
@@ -45,7 +47,7 @@
     <string name="status_content_warning_show_more">Mostrar mai</string>
     <string name="status_content_warning_show_less">Mostrar mens</string>
 
-    <string name="footer_empty">I a pas res aquí. Davalatz per  actualizar !</string>
+    <string name="footer_empty">I a pas res aquí. Davalatz per actualizar !</string>
 
     <string name="notification_reblog_format">%s a partajat vòstre tut</string>
     <string name="notification_favourite_format">%s a aimat vòstre tut</string>
@@ -67,6 +69,8 @@
     <string name="action_unfollow">Quitar de seguir</string>
     <string name="action_block">Blocar</string>
     <string name="action_unblock">Quitar de blocar</string>
+    <string name="action_hide_reblogs">Rescondre los partatges</string>
+    <string name="action_show_reblogs">Mostrar los partatges</string>
     <string name="action_report">Denonciar</string>
     <string name="action_delete">Escafar</string>
     <string name="action_send">TUT</string>
@@ -91,6 +95,7 @@
     <string name="action_open_drawer">Dobrir lo repertòri</string>
     <string name="action_save">Enregistrar</string>
     <string name="action_edit_profile">Modificar lo perfil</string>
+    <string name="action_edit_own_profile">Modificar</string>
     <string name="action_undo">Anullar</string>
     <string name="action_accept">Acceptar</string>
     <string name="action_reject">Regetar</string>
@@ -111,6 +116,7 @@
     <string name="confirmation_unblocked">Utilizaire desblocat</string>
     <string name="confirmation_unmuted">Utilizaire sortit del silenci</string>
 
+    <string name="status_sent">Enviat !</string>
     <string name="status_sent_long">Responsa ben enviada.</string>
 
     <string name="hint_domain">Quina instància ?</string>
@@ -130,17 +136,17 @@
 
     <string name="login_connection">Connexion...</string>
 
-    <string name="dialog_whats_an_instance">Aquí pots introduir l\'adreça o domini de qualsevol instància,
-        com ara mastodont.cat, mastodon.social, icosahedron.website o
+    <string name="dialog_whats_an_instance">Aquí podètz picar l\'adreça o domini de quina que siá instància,
+        coma mastodont.cat, mastodon.social, icosahedron.website o
         <a href="https://instances.social">fòrca mai !</a>
-        \n\nSi encara no tens cap copte, pots introduir el nom de la instància on t\'agradaria
-        unir-te i crear un compte allà.\n\nUna instànica és un únic lloc on el teu compte s\'hostatja
-        , però pots comunicar-te fàcilment i seguir amics d\'altres instàncies com si fossiu en el mateix lloc.
-        \n\nTens més informació a <a href="https://joinmastodon.org">joinmastodon.org</a>.
+        \n\nSi encara non avètz cap de compte, podètz picar lo nom de l’instància ont vos agradariá
+        anar e crear un compte enlà.\n\n
+        \n\nAvètz mas d’informacins a <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
     <string name="dialog_title_finishing_media_upload">Finalizacion del mandadís del mèdia</string>
     <string name="dialog_message_uploading_media">Mandadís...</string>
     <string name="dialog_download_image">Telecargar</string>
+    <string name="dialog_message_cancel_follow_request">Anullar la demandar d’abonament ?</string>
     <string name="dialog_unfollow_warning">Volètz quitar de seguir aqueste compte ?</string>
 
     <string name="visibility_public">Publica : es visibla a la cronologia publica</string>
@@ -195,7 +201,7 @@
         <item>30 minutas</item>
         <item>45 minutas</item>
         <item>1 ora</item>
-        <item>2 ores</item>
+        <item>2 oras</item>
     </string-array>
 
     <string name="pref_default_post_privacy">Privacitat predeterminada dels tuts</string>
@@ -209,11 +215,13 @@
 
     <string name="pref_status_text_size">Talha de text de l\'estatut</string>
 
-    <!--<string-array name="status_text_size_names">-->
-        <!--<item>Pichona</item>-->
-        <!--<item>Mejana</item>-->
-        <!--<item>Granda</item>-->
-    <!--</string-array>-->
+    <string-array name="status_text_size_names">
+        <item>Mendre</item>
+        <item>Pichona</item>
+        <item>Mejana</item>
+        <item>Granda</item>
+        <item>Grandassa</item>
+    </string-array>
 
     <string name="notification_channel_mention_name">Mencions nòvas</string>
     <string name="notification_channel_mention_descriptions">Notificacions de mencions noves</string>
@@ -280,8 +288,7 @@
     <string name="title_media">Mèdia</string>
     <string name="replying_to">En responsa a @%s</string>
     <string name="load_more_placeholder_text">cargar mai</string>
-
-
+    
     <string name="add_account_name">Apondre un compte</string>
     <string name="add_account_description">Apondre un nòu compte Mastodon</string>
 
@@ -322,7 +329,18 @@
     <string name="caption_twemoji">Emoji estandards de Mastodon</string>
 
     <string name="download_failed">Fracàs del telecargament</string>
+    <string name="profile_badge_bot_text">Robòt</string>
+    <string name="account_moved_description">%1$s mudèt los catons a :</string>
     <string name="reblog_private">Partejar al public d’origina</string>
     <string name="unreblog_private">Quitar de partejar</string>
+    <string name="license_description">Tusky content de còdis e compausants dels projèctes liures seguents :</string>
+    <string name="license_apache_2">Licéncia Apache License (còpia çai-jos)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+    
+    <string name="profile_metadata_label">Metadonada del perfil</string>
+    <string name="profile_metadata_add">Contengut</string>
+    <string name="profile_metadata_label_label">Nom</string>
+    <string name="profile_metadata_content_label">Contengut</string>
 
 </resources>

@@ -41,7 +41,11 @@
             android:dependency="mediaPreviewEnabled"
             android:key="alwaysShowSensitiveMedia"
             android:title="@string/pref_title_alway_show_sensitive_media" />
-
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="absoluteTimeView"
+            android:title="@string/pref_title_absolute_time" />
+      
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_publishing">

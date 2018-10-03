@@ -9,7 +9,8 @@
     <string name="error_authorization_denied">承認が拒否されました。</string>
     <string name="error_retrieving_oauth_token">ログイントークンの取得に失敗しました。</string>
     <string name="error_compose_character_limit">投稿文が長すぎます！</string>
-    <string name="error_media_upload_size">ファイルは4MB未満にしてください。</string>
+    <string name="error_image_upload_size">ファイルは4MB未満にしてください。</string>
+    <string name="error_video_upload_size">ビデオファイルは40MB未満にしてください。</string>
     <string name="error_media_upload_type">その形式のファイルはアップロードできません。</string>
     <string name="error_media_upload_opening">ファイルを開けませんでした。</string>
     <string name="error_media_upload_permission">メディアの読み取り許可が必要です。</string>
@@ -17,14 +18,18 @@
     <string name="error_media_upload_image_or_video">画像と動画を同時に投稿することはできません。</string>
     <string name="error_media_upload_sending">アップロードに失敗しました。</string>
     <string name="error_report_too_few_statuses">少なくとも1つの投稿を報告してください。</string>
+    <string name="error_invalid_regex">無効な正規表現です</string>
+    <string name="error_sender_account_gone">トゥート送信時のエラーです。</string>
 
     <string name="title_home">ホーム</string>
+    <string name="title_advanced">詳細</string>
     <string name="title_notifications">通知</string>
     <string name="title_public_local">ローカル</string>
     <string name="title_public_federated">連合</string>
     <string name="title_view_thread">スレッド</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">投稿</string>
+    <string name="title_statuses_with_replies">投稿と返信</string>
     <string name="title_follows">フォロー</string>
     <string name="title_followers">フォロワー</string>
     <string name="title_favourites">お気に入り</string>
@@ -33,6 +38,7 @@
     <string name="title_follow_requests">フォローリクエスト</string>
     <string name="title_edit_profile">プロフィールを編集</string>
     <string name="title_saved_toot">下書き</string>
+    <string name="title_licenses">ライセンス</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%sさんがブーストしました</string>
@@ -51,6 +57,7 @@
     <string name="report_username_format">\@%sさんを通報</string>
     <string name="report_comment_hint">コメント</string>
 
+    <string name="action_quick_reply">クイック返信</string>
     <string name="action_reply">返信</string>
     <string name="action_reblog">ブースト</string>
     <string name="action_favourite">お気に入り</string>
@@ -63,6 +70,8 @@
     <string name="action_unfollow">フォロー解除</string>
     <string name="action_block">ブロック</string>
     <string name="action_unblock">ブロック解除</string>
+    <string name="action_hide_reblogs">ブーストを非表示</string>
+    <string name="action_show_reblogs">ブーストを表示</string>
     <string name="action_report">通報</string>
     <string name="action_delete">削除</string>
     <string name="action_send">トゥート</string>
@@ -87,11 +96,15 @@
     <string name="action_open_drawer">メニューを開く</string>
     <string name="action_save">保存</string>
     <string name="action_edit_profile">プロフィールを編集</string>
+    <string name="action_edit_own_profile">編集</string>
     <string name="action_undo">取り消す</string>
     <string name="action_accept">許可</string>
     <string name="action_reject">拒否</string>
     <string name="action_search">検索</string>
     <string name="action_access_saved_toot">下書き</string>
+    <string name="action_toggle_visibility">トゥートの公開範囲</string>
+    <string name="action_content_warning">閲覧注意</string>
+    <string name="action_emoji_keyboard">絵文字キーボード</string>
 
     <string name="download_image">%1$s をダウンロードしています</string>
 
@@ -113,6 +126,7 @@
 
     <string name="search_no_results">見つかりませんでした</string>
 
+    <string name="label_quick_reply">返信…</string>
     <string name="label_avatar">アイコン</string>
     <string name="label_header">ヘッダー</string>
 
@@ -133,6 +147,7 @@
     <string name="dialog_title_finishing_media_upload">メディアをアップロードしています</string>
     <string name="dialog_message_uploading_media">アップロード中…</string>
     <string name="dialog_download_image">ダウンロード</string>
+    <string name="dialog_message_cancel_follow_request">フォローリクエストを取り消しますか？</string>
     <string name="dialog_unfollow_warning">このアカウントをフォロー解除しますか？</string>
 
     <string name="visibility_public">公開：公開タイムラインに投稿する</string>
@@ -171,6 +186,7 @@
     <string name="pref_title_status_tabs">タブ</string>
     <string name="pref_title_show_boosts">ブーストを表示</string>
     <string name="pref_title_show_replies">返信を表示</string>
+    <string name="pref_title_filter_regex">正規表現による除外</string>
     <string name="pref_title_show_media_preview">メディアのプレビューを表示する</string>
     <string name="pref_title_proxy_settings">プロキシー</string>
     <string name="pref_title_http_proxy_settings">HTTPプロキシー</string>
@@ -199,11 +215,13 @@
 
     <string name="pref_status_text_size">トゥートのテキストサイズ</string>
 
-    <!--<string-array name="status_text_size_names">-->
-        <!--<item>小</item>-->
-        <!--<item>中</item>-->
-        <!--<item>大</item>-->
-    <!--</string-array>-->
+    <string-array name="status_text_size_names">
+        <item>最小</item>
+        <item>小</item>
+        <item>中</item>
+        <item>大</item>
+        <item>最大</item>
+    </string-array>
 
     <string name="notification_channel_mention_name">新しい返信</string>
     <string name="notification_channel_mention_descriptions">新しい返信の通知</string>
@@ -262,7 +280,7 @@
     <string name="follows_you">あなたをフォロー中</string>
     <string name="pref_title_alway_show_sensitive_media">閲覧注意のコンテンツを常に表示</string>
     <string name="title_media">メディア</string>
-    <string name="replying_to">@%sに返信</string>
+    <string name="replying_to">\@%sに返信</string>
     <string name="load_more_placeholder_text">さらに読み込む</string>
 
     <string name="add_account_name">アカウントを追加</string>
@@ -276,5 +294,45 @@
     <string name="hint_describe_for_visually_impaired">視覚障害者のための説明</string>
     <string name="action_set_caption">説明を設定</string>
     <string name="action_remove_media">消去</string>
+    <string name="lock_account_label">アカウントをロック</string>
+    <string name="lock_account_label_description">フォロワーを手動で承認する必要があります</string>
+    <string name="compose_save_draft">下書きを保存しますか？</string>
+    <string name="send_toot_notification_title">トゥートを送信中です…</string>
+    <string name="send_toot_notification_error_title">トゥート送信エラー</string>
+    <string name="send_toot_notification_channel_name">トゥートの送信</string>
+    <string name="send_toot_notification_cancel_title">送信がキャンセルされました</string>
+    <string name="send_toot_notification_saved_content">トゥートのコピーが下書きに保存されました</string>
+    <string name="action_compose_shortcut">投稿</string>
+
+    <string name="error_no_custom_emojis">インスタンス %s にはカスタム絵文字がありません</string>
+    <string name="copy_to_clipboard_success">クリップボードにコピーされました</string>
+    <string name="emoji_style">絵文字スタイル</string>
+    <string name="system_default">システムのデフォルト</string>
+    <string name="download_fonts">最初にこれらの絵文字セットをダウンロードする必要があります</string>
+    <string name="action_open_toot">トゥートを開く</string>
+    <string name="restart_required">アプリの再起動が必要です</string>
+    <string name="restart_emoji">これらの変更を適用するには、Tuskyの再起動が必要になります</string>
+    <string name="later">後で</string>
+    <string name="restart">再起動</string>
+    <string name="caption_systememoji">あなたのデバイスのデフォルト絵文字セットです</string>
+    <string name="caption_blobmoji">Android 4.4-7.1で知られる、Blob絵文字です</string>
+    <string name="caption_twemoji">Mastodonの標準絵文字セットです</string>
+
+    <string name="download_failed">ダウンロード失敗</string>
+
+    <string name="profile_badge_bot_text">Bot</string>
+    <string name="account_moved_description">%1$s は引っ越しました:</string>
+
+    <string name="license_description">Tuskyは、以下のオープンソース プロジェクトからのコードとアセットを含んでいます:</string>
+    <string name="license_apache_2">Apache Licenseの下にライセンスされています（下記をコピー）</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <string name="profile_metadata_label">プロフィール メタデータ</string>
+    <string name="profile_metadata_add">データを追加</string>
+    <string name="profile_metadata_label_label">ラベル</string>
+    <string name="profile_metadata_content_label">内容</string>
+
+    <string name="pref_title_absolute_time">絶対時間で表示</string>
 
 </resources>

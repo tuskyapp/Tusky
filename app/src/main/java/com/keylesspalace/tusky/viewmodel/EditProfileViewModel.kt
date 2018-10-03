@@ -35,6 +35,7 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -51,9 +52,9 @@ private const val AVATAR_FILE_NAME = "avatar.png"
 private const val TAG = "EditProfileViewModel"
 
 class EditProfileViewModel  @Inject constructor(
-            private val mastodonApi: MastodonApi,
-            private val eventHub: EventHub
-    ): ViewModel() {
+        private val mastodonApi: MastodonApi,
+        private val eventHub: EventHub
+): ViewModel() {
 
     val profileData = MutableLiveData<Resource<Account>>()
     val avatarData = MutableLiveData<Resource<Bitmap>>()
@@ -70,7 +71,7 @@ class EditProfileViewModel  @Inject constructor(
             profileData.postValue(Loading())
 
             val call = mastodonApi.accountVerifyCredentials()
-                    call.enqueue(object : Callback<Account> {
+            call.enqueue(object : Callback<Account> {
                 override fun onResponse(call: Call<Account>,
                                         response: Response<Account>) {
                     if (response.isSuccessful) {
@@ -112,7 +113,7 @@ class EditProfileViewModel  @Inject constructor(
 
         Single.fromCallable {
             val contentResolver = context.contentResolver
-            val sourceBitmap = MediaUtils.getSampledBitmap(contentResolver, uri, resizeWidth, resizeHeight)
+            val sourceBitmap = getSampledBitmap(contentResolver, uri, resizeWidth, resizeHeight)
 
             if (sourceBitmap == null) {
                 throw Exception()
@@ -185,7 +186,7 @@ class EditProfileViewModel  @Inject constructor(
         val field4 = calculateFieldToUpdate(newFields.getOrNull(3), fieldsUnchanged)
 
         if (displayName == null && note == null && locked == null && avatar == null && header == null
-        && field1 == null && field2 == null && field3 == null && field4 == null) {
+                && field1 == null && field2 == null && field3 == null && field4 == null) {
             /** if nothing has changed, there is no need to make a network request */
             saveData.postValue(Success())
             return
@@ -199,7 +200,11 @@ class EditProfileViewModel  @Inject constructor(
                 if (!response.isSuccessful || newProfileData == null) {
                     val errorResponse = response.errorBody()?.string()
                     val errorMsg = if(!errorResponse.isNullOrBlank()) {
-                        JSONObject(errorResponse).optString("error", null)
+                        try {
+                            JSONObject(errorResponse).optString("error", null)
+                        } catch (e: JSONException) {
+                            null
+                        }
                     } else {
                         null
                     }
@@ -231,7 +236,7 @@ class EditProfileViewModel  @Inject constructor(
 
 
     private fun calculateFieldToUpdate(newField: StringField?, fieldsUnchanged: Boolean): Pair<RequestBody, RequestBody>? {
-        if(fieldsUnchanged || newField == null || newField.name.isBlank()) {
+        if(fieldsUnchanged || newField == null) {
             return null
         }
         return Pair(

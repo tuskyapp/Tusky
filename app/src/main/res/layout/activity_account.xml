@@ -10,7 +10,8 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/accountAppBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/actionbar_elevation">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
@@ -280,15 +281,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    <View
-        android:id="@+id/accountTabBottomShadow"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@drawable/material_drawer_shadow_bottom"
-        android:visibility="visible"
-        app:layout_anchor="@id/accountTabLayout"
-        app:layout_anchorGravity="bottom" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/accountFloatingActionButton"

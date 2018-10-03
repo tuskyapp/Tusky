@@ -55,6 +55,7 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.PairedList;
+import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.ConversationLineItemDecoration;
@@ -98,7 +99,10 @@ public final class ViewThreadFragment extends SFragment implements
             new PairedList<>(new Function<Status, StatusViewData.Concrete>() {
                 @Override
                 public StatusViewData.Concrete apply(Status input) {
-                    return ViewDataUtils.statusToViewData(input, alwaysShowSensitiveMedia);
+                    return ViewDataUtils.statusToViewData(
+                            input,
+                            alwaysShowSensitiveMedia
+                    );
                 }
             });
 
@@ -156,6 +160,8 @@ public final class ViewThreadFragment extends SFragment implements
         alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
         boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
+        boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
+        adapter.setUseAbsoluteTime(useAbsoluteTime);
         recyclerView.setAdapter(adapter);
 
         statuses.clear();
@@ -351,6 +357,36 @@ public final class ViewThreadFragment extends SFragment implements
     @Override
     public void onLoadMore(int pos) {
 
+    }
+
+    @Override
+    public void onContentCollapsedChange(boolean isCollapsed, int position) {
+        if (position < 0 || position >= statuses.size()) {
+            Log.e(TAG, String.format("Tried to access out of bounds status position: %d of %d", position, statuses.size() - 1));
+            return;
+        }
+
+        StatusViewData.Concrete status = statuses.getPairedItem(position);
+        if (status == null) {
+            // Statuses PairedList contains a base type of StatusViewData.Concrete and also doesn't
+            // check for null values when adding values to it although this doesn't seem to be an issue.
+            Log.e(TAG, String.format(
+                    "Expected StatusViewData.Concrete, got null instead at position: %d of %d",
+                    position,
+                    statuses.size() - 1
+            ));
+            return;
+        }
+
+        StatusViewData.Concrete updatedStatus = new StatusViewData.Builder(status)
+                .setCollapsible(!SmartLengthInputFilter.hasBadRatio(
+                        status.getContent(),
+                        SmartLengthInputFilter.LENGTH_DEFAULT
+                ))
+                .setCollapsed(isCollapsed)
+                .createStatusViewData();
+        statuses.setPairedItem(position, updatedStatus);
+        recyclerView.post(() -> adapter.setItem(position, updatedStatus, true));
     }
 
     @Override

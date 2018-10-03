@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Autorisatie werd geweigerd.</string>
     <string name="error_retrieving_oauth_token">Kon geen inlogsleutel verkrijgen.</string>
     <string name="error_compose_character_limit">Tekst van deze toot is te lang!</string>
-    <string name="error_media_upload_size">Bestand moet kleiner zijn dan 8MB.</string>
+    <string name="error_image_upload_size">Bestand moet kleiner zijn dan 8MB.</string>
     <string name="error_media_upload_type">Bestandstype kan niet worden geüpload.</string>
     <string name="error_media_upload_opening">Bestand kon niet worden geopend.</string>
     <string name="error_media_upload_permission">Er is toestemming nodig om deze media te lezen.</string>
@@ -332,6 +332,12 @@
     <string name="license_description">Tusky bevat broncode en onderdelen van de volgende opensourceprojecten:</string>
     <string name="license_apache_2">Gelicenseerd onder de Apache-licentie (kopie hieronder)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <string name="profile_metadata_label">Metadata profiel</string>
+    <string name="profile_metadata_add">Metadata toevoegen</string>
+    <string name="profile_metadata_label_label">Label</string>
+    <string name="profile_metadata_content_label">Inhoud</string>
 
 </resources>
 

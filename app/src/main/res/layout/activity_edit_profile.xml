@@ -173,8 +173,6 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-    <include layout="@layout/toolbar_shadow_shim" />
-
     <ProgressBar
         android:id="@+id/saveProgressBar"
         android:layout_width="wrap_content"

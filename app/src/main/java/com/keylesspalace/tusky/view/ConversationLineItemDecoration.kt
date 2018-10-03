@@ -26,7 +26,7 @@ import com.keylesspalace.tusky.adapter.ThreadAdapter
 
 class ConversationLineItemDecoration(private val context: Context, private val divider: Drawable) : RecyclerView.ItemDecoration() {
 
-    override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
+    override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val dividerStart = parent.paddingStart + context.resources.getDimensionPixelSize(R.dimen.status_line_margin_start)
         val dividerEnd = dividerStart + divider.intrinsicWidth
 

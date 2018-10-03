@@ -39,6 +39,7 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
     private final AdapterDataSource<StatusViewData> dataSource;
     private final StatusActionListener statusListener;
     private boolean mediaPreviewEnabled;
+    private boolean useAbsoluteTime;
 
     public TimelineAdapter(AdapterDataSource<StatusViewData> dataSource,
                            StatusActionListener statusListener) {
@@ -46,6 +47,7 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
         this.dataSource = dataSource;
         this.statusListener = statusListener;
         mediaPreviewEnabled = true;
+        useAbsoluteTime = false;
     }
 
     @NonNull
@@ -56,7 +58,7 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
             case VIEW_TYPE_STATUS: {
                 View view = LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.item_status, viewGroup, false);
-                return new StatusViewHolder(view);
+                return new StatusViewHolder(view, useAbsoluteTime);
             }
             case VIEW_TYPE_PLACEHOLDER: {
                 View view = LayoutInflater.from(viewGroup.getContext())
@@ -71,8 +73,7 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
         StatusViewData status = dataSource.getItemAt(position);
         if (status instanceof StatusViewData.Placeholder) {
             PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
-            holder.setup(!((StatusViewData.Placeholder) status).isLoading(),
-                    statusListener, ((StatusViewData.Placeholder) status).isLoading());
+            holder.setup(statusListener, ((StatusViewData.Placeholder) status).isLoading());
         } else {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             holder.setupWithStatus((StatusViewData.Concrete) status,
@@ -96,6 +97,10 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
 
     public void setMediaPreviewEnabled(boolean enabled) {
         mediaPreviewEnabled = enabled;
+    }
+
+    public void setUseAbsoluteTime(boolean useAbsoluteTime){
+        this.useAbsoluteTime=useAbsoluteTime;
     }
 
     public boolean getMediaPreviewEnabled() {

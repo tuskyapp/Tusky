@@ -36,12 +36,14 @@ public class ThreadAdapter extends RecyclerView.Adapter {
     private List<StatusViewData.Concrete> statuses;
     private StatusActionListener statusActionListener;
     private boolean mediaPreviewEnabled;
+    private boolean useAbsoluteTime;
     private int detailedStatusPosition;
 
     public ThreadAdapter(StatusActionListener listener) {
         this.statusActionListener = listener;
         this.statuses = new ArrayList<>();
         mediaPreviewEnabled = true;
+        useAbsoluteTime = false;
         detailedStatusPosition = RecyclerView.NO_POSITION;
     }
 
@@ -53,7 +55,7 @@ public class ThreadAdapter extends RecyclerView.Adapter {
             case VIEW_TYPE_STATUS: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_status, parent, false);
-                return new StatusViewHolder(view);
+                return new StatusViewHolder(view, useAbsoluteTime);
             }
             case VIEW_TYPE_STATUS_DETAILED: {
                 View view = LayoutInflater.from(parent.getContext())
@@ -147,6 +149,10 @@ public class ThreadAdapter extends RecyclerView.Adapter {
 
     public void setMediaPreviewEnabled(boolean enabled) {
         mediaPreviewEnabled = enabled;
+    }
+
+    public void setUseAbsoluteTime(boolean useAbsoluteTime) {
+        this.useAbsoluteTime = useAbsoluteTime;
     }
 
     public void setDetailedStatusPosition(int position) {

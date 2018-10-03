@@ -16,14 +16,12 @@
 package com.keylesspalace.tusky
 
 import android.animation.ArgbEvaluator
-import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.annotation.AttrRes
@@ -36,6 +34,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.support.v4.widget.TextViewCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
@@ -135,9 +134,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
         val decorView = window.decorView
         decorView.systemUiVisibility = decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = Color.TRANSPARENT
-        }
+        window.statusBarColor = Color.TRANSPARENT
 
         setContentView(R.layout.activity_account)
 
@@ -218,9 +215,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 var transparencyPercent = Math.abs(verticalOffset) / titleVisibleHeight.toFloat()
                 if (transparencyPercent > 1) transparencyPercent = 1f
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.statusBarColor = argbEvaluator.evaluate(transparencyPercent, statusBarColorTransparent, statusBarColorOpaque) as Int
-                }
+                window.statusBarColor = argbEvaluator.evaluate(transparencyPercent, statusBarColorTransparent, statusBarColorOpaque) as Int
 
                 val evaluatedToolbarColor = argbEvaluator.evaluate(transparencyPercent, Color.TRANSPARENT, toolbarColor) as Int
                 val evaluatedTabBarColor = argbEvaluator.evaluate(transparencyPercent, backgroundColor, toolbarColor) as Int
@@ -315,6 +310,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                     .into(accountAvatarImageView)
             Picasso.with(this)
                     .load(account.header)
+                    .fit() // prevents crash with large header images
+                    .centerCrop()
                     .into(accountHeaderImageView)
 
             accountAvatarImageView.setOnClickListener { avatarView ->
@@ -362,7 +359,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 accountStatuses.hide()
                 accountTabLayout.hide()
                 accountFragmentViewPager.hide()
-                accountTabBottomShadow.hide()
             }
 
             val numberFormat = NumberFormat.getNumberInstance()
@@ -530,7 +526,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             val intent = ComposeActivity.IntentBuilder()
                     .mentionedUsernames(setOf(it.username))
                     .build(this)
-            startActivityWithSlideInAnimation(intent)
+            startActivity(intent)
         }
     }
 

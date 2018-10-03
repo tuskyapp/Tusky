@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Авторизация была отклонена.</string>
     <string name="error_retrieving_oauth_token">Не удалось получить токен авторизации.</string>
     <string name="error_compose_character_limit">Статус слишком длинный!</string>
-    <string name="error_media_upload_size">Файл должен быть не больше 8 Мбайт.</string>
+    <string name="error_image_upload_size">Файл должен быть не больше 8 Мбайт.</string>
     <string name="error_media_upload_type">Данный тип файла не может быть загружен.</string>
     <string name="error_media_upload_opening">Файл не может быть открыт.</string>
     <string name="error_media_upload_permission">Необходимо разрешение на чтение медиаконтента.</string>
@@ -31,7 +31,7 @@
     <string name="title_statuses_with_replies">Посты и ответы</string>
     <string name="title_follows">Подписки</string>
     <string name="title_followers">Подписчики</string>
-    <string name="title_favourites">Понравившееся</string>
+    <string name="title_favourites">Избранное</string>
     <string name="title_mutes">Список глушения</string>
     <string name="title_blocks">Список блокировки</string>
     <string name="title_follow_requests">Запросы на подписку</string>
@@ -79,7 +79,7 @@
     <string name="action_close">Закрыть</string>
     <string name="action_view_profile">Профиль</string>
     <string name="action_view_preferences">Настройки</string>
-    <string name="action_view_favourites">Понравившееся</string>
+    <string name="action_view_favourites">Избранное</string>
     <string name="action_view_mutes">Список глушения</string>
     <string name="action_view_blocks">Список блокировки</string>
     <string name="action_view_follow_requests">Запросы на подписку</string>
@@ -172,7 +172,7 @@
     <string-array name="app_theme_names">
         <item>Тёмная</item>
         <item>Светлая</item>
-        <item>Черный</item>
+        <item>Черная</item>
         <item>Автоматическая (по времени)</item>
     </string-array>
 
@@ -270,7 +270,7 @@
     <string name="abbreviated_seconds_ago">%dс</string>
 
     <string name="follows_you">Подписан(а) на вас</string>
-    <string name="pref_title_alway_show_sensitive_media">Всегда показывать NSFW-контент</string>
+    <string name="pref_title_alway_show_sensitive_media">Всегда показывать чувствительный контент</string>
     <string name="title_media">Медиа</string>
     <string name="replying_to">Ответить @%s</string>
     <string name="load_more_placeholder_text">ещё</string>
@@ -325,5 +325,11 @@
     <string name="license_description">Tusky содержит код и элементы из следующих приложений с открытым исходным кодом:</string>
     <string name="license_apache_2">Используется лицензия Apache License (копия ниже)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+    
+    <string name="profile_metadata_label">Метаданные профиля</string>
+    <string name="profile_metadata_add">добавить данные</string>
+    <string name="profile_metadata_label_label">Заголовок</string>
+    <string name="profile_metadata_content_label">Значение</string>
 
 </resources>

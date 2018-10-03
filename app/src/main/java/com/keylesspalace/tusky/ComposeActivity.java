@@ -18,6 +18,7 @@ package com.keylesspalace.tusky;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.arch.lifecycle.Lifecycle;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -100,9 +101,7 @@ import com.keylesspalace.tusky.network.ProgressRequestBody;
 import com.keylesspalace.tusky.service.SendTootService;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
-import com.keylesspalace.tusky.util.IOUtils;
 import com.keylesspalace.tusky.util.ListUtils;
-import com.keylesspalace.tusky.util.MediaUtils;
 import com.keylesspalace.tusky.util.MentionTokenizer;
 import com.keylesspalace.tusky.util.SaveTootHelper;
 import com.keylesspalace.tusky.util.SpanUtilsKt;
@@ -123,10 +122,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -135,11 +134,25 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import at.connyduck.sparkbutton.helpers.Utils;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.keylesspalace.tusky.util.MediaUtilsKt.MEDIA_SIZE_UNKNOWN;
+import static com.keylesspalace.tusky.util.MediaUtilsKt.getImageSquarePixels;
+import static com.keylesspalace.tusky.util.MediaUtilsKt.getImageThumbnail;
+import static com.keylesspalace.tusky.util.MediaUtilsKt.getMediaSize;
+import static com.keylesspalace.tusky.util.MediaUtilsKt.getSampledBitmap;
+import static com.keylesspalace.tusky.util.MediaUtilsKt.getVideoThumbnail;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
 public final class ComposeActivity
         extends BaseActivity
@@ -150,8 +163,9 @@ public final class ComposeActivity
 
     private static final String TAG = "ComposeActivity"; // logging tag
     static final int STATUS_CHARACTER_LIMIT = 500;
-    private static final int STATUS_MEDIA_SIZE_LIMIT = 8388608; // 8MiB
-    private static final int STATUS_MEDIA_PIXEL_SIZE_LIMIT = 16777216; // 4096^2 Pixels
+    private static final int STATUS_IMAGE_SIZE_LIMIT = 8388608; // 8MiB
+    private static final int STATUS_VIDEO_SIZE_LIMIT = 41943040; // 40MiB
+    private static final int STATUS_IMAGE_PIXEL_SIZE_LIMIT = 16777216; // 4096^2 Pixels
     private static final int MEDIA_PICK_RESULT = 1;
     private static final int MEDIA_TAKE_PHOTO_RESULT = 2;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
@@ -159,6 +173,7 @@ public final class ComposeActivity
     private static final String SAVED_TOOT_UID_EXTRA = "saved_toot_uid";
     private static final String SAVED_TOOT_TEXT_EXTRA = "saved_toot_text";
     private static final String SAVED_JSON_URLS_EXTRA = "saved_json_urls";
+    private static final String SAVED_TOOT_VISIBILITY_EXTRA = "saved_toot_visibility";
     private static final String IN_REPLY_TO_ID_EXTRA = "in_reply_to_id";
     private static final String REPLY_VISIBILITY_EXTRA = "reply_visibilty";
     private static final String CONTENT_WARNING_EXTRA = "content_warning";
@@ -294,6 +309,7 @@ public final class ComposeActivity
                 @Override
                 public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
                     emojiList = response.body();
+                    Collections.sort(emojiList, (a, b) -> a.getShortcode().toLowerCase().compareTo(b.getShortcode().toLowerCase()));
                     setEmojiList(emojiList);
                     cacheInstanceMetadata(activeAccount);
                 }
@@ -426,6 +442,11 @@ public final class ComposeActivity
                 this.savedTootUid = savedTootUid;
             }
 
+            int savedTootVisibility = intent.getIntExtra(SAVED_TOOT_VISIBILITY_EXTRA, Status.Visibility.UNKNOWN.getNum());
+            if (savedTootVisibility != Status.Visibility.UNKNOWN.getNum()) {
+                startingVisibility = Status.Visibility.byNum(savedTootVisibility);
+            }
+
             if (intent.hasExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA)) {
                 replyTextView.setVisibility(View.VISIBLE);
                 String username = intent.getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA);
@@ -532,12 +553,12 @@ public final class ComposeActivity
         if (!ListUtils.isEmpty(loadedDraftMediaUris)) {
             for (String uriString : loadedDraftMediaUris) {
                 Uri uri = Uri.parse(uriString);
-                long mediaSize = MediaUtils.getMediaSize(getContentResolver(), uri);
+                long mediaSize = getMediaSize(getContentResolver(), uri);
                 pickMedia(uri, mediaSize);
             }
         } else if (savedMediaQueued != null) {
             for (SavedQueuedMedia item : savedMediaQueued) {
-                Bitmap preview = MediaUtils.getImageThumbnail(getContentResolver(), item.uri, thumbnailViewSize);
+                Bitmap preview = getImageThumbnail(getContentResolver(), item.uri, thumbnailViewSize);
                 addMediaToQueue(item.id, item.type, preview, item.uri, item.mediaSize, item.readyStage, item.description);
             }
         } else if (intent != null && savedInstanceState == null) {
@@ -546,7 +567,7 @@ public final class ComposeActivity
              * instance state will be re-queued. */
             String type = intent.getType();
             if (type != null) {
-                if (type.startsWith("image/")) {
+                if (type.startsWith("image/") || type.startsWith("video/")) {
                     List<Uri> uriList = new ArrayList<>();
                     if (intent.getAction() != null) {
                         switch (intent.getAction()) {
@@ -572,7 +593,7 @@ public final class ComposeActivity
                         }
                     }
                     for (Uri uri : uriList) {
-                        long mediaSize = MediaUtils.getMediaSize(getContentResolver(), uri);
+                        long mediaSize = getMediaSize(getContentResolver(), uri);
                         pickMedia(uri, mediaSize);
                     }
                 } else if (type.equals("text/plain")) {
@@ -858,7 +879,7 @@ public final class ComposeActivity
                 // Just eat this exception.
             }
         } else {
-            mediaSize = MediaUtils.MEDIA_SIZE_UNKNOWN;
+            mediaSize = MEDIA_SIZE_UNKNOWN;
         }
         pickMedia(uri, mediaSize);
 
@@ -980,8 +1001,8 @@ public final class ComposeActivity
     @NonNull
     private File createNewImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-        String imageFileName = "Tusky_" + timeStamp + "_";
+        String randomId = StringUtils.randomAlphanumericString(12);
+        String imageFileName = "Tusky_" + randomId + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         return File.createTempFile(
                 imageFileName,  /* prefix */
@@ -1073,12 +1094,12 @@ public final class ComposeActivity
 
             try {
                 if (type == QueuedMedia.Type.IMAGE &&
-                        (mediaSize > STATUS_MEDIA_SIZE_LIMIT || MediaUtils.getImageSquarePixels(getContentResolver(), item.uri) > STATUS_MEDIA_PIXEL_SIZE_LIMIT)) {
+                        (mediaSize > STATUS_IMAGE_SIZE_LIMIT || getImageSquarePixels(getContentResolver(), item.uri) > STATUS_IMAGE_PIXEL_SIZE_LIMIT)) {
                     downsizeMedia(item);
                 } else {
                     uploadMedia(item);
                 }
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 onUploadFailure(item, false);
             }
         }
@@ -1115,11 +1136,24 @@ public final class ComposeActivity
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        Picasso.with(this)
-                .load(item.uri)
-                .resize(displayMetrics.widthPixels, displayMetrics.heightPixels)
-                .onlyScaleDown()
-                .into(imageView);
+        Single.fromCallable(() ->
+                getSampledBitmap(getContentResolver(), item.uri, displayMetrics.widthPixels, displayMetrics.heightPixels))
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(new SingleObserver<Bitmap>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
+
+                    @Override
+                    public void onSuccess(Bitmap bitmap) {
+                        imageView.setImageBitmap(bitmap);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { }
+                });
+
 
         int margin = Utils.dpToPx(this, 4);
         dialogLayout.addView(imageView);
@@ -1195,14 +1229,17 @@ public final class ComposeActivity
         }
     }
 
-    private void downsizeMedia(final QueuedMedia item) {
+    private void downsizeMedia(final QueuedMedia item) throws IOException {
         item.readyStage = QueuedMedia.ReadyStage.DOWNSIZING;
 
-        new DownsizeImageTask(STATUS_MEDIA_SIZE_LIMIT, getContentResolver(),
+        new DownsizeImageTask(STATUS_IMAGE_SIZE_LIMIT, getContentResolver(), createNewImageFile(),
                 new DownsizeImageTask.Listener() {
                     @Override
-                    public void onSuccess(List<byte[]> contentList) {
-                        item.content = contentList.get(0);
+                    public void onSuccess(File tempFile) {
+                        item.uri = FileProvider.getUriForFile(
+                                ComposeActivity.this,
+                                BuildConfig.APPLICATION_ID+".fileprovider",
+                                tempFile);
                         uploadMedia(item);
                     }
 
@@ -1214,7 +1251,7 @@ public final class ComposeActivity
     }
 
     private void onMediaDownsizeFailure(QueuedMedia item) {
-        displayTransientError(R.string.error_media_upload_size);
+        displayTransientError(R.string.error_image_upload_size);
         removeMediaFromQueue(item);
     }
 
@@ -1230,32 +1267,20 @@ public final class ComposeActivity
                 StringUtils.randomAlphanumericString(10),
                 fileExtension);
 
-        byte[] content = item.content;
+        InputStream stream;
 
-        if (content == null) {
-            InputStream stream;
-
-            try {
-                stream = getContentResolver().openInputStream(item.uri);
-            } catch (FileNotFoundException e) {
-                Log.d(TAG, Log.getStackTraceString(e));
-                return;
-            }
-
-            content = MediaUtils.inputStreamGetBytes(stream);
-            IOUtils.closeQuietly(stream);
-
-            if (content == null) {
-                return;
-            }
+        try {
+            stream = getContentResolver().openInputStream(item.uri);
+        } catch (FileNotFoundException e) {
+            Log.w(TAG, e);
+            return;
         }
 
         if (mimeType == null) mimeType = "multipart/form-data";
 
         item.preview.setProgress(0);
 
-        ProgressRequestBody fileBody = new ProgressRequestBody(content, MediaType.parse(mimeType),
-                false, // If request body logging is enabled, pass true
+        ProgressRequestBody fileBody = new ProgressRequestBody(stream, getMediaSize(getContentResolver(), item.uri), MediaType.parse(mimeType),
                 new ProgressRequestBody.UploadCallback() { // may reference activity longer than I would like to
                     int lastProgress = -1;
 
@@ -1330,17 +1355,17 @@ public final class ComposeActivity
         super.onActivityResult(requestCode, resultCode, intent);
         if (resultCode == RESULT_OK && requestCode == MEDIA_PICK_RESULT && intent != null) {
             Uri uri = intent.getData();
-            long mediaSize = MediaUtils.getMediaSize(getContentResolver(), uri);
+            long mediaSize = getMediaSize(getContentResolver(), uri);
             pickMedia(uri, mediaSize);
         } else if (resultCode == RESULT_OK && requestCode == MEDIA_TAKE_PHOTO_RESULT) {
-            long mediaSize = MediaUtils.getMediaSize(getContentResolver(), photoUploadUri);
+            long mediaSize = getMediaSize(getContentResolver(), photoUploadUri);
             pickMedia(photoUploadUri, mediaSize);
         }
     }
 
 
     private void pickMedia(Uri uri, long mediaSize) {
-        if (mediaSize == MediaUtils.MEDIA_SIZE_UNKNOWN) {
+        if (mediaSize == MEDIA_SIZE_UNKNOWN) {
             displayTransientError(R.string.error_media_upload_opening);
             return;
         }
@@ -1350,8 +1375,8 @@ public final class ComposeActivity
             String topLevelType = mimeType.substring(0, mimeType.indexOf('/'));
             switch (topLevelType) {
                 case "video": {
-                    if (mediaSize > STATUS_MEDIA_SIZE_LIMIT) {
-                        displayTransientError(R.string.error_media_upload_size);
+                    if (mediaSize > STATUS_VIDEO_SIZE_LIMIT) {
+                        displayTransientError(R.string.error_image_upload_size);
                         return;
                     }
                     if (mediaQueued.size() > 0
@@ -1359,7 +1384,7 @@ public final class ComposeActivity
                         displayTransientError(R.string.error_media_upload_image_or_video);
                         return;
                     }
-                    Bitmap bitmap = MediaUtils.getVideoThumbnail(this, uri, thumbnailViewSize);
+                    Bitmap bitmap = getVideoThumbnail(this, uri, thumbnailViewSize);
                     if (bitmap != null) {
                         addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize);
                     } else {
@@ -1368,7 +1393,7 @@ public final class ComposeActivity
                     break;
                 }
                 case "image": {
-                    Bitmap bitmap = MediaUtils.getImageThumbnail(contentResolver, uri, thumbnailViewSize);
+                    Bitmap bitmap = getImageThumbnail(contentResolver, uri, thumbnailViewSize);
                     if (bitmap != null) {
                         addMediaToQueue(QueuedMedia.Type.IMAGE, bitmap, uri, mediaSize);
                     } else {
@@ -1453,7 +1478,7 @@ public final class ComposeActivity
                 getIntent().getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
                 getIntent().getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA),
                 statusVisibility);
-        finish();
+        finishWithoutSlideOutAnimation();
     }
 
     @Override
@@ -1515,7 +1540,6 @@ public final class ComposeActivity
         String id;
         Call<Attachment> uploadRequest;
         ReadyStage readyStage;
-        byte[] content;
         long mediaSize;
         String description;
 
@@ -1609,6 +1633,8 @@ public final class ComposeActivity
         @Nullable
         private Status.Visibility replyVisibility;
         @Nullable
+        private Status.Visibility savedVisibility;
+        @Nullable
         private String contentWarning;
         @Nullable
         private String replyingStatusAuthor;
@@ -1627,6 +1653,11 @@ public final class ComposeActivity
 
         public IntentBuilder savedJsonUrls(String jsonUrls) {
             this.savedJsonUrls = jsonUrls;
+            return this;
+        }
+
+        public IntentBuilder savedVisibility(Status.Visibility savedVisibility) {
+            this.savedVisibility = savedVisibility;
             return this;
         }
 
@@ -1681,6 +1712,9 @@ public final class ComposeActivity
             }
             if (replyVisibility != null) {
                 intent.putExtra(REPLY_VISIBILITY_EXTRA, replyVisibility.getNum());
+            }
+            if (savedVisibility != null) {
+                intent.putExtra(SAVED_TOOT_VISIBILITY_EXTRA, savedVisibility.getNum());
             }
             if (contentWarning != null) {
                 intent.putExtra(CONTENT_WARNING_EXTRA, contentWarning);

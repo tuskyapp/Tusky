@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
@@ -25,19 +26,24 @@ import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
 
 abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
-    private View container;
+    private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[] { SmartLengthInputFilter.INSTANCE };
+    private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
+
     private TextView displayName;
     private TextView username;
     private ImageButton replyButton;
@@ -46,27 +52,25 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private ImageButton moreButton;
     private boolean favourited;
     private boolean reblogged;
-    private ImageView mediaPreview0;
-    private ImageView mediaPreview1;
-    private ImageView mediaPreview2;
-    private ImageView mediaPreview3;
-    private ImageView mediaOverlay0;
-    private ImageView mediaOverlay1;
-    private ImageView mediaOverlay2;
-    private ImageView mediaOverlay3;
+    private ImageView[] mediaPreviews;
+    private ImageView[] mediaOverlays;
     private TextView sensitiveMediaWarning;
     private View sensitiveMediaShow;
     private TextView mediaLabel;
     private ToggleButton contentWarningButton;
+    private ToggleButton contentCollapseButton;
 
     ImageView avatar;
     TextView timestampInfo;
     TextView content;
     TextView contentWarningDescription;
 
-    StatusBaseViewHolder(View itemView) {
+    private boolean useAbsoluteTime;
+    private SimpleDateFormat shortSdf;
+    private SimpleDateFormat longSdf;
+
+    StatusBaseViewHolder(View itemView, boolean useAbsoluteTime) {
         super(itemView);
-        container = itemView.findViewById(R.id.status_container);
         displayName = itemView.findViewById(R.id.status_display_name);
         username = itemView.findViewById(R.id.status_username);
         timestampInfo = itemView.findViewById(R.id.status_timestamp_info);
@@ -78,19 +82,28 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         moreButton = itemView.findViewById(R.id.status_more);
         reblogged = false;
         favourited = false;
-        mediaPreview0 = itemView.findViewById(R.id.status_media_preview_0);
-        mediaPreview1 = itemView.findViewById(R.id.status_media_preview_1);
-        mediaPreview2 = itemView.findViewById(R.id.status_media_preview_2);
-        mediaPreview3 = itemView.findViewById(R.id.status_media_preview_3);
-        mediaOverlay0 = itemView.findViewById(R.id.status_media_overlay_0);
-        mediaOverlay1 = itemView.findViewById(R.id.status_media_overlay_1);
-        mediaOverlay2 = itemView.findViewById(R.id.status_media_overlay_2);
-        mediaOverlay3 = itemView.findViewById(R.id.status_media_overlay_3);
+        mediaPreviews = new ImageView[] {
+                itemView.findViewById(R.id.status_media_preview_0),
+                itemView.findViewById(R.id.status_media_preview_1),
+                itemView.findViewById(R.id.status_media_preview_2),
+                itemView.findViewById(R.id.status_media_preview_3)
+        };
+        mediaOverlays =new ImageView[] {
+                itemView.findViewById(R.id.status_media_overlay_0),
+                itemView.findViewById(R.id.status_media_overlay_1),
+                itemView.findViewById(R.id.status_media_overlay_2),
+                itemView.findViewById(R.id.status_media_overlay_3)
+        };
         sensitiveMediaWarning = itemView.findViewById(R.id.status_sensitive_media_warning);
         sensitiveMediaShow = itemView.findViewById(R.id.status_sensitive_media_button);
         mediaLabel = itemView.findViewById(R.id.status_media_label);
         contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
         contentWarningButton = itemView.findViewById(R.id.status_content_warning_button);
+        contentCollapseButton = itemView.findViewById(R.id.button_toggle_content);
+
+        this.useAbsoluteTime = useAbsoluteTime;
+        shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+        longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
     }
 
     protected abstract int getMediaPreviewHeight(Context context);
@@ -126,34 +139,48 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     protected void setCreatedAt(@Nullable Date createdAt) {
-        // This is the visible timestampInfo.
-        String readout;
-        /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
-         * as 17 meters instead of minutes. */
-        CharSequence readoutAloud;
-        if (createdAt != null) {
-            long then = createdAt.getTime();
-            long now = new Date().getTime();
-            readout = DateUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
-            readoutAloud = android.text.format.DateUtils.getRelativeTimeSpanString(then, now,
-                    android.text.format.DateUtils.SECOND_IN_MILLIS,
-                    android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);
+        if (useAbsoluteTime) {
+            String time;
+            if (createdAt != null) {
+                if (System.currentTimeMillis() - createdAt.getTime() > 86400000L) {
+                    time = longSdf.format(createdAt);
+                } else {
+                    time = shortSdf.format(createdAt);
+                }
+            } else {
+                time = "??:??:??";
+            }
+            timestampInfo.setText(time);
         } else {
-            // unknown minutes~
-            readout = "?m";
-            readoutAloud = "? minutes";
+            // This is the visible timestampInfo.
+            String readout;
+            /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
+             * as 17 meters instead of minutes. */
+            CharSequence readoutAloud;
+            if (createdAt != null) {
+                long then = createdAt.getTime();
+                long now = new Date().getTime();
+                readout = DateUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
+                readoutAloud = android.text.format.DateUtils.getRelativeTimeSpanString(then, now,
+                        android.text.format.DateUtils.SECOND_IN_MILLIS,
+                        android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);
+            } else {
+                // unknown minutes~
+                readout = "?m";
+                readoutAloud = "? minutes";
+            }
+            timestampInfo.setText(readout);
+            timestampInfo.setContentDescription(readoutAloud);
         }
-        timestampInfo.setText(readout);
-        timestampInfo.setContentDescription(readoutAloud);
     }
 
     protected void showContent(boolean show) {
         if (show) {
-            container.setVisibility(View.VISIBLE);
-            container.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            itemView.setVisibility(View.VISIBLE);
+            itemView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         } else {
-            container.setVisibility(View.INVISIBLE);
-            container.getLayoutParams().height = Utils.convertDpToPx(container.getContext(), 24);
+            itemView.setVisibility(View.INVISIBLE);
+            itemView.getLayoutParams().height = Utils.convertDpToPx(itemView.getContext(), 24);
         }
     }
 
@@ -210,13 +237,8 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private void setMediaPreviews(final List<Attachment> attachments, boolean sensitive,
                                   final StatusActionListener listener, boolean showingContent) {
-        final ImageView[] previews = {
-                mediaPreview0, mediaPreview1, mediaPreview2, mediaPreview3
-        };
-        final ImageView[] overlays = {
-                mediaOverlay0, mediaOverlay1, mediaOverlay2, mediaOverlay3
-        };
-        Context context = mediaPreview0.getContext();
+
+        Context context = itemView.getContext();
 
         int mediaPreviewUnloadedId =
                 ThemeUtils.getDrawableId(itemView.getContext(), R.attr.media_preview_unloaded_drawable,
@@ -229,46 +251,46 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             String description = attachments.get(i).getDescription();
 
             if (TextUtils.isEmpty(description)) {
-                previews[i].setContentDescription(context.getString(R.string.action_view_media));
+                mediaPreviews[i].setContentDescription(context.getString(R.string.action_view_media));
             } else {
-                previews[i].setContentDescription(description);
+                mediaPreviews[i].setContentDescription(description);
             }
 
-            previews[i].setVisibility(View.VISIBLE);
+            mediaPreviews[i].setVisibility(View.VISIBLE);
 
             if (TextUtils.isEmpty(previewUrl)) {
                 Picasso.with(context)
                         .load(mediaPreviewUnloadedId)
-                        .into(previews[i]);
+                        .into(mediaPreviews[i]);
             } else {
                 Picasso.with(context)
                         .load(previewUrl)
                         .placeholder(mediaPreviewUnloadedId)
-                        .into(previews[i]);
+                        .into(mediaPreviews[i]);
             }
 
             final Attachment.Type type = attachments.get(i).getType();
             if (type == Attachment.Type.VIDEO | type == Attachment.Type.GIFV) {
-                overlays[i].setVisibility(View.VISIBLE);
+                mediaOverlays[i].setVisibility(View.VISIBLE);
             } else {
-                overlays[i].setVisibility(View.GONE);
+                mediaOverlays[i].setVisibility(View.GONE);
             }
 
             final int urlIndex = i;
-            previews[i].setOnClickListener(v -> {
-                if(getAdapterPosition() != RecyclerView.NO_POSITION) {
+            mediaPreviews[i].setOnClickListener(v -> {
+                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
                     listener.onViewMedia(getAdapterPosition(), urlIndex, v);
                 }
             });
 
             if (n <= 2) {
-                previews[0].getLayoutParams().height = getMediaPreviewHeight(context) * 2;
-                previews[1].getLayoutParams().height = getMediaPreviewHeight(context) * 2;
+                mediaPreviews[0].getLayoutParams().height = getMediaPreviewHeight(context) * 2;
+                mediaPreviews[1].getLayoutParams().height = getMediaPreviewHeight(context) * 2;
             } else {
-                previews[0].getLayoutParams().height = getMediaPreviewHeight(context);
-                previews[1].getLayoutParams().height = getMediaPreviewHeight(context);
-                previews[2].getLayoutParams().height = getMediaPreviewHeight(context);
-                previews[3].getLayoutParams().height = getMediaPreviewHeight(context);
+                mediaPreviews[0].getLayoutParams().height = getMediaPreviewHeight(context);
+                mediaPreviews[1].getLayoutParams().height = getMediaPreviewHeight(context);
+                mediaPreviews[2].getLayoutParams().height = getMediaPreviewHeight(context);
+                mediaPreviews[3].getLayoutParams().height = getMediaPreviewHeight(context);
             }
         }
 
@@ -305,7 +327,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         // Hide any of the placeholder previews beyond the ones set.
         for (int i = n; i < Status.MAX_MEDIA_ATTACHMENTS; i++) {
-            previews[i].setVisibility(View.GONE);
+            mediaPreviews[i].setVisibility(View.GONE);
         }
     }
 
@@ -377,17 +399,11 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (getAdapterPosition() != RecyclerView.NO_POSITION) {
                 listener.onExpandedChange(isChecked, getAdapterPosition());
             }
-            if (isChecked) {
-                content.setVisibility(View.VISIBLE);
-            } else {
-                content.setVisibility(View.GONE);
-            }
+            content.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+
         });
-        if (expanded) {
-            content.setVisibility(View.VISIBLE);
-        } else {
-            content.setVisibility(View.GONE);
-        }
+        content.setVisibility(expanded ? View.VISIBLE : View.GONE);
+
     }
 
     private void hideSpoilerText() {
@@ -459,7 +475,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
         };
         content.setOnClickListener(viewThreadListener);
-        container.setOnClickListener(viewThreadListener);
+        itemView.setOnClickListener(viewThreadListener);
     }
 
     void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
@@ -468,7 +484,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         setUsername(status.getNickname());
         setCreatedAt(status.getCreatedAt());
         setIsReply(status.getInReplyToId() != null);
-        setContent(status.getContent(), status.getMentions(), status.getStatusEmojis(), listener);
         setAvatar(status.getAvatar(), status.getRebloggedAvatar());
         setReblogged(status.isReblogged());
         setFavourited(status.isFavourited());
@@ -485,10 +500,10 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         } else {
             setMediaLabel(attachments, sensitive, listener);
             // Hide all unused views.
-            mediaPreview0.setVisibility(View.GONE);
-            mediaPreview1.setVisibility(View.GONE);
-            mediaPreview2.setVisibility(View.GONE);
-            mediaPreview3.setVisibility(View.GONE);
+            mediaPreviews[0].setVisibility(View.GONE);
+            mediaPreviews[1].setVisibility(View.GONE);
+            mediaPreviews[2].setVisibility(View.GONE);
+            mediaPreviews[3].setVisibility(View.GONE);
             hideSensitiveMediaWarning();
         }
 
@@ -499,7 +514,31 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         } else {
             setSpoilerText(status.getSpoilerText(), status.getStatusEmojis(), status.isExpanded(), listener);
         }
+
+        // When viewing threads this ViewHolder is used and the main post does not have a collapse
+        // button by design so avoid crashing the app when that happens
+        if (contentCollapseButton != null) {
+            if (status.isCollapsible() && (status.isExpanded() || status.getSpoilerText() == null || status.getSpoilerText().isEmpty())) {
+                contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION)
+                        listener.onContentCollapsedChange(isChecked, position);
+                });
+
+                contentCollapseButton.setVisibility(View.VISIBLE);
+                if (status.isCollapsed()) {
+                    contentCollapseButton.setChecked(true);
+                    content.setFilters(COLLAPSE_INPUT_FILTER);
+                } else {
+                    contentCollapseButton.setChecked(false);
+                    content.setFilters(NO_INPUT_FILTER);
+                }
+            } else {
+                contentCollapseButton.setVisibility(View.GONE);
+                content.setFilters(NO_INPUT_FILTER);
+            }
+        }
+
+        setContent(status.getContent(), status.getMentions(), status.getStatusEmojis(), listener);
     }
-
-
 }

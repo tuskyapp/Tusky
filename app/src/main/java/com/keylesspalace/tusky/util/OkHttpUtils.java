@@ -24,11 +24,8 @@ import android.util.Log;
 
 import com.keylesspalace.tusky.BuildConfig;
 
-import java.io.IOException;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
-import java.net.Socket;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -39,7 +36,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
@@ -106,7 +102,7 @@ public class OkHttpUtils {
             builder.proxy(new Proxy(Proxy.Type.HTTP, address));
         }
 
-        return enableHigherTlsOnPreLollipop(builder);
+        return builder;
     }
 
     /**
@@ -168,98 +164,4 @@ public class OkHttpUtils {
         specList.add(spec);
     }
 
-    private static OkHttpClient.Builder enableHigherTlsOnPreLollipop(OkHttpClient.Builder builder) {
-        if (Build.VERSION.SDK_INT < 22) {
-            try {
-                TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(
-                        TrustManagerFactory.getDefaultAlgorithm());
-                trustManagerFactory.init((KeyStore) null);
-                TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
-                if (trustManagers.length != 1 || !(trustManagers[0] instanceof X509TrustManager)) {
-                    throw new IllegalStateException("Unexpected default trust managers:"
-                            + Arrays.toString(trustManagers));
-                }
-
-                X509TrustManager trustManager = (X509TrustManager) trustManagers[0];
-
-                SSLContext sslContext = SSLContext.getInstance("TLS");
-                sslContext.init(null, new TrustManager[] { trustManager }, null);
-                SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-
-                builder.sslSocketFactory(new SSLSocketFactoryCompat(sslSocketFactory),
-                        trustManager);
-            } catch (NoSuchAlgorithmException|KeyStoreException|KeyManagementException e) {
-                Log.e(TAG, "Failed enabling TLS 1.1 & 1.2. " + e.getMessage());
-            }
-        }
-
-        return builder;
-    }
-
-    private static class SSLSocketFactoryCompat extends SSLSocketFactory {
-        private static final String[] DESIRED_TLS_VERSIONS = { "TLSv1", "TLSv1.1", "TLSv1.2",
-                "TLSv1.3" };
-
-        final SSLSocketFactory delegate;
-
-        SSLSocketFactoryCompat(SSLSocketFactory base) {
-            this.delegate = base;
-        }
-
-        @Override
-        public String[] getDefaultCipherSuites() {
-            return delegate.getDefaultCipherSuites();
-        }
-
-        @Override
-        public String[] getSupportedCipherSuites() {
-            return delegate.getSupportedCipherSuites();
-        }
-
-        @Override
-        public Socket createSocket(Socket s, String host, int port, boolean autoClose)
-                throws IOException {
-            return patch(delegate.createSocket(s, host, port, autoClose));
-        }
-
-        @Override
-        public Socket createSocket(String host, int port) throws IOException {
-            return patch(delegate.createSocket(host, port));
-        }
-
-        @Override
-        public Socket createSocket(String host, int port, InetAddress localHost, int localPort)
-                throws IOException {
-            return patch(delegate.createSocket(host, port, localHost, localPort));
-        }
-
-        @Override
-        public Socket createSocket(InetAddress host, int port) throws IOException {
-            return patch(delegate.createSocket(host, port));
-        }
-
-        @Override
-        public Socket createSocket(InetAddress address, int port, InetAddress localAddress,
-                                   int localPort) throws IOException {
-            return patch(delegate.createSocket(address, port, localAddress, localPort));
-        }
-
-        @NonNull
-        private static String[] getMatches(String[] wanted, String[] have) {
-            List<String> a = new ArrayList<>(Arrays.asList(wanted));
-            List<String> b = Arrays.asList(have);
-            a.retainAll(b);
-            return a.toArray(new String[0]);
-        }
-
-        private Socket patch(Socket socket) {
-            if (socket instanceof SSLSocket) {
-                SSLSocket sslSocket = (SSLSocket) socket;
-                String[] protocols = getMatches(DESIRED_TLS_VERSIONS,
-                        sslSocket.getSupportedProtocols());
-                sslSocket.setEnabledProtocols(protocols);
-            }
-            return socket;
-        }
-    }
 }

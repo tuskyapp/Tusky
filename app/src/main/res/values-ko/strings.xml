@@ -1,0 +1,316 @@
+<!-- File "app/src/main/res/values/strings.xml" -->
+<resources>
+
+    <string name="error_generic">오류가 발생했습니다.</string>
+    <string name="error_empty">이 칸은 비울 수 없습니다.</string>
+    <string name="error_invalid_domain">잘못된 도메인이 입력되었습니다.</string>
+    <string name="error_failed_app_registration">인스턴스와 인증에 실패했습니다.</string>
+    <string name="error_no_web_browser_found">사용 가능한 웹 브라우저를 찾을 수 없습니다.</string>
+    <string name="error_authorization_unknown">알 수 없는 인증 오류가 발생했습니다.</string>
+    <string name="error_authorization_denied">인증이 거부되었습니다.</string>
+    <string name="error_retrieving_oauth_token">로그인 토큰을 가져오는 데 실패했습니다.</string>
+    <string name="error_compose_character_limit">툿이 너무 깁니다!</string>
+    <string name="error_image_upload_size">파일은 8MB보다 작아야 합니다.</string>
+    <string name="error_media_upload_type">이 형태의 파일은 업로드될 수 없습니다.</string>
+    <string name="error_media_upload_opening">그 파일은 열 수 없습니다.</string>
+    <string name="error_media_upload_permission">미디어를 읽기 위한 권한이 필요합니다.</string>
+    <string name="error_media_download_permission">미디어 저장을 위해서는 권한이 필요합니다.</string>
+    <string name="error_media_upload_image_or_video">이미지와 비디오는 한 게시물에 모두 포함될 수 없습니다.</string>
+    <string name="error_media_upload_sending">업로드가 실패했습니다.</string>
+    <string name="error_report_too_few_statuses">최소 한 개의 게시물이 신고되어야 합니다.</string>
+    <string name="error_invalid_regex">정규 표현식이 올바르지 않습니다.</string>
+    <string name="error_sender_account_gone">툿을 보내는 중 오류가 발생했습니다.</string>
+
+    <string name="title_home">홈</string>
+    <string name="title_advanced">고급</string>
+    <string name="title_notifications">알림</string>
+    <string name="title_public_local">로컬</string>
+    <string name="title_public_federated">연합</string>
+    <string name="title_view_thread">툿</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">게시물</string>
+    <string name="title_statuses_with_replies">게시물과 답글</string>
+    <string name="title_follows">팔로우</string>
+    <string name="title_followers">팔로워</string>
+    <string name="title_favourites">즐겨찾기</string>
+    <string name="title_mutes">뮤트 된 사용자</string>
+    <string name="title_blocks">차단된 사용자</string>
+    <string name="title_follow_requests">팔로우 요청</string>
+    <string name="title_edit_profile">프로필 수정하기</string>
+    <string name="title_saved_toot">임시 보관함</string>
+    <string name="title_licenses">라이센스</string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s가 부스트</string>
+    <string name="status_sensitive_media_title">민감한 컨텐츠</string>
+    <string name="status_media_hidden_title">숨겨진 미디어</string>
+    <string name="status_sensitive_media_directions">클릭하여 보기</string>
+    <string name="status_content_warning_show_more">더 보기</string>
+    <string name="status_content_warning_show_less">숨기기</string>
+
+    <string name="footer_empty">아무것도 없네요. 아래로 내려 새로고침하세요!</string>
+
+    <string name="notification_reblog_format">%s님이 부스트 했습니다</string>
+    <string name="notification_favourite_format">%s님이 즐겨찾기 했습니다</string>
+    <string name="notification_follow_format">%s님이 나를 팔로우 했습니다</string>
+
+    <string name="report_comment_hint">추가로 덧붙일 사항이 있다면?</string>
+
+    <string name="action_quick_reply">빠른 답장</string>
+    <string name="action_reply">답장</string>
+    <string name="action_reblog">부스트</string>
+    <string name="action_favourite">즐겨찾기</string>
+    <string name="action_more">더 보기</string>
+    <string name="action_compose">작성하기</string>
+    <string name="action_login">마스토돈으로 로그인</string>
+    <string name="action_logout">로그아웃</string>
+    <string name="action_logout_confirm">%1$s에서 정말로 로그아웃하시겠습니까?</string>
+    <string name="action_follow">팔로우</string>
+    <string name="action_unfollow">언팔로우</string>
+    <string name="action_block">차단</string>
+    <string name="action_unblock">차단 해제</string>
+    <string name="action_hide_reblogs">부스트 숨기기</string>
+    <string name="action_show_reblogs">부스트 보이기</string>
+    <string name="action_report">신고</string>
+    <string name="action_delete">삭제</string>
+    <string name="action_send">툿</string>
+    <string name="action_send_public">툿!</string>
+    <string name="action_retry">재시도</string>
+    <string name="action_close">닫기</string>
+    <string name="action_view_profile">프로필</string>
+    <string name="action_view_preferences">설정</string>
+    <string name="action_view_favourites">즐겨찾기</string>
+    <string name="action_view_mutes">뮤트 된 사용자</string>
+    <string name="action_view_blocks">차단된 사용자</string>
+    <string name="action_view_follow_requests">팔로우 요청</string>
+    <string name="action_view_media">미디어</string>
+    <string name="action_open_in_web">브라우저에서 열기</string>
+    <string name="action_add_media">미디어 추가</string>
+    <string name="action_photo_take">사진 찍기</string>
+    <string name="action_share">공유</string>
+    <string name="action_mute">뮤트</string>
+    <string name="action_unmute">뮤트 해제</string>
+    <string name="action_mention">멘션</string>
+    <string name="action_hide_media">미디어 숨기기</string>
+    <string name="action_open_drawer">드로어 열기</string>
+    <string name="action_save">저장</string>
+    <string name="action_edit_profile">프로필 수정</string>
+    <string name="action_edit_own_profile">수정</string>
+    <string name="action_undo">취소</string>
+    <string name="action_accept">수락</string>
+    <string name="action_reject">거부</string>
+    <string name="action_search">검색</string>
+    <string name="action_access_saved_toot">임시 보관함</string>
+    <string name="action_toggle_visibility">툿 프라이버시 설정</string>
+    <string name="action_content_warning">열람주의</string>
+    <string name="action_emoji_keyboard">이모지 키보드</string>
+
+    <string name="download_image">%1$s 다운로드 중</string>
+
+    <string name="action_copy_link">링크 복사</string>
+
+    <string name="send_status_link_to">툿 URL 공유하기</string>
+    <string name="send_status_content_to">툿 공유하기</string>
+
+    <string name="confirmation_reported">보냈습니다!</string>
+    <string name="confirmation_unblocked">차단을 해제했습니다.</string>
+    <string name="confirmation_unmuted">뮤트를 해제했습니다.</string>
+
+    <string name="status_sent">보냄</string>
+    <string name="status_sent_long">답장이 성공적으로 보내졌습니다.</string>
+
+    <string name="hint_domain">어떤 인스턴스인가요?</string>
+    <string name="hint_compose">무슨 일이 일어나고 있나요?</string>
+    <string name="hint_content_warning">열람주의</string>
+    <string name="hint_display_name">표시될 이름</string>
+    <string name="hint_note">자기소개</string>
+    <string name="hint_search">검색…</string>
+
+    <string name="search_no_results">결과 없음</string>
+
+    <string name="label_quick_reply">답장…</string>
+    <string name="label_avatar">프로필 사진</string>
+    <string name="label_header">헤더</string>
+
+    <string name="link_whats_an_instance">인스턴스가 뭐죠?</string>
+
+    <string name="login_connection">연결 중…</string>
+
+    <string name="dialog_whats_an_instance">인스턴스의 주소나 도메인을 여기에 입력할 수 있습니다. mastodon.social, icosahedron.website, social.tchncs.de, 과 같은 <a href="https://instances.social" >다른 인스턴스</a>를 입력하면 됩니다.\n
+        \n
+        아직 계정이 없으시다면, 웹 브라우저에서 원하는 인스턴스의 주소를 치고 들어가시면 계정을 만드실 수 있습니다.\n
+        \n
+        인스턴스는 당신의 계정이 호스트되는 곳이며, 다른 인스턴스의 사용자와도 같은 인스턴스를 사용중인 것 처럼 서로 대화할 수 있습니다.\n
+        \n
+        <a href="https://joinmastodon.org" >joinmastodon.org</a>에서 자세히 알아보세요.</string>
+    <string name="dialog_title_finishing_media_upload">업로드 마치는 중</string>
+    <string name="dialog_message_uploading_media">업로드 중…</string>
+    <string name="dialog_download_image">다운로드</string>
+    <string name="dialog_message_cancel_follow_request">팔로우 요청을 취소하시겠습니까?</string>
+    <string name="dialog_unfollow_warning">이 계정을 언팔로우하시겠습니까?</string>
+
+    <string name="visibility_public">공개: 공개 타임라인에 표시</string>
+    <string name="visibility_unlisted">타임라인에 비표시: 공개 타임라인에 표시하지 않음</string>
+    <string name="visibility_private">비공개: 팔로워에게만 공개</string>
+    <string name="visibility_direct">다이렉트: 멘션 된 사용자에게만 공개</string>
+
+    <string name="pref_title_notification_settings">알림</string>
+    <string name="pref_title_edit_notification_settings">알림 설정 편집</string>
+    <string name="pref_title_notifications_enabled">알림</string>
+    <string name="pref_summary_notifications">%1$s 계정의 알림</string>
+    <string name="pref_title_pull_notification_check_interval">확인 간격</string>
+    <string name="pref_title_notification_alerts">알림</string>
+    <string name="pref_title_notification_alert_sound">소리로 알림</string>
+    <string name="pref_title_notification_alert_vibrate">진동으로 알림</string>
+    <string name="pref_title_notification_alert_light">빛으로 알림</string>
+    <string name="pref_title_notification_filters">알려주세요</string>
+    <string name="pref_title_notification_filter_mentions">맨션되었을 때</string>
+    <string name="pref_title_notification_filter_follows">팔로우 될 때</string>
+    <string name="pref_title_notification_filter_reblogs">내 글이 부스트되었을 때</string>
+    <string name="pref_title_notification_filter_favourites">내 글이 즐겨찾기 될 때</string>
+    <string name="pref_title_appearance_settings">화면</string>
+    <string name="pref_title_app_theme">앱 테마</string>
+
+
+    <string name="pref_title_browser_settings">브라우저</string>
+    <string name="pref_title_custom_tabs">크롬 커스텀 탭 사용</string>
+    <string name="pref_title_hide_follow_button">스크롤 중 쓰기 버튼 감추기</string>
+    <string name="pref_title_status_filter">타임라인 필터링</string>
+    <string name="pref_title_status_tabs">탭</string>
+    <string name="pref_title_show_boosts">부스트 보이기</string>
+    <string name="pref_title_show_replies">답글 보이기</string>
+    <string name="pref_title_filter_regex">정규 표현식으로 필터링</string>
+    <string name="pref_title_show_media_preview">미디어 미리보기 보이기</string>
+    <string name="pref_title_proxy_settings">프록시</string>
+    <string name="pref_title_http_proxy_settings">HTTP 프록시</string>
+    <string name="pref_title_http_proxy_enable">HTTP 프록시 활성화</string>
+    <string name="pref_title_http_proxy_server">HTTP 프록시 서버</string>
+    <string name="pref_title_http_proxy_port">HTTP 프록시 포트</string>
+
+
+    <string name="pref_default_post_privacy">기본</string>
+    <string name="pref_publishing">게시</string>
+
+
+    <string name="pref_status_text_size">게시물 글자 크기</string>
+
+
+    <string name="notification_channel_mention_name">멘션</string>
+    <string name="notification_channel_mention_descriptions">멘션에 대한 알림 받기</string>
+    <string name="notification_channel_follow_name">새 팔로워</string>
+    <string name="notification_channel_follow_description">새 팔로워 알림 받기</string>
+    <string name="notification_channel_boost_name">부스트</string>
+    <string name="notification_channel_boost_description">툿이 부스트될 때 알림 받기</string>
+    <string name="notification_channel_favourite_name">즐겨찾기</string>
+    <string name="notification_channel_favourite_description">툿이 즐겨찾기 될 때 알림 받기</string>
+
+
+    <string name="notification_mention_format">%s님이 나를 멘션했습니다</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s와 %4$d개의 알림</string>
+    <string name="notification_summary_medium">%1$s, %2$s, %3$s</string>
+    <string name="notification_summary_small">%1$s, %2$s</string>
+    <string name="notification_title_summary">%d개의 새로운 알림</string>
+
+    <string name="description_account_locked">잠긴 계정</string>
+
+    <string name="about_title_activity">정보</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Tusky는 자유 오픈소스 소프트웨어입니다. GNU 일반 공중 사용 허가서 3 하에 이용 가능합니다.         다음 링크에서 라이센스 내용을 확인할 수 있습니다. https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <!-- note to translators:
+         * you should think of “free” as in “free speech,” not as in “free beer”.
+           We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
+           to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
+         * the url can be changed to link to the localized version of the license.
+    -->
+    <string name="about_project_site">프로젝트 웹사이트:\n
+                  https://tuskyapp.github.io</string>
+    <string name="about_bug_feature_request_site">버그 신고 &amp; 새 기능 요청:\n
+                  https://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_tusky_account">Tusky의 프로필</string>
+
+    <string name="status_share_content">툿 내용 공유</string>
+    <string name="status_share_link">툿 링크 공유</string>
+    <string name="status_media_images">이미지</string>
+    <string name="status_media_video">비디오</string>
+
+    <string name="state_follow_requested">팔로우 요청됨</string>
+
+    <string name="no_content">컨텐츠 없음</string>
+
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">%d년 이내</string>
+    <string name="abbreviated_in_days">%d일 이내</string>
+    <string name="abbreviated_in_hours">%d시간 이내</string>
+    <string name="abbreviated_in_minutes">%d분 이내</string>
+    <string name="abbreviated_in_seconds">%d초 이내</string>
+    <string name="abbreviated_years_ago">%d년 전</string>
+    <string name="abbreviated_days_ago">%d일 전</string>
+    <string name="abbreviated_hours_ago">%d시간 전</string>
+    <string name="abbreviated_minutes_ago">%d분 전</string>
+    <string name="abbreviated_seconds_ago">%d초 전</string>
+
+    <string name="follows_you">나를 팔로우함</string>
+    <string name="pref_title_alway_show_sensitive_media">항상 열람주의 컨텐츠를 표시</string>
+    <string name="title_media">미디어</string>
+    <string name="load_more_placeholder_text">더 보기</string>
+
+    <string name="add_account_name">계정 추가</string>
+    <string name="add_account_description">다른 마스토돈 계정 추가</string>
+
+    <string name="action_lists">리스트</string>
+    <string name="title_lists">리스트</string>
+    <string name="title_list_timeline">리스트 타임라인</string>
+
+    <string name="compose_active_account_description">다음 계정으로 작성 중: %1$s</string>
+
+    <string name="error_failed_set_caption">캡션 설정 실패</string>
+    <string name="hint_describe_for_visually_impaired">시각 장애인을 위한 설명</string>
+    <string name="action_set_caption">설명 쓰기</string>
+    <string name="action_remove_media">삭제</string>
+    <string name="lock_account_label">계정 잠금</string>
+    <string name="lock_account_label_description">팔로워를 수동으로 승인해야 합니다.</string>
+    <string name="compose_save_draft">임시 저장하시겠습니까?</string>
+    <string name="send_toot_notification_title">툿 보내는 중…</string>
+    <string name="send_toot_notification_error_title">툿 보내는 중 오류</string>
+    <string name="send_toot_notification_channel_name">툿 보내는 중</string>
+    <string name="send_toot_notification_cancel_title">보내기 취소됨</string>
+    <string name="send_toot_notification_saved_content">툿의 사본이 임시 보관함에 저장되었습니다</string>
+    <string name="action_compose_shortcut">작성</string>
+
+    <string name="error_no_custom_emojis">%s 인스턴스는 커스텀 에모지가 없습니다.</string>
+    <string name="copy_to_clipboard_success">클립보드에 복사되었습니다.</string>
+    <string name="emoji_style">에모지 스타일</string>
+    <string name="system_default">시스템 기본값</string>
+    <string name="download_fonts">먼저 에모지를 다운로드해야 합니다.</string>
+    <string name="performing_lookup_title">조회하는 중…</string>
+    <string name="expand_collapse_all_statuses">모든 게시물 접기/펴기</string>
+    <string name="action_open_toot">툿 열기</string>
+    <string name="restart_required">앱 재시작 필요</string>
+    <string name="restart_emoji">이 변경사항을 적용하려면 Tusky를 다시 시작해야 합니다.</string>
+    <string name="later">나중에</string>
+    <string name="restart">재시작</string>
+    <string name="caption_systememoji">기기의 기본 에모지</string>
+    <string name="caption_blobmoji">블롭 이모지는 안드로이드 4.4부터 7.1까지의 버전에서 사용 되고 있습니다.</string>
+    <string name="caption_twemoji">마스토돈의 기본 에모지</string>
+
+    <string name="download_failed">다운로드 실패</string>
+
+    <string name="profile_badge_bot_text">봇</string>
+    <string name="account_moved_description">%1$s님이 계정을 옮기셨습니다.</string>
+
+    <string name="reblog_private">기존 청중에게 부스트</string>
+    <string name="unreblog_private">부스트 취소</string>
+
+    <string name="license_description">Tusky는 아래와 같은 오픈 소스 프로젝트로부터 가져온 코드와 자료가 포함되어 있습니다.</string>
+    <string name="license_apache_2">아파치 라이센스 (아래 사본 참조)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <string name="profile_metadata_label">프로필 메타데이터</string>
+    <string name="profile_metadata_add">데이터 추가</string>
+    <string name="profile_metadata_label_label">라벨</string>
+    <string name="profile_metadata_content_label">컨텐츠</string>
+
+</resources>
+
+

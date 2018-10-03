@@ -53,8 +53,8 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
     companion object {
         const val AVATAR_SIZE = 400
-        const val HEADER_WIDTH = 700
-        const val HEADER_HEIGHT = 335
+        const val HEADER_WIDTH = 1500
+        const val HEADER_HEIGHT = 500
 
         private const val AVATAR_PICK_RESULT = 1
         private const val HEADER_PICK_RESULT = 2
@@ -124,6 +124,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                         lockedCheckBox.isChecked = me.locked
 
                         accountFieldEditAdapter.setFields(me.source?.fields ?: emptyList())
+                        addFieldButton.isEnabled = me.source?.fields?.size ?: 0 < MAX_ACCOUNT_FIELDS
 
                         if(viewModel.avatarData.value == null) {
                             Picasso.with(this)

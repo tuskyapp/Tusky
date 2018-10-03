@@ -26,8 +26,6 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener;
 
 /** Both for follows and following lists. */
 public class FollowAdapter extends AccountAdapter {
-    private static final int VIEW_TYPE_ACCOUNT = 0;
-    private static final int VIEW_TYPE_FOOTER = 1;
 
     public FollowAdapter(AccountActionListener accountActionListener) {
         super(accountActionListener);
@@ -46,29 +44,18 @@ public class FollowAdapter extends AccountAdapter {
             case VIEW_TYPE_FOOTER: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_footer, parent, false);
-                return new FooterViewHolder(view);
+                return new LoadingFooterViewHolder(view);
             }
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        if (position < accountList.size()) {
+        if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
             AccountViewHolder holder = (AccountViewHolder) viewHolder;
             holder.setupWithAccount(accountList.get(position));
             holder.setupActionListener(accountActionListener);
-        } else {
-            FooterViewHolder holder = (FooterViewHolder) viewHolder;
-            holder.setState(footerState);
         }
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if (position == accountList.size()) {
-            return VIEW_TYPE_FOOTER;
-        } else {
-            return VIEW_TYPE_ACCOUNT;
-        }
-    }
 }

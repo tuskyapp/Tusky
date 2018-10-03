@@ -9,7 +9,7 @@
     <com.keylesspalace.tusky.view.ImageViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/view_pager" />
+        android:id="@+id/viewPager" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
