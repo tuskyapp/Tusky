@@ -15,12 +15,14 @@
 
 package com.keylesspalace.tusky.network
 
-import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.BlockEvent
+import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MuteEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -36,12 +38,20 @@ interface TimelineCases {
     fun mute(id: String)
     fun block(id: String)
     fun delete(id: String)
+    fun pin(status: Status, pin: Boolean)
 }
 
 class TimelineCasesImpl(
         private val mastodonApi: MastodonApi,
         private val eventHub: EventHub
 ) : TimelineCases {
+
+    /**
+     * Unused yet but can be use for cancellation later. It's always a good idea to save
+     * Disposables.
+     */
+    private val cancelDisposable = CompositeDisposable()
+
     override fun reblogWithCallback(status: Status, reblog: Boolean, callback: Callback<Status>) {
         val id = status.actionableId
 
@@ -93,6 +103,15 @@ class TimelineCasesImpl(
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
         })
         eventHub.dispatch(StatusDeletedEvent(id))
+    }
+
+    override fun pin(status: Status, pin: Boolean) {
+        // Replace with extension method if we use RxKotlin
+        (if (pin) mastodonApi.pinStatus(status.id) else mastodonApi.unpinStatus(status.id))
+                .subscribe({ updatedStatus ->
+                    status.pinned = updatedStatus.pinned
+                }, {})
+                .addTo(this.cancelDisposable)
     }
 
 }
