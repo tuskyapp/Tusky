@@ -166,7 +166,8 @@
                     android:text="@string/label_remote_account"
                     android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@id/accountMovedView"
-                    tools:visibility="visible" />
+                    tools:visibility="visible"
+                    android:lineSpacingMultiplier="1.1"/>
 
                 <LinearLayout
                     android:id="@+id/accountFollowers"
