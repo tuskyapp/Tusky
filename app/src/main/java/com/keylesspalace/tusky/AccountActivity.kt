@@ -361,6 +361,13 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 accountFragmentViewPager.hide()
             }
 
+            if (account.isRemote()) {
+                accountRemoveView.show()
+                accountRemoveView.setOnClickListener {
+                    LinkHelper.openLink(account.url, this)
+                }
+            }
+
             val numberFormat = NumberFormat.getNumberInstance()
             accountFollowersTextView.text = numberFormat.format(account.followersCount)
             accountFollowingTextView.text = numberFormat.format(account.followingCount)

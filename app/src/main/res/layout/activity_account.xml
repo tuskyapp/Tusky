@@ -39,8 +39,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="180dp"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <Button
                     android:id="@+id/accountFollowButton"
@@ -157,6 +157,17 @@
                     android:layout="@layout/view_account_moved"
                     app:layout_constraintTop_toBottomOf="@id/accountFieldList" />
 
+                <TextView
+                    android:id="@+id/accountRemoveView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/label_remote_account"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/accountMovedView"
+                    tools:visibility="visible" />
+
                 <LinearLayout
                     android:id="@+id/accountFollowers"
                     android:layout_width="wrap_content"
@@ -166,7 +177,7 @@
                     android:orientation="vertical"
                     app:layout_constraintEnd_toStartOf="@id/accountFollowing"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/accountMovedView">
+                    app:layout_constraintTop_toBottomOf="@id/accountRemoveView">
 
                     <TextView
                         android:id="@+id/accountFollowersTextView"
@@ -197,7 +208,7 @@
                     android:orientation="vertical"
                     app:layout_constraintEnd_toStartOf="@id/accountStatuses"
                     app:layout_constraintStart_toEndOf="@id/accountFollowers"
-                    app:layout_constraintTop_toBottomOf="@id/accountMovedView">
+                    app:layout_constraintTop_toBottomOf="@id/accountRemoveView">
 
                     <TextView
                         android:id="@+id/accountFollowingTextView"
@@ -227,7 +238,7 @@
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/accountFollowing"
-                    app:layout_constraintTop_toBottomOf="@id/accountMovedView">
+                    app:layout_constraintTop_toBottomOf="@id/accountRemoveView">
 
                     <TextView
                         android:id="@+id/accountStatusesTextView"

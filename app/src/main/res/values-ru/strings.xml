@@ -332,4 +332,5 @@
     <string name="profile_metadata_label_label">Заголовок</string>
     <string name="profile_metadata_content_label">Значение</string>
 
+    <string name="label_remote_account">Информация может не полностью отражать профиль пользователя. Нажмите чтобы открыть профиль в браузере.</string>
 </resources>
