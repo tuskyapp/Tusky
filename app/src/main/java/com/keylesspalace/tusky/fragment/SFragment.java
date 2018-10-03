@@ -20,6 +20,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
@@ -62,6 +63,7 @@ public abstract class SFragment extends BaseFragment {
     protected String loggedInUsername;
 
     protected abstract TimelineCases timelineCases();
+
     protected abstract void removeItem(int position);
 
     protected abstract void onReblog(final boolean reblog, final int position);
@@ -92,8 +94,8 @@ public abstract class SFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if(context instanceof BottomSheetActivity) {
-            bottomSheetActivity = (BottomSheetActivity)context;
+        if (context instanceof BottomSheetActivity) {
+            bottomSheetActivity = (BottomSheetActivity) context;
         } else {
             throw new IllegalStateException("Fragment must be attached to a BottomSheetActivity!");
         }
@@ -139,7 +141,7 @@ public abstract class SFragment extends BaseFragment {
         getActivity().startActivity(intent);
     }
 
-    protected void more(final Status status, View view, final int position) {
+    protected void more(@NonNull final Status status, View view, final int position) {
         final String id = status.getActionableId();
         final String accountId = status.getActionableStatus().getAccount().getId();
         final String accountUsename = status.getActionableStatus().getAccount().getUsername();
@@ -157,6 +159,10 @@ public abstract class SFragment extends BaseFragment {
                 if (status.getReblog() != null) reblogged = status.getReblog().getReblogged();
                 menu.findItem(R.id.status_reblog_private).setVisible(!reblogged);
                 menu.findItem(R.id.status_unreblog_private).setVisible(reblogged);
+            } else {
+                final String textId =
+                        getString(status.getPinned() ? R.string.unpin_action : R.string.pin_action);
+                menu.add(0, R.id.pin, 1, textId);
             }
         }
         popup.setOnMenuItemClickListener(item -> {
@@ -211,6 +217,10 @@ public abstract class SFragment extends BaseFragment {
                 }
                 case R.id.status_delete: {
                     showConfirmDeleteDialog(id, position);
+                    return true;
+                }
+                case R.id.pin: {
+                    timelineCases().pin(status, !status.getPinned());
                     return true;
                 }
             }
@@ -276,12 +286,12 @@ public abstract class SFragment extends BaseFragment {
 
     protected void showConfirmDeleteDialog(final String id, final int position) {
         new AlertDialog.Builder(getActivity())
-            .setMessage(R.string.dialog_delete_toot_warning)
-            .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                timelineCases().delete(id);
-                removeItem(position);
-            })
-            .setNegativeButton(android.R.string.cancel, null)
-            .show();
+                .setMessage(R.string.dialog_delete_toot_warning)
+                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                    timelineCases().delete(id);
+                    removeItem(position);
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 }

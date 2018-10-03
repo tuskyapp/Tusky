@@ -38,7 +38,8 @@ data class Status(
         val visibility: Visibility,
         @SerializedName("media_attachments") var attachments: List<Attachment>,
         val mentions: Array<Mention>,
-        val application: Application?
+        val application: Application?,
+        var pinned: Boolean?
 ) {
 
     val actionableId: String?
