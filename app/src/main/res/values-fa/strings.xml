@@ -179,10 +179,10 @@
     <string name="pref_title_app_theme" >تم برنامه</string>
 
     <string-array name="app_theme_names">
-        <item >روشن</item>
-        <item >سیاه</item>
-        <item >تیره</item>
-        <item >خودکار برحسب غروب خورشید</item>
+        <item>روشن</item>
+        <item>سیاه</item>
+        <item>تیره</item>
+        <item>خودکار برحسب غروب خورشید</item>
     </string-array>
 
     <string name="pref_title_browser_settings" >مرورگر</string>
