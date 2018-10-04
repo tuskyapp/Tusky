@@ -347,7 +347,7 @@
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     
-    <string name="profile_metadata_label_label" >برچسب</string>
+    <string name="profile_metadata_label">متاداده پروفایل</string>
     <string name="profile_metadata_add" >افزودن داده</string>
     <string name="profile_metadata_label_label">برچسب</string>
     <string name="profile_metadata_content_label" >محتوی</string>
