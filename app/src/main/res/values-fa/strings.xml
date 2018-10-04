@@ -266,92 +266,92 @@
         گزارش خطا و درخواست ویژگی:\n
         https://github.com/tuskyapp/Tusky/issues
     </string>
-    <string name="about_tusky_account" modified="true">پروفایل tusky</string>
+    <string name="about_tusky_account" >پروفایل tusky</string>
 
-    <string name="status_share_content" modified="true">اشتراک محتوی بوق</string>
-    <string name="status_share_link" modified="true">اشتراک لینک بوق</string>
-    <string name="status_media_images" modified="true">عکس ها</string>
-    <string name="status_media_video" modified="true">فیلم</string>
+    <string name="status_share_content" >اشتراک محتوی بوق</string>
+    <string name="status_share_link" >اشتراک لینک بوق</string>
+    <string name="status_media_images" >عکس ها</string>
+    <string name="status_media_video" >فیلم</string>
 
-    <string name="state_follow_requested" modified="true">دنبال درخواست شد</string>
+    <string name="state_follow_requested" >دنبال درخواست شد</string>
 
-    <string name="no_content" modified="true">بدون محتوی</string>
+    <string name="no_content" >بدون محتوی</string>
 
 
-    <string name="abbreviated_in_years" modified="true">در %dy</string>
-    <string name="abbreviated_in_days" modified="true">در %dd</string>
-    <string name="abbreviated_in_hours" modified="true">در % dh</string>
-    <string name="abbreviated_in_minutes" modified="true">در %dm</string>
-    <string name="abbreviated_in_seconds" modified="true">در %ds</string>
-    <string name="abbreviated_years_ago" modified="true">%dy</string>
-    <string name="abbreviated_days_ago" modified="true">%dd</string>
-    <string name="abbreviated_hours_ago" modified="true">%dh</string>
-    <string name="abbreviated_minutes_ago" modified="true">%dm</string>
-    <string name="abbreviated_seconds_ago" modified="true">%ds</string>
+    <string name="abbreviated_in_years" >در %dy</string>
+    <string name="abbreviated_in_days" >در %dd</string>
+    <string name="abbreviated_in_hours" >در % dh</string>
+    <string name="abbreviated_in_minutes" >در %dm</string>
+    <string name="abbreviated_in_seconds" >در %ds</string>
+    <string name="abbreviated_years_ago" >%dy</string>
+    <string name="abbreviated_days_ago" >%dd</string>
+    <string name="abbreviated_hours_ago" >%dh</string>
+    <string name="abbreviated_minutes_ago" >%dm</string>
+    <string name="abbreviated_seconds_ago" >%ds</string>
     
-    <string name="follows_you" modified="true">شما را دنبال میکند</string>
-    <string name="pref_title_alway_show_sensitive_media" modified="true">همیشه مطالب حساس را نشان بده</string>
-    <string name="title_media" modified="true">رسانه</string>
-    <string name="replying_to" modified="true">پاسخ دادن به @%s</string>
-    <string name="load_more_placeholder_text" modified="true">بارگیری بیشتر</string>
+    <string name="follows_you" >شما را دنبال میکند</string>
+    <string name="pref_title_alway_show_sensitive_media" >همیشه مطالب حساس را نشان بده</string>
+    <string name="title_media" >رسانه</string>
+    <string name="replying_to" >پاسخ دادن به @%s</string>
+    <string name="load_more_placeholder_text" >بارگیری بیشتر</string>
 
-    <string name="add_account_name" modified="true">افزودن حساب</string>
-    <string name="add_account_description" modified="true">افزودن حساب ماستدون جدید</string>
+    <string name="add_account_name" >افزودن حساب</string>
+    <string name="add_account_description" >افزودن حساب ماستدون جدید</string>
 
-    <string name="action_lists" modified="true">لیست ها</string>
-    <string name="title_lists" modified="true">لیست ها</string>
-    <string name="title_list_timeline" modified="true">لیست خط زمانی</string>
+    <string name="action_lists" >لیست ها</string>
+    <string name="title_lists" >لیست ها</string>
+    <string name="title_list_timeline" >لیست خط زمانی</string>
 
-    <string name="compose_active_account_description" modified="true">پست با حساب %1$s</string>
+    <string name="compose_active_account_description" >پست با حساب %1$s</string>
 
-    <string name="error_failed_set_caption" modified="true">ناتوان در تنظیم عنوان</string>
-    <string name="hint_describe_for_visually_impaired" modified="true">توصیف برای ضعف دیداری</string>
-    <string name="action_set_caption" modified="true">تنظیم عنوان</string>
-    <string name="action_remove_media" modified="true">حذف</string>
-    <string name="lock_account_label" modified="true">قفل حساب</string>
-    <string name="lock_account_label_description" modified="true">به شما امکان میدهد بصورت دستی دنبال کنندگان را تایید کنید</string>
-    <string name="compose_save_draft" modified="true">ذخیره بعنوان پیش نویس</string>
-    <string name="send_toot_notification_title" modified="true">ارسال بوق</string>
-    <string name="send_toot_notification_error_title" modified="true">خطای ارسال بوق</string>
-    <string name="send_toot_notification_channel_name" modified="true">در حال ارسال بوق ها</string>
-    <string name="send_toot_notification_cancel_title" modified="true">ارسال لغو شد</string>
-    <string name="send_toot_notification_saved_content" modified="true">یک کپب از بوق در پیش نویس ها ذخیره شد</string>
-    <string name="action_compose_shortcut" modified="true">ایجاد</string>
+    <string name="error_failed_set_caption" >ناتوان در تنظیم عنوان</string>
+    <string name="hint_describe_for_visually_impaired" >توصیف برای ضعف دیداری</string>
+    <string name="action_set_caption" >تنظیم عنوان</string>
+    <string name="action_remove_media" >حذف</string>
+    <string name="lock_account_label" >قفل حساب</string>
+    <string name="lock_account_label_description" >به شما امکان میدهد بصورت دستی دنبال کنندگان را تایید کنید</string>
+    <string name="compose_save_draft" >ذخیره بعنوان پیش نویس</string>
+    <string name="send_toot_notification_title" >ارسال بوق</string>
+    <string name="send_toot_notification_error_title" >خطای ارسال بوق</string>
+    <string name="send_toot_notification_channel_name" >در حال ارسال بوق ها</string>
+    <string name="send_toot_notification_cancel_title" >ارسال لغو شد</string>
+    <string name="send_toot_notification_saved_content" >یک کپب از بوق در پیش نویس ها ذخیره شد</string>
+    <string name="action_compose_shortcut" >ایجاد</string>
 
-    <string name="error_no_custom_emojis" modified="true">سرور شما %s هیچ شکلک سفارشی ندارد</string>
-    <string name="copy_to_clipboard_success" modified="true">به کلیپ بورد کپی شد</string>
-    <string name="emoji_style" modified="true">قالب شکلک</string>
-    <string name="system_default" modified="true">پیشفرض سیستم</string>
-    <string name="download_fonts" modified="true">شما ابتدا باید این شکلک ها را دریافت کنید</string>
-    <string name="performing_lookup_title" modified="true">اجرای جستجو</string>
-    <string name="expand_collapse_all_statuses" modified="true">باز/بستن همه وضعیت ها</string>
-    <string name="action_open_toot" modified="true">بوق را باز کن</string>
-    <string name="restart_required" modified="true">برنامه به شروع مجدد نیاز دارد</string>
-    <string name="restart_emoji" modified="true">شما برای اعمال این تغییرات به شروع مجدد برنامه نیاز دارید</string>
-    <string name="later" modified="true">بعدا</string>
-    <string name="restart" modified="true">شروع مجدد</string>
-    <string name="caption_systememoji" modified="true">شکلک های پیشفرض دستگاه شما تنظیم شدند</string>
-    <string name="caption_blobmoji" modified="true">شکلک ها از اندروید 4.4–7.1 شناخته شده اند</string>
-    <string name="caption_twemoji" modified="true">شکلک های استاندارد ماستدون تنظیم شدند</string>
+    <string name="error_no_custom_emojis" >سرور شما %s هیچ شکلک سفارشی ندارد</string>
+    <string name="copy_to_clipboard_success" >به کلیپ بورد کپی شد</string>
+    <string name="emoji_style" >قالب شکلک</string>
+    <string name="system_default" >پیشفرض سیستم</string>
+    <string name="download_fonts" >شما ابتدا باید این شکلک ها را دریافت کنید</string>
+    <string name="performing_lookup_title" >اجرای جستجو</string>
+    <string name="expand_collapse_all_statuses" >باز/بستن همه وضعیت ها</string>
+    <string name="action_open_toot" >بوق را باز کن</string>
+    <string name="restart_required" >برنامه به شروع مجدد نیاز دارد</string>
+    <string name="restart_emoji" >شما برای اعمال این تغییرات به شروع مجدد برنامه نیاز دارید</string>
+    <string name="later" >بعدا</string>
+    <string name="restart" >شروع مجدد</string>
+    <string name="caption_systememoji" >شکلک های پیشفرض دستگاه شما تنظیم شدند</string>
+    <string name="caption_blobmoji" >شکلک ها از اندروید 4.4–7.1 شناخته شده اند</string>
+    <string name="caption_twemoji" >شکلک های استاندارد ماستدون تنظیم شدند</string>
 
-    <string name="download_failed" modified="true">دانلود شکست خورد</string>
+    <string name="download_failed" >دانلود شکست خورد</string>
 
-    <string name="profile_badge_bot_text" modified="true">ربات</string>
-    <string name="account_moved_description" modified="true">%1$s جابجا شد به:</string>
+    <string name="profile_badge_bot_text" >ربات</string>
+    <string name="account_moved_description" >%1$s جابجا شد به:</string>
 
-    <string name="reblog_private" modified="true">تقویت برای مخاطب اصلی</string>
-    <string name="unreblog_private" modified="true">لغو تقویت</string>
+    <string name="reblog_private" >تقویت برای مخاطب اصلی</string>
+    <string name="unreblog_private" >لغو تقویت</string>
 
-    <string name="license_description" modified="true">Tusky شامل کد و دارایی های پروژه های منبع باز زیر است:</string>
-    <string name="license_apache_2" modified="true">تحت مجوز Apache License (copy below)</string>
+    <string name="license_description" >Tusky شامل کد و دارایی های پروژه های منبع باز زیر است:</string>
+    <string name="license_apache_2" >تحت مجوز Apache License (copy below)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     
-    <string name="profile_metadata_label_label" modified="true">برچسب</string>
-    <string name="profile_metadata_add" modified="true">افزودن داده</string>
+    <string name="profile_metadata_label_label" >برچسب</string>
+    <string name="profile_metadata_add" >افزودن داده</string>
     <string name="profile_metadata_label_label">برچسب</string>
-    <string name="profile_metadata_content_label" modified="true">محتوی</string>
+    <string name="profile_metadata_content_label" >محتوی</string>
 
-    <string name="pref_title_absolute_time" modified="true">استفاده از زمان مطلق</string>
+    <string name="pref_title_absolute_time" >استفاده از زمان مطلق</string>
 
 </resources>
