@@ -210,7 +210,7 @@
         <item>۲ ساعت</item>
     </string-array>
     
-    <string name="pref_status_text_size" >اندازه متن وضعیت</string>
+    <string name="pref_default_post_privacy">حریم خصوصی پیشفرض پست</string>
     <string name="pref_publishing" >انتشار</string>
 
     <string-array name="post_privacy_names">
