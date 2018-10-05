@@ -29,8 +29,8 @@
     <string name="title_view_thread" >بوق</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses" >پست ها</string>
-    <string name="title_statuses_with_replies" >با پاسخ‌ها</string>
-    <string name="title_follows" >دنبال کردن</string>
+    <string name="title_statuses_with_replies" >با پاسخ‌</string>
+    <string name="title_follows" >دنبال شونده‌ها</string>
     <string name="title_followers" >دنبال کننده‌ها</string>
     <string name="title_favourites" >علاقه مندی ها</string>
     <string name="title_mutes" >کاربرهای بی‌صدا</string>
@@ -40,7 +40,7 @@
     <string name="title_saved_toot" >پیش‌نویس‌ها</string>
     <string name="title_licenses" >مجوزها</string>
 
-    <string name="status_username_format">\\@%s</string>
+    <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format" >%s تقویت شد</string>
     <string name="status_sensitive_media_title" >محتوی حساس</string>
     <string name="status_media_hidden_title" >پنهان کردن رسانه</string>
