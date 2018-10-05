@@ -354,4 +354,9 @@
 
     <string name="pref_title_absolute_time">Use absolute time</string>
 
+    <string name="label_remote_account">Information below may reflect the user\'s profile incompletely. Press to open full profile in browser.</string>
+
+    <string name="unpin_action">Unpin</string>
+    <string name="pin_action">Pin</string>
+
 </resources>

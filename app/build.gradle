@@ -113,6 +113,8 @@ dependencies {
     debugImplementation 'im.dino:dbinspector:3.4.1@aar'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.1'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
     implementation 'com.uber.autodispose:autodispose-android-archcomponents:1.0.0-RC2'
     implementation 'com.uber.autodispose:autodispose-ktx:1.0.0-RC2'
 }
