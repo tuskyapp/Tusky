@@ -78,7 +78,7 @@ abstract class ActivitiesModule {
     abstract fun contributesSavedTootActivity(): SavedTootActivity
 
     @ContributesAndroidInjector
-    abstract fun contributesSPreferencesActivity(): PreferencesActivity
+    abstract fun contributesSPreferencesActivity(): SettingsActivity
 
     @ContributesAndroidInjector
     abstract fun contributesViewMediaActivity(): ViewMediaActivity

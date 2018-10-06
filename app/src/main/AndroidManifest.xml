@@ -92,7 +92,7 @@
         <activity android:name=".AccountActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity android:name=".EditProfileActivity" />
-        <activity android:name=".PreferencesActivity" />
+        <activity android:name=".SettingsActivity" />
         <activity android:name=".FavouritesActivity" />
         <activity android:name=".AccountListActivity" />
         <activity android:name=".AboutActivity" />
@@ -113,7 +113,6 @@
         <activity android:name=".ListsActivity" />
         <activity android:name=".ModalTimelineActivity" />
         <activity android:name=".LicenseActivity" />
-
         <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
 
         <receiver

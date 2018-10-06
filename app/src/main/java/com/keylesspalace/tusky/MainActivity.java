@@ -341,10 +341,10 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                             Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                             startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_ACCOUNT_SETTINGS) {
-                            Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
+                            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                             startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_SETTINGS) {
-                            Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
+                            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                             startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_ABOUT) {
                             Intent intent = new Intent(MainActivity.this, AboutActivity.class);

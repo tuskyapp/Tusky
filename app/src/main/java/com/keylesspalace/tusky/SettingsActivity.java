@@ -30,7 +30,7 @@ import android.view.MenuItem;
 import com.keylesspalace.tusky.fragment.PreferencesFragment;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
-public class PreferencesActivity extends BaseActivity
+public class SettingsActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private boolean restartActivitiesOnExit;
@@ -49,7 +49,7 @@ public class PreferencesActivity extends BaseActivity
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        setContentView(R.layout.activity_preferences);
+        setContentView(R.layout.activity_settings);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

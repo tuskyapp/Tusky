@@ -29,7 +29,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 
 import com.keylesspalace.tusky.BuildConfig;
-import com.keylesspalace.tusky.PreferencesActivity;
+import com.keylesspalace.tusky.SettingsActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.db.AccountEntity;
@@ -120,7 +120,7 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
 
             } else {
                 notificationPreferences.setOnPreferenceClickListener(pref -> {
-                    PreferencesActivity activity = (PreferencesActivity) getActivity();
+                    SettingsActivity activity = (SettingsActivity) getActivity();
                     if (activity != null) {
                         activity.showFragment(R.xml.notification_preferences, R.string.pref_title_edit_notification_settings);
                     }
@@ -133,7 +133,7 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
         Preference timelineFilterPreferences = findPreference("timelineFilterPreferences");
         if (timelineFilterPreferences != null) {
             timelineFilterPreferences.setOnPreferenceClickListener(pref -> {
-                PreferencesActivity activity = (PreferencesActivity) getActivity();
+                SettingsActivity activity = (SettingsActivity) getActivity();
                 if (activity != null) {
                     activity.showFragment(R.xml.timeline_filter_preferences, R.string.pref_title_status_tabs);
                 }
@@ -145,7 +145,7 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
         Preference httpProxyPreferences = findPreference("httpProxyPreferences");
         if (httpProxyPreferences != null) {
             httpProxyPreferences.setOnPreferenceClickListener(pref -> {
-                PreferencesActivity activity = (PreferencesActivity) getActivity();
+                SettingsActivity activity = (SettingsActivity) getActivity();
                 if (activity != null) {
                     pendingRestart = false;
                     activity.showFragment(R.xml.http_proxy_preferences, R.string.pref_title_http_proxy_settings);
