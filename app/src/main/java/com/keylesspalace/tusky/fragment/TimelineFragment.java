@@ -71,7 +71,6 @@ import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.math.BigInteger;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -147,7 +146,6 @@ public class TimelineFragment extends SFragment implements
     private boolean hideFab;
     private boolean bottomLoading;
 
-    private long maxPlaceholderId = -1;
     private boolean didLoadEverythingBottom;
 
     private boolean alwaysShowSensitiveMedia;
@@ -163,14 +161,14 @@ public class TimelineFragment extends SFragment implements
             new PairedList<>(new Function<Either<Placeholder, Status>, StatusViewData>() {
                 @Override
                 public StatusViewData apply(Either<Placeholder, Status> input) {
-                    Status status = input.getAsRightOrNull();
+                    Status status = input.asRightOrNull();
                     if (status != null) {
                         return ViewDataUtils.statusToViewData(
                                 status,
                                 alwaysShowSensitiveMedia
                         );
                     } else {
-                        Placeholder placeholder = input.getAsLeft();
+                        Placeholder placeholder = input.asLeft();
                         return new StatusViewData.Placeholder(placeholder.id, false);
                     }
                 }
@@ -194,13 +192,13 @@ public class TimelineFragment extends SFragment implements
     }
 
     private static final class Placeholder {
-        final long id;
+        final String id;
 
-        public static Placeholder getInstance(long id) {
+        public static Placeholder getInstance(String id) {
             return new Placeholder(id);
         }
 
-        private Placeholder(long id) {
+        private Placeholder(String id) {
             this.id = id;
         }
     }
@@ -341,7 +339,7 @@ public class TimelineFragment extends SFragment implements
         for (int i = 0; i < statuses.size(); i++) {
             Either<Placeholder, Status> either = statuses.get(i);
             if (either.isRight()
-                    && id.equals(either.getAsRight().getId())) {
+                    && id.equals(either.asRight().getId())) {
                 statuses.remove(either);
                 updateAdapter();
                 break;
@@ -484,18 +482,18 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void loadAbove() {
-        this.sendFetchTimelineRequest(null, this.statuses.get(0).getAsRight().getId(),
+        this.sendFetchTimelineRequest(null, this.statuses.get(0).asRight().getId(),
                 FetchEnd.TOP, -1);
     }
 
     @Override
     public void onReply(int position) {
-        super.reply(statuses.get(position).getAsRight());
+        super.reply(statuses.get(position).asRight());
     }
 
     @Override
     public void onReblog(final boolean reblog, final int position) {
-        final Status status = statuses.get(position).getAsRight();
+        final Status status = statuses.get(position).asRight();
         timelineCases.reblogWithCallback(status, reblog, new Callback<Status>() {
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
@@ -533,7 +531,7 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onFavourite(final boolean favourite, final int position) {
-        final Status status = statuses.get(position).getAsRight();
+        final Status status = statuses.get(position).asRight();
 
         timelineCases.favouriteWithCallback(status, favourite, new Callback<Status>() {
             @Override
@@ -572,12 +570,12 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onMore(View view, final int position) {
-        super.more(statuses.get(position).getAsRight(), view, position);
+        super.more(statuses.get(position).asRight(), view, position);
     }
 
     @Override
     public void onOpenReblog(int position) {
-        super.openReblog(statuses.get(position).getAsRight());
+        super.openReblog(statuses.get(position).asRight());
     }
 
     @Override
@@ -602,15 +600,15 @@ public class TimelineFragment extends SFragment implements
     public void onLoadMore(int position) {
         //check bounds before accessing list,
         if (statuses.size() >= position && position > 0) {
-            Status fromStatus = statuses.get(position - 1).getAsRightOrNull();
-            Status toStatus = statuses.get(position + 1).getAsRightOrNull();
+            Status fromStatus = statuses.get(position - 1).asRightOrNull();
+            Status toStatus = statuses.get(position + 1).asRightOrNull();
             if (fromStatus == null || toStatus == null) {
                 Log.e(TAG, "Failed to load more at " + position + ", wrong placeholder position");
                 return;
             }
             sendFetchTimelineRequest(fromStatus.getId(), toStatus.getId(), FetchEnd.MIDDLE, position);
 
-            Placeholder placeholder = statuses.get(position).getAsLeft();
+            Placeholder placeholder = statuses.get(position).asLeft();
             StatusViewData newViewData = new StatusViewData.Placeholder(placeholder.id, true);
             statuses.setPairedItem(position, newViewData);
             updateAdapter();
@@ -648,14 +646,14 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onViewMedia(int position, int attachmentIndex, View view) {
-        Status status = statuses.get(position).getAsRightOrNull();
+        Status status = statuses.get(position).asRightOrNull();
         if (status == null) return;
         super.viewMedia(attachmentIndex, status, view);
     }
 
     @Override
     public void onViewThread(int position) {
-        super.viewThread(statuses.get(position).getAsRight());
+        super.viewThread(statuses.get(position).asRight());
     }
 
     @Override
@@ -745,7 +743,7 @@ public class TimelineFragment extends SFragment implements
         // using iterator to safely remove items while iterating
         Iterator<Either<Placeholder, Status>> iterator = statuses.iterator();
         while (iterator.hasNext()) {
-            Status status = iterator.next().getAsRightOrNull();
+            Status status = iterator.next().asRightOrNull();
             if (status != null && status.getAccount().getId().equals(accountId)) {
                 iterator.remove();
             }
@@ -762,10 +760,13 @@ public class TimelineFragment extends SFragment implements
         Either<Placeholder, Status> last = statuses.get(statuses.size() - 1);
         Placeholder placeholder;
         if (last.isRight()) {
-            placeholder = newPlaceholder();
-            statuses.add(Either.left(placeholder));
+            final String placeholderId = new BigInteger(last.asRight().getId())
+                    .subtract(BigInteger.ONE)
+                    .toString();
+            placeholder = Placeholder.getInstance(placeholderId);
+            statuses.add(new Either.Left(placeholder));
         } else {
-            placeholder = last.getAsLeft();
+            placeholder = last.asLeft();
         }
         statuses.setPairedItem(statuses.size() - 1,
                 new StatusViewData.Placeholder(placeholder.id, true));
@@ -778,7 +779,7 @@ public class TimelineFragment extends SFragment implements
         while (iterator.hasPrevious()) {
             Either<Placeholder, Status> previous = iterator.previous();
             if (previous.isRight()) {
-                bottomId = previous.getAsRight().getId();
+                bottomId = previous.asRight().getId();
                 break;
             }
         }
@@ -917,10 +918,12 @@ public class TimelineFragment extends SFragment implements
             swipeRefreshLayout.setRefreshing(false);
 
             if (fetchEnd == FetchEnd.MIDDLE && !statuses.get(position).isRight()) {
-                Placeholder placeholder = statuses.get(position).getAsLeftOrNull();
+                Placeholder placeholder = statuses.get(position).asLeftOrNull();
                 StatusViewData newViewData;
                 if (placeholder == null) {
-                    placeholder = newPlaceholder();
+                    Status above = statuses.get(position - 1).asRight();
+                    String newId = this.idPlus(above.getId(), -1);
+                    placeholder = Placeholder.getInstance(newId);
                 }
                 newViewData = new StatusViewData.Placeholder(placeholder.id, false);
                 statuses.setPairedItem(position, newViewData);
@@ -974,7 +977,8 @@ public class TimelineFragment extends SFragment implements
             int newIndex = liftedNew.indexOf(statuses.get(0));
             if (newIndex == -1) {
                 if (index == -1 && fullFetch) {
-                    liftedNew.add(Either.left(newPlaceholder()));
+                    String placeholderId = idPlus(CollectionsKt.last(newStatuses).getId(), 1);
+                    liftedNew.add(new Either.Left(Placeholder.getInstance(placeholderId)));
                 }
                 statuses.addAll(0, liftedNew);
             } else {
@@ -991,7 +995,7 @@ public class TimelineFragment extends SFragment implements
         Status last = null;
         for (int i = statuses.size() - 1; i >= 0; i--) {
             if (statuses.get(i).isRight()) {
-                last = statuses.get(i).getAsRight();
+                last = statuses.get(i).asRight();
                 break;
             }
         }
@@ -1004,8 +1008,8 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void replacePlaceholderWithStatuses(List<Status> newStatuses, boolean fullFetch, int pos) {
-        Status status = statuses.get(pos).getAsRightOrNull();
-        if (status == null) {
+        Either<Placeholder, Status> placeholder = statuses.get(pos);
+        if (!placeholder.isRight()) {
             statuses.remove(pos);
         }
 
@@ -1017,7 +1021,7 @@ public class TimelineFragment extends SFragment implements
         List<Either<Placeholder, Status>> liftedNew = liftStatusList(newStatuses);
 
         if (fullFetch) {
-            liftedNew.add(Either.left(newPlaceholder()));
+            liftedNew.add(placeholder);
         }
 
         statuses.addAll(pos, liftedNew);
@@ -1036,7 +1040,7 @@ public class TimelineFragment extends SFragment implements
 
     private int findStatusOrReblogPositionById(@NonNull String statusId) {
         for (int i = 0; i < statuses.size(); i++) {
-            Status status = statuses.get(i).getAsRightOrNull();
+            Status status = statuses.get(i).asRightOrNull();
             if (status != null
                     && (statusId.equals(status.getId())
                     || (status.getReblog() != null
@@ -1048,7 +1052,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private final Function<Status, Either<Placeholder, Status>> statusLifter =
-            Either::right;
+            Either.Right::new;
 
     private @Nullable
     Pair<StatusViewData.Concrete, Integer>
@@ -1061,7 +1065,7 @@ public class TimelineFragment extends SFragment implements
         if ((someOldViewData instanceof StatusViewData.Placeholder) ||
                 !((StatusViewData.Concrete) someOldViewData).getId().equals(status.getId())) {
             // try to find the status we need to update
-            int foundPos = statuses.indexOf(Either.<Placeholder, Status>right(status));
+            int foundPos = statuses.indexOf(new Either.Right<>(status));
             if (foundPos < 0) return null; // okay, it's hopeless, give up
             statusToUpdate = ((StatusViewData.Concrete)
                     statuses.getPairedItem(foundPos));
@@ -1076,14 +1080,14 @@ public class TimelineFragment extends SFragment implements
     private void handleReblogEvent(@NonNull ReblogEvent reblogEvent) {
         int pos = findStatusOrReblogPositionById(reblogEvent.getStatusId());
         if (pos < 0) return;
-        Status status = statuses.get(pos).getAsRight();
+        Status status = statuses.get(pos).asRight();
         setRebloggedForStatus(pos, status, reblogEvent.getReblog());
     }
 
     private void handleFavEvent(@NonNull FavoriteEvent favEvent) {
         int pos = findStatusOrReblogPositionById(favEvent.getStatusId());
         if (pos < 0) return;
-        Status status = statuses.get(pos).getAsRight();
+        Status status = statuses.get(pos).asRight();
         setFavouriteForStatus(pos, status, favEvent.getFavourite());
     }
 
@@ -1110,12 +1114,6 @@ public class TimelineFragment extends SFragment implements
 
     private List<Either<Placeholder, Status>> liftStatusList(List<Status> list) {
         return CollectionUtil.map(list, statusLifter);
-    }
-
-    private Placeholder newPlaceholder() {
-        Placeholder placeholder = Placeholder.getInstance(maxPlaceholderId);
-        maxPlaceholderId--;
-        return placeholder;
     }
 
     private void updateAdapter() {
@@ -1181,4 +1179,8 @@ public class TimelineFragment extends SFragment implements
             return oldItem.deepEquals(newItem);
         }
     };
+
+    private String idPlus(String id, int delta) {
+        return new BigInteger(id).add(BigInteger.valueOf(delta)).toString();
+    }
 }

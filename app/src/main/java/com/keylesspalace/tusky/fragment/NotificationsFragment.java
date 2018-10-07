@@ -148,7 +148,7 @@ public class NotificationsFragment extends SFragment implements
         @Override
         public NotificationViewData apply(Either<Placeholder, Notification> input) {
             if (input.isRight()) {
-                Notification notification = input.getAsRight();
+                Notification notification = input.asRight();
                 return ViewDataUtils.notificationToViewData(
                         notification,
                         alwaysShowSensitiveMedia
@@ -338,12 +338,12 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onReply(int position) {
-        super.reply(notifications.get(position).getAsRight().getStatus());
+        super.reply(notifications.get(position).asRight().getStatus());
     }
 
     @Override
     public void onReblog(final boolean reblog, final int position) {
-        final Notification notification = notifications.get(position).getAsRight();
+        final Notification notification = notifications.get(position).asRight();
         final Status status = notification.getStatus();
         timelineCases.reblogWithCallback(status, reblog, new Callback<Status>() {
             @Override
@@ -384,7 +384,7 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onFavourite(final boolean favourite, final int position) {
-        final Notification notification = notifications.get(position).getAsRight();
+        final Notification notification = notifications.get(position).asRight();
         final Status status = notification.getStatus();
         timelineCases.favouriteWithCallback(status, favourite, new Callback<Status>() {
             @Override
@@ -425,26 +425,26 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onMore(View view, int position) {
-        Notification notification = notifications.get(position).getAsRight();
+        Notification notification = notifications.get(position).asRight();
         super.more(notification.getStatus(), view, position);
     }
 
     @Override
     public void onViewMedia(int position, int attachmentIndex, View view) {
-        Notification notification = notifications.get(position).getAsRightOrNull();
+        Notification notification = notifications.get(position).asRightOrNull();
         if (notification == null || notification.getStatus() == null) return;
         super.viewMedia(attachmentIndex, notification.getStatus(), view);
     }
 
     @Override
     public void onViewThread(int position) {
-        Notification notification = notifications.get(position).getAsRight();
+        Notification notification = notifications.get(position).asRight();
         super.viewThread(notification.getStatus());
     }
 
     @Override
     public void onOpenReblog(int position) {
-        Notification notification = notifications.get(position).getAsRight();
+        Notification notification = notifications.get(position).asRight();
         onViewAccount(notification.getAccount().getId());
     }
 
@@ -480,8 +480,8 @@ public class NotificationsFragment extends SFragment implements
     public void onLoadMore(int position) {
         //check bounds before accessing list,
         if (notifications.size() >= position && position > 0) {
-            Notification previous = notifications.get(position - 1).getAsRightOrNull();
-            Notification next = notifications.get(position + 1).getAsRightOrNull();
+            Notification previous = notifications.get(position - 1).asRightOrNull();
+            Notification next = notifications.get(position + 1).asRightOrNull();
             if (previous == null || next == null) {
                 Log.e(TAG, "Failed to load more, invalid placeholder position: " + position);
                 return;
@@ -555,7 +555,7 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onViewStatusForNotificationId(String notificationId) {
         for (Either<Placeholder, Notification> either : notifications) {
-            Notification notification = either.getAsRightOrNull();
+            Notification notification = either.asRightOrNull();
             if (notification != null && notification.getId().equals(notificationId)) {
                 super.viewThread(notification.getStatus());
                 return;
@@ -593,7 +593,7 @@ public class NotificationsFragment extends SFragment implements
         Iterator<Either<Placeholder, Notification>> iterator = notifications.iterator();
         while (iterator.hasNext()) {
             Either<Placeholder, Notification> notification = iterator.next();
-            Notification maybeNotification = notification.getAsRightOrNull();
+            Notification maybeNotification = notification.asRightOrNull();
             if (maybeNotification != null && maybeNotification.getAccount().getId().equals(accountId)) {
                 iterator.remove();
             }
@@ -613,7 +613,7 @@ public class NotificationsFragment extends SFragment implements
         if (notifications.size() > 0) {
             Either<Placeholder, Notification> last = notifications.get(notifications.size() - 1);
             if (last.isRight()) {
-                notifications.add(Either.left(Placeholder.getInstance()));
+                notifications.add(new Either.Left(Placeholder.getInstance()));
                 NotificationViewData viewData = new NotificationViewData.Placeholder(true);
                 notifications.setPairedItem(notifications.size() - 1, viewData);
                 recyclerView.post(() -> adapter.addItems(Collections.singletonList(viewData)));
@@ -795,7 +795,7 @@ public class NotificationsFragment extends SFragment implements
             int newIndex = liftedNew.indexOf(notifications.get(0));
             if (newIndex == -1) {
                 if (index == -1 && liftedNew.size() >= LOAD_AT_ONCE) {
-                    liftedNew.add(Either.left(Placeholder.getInstance()));
+                    liftedNew.add(new Either.Left(Placeholder.getInstance()));
                 }
                 notifications.addAll(0, liftedNew);
             } else {
@@ -837,7 +837,7 @@ public class NotificationsFragment extends SFragment implements
         // If we fetched at least as much it means that there are more posts to load and we should
         // insert new placeholder
         if (newNotifications.size() >= LOAD_AT_ONCE) {
-            liftedNew.add(Either.left(Placeholder.getInstance()));
+            liftedNew.add(new Either.Left(Placeholder.getInstance()));
         }
 
         notifications.addAll(pos, liftedNew);
@@ -845,7 +845,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private final Function<Notification, Either<Placeholder, Notification>> notificationLifter =
-            Either::right;
+            Either.Right::new;
 
     private List<Either<Placeholder, Notification>> liftNotificationList(List<Notification> list) {
         return CollectionUtil.map(list, notificationLifter);
@@ -860,7 +860,7 @@ public class NotificationsFragment extends SFragment implements
     @Nullable
     private Pair<Integer, Notification> findReplyPosition(@NonNull String statusId) {
         for (int i = 0; i < notifications.size(); i++) {
-            Notification notification = notifications.get(i).getAsRightOrNull();
+            Notification notification = notifications.get(i).asRightOrNull();
             if (notification != null
                     && notification.getStatus() != null
                     && notification.getType() == Notification.Type.MENTION
