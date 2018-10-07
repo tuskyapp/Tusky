@@ -134,13 +134,13 @@ public abstract class AppDatabase extends RoomDatabase {
 
             database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineStatus` (" +
                     "`serverId` TEXT NOT NULL, " +
-                    "`url` TEXT NOT NULL, " +
+                    "`url` TEXT, " +
                     "`timelineUserId` INTEGER NOT NULL, " +
-                    "`authorServerId` TEXT NOT NULL, " +
-                    "`instance` TEXT NOT NULL, " +
+                    "`authorServerId` TEXT," +
+                    "`instance` TEXT, " +
                     "`inReplyToId` TEXT, " +
                     "`inReplyToAccountId` TEXT, " +
-                    "`content` TEXT NOT NULL, " +
+                    "`content` TEXT, " +
                     "`createdAt` INTEGER NOT NULL, " +
                     "`emojis` TEXT, " +
                     "`reblogsCount` INTEGER NOT NULL, " +
@@ -154,10 +154,13 @@ public abstract class AppDatabase extends RoomDatabase {
                     "`mentions` TEXT, " +
                     "`application` TEXT, " +
                     "`reblogServerId` TEXT, " +
-                    "`reblogAccountId` INTEGER NOT NULL," +
+                    "`reblogAccountId` TEXT," +
                     " PRIMARY KEY(`serverId`, `timelineUserId`)," +
                     " FOREIGN KEY(`authorServerId`, `timelineUserId`) REFERENCES `TimelineAccountEntity`(`serverId`, `timelineUserId`) " +
                     "ON UPDATE NO ACTION ON DELETE NO ACTION )");
+            database.execSQL("CREATE  INDEX " +
+                    "`index_TimelineStatusEntity_authorServerId_timelineUserId` " +
+                    "ON `${TABLE_NAME}` (`authorServerId`, `timelineUserId`)");
         }
     };
 

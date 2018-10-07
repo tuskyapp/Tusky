@@ -22,16 +22,16 @@ package com.keylesspalace.tusky.util
  * It is either Left or Right.
  */
 sealed class Either<out L, out R> {
-    data class Left<out T>(val value: T) : Either<T, Nothing>()
-    data class Right<out T>(val value: T) : Either<Nothing, T>()
+    data class Left<out L, out R>(val value: L) : Either<L, R>()
+    data class Right<out L, out R>(val value: R) : Either<L, R>()
 
     fun isRight() = this is Right
 
-    fun asLeftOrNull() = (this as? Left<L>)?.value
+    fun asLeftOrNull() = (this as? Left<L, R>)?.value
 
-    fun asRightOrNull() = (this as? Right<R>)?.value
+    fun asRightOrNull() = (this as? Right<L, R>)?.value
 
-    fun asLeft(): L = (this as Left<L>).value
+    fun asLeft(): L = (this as Left<L, R>).value
 
-    fun asRight(): R = (this as Right<R>).value
+    fun asRight(): R = (this as Right<L, R>).value
 }
