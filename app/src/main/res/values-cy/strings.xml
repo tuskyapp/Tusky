@@ -1,0 +1,357 @@
+<resources>
+
+    <string name="error_generic">Roedd gwall.</string>
+    <string name="error_empty">Ni all hwn fod yn wag.</string>
+    <string name="error_invalid_domain">Nodwyd parth annilys</string>
+    <string name="error_failed_app_registration">Methu awdurdodi gyda\'r achos hwnnw.</string>
+    <string name="error_no_web_browser_found">Methu dod o hyd i borwr gwe i\'w ddefnyddio.</string>
+    <string name="error_authorization_unknown">Roedd gwall awdurdodi anhysbys.</string>
+    <string name="error_authorization_denied">Gwrthodwyd awdurdodi.</string>
+    <string name="error_retrieving_oauth_token">Methu cael tocyn mewngofnodi.</string>
+    <string name="error_compose_character_limit">Mae\'r statws yn rhy hir!</string>
+    <string name="error_image_upload_size">Rhaid i\'r ffeil fod yn llai nag 8MB.</string>
+    <string name="error_video_upload_size">Rhaid i ffeiliau fideo fod yn llai na 40MB.</string>
+    <string name="error_media_upload_type">Ni allwch uwchlwytho\'r math hwnnw o ffeil.</string>
+    <string name="error_media_upload_opening">Nid oedd modd agor y ffeil honno.</string>
+    <string name="error_media_upload_permission">Rhaid cael caniatâd i ddarllen hwn.</string>
+    <string name="error_media_download_permission">Rhaid cael caniatâd i gadw hwn.</string>
+    <string name="error_media_upload_image_or_video">Ni allwch atodi delweddau a fideos i\'r un statws.</string>
+    <string name="error_media_upload_sending">Methu uwchlwytho.</string>
+    <string name="error_report_too_few_statuses">Rhaid rhoi gwybod am o leiaf un statws.</string>
+    <string name="error_invalid_regex">Mynegiant rheolaidd annilys </string>
+    <string name="error_sender_account_gone">Methu tŵtio.</string>
+
+    <string name="title_home">Hafan</string>
+    <string name="title_advanced">Dewisiadau Uwch</string>
+    <string name="title_notifications">Hysbysiadau</string>
+    <string name="title_public_local">Lleol</string>
+    <string name="title_public_federated">Ffedereiddwyd</string>
+    <string name="title_view_thread">Tŵtio</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">Negeseuon</string>
+    <string name="title_statuses_with_replies">Gydag ymatebion</string>
+    <string name="title_follows">Dilyniadau</string>
+    <string name="title_followers">Dilynwyr</string>
+    <string name="title_favourites">Ffefrynnau</string>
+    <string name="title_mutes">Defnyddwyr mud</string>
+    <string name="title_blocks">Defnyddwyr wedi\'u blocio</string>
+    <string name="title_follow_requests">Dilyn Ceisiadau</string>
+    <string name="title_edit_profile">Golygu\'ch Proffil</string>
+    <string name="title_saved_toot">Drafftiau</string>
+    <string name="title_licenses">Trwyddedau</string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s wedi\'u hybu</string>
+    <string name="status_sensitive_media_title">Cynnwys sensitif</string>
+    <string name="status_media_hidden_title">Cyfryngau cudd</string>
+    <string name="status_sensitive_media_directions">Cliciwch i weld</string>
+    <string name="status_content_warning_show_more">Dangos Mwy</string>
+    <string name="status_content_warning_show_less">Dangos Llai </string>
+    <string name="status_content_show_more">Chwyddo</string>
+    <string name="status_content_show_less">Lleihau</string>
+
+    <string name="footer_empty">Dim byd yma. Tynnwch lawr i adnewyddu!</string>
+
+    <string name="notification_reblog_format">%s wedi hybu\'ch tŵt</string>
+    <string name="notification_favourite_format">%s wedi nodi\'ch tŵt yn ffefryn</string>
+    <string name="notification_follow_format">%s wedi\'ch dilyn chi</string>
+
+    <string name="report_username_format">Adrodd @%s</string>
+    <string name="report_comment_hint">Sylwadau ychwanegol?</string>
+
+    <string name="action_quick_reply">Ateb Cyflym</string>
+    <string name="action_reply">Ateb</string>
+    <string name="action_reblog">Hybu</string>
+    <string name="action_favourite">Ffefryn</string>
+    <string name="action_more">Mwy</string>
+    <string name="action_compose">Creu</string>
+    <string name="action_login">Mewngofnodi â Mastodon</string>
+    <string name="action_logout">Allgofnodi</string>
+    <string name="action_logout_confirm">Ydych chi\'n siŵr eich bod am allgofnodi o\'r cyfrif %1$s?</string>
+    <string name="action_follow">Dilyn</string>
+    <string name="action_unfollow">Dad-ddilyn</string>
+    <string name="action_block">Blocio</string>
+    <string name="action_unblock">Dad-flocio</string>
+    <string name="action_hide_reblogs">Cuddio hybiadau</string>
+    <string name="action_show_reblogs">Dangos hybiadau</string>
+    <string name="action_report">Adrodd</string>
+    <string name="action_delete">Dileu</string>
+    <string name="action_send">TŴTIO</string>
+    <string name="action_send_public">TŴTIO!</string>
+    <string name="action_retry">Ceisio eto</string>
+    <string name="action_close">Cau</string>
+    <string name="action_view_profile">Proffil</string>
+    <string name="action_view_preferences">Dewisiadau</string>
+    <string name="action_view_favourites">Ffefrynnau</string>
+    <string name="action_view_mutes">Defnyddwyr mud</string>
+    <string name="action_view_blocks">Defnyddwyr wediu blocio</string>
+    <string name="action_view_follow_requests">Dilyn ceisiadau</string>
+    <string name="action_view_media">Cyfryngau</string>
+    <string name="action_open_in_web">Agor mewn porwr</string>
+    <string name="action_add_media">Ychwanegu cyfryngau</string>
+    <string name="action_photo_take">Tynnu ffotograff</string>
+    <string name="action_share">Rhannu</string>
+    <string name="action_mute">Mudo</string>
+    <string name="action_unmute">Dad-fudo</string>
+    <string name="action_mention">Sôn am</string>
+    <string name="action_hide_media">Cuddio cyfrwng</string>
+    <string name="action_open_drawer">Agor drôr</string>
+    <string name="action_save">Cadw</string>
+    <string name="action_edit_profile">Golygu Proffil</string>
+    <string name="action_edit_own_profile">Golygu</string>
+    <string name="action_undo">Dad-wneud</string>
+    <string name="action_accept">Derbyn</string>
+    <string name="action_reject">Gwrthod</string>
+    <string name="action_search">Chwilio</string>
+    <string name="action_access_saved_toot">Drafftiau</string>
+    <string name="action_toggle_visibility">Pwy all weld Tŵt</string>
+    <string name="action_content_warning">Rhybudd cynnwys</string>
+    <string name="action_emoji_keyboard">Bysellfwrdd emoji</string>
+
+    <string name="download_image">Lawrlwytho %1$s</string>
+
+    <string name="action_copy_link">Copïo\'r ddolen</string>
+
+    <string name="send_status_link_to">Rhannu URL Tŵt i…</string>
+    <string name="send_status_content_to">Rhannu Tŵt i…</string>
+    <string name="send_media_to">Rhannu cyfryngau i…</string>
+
+    <string name="confirmation_reported">Anfonwyd!</string>
+    <string name="confirmation_unblocked">Dad-flociwyd y defnyddiwr</string>
+    <string name="confirmation_unmuted">Dad-fudwyd y defnyddiwr</string>
+
+    <string name="status_sent">Anfonwyd!</string>
+    <string name="status_sent_long">Anfonwyd yr ateb.</string>
+
+    <string name="hint_domain">Pa achos?</string>
+    <string name="hint_compose">Beth sy\'n digwydd?</string>
+    <string name="hint_content_warning">Rhybudd cynnwys</string>
+    <string name="hint_display_name">Enw dangos</string>
+    <string name="hint_note">Amdanaf</string>
+    <string name="hint_search">Chwilio…</string>
+
+    <string name="search_no_results">Dim canlyniadau</string>
+
+    <string name="label_quick_reply">Ateb…</string>
+    <string name="label_avatar">Rhithffurf</string>
+    <string name="label_header">Pennawd</string>
+
+    <string name="link_whats_an_instance">Beth yw achos?</string>
+
+    <string name="login_connection">Yn cysylltu …</string>
+
+    <string name="dialog_whats_an_instance">Gallwch nodi cyfeiriad neu barth unrhyw achos
+        yma, fel mastodon.social, gwefan icosahedron., social.tchncs.de, a
+        <a href="https://instances.social">mwy!</a>
+        \n\n Os nad oes gennych gyfrif, gallwch nodi enw\'r achos yr hoffech ymuno
+        Ag ef a chreu cyfrif yno.\n\nAchos yw un lle yn lle mae\'ch cyfrif wedi\'i 
+        gynnal, ond gallwch yn hawdd gyfathrebu â phobl a\'u dilyn ar achosion eraill fel petasech chi
+        ar yr un safle.
+        \n\nRhagor o wybodaeth yn <a href="https://joinmastodon.org">joinmastodon.org</a>.
+    </string>
+    <string name="dialog_title_finishing_media_upload">Gorffen Uwchlwytho\'r Cyfryngau</string>
+    <string name="dialog_message_uploading_media">Yn uwchlwytho…</string>
+    <string name="dialog_download_image">Lawrlwytho</string>
+    <string name="dialog_message_cancel_follow_request">Tynnu\'r cais i ddilyn yn ôl?</string>
+    <string name="dialog_unfollow_warning">Dad-ddilyn y cyfrif hwn?</string>
+    <string name="dialog_delete_toot_warning">Dileu\'r tŵt hwn?</string>
+
+    <string name="visibility_public">Cyhoeddus: Postio i ffrydiau cyhoeddus</string>
+    <string name="visibility_unlisted">Heb restru: Peidio â dangos ar ffrydiau cyhoeddus</string>
+    <string name="visibility_private">Dilynwyr yn Unig: Postio i ddilynwyr yn unig</string>
+    <string name="visibility_direct">Uniongyrchol: Postio i ddefnyddwyr y soniwyd amdanynt yn unig</string>
+
+    <string name="pref_title_notification_settings">Hysbysiadau</string>
+    <string name="pref_title_edit_notification_settings">Golygu Hysbysiadau </string>
+    <string name="pref_title_notifications_enabled">Hysbysiadau</string>
+    <string name="pref_summary_notifications">i gyfrif %1$s</string>
+    <string name="pref_title_pull_notification_check_interval">Cadarnhau Amser</string>
+    <string name="pref_title_notification_alerts">Negeseuon pwysig</string>
+    <string name="pref_title_notification_alert_sound">Cael hysbysiad sŵn </string>
+    <string name="pref_title_notification_alert_vibrate">Cael hysbysiad crynu </string>
+    <string name="pref_title_notification_alert_light">Cael hysbysiad â golau</string>
+    <string name="pref_title_notification_filters">Rhowch wybod i mi bryd</string>
+    <string name="pref_title_notification_filter_mentions">soniodd</string>
+    <string name="pref_title_notification_filter_follows">dilynodd</string>
+    <string name="pref_title_notification_filter_reblogs">fy negeseuon wedi\'u hybu </string>
+    <string name="pref_title_notification_filter_favourites">fy mhyst sy\'n ffefrynnau</string>
+    <string name="pref_title_appearance_settings">Gwedd</string>
+    <string name="pref_title_app_theme">Thema\'r App</string>
+
+    <string-array name="app_theme_names">
+        <item>Tywyll</item>
+        <item>Golau</item>
+        <item>Du</item>
+        <item>Awtomatig wrth iddi nosi</item>
+    </string-array>
+
+    <string name="pref_title_browser_settings">Porwr</string>
+    <string name="pref_title_custom_tabs">Defnyddio Tabiau Personol Chrome </string>
+    <string name="pref_title_hide_follow_button">Cuddio\'r botwm creu wrth sgrolio </string>
+    <string name="pref_title_status_filter">Hidlo ffrwd</string>
+    <string name="pref_title_status_tabs">Tabiau</string>
+    <string name="pref_title_show_boosts">Dangos hybiadau</string>
+    <string name="pref_title_show_replies">Dangos atebion</string>
+    <string name="pref_title_filter_regex">Hidlo drwy fynegiannau arferol </string>
+    <string name="pref_title_show_media_preview">Dangos rhagolwg o gyfryngau</string>
+    <string name="pref_title_proxy_settings">Procsi</string>
+    <string name="pref_title_http_proxy_settings">Procsi HTTP </string>
+    <string name="pref_title_http_proxy_enable">Galluogi procsi HTTP </string>
+    <string name="pref_title_http_proxy_server">Gweinydd procsi HTTP </string>
+    <string name="pref_title_http_proxy_port">Porthol procsiHTTP </string>
+
+    <string-array name="pull_notification_check_interval_names">
+        <item>15 munud</item>
+        <item>20 munud</item>
+        <item>25 munud</item>
+        <item>30 munud</item>
+        <item>45 munud</item>
+        <item>1 awr</item>
+        <item>2 awr</item>
+    </string-array>
+
+    <string name="pref_default_post_privacy">Preifatrwydd postiadau rhagosodedig</string>
+    <string name="pref_publishing">Cyhoeddi </string>
+
+    <string-array name="post_privacy_names">
+        <item>Cyhoeddus</item>
+        <item>Heb ei restru</item>
+        <item>Dilynwyr yn unig</item>
+    </string-array>
+
+    <string name="pref_status_text_size">Maint testun statws</string>
+
+    <string-array name="status_text_size_names">
+        <item>Lleiaf</item>
+        <item>Bach </item>
+        <item>Canolig </item>
+        <item>Mawr </item>
+        <item>Mwyaf </item>
+    </string-array>
+
+    <string name="notification_channel_mention_name">Yn sôn amdanoch o\'r newydd </string>
+    <string name="notification_channel_mention_descriptions">Hysbysiadau sôn amdanoch o\'r newydd</string>
+    <string name="notification_channel_follow_name">Dilynwyr Newydd</string>
+    <string name="notification_channel_follow_description">Hysbysiadau am ddilynwyr newydd </string>
+    <string name="notification_channel_boost_name">Hybiadau</string>
+    <string name="notification_channel_boost_description">Hysbysiadau pan gaiff eich tŵtiau eu hybu </string>
+    <string name="notification_channel_favourite_name">Ffefrynnau</string>
+    <string name="notification_channel_favourite_description">Hysbysiadau pan fo\'r tŵtiau wedi\'u marcio fel ffefryn </string>
+
+
+    <string name="notification_mention_format">Soniodd %s amdanoch </string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s a %4$d eraill</string>
+    <string name="notification_summary_medium">%1$s, %2$s, a %3$s</string>
+    <string name="notification_summary_small">%1$s a %2$s</string>
+    <string name="notification_title_summary">%d rhyngweithiad newydd</string>
+
+    <string name="description_account_locked">Cyfrif wedi\'i gloi </string>
+
+    <string name="about_title_activity">Amdano</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Mae Tusky yn feddalwedd ffynhonnell agored barn rydd.
+        Fe\'i trwyddedir dan Drwydded Gyhoeddus Gyffredinol GNU Fersiwn 3.
+        Gallwch weld y drwydded yma: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <!-- note to translators:
+         * you should think of “free” as in “free speech,” not as in “free beer”.
+           We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
+           to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
+         * the url can be changed to link to the localized version of the license.
+    -->
+    <string name="about_project_site">
+        Gwefan y prosiect:\n
+        https://tuskyapp.github.io
+    </string>
+    <string name="about_bug_feature_request_site">
+        Adrodd byg &amp; ceisiadau nodwedd:\n
+        https://github.com/tuskyapp/Tusky/issues
+    </string>
+    <string name="about_tusky_account">Proffil Tusky</string>
+
+    <string name="status_share_content">Rhannu cynnwys tŵt</string>
+    <string name="status_share_link">Rhannu dolen i\'r tŵt</string>
+    <string name="status_media_images">Delweddau</string>
+    <string name="status_media_video">Fideo</string>
+
+    <string name="state_follow_requested">Gofyn i ddilyn</string>
+
+    <string name="no_content">dim cynnwys</string>
+
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"--> not required in Welsh (just abbreviations)
+    <string name="abbreviated_in_years">%dy </string>
+    <string name="abbreviated_in_days"> %dd </string>
+    <string name="abbreviated_in_hours"> %dh </string>
+    <string name="abbreviated_in_minutes"> %dm </string>
+    <string name="abbreviated_in_seconds"> %ds </string>
+    <string name="abbreviated_years_ago">%dy yn ôl</string>
+    <string name="abbreviated_days_ago">%dd yn ôl</string>
+    <string name="abbreviated_hours_ago">%dh yn ôl</string>
+    <string name="abbreviated_minutes_ago">%dm yn ôl</string>
+    <string name="abbreviated_seconds_ago">%ds yn ôl</string>
+
+    <string name="follows_you">Yn eich dilyn chi</string>
+    <string name="pref_title_alway_show_sensitive_media">Dangos cynnwys sensitif bob tro</string>
+    <string name="title_media">Cyfryngau</string>
+    <string name="replying_to">Yn ateb i @%s</string>
+    <string name="load_more_placeholder_text">llwytho mwy</string>
+
+    <string name="add_account_name">Ychwanegu cyfrif</string>
+    <string name="add_account_description">Ychwanegu cyfrif Mastodon newydd</string>
+
+    <string name="action_lists">Rhestri</string>
+    <string name="title_lists">Rhestri</string>
+    <string name="title_list_timeline">Amserlen rhestri</string>
+
+    <string name="compose_active_account_description">Yn postio â chyfrif %1$s</string>
+
+    <string name="error_failed_set_caption">Methu gosod pennawd</string>
+    <string name="hint_describe_for_visually_impaired">Disgrifiad i bobl â nam ar y golwg</string>
+    <string name="action_set_caption">Pennu pennawd</string>
+    <string name="action_remove_media">Dileu</string>
+    <string name="lock_account_label">Cloi cyfrif</string>
+    <string name="lock_account_label_description">Angen cymeradwyo dilynwyr eich hun</string>
+    <string name="compose_save_draft">Cadw drafft?</string>
+    <string name="send_toot_notification_title">Yn anfon Tŵt…</string>
+    <string name="send_toot_notification_error_title">Gwall wrth anfon Tŵt</string>
+    <string name="send_toot_notification_channel_name">Yn anfon Tŵtiau </string>
+    <string name="send_toot_notification_cancel_title">Canslo anfon </string>
+    <string name="send_toot_notification_saved_content">Cadwyd copi o\'r tŵt i\'ch drafftiau </string>
+    <string name="action_compose_shortcut">Creu</string>
+
+    <string name="error_no_custom_emojis">Nid oes gan eich achos %s emoji bersonol</string>
+    <string name="copy_to_clipboard_success">Copïwyd i\'r clipfwrdd</string>
+    <string name="emoji_style">Arddull emoji</string>
+    <string name="system_default">Rhagosodiad system</string>
+    <string name="download_fonts">Bydd angen i chi lawrlwytho\'r setiau emoji hyn yn gyntaf </string>
+    <string name="performing_lookup_title">Wrthi\'n chwilio...</string>
+    <string name="expand_collapse_all_statuses">Chwyddo/lleihau pob statws </string>
+    <string name="action_open_toot">Agor tŵt</string>
+    <string name="restart_required">Angen ailddechrau\'r app</string>
+    <string name="restart_emoji">Bydd angen ailddechrau Tusky i roi\'r newidiadau ar waith</string>
+    <string name="later">Nes ymlaen</string>
+    <string name="restart">Ailddechrau</string>
+    <string name="caption_systememoji">Dewiswyd emoji ragosodedig i\'ch dyfais </string>
+    <string name="caption_blobmoji">Daw\'r emoji Bloban o Android 4.4–7.1</string>
+    <string name="caption_twemoji">Pennwyd emoji safonol Mastodon</string>
+
+    <string name="download_failed">Methu lawrlwytho</string>
+
+    <string name="profile_badge_bot_text">Bot</string>
+    <string name="account_moved_description">%1$s wedi symud i:</string>
+
+    <string name="reblog_private">Hwb i\'r gynulleidfa wreiddiol</string>
+    <string name="unreblog_private">Dad-hybu</string>
+
+    <string name="license_description">Mae gan Tusky god ac asedau o\'r prosiectau ffynhonnell agored canlynol:</string>
+    <string name="license_apache_2">Trwyddedir dan Drwydded Apache (copi isod)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <string name="profile_metadata_label">Metaddata proffil</string>
+    <string name="profile_metadata_add">ychwanegu data</string>
+    <string name="profile_metadata_label_label">Label</string>
+    <string name="profile_metadata_content_label">Cynnwys</string>
+
+    <string name="pref_title_absolute_time">Defnyddio amser absoliwt</string>
+
+</resources>
