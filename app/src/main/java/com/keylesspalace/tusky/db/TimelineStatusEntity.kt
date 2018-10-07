@@ -22,19 +22,21 @@ import com.keylesspalace.tusky.entity.Status
                     parentColumns = ["serverId", "timelineUserId"],
                     childColumns = ["authorServerId", "timelineUserId"]
             )
-        ])
+        ]),
+        // Avoiding rescanning status table when accounts table changes. Recommended by Room(c).
+        indices = [Index("authorServerId", "timelineUserId")]
 )
 @TypeConverters(TootEntity.Converters::class)
 data class TimelineStatusEntity(
         val serverId: String, // id never flips: we need it for sorting so it's a real id
-        val url: String,
+        val url: String?,
         // our local id for the logged in user in case there are multiple accounts per instance
         val timelineUserId: Long,
-        val authorServerId: String,
-        val instance: String,
+        val authorServerId: String?,
+        val instance: String?,
         val inReplyToId: String?,
         val inReplyToAccountId: String?,
-        val content: String,
+        val content: String?,
         val createdAt: Long,
         val emojis: String?,
         val reblogsCount: Int,
@@ -42,8 +44,8 @@ data class TimelineStatusEntity(
         val reblogged: Boolean,
         val favourited: Boolean,
         val sensitive: Boolean,
-        val spoilerText: String,
-        val visibility: Status.Visibility,
+        val spoilerText: String?,
+        val visibility: Status.Visibility?,
         val attachments: String?,
         val mentions: String?,
         val application: String?,

@@ -2,19 +2,25 @@ package com.keylesspalace.tusky.db
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
+import android.arch.persistence.room.OnConflictStrategy.IGNORE
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import android.arch.persistence.room.Query
+import android.arch.persistence.room.Transaction
 import io.reactivex.Single
 
 @Dao
-interface TimelineDao {
+abstract class TimelineDao {
 
     @Insert(onConflict = REPLACE)
-    fun insertAccount(timelineAccountEntity: TimelineAccountEntity): Long
+    abstract fun insertAccount(timelineAccountEntity: TimelineAccountEntity): Long
 
 
     @Insert(onConflict = REPLACE)
-    fun insertStatus(timelineAccountEntity: TimelineStatusEntity): Long
+    abstract fun insertStatus(timelineAccountEntity: TimelineStatusEntity): Long
+
+
+    @Insert(onConflict = IGNORE)
+    abstract fun insertStatusIfNotThere(timelineAccountEntity: TimelineStatusEntity): Long
 
     @Query("""
 SELECT s.serverId, s.url, s.timelineUserId,
@@ -37,5 +43,14 @@ AND (CASE WHEN :sinceId IS NOT NULL THEN s.serverId > :sinceId ELSE 1 END)
 ORDER BY s.serverId DESC
 LIMIT :limit
 """)
-    fun getStatusesForAccount(account: Long, maxId: String?, sinceId: String?, limit: Int): Single<List<TimelineStatusWithAccount>>
+    abstract fun getStatusesForAccount(account: Long, maxId: String?, sinceId: String?, limit: Int): Single<List<TimelineStatusWithAccount>>
+
+
+    @Transaction
+    open fun insertInTransaction(status: TimelineStatusEntity, account: TimelineAccountEntity,
+                            reblogAccount: TimelineAccountEntity?) {
+        insertAccount(account)
+        reblogAccount?.let(this::insertAccount)
+        insertStatus(status)
+    }
 }

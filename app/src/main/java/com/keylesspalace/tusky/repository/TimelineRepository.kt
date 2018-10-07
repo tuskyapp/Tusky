@@ -9,14 +9,21 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.HtmlUtils
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import java.io.IOException
+import java.math.BigInteger
 import java.util.*
+
+data class Placeholder(val id: String)
+
+typealias TimelineStatus = Either<Placeholder, Status>
 
 interface TimelineRepository {
     fun getStatuses(maxId: String?, sinceId: String?, limit: Int,
-                    offlineOnly: Boolean): Single<List<Status>>
+                    offlineOnly: Boolean): Single<out List<TimelineStatus>>
 }
 
 class TimelineRepostiryImpl(
@@ -26,7 +33,7 @@ class TimelineRepostiryImpl(
         private val gson: Gson
 ) : TimelineRepository {
     override fun getStatuses(maxId: String?, sinceId: String?, limit: Int,
-                             offlineOnly: Boolean): Single<List<Status>> {
+                             offlineOnly: Boolean): Single<out List<TimelineStatus>> {
         val acc = accountManager.activeAccount ?: throw IllegalStateException()
         val accountId = acc.id
         val instance = acc.domain
@@ -34,38 +41,105 @@ class TimelineRepostiryImpl(
         return if (offlineOnly) {
             this.getStatusesFromDb(accountId, maxId, sinceId, limit)
         } else {
-            mastodonApi.homeTimelineSingle(maxId, sinceId, limit)
-                    .doAfterSuccess { statuses ->
-                        this.saveStatusesToDb(instance, accountId, statuses)
-                    }
-                    .onErrorResumeNext { error ->
-                        if (error is IOException) {
-                            this.getStatusesFromDb(accountId, maxId, sinceId, limit)
-                        } else {
-                            Single.error(error)
-                        }
-                    }
+            getStatusesFromNetwork(maxId, sinceId, limit, instance, accountId)
         }
     }
 
+    private fun getStatusesFromNetwork(maxId: String?, sinceId: String?, limit: Int, instance: String,
+                                       accountId: Long): Single<out List<TimelineStatus>> {
+        val maxIdInc = maxId?.let { this.incId(it, 1) }
+        val sinceIdDec = sinceId?.let { this.incId(it, -1) }
+        return mastodonApi.homeTimelineSingle(maxIdInc, sinceIdDec, limit + 2)
+                .doAfterSuccess { statuses ->
+                    this.saveStatusesToDb(instance, accountId, statuses, maxId, sinceId)
+                }
+                // Hinting types to the compiler by the anonymous function
+                // Did you even see one of these before?
+                .map(fun(statuses: List<Status>): List<Either<Placeholder, Status>> {
+
+                    val statusesCopy = statuses.toMutableList()
+
+                    // Remove first and last statuses if they were used used just for overlap
+                    if (statusesCopy.firstOrNull()?.id == maxId) statusesCopy.removeAt(0)
+                    if (statusesCopy.lastOrNull()?.id == sinceId) {
+                        statusesCopy.removeAt(statuses.size - 1)
+                    }
+
+                    return statusesCopy.map { s -> Either.Right<Placeholder, Status>(s) }
+                })
+                .onErrorResumeNext { error ->
+                    if (error is IOException) {
+                        this.getStatusesFromDb(accountId, maxId, sinceId, limit)
+                    } else {
+                        Single.error(error)
+                    }
+                }
+    }
+
     private fun getStatusesFromDb(accountId: Long, maxId: String?, sinceId: String?,
-                                  limit: Int): Single<List<Status>> {
+                                  limit: Int): Single<out List<TimelineStatus>> {
         return timelineDao.getStatusesForAccount(accountId, maxId, sinceId, limit)
                 .map { statuses -> statuses.map { it.toStatus() } }
     }
 
-    private fun saveStatusesToDb(instance: String, accountId: Long, statuses: List<Status>) {
-        for (status in statuses) {
-            timelineDao.insertAccount(
-                    status.account.toEntity(instance, accountId)
-            )
-            status.reblog?.account
-                    ?.toEntity(instance, accountId)
-                    ?.let(timelineDao::insertAccount)
-            timelineDao.insertStatus(
-                    status.toEntity(accountId, instance)
-            )
+    private fun saveStatusesToDb(instance: String, accountId: Long, statuses: List<Status>,
+                                 maxId: String?, sinceId: String?) {
+        Single.fromCallable {
+            val (prepend, append) = calculatePlaceholders(maxId, sinceId, statuses)
+
+            if (prepend != null) {
+                timelineDao.insertStatusIfNotThere(prepend.toEntity(accountId))
+            }
+
+            if (append != null) {
+                timelineDao.insertStatusIfNotThere(append.toEntity(accountId))
+            }
+
+            for (status in statuses) {
+                timelineDao.insertInTransaction(
+                        status.toEntity(accountId, instance),
+                        status.account.toEntity(instance, accountId),
+                        status.reblog?.account?.toEntity(instance, accountId)
+                )
+            }
         }
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+
+    }
+
+    private fun calculatePlaceholders(maxId: String?, sinceId: String?,
+                                      statuses: List<Status>
+    ): Pair<Placeholder?, Placeholder?> {
+        if (statuses.isEmpty()) return null to null
+
+        val lastId = statuses.last().id
+        val prepend = if (sinceId != null) {
+            if (sinceId < lastId) {
+                val incSince = this.incId(sinceId, 1)
+                if (incSince != lastId) {
+                    Placeholder(incSince)
+                } else null
+            } else null
+        } else {
+            // Placeholders never overwrite real values so it's safe
+            Placeholder(incId(lastId, -1))
+        }
+
+        val firstId = statuses.first().id
+        val append = if (maxId != null) {
+            if (maxId > firstId) {
+                val decMax = this.incId(maxId, -1)
+                if (decMax != firstId) {
+                    Placeholder(decMax)
+                } else null
+            } else null
+        } else {
+            // Placeholders never overwrite real values so it's safe
+            Placeholder(incId(firstId, -1))
+        }
+
+        return prepend to append
     }
 
     private fun Account.toEntity(instance: String, accountId: Long): TimelineAccountEntity {
@@ -104,7 +178,11 @@ class TimelineRepostiryImpl(
         )
     }
 
-    private fun TimelineStatusWithAccount.toStatus(): Status {
+    private fun TimelineStatusWithAccount.toStatus(): TimelineStatus {
+        if (this.status.authorServerId == null) {
+            return Either.Left(Placeholder(this.status.serverId))
+        }
+
         val attachments: List<Attachment> = gson.fromJson(status.attachments,
                 object : TypeToken<List<Attachment>>() {}.type) ?: listOf()
         val mentions: Array<Status.Mention> = gson.fromJson(status.mentions,
@@ -129,15 +207,16 @@ class TimelineRepostiryImpl(
                     reblogged = status.reblogged,
                     favourited = status.favourited,
                     sensitive = status.sensitive,
-                    spoilerText = status.spoilerText,
-                    visibility = status.visibility,
+                    spoilerText = status.spoilerText!!,
+                    visibility = status.visibility!!,
                     attachments = attachments,
                     mentions = mentions,
-                    application = application
+                    application = application,
+                    pinned = false
 
             )
         }
-        return if (reblog != null) {
+        val status = if (reblog != null) {
             Status(
                     id = status.serverId,
                     url = null, // no url for reblogs
@@ -154,10 +233,11 @@ class TimelineRepostiryImpl(
                     favourited = false,
                     sensitive = false,
                     spoilerText = "",
-                    visibility = status.visibility,
+                    visibility = status.visibility!!,
                     attachments = listOf(),
                     mentions = arrayOf(),
-                    application = null
+                    application = null,
+                    pinned = false
             )
         } else {
             Status(
@@ -175,13 +255,15 @@ class TimelineRepostiryImpl(
                     reblogged = status.reblogged,
                     favourited = status.favourited,
                     sensitive = status.sensitive,
-                    spoilerText = status.spoilerText,
-                    visibility = status.visibility,
+                    spoilerText = status.spoilerText!!,
+                    visibility = status.visibility!!,
                     attachments = attachments,
                     mentions = mentions,
-                    application = application
+                    application = application,
+                    pinned = false
             )
         }
+        return Either.Right(status)
     }
 
     private fun Status.toEntity(timelineUserId: Long, instance: String): TimelineStatusEntity {
@@ -210,5 +292,37 @@ class TimelineRepostiryImpl(
                 reblogServerId = reblog?.id,
                 reblogAccountId = reblog?.let { this.account.id }
         )
+    }
+
+    private fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
+        return TimelineStatusEntity(
+                serverId = this.id,
+                url = null,
+                instance = null,
+                timelineUserId = timelineUserId,
+                authorServerId = null,
+                inReplyToId = null,
+                inReplyToAccountId = null,
+                content = null,
+                createdAt = 0L,
+                emojis = null,
+                reblogsCount = 0,
+                favouritesCount = 0,
+                reblogged = false,
+                favourited = false,
+                sensitive = false,
+                spoilerText = null,
+                visibility = null,
+                attachments = null,
+                mentions = null,
+                application = null,
+                reblogServerId = null,
+                reblogAccountId = null
+
+        )
+    }
+
+    private fun incId(id: String, value: Long): String {
+        return BigInteger(id).add(BigInteger.valueOf(value)).toString()
     }
 }

@@ -60,6 +60,7 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
+import com.keylesspalace.tusky.repository.Placeholder;
 import com.keylesspalace.tusky.repository.TimelineRepository;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
@@ -169,7 +170,7 @@ public class TimelineFragment extends SFragment implements
                         );
                     } else {
                         Placeholder placeholder = input.asLeft();
-                        return new StatusViewData.Placeholder(placeholder.id, false);
+                        return new StatusViewData.Placeholder(placeholder.getId(), false);
                     }
                 }
             });
@@ -189,18 +190,6 @@ public class TimelineFragment extends SFragment implements
         arguments.putString(HASHTAG_OR_ID_ARG, hashtagOrId);
         fragment.setArguments(arguments);
         return fragment;
-    }
-
-    private static final class Placeholder {
-        final String id;
-
-        public static Placeholder getInstance(String id) {
-            return new Placeholder(id);
-        }
-
-        private Placeholder(String id) {
-            this.id = id;
-        }
     }
 
     @Override
@@ -262,11 +251,13 @@ public class TimelineFragment extends SFragment implements
                 .flatMap(statuses -> {
                     final String topId;
                     if (statuses.size() > 1) {
-                        this.statuses.addAll(liftStatusList(statuses));
+                        this.statuses.addAll(statuses);
                         this.updateAdapter();
                         this.progressBar.setVisibility(View.GONE);
                         // Request statuses including current top to refresh all of them
-                        topId = new BigInteger(statuses.get(0).getId())
+                        String firstId =
+                                CollectionsKt.first(statuses, Either::isRight).asRight().getId();
+                        topId = new BigInteger(firstId)
                                 .add(BigInteger.ONE).toString();
                     } else {
                         topId = null;
@@ -609,7 +600,7 @@ public class TimelineFragment extends SFragment implements
             sendFetchTimelineRequest(fromStatus.getId(), toStatus.getId(), FetchEnd.MIDDLE, position);
 
             Placeholder placeholder = statuses.get(position).asLeft();
-            StatusViewData newViewData = new StatusViewData.Placeholder(placeholder.id, true);
+            StatusViewData newViewData = new StatusViewData.Placeholder(placeholder.getId(), true);
             statuses.setPairedItem(position, newViewData);
             updateAdapter();
         } else {
@@ -763,13 +754,13 @@ public class TimelineFragment extends SFragment implements
             final String placeholderId = new BigInteger(last.asRight().getId())
                     .subtract(BigInteger.ONE)
                     .toString();
-            placeholder = Placeholder.getInstance(placeholderId);
-            statuses.add(new Either.Left(placeholder));
+            placeholder = new Placeholder(placeholderId);
+            statuses.add(new Either.Left<>(placeholder));
         } else {
             placeholder = last.asLeft();
         }
         statuses.setPairedItem(statuses.size() - 1,
-                new StatusViewData.Placeholder(placeholder.id, true));
+                new StatusViewData.Placeholder(placeholder.getId(), true));
 
         updateAdapter();
 
@@ -849,7 +840,7 @@ public class TimelineFragment extends SFragment implements
                 @Override
                 public void onResponse(@NonNull Call<List<Status>> call, @NonNull Response<List<Status>> response) {
                     if (response.isSuccessful()) {
-                        onFetchTimelineSuccess(response.body(), fetchEnd, pos);
+                        onFetchTimelineSuccess(liftStatusList(response.body()), fetchEnd, pos);
                     } else {
                         onFetchTimelineFailure(new Exception(response.message()), fetchEnd, pos);
                     }
@@ -867,7 +858,7 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
-    private void onFetchTimelineSuccess(List<Status> statuses,
+    private void onFetchTimelineSuccess(List<Either<Placeholder, Status>> statuses,
                                         FetchEnd fetchEnd, int pos) {
 
         // We filled the hole (or reached the end) if the server returned less statuses than we
@@ -923,9 +914,9 @@ public class TimelineFragment extends SFragment implements
                 if (placeholder == null) {
                     Status above = statuses.get(position - 1).asRight();
                     String newId = this.idPlus(above.getId(), -1);
-                    placeholder = Placeholder.getInstance(newId);
+                    placeholder = new Placeholder(newId);
                 }
-                newViewData = new StatusViewData.Placeholder(placeholder.id, false);
+                newViewData = new StatusViewData.Placeholder(placeholder.getId(), false);
                 statuses.setPairedItem(position, newViewData);
                 updateAdapter();
             }
@@ -945,11 +936,12 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
-    private void filterStatuses(List<Status> statuses) {
-        Iterator<Status> it = statuses.iterator();
+    private void filterStatuses(List<Either<Placeholder, Status>> statuses) {
+        Iterator<Either<Placeholder, Status>> it = statuses.iterator();
         while (it.hasNext()) {
-            Status status = it.next();
-            if ((status.getInReplyToId() != null && filterRemoveReplies)
+            Status status = it.next().asRight();
+            if (status != null
+                    && (status.getInReplyToId() != null && filterRemoveReplies)
                     || (status.getReblog() != null && filterRemoveReblogs)
                     || (filterRemoveRegex && (filterRemoveRegexMatcher.reset(status.getContent()).find()
                     || (!status.getSpoilerText().isEmpty() && filterRemoveRegexMatcher.reset(status.getSpoilerText()).find())))) {
@@ -958,56 +950,56 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
-    private void updateStatuses(List<Status> newStatuses, boolean fullFetch) {
+    private void updateStatuses(List<Either<Placeholder, Status>> newStatuses, boolean fullFetch) {
         if (ListUtils.isEmpty(newStatuses)) {
             return;
         }
 
-        List<Either<Placeholder, Status>> liftedNew = liftStatusList(newStatuses);
-
         if (statuses.isEmpty()) {
-            statuses.addAll(liftedNew);
+            statuses.addAll(newStatuses);
         } else {
-            Either<Placeholder, Status> lastOfNew = liftedNew.get(newStatuses.size() - 1);
+            Either<Placeholder, Status> lastOfNew = newStatuses.get(newStatuses.size() - 1);
             int index = statuses.indexOf(lastOfNew);
 
             for (int i = 0; i < index; i++) {
                 statuses.remove(0);
             }
-            int newIndex = liftedNew.indexOf(statuses.get(0));
+            int newIndex = newStatuses.indexOf(statuses.get(0));
             if (newIndex == -1) {
                 if (index == -1 && fullFetch) {
-                    String placeholderId = idPlus(CollectionsKt.last(newStatuses).getId(), 1);
-                    liftedNew.add(new Either.Left(Placeholder.getInstance(placeholderId)));
+                    String placeholderId = idPlus(CollectionsKt.last(newStatuses, Either::isRight)
+                            .asRight().getId(), 1);
+                    newStatuses.add(new Either.Left<>(new Placeholder(placeholderId)));
                 }
-                statuses.addAll(0, liftedNew);
+                statuses.addAll(0, newStatuses);
             } else {
-                statuses.addAll(0, liftedNew.subList(0, newIndex));
+                statuses.addAll(0, newStatuses.subList(0, newIndex));
             }
         }
         updateAdapter();
     }
 
-    private void addItems(List<Status> newStatuses) {
+    private void addItems(List<Either<Placeholder, Status>> newStatuses) {
         if (ListUtils.isEmpty(newStatuses)) {
             return;
         }
-        Status last = null;
+        Either<Placeholder, Status> last = null;
         for (int i = statuses.size() - 1; i >= 0; i--) {
             if (statuses.get(i).isRight()) {
-                last = statuses.get(i).asRight();
+                last = statuses.get(i);
                 break;
             }
         }
         // I was about to replace findStatus with indexOf but it is incorrect to compare value
         // types by ID anyway and we should change equals() for Status, I think, so this makes sense
-        if (last != null && !findStatus(newStatuses, last.getId())) {
-            statuses.addAll(liftStatusList(newStatuses));
+        if (last != null && !newStatuses.contains(last)) {
+            statuses.addAll(newStatuses);
             updateAdapter();
         }
     }
 
-    private void replacePlaceholderWithStatuses(List<Status> newStatuses, boolean fullFetch, int pos) {
+    private void replacePlaceholderWithStatuses(List<Either<Placeholder, Status>> newStatuses,
+                                                boolean fullFetch, int pos) {
         Either<Placeholder, Status> placeholder = statuses.get(pos);
         if (!placeholder.isRight()) {
             statuses.remove(pos);
@@ -1018,24 +1010,13 @@ public class TimelineFragment extends SFragment implements
             return;
         }
 
-        List<Either<Placeholder, Status>> liftedNew = liftStatusList(newStatuses);
-
         if (fullFetch) {
-            liftedNew.add(placeholder);
+            newStatuses.add(placeholder);
         }
 
-        statuses.addAll(pos, liftedNew);
+        statuses.addAll(pos, newStatuses);
         updateAdapter();
 
-    }
-
-    private static boolean findStatus(List<Status> statuses, String id) {
-        for (Status status : statuses) {
-            if (status.getId().equals(id)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private int findStatusOrReblogPositionById(@NonNull String statusId) {

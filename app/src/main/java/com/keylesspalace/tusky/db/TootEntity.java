@@ -112,8 +112,8 @@ public class TootEntity {
         }
 
         @TypeConverter
-        public int intToVisibility(Status.Visibility visibility) {
-            return visibility.getNum();
+        public int intFromVisibility(Status.Visibility visibility) {
+            return visibility == null ? Status.Visibility.UNKNOWN.getNum() : visibility.getNum();
         }
     }
 }
