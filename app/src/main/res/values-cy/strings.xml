@@ -141,7 +141,7 @@
     <string name="login_connection">Yn cysylltu …</string>
 
     <string name="dialog_whats_an_instance">Gallwch nodi cyfeiriad neu barth unrhyw achos
-        yma, fel mastodon.social, gwefan icosahedron., social.tchncs.de, a
+        yma, fel mastodon.social, twt.cymru, social.tchncs.de, a
         <a href="https://instances.social">mwy!</a>
         \n\n Os nad oes gennych gyfrif, gallwch nodi enw\'r achos yr hoffech ymuno
         Ag ef a chreu cyfrif yno.\n\nAchos yw un lle yn lle mae\'ch cyfrif wedi\'i 
@@ -277,7 +277,7 @@
 
     <string name="no_content">dim cynnwys</string>
 
-    <!--These are for timestamps on statuses. For example: "16s" or "2d"--> not required in Welsh (just abbreviations)
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%dy </string>
     <string name="abbreviated_in_days"> %dd </string>
     <string name="abbreviated_in_hours"> %dh </string>
