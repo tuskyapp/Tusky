@@ -345,19 +345,15 @@ public class NotificationsFragment extends SFragment implements
     public void onReblog(final boolean reblog, final int position) {
         final Notification notification = notifications.get(position).asRight();
         final Status status = notification.getStatus();
-        timelineCases.reblogWithCallback(status, reblog, new Callback<Status>() {
-            @Override
-            public void onResponse(@NonNull Call<Status> call, @NonNull retrofit2.Response<Status> response) {
-                if (response.isSuccessful()) {
-                    setReblogForStatus(position, status, reblog);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.getId(), t);
-            }
-        });
+        Objects.requireNonNull(status, "Reblog on notification without status");
+        timelineCases.reblog(status, reblog)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newStatus) -> setReblogForStatus(position, status, reblog),
+                        (t) -> Log.d(getClass().getSimpleName(),
+                                "Failed to reblog status: " + status.getId(), t)
+                );
     }
 
     private void setReblogForStatus(int position, Status status, boolean reblog) {
@@ -386,20 +382,15 @@ public class NotificationsFragment extends SFragment implements
     public void onFavourite(final boolean favourite, final int position) {
         final Notification notification = notifications.get(position).asRight();
         final Status status = notification.getStatus();
-        timelineCases.favouriteWithCallback(status, favourite, new Callback<Status>() {
-            @Override
-            public void onResponse(@NonNull Call<Status> call, @NonNull retrofit2.Response<Status> response) {
-                if (response.isSuccessful()) {
-                    setFavovouriteForStatus(position, status, favourite);
 
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.getId(), t);
-            }
-        });
+        timelineCases.favourite(status, favourite)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newStatus) -> setFavovouriteForStatus(position, status, favourite),
+                        (t) -> Log.d(getClass().getSimpleName(),
+                                "Failed to favourite status: " + status.getId(), t)
+                );
     }
 
     private void setFavovouriteForStatus(int position, Status status, boolean favourite) {
@@ -601,7 +592,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void onLoadMore() {
-        if(bottomId == null) {
+        if (bottomId == null) {
             // already loaded everything
             return;
         }
@@ -637,10 +628,10 @@ public class NotificationsFragment extends SFragment implements
         if (fetchEnd == FetchEnd.BOTTOM && bottomLoading) {
             return;
         }
-        if(fetchEnd == FetchEnd.TOP) {
+        if (fetchEnd == FetchEnd.TOP) {
             topLoading = true;
         }
-        if(fetchEnd == FetchEnd.BOTTOM) {
+        if (fetchEnd == FetchEnd.BOTTOM) {
             bottomLoading = true;
         }
 
@@ -716,10 +707,10 @@ public class NotificationsFragment extends SFragment implements
 
         saveNewestNotificationId(notifications);
 
-        if(fetchEnd == FetchEnd.TOP) {
+        if (fetchEnd == FetchEnd.TOP) {
             topLoading = false;
         }
-        if(fetchEnd == FetchEnd.BOTTOM) {
+        if (fetchEnd == FetchEnd.BOTTOM) {
             bottomLoading = false;
         }
 
@@ -747,7 +738,7 @@ public class NotificationsFragment extends SFragment implements
     private void saveNewestNotificationId(List<Notification> notifications) {
 
         AccountEntity account = accountManager.getActiveAccount();
-        if(account != null) {
+        if (account != null) {
             BigInteger lastNoti = new BigInteger(account.getLastNotificationId());
 
             for (Notification noti : notifications) {
@@ -758,7 +749,7 @@ public class NotificationsFragment extends SFragment implements
             }
 
             String lastNotificationId = lastNoti.toString();
-            if(!account.getLastNotificationId().equals(lastNotificationId)) {
+            if (!account.getLastNotificationId().equals(lastNotificationId)) {
                 Log.d(TAG, "saving newest noti id: " + lastNotificationId);
                 account.setLastNotificationId(lastNotificationId);
                 accountManager.saveAccount(account);

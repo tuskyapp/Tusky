@@ -1,11 +1,8 @@
 package com.keylesspalace.tusky.db
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
+import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.IGNORE
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
-import android.arch.persistence.room.Query
-import android.arch.persistence.room.Transaction
 import io.reactivex.Single
 
 @Dao
@@ -47,7 +44,7 @@ LIMIT :limit""")
 
     @Transaction
     open fun insertInTransaction(status: TimelineStatusEntity, account: TimelineAccountEntity,
-                            reblogAccount: TimelineAccountEntity?) {
+                                 reblogAccount: TimelineAccountEntity?) {
         insertAccount(account)
         reblogAccount?.let(this::insertAccount)
         insertStatus(status)
@@ -56,4 +53,21 @@ LIMIT :limit""")
     @Query("""DELETE FROM TimelineStatusEntity WHERE authorServerId = null
 AND timelineUserId = :acccount AND serverId > :sinceId AND serverId < :maxId""")
     abstract fun removeAllPlaceholdersBetween(acccount: Long, maxId: String, sinceId: String)
+
+    @Query("""UPDATE TimelineStatusEntity SET favourited = :favourited
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId - :statusId)""")
+    abstract fun setFavourited(accountId: Long, statusId: String, favourited: Boolean)
+
+
+    @Query("""UPDATE TimelineStatusEntity SET reblogged = :reblogged
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId - :statusId)""")
+    abstract fun setReblogged(accountId: Long, statusId: String, reblogged: Boolean)
+
+    @Query("""DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND
+(authorServerId = :userId OR reblogAccountId = :userId)""")
+    abstract fun removeAllByUser(accountId: Long, userId: String)
+
+    @Query("""DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId
+AND serverId = :statusId""")
+    abstract fun delete(accountId: Long, statusId: String)
 }
