@@ -41,8 +41,7 @@ WHERE s.timelineUserId = :account
 AND (CASE WHEN :maxId IS NOT NULL THEN s.serverId < :maxId ELSE 1 END)
 AND (CASE WHEN :sinceId IS NOT NULL THEN s.serverId > :sinceId ELSE 1 END)
 ORDER BY s.serverId DESC
-LIMIT :limit
-""")
+LIMIT :limit""")
     abstract fun getStatusesForAccount(account: Long, maxId: String?, sinceId: String?, limit: Int): Single<List<TimelineStatusWithAccount>>
 
 
@@ -53,4 +52,8 @@ LIMIT :limit
         reblogAccount?.let(this::insertAccount)
         insertStatus(status)
     }
+
+    @Query("""DELETE FROM TimelineStatusEntity WHERE authorServerId = null
+AND timelineUserId = :acccount AND serverId > :sinceId AND serverId < :maxId""")
+    abstract fun removeAllPlaceholdersBetween(acccount: Long, maxId: String, sinceId: String)
 }

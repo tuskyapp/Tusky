@@ -81,6 +81,7 @@ class TimelineRepostiryImpl(
     private fun getStatusesFromDb(accountId: Long, maxId: String?, sinceId: String?,
                                   limit: Int): Single<out List<TimelineStatus>> {
         return timelineDao.getStatusesForAccount(accountId, maxId, sinceId, limit)
+                .subscribeOn(Schedulers.io())
                 .map { statuses -> statuses.map { it.toStatus() } }
     }
 
@@ -103,6 +104,12 @@ class TimelineRepostiryImpl(
                         status.account.toEntity(instance, accountId),
                         status.reblog?.account?.toEntity(instance, accountId)
                 )
+            }
+
+            // There may be placeholders which we thought could be from our TL but they are not
+            if (statuses.size > 2) {
+                timelineDao.removeAllPlaceholdersBetween(accountId, statuses.first().id,
+                        statuses.last().id)
             }
         }
                 .subscribeOn(Schedulers.io())
