@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.fragment
 
+import android.arch.lifecycle.Lifecycle
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -30,11 +31,13 @@ import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.adapter.SearchResultsAdapter
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.SearchResults
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.ViewDataUtils
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
+import com.uber.autodispose.autoDisposable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_search.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -111,14 +114,14 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
     }
 
     private fun displayNoResults() {
-        if(isAdded) {
+        if (isAdded) {
             searchProgressBar.visibility = View.GONE
             searchNoResultsText.visibility = View.VISIBLE
         }
     }
 
     private fun hideFeedback() {
-        if(isAdded) {
+        if (isAdded) {
             searchProgressBar.visibility = View.GONE
             searchNoResultsText.visibility = View.GONE
         }
@@ -134,7 +137,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
 
     override fun onReply(position: Int) {
         val status = searchAdapter.getStatusAtPosition(position)
-        if(status != null) {
+        if (status != null) {
             super.reply(status)
         }
     }
@@ -142,51 +145,44 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
     override fun onReblog(reblog: Boolean, position: Int) {
         val status = searchAdapter.getStatusAtPosition(position)
         if (status != null) {
-            timelineCases.reblogWithCallback(status, reblog, object: Callback<Status> {
-                override fun onResponse(call: Call<Status>?, response: Response<Status>?) {
-                    status.reblogged = true
-                    searchAdapter.updateStatusAtPosition(
-                            ViewDataUtils.statusToViewData(
-                                    status,
-                                    alwaysShowSensitiveMedia
-                            ),
-                            position
-                    )
-                }
-
-                override fun onFailure(call: Call<Status>?, t: Throwable?) {
-                    Log.d(TAG, "Failed to reblog status " + status.id, t)
-                }
-            })
+            timelineCases.reblog(status, reblog)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .autoDisposable(from(this, Lifecycle.Event.ON_DESTROY))
+                    .subscribe({
+                        status.reblogged = reblog
+                        searchAdapter.updateStatusAtPosition(
+                                ViewDataUtils.statusToViewData(
+                                        status,
+                                        alwaysShowSensitiveMedia
+                                ),
+                                position
+                        )
+                    }, { t -> Log.d(TAG, "Failed to reblog status " + status.id, t) })
         }
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
         val status = searchAdapter.getStatusAtPosition(position)
-        if(status != null) {
-            timelineCases.favouriteWithCallback(status, favourite, object: Callback<Status> {
-                override fun onResponse(call: Call<Status>?, response: Response<Status>?) {
-                    status.favourited = true
-                    searchAdapter.updateStatusAtPosition(
-                            ViewDataUtils.statusToViewData(
-                                    status,
-                                    alwaysShowSensitiveMedia
-                            ),
-                            position
-                    )
-                }
-
-                override fun onFailure(call: Call<Status>?, t: Throwable?) {
-                    Log.d(TAG, "Failed to favourite status " + status.id, t)
-                }
-
-            })
+        if (status != null) {
+            timelineCases.favourite(status, favourite)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .autoDisposable(from(this, Lifecycle.Event.ON_DESTROY))
+                    .subscribe({
+                        status.favourited = favourite
+                        searchAdapter.updateStatusAtPosition(
+                                ViewDataUtils.statusToViewData(
+                                        status,
+                                        alwaysShowSensitiveMedia
+                                ),
+                                position
+                        )
+                    }, { t -> Log.d(TAG, "Failed to favourite status " + status.id, t) })
         }
     }
 
     override fun onMore(view: View?, position: Int) {
         val status = searchAdapter.getStatusAtPosition(position)
-        if(status != null) {
+        if (status != null) {
             more(status, view, position)
         }
     }
@@ -198,7 +194,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
 
     override fun onViewThread(position: Int) {
         val status = searchAdapter.getStatusAtPosition(position)
-        if(status != null) {
+        if (status != null) {
             viewThread(status)
         }
     }
@@ -209,7 +205,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
         val status = searchAdapter.getConcreteStatusAtPosition(position)
-        if(status != null) {
+        if (status != null) {
             val newStatus = StatusViewData.Builder(status)
                     .setIsExpanded(expanded).createStatusViewData()
             searchAdapter.updateStatusAtPosition(newStatus, position)
@@ -218,7 +214,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
         val status = searchAdapter.getConcreteStatusAtPosition(position)
-        if(status != null) {
+        if (status != null) {
             val newStatus = StatusViewData.Builder(status)
                     .setIsShowingSensitiveContent(isShowing).createStatusViewData()
             searchAdapter.updateStatusAtPosition(newStatus, position)
@@ -232,7 +228,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
         // TODO: No out-of-bounds check in getConcreteStatusAtPosition
         val status = searchAdapter.getConcreteStatusAtPosition(position)
-        if(status == null) {
+        if (status == null) {
             Log.e(TAG, String.format("Tried to access status but got null at position: %d", position))
             return
         }

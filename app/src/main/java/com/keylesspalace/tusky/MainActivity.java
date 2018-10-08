@@ -36,6 +36,7 @@ import android.view.KeyEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.keylesspalace.tusky.appstore.CacheUpdater;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.ProfileEditedEvent;
 import com.keylesspalace.tusky.db.AccountEntity;
@@ -99,6 +100,8 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     public DispatchingAndroidInjector<Fragment> fragmentInjector;
     @Inject
     public EventHub eventHub;
+    @Inject
+    public CacheUpdater cacheUpdater;
 
     private FloatingActionButton composeButton;
     private AccountHeader headerResult;
@@ -419,6 +422,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
 
     private void changeAccount(long newSelectedId) {
+        cacheUpdater.stop();
         accountManager.setActiveAccount(newSelectedId);
 
         Intent intent = new Intent(this, MainActivity.class);

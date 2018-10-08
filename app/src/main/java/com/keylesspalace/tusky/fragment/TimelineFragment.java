@@ -485,20 +485,13 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void onReblog(final boolean reblog, final int position) {
         final Status status = statuses.get(position).asRight();
-        timelineCases.reblogWithCallback(status, reblog, new Callback<Status>() {
-            @Override
-            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
-
-                if (response.isSuccessful()) {
-                    setRebloggedForStatus(position, status, reblog);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(TAG, "Failed to reblog status " + status.getId(), t);
-            }
-        });
+        disposable.add(timelineCases.reblog(status, reblog)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        (newStatus) -> setRebloggedForStatus(position, status, reblog),
+                        (err) -> Log.d(TAG, "Failed to reblog status " + status.getId(), err)
+                )
+        );
     }
 
     private void setRebloggedForStatus(int position, Status status, boolean reblog) {
@@ -524,20 +517,13 @@ public class TimelineFragment extends SFragment implements
     public void onFavourite(final boolean favourite, final int position) {
         final Status status = statuses.get(position).asRight();
 
-        timelineCases.favouriteWithCallback(status, favourite, new Callback<Status>() {
-            @Override
-            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
-
-                if (response.isSuccessful()) {
-                    setFavouriteForStatus(position, status, favourite);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(TAG, "Failed to favourite status " + status.getId(), t);
-            }
-        });
+        disposable.add(timelineCases.favourite(status, favourite)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        (newStatus) -> setFavouriteForStatus(position, newStatus, favourite),
+                        (err) -> Log.d(TAG, "Failed to favourite status " + status.getId(), err)
+                )
+        );
     }
 
     private void setFavouriteForStatus(int position, Status status, boolean favourite) {

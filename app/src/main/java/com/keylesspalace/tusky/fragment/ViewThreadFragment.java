@@ -233,21 +233,18 @@ public final class ViewThreadFragment extends SFragment implements
     @Override
     public void onReblog(final boolean reblog, final int position) {
         final Status status = statuses.get(position);
-        timelineCases.reblogWithCallback(statuses.get(position), reblog, new Callback<Status>() {
-            @Override
-            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
-                if (response.isSuccessful()) {
-                    setReblogForStatus(position, status, reblog);
-                    eventHub.dispatch(new ReblogEvent(status.getId(), reblog));
-                }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.getId());
-                t.printStackTrace();
-            }
-        });
+        timelineCases.reblog(statuses.get(position), reblog)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newStatus) -> setReblogForStatus(position, status, reblog),
+                        (t) -> {
+                            Log.d(getClass().getSimpleName(),
+                                    "Failed to reblog status: " + status.getId());
+                            t.printStackTrace();
+                        }
+                );
     }
 
     private void setReblogForStatus(int position, Status status, boolean reblog) {
@@ -271,21 +268,18 @@ public final class ViewThreadFragment extends SFragment implements
     @Override
     public void onFavourite(final boolean favourite, final int position) {
         final Status status = statuses.get(position);
-        timelineCases.favouriteWithCallback(statuses.get(position), favourite, new Callback<Status>() {
-            @Override
-            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
-                if (response.isSuccessful()) {
-                    setFavForStatus(position, status, favourite);
-                    eventHub.dispatch(new FavoriteEvent(status.getId(), favourite));
-                }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.getId());
-                t.printStackTrace();
-            }
-        });
+
+        timelineCases.favourite(statuses.get(position), favourite)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newStatus) -> setFavForStatus(position, status, favourite),
+                        (t) -> {
+                            Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.getId());
+                            t.printStackTrace();
+                        }
+                );
     }
 
     private void setFavForStatus(int position, Status status, boolean favourite) {
