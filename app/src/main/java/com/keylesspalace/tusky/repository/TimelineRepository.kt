@@ -60,8 +60,10 @@ class TimelineRepostiryImpl(
                     val statusesCopy = statuses.toMutableList()
 
                     // Remove first and last statuses if they were used used just for overlap
-                    if (statusesCopy.firstOrNull()?.id == maxId) statusesCopy.removeAt(0)
-                    if (statusesCopy.lastOrNull()?.id == sinceId) {
+                    if (maxId != null && statusesCopy.firstOrNull()?.id == maxId) {
+                        statusesCopy.removeAt(0)
+                    }
+                    if (sinceId != null && statusesCopy.lastOrNull()?.id == sinceId) {
                         statusesCopy.removeAt(statuses.size - 1)
                     }
 
