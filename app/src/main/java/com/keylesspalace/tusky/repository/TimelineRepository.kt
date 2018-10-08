@@ -122,8 +122,21 @@ class TimelineRepostiryImpl(
     ): Pair<Placeholder?, Placeholder?> {
         if (statuses.isEmpty()) return null to null
 
+        val firstId = statuses.first().id
+        val prepend = if (maxId != null) {
+            if (maxId > firstId) {
+                val decMax = this.incId(maxId, -1)
+                if (decMax != firstId) {
+                    Placeholder(decMax)
+                } else null
+            } else null
+        } else {
+            // Placeholders never overwrite real values so it's safe
+            Placeholder(incId(firstId, 1))
+        }
+
         val lastId = statuses.last().id
-        val prepend = if (sinceId != null) {
+        val append = if (sinceId != null) {
             if (sinceId < lastId) {
                 val incSince = this.incId(sinceId, 1)
                 if (incSince != lastId) {
@@ -133,19 +146,6 @@ class TimelineRepostiryImpl(
         } else {
             // Placeholders never overwrite real values so it's safe
             Placeholder(incId(lastId, -1))
-        }
-
-        val firstId = statuses.first().id
-        val append = if (maxId != null) {
-            if (maxId > firstId) {
-                val decMax = this.incId(maxId, -1)
-                if (decMax != firstId) {
-                    Placeholder(decMax)
-                } else null
-            } else null
-        } else {
-            // Placeholders never overwrite real values so it's safe
-            Placeholder(incId(firstId, -1))
         }
 
         return prepend to append
