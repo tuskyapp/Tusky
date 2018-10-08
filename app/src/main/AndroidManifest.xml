@@ -113,6 +113,8 @@
         <activity android:name=".ListsActivity" />
         <activity android:name=".ModalTimelineActivity" />
         <activity android:name=".LicenseActivity" />
+        <activity android:name=".AccountSettingsActivity" />
+
         <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
 
         <receiver

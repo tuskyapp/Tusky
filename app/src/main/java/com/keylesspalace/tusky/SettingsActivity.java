@@ -27,7 +27,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.keylesspalace.tusky.fragment.PreferencesFragment;
+import com.keylesspalace.tusky.fragment.SettingsFragment;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 public class SettingsActivity extends BaseActivity
@@ -76,7 +76,7 @@ public class SettingsActivity extends BaseActivity
 
         //TODO: cache the Fragments so they can be reused
         getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, PreferencesFragment.newInstance(preferenceId))
+                .replace(R.id.fragment_container, SettingsFragment.newInstance(preferenceId))
                 .commit();
 
         getFragmentManager().executePendingTransactions();

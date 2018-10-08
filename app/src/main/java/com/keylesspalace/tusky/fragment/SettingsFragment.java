@@ -37,13 +37,13 @@ import com.keylesspalace.tusky.db.AccountManager;
 
 import java.util.regex.Pattern;
 
-public class PreferencesFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     SharedPreferences sharedPreferences;
     static boolean httpProxyChanged = false;
     static boolean pendingRestart = false;
 
-    public static PreferencesFragment newInstance(@XmlRes int preference) {
-        PreferencesFragment fragment = new PreferencesFragment();
+    public static SettingsFragment newInstance(@XmlRes int preference) {
+        SettingsFragment fragment = new SettingsFragment();
 
         Bundle args = new Bundle();
         args.putInt("preference", preference);

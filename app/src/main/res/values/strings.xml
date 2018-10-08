@@ -230,6 +230,14 @@
         <item>Largest</item>
     </string-array>
 
+    <string name="pref_media_display">Media display</string>
+
+    <string-array name="media_display_names">
+        <item>Hide media marked as sensitive</item>
+        <item>Always show media marked as sensitive</item>
+        <item>Always hide all media</item>
+    </string-array>
+
     <string name="notification_channel_mention_name">New Mentions</string>
     <string name="notification_channel_mention_descriptions">Notifications about new mentions</string>
     <string name="notification_channel_follow_name">New Followers</string>

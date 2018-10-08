@@ -89,4 +89,7 @@ abstract class ActivitiesModule {
     @ContributesAndroidInjector
     abstract fun contributesLicenseActivity(): LicenseActivity
 
+    @ContributesAndroidInjector
+    abstract fun contributesAccountSettingsActivity(): AccountSettingsActivity
+
 }

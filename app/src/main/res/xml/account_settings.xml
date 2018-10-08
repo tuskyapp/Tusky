@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="@string/preferences_file_key">
+
+        <Preference
+            android:key="notificationPreferences"
+            android:icon="@drawable/ic_notifications_24dp"
+            android:title="@string/pref_title_edit_notification_settings" />
+
+        <Preference
+            android:key="notificationPreferences1"
+            android:icon="@drawable/ic_mute_24dp"
+            android:title="Muted Users" />
+
+        <Preference
+            android:key="notificationPreferences2"
+            android:title="Blocked Users" />
+
+    <PreferenceCategory android:title="@string/pref_publishing">
+
+        <ListPreference
+            android:defaultValue="public"
+            android:entries="@array/post_privacy_names"
+            android:entryValues="@array/post_privacy_values"
+            android:key="defaultPostPrivacy"
+            android:summary="%s"
+            android:title="@string/pref_default_post_privacy" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="defaultSensitive123"
+            android:icon="@drawable/ic_eye_24dp"
+            android:title="Always mark media as sensitive" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Timelines">
+
+    <ListPreference
+        android:defaultValue="false"
+        android:key="alwaysShowSensitiveMedia1234"
+        android:title="@string/pref_title_alway_show_sensitive_media" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
