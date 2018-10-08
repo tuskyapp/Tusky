@@ -71,8 +71,8 @@ public abstract class StatusViewData {
         private final String nickname;
         private final String avatar;
         private final Date createdAt;
-        private final int reblogsCount;
-        private final int favouritesCount;
+        private final long reblogsCount;
+        private final long favouritesCount;
         @Nullable
         private final String inReplyToId;
         // I would rather have something else but it would be too much of a rewrite
@@ -92,7 +92,7 @@ public abstract class StatusViewData {
                         @Nullable String spoilerText, Status.Visibility visibility, List<Attachment> attachments,
                         @Nullable String rebloggedByUsername, @Nullable String rebloggedAvatar, boolean sensitive, boolean isExpanded,
                         boolean isShowingContent, String userFullName, String nickname, String avatar,
-                        Date createdAt, int reblogsCount, int favouritesCount, @Nullable String inReplyToId,
+                        Date createdAt, long reblogsCount, long favouritesCount, @Nullable String inReplyToId,
                         @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
                         Status.Application application, List<Emoji> statusEmojis, List<Emoji> accountEmojis, @Nullable Card card,
                         boolean isCollapsible, boolean isCollapsed) {
@@ -200,11 +200,11 @@ public abstract class StatusViewData {
             return createdAt;
         }
 
-        public int getReblogsCount() {
+        public long getReblogsCount() {
             return reblogsCount;
         }
 
-        public int getFavouritesCount() {
+        public long getFavouritesCount() {
             return favouritesCount;
         }
 
@@ -390,8 +390,8 @@ public abstract class StatusViewData {
         private String nickname;
         private String avatar;
         private Date createdAt;
-        private int reblogsCount;
-        private int favouritesCount;
+        private long reblogsCount;
+        private long favouritesCount;
         private String inReplyToId;
         private Status.Mention[] mentions;
         private String senderId;
@@ -517,12 +517,12 @@ public abstract class StatusViewData {
             return this;
         }
 
-        public Builder setReblogsCount(int reblogsCount) {
+        public Builder setReblogsCount(long reblogsCount) {
             this.reblogsCount = reblogsCount;
             return this;
         }
 
-        public Builder setFavouritesCount(int favouritesCount) {
+        public Builder setFavouritesCount(long favouritesCount) {
             this.favouritesCount = favouritesCount;
             return this;
         }
