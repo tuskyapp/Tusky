@@ -110,6 +110,8 @@ class TimelineRepostiryImpl(
             if (statuses.size > 2) {
                 timelineDao.removeAllPlaceholdersBetween(accountId, statuses.first().id,
                         statuses.last().id)
+            } else if (maxId != null && sinceId != null) {
+                timelineDao.removeAllPlaceholdersBetween(accountId, maxId, sinceId)
             }
         }
                 .subscribeOn(Schedulers.io())
