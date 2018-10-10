@@ -477,8 +477,11 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void loadAbove() {
-        this.sendFetchTimelineRequest(null, this.statuses.get(0).asRight().getId(),
-                FetchEnd.TOP, -1);
+        Either<Placeholder, Status> firstOrNull =
+                CollectionsKt.firstOrNull(this.statuses, Either::isRight);
+        if (firstOrNull != null) {
+            this.sendFetchTimelineRequest(null, firstOrNull.asRight().getId(), FetchEnd.TOP, -1);
+        }
     }
 
     @Override
