@@ -249,6 +249,8 @@ public class TimelineFragment extends SFragment implements
         this.disposable.add(this.timeilneRepo.getStatuses(null, null, LOAD_AT_ONCE, true)
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(statuses -> {
+                    filterStatuses(statuses);
+
                     final String topId;
                     if (statuses.size() > 1) {
                         this.statuses.addAll(statuses);
@@ -266,7 +268,6 @@ public class TimelineFragment extends SFragment implements
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(statuses -> {
-                    this.onFetchTimelineSuccess(statuses, FetchEnd.TOP, -1);
                     this.bottomLoading = false;
                     // Get more statuses so that users know that something is there
                     this.loadAbove();
@@ -476,7 +477,8 @@ public class TimelineFragment extends SFragment implements
         Either<Placeholder, Status> firstOrNull =
                 CollectionsKt.firstOrNull(this.statuses, Either::isRight);
         if (firstOrNull != null) {
-            this.sendFetchTimelineRequest(null, firstOrNull.asRight().getId(), FetchEnd.TOP, -1);
+            String sinceId = idPlus(firstOrNull.asRight().getId(), -1);
+            this.sendFetchTimelineRequest(null, sinceId, FetchEnd.TOP, -1);
         }
     }
 
@@ -928,12 +930,12 @@ public class TimelineFragment extends SFragment implements
     private void filterStatuses(List<Either<Placeholder, Status>> statuses) {
         Iterator<Either<Placeholder, Status>> it = statuses.iterator();
         while (it.hasNext()) {
-            Status status = it.next().asRight();
+            Status status = it.next().asRightOrNull();
             if (status != null
-                    && (status.getInReplyToId() != null && filterRemoveReplies)
+                    && ((status.getInReplyToId() != null && filterRemoveReplies)
                     || (status.getReblog() != null && filterRemoveReblogs)
                     || (filterRemoveRegex && (filterRemoveRegexMatcher.reset(status.getContent()).find()
-                    || (!status.getSpoilerText().isEmpty() && filterRemoveRegexMatcher.reset(status.getSpoilerText()).find())))) {
+                    || (!status.getSpoilerText().isEmpty() && filterRemoveRegexMatcher.reset(status.getSpoilerText()).find()))))) {
                 it.remove();
             }
         }
@@ -965,7 +967,17 @@ public class TimelineFragment extends SFragment implements
                 statuses.addAll(0, newStatuses.subList(0, newIndex));
             }
         }
+        // Remove all consecutive placeholders
+        removeConsecutivePlaceholders();
         updateAdapter();
+    }
+
+    private void removeConsecutivePlaceholders() {
+        for (int i = 0; i < statuses.size() - 1; i++) {
+            if (!statuses.get(i).isRight() && !statuses.get(i + 1).isRight()) {
+                statuses.remove(i);
+            }
+        }
     }
 
     private void addItems(List<Either<Placeholder, Status>> newStatuses) {
@@ -983,6 +995,7 @@ public class TimelineFragment extends SFragment implements
         // types by ID anyway and we should change equals() for Status, I think, so this makes sense
         if (last != null && !newStatuses.contains(last)) {
             statuses.addAll(newStatuses);
+            removeConsecutivePlaceholders();
             updateAdapter();
         }
     }
@@ -1004,6 +1017,8 @@ public class TimelineFragment extends SFragment implements
         }
 
         statuses.addAll(pos, newStatuses);
+        removeConsecutivePlaceholders();
+
         updateAdapter();
 
     }
