@@ -45,30 +45,19 @@ class TimelineRepostiryImpl(
         }
     }
 
-    private fun getStatusesFromNetwork(maxId: String?, sinceId: String?, limit: Int, instance: String,
-                                       accountId: Long): Single<out List<TimelineStatus>> {
+    private fun getStatusesFromNetwork(maxId: String?, sinceId: String?, limit: Int,
+                                       instance: String, accountId: Long
+    ): Single<out List<TimelineStatus>> {
         val maxIdInc = maxId?.let { this.incId(it, 1) }
         val sinceIdDec = sinceId?.let { this.incId(it, -1) }
         return mastodonApi.homeTimelineSingle(maxIdInc, sinceIdDec, limit + 2)
                 .doAfterSuccess { statuses ->
                     this.saveStatusesToDb(instance, accountId, statuses, maxId, sinceId)
                 }
-                // Hinting types to the compiler by the anonymous function
-                // Did you even see one of these before?
-                .map(fun(statuses: List<Status>): List<Either<Placeholder, Status>> {
-
-                    val statusesCopy = statuses.toMutableList()
-
-                    // Remove first and last statuses if they were used used just for overlap
-                    if (maxId != null && statusesCopy.firstOrNull()?.id == maxId) {
-                        statusesCopy.removeAt(0)
-                    }
-                    if (sinceId != null && statusesCopy.lastOrNull()?.id == sinceId) {
-                        statusesCopy.removeAt(statuses.size - 1)
-                    }
-
-                    return statusesCopy.map { s -> Either.Right<Placeholder, Status>(s) }
-                })
+                .map { statuses -> this.removePlaceholdersAndMap(statuses, maxId, sinceId) }
+                .flatMap { statuses ->
+                    this.addFromDbIfNeeded(accountId, statuses, maxId, sinceId, limit)
+                }
                 .onErrorResumeNext { error ->
                     if (error is IOException) {
                         this.getStatusesFromDb(accountId, maxId, sinceId, limit)
@@ -76,6 +65,47 @@ class TimelineRepostiryImpl(
                         Single.error(error)
                     }
                 }
+    }
+
+    private fun removePlaceholdersAndMap(statuses: List<Status>, maxId: String?,
+                                         sinceId: String?
+    ): List<Either.Right<Placeholder, Status>> {
+        val statusesCopy = statuses.toMutableList()
+
+        // Remove first and last statuses if they were used used just for overlap
+        if (maxId != null && statusesCopy.firstOrNull()?.id == maxId) {
+            statusesCopy.removeAt(0)
+        }
+        if (sinceId != null && statusesCopy.lastOrNull()?.id == sinceId) {
+            statusesCopy.removeAt(statuses.size - 1)
+        }
+
+        return statusesCopy.map { s -> Either.Right<Placeholder, Status>(s) }
+    }
+
+    private fun addFromDbIfNeeded(accountId: Long, statuses: List<Either<Placeholder, Status>>,
+                          maxId: String?, sinceId: String?, limit: Int
+    ): Single<List<TimelineStatus>>? {
+        return if (maxId != null && statuses.size < 2) {
+            val newMaxID = if (statuses.isEmpty()) {
+                maxId
+            } else {
+                // It's statuses from network. They're always Right
+                statuses.last().asRight().id
+            }
+            this.getStatusesFromDb(accountId, newMaxID, sinceId, limit)
+                    .map { fromDb ->
+                        // If it's just placeholders and less than limit (so we exhausted both
+                        // db and server at this point)
+                        if (fromDb.size < limit && fromDb.all { !it.isRight() }) {
+                            statuses
+                        } else {
+                            statuses + fromDb
+                        }
+                    }
+        } else {
+            Single.just(statuses)
+        }
     }
 
     private fun getStatusesFromDb(accountId: Long, maxId: String?, sinceId: String?,
