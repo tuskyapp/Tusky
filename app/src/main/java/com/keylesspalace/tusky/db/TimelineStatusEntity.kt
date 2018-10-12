@@ -40,6 +40,7 @@ data class TimelineStatusEntity(
         val emojis: String?,
         val reblogsCount: Int,
         val favouritesCount: Int,
+        val repliesCount: Int,
         val reblogged: Boolean,
         val favourited: Boolean,
         val sensitive: Boolean,

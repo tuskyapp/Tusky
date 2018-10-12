@@ -294,6 +294,7 @@
     <string name="status_share_link">Share link to toot</string>
     <string name="status_media_images">Images</string>
     <string name="status_media_video">Video</string>
+    <string name="status_count_one_plus">1+</string>
 
     <string name="state_follow_requested">Follow requested</string>
 

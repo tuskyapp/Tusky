@@ -74,6 +74,7 @@ public abstract class StatusViewData {
         private final Date createdAt;
         private final int reblogsCount;
         private final int favouritesCount;
+        private final int repliesCount;
         @Nullable
         private final String inReplyToId;
         // I would rather have something else but it would be too much of a rewrite
@@ -96,7 +97,7 @@ public abstract class StatusViewData {
                         @Nullable String spoilerText, Status.Visibility visibility, List<Attachment> attachments,
                         @Nullable String rebloggedByUsername, @Nullable String rebloggedAvatar, boolean sensitive, boolean isExpanded,
                         boolean isShowingContent, String userFullName, String nickname, String avatar,
-                        Date createdAt, int reblogsCount, int favouritesCount, @Nullable String inReplyToId,
+                        Date createdAt, int reblogsCount, int favouritesCount, int repliesCount, @Nullable String inReplyToId,
                         @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
                         Status.Application application, List<Emoji> statusEmojis, List<Emoji> accountEmojis, @Nullable Card card,
                         boolean isCollapsible, boolean isCollapsed, @Nullable PollViewData poll, boolean isBot) {
@@ -126,6 +127,7 @@ public abstract class StatusViewData {
             this.createdAt = createdAt;
             this.reblogsCount = reblogsCount;
             this.favouritesCount = favouritesCount;
+            this.repliesCount = repliesCount;
             this.inReplyToId = inReplyToId;
             this.mentions = mentions;
             this.senderId = senderId;
@@ -215,6 +217,10 @@ public abstract class StatusViewData {
 
         public int getFavouritesCount() {
             return favouritesCount;
+        }
+
+        public int getRepliesCount() {
+            return repliesCount;
         }
 
         @Nullable
@@ -408,6 +414,7 @@ public abstract class StatusViewData {
         private Date createdAt;
         private int reblogsCount;
         private int favouritesCount;
+        private int repliesCount;
         private String inReplyToId;
         private Status.Mention[] mentions;
         private String senderId;
@@ -443,6 +450,7 @@ public abstract class StatusViewData {
             createdAt = new Date(viewData.createdAt.getTime());
             reblogsCount = viewData.reblogsCount;
             favouritesCount = viewData.favouritesCount;
+            repliesCount = viewData.repliesCount;
             inReplyToId = viewData.inReplyToId;
             mentions = viewData.mentions == null ? null : viewData.mentions.clone();
             senderId = viewData.senderId;
@@ -552,6 +560,11 @@ public abstract class StatusViewData {
             return this;
         }
 
+        public Builder setRepliesCount(int repliesCount) {
+            this.repliesCount = repliesCount;
+            return this;
+        }
+
         public Builder setInReplyToId(String inReplyToId) {
             this.inReplyToId = inReplyToId;
             return this;
@@ -629,7 +642,7 @@ public abstract class StatusViewData {
             return new StatusViewData.Concrete(id, content, reblogged, favourited, spoilerText, visibility,
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
                     isShowingContent, userFullName, nickname, avatar, createdAt, reblogsCount,
-                    favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application,
+                    favouritesCount, repliesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application,
                     statusEmojis, accountEmojis, card, isCollapsible, isCollapsed, poll, isBot);
         }
     }

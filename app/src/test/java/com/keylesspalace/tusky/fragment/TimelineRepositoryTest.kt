@@ -302,6 +302,7 @@ class TimelineRepositoryTest {
                 emojis = listOf(),
                 reblogsCount = 3,
                 favouritesCount = 5,
+                repliesCount = 1,
                 sensitive = false,
                 visibility = Status.Visibility.PUBLIC,
                 spoilerText = "",

@@ -423,6 +423,16 @@
         app:layout_constraintTop_toBottomOf="@id/status_poll_description"
         app:srcCompat="@drawable/ic_reply_24dp" />
 
+    <TextView
+        android:id="@+id/status_replies"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/status_reply"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_description"
+        android:textAlignment="viewEnd"
+        android:textSize="?attr/status_text_medium" />
+
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_inset"
         android:layout_width="30dp"

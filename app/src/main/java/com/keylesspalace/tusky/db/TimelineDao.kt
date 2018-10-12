@@ -24,7 +24,7 @@ abstract class TimelineDao {
     @Query("""
 SELECT s.serverId, s.url, s.timelineUserId,
 s.authorServerId, s.inReplyToId, s.inReplyToAccountId, s.createdAt,
-s.emojis, s.reblogsCount, s.favouritesCount, s.reblogged, s.favourited, s.sensitive,
+s.emojis, s.reblogsCount, s.favouritesCount, s.repliesCount, s.reblogged, s.favourited, s.sensitive,
 s.spoilerText, s.visibility, s.mentions, s.application, s.reblogServerId,s.reblogAccountId,
 s.content, s.attachments, s.poll,
 a.serverId as 'a_serverId', a.timelineUserId as 'a_timelineUserId',
