@@ -62,6 +62,10 @@ android {
             includeAndroidResources = true
         }
     }
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
+
 }
 
 ext.supportLibraryVersion = '28.0.0'
@@ -117,6 +121,7 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    androidTestImplementation('android.arch.persistence.room:testing:1.1.1')
     debugImplementation 'im.dino:dbinspector:3.4.1@aar'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.1'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
