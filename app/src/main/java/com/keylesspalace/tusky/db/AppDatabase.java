@@ -132,7 +132,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     "`avatar` TEXT NOT NULL, " +
                     "PRIMARY KEY(`serverId`, `timelineUserId`))");
 
-            database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineStatus` (" +
+            database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineStatusEntity` (" +
                     "`serverId` TEXT NOT NULL, " +
                     "`url` TEXT, " +
                     "`timelineUserId` INTEGER NOT NULL, " +
@@ -148,8 +148,8 @@ public abstract class AppDatabase extends RoomDatabase {
                     "`reblogged` INTEGER NOT NULL, " +
                     "`favourited` INTEGER NOT NULL, " +
                     "`sensitive` INTEGER NOT NULL, " +
-                    "`spoilerText` TEXT NOT NULL, " +
-                    "`visibility` INTEGER NOT NULL, " +
+                    "`spoilerText` TEXT, " +
+                    "`visibility` INTEGER, " +
                     "`attachments` TEXT, " +
                     "`mentions` TEXT, " +
                     "`application` TEXT, " +
@@ -160,7 +160,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     "ON UPDATE NO ACTION ON DELETE NO ACTION )");
             database.execSQL("CREATE  INDEX " +
                     "`index_TimelineStatusEntity_authorServerId_timelineUserId` " +
-                    "ON `${TABLE_NAME}` (`authorServerId`, `timelineUserId`)");
+                    "ON `TimelineStatusEntity` (`authorServerId`, `timelineUserId`)");
         }
     };
 
