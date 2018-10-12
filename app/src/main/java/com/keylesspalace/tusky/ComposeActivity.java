@@ -1418,6 +1418,8 @@ public final class ComposeActivity
             statusMarkSensitive = true;
             contentWarningBar.setVisibility(View.VISIBLE);
             contentWarningButton.setTextColor(ContextCompat.getColor(this, R.color.primary));
+            contentWarningEditor.setSelection(contentWarningEditor.getText().length());
+            contentWarningEditor.requestFocus();
         } else {
             contentWarningBar.setVisibility(View.GONE);
             contentWarningButton.setTextColor(ThemeUtils.getColor(this, android.R.attr.textColorTertiary));
