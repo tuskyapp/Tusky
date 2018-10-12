@@ -71,6 +71,7 @@ fun StatusViewData.Concrete.toConversationStatusEntity(
         createdAt = status.createdAt,
         emojis = status.emojis,
         favouritesCount = status.favouritesCount,
+        repliesCount = status.repliesCount,
         favourited = favourited,
         bookmarked = bookmarked,
         sensitive = status.sensitive,

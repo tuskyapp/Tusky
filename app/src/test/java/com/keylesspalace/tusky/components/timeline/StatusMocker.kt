@@ -29,6 +29,7 @@ fun mockStatus(id: String = "100") = Status(
     emojis = emptyList(),
     reblogsCount = 1,
     favouritesCount = 2,
+    repliesCount = 3,
     reblogged = false,
     favourited = true,
     bookmarked = true,
