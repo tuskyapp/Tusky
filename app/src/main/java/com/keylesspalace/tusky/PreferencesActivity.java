@@ -27,10 +27,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.keylesspalace.tusky.fragment.SettingsFragment;
+import com.keylesspalace.tusky.fragment.PreferencesFragment;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
-public class SettingsActivity extends BaseActivity
+public class PreferencesActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private boolean restartActivitiesOnExit;
@@ -49,7 +49,7 @@ public class SettingsActivity extends BaseActivity
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_preferences);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -76,7 +76,7 @@ public class SettingsActivity extends BaseActivity
 
         //TODO: cache the Fragments so they can be reused
         getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, SettingsFragment.newInstance(preferenceId))
+                .replace(R.id.fragment_container, PreferencesFragment.newInstance(preferenceId))
                 .commit();
 
         getFragmentManager().executePendingTransactions();

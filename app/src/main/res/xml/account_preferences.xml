@@ -3,18 +3,16 @@
     android:key="@string/preferences_file_key">
 
         <Preference
-            android:key="notificationPreferences"
-            android:icon="@drawable/ic_notifications_24dp"
+            android:key="notificationPreference"
             android:title="@string/pref_title_edit_notification_settings" />
 
         <Preference
-            android:key="notificationPreferences1"
-            android:icon="@drawable/ic_mute_24dp"
-            android:title="Muted Users" />
+            android:key="mutedUsersPreference"
+            android:title="@string/action_view_mutes" />
 
         <Preference
-            android:key="notificationPreferences2"
-            android:title="Blocked Users" />
+            android:key="blockedUsersPreference"
+            android:title="@string/action_view_blocks" />
 
     <PreferenceCategory android:title="@string/pref_publishing">
 
@@ -28,13 +26,13 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="defaultSensitive123"
+            android:key="defaultMediaSensitivity"
             android:icon="@drawable/ic_eye_24dp"
             android:title="Always mark media as sensitive" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Timelines">
+    <PreferenceCategory android:title="@string/pref_title_timelines">
 
     <ListPreference
         android:defaultValue="false"

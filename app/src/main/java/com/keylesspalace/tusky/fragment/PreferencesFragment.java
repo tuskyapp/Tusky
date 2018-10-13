@@ -16,11 +16,8 @@
 package com.keylesspalace.tusky.fragment;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -28,22 +25,18 @@ import android.support.annotation.XmlRes;
 import android.text.Editable;
 import android.text.TextWatcher;
 
-import com.keylesspalace.tusky.BuildConfig;
-import com.keylesspalace.tusky.SettingsActivity;
+import com.keylesspalace.tusky.PreferencesActivity;
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.TuskyApplication;
-import com.keylesspalace.tusky.db.AccountEntity;
-import com.keylesspalace.tusky.db.AccountManager;
 
 import java.util.regex.Pattern;
 
-public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class PreferencesFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     SharedPreferences sharedPreferences;
     static boolean httpProxyChanged = false;
     static boolean pendingRestart = false;
 
-    public static SettingsFragment newInstance(@XmlRes int preference) {
-        SettingsFragment fragment = new SettingsFragment();
+    public static PreferencesFragment newInstance(@XmlRes int preference) {
+        PreferencesFragment fragment = new PreferencesFragment();
 
         Bundle args = new Bundle();
         args.putInt("preference", preference);
@@ -53,15 +46,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         return fragment;
     }
 
-    private AccountManager accountManager;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        accountManager = TuskyApplication.getInstance(getActivity()).getServiceLocator()
-                .get(AccountManager.class);
-
 
         int preference = getArguments().getInt("preference");
 
@@ -94,46 +81,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             return false;
         });
 
-        Preference notificationPreferences = findPreference("notificationPreferences");
-
-        if (notificationPreferences != null) {
-
-            AccountEntity activeAccount = accountManager.getActiveAccount();
-
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O && activeAccount != null) {
-                notificationPreferences.setSummary(getString(R.string.pref_summary_notifications, activeAccount.getFullName()));
-            }
-
-
-            //on Android O and newer, launch the system notification settings instead of the app settings
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-                notificationPreferences.setOnPreferenceClickListener(pref -> {
-                    Intent intent = new Intent();
-                    intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
-
-                    intent.putExtra("android.provider.extra.APP_PACKAGE", BuildConfig.APPLICATION_ID);
-
-                    startActivity(intent);
-                    return true;
-                });
-
-            } else {
-                notificationPreferences.setOnPreferenceClickListener(pref -> {
-                    SettingsActivity activity = (SettingsActivity) getActivity();
-                    if (activity != null) {
-                        activity.showFragment(R.xml.notification_preferences, R.string.pref_title_edit_notification_settings);
-                    }
-
-                    return true;
-                });
-            }
-        }
-
         Preference timelineFilterPreferences = findPreference("timelineFilterPreferences");
         if (timelineFilterPreferences != null) {
             timelineFilterPreferences.setOnPreferenceClickListener(pref -> {
-                SettingsActivity activity = (SettingsActivity) getActivity();
+                PreferencesActivity activity = (PreferencesActivity) getActivity();
                 if (activity != null) {
                     activity.showFragment(R.xml.timeline_filter_preferences, R.string.pref_title_status_tabs);
                 }
@@ -145,7 +96,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         Preference httpProxyPreferences = findPreference("httpProxyPreferences");
         if (httpProxyPreferences != null) {
             httpProxyPreferences.setOnPreferenceClickListener(pref -> {
-                SettingsActivity activity = (SettingsActivity) getActivity();
+                PreferencesActivity activity = (PreferencesActivity) getActivity();
                 if (activity != null) {
                     pendingRestart = false;
                     activity.showFragment(R.xml.http_proxy_preferences, R.string.pref_title_http_proxy_settings);
@@ -153,38 +104,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
                 return true;
             });
-        }
-
-        if (preference == R.xml.notification_preferences) {
-
-            AccountEntity activeAccount = accountManager.getActiveAccount();
-
-            if (activeAccount != null) {
-
-                CheckBoxPreference notificationPref = (CheckBoxPreference) findPreference("notificationsEnabled");
-                notificationPref.setChecked(activeAccount.getNotificationsEnabled());
-
-                CheckBoxPreference mentionedPref = (CheckBoxPreference) findPreference("notificationFilterMentions");
-                mentionedPref.setChecked(activeAccount.getNotificationsMentioned());
-
-                CheckBoxPreference followedPref = (CheckBoxPreference) findPreference("notificationFilterFollows");
-                followedPref.setChecked(activeAccount.getNotificationsFollowed());
-
-                CheckBoxPreference boostedPref = (CheckBoxPreference) findPreference("notificationFilterReblogs");
-                boostedPref.setChecked(activeAccount.getNotificationsReblogged());
-
-                CheckBoxPreference favoritedPref = (CheckBoxPreference) findPreference("notificationFilterFavourites");
-                favoritedPref.setChecked(activeAccount.getNotificationsFavorited());
-
-                CheckBoxPreference soundPref = (CheckBoxPreference) findPreference("notificationAlertSound");
-                soundPref.setChecked(activeAccount.getNotificationSound());
-
-                CheckBoxPreference vibrationPref = (CheckBoxPreference) findPreference("notificationAlertVibrate");
-                vibrationPref.setChecked(activeAccount.getNotificationVibration());
-
-                CheckBoxPreference lightPref = (CheckBoxPreference) findPreference("notificationAlertLight");
-                lightPref.setChecked(activeAccount.getNotificationLight());
-            }
         }
 
     }
@@ -224,39 +143,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 httpProxyChanged = true;
                 return;
             default:
-        }
-
-        AccountEntity activeAccount = accountManager.getActiveAccount();
-
-        if (activeAccount != null) {
-            switch (key) {
-                case "notificationsEnabled":
-                    activeAccount.setNotificationsEnabled(sharedPreferences.getBoolean(key, true));
-                    break;
-                case "notificationFilterMentions":
-                    activeAccount.setNotificationsMentioned(sharedPreferences.getBoolean(key, true));
-                    break;
-                case "notificationFilterFollows":
-                    activeAccount.setNotificationsFollowed(sharedPreferences.getBoolean(key, true));
-                    break;
-                case "notificationFilterReblogs":
-                    activeAccount.setNotificationsReblogged(sharedPreferences.getBoolean(key, true));
-                    break;
-                case "notificationFilterFavourites":
-                    activeAccount.setNotificationsFavorited(sharedPreferences.getBoolean(key, true));
-                    break;
-                case "notificationAlertSound":
-                    activeAccount.setNotificationSound(sharedPreferences.getBoolean(key, true));
-                    break;
-                case "notificationAlertVibrate":
-                    activeAccount.setNotificationVibration(sharedPreferences.getBoolean(key, true));
-                    break;
-                case "notificationAlertLight":
-                    activeAccount.setNotificationLight(sharedPreferences.getBoolean(key, true));
-                    break;
-            }
-            accountManager.saveAccount(activeAccount);
-
         }
 
     }

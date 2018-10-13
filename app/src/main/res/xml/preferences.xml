@@ -67,10 +67,6 @@
             android:summary="%s"
             android:title="@string/pref_title_pull_notification_check_interval" />
 
-        <Preference
-            android:key="notificationPreferences"
-            android:title="@string/pref_title_edit_notification_settings" />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_title_proxy_settings">

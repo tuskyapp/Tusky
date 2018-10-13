@@ -163,7 +163,7 @@
     <string name="visibility_direct">Direct: Post to mentioned users only</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
-    <string name="pref_title_edit_notification_settings">Edit Notifications</string>
+    <string name="pref_title_edit_notification_settings">Notifications</string>
     <string name="pref_title_notifications_enabled">Notifications</string>
     <string name="pref_summary_notifications">for account %1$s</string>
     <string name="pref_title_pull_notification_check_interval">Check Interval</string>
@@ -178,6 +178,7 @@
     <string name="pref_title_notification_filter_favourites">my posts are favourited</string>
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_app_theme">App Theme</string>
+    <string name="pref_title_timelines">Timelines</string>
 
     <string-array name="app_theme_names">
         <item>Dark</item>
