@@ -135,7 +135,7 @@
     <string name="visibility_direct">Direct : n’afficher que pour les personnes mentionnées.</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
-    <string name="pref_title_edit_notification_settings">Changer les réglages de notifications...</string>
+    <string name="pref_title_edit_notification_settings">Changer les réglages de notifications…</string>
     <string name="pref_title_notifications_enabled">Notifications.</string>
     <string name="pref_title_notification_alerts">Alertes</string>
     <string name="pref_title_notification_alert_sound">Émettre un son pour notifier.</string>
@@ -309,6 +309,16 @@
     <string name="download_fonts">Vous devez commencer par télécharger ces jeux d\'emoji</string>
     <string name="performing_lookup_title">Recherche en cours…</string>
     <string name="restart_emoji">Vous devez relancer Tusky pour appliquer ces changements</string>
+    <string name="error_video_upload_size">Les fichiers vidéos doivent faire moins de 40MB.</string>
+    <string name="title_licenses">Licences</string>
+    <string name="status_content_show_more">Déplier</string>
+    <string name="status_content_show_less">Replier</string>
+    <string name="action_hide_reblogs">Cacher les pouets</string>
+    <string name="action_show_reblogs">Montrer les pouets</string>
+    <string name="action_edit_own_profile">Editer</string>
+    <string name="send_media_to">Partager l\'image avec...</string>
+    <string name="dialog_delete_toot_warning">Supprimer ce pouet?</string>
+    <string name="profile_metadata_content_label">Contenu</string>
 
 
 </resources>
