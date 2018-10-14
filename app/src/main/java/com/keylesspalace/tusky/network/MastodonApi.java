@@ -159,6 +159,11 @@ public interface MastodonApi {
     @GET("api/v1/accounts/verify_credentials")
     Call<Account> accountVerifyCredentials();
 
+    @FormUrlEncoded
+    @PATCH("api/v1/accounts/update_credentials")
+    Call<Account> accountUpdateSource(@Nullable @Field("source[privacy]") String privacy,
+                                      @Nullable @Field("source[sensitive]") Boolean sensitive);
+
     @Multipart
     @PATCH("api/v1/accounts/update_credentials")
     Call<Account> accountUpdateCredentials(

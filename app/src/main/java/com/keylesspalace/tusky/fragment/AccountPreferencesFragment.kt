@@ -19,8 +19,13 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.support.v14.preference.SwitchPreference
+import android.support.v7.preference.ListPreference
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
+import android.util.Log
+import android.view.View
 
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Status
@@ -30,16 +35,32 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.keylesspalace.tusky.AccountListActivity
 import com.keylesspalace.tusky.AccountPreferencesActivity
 import com.keylesspalace.tusky.BuildConfig
+import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.network.MastodonApi
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import javax.inject.Inject
 
 
-class AccountPreferencesFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
+class AccountPreferencesFragment : PreferenceFragmentCompat(),
+        Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener,
+        Injectable {
+
+    @Inject
+    lateinit var accountManager: AccountManager
+
+    @Inject
+    lateinit var mastodonApi: MastodonApi
 
     private lateinit var notificationPreference: Preference
     private lateinit var mutedUsersPreference: Preference
     private lateinit var blockedUsersPreference: Preference
 
-    private lateinit var defaultPostPrivacyPreference: Preference
-    private lateinit var defaultMediaSensitivityPreference: Preference
+    private lateinit var defaultPostPrivacyPreference: ListPreference
+    private lateinit var defaultMediaSensitivityPreference: SwitchPreference
 
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -48,14 +69,12 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Preference.OnPref
         notificationPreference = findPreference("notificationPreference")
         mutedUsersPreference = findPreference("mutedUsersPreference")
         blockedUsersPreference = findPreference("blockedUsersPreference")
-        defaultPostPrivacyPreference = findPreference("defaultPostPrivacy")
-        defaultMediaSensitivityPreference = findPreference("defaultMediaSensitivity")
+        defaultPostPrivacyPreference = findPreference("defaultPostPrivacy") as ListPreference
+        defaultMediaSensitivityPreference = findPreference("defaultMediaSensitivity") as SwitchPreference
 
         notificationPreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_notifications).sizeDp(24).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
         mutedUsersPreference.icon = getTintedIcon(R.drawable.ic_mute_24dp)
         blockedUsersPreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_block).sizeDp(24).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
-        defaultPostPrivacyPreference.icon = getIconForVisibility(Status.Visibility.byString("public"))
-        defaultMediaSensitivityPreference.icon = getIconForSensitivity(false)
 
         notificationPreference.onPreferenceClickListener = this
         mutedUsersPreference.onPreferenceClickListener = this
@@ -66,14 +85,29 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Preference.OnPref
 
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        accountManager.activeAccount?.let {
+
+            defaultPostPrivacyPreference.value = it.defaultPostPrivacy.serverString()
+            defaultPostPrivacyPreference.icon = getIconForVisibility(it.defaultPostPrivacy)
+
+            defaultMediaSensitivityPreference.isChecked = it.defaultMediaSensitivity
+            defaultMediaSensitivityPreference.icon = getIconForSensitivity(it.defaultMediaSensitivity)
+        }
+    }
+
     override fun onPreferenceChange(preference: Preference?, newValue: Any?): Boolean {
         when(preference) {
             defaultPostPrivacyPreference -> {
                 preference.icon = getIconForVisibility(Status.Visibility.byString(newValue as String))
+                syncWithServer(visibility = newValue)
                 return true
             }
             defaultMediaSensitivityPreference -> {
                 preference.icon = getIconForSensitivity(newValue as Boolean)
+                syncWithServer(sensitive = newValue)
                 return true
             }
         }
@@ -117,6 +151,40 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Preference.OnPref
             else -> return false
         }
 
+    }
+
+    private fun syncWithServer(visibility: String? = null, sensitive: Boolean? = null) {
+        mastodonApi.accountUpdateSource(visibility, sensitive)
+                .enqueue(object: Callback<Account>{
+                    override fun onResponse(call: Call<Account>, response: Response<Account>) {
+                        val account = response.body()
+                        if(response.isSuccessful && account != null) {
+
+                            accountManager.activeAccount?.let {
+                                it.defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC
+                                it.defaultMediaSensitivity = account.source?.sensitive ?: false
+                                accountManager.saveAccount(it)
+                            }
+                        } else {
+                            Log.e("AccountPreferences", "failed updating settings on server")
+                            showErrorSnackbar(visibility, sensitive)
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Account>, t: Throwable) {
+                        Log.e("AccountPreferences", "failed updating settings on server", t)
+                        showErrorSnackbar(visibility, sensitive)
+                    }
+
+                })
+    }
+
+    private fun showErrorSnackbar(visibility: String?, sensitive: Boolean?) {
+        view?.let {view ->
+            Snackbar.make(view, R.string.pref_failed_to_sync, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.action_retry) { syncWithServer( visibility, sensitive)}
+                    .show()
+        }
     }
 
     private fun getIconForVisibility(visibility: Status.Visibility): Drawable? {

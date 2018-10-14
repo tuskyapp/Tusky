@@ -46,4 +46,7 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun notificationPreferencesFragment(): NotificationPreferencesFragment
+
+    @ContributesAndroidInjector
+    abstract fun accountPreferencesFragment(): AccountPreferencesFragment
 }
