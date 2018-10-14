@@ -65,7 +65,7 @@
     <string name="action_retry">Erneut versuchen</string>
     <string name="action_close">Schließen</string>
     <string name="action_view_profile">Profil</string>
-    <string name="action_view_settings">Einstellungen</string>
+    <string name="action_view_preferences">Einstellungen</string>
     <string name="action_view_favourites">Favoriten</string>
     <string name="action_view_blocks">Blockierte Profile</string>
     <string name="action_view_media">Medien</string>

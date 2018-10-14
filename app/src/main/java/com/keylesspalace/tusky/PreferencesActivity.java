@@ -63,7 +63,7 @@ public class PreferencesActivity extends BaseActivity
 
         if (savedInstanceState == null) {
             currentPreferences = R.xml.preferences;
-            currentTitle = R.string.action_view_settings;
+            currentTitle = R.string.action_view_preferences;
         } else {
             currentPreferences = savedInstanceState.getInt("preferences");
             currentTitle = savedInstanceState.getInt("title");
@@ -150,7 +150,7 @@ public class PreferencesActivity extends BaseActivity
     public void onBackPressed() {
         //if we are not on the top level, show the top level. Else exit the activity
         if (currentPreferences != R.xml.preferences) {
-            showFragment(R.xml.preferences, R.string.action_view_settings);
+            showFragment(R.xml.preferences, R.string.action_view_preferences);
 
         } else {
             /* Switching themes won't actually change the theme of activities on the back stack.

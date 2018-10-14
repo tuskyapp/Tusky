@@ -68,7 +68,7 @@
     <string name="action_retry">Próbálja újra</string>
     <string name="action_close">Bezár</string>
     <string name="action_view_profile">Profil</string>
-    <string name="action_view_settings">Preferenciák</string>
+    <string name="action_view_preferences">Preferenciák</string>
     <string name="action_view_favourites">Kedvencek</string>
     <string name="action_view_mutes">Némított felhasználók</string>
     <string name="action_view_blocks">Blokkolt felhasználók</string>

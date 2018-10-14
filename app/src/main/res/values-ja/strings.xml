@@ -79,7 +79,7 @@
     <string name="action_retry">再試行</string>
     <string name="action_close">閉じる</string>
     <string name="action_view_profile">プロフィール</string>
-    <string name="action_view_settings">設定</string>
+    <string name="action_view_preferences">設定</string>
     <string name="action_view_favourites">お気に入り</string>
     <string name="action_view_mutes">ミュートしたユーザー</string>
     <string name="action_view_blocks">ブロックしたユーザー</string>

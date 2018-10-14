@@ -51,7 +51,7 @@ class AccountPreferencesActivity : BaseActivity(), HasSupportFragmentInjector {
                     .replace(R.id.fragment_container, NotificationPreferencesFragment.newInstance())
                     .commit()
         } else {
-            setTitle(R.string.action_view_account_settings)
+            setTitle(R.string.action_view_account_preferences)
             supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, AccountPreferencesFragment.newInstance())
                     .commit()

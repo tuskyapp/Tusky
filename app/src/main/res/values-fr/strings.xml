@@ -71,7 +71,7 @@
     <string name="action_retry">Réessayer</string>
     <string name="action_close">Fermer</string>
     <string name="action_view_profile">Profil</string>
-    <string name="action_view_settings">Préférences</string>
+    <string name="action_view_preferences">Préférences</string>
     <string name="action_view_favourites">Favoris</string>
     <string name="action_view_blocks">Utilisateurs bloqués</string>
     <string name="action_view_media">Média</string>

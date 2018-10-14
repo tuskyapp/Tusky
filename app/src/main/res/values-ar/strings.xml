@@ -78,7 +78,7 @@
     <string name="action_retry">إعادة المحاولة</string>
     <string name="action_close">إغلاق</string>
     <string name="action_view_profile">الملف الشخصي</string>
-    <string name="action_view_settings">التفضيلات</string>
+    <string name="action_view_preferences">التفضيلات</string>
     <string name="action_view_favourites">المفضلة</string>
     <string name="action_view_mutes">المستخدمون المكتومون</string>
     <string name="action_view_blocks">المستخدمون المحظورون</string>

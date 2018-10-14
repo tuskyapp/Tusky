@@ -78,7 +78,7 @@
     <string name="action_retry">Tornar ensajar</string>
     <string name="action_close">Tampar</string>
     <string name="action_view_profile">Perfil</string>
-    <string name="action_view_settings">Preferéncias</string>
+    <string name="action_view_preferences">Preferéncias</string>
     <string name="action_view_favourites">Preferits</string>
     <string name="action_view_mutes">Utilizaires silenciats</string>
     <string name="action_view_blocks">Utilizaires blocats</string>

@@ -78,7 +78,7 @@
     <string name="action_retry">Повторить</string>
     <string name="action_close">Закрыть</string>
     <string name="action_view_profile">Профиль</string>
-    <string name="action_view_settings">Настройки</string>
+    <string name="action_view_preferences">Настройки</string>
     <string name="action_view_favourites">Избранное</string>
     <string name="action_view_mutes">Список глушения</string>
     <string name="action_view_blocks">Список блокировки</string>
