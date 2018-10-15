@@ -64,6 +64,7 @@ data class Account(
         return account?.id == this.id
     }
 
+    fun isRemote(): Boolean = this.username != this.localUsername
 }
 
 @Parcelize

@@ -80,15 +80,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ViewVideoActivity"
-            android:theme="@style/TuskyBaseTheme"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
-        <activity
             android:name=".ViewThreadActivity"
             android:configChanges="orientation|screenSize" />
         <activity android:name=".ViewTagActivity" />
         <activity android:name=".ViewMediaActivity"
-            android:theme="@style/TuskyBaseTheme" />
+            android:theme="@style/TuskyBaseTheme"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity android:name=".AccountActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity android:name=".EditProfileActivity" />

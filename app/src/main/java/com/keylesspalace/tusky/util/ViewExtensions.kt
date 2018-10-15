@@ -11,9 +11,5 @@ fun View.hide() {
 }
 
 fun View.visible(visible: Boolean) {
-    this.visibility = if(visible) {
-        View.VISIBLE
-    } else {
-        View.GONE
-    }
+    this.visibility = if (visible) View.VISIBLE else View.GONE
 }
