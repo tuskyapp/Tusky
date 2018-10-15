@@ -23,12 +23,21 @@ import android.widget.MultiAutoCompleteTextView;
 public class MentionTokenizer implements MultiAutoCompleteTextView.Tokenizer {
     @Override
     public int findTokenStart(CharSequence text, int cursor) {
-        int i = cursor;
-        while (i > 0 && text.charAt(i - 1) != '@') {
-            if (!Character.isLetterOrDigit(text.charAt(i - 1))) return cursor;
-            i--;
+        if (cursor == 0) {
+            return cursor;
         }
-        if (i < 1 || text.charAt(i - 1) != '@') {
+
+        int i = cursor;
+        char character = text.charAt(i - 1);
+        while (i > 0 && character != '@') {
+            // See SpanUtilsKt.MENTION_REGEX
+            if (!Character.isLetterOrDigit(character) && character != '_') {
+                return cursor;
+            }
+            i--;
+            character = (i == 0) ? ' ' : text.charAt(i - 1);
+        }
+        if (i < 1 || character != '@') {
             return cursor;
         }
         return i;
