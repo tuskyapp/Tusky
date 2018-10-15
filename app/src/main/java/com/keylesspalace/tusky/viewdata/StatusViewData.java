@@ -15,7 +15,9 @@
 
 package com.keylesspalace.tusky.viewdata;
 
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
 import com.keylesspalace.tusky.entity.Attachment;
@@ -47,6 +49,9 @@ public abstract class StatusViewData {
     public abstract boolean deepEquals(StatusViewData other);
 
     public static final class Concrete extends StatusViewData {
+        private static final char SOFT_HYPHEN = '\u00ad';
+        private static final char ASCII_HYPHEN = '-';
+
         private final String id;
         private final Spanned content;
         private final boolean reblogged;
@@ -92,10 +97,18 @@ public abstract class StatusViewData {
                         Status.Application application, List<Emoji> statusEmojis, List<Emoji> accountEmojis, @Nullable Card card,
                         boolean isCollapsible, boolean isCollapsed) {
             this.id = id;
-            this.content = content;
+            if (Build.VERSION.SDK_INT == 23) {
+                // https://github.com/tuskyapp/Tusky/issues/563
+                this.content = replaceCrashingCharacters(content);
+                this.spoilerText = spoilerText == null ? null : replaceCrashingCharacters(spoilerText).toString();
+                this.nickname = replaceCrashingCharacters(nickname).toString();
+            } else {
+                this.content = content;
+                this.spoilerText = spoilerText;
+                this.nickname = nickname;
+            }
             this.reblogged = reblogged;
             this.favourited = favourited;
-            this.spoilerText = spoilerText;
             this.visibility = visibility;
             this.attachments = attachments;
             this.rebloggedByUsername = rebloggedByUsername;
@@ -104,7 +117,6 @@ public abstract class StatusViewData {
             this.isExpanded = isExpanded;
             this.isShowingContent = isShowingContent;
             this.userFullName = userFullName;
-            this.nickname = nickname;
             this.avatar = avatar;
             this.createdAt = createdAt;
             this.reblogsCount = reblogsCount;
@@ -287,6 +299,33 @@ public abstract class StatusViewData {
                     Objects.equals(accountEmojis, concrete.accountEmojis) &&
                     Objects.equals(card, concrete.card)
                     && isCollapsed == concrete.isCollapsed;
+        }
+
+        static Spanned replaceCrashingCharacters(Spanned content) {
+            return (Spanned) replaceCrashingCharacters((CharSequence) content);
+        }
+
+        static CharSequence replaceCrashingCharacters(CharSequence content) {
+            Boolean replacing = false;
+            SpannableStringBuilder builder = null;
+            int length = content.length();
+
+            for (int index = 0; index < length; ++index) {
+                char character = content.charAt(index);
+
+                // If there are more than one or two, switch to a map
+                if (character == SOFT_HYPHEN) {
+                    if (!replacing) {
+                        replacing = true;
+                        builder = new SpannableStringBuilder(content, 0, index);
+                    }
+                    builder.append(ASCII_HYPHEN);
+                } else if (replacing) {
+                    builder.append(character);
+                }
+            }
+
+            return replacing ? builder : content;
         }
     }
 
