@@ -119,6 +119,7 @@ public class TimelineFragment extends SFragment implements
     public TimelineCases timelineCases;
     @Inject
     public EventHub eventHub;
+    private boolean eventRegistered = false;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -304,7 +305,7 @@ public class TimelineFragment extends SFragment implements
                 break;
             }
         }
-        if(statuses.size() == 0) {
+        if (statuses.size() == 0) {
             nothingMessageView.setVisibility(View.VISIBLE);
         }
     }
@@ -378,41 +379,44 @@ public class TimelineFragment extends SFragment implements
         }
         recyclerView.addOnScrollListener(scrollListener);
 
-        eventHub.getEvents()
-                .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-                .subscribe(event -> {
-                    if (event instanceof FavoriteEvent) {
-                        FavoriteEvent favEvent = ((FavoriteEvent) event);
-                        handleFavEvent(favEvent);
-                    } else if (event instanceof ReblogEvent) {
-                        ReblogEvent reblogEvent = (ReblogEvent) event;
-                        handleReblogEvent(reblogEvent);
-                    } else if (event instanceof UnfollowEvent) {
-                        if (kind == Kind.HOME) {
-                            String id = ((UnfollowEvent) event).getAccountId();
-                            removeAllByAccountId(id);
+        if (!eventRegistered) {
+            eventHub.getEvents()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                    .subscribe(event -> {
+                        if (event instanceof FavoriteEvent) {
+                            FavoriteEvent favEvent = ((FavoriteEvent) event);
+                            handleFavEvent(favEvent);
+                        } else if (event instanceof ReblogEvent) {
+                            ReblogEvent reblogEvent = (ReblogEvent) event;
+                            handleReblogEvent(reblogEvent);
+                        } else if (event instanceof UnfollowEvent) {
+                            if (kind == Kind.HOME) {
+                                String id = ((UnfollowEvent) event).getAccountId();
+                                removeAllByAccountId(id);
+                            }
+                        } else if (event instanceof BlockEvent) {
+                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
+                                String id = ((BlockEvent) event).getAccountId();
+                                removeAllByAccountId(id);
+                            }
+                        } else if (event instanceof MuteEvent) {
+                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
+                                String id = ((MuteEvent) event).getAccountId();
+                                removeAllByAccountId(id);
+                            }
+                        } else if (event instanceof StatusDeletedEvent) {
+                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
+                                String id = ((StatusDeletedEvent) event).getStatusId();
+                                deleteStatusById(id);
+                            }
+                        } else if (event instanceof StatusComposedEvent) {
+                            Status status = ((StatusComposedEvent) event).getStatus();
+                            handleStatusComposeEvent(status);
                         }
-                    } else if (event instanceof BlockEvent) {
-                        if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
-                            String id = ((BlockEvent) event).getAccountId();
-                            removeAllByAccountId(id);
-                        }
-                    } else if (event instanceof MuteEvent) {
-                        if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
-                            String id = ((MuteEvent) event).getAccountId();
-                            removeAllByAccountId(id);
-                        }
-                    } else if (event instanceof StatusDeletedEvent) {
-                        if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
-                            String id = ((StatusDeletedEvent) event).getStatusId();
-                            deleteStatusById(id);
-                        }
-                    } else if (event instanceof StatusComposedEvent) {
-                        Status status = ((StatusComposedEvent) event).getStatus();
-                        handleStatusComposeEvent(status);
-                    }
-                });
+                    });
+            eventRegistered = true;
+        }
     }
 
     @Override
@@ -583,7 +587,7 @@ public class TimelineFragment extends SFragment implements
                     "Expected StatusViewData.Concrete, got %s instead at position: %d of %d",
                     status == null ? "<null>" : status.getClass().getSimpleName(),
                     position,
-                    statuses.size() -1
+                    statuses.size() - 1
             ));
             return;
         }
