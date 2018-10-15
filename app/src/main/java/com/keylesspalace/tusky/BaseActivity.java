@@ -15,31 +15,22 @@
 
 package com.keylesspalace.tusky;
 
-import android.Manifest;
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
@@ -48,7 +39,6 @@ import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -190,28 +180,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                 .build()
                 .scheduleAsync();
-    }
-
-    protected void downloadFile(String url) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-        } else {
-            String filename = new File(url).getName();
-
-            String toastText = String.format(getResources().getString(R.string.download_image), filename);
-            Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
-
-            DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-            request.allowScanningByMediaScanner();
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES,
-                    getString(R.string.app_name) + "/" + filename);
-            downloadManager.enqueue(request);
-        }
     }
 
     protected void showErrorDialog(View anyView, @StringRes int descriptionId, @StringRes int actionId, View.OnClickListener listener) {

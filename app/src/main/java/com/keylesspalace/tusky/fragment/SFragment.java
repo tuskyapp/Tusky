@@ -36,7 +36,6 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ReportActivity;
 import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
-import com.keylesspalace.tusky.ViewVideoActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Attachment;
@@ -234,6 +233,8 @@ public abstract class SFragment extends BaseFragment {
         final Attachment active = actionable.getAttachments().get(urlIndex);
         Attachment.Type type = active.getType();
         switch (type) {
+            case GIFV:
+            case VIDEO:
             case IMAGE: {
                 final List<AttachmentViewData> attachments = AttachmentViewData.list(actionable);
                 final Intent intent = ViewMediaActivity.newIntent(getContext(), attachments,
@@ -248,15 +249,6 @@ public abstract class SFragment extends BaseFragment {
                 } else {
                     startActivity(intent);
                 }
-                break;
-            }
-            case GIFV:
-            case VIDEO: {
-                Intent intent = new Intent(getContext(), ViewVideoActivity.class);
-                intent.putExtra(ViewVideoActivity.URL_EXTRA, active.getUrl());
-                intent.putExtra(ViewVideoActivity.STATUS_ID_EXTRA, actionable.getId());
-                intent.putExtra(ViewVideoActivity.STATUS_URL_EXTRA, actionable.getUrl());
-                startActivity(intent);
                 break;
             }
             case UNKNOWN: {

@@ -84,9 +84,6 @@ abstract class ActivitiesModule {
     abstract fun contributesViewMediaActivity(): ViewMediaActivity
 
     @ContributesAndroidInjector
-    abstract fun contributesViewVideoActivity(): ViewVideoActivity
-
-    @ContributesAndroidInjector
     abstract fun contributesLicenseActivity(): LicenseActivity
 
 }
