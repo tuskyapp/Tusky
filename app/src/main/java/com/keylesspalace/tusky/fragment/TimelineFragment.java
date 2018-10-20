@@ -271,6 +271,8 @@ public class TimelineFragment extends SFragment implements
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(statuses -> {
+                    this.updateStatuses(statuses, statuses.size() < LOAD_AT_ONCE);
+                    this.clearPlaceholdersForResponse(statuses);
                     this.bottomLoading = false;
                     // Get more statuses so that users know that something is there
                     this.loadAbove();
@@ -1001,6 +1003,39 @@ public class TimelineFragment extends SFragment implements
             statuses.addAll(newStatuses);
             removeConsecutivePlaceholders();
             updateAdapter();
+        }
+    }
+
+    /**
+     * If the response is from network, remove all placeholders in range.
+     * They may not be removed otherwise because they may have IDs we assigned to them.
+     */
+    private void clearPlaceholdersForResponse(List<Either<Placeholder, Status>> statuses) {
+        if (statuses.size() < 2) {
+            return;
+        }
+
+        String first;
+        if (statuses.get(0).isRight()) {
+            first = statuses.get(0).asRight().getId();
+        } else {
+            first = statuses.get(0).asLeft().getId();
+        }
+
+        String last;
+        if (statuses.get(statuses.size() - 1).isRight()) {
+            last = statuses.get(statuses.size() - 1).asRight().getId();
+        } else {
+            last = statuses.get(statuses.size() - 1).asLeft().getId();
+        }
+
+        for (ListIterator<Either<Placeholder, Status>> iterator = this.statuses.listIterator(); iterator.hasNext(); ) {
+            Either<Placeholder, Status> status = iterator.next();
+            if (!status.isRight()
+                    && (status.asLeft().getId().compareTo(first) < 0
+                    || status.asLeft().getId().compareTo(last) > 0)) {
+                iterator.remove();
+            }
         }
     }
 
