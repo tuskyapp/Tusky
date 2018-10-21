@@ -35,6 +35,8 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.keylesspalace.tusky.AccountListActivity
 import com.keylesspalace.tusky.AccountPreferencesActivity
 import com.keylesspalace.tusky.BuildConfig
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
@@ -54,6 +56,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
 
     @Inject
     lateinit var mastodonApi: MastodonApi
+
+    @Inject
+    lateinit var eventHub: EventHub
 
     private lateinit var notificationPreference: Preference
     private lateinit var mutedUsersPreference: Preference
@@ -107,17 +112,15 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         }
     }
 
-    override fun onPreferenceChange(preference: Preference?, newValue: Any?): Boolean {
+    override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
         when(preference) {
             defaultPostPrivacyPreference -> {
                 preference.icon = getIconForVisibility(Status.Visibility.byString(newValue as String))
                 syncWithServer(visibility = newValue)
-                return true
             }
             defaultMediaSensitivityPreference -> {
                 preference.icon = getIconForSensitivity(newValue as Boolean)
                 syncWithServer(sensitive = newValue)
-                return true
             }
             alwaysShowSensitiveMediaPreference -> {
                 accountManager.activeAccount?.let {
@@ -132,7 +135,10 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
                 }
             }
         }
-        return false
+
+        eventHub.dispatch(PreferenceChangedEvent(preference.key))
+
+        return true
     }
 
     override fun onPreferenceClick(preference: Preference): Boolean {
