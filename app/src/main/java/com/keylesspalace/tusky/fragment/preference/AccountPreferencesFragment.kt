@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.fragment
+package com.keylesspalace.tusky.fragment.preference
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
@@ -33,7 +33,7 @@ import com.keylesspalace.tusky.util.ThemeUtils
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.keylesspalace.tusky.AccountListActivity
-import com.keylesspalace.tusky.AccountPreferencesActivity
+import com.keylesspalace.tusky.PreferencesActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
@@ -152,7 +152,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
                     startActivity(intent)
                 } else {
                     activity?.let {
-                        val intent = AccountPreferencesActivity.newIntent(it, true)
+                        val intent = PreferencesActivity.newIntent(it, PreferencesActivity.NOTIFICATION_PREFERENCES)
                         it.startActivity(intent)
                         it.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
                     }

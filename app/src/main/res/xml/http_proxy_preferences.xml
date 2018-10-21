@@ -9,13 +9,11 @@
         android:title="@string/pref_title_http_proxy_enable"
         app:iconSpaceReserved="false" />
     <EditTextPreference
-        android:dependency="httpProxyEnabled"
         android:key="httpProxyServer"
         android:summary="%s"
         android:title="@string/pref_title_http_proxy_server"
         app:iconSpaceReserved="false" />
     <EditTextPreference
-        android:dependency="httpProxyEnabled"
         android:key="httpProxyPort"
         android:summary="%s"
         android:title="@string/pref_title_http_proxy_port"
