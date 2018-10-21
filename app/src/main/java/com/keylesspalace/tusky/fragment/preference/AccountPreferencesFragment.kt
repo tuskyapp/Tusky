@@ -26,21 +26,20 @@ import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import android.util.Log
 import android.view.View
-
-import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.util.ThemeUtils
-import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.mikepenz.iconics.IconicsDrawable
 import com.keylesspalace.tusky.AccountListActivity
-import com.keylesspalace.tusky.PreferencesActivity
 import com.keylesspalace.tusky.BuildConfig
+import com.keylesspalace.tusky.PreferencesActivity
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.ThemeUtils
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.IconicsDrawable
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -69,6 +68,8 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
     private lateinit var alwaysShowSensitiveMediaPreference: SwitchPreference
     private lateinit var mediaPreviewEnabledPreference: SwitchPreference
 
+    private val iconSize by lazy {resources.getDimensionPixelSize(R.dimen.preference_icon_size)}
+
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.account_preferences)
@@ -81,9 +82,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         alwaysShowSensitiveMediaPreference = findPreference("alwaysShowSensitiveMedia") as SwitchPreference
         mediaPreviewEnabledPreference = findPreference("mediaPreviewEnabled") as SwitchPreference
 
-        notificationPreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_notifications).sizeDp(24).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
+        notificationPreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_notifications).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
         mutedUsersPreference.icon = getTintedIcon(R.drawable.ic_mute_24dp)
-        blockedUsersPreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_block).sizeDp(24).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
+        blockedUsersPreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_block).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
 
         notificationPreference.onPreferenceClickListener = this
         mutedUsersPreference.onPreferenceClickListener = this

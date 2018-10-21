@@ -19,13 +19,27 @@ import android.os.Bundle
 import android.support.v7.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.PreferencesActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.getNonNullString
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.IconicsDrawable
 
 class PreferencesFragment : PreferenceFragmentCompat() {
+
+    private val iconSize by lazy {resources.getDimensionPixelSize(R.dimen.preference_icon_size)}
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         addPreferencesFromResource(R.xml.preferences)
+
+        val themePreference = findPreference("appTheme")
+        themePreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_palette).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
+
+        val emojiPreference = findPreference("emojiCompat")
+        emojiPreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_sentiment_satisfied).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
+
+        val textSizePreference = findPreference("statusTextSize")
+        textSizePreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_format_size).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
 
         val timelineFilterPreferences = findPreference("timelineFilterPreferences")
         timelineFilterPreferences.setOnPreferenceClickListener { _ ->
