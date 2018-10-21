@@ -16,6 +16,7 @@ import io.reactivex.schedulers.Schedulers
 import java.io.IOException
 import java.math.BigInteger
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 data class Placeholder(val id: String)
 
@@ -24,6 +25,10 @@ typealias TimelineStatus = Either<Placeholder, Status>
 interface TimelineRepository {
     fun getStatuses(maxId: String?, sinceId: String?, limit: Int,
                     offlineOnly: Boolean): Single<out List<TimelineStatus>>
+
+    companion object {
+        val CLEANUP_INTERVAL = TimeUnit.DAYS.toMillis(14)
+    }
 }
 
 class TimelineRepostiryImpl(
@@ -32,6 +37,11 @@ class TimelineRepostiryImpl(
         private val accountManager: AccountManager,
         private val gson: Gson
 ) : TimelineRepository {
+
+    init {
+        this.cleanup()
+    }
+
     override fun getStatuses(maxId: String?, sinceId: String?, limit: Int,
                              offlineOnly: Boolean): Single<out List<TimelineStatus>> {
         val acc = accountManager.activeAccount ?: throw IllegalStateException()
@@ -181,6 +191,17 @@ class TimelineRepostiryImpl(
         }
 
         return prepend to append
+    }
+
+    private fun cleanup() {
+        Single.fromCallable {
+            val olderThan = System.currentTimeMillis() - TimelineRepository.CLEANUP_INTERVAL
+            for (account in accountManager.getAllAccountsOrderedByActive()) {
+                timelineDao.cleanup(account.id, account.accountId, olderThan)
+            }
+        }
+                .subscribeOn(Schedulers.io())
+                .subscribe()
     }
 
     private fun Account.toEntity(instance: String, accountId: Long): TimelineAccountEntity {
