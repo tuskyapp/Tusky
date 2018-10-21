@@ -3,11 +3,9 @@ package com.keylesspalace.tusky
 import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.TimelineAccountEntity
-import com.keylesspalace.tusky.db.TimelineDao
-import com.keylesspalace.tusky.db.TimelineStatusEntity
+import com.keylesspalace.tusky.db.*
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.repository.TimelineRepository
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -76,14 +74,53 @@ class TimelineDAOTest {
 
     }
 
+    @Test
+    fun cleanup() {
+        val oldDate = System.currentTimeMillis() - TimelineRepository.CLEANUP_INTERVAL - 1000
+        val oldByThisAccount = makeStatus(
+                statusId = 30,
+                createdAt = oldDate
+        )
+        val oldByAnotherAccount = makeStatus(
+                statusId = 10,
+                createdAt = oldDate,
+                authorServerId = "100"
+        )
+        val oldForAnotherAccount = makeStatus(
+                accountId = 2,
+                statusId = 20,
+                authorServerId = "200",
+                createdAt = oldDate
+        )
+
+        timelineDao.insertInTransaction(oldByThisAccount.first, oldByThisAccount.second, oldByThisAccount.third)
+        timelineDao.insertInTransaction(oldByAnotherAccount.first, oldByAnotherAccount.second, oldByAnotherAccount.third)
+        timelineDao.insertInTransaction(oldForAnotherAccount.first, oldForAnotherAccount.second, oldForAnotherAccount.third)
+
+        timelineDao.cleanup(1, "20", TimelineRepository.CLEANUP_INTERVAL)
+
+        assertEquals(
+                listOf(oldByThisAccount),
+                timelineDao.getStatusesForAccount(1, null, null, 100).blockingGet()
+                        .map { it.toTriple() }
+        )
+
+        assertEquals(
+                listOf(oldForAnotherAccount),
+                timelineDao.getStatusesForAccount(2, null, null, 100).blockingGet()
+                        .map { it.toTriple() }
+        )
+    }
+
     private fun makeStatus(
             accountId: Long = 1,
             statusId: Long = 10,
-            reblog: Boolean = false
+            reblog: Boolean = false,
+            createdAt: Long = statusId,
+            authorServerId: String = "20"
     ): Triple<TimelineStatusEntity, TimelineAccountEntity, TimelineAccountEntity?> {
-        val authorId = "20"
         val author = TimelineAccountEntity(
-                authorId,
+                authorServerId,
                 accountId,
                 "birb.site",
                 "localUsername",
@@ -95,7 +132,7 @@ class TimelineDAOTest {
 
         val reblogAuthor = if (reblog) {
             TimelineAccountEntity(
-                    "R$authorId",
+                    "R$authorServerId",
                     accountId,
                     "Rbirb.site",
                     "RlocalUsername",
@@ -112,12 +149,12 @@ class TimelineDAOTest {
                 serverId = statusId.toString(),
                 url = "url$statusId",
                 timelineUserId = accountId,
-                authorServerId = authorId,
+                authorServerId = authorServerId,
                 instance = "birb.site$statusId",
                 inReplyToId = "inReplyToId$statusId",
                 inReplyToAccountId = "inReplyToAccountId$statusId",
                 content = "Content!$statusId",
-                createdAt = statusId,
+                createdAt = createdAt,
                 emojis = "emojis$statusId",
                 reblogsCount = 1 * statusId,
                 favouritesCount = 2 * statusId,
@@ -162,4 +199,6 @@ class TimelineDAOTest {
 
         )
     }
+
+    private fun TimelineStatusWithAccount.toTriple() = Triple(status, account, reblogAccount)
 }
