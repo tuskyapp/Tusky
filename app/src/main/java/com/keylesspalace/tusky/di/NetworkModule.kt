@@ -76,7 +76,7 @@ class NetworkModule {
                 .apply {
                     addInterceptor(InstanceSwitchAuthInterceptor(accountManager))
                     if (BuildConfig.DEBUG) {
-                        addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                        addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
                     }
                 }
                 .build()
