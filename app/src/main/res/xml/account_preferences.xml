@@ -2,17 +2,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="@string/preferences_file_key">
 
-        <Preference
-            android:key="notificationPreference"
-            android:title="@string/pref_title_edit_notification_settings" />
+    <Preference
+        android:key="notificationPreference"
+        android:title="@string/pref_title_edit_notification_settings" />
 
-        <Preference
-            android:key="mutedUsersPreference"
-            android:title="@string/action_view_mutes" />
+    <Preference
+        android:key="mutedUsersPreference"
+        android:title="@string/action_view_mutes" />
 
-        <Preference
-            android:key="blockedUsersPreference"
-            android:title="@string/action_view_blocks" />
+    <Preference
+        android:key="blockedUsersPreference"
+        android:title="@string/action_view_blocks" />
 
     <PreferenceCategory android:title="@string/pref_publishing">
 
@@ -26,18 +26,21 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="defaultMediaSensitivity"
             android:icon="@drawable/ic_eye_24dp"
+            android:key="defaultMediaSensitivity"
             android:title="Always mark media as sensitive" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_title_timelines">
 
-    <ListPreference
-        android:defaultValue="false"
-        android:key="alwaysShowSensitiveMedia1234"
-        android:title="@string/pref_title_alway_show_sensitive_media" />
+        <SwitchPreference
+            android:key="alwaysShowSensitiveMedia"
+            android:title="@string/pref_title_alway_show_sensitive_media" />
+
+        <SwitchPreference
+            android:key="mediaPreviewEnabled"
+            android:title="@string/pref_title_show_media_preview" />
 
     </PreferenceCategory>
 
