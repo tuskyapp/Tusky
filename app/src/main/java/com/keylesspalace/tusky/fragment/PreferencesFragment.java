@@ -15,22 +15,33 @@
 
 package com.keylesspalace.tusky.fragment;
 
-import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
+
 import android.support.annotation.XmlRes;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.preference.EditTextPreference;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceFragmentCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.EditText;
 
 import com.keylesspalace.tusky.PreferencesActivity;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.appstore.EventHub;
+import com.keylesspalace.tusky.appstore.PreferenceChangedEvent;
+import com.keylesspalace.tusky.di.Injectable;
 
 import java.util.regex.Pattern;
 
-public class PreferencesFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+import javax.inject.Inject;
+
+public class PreferencesFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener, Injectable {
+
+    @Inject
+    EventHub eventHub;
+
     SharedPreferences sharedPreferences;
     static boolean httpProxyChanged = false;
     static boolean pendingRestart = false;
@@ -47,39 +58,60 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    public void onCreatePreferences(Bundle bundle, String s) {
         int preference = getArguments().getInt("preference");
 
         addPreferencesFromResource(preference);
 
-        Preference regexPref = findPreference("tabFilterRegex");
-        if (regexPref != null) regexPref.setOnPreferenceClickListener(pref -> {
-            // Reset the error dialog when shown; if the dialog was closed with the cancel button
-            // while an invalid regex was present, this would otherwise cause buggy behaviour.
-            ((EditTextPreference) regexPref).getEditText().setError(null);
+        sharedPreferences = getPreferenceManager().getSharedPreferences();
 
-            // Test the regex as the user inputs text, ensuring immediate feedback and preventing
-            // setting of an invalid regex, which would cause a crash loop.
-            ((EditTextPreference) regexPref).getEditText().addTextChangedListener(new TextWatcher() {
-                @Override
-                public void afterTextChanged(Editable s) {
-                    try {
-                        Pattern.compile(s.toString());
-                        ((EditTextPreference) regexPref).getEditText().setError(null);
-                        AlertDialog dialog = (AlertDialog) ((EditTextPreference) pref).getDialog();
-                        if (dialog != null) dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-                    } catch (IllegalArgumentException e) {
-                        ((AlertDialog) ((EditTextPreference) pref).getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-                        ((EditTextPreference) regexPref).getEditText().setError(getString(R.string.error_invalid_regex));
+        Preference regexPref = findPreference("tabFilterRegex");
+        if(regexPref != null) {
+
+            regexPref.setSummary(sharedPreferences.getString("tabFilterRegex", ""));
+            regexPref.setOnPreferenceClickListener(preference1 -> {
+
+                EditText editText = new EditText(getContext());
+                editText.setText(sharedPreferences.getString("tabFilterRegex", ""));
+
+                AlertDialog dialog = new AlertDialog.Builder(getContext())
+                        .setTitle(R.string.pref_title_filter_regex)
+                        .setView(editText)
+                        .setPositiveButton(android.R.string.ok, (dialog1, which) -> {
+                            sharedPreferences
+                                .edit()
+                                .putString("tabFilterRegex", editText.getText().toString())
+                                .apply();
+                            regexPref.setSummary(editText.getText().toString());
+                        })
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .create();
+
+                editText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void afterTextChanged(Editable s1) {
+                        try {
+                            Pattern.compile(s1.toString());
+                            editText.setError(null);
+                            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                        } catch (IllegalArgumentException e) {
+                            editText.setError(getString(R.string.error_invalid_regex));
+                            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                        }
                     }
-                }
-                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-                @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s1, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s1, int start, int before, int count) {
+                    }
+                });
+                dialog.show();
+                return true;
             });
-            return false;
-        });
+        }
 
         Preference timelineFilterPreferences = findPreference("timelineFilterPreferences");
         if (timelineFilterPreferences != null) {
@@ -108,11 +140,12 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
 
     }
 
+
+
     @Override
     public void onResume() {
         super.onResume();
 
-        sharedPreferences = getPreferenceManager().getSharedPreferences();
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
         updateSummary("httpProxyServer");
@@ -144,6 +177,8 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
                 return;
             default:
         }
+
+        eventHub.dispatch(new PreferenceChangedEvent(key));
 
     }
 

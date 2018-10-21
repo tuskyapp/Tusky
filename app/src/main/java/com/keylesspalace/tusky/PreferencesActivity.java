@@ -22,6 +22,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.XmlRes;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -30,8 +31,17 @@ import android.view.MenuItem;
 import com.keylesspalace.tusky.fragment.PreferencesFragment;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
+
 public class PreferencesActivity extends BaseActivity
-        implements SharedPreferences.OnSharedPreferenceChangeListener {
+        implements SharedPreferences.OnSharedPreferenceChangeListener, HasSupportFragmentInjector {
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentInjector;
 
     private boolean restartActivitiesOnExit;
     private @XmlRes int currentPreferences;
@@ -75,7 +85,7 @@ public class PreferencesActivity extends BaseActivity
     public void showFragment(@XmlRes int preferenceId, @StringRes int title) {
 
         //TODO: cache the Fragments so they can be reused
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, PreferencesFragment.newInstance(preferenceId))
                 .commit();
 
@@ -176,5 +186,10 @@ public class PreferencesActivity extends BaseActivity
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentInjector;
     }
 }

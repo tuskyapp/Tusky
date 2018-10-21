@@ -49,4 +49,7 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun accountPreferencesFragment(): AccountPreferencesFragment
+
+    @ContributesAndroidInjector
+    abstract fun preferencesFragment(): PreferencesFragment
 }

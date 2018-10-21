@@ -20,9 +20,7 @@ import android.app.Application;
 import android.app.Service;
 import android.arch.persistence.room.Room;
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.text.emoji.EmojiCompat;
 
 import com.evernote.android.job.JobManager;
@@ -58,10 +56,6 @@ public class TuskyApplication extends Application implements HasActivityInjector
     private AccountManager accountManager;
 
     private ServiceLocator serviceLocator;
-
-    public static TuskyApplication getInstance(@NonNull Context context) {
-        return (TuskyApplication) context.getApplicationContext();
-    }
 
     @Override
     public void onCreate() {
