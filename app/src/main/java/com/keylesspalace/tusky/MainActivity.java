@@ -102,6 +102,8 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     public EventHub eventHub;
     @Inject
     public CacheUpdater cacheUpdater;
+    @Inject
+    public ProfileStreamListener streamingListener;
 
     private FloatingActionButton composeButton;
     private AccountHeader headerResult;
@@ -423,6 +425,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
     private void changeAccount(long newSelectedId) {
         cacheUpdater.stop();
+        streamingListener.stop();
         accountManager.setActiveAccount(newSelectedId);
 
         Intent intent = new Intent(this, MainActivity.class);

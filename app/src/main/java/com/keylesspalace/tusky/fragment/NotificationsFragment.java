@@ -47,6 +47,7 @@ import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.appstore.BlockEvent;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
+import com.keylesspalace.tusky.appstore.NewNotificationEvent;
 import com.keylesspalace.tusky.appstore.ReblogEvent;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
@@ -314,6 +315,11 @@ public class NotificationsFragment extends SFragment implements
                         handleReblogEvent((ReblogEvent) event);
                     } else if (event instanceof BlockEvent) {
                         removeAllByAccountId(((BlockEvent) event).getAccountId());
+                    } else if (event instanceof NewNotificationEvent) {
+                        // TODO: insert placeholders in some cases?
+                        this.notifications.add(0,
+                                new Either.Right<>(((NewNotificationEvent) event).getNotification()));
+                        this.adapter.addItemWithNotify(0, this.notifications.getPairedItem(0));
                     }
                 });
     }

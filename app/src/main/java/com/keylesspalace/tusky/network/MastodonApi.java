@@ -43,6 +43,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -50,6 +51,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
 
 public interface MastodonApi {
     String ENDPOINT_AUTHORIZE = "/oauth/authorize";
@@ -95,6 +97,11 @@ public interface MastodonApi {
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
+
+    @GET("api/v1/streaming/user")
+    @Streaming
+    @Headers({"Accept: text/event-stream"})
+    Call<ResponseBody> userStream();
 
     @GET("api/v1/notifications")
     Call<List<Notification>> notificationsWithAuth(

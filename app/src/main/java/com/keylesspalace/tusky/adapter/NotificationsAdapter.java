@@ -208,6 +208,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public void addItemWithNotify(int position, NotificationViewData notificationViewData) {
+        notifications.add(position, notificationViewData);
+        notifyItemInserted(position);
+    }
+
     public void updateItemWithNotify(int position, NotificationViewData notification,
                                      boolean notifyAdapter) {
         notifications.set(position, notification);
