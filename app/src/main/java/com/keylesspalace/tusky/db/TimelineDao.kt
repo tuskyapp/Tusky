@@ -72,6 +72,6 @@ AND serverId = :statusId""")
     abstract fun delete(accountId: Long, statusId: String)
 
     @Query("""DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId
-AND authorServerId != :accountServerId AND createdAt > :olderThan""")
+AND authorServerId != :accountServerId AND createdAt < :olderThan""")
     abstract fun cleanup(accountId: Long, accountServerId: String, olderThan: Long)
 }
