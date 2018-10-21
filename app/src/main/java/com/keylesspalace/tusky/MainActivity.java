@@ -15,26 +15,11 @@
 
 package com.keylesspalace.tusky;
 
-import androidx.lifecycle.Lifecycle;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-
-import com.bumptech.glide.Glide;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-
-import androidx.emoji.text.EmojiCompat;
-import androidx.fragment.app.Fragment;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AlertDialog;
-
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -42,6 +27,17 @@ import android.view.KeyEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+import androidx.emoji.text.EmojiCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.viewpager.widget.ViewPager;
+
+import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 import com.keylesspalace.tusky.appstore.CacheUpdater;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent;
@@ -111,6 +107,8 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     public CacheUpdater cacheUpdater;
     @Inject
     ConversationsRepository conversationRepository;
+    @Inject
+    public ProfileStreamListener streamingListener;
 
     private FloatingActionButton composeButton;
     private AccountHeader headerResult;
@@ -504,6 +502,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private void changeAccount(long newSelectedId, @Nullable Intent forward) {
         cacheUpdater.stop();
         SFragment.flushFilters();
+        streamingListener.stop();
         accountManager.setActiveAccount(newSelectedId);
 
         Intent intent = new Intent(this, MainActivity.class);

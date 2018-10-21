@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky.network;
 
+import androidx.annotation.Nullable;
+
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.AppCredentials;
@@ -36,7 +38,6 @@ import com.keylesspalace.tusky.entity.StatusContext;
 import java.util.List;
 import java.util.Set;
 
-import androidx.annotation.Nullable;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
@@ -50,6 +51,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -57,6 +59,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
 
 
 /**
@@ -107,6 +110,11 @@ public interface MastodonApi {
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit,
             @Query("exclude_types[]") Set<Notification.Type> excludes);
+
+    @GET("api/v1/streaming/user")
+    @Streaming
+    @Headers({"Accept: text/event-stream"})
+    Call<ResponseBody> userStream();
 
     @GET("api/v1/notifications")
     Call<List<Notification>> notificationsWithAuth(
