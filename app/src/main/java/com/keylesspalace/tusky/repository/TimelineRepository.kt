@@ -9,6 +9,8 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.repository.TimelineRequestMode.DISK
+import com.keylesspalace.tusky.repository.TimelineRequestMode.NETWORK
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.HtmlUtils
 import io.reactivex.Single
@@ -22,9 +24,13 @@ data class Placeholder(val id: String)
 
 typealias TimelineStatus = Either<Placeholder, Status>
 
+enum class TimelineRequestMode {
+    DISK, NETWORK, ANY
+}
+
 interface TimelineRepository {
     fun getStatuses(maxId: String?, sinceId: String?, limit: Int,
-                    offlineOnly: Boolean): Single<out List<TimelineStatus>>
+                    requestMode: TimelineRequestMode): Single<out List<TimelineStatus>>
 
     companion object {
         val CLEANUP_INTERVAL = TimeUnit.DAYS.toMillis(14)
@@ -43,20 +49,21 @@ class TimelineRepostiryImpl(
     }
 
     override fun getStatuses(maxId: String?, sinceId: String?, limit: Int,
-                             offlineOnly: Boolean): Single<out List<TimelineStatus>> {
+                             requestMode: TimelineRequestMode): Single<out List<TimelineStatus>> {
         val acc = accountManager.activeAccount ?: throw IllegalStateException()
         val accountId = acc.id
         val instance = acc.domain
 
-        return if (offlineOnly) {
+        return if (requestMode == DISK) {
             this.getStatusesFromDb(accountId, maxId, sinceId, limit)
         } else {
-            getStatusesFromNetwork(maxId, sinceId, limit, instance, accountId)
+            getStatusesFromNetwork(maxId, sinceId, limit, instance, accountId, requestMode)
         }
     }
 
     private fun getStatusesFromNetwork(maxId: String?, sinceId: String?, limit: Int,
-                                       instance: String, accountId: Long
+                                       instance: String, accountId: Long,
+                                       requestMode: TimelineRequestMode
     ): Single<out List<TimelineStatus>> {
         val maxIdInc = maxId?.let { this.incId(it, 1) }
         val sinceIdDec = sinceId?.let { this.incId(it, -1) }
@@ -66,10 +73,10 @@ class TimelineRepostiryImpl(
                 }
                 .map { statuses -> this.removePlaceholdersAndMap(statuses, maxId, sinceId) }
                 .flatMap { statuses ->
-                    this.addFromDbIfNeeded(accountId, statuses, maxId, sinceId, limit)
+                    this.addFromDbIfNeeded(accountId, statuses, maxId, sinceId, limit, requestMode)
                 }
                 .onErrorResumeNext { error ->
-                    if (error is IOException) {
+                    if (error is IOException && requestMode != NETWORK) {
                         this.getStatusesFromDb(accountId, maxId, sinceId, limit)
                     } else {
                         Single.error(error)
@@ -94,9 +101,10 @@ class TimelineRepostiryImpl(
     }
 
     private fun addFromDbIfNeeded(accountId: Long, statuses: List<Either<Placeholder, Status>>,
-                          maxId: String?, sinceId: String?, limit: Int
+                                  maxId: String?, sinceId: String?, limit: Int,
+                                  requestMode: TimelineRequestMode
     ): Single<List<TimelineStatus>>? {
-        return if (maxId != null && statuses.size < 2) {
+        return if (requestMode != NETWORK && statuses.size < 2) {
             val newMaxID = if (statuses.isEmpty()) {
                 maxId
             } else {

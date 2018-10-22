@@ -63,6 +63,7 @@ import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.repository.Placeholder;
 import com.keylesspalace.tusky.repository.TimelineRepository;
+import com.keylesspalace.tusky.repository.TimelineRequestMode;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.ListUtils;
@@ -83,6 +84,7 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 
 import at.connyduck.sparkbutton.helpers.Utils;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import kotlin.collections.CollectionsKt;
@@ -151,8 +153,8 @@ public class TimelineFragment extends SFragment implements
     private boolean bottomLoading;
 
     private boolean didLoadEverythingBottom;
-
     private boolean alwaysShowSensitiveMedia;
+    private boolean initialUpdateFailed = false;
 
     private CompositeDisposable disposable = new CompositeDisposable();
 
@@ -249,34 +251,54 @@ public class TimelineFragment extends SFragment implements
     private void tryCache() {
         // Request timeline from disk to make it quick, then replace it with timeline from
         // the server to update it
-        this.disposable.add(this.timeilneRepo.getStatuses(null, null, LOAD_AT_ONCE, true)
+        this.disposable.add(this.timeilneRepo.getStatuses(null, null, LOAD_AT_ONCE,
+                TimelineRequestMode.DISK)
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(statuses -> {
+                .subscribe(statuses -> {
                     filterStatuses(statuses);
 
-                    final String topId;
                     if (statuses.size() > 1) {
                         this.statuses.addAll(statuses);
+                        this.clearPlaceholdersForResponse(statuses);
                         this.updateAdapter();
                         this.progressBar.setVisibility(View.GONE);
                         // Request statuses including current top to refresh all of them
-                        String firstId =
-                                CollectionsKt.first(statuses, Either::isRight).asRight().getId();
-                        topId = new BigInteger(firstId)
-                                .add(BigInteger.ONE).toString();
-                    } else {
-                        topId = null;
                     }
-                    return this.timeilneRepo.getStatuses(topId, null, LOAD_AT_ONCE, false);
+
+                    this.updateCurrent();
                 })
+        );
+    }
+
+    private void updateCurrent() {
+        String topId;
+        if (this.statuses.isEmpty()) {
+            topId = null;
+        } else {
+            String firstId =
+                    CollectionsKt.first(statuses, Either::isRight).asRight().getId();
+            topId = new BigInteger(firstId).add(BigInteger.ONE).toString();
+        }
+        disposable.add(this.timeilneRepo.getStatuses(topId, null, LOAD_AT_ONCE,
+                TimelineRequestMode.NETWORK)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(statuses -> {
-                    this.updateStatuses(statuses, statuses.size() < LOAD_AT_ONCE);
-                    this.clearPlaceholdersForResponse(statuses);
-                    this.bottomLoading = false;
-                    // Get more statuses so that users know that something is there
-                    this.loadAbove();
-                }));
+                .subscribe(
+                        (statuses) -> {
+                            this.initialUpdateFailed = false;
+                            filterStatuses(statuses);
+                            this.statuses.clear();
+                            this.statuses.addAll(statuses);
+                            this.bottomLoading = false;
+                            // Get more statuses so that users know that something is there
+                            this.loadAbove();
+                        },
+                        (e) -> {
+                            this.initialUpdateFailed = true;
+                            // Indicate that we are not loading anymore
+                            this.progressBar.setVisibility(View.GONE);
+                            this.swipeRefreshLayout.setRefreshing(false);
+                        })
+        );
     }
 
     private void setupTimelinePreferences() {
@@ -476,7 +498,11 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onRefresh() {
-        this.loadAbove();
+        if (this.initialUpdateFailed) {
+            updateCurrent();
+        } else {
+            this.loadAbove();
+        }
     }
 
     private void loadAbove() {
@@ -824,8 +850,15 @@ public class TimelineFragment extends SFragment implements
                                           final FetchEnd fetchEnd, final int pos) {
 
         if (kind == Kind.HOME) {
+            TimelineRequestMode mode;
+            // allow getting old statuses/fallbacks for network only for for bottom loading
+            if (fetchEnd == FetchEnd.BOTTOM) {
+                mode = TimelineRequestMode.ANY;
+            } else {
+                mode = TimelineRequestMode.NETWORK;
+            }
             disposable.add(
-                    timeilneRepo.getStatuses(fromId, uptoId, LOAD_AT_ONCE, false)
+                    timeilneRepo.getStatuses(fromId, uptoId, LOAD_AT_ONCE, mode)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
                                     (result) -> onFetchTimelineSuccess(result, fetchEnd, pos),
@@ -1007,8 +1040,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     /**
-     * If the response is from network, remove all placeholders in range.
-     * They may not be removed otherwise because they may have IDs we assigned to them.
+     * For certain requests we don't want to see placeholders, they will be removed some other way
      */
     private void clearPlaceholdersForResponse(List<Either<Placeholder, Status>> statuses) {
         if (statuses.size() < 2) {
