@@ -84,7 +84,6 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 
 import at.connyduck.sparkbutton.helpers.Utils;
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import kotlin.collections.CollectionsKt;
@@ -127,7 +126,7 @@ public class TimelineFragment extends SFragment implements
     @Inject
     public EventHub eventHub;
     @Inject
-    public TimelineRepository timeilneRepo;
+    public TimelineRepository timelineRepo;
 
     @Inject
     public AccountManager accountManager;
@@ -251,7 +250,7 @@ public class TimelineFragment extends SFragment implements
     private void tryCache() {
         // Request timeline from disk to make it quick, then replace it with timeline from
         // the server to update it
-        this.disposable.add(this.timeilneRepo.getStatuses(null, null, LOAD_AT_ONCE,
+        this.disposable.add(this.timelineRepo.getStatuses(null, null, LOAD_AT_ONCE,
                 TimelineRequestMode.DISK)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(statuses -> {
@@ -279,7 +278,7 @@ public class TimelineFragment extends SFragment implements
                     CollectionsKt.first(statuses, Either::isRight).asRight().getId();
             topId = new BigInteger(firstId).add(BigInteger.ONE).toString();
         }
-        disposable.add(this.timeilneRepo.getStatuses(topId, null, LOAD_AT_ONCE,
+        disposable.add(this.timelineRepo.getStatuses(topId, null, LOAD_AT_ONCE,
                 TimelineRequestMode.NETWORK)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -858,7 +857,7 @@ public class TimelineFragment extends SFragment implements
                 mode = TimelineRequestMode.NETWORK;
             }
             disposable.add(
-                    timeilneRepo.getStatuses(fromId, uptoId, LOAD_AT_ONCE, mode)
+                    timelineRepo.getStatuses(fromId, uptoId, LOAD_AT_ONCE, mode)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
                                     (result) -> onFetchTimelineSuccess(result, fetchEnd, pos),

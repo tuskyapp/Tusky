@@ -10,7 +10,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class RespotioryModule {
+class RepositoryModule {
     @Provides
     fun providesTimelineRepository(db: AppDatabase, mastodonApi: MastodonApi,
                                    accountManager: AccountManager, gson: Gson): TimelineRepository {
