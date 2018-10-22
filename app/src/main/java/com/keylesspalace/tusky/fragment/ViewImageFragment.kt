@@ -20,18 +20,16 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.view.ViewCompat
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 
 import com.github.chrisbanes.photoview.PhotoViewAttacher
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.squareup.picasso.Callback
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
@@ -48,9 +46,7 @@ class ViewImageFragment : ViewMediaFragment() {
     private lateinit var attacher: PhotoViewAttacher
     private lateinit var photoActionsListener: PhotoActionsListener
     private lateinit var toolbar: View
-
-    private var showingDescription = false
-    private var isDescriptionVisible = false
+    override lateinit var descriptionView : TextView
 
     companion object {
         private const val TAG = "ViewImageFragment"
@@ -62,6 +58,8 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     override fun setupMediaView(url: String) {
+        descriptionView = mediaDescription
+        ViewCompat.setTransitionName(photoView, url)
         attacher = PhotoViewAttacher(photoView)
 
         // Clicking outside the photo closes the viewer.
@@ -132,37 +130,20 @@ class ViewImageFragment : ViewMediaFragment() {
         val arguments = this.arguments!!
         val attachment = arguments.getParcelable<Attachment>(ARG_ATTACHMENT)
         val url: String?
+        var description : String? = null
 
         if (attachment != null) {
             url = attachment.url
-
-            val description = attachment.description
-
-            descriptionView.text = description
-            showingDescription = !TextUtils.isEmpty(description)
-            isDescriptionVisible = showingDescription
+            description = attachment.description
         } else {
             url = arguments.getString(ARG_AVATAR_URL)
             if (url == null) {
                 throw IllegalArgumentException("attachment or avatar url has to be set")
             }
-
-            showingDescription = false
-            isDescriptionVisible = false
         }
 
-        // Setting visibility without animations so it looks nice when you scroll images
-        if (showingDescription && (activity as ViewMediaActivity).isToolbarVisible()) {
-            descriptionView.show()
-        } else {
-            descriptionView.hide()
-        }
-
-        setupMediaView(url)
-
-        setupToolbarVisibilityListener()
+        finalizeViewSetup(url, description)
     }
-
 
     private fun onMediaTap() {
         photoActionsListener.onPhotoTap()
@@ -177,11 +158,7 @@ class ViewImageFragment : ViewMediaFragment() {
         descriptionView.animate().alpha(alpha)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        if (isDescriptionVisible) {
-                            descriptionView.show()
-                        } else {
-                            descriptionView.hide()
-                        }
+                        updateDescriptionVisibility(isDescriptionVisible)
                         animation.removeListener(this)
                     }
                 })

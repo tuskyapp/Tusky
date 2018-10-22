@@ -22,17 +22,16 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.support.v4.view.ViewCompat
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
+import android.widget.TextView
 
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import kotlinx.android.synthetic.main.activity_view_media.*
 import kotlinx.android.synthetic.main.fragment_view_video.*
 
@@ -46,9 +45,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
     private lateinit var mediaActivity: ViewMediaActivity
     private val TOOLBAR_HIDE_DELAY_MS = 3000L
-
-    private var showingDescription = false
-    private var isDescriptionVisible = false
+    override lateinit var descriptionView : TextView
 
     companion object {
         private const val TAG = "ViewVideoFragment"
@@ -74,7 +71,9 @@ class ViewVideoFragment : ViewMediaFragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun setupMediaView(url: String) {
+        descriptionView = mediaDescription
         val videoView = videoPlayer
+        ViewCompat.setTransitionName(videoView, url)
         videoView.setVideoPath(url)
         val controller = MediaController(mediaActivity)
         controller.setMediaPlayer(videoView)
@@ -110,34 +109,14 @@ class ViewVideoFragment : ViewMediaFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val arguments = this.arguments!!
-        val attachment = arguments.getParcelable<Attachment>(ViewMediaFragment.ARG_ATTACHMENT)
+        val attachment = arguments?.getParcelable<Attachment>(ViewMediaFragment.ARG_ATTACHMENT)
         val url: String
 
         if (attachment == null) {
             throw IllegalArgumentException("attachment has to be set")
         }
         url = attachment.url
-        val description = attachment.description
-        mediaDescription.text = description
-        showingDescription = !TextUtils.isEmpty(description)
-        isDescriptionVisible = showingDescription
-
-        // Setting visibility without animations so it looks nice when you scroll media
-        //noinspection ConstantConditions
-        if (showingDescription && mediaActivity.isToolbarVisible()) {
-            mediaDescription.show()
-        } else {
-            mediaDescription.hide()
-
-        }
-
-        ViewCompat.setTransitionName(videoPlayer!!, url)
-
-        setupMediaView(url)
-
-        setupToolbarVisibilityListener()
+        finalizeViewSetup(url, attachment.description)
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
@@ -147,14 +126,10 @@ class ViewVideoFragment : ViewMediaFragment() {
 
         isDescriptionVisible = showingDescription && visible
         val alpha = if (isDescriptionVisible) 1.0f else 0.0f
-        mediaDescription.animate().alpha(alpha)
+        descriptionView.animate().alpha(alpha)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        if (isDescriptionVisible) {
-                            mediaDescription.show()
-                        } else {
-                            mediaDescription.hide()
-                        }
+                        updateDescriptionVisibility(isDescriptionVisible)
                         animation.removeListener(this)
                     }
                 })
