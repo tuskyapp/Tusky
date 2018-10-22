@@ -32,6 +32,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.visible
 import kotlinx.android.synthetic.main.activity_view_media.*
 import kotlinx.android.synthetic.main.fragment_view_video.*
 
@@ -129,7 +130,7 @@ class ViewVideoFragment : ViewMediaFragment() {
         descriptionView.animate().alpha(alpha)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        updateDescriptionVisibility(isDescriptionVisible)
+                        descriptionView.visible(isDescriptionVisible)
                         animation.removeListener(this)
                     }
                 })

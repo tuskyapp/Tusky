@@ -30,6 +30,7 @@ import com.github.chrisbanes.photoview.PhotoViewAttacher
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.visible
 import com.squareup.picasso.Callback
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
@@ -158,7 +159,7 @@ class ViewImageFragment : ViewMediaFragment() {
         descriptionView.animate().alpha(alpha)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        updateDescriptionVisibility(isDescriptionVisible)
+                        descriptionView.visible(isDescriptionVisible)
                         animation.removeListener(this)
                     }
                 })

@@ -21,8 +21,7 @@ import android.widget.TextView
 
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.visible
 
 abstract class ViewMediaFragment : BaseFragment() {
     private var toolbarVisibiltyDisposable: Function0<Boolean>? = null
@@ -76,22 +75,13 @@ abstract class ViewMediaFragment : BaseFragment() {
         showingDescription = !TextUtils.isEmpty(description)
         isDescriptionVisible = showingDescription
 
-        updateDescriptionVisibility(showingDescription && mediaActivity.isToolbarVisible())
+        descriptionView.visible(showingDescription && mediaActivity.isToolbarVisible())
 
         toolbarVisibiltyDisposable = (activity as ViewMediaActivity).addToolbarVisibilityListener(object: ViewMediaActivity.ToolbarVisibilityListener {
             override fun onToolbarVisiblityChanged(isVisible: Boolean) {
                 onToolbarVisibilityChange(isVisible)
             }
         })
-    }
-
-    protected fun updateDescriptionVisibility(visible: Boolean) {
-        // Setting visibility without animations so it looks nice when you scroll media
-        if (visible) {
-            descriptionView.show()
-        } else {
-            descriptionView.hide()
-        }
     }
 
     override fun onDestroyView() {
