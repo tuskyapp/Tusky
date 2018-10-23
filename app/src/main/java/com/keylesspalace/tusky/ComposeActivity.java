@@ -61,6 +61,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -125,7 +126,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -182,6 +182,8 @@ public final class ComposeActivity
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
     // Mastodon only counts URLs as this long in terms of status character limits
     static final int MAXIMUM_URL_LENGTH = 23;
+    // https://github.com/tootsuite/mastodon/blob/1656663/app/models/media_attachment.rb#L94
+    private static final int MEDIA_DESCRIPTION_CHARACTER_LIMIT = 420;
 
     @Inject
     public MastodonApi mastodonApi;
@@ -1162,12 +1164,13 @@ public final class ComposeActivity
         ((LinearLayout.LayoutParams) imageView.getLayoutParams()).setMargins(0, margin, 0, 0);
 
         EditText input = new EditText(this);
-        input.setHint(R.string.hint_describe_for_visually_impaired);
+        input.setHint(getString(R.string.hint_describe_for_visually_impaired, MEDIA_DESCRIPTION_CHARACTER_LIMIT));
         dialogLayout.addView(input);
         ((LinearLayout.LayoutParams) input.getLayoutParams()).setMargins(margin, margin, margin, margin);
         input.setLines(1);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         input.setText(item.description);
+        input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(MEDIA_DESCRIPTION_CHARACTER_LIMIT) });
 
         DialogInterface.OnClickListener okListener = (dialog, which) -> {
             mastodonApi.updateMedia(item.id, input.getText().toString())
