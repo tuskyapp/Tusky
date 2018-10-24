@@ -1187,8 +1187,8 @@ public final class ComposeActivity
         input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(MEDIA_DESCRIPTION_CHARACTER_LIMIT) });
 
         DialogInterface.OnClickListener okListener = (dialog, which) -> {
-            mastodonApi.updateMedia(item.id, input.getText().toString())
-                    .enqueue(new Callback<Attachment>() {
+                Runnable updateDescription = () -> {
+                    mastodonApi.updateMedia(item.id, input.getText().toString()).enqueue(new Callback<Attachment>() {
                         @Override
                         public void onResponse(@NonNull Call<Attachment> call, @NonNull Response<Attachment> response) {
                             Attachment attachment = response.body();
@@ -1199,13 +1199,23 @@ public final class ComposeActivity
                             } else {
                                 showFailedCaptionMessage();
                             }
+                            item.updateDescription = null;
                         }
 
                         @Override
                         public void onFailure(@NonNull Call<Attachment> call, @NonNull Throwable t) {
                             showFailedCaptionMessage();
+                            item.updateDescription = null;
                         }
                     });
+                };
+
+                if (item.readyStage == QueuedMedia.ReadyStage.UPLOADED) {
+                    updateDescription.run();
+                } else {
+                    // media is still uploading, queue description update for when it finishes
+                    item.updateDescription = updateDescription;
+                }
         };
 
         AlertDialog dialog = new AlertDialog.Builder(this)
@@ -1319,6 +1329,9 @@ public final class ComposeActivity
             public void onResponse(@NonNull Call<Attachment> call, @NonNull retrofit2.Response<Attachment> response) {
                 if (response.isSuccessful()) {
                     onUploadSuccess(item, response.body());
+                    if (item.updateDescription != null) {
+                        item.updateDescription.run();
+                    }
                 } else {
                     Log.d(TAG, "Upload request failed. " + response.message());
                     onUploadFailure(item, call.isCanceled());
@@ -1329,6 +1342,7 @@ public final class ComposeActivity
             public void onFailure(@NonNull Call<Attachment> call, @NonNull Throwable t) {
                 Log.d(TAG, "Upload request failed. " + t.getMessage());
                 onUploadFailure(item, call.isCanceled());
+                item.updateDescription = null;
             }
         });
     }
@@ -1564,6 +1578,7 @@ public final class ComposeActivity
         ReadyStage readyStage;
         long mediaSize;
         String description;
+        Runnable updateDescription;
 
         QueuedMedia(Type type, Uri uri, ProgressImageView preview, long mediaSize,
                     String description) {
