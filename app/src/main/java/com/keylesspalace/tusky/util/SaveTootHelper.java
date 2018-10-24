@@ -43,6 +43,7 @@ public final class SaveTootHelper {
                              @NonNull String contentWarning,
                              @Nullable String savedJsonUrls,
                              @NonNull List<String> mediaUris,
+                             @NonNull List<String> mediaDescriptions,
                              int savedTootUid,
                              @Nullable String inReplyToId,
                              @Nullable String replyingStatusContent,
@@ -62,6 +63,8 @@ public final class SaveTootHelper {
         }
 
         String mediaUrlsSerialized = null;
+        String mediaDescriptionsSerialized = null;
+
         if (!ListUtils.isEmpty(mediaUris)) {
             List<String> savedList = saveMedia(mediaUris, existingUris);
             if (!ListUtils.isEmpty(savedList)) {
@@ -72,12 +75,13 @@ public final class SaveTootHelper {
             } else {
                 return false;
             }
+            mediaDescriptionsSerialized = new Gson().toJson(mediaDescriptions);
         } else if (!ListUtils.isEmpty(existingUris)) {
             /* If there were URIs in the previous draft, but they've now been removed, those files
              * can be deleted. */
             deleteMedia(existingUris);
         }
-        final TootEntity toot = new TootEntity(savedTootUid, content, mediaUrlsSerialized, contentWarning,
+        final TootEntity toot = new TootEntity(savedTootUid, content, mediaUrlsSerialized, mediaDescriptionsSerialized, contentWarning,
                 inReplyToId,
                 replyingStatusContent,
                 replyingStatusAuthorUsername,

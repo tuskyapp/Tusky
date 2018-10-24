@@ -25,7 +25,7 @@ import android.support.annotation.NonNull;
  * DB version & declare DAO
  */
 
-@Database(entities = {TootEntity.class, AccountEntity.class, InstanceEntity.class}, version = 8, exportSchema = false)
+@Database(entities = {TootEntity.class, AccountEntity.class, InstanceEntity.class}, version = 9, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TootDao tootDao();
@@ -96,6 +96,13 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `emojis` TEXT NOT NULL DEFAULT '[]'");
+        }
+    };
+
+    public static final Migration MIGRATION_8_9 = new Migration(8, 9) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `TootEntity` ADD COLUMN `descriptions` TEXT DEFAULT '[]'");
         }
     };
 }
