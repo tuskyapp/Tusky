@@ -164,7 +164,7 @@
         android:layout_marginTop="@dimen/status_media_preview_margin_top"
         android:layout_toEndOf="@+id/status_avatar">
 
-        <ImageView
+        <com.keylesspalace.tusky.view.MediaPreviewImageView
             android:id="@+id/status_media_preview_0"
             android:layout_width="0dp"
             android:layout_height="@dimen/status_media_preview_height"
@@ -174,7 +174,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
 
-        <ImageView
+        <com.keylesspalace.tusky.view.MediaPreviewImageView
             android:id="@+id/status_media_preview_1"
             android:layout_width="0dp"
             android:layout_height="@dimen/status_media_preview_height"
@@ -186,7 +186,7 @@
             tools:ignore="ContentDescription" />
 
 
-        <ImageView
+        <com.keylesspalace.tusky.view.MediaPreviewImageView
             android:id="@+id/status_media_preview_2"
             android:layout_width="0dp"
             android:layout_height="@dimen/status_media_preview_height"
@@ -197,7 +197,7 @@
             app:layout_constraintTop_toBottomOf="@+id/status_media_preview_0"
             tools:ignore="ContentDescription" />
 
-        <ImageView
+        <com.keylesspalace.tusky.view.MediaPreviewImageView
             android:id="@+id/status_media_preview_3"
             android:layout_width="0dp"
             android:layout_height="@dimen/status_media_preview_height"

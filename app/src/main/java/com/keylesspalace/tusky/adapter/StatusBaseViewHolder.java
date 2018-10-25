@@ -20,14 +20,18 @@ import android.widget.ToggleButton;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Emoji;
+import com.keylesspalace.tusky.entity.Focus;
+import com.keylesspalace.tusky.entity.MetaData;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
+import com.keylesspalace.tusky.util.FocalPointEnforcer;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.ThemeUtils;
+import com.keylesspalace.tusky.view.MediaPreviewImageView;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
 import com.squareup.picasso.Picasso;
@@ -52,7 +56,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private ImageButton moreButton;
     private boolean favourited;
     private boolean reblogged;
-    private ImageView[] mediaPreviews;
+    private MediaPreviewImageView[] mediaPreviews;
     private ImageView[] mediaOverlays;
     private TextView sensitiveMediaWarning;
     private View sensitiveMediaShow;
@@ -82,7 +86,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         moreButton = itemView.findViewById(R.id.status_more);
         reblogged = false;
         favourited = false;
-        mediaPreviews = new ImageView[] {
+        mediaPreviews = new MediaPreviewImageView[] {
                 itemView.findViewById(R.id.status_media_preview_0),
                 itemView.findViewById(R.id.status_media_preview_1),
                 itemView.findViewById(R.id.status_media_preview_2),
@@ -263,10 +267,25 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                         .load(mediaPreviewUnloadedId)
                         .into(mediaPreviews[i]);
             } else {
-                Picasso.with(context)
-                        .load(previewUrl)
-                        .placeholder(mediaPreviewUnloadedId)
-                        .into(mediaPreviews[i]);
+                MetaData meta = attachments.get(i).getMeta();
+                Focus focus = meta != null ? meta.getFocus() : null;
+
+                if (focus != null) { // If there is a focal point for this attachment:
+                    FocalPointEnforcer enforcer = new FocalPointEnforcer(mediaPreviews[i], focus);
+                    mediaPreviews[i].setScaleType(ImageView.ScaleType.MATRIX);
+                    mediaPreviews[i].setFocalPointEnforcer(enforcer);
+                    Picasso.with(context)
+                            .load(previewUrl)
+                            .placeholder(mediaPreviewUnloadedId)
+                            // Also pass the enforcer as callback to ensure it is called initially
+                            // when the image gets loaded:
+                            .into(mediaPreviews[i], enforcer);
+                } else {
+                    Picasso.with(context)
+                            .load(previewUrl)
+                            .placeholder(mediaPreviewUnloadedId)
+                            .into(mediaPreviews[i]);
+                }
             }
 
             final Attachment.Type type = attachments.get(i).getType();
