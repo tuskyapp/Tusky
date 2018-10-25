@@ -30,6 +30,7 @@ data class Attachment(
         var url: String,
         @SerializedName("preview_url") val previewUrl: String,
         @SerializedName("text_url") val textUrl: String?,
+        val meta: MetaData?,
         var type: Type,
         var description: String?
 ) : Parcelable {
