@@ -178,6 +178,12 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setStatusVisibility(Status.Visibility visibility) {
+        if (this.visibility == null) {
+            // The visibility icon isn't present in all status layouts, so we might not have
+            // anything to do here
+            return;
+        }
+
         if (visibility == Status.Visibility.UNKNOWN) {
             this.visibility.setVisibility(View.GONE);
         } else {
