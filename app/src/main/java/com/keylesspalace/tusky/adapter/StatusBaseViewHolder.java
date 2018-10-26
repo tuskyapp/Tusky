@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -41,7 +42,7 @@ import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
 
 abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
-    private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[] { SmartLengthInputFilter.INSTANCE };
+    private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
     private TextView displayName;
@@ -59,6 +60,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private TextView mediaLabel;
     private ToggleButton contentWarningButton;
     private ToggleButton contentCollapseButton;
+    private ImageView visibility;
 
     ImageView avatar;
     TextView timestampInfo;
@@ -100,6 +102,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
         contentWarningButton = itemView.findViewById(R.id.status_content_warning_button);
         contentCollapseButton = itemView.findViewById(R.id.button_toggle_content);
+        visibility = itemView.findViewById(R.id.status_visibility);
 
         this.useAbsoluteTime = useAbsoluteTime;
         shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
@@ -171,6 +174,27 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
             timestampInfo.setText(readout);
             timestampInfo.setContentDescription(readoutAloud);
+        }
+    }
+
+    private void setStatusVisibility(Status.Visibility visibility) {
+        if (visibility == Status.Visibility.UNKNOWN) {
+            this.visibility.setVisibility(View.GONE);
+        } else {
+            this.visibility.setImageDrawable(itemView.getContext().getDrawable(visibility.icon()));
+        }
+
+        try {
+            String[] visibilityNames = itemView.getContext()
+                    .getResources()
+                    .getStringArray(R.array.post_privacy_names);
+            if (visibilityNames.length > visibility.ordinal()) {
+                // If the strings haven't been translated to a given language, we'd throw an
+                // ArrayIndexOutOfBoundsException when trying to grab the value from the array
+                this.visibility.setContentDescription(visibilityNames[visibility.ordinal()]);
+            }
+        } catch (Resources.NotFoundException ignored) {
+            // Thrown by Resources.getStringArray()
         }
     }
 
@@ -483,6 +507,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         setDisplayName(status.getUserFullName(), status.getAccountEmojis());
         setUsername(status.getNickname());
         setCreatedAt(status.getCreatedAt());
+        setStatusVisibility(status.getVisibility());
         setIsReply(status.getInReplyToId() != null);
         setAvatar(status.getAvatar(), status.getRebloggedAvatar());
         setReblogged(status.isReblogged());

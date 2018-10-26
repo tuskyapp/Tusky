@@ -85,11 +85,21 @@
             android:id="@+id/status_timestamp_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_toStartOf="@+id/status_visibility"
             android:layout_marginStart="4dp"
             android:textColor="?android:textColorSecondary"
             android:textSize="?attr/status_text_medium"
             tools:text="13:37" />
+
+        <ImageView
+            android:id="@+id/status_visibility"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/ic_public_24dp"
+            android:tint="?android:textColorSecondary" />
 
         <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/status_content_warning_description"

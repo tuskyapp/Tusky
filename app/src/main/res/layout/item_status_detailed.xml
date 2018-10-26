@@ -303,11 +303,23 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <ImageView
+        android:id="@+id/status_visibility"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_below="@id/status_media_preview_container"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="4dp"
+        android:src="@drawable/ic_public_24dp"
+        android:tint="?android:textColorTertiary" />
+
     <TextView
         android:id="@+id/status_timestamp_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/status_media_preview_container"
+        android:layout_toEndOf="@+id/status_visibility"
         android:layout_marginBottom="6dp"
         android:layout_marginTop="10dp"
         android:textColor="?android:textColorTertiary"

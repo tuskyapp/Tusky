@@ -212,6 +212,8 @@
         <item>Público</item>
         <item>Oculto</item>
         <item>Privado</item>
+        <item>Directo</item>
+        <item>Desconocido</item>
     </string-array>
 
     <string name="pref_status_text_size">Tamaño del texto</string>

@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.entity
 
 import android.text.Spanned
 import com.google.gson.annotations.SerializedName
+import com.keylesspalace.tusky.R
 import java.util.*
 
 data class Status(
@@ -67,6 +68,16 @@ data class Status(
                 PRIVATE -> "private"
                 DIRECT -> "direct"
                 UNKNOWN -> "unknown"
+            }
+        }
+
+        fun icon(): Int {
+            return when (this) {
+                PUBLIC -> R.drawable.ic_public_24dp
+                UNLISTED -> R.drawable.ic_lock_open_24dp
+                PRIVATE -> R.drawable.ic_lock_open_24dp
+                DIRECT -> R.drawable.ic_email_24dp
+                UNKNOWN -> 0
             }
         }
 
