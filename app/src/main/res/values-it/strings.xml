@@ -354,7 +354,7 @@
 
     <string name="pref_title_absolute_time">Usa tempo assoluto</string>
 
-    <string name="label_remote_account">Il profilo dell'utente mostrato qui sotto potrebbe essere incompleto. Premi per aprire il profilo completo nel browser.</string>
+    <string name="label_remote_account">Il profilo dell\'utente mostrato qui sotto potrebbe essere incompleto. Premi per aprire il profilo completo nel browser.</string>
 
     <string name="unpin_action">Non fissare</string>
     <string name="pin_action">Fissa</string>
