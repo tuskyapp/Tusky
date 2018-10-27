@@ -42,28 +42,35 @@ public final class InstanceSwitchAuthInterceptor implements Interceptor {
     public Response intercept(@NonNull Chain chain) throws IOException {
 
         Request originalRequest = chain.request();
-        AccountEntity currentAccount = accountManager.getActiveAccount();
 
-        Request.Builder builder = originalRequest.newBuilder();
+        // only switch domains if the request comes from retrofit
+        if (originalRequest.url().host().equals(MastodonApi.PLACEHOLDER_DOMAIN)) {
+            AccountEntity currentAccount = accountManager.getActiveAccount();
 
-        String instanceHeader = originalRequest.header(MastodonApi.DOMAIN_HEADER);
-        if (instanceHeader != null) {
-            // use domain explicitly specified in custom header
-            builder.url(swapHost(originalRequest.url(), instanceHeader));
-            builder.removeHeader(MastodonApi.DOMAIN_HEADER);
-        } else if (currentAccount != null) {
-            //use domain of current account
-            builder.url(swapHost(originalRequest.url(), currentAccount.getDomain()))
-                    .header("Authorization",
-                            String.format("Bearer %s", currentAccount.getAccessToken()));
+            Request.Builder builder = originalRequest.newBuilder();
+
+            String instanceHeader = originalRequest.header(MastodonApi.DOMAIN_HEADER);
+            if (instanceHeader != null) {
+                // use domain explicitly specified in custom header
+                builder.url(swapHost(originalRequest.url(), instanceHeader));
+                builder.removeHeader(MastodonApi.DOMAIN_HEADER);
+            } else if (currentAccount != null) {
+                //use domain of current account
+                builder.url(swapHost(originalRequest.url(), currentAccount.getDomain()))
+                        .header("Authorization",
+                                String.format("Bearer %s", currentAccount.getAccessToken()));
+            }
+            Request newRequest = builder.build();
+
+            return chain.proceed(newRequest);
+
+        } else {
+            return chain.proceed(originalRequest);
         }
-        Request newRequest = builder.build();
-
-        return chain.proceed(newRequest);
     }
 
     @NonNull
-    private HttpUrl swapHost(@NonNull HttpUrl url, @NonNull String host) {
+    private static HttpUrl swapHost(@NonNull HttpUrl url, @NonNull String host) {
         return url.newBuilder().host(host).build();
     }
 }

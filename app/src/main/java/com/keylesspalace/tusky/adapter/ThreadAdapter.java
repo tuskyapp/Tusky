@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,23 +36,26 @@ public class ThreadAdapter extends RecyclerView.Adapter {
     private List<StatusViewData.Concrete> statuses;
     private StatusActionListener statusActionListener;
     private boolean mediaPreviewEnabled;
+    private boolean useAbsoluteTime;
     private int detailedStatusPosition;
 
     public ThreadAdapter(StatusActionListener listener) {
         this.statusActionListener = listener;
         this.statuses = new ArrayList<>();
         mediaPreviewEnabled = true;
+        useAbsoluteTime = false;
         detailedStatusPosition = RecyclerView.NO_POSITION;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             default:
             case VIEW_TYPE_STATUS: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_status, parent, false);
-                return new StatusViewHolder(view);
+                return new StatusViewHolder(view, useAbsoluteTime);
             }
             case VIEW_TYPE_STATUS_DETAILED: {
                 View view = LayoutInflater.from(parent.getContext())
@@ -62,7 +66,7 @@ public class ThreadAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         StatusViewData.Concrete status = statuses.get(position);
         if (position == detailedStatusPosition) {
             StatusDetailedViewHolder holder = (StatusDetailedViewHolder) viewHolder;
@@ -116,6 +120,11 @@ public class ThreadAdapter extends RecyclerView.Adapter {
         notifyItemRangeInserted(end, statuses.size());
     }
 
+    public void removeItem(int position) {
+        statuses.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public void clear() {
         statuses.clear();
         detailedStatusPosition = RecyclerView.NO_POSITION;
@@ -140,6 +149,10 @@ public class ThreadAdapter extends RecyclerView.Adapter {
 
     public void setMediaPreviewEnabled(boolean enabled) {
         mediaPreviewEnabled = enabled;
+    }
+
+    public void setUseAbsoluteTime(boolean useAbsoluteTime) {
+        this.useAbsoluteTime = useAbsoluteTime;
     }
 
     public void setDetailedStatusPosition(int position) {

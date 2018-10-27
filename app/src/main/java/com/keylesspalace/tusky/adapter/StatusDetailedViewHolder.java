@@ -1,7 +1,8 @@
 package com.keylesspalace.tusky.adapter;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Card;
@@ -38,7 +40,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private TextView cardUrl;
 
     StatusDetailedViewHolder(View view) {
-        super(view);
+        super(view, false);
         reblogs = view.findViewById(R.id.status_reblogs);
         favourites = view.findViewById(R.id.status_favourites);
         cardView = view.findViewById(R.id.card_view);
@@ -93,7 +95,21 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
         favourites.setText(numberFormat.format(status.getFavouritesCount()));
         setApplication(status.getApplication());
 
-        if(status.getAttachments().length == 0 && status.getCard() != null && !TextUtils.isEmpty(status.getCard().getUrl())) {
+        View.OnLongClickListener longClickListener = view -> {
+            TextView textView = (TextView)view;
+            ClipboardManager clipboard = (ClipboardManager) view.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("toot", textView.getText());
+            clipboard.setPrimaryClip(clip);
+
+            Toast.makeText(view.getContext(), R.string.copy_to_clipboard_success, Toast.LENGTH_SHORT).show();
+
+            return true;
+        };
+
+        content.setOnLongClickListener(longClickListener);
+        contentWarningDescription.setOnLongClickListener(longClickListener);
+
+        if(status.getAttachments().size() == 0 && status.getCard() != null && !TextUtils.isEmpty(status.getCard().getUrl())) {
             final Card card = status.getCard();
             cardView.setVisibility(View.VISIBLE);
             cardTitle.setText(card.getTitle());
@@ -120,9 +136,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                     cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                 }
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    cardView.setClipToOutline(true);
-                }
+                cardView.setClipToOutline(true);
 
                 Picasso.with(cardImage.getContext())
                         .load(card.getImage())
@@ -134,15 +148,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 cardImage.setVisibility(View.GONE);
             }
 
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    LinkHelper.openLink(card.getUrl(), v.getContext());
-
-                }
-
-            });
+            cardView.setOnClickListener(v -> LinkHelper.openLink(card.getUrl(), v.getContext()));
 
         } else {
             cardView.setVisibility(View.GONE);

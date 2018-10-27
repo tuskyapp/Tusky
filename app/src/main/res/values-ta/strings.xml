@@ -25,6 +25,7 @@
     <string name="title_view_thread">Toot</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">பதிவுகள்</string>
+
     <string name="title_statuses_with_replies">பதிலளிக்கபட்டவை</string>
     <string name="title_follows">பின்பற்றுகிறீர்</string>
     <string name="title_followers">பின்பற்றுபவர்கள்</string>
@@ -65,6 +66,7 @@
     <string name="action_unfollow">பின்பற்றாதே</string>
     <string name="action_block">தடை</string>
     <string name="action_unblock">தடை நீக்கு</string>
+
    <string name="action_hide_reblogs">மேலேற்றத்தை மறை</string>
     <string name="action_show_reblogs">மேலேற்றத்தை காட்டு</string>
     <string name="action_report">புகார்</string>
@@ -90,6 +92,7 @@
     <string name="action_hide_media">மீடியாவை மறை</string>
     <string name="action_open_drawer">டிராயரைத் திற</string>
     <string name="action_save">சேமி</string>
+
     <string name="action_edit_profile">சுயவிவரத்தை திருத்த</string>
     <string name="action_edit_own_profile">திருத்த</string>
     <string name="action_undo">மீளமை</string>
@@ -97,10 +100,10 @@
     <string name="action_reject">நிராகரி</string>
     <string name="action_search">தேடு</string>
     <string name="action_access_saved_toot">வரைவுகள்</string>
+
     <string name="action_toggle_visibility">Toot புலப்படும் தன்மை</string>
     <string name="action_content_warning">உள்ளடக்க எச்சரிக்கை</string>
     <string name="action_emoji_keyboard">Emoji விசைபலகை</string>
-
 
     <string name="download_image">பதிவிறக்கப்படுகிறது %1$s</string>
 
@@ -108,11 +111,12 @@
 
     <string name="send_status_link_to">Toot URL-யை பகிர…</string>
     <string name="send_status_content_to">Toot உள்ளடக்கத்தை பகிர…</string>
-    <string name="send_media_to">Mediaவை பகிர…</string>
 
+    <string name="send_media_to">Mediaவை பகிர…</string>
     <string name="confirmation_reported">அனுப்பு!</string>
     <string name="confirmation_unblocked">பயனர்  முடக்கம் நீக்கப்பட்டது</string>
     <string name="confirmation_unmuted">பயனர் ஒலிக்க செய்யபட்டது</string>
+
 
     <string name="status_sent">அனுப்பு!</string>
     <string name="status_sent_long">வெற்றிகரமாக பதிலளிக்கபட்டது.</string>
@@ -125,7 +129,6 @@
     <string name="hint_search">தேடல்...</string>
 
     <string name="search_no_results">முடிவுகள் ஏதுமில்லை</string>
-
     <string name="label_quick_reply">பதிலளி…</string>
     <string name="label_avatar">தோற்றம்</string>
     <string name="label_header">தலைப்பு</string>
@@ -178,6 +181,7 @@
     <string name="pref_title_hide_follow_button">உருளலின் போது எழுது பொத்தானை மறை</string>
     <string name="pref_title_status_filter">காலவரிசை வடிகட்டல்</string>
     <string name="pref_title_status_tabs">கீற்றுகள்</string>
+
     <string name="pref_title_show_boosts">மேலேற்றத்தை காண்பி</string>
     <string name="pref_title_show_replies">பதில்களைக் காண்பி</string>
     <string name="pref_title_filter_regex">சுருங்குறித்தொடர் மூலம் வடிகட்டு</string>
@@ -220,10 +224,10 @@
     <string name="notification_channel_follow_name">புதிய பின்பற்றுபவர்கள்</string>
     <string name="notification_channel_follow_description">புதிய பின்தொடர்பவர்களைப் பற்றிய அறிவிப்புகள்</string>
     <string name="notification_channel_boost_name">ஊக்கியாக</string>
+
     <string name="notification_channel_boost_description">எமது toot மேலேற்றும் போது தெரிவி.</string>
     <string name="notification_channel_favourite_name">பிடித்தவைகள்</string>
     <string name="notification_channel_favourite_description">எமது toot பிடித்தவையானால் தெரிவி.</string>
-
 
     <string name="notification_mention_format">%s தங்களை குறிபிட்டுள்ளார்</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s மற்றும் %4$d மற்றவர்கள்</string>
@@ -289,6 +293,7 @@
     <string name="action_remove_media">நீக்கு</string>
     <string name="lock_account_label">கணக்கை முடக்கு</string>
     <string name="lock_account_label_description">நீங்களாக பின்பற்றுபவர்களை அங்கீகரிக்க</string>
+
     <string name="compose_save_draft">வரைவை சேமிக்கவா?</string>
     <string name="send_toot_notification_title">Toot அனுப்பபடுகிறது…</string>
     <string name="send_toot_notification_error_title">Toot அனுப்புவதில் பிழை</string>
@@ -337,6 +342,5 @@
 
     <string name="unpin_action">விடுவி</string>
     <string name="pin_action">பொருத்து</string>
-
 
 </resources>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="8dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:colorBackground"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:orientation="vertical">
+
+    <android.support.text.emoji.widget.EmojiEditText
+        android:id="@+id/accountFieldName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:textSize="?attr/status_text_medium"
+        android:hint="@string/profile_metadata_label_label" />
+
+    <android.support.text.emoji.widget.EmojiEditText
+        android:id="@+id/accountFieldValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1.1"
+        android:textSize="?attr/status_text_medium"
+        android:hint="@string/profile_metadata_content_label" />
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

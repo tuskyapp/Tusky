@@ -31,13 +31,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.AccountActivity;
-import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.AccountAdapter;
 import com.keylesspalace.tusky.adapter.BlocksAdapter;
 import com.keylesspalace.tusky.adapter.FollowAdapter;
 import com.keylesspalace.tusky.adapter.FollowRequestsAdapter;
-import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.MutesAdapter;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Account;
@@ -80,10 +78,8 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
     private RecyclerView recyclerView;
     private EndlessOnScrollListener scrollListener;
     private AccountAdapter adapter;
-    private boolean bottomLoading;
-    private int bottomFetches;
-    private boolean topLoading;
-    private int topFetches;
+    private boolean fetching = false;
+    private String bottomId;
 
     public static AccountListFragment newInstance(Type type) {
         Bundle arguments = new Bundle();
@@ -141,10 +137,6 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         }
         recyclerView.setAdapter(adapter);
 
-        bottomLoading = false;
-        bottomFetches = 0;
-        topLoading = false;
-        topFetches = 0;
 
         return rootView;
     }
@@ -155,34 +147,28 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         // Just use the basic scroll listener to load more accounts.
         scrollListener = new EndlessOnScrollListener(layoutManager) {
             @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                AccountListFragment.this.onLoadMore(view);
+            public void onLoadMore(int totalItemsCount, RecyclerView view) {
+                AccountListFragment.this.onLoadMore();
             }
         };
 
         recyclerView.addOnScrollListener(scrollListener);
 
-        fetchAccounts(null, null, FetchEnd.BOTTOM);
+        fetchAccounts(null);
 
     }
 
     @Override
     public void onViewAccount(String id) {
-        Intent intent = new Intent(getContext(), AccountActivity.class);
-        intent.putExtra("id", id);
-        startActivity(intent);
+        Context context = getContext();
+        if(context != null) {
+            Intent intent = AccountActivity.getIntent(context, id);
+            startActivity(intent);
+        }
     }
 
     @Override
     public void onMute(final boolean mute, final String id, final int position) {
-        if (api == null) {
-            /* If somehow an unmute button is clicked after onCreateView but before
-             * onActivityCreated, then this would get called with a null api object, so this eats
-             * that input. */
-            Log.d(TAG, "MastodonApi isn't initialised so this mute can't occur.");
-            return;
-        }
-
         Callback<Relationship> callback = new Callback<Relationship>() {
             @Override
             public void onResponse(@NonNull Call<Relationship> call, @NonNull Response<Relationship> response) {
@@ -236,14 +222,6 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
 
     @Override
     public void onBlock(final boolean block, final String id, final int position) {
-        if (api == null) {
-            /* If somehow an unblock button is clicked after onCreateView but before
-             * onActivityCreated, then this would get called with a null api object, so this eats
-             * that input. */
-            Log.d(TAG, "MastodonApi isn't initialised so this block can't occur.");
-            return;
-        }
-
         Callback<Relationship> cb = new Callback<Relationship>() {
             @Override
             public void onResponse(@NonNull Call<Relationship> call, @NonNull Response<Relationship> response) {
@@ -298,13 +276,6 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
     @Override
     public void onRespondToFollowRequest(final boolean accept, final String accountId,
                                          final int position) {
-        if (api == null) {
-            /* If somehow an response button is clicked after onCreateView but before
-             * onActivityCreated, then this would get called with a null api object, so this eats
-             * that input. */
-            Log.d(TAG, "MastodonApi isn't initialised, so follow requests can't be responded to.");
-            return;
-        }
 
         Callback<Relationship> callback = new Callback<Relationship>() {
             @Override
@@ -348,44 +319,30 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
         Log.e(TAG, message);
     }
 
-    private enum FetchEnd {
-        TOP,
-        BOTTOM
-    }
-
-    private Call<List<Account>> getFetchCallByListType(Type type, String fromId, String uptoId) {
+    private Call<List<Account>> getFetchCallByListType(Type type, String fromId) {
         switch (type) {
             default:
             case FOLLOWS:
-                return api.accountFollowing(accountId, fromId, uptoId, null);
+                return api.accountFollowing(accountId, fromId, null, null);
             case FOLLOWERS:
-                return api.accountFollowers(accountId, fromId, uptoId, null);
+                return api.accountFollowers(accountId, fromId, null, null);
             case BLOCKS:
-                return api.blocks(fromId, uptoId, null);
+                return api.blocks(fromId, null, null);
             case MUTES:
-                return api.mutes(fromId, uptoId, null);
+                return api.mutes(fromId, null, null);
             case FOLLOW_REQUESTS:
-                return api.followRequests(fromId, uptoId, null);
+                return api.followRequests(fromId, null, null);
         }
     }
 
-    private void fetchAccounts(String fromId, String uptoId, final FetchEnd fetchEnd) {
-        /* If there is a fetch already ongoing, record however many fetches are requested and
-         * fulfill them after it's complete. */
-        if (fetchEnd == FetchEnd.TOP && topLoading) {
-            topFetches++;
+    private void fetchAccounts(String id) {
+        if (fetching) {
             return;
         }
-        if (fetchEnd == FetchEnd.BOTTOM && bottomLoading) {
-            bottomFetches++;
-            return;
-        }
+        fetching = true;
 
-        if (fromId != null || adapter.getItemCount() <= 1) {
-            /* When this is called by the EndlessScrollListener it cannot refresh the footer state
-             * using adapter.notifyItemChanged. So its necessary to postpone doing so until a
-             * convenient time for the UI thread using a Runnable. */
-            recyclerView.post(() -> adapter.setFooterState(FooterViewHolder.State.LOADING));
+        if (id != null) {
+            recyclerView.post(() -> adapter.setBottomLoading(true));
         }
 
         Callback<List<Account>> cb = new Callback<List<Account>>() {
@@ -393,99 +350,55 @@ public class AccountListFragment extends BaseFragment implements AccountActionLi
             public void onResponse(@NonNull Call<List<Account>> call, @NonNull Response<List<Account>> response) {
                 if (response.isSuccessful()) {
                     String linkHeader = response.headers().get("Link");
-                    onFetchAccountsSuccess(response.body(), linkHeader, fetchEnd);
+                    onFetchAccountsSuccess(response.body(), linkHeader);
                 } else {
-                    onFetchAccountsFailure(new Exception(response.message()), fetchEnd);
+                    onFetchAccountsFailure(new Exception(response.message()));
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Account>> call, @NonNull Throwable t) {
-                onFetchAccountsFailure((Exception) t, fetchEnd);
+                onFetchAccountsFailure((Exception) t);
             }
         };
-        Call<List<Account>> listCall = getFetchCallByListType(type, fromId, uptoId);
+        Call<List<Account>> listCall = getFetchCallByListType(type, id);
         callList.add(listCall);
         listCall.enqueue(cb);
     }
 
-    private void onFetchAccountsSuccess(List<Account> accounts, String linkHeader,
-                                        FetchEnd fetchEnd) {
+    private void onFetchAccountsSuccess(List<Account> accounts, String linkHeader) {
+        adapter.setBottomLoading(false);
+
+
         List<HttpHeaderLink> links = HttpHeaderLink.parse(linkHeader);
-        switch (fetchEnd) {
-            case TOP: {
-                HttpHeaderLink previous = HttpHeaderLink.findByRelationType(links, "prev");
-                String uptoId = null;
-                if (previous != null) {
-                    uptoId = previous.uri.getQueryParameter("since_id");
-                }
-                adapter.update(accounts, null, uptoId);
-                break;
-            }
-            case BOTTOM: {
-                HttpHeaderLink next = HttpHeaderLink.findByRelationType(links, "next");
-                String fromId = null;
-                if (next != null) {
-                    fromId = next.uri.getQueryParameter("max_id");
-                }
-                if (adapter.getItemCount() > 1) {
-                    adapter.addItems(accounts, fromId);
-                } else {
-                    /* If this is the first fetch, also save the id from the "previous" link and
-                     * treat this operation as a refresh so the scroll position doesn't get pushed
-                     * down to the end. */
-                    HttpHeaderLink previous = HttpHeaderLink.findByRelationType(links, "prev");
-                    String uptoId = null;
-                    if (previous != null) {
-                        uptoId = previous.uri.getQueryParameter("since_id");
-                    }
-                    adapter.update(accounts, fromId, uptoId);
-                }
-                break;
-            }
+        HttpHeaderLink next = HttpHeaderLink.findByRelationType(links, "next");
+        String fromId = null;
+        if (next != null) {
+            fromId = next.uri.getQueryParameter("max_id");
         }
-        fulfillAnyQueuedFetches(fetchEnd);
-        if (accounts.size() == 0 && adapter.getItemCount() == 1) {
-            adapter.setFooterState(FooterViewHolder.State.EMPTY);
+        if (adapter.getItemCount() > 1) {
+            adapter.addItems(accounts);
         } else {
-            adapter.setFooterState(FooterViewHolder.State.END);
+            adapter.update(accounts);
         }
+
+        bottomId = fromId;
+
+        fetching = false;
+
+        adapter.setBottomLoading(false);
     }
 
-    private void onFetchAccountsFailure(Exception exception, FetchEnd fetchEnd) {
+    private void onFetchAccountsFailure(Exception exception) {
+        fetching = false;
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
-        fulfillAnyQueuedFetches(fetchEnd);
     }
 
-    private void onRefresh() {
-        fetchAccounts(null, adapter.getTopId(), FetchEnd.TOP);
-    }
-
-    private void onLoadMore(RecyclerView recyclerView) {
-        AccountAdapter adapter = (AccountAdapter) recyclerView.getAdapter();
-        //if we do not have a bottom id, we know we do not need to load more
-        if (adapter.getBottomId() == null) return;
-        fetchAccounts(adapter.getBottomId(), null, FetchEnd.BOTTOM);
-    }
-
-    private void fulfillAnyQueuedFetches(FetchEnd fetchEnd) {
-        switch (fetchEnd) {
-            case BOTTOM: {
-                bottomLoading = false;
-                if (bottomFetches > 0) {
-                    bottomFetches--;
-                    onLoadMore(recyclerView);
-                }
-                break;
-            }
-            case TOP: {
-                topLoading = false;
-                if (topFetches > 0) {
-                    topFetches--;
-                    onRefresh();
-                }
-                break;
-            }
+    private void onLoadMore() {
+        if(bottomId == null) {
+            return;
         }
+        fetchAccounts(bottomId);
     }
+
 }

@@ -40,4 +40,7 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun notificationsFragment(): NotificationsFragment
+
+    @ContributesAndroidInjector
+    abstract fun searchFragment(): SearchFragment
 }

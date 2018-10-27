@@ -100,7 +100,7 @@ public final class Either<L, R> {
     }
 
     /**
-     * Same as {@link #getAsRightOrNull()} but returns {@code null} is the value if Left instead of
+     * Same as {@link #getAsRight()} but returns {@code null} is the value if Left instead of
      * throwing an exception.
      * @return contained value as Right or null
      */

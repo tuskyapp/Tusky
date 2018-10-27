@@ -33,34 +33,7 @@ public class TuskyTileService extends TileService {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void onTileAdded() {
-        super.onTileAdded();
-    }
-
-    @Override
-    public void onTileRemoved() {
-        super.onTileRemoved();
-    }
-
-    @Override
-    public void onStartListening() {
-        super.onStartListening();
-    }
-
-    @Override
-    public void onStopListening() {
-        super.onStopListening();
-    }
-
-    @Override
     public void onClick() {
-        super.onClick();
-
         startActivityAndCollapse(new Intent(this, ComposeActivity.class));
     }
 }

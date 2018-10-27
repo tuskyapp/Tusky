@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Autorisierung fehlgeschlagen.</string>
     <string name="error_retrieving_oauth_token">Es konnte kein Login-Token abgerufen werden.</string>
     <string name="error_compose_character_limit">Der Beitrag ist zu lang!</string>
-    <string name="error_media_upload_size">Die Datei muss kleiner als 4MB sein.</string>
+    <string name="error_image_upload_size">Die Datei muss kleiner als 8MB sein.</string>
     <string name="error_media_upload_type">Dieser Dateityp darf nicht hochgeladen werden.</string>
     <string name="error_media_upload_opening">Die Datei konnte nicht geöffnet werden.</string>
     <string name="error_media_upload_permission">Eine Leseberechtigung wird für das Hochladen der Mediendatei benötigt.</string>
@@ -17,7 +17,7 @@
 
     <string name="error_media_upload_image_or_video">Bilder und Videos können beide nicht an den Beitrag angehängt werden.</string>
     <string name="error_media_upload_sending">Die Mediendatei konnte nicht hochgeladen werden.</string>
-    <string name="error_report_too_few_statuses">Mindestens ein Beitrag muss berichtet werden.</string>
+    <string name="error_report_too_few_statuses">Mindestens ein Beitrag muss gemeldet werden.</string>
 
     <string name="title_home">Start</string>
     <string name="title_notifications">Benachrichtigungen</string>
@@ -29,7 +29,7 @@
     <string name="title_follows">Folgt</string>
     <string name="title_followers">Folgende</string>
     <string name="title_favourites">Favoriten</string>
-    <string name="title_blocks">Blockierte Accounts</string>
+    <string name="title_blocks">Blockierte Profile</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s teilte</string>
@@ -38,7 +38,7 @@
     <string name="status_content_warning_show_more">Zeige mehr</string>
     <string name="status_content_warning_show_less">Zeige weniger</string>
 
-    <string name="footer_empty">Noch keine Toots hier! Ziehe nach unten um zu aktualisieren!</string>
+    <string name="footer_empty">Noch keine Beiträge hier! Ziehe nach unten um zu aktualisieren!</string>
 
     <string name="notification_reblog_format">%s teilte deinen Beitrag</string>
     <string name="notification_favourite_format">%s favorisierte deinen Beitrag</string>
@@ -63,31 +63,28 @@
     <string name="action_send">TRÖT</string>
     <string name="action_send_public">TRÖT!</string>
     <string name="action_retry">Erneut versuchen</string>
-    <string name="action_hide_text">Verstecke Text hinter Warnung</string>
     <string name="action_close">Schließen</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Einstellungen</string>
     <string name="action_view_favourites">Favoriten</string>
-    <string name="action_view_blocks">Blockierte Accounts</string>
+    <string name="action_view_blocks">Blockierte Profile</string>
     <string name="action_view_media">Medien</string>
     <string name="action_open_in_web">Im Browser öffnen</string>
-    <string name="action_photo_pick">Füge Medien hinzu</string>
+    <string name="action_add_media">Füge Medien hinzu</string>
     <string name="action_photo_take">Foto machen</string>
     <string name="action_share">Teilen</string>
     <string name="action_mute">Stummschalten</string>
     <string name="action_unmute">Lautschalten</string>
     <string name="action_mention">Erwähnen</string>
-    <string name="action_compose_options">Einstellungen</string>
     <string name="action_open_drawer">Drawer öffnen</string>
     <string name="action_search">Suche</string>
     <string name="action_access_saved_toot">Entwürfe</string>
     <string name="action_save">Speichern</string>
     <string name="action_edit_profile">Profil bearbeiten</string>
 
-    <string name="send_status_link_to">Toot-Link teilen</string>
-    <string name="send_status_content_to">Toot-Inhalt teilen</string>
+    <string name="send_status_link_to">Beitragslink teilen</string>
+    <string name="send_status_content_to">Beitragsinhalt teilen</string>
 
-    <string name="confirmation_send">Toot!</string>
     <string name="confirmation_reported">Gesendet!</string>
 
     <string name="hint_domain">Welche Instanz?</string>
@@ -115,10 +112,10 @@
     <string name="dialog_message_uploading_media">Lade hoch…</string>
     <string name="dialog_download_image">Herunterladen</string>
 
-    <string name="visibility_public">Öffentlich: Für jedermann sichtbar</string>
+    <string name="visibility_public">Öffentlich: Für alle sichtbar</string>
     <string name="visibility_unlisted">Ungelistet: Nicht in der öffentlichen Timeline sichtbar</string>
-    <string name="visibility_private">Nur Folgende: Nur für Follower sichtbar</string>
-    <string name="visibility_direct">Direkt: Nur für erwähnte Nutzer sichtbar</string>
+    <string name="visibility_private">Nur Folgende: Nur für Folgende sichtbar</string>
+    <string name="visibility_direct">Direkt: Nur für Erwähnte sichtbar</string>
 
     <string name="pref_title_notification_settings">Benachrichtigungen</string>
     <string name="pref_title_edit_notification_settings">Benachrichtigungseinstellungen</string>
@@ -156,9 +153,20 @@
     <string name="pref_status_text_size">Schriftgröße</string>
 
     <string-array name="status_text_size_names">
+        <item>Kleiner</item>
         <item>Klein</item>
         <item>Normal</item>
         <item>Groß</item>
+        <item>Größer</item>
+    </string-array>
+
+    <string name="pref_title_app_theme">App-Thema</string>
+
+    <string-array name="app_theme_names">
+        <item>Dunkel</item>
+        <item>Hell</item>
+        <item>Schwarz</item>
+        <item>Automatisch bei Sonnenuntergang</item>
     </string-array>
 
     <string name="notification_mention_format">%s hat dich erwähnt</string>
@@ -167,20 +175,20 @@
     <string name="notification_summary_small">%1$s und %2$s</string>
     <string name="notification_title_summary">%d neue Interaktionen</string>
 
-    <string name="description_account_locked">Gesperrter Account</string>
+    <string name="description_account_locked">Gesperrtes Profil</string>
     <string name="action_undo">rückgängig machen</string>
-    <string name="action_view_mutes">Stummgeschaltene Accounts</string>
+    <string name="action_view_mutes">Stummgeschaltete Profile</string>
     <string name="confirmation_unblocked">entblockt</string>
-    <string name="title_mutes">Stummgeschaltene Nutzer</string>
-    <string name="title_follow_requests">Followanfragen</string>
+    <string name="title_mutes">Stummgeschaltete Profile</string>
+    <string name="title_follow_requests">Folgeanfrage</string>
     <string name="status_share_link">Link teilen</string>
     <string name="status_share_content">Inhalt teilen</string>
     <string name="action_accept">Akzeptieren</string>
     <string name="action_reject">Ablehnen</string>
-    <string name="action_view_follow_requests">Followanfragen</string>
-    <string name="state_follow_requested">Followanfrage gesendet</string>
+    <string name="action_view_follow_requests">Folgeanfragen</string>
+    <string name="state_follow_requested">Folgeanfrage gesendet</string>
     <string name="confirmation_unmuted">Stummschaltung aufgehoben</string>
-    <string name="dialog_message_follow_request">Followanfrage gesendet: Warten auf Antwort</string>
+    <string name="dialog_message_cancel_follow_request">Folgeanfrage zurückziehen?</string>
     <string name="title_edit_profile">Dein Profil bearbeiten</string>
     <string name="login_connection">Verbinden…</string>
 
@@ -199,7 +207,6 @@
     </string>
     <string name="about_tusky_account">Tuskys Profil</string>
 
-    <string name="action_save_one_toot">Toot gespeichert</string>
     <string name="search_no_results">Keine Ergebnisse</string>
     <string name="status_media_images">Bilder</string>
     <string name="status_media_video">Video</string>
@@ -211,13 +218,13 @@
     <string name="no_content">leer</string>
     <string name="action_hide_media">Verstecke Medien</string>
     <string name="pref_title_status_filter">Timeline-Filter</string>
-    <string name="title_saved_toot">Gespeicherte Tröts</string>
+    <string name="title_saved_toot">Gespeicherte Beiträge</string>
 
     <string name="follows_you">Folgt dir</string>
     <string name="action_copy_link">Link kopieren</string>
     <string name="download_image">%1$s heruntergeladen</string>
-    <string name="dialog_unfollow_warning">Willst du diesem Account wirklich nicht mehr folgen?</string>
-    <string name="pref_title_alway_show_sensitive_media">NSFW-Inhalte immer anzeigen</string>
+    <string name="dialog_unfollow_warning">Willst du diesem Profil wirklich nicht mehr folgen?</string>
+    <string name="pref_title_alway_show_sensitive_media">Heikle Inhalte immer anzeigen</string>
     <string name="notification_channel_boost_name">Geteilte Beiträge</string>
     <string name="notification_channel_boost_description">Benachrichtigungen wenn deine Beiträge geteilt werden</string>
     <string name="notification_channel_favourite_description">Benachrichtigungen wenn deine Beiträge favorisiert werden</string>
@@ -228,11 +235,8 @@
     <string name="notification_channel_mention_name">Neue Erwähnungen</string>
     <string name="replying_to">Antworten an @%s</string>
     <string name="title_media">Medien</string>
-    <string name="title_x_followers"><b>%s</b> Folgende</string>
-    <string name="title_x_following"><b>%s</b> Folgt</string>
-    <string name="title_x_statuses"><b>%s</b> Beiträge</string>
+
     <string name="load_more_placeholder_text">mehr laden</string>
-    <string name="dialog_reply_not_found">Fehler beim Senden des Status. Der Status, auf den du antwortest, ist vielleicht nicht mehr verfügbar. Als normale Erwähnung weiter bearbeiten?</string>
     <string name="pref_default_post_privacy">Beitragssichtbarkeit</string>
     <string name="pref_publishing">Beiträge</string>
     <string name="status_media_hidden_title">Medien versteckt</string>
@@ -252,7 +256,62 @@
     <string name="add_account_description">Neues Mastodon-Konto hinzufügen</string>
     <string name="pref_summary_notifications">für %1$s</string>
     <string name="compose_active_account_description">verfassen mit %1$s</string>
-    <string name="pref_title_app_theme">App-Thema</string>
     <string name="action_logout_confirm">Bist du sicher, dass du dich aus dem Konto %1$s ausloggen möchtest?</string>
+    <string name="lock_account_label">Gesperrtes Profil</string>
+    <string name="lock_account_label_description">Wer dir folgen möchte, muss um deine Erlaubnis bitten</string>
+    <string name="compose_save_draft">Entwurf speichern?</string>
+    <string name="send_toot_notification_cancel_title">Senden abgebrochen</string>
+    <string name="title_advanced">Erweitert</string>
+    <string name="action_toggle_visibility">Beitragssichtbarkeit</string>
+    <string name="action_emoji_keyboard">Emoji</string>
+    <string name="pref_title_filter_regex">Mit regulärem Ausdruck filtern</string>
+    <string name="error_invalid_regex">Ungültiger regulärer Ausdruck</string>
+    <string name="action_content_warning">Inhaltswarnung</string>
+    <string name="send_toot_notification_title">Beitrag senden…</string>
+    <string name="send_toot_notification_error_title">Fehler beim senden</string>
+    <string name="send_toot_notification_saved_content">Eine Kopie des Beitrags wurde in deine Entwürfe gespeichert</string>
+    <string name="send_toot_notification_channel_name">Beiträge senden</string>
+
+    <string name="error_no_custom_emojis">Deine Instanz %s hat keine Emojis definiert</string>
+    <string name="copy_to_clipboard_success">In die Zwischenablage kopiert</string>
+    <string name="error_sender_account_gone">Fehler beim Senden des Status</string>
+    <string name="label_quick_reply">Antworten…</string>
+    <string name="status_sent_long">Antwort erfolgreich gesendet.</string>
+    <string name="status_sent">Gesendet!</string>
+    <string name="action_quick_reply">Schnell antworten</string>
+    <string name="expand_collapse_all_statuses">Alle Beiträge aus/einklappen</string>
+    <string name="action_compose_shortcut">Antworten</string>
+    <string name="performing_lookup_title">Nachschlagen…</string>
+    <string name="emoji_style">Emoji-Stil</string>
+    <string name="system_default">System-Standard</string>
+    <string name="download_fonts">Du musst diese Emoji-Sets zunächst herunterladen.</string>
+    <string name="restart_required">App-Neustart erforderlich</string>
+    <string name="restart_emoji">Du musst Tusky neustarten um die Änderungen anzuwenden</string>
+    <string name="later">Später</string>
+    <string name="restart">Neustarten</string>
+    <string name="caption_systememoji">Die Standard-Emojis deines Geräts</string>
+    <string name="caption_blobmoji">Die Blob–Emojis aus Android 4.4–7.1</string>
+    <string name="caption_twemoji">Die Standard-Emojis von Mastodon</string>
+
+    <string name="download_failed">Download fehlgeschlagen.</string>
+    <string name="profile_badge_bot_text">Bot</string>
+    <string name="title_licenses">Lizenzen</string>
+    <string name="title_statuses_with_replies">mit Antworten</string>
+    <string name="account_moved_description">%1$s ist umgezogen auf:</string>
+    <string name="reblog_private">An ursprüngliches Publikum teilen</string>
+    <string name="unreblog_private">nicht mehr teilen</string>
+
+    <string name="license_description">Tusky enthält Code und Inhalte von den folgenden Open-Source-Projekten:</string>
+    <string name="license_apache_2">Lizenziert unter der Apache-Lizenz (s. u.)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="action_open_toot">Beitrag öffnen</string>
+    <string name="action_hide_reblogs">Geteilte Beiträge verbergen</string>
+    <string name="action_show_reblogs">Geteilte Beiträge anzeigen</string>
+    <string name="action_edit_own_profile">Bearbeiten</string>
+    <string name="profile_metadata_label">Profil-Metadaten</string>
+    <string name="profile_metadata_label_label">Bezeichnung</string>
+    <string name="profile_metadata_content_label">Inhalt</string>
+    <string name="profile_metadata_add">Feld hinzufügen</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
 
 </resources>

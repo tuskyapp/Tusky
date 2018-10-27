@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.adapter;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,40 +25,40 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
-import java.util.ArrayList;
-import java.util.List;
+public final class TimelineAdapter extends RecyclerView.Adapter {
 
-public class TimelineAdapter extends RecyclerView.Adapter {
-    private static final int VIEW_TYPE_STATUS = 0;
-    private static final int VIEW_TYPE_FOOTER = 1;
-    private static final int VIEW_TYPE_PLACEHOLDER = 2;
+    public interface AdapterDataSource<T> {
+        int getItemCount();
 
-    private List<StatusViewData> statuses;
-    private StatusActionListener statusListener;
-    private FooterViewHolder.State footerState;
-    private boolean mediaPreviewEnabled;
-
-    public TimelineAdapter(StatusActionListener statusListener) {
-        super();
-        statuses = new ArrayList<>();
-        this.statusListener = statusListener;
-        footerState = FooterViewHolder.State.END;
-        mediaPreviewEnabled = true;
+        T getItemAt(int pos);
     }
 
+    private static final int VIEW_TYPE_STATUS = 0;
+    private static final int VIEW_TYPE_PLACEHOLDER = 2;
+
+    private final AdapterDataSource<StatusViewData> dataSource;
+    private final StatusActionListener statusListener;
+    private boolean mediaPreviewEnabled;
+    private boolean useAbsoluteTime;
+
+    public TimelineAdapter(AdapterDataSource<StatusViewData> dataSource,
+                           StatusActionListener statusListener) {
+        super();
+        this.dataSource = dataSource;
+        this.statusListener = statusListener;
+        mediaPreviewEnabled = true;
+        useAbsoluteTime = false;
+    }
+
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         switch (viewType) {
             default:
             case VIEW_TYPE_STATUS: {
                 View view = LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.item_status, viewGroup, false);
-                return new StatusViewHolder(view);
-            }
-            case VIEW_TYPE_FOOTER: {
-                View view = LayoutInflater.from(viewGroup.getContext())
-                        .inflate(R.layout.item_footer, viewGroup, false);
-                return new FooterViewHolder(view);
+                return new StatusViewHolder(view, useAbsoluteTime);
             }
             case VIEW_TYPE_PLACEHOLDER: {
                 View view = LayoutInflater.from(viewGroup.getContext())
@@ -69,76 +69,46 @@ public class TimelineAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        if (position < statuses.size()) {
-            StatusViewData status = statuses.get(position);
-            if (status instanceof StatusViewData.Placeholder) {
-                PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
-                holder.setup(!((StatusViewData.Placeholder) status).isLoading(), statusListener);
-            } else {
-
-                StatusViewHolder holder = (StatusViewHolder) viewHolder;
-                holder.setupWithStatus((StatusViewData.Concrete) status,
-                        statusListener, mediaPreviewEnabled);
-            }
-
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        StatusViewData status = dataSource.getItemAt(position);
+        if (status instanceof StatusViewData.Placeholder) {
+            PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
+            holder.setup(statusListener, ((StatusViewData.Placeholder) status).isLoading());
         } else {
-            FooterViewHolder holder = (FooterViewHolder) viewHolder;
-            holder.setState(footerState);
+            StatusViewHolder holder = (StatusViewHolder) viewHolder;
+            holder.setupWithStatus((StatusViewData.Concrete) status,
+                    statusListener, mediaPreviewEnabled);
         }
     }
 
     @Override
     public int getItemCount() {
-        return statuses.size() + 1;
+        return dataSource.getItemCount();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == statuses.size()) {
-            return VIEW_TYPE_FOOTER;
+        if (dataSource.getItemAt(position) instanceof StatusViewData.Placeholder) {
+            return VIEW_TYPE_PLACEHOLDER;
         } else {
-            if (statuses.get(position) instanceof StatusViewData.Placeholder) {
-                return VIEW_TYPE_PLACEHOLDER;
-            } else {
-                return VIEW_TYPE_STATUS;
-            }
-        }
-    }
-
-    public void update(@Nullable List<StatusViewData> newStatuses) {
-        if (newStatuses == null || newStatuses.isEmpty()) {
-            return;
-        }
-        statuses.clear();
-        statuses.addAll(newStatuses);
-        notifyDataSetChanged();
-    }
-
-    public void addItems(List<StatusViewData> newStatuses) {
-        statuses.addAll(newStatuses);
-        notifyItemRangeInserted(statuses.size(), newStatuses.size());
-    }
-
-    public void changeItem(int position, StatusViewData newData, boolean notifyAdapter) {
-        statuses.set(position, newData);
-        if (notifyAdapter) notifyItemChanged(position);
-    }
-
-    public void clear() {
-        statuses.clear();
-        notifyDataSetChanged();
-    }
-
-    public void setFooterState(FooterViewHolder.State newFooterState) {
-        FooterViewHolder.State oldValue = footerState;
-        footerState = newFooterState;
-        if (footerState != oldValue) {
-            notifyItemChanged(statuses.size());
+            return VIEW_TYPE_STATUS;
         }
     }
 
     public void setMediaPreviewEnabled(boolean enabled) {
         mediaPreviewEnabled = enabled;
+    }
+
+    public void setUseAbsoluteTime(boolean useAbsoluteTime){
+        this.useAbsoluteTime=useAbsoluteTime;
+    }
+
+    public boolean getMediaPreviewEnabled() {
+        return mediaPreviewEnabled;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return dataSource.getItemAt(position).getViewDataId();
     }
 }

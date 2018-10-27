@@ -23,44 +23,33 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.text.Spanned;
-import android.view.MenuItem;
+import android.view.Menu;
 import android.view.View;
 
-import com.keylesspalace.tusky.AccountActivity;
-import com.keylesspalace.tusky.BaseActivity;
+import com.keylesspalace.tusky.BottomSheetActivity;
 import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ReportActivity;
-import com.keylesspalace.tusky.TuskyApplication;
 import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
-import com.keylesspalace.tusky.ViewThreadActivity;
-import com.keylesspalace.tusky.ViewVideoActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
-import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Attachment;
-import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.Status;
-import com.keylesspalace.tusky.interfaces.AdapterItemRemover;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
-import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.HtmlUtils;
+import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
@@ -68,19 +57,27 @@ import retrofit2.Response;
  * adapters. I feel like the profile pages and thread viewer, which I haven't made yet, will also
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
-public abstract class SFragment extends BaseFragment implements AdapterItemRemover {
-    protected static final int COMPOSE_RESULT = 1;
-
+public abstract class SFragment extends BaseFragment {
     protected String loggedInAccountId;
     protected String loggedInUsername;
 
     protected abstract TimelineCases timelineCases();
 
+    protected abstract void removeItem(int position);
+
+    protected abstract void onReblog(final boolean reblog, final int position);
+
+    private BottomSheetActivity bottomSheetActivity;
+
+    @Inject
+    public MastodonApi mastodonApi;
+    @Inject
+    public AccountManager accountManager;
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        AccountEntity activeAccount = TuskyApplication.getInstance(getContext()).getServiceLocator()
-                .get(AccountManager.class).getActiveAccount();
+        AccountEntity activeAccount = accountManager.getActiveAccount();
         if (activeAccount != null) {
             loggedInAccountId = activeAccount.getAccountId();
             loggedInUsername = activeAccount.getUsername();
@@ -93,9 +90,31 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof BottomSheetActivity) {
+            bottomSheetActivity = (BottomSheetActivity) context;
+        } else {
+            throw new IllegalStateException("Fragment must be attached to a BottomSheetActivity!");
+        }
+    }
+
     protected void openReblog(@Nullable final Status status) {
         if (status == null) return;
-        viewAccount(status.getAccount().getId());
+        bottomSheetActivity.viewAccount(status.getAccount().getId());
+    }
+
+    protected void viewThread(Status status) {
+        bottomSheetActivity.viewThread(status);
+    }
+
+    protected void viewAccount(String accountId) {
+        bottomSheetActivity.viewAccount(accountId);
+    }
+
+    public void onViewUrl(String url) {
+        bottomSheetActivity.viewUrl(url);
     }
 
     protected void reply(Status status) {
@@ -104,7 +123,7 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         Status.Visibility replyVisibility = actionableStatus.getVisibility();
         String contentWarning = actionableStatus.getSpoilerText();
         Status.Mention[] mentions = actionableStatus.getMentions();
-        List<String> mentionedUsernames = new ArrayList<>();
+        Set<String> mentionedUsernames = new LinkedHashSet<>();
         mentionedUsernames.add(actionableStatus.getAccount().getUsername());
         for (Status.Mention mention : mentions) {
             mentionedUsernames.add(mention.getUsername());
@@ -118,10 +137,10 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
                 .repyingStatusAuthor(actionableStatus.getAccount().getLocalUsername())
                 .replyingStatusContent(actionableStatus.getContent().toString())
                 .build(getContext());
-        startActivityForResult(intent, COMPOSE_RESULT);
+        getActivity().startActivity(intent);
     }
 
-    protected void more(final Status status, View view, final int position) {
+    protected void more(@NonNull final Status status, View view, final int position) {
         final String id = status.getActionableId();
         final String accountId = status.getActionableStatus().getAccount().getId();
         final String accountUsename = status.getActionableStatus().getAccount().getUsername();
@@ -133,6 +152,17 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
             popup.inflate(R.menu.status_more);
         } else {
             popup.inflate(R.menu.status_more_for_user);
+            Menu menu = popup.getMenu();
+            if (status.getVisibility() == Status.Visibility.PRIVATE) {
+                boolean reblogged = status.getReblogged();
+                if (status.getReblog() != null) reblogged = status.getReblog().getReblogged();
+                menu.findItem(R.id.status_reblog_private).setVisible(!reblogged);
+                menu.findItem(R.id.status_unreblog_private).setVisible(reblogged);
+            } else {
+                final String textId =
+                        getString(status.getPinned() ? R.string.unpin_action : R.string.pin_action);
+                menu.add(0, R.id.pin, 1, textId);
+            }
         }
         popup.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -176,9 +206,20 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
                     openReportPage(accountId, accountUsename, id, content);
                     return true;
                 }
+                case R.id.status_unreblog_private: {
+                    onReblog(false, position);
+                    return true;
+                }
+                case R.id.status_reblog_private: {
+                    onReblog(true, position);
+                    return true;
+                }
                 case R.id.status_delete: {
-                    timelineCases().delete(id);
-                    removeItem(position);
+                    showConfirmDeleteDialog(id, position);
+                    return true;
+                }
+                case R.id.pin: {
+                    timelineCases().pin(status, !status.getPinned());
                     return true;
                 }
             }
@@ -187,15 +228,19 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         popup.show();
     }
 
-    protected void viewMedia(String[] urls, int urlIndex, Attachment.Type type,
-                             @Nullable View view) {
+    protected void viewMedia(int urlIndex, Status status, @Nullable View view) {
+        final Status actionable = status.getActionableStatus();
+        final Attachment active = actionable.getAttachments().get(urlIndex);
+        Attachment.Type type = active.getType();
         switch (type) {
+            case GIFV:
+            case VIDEO:
             case IMAGE: {
-                Intent intent = new Intent(getContext(), ViewMediaActivity.class);
-                intent.putExtra("urls", urls);
-                intent.putExtra("urlIndex", urlIndex);
+                final List<AttachmentViewData> attachments = AttachmentViewData.list(actionable);
+                final Intent intent = ViewMediaActivity.newIntent(getContext(), attachments,
+                        urlIndex);
                 if (view != null) {
-                    String url = urls[urlIndex];
+                    String url = active.getUrl();
                     ViewCompat.setTransitionName(view, url);
                     ActivityOptionsCompat options =
                             ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
@@ -204,13 +249,6 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
                 } else {
                     startActivity(intent);
                 }
-                break;
-            }
-            case GIFV:
-            case VIDEO: {
-                Intent intent = new Intent(getContext(), ViewVideoActivity.class);
-                intent.putExtra("url", urls[urlIndex]);
-                startActivity(intent);
                 break;
             }
             case UNKNOWN: {
@@ -222,22 +260,9 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         }
     }
 
-    protected void viewThread(Status status) {
-        Intent intent = new Intent(getContext(), ViewThreadActivity.class);
-        intent.putExtra("id", status.getActionableId());
-        intent.putExtra("url", status.getActionableStatus().getUrl());
-        startActivity(intent);
-    }
-
     protected void viewTag(String tag) {
         Intent intent = new Intent(getContext(), ViewTagActivity.class);
         intent.putExtra("hashtag", tag);
-        startActivity(intent);
-    }
-
-    protected void viewAccount(String id) {
-        Intent intent = new Intent(getContext(), AccountActivity.class);
-        intent.putExtra("id", id);
         startActivity(intent);
     }
 
@@ -249,5 +274,16 @@ public abstract class SFragment extends BaseFragment implements AdapterItemRemov
         intent.putExtra("status_id", statusId);
         intent.putExtra("status_content", HtmlUtils.toHtml(statusContent));
         startActivity(intent);
+    }
+
+    protected void showConfirmDeleteDialog(final String id, final int position) {
+        new AlertDialog.Builder(getActivity())
+                .setMessage(R.string.dialog_delete_toot_warning)
+                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                    timelineCases().delete(id);
+                    removeItem(position);
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 }

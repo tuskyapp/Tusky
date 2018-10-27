@@ -31,14 +31,15 @@ data class Status(
         val emojis: List<Emoji>,
         @SerializedName("reblogs_count") val reblogsCount: Int,
         @SerializedName("favourites_count") val favouritesCount: Int,
-        var reblogged: Boolean?,
-        var favourited: Boolean?,
+        var reblogged: Boolean = false,
+        var favourited: Boolean = false,
         var sensitive: Boolean,
         @SerializedName("spoiler_text") val spoilerText: String,
         val visibility: Visibility,
-        @SerializedName("media_attachments") var attachments: Array<Attachment>,
+        @SerializedName("media_attachments") var attachments: List<Attachment>,
         val mentions: Array<Mention>,
-        val application: Application?
+        val application: Application?,
+        var pinned: Boolean?
 ) {
 
     val actionableId: String?
@@ -98,7 +99,7 @@ data class Status(
     }
 
     fun rebloggingAllowed(): Boolean {
-        return (visibility != Visibility.PRIVATE && visibility != Visibility.DIRECT && visibility != Visibility.UNKNOWN)
+        return (visibility != Visibility.DIRECT && visibility != Visibility.UNKNOWN)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -124,16 +125,34 @@ data class Status(
 
         @SerializedName("username")
         var localUsername: String? = null
+
+      override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Mention
+
+        if (id != other.id) return false
+        if (url != other.url) return false
+        if (username != other.username) return false
+        if (localUsername != other.localUsername) return false
+
+        return true
+      }
+
+      override fun hashCode(): Int {
+        var result = id?.hashCode() ?: 0
+        result = 31 * result + (url?.hashCode() ?: 0)
+        result = 31 * result + (username?.hashCode() ?: 0)
+        result = 31 * result + (localUsername?.hashCode() ?: 0)
+        return result
+      }
+
     }
 
     class Application {
         var name: String? = null
         var website: String? = null
-    }
-
-    class Emoji {
-        val shortcode: String? = null
-        val url: String? = null
     }
 
     companion object {

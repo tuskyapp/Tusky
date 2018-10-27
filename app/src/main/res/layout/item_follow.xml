@@ -11,13 +11,14 @@
     android:paddingLeft="14dp"
     android:paddingRight="14dp">
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/notification_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:layout_marginTop="8dp"
         android:drawablePadding="10dp"
+        android:drawableStart="@drawable/ic_person_add_24dp"
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
@@ -26,7 +27,7 @@
         android:textSize="?attr/status_text_medium"
         tools:text="Someone followed you" />
 
-    <ImageView
+    <com.keylesspalace.tusky.view.RoundedImageView
         android:id="@+id/notification_avatar"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -35,10 +36,10 @@
         android:layout_marginEnd="14dp"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/action_view_profile"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:textSize="?attr/status_text_medium" />
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/notification_display_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

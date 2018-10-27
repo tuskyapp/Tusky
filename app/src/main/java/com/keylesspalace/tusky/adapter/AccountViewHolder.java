@@ -3,25 +3,24 @@ package com.keylesspalace.tusky.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.LinkListener;
-import com.pkmmte.view.CircularImageView;
+import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.squareup.picasso.Picasso;
 
 class AccountViewHolder extends RecyclerView.ViewHolder {
-    private View container;
     private TextView username;
     private TextView displayName;
-    private CircularImageView avatar;
+    private ImageView avatar;
     private String accountId;
 
     AccountViewHolder(View itemView) {
         super(itemView);
-        container = itemView.findViewById(R.id.account_container);
         username = itemView.findViewById(R.id.account_username);
         displayName = itemView.findViewById(R.id.account_display_name);
         avatar = itemView.findViewById(R.id.account_avatar);
@@ -32,7 +31,8 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
         String format = username.getContext().getString(R.string.status_username_format);
         String formattedUsername = String.format(format, account.getUsername());
         username.setText(formattedUsername);
-        displayName.setText(account.getName());
+        CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(), account.getEmojis(), displayName);
+        displayName.setText(emojifiedName);
         Context context = avatar.getContext();
         Picasso.with(context)
                 .load(account.getAvatar())
@@ -41,20 +41,10 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
     }
 
     void setupActionListener(final AccountActionListener listener) {
-        container.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onViewAccount(accountId);
-            }
-        });
+        itemView.setOnClickListener(v -> listener.onViewAccount(accountId));
     }
 
     void setupLinkListener(final LinkListener listener) {
-        container.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onViewAccount(accountId);
-            }
-        });
+        itemView.setOnClickListener(v -> listener.onViewAccount(accountId));
     }
 }

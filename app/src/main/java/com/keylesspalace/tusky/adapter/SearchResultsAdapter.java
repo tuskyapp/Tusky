@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky.adapter;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,28 +26,56 @@ import android.widget.TextView;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.SearchResults;
+import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.LinkListener;
+import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.util.ViewDataUtils;
+import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SearchResultsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_ACCOUNT = 0;
-    private static final int VIEW_TYPE_HASHTAG = 1;
+    private static final int VIEW_TYPE_STATUS = 1;
+    private static final int VIEW_TYPE_HASHTAG = 2;
 
     private List<Account> accountList;
+    private List<Status> statusList;
+    private List<StatusViewData.Concrete> concreteStatusList;
     private List<String> hashtagList;
-    private LinkListener linkListener;
 
-    public SearchResultsAdapter(LinkListener listener) {
-        super();
-        accountList = new ArrayList<>();
-        hashtagList = new ArrayList<>();
-        linkListener = listener;
+    private boolean mediaPreviewsEnabled;
+    private boolean alwaysShowSensitiveMedia;
+    private boolean useAbsoluteTime;
+
+    private LinkListener linkListener;
+    private StatusActionListener statusListener;
+
+    public SearchResultsAdapter(boolean mediaPreviewsEnabled,
+                                boolean alwaysShowSensitiveMedia,
+                                LinkListener linkListener,
+                                StatusActionListener statusListener,
+                                boolean useAbsoluteTime) {
+
+        this.accountList = Collections.emptyList();
+        this.statusList = Collections.emptyList();
+        this.concreteStatusList = new ArrayList<>();
+        this.hashtagList = Collections.emptyList();
+
+        this.mediaPreviewsEnabled = mediaPreviewsEnabled;
+        this.alwaysShowSensitiveMedia = alwaysShowSensitiveMedia;
+        this.useAbsoluteTime = useAbsoluteTime;
+
+        this.linkListener = linkListener;
+        this.statusListener = statusListener;
+
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             default:
             case VIEW_TYPE_ACCOUNT: {
@@ -58,44 +88,86 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
                         .inflate(R.layout.item_hashtag, parent, false);
                 return new HashtagViewHolder(view);
             }
+            case VIEW_TYPE_STATUS: {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_status, parent, false);
+                return new StatusViewHolder(view, useAbsoluteTime);
+            }
         }
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        if (position < accountList.size()) {
-            AccountViewHolder holder = (AccountViewHolder) viewHolder;
-            holder.setupWithAccount(accountList.get(position));
-            holder.setupLinkListener(linkListener);
-        } else {
-            HashtagViewHolder holder = (HashtagViewHolder) viewHolder;
-            int index = position - accountList.size();
-            holder.setup(hashtagList.get(index), linkListener);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+            if (position >= accountList.size()) {
+                if(position >= accountList.size() + concreteStatusList.size()) {
+                    HashtagViewHolder holder = (HashtagViewHolder) viewHolder;
+                    int index = position - accountList.size() - statusList.size();
+                    holder.setup(hashtagList.get(index), linkListener);
+                } else {
+                    StatusViewHolder holder = (StatusViewHolder) viewHolder;
+                    int index = position - accountList.size();
+                    holder.setupWithStatus(concreteStatusList.get(index), statusListener, mediaPreviewsEnabled);
+                }
+            } else {
+                AccountViewHolder holder = (AccountViewHolder) viewHolder;
+                holder.setupWithAccount(accountList.get(position));
+                holder.setupLinkListener(linkListener);
+            }
         }
-    }
 
     @Override
     public int getItemCount() {
-        return accountList.size() + hashtagList.size();
+        return accountList.size() + hashtagList.size() + concreteStatusList.size();
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position >= accountList.size()) {
-            return VIEW_TYPE_HASHTAG;
+            if(position >= accountList.size() + concreteStatusList.size()) {
+                return VIEW_TYPE_HASHTAG;
+            } else {
+                return VIEW_TYPE_STATUS;
+            }
         } else {
             return VIEW_TYPE_ACCOUNT;
         }
     }
 
+    public @Nullable Status getStatusAtPosition(int position) {
+        return statusList.get(position - accountList.size());
+    }
+
+    public @Nullable StatusViewData.Concrete getConcreteStatusAtPosition(int position) {
+        return concreteStatusList.get(position - accountList.size());
+    }
+
+    public void updateStatusAtPosition(StatusViewData.Concrete status, int position) {
+        concreteStatusList.set(position - accountList.size(), status);
+    }
+
+    public void removeStatusAtPosition(int position) {
+        concreteStatusList.remove(position - accountList.size());
+        notifyItemRemoved(position);
+    }
+
     public void updateSearchResults(SearchResults results) {
         if (results != null) {
-            accountList.addAll(results.getAccounts());
-            hashtagList.addAll(results.getHashtags());
+            accountList = results.getAccounts();
+            statusList = results.getStatuses();
+            for(Status status: results.getStatuses()) {
+                concreteStatusList.add(ViewDataUtils.statusToViewData(
+                        status,
+                        alwaysShowSensitiveMedia
+                ));
+            }
+            hashtagList = results.getHashtags();
 
         } else {
-            accountList.clear();
-            hashtagList.clear();
+            accountList = Collections.emptyList();
+            statusList = Collections.emptyList();
+            concreteStatusList.clear();
+            hashtagList = Collections.emptyList();
+
         }
         notifyDataSetChanged();
     }
@@ -110,12 +182,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
 
         void setup(final String tag, final LinkListener listener) {
             hashtag.setText(String.format("#%s", tag));
-            hashtag.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onViewTag(tag);
-                }
-            });
+            hashtag.setOnClickListener(v -> listener.onViewTag(tag));
         }
     }
 }

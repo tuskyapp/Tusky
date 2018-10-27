@@ -16,8 +16,6 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,24 +23,19 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.util.ThemeUtils;
-import com.keylesspalace.tusky.view.RoundedTransformation;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
-import com.varunest.sparkbutton.helpers.Utils;
+
+import at.connyduck.sparkbutton.helpers.Utils;
 
 public class StatusViewHolder extends StatusBaseViewHolder {
     private ImageView avatarReblog;
     private TextView rebloggedBar;
 
-    StatusViewHolder(View itemView) {
-        super(itemView);
+    StatusViewHolder(View itemView, boolean useAbsoluteTime) {
+        super(itemView, useAbsoluteTime);
         avatarReblog = itemView.findViewById(R.id.status_avatar_reblog);
         rebloggedBar = itemView.findViewById(R.id.status_reblogged);
-        //workaround because Android < API 21 does not support setting drawableLeft from xml when it is a vector image
-        Drawable rebloggedIcon = ThemeUtils.getDrawable(rebloggedBar.getContext(),
-                R.attr.status_reblog_small_drawable, R.drawable.ic_reblog_dark_18dp);
-        rebloggedBar.setCompoundDrawablesWithIntrinsicBounds(rebloggedIcon, null, null, null);
     }
 
     @Override
@@ -52,18 +45,14 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         Context context = avatar.getContext();
         boolean hasReblog = rebloggedUrl != null && !rebloggedUrl.isEmpty();
         int padding = hasReblog ? Utils.dpToPx(context, 12) : 0;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            avatar.setPaddingRelative(0, 0, padding, padding);
-        } else {
-            avatar.setPadding(0, 0, padding, padding);
-        }
+
+        avatar.setPaddingRelative(0, 0, padding, padding);
 
         if (hasReblog) {
             avatarReblog.setVisibility(View.VISIBLE);
             Picasso.with(context)
                     .load(rebloggedUrl)
                     .placeholder(R.drawable.avatar_default)
-                    .transform(new RoundedTransformation(25))
                     .into(avatarReblog);
         } else {
             avatarReblog.setVisibility(View.GONE);
@@ -100,8 +89,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
     private void setRebloggedByDisplayName(String name) {
         Context context = rebloggedBar.getContext();
-        String format = context.getString(R.string.status_boosted_format);
-        String boostedText = String.format(format, name);
+        String boostedText = context.getString(R.string.status_boosted_format, name);
         rebloggedBar.setText(boostedText);
         rebloggedBar.setVisibility(View.VISIBLE);
     }

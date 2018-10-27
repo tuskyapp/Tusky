@@ -56,13 +56,27 @@ public final class ViewDataUtils {
                 .setSenderId(visibleStatus.getAccount().getId())
                 .setRebloggingEnabled(visibleStatus.rebloggingAllowed())
                 .setApplication(visibleStatus.getApplication())
-                .setEmojis(visibleStatus.getEmojis())
+                .setStatusEmojis(visibleStatus.getEmojis())
+                .setAccountEmojis(visibleStatus.getAccount().getEmojis())
+                .setCollapsible(!SmartLengthInputFilter.hasBadRatio(
+                        visibleStatus.getContent(),
+                        SmartLengthInputFilter.LENGTH_DEFAULT
+                ))
+                .setCollapsed(true)
                 .createStatusViewData();
     }
 
-    public static NotificationViewData.Concrete notificationToViewData(Notification notification, boolean alwaysShowSensitiveData) {
-        return new NotificationViewData.Concrete(notification.getType(), notification.getId(), notification.getAccount(),
-                statusToViewData(notification.getStatus(), alwaysShowSensitiveData), false);
+    public static NotificationViewData.Concrete notificationToViewData(Notification notification,
+                                                                       boolean alwaysShowSensitiveData) {
+        return new NotificationViewData.Concrete(
+                notification.getType(),
+                notification.getId(),
+                notification.getAccount(),
+                statusToViewData(
+                        notification.getStatus(),
+                        alwaysShowSensitiveData
+                ),
+                false
+        );
     }
-
 }

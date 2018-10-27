@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Kimlik doğrulama reddedildi.</string>
     <string name="error_retrieving_oauth_token">Giriş jetonu alınamadı.</string>
     <string name="error_compose_character_limit">İleti fazlasıyla uzun!</string>
-    <string name="error_media_upload_size">Dosya 4MB\'ten küçük olmalı.</string>
+    <string name="error_image_upload_size">Dosya 8MB\'ten küçük olmalı.</string>
     <string name="error_media_upload_type">O biçim dosya yüklenmez.</string>
     <string name="error_media_upload_opening">O dosya açılamadı.</string>
     <string name="error_media_upload_permission">Medya okuma izni gerekiyor.</string>
@@ -66,7 +66,6 @@
     <string name="action_send">İLET</string>
     <string name="action_send_public">İLET!</string>
     <string name="action_retry">Tekrar dene</string>
-    <string name="action_hide_text">İçerik uyarıyla gizlensin</string>
     <string name="action_close">Kapat</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Ayarlar</string>
@@ -75,14 +74,12 @@
     <string name="action_view_blocks">Engellenmiş kullanıcılar</string>
     <string name="action_view_media">Medya</string>
     <string name="action_open_in_web">Tarayıcıda aç</string>
-    <string name="action_photo_pick">Medya ekle</string>
+    <string name="action_add_media">Medya ekle</string>
     <string name="action_photo_take">Resim çek</string>
     <string name="action_share">Paylaş</string>
     <string name="action_mute">Sesize al</string>
     <string name="action_unmute">Sesizden kaldır</string>
     <string name="action_mention">Bahset</string>
-    <!--<string name="action_mark_sensitive">Mark media sensitive</string>-->
-    <string name="action_compose_options">Seçenekler</string>
     <string name="action_open_drawer">Çekmece aç</string>
     <string name="action_save">Kaydet</string>
     <string name="action_edit_profile">Profili düzelt</string>
@@ -93,7 +90,6 @@
     <string name="send_status_link_to">İletinin adresini paylaş…</string>
     <string name="send_status_content_to">İletiyi paylaş…</string>
 
-    <string name="confirmation_send">İlet!</string>
     <string name="confirmation_reported">İletildi!</string>
 
     <string name="hint_domain">Hangi sunucu?</string>
@@ -119,7 +115,6 @@
     <string name="dialog_title_finishing_media_upload">Medya Yükleme Bittiriliyor</string>
     <string name="dialog_message_uploading_media">Yükleniyor…</string>
     <string name="dialog_download_image">İndir</string>
-    <string name="dialog_message_follow_request">Takip etme istekleri: yanıt bekleniyor</string>
 
     <string name="visibility_public">Kamu: Herkese açık ve sosyal çizelgelerinde çıkar</string>
     <string name="visibility_unlisted">Saklı: Herkese açık ancak sosyal çizelgesinde çıkmaz</string>

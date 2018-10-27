@@ -21,7 +21,7 @@
             android:fadeScrollbars="false"
             android:background="?attr/report_status_background_color" />
 
-        <EditText
+        <android.support.text.emoji.widget.EmojiEditText
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -36,7 +36,5 @@
             android:paddingBottom="8dp"
             android:hint="@string/report_comment_hint" />
     </LinearLayout>
-
-    <include layout="@layout/toolbar_shadow_shim" />
 
 </android.support.design.widget.CoordinatorLayout>

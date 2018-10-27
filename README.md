@@ -1,7 +1,7 @@
-[![Build Status](https://www.bitrise.io/app/55b2f0c77c4bba74/status.svg?token=elUl9fieM5K34iLRL0rpoA&branch=master)](https://www.bitrise.io/app/55b2f0c77c4bba74)
+[![Translate - with Stringlate](https://img.shields.io/badge/translate%20with-stringlate-green.svg)](https://lonamiwebs.github.io/stringlate/translate?git=https%3A%2F%2Fgithub.com%2Ftuskyapp%2FTusky) [![Build Status](https://app.bitrise.io/app/a3e773c3c57a894c/status.svg?token=qLu_Ti4Gp2LWcYT4eo2INQ&branch=master)](https://app.bitrise.io/app/a3e773c3c57a894c#/builds) [![CircleCI](https://circleci.com/gh/tuskyapp/Tusky.svg?style=svg)](https://circleci.com/gh/tuskyapp/Tusky)
 # Tusky
 
-![](/assets/tusky_logo.png)
+![](/fastlane/metadata/android/en-US/images/icon.png)
 
 Tusky is a beautiful Android client for [Mastodon](https://github.com/tootsuite/mastodon). Mastodon is a GNU social-compatible federated social network. That means not one entity controls the whole network, rather, like e-mail, volunteers and organisations operate their own independent servers, users from which can all interact with each other seamlessly.
 
@@ -13,10 +13,16 @@ Tusky is a beautiful Android client for [Mastodon](https://github.com/tootsuite/
 
 - Material Design
 - Most Mastodon APIs implemented
-- Muti-Account support
-- Dark and Light theme with the possibility to auto-switch based on the time of day
+- Multi-Account support
+- Dark and light theme with the possibility to auto-switch based on the time of day
 - Drafts - compose toots and save them for later
-- completely Open-source - no non-free dependencies like Google services
+- Choose between different emoji styles 
+- Optimized for all screen sizes
+- Completely open-source - no non-free dependencies like Google services
+
+### Testing
+
+The nightly build from master is [available on Google Play](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky.test). 
 
 ### Support
 
@@ -26,3 +32,6 @@ If you have any bug reports, feature requests or questions please open an issue 
 
 This app was developed by [Vavassor@mastodon.social](https://mastodon.social/users/Vavassor).
 The current maintainer is [ConnyDuck@mastodon.social](https://mastodon.social/users/ConnyDuck).
+
+### Development chatroom
+https://riot.im/app/#/room/#Tusky:matrix.org

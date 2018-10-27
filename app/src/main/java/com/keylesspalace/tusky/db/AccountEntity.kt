@@ -18,9 +18,13 @@ package com.keylesspalace.tusky.db
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.TypeConverters
+
+import com.keylesspalace.tusky.entity.Emoji
 
 @Entity(indices = [Index(value = ["domain", "accountId"],
         unique = true)])
+@TypeConverters(Converters::class)
 data class AccountEntity(@field:PrimaryKey(autoGenerate = true) var id: Long,
                          val domain: String,
                          var accessToken: String,
@@ -38,7 +42,8 @@ data class AccountEntity(@field:PrimaryKey(autoGenerate = true) var id: Long,
                          var notificationVibration: Boolean = true,
                          var notificationLight: Boolean = true,
                          var lastNotificationId: String = "0",
-                         var activeNotifications: String = "[]") {
+                         var activeNotifications: String = "[]",
+                         var emojis: List<Emoji> = emptyList()) {
 
     val identifier: String
         get() = "$domain:$accountId"

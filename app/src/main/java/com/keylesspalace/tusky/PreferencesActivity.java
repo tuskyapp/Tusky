@@ -24,6 +24,7 @@ import android.support.annotation.StringRes;
 import android.support.annotation.XmlRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.keylesspalace.tusky.fragment.PreferencesFragment;
@@ -60,7 +61,7 @@ public class PreferencesActivity extends BaseActivity
 
         preferences.registerOnSharedPreferenceChangeListener(this);
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             currentPreferences = R.xml.preferences;
             currentTitle = R.string.action_view_preferences;
         } else {
@@ -104,8 +105,9 @@ public class PreferencesActivity extends BaseActivity
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key) {
             case "appTheme": {
-                String theme = sharedPreferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT);
-                ThemeUtils.setAppNightMode(theme);
+                String theme = sharedPreferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
+                Log.d("activeTheme", theme);
+                ThemeUtils.setAppNightMode(theme, this);
                 restartActivitiesOnExit = true;
 
                 // recreate() could be used instead, but it doesn't have an animation B).
@@ -114,11 +116,15 @@ public class PreferencesActivity extends BaseActivity
                 Bundle savedInstanceState = new Bundle();
                 saveInstanceState(savedInstanceState);
                 intent.putExtras(savedInstanceState);
-                startActivity(intent);
+                startActivityWithSlideInAnimation(intent);
                 finish();
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
             case "statusTextSize": {
+                restartActivitiesOnExit = true;
+                break;
+            }
+            case "absoluteTimeView": {
                 restartActivitiesOnExit = true;
                 break;
             }
@@ -143,18 +149,18 @@ public class PreferencesActivity extends BaseActivity
     @Override
     public void onBackPressed() {
         //if we are not on the top level, show the top level. Else exit the activity
-        if(currentPreferences != R.xml.preferences) {
+        if (currentPreferences != R.xml.preferences) {
             showFragment(R.xml.preferences, R.string.action_view_preferences);
 
         } else {
-        /* Switching themes won't actually change the theme of activities on the back stack.
-         * Either the back stack activities need to all be recreated, or do the easier thing, which
-         * is hijack the back button press and use it to launch a new MainActivity and clear the
-         * back stack. */
+            /* Switching themes won't actually change the theme of activities on the back stack.
+             * Either the back stack activities need to all be recreated, or do the easier thing, which
+             * is hijack the back button press and use it to launch a new MainActivity and clear the
+             * back stack. */
             if (restartActivitiesOnExit) {
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                startActivityWithSlideInAnimation(intent);
             } else {
                 super.onBackPressed();
             }

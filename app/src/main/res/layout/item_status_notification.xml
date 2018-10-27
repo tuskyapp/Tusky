@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--This applies only to favourite and rebnotificationsEnabledions.-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/notification_container"
     android:layout_width="match_parent"
@@ -9,7 +8,7 @@
     android:paddingLeft="14dp"
     android:paddingRight="14dp">
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/notification_top_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +32,7 @@
         android:layout_toEndOf="@+id/notification_status_avatar"
         android:paddingBottom="4dp">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/status_display_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,7 +71,7 @@
 
     </RelativeLayout>
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/notification_content_warning_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,14 +88,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/notification_content_warning_description"
-        android:layout_centerHorizontal="true"
+        android:layout_toEndOf="@id/notification_status_avatar"
         android:background="?attr/content_warning_button"
         android:minHeight="0dp"
         android:minWidth="150dp"
-        android:paddingBottom="6dp"
+        android:paddingBottom="4dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="6dp"
+        android:paddingTop="4dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:textAllCaps="true"
@@ -104,7 +103,7 @@
         android:textOn="@string/status_content_warning_show_less"
         android:textSize="?attr/status_text_medium" />
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/notification_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -116,7 +115,29 @@
         android:textSize="?attr/status_text_medium"
         tools:text="Example status here" />
 
-    <ImageView
+
+    <ToggleButton
+            android:id="@+id/button_toggle_notification_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/notification_status_avatar"
+            android:layout_below="@id/notification_content"
+            android:textOff="@string/status_content_show_less"
+            android:textOn="@string/status_content_show_more"
+            android:background="?attr/content_warning_button"
+            android:minHeight="0dp"
+            android:minWidth="150dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:textAllCaps="true"
+            android:textSize="?attr/status_text_medium"
+            android:visibility="gone"  />
+
+    <com.keylesspalace.tusky.view.RoundedImageView
         android:id="@+id/notification_status_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -128,11 +149,11 @@
         android:contentDescription="@string/action_view_profile"
         android:paddingBottom="12dp"
         android:paddingRight="12dp"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         tools:ignore="RtlHardcoded,RtlSymmetry"
         tools:src="@drawable/avatar_default" />
 
-    <ImageView
+    <com.keylesspalace.tusky.view.RoundedImageView
         android:id="@+id/notification_notification_avatar"
         android:layout_width="24dp"
         android:layout_height="24dp"

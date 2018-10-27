@@ -20,12 +20,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.provider.Browser;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
@@ -74,20 +72,14 @@ public class LinkHelper {
             int end = builder.getSpanEnd(span);
             int flags = builder.getSpanFlags(span);
             CharSequence text = builder.subSequence(start, end);
+            ClickableSpan customSpan = null;
+
             if (text.charAt(0) == '#') {
                 final String tag = text.subSequence(1, text.length()).toString();
-                ClickableSpan newSpan = new ClickableSpan() {
+                customSpan = new ClickableSpanNoUnderline() {
                     @Override
-                    public void onClick(View widget) {
-                        listener.onViewTag(tag);
-                    }
-                    @Override public void updateDrawState(TextPaint ds) {
-                        super.updateDrawState(ds);
-                        ds.setUnderlineText(false);
-                    }
+                    public void onClick(View widget) { listener.onViewTag(tag); }
                 };
-                builder.removeSpan(span);
-                builder.setSpan(newSpan, start, end, flags);
             } else if (text.charAt(0) == '@' && mentions != null && mentions.length > 0) {
                 String accountUsername = text.subSequence(1, text.length()).toString();
                 /* There may be multiple matches for users on different instances with the same
@@ -104,28 +96,23 @@ public class LinkHelper {
                 }
                 if (id != null) {
                     final String accountId = id;
-                    ClickableSpan newSpan = new ClickableSpan() {
+                    customSpan = new ClickableSpanNoUnderline() {
                         @Override
-                        public void onClick(View widget) {
-                            listener.onViewAccount(accountId);
-                        }
-                        @Override public void updateDrawState(TextPaint ds) {
-                            super.updateDrawState(ds);
-                            ds.setUnderlineText(false);
-                        }
+                        public void onClick(View widget) { listener.onViewAccount(accountId); }
                     };
-                    builder.removeSpan(span);
-                    builder.setSpan(newSpan, start, end, flags);
-                } else {
-                    ClickableSpan newSpan = new CustomURLSpan(span.getURL());
-                    builder.removeSpan(span);
-                    builder.setSpan(newSpan, start, end, flags);
                 }
-            } else {
-                ClickableSpan newSpan = new CustomURLSpan(span.getURL());
-                builder.removeSpan(span);
-                builder.setSpan(newSpan, start, end, flags);
             }
+
+            if (customSpan == null) {
+                customSpan = new CustomURLSpan(span.getURL()) {
+                    @Override
+                    public void onClick(View widget) {
+                        listener.onViewUrl(getURL());
+                    }
+                };
+            }
+            builder.removeSpan(span);
+            builder.setSpan(customSpan, start, end, flags);
         }
         view.setText(builder);
         view.setLinksClickable(true);
@@ -139,7 +126,7 @@ public class LinkHelper {
      * @param context context
      */
     public static void openLink(String url, Context context) {
-        Uri uri = Uri.parse(url);
+        Uri uri = Uri.parse(url).normalizeScheme();
 
         boolean useCustomTabs = PreferenceManager.getDefaultSharedPreferences(context)
                 .getBoolean("customTabs", false);
@@ -158,7 +145,6 @@ public class LinkHelper {
      */
     public static void openLinkInBrowser(Uri uri, Context context) {
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        intent.putExtra(Browser.EXTRA_APPLICATION_ID, context.getPackageName());
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
@@ -195,7 +181,6 @@ public class LinkHelper {
         }
 
     }
-
 
 
 }

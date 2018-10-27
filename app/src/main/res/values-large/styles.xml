@@ -1,0 +1,22 @@
+<resources>
+    <style name="TuskyDialogActivityTheme" parent="@style/TuskyTheme">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@drawable/background_dialog_activity</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:windowActionModeOverlay">true</item>
+    </style>
+
+    <style name="TuskyDialogActivityBlackTheme" parent="@style/TuskyBlackTheme">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@drawable/background_dialog_activity_black</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:windowActionModeOverlay">true</item>
+    </style>
+
+</resources>

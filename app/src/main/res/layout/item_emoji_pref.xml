@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/emojicompat_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp">
+
+    <!--This is a thumbnail picture-->
+    <ImageView
+        android:id="@+id/emojicompat_thumb"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="16dp"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_emoji_24dp" />
+
+    <!--This is the font's name-->
+    <TextView
+        android:id="@+id/emojicompat_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="72dp"
+        android:layout_marginStart="12dp"
+        android:textColor="?android:textColorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintBottom_toTopOf="@+id/emojicompat_caption"
+        app:layout_constraintStart_toEndOf="@+id/emojicompat_thumb"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/system_default" />
+
+    <!--A short caption...-->
+    <TextView
+        android:id="@+id/emojicompat_caption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="72dp"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@id/emojicompat_name"
+        app:layout_constraintTop_toBottomOf="@id/emojicompat_name"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="@string/caption_blobmoji" />
+
+    <!--This progress bar is shown while the font is downloading.-->
+    <ProgressBar
+        android:id="@+id/emojicompat_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="72dp"
+        android:layout_marginTop="8dp"
+        android:indeterminate="false"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/emojicompat_name"
+        app:layout_constraintTop_toBottomOf="@id/emojicompat_name" />
+
+    <!--Click on it and the font will be downloaded!-->
+    <ImageButton
+        android:id="@+id/emojicompat_download"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/download_fonts"
+        android:focusable="true"
+        android:tint="@color/colorPrimary"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/emojicompat_caption"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_file_download_black_24dp" />
+
+    <!--You should be able to cancel the download-->
+    <ImageButton
+        android:id="@+id/emojicompat_download_cancel"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@android:string/cancel"
+        android:focusable="true"
+        android:tint="@color/colorPrimary"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/emojicompat_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_cancel_black_24dp" />
+
+    <!--You'll probably want to select an emoji font, don't you?-->
+    <android.support.v7.widget.AppCompatRadioButton
+        android:id="@+id/emojicompat_radio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:buttonTint="?attr/compound_button_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/emojicompat_name"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

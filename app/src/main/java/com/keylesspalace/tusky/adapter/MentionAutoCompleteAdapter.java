@@ -30,7 +30,7 @@ import android.widget.TextView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
-import com.keylesspalace.tusky.view.RoundedTransformation;
+import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -124,12 +124,12 @@ public class MentionAutoCompleteAdapter extends ArrayAdapter<Account>
             String format = getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.getUsername());
             username.setText(formattedUsername);
-            displayName.setText(account.getName());
+            CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(), account.getEmojis(), displayName);
+            displayName.setText(emojifiedName);
             if (!account.getAvatar().isEmpty()) {
                 Picasso.with(context)
                         .load(account.getAvatar())
                         .placeholder(R.drawable.avatar_default)
-                        .transform(new RoundedTransformation(25))
                         .into(avatar);
             }
         }

@@ -20,51 +20,37 @@ import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.keylesspalace.tusky.adapter.SearchResultsAdapter;
-import com.keylesspalace.tusky.di.Injectable;
-import com.keylesspalace.tusky.entity.SearchResults;
-import com.keylesspalace.tusky.interfaces.LinkListener;
-import com.keylesspalace.tusky.network.MastodonApi;
+import com.keylesspalace.tusky.fragment.SearchFragment;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
-public class SearchActivity extends BaseActivity implements SearchView.OnQueryTextListener,
-        LinkListener, Injectable {
-    private static final String TAG = "SearchActivity"; // logging tag
+public class SearchActivity extends BottomSheetActivity implements SearchView.OnQueryTextListener,
+        HasSupportFragmentInjector {
 
     @Inject
-    public MastodonApi mastodonApi;
+    public DispatchingAndroidInjector<Fragment> fragmentInjector;
 
-    private ProgressBar progressBar;
-    private TextView messageNoResults;
-    private SearchResultsAdapter adapter;
     private String currentQuery;
+
+    private SearchFragment searchFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
-        progressBar = findViewById(R.id.progress_bar);
-        messageNoResults = findViewById(R.id.message_no_results);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -75,11 +61,11 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
             bar.setDisplayShowTitleEnabled(false);
         }
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new SearchResultsAdapter(this);
-        recyclerView.setAdapter(adapter);
+        searchFragment = new SearchFragment();
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, searchFragment);
+        fragmentTransaction.commit();
 
         handleIntent(getIntent());
     }
@@ -127,24 +113,10 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         return false;
     }
 
-    @Override
-    public void onViewAccount(String id) {
-        Intent intent = new Intent(this, AccountActivity.class);
-        intent.putExtra("id", id);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onViewTag(String tag) {
-        Intent intent = new Intent(this, ViewTagActivity.class);
-        intent.putExtra("hashtag", tag);
-        startActivity(intent);
-    }
-
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             currentQuery = intent.getStringExtra(SearchManager.QUERY);
-            search(currentQuery);
+            searchFragment.search(currentQuery);
         }
     }
 
@@ -163,51 +135,9 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         searchView.setMaxWidth(Integer.MAX_VALUE);
     }
 
-    private void search(String query) {
-        clearResults();
-        Callback<SearchResults> callback = new Callback<SearchResults>() {
-            @Override
-            public void onResponse(@NonNull Call<SearchResults> call, @NonNull Response<SearchResults> response) {
-                if (response.isSuccessful()) {
-                    SearchResults results = response.body();
-                    if (results != null && (results.getAccounts().size() > 0 || results.getHashtags().size() > 0)) {
-                        adapter.updateSearchResults(results);
-                        hideFeedback();
-                    } else {
-                        displayNoResults();
-                    }
-                } else {
-                    onSearchFailure();
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<SearchResults> call, @NonNull Throwable t) {
-                onSearchFailure();
-            }
-        };
-        mastodonApi.search(query, false)
-                .enqueue(callback);
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentInjector;
     }
 
-    private void onSearchFailure() {
-        displayNoResults();
-        Log.e(TAG, "Search request failed.");
-    }
-
-    private void clearResults() {
-        adapter.updateSearchResults(null);
-        progressBar.setVisibility(View.VISIBLE);
-        messageNoResults.setVisibility(View.GONE);
-    }
-
-    private void displayNoResults() {
-        progressBar.setVisibility(View.GONE);
-        messageNoResults.setVisibility(View.VISIBLE);
-    }
-
-    private void hideFeedback() {
-        progressBar.setVisibility(View.GONE);
-        messageNoResults.setVisibility(View.GONE);
-    }
 }

@@ -17,17 +17,24 @@ package com.keylesspalace.tusky.interfaces;
 
 import android.view.View;
 
-import com.keylesspalace.tusky.entity.Attachment;
-
 public interface StatusActionListener extends LinkListener {
     void onReply(int position);
     void onReblog(final boolean reblog, final int position);
     void onFavourite(final boolean favourite, final int position);
     void onMore(View view, final int position);
-    void onViewMedia(String[] urls, int index, Attachment.Type type, View view);
+    void onViewMedia(int position, int attachmentIndex, View view);
     void onViewThread(int position);
     void onOpenReblog(int position);
     void onExpandedChange(boolean expanded, int position);
     void onContentHiddenChange(boolean isShowing, int position);
     void onLoadMore(int position);
+
+    /**
+     * Called when the status {@link android.widget.ToggleButton} responsible for collapsing long
+     * status content is interacted with.
+     *
+     * @param isCollapsed Whether the status content is shown in a collapsed state or fully.
+     * @param position    The position of the status in the list.
+     */
+    void onContentCollapsedChange(boolean isCollapsed, int position);
 }

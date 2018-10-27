@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.fragment;
 
 import android.arch.core.util.Function;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -24,11 +25,13 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,17 +39,23 @@ import android.view.ViewGroup;
 
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.adapter.ThreadAdapter;
+import com.keylesspalace.tusky.appstore.EventHub;
+import com.keylesspalace.tusky.appstore.BlockEvent;
+import com.keylesspalace.tusky.appstore.FavoriteEvent;
+import com.keylesspalace.tusky.appstore.ReblogEvent;
+import com.keylesspalace.tusky.appstore.StatusComposedEvent;
+import com.keylesspalace.tusky.appstore.StatusDeletedEvent;
 import com.keylesspalace.tusky.di.Injectable;
-import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
-import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.PairedList;
+import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.ConversationLineItemDecoration;
@@ -58,11 +67,15 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ViewThreadFragment extends SFragment implements
+import static com.uber.autodispose.AutoDispose.*;
+import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.*;
+
+public final class ViewThreadFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, Injectable {
     private static final String TAG = "ViewThreadFragment";
 
@@ -70,22 +83,26 @@ public class ViewThreadFragment extends SFragment implements
     public TimelineCases timelineCases;
     @Inject
     public MastodonApi mastodonApi;
+    @Inject
+    public EventHub eventHub;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private ThreadAdapter adapter;
     private String thisThreadsStatusId;
-    private TimelineReceiver timelineReceiver;
     private Card card;
     private boolean alwaysShowSensitiveMedia;
 
     private int statusIndex = 0;
 
-    private PairedList<Status, StatusViewData.Concrete> statuses =
+    private final PairedList<Status, StatusViewData.Concrete> statuses =
             new PairedList<>(new Function<Status, StatusViewData.Concrete>() {
                 @Override
                 public StatusViewData.Concrete apply(Status input) {
-                    return ViewDataUtils.statusToViewData(input, alwaysShowSensitiveMedia);
+                    return ViewDataUtils.statusToViewData(
+                            input,
+                            alwaysShowSensitiveMedia
+                    );
                 }
             });
 
@@ -102,7 +119,15 @@ public class ViewThreadFragment extends SFragment implements
         return timelineCases;
     }
 
-    @Nullable
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        thisThreadsStatusId = getArguments().getString("id");
+
+        adapter = new ThreadAdapter(this);
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -112,7 +137,8 @@ public class ViewThreadFragment extends SFragment implements
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.primary);
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
+                ThemeUtils.getColor(context, android.R.attr.colorBackground));
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -129,36 +155,67 @@ public class ViewThreadFragment extends SFragment implements
                 R.drawable.conversation_thread_line_dark);
         recyclerView.addItemDecoration(new ConversationLineItemDecoration(context,
                 threadLineDrawable));
-        adapter = new ThreadAdapter(this);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                 getActivity());
         alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
         boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
+        boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
+        adapter.setUseAbsoluteTime(useAbsoluteTime);
         recyclerView.setAdapter(adapter);
 
         statuses.clear();
-        thisThreadsStatusId = null;
 
-        timelineReceiver = new TimelineReceiver(this, this);
-        LocalBroadcastManager.getInstance(context.getApplicationContext())
-                .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(null));
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         return rootView;
     }
 
-    @Override
-    public void onDestroyView() {
-        LocalBroadcastManager.getInstance(getContext())
-                .unregisterReceiver(timelineReceiver);
-        super.onDestroyView();
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        thisThreadsStatusId = getArguments().getString("id");
         onRefresh();
+
+        eventHub.getEvents()
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(event -> {
+                    if (event instanceof FavoriteEvent) {
+                        handleFavEvent((FavoriteEvent) event);
+                    } else if (event instanceof ReblogEvent) {
+                        handleReblogEvent((ReblogEvent) event);
+                    } else if (event instanceof BlockEvent) {
+                        removeAllByAccountId(((BlockEvent) event).getAccountId());
+                    } else if (event instanceof StatusComposedEvent) {
+                        handleStatusComposedEvent((StatusComposedEvent) event);
+                    } else if (event instanceof StatusDeletedEvent) {
+                        handleStatusDeletedEvent((StatusDeletedEvent) event);
+                    }
+                });
+    }
+
+    public void onRevealPressed() {
+        boolean allExpanded = allExpanded();
+        for (int i = 0; i < statuses.size(); i++) {
+            StatusViewData.Concrete newViewData =
+                    new StatusViewData.Concrete.Builder(statuses.getPairedItem(i))
+                            .setIsExpanded(!allExpanded)
+                            .createStatusViewData();
+            statuses.setPairedItem(i, newViewData);
+        }
+        adapter.setStatuses(statuses.getPairedCopy());
+    }
+
+    private boolean allExpanded() {
+        boolean allExpanded = true;
+        for (int i = 0; i < statuses.size(); i++) {
+            if (!statuses.getPairedItem(i).isExpanded()) {
+                allExpanded = false;
+                break;
+            }
+        }
+        return allExpanded;
     }
 
     @Override
@@ -180,21 +237,8 @@ public class ViewThreadFragment extends SFragment implements
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
                 if (response.isSuccessful()) {
-                    status.setReblogged(reblog);
-
-                    if (status.getReblog() != null) {
-                        status.getReblog().setReblogged(reblog);
-                    }
-
-                    StatusViewData.Concrete viewdata = statuses.getPairedItem(position);
-
-                    StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
-                    viewDataBuilder.setReblogged(reblog);
-
-                    StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
-
-                    statuses.setPairedItem(position, newViewData);
-                    adapter.setItem(position, newViewData, true);
+                    setReblogForStatus(position, status, reblog);
+                    eventHub.dispatch(new ReblogEvent(status.getId(), reblog));
                 }
             }
 
@@ -206,6 +250,24 @@ public class ViewThreadFragment extends SFragment implements
         });
     }
 
+    private void setReblogForStatus(int position, Status status, boolean reblog) {
+        status.setReblogged(reblog);
+
+        if (status.getReblog() != null) {
+            status.getReblog().setReblogged(reblog);
+        }
+
+        StatusViewData.Concrete viewdata = statuses.getPairedItem(position);
+
+        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
+        viewDataBuilder.setReblogged(reblog);
+
+        StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
+
+        statuses.setPairedItem(position, newViewData);
+        adapter.setItem(position, newViewData, true);
+    }
+
     @Override
     public void onFavourite(final boolean favourite, final int position) {
         final Status status = statuses.get(position);
@@ -213,21 +275,8 @@ public class ViewThreadFragment extends SFragment implements
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
                 if (response.isSuccessful()) {
-                    status.setFavourited(favourite);
-
-                    if (status.getReblog() != null) {
-                        status.getReblog().setFavourited(favourite);
-                    }
-
-                    StatusViewData.Concrete viewdata = statuses.getPairedItem(position);
-
-                    StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
-                    viewDataBuilder.setFavourited(favourite);
-
-                    StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
-
-                    statuses.setPairedItem(position, newViewData);
-                    adapter.setItem(position, newViewData, true);
+                    setFavForStatus(position, status, favourite);
+                    eventHub.dispatch(new FavoriteEvent(status.getId(), favourite));
                 }
             }
 
@@ -239,15 +288,33 @@ public class ViewThreadFragment extends SFragment implements
         });
     }
 
+    private void setFavForStatus(int position, Status status, boolean favourite) {
+        status.setFavourited(favourite);
+
+        if (status.getReblog() != null) {
+            status.getReblog().setFavourited(favourite);
+        }
+
+        StatusViewData.Concrete viewdata = statuses.getPairedItem(position);
+
+        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
+        viewDataBuilder.setFavourited(favourite);
+
+        StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
+
+        statuses.setPairedItem(position, newViewData);
+        adapter.setItem(position, newViewData, true);
+    }
+
     @Override
     public void onMore(View view, int position) {
         super.more(statuses.get(position), view, position);
     }
 
     @Override
-    public void onViewMedia(String[] urls, int urlIndex, Attachment.Type type,
-                            View view) {
-        super.viewMedia(urls, urlIndex, type, view);
+    public void onViewMedia(int position, int attachmentIndex, View view) {
+        Status status = statuses.get(position);
+        super.viewMedia(attachmentIndex, status, view);
     }
 
     @Override
@@ -274,6 +341,7 @@ public class ViewThreadFragment extends SFragment implements
                         .createStatusViewData();
         statuses.setPairedItem(position, newViewData);
         adapter.setItem(position, newViewData, false);
+        updateRevealIcon();
     }
 
     @Override
@@ -289,6 +357,36 @@ public class ViewThreadFragment extends SFragment implements
     @Override
     public void onLoadMore(int pos) {
 
+    }
+
+    @Override
+    public void onContentCollapsedChange(boolean isCollapsed, int position) {
+        if (position < 0 || position >= statuses.size()) {
+            Log.e(TAG, String.format("Tried to access out of bounds status position: %d of %d", position, statuses.size() - 1));
+            return;
+        }
+
+        StatusViewData.Concrete status = statuses.getPairedItem(position);
+        if (status == null) {
+            // Statuses PairedList contains a base type of StatusViewData.Concrete and also doesn't
+            // check for null values when adding values to it although this doesn't seem to be an issue.
+            Log.e(TAG, String.format(
+                    "Expected StatusViewData.Concrete, got null instead at position: %d of %d",
+                    position,
+                    statuses.size() - 1
+            ));
+            return;
+        }
+
+        StatusViewData.Concrete updatedStatus = new StatusViewData.Builder(status)
+                .setCollapsible(!SmartLengthInputFilter.hasBadRatio(
+                        status.getContent(),
+                        SmartLengthInputFilter.LENGTH_DEFAULT
+                ))
+                .setCollapsed(isCollapsed)
+                .createStatusViewData();
+        statuses.setPairedItem(position, updatedStatus);
+        recyclerView.post(() -> adapter.setItem(position, updatedStatus, true));
     }
 
     @Override
@@ -311,8 +409,7 @@ public class ViewThreadFragment extends SFragment implements
         adapter.setStatuses(statuses.getPairedCopy());
     }
 
-    @Override
-    public void removeAllByAccountId(String accountId) {
+    private void removeAllByAccountId(String accountId) {
         Status status = null;
         if (!statuses.isEmpty()) {
             status = statuses.get(statusIndex);
@@ -403,13 +500,10 @@ public class ViewThreadFragment extends SFragment implements
         swipeRefreshLayout.setRefreshing(false);
         if (view != null) {
             Snackbar.make(view, R.string.error_generic, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.action_retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            sendThreadRequest(id);
-                            sendStatusRequest(id);
-                            sendCardRequest(id);
-                        }
+                    .setAction(R.string.action_retry, v -> {
+                        sendThreadRequest(id);
+                        sendStatusRequest(id);
+                        sendCardRequest(id);
                     })
                     .show();
         } else {
@@ -436,6 +530,7 @@ public class ViewThreadFragment extends SFragment implements
         }
         statuses.setPairedItem(i, viewData);
         adapter.addItem(i, viewData);
+        updateRevealIcon();
         return i;
     }
 
@@ -495,6 +590,7 @@ public class ViewThreadFragment extends SFragment implements
             throw new AssertionError(error);
         }
         adapter.addAll(descendantsViewData);
+        updateRevealIcon();
     }
 
     private void showCard(Card card) {
@@ -513,5 +609,83 @@ public class ViewThreadFragment extends SFragment implements
     public void clear() {
         statuses.clear();
         adapter.clear();
+    }
+
+    private void handleFavEvent(FavoriteEvent event) {
+        Pair<Integer, Status> posAndStatus = findStatusAndPos(event.getStatusId());
+        if (posAndStatus == null) return;
+        //noinspection ConstantConditions
+        setFavForStatus(posAndStatus.first, posAndStatus.second, event.getFavourite());
+    }
+
+    private void handleReblogEvent(ReblogEvent event) {
+        Pair<Integer, Status> posAndStatus = findStatusAndPos(event.getStatusId());
+        if (posAndStatus == null) return;
+        //noinspection ConstantConditions
+        setReblogForStatus(posAndStatus.first, posAndStatus.second, event.getReblog());
+    }
+
+    private void handleStatusComposedEvent(StatusComposedEvent event) {
+        Status eventStatus = event.getStatus();
+        if (eventStatus.getInReplyToId() == null) return;
+
+        if (eventStatus.getInReplyToId().equals(thisThreadsStatusId)) {
+            insertStatus(eventStatus, statuses.size());
+        } else {
+            // If new status is a reply to some status in the thread, insert new status after it
+            // We only check statuses below main status, ones on top don't belong to this thread
+            for (int i = statusIndex; i < statuses.size(); i++) {
+                Status status = statuses.get(i);
+                if (eventStatus.getInReplyToId().equals(status.getId())) {
+                    insertStatus(eventStatus, i + 1);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void insertStatus(Status status, int at) {
+        statuses.add(at, status);
+        adapter.addItem(at, statuses.getPairedItem(at));
+    }
+
+    private void handleStatusDeletedEvent(StatusDeletedEvent event) {
+        Pair<Integer, Status> posAndStatus = findStatusAndPos(event.getStatusId());
+        if (posAndStatus == null) return;
+
+        @SuppressWarnings("ConstantConditions")
+        int pos = posAndStatus.first;
+        statuses.remove(pos);
+        adapter.removeItem(pos);
+    }
+
+    @Nullable
+    private Pair<Integer, Status> findStatusAndPos(@NonNull String statusId) {
+        for (int i = 0; i < statuses.size(); i++) {
+            if (statusId.equals(statuses.get(i).getId())) {
+                return new Pair<>(i, statuses.get(i));
+            }
+        }
+        return null;
+    }
+
+    private void updateRevealIcon() {
+        ViewThreadActivity activity = ((ViewThreadActivity) getActivity());
+        if (activity == null) return;
+
+        boolean hasAnyWarnings = false;
+        // Statuses are updated from the main thread so nothing should change while iterating
+        for (int i = 0; i < statuses.size(); i++) {
+            if (!TextUtils.isEmpty(statuses.get(i).getSpoilerText())) {
+                hasAnyWarnings = true;
+                break;
+            }
+        }
+        if (!hasAnyWarnings) {
+            activity.setRevealButtonState(ViewThreadActivity.REVEAL_BUTTON_HIDDEN);
+            return;
+        }
+        activity.setRevealButtonState(allExpanded() ? ViewThreadActivity.REVEAL_BUTTON_HIDE :
+                ViewThreadActivity.REVEAL_BUTTON_REVEAL);
     }
 }

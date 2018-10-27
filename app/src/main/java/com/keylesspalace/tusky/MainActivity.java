@@ -15,9 +15,8 @@
 
 package com.keylesspalace.tusky;
 
+import android.arch.lifecycle.Lifecycle;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -27,9 +26,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.text.emoji.EmojiCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -37,13 +36,13 @@ import android.view.KeyEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.keylesspalace.tusky.appstore.EventHub;
+import com.keylesspalace.tusky.appstore.ProfileEditedEvent;
 import com.keylesspalace.tusky.db.AccountEntity;
-import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
-import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
-import com.keylesspalace.tusky.receiver.TimelineReceiver;
+import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.NotificationHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -70,12 +69,18 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends BaseActivity implements ActionButtonActivity,
+import static com.keylesspalace.tusky.util.MediaUtilsKt.deleteStaleCachedMedia;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
+
+public final class MainActivity extends BottomSheetActivity implements ActionButtonActivity,
         HasSupportFragmentInjector {
+
     private static final String TAG = "MainActivity"; // logging tag
     private static final long DRAWER_ITEM_ADD_ACCOUNT = -13;
     private static final long DRAWER_ITEM_EDIT_PROFILE = 0;
@@ -91,13 +96,9 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
     private static final long DRAWER_ITEM_LISTS = 10;
 
     @Inject
-    public MastodonApi mastodonApi;
-    @Inject
     public DispatchingAndroidInjector<Fragment> fragmentInjector;
-
-    private static int COMPOSE_RESULT = 1;
-
-    AccountManager accountManager;
+    @Inject
+    public EventHub eventHub;
 
     private FloatingActionButton composeButton;
     private AccountHeader headerResult;
@@ -106,11 +107,10 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         Intent intent = getIntent();
         int tabPosition = 0;
-
-        accountManager = TuskyApplication.getInstance(this).getServiceLocator()
-                .get(AccountManager.class);
 
         if (intent != null) {
             long accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1);
@@ -126,17 +126,16 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
             }
         }
 
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FloatingActionButton floatingBtn = findViewById(R.id.floating_btn);
+        composeButton = findViewById(R.id.floating_btn);
         ImageButton drawerToggle = findViewById(R.id.drawer_toggle);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.pager);
 
-        floatingBtn.setOnClickListener(v -> {
+        composeButton.setOnClickListener(v -> {
             Intent composeIntent = new Intent(getApplicationContext(), ComposeActivity.class);
-            startActivityForResult(composeIntent, COMPOSE_RESULT);
+            startActivity(composeIntent);
         });
 
         setupDrawer();
@@ -196,7 +195,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
                 tintTab(tab, true);
 
                 if (tab.getPosition() == 1) {
-                    NotificationHelper.clearNotificationsForActiveAccount(MainActivity.this);
+                    NotificationHelper.clearNotificationsForActiveAccount(MainActivity.this, accountManager);
                 }
             }
 
@@ -215,41 +214,31 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
         }
 
         // Setup push notifications
-        if (NotificationHelper.areNotificationsEnabled(this)) {
+        if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
             enablePushNotifications();
         } else {
             disablePushNotifications();
         }
 
-        composeButton = floatingBtn;
+        eventHub.getEvents()
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(event -> {
+                    if (event instanceof ProfileEditedEvent) {
+                        onFetchUserInfoSuccess(((ProfileEditedEvent) event).getNewProfileData());
+                    }
+                });
+
+        // Flush old media that was cached for sharing
+        deleteStaleCachedMedia(getApplicationContext().getExternalFilesDir("Tusky"));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        NotificationHelper.clearNotificationsForActiveAccount(this);
+        NotificationHelper.clearNotificationsForActiveAccount(this, accountManager);
 
-        /* After editing a profile, the profile header in the navigation drawer needs to be
-         * refreshed */
-        SharedPreferences preferences = getPrivatePreferences();
-        if (preferences.getBoolean("refreshProfileHeader", false)) {
-            fetchUserInfo();
-            preferences.edit()
-                    .putBoolean("refreshProfileHeader", false)
-                    .apply();
-        }
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == COMPOSE_RESULT && resultCode == ComposeActivity.RESULT_OK) {
-            Intent intent = new Intent(TimelineReceiver.Types.STATUS_COMPOSED);
-            LocalBroadcastManager.getInstance(getApplicationContext())
-                    .sendBroadcast(intent);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -275,17 +264,11 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
                 return true;
             }
             case KeyEvent.KEYCODE_SEARCH: {
-                startActivity(new Intent(this, SearchActivity.class));
+                startActivityWithSlideInAnimation(new Intent(this, SearchActivity.class));
                 return true;
             }
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    // Fix for GitHub issues #190, #259 (MainActivity won't restart on screen rotation.)
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
     }
 
     private void tintTab(TabLayout.Tab tab, boolean tinted) {
@@ -332,67 +315,63 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
                 R.drawable.ic_mute_24dp, getTheme());
         ThemeUtils.setDrawableTint(this, muteDrawable, R.attr.toolbar_icon_tint);
 
-        List<IDrawerItem> listItem = new ArrayList<>();
-        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_EDIT_PROFILE).withName(getString(R.string.action_edit_profile)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person));
-        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_FAVOURITES).withName(getString(R.string.action_view_favourites)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_star));
-        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_LISTS).withName(R.string.action_lists).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_list));
-        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_MUTED_USERS).withName(getString(R.string.action_view_mutes)).withSelectable(false).withIcon(muteDrawable));
-        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_BLOCKED_USERS).withName(getString(R.string.action_view_blocks)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block));
-        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SEARCH).withName(getString(R.string.action_search)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_search));
-        listItem.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SAVED_TOOT).withName(getString(R.string.action_access_saved_toot)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_save));
-        listItem.add(new DividerDrawerItem());
-        listItem.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_PREFERENCES).withName(getString(R.string.action_view_preferences)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings));
-        listItem.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_ABOUT).withName(getString(R.string.about_title_activity)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_info));
-        listItem.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_LOG_OUT).withName(getString(R.string.action_logout)).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_exit_to_app));
-
-        IDrawerItem[] array = new IDrawerItem[listItem.size()];
-        listItem.toArray(array); // fill the array
+        List<IDrawerItem> listItems = new ArrayList<>(11);
+        listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_EDIT_PROFILE).withName(R.string.action_edit_profile).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person));
+        listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_FAVOURITES).withName(R.string.action_view_favourites).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_star));
+        listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_LISTS).withName(R.string.action_lists).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_list));
+        listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_MUTED_USERS).withName(R.string.action_view_mutes).withSelectable(false).withIcon(muteDrawable));
+        listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_BLOCKED_USERS).withName(R.string.action_view_blocks).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_block));
+        listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SEARCH).withName(R.string.action_search).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_search));
+        listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SAVED_TOOT).withName(R.string.action_access_saved_toot).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_save));
+        listItems.add(new DividerDrawerItem());
+        listItems.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_PREFERENCES).withName(R.string.action_view_preferences).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings));
+        listItems.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_ABOUT).withName(R.string.about_title_activity).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_info));
+        listItems.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_LOG_OUT).withName(R.string.action_logout).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_exit_to_app));
 
         drawer = new DrawerBuilder()
                 .withActivity(this)
-                //.withToolbar(toolbar)
                 .withAccountHeader(headerResult)
                 .withHasStableIds(true)
                 .withSelectedItem(-1)
-                .addDrawerItems(array)
+                .withDrawerItems(listItems)
                 .withOnDrawerItemClickListener((view, position, drawerItem) -> {
                     if (drawerItem != null) {
                         long drawerItemIdentifier = drawerItem.getIdentifier();
 
                         if (drawerItemIdentifier == DRAWER_ITEM_EDIT_PROFILE) {
                             Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_FAVOURITES) {
                             Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_MUTED_USERS) {
                             Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
                             intent.putExtra("type", AccountListActivity.Type.MUTES);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_BLOCKED_USERS) {
                             Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
                             intent.putExtra("type", AccountListActivity.Type.BLOCKS);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_SEARCH) {
                             Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_PREFERENCES) {
                             Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_ABOUT) {
                             Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_LOG_OUT) {
                             logout();
                         } else if (drawerItemIdentifier == DRAWER_ITEM_FOLLOW_REQUESTS) {
                             Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
                             intent.putExtra("type", AccountListActivity.Type.FOLLOW_REQUESTS);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_SAVED_TOOT) {
                             Intent intent = new Intent(MainActivity.this, SavedTootActivity.class);
-                            startActivity(intent);
+                            startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_LISTS) {
-                            startActivity(ListsActivity.newIntent(this));
+                            startActivityWithSlideInAnimation(ListsActivity.newIntent(this));
                         }
 
                     }
@@ -411,7 +390,12 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
             drawer.addItem(debugItem);
         }
 
-        updateProfiles();
+        EmojiCompat.get().registerInitCallback(new EmojiCompat.InitCallback() {
+            @Override
+            public void onInitialized() {
+                updateProfiles();
+            }
+        });
     }
 
     private boolean handleProfileClick(IProfile profile, boolean current) {
@@ -419,14 +403,13 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
 
         //open profile when active image was clicked
         if (current && activeAccount != null) {
-            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-            intent.putExtra("id", activeAccount.getAccountId());
-            startActivity(intent);
+            Intent intent = AccountActivity.getIntent(this, activeAccount.getAccountId());
+            startActivityWithSlideInAnimation(intent);
             return true;
         }
         //open LoginActivity to add new account
         if (profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT) {
-            startActivity(LoginActivity.getIntent(this, true));
+            startActivityWithSlideInAnimation(LoginActivity.getIntent(this, true));
             return true;
         }
         //change Account
@@ -441,7 +424,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-        finish();
+        finishWithoutSlideOutAnimation();
 
         overridePendingTransition(R.anim.explode, R.anim.explode);
     }
@@ -461,7 +444,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
 
                         AccountEntity newAccount = accountManager.logActiveAccountOut();
 
-                        if (!NotificationHelper.areNotificationsEnabled(MainActivity.this))
+                        if (!NotificationHelper.areNotificationsEnabled(MainActivity.this, accountManager))
                             disablePushNotifications();
 
                         Intent intent;
@@ -471,7 +454,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
                             intent = new Intent(MainActivity.this, MainActivity.class);
                         }
                         startActivity(intent);
-                        finish();
+                        finishWithoutSlideOutAnimation();
                     })
                     .setNegativeButton(android.R.string.no, null)
                     .show();
@@ -504,7 +487,6 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
 
         Picasso.with(MainActivity.this)
                 .load(me.getHeader())
-                .placeholder(R.drawable.account_header_default)
                 .into(background);
 
         accountManager.updateActiveAccount(me);
@@ -519,7 +501,7 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
                     .withSelectable(false)
                     .withIcon(GoogleMaterial.Icon.gmd_person_add);
             drawer.addItemAtPosition(followRequestsItem, 3);
-        } else {
+        } else if(!me.getLocked()){
             drawer.removeItem(DRAWER_ITEM_FOLLOW_REQUESTS);
         }
 
@@ -531,24 +513,32 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
 
         List<AccountEntity> allAccounts = accountManager.getAllAccountsOrderedByActive();
 
-        //remove profiles before adding them again to avoid duplicates
-        List<IProfile> profiles = new ArrayList<>(headerResult.getProfiles());
-        for (IProfile profile : profiles) {
-            if (profile.getIdentifier() != DRAWER_ITEM_ADD_ACCOUNT) {
-                headerResult.removeProfile(profile);
-            }
-        }
+        List<IProfile> profiles = new ArrayList<>(allAccounts.size()+1);
 
         for (AccountEntity acc : allAccounts) {
-            headerResult.addProfiles(
+            CharSequence emojifiedName = CustomEmojiHelper.emojifyString(acc.getDisplayName(), acc.getEmojis(), headerResult.getView());
+            emojifiedName = EmojiCompat.get().process(emojifiedName);
+
+            profiles.add(
                     new ProfileDrawerItem()
-                            .withName(acc.getDisplayName())
+                            .withSetSelected(acc.isActive())
+                            .withName(emojifiedName)
                             .withIcon(acc.getProfilePictureUrl())
                             .withNameShown(true)
                             .withIdentifier(acc.getId())
                             .withEmail(acc.getFullName()));
 
         }
+
+        // reuse the already existing "add account" item
+        for (IProfile profile: headerResult.getProfiles()) {
+            if (profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT) {
+                profiles.add(profile);
+                break;
+            }
+        }
+        headerResult.clear();
+        headerResult.setProfiles(profiles);
 
     }
 
@@ -566,4 +556,5 @@ public class MainActivity extends BaseActivity implements ActionButtonActivity,
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentInjector;
     }
+
 }

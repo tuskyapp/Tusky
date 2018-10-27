@@ -1,0 +1,350 @@
+<resources>
+
+    <string name="error_generic">Ha ocurrido un error.</string>
+    <string name="error_empty">Este campo no puede estar vacío.</string>
+    <string name="error_invalid_domain">Nombre de dominio incorrecto</string>
+    <string name="error_failed_app_registration">Inicio de sesión fallido.</string>
+    <string name="error_no_web_browser_found">No se ha encontrado ningún navegador web.</string>
+    <string name="error_authorization_unknown">Ocurrió un error de autorización no identificado.</string>
+    <string name="error_authorization_denied">La autorización falló.</string>
+    <string name="error_retrieving_oauth_token">Fallo al obtener identificador de login.</string>
+    <string name="error_compose_character_limit">¡El estado es demasiado largo!</string>
+    <string name="error_image_upload_size">El archivo debe ser inferior a 8MB.</string>
+    <string name="error_media_upload_type">No se admite este tipo de archivo.</string>
+    <string name="error_media_upload_opening">No pudo abrirse el fichero.</string>
+    <string name="error_media_upload_permission">Se requiere permiso para acceder al almacenamiento.</string>
+    <string name="error_media_download_permission">Se requiere permiso para descargar al almacenamiento.</string>
+    <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en el mismo estado</string>
+    <string name="error_media_upload_sending">La subida falló.</string>
+    <string name="error_report_too_few_statuses">Debe seleccionar al menos un estado.</string>
+    <string name="error_invalid_regex">Expresión regular inválida</string>
+    <string name="error_sender_account_gone">Error al publicar.</string>
+
+    <string name="title_home">Inicio</string>
+    <string name="title_advanced">Avanzado</string>
+    <string name="title_notifications">Notificaciones</string>
+    <string name="title_public_local">Local</string>
+    <string name="title_public_federated">Federada</string>
+    <string name="title_view_thread">Publicación</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">Estados</string>
+    <string name="title_statuses_with_replies">Con respuestas</string>
+    <string name="title_follows">Siguiendo</string>
+    <string name="title_followers">Seguidores</string>
+    <string name="title_favourites">Favoritos</string>
+    <string name="title_mutes">Silenciados</string>
+    <string name="title_blocks">Bloqueados</string>
+    <string name="title_follow_requests">Solicitudes</string>
+    <string name="title_edit_profile">Editar tu perfil</string>
+    <string name="title_saved_toot">Borradores</string>
+    <string name="title_licenses">Licencias</string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s compartió</string>
+    <string name="status_sensitive_media_title">Contenido sensible</string>
+    <string name="status_media_hidden_title">Material oculto</string>
+    <string name="status_sensitive_media_directions">Pulsa para ver</string>
+    <string name="status_content_warning_show_more">Mostrar más</string>
+    <string name="status_content_warning_show_less">Mostrar menos</string>
+
+    <string name="footer_empty">Nada por aquí. ¡Arrastra hacia abajo para recargar!</string>
+
+    <string name="notification_reblog_format">%s compartió</string>
+    <string name="notification_favourite_format">%s marcó favorito</string>
+    <string name="notification_follow_format">%s te siguió</string>
+
+    <string name="report_username_format">Reportar @%s</string>
+    <string name="report_comment_hint">¿Información adicional?</string>
+
+    <string name="action_quick_reply">Respuesta rápida</string>
+    <string name="action_reply">Responder</string>
+    <string name="action_reblog">Compartir</string>
+    <string name="action_favourite">Favorito</string>
+    <string name="action_more">Más</string>
+    <string name="action_compose">Redactar</string>
+    <string name="action_login">Iniciar sesión</string>
+    <string name="action_logout">Cerrar sesión</string>
+    <string name="action_logout_confirm">¿Seguro que quiere cerrar la sesión de %1$s?</string>
+    <string name="action_follow">Seguir</string>
+    <string name="action_unfollow">Dejar de seguir</string>
+    <string name="action_block">Bloquear</string>
+    <string name="action_unblock">Desbloquear</string>
+    <string name="action_hide_reblogs">Ocultar compartidos</string>
+    <string name="action_show_reblogs">Mostrar compartidos</string>
+    <string name="action_report">Reportar</string>
+    <string name="action_delete">Borrar</string>
+    <string name="action_send">Enviar</string>
+    <string name="action_send_public">Publicar</string>
+    <string name="action_retry">Reintentar</string>
+    <string name="action_close">Cerrar</string>
+    <string name="action_view_profile">Perfil</string>
+    <string name="action_view_preferences">Ajustes</string>
+    <string name="action_view_favourites">Favoritos</string>
+    <string name="action_view_mutes">Silenciados</string>
+    <string name="action_view_blocks">Bloqueados</string>
+    <string name="action_view_follow_requests">Solicitudes</string>
+    <string name="action_view_media">Multimedia</string>
+    <string name="action_open_in_web">Abrir en el navegador</string>
+    <string name="action_add_media">Añadir multimedia</string>
+    <string name="action_photo_take">Tomar foto</string>
+    <string name="action_share">Compartir</string>
+    <string name="action_mute">Silenciar</string>
+    <string name="action_unmute">Dejar de silenciar</string>
+    <string name="action_mention">Mencionar</string>
+    <string name="action_hide_media">Ocultar multimedia</string>
+    <string name="action_open_drawer">Open drawer</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_edit_profile">Editar perfil</string>
+    <string name="action_edit_own_profile">Editar</string>
+    <string name="action_undo">Deshacer</string>
+    <string name="action_accept">Aceptar</string>
+    <string name="action_reject">Rechazar</string>
+    <string name="action_search">Buscar</string>
+    <string name="action_access_saved_toot">Borradores</string>
+    <string name="action_toggle_visibility">Visibilidad del estado</string>
+    <string name="action_content_warning">Aviso de contenido</string>
+    <string name="action_emoji_keyboard">Teclado de emojis</string>
+
+    <string name="download_image">Descargando %1$s</string>
+
+    <string name="action_copy_link">Copiar el enlace</string>
+
+    <string name="send_status_link_to">Compartir URL…</string>
+    <string name="send_status_content_to">Compartir contenido…</string>
+
+    <string name="confirmation_reported">¡Enviado!</string>
+    <string name="confirmation_unblocked">El usuario ya no está bloqueado</string>
+    <string name="confirmation_unmuted">El usuario ya no está silenciado</string>
+
+    <string name="status_sent">¡Enviada!</string>
+    <string name="status_sent_long">Respuesta enviada correctamente.</string>
+
+    <string name="hint_domain">Indique la instancia</string>
+    <string name="hint_compose">¿En qué estás pensando?</string>
+    <string name="hint_content_warning">Aviso de contenido</string>
+    <string name="hint_display_name">Nombre</string>
+    <string name="hint_note">Biografía</string>
+    <string name="hint_search">Buscar…</string>
+
+    <string name="search_no_results">Sin resultados</string>
+
+    <string name="label_quick_reply">Respuesta...</string>
+    <string name="label_avatar">Avatar</string>
+    <string name="label_header">Cabecera</string>
+
+    <string name="link_whats_an_instance">¿Qué es una instancia?</string>
+
+    <string name="login_connection">Conectando…</string>
+
+    <string name="dialog_whats_an_instance">Introduzca aquí dirección o dominio de cualquier instancia,
+        como mastodon.social, icosahedron.website, social.tchncs.de y
+        <a href="https://instances.social">más!</a>
+        \n\nSi todavia no tiene una cuenta, puede indicar el nombre de la instancia a la que quiere
+        unirse y crear una cuenta allí.\n\nUna instancia es el sitio único donde su cuenta
+        está alojada, pero puede comunicarse y seguir usuarios de otras instancias como si
+        estuvieran en la misma.
+        \n\nPuede consultar más información en <a href="https://joinmastodon.org">joinmastodon.org</a>.
+    </string>
+    <string name="dialog_title_finishing_media_upload">Terminando de subir multimedia</string>
+    <string name="dialog_message_uploading_media">Subiendo…</string>
+    <string name="dialog_download_image">Descargar</string>
+    <string name="dialog_message_cancel_follow_request">¿Cancelar petición de amistad?</string>
+    <string name="dialog_unfollow_warning">¿Dejar de seguir esta cuenta?</string>
+
+    <string name="visibility_public">Público: Mostrar en historias públicas</string>
+    <string name="visibility_unlisted">Oculto: No mostrar en historias públicas</string>
+    <string name="visibility_private">Privado: Sólo visible para seguidores</string>
+    <string name="visibility_direct">Directo: Sólo visible para cuentas mencionadas</string>
+
+    <string name="pref_title_notification_settings">Notificaciones</string>
+    <string name="pref_title_edit_notification_settings">Editar notificaciones</string>
+    <string name="pref_title_notifications_enabled">Notificaciones</string>
+    <string name="pref_summary_notifications">para la cuenta %1$s</string>
+    <string name="pref_title_pull_notification_check_interval">Intervalo</string>
+    <string name="pref_title_notification_alerts">Alertas</string>
+    <string name="pref_title_notification_alert_sound">Notificar con sonido</string>
+    <string name="pref_title_notification_alert_vibrate">Notificar con vibración</string>
+    <string name="pref_title_notification_alert_light">Notificar con led</string>
+    <string name="pref_title_notification_filters">Notificar cuando</string>
+    <string name="pref_title_notification_filter_mentions">me mencionan</string>
+    <string name="pref_title_notification_filter_follows">me siguen</string>
+    <string name="pref_title_notification_filter_reblogs">me comparten</string>
+    <string name="pref_title_notification_filter_favourites">me dan favorito</string>
+    <string name="pref_title_appearance_settings">Interfaz</string>
+    <string name="pref_title_app_theme">Tema</string>
+
+    <string-array name="app_theme_names">
+        <item>Oscuro</item>
+        <item>Claro</item>
+        <item>Negro</item>
+        <item>Automático</item>
+    </string-array>
+
+    <string name="pref_title_browser_settings">Navegador</string>
+    <string name="pref_title_custom_tabs">Usar pestañas de Chrome</string>
+    <string name="pref_title_hide_follow_button">Ocultar botón de redacción al bajar</string>
+    <string name="pref_title_status_filter">Filtros de cronología</string>
+    <string name="pref_title_status_tabs">Pestañas</string>
+    <string name="pref_title_show_boosts">Mostrar compartidos</string>
+    <string name="pref_title_show_replies">Mostrar respuestas</string>
+    <string name="pref_title_filter_regex">Filtrar con expresiones regulares</string>
+    <string name="pref_title_show_media_preview">Previsualizar multimedia</string>
+    <string name="pref_title_proxy_settings">Proxy</string>
+    <string name="pref_title_http_proxy_settings">Proxy HTTP</string>
+    <string name="pref_title_http_proxy_enable">Habilitar proxy HTTP</string>
+    <string name="pref_title_http_proxy_server">Servidor del proxy HTTP</string>
+    <string name="pref_title_http_proxy_port">Puerto del proxy HTTP</string>
+
+    <string-array name="pull_notification_check_interval_names">
+        <item>15 minutos</item>
+        <item>20 minutos</item>
+        <item>25 minutos</item>
+        <item>30 minutos</item>
+        <item>45 minutos</item>
+        <item>1 hora</item>
+        <item>2 hora</item>
+    </string-array>
+
+    <string name="pref_default_post_privacy">Visibilidad por defecto</string>
+    <string name="pref_publishing">Publicaciones</string>
+
+    <string-array name="post_privacy_names">
+        <item>Público</item>
+        <item>Oculto</item>
+        <item>Privado</item>
+    </string-array>
+
+    <string name="pref_status_text_size">Tamaño del texto</string>
+
+    <string-array name="status_text_size_names">
+        <item>Diminuto</item>
+        <item>Pequeño</item>
+        <item>Medio</item>
+        <item>Grande</item>
+        <item>Enorme</item>
+    </string-array>
+
+    <string name="notification_channel_mention_name">Nuevas menciones</string>
+    <string name="notification_channel_mention_descriptions">Notificaciones de nuevas menciones</string>
+    <string name="notification_channel_follow_name">Nuevos seguidores</string>
+    <string name="notification_channel_follow_description">Notificaciones de nuevos seguidores</string>
+    <string name="notification_channel_boost_name">Compartidos</string>
+    <string name="notification_channel_boost_description">Notificaciones de estados que fueron compartidos</string>
+    <string name="notification_channel_favourite_name">Favoritos</string>
+    <string name="notification_channel_favourite_description">Notificaciones de estados que recibieron favorito</string>
+
+
+    <string name="notification_mention_format">%s te mencionó</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s y %4$d otros</string>
+    <string name="notification_summary_medium">%1$s, %2$s, y %3$s</string>
+    <string name="notification_summary_small">%1$s y %2$s</string>
+    <string name="notification_title_summary">%d nuevas interacciones</string>
+
+    <string name="description_account_locked">Cuenta protegida</string>
+
+    <string name="about_title_activity">Acerca de</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Tusky es un software libre y de código abierto.
+        Está licenciado bajo la licencia "GNU General Public License Version 3".
+        Puedes leer sobre la misma en: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <!-- note to translators:
+         * you should think of “free” as in “free speech,” not as in “free beer”.
+           We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
+           to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
+         * the url can be changed to link to the localized version of the license.
+    -->
+    <string name="about_project_site">
+        Sitio del proyecto:\n
+        https://tuskyapp.github.io
+    </string>
+    <string name="about_bug_feature_request_site">
+        Reporte de errores y peticiones de características:\n
+        https://github.com/tuskyapp/Tusky/issues
+    </string>
+    <string name="about_tusky_account">Perfil de Tusky</string>
+
+    <string name="status_share_content">Compartir contenido</string>
+    <string name="status_share_link">Compartir enlace</string>
+    <string name="status_media_images">Imágenes</string>
+    <string name="status_media_video">Video</string>
+
+    <string name="state_follow_requested">Solicitud enviada</string>
+
+    <string name="no_content">No hay nada aquí</string>
+
+    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">en %dy</string>
+    <string name="abbreviated_in_days">en %dd</string>
+    <string name="abbreviated_in_hours">en %dh</string>
+    <string name="abbreviated_in_minutes">en %dm</string>
+    <string name="abbreviated_in_seconds">en %ds</string>
+    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
+
+    <string name="follows_you">Te sigue</string>
+    <string name="pref_title_alway_show_sensitive_media">Mostrar contenido NSFW</string>
+    <string name="title_media">Multimedia</string>
+    <string name="replying_to">Respondiendo a @%s</string>
+    <string name="load_more_placeholder_text">cargar más</string>
+
+    <string name="add_account_name">Añadir cuenta</string>
+    <string name="add_account_description">Añadir cuenta de Mastodon</string>
+
+    <string name="action_lists">Listas</string>
+    <string name="title_lists">Listas</string>
+    <string name="title_list_timeline">Cronología de lista</string>
+
+    <string name="compose_active_account_description">Publicando con la cuenta %1$s</string>
+
+    <string name="error_failed_set_caption">Error al añadir leyenda</string>
+    <string name="hint_describe_for_visually_impaired">Descripción para discapacitados visuales</string>
+    <string name="action_set_caption">Añadir leyenda</string>
+    <string name="action_remove_media">Eliminar</string>
+    <string name="lock_account_label">Proteger cuenta</string>
+    <string name="lock_account_label_description">Tendrá que admitir los seguidores manualmente</string>
+    <string name="compose_save_draft">¿Guardar borrador?</string>
+    <string name="send_toot_notification_title">Eliminando estado...</string>
+    <string name="send_toot_notification_error_title">Error enviando estado</string>
+    <string name="send_toot_notification_channel_name">Enviando estado</string>
+    <string name="send_toot_notification_cancel_title">Envío cancelado</string>
+    <string name="send_toot_notification_saved_content">Una copia del estado se ha guardado en borradores</string>
+    <string name="action_compose_shortcut">Redactar</string>
+
+    <string name="error_no_custom_emojis">Su instancia %s no ofrece emojis personalizados</string>
+    <string name="copy_to_clipboard_success">Copiado al portapapeles</string>
+    <string name="emoji_style">Estilo de los emojis</string>
+    <string name="system_default">Sistema</string>
+    <string name="download_fonts">Tendrás que descargarlos primero</string>
+    <string name="performing_lookup_title">Buscando...</string>
+    <string name="expand_collapse_all_statuses">Expandir/ocultar todos los estados</string>
+    <string name="action_open_toot">Abrir</string>
+    <string name="restart_required">Reinicio requerido</string>
+    <string name="restart_emoji">Tendrás que reiniciar la aplicación para aplicar estos cambios</string>
+    <string name="later">Más tarde</string>
+    <string name="restart">Reiniciar</string>
+    <string name="caption_systememoji">Your device\'s default emoji set</string>
+    <string name="caption_blobmoji">Los emojis de Android 4.4 a 7.1</string>
+    <string name="caption_twemoji">Pack estándar de Emojis de Mastodon</string>
+
+    <string name="download_failed">Descarga fallida</string>
+
+    <string name="profile_badge_bot_text">Bot</string>
+    <string name="account_moved_description">%1$s se trasladó a:</string>
+
+    <string name="reblog_private">Volver a compartir</string>
+    <string name="unreblog_private">Dejar de compartir</string>
+
+    <string name="license_description">Tusky contiene código y recursos de los siguientes proyectos:</string>
+    <string name="license_apache_2">Licenciado bajo Apache License (texto bajo la lista)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <string name="profile_metadata_label">Información adicional</string>
+    <string name="profile_metadata_add">añadir campo</string>
+    <string name="profile_metadata_label_label">Etiqueta</string>
+    <string name="profile_metadata_content_label">Contenido</string>
+
+</resources>

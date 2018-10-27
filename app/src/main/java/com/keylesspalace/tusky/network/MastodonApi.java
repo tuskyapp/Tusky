@@ -22,6 +22,8 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.AppCredentials;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
+import com.keylesspalace.tusky.entity.Emoji;
+import com.keylesspalace.tusky.entity.Instance;
 import com.keylesspalace.tusky.entity.MastoList;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Relationship;
@@ -31,6 +33,7 @@ import com.keylesspalace.tusky.entity.StatusContext;
 
 import java.util.List;
 
+import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -51,18 +54,21 @@ import retrofit2.http.Query;
 public interface MastodonApi {
     String ENDPOINT_AUTHORIZE = "/oauth/authorize";
     String DOMAIN_HEADER = "domain";
+    String PLACEHOLDER_DOMAIN = "dummy.placeholder";
 
     @GET("api/v1/timelines/home")
     Call<List<Status>> homeTimeline(
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
+
     @GET("api/v1/timelines/public")
     Call<List<Status>> publicTimeline(
             @Query("local") Boolean local,
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
+
     @GET("api/v1/timelines/tag/{hashtag}")
     Call<List<Status>> hashtagTimeline(
             @Path("hashtag") String hashtag,
@@ -70,6 +76,7 @@ public interface MastodonApi {
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
+
     @GET("api/v1/timelines/list/{listId}")
     Call<List<Status>> listTimeline(
             @Path("listId") String listId,
@@ -82,17 +89,21 @@ public interface MastodonApi {
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
+
     @GET("api/v1/notifications")
     Call<List<Notification>> notificationsWithAuth(
             @Header("Authorization") String auth, @Header(DOMAIN_HEADER) String domain);
+
     @POST("api/v1/notifications/clear")
     Call<ResponseBody> clearNotifications();
+
     @GET("api/v1/notifications/{id}")
     Call<Notification> notification(@Path("id") String notificationId);
 
     @Multipart
     @POST("api/v1/media")
     Call<Attachment> uploadMedia(@Part MultipartBody.Part file);
+
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")
     Call<Attachment> updateMedia(@Path("mediaId") String mediaId,
@@ -101,38 +112,56 @@ public interface MastodonApi {
     @FormUrlEncoded
     @POST("api/v1/statuses")
     Call<Status> createStatus(
+            @Header("Authorization") String auth,
+            @Header(DOMAIN_HEADER) String domain,
             @Field("status") String text,
             @Field("in_reply_to_id") String inReplyToId,
             @Field("spoiler_text") String warningText,
             @Field("visibility") String visibility,
             @Field("sensitive") Boolean sensitive,
-            @Field("media_ids[]") List<String> mediaIds);
+            @Field("media_ids[]") List<String> mediaIds,
+            @Header("Idempotency-Key") String idempotencyKey);
+
     @GET("api/v1/statuses/{id}")
     Call<Status> status(@Path("id") String statusId);
+
     @GET("api/v1/statuses/{id}/context")
     Call<StatusContext> statusContext(@Path("id") String statusId);
+
     @GET("api/v1/statuses/{id}/reblogged_by")
     Call<List<Account>> statusRebloggedBy(
             @Path("id") String statusId,
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
+
     @GET("api/v1/statuses/{id}/favourited_by")
     Call<List<Account>> statusFavouritedBy(
             @Path("id") String statusId,
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
+
     @DELETE("api/v1/statuses/{id}")
     Call<ResponseBody> deleteStatus(@Path("id") String statusId);
+
     @POST("api/v1/statuses/{id}/reblog")
     Call<Status> reblogStatus(@Path("id") String statusId);
+
     @POST("api/v1/statuses/{id}/unreblog")
     Call<Status> unreblogStatus(@Path("id") String statusId);
+
     @POST("api/v1/statuses/{id}/favourite")
     Call<Status> favouriteStatus(@Path("id") String statusId);
+
     @POST("api/v1/statuses/{id}/unfavourite")
     Call<Status> unfavouriteStatus(@Path("id") String statusId);
+
+    @POST("api/v1/statuses/{id}/pin")
+    Single<Status> pinStatus(@Path("id") String statusId);
+
+    @POST("api/v1/statuses/{id}/unpin")
+    Single<Status> unpinStatus(@Path("id") String statusId);
 
     @GET("api/v1/accounts/verify_credentials")
     Call<Account> accountVerifyCredentials();
@@ -144,13 +173,22 @@ public interface MastodonApi {
             @Nullable @Part(value="note") RequestBody note,
             @Nullable @Part(value="locked") RequestBody locked,
             @Nullable @Part MultipartBody.Part avatar,
-            @Nullable @Part MultipartBody.Part header);
+            @Nullable @Part MultipartBody.Part header,
+            @Nullable @Part(value="fields_attributes[0][name]") RequestBody fieldName0,
+            @Nullable @Part(value="fields_attributes[0][value]") RequestBody fieldValue0,
+            @Nullable @Part(value="fields_attributes[1][name]") RequestBody fieldName1,
+            @Nullable @Part(value="fields_attributes[1][value]") RequestBody fieldValue1,
+            @Nullable @Part(value="fields_attributes[2][name]") RequestBody fieldName2,
+            @Nullable @Part(value="fields_attributes[2][value]") RequestBody fieldValue2,
+            @Nullable @Part(value="fields_attributes[3][name]") RequestBody fieldName3,
+            @Nullable @Part(value="fields_attributes[3][value]") RequestBody fieldValue3);
 
     @GET("api/v1/accounts/search")
     Call<List<Account>> searchAccounts(
             @Query("q") String q,
             @Query("resolve") Boolean resolve,
             @Query("limit") Integer limit);
+
     @GET("api/v1/accounts/{id}")
     Call<Account> account(@Path("id") String accountId);
 
@@ -160,10 +198,8 @@ public interface MastodonApi {
      * @param maxId Only statuses with ID less than maxID will be returned
      * @param sinceId Only statuses with ID bigger than sinceID will be returned
      * @param limit Limit returned statuses (current API limits: default - 20, max - 40)
-     * @param onlyMedia Should server return only statuses which contain media. Caution! The server
-     *                  works in a weird way so if any value if present at this field it will be
-     *                  interpreted as "true". Pass null to return all statuses.
-     * @return
+     * @param excludeReplies only return statuses that are no replies
+     * @param onlyMedia only return statuses that have media attached
      */
     @GET("api/v1/accounts/{id}/statuses")
     Call<List<Status>> accountStatuses(
@@ -171,29 +207,39 @@ public interface MastodonApi {
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit,
+            @Nullable @Query("exclude_replies") Boolean excludeReplies,
             @Nullable @Query("only_media") Boolean onlyMedia);
+
     @GET("api/v1/accounts/{id}/followers")
     Call<List<Account>> accountFollowers(
             @Path("id") String accountId,
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
+
     @GET("api/v1/accounts/{id}/following")
     Call<List<Account>> accountFollowing(
             @Path("id") String accountId,
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
+
+    @FormUrlEncoded
     @POST("api/v1/accounts/{id}/follow")
-    Call<Relationship> followAccount(@Path("id") String accountId);
+    Call<Relationship> followAccount(@Path("id") String accountId, @Field("reblogs") boolean showReblogs);
+
     @POST("api/v1/accounts/{id}/unfollow")
     Call<Relationship> unfollowAccount(@Path("id") String accountId);
+
     @POST("api/v1/accounts/{id}/block")
     Call<Relationship> blockAccount(@Path("id") String accountId);
+
     @POST("api/v1/accounts/{id}/unblock")
     Call<Relationship> unblockAccount(@Path("id") String accountId);
+
     @POST("api/v1/accounts/{id}/mute")
     Call<Relationship> muteAccount(@Path("id") String accountId);
+
     @POST("api/v1/accounts/{id}/unmute")
     Call<Relationship> unmuteAccount(@Path("id") String accountId);
 
@@ -223,8 +269,10 @@ public interface MastodonApi {
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
+
     @POST("api/v1/follow_requests/{id}/authorize")
     Call<Relationship> authorizeFollowRequest(@Path("id") String accountId);
+
     @POST("api/v1/follow_requests/{id}/reject")
     Call<Relationship> rejectFollowRequest(@Path("id") String accountId);
 
@@ -241,6 +289,7 @@ public interface MastodonApi {
     @FormUrlEncoded
     @POST("api/v1/apps")
     Call<AppCredentials> authenticateApp(
+            @Header(DOMAIN_HEADER) String domain,
             @Field("client_name") String clientName,
             @Field("redirect_uris") String redirectUris,
             @Field("scopes") String scopes,
@@ -249,6 +298,7 @@ public interface MastodonApi {
     @FormUrlEncoded
     @POST("oauth/token")
     Call<AccessToken> fetchOAuthToken(
+            @Header(DOMAIN_HEADER) String domain,
             @Field("client_id") String clientId,
             @Field("client_secret") String clientSecret,
             @Field("redirect_uri") String redirectUri,
@@ -263,4 +313,10 @@ public interface MastodonApi {
 
     @GET("/api/v1/lists")
     Call<List<MastoList>> getLists();
+
+    @GET("/api/v1/custom_emojis")
+    Call<List<Emoji>> getCustomEmojis();
+
+    @GET("api/v1/instance")
+    Call<Instance> getInstance();
 }

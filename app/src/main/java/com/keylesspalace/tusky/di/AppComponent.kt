@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.di
 import com.keylesspalace.tusky.TuskyApplication
 import dagger.BindsInstance
 import dagger.Component
-import dagger.android.AndroidInjectionModule
+import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 
@@ -30,8 +30,11 @@ import javax.inject.Singleton
 @Component(modules = [
     AppModule::class,
     NetworkModule::class,
-    AndroidInjectionModule::class,
-    ActivitiesModule::class
+    AndroidSupportInjectionModule::class,
+    ActivitiesModule::class,
+    ServicesModule::class,
+    BroadcastReceiverModule::class,
+    ViewModelModule::class
 ])
 interface AppComponent {
     @Component.Builder

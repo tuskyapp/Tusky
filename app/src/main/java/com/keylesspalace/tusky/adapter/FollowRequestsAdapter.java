@@ -15,32 +15,33 @@
 
 package com.keylesspalace.tusky.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
-import com.pkmmte.view.CircularImageView;
+import com.keylesspalace.tusky.interfaces.AccountActionListener;
+import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.squareup.picasso.Picasso;
 
 public class FollowRequestsAdapter extends AccountAdapter {
-    private static final int VIEW_TYPE_FOLLOW_REQUEST = 0;
-    private static final int VIEW_TYPE_FOOTER = 1;
 
     public FollowRequestsAdapter(AccountActionListener accountActionListener) {
         super(accountActionListener);
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             default:
-            case VIEW_TYPE_FOLLOW_REQUEST: {
+            case VIEW_TYPE_ACCOUNT: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_follow_request, parent, false);
                 return new FollowRequestViewHolder(view);
@@ -48,34 +49,22 @@ public class FollowRequestsAdapter extends AccountAdapter {
             case VIEW_TYPE_FOOTER: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_footer, parent, false);
-                return new FooterViewHolder(view);
+                return new LoadingFooterViewHolder(view);
             }
         }
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        if (position < accountList.size()) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
             FollowRequestViewHolder holder = (FollowRequestViewHolder) viewHolder;
             holder.setupWithAccount(accountList.get(position));
             holder.setupActionListener(accountActionListener);
-        } else {
-            FooterViewHolder holder = (FooterViewHolder) viewHolder;
-            holder.setState(footerState);
-        }
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == accountList.size()) {
-            return VIEW_TYPE_FOOTER;
-        } else {
-            return VIEW_TYPE_FOLLOW_REQUEST;
         }
     }
 
     static class FollowRequestViewHolder extends RecyclerView.ViewHolder {
-        private CircularImageView avatar;
+        private ImageView avatar;
         private TextView username;
         private TextView displayName;
         private ImageButton accept;
@@ -93,7 +82,8 @@ public class FollowRequestsAdapter extends AccountAdapter {
 
         void setupWithAccount(Account account) {
             id = account.getId();
-            displayName.setText(account.getName());
+            CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(), account.getEmojis(), displayName);
+            displayName.setText(emojifiedName);
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.getUsername());
             username.setText(formattedUsername);
@@ -104,30 +94,19 @@ public class FollowRequestsAdapter extends AccountAdapter {
         }
 
         void setupActionListener(final AccountActionListener listener) {
-            accept.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onRespondToFollowRequest(true, id, position);
-                    }
+            accept.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onRespondToFollowRequest(true, id, position);
                 }
             });
-            reject.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onRespondToFollowRequest(false, id, position);
-                    }
+            reject.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onRespondToFollowRequest(false, id, position);
                 }
             });
-            avatar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onViewAccount(id);
-                }
-            });
+            avatar.setOnClickListener(v -> listener.onViewAccount(id));
         }
     }
 }

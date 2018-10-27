@@ -24,17 +24,36 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
+import android.view.View;
 
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
-public abstract class BaseActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import retrofit2.Call;
+
+public abstract class BaseActivity extends AppCompatActivity implements Injectable {
+
+    protected List<Call> callList;
+
+    @Inject
+    public AccountManager accountManager;
+
+    protected static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,13 +64,31 @@ public abstract class BaseActivity extends AppCompatActivity {
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
          * views are created. */
-        String theme = preferences.getString("appTheme", TuskyApplication.APP_THEME_DEFAULT);
-        ThemeUtils.setAppNightMode(theme);
+        String theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
+        Log.d("activeTheme", theme);
+        if (theme.equals("black")) {
+            setTheme(R.style.TuskyBlackTheme);
+        }
+        ThemeUtils.setAppNightMode(theme, this);
 
+        long accountId = getIntent().getLongExtra("account", -1);
+        if (accountId != -1) {
+            accountManager.setActiveAccount(accountId);
+        }
+
+        int style = textStyle(preferences.getString("statusTextSize", "medium"));
+        getTheme().applyStyle(style, false);
+
+        redirectIfNotLoggedIn();
+
+        callList = new ArrayList<>();
+    }
+
+    private int textStyle(String name) {
         int style;
-        switch (preferences.getString("statusTextSize", "medium")) {
-            case "large":
-                style = R.style.TextSizeLarge;
+        switch (name) {
+            case "smallest":
+                style = R.style.TextSizeSmallest;
                 break;
             case "small":
                 style = R.style.TextSizeSmall;
@@ -60,51 +97,43 @@ public abstract class BaseActivity extends AppCompatActivity {
             default:
                 style = R.style.TextSizeMedium;
                 break;
-
+            case "large":
+                style = R.style.TextSizeLarge;
+                break;
+            case "largest":
+                style = R.style.TextSizeLargest;
+                break;
         }
-        getTheme().applyStyle(style, false);
+        return style;
+    }
 
-        redirectIfNotLoggedIn();
+    public void startActivityWithSlideInAnimation(Intent intent) {
+        super.startActivity(intent);
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransitionExit();
-    }
-
-    @Override
-    public void startActivity(Intent intent) {
-        super.startActivity(intent);
-        overridePendingTransitionEnter();
-    }
-
-    private void overridePendingTransitionEnter() {
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-    }
-
-    private void overridePendingTransitionExit() {
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    public void finishWithoutSlideOutAnimation() {
+        super.finish();
     }
 
     protected SharedPreferences getPrivatePreferences() {
         return getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
     }
 
-    protected boolean redirectIfNotLoggedIn() {
-        // This is very ugly but we cannot inject into parent class and injecting into every
-        // subclass seems inconvenient as well.
-        AccountEntity account = ((TuskyApplication) getApplicationContext())
-                .getServiceLocator().get(AccountManager.class)
-                .getActiveAccount();
+    protected void redirectIfNotLoggedIn() {
+        AccountEntity account = accountManager.getActiveAccount();
         if (account == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            startActivityWithSlideInAnimation(intent);
             finish();
-            return true;
         }
-        return false;
     }
 
     @Override
@@ -151,5 +180,21 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                 .build()
                 .scheduleAsync();
+    }
+
+    protected void showErrorDialog(View anyView, @StringRes int descriptionId, @StringRes int actionId, View.OnClickListener listener) {
+        if (anyView != null) {
+            Snackbar bar = Snackbar.make(anyView, getString(descriptionId), Snackbar.LENGTH_SHORT);
+            bar.setAction(actionId, listener);
+            bar.show();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        for (Call call : callList) {
+            call.cancel();
+        }
+        super.onDestroy();
     }
 }

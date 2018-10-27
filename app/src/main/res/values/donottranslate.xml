@@ -25,14 +25,17 @@
     </string-array>
 
     <string-array name="status_text_size_values">
+        <item>smallest</item>
         <item>small</item>
         <item>medium</item>
         <item>large</item>
+        <item>largest</item>
     </string-array>
 
     <string-array name="app_theme_values">
         <item>night</item>
         <item>day</item>
+        <item>black</item>
         <item>auto</item>
     </string-array>
 

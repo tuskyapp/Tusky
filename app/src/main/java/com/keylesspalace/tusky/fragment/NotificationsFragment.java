@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.fragment;
 
 import android.app.Activity;
 import android.arch.core.util.Function;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -26,32 +27,35 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.TuskyApplication;
-import com.keylesspalace.tusky.adapter.FooterViewHolder;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
+import com.keylesspalace.tusky.appstore.BlockEvent;
+import com.keylesspalace.tusky.appstore.EventHub;
+import com.keylesspalace.tusky.appstore.FavoriteEvent;
+import com.keylesspalace.tusky.appstore.ReblogEvent;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
-import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
-import com.keylesspalace.tusky.receiver.TimelineReceiver;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
@@ -64,14 +68,20 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.math.BigInteger;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
@@ -107,20 +117,22 @@ public class NotificationsFragment extends SFragment implements
     @Inject
     public TimelineCases timelineCases;
     @Inject
-    public MastodonApi mastodonApi;
+    AccountManager accountManager;
+    @Inject
+    EventHub eventHub;
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private TextView nothingMessageView;
+
+    private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private NotificationsAdapter adapter;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private boolean hideFab;
-    private TimelineReceiver timelineReceiver;
     private boolean topLoading;
-    private int topFetches;
     private boolean bottomLoading;
-    private int bottomFetches;
     private String bottomId;
     private String topId;
     private boolean alwaysShowSensitiveMedia;
@@ -137,7 +149,10 @@ public class NotificationsFragment extends SFragment implements
         public NotificationViewData apply(Either<Placeholder, Notification> input) {
             if (input.isRight()) {
                 Notification notification = input.getAsRight();
-                return ViewDataUtils.notificationToViewData(notification, alwaysShowSensitiveMedia);
+                return ViewDataUtils.notificationToViewData(
+                        notification,
+                        alwaysShowSensitiveMedia
+                );
             } else {
                 return new NotificationViewData.Placeholder(false);
             }
@@ -160,11 +175,14 @@ public class NotificationsFragment extends SFragment implements
         @NonNull Context context = inflater.getContext(); // from inflater to silence warning
         // Setup the SwipeRefreshLayout.
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
+        progressBar = rootView.findViewById(R.id.progress_bar);
+        nothingMessageView = rootView.findViewById(R.id.nothing_message);
+
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.primary);
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
         // Setup the RecyclerView.
-        recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -181,21 +199,48 @@ public class NotificationsFragment extends SFragment implements
         alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
         boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
+        boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
+        adapter.setUseAbsoluteTime(useAbsoluteTime);
         recyclerView.setAdapter(adapter);
-
-        timelineReceiver = new TimelineReceiver(this);
-        LocalBroadcastManager.getInstance(context.getApplicationContext())
-                .registerReceiver(timelineReceiver, TimelineReceiver.getFilter(null));
 
         notifications.clear();
         topLoading = false;
-        topFetches = 0;
         bottomLoading = false;
-        bottomFetches = 0;
         bottomId = null;
         topId = null;
 
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        setupNothingView();
+
+        sendFetchNotificationsRequest(null, topId, FetchEnd.BOTTOM, -1);
+
         return rootView;
+    }
+
+    private void setupNothingView() {
+        Drawable top = AppCompatResources.getDrawable(Objects.requireNonNull(getContext()),
+                R.drawable.elephant_friend_empty);
+        nothingMessageView.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
+        nothingMessageView.setVisibility(View.GONE);
+    }
+
+    private void handleFavEvent(FavoriteEvent event) {
+        Pair<Integer, Notification> posAndNotification =
+                findReplyPosition(event.getStatusId());
+        if (posAndNotification == null) return;
+        //noinspection ConstantConditions
+        setFavovouriteForStatus(posAndNotification.first,
+                posAndNotification.second.getStatus(),
+                event.getFavourite());
+    }
+
+    private void handleReblogEvent(ReblogEvent event) {
+        Pair<Integer, Notification> posAndNotification = findReplyPosition(event.getStatusId());
+        if (posAndNotification == null) return;
+        //noinspection ConstantConditions
+        setReblogForStatus(posAndNotification.first,
+                posAndNotification.second.getStatus(),
+                event.getReblog());
     }
 
     @Override
@@ -252,12 +297,25 @@ public class NotificationsFragment extends SFragment implements
             }
 
             @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+            public void onLoadMore(int totalItemsCount, RecyclerView view) {
                 NotificationsFragment.this.onLoadMore();
             }
         };
 
         recyclerView.addOnScrollListener(scrollListener);
+
+        eventHub.getEvents()
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(event -> {
+                    if (event instanceof FavoriteEvent) {
+                        handleFavEvent((FavoriteEvent) event);
+                    } else if (event instanceof ReblogEvent) {
+                        handleReblogEvent((ReblogEvent) event);
+                    } else if (event instanceof BlockEvent) {
+                        removeAllByAccountId(((BlockEvent) event).getAccountId());
+                    }
+                });
     }
 
     @Override
@@ -268,9 +326,6 @@ public class NotificationsFragment extends SFragment implements
         } else {
             TabLayout tabLayout = activity.findViewById(R.id.tab_layout);
             tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
-
-            LocalBroadcastManager.getInstance(activity)
-                    .unregisterReceiver(timelineReceiver);
         }
 
         super.onDestroyView();
@@ -294,24 +349,7 @@ public class NotificationsFragment extends SFragment implements
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
-                    status.setReblogged(reblog);
-
-                    if (status.getReblog() != null) {
-                        status.getReblog().setReblogged(reblog);
-                    }
-
-                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
-
-                    StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
-                    viewDataBuilder.setReblogged(reblog);
-
-                    NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
-                            viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
-                            viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
-
-                    notifications.setPairedItem(position, newViewData);
-
-                    adapter.updateItemWithNotify(position, newViewData, false);
+                    setReblogForStatus(position, status, reblog);
                 }
             }
 
@@ -320,6 +358,27 @@ public class NotificationsFragment extends SFragment implements
                 Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.getId(), t);
             }
         });
+    }
+
+    private void setReblogForStatus(int position, Status status, boolean reblog) {
+        status.setReblogged(reblog);
+
+        if (status.getReblog() != null) {
+            status.getReblog().setReblogged(reblog);
+        }
+
+        NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
+
+        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
+        viewDataBuilder.setReblogged(reblog);
+
+        NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
+                viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
+                viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
+
+        notifications.setPairedItem(position, newViewData);
+
+        adapter.updateItemWithNotify(position, newViewData, true);
     }
 
 
@@ -331,24 +390,7 @@ public class NotificationsFragment extends SFragment implements
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull retrofit2.Response<Status> response) {
                 if (response.isSuccessful()) {
-                    status.setFavourited(favourite);
-
-                    if (status.getReblog() != null) {
-                        status.getReblog().setFavourited(favourite);
-                    }
-
-                    NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
-
-                    StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
-                    viewDataBuilder.setFavourited(favourite);
-
-                    NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
-                            viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
-                            viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
-
-                    notifications.setPairedItem(position, newViewData);
-
-                    adapter.updateItemWithNotify(position, newViewData, false);
+                    setFavovouriteForStatus(position, status, favourite);
 
                 }
             }
@@ -360,6 +402,27 @@ public class NotificationsFragment extends SFragment implements
         });
     }
 
+    private void setFavovouriteForStatus(int position, Status status, boolean favourite) {
+        status.setFavourited(favourite);
+
+        if (status.getReblog() != null) {
+            status.getReblog().setFavourited(favourite);
+        }
+
+        NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
+
+        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
+        viewDataBuilder.setFavourited(favourite);
+
+        NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
+                viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
+                viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
+
+        notifications.setPairedItem(position, newViewData);
+
+        adapter.updateItemWithNotify(position, newViewData, true);
+    }
+
     @Override
     public void onMore(View view, int position) {
         Notification notification = notifications.get(position).getAsRight();
@@ -367,9 +430,10 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onViewMedia(String[] urls, int urlIndex, Attachment.Type type,
-                            View view) {
-        super.viewMedia(urls, urlIndex, type, view);
+    public void onViewMedia(int position, int attachmentIndex, View view) {
+        Notification notification = notifications.get(position).getAsRightOrNull();
+        if (notification == null || notification.getStatus() == null) return;
+        super.viewMedia(attachmentIndex, notification.getStatus(), view);
     }
 
     @Override
@@ -433,6 +497,52 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
+    public void onContentCollapsedChange(boolean isCollapsed, int position) {
+        if (position < 0 || position >= notifications.size()) {
+            Log.e(TAG, String.format("Tried to access out of bounds status position: %d of %d", position, notifications.size() - 1));
+            return;
+        }
+
+        NotificationViewData notification = notifications.getPairedItem(position);
+        if (!(notification instanceof NotificationViewData.Concrete)) {
+            Log.e(TAG, String.format(
+                    "Expected NotificationViewData.Concrete, got %s instead at position: %d of %d",
+                    notification == null ? "null" : notification.getClass().getSimpleName(),
+                    position,
+                    notifications.size() - 1
+            ));
+            return;
+        }
+
+        StatusViewData.Concrete status = ((NotificationViewData.Concrete) notification).getStatusViewData();
+        StatusViewData.Concrete updatedStatus = new StatusViewData.Builder(status)
+                .setCollapsed(isCollapsed)
+                .createStatusViewData();
+
+        NotificationViewData.Concrete concreteNotification = (NotificationViewData.Concrete) notification;
+        NotificationViewData updatedNotification = new NotificationViewData.Concrete(
+                concreteNotification.getType(),
+                concreteNotification.getId(),
+                concreteNotification.getAccount(),
+                updatedStatus,
+                concreteNotification.isExpanded()
+        );
+        notifications.setPairedItem(position, updatedNotification);
+        adapter.updateItemWithNotify(position, updatedNotification, false);
+
+        // Since we cannot notify to the RecyclerView right away because it may be scrolling
+        // we run this when the RecyclerView is done doing measurements and other calculations.
+        // To test this is not bs: try getting a notification while scrolling, without wrapping
+        // notifyItemChanged in a .post() call. App will crash.
+        recyclerView.post(() -> adapter.notifyItemChanged(position, notification));
+    }
+
+    @Override
+    public void onNotificationContentCollapsedChange(boolean isCollapsed, int position) {
+        onContentCollapsedChange(isCollapsed, position);
+    }
+
+    @Override
     public void onViewTag(String tag) {
         super.viewTag(tag);
     }
@@ -463,8 +573,10 @@ public class NotificationsFragment extends SFragment implements
             }
             case "mediaPreviewEnabled": {
                 boolean enabled = sharedPreferences.getBoolean("mediaPreviewEnabled", true);
-                adapter.setMediaPreviewEnabled(enabled);
-                fullyRefresh();
+                if (enabled != adapter.isMediaPreviewEnabled()) {
+                    adapter.setMediaPreviewEnabled(enabled);
+                    fullyRefresh();
+                }
                 break;
             }
         }
@@ -476,8 +588,7 @@ public class NotificationsFragment extends SFragment implements
         adapter.update(notifications.getPairedCopy());
     }
 
-    @Override
-    public void removeAllByAccountId(String accountId) {
+    private void removeAllByAccountId(String accountId) {
         // using iterator to safely remove items while iterating
         Iterator<Either<Placeholder, Notification>> iterator = notifications.iterator();
         while (iterator.hasNext()) {
@@ -491,6 +602,24 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void onLoadMore() {
+        if(bottomId == null) {
+            // already loaded everything
+            return;
+        }
+
+        // Check for out-of-bounds when loading
+        // This is required to allow full-timeline reloads of collapsible statuses when the settings
+        // change.
+        if (notifications.size() > 0) {
+            Either<Placeholder, Notification> last = notifications.get(notifications.size() - 1);
+            if (last.isRight()) {
+                notifications.add(Either.left(Placeholder.getInstance()));
+                NotificationViewData viewData = new NotificationViewData.Placeholder(true);
+                notifications.setPairedItem(notifications.size() - 1, viewData);
+                recyclerView.post(() -> adapter.addItems(Collections.singletonList(viewData)));
+            }
+        }
+
         sendFetchNotificationsRequest(bottomId, null, FetchEnd.BOTTOM, -1);
     }
 
@@ -504,19 +633,16 @@ public class NotificationsFragment extends SFragment implements
         /* If there is a fetch already ongoing, record however many fetches are requested and
          * fulfill them after it's complete. */
         if (fetchEnd == FetchEnd.TOP && topLoading) {
-            topFetches++;
             return;
         }
         if (fetchEnd == FetchEnd.BOTTOM && bottomLoading) {
-            bottomFetches++;
             return;
         }
-
-        if (fromId != null || adapter.getItemCount() <= 1) {
-            /* When this is called by the EndlessScrollListener it cannot refresh the footer state
-             * using adapter.notifyItemChanged. So its necessary to postpone doing so until a
-             * convenient time for the UI thread using a Runnable. */
-            recyclerView.post(() -> adapter.setFooterState(FooterViewHolder.State.LOADING));
+        if(fetchEnd == FetchEnd.TOP) {
+            topLoading = true;
+        }
+        if(fetchEnd == FetchEnd.BOTTOM) {
+            bottomLoading = true;
         }
 
         Call<List<Notification>> call = mastodonApi.notifications(fromId, uptoId, LOAD_AT_ONCE);
@@ -564,7 +690,14 @@ public class NotificationsFragment extends SFragment implements
                 if (next != null) {
                     fromId = next.uri.getQueryParameter("max_id");
                 }
-                if (adapter.getItemCount() > 1) {
+
+                if (!this.notifications.isEmpty()
+                        && !this.notifications.get(this.notifications.size() - 1).isRight()) {
+                    this.notifications.remove(this.notifications.size() - 1);
+                    adapter.removeItemAndNotify(this.notifications.size());
+                }
+
+                if (adapter.getItemCount() > 0) {
                     addItems(notifications, fromId);
                 } else {
                     /* If this is the first fetch, also save the id from the "previous" link and
@@ -584,13 +717,20 @@ public class NotificationsFragment extends SFragment implements
 
         saveNewestNotificationId(notifications);
 
-        fulfillAnyQueuedFetches(fetchEnd);
-        if (notifications.size() == 0 && adapter.getItemCount() == 1) {
-            adapter.setFooterState(FooterViewHolder.State.EMPTY);
+        if(fetchEnd == FetchEnd.TOP) {
+            topLoading = false;
+        }
+        if(fetchEnd == FetchEnd.BOTTOM) {
+            bottomLoading = false;
+        }
+
+        if (notifications.size() == 0 && adapter.getItemCount() == 0) {
+            nothingMessageView.setVisibility(View.VISIBLE);
         } else {
-            adapter.setFooterState(FooterViewHolder.State.END);
+            nothingMessageView.setVisibility(View.GONE);
         }
         swipeRefreshLayout.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void onFetchNotificationsFailure(Exception exception, FetchEnd fetchEnd, int position) {
@@ -602,31 +742,33 @@ public class NotificationsFragment extends SFragment implements
             adapter.updateItemWithNotify(position, placeholderVD, true);
         }
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
-        fulfillAnyQueuedFetches(fetchEnd);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void saveNewestNotificationId(List<Notification> notifications) {
-        AccountManager accountManager = TuskyApplication.getInstance(getContext())
-                .getServiceLocator().get(AccountManager.class);
-        AccountEntity account = accountManager.getActiveAccount();
-        BigInteger lastNoti = new BigInteger(account.getLastNotificationId());
 
-        for (Notification noti : notifications) {
-            BigInteger a = new BigInteger(noti.getId());
-            if (isBiggerThan(a, lastNoti)) {
-                lastNoti = a;
+        AccountEntity account = accountManager.getActiveAccount();
+        if(account != null) {
+            BigInteger lastNoti = new BigInteger(account.getLastNotificationId());
+
+            for (Notification noti : notifications) {
+                BigInteger a = new BigInteger(noti.getId());
+                if (isBiggerThan(a, lastNoti)) {
+                    lastNoti = a;
+                }
+            }
+
+            String lastNotificationId = lastNoti.toString();
+            if(!account.getLastNotificationId().equals(lastNotificationId)) {
+                Log.d(TAG, "saving newest noti id: " + lastNotificationId);
+                account.setLastNotificationId(lastNotificationId);
+                accountManager.saveAccount(account);
             }
         }
-
-        Log.d(TAG, "saving newest noti id: " + lastNoti);
-
-        account.setLastNotificationId(lastNoti.toString());
-        accountManager.saveAccount(account);
     }
 
     private boolean isBiggerThan(BigInteger newId, BigInteger lastShownNotificationId) {
-
-        return lastShownNotificationId.compareTo(newId) == -1;
+        return lastShownNotificationId.compareTo(newId) < 0;
     }
 
     private void update(@Nullable List<Notification> newNotifications, @Nullable String fromId,
@@ -650,7 +792,6 @@ public class NotificationsFragment extends SFragment implements
                 notifications.remove(0);
             }
 
-
             int newIndex = liftedNew.indexOf(notifications.get(0));
             if (newIndex == -1) {
                 if (index == -1 && liftedNew.size() >= LOAD_AT_ONCE) {
@@ -665,11 +806,9 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void addItems(List<Notification> newNotifications, @Nullable String fromId) {
+        bottomId = fromId;
         if (ListUtils.isEmpty(newNotifications)) {
             return;
-        }
-        if (fromId != null) {
-            bottomId = fromId;
         }
         int end = notifications.size();
         List<Either<Placeholder, Notification>> liftedNew = liftNotificationList(newNotifications);
@@ -680,27 +819,6 @@ public class NotificationsFragment extends SFragment implements
                     .subList(notifications.size() - newNotifications.size(),
                             notifications.size());
             adapter.addItems(newViewDatas);
-        }
-    }
-
-    private void fulfillAnyQueuedFetches(FetchEnd fetchEnd) {
-        switch (fetchEnd) {
-            case BOTTOM: {
-                bottomLoading = false;
-                if (bottomFetches > 0) {
-                    bottomFetches--;
-                    onLoadMore();
-                }
-                break;
-            }
-            case TOP: {
-                topLoading = false;
-                if (topFetches > 0) {
-                    topFetches--;
-                    onRefresh();
-                }
-                break;
-            }
         }
     }
 
@@ -737,5 +855,21 @@ public class NotificationsFragment extends SFragment implements
         adapter.clear();
         notifications.clear();
         sendFetchNotificationsRequest(null, null, FetchEnd.TOP, -1);
+    }
+
+    @Nullable
+    private Pair<Integer, Notification> findReplyPosition(@NonNull String statusId) {
+        for (int i = 0; i < notifications.size(); i++) {
+            Notification notification = notifications.get(i).getAsRightOrNull();
+            if (notification != null
+                    && notification.getStatus() != null
+                    && notification.getType() == Notification.Type.MENTION
+                    && (statusId.equals(notification.getStatus().getId())
+                    || (notification.getStatus().getReblog() != null
+                    && statusId.equals(notification.getStatus().getReblog().getId())))) {
+                return new Pair<>(i, notification);
+            }
+        }
+        return null;
     }
 }

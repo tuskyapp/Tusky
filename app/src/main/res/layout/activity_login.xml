@@ -23,11 +23,11 @@
             android:padding="16dp">
 
             <ImageView
-                android:layout_width="147dp"
-                android:layout_height="160dp"
+                android:layout_width="160dp"
+                android:layout_height="178dp"
                 android:layout_marginBottom="50dp"
                 android:contentDescription="@null"
-                android:src="@drawable/elephant_friend" />
+                app:srcCompat="@drawable/elephant_friend" />
 
             <LinearLayout
                 android:id="@+id/loginInputLayout"

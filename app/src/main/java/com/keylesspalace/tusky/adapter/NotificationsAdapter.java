@@ -23,7 +23,9 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.text.BidiFormatter;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -37,34 +39,40 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.entity.Account;
+import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Notification;
-import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
-import com.keylesspalace.tusky.view.RoundedTransformation;
+import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class NotificationsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_MENTION = 0;
-    private static final int VIEW_TYPE_FOOTER = 1;
-    private static final int VIEW_TYPE_STATUS_NOTIFICATION = 2;
-    private static final int VIEW_TYPE_FOLLOW = 3;
-    private static final int VIEW_TYPE_PLACEHOLDER = 4;
+    private static final int VIEW_TYPE_STATUS_NOTIFICATION = 1;
+    private static final int VIEW_TYPE_FOLLOW = 2;
+    private static final int VIEW_TYPE_PLACEHOLDER = 3;
+
+    private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[] { SmartLengthInputFilter.INSTANCE };
+    private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
     private List<NotificationViewData> notifications;
     private StatusActionListener statusListener;
     private NotificationActionListener notificationActionListener;
-    private FooterViewHolder.State footerState;
     private boolean mediaPreviewEnabled;
+    private boolean useAbsoluteTime;
+    private BidiFormatter bidiFormatter;
 
     public NotificationsAdapter(StatusActionListener statusListener,
                                 NotificationActionListener notificationActionListener) {
@@ -72,8 +80,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         notifications = new ArrayList<>();
         this.statusListener = statusListener;
         this.notificationActionListener = notificationActionListener;
-        footerState = FooterViewHolder.State.END;
         mediaPreviewEnabled = true;
+        useAbsoluteTime = false;
+        bidiFormatter = BidiFormatter.getInstance();
     }
 
     @NonNull
@@ -84,17 +93,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             case VIEW_TYPE_MENTION: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_status, parent, false);
-                return new StatusViewHolder(view);
-            }
-            case VIEW_TYPE_FOOTER: {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_footer, parent, false);
-                return new FooterViewHolder(view);
+                return new StatusViewHolder(view, useAbsoluteTime);
             }
             case VIEW_TYPE_STATUS_NOTIFICATION: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_status_notification, parent, false);
-                return new StatusNotificationViewHolder(view);
+                return new StatusNotificationViewHolder(view, useAbsoluteTime);
             }
             case VIEW_TYPE_FOLLOW: {
                 View view = LayoutInflater.from(parent.getContext())
@@ -116,7 +120,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             if (notification instanceof NotificationViewData.Placeholder) {
                 NotificationViewData.Placeholder placeholder = ((NotificationViewData.Placeholder) notification);
                 PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
-                holder.setup(!placeholder.isLoading(), statusListener);
+                holder.setup(statusListener, placeholder.isLoading());
                 return;
             }
             NotificationViewData.Concrete concreteNotificaton =
@@ -135,12 +139,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     StatusNotificationViewHolder holder = (StatusNotificationViewHolder) viewHolder;
                     StatusViewData.Concrete statusViewData = concreteNotificaton.getStatusViewData();
 
-                    if(statusViewData == null) {
+                    if (statusViewData == null) {
                         holder.showNotificationContent(false);
                     } else {
                         holder.showNotificationContent(true);
 
-                        holder.setDisplayName(statusViewData.getUserFullName());
+                        holder.setDisplayName(statusViewData.getUserFullName(), statusViewData.getAccountEmojis());
                         holder.setUsername(statusViewData.getNickname());
                         holder.setCreatedAt(statusViewData.getCreatedAt());
 
@@ -148,7 +152,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                                 concreteNotificaton.getAccount().getAvatar());
                     }
 
-                    holder.setMessage(concreteNotificaton, statusListener);
+                    holder.setMessage(concreteNotificaton, statusListener, bidiFormatter);
                     holder.setupButtons(notificationActionListener,
                             concreteNotificaton.getAccount().getId(),
                             concreteNotificaton.getId());
@@ -156,50 +160,43 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 }
                 case FOLLOW: {
                     FollowViewHolder holder = (FollowViewHolder) viewHolder;
-                    holder.setMessage(concreteNotificaton.getAccount().getName(),
-                            concreteNotificaton.getAccount().getUsername(), concreteNotificaton.getAccount().getAvatar());
+                    holder.setMessage(concreteNotificaton.getAccount(), bidiFormatter);
                     holder.setupButtons(notificationActionListener, concreteNotificaton.getAccount().getId());
                     break;
                 }
             }
-        } else {
-            FooterViewHolder holder = (FooterViewHolder) viewHolder;
-            holder.setState(footerState);
         }
     }
 
     @Override
     public int getItemCount() {
-        return notifications.size() + 1;
+        return notifications.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == notifications.size()) {
-            return VIEW_TYPE_FOOTER;
-        } else {
-            NotificationViewData notification = notifications.get(position);
-            if (notification instanceof NotificationViewData.Concrete) {
-                NotificationViewData.Concrete concrete = ((NotificationViewData.Concrete) notification);
-                switch (concrete.getType()) {
-                    default:
-                    case MENTION: {
-                        return VIEW_TYPE_MENTION;
-                    }
-                    case FAVOURITE:
-                    case REBLOG: {
-                        return VIEW_TYPE_STATUS_NOTIFICATION;
-                    }
-                    case FOLLOW: {
-                        return VIEW_TYPE_FOLLOW;
-                    }
+        NotificationViewData notification = notifications.get(position);
+        if (notification instanceof NotificationViewData.Concrete) {
+            NotificationViewData.Concrete concrete = ((NotificationViewData.Concrete) notification);
+            switch (concrete.getType()) {
+                default:
+                case MENTION: {
+                    return VIEW_TYPE_MENTION;
                 }
-            } else if (notification instanceof NotificationViewData.Placeholder) {
-                return VIEW_TYPE_PLACEHOLDER;
-            } else {
-                throw new AssertionError("Unknown notification type");
+                case FAVOURITE:
+                case REBLOG: {
+                    return VIEW_TYPE_STATUS_NOTIFICATION;
+                }
+                case FOLLOW: {
+                    return VIEW_TYPE_FOLLOW;
+                }
             }
+        } else if (notification instanceof NotificationViewData.Placeholder) {
+            return VIEW_TYPE_PLACEHOLDER;
+        } else {
+            throw new AssertionError("Unknown notification type");
         }
+
     }
 
     public void update(@Nullable List<NotificationViewData> newNotifications) {
@@ -222,21 +219,26 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         notifyItemRangeInserted(notifications.size(), newNotifications.size());
     }
 
+    public void removeItemAndNotify(int position) {
+        notifications.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public void clear() {
         notifications.clear();
         notifyDataSetChanged();
     }
 
-    public void setFooterState(FooterViewHolder.State newFooterState) {
-        FooterViewHolder.State oldValue = footerState;
-        footerState = newFooterState;
-        if (footerState != oldValue) {
-            notifyItemChanged(notifications.size());
-        }
-    }
-
     public void setMediaPreviewEnabled(boolean enabled) {
         mediaPreviewEnabled = enabled;
+    }
+
+    public boolean isMediaPreviewEnabled() {
+        return mediaPreviewEnabled;
+    }
+
+    public void setUseAbsoluteTime(boolean useAbsoluteTime) {
+        this.useAbsoluteTime = useAbsoluteTime;
     }
 
     public interface NotificationActionListener {
@@ -246,6 +248,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
         void onExpandedChange(boolean expanded, int position);
 
+        /**
+         * Called when the status {@link android.widget.ToggleButton} responsible for collapsing long
+         * status content is interacted with.
+         *
+         * @param isCollapsed Whether the status content is shown in a collapsed state or fully.
+         * @param position    The position of the status in the list.
+         */
+        void onNotificationContentCollapsedChange(boolean isCollapsed, int position);
     }
 
     private static class FollowViewHolder extends RecyclerView.ViewHolder {
@@ -260,31 +270,30 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             usernameView = itemView.findViewById(R.id.notification_username);
             displayNameView = itemView.findViewById(R.id.notification_display_name);
             avatar = itemView.findViewById(R.id.notification_avatar);
-            //workaround because Android < API 21 does not support setting drawableLeft from xml when it is a vector image
-            Drawable followIcon = ContextCompat.getDrawable(message.getContext(), R.drawable.ic_person_add_24dp);
-            message.setCompoundDrawablesWithIntrinsicBounds(followIcon, null, null, null);
         }
 
-        void setMessage(String displayName, String username, String avatarUrl) {
+        void setMessage(Account account, BidiFormatter bidiFormatter) {
             Context context = message.getContext();
 
             String format = context.getString(R.string.notification_follow_format);
-            String wholeMessage = String.format(format, displayName);
-            message.setText(wholeMessage);
+            String wrappedDisplayName = bidiFormatter.unicodeWrap(account.getName());
+            String wholeMessage = String.format(format, wrappedDisplayName);
+            CharSequence emojifiedMessage = CustomEmojiHelper.emojifyString(wholeMessage, account.getEmojis(), message);
+            message.setText(emojifiedMessage);
 
-            format = context.getString(R.string.status_username_format);
-            String wholeUsername = String.format(format, username);
-            usernameView.setText(wholeUsername);
+            String username = context.getString(R.string.status_username_format, account.getUsername());
+            usernameView.setText(username);
 
-            displayNameView.setText(displayName);
+            CharSequence emojifiedDisplayName = CustomEmojiHelper.emojifyString(wrappedDisplayName, account.getEmojis(), usernameView);
 
-            if (TextUtils.isEmpty(avatarUrl)) {
+            displayNameView.setText(emojifiedDisplayName);
+
+            if (TextUtils.isEmpty(account.getAvatar())) {
                 avatar.setImageResource(R.drawable.avatar_default);
             } else {
                 Picasso.with(context)
-                        .load(avatarUrl)
+                        .load(account.getAvatar())
                         .fit()
-                        .transform(new RoundedTransformation(25))
                         .placeholder(R.drawable.avatar_default)
                         .into(avatar);
             }
@@ -303,18 +312,22 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private final TextView username;
         private final TextView timestampInfo;
         private final TextView statusContent;
-        private final ViewGroup container;
         private final ImageView statusAvatar;
         private final ImageView notificationAvatar;
         private final TextView contentWarningDescriptionTextView;
         private final ToggleButton contentWarningButton;
+        private final ToggleButton contentCollapseButton; // TODO: This code SHOULD be based on StatusBaseViewHolder
 
         private String accountId;
         private String notificationId;
         private NotificationActionListener notificationActionListener;
         private StatusViewData.Concrete statusViewData;
 
-        StatusNotificationViewHolder(View itemView) {
+        private boolean useAbsoluteTime;
+        private SimpleDateFormat shortSdf;
+        private SimpleDateFormat longSdf;
+
+        StatusNotificationViewHolder(View itemView, boolean useAbsoluteTime) {
             super(itemView);
             message = itemView.findViewById(R.id.notification_top_text);
             statusNameBar = itemView.findViewById(R.id.status_name_bar);
@@ -322,20 +335,24 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             username = itemView.findViewById(R.id.status_username);
             timestampInfo = itemView.findViewById(R.id.status_timestamp_info);
             statusContent = itemView.findViewById(R.id.notification_content);
-            container = itemView.findViewById(R.id.notification_container);
             statusAvatar = itemView.findViewById(R.id.notification_status_avatar);
             notificationAvatar = itemView.findViewById(R.id.notification_notification_avatar);
             contentWarningDescriptionTextView = itemView.findViewById(R.id.notification_content_warning_description);
             contentWarningButton = itemView.findViewById(R.id.notification_content_warning_button);
+            contentCollapseButton = itemView.findViewById(R.id.button_toggle_notification_content);
 
             int darkerFilter = Color.rgb(123, 123, 123);
             statusAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
             notificationAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
 
-            container.setOnClickListener(this);
+            itemView.setOnClickListener(this);
             message.setOnClickListener(this);
             statusContent.setOnClickListener(this);
             contentWarningButton.setOnCheckedChangeListener(this);
+
+            this.useAbsoluteTime = useAbsoluteTime;
+            shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+            longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
         }
 
         private void showNotificationContent(boolean show) {
@@ -345,11 +362,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             statusContent.setVisibility(show ? View.VISIBLE : View.GONE);
             statusAvatar.setVisibility(show ? View.VISIBLE : View.GONE);
             notificationAvatar.setVisibility(show ? View.VISIBLE : View.GONE);
-
         }
 
-        private void setDisplayName(String name) {
-            displayName.setText(name);
+        private void setDisplayName(String name, List<Emoji> emojis) {
+            CharSequence emojifiedName = CustomEmojiHelper.emojifyString(name, emojis, displayName);
+            displayName.setText(emojifiedName);
         }
 
         private void setUsername(String name) {
@@ -359,32 +376,46 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             username.setText(usernameText);
         }
 
-        private void setCreatedAt(@Nullable Date createdAt) {
-            // This is the visible timestampInfo.
-            String readout;
-        /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
-         * as 17 meters instead of minutes. */
-            CharSequence readoutAloud;
-            if (createdAt != null) {
-                long then = createdAt.getTime();
-                long now = new Date().getTime();
-                readout = DateUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
-                readoutAloud = android.text.format.DateUtils.getRelativeTimeSpanString(then, now,
-                        android.text.format.DateUtils.SECOND_IN_MILLIS,
-                        android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);
+        protected void setCreatedAt(@Nullable Date createdAt) {
+            if (useAbsoluteTime) {
+                String time;
+                if (createdAt != null) {
+                    if (System.currentTimeMillis() - createdAt.getTime() > 86400000L) {
+                        time = longSdf.format(createdAt);
+                    } else {
+                        time = shortSdf.format(createdAt);
+                    }
+                } else {
+                    time = "??:??:??";
+                }
+                timestampInfo.setText(time);
             } else {
-                // unknown minutes~
-                readout = "?m";
-                readoutAloud = "? minutes";
+                // This is the visible timestampInfo.
+                String readout;
+                /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
+                 * as 17 meters instead of minutes. */
+                CharSequence readoutAloud;
+                if (createdAt != null) {
+                    long then = createdAt.getTime();
+                    long now = new Date().getTime();
+                    readout = DateUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
+                    readoutAloud = android.text.format.DateUtils.getRelativeTimeSpanString(then, now,
+                            android.text.format.DateUtils.SECOND_IN_MILLIS,
+                            android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);
+                } else {
+                    // unknown minutes~
+                    readout = "?m";
+                    readoutAloud = "? minutes";
+                }
+                timestampInfo.setText(readout);
+                timestampInfo.setContentDescription(readoutAloud);
             }
-            timestampInfo.setText(readout);
-            timestampInfo.setContentDescription(readoutAloud);
         }
 
-        void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener) {
+        void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener, BidiFormatter bidiFormatter) {
             this.statusViewData = notificationViewData.getStatusViewData();
 
-            String displayName = notificationViewData.getAccount().getName();
+            String displayName = bidiFormatter.unicodeWrap(notificationViewData.getAccount().getName());
             Notification.Type type = notificationViewData.getType();
 
             Context context = message.getContext();
@@ -404,7 +435,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 }
                 case REBLOG: {
                     icon = ContextCompat.getDrawable(context, R.drawable.ic_repeat_24dp);
-                    if(icon != null) {
+                    if (icon != null) {
                         icon.setColorFilter(ContextCompat.getColor(context,
                                 R.color.color_accent_dark), PorterDuff.Mode.SRC_ATOP);
                     }
@@ -418,7 +449,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             final SpannableStringBuilder str = new SpannableStringBuilder(wholeMessage);
             str.setSpan(new StyleSpan(Typeface.BOLD), 0, displayName.length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            message.setText(str);
+            CharSequence emojifiedText = CustomEmojiHelper.emojifyText(str, notificationViewData.getAccount().getEmojis(), message);
+            message.setText(emojifiedText);
 
             if (statusViewData != null) {
                 boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
@@ -445,7 +477,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 Picasso.with(context)
                         .load(statusAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
-                        .transform(new RoundedTransformation(25))
                         .into(statusAvatar);
             }
 
@@ -456,7 +487,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                         .load(notificationAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
                         .fit()
-                        .transform(new RoundedTransformation(25))
                         .into(notificationAvatar);
             }
         }
@@ -466,10 +496,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             switch (v.getId()) {
                 case R.id.notification_container:
                 case R.id.notification_content:
-                    if (notificationActionListener != null) notificationActionListener.onViewStatusForNotificationId(notificationId);
+                    if (notificationActionListener != null)
+                        notificationActionListener.onViewStatusForNotificationId(notificationId);
                     break;
                 case R.id.notification_top_text:
-                    if (notificationActionListener != null) notificationActionListener.onViewAccount(accountId);
+                    if (notificationActionListener != null)
+                        notificationActionListener.onViewAccount(accountId);
                     break;
             }
         }
@@ -485,15 +517,34 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             }
 
             Spanned content = statusViewData.getContent();
-            List<Status.Emoji> emojis = statusViewData.getEmojis();
+            List<Emoji> emojis = statusViewData.getStatusEmojis();
+
+            if (statusViewData.isCollapsible() && (notificationViewData.isExpanded() || !hasSpoiler)) {
+                contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && notificationActionListener != null) {
+                        notificationActionListener.onNotificationContentCollapsedChange(isChecked, position);
+                    }
+                });
+
+                contentCollapseButton.setVisibility(View.VISIBLE);
+                if (statusViewData.isCollapsed()) {
+                    contentCollapseButton.setChecked(true);
+                    statusContent.setFilters(COLLAPSE_INPUT_FILTER);
+                } else {
+                    contentCollapseButton.setChecked(false);
+                    statusContent.setFilters(NO_INPUT_FILTER);
+                }
+            } else {
+                contentCollapseButton.setVisibility(View.GONE);
+                statusContent.setFilters(NO_INPUT_FILTER);
+            }
 
             Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, statusContent);
-
             LinkHelper.setClickableText(statusContent, emojifiedText, statusViewData.getMentions(), listener);
 
-
             Spanned emojifiedContentWarning =
-                    CustomEmojiHelper.emojifyString(statusViewData.getSpoilerText(), statusViewData.getEmojis(), contentWarningDescriptionTextView);
+                    CustomEmojiHelper.emojifyString(statusViewData.getSpoilerText(), statusViewData.getStatusEmojis(), contentWarningDescriptionTextView);
             contentWarningDescriptionTextView.setText(emojifiedContentWarning);
         }
 
@@ -502,11 +553,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             if (getAdapterPosition() != RecyclerView.NO_POSITION) {
                 notificationActionListener.onExpandedChange(isChecked, getAdapterPosition());
             }
-            if (isChecked) {
-                statusContent.setVisibility(View.VISIBLE);
-            } else {
-                statusContent.setVisibility(View.GONE);
-            }
+            statusContent.setVisibility(isChecked ? View.VISIBLE : View.GONE);
         }
     }
 }

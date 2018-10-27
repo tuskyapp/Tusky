@@ -17,21 +17,20 @@ package com.keylesspalace.tusky;
 
 import android.app.Activity;
 import android.app.Application;
-import android.app.UiModeManager;
+import android.app.Service;
 import android.arch.persistence.room.Room;
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatDelegate;
+import android.support.text.emoji.EmojiCompat;
 
 import com.evernote.android.job.JobManager;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.di.AppInjector;
-import com.keylesspalace.tusky.util.OkHttpUtils;
-import com.keylesspalace.tusky.util.ThemeUtils;
+import com.keylesspalace.tusky.util.EmojiCompatFont;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -39,78 +38,94 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
+import dagger.android.HasBroadcastReceiverInjector;
+import dagger.android.HasServiceInjector;
+import okhttp3.OkHttpClient;
 
-public class TuskyApplication extends Application implements HasActivityInjector {
-    public static final String APP_THEME_DEFAULT = ThemeUtils.THEME_NIGHT;
-
-    private static AppDatabase db;
-    private AccountManager accountManager;
+public class TuskyApplication extends Application implements HasActivityInjector, HasServiceInjector, HasBroadcastReceiverInjector {
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
     @Inject
+    DispatchingAndroidInjector<Service> dispatchingServiceInjector;
+    @Inject
+    DispatchingAndroidInjector<BroadcastReceiver> dispatchingBroadcastReceiverInjector;
+    @Inject
     NotificationPullJobCreator notificationPullJobCreator;
+    @Inject
+    OkHttpClient okHttpClient;
 
-    public static AppDatabase getDB() {
-        return db;
-    }
+    private AppDatabase appDatabase;
+    private AccountManager accountManager;
 
-    private static UiModeManager uiModeManager;
-
-    public static UiModeManager getUiModeManager() {
-        return uiModeManager;
-    }
+    private ServiceLocator serviceLocator;
 
     public static TuskyApplication getInstance(@NonNull Context context) {
         return (TuskyApplication) context.getApplicationContext();
     }
 
-
-    private ServiceLocator serviceLocator;
-
     @Override
     public void onCreate() {
         super.onCreate();
 
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
+        appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
                 .allowMainThreadQueries()
-                .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5)
+                .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5,
+                        AppDatabase.MIGRATION_5_6, AppDatabase.MIGRATION_6_7, AppDatabase.MIGRATION_7_8)
                 .build();
-        accountManager = new AccountManager(db);
+        accountManager = new AccountManager(appDatabase);
         serviceLocator = new ServiceLocator() {
             @Override
             public <T> T get(Class<T> clazz) {
                 if (clazz.equals(AccountManager.class)) {
                     //noinspection unchecked
                     return (T) accountManager;
+                } else if (clazz.equals(AppDatabase.class)) {
+                    //noinspection unchecked
+                    return (T) appDatabase;
                 } else {
                     throw new IllegalArgumentException("Unknown service " + clazz);
                 }
             }
         };
 
-        AppInjector.INSTANCE.init(this);
+        initAppInjector();
         initPicasso();
+        initEmojiCompat();
 
         JobManager.create(this).addJobCreator(notificationPullJobCreator);
-        uiModeManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
 
-        //necessary for Android < APi 21
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
+    /**
+     * This method will load the EmojiCompat font which has been selected.
+     * If this font does not work or if the user hasn't selected one (yet), it will use a
+     * fallback solution instead which won't make any visible difference to using no EmojiCompat at all.
+     */
+    private void initEmojiCompat() {
+        int emojiSelection = PreferenceManager
+                .getDefaultSharedPreferences(getApplicationContext())
+                .getInt(EmojiPreference.FONT_PREFERENCE, 0);
+        EmojiCompatFont font = EmojiCompatFont.byId(emojiSelection);
+        // FileEmojiCompat will handle any non-existing font and provide a fallback solution.
+        EmojiCompat.Config config = font.getConfig(getApplicationContext())
+                // The user probably wants to get a consistent experience
+                .setReplaceAll(true);
+        EmojiCompat.init(config);
+    }
+
+    protected void initAppInjector() {
+        AppInjector.INSTANCE.init(this);
     }
 
     protected void initPicasso() {
         // Initialize Picasso configuration
         Picasso.Builder builder = new Picasso.Builder(this);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        builder.downloader(new OkHttp3Downloader(OkHttpUtils.getCompatibleClient(preferences)));
+        builder.downloader(new OkHttp3Downloader(okHttpClient));
         if (BuildConfig.DEBUG) {
             builder.listener((picasso, uri, exception) -> exception.printStackTrace());
         }
-        try {
-            Picasso.setSingletonInstance(builder.build());
-        } catch (IllegalStateException e) {
-            throw new RuntimeException(e);
-        }
+
+        Picasso.setSingletonInstance(builder.build());
     }
 
     public ServiceLocator getServiceLocator() {
@@ -120,6 +135,16 @@ public class TuskyApplication extends Application implements HasActivityInjector
     @Override
     public AndroidInjector<Activity> activityInjector() {
         return dispatchingAndroidInjector;
+    }
+
+    @Override
+    public AndroidInjector<Service> serviceInjector() {
+        return dispatchingServiceInjector;
+    }
+
+    @Override
+    public AndroidInjector<BroadcastReceiver> broadcastReceiverInjector() {
+        return dispatchingBroadcastReceiverInjector;
     }
 
     public interface ServiceLocator {

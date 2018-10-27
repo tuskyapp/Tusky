@@ -5,6 +5,7 @@
     <color name="toolbar_view_media">#8f000000</color>
     <color name="semi_transparent">#33000000</color>
     <color name="header_background_filter">#44000000</color>
+    <color name="description_marker_unselected">#333</color>
 
     <!--Dark Theme Colors-->
     <color name="color_primary_dark">#4c5368</color>
@@ -31,16 +32,24 @@
     <color name="sensitive_media_warning_background_dark">#303030</color>
     <color name="media_preview_unloaded_background_dark">#2F2F2F</color>
     <color name="status_divider_dark">#2f3441</color>
-    <color name="tab_page_margin_dark">#4C534B</color>
+    <color name="tab_page_margin_dark">#1a1c23</color>
     <color name="account_toolbar_icon_collapsed_dark">#FFFFFF</color>
-    <color name="account_header_background_dark">#000000</color>
-    <color name="compose_media_button_dark">#d9e1e8</color>
-    <color name="compose_media_button_disabled_dark">#8F8F8F</color>
+    <color name="compose_media_button_disabled_dark">#586173</color>
     <color name="compose_mention_dark">#AFBFCF</color>
     <color name="report_status_background_dark">#000000</color>
     <color name="report_status_divider_dark">#2F2F2F</color>
     <color name="custom_tab_toolbar_dark">#313543</color>
     <color name="compose_reply_content_background_dark">#373c4b</color>
+    <!--Black Theme Colors-->
+    <color name="color_primary_black">#000000</color>
+    <color name="color_primary_dark_black">#111111</color> <!--Dark Dark-->
+    <color name="color_background_black">#000000</color>
+    <color name="window_background_black">#000000</color>
+    <color name="edit_text_color_black">#FFFFFF</color>
+    <color name="text_color_primary_black">#FFFFFF</color>
+    <color name="toolbar_background_black">#111111</color>
+    <color name="dialog_background_black">#111111</color>
+    <color name="tab_page_margin_black">#000000</color>
     <!--Light Theme Colors-->
     <color name="color_primary_light">#dfdfdf</color>
     <color name="color_primary_dark_light">#8f8f8f</color>
@@ -57,7 +66,6 @@
     <color name="text_color_tertiary_inverse_light">#ffffff</color>
     <color name="toolbar_background_light">#f6f7f7</color>
     <color name="toolbar_icon_light">#7C000000</color>
-    <color name="image_button_light">#4f4f4f</color>
     <color name="status_reblog_button_light">#4f4f4f</color>
     <color name="status_reblog_button_marked_light">#56a7e1</color>
     <color name="status_reblog_button_disabled_light">#BFBFBF</color>
@@ -66,15 +74,26 @@
     <color name="sensitive_media_warning_background_light">#b0b0b0</color>
     <color name="media_preview_unloaded_background_light">#cfcfcf</color>
     <color name="status_divider_light">#cfcfcf</color>
-    <color name="tab_page_margin_light">#9F9F9F</color>
+    <color name="tab_page_margin_light">#cfcfcf</color>
     <color name="account_toolbar_icon_collapsed_light">#DE000000</color>
-    <color name="account_header_background_light">#EFEFEF</color>
-    <color name="compose_media_button_light">#4f4f4f</color>
-    <color name="compose_media_button_disabled_light">#8F8F8F</color>
+    <color name="compose_media_button_disabled_light">#a3a5ab</color>
     <color name="compose_mention_light">#2F5F6F</color>
     <color name="report_status_background_light">#EFEFEF</color>
     <color name="report_status_divider_light">#9F9F9F</color>
     <color name="custom_tab_toolbar_light">#ffffff</color>
     <color name="compose_reply_content_background_light">#e0e1e6</color>
+
+    <color name="compose_media_visible_button_disabled_blue">#8c2b90d9</color>
+
+    <!-- colors used in the elephant friend drawables -->
+    <color name="elephant_friend_border_color">#121419</color>
+    <color name="elephant_friend_accent_color">@color/primary</color>
+    <color name="elephant_friend_body_color">#9BAEC8</color>
+    <color name="elephant_friend_dark_body_color_1">#8192A6</color>
+    <color name="elephant_friend_dark_body_color_2">#7F90A4</color>
+    <color name="elephant_friend_light_color_1">#CAD4E0</color>
+    <color name="elephant_friend_light_color_2">#d9e1e8</color>
+
+
 
 </resources>

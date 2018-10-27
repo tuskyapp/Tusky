@@ -15,20 +15,26 @@
 
 package com.keylesspalace.tusky.viewdata;
 
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
+import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Status;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by charlag on 11/07/2017.
- *
+ * <p>
  * Class to represent data required to display either a notification or a placeholder.
  * It is either a {@link StatusViewData.Concrete} or a {@link StatusViewData.Placeholder}.
  */
@@ -38,7 +44,14 @@ public abstract class StatusViewData {
     private StatusViewData() {
     }
 
+    public abstract long getViewDataId();
+
+    public abstract boolean deepEquals(StatusViewData other);
+
     public static final class Concrete extends StatusViewData {
+        private static final char SOFT_HYPHEN = '\u00ad';
+        private static final char ASCII_HYPHEN = '-';
+
         private final String id;
         private final Spanned content;
         private final boolean reblogged;
@@ -46,7 +59,7 @@ public abstract class StatusViewData {
         @Nullable
         private final String spoilerText;
         private final Status.Visibility visibility;
-        private final Attachment[] attachments;
+        private final List<Attachment> attachments;
         @Nullable
         private final String rebloggedByUsername;
         @Nullable
@@ -68,22 +81,34 @@ public abstract class StatusViewData {
         private final String senderId;
         private final boolean rebloggingEnabled;
         private final Status.Application application;
-        private final List<Status.Emoji> emojis;
+        private final List<Emoji> statusEmojis;
+        private final List<Emoji> accountEmojis;
         @Nullable
         private final Card card;
+        private final boolean isCollapsible; /** Whether the status meets the requirement to be collapse */
+        private final boolean isCollapsed; /** Whether the status is shown partially or fully */
 
         public Concrete(String id, Spanned content, boolean reblogged, boolean favourited,
-                        @Nullable String spoilerText, Status.Visibility visibility, Attachment[] attachments,
+                        @Nullable String spoilerText, Status.Visibility visibility, List<Attachment> attachments,
                         @Nullable String rebloggedByUsername, @Nullable String rebloggedAvatar, boolean sensitive, boolean isExpanded,
                         boolean isShowingContent, String userFullName, String nickname, String avatar,
                         Date createdAt, int reblogsCount, int favouritesCount, @Nullable String inReplyToId,
                         @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
-                        Status.Application application, List<Status.Emoji> emojis, @Nullable Card card) {
+                        Status.Application application, List<Emoji> statusEmojis, List<Emoji> accountEmojis, @Nullable Card card,
+                        boolean isCollapsible, boolean isCollapsed) {
             this.id = id;
-            this.content = content;
+            if (Build.VERSION.SDK_INT == 23) {
+                // https://github.com/tuskyapp/Tusky/issues/563
+                this.content = replaceCrashingCharacters(content);
+                this.spoilerText = spoilerText == null ? null : replaceCrashingCharacters(spoilerText).toString();
+                this.nickname = replaceCrashingCharacters(nickname).toString();
+            } else {
+                this.content = content;
+                this.spoilerText = spoilerText;
+                this.nickname = nickname;
+            }
             this.reblogged = reblogged;
             this.favourited = favourited;
-            this.spoilerText = spoilerText;
             this.visibility = visibility;
             this.attachments = attachments;
             this.rebloggedByUsername = rebloggedByUsername;
@@ -92,7 +117,6 @@ public abstract class StatusViewData {
             this.isExpanded = isExpanded;
             this.isShowingContent = isShowingContent;
             this.userFullName = userFullName;
-            this.nickname = nickname;
             this.avatar = avatar;
             this.createdAt = createdAt;
             this.reblogsCount = reblogsCount;
@@ -102,8 +126,11 @@ public abstract class StatusViewData {
             this.senderId = senderId;
             this.rebloggingEnabled = rebloggingEnabled;
             this.application = application;
-            this.emojis = emojis;
+            this.statusEmojis = statusEmojis;
+            this.accountEmojis = accountEmojis;
             this.card = card;
+            this.isCollapsible = isCollapsible;
+            this.isCollapsed = isCollapsed;
         }
 
         public String getId() {
@@ -131,7 +158,7 @@ public abstract class StatusViewData {
             return visibility;
         }
 
-        public Attachment[] getAttachments() {
+        public List<Attachment> getAttachments() {
             return attachments;
         }
 
@@ -203,8 +230,12 @@ public abstract class StatusViewData {
             return application;
         }
 
-        public List<Status.Emoji> getEmojis() {
-            return emojis;
+        public List<Emoji> getStatusEmojis() {
+            return statusEmojis;
+        }
+
+        public List<Emoji> getAccountEmojis() {
+            return accountEmojis;
         }
 
         @Nullable
@@ -212,17 +243,132 @@ public abstract class StatusViewData {
             return card;
         }
 
+        /**
+         * Specifies whether the content of this post is allowed to be collapsed or if it should show
+         * all content regardless.
+         *
+         * @return Whether the post is collapsible or never collapsed.
+         */
+        public boolean isCollapsible() {
+            return isCollapsible;
+        }
+
+        /**
+         * Specifies whether the content of this post is currently limited in visibility to the first
+         * 500 characters or not.
+         *
+         * @return Whether the post is collapsed or fully expanded.
+         */
+        public boolean isCollapsed() {
+            return isCollapsed;
+        }
+
+        @Override public long getViewDataId() {
+            // Chance of collision is super low and impact of mistake is low as well
+            return getId().hashCode();
+        }
+
+        public boolean deepEquals(StatusViewData o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Concrete concrete = (Concrete) o;
+            return reblogged == concrete.reblogged &&
+                    favourited == concrete.favourited &&
+                    isSensitive == concrete.isSensitive &&
+                    isExpanded == concrete.isExpanded &&
+                    isShowingContent == concrete.isShowingContent &&
+                    reblogsCount == concrete.reblogsCount &&
+                    favouritesCount == concrete.favouritesCount &&
+                    rebloggingEnabled == concrete.rebloggingEnabled &&
+                    Objects.equals(id, concrete.id) &&
+                    Objects.equals(content, concrete.content) &&
+                    Objects.equals(spoilerText, concrete.spoilerText) &&
+                    visibility == concrete.visibility &&
+                    Objects.equals(attachments, concrete.attachments) &&
+                    Objects.equals(rebloggedByUsername, concrete.rebloggedByUsername) &&
+                    Objects.equals(rebloggedAvatar, concrete.rebloggedAvatar) &&
+                    Objects.equals(userFullName, concrete.userFullName) &&
+                    Objects.equals(nickname, concrete.nickname) &&
+                    Objects.equals(avatar, concrete.avatar) &&
+                    Objects.equals(createdAt, concrete.createdAt) &&
+                    Objects.equals(inReplyToId, concrete.inReplyToId) &&
+                    Arrays.equals(mentions, concrete.mentions) &&
+                    Objects.equals(senderId, concrete.senderId) &&
+                    Objects.equals(application, concrete.application) &&
+                    Objects.equals(statusEmojis, concrete.statusEmojis) &&
+                    Objects.equals(accountEmojis, concrete.accountEmojis) &&
+                    Objects.equals(card, concrete.card)
+                    && isCollapsed == concrete.isCollapsed;
+        }
+
+        static Spanned replaceCrashingCharacters(Spanned content) {
+            return (Spanned) replaceCrashingCharacters((CharSequence) content);
+        }
+
+        static CharSequence replaceCrashingCharacters(CharSequence content) {
+            Boolean replacing = false;
+            SpannableStringBuilder builder = null;
+            int length = content.length();
+
+            for (int index = 0; index < length; ++index) {
+                char character = content.charAt(index);
+
+                // If there are more than one or two, switch to a map
+                if (character == SOFT_HYPHEN) {
+                    if (!replacing) {
+                        replacing = true;
+                        builder = new SpannableStringBuilder(content, 0, index);
+                    }
+                    builder.append(ASCII_HYPHEN);
+                } else if (replacing) {
+                    builder.append(character);
+                }
+            }
+
+            return replacing ? builder : content;
+        }
     }
 
     public static final class Placeholder extends StatusViewData {
         private final boolean isLoading;
+        private final long id;
 
-        public Placeholder(boolean isLoading) {
+        public Placeholder(long id, boolean isLoading) {
+            this.id = id;
             this.isLoading = isLoading;
         }
 
         public boolean isLoading() {
             return isLoading;
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        @Override public long getViewDataId() {
+            return id;
+        }
+
+        @Override public boolean deepEquals(StatusViewData other) {
+            if (!(other instanceof Placeholder)) return false;
+            Placeholder that = (Placeholder) other;
+            return isLoading == that.isLoading && id == that.id;
+        }
+
+        @Override public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Placeholder that = (Placeholder) o;
+
+            return deepEquals(that);
+        }
+
+        @Override public int hashCode() {
+            int result = (isLoading ? 1 : 0);
+            result = 31 * result + (int) (id ^ (id >>> 32));
+            return result;
         }
     }
 
@@ -233,7 +379,7 @@ public abstract class StatusViewData {
         private boolean favourited;
         private String spoilerText;
         private Status.Visibility visibility;
-        private Attachment[] attachments;
+        private List<Attachment> attachments;
         private String rebloggedByUsername;
         private String rebloggedAvatar;
         private boolean isSensitive;
@@ -250,8 +396,11 @@ public abstract class StatusViewData {
         private String senderId;
         private boolean rebloggingEnabled;
         private Status.Application application;
-        private List<Status.Emoji> emojis;
+        private List<Emoji> statusEmojis;
+        private List<Emoji> accountEmojis;
         private Card card;
+        private boolean isCollapsible; /** Whether the status meets the requirement to be collapsed */
+        private boolean isCollapsed; /** Whether the status is shown partially or fully */
 
         public Builder() {
         }
@@ -263,7 +412,7 @@ public abstract class StatusViewData {
             favourited = viewData.favourited;
             spoilerText = viewData.spoilerText;
             visibility = viewData.visibility;
-            attachments = viewData.attachments == null ? null : viewData.attachments.clone();
+            attachments = viewData.attachments == null ? null : new ArrayList<>(viewData.attachments);
             rebloggedByUsername = viewData.rebloggedByUsername;
             rebloggedAvatar = viewData.rebloggedAvatar;
             isSensitive = viewData.isSensitive;
@@ -280,8 +429,11 @@ public abstract class StatusViewData {
             senderId = viewData.senderId;
             rebloggingEnabled = viewData.rebloggingEnabled;
             application = viewData.application;
-            emojis = viewData.getEmojis();
+            statusEmojis = viewData.getStatusEmojis();
+            accountEmojis = viewData.getAccountEmojis();
             card = viewData.getCard();
+            isCollapsible = viewData.isCollapsible();
+            isCollapsed = viewData.isCollapsed();
         }
 
         public Builder setId(String id) {
@@ -314,7 +466,7 @@ public abstract class StatusViewData {
             return this;
         }
 
-        public Builder setAttachments(Attachment[] attachments) {
+        public Builder setAttachments(List<Attachment> attachments) {
             this.attachments = attachments;
             return this;
         }
@@ -399,8 +551,13 @@ public abstract class StatusViewData {
             return this;
         }
 
-        public Builder setEmojis(List<Status.Emoji> emojis) {
-            this.emojis = emojis;
+        public Builder setStatusEmojis(List<Emoji> emojis) {
+            this.statusEmojis = emojis;
+            return this;
+        }
+
+        public Builder setAccountEmojis(List<Emoji> emojis) {
+            this.accountEmojis = emojis;
             return this;
         }
 
@@ -409,15 +566,40 @@ public abstract class StatusViewData {
             return this;
         }
 
+        /**
+         * Configure the {@link com.keylesspalace.tusky.viewdata.StatusViewData} to support collapsing
+         * its content limiting the visible length when collapsed at 500 characters,
+         *
+         * @param collapsible Whether the status should support being collapsed or not.
+         * @return This {@link com.keylesspalace.tusky.viewdata.StatusViewData.Builder} instance.
+         */
+        public Builder setCollapsible(boolean collapsible) {
+            isCollapsible = collapsible;
+            return this;
+        }
+
+        /**
+         * Configure the {@link com.keylesspalace.tusky.viewdata.StatusViewData} to start in a collapsed
+         * state, hiding partially the content of the post if it exceeds a certain amount of characters.
+         *
+         * @param collapsed Whether to show the full content of the status or not.
+         * @return This {@link com.keylesspalace.tusky.viewdata.StatusViewData.Builder} instance.
+         */
+        public Builder setCollapsed(boolean collapsed) {
+            isCollapsed = collapsed;
+            return this;
+        }
+
         public StatusViewData.Concrete createStatusViewData() {
-            if (this.emojis == null) emojis = Collections.emptyList();
+            if (this.statusEmojis == null) statusEmojis = Collections.emptyList();
+            if (this.accountEmojis == null) accountEmojis = Collections.emptyList();
             if (this.createdAt == null) createdAt = new Date();
 
             return new StatusViewData.Concrete(id, content, reblogged, favourited, spoilerText, visibility,
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
                     isShowingContent, userFullName, nickname, avatar, createdAt, reblogsCount,
                     favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application,
-                    emojis, card);
+                    statusEmojis, accountEmojis, card, isCollapsible, isCollapsed);
         }
     }
 }

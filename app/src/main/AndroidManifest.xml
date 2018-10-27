@@ -6,16 +6,18 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" /> <!--For notifications-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- for day/night mode -->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- For notifications -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:maxSdkVersion="22"/> <!-- for day/night mode -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- For sending toots with foreground service -->
+
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:name=".TuskyApplication"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/TuskyTheme">
 
         <activity
             android:name=".SplashActivity"
@@ -49,6 +51,7 @@
         </activity>
         <activity
             android:name=".ComposeActivity"
+            android:theme="@style/TuskyDialogActivityTheme"
             android:windowSoftInputMode="stateVisible|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -61,22 +64,30 @@
                 <data android:mimeType="image/*" />
             </intent-filter>
             <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="video/*" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="image/*" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="video/*" />
+            </intent-filter>
         </activity>
-        <activity
-            android:name=".ViewVideoActivity"
-            android:theme="@style/AppThemeBase"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".ViewThreadActivity"
             android:configChanges="orientation|screenSize" />
         <activity android:name=".ViewTagActivity" />
         <activity android:name=".ViewMediaActivity"
-            android:theme="@style/AppThemeBase" />
-        <activity android:name=".AccountActivity" />
+            android:theme="@style/TuskyBaseTheme"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".AccountActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".PreferencesActivity" />
         <activity android:name=".FavouritesActivity" />
@@ -98,8 +109,14 @@
         </activity>
         <activity android:name=".ListsActivity" />
         <activity android:name=".ModalTimelineActivity" />
+        <activity android:name=".LicenseActivity" />
 
         <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
+
+        <receiver
+            android:name=".receiver.SendStatusBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false" />
 
         <service
             tools:targetApi="24"
@@ -111,6 +128,7 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+        <service android:name=".service.SendTootService" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

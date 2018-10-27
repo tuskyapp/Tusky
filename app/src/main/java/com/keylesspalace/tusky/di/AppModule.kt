@@ -21,9 +21,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import android.support.v4.content.LocalBroadcastManager
-import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TuskyApplication
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.EventHubImpl
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.network.TimelineCasesImpl
@@ -56,13 +58,23 @@ class AppModule {
 
     @Provides
     fun providesTimelineUseCases(api: MastodonApi,
-                                 broadcastManager: LocalBroadcastManager): TimelineCases {
-        return TimelineCasesImpl(api, broadcastManager)
+                                 eventHub: EventHub): TimelineCases {
+        return TimelineCasesImpl(api, eventHub)
     }
 
     @Provides
     @Singleton
     fun providesAccountManager(app: TuskyApplication): AccountManager {
         return app.serviceLocator.get(AccountManager::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesEventHub(): EventHub = EventHubImpl
+
+    @Provides
+    @Singleton
+    fun providesDatabase(app: TuskyApplication): AppDatabase {
+        return app.serviceLocator.get(AppDatabase::class.java)
     }
 }
