@@ -13,8 +13,10 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -186,6 +188,10 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         if (visibility == Status.Visibility.UNKNOWN) {
             this.visibility.setVisibility(View.GONE);
+            if (this.timestampInfo != null) {
+                ((RelativeLayout.LayoutParams) this.timestampInfo.getLayoutParams())
+                        .setMarginStart(0);
+            }
         } else {
             this.visibility.setImageDrawable(itemView.getContext().getDrawable(visibility.icon()));
         }
@@ -202,6 +208,33 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         } catch (Resources.NotFoundException ignored) {
             // Thrown by Resources.getStringArray()
         }
+
+        if (this.timestampInfo == null) {
+            return;
+        }
+
+        final TextView statusTimestampInfo = this.timestampInfo;
+        final ImageView statusVisibility = this.visibility;
+        // Dynamically set the width/height of the icon to match the font size of the timestamp
+        this.timestampInfo.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        int maxHeight = statusTimestampInfo.getHeight();
+                        if (maxHeight == 0) {
+                            // The view still hasn't been drawn, nothing to do yet
+                            return;
+                        }
+                        // The view has been drawn, so we have dimensions now
+                        statusVisibility.setMaxHeight(maxHeight);
+                        // Using the same value for width to preserve aspect ratio
+                        //noinspection SuspiciousNameCombination
+                        statusVisibility.setMaxWidth(maxHeight);
+                        statusTimestampInfo.getViewTreeObserver()
+                                .removeOnGlobalLayoutListener(this);
+                    }
+                }
+        );
     }
 
     protected void showContent(boolean show) {
