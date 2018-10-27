@@ -197,7 +197,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        final int size = statusTimestampInfo.getHeight();
+                        final int size = (int) statusTimestampInfo.getTextSize();
                         visibilityDrawable.setBounds(
                                 0,
                                 0,
