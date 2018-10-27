@@ -86,13 +86,13 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         moreButton = itemView.findViewById(R.id.status_more);
         reblogged = false;
         favourited = false;
-        mediaPreviews = new ImageView[] {
+        mediaPreviews = new ImageView[]{
                 itemView.findViewById(R.id.status_media_preview_0),
                 itemView.findViewById(R.id.status_media_preview_1),
                 itemView.findViewById(R.id.status_media_preview_2),
                 itemView.findViewById(R.id.status_media_preview_3)
         };
-        mediaOverlays =new ImageView[] {
+        mediaOverlays = new ImageView[]{
                 itemView.findViewById(R.id.status_media_overlay_0),
                 itemView.findViewById(R.id.status_media_overlay_1),
                 itemView.findViewById(R.id.status_media_overlay_2),
@@ -186,15 +186,31 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             return;
         }
 
-        if (visibility == Status.Visibility.UNKNOWN) {
-            this.visibility.setVisibility(View.GONE);
-            if (this.timestampInfo != null) {
+        int visibilityIcon;
+        switch (visibility) {
+            case PUBLIC:
+                visibilityIcon = R.drawable.ic_public_24dp;
+                break;
+            case UNLISTED:
+                visibilityIcon = R.drawable.ic_lock_open_24dp;
+                break;
+            case PRIVATE:
+                visibilityIcon = R.drawable.ic_lock_open_24dp;
+                break;
+            case DIRECT:
+                visibilityIcon = R.drawable.ic_email_24dp;
+                break;
+            default:
+                visibilityIcon = 0;
                 ((RelativeLayout.LayoutParams) this.timestampInfo.getLayoutParams())
                         .setMarginStart(0);
-            }
-        } else {
-            this.visibility.setImageDrawable(itemView.getContext().getDrawable(visibility.icon()));
         }
+
+        if (visibilityIcon == 0) {
+            return;
+        }
+
+        this.visibility.setImageDrawable(itemView.getContext().getDrawable(visibilityIcon));
 
         try {
             String[] visibilityNames = itemView.getContext()
