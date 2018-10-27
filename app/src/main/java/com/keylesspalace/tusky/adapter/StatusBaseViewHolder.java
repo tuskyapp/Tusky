@@ -19,9 +19,9 @@ import android.widget.ToggleButton;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Attachment;
+import com.keylesspalace.tusky.entity.Attachment.Focus;
+import com.keylesspalace.tusky.entity.Attachment.MetaData;
 import com.keylesspalace.tusky.entity.Emoji;
-import com.keylesspalace.tusky.entity.Focus;
-import com.keylesspalace.tusky.entity.MetaData;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;

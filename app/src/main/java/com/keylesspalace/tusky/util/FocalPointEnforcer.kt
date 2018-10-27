@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.util
 import android.graphics.Matrix
 import android.widget.ImageView
 
-import com.keylesspalace.tusky.entity.Focus
+import com.keylesspalace.tusky.entity.Attachment.Focus
 import com.squareup.picasso.Callback
 
 /**
