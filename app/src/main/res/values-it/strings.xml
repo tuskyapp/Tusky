@@ -10,7 +10,7 @@
     <string name="error_retrieving_oauth_token">Errore nell\'acquisizione del token di accesso.</string>
     <string name="error_compose_character_limit">Lo stato è troppo lungo!</string>
     <string name="error_image_upload_size">La dimensione dei file immagine deve essere inferiore a 8MB.</string>
-	<string name="error_video_upload_size">La dimensione dei file video deve essere inferiore a 40MB.</string>
+    <string name="error_video_upload_size">La dimensione dei file video deve essere inferiore a 40MB.</string>
     <string name="error_media_upload_type">Questo tipo di file non può essere caricato.</string>
     <string name="error_media_upload_opening">Questo file non può essere aperto.</string>
     <string name="error_media_upload_permission">Il permesso di lettura della scheda sd è richiesto.</string>
@@ -47,7 +47,7 @@
     <string name="status_sensitive_media_directions">Clicca per visualizzare</string>
     <string name="status_content_warning_show_more">Mostra di Più</string>
     <string name="status_content_warning_show_less">Mostra Meno</string>
-	<string name="status_content_show_more">Espandi</string>
+    <string name="status_content_show_more">Espandi</string>
     <string name="status_content_show_less">Riduci</string>
 
     <string name="footer_empty">Qui non c\'è niente. Trascina verso il basso per aggiornare!</string>
@@ -114,7 +114,7 @@
 
     <string name="send_status_link_to">Condividi URL del toot su...</string>
     <string name="send_status_content_to">Condividi toot su...</string>
-	<string name="send_media_to">Condividi media su...</string>
+    <string name="send_media_to">Condividi media su...</string>
 
     <string name="confirmation_reported">Inviato!</string>
     <string name="confirmation_unblocked">Utente sbloccato</string>
@@ -154,7 +154,7 @@
     <string name="dialog_download_image">Scarica</string>
     <string name="dialog_message_cancel_follow_request">Revocare la richiesta di seguire?</string>
     <string name="dialog_unfollow_warning">Smettere di seguire questo account?</string>
-	<string name="dialog_delete_toot_warning">Eliminare questo toot?</string>
+    <string name="dialog_delete_toot_warning">Eliminare questo toot?</string>
 
     <string name="visibility_public">Pubblico: visibile sulla timeline pubblica</string>
     <string name="visibility_unlisted">Non Elencato: non visibile sulla timeline pubblica e locale</string>
@@ -178,12 +178,12 @@
     <string name="pref_title_appearance_settings">Aspetto</string>
     <string name="pref_title_app_theme">Tema dell\'app</string>
 
-<string-array name="app_theme_names">
+    <string-array name="app_theme_names">
         <item>Scuro</item>
         <item>Chiaro</item>
         <item>Nero</item>
         <item>Automatico al tramonto</item>
-</string-array>
+    </string-array>
 
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Usa Tab Personalizzate di Chrome</string>
@@ -200,7 +200,7 @@
     <string name="pref_title_http_proxy_server">Server proxy HTTP</string>
     <string name="pref_title_http_proxy_port">Porta proxy HTTP</string>
 
-<string-array name="pull_notification_check_interval_names">
+    <string-array name="pull_notification_check_interval_names">
         <item>15 minuti</item>
         <item>20 minuti</item>
         <item>25 minuti</item>
@@ -208,26 +208,26 @@
         <item>45 minuti</item>
         <item>1 ora</item>
         <item>2 ore</item>
-</string-array>
+    </string-array>
 
     <string name="pref_default_post_privacy">Privacy di default dei post</string>
     <string name="pref_publishing">Pubblicando</string>
 
-<string-array name="post_privacy_names">
+    <string-array name="post_privacy_names">
         <item>Pubblico</item>
         <item>Non elencato</item>
         <item>Solo per chi ti segue</item>
-</string-array>
+    </string-array>
 
     <string name="pref_status_text_size">Dimensione del testo degli stati</string>
 
-<string-array name="status_text_size_names">
+    <string-array name="status_text_size_names">
         <item>Piccolissimo</item>
         <item>Piccolo</item>
         <item>Normale</item>
         <item>Grande</item>
         <item>Grandissimo</item>
-</string-array>
+    </string-array>
 
     <string name="notification_channel_mention_name">Nuove Menzioni</string>
     <string name="notification_channel_mention_descriptions">Notifiche quando qualcuno ti menziona</string>
@@ -346,8 +346,8 @@
     <string name="license_apache_2">Licenziata sotto la Licenza Apache (copia sotto)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-	
-	<string name="profile_metadata_label">Metadati del profilo</string>
+
+    <string name="profile_metadata_label">Metadati del profilo</string>
     <string name="profile_metadata_add">aggiungi dati</string>
     <string name="profile_metadata_label_label">Etichetta</string>
     <string name="profile_metadata_content_label">Contenuto</string>
