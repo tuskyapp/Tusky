@@ -303,37 +303,21 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <RelativeLayout
-        android:id="@+id/status_visibility_timestamp_info"
+    <TextView
+        android:id="@+id/status_timestamp_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/status_media_preview_container"
         android:layout_marginBottom="6dp"
-        android:layout_marginTop="10dp">
-
-        <ImageView
-            android:id="@+id/status_visibility"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_public_24dp"
-            android:tint="?android:textColorTertiary" />
-
-        <TextView
-            android:id="@+id/status_timestamp_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_toEndOf="@+id/status_visibility"
-            android:textColor="?android:textColorTertiary"
-            android:textSize="?attr/status_text_medium" />
-    </RelativeLayout>
+        android:layout_marginTop="10dp"
+        android:drawablePadding="4dp"
+        android:textColor="?android:textColorTertiary"
+        android:textSize="?attr/status_text_medium" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/status_visibility_timestamp_info"
+        android:layout_below="@id/status_timestamp_info"
         android:layout_marginEnd="8dp"
         android:clipChildren="false"
         android:clipToPadding="false"
