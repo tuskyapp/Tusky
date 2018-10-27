@@ -109,8 +109,8 @@
 
     <string name="action_copy_link">Copiar lo ligam</string>
 
-    <string name="send_status_link_to">Partejar l\'URL del tt a...</string>
-    <string name="send_status_content_to">Partejar vòstre tut a...</string>
+    <string name="send_status_link_to">Partejar l\'URL del tut amb…</string>
+    <string name="send_status_content_to">Partejar vòstre tut amb…</string>
 
     <string name="confirmation_reported">Enviat !</string>
     <string name="confirmation_unblocked">Utilizaire desblocat</string>
@@ -134,7 +134,7 @@
 
     <string name="link_whats_an_instance">Que es una instància ?</string>
 
-    <string name="login_connection">Connexion...</string>
+    <string name="login_connection">Connexion…</string>
 
     <string name="dialog_whats_an_instance">Aquí podètz picar l\'adreça o domini de quina que siá instància,
         coma mastodont.cat, mastodon.social, icosahedron.website o
@@ -144,7 +144,7 @@
         \n\nAvètz mas d’informacins a <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
     <string name="dialog_title_finishing_media_upload">Finalizacion del mandadís del mèdia</string>
-    <string name="dialog_message_uploading_media">Mandadís...</string>
+    <string name="dialog_message_uploading_media">Mandadís…</string>
     <string name="dialog_download_image">Telecargar</string>
     <string name="dialog_message_cancel_follow_request">Anullar la demandar d’abonament ?</string>
     <string name="dialog_unfollow_warning">Volètz quitar de seguir aqueste compte ?</string>
@@ -342,5 +342,20 @@
     <string name="profile_metadata_add">Contengut</string>
     <string name="profile_metadata_label_label">Nom</string>
     <string name="profile_metadata_content_label">Contengut</string>
+
+<string name="error_video_upload_size">Los fichièrs vidèo devon pas far mai de 40 Mo.</string>
+    <string name="status_content_show_more">Desplegar</string>
+    <string name="status_content_show_less">Replegar</string>
+
+    <string name="send_media_to">Partejar l’imatge amb…</string>
+
+    <string name="dialog_delete_toot_warning">Suprimir aqueste tut \?</string>
+
+    <string name="pref_title_absolute_time">Utilizar lo format de temps absolut</string>
+
+    <string name="label_remote_account">Las informacions çai-jos son pas lo rebat del perfil complèt de l’utilizaire. Tocatz per dobrir lo perfil complèt dins lo navigador.</string>
+
+    <string name="unpin_action">Tirar del perfil</string>
+    <string name="pin_action">Penjar</string>
 
 </resources>
