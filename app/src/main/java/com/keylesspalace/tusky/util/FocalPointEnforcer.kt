@@ -46,9 +46,9 @@ class FocalPointEnforcer(private val imageView: ImageView, private val focus: Fo
          * Create the appropriate matrix for the given parameters.
          *
          * How it works is using the following steps:
-         *   - First we determine if the image is to wide or to tall for the view size. If it is
-         *   to wide, we need to crop it horizontally and scale the height to fit the view
-         *   exactly. If it is to tall we need to crop vertically and scale the width to fit the
+         *   - First we determine if the image is too wide or too tall for the view size. If it is
+         *   too wide, we need to crop it horizontally and scale the height to fit the view
+         *   exactly. If it is too tall we need to crop vertically and scale the width to fit the
          *   view exactly.
          *   - Then we determine what translation is needed to get the focal point in view. We
          *   prefer to get the focal point at the center of the preview. However if that would
