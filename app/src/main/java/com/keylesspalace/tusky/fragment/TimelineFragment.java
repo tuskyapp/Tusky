@@ -284,9 +284,13 @@ public class TimelineFragment extends SFragment implements
                 .subscribe(
                         (statuses) -> {
                             this.initialUpdateFailed = false;
-                            filterStatuses(statuses);
-                            this.statuses.clear();
-                            this.statuses.addAll(statuses);
+                            // When cached timeline is too old, we would replace it with nothing
+                            if (!statuses.isEmpty()) {
+                                filterStatuses(statuses);
+                                this.statuses.clear();
+                                this.statuses.addAll(statuses);
+                                this.updateAdapter();
+                            }
                             this.bottomLoading = false;
                             // Get more statuses so that users know that something is there
                             this.loadAbove();
