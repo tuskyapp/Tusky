@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -13,10 +12,8 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -62,7 +59,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private TextView mediaLabel;
     private ToggleButton contentWarningButton;
     private ToggleButton contentCollapseButton;
-    private ImageView visibility;
 
     ImageView avatar;
     TextView timestampInfo;
@@ -104,7 +100,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
         contentWarningButton = itemView.findViewById(R.id.status_content_warning_button);
         contentCollapseButton = itemView.findViewById(R.id.button_toggle_content);
-        visibility = itemView.findViewById(R.id.status_visibility);
 
         this.useAbsoluteTime = useAbsoluteTime;
         shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
@@ -177,80 +172,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             timestampInfo.setText(readout);
             timestampInfo.setContentDescription(readoutAloud);
         }
-    }
-
-    private void setStatusVisibility(Status.Visibility visibility) {
-        if (this.visibility == null) {
-            // The visibility icon isn't present in all status layouts, so we might not have
-            // anything to do here
-            return;
-        }
-
-        int visibilityIcon;
-        switch (visibility) {
-            case PUBLIC:
-                visibilityIcon = R.drawable.ic_public_24dp;
-                break;
-            case UNLISTED:
-                visibilityIcon = R.drawable.ic_lock_open_24dp;
-                break;
-            case PRIVATE:
-                visibilityIcon = R.drawable.ic_lock_open_24dp;
-                break;
-            case DIRECT:
-                visibilityIcon = R.drawable.ic_email_24dp;
-                break;
-            default:
-                visibilityIcon = 0;
-                ((RelativeLayout.LayoutParams) this.timestampInfo.getLayoutParams())
-                        .setMarginStart(0);
-        }
-
-        if (visibilityIcon == 0) {
-            return;
-        }
-
-        this.visibility.setImageDrawable(itemView.getContext().getDrawable(visibilityIcon));
-
-        try {
-            String[] visibilityNames = itemView.getContext()
-                    .getResources()
-                    .getStringArray(R.array.post_privacy_names);
-            if (visibilityNames.length > visibility.ordinal()) {
-                // If the strings haven't been translated to a given language, we'd throw an
-                // ArrayIndexOutOfBoundsException when trying to grab the value from the array
-                this.visibility.setContentDescription(visibilityNames[visibility.ordinal()]);
-            }
-        } catch (Resources.NotFoundException ignored) {
-            // Thrown by Resources.getStringArray()
-        }
-
-        if (this.timestampInfo == null) {
-            return;
-        }
-
-        final TextView statusTimestampInfo = this.timestampInfo;
-        final ImageView statusVisibility = this.visibility;
-        // Dynamically set the width/height of the icon to match the font size of the timestamp
-        this.timestampInfo.getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        int maxHeight = statusTimestampInfo.getHeight();
-                        if (maxHeight == 0) {
-                            // The view still hasn't been drawn, nothing to do yet
-                            return;
-                        }
-                        // The view has been drawn, so we have dimensions now
-                        statusVisibility.setMaxHeight(maxHeight);
-                        // Using the same value for width to preserve aspect ratio
-                        //noinspection SuspiciousNameCombination
-                        statusVisibility.setMaxWidth(maxHeight);
-                        statusTimestampInfo.getViewTreeObserver()
-                                .removeOnGlobalLayoutListener(this);
-                    }
-                }
-        );
     }
 
     protected void showContent(boolean show) {
@@ -562,7 +483,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         setDisplayName(status.getUserFullName(), status.getAccountEmojis());
         setUsername(status.getNickname());
         setCreatedAt(status.getCreatedAt());
-        setStatusVisibility(status.getVisibility());
         setIsReply(status.getInReplyToId() != null);
         setAvatar(status.getAvatar(), status.getRebloggedAvatar());
         setReblogged(status.isReblogged());
