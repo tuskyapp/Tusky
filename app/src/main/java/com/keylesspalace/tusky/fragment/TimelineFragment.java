@@ -78,6 +78,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -257,8 +258,9 @@ public class TimelineFragment extends SFragment implements
                     filterStatuses(statuses);
 
                     if (statuses.size() > 1) {
-                        this.statuses.addAll(statuses);
                         this.clearPlaceholdersForResponse(statuses);
+                        this.statuses.clear();
+                        this.statuses.addAll(statuses);
                         this.updateAdapter();
                         this.progressBar.setVisibility(View.GONE);
                         // Request statuses including current top to refresh all of them
@@ -280,6 +282,7 @@ public class TimelineFragment extends SFragment implements
         }
         disposable.add(this.timelineRepo.getStatuses(topId, null, LOAD_AT_ONCE,
                 TimelineRequestMode.NETWORK)
+                .delay(4, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         (statuses) -> {
@@ -512,8 +515,7 @@ public class TimelineFragment extends SFragment implements
         Either<Placeholder, Status> firstOrNull =
                 CollectionsKt.firstOrNull(this.statuses, Either::isRight);
         if (firstOrNull != null) {
-            String sinceId = idPlus(firstOrNull.asRight().getId(), -1);
-            this.sendFetchTimelineRequest(null, sinceId, FetchEnd.TOP, -1);
+            this.sendFetchTimelineRequest(null, firstOrNull.asRight().getId(), FetchEnd.TOP, -1);
         }
     }
 
@@ -1046,32 +1048,7 @@ public class TimelineFragment extends SFragment implements
      * For certain requests we don't want to see placeholders, they will be removed some other way
      */
     private void clearPlaceholdersForResponse(List<Either<Placeholder, Status>> statuses) {
-        if (statuses.size() < 2) {
-            return;
-        }
-
-        String first;
-        if (statuses.get(0).isRight()) {
-            first = statuses.get(0).asRight().getId();
-        } else {
-            first = statuses.get(0).asLeft().getId();
-        }
-
-        String last;
-        if (statuses.get(statuses.size() - 1).isRight()) {
-            last = statuses.get(statuses.size() - 1).asRight().getId();
-        } else {
-            last = statuses.get(statuses.size() - 1).asLeft().getId();
-        }
-
-        for (ListIterator<Either<Placeholder, Status>> iterator = this.statuses.listIterator(); iterator.hasNext(); ) {
-            Either<Placeholder, Status> status = iterator.next();
-            if (!status.isRight()
-                    && (status.asLeft().getId().compareTo(first) < 0
-                    || status.asLeft().getId().compareTo(last) > 0)) {
-                iterator.remove();
-            }
-        }
+        CollectionsKt.removeAll(statuses, s -> !s.isRight());
     }
 
     private void replacePlaceholderWithStatuses(List<Either<Placeholder, Status>> newStatuses,
