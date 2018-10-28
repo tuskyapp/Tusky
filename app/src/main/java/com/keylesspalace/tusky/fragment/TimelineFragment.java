@@ -276,13 +276,10 @@ public class TimelineFragment extends SFragment implements
         if (this.statuses.isEmpty()) {
             topId = null;
         } else {
-            String firstId =
-                    CollectionsKt.first(statuses, Either::isRight).asRight().getId();
-            topId = new BigInteger(firstId).add(BigInteger.ONE).toString();
+            topId = CollectionsKt.first(statuses, Either::isRight).asRight().getId();
         }
         disposable.add(this.timelineRepo.getStatuses(topId, null, LOAD_AT_ONCE,
                 TimelineRequestMode.NETWORK)
-                .delay(4, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         (statuses) -> {
@@ -290,7 +287,17 @@ public class TimelineFragment extends SFragment implements
                             // When cached timeline is too old, we would replace it with nothing
                             if (!statuses.isEmpty()) {
                                 filterStatuses(statuses);
-                                this.statuses.clear();
+
+                                // Working around a bug when Mastodon API doesn't return the first
+                                // status because of string "id < maxId". Hacking with ID doesn't
+                                // help.
+                                if (!this.statuses.isEmpty()) {
+                                    Either<Placeholder, Status> firstOld = this.statuses.get(0);
+                                    this.statuses.clear();
+                                    this.statuses.add(firstOld);
+                                } else {
+                                    this.statuses.clear();
+                                }
                                 this.statuses.addAll(statuses);
                                 this.updateAdapter();
                             }
