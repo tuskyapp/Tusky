@@ -59,7 +59,7 @@
     <string name="action_compose">Répondre</string>
     <string name="action_login">Se connecter à Mastodon</string>
     <string name="action_logout">Déconnexion</string>
-    <string name="action_logout_confirm">Êtes-vous certain de vouloir déconnecter le compte %1$s \?</string>
+    <string name="action_logout_confirm">Êtes-vous certain de vouloir déconnecter le compte %1$s \?</string>
     <string name="action_follow">Suivre</string>
     <string name="action_unfollow">Ne plus suivre</string>
     <string name="action_block">Bloquer</string>
@@ -81,7 +81,7 @@
     <string name="action_share">Partager</string>
     <string name="action_mute">Rendre muet</string>
     <string name="action_unmute">Redonner la parole</string>
-    <string name="action_mention">Mention</string>
+    <string name="action_mention">Mentionner</string>
     <string name="action_hide_media">Cacher le media</string>
     <string name="action_open_drawer">Ouvrir le menu</string>
     <string name="action_save">Sauvegarder</string>
@@ -101,7 +101,7 @@
     <string name="send_status_link_to">Partager l’URL de votre pouet avec…</string>
     <string name="send_status_content_to">Partager le pouet avec…</string>
 
-    <string name="confirmation_reported">Envoyé !</string>
+    <string name="confirmation_reported">Envoyé !</string>
     <string name="confirmation_unblocked">Utilisateur débloqué</string>
     <string name="confirmation_unmuted">Le compte n\'est plus muet</string>
 
@@ -168,14 +168,14 @@
 
     <string name="about_tusky_account">Compte officiel de Tusky</string>
     <string name="about_title_activity">À propos</string>
-    <string name="about_project_site">Site du projet :          https://tuskyapp.github.io</string>
-    <string name="about_bug_feature_request_site">Rapport de bugs &amp; demande de fonctionnalités :      https://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_project_site">Site du projet : https://tuskyapp.github.io</string>
+    <string name="about_bug_feature_request_site">Rapport de bugs &amp; demande de fonctionnalités : https://github.com/tuskyapp/Tusky/issues</string>
 
 
     <string name="state_follow_requested">Demande effectuée</string>
 
     <string name="search_no_results">Aucun résultat</string>
-    <string name="dialog_unfollow_warning">Désirez-vous cesser de suivre ce compte \?</string>
+    <string name="dialog_unfollow_warning">Désirez-vous cesser de suivre ce compte \?</string>
     <string name="pref_summary_notifications">pour le compte %1$s</string>
     <string name="pref_title_pull_notification_check_interval">Interval de vérifications</string>
     <string name="pref_title_app_theme">Theme de l\'application</string>
@@ -280,11 +280,11 @@
     <string name="action_toggle_visibility">Visibilité du Pouet</string>
     <string name="action_content_warning">Avertissement du contenu</string>
     <string name="action_emoji_keyboard">Clavier d\'Emoji</string>
-    <string name="status_sent">Envoyé !</string>
+    <string name="status_sent">Envoyé !</string>
     <string name="status_sent_long">Réponse envoyé avec succès.</string>
     <string name="label_quick_reply">Répondre …</string>
     <string name="pref_title_filter_regex">Filtrer par expression régulière</string>
-    <string name="compose_save_draft">Enregistrer comme brouillon \?</string>
+    <string name="compose_save_draft">Enregistrer comme brouillon \?</string>
     <string name="send_toot_notification_title">Envoi du Pouet…</string>
     <string name="send_toot_notification_error_title">Erreur lors de l\'envoi du pouet</string>
     <string name="send_toot_notification_channel_name">Envoi des Pouets</string>
@@ -317,15 +317,15 @@
     <string name="action_show_reblogs">Montrer les pouets</string>
     <string name="action_edit_own_profile">Editer</string>
     <string name="send_media_to">Partager l\'image avec …</string>
-    <string name="dialog_delete_toot_warning">Supprimer ce pouet \?</string>
+    <string name="dialog_delete_toot_warning">Supprimer ce pouet \?</string>
     <string name="profile_metadata_content_label">Contenu</string>
 
 
-<string name="dialog_message_cancel_follow_request">Révoquer la demande d\'abonnement \?</string>
-    <string name="profile_badge_bot_text">Bot</string>
-    <string name="account_moved_description">%1$s a déménagé vers :</string>
+<string name="dialog_message_cancel_follow_request">Révoquer la demande d\'abonnement \?</string>
+    <string name="profile_badge_bot_text">Robot</string>
+    <string name="account_moved_description">%1$s a déménagé vers :</string>
 
-    <string name="license_description">Tusky contient le code issu des projets open source suivants :</string>
+    <string name="license_description">Tusky contient le code issu des projets open source suivants :</string>
     <string name="license_apache_2">Sous Licence Apache (copie ci-dessous)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
