@@ -182,13 +182,13 @@ class ViewImageFragment : ViewMediaFragment() {
                     }
 
                     override fun onError() {
-                        progressBar.hide()
+                        progressBar?.hide()
                     }
                 })
     }
 
     private fun finishLoadingSuccessfully() {
-        progressBar.hide()
+        progressBar?.hide()
         attacher.update()
         photoActionsListener.onBringUp()
     }
