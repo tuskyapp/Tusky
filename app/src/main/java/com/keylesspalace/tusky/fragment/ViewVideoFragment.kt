@@ -47,6 +47,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     private lateinit var mediaActivity: ViewMediaActivity
     private val TOOLBAR_HIDE_DELAY_MS = 3000L
     override lateinit var descriptionView : TextView
+    private lateinit var mediaController : MediaController
 
     companion object {
         private const val TAG = "ViewVideoFragment"
@@ -63,10 +64,11 @@ class ViewVideoFragment : ViewMediaFragment() {
             if (mediaActivity.isToolbarVisible()) {
                 handler.postDelayed(hideToolbar, TOOLBAR_HIDE_DELAY_MS)
             }
-            videoPlayer?.start()
+            videoPlayer.start()
         } else {
             handler.removeCallbacks(hideToolbar)
-            videoPlayer?.pause()
+            videoPlayer.pause()
+            mediaController.hide()
         }
     }
 
@@ -76,9 +78,9 @@ class ViewVideoFragment : ViewMediaFragment() {
         val videoView = videoPlayer
         ViewCompat.setTransitionName(videoView, url)
         videoView.setVideoPath(url)
-        val controller = MediaController(mediaActivity)
-        controller.setMediaPlayer(videoView)
-        videoView.setMediaController(controller)
+        mediaController = MediaController(mediaActivity)
+        mediaController.setMediaPlayer(videoPlayer)
+        videoPlayer.setMediaController(mediaController)
         videoView.requestFocus()
         videoView.setOnTouchListener { _, _ ->
             mediaActivity.onPhotoTap()
