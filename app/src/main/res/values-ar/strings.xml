@@ -312,7 +312,7 @@
     <string name="profile_metadata_label_label">الوسم</string>
     <string name="profile_metadata_content_label">المحتوى</string>
 
-<string name="error_video_upload_size">يجب أن يكون حجم ملفات الفيديو أقل من 40 ميغا بايت.</string>
+    <string name="error_video_upload_size">يجب أن يكون حجم ملفات الفيديو أقل من 40 ميغا بايت.</string>
     <string name="status_content_show_more">توسيع</string>
     <string name="status_content_show_less">تصغير</string>
 
