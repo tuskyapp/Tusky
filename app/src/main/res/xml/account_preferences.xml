@@ -35,12 +35,12 @@
     <PreferenceCategory android:title="@string/pref_title_timelines">
 
         <SwitchPreference
-            android:key="alwaysShowSensitiveMedia"
-            android:title="@string/pref_title_alway_show_sensitive_media" />
-
-        <SwitchPreference
             android:key="mediaPreviewEnabled"
             android:title="@string/pref_title_show_media_preview" />
+
+        <SwitchPreference
+            android:key="alwaysShowSensitiveMedia"
+            android:title="@string/pref_title_alway_show_sensitive_media" />
 
     </PreferenceCategory>
 

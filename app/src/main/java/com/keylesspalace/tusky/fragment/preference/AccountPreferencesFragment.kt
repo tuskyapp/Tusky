@@ -70,7 +70,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
 
     private val iconSize by lazy {resources.getDimensionPixelSize(R.dimen.preference_icon_size)}
 
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.account_preferences)
 
@@ -79,8 +78,8 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         blockedUsersPreference = findPreference("blockedUsersPreference")
         defaultPostPrivacyPreference = findPreference("defaultPostPrivacy") as ListPreference
         defaultMediaSensitivityPreference = findPreference("defaultMediaSensitivity") as SwitchPreference
-        alwaysShowSensitiveMediaPreference = findPreference("alwaysShowSensitiveMedia") as SwitchPreference
         mediaPreviewEnabledPreference = findPreference("mediaPreviewEnabled") as SwitchPreference
+        alwaysShowSensitiveMediaPreference = findPreference("alwaysShowSensitiveMedia") as SwitchPreference
 
         notificationPreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_notifications).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
         mutedUsersPreference.icon = getTintedIcon(R.drawable.ic_mute_24dp)
@@ -92,8 +91,8 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
 
         defaultPostPrivacyPreference.onPreferenceChangeListener = this
         defaultMediaSensitivityPreference.onPreferenceChangeListener = this
-        alwaysShowSensitiveMediaPreference.onPreferenceChangeListener = this
         mediaPreviewEnabledPreference.onPreferenceChangeListener = this
+        alwaysShowSensitiveMediaPreference.onPreferenceChangeListener = this
 
     }
 
@@ -108,8 +107,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
             defaultMediaSensitivityPreference.isChecked = it.defaultMediaSensitivity
             defaultMediaSensitivityPreference.icon = getIconForSensitivity(it.defaultMediaSensitivity)
 
-            alwaysShowSensitiveMediaPreference.isChecked = it.alwaysShowSensitiveMedia
             mediaPreviewEnabledPreference.isChecked = it.mediaPreviewEnabled
+            alwaysShowSensitiveMediaPreference.isChecked = it.alwaysShowSensitiveMedia
+
         }
     }
 
@@ -123,15 +123,15 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
                 preference.icon = getIconForSensitivity(newValue as Boolean)
                 syncWithServer(sensitive = newValue)
             }
-            alwaysShowSensitiveMediaPreference -> {
-                accountManager.activeAccount?.let {
-                    it.alwaysShowSensitiveMedia = newValue as Boolean
-                    accountManager.saveAccount(it)
-                }
-            }
             mediaPreviewEnabledPreference -> {
                 accountManager.activeAccount?.let {
                     it.mediaPreviewEnabled = newValue as Boolean
+                    accountManager.saveAccount(it)
+                }
+            }
+            alwaysShowSensitiveMediaPreference -> {
+                accountManager.activeAccount?.let {
+                    it.alwaysShowSensitiveMedia = newValue as Boolean
                     accountManager.saveAccount(it)
                 }
             }
