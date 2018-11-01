@@ -67,6 +67,12 @@ WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId - 
 (authorServerId = :userId OR reblogAccountId = :userId)""")
     abstract fun removeAllByUser(accountId: Long, userId: String)
 
+    @Query("DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId")
+    abstract fun removeAllForAccount(accountId: Long)
+
+    @Query("DELETE FROM TimelineAccountEntity WHERE timelineUserId = :accountId")
+    abstract fun removeAllUsersForAccount(accountId: Long)
+
     @Query("""DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId
 AND serverId = :statusId""")
     abstract fun delete(accountId: Long, statusId: String)

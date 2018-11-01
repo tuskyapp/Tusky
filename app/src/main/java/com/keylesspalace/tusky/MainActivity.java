@@ -436,6 +436,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {
 
                         NotificationHelper.deleteNotificationChannelsForAccount(accountManager.getActiveAccount(), MainActivity.this);
+                        cacheUpdater.clearForUser(activeAccount.getId());
 
                         AccountEntity newAccount = accountManager.logActiveAccountOut();
 

@@ -2,13 +2,15 @@ package com.keylesspalace.tusky.appstore
 
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class CacheUpdater @Inject constructor(
         eventHub: EventHub,
-        appDatabase: AppDatabase,
-        accountManager: AccountManager
+        accountManager: AccountManager,
+        val appDatabase: AppDatabase
 ) {
 
     private val disposable: Disposable
@@ -32,5 +34,14 @@ class CacheUpdater @Inject constructor(
 
     fun stop() {
         this.disposable.dispose()
+    }
+
+    fun clearForUser(accountId: Long) {
+        Single.fromCallable {
+            appDatabase.timelineDao().removeAllForAccount(accountId)
+            appDatabase.timelineDao().removeAllUsersForAccount(accountId)
+        }
+                .subscribeOn(Schedulers.io())
+                .subscribe()
     }
 }
