@@ -230,6 +230,7 @@ public final class ComposeActivity
     private @Px int thumbnailViewSize;
 
     private SaveTootHelper saveTootHelper;
+    private Gson gson = new Gson();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -437,12 +438,12 @@ public final class ComposeActivity
             String savedJsonUrls = intent.getStringExtra(SAVED_JSON_URLS_EXTRA);
             String savedJsonDescriptions = intent.getStringExtra(SAVED_JSON_DESCRIPTIONS_EXTRA);
             if (!TextUtils.isEmpty(savedJsonUrls)) {
-                loadedDraftMediaUris = new Gson().fromJson(savedJsonUrls,
+                loadedDraftMediaUris = gson.fromJson(savedJsonUrls,
                         new TypeToken<ArrayList<String>>() {
                         }.getType());
             }
             if (!TextUtils.isEmpty(savedJsonDescriptions)) {
-                loadedDraftMediaDescriptions = new Gson().fromJson(savedJsonDescriptions,
+                loadedDraftMediaDescriptions = gson.fromJson(savedJsonDescriptions,
                         new TypeToken<ArrayList<String>>() {
                         }.getType());
             }
