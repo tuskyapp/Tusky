@@ -296,7 +296,6 @@
     <string name="compose_active_account_description">Postando com a conta %1$s</string>
 
     <string name="error_failed_set_caption">Falha ao atribuir descrição</string>
-    <string name="hint_describe_for_visually_impaired">Descreva a imagem para deficientes visuais</string>
     <string name="action_set_caption">Escrever descrição</string>
     <string name="action_remove_media">Remover</string>
     <string name="lock_account_label">Trancar conta</string>
