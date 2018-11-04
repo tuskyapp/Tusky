@@ -23,7 +23,12 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Emoji
 import com.squareup.picasso.Picasso
 
-class EmojiAdapter(private val emojiList: List<Emoji>, private val onEmojiSelectedListener: OnEmojiSelectedListener) : RecyclerView.Adapter<EmojiAdapter.EmojiHolder>() {
+class EmojiAdapter(emojiList: List<Emoji>, private val onEmojiSelectedListener: OnEmojiSelectedListener) : RecyclerView.Adapter<EmojiAdapter.EmojiHolder>() {
+    private val emojiList : List<Emoji>
+
+    init {
+        this.emojiList = emojiList.filter { emoji -> emoji.visibleInPicker == null || emoji.visibleInPicker }
+    }
 
     override fun getItemCount(): Int {
         return emojiList.size
