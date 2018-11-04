@@ -159,7 +159,6 @@
     <string name="pref_title_edit_notification_settings">通知を設定</string>
     <string name="pref_title_notifications_enabled">プッシュ通知</string>
     <string name="pref_summary_notifications">対象: %1$s</string>
-    <string name="pref_title_pull_notification_check_interval">通知の取得間隔</string>
     <string name="pref_title_notification_alerts">通知時の動作</string>
     <string name="pref_title_notification_alert_sound">着信音を鳴らす</string>
     <string name="pref_title_notification_alert_vibrate">バイブレーションする</string>
@@ -193,16 +192,6 @@
     <string name="pref_title_http_proxy_enable">HTTPプロキシーを有効化</string>
     <string name="pref_title_http_proxy_server">HTTPプロキシーサーバー</string>
     <string name="pref_title_http_proxy_port">HTTPプロキシーポート</string>
-
-    <string-array name="pull_notification_check_interval_names">
-        <item>15分</item>
-        <item>20分</item>
-        <item>25分</item>
-        <item>30分</item>
-        <item>45分</item>
-        <item>1時間</item>
-        <item>2時間</item>
-    </string-array>
 
     <string name="pref_default_post_privacy">デフォルトの投稿プライバシー</string>
     <string name="pref_publishing">投稿</string>

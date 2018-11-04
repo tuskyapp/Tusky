@@ -142,18 +142,6 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
             "absoluteTimeView" -> {
                 restartActivitiesOnExit = true
             }
-            "notificationsEnabled" -> {
-                val enabled = sharedPreferences.getBoolean("notificationsEnabled", true)
-                if (enabled) {
-                    enablePushNotifications()
-                } else {
-                    disablePushNotifications()
-                }
-            }
-            "pullNotificationCheckInterval" -> {
-                val minutes = sharedPreferences.getNonNullString("pullNotificationCheckInterval", "15").toLong()
-                setPullNotificationCheckInterval(minutes)
-            }
         }
 
         eventHub.dispatch(PreferenceChangedEvent(key))

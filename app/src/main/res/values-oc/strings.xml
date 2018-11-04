@@ -158,7 +158,6 @@
     <string name="pref_title_edit_notification_settings">Modificar las notificacions</string>
     <string name="pref_title_notifications_enabled">Notificacions</string>
     <string name="pref_summary_notifications">pel compte %1$s</string>
-    <string name="pref_title_pull_notification_check_interval">Comprovar l\'interval</string>
     <string name="pref_title_notification_alerts">Alèrtas</string>
     <string name="pref_title_notification_alert_sound">Notificar amb un son</string>
     <string name="pref_title_notification_alert_vibrate">Notificra amb una vibracion</string>
@@ -193,16 +192,6 @@
     <string name="pref_title_http_proxy_enable">Activar lo proxy HTTP</string>
     <string name="pref_title_http_proxy_server">Servidor proxy HTTP</string>
     <string name="pref_title_http_proxy_port">Pòrt del servidor proxy HTTP</string>
-
-    <string-array name="pull_notification_check_interval_names">
-        <item>15 minutas</item>
-        <item>20 minutas</item>
-        <item>25 minutas</item>
-        <item>30 minutas</item>
-        <item>45 minutas</item>
-        <item>1 ora</item>
-        <item>2 oras</item>
-    </string-array>
 
     <string name="pref_default_post_privacy">Privacitat predeterminada dels tuts</string>
     <string name="pref_publishing">Publicacion</string>

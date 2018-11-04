@@ -139,7 +139,6 @@
     <string name="pref_title_notification_settings">Notificacions</string>
     <string name="pref_title_edit_notification_settings">Edita les notificacions</string>
     <string name="pref_title_notifications_enabled">Notificacions</string>
-    <string name="pref_title_pull_notification_check_interval">Comprova l\'interval</string>
     <string name="pref_title_notification_alerts">Alertes</string>
     <string name="pref_title_notification_alert_sound">Notifica amb un so</string>
     <string name="pref_title_notification_alert_vibrate">Notifica amb una vibració</string>
@@ -158,16 +157,6 @@
     <string name="pref_title_show_boosts">Mostra els retoots</string>
     <string name="pref_title_show_replies">Mostra les respostes</string>
     <string name="pref_title_show_media_preview">Mostra les previsualitzacions</string>
-
-    <string-array name="pull_notification_check_interval_names">
-        <item>15 minuts</item>
-        <item>20 minuts</item>
-        <item>25 minuts</item>
-        <item>30 minuts</item>
-        <item>45 minuts</item>
-        <item>1 hora</item>
-        <item>2 hores</item>
-    </string-array>
 
     <string name="pref_default_post_privacy">Privacitat predeterminada dels toots</string>
     <string name="pref_publishing">Publicació</string>

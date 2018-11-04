@@ -177,7 +177,6 @@
     <string name="search_no_results">Aucun résultat</string>
     <string name="dialog_unfollow_warning">Désirez-vous cesser de suivre ce compte \?</string>
     <string name="pref_summary_notifications">pour le compte %1$s</string>
-    <string name="pref_title_pull_notification_check_interval">Interval de vérifications</string>
     <string name="pref_title_app_theme">Theme de l\'application</string>
 
     <string-array name="app_theme_names">
@@ -192,16 +191,6 @@
     <string name="pref_title_http_proxy_enable">Activer le proxy HTTP</string>
     <string name="pref_title_http_proxy_server">Adresse du serveur proxy HTTP</string>
     <string name="pref_title_http_proxy_port">Port du serveur proxy HTTP</string>
-
-    <string-array name="pull_notification_check_interval_names">
-        <item>15 minutes</item>
-        <item>20 minutes</item>
-        <item>25 minutes</item>
-        <item>30 minutes</item>
-        <item>45 minutes</item>
-        <item>1 heure</item>
-        <item>2 heures</item>
-    </string-array>
 
     <string name="pref_default_post_privacy">Confidentialité par defaut</string>
     <string name="pref_publishing">Publier</string>

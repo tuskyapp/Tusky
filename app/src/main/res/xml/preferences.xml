@@ -42,8 +42,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/pref_title_browser_settings"
-        app:iconSpaceReserved="false">
+        android:title="@string/pref_title_browser_settings">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="customTabs"
@@ -51,8 +50,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/pref_title_status_filter"
-        app:iconSpaceReserved="false">
+        android:title="@string/pref_title_status_filter">
         <Preference
             android:key="timelineFilterPreferences"
             android:title="@string/pref_title_status_tabs" />
@@ -60,22 +58,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/pref_title_notification_settings"
-        app:iconSpaceReserved="false">
-
-        <ListPreference
-            android:defaultValue="15"
-            android:entries="@array/pull_notification_check_interval_names"
-            android:entryValues="@array/pull_notification_check_intervals"
-            android:key="pullNotificationCheckInterval"
-            android:summary="%s"
-            android:title="@string/pref_title_pull_notification_check_interval" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/pref_title_proxy_settings"
-        app:iconSpaceReserved="false">
+        android:title="@string/pref_title_proxy_settings">
         <Preference
             android:key="httpProxyPreferences"
             android:summary="%s"

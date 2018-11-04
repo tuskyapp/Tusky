@@ -23,8 +23,8 @@ import android.view.View
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.util.NotificationHelper
 import javax.inject.Inject
-
 
 class NotificationPreferencesFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener, Injectable {
 
@@ -82,7 +82,14 @@ class NotificationPreferencesFragment : PreferenceFragmentCompat(), Preference.O
 
         if (activeAccount != null) {
             when (preference.key) {
-                "notificationsEnabled" -> activeAccount.notificationsEnabled = newValue as Boolean
+                "notificationsEnabled" -> {
+                    activeAccount.notificationsEnabled = newValue as Boolean
+                    if(NotificationHelper.areNotificationsEnabled(preference.context, accountManager)) {
+                        NotificationHelper.enablePullNotifications()
+                    } else {
+                        NotificationHelper.disablePullNotifications()
+                    }
+                }
                 "notificationFilterMentions" -> activeAccount.notificationsMentioned = newValue as Boolean
                 "notificationFilterFollows" -> activeAccount.notificationsFollowed = newValue as Boolean
                 "notificationFilterReblogs" -> activeAccount.notificationsReblogged = newValue as Boolean

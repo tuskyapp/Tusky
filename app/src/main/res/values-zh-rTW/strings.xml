@@ -144,7 +144,6 @@
     <string name="pref_title_edit_notification_settings">通知設置</string>
     <string name="pref_title_notifications_enabled">通知</string>
     <string name="pref_summary_notifications">帳號 %1$s</string>
-    <string name="pref_title_pull_notification_check_interval">檢查間隔時間</string>
     <string name="pref_title_notification_alerts">提醒</string>
     <string name="pref_title_notification_alert_sound">通知鈴聲</string>
     <string name="pref_title_notification_alert_vibrate">振動</string>
@@ -178,16 +177,6 @@
     <string name="pref_title_http_proxy_enable">啟用 HTTP 代理</string>
     <string name="pref_title_http_proxy_server">HTTP 代理服務器</string>
     <string name="pref_title_http_proxy_port">HTTP 代理端口</string>
-
-    <string-array name="pull_notification_check_interval_names">
-        <item>15 分鐘</item>
-        <item>20 分鐘</item>
-        <item>25 分鐘</item>
-        <item>30 分鐘</item>
-        <item>45 分鐘</item>
-        <item>1 小時</item>
-        <item>2 小時</item>
-    </string-array>
 
     <string name="pref_default_post_privacy">嘟文默認可見範圍</string>
     <string name="pref_publishing">發佈</string>

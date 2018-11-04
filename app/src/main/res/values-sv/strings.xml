@@ -164,7 +164,6 @@
     <string name="pref_title_edit_notification_settings">Redigera notifieringar</string>
     <string name="pref_title_notifications_enabled">Notifieringar</string>
     <string name="pref_summary_notifications">för konto %1$s</string>
-    <string name="pref_title_pull_notification_check_interval">Uppdateringsintervall</string>
     <string name="pref_title_notification_alerts">Alarm</string>
     <string name="pref_title_notification_alert_sound">Meddela med ljud</string>
     <string name="pref_title_notification_alert_vibrate">Meddela med vibration</string>
@@ -198,16 +197,6 @@
     <string name="pref_title_http_proxy_enable">Aktivera HTTP-proxy</string>
     <string name="pref_title_http_proxy_server">HTTP proxy server</string>
     <string name="pref_title_http_proxy_port">HTTP proxy port</string>
-    
-    <string-array name="pull_notification_check_interval_names">
-        <item>15 minuter</item>
-        <item>20 minuter</item>
-        <item>25 minuter</item>
-        <item>30 minuter</item>
-        <item>45 minuter</item>
-        <item>1 timme</item>
-        <item>2 timmar</item>
-    </string-array>
 
     <string name="pref_default_post_privacy">Standardinställning för inlägg</string>
     <string name="pref_publishing">Publicering</string>

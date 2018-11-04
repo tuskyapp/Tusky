@@ -156,7 +156,6 @@
     <string name="pref_title_edit_notification_settings">Настройки уведомлений</string>
     <string name="pref_title_notifications_enabled">Push-уведомления</string>
     <string name="pref_summary_notifications">для аккаунта %1$s</string>
-    <string name="pref_title_pull_notification_check_interval">Интервал проверки</string>
     <string name="pref_title_notification_alerts">Предупреждения</string>
     <string name="pref_title_notification_alert_sound">Звуковые уведомления</string>
     <string name="pref_title_notification_alert_vibrate">Использовать вибрацию</string>
@@ -190,16 +189,6 @@
     <string name="pref_title_http_proxy_enable">Использовать HTTP прокси</string>
     <string name="pref_title_http_proxy_server">Адрес сервера</string>
     <string name="pref_title_http_proxy_port">Порт</string>
-
-    <string-array name="pull_notification_check_interval_names">
-        <item>15 минут</item>
-        <item>20 минут</item>
-        <item>25 минут</item>
-        <item>30 минут</item>
-        <item>45 минут</item>
-        <item>1 час</item>
-        <item>2 часа</item>
-    </string-array>
 
     <string name="pref_default_post_privacy">Приватность статусов по умолчанию</string>
     <string name="pref_publishing">Публикация</string>

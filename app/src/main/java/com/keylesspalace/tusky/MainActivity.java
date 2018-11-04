@@ -213,9 +213,9 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         // Setup push notifications
         if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
-            enablePushNotifications();
+            NotificationHelper.enablePullNotifications();
         } else {
-            disablePushNotifications();
+            NotificationHelper.disablePullNotifications();
         }
 
         eventHub.getEvents()
@@ -432,8 +432,9 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
                         AccountEntity newAccount = accountManager.logActiveAccountOut();
 
-                        if (!NotificationHelper.areNotificationsEnabled(MainActivity.this, accountManager))
-                            disablePushNotifications();
+                        if (!NotificationHelper.areNotificationsEnabled(MainActivity.this, accountManager)) {
+                            NotificationHelper.disablePullNotifications();
+                        }
 
                         Intent intent;
                         if (newAccount == null) {

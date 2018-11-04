@@ -158,7 +158,6 @@
     <string name="pref_title_edit_notification_settings">Meldingen bewerken</string>
     <string name="pref_title_notifications_enabled">Meldingen</string>
     <string name="pref_summary_notifications">voor account %1$s</string>
-    <string name="pref_title_pull_notification_check_interval">Controlefrequentie</string>
     <string name="pref_title_notification_alerts">Waarschuwen met</string>
     <string name="pref_title_notification_alert_sound">geluid</string>
     <string name="pref_title_notification_alert_vibrate">trillen</string>
@@ -192,16 +191,6 @@
     <string name="pref_title_http_proxy_enable">HTTP-proxy inschakelen</string>
     <string name="pref_title_http_proxy_server">Serveradres van HTTP-proxy</string>
     <string name="pref_title_http_proxy_port">Poort van HTTP-proxy</string>
-
-    <string-array name="pull_notification_check_interval_names">
-        <item>15 minuten</item>
-        <item>20 minuten</item>
-        <item>25 minuten</item>
-        <item>30 minuten</item>
-        <item>45 minuten</item>
-        <item>1 uur</item>
-        <item>2 uur</item>
-    </string-array>
 
     <string name="pref_default_post_privacy">Standaardzichtbaarheid van jouw toots</string>
     <string name="pref_publishing">Publiceren</string>

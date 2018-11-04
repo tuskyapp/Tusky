@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.di.AppInjector;
 import com.keylesspalace.tusky.util.EmojiCompatFont;
+import com.keylesspalace.tusky.util.NotificationPullJobCreator;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;

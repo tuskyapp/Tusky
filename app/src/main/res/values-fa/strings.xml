@@ -165,7 +165,6 @@
     <string name="pref_title_edit_notification_settings" >ویرایش اعلان‌ها</string>
     <string name="pref_title_notifications_enabled" >اعلان ها</string>
     <string name="pref_summary_notifications" >برای حساب %1$s</string>
-    <string name="pref_title_pull_notification_check_interval" >فاصله را بررسی کن</string>
     <string name="pref_title_notification_alerts" >هشدارها</string>
     <string name="pref_title_notification_alert_sound" >اعلان با صدا</string>
     <string name="pref_title_notification_alert_vibrate" >اعلان با لرزش</string>
@@ -199,16 +198,6 @@
     <string name="pref_title_http_proxy_enable" >فعالسازی پراکسی HTTP</string>
     <string name="pref_title_http_proxy_server" >سرور پراکسی HTTP</string>
     <string name="pref_title_http_proxy_port" >پورت پراکسی HTTP</string>
-
-    <string-array name="pull_notification_check_interval_names">
-        <item>۱۵ دقیقه</item>
-        <item>۲۰ دقیقه</item>
-        <item>۲۵ دقیقه</item>
-        <item>۳۰ دقیقه</item>
-        <item>۴۵ دقیقه</item>
-        <item>۱ ساعت</item>
-        <item>۲ ساعت</item>
-    </string-array>
     
     <string name="pref_default_post_privacy">حریم خصوصی پیشفرض پست</string>
     <string name="pref_publishing" >انتشار</string>
