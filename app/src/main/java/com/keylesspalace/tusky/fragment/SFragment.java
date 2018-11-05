@@ -143,7 +143,7 @@ public abstract class SFragment extends BaseFragment {
     protected void more(@NonNull final Status status, View view, final int position) {
         final String id = status.getActionableId();
         final String accountId = status.getActionableStatus().getAccount().getId();
-        final String accountUsename = status.getActionableStatus().getAccount().getUsername();
+        final String accountUsername = status.getActionableStatus().getAccount().getUsername();
         final Spanned content = status.getActionableStatus().getContent();
         final String statusUrl = status.getActionableStatus().getUrl();
         PopupMenu popup = new PopupMenu(getContext(), view);
@@ -203,7 +203,7 @@ public abstract class SFragment extends BaseFragment {
                     return true;
                 }
                 case R.id.status_report: {
-                    openReportPage(accountId, accountUsename, id, content);
+                    openReportPage(accountId, accountUsername, id, content);
                     return true;
                 }
                 case R.id.status_unreblog_private: {
