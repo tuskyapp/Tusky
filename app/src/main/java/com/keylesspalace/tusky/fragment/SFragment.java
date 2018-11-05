@@ -153,15 +153,21 @@ public abstract class SFragment extends BaseFragment {
         } else {
             popup.inflate(R.menu.status_more_for_user);
             Menu menu = popup.getMenu();
-            if (status.getVisibility() == Status.Visibility.PRIVATE) {
-                boolean reblogged = status.getReblogged();
-                if (status.getReblog() != null) reblogged = status.getReblog().getReblogged();
-                menu.findItem(R.id.status_reblog_private).setVisible(!reblogged);
-                menu.findItem(R.id.status_unreblog_private).setVisible(reblogged);
-            } else {
-                final String textId =
-                        getString(status.getPinned() ? R.string.unpin_action : R.string.pin_action);
-                menu.add(0, R.id.pin, 1, textId);
+            switch (status.getVisibility()) {
+                case PUBLIC:
+                case UNLISTED: {
+                    final String textId =
+                            getString(status.isPinned() ? R.string.unpin_action : R.string.pin_action);
+                    menu.add(0, R.id.pin, 1, textId);
+                    break;
+                }
+                case PRIVATE: {
+                    boolean reblogged = status.getReblogged();
+                    if (status.getReblog() != null) reblogged = status.getReblog().getReblogged();
+                    menu.findItem(R.id.status_reblog_private).setVisible(!reblogged);
+                    menu.findItem(R.id.status_unreblog_private).setVisible(reblogged);
+                    break;
+                }
             }
         }
         popup.setOnMenuItemClickListener(item -> {
@@ -219,7 +225,7 @@ public abstract class SFragment extends BaseFragment {
                     return true;
                 }
                 case R.id.pin: {
-                    timelineCases().pin(status, !status.getPinned());
+                    timelineCases().pin(status, !status.isPinned());
                     return true;
                 }
             }
