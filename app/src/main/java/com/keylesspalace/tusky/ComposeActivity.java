@@ -565,7 +565,10 @@ public final class ComposeActivity
             for (int mediaIndex = 0; mediaIndex < loadedDraftMediaUris.size(); ++mediaIndex) {
                 Uri uri = Uri.parse(loadedDraftMediaUris.get(mediaIndex));
                 long mediaSize = getMediaSize(getContentResolver(), uri);
-                String description = loadedDraftMediaDescriptions == null ? null : loadedDraftMediaDescriptions.get(mediaIndex);
+                String description = null;
+                if (loadedDraftMediaDescriptions != null && mediaIndex < loadedDraftMediaDescriptions.size()) {
+                    description = loadedDraftMediaDescriptions.get(mediaIndex);
+                }
                 pickMedia(uri, mediaSize, description);
             }
         } else if (savedMediaQueued != null) {
