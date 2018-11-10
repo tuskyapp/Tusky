@@ -3,13 +3,14 @@
     <string name="error_generic">应用程序出现异常。</string>
     <string name="error_empty">内容不能为空。</string>
     <string name="error_invalid_domain">该域名无效</string>
-    <string name="error_failed_app_registration">无法连接到该实例。</string>
+    <string name="error_failed_app_registration">无法连接此服务器。</string>
     <string name="error_no_web_browser_found">没有可用的浏览器。</string>
     <string name="error_authorization_unknown">认证过程出现未知错误。</string>
     <string name="error_authorization_denied">授权被拒绝。</string>
     <string name="error_retrieving_oauth_token">无法获取登录信息。</string>
     <string name="error_compose_character_limit">嘟文太长了！</string>
     <string name="error_image_upload_size">文件大小限制 8MB。</string>
+    <string name="error_video_upload_size">视频文件大小限制 40MB。</string>
     <string name="error_media_upload_type">无法上传此类型的文件。</string>
     <string name="error_media_upload_opening">此文件无法打开。</string>
     <string name="error_media_upload_permission">需要授予 Tusky 读取媒体文件的权限。</string>
@@ -18,15 +19,17 @@
     <string name="error_media_upload_sending">媒体文件上传失败。</string>
     <string name="error_report_too_few_statuses">至少要报告 1 则嘟文。</string>
     <string name="error_invalid_regex">正则表达式无效</string>
+    <string name="error_sender_account_gone">嘟文发送时出错。</string>
 
     <string name="title_home">主页</string>
     <string name="title_advanced">高级</string>
     <string name="title_notifications">通知</string>
     <string name="title_public_local">本站时间轴</string>
-    <string name="title_public_federated">跨站公共时间轴</string>
+    <string name="title_public_federated">跨站公共时间线</string>
     <string name="title_view_thread">嘟文</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">嘟文</string>
+    <string name="title_statuses_with_replies">嘟文和回复</string>
     <string name="title_follows">正在关注</string>
     <string name="title_followers">关注者</string>
     <string name="title_favourites">我的收藏</string>
@@ -35,6 +38,7 @@
     <string name="title_follow_requests">关注请求</string>
     <string name="title_edit_profile">编辑个人资料</string>
     <string name="title_saved_toot">草稿</string>
+    <string name="title_licenses">开源协议</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s 转嘟了</string>
@@ -43,6 +47,8 @@
     <string name="status_sensitive_media_directions">点击显示</string>
     <string name="status_content_warning_show_more">显示更多</string>
     <string name="status_content_warning_show_less">折叠内容</string>
+    <string name="status_content_show_more">展开</string>
+    <string name="status_content_show_less">折叠</string>
 
     <string name="footer_empty">还没有内容，向下滑动即可刷新。</string>
 
@@ -53,18 +59,21 @@
     <string name="report_username_format">报告用户 @%s 的滥用行为</string>
     <string name="report_comment_hint">报告更多信息</string>
 
+    <string name="action_quick_reply">快捷回复</string>
     <string name="action_reply">回复</string>
     <string name="action_reblog">转嘟</string>
     <string name="action_favourite">收藏</string>
     <string name="action_more">更多</string>
     <string name="action_compose">发表新嘟文</string>
     <string name="action_login">登录 Mastodon 帐号</string>
-    <string name="action_logout">登出</string>
-    <string name="action_logout_confirm">确定要登出帐号 %1$s 吗？</string>
+    <string name="action_logout">退出登录</string>
+    <string name="action_logout_confirm">确定要退出帐号 %1$s 吗？</string>
     <string name="action_follow">关注</string>
     <string name="action_unfollow">取消关注</string>
     <string name="action_block">屏蔽</string>
     <string name="action_unblock">取消屏蔽</string>
+    <string name="action_hide_reblogs">隐藏转嘟</string>
+    <string name="action_show_reblogs">显示转嘟</string>
     <string name="action_report">报告</string>
     <string name="action_delete">删除</string>
     <string name="action_send">发嘟</string>
@@ -73,6 +82,7 @@
     <string name="action_close">关闭</string>
     <string name="action_view_profile">个人资料</string>
     <string name="action_view_preferences">设置</string>
+    <string name="action_view_account_preferences">帐户设置</string>
     <string name="action_view_favourites">我的收藏</string>
     <string name="action_view_mutes">被隐藏的用户</string>
     <string name="action_view_blocks">被屏蔽的用户</string>
@@ -89,6 +99,7 @@
     <string name="action_open_drawer">打开应用抽屉</string>
     <string name="action_save">保存</string>
     <string name="action_edit_profile">编辑个人资料</string>
+    <string name="action_edit_own_profile">编辑</string>
     <string name="action_undo">撤销</string>
     <string name="action_accept">接受</string>
     <string name="action_reject">拒绝</string>
@@ -104,10 +115,14 @@
 
     <string name="send_status_link_to">分享链接到…</string>
     <string name="send_status_content_to">分享嘟文到…</string>
+    <string name="send_media_to">分享媒体到…</string>
 
     <string name="confirmation_reported">报告已发送！</string>
     <string name="confirmation_unblocked">用户已被屏蔽</string>
     <string name="confirmation_unmuted">用户已被隐藏</string>
+
+    <string name="status_sent">已发送！</string>
+    <string name="status_sent_long">成功发布回复。</string>
 
     <string name="hint_domain">域名</string>
     <string name="hint_compose">有什么新鲜事？</string>
@@ -118,6 +133,7 @@
 
     <string name="search_no_results">没找到结果</string>
 
+    <string name="label_quick_reply">回复…</string>
     <string name="label_avatar">头像</string>
     <string name="label_header">标题</string>
 
@@ -125,15 +141,16 @@
 
     <string name="login_connection">正在连接…</string>
 
-    <string name="dialog_whats_an_instance">请输入你帐号所在的 Mastodon 站点的域名，比如 mastodon.social，pawoo.net，mstdn.jp，mao.daizhige.org，<a href="https://instances.social">等等</a> 。
-        \n\n还没有 Mastodon 帐号？你也可以输入想注册的实例的域名，然后在该实例创建新的帐号并授权 Tusky 登入。
-        \n\n你帐号所在的 Mastodon 站点被称为 Mastodon 的一个「实例」（instance）。但是在 Mastodon 里，跨实例互动和站内互动一样简单。
-        \n\n可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 了解更多信息。
+    <string name="dialog_whats_an_instance">请输入你帐号所在的 Mastodon 站点的域名，比如 pawoo.net，mstdn.jp，mao.daizhige.org，<a href="https://instances.social">等等</a> 。
+        \n\n还没有 Mastodon 帐号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的帐号并授权 Tusky 登入。
+        \n\n在 Mastodon 里，跨站互动和站内互动一样简单。可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 了解更多信息。
     </string>
     <string name="dialog_title_finishing_media_upload">正在结束上传…</string>
     <string name="dialog_message_uploading_media">正在上传…</string>
     <string name="dialog_download_image">下载</string>
+    <string name="dialog_message_cancel_follow_request">移除关注请求？</string>
     <string name="dialog_unfollow_warning">不再关注此用户？</string>
+    <string name="dialog_delete_toot_warning">删除这条嘟文？</string>
 
     <string name="visibility_public">公开：所有人可见，并会出现在公共时间轴上</string>
     <string name="visibility_unlisted">不公开：所有人可见，但不会出现在公共时间轴上</string>
@@ -155,6 +172,7 @@
     <string name="pref_title_notification_filter_favourites">嘟文被收藏</string>
     <string name="pref_title_appearance_settings">外观</string>
     <string name="pref_title_app_theme">应用主题</string>
+    <string name="pref_title_timelines">时间线</string>
 
     <string-array name="app_theme_names">
         <item>黑夜</item>
@@ -166,7 +184,7 @@
     <string name="pref_title_browser_settings">浏览器</string>
     <string name="pref_title_custom_tabs">使用 Chrome Custom Tabs</string>
     <string name="pref_title_hide_follow_button">浏览时自动隐藏发嘟按钮</string>
-    <string name="pref_title_status_filter">时间轴过滤</string>
+    <string name="pref_title_status_filter">时间线过滤</string>
     <string name="pref_title_status_tabs">选项卡</string>
     <string name="pref_title_show_boosts">显示转嘟</string>
     <string name="pref_title_show_replies">显示回复</string>
@@ -180,6 +198,7 @@
 
     <string name="pref_default_post_privacy">嘟文默认可见范围</string>
     <string name="pref_publishing">发布</string>
+    <string name="pref_failed_to_sync">同步失败设置</string>
 
     <string-array name="post_privacy_names">
         <item>公开</item>
@@ -189,11 +208,21 @@
 
     <string name="pref_status_text_size">字体大小</string>
 
-    <!--<string-array name="status_text_size_names">-->
-        <!--<item>小</item>-->
-        <!--<item>中</item>-->
-        <!--<item>大</item>-->
-    <!--</string-array>-->
+    <string-array name="status_text_size_names">
+        <item>最小</item>
+        <item>小</item>
+        <item>标准</item>
+        <item>大</item>
+        <item>最大</item>
+    </string-array>
+
+    <string name="pref_media_display">媒体显示</string>
+
+    <string-array name="media_display_names">
+        <item>自动隐藏敏感媒体</item>
+        <item>总是显示敏感媒体</item>
+        <item>总是隐藏所有媒体</item>
+    </string-array>
 
     <string name="notification_channel_mention_name">被提及</string>
     <string name="notification_channel_mention_descriptions">当有用户在嘟文中提及我时</string>
@@ -259,7 +288,7 @@
 
     <string name="action_lists">列表</string>
     <string name="title_lists">列表</string>
-    <string name="title_list_timeline">列表公共时间轴</string>
+    <string name="title_list_timeline">列表公共时间线</string>
 
     <string name="compose_active_account_description">使用帐号 %1$s 发布嘟文</string>
 
@@ -270,10 +299,52 @@
     <string name="lock_account_label">保护你的帐户（锁嘟）</string>
     <string name="lock_account_label_description">你需要手动审核所有关注请求</string>
     <string name="compose_save_draft">保存为草稿？</string>
-    <string name="send_toot_notification_title">正在发送...</string>
+    <string name="send_toot_notification_title">正在发送…</string>
     <string name="send_toot_notification_error_title">发送失败</string>
     <string name="send_toot_notification_channel_name">嘟文发送中</string>
     <string name="send_toot_notification_cancel_title">发送已被取消</string>
     <string name="send_toot_notification_saved_content">嘟文已保存到草稿</string>
+    <string name="action_compose_shortcut">发表嘟文</string>
+
+    <string name="error_no_custom_emojis">当前服务器没有自定义的 Emoji 表情</string>
+    <string name="copy_to_clipboard_success">已复制到剪贴板</string>
+    <string name="emoji_style">Emoji 表情</string>
+    <string name="system_default">系统默认</string>
+    <string name="download_fonts">需要下载 Emoji 数据</string>
+    <string name="performing_lookup_title">正在查找…</string>
+    <string name="expand_collapse_all_statuses">展开/折叠所有嘟文</string>
+    <string name="action_open_toot">打开嘟文</string>
+    <string name="restart_required">需要重启应用</string>
+    <string name="restart_emoji">你需要重启 Tusky 才能生效</string>
+    <string name="later">以后</string>
+    <string name="restart">立即重启</string>
+    <string name="caption_systememoji">系统默认 Emoji 表情</string>
+    <string name="caption_blobmoji">Android 4.4–7.1 的黄馒头 Emoji 表情</string>
+    <string name="caption_twemoji">Mastodon 使用的 Emoji 表情</string>
+
+    <string name="download_failed">下载失败</string>
+
+    <string name="profile_badge_bot_text">Bot</string>
+    <string name="account_moved_description">%1$s 已迁移到：</string>
+
+    <string name="reblog_private">转嘟（可见者不变）</string>
+    <string name="unreblog_private">取消转嘟</string>
+
+    <string name="license_description">Tusky 使用了以下开源项目的源码：</string>
+    <string name="license_apache_2">以 Apache License 授权（复制如下）</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <string name="profile_metadata_label">个人资料附加信息</string>
+    <string name="profile_metadata_add">添加信息</string>
+    <string name="profile_metadata_label_label">标签</string>
+    <string name="profile_metadata_content_label">内容</string>
+
+    <string name="pref_title_absolute_time">嘟文显示精确时间</string>
+
+    <string name="label_remote_account">以下信息可能并不完整，要查看完整资料请使用浏览器打开。</string>
+
+    <string name="unpin_action">取消置顶</string>
+    <string name="pin_action">置顶</string>
 
 </resources>
