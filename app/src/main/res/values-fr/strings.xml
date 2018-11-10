@@ -9,39 +9,46 @@
     <string name="error_authorization_denied">Authentification refusée.</string>
     <string name="error_retrieving_oauth_token">Impossible de récupérer le jeton d’authentification.</string>
     <string name="error_compose_character_limit">Votre pouet est trop long !</string>
-    <string name="error_image_upload_size">Le fichier doit peser moins de 8 Mo.</string>
+    <string name="error_image_upload_size">Le fichier doit faire moins de 8 Mo.</string>
+    <string name="error_video_upload_size">Les fichiers vidéos doivent faire moins de 40 Mo.</string>
     <string name="error_media_upload_type">Ce type de fichier n’est pas accepté.</string>
     <string name="error_media_upload_opening">Le fichier ne peut pas être ouvert.</string>
-    <string name="error_media_upload_permission">Permission requise pour lire ce média.</string>
+    <string name="error_media_upload_permission">Permission requise pour lire le média.</string>
     <string name="error_media_download_permission">Permission requise pour enregistrer le média.</string>
     <string name="error_media_upload_image_or_video">Un même pouet ne peut contenir à la fois une vidéo et une image.</string>
     <string name="error_media_upload_sending">Échec d’envoi du média.</string>
-    <string name="error_report_too_few_statuses">Au moins un pouet a été reporté.</string>
+    <string name="error_report_too_few_statuses">Au moins un pouet doit été signalé.</string>
+    <string name="error_invalid_regex">Expression régulière invalide</string>
+    <string name="error_sender_account_gone">Erreur lors de l’envoi du pouet.</string>
 
     <string name="title_home">Accueil</string>
+    <string name="title_advanced">Avancé</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_public_local">Local</string>
-    <string name="title_public_federated">Fédéré</string>
-    <string name="title_view_thread">Fil</string>
+    <string name="title_public_federated">Global</string>
+    <string name="title_view_thread">Pouet</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Pouets</string>
     <string name="title_statuses_with_replies">Pouets &amp; réponses</string>
     <string name="title_follows">Abonnements</string>
-    <string name="title_followers">Abonnés</string>
+    <string name="title_followers">Abonné·e·s</string>
     <string name="title_favourites">Favoris</string>
-    <string name="title_blocks">Utilisateurs bloqués</string>
-    <string name="title_mutes">Utilisateurs muets</string>
-    <string name="title_edit_profile">Editer votre profil</string>
-    <string name="title_follow_requests">Demande de suivi</string>
-    <string name="title_saved_toot">Pouet sauvegardés</string>
+    <string name="title_mutes">Comptes masqués</string>
+    <string name="title_blocks">Comptes bloqués</string>
+    <string name="title_follow_requests">Demandes de suivi</string>
+    <string name="title_edit_profile">Modifier votre profil</string>
+    <string name="title_saved_toot">Brouillons</string>
+    <string name="title_licenses">Licences</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s a boosté</string>
-    <string name="status_sensitive_media_title">Média sensible</string>
-    <string name="status_media_hidden_title">Media caché</string>
+    <string name="status_sensitive_media_title">Contenu sensible</string>
+    <string name="status_media_hidden_title">Média caché</string>
     <string name="status_sensitive_media_directions">Cliquer pour voir</string>
     <string name="status_content_warning_show_more">Voir plus</string>
     <string name="status_content_warning_show_less">Voir moins</string>
+    <string name="status_content_show_more">Déplier</string>
+    <string name="status_content_show_less">Replier</string>
 
     <string name="footer_empty">Il n’y a aucun pouet pour le moment.\nGlissez vers le bas pour actualiser !</string>
 
@@ -50,20 +57,23 @@
     <string name="notification_follow_format">%s vous suit</string>
 
     <string name="report_username_format">Signaler @%s</string>
-    <string name="report_comment_hint">Davantage de commentaires ?</string>
+    <string name="report_comment_hint">Commentaires additonnels ?</string>
 
+    <string name="action_quick_reply">Réponse rapide</string>
     <string name="action_reply">Répondre</string>
     <string name="action_reblog">Booster</string>
     <string name="action_favourite">Favori</string>
     <string name="action_more">Plus</string>
-    <string name="action_compose">Répondre</string>
+    <string name="action_compose">Écrire</string>
     <string name="action_login">Se connecter à Mastodon</string>
     <string name="action_logout">Déconnexion</string>
-    <string name="action_logout_confirm">Êtes-vous certain de vouloir déconnecter le compte %1$s \?</string>
+    <string name="action_logout_confirm">Êtes-vous certain·e· de vouloir déconnecter le compte %1$s ?</string>
     <string name="action_follow">Suivre</string>
     <string name="action_unfollow">Ne plus suivre</string>
     <string name="action_block">Bloquer</string>
     <string name="action_unblock">Débloquer</string>
+    <string name="action_hide_reblogs">Cacher les boosts</string>
+    <string name="action_show_reblogs">Montrer les boosts</string>
     <string name="action_report">Signaler</string>
     <string name="action_delete">Supprimer</string>
     <string name="action_send">POUET</string>
@@ -73,112 +83,100 @@
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Préférences</string>
     <string name="action_view_favourites">Favoris</string>
-    <string name="action_view_blocks">Utilisateurs bloqués</string>
+    <string name="action_view_mutes">Comptes masqués</string>
+    <string name="action_view_blocks">Comptes bloqués</string>
+    <string name="action_view_follow_requests">Demandes de suivi</string>
     <string name="action_view_media">Média</string>
     <string name="action_open_in_web">Ouvrir dans votre navigateur</string>
     <string name="action_add_media">Ajouter un média</string>
     <string name="action_photo_take">Prendre une photo</string>
     <string name="action_share">Partager</string>
-    <string name="action_mute">Rendre muet</string>
-    <string name="action_unmute">Redonner la parole</string>
+    <string name="action_mute">Masquer</string>
+    <string name="action_unmute">Ne plus masquer</string>
     <string name="action_mention">Mentionner</string>
-    <string name="action_hide_media">Cacher le media</string>
+    <string name="action_hide_media">Cacher le média</string>
     <string name="action_open_drawer">Ouvrir le menu</string>
     <string name="action_save">Sauvegarder</string>
     <string name="action_edit_profile">Modifier le profil</string>
-    <string name="action_accept">Accepter</string>
-    <string name="action_reject">Rejeter</string>
+    <string name="action_edit_own_profile">Modifier</string>
     <string name="action_undo">Annuler</string>
-    <string name="action_view_follow_requests">Demandes de suivi</string>
-    <string name="action_view_mutes">Utilisateurs muets</string>
-    <string name="action_copy_link">Copier le lien</string>
+    <string name="action_accept">Accepter</string>
+    <string name="action_reject">Refuser</string>
     <string name="action_search">Rechercher</string>
-    <string name="action_access_saved_toot">Pouets sauvegardés</string>
+    <string name="action_access_saved_toot">Brouillons</string>
+    <string name="action_toggle_visibility">Visibilité du pouet</string>
+    <string name="action_content_warning">Contenu sensible</string>
+    <string name="action_emoji_keyboard">Clavier d’émojis</string>
 
     <string name="download_image">Téléchargement de %1$s</string>
 
+    <string name="action_copy_link">Copier le lien</string>
 
-    <string name="send_status_link_to">Partager l’URL de votre pouet avec…</string>
+    <string name="send_status_link_to">Partager le lien de votre pouet avec…</string>
     <string name="send_status_content_to">Partager le pouet avec…</string>
+    <string name="send_media_to">Partager l’image avec …</string>
 
-    <string name="confirmation_reported">Envoyé !</string>
-    <string name="confirmation_unblocked">Utilisateur débloqué</string>
-    <string name="confirmation_unmuted">Le compte n\'est plus muet</string>
+    <string name="confirmation_reported">Envoyé !</string>
+    <string name="confirmation_unblocked">Le compte est débloqué</string>
+    <string name="confirmation_unmuted">Le compte n’est plus masqué</string>
+
+    <string name="status_sent">Envoyé !</string>
+    <string name="status_sent_long">Réponse envoyée avec succès.</string>
 
     <string name="hint_domain">Quelle instance ?</string>
     <string name="hint_compose">Quoi de neuf ?</string>
-    <string name="hint_content_warning">Contenu sensible</string>
-    <string name="hint_display_name">Afficher le nom</string>
-    <string name="hint_note">Bio</string>
-    <string name="hint_search">Rechercher un compte…</string>
+    <string name="hint_content_warning">Avertissement</string>
+    <string name="hint_display_name">Nom public</string>
+    <string name="hint_note">Présentation</string>
+    <string name="hint_search">Rechercher…</string>
 
-    <string name="label_avatar">Avatar</string>
-    <string name="label_header">En-tête</string>
+    <string name="search_no_results">Aucun résultat</string>
+
+    <string name="label_quick_reply">Répondre…</string>
+    <string name="label_avatar">Image de profil</string>
+    <string name="label_header">Image d’en-tête</string>
 
     <string name="link_whats_an_instance">Qu’est-ce qu’une instance ?</string>
 
     <string name="login_connection">Connexion en cours…</string>
 
-    <string name="dialog_whats_an_instance">Indiquer ici l’adresse ou le domaine d’une instance, comme mastodon.social, icosahedron.website, social.tchncs.de,
-        <a href="https://github.com/tootsuite/mastodon/blob/master/docs/Using-Mastodon/List-of-Mastodon-instances.md">et bien d’autres encore</a> (en anglais) !
-        \n\nSi vous ne disposez d’aucun compte, vous pouvez renseigner le nom de l’instance que vous souhaitez rejoindre et y créer un compte.\n\nUne instance est l’endroit où votre compte est
-        stocké, mais vous pouvez facilement suivre des personnes d’autres instances et communiquer avec elles comme si vous étiez sur le même site.
-        \n\nPour plus d’informations, consultez <a href="https://mastodon.social/about">mastodon.social</a> (anglais).
+    <string name="dialog_whats_an_instance">Indiquer ici l’adresse ou le domaine d’une instance,
+        comme mastodon.social, icosahedron.website, social.tchncs.de,
+        <a href="https://instances.social">et bien d’autres encore</a> (en anglais) !
+        \n\nSi vous ne disposez d’aucun compte, vous pouvez renseigner le nom de l’instance que vous souhaitez rejoindre
+        et y créer un compte.\n\nUne instance est l’endroit où votre compte est
+        hébergé, mais vous pouvez facilement suivre des personnes d’autres instances et communiquer avec elles
+        comme si vous étiez sur le même site.
+        \n\nPour plus d’informations, consultez <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
     <string name="dialog_title_finishing_media_upload">Mise en ligne des médias</string>
     <string name="dialog_message_uploading_media">Envoi en cours…</string>
     <string name="dialog_download_image">Télécharger</string>
+    <string name="dialog_message_cancel_follow_request">Révoquer la demande d’abonnement ?</string>
+    <string name="dialog_unfollow_warning">Ne plus suivre ce compte ?</string>
+    <string name="dialog_delete_toot_warning">Supprimer ce pouet ?</string>
 
     <string name="visibility_public">Public : afficher dans les fils publics</string>
     <string name="visibility_unlisted">Non listé : ne pas afficher dans les fils publics</string>
-    <string name="visibility_private">Privé : n’afficher que pour vos abonné·e·s</string>
-    <string name="visibility_direct">Direct : n’afficher que pour les personnes mentionnées</string>
+    <string name="visibility_private">Abonné·e·s uniquement : seul·e·s vos abonné·e·s verront vos statuts</string>
+    <string name="visibility_direct">Direct : n’envoyer qu’aux personnes mentionnées</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
     <string name="pref_title_edit_notification_settings">Modifier les notifications</string>
     <string name="pref_title_notifications_enabled">Notifications</string>
+    <string name="pref_summary_notifications">pour le compte %1$s</string>
+    <string name="pref_title_pull_notification_check_interval">Intervalle de vérification</string>
     <string name="pref_title_notification_alerts">Alertes</string>
     <string name="pref_title_notification_alert_sound">Notifier avec un son</string>
-    <string name="pref_title_notification_alert_vibrate">Vibrer pour notifier</string>
-    <string name="pref_title_notification_alert_light">Notifier avec une LED</string>
+    <string name="pref_title_notification_alert_vibrate">Notifier avec une vibration</string>
+    <string name="pref_title_notification_alert_light">Notifier avec une lumière</string>
     <string name="pref_title_notification_filters">Me notifier lorsque</string>
-    <string name="pref_title_notification_filter_mentions">lorsqu\'on me mentionne</string>
-    <string name="pref_title_notification_filter_follows">lorsqu\'on me suit</string>
+    <string name="pref_title_notification_filter_mentions">on me mentionne</string>
+    <string name="pref_title_notification_filter_follows">on me suit</string>
     <string name="pref_title_notification_filter_reblogs">mes pouets sont boostés</string>
     <string name="pref_title_notification_filter_favourites">mes pouets sont mis en favoris</string>
     <string name="pref_title_appearance_settings">Apparence</string>
-    <string name="pref_title_browser_settings">Navigateur</string>
-    <string name="pref_title_custom_tabs">Utiliser le navigateur intégré</string>
-    <string name="pref_title_hide_follow_button">Masquer le bouton de suivi lors du défilement</string>
-    <string name="pref_title_show_boosts">Montrer les boosts</string>
-    <string name="pref_title_show_replies">Montrer les réponses</string>
-    <string name="pref_title_show_media_preview">Montrer les miniatures des médias</string>
-    <string name="pref_title_status_tabs">Onglets</string>
-    <string name="pref_title_status_filter">Filtrage de fil</string>
-
-    <string name="notification_mention_format">%s vous a mentionné</string>
-    <string name="notification_summary_large">%1$s, %2$s, %3$s et %4$d plus</string>
-    <string name="notification_summary_medium">%1$s, %2$s, et %3$s</string>
-    <string name="notification_summary_small">%1$s et %2$s</string>
-    <string name="notification_title_summary">%d nouvelles interactions</string>
-
-    <string name="description_account_locked">Compte bloqué</string>
-    <string name="status_share_content">Partager le contenu du pouet</string>
-    <string name="status_share_link">Partager le lien du pouet</string>
-
-    <string name="about_tusky_account">Compte officiel de Tusky</string>
-    <string name="about_title_activity">À propos</string>
-    <string name="about_project_site">Site du projet : https://tuskyapp.github.io</string>
-    <string name="about_bug_feature_request_site">Rapport de bugs &amp; demande de fonctionnalités : https://github.com/tuskyapp/Tusky/issues</string>
-
-
-    <string name="state_follow_requested">Demande effectuée</string>
-
-    <string name="search_no_results">Aucun résultat</string>
-    <string name="dialog_unfollow_warning">Désirez-vous cesser de suivre ce compte \?</string>
-    <string name="pref_summary_notifications">pour le compte %1$s</string>
-    <string name="pref_title_pull_notification_check_interval">Interval de vérifications</string>
-    <string name="pref_title_app_theme">Theme de l\'application</string>
+    <string name="pref_title_app_theme">Thème de l’application</string>
 
     <string-array name="app_theme_names">
         <item>Sombre</item>
@@ -187,11 +185,20 @@
         <item>Basé sur le coucher du soleil</item>
     </string-array>
 
+    <string name="pref_title_browser_settings">Navigateur</string>
+    <string name="pref_title_custom_tabs">Utiliser le navigateur intégré</string>
+    <string name="pref_title_hide_follow_button">Masquer le bouton de composition lors du défilement</string>
+    <string name="pref_title_status_filter">Filtrage des fils</string>
+    <string name="pref_title_status_tabs">Onglets</string>
+    <string name="pref_title_show_boosts">Afficher les boosts</string>
+    <string name="pref_title_show_replies">Afficher les réponses</string>
+    <string name="pref_title_filter_regex">Filtrer avec des expressions régulières</string>
+    <string name="pref_title_show_media_preview">Montrer les miniatures des médias</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">Proxy HTTP</string>
     <string name="pref_title_http_proxy_enable">Activer le proxy HTTP</string>
-    <string name="pref_title_http_proxy_server">Adresse du serveur proxy HTTP</string>
-    <string name="pref_title_http_proxy_port">Port du serveur proxy HTTP</string>
+    <string name="pref_title_http_proxy_server">Adresse du proxy HTTP</string>
+    <string name="pref_title_http_proxy_port">Port du proxy HTTP</string>
 
     <string-array name="pull_notification_check_interval_names">
         <item>15 minutes</item>
@@ -203,141 +210,153 @@
         <item>2 heures</item>
     </string-array>
 
-    <string name="pref_default_post_privacy">Confidentialité par defaut</string>
-    <string name="pref_publishing">Publier</string>
+    <string name="pref_default_post_privacy">Confidentialité par défaut</string>
+    <string name="pref_publishing">Publication</string>
 
     <string-array name="post_privacy_names">
         <item>Public</item>
         <item>Non listé</item>
-        <item>Abonnés seuleument</item>
+        <item>Abonné·e·s uniquement</item>
     </string-array>
 
-    <string name="pref_status_text_size">Taille du texte pour les status</string>
+    <string name="pref_status_text_size">Taille du texte pour les statuts</string>
 
-    <!--<string-array name="status_text_size_names">-->
-        <!--<item>Petit</item>-->
-        <!--<item>Moyen</item>-->
-        <!--<item>Grand</item>-->
-    <!--</string-array>-->
-
-    <string name="pref_title_alway_show_sensitive_media">Toujours afficher le contenu sensible</string>
+    <string-array name="status_text_size_names">
+        <item>Plus petit</item>
+        <item>Petit</item>
+        <item>Moyen</item>
+        <item>Grand</item>
+        <item>Plus grand</item>
+    </string-array>
 
     <string name="notification_channel_mention_name">Nouvelles mentions</string>
     <string name="notification_channel_mention_descriptions">Notifications pour les nouvelles mentions</string>
     <string name="notification_channel_follow_name">Nouveaux abonnés</string>
     <string name="notification_channel_follow_description">Notifications pour les nouveaux abonnés</string>
-    <string name="notification_channel_boost_name">Repouet</string>
-    <string name="notification_channel_boost_description">Notifications pour les repouets</string>
+    <string name="notification_channel_boost_name">Boosts</string>
+    <string name="notification_channel_boost_description">Notifications quand vos pouets sont boostés</string>
     <string name="notification_channel_favourite_name">Favoris</string>
-    <string name="notification_channel_favourite_description">Notifications pour les mises en favoris</string>
+    <string name="notification_channel_favourite_description">Notifications quand vos pouets sont mis en favoris</string>
 
+
+    <string name="notification_mention_format">%s vous a mentionné</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s et %4$d autres</string>
+    <string name="notification_summary_medium">%1$s, %2$s et %3$s</string>
+    <string name="notification_summary_small">%1$s et %2$s</string>
+    <string name="notification_title_summary">%d nouvelles interactions</string>
+
+    <string name="description_account_locked">Compte bloqué</string>
+
+    <string name="about_title_activity">À propos</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky est une application libre et open source. 
-        Elle est publiée sous licence publique générale GNU version 3. 
-        Vous pouvez consulter la licence ici: https://www.gnu.org/licenses/gpl-3.0.fr.html</string>
-    <!-- note to translators: the url can be changed to link to the localized version of the license -->
+    <string name="about_tusky_license">Tusky est une application libre et open source.
+        Elle est publiée sous licence publique générale GNU version 3.
+        Vous pouvez consulter la licence ici : https://www.gnu.org/licenses/gpl-3.0.fr.html</string>
+    <!-- note to translators:
+         * you should think of “free” as in “free speech,” not as in “free beer”.
+           We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
+           to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
+         * the url can be changed to link to the localized version of the license.
+    -->
+    <string name="about_project_site">
+      Site du projet :\n
+      https://tuskyapp.github.io
+    </string>
+    <string name="about_bug_feature_request_site">
+      Rapports d’anomalies &amp; demandes de fonctionnalités :\n
+      https://github.com/tuskyapp/Tusky/issues
+    </string>
+    <string name="about_tusky_account">Profil de Tusky</string>
 
+    <string name="status_share_content">Partager le contenu du pouet</string>
+    <string name="status_share_link">Partager le lien du pouet</string>
     <string name="status_media_images">Images</string>
-    <string name="status_media_video">Videos</string>
+    <string name="status_media_video">Vidéo</string>
+
+    <string name="state_follow_requested">Demande de suivi effectuée</string>
+
     <string name="no_content">aucun contenu</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">en %dy</string>
-    <string name="abbreviated_in_days">en %dd</string>
+    <string name="abbreviated_in_years">en %da</string>
+    <string name="abbreviated_in_days">en %dj</string>
     <string name="abbreviated_in_hours">en %dh</string>
     <string name="abbreviated_in_minutes">en %dm</string>
     <string name="abbreviated_in_seconds">en %ds</string>
-    <string name="abbreviated_years_ago">%dy</string>
-    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_years_ago">%da</string>
+    <string name="abbreviated_days_ago">%dj</string>
     <string name="abbreviated_hours_ago">%dh</string>
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%ds</string>
 
     <string name="follows_you">Vous suit</string>
-    <string name="title_media">Media</string>
-    <string name="replying_to">Répondre à @%s</string>
-    <string name="load_more_placeholder_text">charger plus</string>
+    <string name="pref_title_alway_show_sensitive_media">Toujours afficher le contenu sensible</string>
+    <string name="title_media">Média</string>
+    <string name="replying_to">Réponse à @%s</string>
+    <string name="load_more_placeholder_text">en charger plus</string>
 
     <string name="add_account_name">Ajouter un compte</string>
-    <string name="add_account_description">Ajouter un nouveau compte mastodon</string>
+    <string name="add_account_description">Ajouter un nouveau compte Mastodon</string>
 
     <string name="action_lists">Listes</string>
     <string name="title_lists">Listes</string>
-    <string name="title_list_timeline">Lister le fédiverse</string>
+    <string name="title_list_timeline">Fil de la liste</string>
 
-    <string name="compose_active_account_description">Poster avec le compte %1$s</string>
+    <string name="compose_active_account_description">Publier avec le compte %1$s</string>
 
-    <string name="error_failed_set_caption">Impossible de mettre la légende</string>
-    <string name="hint_describe_for_visually_impaired">Décrire pour les mal voyants</string>
+    <string name="error_failed_set_caption">Impossible de définir la légende</string>
+    <string name="hint_describe_for_visually_impaired">Décrire pour les malvoyant·e·s</string>
     <string name="action_set_caption">Mettre une légende</string>
     <string name="action_remove_media">Supprimer le média</string>
     <string name="lock_account_label">Verrouiller le compte</string>
-    <string name="lock_account_label_description">Nécessite que vous approuviez manuellement les abonnements</string>
-    <string name="error_invalid_regex">Expression régulière invalide</string>
-    <string name="error_sender_account_gone">Erreur lors de l\'envoi du Pouet.</string>
-    <string name="title_advanced">Avancé</string>
-    <string name="action_quick_reply">Réponse Rapide</string>
-    <string name="action_toggle_visibility">Visibilité du Pouet</string>
-    <string name="action_content_warning">Avertissement du contenu</string>
-    <string name="action_emoji_keyboard">Clavier d\'Emoji</string>
-    <string name="status_sent">Envoyé !</string>
-    <string name="status_sent_long">Réponse envoyé avec succès.</string>
-    <string name="label_quick_reply">Répondre …</string>
-    <string name="pref_title_filter_regex">Filtrer par expression régulière</string>
-    <string name="compose_save_draft">Enregistrer comme brouillon \?</string>
-    <string name="send_toot_notification_title">Envoi du Pouet…</string>
-    <string name="send_toot_notification_error_title">Erreur lors de l\'envoi du pouet</string>
-    <string name="send_toot_notification_channel_name">Envoi des Pouets</string>
+    <string name="lock_account_label_description">Vous devez approuvez manuellement les abonnements</string>
+    <string name="compose_save_draft">Enregistrer comme brouillon ?</string>
+    <string name="send_toot_notification_title">Envoi du pouet…</string>
+    <string name="send_toot_notification_error_title">Erreur lors de l’envoi du pouet</string>
+    <string name="send_toot_notification_channel_name">Envoi des pouets</string>
     <string name="send_toot_notification_cancel_title">Envoi annulé</string>
-    <string name="send_toot_notification_saved_content">Une copie du pouet a été sauvegardé dans vos brouillons</string>
+    <string name="send_toot_notification_saved_content">Une copie du pouet a été sauvegardée dans vos brouillons</string>
     <string name="action_compose_shortcut">Écrire</string>
-    <string name="error_no_custom_emojis">Votre instance %s n\'a pas d\'emojis customisés</string>
+
+    <string name="error_no_custom_emojis">Votre instance %s n’a pas d’émojis personnalisés</string>
     <string name="copy_to_clipboard_success">Copié dans le presse-papier</string>
-    <string name="emoji_style">Style d\'Emoji</string>
-    <string name="later">Plus tard</string>
-    <string name="restart">Relancer</string>
-    <string name="caption_systememoji">Votre jeu d\'emoji par défaut</string>
-    <string name="caption_blobmoji">Un jeu d\'emoji basé sur les emoji \"blob\"</string>
-    <string name="caption_twemoji">Le jeu d\'emoji standard de Mastodon</string>
-    <string name="download_failed">Échec du téléchargement</string>
-    <string name="reblog_private">Booster vers l\'audience originale</string>
-    <string name="unreblog_private">Dé-booster</string>
-    <string name="action_open_toot">Ouvrir le pouet</string>
-    <string name="restart_required">Un redémarrage de l\'application est requis</string>
-    <string name="expand_collapse_all_statuses">Déplier/Replier tout les statuts</string>
-    <string name="system_default">Défaut du système</string>
-    <string name="download_fonts">Vous devez commencer par télécharger ces jeux d\'emoji</string>
+    <string name="emoji_style">Style d’émojis</string>
+    <string name="system_default">Par défaut du système</string>
+    <string name="download_fonts">Vous devez commencer par télécharger ces jeux d’émojis</string>
     <string name="performing_lookup_title">Recherche en cours…</string>
-    <string name="restart_emoji">Vous devez relancer Tusky pour appliquer ces changements</string>
-    <string name="error_video_upload_size">Les fichiers vidéos doivent faire moins de 40MB.</string>
-    <string name="title_licenses">Licences</string>
-    <string name="status_content_show_more">Déplier</string>
-    <string name="status_content_show_less">Replier</string>
-    <string name="action_hide_reblogs">Cacher les pouets</string>
-    <string name="action_show_reblogs">Montrer les pouets</string>
-    <string name="action_edit_own_profile">Editer</string>
-    <string name="send_media_to">Partager l\'image avec …</string>
-    <string name="dialog_delete_toot_warning">Supprimer ce pouet \?</string>
-    <string name="profile_metadata_content_label">Contenu</string>
+    <string name="expand_collapse_all_statuses">Déplier/replier tout les statuts</string>
+    <string name="action_open_toot">Ouvrir le pouet</string>
+    <string name="restart_required">Un redémarrage de l’application est nécessaire</string>
+    <string name="restart_emoji">Vous devrez redémarrer Tusky pour appliquer ces modifications</string>
+    <string name="later">Plus tard</string>
+    <string name="restart">Redémarrer</string>
+    <string name="caption_systememoji">Votre jeu d’émojis par défaut</string>
+    <string name="caption_blobmoji">Un jeu d’émojis basé sur les émojis « blob »</string>
+    <string name="caption_twemoji">Le jeu d’émojis standard de Mastodon</string>
 
+    <string name="download_failed">Échec du téléchargement</string>
 
-    <string name="dialog_message_cancel_follow_request">Révoquer la demande d\'abonnement \?</string>
     <string name="profile_badge_bot_text">Robot</string>
-    <string name="account_moved_description">%1$s a déménagé vers :</string>
+    <string name="account_moved_description">%1$s a déménagé vers :</string>
 
-    <string name="license_description">Tusky contient le code issu des projets open source suivants :</string>
-    <string name="license_apache_2">Sous Licence Apache (copie ci-dessous)</string>
+    <string name="reblog_private">Booster vers l’audience originale</string>
+    <string name="unreblog_private">Ne plus booster</string>
+
+    <string name="license_description">Tusky contient du code et des ressources issus des projets open source suivants :</string>
+    <string name="license_apache_2">Sous licence Apache (copie ci-dessous)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
 
     <string name="profile_metadata_label">Métadonnées du profil</string>
-    <string name="profile_metadata_add">ajouter des données</string>
+    <string name="profile_metadata_add">Ajouter des données</string>
     <string name="profile_metadata_label_label">Étiquette</string>
+    <string name="profile_metadata_content_label">Contenu</string>
+
     <string name="pref_title_absolute_time">Utiliser le format de temps absolu</string>
 
-    <string name="label_remote_account">Les informations ci-dessous peuvent ne pas refléter le profil complet de l\'utilisateur. Appuyez pour ouvrir le profil complet dans le navigateur.</string>
+    <string name="label_remote_account">Les informations ci-dessous peuvent ne pas refléter le profil complet de l’utilisateur. Appuyez pour ouvrir le profil complet dans le navigateur.</string>
 
-    <string name="unpin_action">Désépingler</string>
+    <string name="unpin_action">Détacher</string>
     <string name="pin_action">Épingler</string>
 
 </resources>
