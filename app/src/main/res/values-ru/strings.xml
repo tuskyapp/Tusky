@@ -285,7 +285,6 @@
     <string name="compose_active_account_description">Отправка от имени %1$s</string>
 
     <string name="error_failed_set_caption">Не удалось добавить подпись</string>
-    <string name="hint_describe_for_visually_impaired">Описание для слабовидящих</string>
     <string name="action_set_caption">Добавить подпись</string>
     <string name="action_remove_media">Удалить</string>
     <string name="lock_account_label">Закрыть аккаунт</string>

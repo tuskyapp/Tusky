@@ -304,7 +304,6 @@
     <string name="compose_active_account_description">Inlägg med kontot %1$s</string>
 
     <string name="error_failed_set_caption">Misslyckades med att ange bildtext</string>
-    <string name="hint_describe_for_visually_impaired">Beskriv för synskadade</string>
     <string name="action_set_caption">Ange bildtext</string>
     <string name="action_remove_media">Ta bort</string>
     <string name="lock_account_label">Lås konto</string>

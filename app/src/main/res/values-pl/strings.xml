@@ -300,7 +300,6 @@
     <string name="compose_active_account_description">Publikowanie z konta %1$s</string>
     
     <string name="error_failed_set_caption">Nie udało się ustawić podpisu</string>
-    <string name="hint_describe_for_visually_impaired">Opis dla osób korzystających z ułatwień dostępności</string>
     <string name="action_set_caption">Ustaw podpis</string>
     <string name="action_remove_media">Usuń</string>
     <string name="lock_account_label">Zablokuj konto</string>

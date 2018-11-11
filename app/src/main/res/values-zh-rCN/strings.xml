@@ -275,7 +275,6 @@
     <string name="compose_active_account_description">使用帐号 %1$s 发布嘟文</string>
 
     <string name="error_failed_set_caption">设置图片标题失败。</string>
-    <string name="hint_describe_for_visually_impaired">为视觉障碍者提供的描述</string>
     <string name="action_set_caption">设置图片标题</string>
     <string name="action_remove_media">移除</string>
     <string name="lock_account_label">保护你的帐户（锁嘟）</string>

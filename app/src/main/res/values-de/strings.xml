@@ -249,7 +249,6 @@
     <string name="title_lists">Listen</string>
     <string name="title_list_timeline">Liste</string>
     <string name="action_remove_media">entfernen</string>
-    <string name="hint_describe_for_visually_impaired">Beschreibung für Menschen mit Sehbehinderung</string>
     <string name="action_set_caption">Beschreibung eingeben</string>
     <string name="error_failed_set_caption">Fehler beim Speichern der Beschreibung</string>
     <string name="add_account_name">Konto hinzufügen</string>
