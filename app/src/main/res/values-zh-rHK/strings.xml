@@ -118,8 +118,8 @@
     <string name="send_media_to">分享媒體到…</string>
 
     <string name="confirmation_reported">報告已發送！</string>
-    <string name="confirmation_unblocked">用戶已被屏蔽</string>
-    <string name="confirmation_unmuted">用戶已被隱藏</string>
+    <string name="confirmation_unblocked">已解除屏蔽</string>
+    <string name="confirmation_unmuted">已取消隱藏</string>
 
     <string name="status_sent">已發送！</string>
     <string name="status_sent_long">成功發佈回覆。</string>
