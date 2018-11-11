@@ -523,6 +523,8 @@ public class TimelineFragment extends SFragment implements
                 CollectionsKt.firstOrNull(this.statuses, Either::isRight);
         if (firstOrNull != null) {
             this.sendFetchTimelineRequest(null, firstOrNull.asRight().getId(), FetchEnd.TOP, -1);
+        } else {
+            this.sendFetchTimelineRequest(null, null, FetchEnd.BOTTOM, -1);
         }
     }
 
