@@ -264,7 +264,6 @@
     <string name="compose_active_account_description">النشر بواسطة حساب %1$s</string>
 
     <string name="error_failed_set_caption">تعذرت عملية إضافة الشرح</string>
-    <string name="hint_describe_for_visually_impaired">وصف للمعاقين بصريًا</string>
     <string name="action_set_caption">إضافة شرح</string>
     <string name="action_remove_media">حذف</string>
     <string name="lock_account_label">تجميد الحساب</string>

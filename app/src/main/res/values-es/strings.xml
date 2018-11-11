@@ -289,7 +289,6 @@
     <string name="compose_active_account_description">Publicando con la cuenta %1$s</string>
 
     <string name="error_failed_set_caption">Error al añadir leyenda</string>
-    <string name="hint_describe_for_visually_impaired">Descripción para discapacitados visuales</string>
     <string name="action_set_caption">Añadir leyenda</string>
     <string name="action_remove_media">Eliminar</string>
     <string name="lock_account_label">Proteger cuenta</string>

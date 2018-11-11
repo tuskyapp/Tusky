@@ -32,6 +32,7 @@ public final class SaveTootHelper {
 
     private TootDao tootDao;
     private Context context;
+    private Gson gson = new Gson();
 
     public SaveTootHelper(@NonNull TootDao tootDao, @NonNull Context context) {
         this.tootDao = tootDao;
@@ -43,6 +44,7 @@ public final class SaveTootHelper {
                              @NonNull String contentWarning,
                              @Nullable String savedJsonUrls,
                              @NonNull List<String> mediaUris,
+                             @NonNull List<String> mediaDescriptions,
                              int savedTootUid,
                              @Nullable String inReplyToId,
                              @Nullable String replyingStatusContent,
@@ -56,28 +58,31 @@ public final class SaveTootHelper {
         // Get any existing file's URIs.
         ArrayList<String> existingUris = null;
         if (!TextUtils.isEmpty(savedJsonUrls)) {
-            existingUris = new Gson().fromJson(savedJsonUrls,
+            existingUris = gson.fromJson(savedJsonUrls,
                     new TypeToken<ArrayList<String>>() {
                     }.getType());
         }
 
         String mediaUrlsSerialized = null;
+        String mediaDescriptionsSerialized = null;
+
         if (!ListUtils.isEmpty(mediaUris)) {
             List<String> savedList = saveMedia(mediaUris, existingUris);
             if (!ListUtils.isEmpty(savedList)) {
-                mediaUrlsSerialized = new Gson().toJson(savedList);
+                mediaUrlsSerialized = gson.toJson(savedList);
                 if (!ListUtils.isEmpty(existingUris)) {
                     deleteMedia(setDifference(existingUris, savedList));
                 }
             } else {
                 return false;
             }
+            mediaDescriptionsSerialized = gson.toJson(mediaDescriptions);
         } else if (!ListUtils.isEmpty(existingUris)) {
             /* If there were URIs in the previous draft, but they've now been removed, those files
              * can be deleted. */
             deleteMedia(existingUris);
         }
-        final TootEntity toot = new TootEntity(savedTootUid, content, mediaUrlsSerialized, contentWarning,
+        final TootEntity toot = new TootEntity(savedTootUid, content, mediaUrlsSerialized, mediaDescriptionsSerialized, contentWarning,
                 inReplyToId,
                 replyingStatusContent,
                 replyingStatusAuthorUsername,
@@ -102,7 +107,7 @@ public final class SaveTootHelper {
 
     public void deleteDraft(@NonNull TootEntity item){
         // Delete any media files associated with the status.
-        ArrayList<String> uris = new Gson().fromJson(item.getUrls(),
+        ArrayList<String> uris = gson.fromJson(item.getUrls(),
                 new TypeToken<ArrayList<String>>() {}.getType());
         if (uris != null) {
             for (String uriString : uris) {

@@ -277,7 +277,6 @@
     <string name="compose_active_account_description">%1$s கணக்குடன் பதிவிட</string>
 
     <string name="error_failed_set_caption">தலைப்பை அமைக்க முடியவில்லை</string>
-    <string name="hint_describe_for_visually_impaired">பார்வையற்றவர்களுக்கான விளக்கம்</string>
     <string name="action_set_caption">தலைப்பை அமை</string>
     <string name="action_remove_media">நீக்கு</string>
     <string name="lock_account_label">கணக்கை முடக்கு</string>

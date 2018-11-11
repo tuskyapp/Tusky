@@ -280,7 +280,6 @@
     <string name="title_list_timeline">リストタイムライン</string>
 
     <string name="error_failed_set_caption">説明の設定に失敗しました</string>
-    <string name="hint_describe_for_visually_impaired">視覚障害者のための説明</string>
     <string name="action_set_caption">説明を設定</string>
     <string name="action_remove_media">消去</string>
     <string name="lock_account_label">アカウントをロック</string>

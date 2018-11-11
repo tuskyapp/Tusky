@@ -264,7 +264,6 @@
     <string name="compose_active_account_description">使用帳號 %1$s 發佈嘟文</string>
 
     <string name="error_failed_set_caption">設置圖片標題失敗。</string>
-    <string name="hint_describe_for_visually_impaired">為視覺障礙者提供的描述</string>
     <string name="action_set_caption">設置圖片標題</string>
     <string name="action_remove_media">移除</string>
     <string name="lock_account_label">保護你的帳戶（鎖嘟）</string>

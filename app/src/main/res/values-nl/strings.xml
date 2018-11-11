@@ -281,7 +281,6 @@
     <string name="compose_active_account_description">Aan het publiceren met account %1$s</string>
 
     <string name="error_failed_set_caption">Toevoegen van beschrijving mislukt</string>
-    <string name="hint_describe_for_visually_impaired">Omschrijf dit voor mensen met een visuele beperking</string>
     <string name="action_set_caption">Beschrijving toevoegen</string>
     <string name="action_remove_media">Verwijderen</string>
     <string name="lock_account_label">Account besloten maken</string>

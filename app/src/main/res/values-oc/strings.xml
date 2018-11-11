@@ -288,7 +288,6 @@
     <string name="compose_active_account_description">Publicar amb lo compte %1$s</string>
 
     <string name="error_failed_set_caption">Fracàs en apondre una legenda</string>
-    <string name="hint_describe_for_visually_impaired">Descripcion pels mal vesents</string>
     <string name="action_set_caption">Apondre una legenda</string>
     <string name="action_remove_media">Levar</string>
     <string name="lock_account_label">Clavar lo compte</string>
