@@ -113,6 +113,13 @@ public class LinkHelper {
             }
             builder.removeSpan(span);
             builder.setSpan(customSpan, start, end, flags);
+            if(end >= builder.length()){
+                builder.insert(end, " ");
+            } else {
+                if(builder.subSequence(end, end + 1).toString().equals("\n")){
+                    builder.insert(end, " ");
+                }
+            }
         }
         view.setText(builder);
         view.setLinksClickable(true);
