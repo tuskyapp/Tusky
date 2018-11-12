@@ -134,16 +134,6 @@
     <string name="pref_title_custom_tabs">Öffne Links in der App</string>
     <string name="pref_title_hide_follow_button">Verstecke Button bei Bildlauf </string>
 
-    <string-array name="pull_notification_check_interval_names">
-        <item>15 Minuten</item>
-        <item>20 Minuten</item>
-        <item>25 Minuten</item>
-        <item>30 Minuten</item>
-        <item>45 Minuten</item>
-        <item>1 Stunde</item>
-        <item>2 Stunden</item>
-    </string-array>
-
     <string-array name="post_privacy_names">
         <item>Öffentlich</item>
         <item>Nicht gelistet</item>
@@ -214,7 +204,6 @@
     <string name="pref_title_show_replies">Zeige Antworten</string>
     <string name="pref_title_show_media_preview">Zeige Medienvorschauen</string>
     <string name="pref_title_show_boosts">Zeige Boosts</string>
-    <string name="pref_title_pull_notification_check_interval">Überprüfungsintervall</string>
     <string name="no_content">leer</string>
     <string name="action_hide_media">Verstecke Medien</string>
     <string name="pref_title_status_filter">Timeline-Filter</string>
@@ -249,7 +238,6 @@
     <string name="title_lists">Listen</string>
     <string name="title_list_timeline">Liste</string>
     <string name="action_remove_media">entfernen</string>
-    <string name="hint_describe_for_visually_impaired">Beschreibung für Menschen mit Sehbehinderung</string>
     <string name="action_set_caption">Beschreibung eingeben</string>
     <string name="error_failed_set_caption">Fehler beim Speichern der Beschreibung</string>
     <string name="add_account_name">Konto hinzufügen</string>

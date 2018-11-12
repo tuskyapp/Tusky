@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -32,8 +31,6 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
 
-import com.evernote.android.job.JobManager;
-import com.evernote.android.job.JobRequest;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
@@ -122,10 +119,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         super.finish();
     }
 
-    protected SharedPreferences getPrivatePreferences() {
-        return getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-    }
-
     protected void redirectIfNotLoggedIn() {
         AccountEntity account = accountManager.getActiveAccount();
         if (account == null) {
@@ -152,34 +145,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
             }
         }
         return super.onCreateOptionsMenu(menu);
-    }
-
-    protected void enablePushNotifications() {
-        // schedule job to pull notifications
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String minutesString = preferences.getString("pullNotificationCheckInterval", "15");
-        long minutes = Long.valueOf(minutesString);
-        if (minutes < 15) {
-            preferences.edit().putString("pullNotificationCheckInterval", "15").apply();
-            minutes = 15;
-        }
-        setPullNotificationCheckInterval(minutes);
-    }
-
-    protected void disablePushNotifications() {
-        // Cancel the repeating call for "pull" notifications.
-        JobManager.instance().cancelAllForTag(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG);
-    }
-
-    protected void setPullNotificationCheckInterval(long minutes) {
-        long checkInterval = 1000 * 60 * minutes;
-
-        new JobRequest.Builder(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG)
-                .setPeriodic(checkInterval)
-                .setUpdateCurrent(true)
-                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
-                .build()
-                .scheduleAsync();
     }
 
     protected void showErrorDialog(View anyView, @StringRes int descriptionId, @StringRes int actionId, View.OnClickListener listener) {

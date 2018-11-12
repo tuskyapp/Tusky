@@ -8,9 +8,9 @@
     <string name="error_authorization_unknown">Une erreur d’autorisation inconnue s’est produite.</string>
     <string name="error_authorization_denied">Authentification refusée.</string>
     <string name="error_retrieving_oauth_token">Impossible de récupérer le jeton d’authentification.</string>
-    <string name="error_compose_character_limit">Votre pouet est trop long !</string>
-    <string name="error_image_upload_size">Le fichier doit faire moins de 8 Mo.</string>
-    <string name="error_video_upload_size">Les fichiers vidéos doivent faire moins de 40 Mo.</string>
+    <string name="error_compose_character_limit">Votre pouet est trop long !</string>
+    <string name="error_image_upload_size">Le fichier doit faire moins de 8 Mo.</string>
+    <string name="error_video_upload_size">Les fichiers vidéos doivent faire moins de 40 Mo.</string>
     <string name="error_media_upload_type">Ce type de fichier n’est pas accepté.</string>
     <string name="error_media_upload_opening">Le fichier ne peut pas être ouvert.</string>
     <string name="error_media_upload_permission">Permission requise pour lire le média.</string>
@@ -50,14 +50,14 @@
     <string name="status_content_show_more">Déplier</string>
     <string name="status_content_show_less">Replier</string>
 
-    <string name="footer_empty">Il n’y a aucun pouet pour le moment.\nGlissez vers le bas pour actualiser !</string>
+    <string name="footer_empty">Il n’y a aucun pouet pour le moment.\nGlissez vers le bas pour actualiser !</string>
 
     <string name="notification_reblog_format">%s a boosté votre pouet</string>
     <string name="notification_favourite_format">%s a ajouté votre pouet à ses favoris</string>
     <string name="notification_follow_format">%s vous suit</string>
 
     <string name="report_username_format">Signaler @%s</string>
-    <string name="report_comment_hint">Commentaires additonnels ?</string>
+    <string name="report_comment_hint">Commentaires additonnels ?</string>
 
     <string name="action_quick_reply">Réponse rapide</string>
     <string name="action_reply">Répondre</string>
@@ -67,7 +67,7 @@
     <string name="action_compose">Écrire</string>
     <string name="action_login">Se connecter à Mastodon</string>
     <string name="action_logout">Déconnexion</string>
-    <string name="action_logout_confirm">Êtes-vous certain·e· de vouloir déconnecter le compte %1$s ?</string>
+    <string name="action_logout_confirm">Êtes-vous certain·e· de vouloir déconnecter le compte %1$s ?</string>
     <string name="action_follow">Suivre</string>
     <string name="action_unfollow">Ne plus suivre</string>
     <string name="action_block">Bloquer</string>
@@ -77,7 +77,7 @@
     <string name="action_report">Signaler</string>
     <string name="action_delete">Supprimer</string>
     <string name="action_send">POUET</string>
-    <string name="action_send_public">POUET !</string>
+    <string name="action_send_public">POUET !</string>
     <string name="action_retry">Réessayer</string>
     <string name="action_close">Fermer</string>
     <string name="action_view_profile">Profil</string>
@@ -116,15 +116,15 @@
     <string name="send_status_content_to">Partager le pouet avec…</string>
     <string name="send_media_to">Partager l’image avec …</string>
 
-    <string name="confirmation_reported">Envoyé !</string>
+    <string name="confirmation_reported">Envoyé !</string>
     <string name="confirmation_unblocked">Le compte est débloqué</string>
     <string name="confirmation_unmuted">Le compte n’est plus masqué</string>
 
-    <string name="status_sent">Envoyé !</string>
+    <string name="status_sent">Envoyé !</string>
     <string name="status_sent_long">Réponse envoyée avec succès.</string>
 
-    <string name="hint_domain">Quelle instance ?</string>
-    <string name="hint_compose">Quoi de neuf ?</string>
+    <string name="hint_domain">Quelle instance ?</string>
+    <string name="hint_compose">Quoi de neuf ?</string>
     <string name="hint_content_warning">Avertissement</string>
     <string name="hint_display_name">Nom public</string>
     <string name="hint_note">Présentation</string>
@@ -136,13 +136,13 @@
     <string name="label_avatar">Image de profil</string>
     <string name="label_header">Image d’en-tête</string>
 
-    <string name="link_whats_an_instance">Qu’est-ce qu’une instance ?</string>
+    <string name="link_whats_an_instance">Qu’est-ce qu’une instance ?</string>
 
     <string name="login_connection">Connexion en cours…</string>
 
     <string name="dialog_whats_an_instance">Indiquer ici l’adresse ou le domaine d’une instance,
         comme mastodon.social, icosahedron.website, social.tchncs.de,
-        <a href="https://instances.social">et bien d’autres encore</a> (en anglais) !
+        <a href="https://instances.social">et bien d’autres encore</a> (en anglais) !
         \n\nSi vous ne disposez d’aucun compte, vous pouvez renseigner le nom de l’instance que vous souhaitez rejoindre
         et y créer un compte.\n\nUne instance est l’endroit où votre compte est
         hébergé, mais vous pouvez facilement suivre des personnes d’autres instances et communiquer avec elles
@@ -152,20 +152,19 @@
     <string name="dialog_title_finishing_media_upload">Mise en ligne des médias</string>
     <string name="dialog_message_uploading_media">Envoi en cours…</string>
     <string name="dialog_download_image">Télécharger</string>
-    <string name="dialog_message_cancel_follow_request">Révoquer la demande d’abonnement ?</string>
-    <string name="dialog_unfollow_warning">Ne plus suivre ce compte ?</string>
-    <string name="dialog_delete_toot_warning">Supprimer ce pouet ?</string>
+    <string name="dialog_message_cancel_follow_request">Révoquer la demande d’abonnement ?</string>
+    <string name="dialog_unfollow_warning">Ne plus suivre ce compte ?</string>
+    <string name="dialog_delete_toot_warning">Supprimer ce pouet ?</string>
 
-    <string name="visibility_public">Public : afficher dans les fils publics</string>
-    <string name="visibility_unlisted">Non listé : ne pas afficher dans les fils publics</string>
-    <string name="visibility_private">Abonné·e·s uniquement : seul·e·s vos abonné·e·s verront vos statuts</string>
-    <string name="visibility_direct">Direct : n’envoyer qu’aux personnes mentionnées</string>
+    <string name="visibility_public">Public : afficher dans les fils publics</string>
+    <string name="visibility_unlisted">Non listé : ne pas afficher dans les fils publics</string>
+    <string name="visibility_private">Abonné·e·s uniquement : seul·e·s vos abonné·e·s verront vos statuts</string>
+    <string name="visibility_direct">Direct : n’envoyer qu’aux personnes mentionnées</string>
 
     <string name="pref_title_notification_settings">Notifications</string>
     <string name="pref_title_edit_notification_settings">Modifier les notifications</string>
     <string name="pref_title_notifications_enabled">Notifications</string>
     <string name="pref_summary_notifications">pour le compte %1$s</string>
-    <string name="pref_title_pull_notification_check_interval">Intervalle de vérification</string>
     <string name="pref_title_notification_alerts">Alertes</string>
     <string name="pref_title_notification_alert_sound">Notifier avec un son</string>
     <string name="pref_title_notification_alert_vibrate">Notifier avec une vibration</string>
@@ -199,16 +198,6 @@
     <string name="pref_title_http_proxy_enable">Activer le proxy HTTP</string>
     <string name="pref_title_http_proxy_server">Adresse du proxy HTTP</string>
     <string name="pref_title_http_proxy_port">Port du proxy HTTP</string>
-
-    <string-array name="pull_notification_check_interval_names">
-        <item>15 minutes</item>
-        <item>20 minutes</item>
-        <item>25 minutes</item>
-        <item>30 minutes</item>
-        <item>45 minutes</item>
-        <item>1 heure</item>
-        <item>2 heures</item>
-    </string-array>
 
     <string name="pref_default_post_privacy">Confidentialité par défaut</string>
     <string name="pref_publishing">Publication</string>
@@ -251,7 +240,7 @@
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tusky est une application libre et open source.
         Elle est publiée sous licence publique générale GNU version 3.
-        Vous pouvez consulter la licence ici : https://www.gnu.org/licenses/gpl-3.0.fr.html</string>
+        Vous pouvez consulter la licence ici : https://www.gnu.org/licenses/gpl-3.0.fr.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -259,11 +248,11 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">
-      Site du projet :\n
+      Site du projet :\n
       https://tuskyapp.github.io
     </string>
     <string name="about_bug_feature_request_site">
-      Rapports d’anomalies &amp; demandes de fonctionnalités :\n
+      Rapports d’anomalies &amp; demandes de fonctionnalités :\n
       https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Profil de Tusky</string>
@@ -310,7 +299,7 @@
     <string name="action_remove_media">Supprimer le média</string>
     <string name="lock_account_label">Verrouiller le compte</string>
     <string name="lock_account_label_description">Vous devez approuvez manuellement les abonnements</string>
-    <string name="compose_save_draft">Enregistrer comme brouillon ?</string>
+    <string name="compose_save_draft">Enregistrer comme brouillon ?</string>
     <string name="send_toot_notification_title">Envoi du pouet…</string>
     <string name="send_toot_notification_error_title">Erreur lors de l’envoi du pouet</string>
     <string name="send_toot_notification_channel_name">Envoi des pouets</string>
@@ -331,18 +320,18 @@
     <string name="later">Plus tard</string>
     <string name="restart">Redémarrer</string>
     <string name="caption_systememoji">Votre jeu d’émojis par défaut</string>
-    <string name="caption_blobmoji">Un jeu d’émojis basé sur les émojis « blob »</string>
+    <string name="caption_blobmoji">Un jeu d’émojis basé sur les émojis « blob »</string>
     <string name="caption_twemoji">Le jeu d’émojis standard de Mastodon</string>
 
     <string name="download_failed">Échec du téléchargement</string>
 
     <string name="profile_badge_bot_text">Robot</string>
-    <string name="account_moved_description">%1$s a déménagé vers :</string>
+    <string name="account_moved_description">%1$s a déménagé vers :</string>
 
     <string name="reblog_private">Booster vers l’audience originale</string>
     <string name="unreblog_private">Ne plus booster</string>
 
-    <string name="license_description">Tusky contient du code et des ressources issus des projets open source suivants :</string>
+    <string name="license_description">Tusky contient du code et des ressources issus des projets open source suivants :</string>
     <string name="license_apache_2">Sous licence Apache (copie ci-dessous)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

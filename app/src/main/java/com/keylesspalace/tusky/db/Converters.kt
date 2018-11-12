@@ -19,6 +19,7 @@ import android.arch.persistence.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.Status
 
 class Converters {
 
@@ -32,5 +33,15 @@ class Converters {
     @TypeConverter
     fun emojiListToJson(emojiList: List<Emoji>?): String {
         return gson.toJson(emojiList)
+    }
+
+    @TypeConverter
+    fun visibilityToInt(visibility: Status.Visibility): Int {
+        return visibility.num
+    }
+
+    @TypeConverter
+    fun intToVisibility(visibility: Int): Status.Visibility {
+        return Status.Visibility.byNum(visibility)
     }
 }

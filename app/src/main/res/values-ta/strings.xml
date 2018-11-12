@@ -156,7 +156,6 @@
     <string name="pref_title_edit_notification_settings">அறிவிப்புகளை திருத்த</string>
     <string name="pref_title_notifications_enabled">அறிவிப்புகள்</string>
     <string name="pref_summary_notifications">%1$s கணக்குக்கு</string>
-    <string name="pref_title_pull_notification_check_interval">சரிபார்க்கவேண்டிய இடைவேளை</string>
     <string name="pref_title_notification_alerts">எச்சரிக்கைகள்</string>
     <string name="pref_title_notification_alert_sound">ஒலி மூலம் தெரிவிக்கவும்</string>
     <string name="pref_title_notification_alert_vibrate">அதிர்வுடன் தெரிவிக்கவும்</string>
@@ -191,16 +190,6 @@
     <string name="pref_title_http_proxy_enable">HTTP ப்ராக்ஸியை இயக்கு</string>
     <string name="pref_title_http_proxy_server">HTTP ப்ராக்ஸி சேவையகம்</string>
     <string name="pref_title_http_proxy_port">HTTP ப்ராக்ஸி போர்ட்</string>
-
-    <string-array name="pull_notification_check_interval_names">
-        <item>15 நிமிடங்கள்</item>
-        <item>20 நிமிடங்கள்</item>
-        <item>25 நிமிடங்கள்</item>
-        <item>30 நிமிடங்கள்</item>
-        <item>45 நிமிடங்கள்</item>
-        <item>1 மணி நேரம்</item>
-        <item>2 மணி நேரம்</item>
-    </string-array>
 
     <string name="pref_default_post_privacy">தனியுரிமையில் பதிவிடுவதை முன்னிருப்பாக்கு</string>
     <string name="pref_publishing">வெளியீடு</string>
@@ -288,7 +277,6 @@
     <string name="compose_active_account_description">%1$s கணக்குடன் பதிவிட</string>
 
     <string name="error_failed_set_caption">தலைப்பை அமைக்க முடியவில்லை</string>
-    <string name="hint_describe_for_visually_impaired">பார்வையற்றவர்களுக்கான விளக்கம்</string>
     <string name="action_set_caption">தலைப்பை அமை</string>
     <string name="action_remove_media">நீக்கு</string>
     <string name="lock_account_label">கணக்கை முடக்கு</string>

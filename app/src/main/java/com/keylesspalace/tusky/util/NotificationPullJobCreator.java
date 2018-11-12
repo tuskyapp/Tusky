@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU Lesser General Public License along with Tusky. If
  * not, see <http://www.gnu.org/licenses/>. */
 
-package com.keylesspalace.tusky;
+package com.keylesspalace.tusky.util;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -26,7 +26,6 @@ import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.network.MastodonApi;
-import com.keylesspalace.tusky.util.NotificationHelper;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -98,10 +97,10 @@ public final class NotificationPullJobCreator implements JobCreator {
                         if (notifications.isSuccessful()) {
                             onNotificationsReceived(account, notifications.body());
                         } else {
-                            Log.w(TAG, "error receiving notificationsEnabled");
+                            Log.w(TAG, "error receiving notifications");
                         }
                     } catch (IOException e) {
-                        Log.w(TAG, "error receiving notificationsEnabled", e);
+                        Log.w(TAG, "error receiving notifications", e);
                     }
                 }
 
