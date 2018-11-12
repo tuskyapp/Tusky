@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
+import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -114,10 +115,10 @@ public class LinkHelper {
             builder.removeSpan(span);
             builder.setSpan(customSpan, start, end, flags);
             if(end >= builder.length()){
-                builder.insert(end, " ");
+                builder.insert(end, Html.fromHtml("&#8203;"));
             } else {
                 if(builder.subSequence(end, end + 1).toString().equals("\n")){
-                    builder.insert(end, " ");
+                    builder.insert(end, Html.fromHtml("&#8203;"));
                 }
             }
         }
