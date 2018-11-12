@@ -22,7 +22,6 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -119,10 +118,10 @@ public class LinkHelper {
              * See also : https://github.com/tuskyapp/Tusky/issues/846
              *            https://github.com/tuskyapp/Tusky/pull/916 */
             if(end >= builder.length()){
-                builder.insert(end, Html.fromHtml("&#8203;"));
+                builder.insert(end, "\u200B");
             } else {
                 if(builder.subSequence(end, end + 1).toString().equals("\n")){
-                    builder.insert(end, Html.fromHtml("&#8203;"));
+                    builder.insert(end, "\u200B");
                 }
             }
 
