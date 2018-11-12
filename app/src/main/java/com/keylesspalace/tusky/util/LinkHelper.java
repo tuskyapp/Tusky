@@ -113,6 +113,18 @@ public class LinkHelper {
             }
             builder.removeSpan(span);
             builder.setSpan(customSpan, start, end, flags);
+
+            /* Add zero-width space after links in end of line to fix its too large hitbox.
+             * See also : https://github.com/tuskyapp/Tusky/issues/846
+             *            https://github.com/tuskyapp/Tusky/pull/916 */
+            if(end >= builder.length()){
+                builder.insert(end, "\u200B");
+            } else {
+                if(builder.subSequence(end, end + 1).toString().equals("\n")){
+                    builder.insert(end, "\u200B");
+                }
+            }
+
         }
         view.setText(builder);
         view.setLinksClickable(true);
