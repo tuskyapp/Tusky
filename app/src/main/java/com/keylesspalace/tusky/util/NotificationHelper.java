@@ -37,6 +37,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.text.BidiFormatter;
 import android.util.Log;
 
+import com.evernote.android.job.JobManager;
+import com.evernote.android.job.JobRequest;
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
@@ -102,6 +104,13 @@ public class NotificationHelper {
     public static final String CHANNEL_FOLLOW = "CHANNEL_FOLLOW";
     public static final String CHANNEL_BOOST = "CHANNEL_BOOST";
     public static final String CHANNEL_FAVOURITE = "CHANNEL_FAVOURITE";
+
+    /**
+     * time in minutes between notification checks
+     * note that this cannot be less than 15 minutes due to Android battery saving constraints
+     */
+    private static final int NOTIFICATION_CHECK_INTERVAL_MINUTES = 15;
+
 
     /**
      * Takes a given Mastodon notification and either creates a new Android notification or updates
@@ -421,6 +430,25 @@ public class NotificationHelper {
             // on Android < O, notifications are enabled, if at least one account has notification enabled
             return accountManager.areNotificationsEnabled();
         }
+
+    }
+
+    public static void enablePullNotifications() {
+        long checkInterval = 1000 * 60 * NOTIFICATION_CHECK_INTERVAL_MINUTES;
+
+        new JobRequest.Builder(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG)
+                .setPeriodic(checkInterval)
+                .setUpdateCurrent(true)
+                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                .build()
+                .scheduleAsync();
+
+        Log.d(TAG, "enabled notification checks with "+ NOTIFICATION_CHECK_INTERVAL_MINUTES + "min interval");
+    }
+
+    public static void disablePullNotifications() {
+        JobManager.instance().cancelAllForTag(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG);
+        Log.d(TAG, "disabled notification checks");
 
     }
 

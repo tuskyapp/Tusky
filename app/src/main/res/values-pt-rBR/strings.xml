@@ -158,7 +158,6 @@
     <string name="pref_title_edit_notification_settings">Editar Notificações</string>
     <string name="pref_title_notifications_enabled">Notificações</string>
     <string name="pref_summary_notifications">para a conta %1$s</string>
-    <string name="pref_title_pull_notification_check_interval">Intervalo de checagem</string>
     <string name="pref_title_notification_alerts">Alertas</string>
     <string name="pref_title_notification_alert_sound">Notificar com som</string>
     <string name="pref_title_notification_alert_vibrate">Notificar com vibração</string>
@@ -193,17 +192,6 @@
     <string name="pref_title_http_proxy_enable">Ativar proxy HTTP</string>
     <string name="pref_title_http_proxy_server">Servidor do proxy HTTP</string>
     <string name="pref_title_http_proxy_port">Porta do proxy HTTP</string>
-
-    <string-array name="pull_notification_check_interval_names">
-        <item>15 minutos</item>
-        <item>20 minutos</item>
-        <item>25 minutos</item>
-        <item>30 minutos</item>
-        <item>45 minutos</item>
-        <item>1 hora</item>
-        <item>2 horas</item>
-    </string-array>
-
 
     <string name="pref_default_post_privacy">Privacidade padrão dos posts</string>
     <string name="pref_publishing">Publicação</string>

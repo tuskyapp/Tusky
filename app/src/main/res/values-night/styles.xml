@@ -68,6 +68,8 @@
 
         <item name="compound_button_color">@color/compound_button_color_dark</item>
 
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+
     </style>
 
     <style name="AppTheme.ImageButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">

@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.db
 
 import android.util.Log
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.Status
 
 /**
  * This class caches the account database and handles all account related operations
@@ -111,6 +112,8 @@ class AccountManager(db: AppDatabase) {
             it.username = account.username
             it.displayName = account.name
             it.profilePictureUrl = account.avatar
+            it.defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC
+            it.defaultMediaSensitivity = account.source?.sensitive ?: false
             it.emojis = account.emojis ?: emptyList()
 
             Log.d(TAG, "updateActiveAccount: saving account with id " + it.id)

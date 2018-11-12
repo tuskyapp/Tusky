@@ -25,7 +25,7 @@ import android.support.annotation.NonNull;
  * DB version & declare DAO
  */
 
-@Database(entities = {TootEntity.class, AccountEntity.class, InstanceEntity.class}, version = 9, exportSchema = false)
+@Database(entities = {TootEntity.class, AccountEntity.class, InstanceEntity.class}, version = 10, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TootDao tootDao();
@@ -105,4 +105,15 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `TootEntity` ADD COLUMN `descriptions` TEXT DEFAULT '[]'");
         }
     };
+
+    public static final Migration MIGRATION_9_10 = new Migration(9, 10) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `defaultPostPrivacy` INTEGER NOT NULL DEFAULT 1");
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `defaultMediaSensitivity` INTEGER NOT NULL DEFAULT 0");
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `alwaysShowSensitiveMedia` INTEGER NOT NULL DEFAULT 0");
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `mediaPreviewEnabled` INTEGER NOT NULL DEFAULT '1'");
+        }
+    };
+
 }

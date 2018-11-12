@@ -11,3 +11,4 @@ data class MuteEvent(val accountId: String) : Dispatchable
 data class StatusDeletedEvent(val statusId: String) : Dispatchable
 data class StatusComposedEvent(val status: Status) : Dispatchable
 data class ProfileEditedEvent(val newProfileData: Account) : Dispatchable
+data class PreferenceChangedEvent(val preferenceKey: String) : Dispatchable

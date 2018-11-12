@@ -390,7 +390,7 @@ public final class ComposeActivity
             }
             photoUploadUri = savedInstanceState.getParcelable("photoUploadUri");
         } else {
-            statusMarkSensitive = false;
+            statusMarkSensitive = activeAccount.getDefaultMediaSensitivity();
             startingHideText = false;
             photoUploadUri = null;
         }
@@ -406,9 +406,7 @@ public final class ComposeActivity
         if (intent != null) {
 
             if (startingVisibility == Status.Visibility.UNKNOWN) {
-                Status.Visibility preferredVisibility = Status.Visibility.byString(
-                        preferences.getString("defaultPostPrivacy",
-                                Status.Visibility.PUBLIC.serverString()));
+                Status.Visibility preferredVisibility = activeAccount.getDefaultPostPrivacy();
                 Status.Visibility replyVisibility = Status.Visibility.byNum(
                         intent.getIntExtra(REPLY_VISIBILITY_EXTRA, Status.Visibility.UNKNOWN.getNum()));
 

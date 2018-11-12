@@ -21,6 +21,7 @@ import android.arch.persistence.room.PrimaryKey
 import android.arch.persistence.room.TypeConverters
 
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.Status
 
 @Entity(indices = [Index(value = ["domain", "accountId"],
         unique = true)])
@@ -41,6 +42,10 @@ data class AccountEntity(@field:PrimaryKey(autoGenerate = true) var id: Long,
                          var notificationSound: Boolean = true,
                          var notificationVibration: Boolean = true,
                          var notificationLight: Boolean = true,
+                         var defaultPostPrivacy: Status.Visibility = Status.Visibility.PUBLIC,
+                         var defaultMediaSensitivity: Boolean = false,
+                         var alwaysShowSensitiveMedia: Boolean = false,
+                         var mediaPreviewEnabled: Boolean = true,
                          var lastNotificationId: String = "0",
                          var activeNotifications: String = "[]",
                          var emojis: List<Emoji> = emptyList()) {

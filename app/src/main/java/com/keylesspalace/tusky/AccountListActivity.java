@@ -52,7 +52,7 @@ public final class AccountListActivity extends BaseActivity implements HasSuppor
         return intent;
     }
 
-    enum Type {
+    public enum Type {
         BLOCKS,
         MUTES,
         FOLLOW_REQUESTS,

@@ -20,9 +20,7 @@ import android.app.Application;
 import android.app.Service;
 import android.arch.persistence.room.Room;
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.text.emoji.EmojiCompat;
 
 import com.evernote.android.job.JobManager;
@@ -31,6 +29,7 @@ import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.di.AppInjector;
 import com.keylesspalace.tusky.util.EmojiCompatFont;
+import com.keylesspalace.tusky.util.NotificationPullJobCreator;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -59,10 +58,6 @@ public class TuskyApplication extends Application implements HasActivityInjector
 
     private ServiceLocator serviceLocator;
 
-    public static TuskyApplication getInstance(@NonNull Context context) {
-        return (TuskyApplication) context.getApplicationContext();
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -70,7 +65,8 @@ public class TuskyApplication extends Application implements HasActivityInjector
         appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
                 .allowMainThreadQueries()
                 .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5,
-                        AppDatabase.MIGRATION_5_6, AppDatabase.MIGRATION_6_7, AppDatabase.MIGRATION_7_8, AppDatabase.MIGRATION_8_9)
+                        AppDatabase.MIGRATION_5_6, AppDatabase.MIGRATION_6_7, AppDatabase.MIGRATION_7_8,
+                        AppDatabase.MIGRATION_8_9, AppDatabase.MIGRATION_9_10)
                 .build();
         accountManager = new AccountManager(appDatabase);
         serviceLocator = new ServiceLocator() {

@@ -17,6 +17,7 @@
 package com.keylesspalace.tusky.di
 
 import com.keylesspalace.tusky.fragment.*
+import com.keylesspalace.tusky.fragment.preference.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -43,4 +44,11 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun searchFragment(): SearchFragment
+
+    @ContributesAndroidInjector
+    abstract fun notificationPreferencesFragment(): NotificationPreferencesFragment
+
+    @ContributesAndroidInjector
+    abstract fun accountPreferencesFragment(): AccountPreferencesFragment
+
 }
