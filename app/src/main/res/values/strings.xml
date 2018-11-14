@@ -403,6 +403,8 @@
 
     <string name="unpin_action">Unpin</string>
     <string name="pin_action">Pin</string>
+    <string name="action_redraft">Delete and Redraft</string>
+    <string name="dialog_redraft_toot_warning">Are you sure you want to delete this status and re-draft it? Favourites and boosts will be lost, and replies to the original post will be orphaned. Additionally, all attached media and descriptions will be discarded.</string>
 
     <plurals name="favs">
         <item quantity="one">&lt;b>%1$s&lt;/b> Favourite</item>

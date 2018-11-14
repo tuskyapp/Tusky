@@ -29,4 +29,7 @@
     <item
         android:id="@+id/status_delete"
         android:title="@string/action_delete" />
+    <item
+	android:title="@string/action_redraft"
+	android:id="@+id/status_redraft" />
 </menu>

@@ -63,6 +63,10 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
  * of that is complicated by how they're coupled with Status and Notification and the corresponding
@@ -274,6 +278,10 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                     showConfirmDeleteDialog(id, position);
                     return true;
                 }
+                case R.id.status_redraft: {
+                    showConfirmRedraftDialog(status, position);
+                    return true;
+                }
                 case R.id.pin: {
                     timelineCases.pin(status, !status.isPinned());
                     return true;
@@ -382,5 +390,59 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                 Toast.makeText(getContext(), R.string.error_media_download_permission, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void showConfirmRedraftDialog(Status status, int position) {
+        new AlertDialog.Builder(getActivity())
+                .setMessage(R.string.dialog_redraft_toot_warning)
+                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> beginRedraft(status, position))
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    private void beginRedraft(Status status, int position)
+    {
+        if (status.getInReplyToId() == null)
+        {
+            finishRedraft(status, position, null);
+            return;
+        }
+
+        mastodonApi.status(status.getActionableStatus().getInReplyToId()).enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+                finishRedraft(status, position, response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+                Toast.makeText(getContext(), R.string.error_generic, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void finishRedraft(Status status, int position, Status inReplyToStatus)
+    {
+        String inReplyToId = inReplyToStatus == null ? null : inReplyToStatus.getActionableId();
+        String inReplyToContent = inReplyToStatus == null ? null : inReplyToStatus.getActionableStatus().getContent().toString();
+        String inReplyToUsername = inReplyToStatus == null ? null : inReplyToStatus.getActionableStatus().getAccount().getLocalUsername();
+        // TODO: media
+        String savedJsonUrls = "[]";
+
+        timelineCases.delete(status.getId());
+        removeItem(position);
+
+        Intent intent = new ComposeActivity.IntentBuilder()
+                .savedTootUid(0)
+                .savedTootText(status.getContent().toString())
+                .contentWarning(status.getSpoilerText())
+                .savedJsonUrls(savedJsonUrls)
+                .savedJsonDescriptions(savedJsonUrls)
+                .inReplyToId(inReplyToId)
+                .replyingStatusAuthor(inReplyToUsername)
+                .replyingStatusContent(inReplyToContent)
+                .savedVisibility(status.getVisibility())
+                .build(getContext());
+        startActivity(intent);
     }
 }
