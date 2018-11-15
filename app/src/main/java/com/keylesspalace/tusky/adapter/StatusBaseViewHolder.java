@@ -26,7 +26,6 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
-import com.keylesspalace.tusky.util.FocalPointEnforcer;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
@@ -271,15 +270,14 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 Focus focus = meta != null ? meta.getFocus() : null;
 
                 if (focus != null) { // If there is a focal point for this attachment:
-                    FocalPointEnforcer enforcer = new FocalPointEnforcer(mediaPreviews[i], focus);
-                    mediaPreviews[i].setScaleType(ImageView.ScaleType.MATRIX);
-                    mediaPreviews[i].setFocalPointEnforcer(enforcer);
+                    mediaPreviews[i].setFocalPoint(focus);
+
                     Picasso.with(context)
                             .load(previewUrl)
                             .placeholder(mediaPreviewUnloadedId)
-                            // Also pass the enforcer as callback to ensure it is called initially
-                            // when the image gets loaded:
-                            .into(mediaPreviews[i], enforcer);
+                            // Also pass the mediaPreview as a callback to ensure it is called
+                            // initially when the image gets loaded:
+                            .into(mediaPreviews[i], mediaPreviews[i]);
                 } else {
                     Picasso.with(context)
                             .load(previewUrl)
