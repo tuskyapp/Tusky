@@ -230,7 +230,6 @@
 
     <string name="notification_mention_format" >%s شما را صدا زد</string>
     <string name="notification_summary_large" >%1$s, %2$s, %3$s و %4$d دیگر</string>
-    <string name="notification_summary_medium" >%1$s, %2$s, و %3 $s</string>
     <string name="notification_summary_small" >%1$s و %2$s</string>
     <string name="notification_title_summary" >%d تعاملات جدید</string>
 

@@ -305,7 +305,6 @@
     <string name="send_toot_notification_saved_content">嘟文已保存到草稿</string>
     <string name="action_compose_shortcut">發表嘟文</string>
 
-    <string name="error_no_custom_emojis">當前服務器沒有自定義的 Emoji 表情</string>
     <string name="copy_to_clipboard_success">已複製到剪貼板</string>
     <string name="emoji_style">Emoji 表情</string>
     <string name="system_default">系統默認</string>
