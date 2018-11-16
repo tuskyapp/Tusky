@@ -59,7 +59,7 @@ android {
 }
 
 ext.supportLibraryVersion = '28.0.0'
-ext.daggerVersion = '2.17'
+ext.daggerVersion = '2.19'
 
 
 // if libraries are changed here, they should also be changed in LicenseActivity
@@ -105,16 +105,16 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
-    testImplementation 'org.robolectric:robolectric:4.0-alpha-3'
-    testImplementation 'org.mockito:mockito-inline:2.21.0'
+    testImplementation 'org.robolectric:robolectric:4.0.2'
+    testImplementation 'org.mockito:mockito-inline:2.23.0'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     debugImplementation 'im.dino:dbinspector:3.4.1@aar'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
-    implementation 'com.uber.autodispose:autodispose-android-archcomponents:1.0.0-RC2'
-    implementation 'com.uber.autodispose:autodispose-ktx:1.0.0-RC2'
+    implementation 'com.uber.autodispose:autodispose-android-archcomponents:1.0.0-RC3'
+    implementation 'com.uber.autodispose:autodispose-ktx:1.0.0-RC3'
 }

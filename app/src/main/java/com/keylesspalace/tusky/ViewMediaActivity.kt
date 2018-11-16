@@ -139,7 +139,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
             actionBar.setDisplayShowHomeEnabled(true)
             actionBar.title = adapter.getPageTitle(initialPosition)
         }
-        toolbar.setNavigationOnClickListener { _ -> supportFinishAfterTransition() }
+        toolbar.setNavigationOnClickListener { supportFinishAfterTransition() }
         toolbar.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.action_download -> downloadMedia()
@@ -194,7 +194,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     downloadMedia()
                 } else {
-                    showErrorDialog(toolbar, R.string.error_media_download_permission, R.string.action_retry) { _ -> downloadMedia() }
+                    showErrorDialog(toolbar, R.string.error_media_download_permission, R.string.action_retry) { downloadMedia() }
                 }
             }
         }

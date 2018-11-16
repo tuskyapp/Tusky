@@ -42,21 +42,21 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         textSizePreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_format_size).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
 
         val timelineFilterPreferences = findPreference("timelineFilterPreferences")
-        timelineFilterPreferences.setOnPreferenceClickListener { _ ->
-            activity?.let {
-                val intent = PreferencesActivity.newIntent(it, PreferencesActivity.TAB_FILTER_PREFERENCES)
-                it.startActivity(intent)
-                it.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        timelineFilterPreferences.setOnPreferenceClickListener {
+            activity?.let { activity ->
+                val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.TAB_FILTER_PREFERENCES)
+                activity.startActivity(intent)
+                activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
             }
             true
         }
 
         val httpProxyPreferences = findPreference("httpProxyPreferences")
-        httpProxyPreferences.setOnPreferenceClickListener { _ ->
-            activity?.let {
-                val intent = PreferencesActivity.newIntent(it, PreferencesActivity.PROXY_PREFERENCES)
-                it.startActivity(intent)
-                it.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        httpProxyPreferences.setOnPreferenceClickListener {
+            activity?.let { activity ->
+                val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.PROXY_PREFERENCES)
+                activity.startActivity(intent)
+                activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
             }
             true
         }

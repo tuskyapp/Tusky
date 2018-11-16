@@ -49,10 +49,6 @@ class ViewImageFragment : ViewMediaFragment() {
     private lateinit var toolbar: View
     override lateinit var descriptionView : TextView
 
-    companion object {
-        private const val TAG = "ViewImageFragment"
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         photoActionsListener = context as PhotoActionsListener
@@ -64,9 +60,9 @@ class ViewImageFragment : ViewMediaFragment() {
         attacher = PhotoViewAttacher(photoView)
 
         // Clicking outside the photo closes the viewer.
-        attacher.setOnOutsidePhotoTapListener { _ -> photoActionsListener.onDismiss() }
+        attacher.setOnOutsidePhotoTapListener { photoActionsListener.onDismiss() }
 
-        attacher.setOnClickListener { _ -> onMediaTap() }
+        attacher.setOnClickListener { onMediaTap() }
 
         /* A vertical swipe motion also closes the viewer. This is especially useful when the photo
          * mostly fills the screen so clicking outside is difficult. */

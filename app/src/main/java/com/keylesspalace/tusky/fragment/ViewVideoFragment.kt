@@ -49,10 +49,6 @@ class ViewVideoFragment : ViewMediaFragment() {
     override lateinit var descriptionView : TextView
     private lateinit var mediaController : MediaController
 
-    companion object {
-        private const val TAG = "ViewVideoFragment"
-    }
-
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         // Start/pause/resume video playback as fragment is shown/hidden
         super.setUserVisibleHint(isVisibleToUser)

@@ -37,7 +37,6 @@ abstract class ViewMediaFragment : BaseFragment() {
         @JvmStatic protected val ARG_START_POSTPONED_TRANSITION = "startPostponedTransition"
         @JvmStatic protected val ARG_ATTACHMENT = "attach"
         @JvmStatic protected val ARG_AVATAR_URL = "avatarUrl"
-        private const val TAG = "ViewMediaFragment"
 
         @JvmStatic
         fun newInstance(attachment: Attachment, shouldStartPostponedTransition: Boolean): ViewMediaFragment {
