@@ -49,7 +49,10 @@ defStyleAttr: Int = 0
     fun setFocalPoint(focus: Attachment.Focus) {
         scaleType = ScaleType.MATRIX
         this.focus = focus
-        this.focalMatrix = Matrix()
+
+        if (focalMatrix == null) {
+            focalMatrix = Matrix()
+        }
     }
 
     /**
