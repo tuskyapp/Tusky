@@ -34,7 +34,7 @@ import com.squareup.picasso.Callback
  */
 object FocalPointUtil {
     /**
-     * Create the appropriate matrix for the given parameters.
+     * Update the given matrix for the given parameters.
      *
      * How it works is using the following steps:
      *   - First we determine if the image is too wide or too tall for the view size. If it is
@@ -51,7 +51,7 @@ object FocalPointUtil {
      * @param imageWidth The width of the actual image
      * @param imageHeight The height of the actual image
      * @param focus The focal point to focus
-     * @param mat The matrix to use, this matrix is reset() and then updated with the new
+     * @param mat The matrix to update, this matrix is reset() and then updated with the new
      * configuration. We reuse the old matrix to prevent unnecessary allocations.
      *
      * @return The matrix which correctly crops the image
@@ -61,7 +61,7 @@ object FocalPointUtil {
                                imageWidth: Float,
                                imageHeight: Float,
                                focus: Focus,
-                               mat: Matrix): Matrix {
+                               mat: Matrix) {
         // Reset the cached matrix:
         mat.reset()
 
@@ -79,8 +79,6 @@ object FocalPointUtil {
         }
 
         mat.postTranslate(left, top)
-
-        return mat
     }
 
     /**
