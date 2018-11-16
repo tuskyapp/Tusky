@@ -72,11 +72,11 @@ defStyleAttr: Int = 0
      * matrix if we have a set focal point. It then reassigns the matrix to this imageView.
      */
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
-        if (drawable != null && focus is Attachment.Focus && focalMatrix is Matrix) {
             imageMatrix =
                     FocalPointUtil.updateFocalPointMatrix(width.toFloat(), height.toFloat(),
                             drawable.intrinsicWidth.toFloat(), drawable.intrinsicHeight.toFloat(),
                             focus as Attachment.Focus, focalMatrix as Matrix)
+        if (drawable != null && focus != null && focalMatrix != null) {
         }
 
         super.onSizeChanged(width, height, oldWidth, oldHeight)
