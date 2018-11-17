@@ -202,6 +202,7 @@
     <string name="pref_title_http_proxy_port">HTTP proxy port</string>
 
     <string name="pref_default_post_privacy">Default post privacy</string>
+    <string name="pref_default_media_sensitivity">Always mark media as sensitive</string>
     <string name="pref_publishing">Publishing (synced with server)</string>
     <string name="pref_failed_to_sync">Failed to sync settings</string>
 

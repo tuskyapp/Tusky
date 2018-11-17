@@ -28,7 +28,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_eye_24dp"
             android:key="defaultMediaSensitivity"
-            android:title="Always mark media as sensitive" />
+            android:title="@string/pref_default_media_sensitivity" />
 
     </PreferenceCategory>
 
