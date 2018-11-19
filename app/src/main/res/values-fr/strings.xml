@@ -347,4 +347,14 @@
     <string name="unpin_action">Détacher</string>
     <string name="pin_action">Épingler</string>
 
-</resources>
+<string name="action_view_account_preferences">Préférences du compte</string>
+    <string name="pref_title_timelines">Fils chronologiques</string>
+
+    <string name="pref_default_media_sensitivity">Toujours marquer les médias comme sensibles</string>
+    <string name="pref_failed_to_sync">Échec de synchronisation des paramètres</string>
+
+    <string name="pref_media_display">Affichage des médias</string>
+
+    <string name="hint_describe_for_visually_impaired">Décrire pour les malvoyants
+\n(limite de caractères %d)</string>
+    </resources>
