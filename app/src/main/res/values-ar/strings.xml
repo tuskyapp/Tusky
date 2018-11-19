@@ -49,8 +49,8 @@
 
     <string name="footer_empty">لا يوجد شيئ هنا. إسحب إلى أسفل للتحديث !</string>
 
-    <string name="notification_reblog_format">%s عزز تبويقك</string>
-    <string name="notification_favourite_format">%s أعجب بتبويقك</string>
+    <string name="notification_reblog_format">رقّى %s تبويقك</string>
+    <string name="notification_favourite_format">أعجب %s بتبويقك</string>
     <string name="notification_follow_format">%s يتبعك</string>
 
     <string name="report_username_format">أبلغ عن @%s</string>
@@ -73,7 +73,7 @@
     <string name="action_show_reblogs">إظهار الترقيات</string>
     <string name="action_report">أبلغ</string>
     <string name="action_delete">إحذف</string>
-    <string name="action_send">تبويق</string>
+    <string name="action_send">بَوّق</string>
     <string name="action_send_public">بوّق!</string>
     <string name="action_retry">إعادة المحاولة</string>
     <string name="action_close">إغلاق</string>
@@ -273,7 +273,7 @@
     <string name="send_toot_notification_error_title">خطأ أثناء عملية إرسال التبويق</string>
     <string name="send_toot_notification_channel_name">إرسال التبويقات</string>
     <string name="send_toot_notification_cancel_title">أُلغيَ الإرسال</string>
-    <string name="send_toot_notification_saved_content">تم الإحتفاظ بنسخة مِن التبويق في مسوداتك</string>
+    <string name="send_toot_notification_saved_content">تم الاحتفاظ بنسخة مِن التبويق في مسوداتك</string>
     <string name="action_compose_shortcut">تحرير</string>
 
     <string name="error_no_custom_emojis">لا يحتوي مثيل خادومكم %s على أية حزمة إيموجي مخصصة</string>
@@ -325,4 +325,14 @@
     <string name="unpin_action">فك التدبيس</string>
     <string name="pin_action">تدبيس</string>
 
-</resources>
+<string name="action_view_account_preferences">تفضيلات الحساب</string>
+    <string name="pref_title_timelines">الخيوط</string>
+
+    <string name="pref_default_media_sensitivity">تعيين الوسائط كمحتوى حساس دائمًا</string>
+    <string name="pref_failed_to_sync">فَشِلَت عملية مزامنة الإعدادات</string>
+
+    <string name="pref_media_display">عرض الوسائط</string>
+
+    <string name="hint_describe_for_visually_impaired">وصف لضعاف البصر
+\n(%d أحرف على أقصى تقدير)</string>
+    </resources>
