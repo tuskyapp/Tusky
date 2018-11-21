@@ -1,7 +1,7 @@
 <resources>
 
-    <string name="error_generic">Errore bat gertatu da.</string>
-    <string name="error_empty">Hau ezin da hutsik egon.</string>
+    <string name="error_generic">Errorea gertatu da.</string>
+    <string name="error_empty">Eremu hau ezin da hutsik egon.</string>
     <string name="error_invalid_domain">Domeinu izen okerra.</string>
     <string name="error_failed_app_registration">Akatsa saioa hasterakoan.</string>
     <string name="error_no_web_browser_found">Ez da web nabigatzailerik aurkitu.</string>
@@ -13,8 +13,8 @@
     <string name="error_video_upload_size">Bideoak 40MB baino gutxiago izan behar ditu.</string>
     <string name="error_media_upload_type">Ez da fitxategi mota hau onartzen.</string>
     <string name="error_media_upload_opening">Ezin izan da fitxategi hau ireki.</string>
-    <string name="error_media_upload_permission">Biltegiratzera sartzeko baimena behar da.</string>
-    <string name="error_media_download_permission">Biltegiratzera jaisteko baimena behar da.</string>
+    <string name="error_media_upload_permission">Memoriara sartzeko baimena behar da.</string>
+    <string name="error_media_download_permission">Memoriara deskargatzeko  baimena behar da.</string>
     <string name="error_media_upload_image_or_video">Ezin dira bideoak eta irudiak orro berean gehitu.</string>
     <string name="error_media_upload_sending">Akatsa igotzerakoan.</string>
     <string name="error_report_too_few_statuses">Gutxienez egoera bat hautatu behar da.</string>
@@ -33,20 +33,20 @@
     <string name="title_follows">Jarraitzen</string>
     <string name="title_followers">Jarraitzaileak</string>
     <string name="title_favourites">Gogokoak</string>
-    <string name="title_mutes">Ixilduak</string>
+    <string name="title_mutes">Isilduak</string>
     <string name="title_blocks">Blokeatuak</string>
     <string name="title_follow_requests">Eskakizunak</string>
-    <string name="title_edit_profile">Editatu profila</string>
+    <string name="title_edit_profile">Profila editatu</string>
     <string name="title_saved_toot">Zirriborroak</string>
     <string name="title_licenses">Lizentziak</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s-(e)k bultzatu du</string>
-    <string name="status_sensitive_media_title">Eduki mingarria</string>
-    <string name="status_media_hidden_title">Ezkutuko media</string>
+    <string name="status_sensitive_media_title">Kontuz edukiarekin</string>
+    <string name="status_media_hidden_title">Ezkutuko multimedia</string>
     <string name="status_sensitive_media_directions">Sakatu ikusteko</string>
-    <string name="status_content_warning_show_more">Erakutsi gehiago</string>
-    <string name="status_content_warning_show_less">Erakutsi gutxiago</string>
+    <string name="status_content_warning_show_more">Gehiago erakutsi </string>
+    <string name="status_content_warning_show_less">Gutxiago erakutsi</string>
     <string name="status_content_show_more">Zabaldu</string>
     <string name="status_content_show_less">Bildu</string>
 
@@ -69,16 +69,16 @@
     <string name="action_logout">Saioa itxi</string>
     <string name="action_logout_confirm">Ziur zaude %1$s saioa itxi nahi duzula?</string>
     <string name="action_follow">Jarraitu</string>
-    <string name="action_unfollow">Utzi jarraitzeari</string>
+    <string name="action_unfollow">Jarraitzeari utzi</string>
     <string name="action_block">Blokeatu</string>
     <string name="action_unblock">Desblokeatu</string>
-    <string name="action_hide_reblogs">Ezkutatu bultzadak</string>
-    <string name="action_show_reblogs">Erakutsi bultzadak</string>
+    <string name="action_hide_reblogs">Bultzadak ezkutatu</string>
+    <string name="action_show_reblogs">Bultzadak erakutsi</string>
     <string name="action_report">Salatu</string>
     <string name="action_delete">Ezabatu</string>
     <string name="action_send">Orro egin</string>
     <string name="action_send_public">ORRO!</string>
-    <string name="action_retry">Birsaiatu</string>
+    <string name="action_retry">Berriz saiatu</string>
     <string name="action_close">Itxi</string>
     <string name="action_view_profile">Profila</string>
     <string name="action_view_preferences">Ezarpenak</string>
@@ -88,17 +88,17 @@
     <string name="action_view_blocks">Blokeatuak</string>
     <string name="action_view_follow_requests">Eskariak</string>
     <string name="action_view_media">Multimedia</string>
-    <string name="action_open_in_web">Ireki nabigatzailean</string>
-    <string name="action_add_media">Erantsi multimedia</string>
+    <string name="action_open_in_web">Nabigatzailean ireki</string>
+    <string name="action_add_media">Multimedia erantsi</string>
     <string name="action_photo_take">Argazkia atera</string>
     <string name="action_share">Partekatu</string>
     <string name="action_mute">Mututu</string>
     <string name="action_unmute">Desmututu</string>
     <string name="action_mention">Aipatu</string>
-    <string name="action_hide_media">Ezkutatu multimedia</string>
-    <string name="action_open_drawer">Ireki tiradera</string>
+    <string name="action_hide_media">Multimedia ezkutatu</string>
+    <string name="action_open_drawer">Tiradera ireki</string>
     <string name="action_save">Gorde</string>
-    <string name="action_edit_profile">Editatu profila</string>
+    <string name="action_edit_profile">Profila editatu</string>
     <string name="action_edit_own_profile">Editatu</string>
     <string name="action_undo">Desegin</string>
     <string name="action_accept">Onartu</string>
@@ -111,11 +111,11 @@
 
     <string name="download_image">%1$s jaisten</string>
 
-    <string name="action_copy_link">Kopiatu lotura</string>
+    <string name="action_copy_link">Lotura kopiatu</string>
 
-    <string name="send_status_link_to">Orro URL-a partekatu…</string>
+    <string name="send_status_link_to">Orroaren URL-a partekatu…</string>
     <string name="send_status_content_to">Orroa partekatu…</string>
-    <string name="send_media_to">Partekatu media hona…</string>
+    <string name="send_media_to">Partekatu multimedia hona…</string>
 
     <string name="confirmation_reported">Bidalia!</string>
     <string name="confirmation_unblocked">Erabiltzailea ez dago blokeatuta iada.</string>
@@ -141,12 +141,12 @@
 
     <string name="login_connection">Konektatzen…</string>
 
-    <string name="dialog_whats_an_instance"> Sartu hemen helbidea edo mastodon.eus, mastodon.social, icosahedron.website bezalako <a href="https://instances.social">edozein instantzia</a>,
+    <string name="dialog_whats_an_instance"> Sartu hemen helbidea edo mastodon.eus, mastodon.jalgi.eus, mastodon.social bezalako <a href="https://instances.social">edozein instantzia</a>,
         \n\n Oraindik ez baduzu konturik, instantziaren izena sartu eta bertan kontua sortu dezakezu.
 \n\nInstantzia zure kontua dagoen gunea da, baino beste instantzietako erabiltzaileak zurean egongo balira bezala jarraitu ditzakezu.
         \n\nInformazio gehiago <a href="https://joinmastodon.org">joinmastodon.org</a> helbidean topatuko duzu.
     </string>
-    <string name="dialog_title_finishing_media_upload">Multimedia igotzen bukatzen</string>
+    <string name="dialog_title_finishing_media_upload">Multimedia igoera bukatzen</string>
     <string name="dialog_message_uploading_media">Igotzen…</string>
     <string name="dialog_download_image">Jaitsi</string>
     <string name="dialog_message_cancel_follow_request">Lagun eskaera ezeztatu?</string>
@@ -170,7 +170,7 @@
     <string name="pref_title_notification_filter_mentions">Aipatzen naute</string>
     <string name="pref_title_notification_filter_follows">Jarraitzen naute</string>
     <string name="pref_title_notification_filter_reblogs">Bultzatzen naute</string>
-    <string name="pref_title_notification_filter_favourites">Gogoko ditu nire mezuak</string>
+    <string name="pref_title_notification_filter_favourites">Nire mezuak gogoko ditu</string>
     <string name="pref_title_appearance_settings">Interfazea</string>
     <string name="pref_title_app_theme">Gaia</string>
     <string name="pref_title_timelines">Denbora lerroak</string>
@@ -198,7 +198,7 @@
     <string name="pref_title_http_proxy_port">HTTP Proxy-aren portua</string>
 
     <string name="pref_default_post_privacy">Aurrezarritako ikusgarritasuna</string>
-    <string name="pref_default_media_sensitivity">Markatu beti media eduki mingarri gisa</string>
+    <string name="pref_default_media_sensitivity">Beti markatu multimedia eduki mingarri gisa</string>
     <string name="pref_publishing">Bidalketak</string>
     <string name="pref_failed_to_sync">Aukerak sinkronizatzean akatsa</string>
 
@@ -221,9 +221,9 @@
     <string name="pref_media_display">Erakutsi media</string>
 
     <string-array name="media_display_names">
-        <item>Ezkutatu eduki mingarri gisa markatutako media</item>
-        <item>Beti erakutsi eduki mingarri gisa markatutako media</item>
-        <item>Beti ezkutatu media guztia</item>
+        <item>Ezkutatu eduki mingarri gisa markatutako multimedia</item>
+        <item>Beti erakutsi eduki mingarri gisa markatutako multimedia</item>
+        <item>Beti ezkutatu multimedia guztiak</item>
     </string-array>
 
     <string name="notification_channel_mention_name">Aipamen berriak</string>
@@ -311,18 +311,18 @@
     <string name="send_toot_notification_error_title">Errorea orroa bidaltzerakoan</string>
     <string name="send_toot_notification_channel_name">Orroa bidaltzen</string>
     <string name="send_toot_notification_cancel_title">Bidalketa ezeztatua</string>
-    <string name="send_toot_notification_saved_content">Orroaren kopia zirriborroetan jaso da</string>
+    <string name="send_toot_notification_saved_content">Orroaren kopia zirriborroetan sartu da</string>
     <string name="action_compose_shortcut">Idatzi</string>
 
     <string name="error_no_custom_emojis">%s instantziak ez ditu emoji pertsonalizatuak eskaintzen</string>
     <string name="copy_to_clipboard_success">Arbelean kopiatua</string>
     <string name="emoji_style">Emojien estiloa</string>
     <string name="system_default">Sistema</string>
-    <string name="download_fonts">Lehenago jaitsi egin beharko dituzu</string>
+    <string name="download_fonts">Lehenago jaitsi beharko dituzu</string>
     <string name="performing_lookup_title">Bilatzen...</string>
     <string name="expand_collapse_all_statuses">Egoera guztiak ezkutatu/zabaldu</string>
     <string name="action_open_toot">Ireki</string>
-    <string name="restart_required">Beharrezko berrabiaraztea</string>
+    <string name="restart_required">Berrabiaraztea beharrezkoa da</string>
     <string name="restart_emoji">Aplikazioa berrabiarazi beharko duzu aldaketa ezartzeko</string>
     <string name="later">Beranduago</string>
     <string name="restart">Berrabiarazi</string>
@@ -330,27 +330,27 @@
     <string name="caption_blobmoji">Android 4.4etik 7.1erako emoji-ak</string>
     <string name="caption_twemoji">Mastodoneko emoji pakete estandarra</string>
 
-    <string name="download_failed">Akatsa deskargatzean</string>
+    <string name="download_failed">Deskargatzerakoan akatsa</string>
 
     <string name="profile_badge_bot_text">Bot-a</string>
     <string name="account_moved_description">%1$s hona mugitu da:</string>
 
-    <string name="reblog_private">Berriro bultzatu</string>
-    <string name="unreblog_private">Bultzatzeaz utzi</string>
+    <string name="reblog_private">Berriz bultzatu</string>
+    <string name="unreblog_private">Bultzatzea utzi</string>
 
-    <string name="license_description">Tusky-k ondorengo proiektuetako kode eta  baliabideak ditu:</string>
+    <string name="license_description">Tusky-k ondorengo proiektuetako kode eta baliabideak ditu:</string>
     <string name="license_apache_2">Apache Lizentziapean (testua zerrendaren azpian)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
 
     <string name="profile_metadata_label">Informazio gehigarria</string>
-    <string name="profile_metadata_add">Gehitu eremua</string>
+    <string name="profile_metadata_add">Eremua gehitu</string>
     <string name="profile_metadata_label_label">Etiketa</string>
     <string name="profile_metadata_content_label">Edukia</string>
 
     <string name="pref_title_absolute_time">Denbora absolutua erabili</string>
 
-    <string name="label_remote_account">Ondorengo informazioak erabiltzailea erdizka erakutsi dezake. Sakatu nabigatzailean profil osoa ikusteko.</string>
+    <string name="label_remote_account">Ondorengo edukiak erabiltzailearen informazioa erdizka erakutsi dezake. Profil osoa ikusteko nabigatzailean sakatu.</string>
 
     <string name="unpin_action">Desainguratu</string>
     <string name="pin_action">Ainguratu</string>
