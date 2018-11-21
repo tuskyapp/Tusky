@@ -54,7 +54,7 @@
 
     <string name="notification_reblog_format">%s-(e)k zure orroa bultzatu du</string>
     <string name="notification_favourite_format">%s-(e)k zure orroa gogoko du</string>
-    <string name="notification_follow_format">%s-(e)k jarraitu zaitu</string>
+    <string name="notification_follow_format">%s-(e)k jarraitu dizu</string>
 
     <string name="report_username_format">@%s salatu</string>
     <string name="report_comment_hint">Informazio gehigarria?</string>
@@ -168,7 +168,7 @@
     <string name="pref_title_notification_alert_light">Led-arekin jakinarazi</string>
     <string name="pref_title_notification_filters">Noiz jakinarazi:</string>
     <string name="pref_title_notification_filter_mentions">Aipatzen naute</string>
-    <string name="pref_title_notification_filter_follows">Jarraitzen naute</string>
+    <string name="pref_title_notification_filter_follows">Jarraitzen didate</string>
     <string name="pref_title_notification_filter_reblogs">Bultzatzen naute</string>
     <string name="pref_title_notification_filter_favourites">Nire mezuak gogoko ditu</string>
     <string name="pref_title_appearance_settings">Interfazea</string>
