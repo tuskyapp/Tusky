@@ -1,31 +1,31 @@
 <resources>
 
-    <string name="error_generic">應用程式出現異常。</string>
-    <string name="error_empty">內容不能為空。</string>
+    <string name="error_generic">應用程式出現異常</string>
+    <string name="error_empty">內容不能為空</string>
     <string name="error_invalid_domain">該域名無效</string>
-    <string name="error_failed_app_registration">無法連接此伺服器。</string>
-    <string name="error_no_web_browser_found">沒有可用的瀏覽器。</string>
-    <string name="error_authorization_unknown">認證過程出現未知錯誤。</string>
-    <string name="error_authorization_denied">授權被拒絕。</string>
-    <string name="error_retrieving_oauth_token">無法獲取登錄信息。</string>
+    <string name="error_failed_app_registration">無法連接此伺服器</string>
+    <string name="error_no_web_browser_found">沒有可用的瀏覽器</string>
+    <string name="error_authorization_unknown">認證過程出現未知錯誤</string>
+    <string name="error_authorization_denied">授權被拒絕</string>
+    <string name="error_retrieving_oauth_token">無法獲取登入資訊</string>
     <string name="error_compose_character_limit">嘟文太長了！</string>
-    <string name="error_image_upload_size">文件大小限制 8MB。</string>
-    <string name="error_video_upload_size">視頻文件大小限制 40MB。</string>
-    <string name="error_media_upload_type">無法上傳此類型的文件。</string>
-    <string name="error_media_upload_opening">此文件無法打開。</string>
-    <string name="error_media_upload_permission">需要授予 Tusky 讀取媒體文件的權限。</string>
-    <string name="error_media_download_permission">需要授予 Tusky 寫入存儲空間的權限。</string>
-    <string name="error_media_upload_image_or_video">無法在嘟文中同時插入視頻和圖片。</string>
-    <string name="error_media_upload_sending">媒體文件上傳失敗。</string>
-    <string name="error_report_too_few_statuses">至少要報告 1 則嘟文。</string>
+    <string name="error_image_upload_size">檔案大小限制 8MB</string>
+    <string name="error_video_upload_size">影片大小限制 40MB</string>
+    <string name="error_media_upload_type">無法上傳此類型的檔案</string>
+    <string name="error_media_upload_opening">此檔案無法開啟</string>
+    <string name="error_media_upload_permission">需要授予 Tusky 讀取媒體檔案的權限</string>
+    <string name="error_media_download_permission">需要授予 Tusky 寫入儲存空間的權限</string>
+    <string name="error_media_upload_image_or_video">無法在嘟文中同時插入影片和圖片</string>
+    <string name="error_media_upload_sending">媒體檔案上傳失敗</string>
+    <string name="error_report_too_few_statuses">至少要檢舉 1 則嘟文</string>
     <string name="error_invalid_regex">正規表示式無效</string>
-    <string name="error_sender_account_gone">嘟文發送時出錯。</string>
+    <string name="error_sender_account_gone">嘟文發送時出錯</string>
 
     <string name="title_home">主頁</string>
-    <string name="title_advanced">高級</string>
+    <string name="title_advanced">進階</string>
     <string name="title_notifications">通知</string>
     <string name="title_public_local">本站時間軸</string>
-    <string name="title_public_federated">跨站公共時間缐</string>
+    <string name="title_public_federated">跨站公開時間軸</string>
     <string name="title_view_thread">嘟文</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">嘟文</string>
@@ -33,8 +33,8 @@
     <string name="title_follows">正在關注</string>
     <string name="title_followers">關注者</string>
     <string name="title_favourites">我的收藏</string>
-    <string name="title_mutes">被隱藏的用戶</string>
-    <string name="title_blocks">被屏蔽的用戶</string>
+    <string name="title_mutes">被靜音的使用者</string>
+    <string name="title_blocks">被封鎖的使用者</string>
     <string name="title_follow_requests">關注請求</string>
     <string name="title_edit_profile">編輯個人資料</string>
     <string name="title_saved_toot">草稿</string>
@@ -43,93 +43,93 @@
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s 轉嘟了</string>
     <string name="status_sensitive_media_title">敏感內容</string>
-    <string name="status_media_hidden_title">已隱藏的照片或視頻</string>
-    <string name="status_sensitive_media_directions">點擊顯示</string>
+    <string name="status_media_hidden_title">已隱藏的照片或影片</string>
+    <string name="status_sensitive_media_directions">點一下顯示</string>
     <string name="status_content_warning_show_more">顯示更多</string>
     <string name="status_content_warning_show_less">摺疊內容</string>
     <string name="status_content_show_less">摺疊</string>
     <string name="status_content_show_more">展開</string>
 
-    <string name="footer_empty">還沒有內容，向下滑動即可刷新。</string>
+    <string name="footer_empty">還沒有內容，向下拉動即可重新整理</string>
 
     <string name="notification_reblog_format">%s 轉嘟了你的嘟文</string>
     <string name="notification_favourite_format">%s 收藏了你的嘟文</string>
     <string name="notification_follow_format">%s 關注了你</string>
 
-    <string name="report_username_format">報告用戶 @%s 的濫用行為</string>
-    <string name="report_comment_hint">報告更多信息</string>
+    <string name="report_username_format">檢舉使用者 @%s 的濫用行為</string>
+    <string name="report_comment_hint">更多評論？</string>
 
-    <string name="action_quick_reply">快捷回覆</string>
+    <string name="action_quick_reply">快速回覆</string>
     <string name="action_reply">回覆</string>
     <string name="action_reblog">轉嘟</string>
     <string name="action_favourite">收藏</string>
     <string name="action_more">更多</string>
     <string name="action_compose">發表新嘟文</string>
-    <string name="action_login">登錄 Mastodon 帳號</string>
-    <string name="action_logout">退出登錄</string>
-    <string name="action_logout_confirm">確定要退出帳號 %1$s 嗎？</string>
+    <string name="action_login">登入 Mastodon 帳號</string>
+    <string name="action_logout">登出</string>
+    <string name="action_logout_confirm">確定要登出 %1$s 嗎？</string>
     <string name="action_follow">關注</string>
     <string name="action_unfollow">取消關注</string>
-    <string name="action_block">屏蔽</string>
-    <string name="action_unblock">取消屏蔽</string>
+    <string name="action_block">封鎖</string>
+    <string name="action_unblock">取消封鎖</string>
     <string name="action_hide_reblogs">隱藏轉嘟</string>
     <string name="action_show_reblogs">顯示轉嘟</string>
-    <string name="action_report">報告</string>
+    <string name="action_report">檢舉</string>
     <string name="action_delete">刪除</string>
     <string name="action_send">發嘟</string>
-    <string name="action_send_public">發嘟</string>
+    <string name="action_send_public">發嘟！</string>
     <string name="action_retry">重試</string>
     <string name="action_close">關閉</string>
     <string name="action_view_profile">個人資料</string>
-    <string name="action_view_preferences">設置</string>
-    <string name="action_view_account_preferences">帳戶設置</string>
+    <string name="action_view_preferences">設定</string>
+    <string name="action_view_account_preferences">帳戶設定</string>
     <string name="action_view_favourites">我的收藏</string>
-    <string name="action_view_mutes">被隱藏的用戶</string>
-    <string name="action_view_blocks">被屏蔽的用戶</string>
+    <string name="action_view_mutes">被靜音的使用者</string>
+    <string name="action_view_blocks">被封鎖的使用者</string>
     <string name="action_view_follow_requests">關注請求</string>
     <string name="action_view_media">媒體</string>
-    <string name="action_open_in_web">在瀏覽器中打開</string>
-    <string name="action_add_media">從相冊中選擇</string>
+    <string name="action_open_in_web">在瀏覽器中開啟</string>
+    <string name="action_add_media">從相簿中選擇</string>
     <string name="action_photo_take">拍照</string>
     <string name="action_share">分享</string>
-    <string name="action_mute">隱藏</string>
-    <string name="action_unmute">取消隱藏</string>
+    <string name="action_mute">靜音</string>
+    <string name="action_unmute">取消靜音</string>
     <string name="action_mention">提及</string>
-    <string name="action_hide_media">隱藏媒體文件</string>
+    <string name="action_hide_media">隱藏媒體檔案</string>
     <string name="action_open_drawer">打開應用抽屜</string>
-    <string name="action_save">保存</string>
+    <string name="action_save">儲存</string>
     <string name="action_edit_profile">編輯個人資料</string>
     <string name="action_edit_own_profile">編輯</string>
-    <string name="action_undo">撤銷</string>
+    <string name="action_undo">復原</string>
     <string name="action_accept">接受</string>
     <string name="action_reject">拒絕</string>
     <string name="action_search">搜尋</string>
     <string name="action_access_saved_toot">草稿</string>
-    <string name="action_toggle_visibility">設置嘟文可見範圍</string>
-    <string name="action_content_warning">設置內容提醒信息</string>
-    <string name="action_emoji_keyboard">插入 Emoji 表情</string>
+    <string name="action_toggle_visibility">設定嘟文可見範圍</string>
+    <string name="action_content_warning">設定敏感內容警告</string>
+    <string name="action_emoji_keyboard">插入表情符號</string>
 
     <string name="download_image">正在下載 %1$s…</string>
 
-    <string name="action_copy_link">複製鏈接</string>
+    <string name="action_copy_link">複製連結</string>
 
-    <string name="send_status_link_to">分享鏈接到…</string>
+    <string name="send_status_link_to">分享連結到…</string>
     <string name="send_status_content_to">分享嘟文到…</string>
     <string name="send_media_to">分享媒體到…</string>
 
-    <string name="confirmation_reported">報告已發送！</string>
-    <string name="confirmation_unblocked">已解除屏蔽</string>
-    <string name="confirmation_unmuted">已取消隱藏</string>
+    <string name="confirmation_reported">已檢舉！</string>
+    <string name="confirmation_unblocked">已解除封鎖</string>
+    <string name="confirmation_unmuted">已解除靜音</string>
 
     <string name="status_sent">已發送！</string>
-    <string name="status_sent_long">成功發佈回覆。</string>
+    <string name="status_sent_long">成功送出回覆</string>
 
     <string name="hint_domain">域名</string>
     <string name="hint_compose">有什麼新鮮事？</string>
-    <string name="hint_content_warning">內容提醒</string>
+    <string name="hint_content_warning">敏感內容警告</string>
     <string name="hint_display_name">暱稱</string>
     <string name="hint_note">簡介</string>
-    <string name="hint_search">搜索…</string>
+    <string name="hint_search">搜尋…</string>
 
     <string name="search_no_results">沒找到結果</string>
 
@@ -137,28 +137,25 @@
     <string name="label_avatar">頭像</string>
     <string name="label_header">標題</string>
 
-    <string name="link_whats_an_instance">需要幫助？</string>
+    <string name="link_whats_an_instance">什麼是站點？</string>
 
-    <string name="login_connection">正在連接…</string>
+    <string name="login_connection">正在連線…</string>
 
-    <string name="dialog_whats_an_instance">請輸入你帳號所在的 Mastodon 站點的域名，比如 pawoo.net，mstdn.jp，mao.daizhige.org，<a href="https://instances.social">等等</a> 。
-        \n\n還沒有 Mastodon 帳號？你也可以輸入想註冊的 Mastodon 站點的域名，然後在該伺服器創建新的帳號並授權 Tusky 登入。
-        \n\n在 Mastodon 裡，跨站互動和站內互動一樣簡單。可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 瞭解更多信息。
-    </string>
-    <string name="dialog_title_finishing_media_upload">正在結束上傳…</string>
+    <string name="dialog_whats_an_instance">請輸入你帳號所在的 Mastodon 站點的域名或地址</string>
+    <string name="dialog_title_finishing_media_upload">正在完成上傳…</string>
     <string name="dialog_message_uploading_media">正在上傳…</string>
     <string name="dialog_download_image">下載</string>
     <string name="dialog_message_cancel_follow_request">移除關注請求？</string>
-    <string name="dialog_unfollow_warning">不再關注此用戶？</string>
+    <string name="dialog_unfollow_warning">停止關注此使用者？</string>
     <string name="dialog_delete_toot_warning">刪除這條嘟文？</string>
 
-    <string name="visibility_public">公開：所有人可見，並會出現在公共時間軸上</string>
-    <string name="visibility_unlisted">不公開：所有人可見，但不會出現在公共時間軸上</string>
-    <string name="visibility_private">僅關注者：只有經過你確認後關注你的用戶可見</string>
-    <string name="visibility_direct">私信：只有被提及的用戶可見</string>
+    <string name="visibility_public">公開：所有人可見，並會出現在公開時間軸上</string>
+    <string name="visibility_unlisted">不公開：所有人可見，但不會出現在公開時間軸上</string>
+    <string name="visibility_private">僅關注者：只有經過你確認後關注你的使用者可見</string>
+    <string name="visibility_direct">私信：只有被提及的使用者可見</string>
 
     <string name="pref_title_notification_settings">通知</string>
-    <string name="pref_title_edit_notification_settings">通知設置</string>
+    <string name="pref_title_edit_notification_settings">通知設定</string>
     <string name="pref_title_notifications_enabled">通知</string>
     <string name="pref_summary_notifications">帳號 %1$s</string>
     <string name="pref_title_notification_alerts">提醒</string>
@@ -171,8 +168,8 @@
     <string name="pref_title_notification_filter_reblogs">嘟文被轉嘟</string>
     <string name="pref_title_notification_filter_favourites">嘟文被收藏</string>
     <string name="pref_title_appearance_settings">外觀</string>
-    <string name="pref_title_app_theme">應用主題</string>
-    <string name="pref_title_timelines">時間線</string>
+    <string name="pref_title_app_theme">佈景主題</string>
+    <string name="pref_title_timelines">時間軸</string>
 
     <string-array name="app_theme_names">
         <item>黑夜</item>
@@ -184,21 +181,21 @@
     <string name="pref_title_browser_settings">瀏覽器</string>
     <string name="pref_title_custom_tabs">使用 Chrome Custom Tabs</string>
     <string name="pref_title_hide_follow_button">瀏覽時自動隱藏發嘟按鈕</string>
-    <string name="pref_title_status_filter">時間線過濾</string>
-    <string name="pref_title_status_tabs">選項卡</string>
+    <string name="pref_title_status_filter">時間軸過濾</string>
+    <string name="pref_title_status_tabs">標籤頁</string>
     <string name="pref_title_show_boosts">顯示轉嘟</string>
     <string name="pref_title_show_replies">顯示回覆</string>
     <string name="pref_title_filter_regex">使用正規表示式過濾</string>
     <string name="pref_title_show_media_preview">顯示預覽圖</string>
-    <string name="pref_title_proxy_settings">代理</string>
-    <string name="pref_title_http_proxy_settings">HTTP 代理</string>
-    <string name="pref_title_http_proxy_enable">啟用 HTTP 代理</string>
+    <string name="pref_title_proxy_settings">代理伺服器</string>
+    <string name="pref_title_http_proxy_settings">HTTP 代理伺服器</string>
+    <string name="pref_title_http_proxy_enable">啟用 HTTP 代理伺服器</string>
     <string name="pref_title_http_proxy_server">HTTP 代理伺服器</string>
-    <string name="pref_title_http_proxy_port">HTTP 代理端口</string>
+    <string name="pref_title_http_proxy_port">HTTP 代理伺服器埠</string>
 
-    <string name="pref_default_post_privacy">嘟文默認可見範圍</string>
-    <string name="pref_publishing">發佈</string>
-    <string name="pref_failed_to_sync">同步失敗設置</string>
+    <string name="pref_default_post_privacy">嘟文預設可見範圍</string>
+    <string name="pref_publishing">發佈（與伺服器同步）</string>
+    <string name="pref_failed_to_sync">同步設定失敗</string>
 
     <string-array name="post_privacy_names">
         <item>公開</item>
@@ -225,13 +222,13 @@
     </string-array>
 
     <string name="notification_channel_mention_name">被提及</string>
-    <string name="notification_channel_mention_descriptions">當有用戶在嘟文中提及我時</string>
+    <string name="notification_channel_mention_descriptions">當有使用者在嘟文中提及我時</string>
     <string name="notification_channel_follow_name">關注者</string>
-    <string name="notification_channel_follow_description">當有用戶關注我時</string>
+    <string name="notification_channel_follow_description">當有使用者關注我時</string>
     <string name="notification_channel_boost_name">轉嘟</string>
-    <string name="notification_channel_boost_description">當有用戶轉嘟了我的嘟文時</string>
-    <string name="notification_channel_favourite_name">被收藏</string>
-    <string name="notification_channel_favourite_description">當有用戶收藏了我的嘟文時</string>
+    <string name="notification_channel_boost_description">當有使用者轉嘟了我的嘟文時</string>
+    <string name="notification_channel_favourite_name">收藏</string>
+    <string name="notification_channel_favourite_description">當有使用者收藏了我的嘟文時</string>
 
 
     <string name="notification_mention_format">%s 提及了你</string>
@@ -244,26 +241,26 @@
 
     <string name="about_title_activity">關於 Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky 是基於 GNU General Public License Version 3 許可證開源的自由軟體。完整的許可證協議：https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Tusky 是基於 GNU General Public License Version 3 許可證開源的自由軟體完整的許可證協議：https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators: the url can be changed to link to the localized version of the license -->
     <string name="about_project_site">
-        專案地址：\n
+        專案網站：\n
         https://tuskyapp.github.io
     </string>
     <string name="about_bug_feature_request_site">
-        問題反饋：\n
+        問題回報：\n
         https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Tusky 官方帳號</string>
 
     <string name="status_share_content">分享嘟文內容</string>
-    <string name="status_share_link">分享嘟文鏈接</string>
+    <string name="status_share_link">分享嘟文連結</string>
     <string name="status_media_images">照片</string>
-    <string name="status_media_video">視頻</string>
+    <string name="status_media_video">影片</string>
 
-    <string name="state_follow_requested">已發送關注請求</string>
+    <string name="state_follow_requested">已請求關注</string>
 
-    <string name="no_content">無內容</string>
+    <string name="no_content">沒有內容</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%d 年內</string>
@@ -281,66 +278,66 @@
     <string name="pref_title_alway_show_sensitive_media">總是顯示所有敏感媒體內容</string>
     <string name="title_media">媒體</string>
     <string name="replying_to">回覆 @%s</string>
-    <string name="load_more_placeholder_text">加載更多</string>
+    <string name="load_more_placeholder_text">載入更多</string>
 
-    <string name="add_account_name">添加帳號</string>
-    <string name="add_account_description">添加新的 Mastodon 帳號</string>
+    <string name="add_account_name">加入帳號</string>
+    <string name="add_account_description">加入新的 Mastodon 帳號</string>
 
     <string name="action_lists">列表</string>
     <string name="title_lists">列表</string>
-    <string name="title_list_timeline">列表公共時間缐</string>
+    <string name="title_list_timeline">列表公共時間軸</string>
 
-    <string name="compose_active_account_description">使用帳號 %1$s 發佈嘟文</string>
+    <string name="compose_active_account_description">以 %1$s 發嘟文</string>
 
-    <string name="error_failed_set_caption">設置圖片標題失敗。</string>
-    <string name="action_set_caption">設置圖片標題</string>
+    <string name="error_failed_set_caption">設定圖片標題失敗</string>
+    <string name="action_set_caption">設定圖片標題</string>
     <string name="action_remove_media">移除</string>
     <string name="lock_account_label">保護你的帳戶（鎖嘟）</string>
     <string name="lock_account_label_description">你需要手動審核所有關注請求</string>
-    <string name="compose_save_draft">保存為草稿？</string>
+    <string name="compose_save_draft">儲存為草稿？</string>
     <string name="send_toot_notification_title">正在發送…</string>
     <string name="send_toot_notification_error_title">發送失敗</string>
     <string name="send_toot_notification_channel_name">嘟文發送中</string>
     <string name="send_toot_notification_cancel_title">發送已被取消</string>
-    <string name="send_toot_notification_saved_content">嘟文已保存到草稿</string>
-    <string name="action_compose_shortcut">發表嘟文</string>
+    <string name="send_toot_notification_saved_content">嘟文已儲存為草稿</string>
+    <string name="action_compose_shortcut">撰寫嘟文</string>
 
-    <string name="copy_to_clipboard_success">已複製到剪貼板</string>
-    <string name="emoji_style">Emoji 表情</string>
-    <string name="system_default">系統默認</string>
-    <string name="download_fonts">需要下載 Emoji 數據</string>
-    <string name="performing_lookup_title">正在查找…</string>
+    <string name="copy_to_clipboard_success">已複製到剪貼簿</string>
+    <string name="emoji_style">表情符號風格</string>
+    <string name="system_default">系統預設</string>
+    <string name="download_fonts">你需要先下載這些表情符號包</string>
+    <string name="performing_lookup_title">正在查詢…</string>
     <string name="expand_collapse_all_statuses">展開/摺疊所有嘟文</string>
-    <string name="action_open_toot">打開嘟文</string>
-    <string name="restart_required">需要重啟應用</string>
+    <string name="action_open_toot">開啟嘟文</string>
+    <string name="restart_required">需要重啟應用程式</string>
     <string name="restart_emoji">你需要重啟 Tusky 才能生效</string>
-    <string name="later">以後</string>
+    <string name="later">稍後</string>
     <string name="restart">立即重啟</string>
-    <string name="caption_systememoji">系統默認 Emoji 表情</string>
-    <string name="caption_blobmoji">Android 4.4–7.1 的黃饅頭 Emoji 表情</string>
-    <string name="caption_twemoji">Mastodon 使用的 Emoji 表情</string>
+    <string name="caption_systememoji">系統預設的表情符號包</string>
+    <string name="caption_blobmoji">Android 4.4–7.1 的黃饅頭表情符號</string>
+    <string name="caption_twemoji">Mastodon 使用的表情符號</string>
 
     <string name="download_failed">下載失敗</string>
 
-    <string name="profile_badge_bot_text">Bot</string>
+    <string name="profile_badge_bot_text">機器人</string>
     <string name="account_moved_description">%1$s 已遷移到：</string>
 
     <string name="reblog_private">轉嘟（可見者不變）</string>
     <string name="unreblog_private">取消轉嘟</string>
 
-    <string name="license_description">Tusky 使用了以下開源項目的源碼：</string>
-    <string name="license_apache_2">以 Apache License 授權（複製如下）</string>
+    <string name="license_description">Tusky 使用了以下開源專案的原始碼：</string>
+    <string name="license_apache_2">以 Apache License 授權（詳見下方）</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
 
-    <string name="profile_metadata_label">个人资料附加信息</string>
-    <string name="profile_metadata_add">添加信息</string>
+    <string name="profile_metadata_label">個人資料附加資訊</string>
+    <string name="profile_metadata_add">新增資訊</string>
     <string name="profile_metadata_label_label">標籤</string>
     <string name="profile_metadata_content_label">內容</string>
 
     <string name="pref_title_absolute_time">嘟文顯示精確時間</string>
 
-    <string name="label_remote_account">以下信息可能並不完整，要查看完整資料請使用瀏覽器打開。</string>
+    <string name="label_remote_account">以下資訊可能並不完整，要檢視完整資料請使用瀏覽器開啟</string>
 
     <string name="unpin_action">取消置頂</string>
     <string name="pin_action">置頂</string>
