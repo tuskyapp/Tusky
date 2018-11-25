@@ -85,7 +85,7 @@ class ViewImageFragment : ViewMediaFragment() {
                     .into(photoView, object : Callback {
                         override fun onSuccess() {
                             // if we loaded image from disk, we should check that view is attached.
-                            if (ViewCompat.isAttachedToWindow(photoView)) {
+                            if (photoView?.isAttachedToWindow == true) {
                                 finishLoadingSuccessfully()
                             } else {
                                 // if view is not attached yet, wait for an attachment and
