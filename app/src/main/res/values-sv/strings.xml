@@ -1,4 +1,3 @@
-<!-- File "app/src/main/res/values-sv/strings.xml" -->
 <resources>
 
     <string name="error_generic">Ett fel inträffade.</string>
@@ -11,6 +10,7 @@
     <string name="error_retrieving_oauth_token">Misslyckades med att få en inloggnings-token.</string>
     <string name="error_compose_character_limit">Statusen är för lång!</string>
     <string name="error_image_upload_size">Filen måste vara mindre än 8MB.</string>
+    <string name="error_video_upload_size">Videofiler måste vara mindre än 40MB.</string>
     <string name="error_media_upload_type">Den typen av fil kan inte laddas upp.</string>
     <string name="error_media_upload_opening">Den filen kunde inte öppnas.</string>
     <string name="error_media_upload_permission">Tillstånd att läsa media krävs.</string>
@@ -82,6 +82,7 @@
     <string name="action_close">Stäng</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Inställningar</string>
+    <string name="action_view_account_preferences">Kontospecifika inställningar</string>
     <string name="action_view_favourites">Favoriter</string>
     <string name="action_view_mutes">Dämpade användare</string>
     <string name="action_view_blocks">Blockerade användare</string>
@@ -112,9 +113,9 @@
 
     <string name="action_copy_link">Kopiera länken</string>
 
-    <string name="send_status_link_to">Dela toot-URL till ...</string>
-    <string name="send_status_content_to">Dela toot till ...</string>
-    <string name="send_media_to">Dela media till…</string>
+    <string name="send_status_link_to">Dela toot-URL till...</string>
+    <string name="send_status_content_to">Dela toot till...</string>
+    <string name="send_media_to">Dela media till...</string>
 
     <string name="confirmation_reported">Skickat!</string>
     <string name="confirmation_unblocked">Användare avblockerad</string>
@@ -140,14 +141,15 @@
 
     <string name="login_connection">Ansluter...</string>
 
-    <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges här, 
-        till exempel mastodon.social, icosahedron.website, social.tchncs.de och 
+    <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges 
+		här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och 
         <a href="https://instances.social"> mer! </a>
         \n\nOm du inte har något konto kan du ange namnet på instansen du vill ansluta till och skapa ett konto där.
         \n\nEn instans är en plats där ditt konto finns, men du kan enkelt kommunicera med och följa andra personer på andra instanser, 
-        som om du var på samma sajt.\n\n
-        Mer information finns på <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
+        som om du var på samma sajt.
+        \n\nMer information finns på <a href="https://joinmastodon.org">joinmastodon.org</a>.
+    
+	</string>
     <string name="dialog_title_finishing_media_upload">Uppladdning av media</string>
     <string name="dialog_message_uploading_media">Laddar upp...</string>
     <string name="dialog_download_image">Ladda ned</string>
@@ -164,7 +166,6 @@
     <string name="pref_title_edit_notification_settings">Redigera notifieringar</string>
     <string name="pref_title_notifications_enabled">Notifieringar</string>
     <string name="pref_summary_notifications">för konto %1$s</string>
-    <string name="pref_title_pull_notification_check_interval">Uppdateringsintervall</string>
     <string name="pref_title_notification_alerts">Alarm</string>
     <string name="pref_title_notification_alert_sound">Meddela med ljud</string>
     <string name="pref_title_notification_alert_vibrate">Meddela med vibration</string>
@@ -176,6 +177,7 @@
     <string name="pref_title_notification_filter_favourites">mina inlägg är favoriserade</string>
     <string name="pref_title_appearance_settings">Utseende</string>
     <string name="pref_title_app_theme">App Tema</string>
+    <string name="pref_title_timelines">Tidslinjer</string>
 
     <string-array name="app_theme_names">
         <item>Mörk</item>
@@ -189,36 +191,28 @@
     <string name="pref_title_hide_follow_button">Dölj skriv-knappen medan du scrollar</string>
     <string name="pref_title_status_filter">Tidslinje filtrering</string>
     <string name="pref_title_status_tabs">Flikar</string>
-    <string name="pref_title_show_boosts">Visa knuffningar</string>
+    <string name="pref_title_show_boosts">Visa knuffar</string>
     <string name="pref_title_show_replies">Visa svar</string>
     <string name="pref_title_filter_regex">Filtrera ut med regelbundna uttryck</string>
     <string name="pref_title_show_media_preview">Visa en förhandsgranskning</string>
     <string name="pref_title_proxy_settings">Proxy</string>
-    <string name="pref_title_http_proxy_settings">HTTP proxy</string>
+    <string name="pref_title_http_proxy_settings">HTTP-proxy</string>
     <string name="pref_title_http_proxy_enable">Aktivera HTTP-proxy</string>
-    <string name="pref_title_http_proxy_server">HTTP proxy server</string>
-    <string name="pref_title_http_proxy_port">HTTP proxy port</string>
-    
-    <string-array name="pull_notification_check_interval_names">
-        <item>15 minuter</item>
-        <item>20 minuter</item>
-        <item>25 minuter</item>
-        <item>30 minuter</item>
-        <item>45 minuter</item>
-        <item>1 timme</item>
-        <item>2 timmar</item>
-    </string-array>
-
+    <string name="pref_title_http_proxy_server">HTTP-proxy server</string>
+    <string name="pref_title_http_proxy_port">HTTP-proxy port</string>
+	
     <string name="pref_default_post_privacy">Standardinställning för inlägg</string>
-    <string name="pref_publishing">Publicering</string>
-
+	<string name="pref_default_media_sensitivity">Markera alltid media som känsligt</string>
+    <string name="pref_publishing">Publicering (synkroniserad med server)</string>
+    <string name="pref_failed_to_sync">Misslyckades att synkronisera inställningar</string>
+    
     <string-array name="post_privacy_names">
         <item>Offentlig</item>
         <item>Olistad</item>
         <item>Endast följare</item>
     </string-array>
     
-    <string name="pref_status_text_size">Status textstorlek</string>
+    <string name="pref_status_text_size">Textstorlek på status</string>
     
     <string-array name="status_text_size_names">
         <item>Minsta</item>
@@ -226,6 +220,14 @@
         <item>Medium</item>
         <item>Stor</item>
         <item>Största</item>
+    </string-array>
+	
+    <string name="pref_media_display">Visa media</string>
+
+    <string-array name="media_display_names">
+        <item>Dölj media som markerat känsligt</item>
+        <item>Visa alltid media som markerat känsligt</item>
+        <item>Dölj alltid media</item>
     </string-array>
 
     <string name="notification_channel_mention_name">Nya omnämnanden</string>
@@ -236,7 +238,6 @@
     <string name="notification_channel_boost_description">Notifieringar när dina toots blir knuffade</string>
     <string name="notification_channel_favourite_name">Favoriter</string>
     <string name="notification_channel_favourite_description">Notifieringar när dina toots blir markerade som favoriter</string>
-
 
     <string name="notification_mention_format">%s omnämnde dig</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s och %4$d andra</string>
@@ -304,7 +305,7 @@
     <string name="compose_active_account_description">Inlägg med kontot %1$s</string>
 
     <string name="error_failed_set_caption">Misslyckades med att ange bildtext</string>
-    <string name="hint_describe_for_visually_impaired">Beskriv för synskadade</string>
+    <string name="hint_describe_for_visually_impaired">Beskriv för synskadade\n(%d teckengräns)</string>
     <string name="action_set_caption">Ange bildtext</string>
     <string name="action_remove_media">Ta bort</string>
     <string name="lock_account_label">Lås konto</string>
@@ -344,12 +345,18 @@
     <string name="license_description">Tusky innehåller kod och tillgångar från följande öppen källkodsprojekt:</string>
     <string name="license_apache_2">Licensenserad under the Apache License (copy below)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     
     <string name="profile_metadata_label">Profil-metadata</string>
     <string name="profile_metadata_add">Spara ändringar</string>
     <string name="profile_metadata_label_label">Etikett</string>
     <string name="profile_metadata_content_label">Innehåll</string>
+	
     <string name="pref_title_absolute_time">Använd absolut tid</string>
 
-</resources>
+    <string name="label_remote_account">Information nedan kan visa en inkomplett profil. Tryck för att öppna profilen i webbläsaren.</string>
 
+    <string name="unpin_action">Ta bort pin</string>
+    <string name="pin_action">Pinna</string>
+
+</resources>
