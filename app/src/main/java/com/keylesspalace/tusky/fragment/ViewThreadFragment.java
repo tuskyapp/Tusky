@@ -157,8 +157,8 @@ public final class ViewThreadFragment extends SFragment implements
                 threadLineDrawable));
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                 getActivity());
-        alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
-        boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
+        alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
+        boolean mediaPreviewEnabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
         adapter.setUseAbsoluteTime(useAbsoluteTime);

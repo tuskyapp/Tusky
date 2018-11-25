@@ -160,7 +160,6 @@
     <string name="pref_title_edit_notification_settings">Editar notificaciones</string>
     <string name="pref_title_notifications_enabled">Notificaciones</string>
     <string name="pref_summary_notifications">para la cuenta %1$s</string>
-    <string name="pref_title_pull_notification_check_interval">Intervalo</string>
     <string name="pref_title_notification_alerts">Alertas</string>
     <string name="pref_title_notification_alert_sound">Notificar con sonido</string>
     <string name="pref_title_notification_alert_vibrate">Notificar con vibración</string>
@@ -194,16 +193,6 @@
     <string name="pref_title_http_proxy_enable">Habilitar proxy HTTP</string>
     <string name="pref_title_http_proxy_server">Servidor del proxy HTTP</string>
     <string name="pref_title_http_proxy_port">Puerto del proxy HTTP</string>
-
-    <string-array name="pull_notification_check_interval_names">
-        <item>15 minutos</item>
-        <item>20 minutos</item>
-        <item>25 minutos</item>
-        <item>30 minutos</item>
-        <item>45 minutos</item>
-        <item>1 hora</item>
-        <item>2 hora</item>
-    </string-array>
 
     <string name="pref_default_post_privacy">Visibilidad por defecto</string>
     <string name="pref_publishing">Publicaciones</string>
@@ -300,7 +289,6 @@
     <string name="compose_active_account_description">Publicando con la cuenta %1$s</string>
 
     <string name="error_failed_set_caption">Error al añadir leyenda</string>
-    <string name="hint_describe_for_visually_impaired">Descripción para discapacitados visuales</string>
     <string name="action_set_caption">Añadir leyenda</string>
     <string name="action_remove_media">Eliminar</string>
     <string name="lock_account_label">Proteger cuenta</string>

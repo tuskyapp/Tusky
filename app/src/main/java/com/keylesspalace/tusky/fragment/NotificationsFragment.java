@@ -47,6 +47,7 @@ import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.appstore.BlockEvent;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
+import com.keylesspalace.tusky.appstore.PreferenceChangedEvent;
 import com.keylesspalace.tusky.appstore.ReblogEvent;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
@@ -87,7 +88,6 @@ public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
         StatusActionListener,
         NotificationsAdapter.NotificationActionListener,
-        SharedPreferences.OnSharedPreferenceChangeListener,
         Injectable {
     private static final String TAG = "NotificationF"; // logging tag
 
@@ -194,10 +194,9 @@ public class NotificationsFragment extends SFragment implements
         recyclerView.addItemDecoration(divider);
 
         adapter = new NotificationsAdapter(this, this);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
-                getActivity());
-        alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false);
-        boolean mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
+        boolean mediaPreviewEnabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
         adapter.setUseAbsoluteTime(useAbsoluteTime);
@@ -273,7 +272,6 @@ public class NotificationsFragment extends SFragment implements
          * Use a modified scroll listener that both loads more notificationsEnabled as it goes, and hides
          * the compose button on down-scroll. */
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        preferences.registerOnSharedPreferenceChangeListener(this);
         hideFab = preferences.getBoolean("fabHide", false);
         scrollListener = new EndlessOnScrollListener(layoutManager) {
             @Override
@@ -314,6 +312,8 @@ public class NotificationsFragment extends SFragment implements
                         handleReblogEvent((ReblogEvent) event);
                     } else if (event instanceof BlockEvent) {
                         removeAllByAccountId(((BlockEvent) event).getAccountId());
+                    } else if (event instanceof PreferenceChangedEvent) {
+                        onPreferenceChanged(((PreferenceChangedEvent) event).getPreferenceKey());
                     }
                 });
     }
@@ -564,15 +564,14 @@ public class NotificationsFragment extends SFragment implements
         Log.w(TAG, "Didn't find a notification for ID: " + notificationId);
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    public void onPreferenceChanged(String key) {
         switch (key) {
             case "fabHide": {
-                hideFab = sharedPreferences.getBoolean("fabHide", false);
+                hideFab = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("fabHide", false);
                 break;
             }
             case "mediaPreviewEnabled": {
-                boolean enabled = sharedPreferences.getBoolean("mediaPreviewEnabled", true);
+                boolean enabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
                 if (enabled != adapter.isMediaPreviewEnabled()) {
                     adapter.setMediaPreviewEnabled(enabled);
                     fullyRefresh();

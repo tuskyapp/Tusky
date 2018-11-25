@@ -1,57 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen android:key="notificationSettings"
-    android:title="@string/pref_title_edit_notification_settings"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:key="notificationSettings"
+    android:title="@string/pref_title_edit_notification_settings">
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:defaultValue="true"
         android:key="notificationsEnabled"
-        android:title="@string/pref_title_notifications_enabled" />
+        android:title="@string/pref_title_notifications_enabled"
+        app:iconSpaceReserved="false" />
 
     <PreferenceCategory
         android:dependency="notificationsEnabled"
-        android:title="@string/pref_title_notification_filters">
+        android:title="@string/pref_title_notification_filters"
+        app:iconSpaceReserved="false">
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="notificationFilterMentions"
-            android:title="@string/pref_title_notification_filter_mentions" />
+            android:title="@string/pref_title_notification_filter_mentions"
+            app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="notificationFilterFollows"
-            android:title="@string/pref_title_notification_filter_follows" />
+            android:title="@string/pref_title_notification_filter_follows"
+            app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="notificationFilterReblogs"
-            android:title="@string/pref_title_notification_filter_reblogs" />
+            android:title="@string/pref_title_notification_filter_reblogs"
+            app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="notificationFilterFavourites"
-            android:title="@string/pref_title_notification_filter_favourites" />
+            android:title="@string/pref_title_notification_filter_favourites"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
         android:dependency="notificationsEnabled"
-        android:title="@string/pref_title_notification_alerts">
+        android:title="@string/pref_title_notification_alerts"
+        app:iconSpaceReserved="false">
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="notificationAlertSound"
-            android:title="@string/pref_title_notification_alert_sound" />
+            android:title="@string/pref_title_notification_alert_sound"
+            app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="notificationAlertVibrate"
-            android:title="@string/pref_title_notification_alert_vibrate" />
+            android:title="@string/pref_title_notification_alert_vibrate"
+            app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="notificationAlertLight"
-            android:title="@string/pref_title_notification_alert_light" />
+            android:title="@string/pref_title_notification_alert_light"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 

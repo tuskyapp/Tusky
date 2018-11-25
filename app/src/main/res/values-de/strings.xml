@@ -10,6 +10,7 @@
     <string name="error_retrieving_oauth_token">Es konnte kein Login-Token abgerufen werden.</string>
     <string name="error_compose_character_limit">Der Beitrag ist zu lang!</string>
     <string name="error_image_upload_size">Die Datei muss kleiner als 8MB sein.</string>
+    <string name="error_video_upload_size">Videodateien müssen kleiner als 40MB sein.</string>
     <string name="error_media_upload_type">Dieser Dateityp darf nicht hochgeladen werden.</string>
     <string name="error_media_upload_opening">Die Datei konnte nicht geöffnet werden.</string>
     <string name="error_media_upload_permission">Eine Leseberechtigung wird für das Hochladen der Mediendatei benötigt.</string>
@@ -134,16 +135,6 @@
     <string name="pref_title_custom_tabs">Öffne Links in der App</string>
     <string name="pref_title_hide_follow_button">Verstecke Button bei Bildlauf </string>
 
-    <string-array name="pull_notification_check_interval_names">
-        <item>15 Minuten</item>
-        <item>20 Minuten</item>
-        <item>25 Minuten</item>
-        <item>30 Minuten</item>
-        <item>45 Minuten</item>
-        <item>1 Stunde</item>
-        <item>2 Stunden</item>
-    </string-array>
-
     <string-array name="post_privacy_names">
         <item>Öffentlich</item>
         <item>Nicht gelistet</item>
@@ -214,7 +205,6 @@
     <string name="pref_title_show_replies">Zeige Antworten</string>
     <string name="pref_title_show_media_preview">Zeige Medienvorschauen</string>
     <string name="pref_title_show_boosts">Zeige Boosts</string>
-    <string name="pref_title_pull_notification_check_interval">Überprüfungsintervall</string>
     <string name="no_content">leer</string>
     <string name="action_hide_media">Verstecke Medien</string>
     <string name="pref_title_status_filter">Timeline-Filter</string>
@@ -249,7 +239,6 @@
     <string name="title_lists">Listen</string>
     <string name="title_list_timeline">Liste</string>
     <string name="action_remove_media">entfernen</string>
-    <string name="hint_describe_for_visually_impaired">Beschreibung für Menschen mit Sehbehinderung</string>
     <string name="action_set_caption">Beschreibung eingeben</string>
     <string name="error_failed_set_caption">Fehler beim Speichern der Beschreibung</string>
     <string name="add_account_name">Konto hinzufügen</string>
@@ -313,5 +302,18 @@
     <string name="profile_metadata_content_label">Inhalt</string>
     <string name="profile_metadata_add">Feld hinzufügen</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+    <string name="hint_describe_for_visually_impaired">Für Menschen mit Sehbehinderung beschreiben\n(%d Zeichen)</string>
+    <string name="pref_failed_to_sync">Fehler beim Synchronisieren</string>
+    <string name="pref_default_media_sensitivity">Medien immer als heikel markieren</string>
+    <string name="action_view_account_preferences">Profileinstellungen</string>
+    <string name="pin_action">Im Profil anheften</string>
+    <string name="unpin_action">Vom Profil lösen</string>
+    <string name="label_remote_account">Das Profil wird möglicherweise unvollständig wiedergegeben. Klick um vollständiges Profil anzuzeigen.</string>
+    <string name="send_media_to">Mediendatei teilen…</string>
+    <string name="dialog_delete_toot_warning">Diesen Beitrag löschen?</string>
+    <string name="pref_title_absolute_time">Absolute Zeitstempel verwenden</string>
+    <string name="pref_media_display">Medienanzeige</string>
+    <string name="status_content_show_more">Mehr</string>
+    <string name="status_content_show_less">Weniger</string>
 
 </resources>

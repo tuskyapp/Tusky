@@ -20,6 +20,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
@@ -35,7 +36,6 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ReportActivity;
 import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
-import com.keylesspalace.tusky.ViewVideoActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Attachment;
@@ -62,6 +62,7 @@ public abstract class SFragment extends BaseFragment {
     protected String loggedInUsername;
 
     protected abstract TimelineCases timelineCases();
+
     protected abstract void removeItem(int position);
 
     protected abstract void onReblog(final boolean reblog, final int position);
@@ -92,8 +93,8 @@ public abstract class SFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if(context instanceof BottomSheetActivity) {
-            bottomSheetActivity = (BottomSheetActivity)context;
+        if (context instanceof BottomSheetActivity) {
+            bottomSheetActivity = (BottomSheetActivity) context;
         } else {
             throw new IllegalStateException("Fragment must be attached to a BottomSheetActivity!");
         }
@@ -139,10 +140,10 @@ public abstract class SFragment extends BaseFragment {
         getActivity().startActivity(intent);
     }
 
-    protected void more(final Status status, View view, final int position) {
+    protected void more(@NonNull final Status status, View view, final int position) {
         final String id = status.getActionableId();
         final String accountId = status.getActionableStatus().getAccount().getId();
-        final String accountUsename = status.getActionableStatus().getAccount().getUsername();
+        final String accountUsername = status.getActionableStatus().getAccount().getUsername();
         final Spanned content = status.getActionableStatus().getContent();
         final String statusUrl = status.getActionableStatus().getUrl();
         PopupMenu popup = new PopupMenu(getContext(), view);
@@ -152,11 +153,21 @@ public abstract class SFragment extends BaseFragment {
         } else {
             popup.inflate(R.menu.status_more_for_user);
             Menu menu = popup.getMenu();
-            if (status.getVisibility() == Status.Visibility.PRIVATE) {
-                boolean reblogged = status.getReblogged();
-                if (status.getReblog() != null) reblogged = status.getReblog().getReblogged();
-                menu.findItem(R.id.status_reblog_private).setVisible(!reblogged);
-                menu.findItem(R.id.status_unreblog_private).setVisible(reblogged);
+            switch (status.getVisibility()) {
+                case PUBLIC:
+                case UNLISTED: {
+                    final String textId =
+                            getString(status.isPinned() ? R.string.unpin_action : R.string.pin_action);
+                    menu.add(0, R.id.pin, 1, textId);
+                    break;
+                }
+                case PRIVATE: {
+                    boolean reblogged = status.getReblogged();
+                    if (status.getReblog() != null) reblogged = status.getReblog().getReblogged();
+                    menu.findItem(R.id.status_reblog_private).setVisible(!reblogged);
+                    menu.findItem(R.id.status_unreblog_private).setVisible(reblogged);
+                    break;
+                }
             }
         }
         popup.setOnMenuItemClickListener(item -> {
@@ -198,7 +209,7 @@ public abstract class SFragment extends BaseFragment {
                     return true;
                 }
                 case R.id.status_report: {
-                    openReportPage(accountId, accountUsename, id, content);
+                    openReportPage(accountId, accountUsername, id, content);
                     return true;
                 }
                 case R.id.status_unreblog_private: {
@@ -213,6 +224,10 @@ public abstract class SFragment extends BaseFragment {
                     showConfirmDeleteDialog(id, position);
                     return true;
                 }
+                case R.id.pin: {
+                    timelineCases().pin(status, !status.isPinned());
+                    return true;
+                }
             }
             return false;
         });
@@ -224,6 +239,8 @@ public abstract class SFragment extends BaseFragment {
         final Attachment active = actionable.getAttachments().get(urlIndex);
         Attachment.Type type = active.getType();
         switch (type) {
+            case GIFV:
+            case VIDEO:
             case IMAGE: {
                 final List<AttachmentViewData> attachments = AttachmentViewData.list(actionable);
                 final Intent intent = ViewMediaActivity.newIntent(getContext(), attachments,
@@ -238,15 +255,6 @@ public abstract class SFragment extends BaseFragment {
                 } else {
                     startActivity(intent);
                 }
-                break;
-            }
-            case GIFV:
-            case VIDEO: {
-                Intent intent = new Intent(getContext(), ViewVideoActivity.class);
-                intent.putExtra(ViewVideoActivity.URL_EXTRA, active.getUrl());
-                intent.putExtra(ViewVideoActivity.STATUS_ID_EXTRA, actionable.getId());
-                intent.putExtra(ViewVideoActivity.STATUS_URL_EXTRA, actionable.getUrl());
-                startActivity(intent);
                 break;
             }
             case UNKNOWN: {
@@ -276,12 +284,12 @@ public abstract class SFragment extends BaseFragment {
 
     protected void showConfirmDeleteDialog(final String id, final int position) {
         new AlertDialog.Builder(getActivity())
-            .setMessage(R.string.dialog_delete_toot_warning)
-            .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                timelineCases().delete(id);
-                removeItem(position);
-            })
-            .setNegativeButton(android.R.string.cancel, null)
-            .show();
+                .setMessage(R.string.dialog_delete_toot_warning)
+                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                    timelineCases().delete(id);
+                    removeItem(position);
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 }

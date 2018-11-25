@@ -109,8 +109,8 @@
 
     <string name="action_copy_link">Copiar lo ligam</string>
 
-    <string name="send_status_link_to">Partejar l\'URL del tt a...</string>
-    <string name="send_status_content_to">Partejar vòstre tut a...</string>
+    <string name="send_status_link_to">Partejar l\'URL del tut amb…</string>
+    <string name="send_status_content_to">Partejar vòstre tut amb…</string>
 
     <string name="confirmation_reported">Enviat !</string>
     <string name="confirmation_unblocked">Utilizaire desblocat</string>
@@ -134,7 +134,7 @@
 
     <string name="link_whats_an_instance">Que es una instància ?</string>
 
-    <string name="login_connection">Connexion...</string>
+    <string name="login_connection">Connexion…</string>
 
     <string name="dialog_whats_an_instance">Aquí podètz picar l\'adreça o domini de quina que siá instància,
         coma mastodont.cat, mastodon.social, icosahedron.website o
@@ -144,7 +144,7 @@
         \n\nAvètz mas d’informacins a <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
     <string name="dialog_title_finishing_media_upload">Finalizacion del mandadís del mèdia</string>
-    <string name="dialog_message_uploading_media">Mandadís...</string>
+    <string name="dialog_message_uploading_media">Mandadís…</string>
     <string name="dialog_download_image">Telecargar</string>
     <string name="dialog_message_cancel_follow_request">Anullar la demandar d’abonament ?</string>
     <string name="dialog_unfollow_warning">Volètz quitar de seguir aqueste compte ?</string>
@@ -158,7 +158,6 @@
     <string name="pref_title_edit_notification_settings">Modificar las notificacions</string>
     <string name="pref_title_notifications_enabled">Notificacions</string>
     <string name="pref_summary_notifications">pel compte %1$s</string>
-    <string name="pref_title_pull_notification_check_interval">Comprovar l\'interval</string>
     <string name="pref_title_notification_alerts">Alèrtas</string>
     <string name="pref_title_notification_alert_sound">Notificar amb un son</string>
     <string name="pref_title_notification_alert_vibrate">Notificra amb una vibracion</string>
@@ -170,13 +169,13 @@
     <string name="pref_title_notification_filter_favourites">òm me met mos tuts en favorit</string>
     <string name="pref_title_appearance_settings">Aparença</string>
     <string name="pref_title_app_theme">Tèma de l’app</string>
-    
+
     <string-array name="app_theme_names">
         <item>Escur</item>
         <item>Luminós</item>
         <item>Negre</item>
         <item>Alba automatica</item>
-   </string-array>
+    </string-array>
 
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Onglets personalizats de Chrome</string>
@@ -184,7 +183,7 @@
     <string name="pref_title_status_filter">Filtre de la cronologia</string>
     <string name="pref_title_status_tabs">Onglets</string>
     <string name="pref_title_show_boosts">Mostrar los retuts</string>
-    <string name="pref_title_show_replies">Mostrar las responsas</string> 
+    <string name="pref_title_show_replies">Mostrar las responsas</string>
     <string name="pref_title_filter_regex">Filtrar amb d’expressions regularas</string>
     <string name="pref_title_show_media_preview">Mostrar los apercebuts</string>
 
@@ -193,16 +192,6 @@
     <string name="pref_title_http_proxy_enable">Activar lo proxy HTTP</string>
     <string name="pref_title_http_proxy_server">Servidor proxy HTTP</string>
     <string name="pref_title_http_proxy_port">Pòrt del servidor proxy HTTP</string>
-
-    <string-array name="pull_notification_check_interval_names">
-        <item>15 minutas</item>
-        <item>20 minutas</item>
-        <item>25 minutas</item>
-        <item>30 minutas</item>
-        <item>45 minutas</item>
-        <item>1 ora</item>
-        <item>2 oras</item>
-    </string-array>
 
     <string name="pref_default_post_privacy">Privacitat predeterminada dels tuts</string>
     <string name="pref_publishing">Publicacion</string>
@@ -246,11 +235,11 @@
     <string name="about_tusky_license">Tusky es programa gratuït, liure e de còdi dobèrt.
         Es publicat jols tèrms de la licéncia publica generala GNU version 3.
         Podeu trobar les llicència aquí: https://www.gnu.org/licenses/gpl-3.0.ca.html</string>
-        <!-- note to translators:
-         * you should think of “free” as in “free speech,” not as in “free beer”.
-           We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
-           to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
-         * the url can be changed to link to the localized version of the license.
+    <!-- note to translators:
+     * you should think of “free” as in “free speech,” not as in “free beer”.
+       We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
+       to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
+     * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">
         Site web del projècte :\n
@@ -288,7 +277,7 @@
     <string name="title_media">Mèdia</string>
     <string name="replying_to">En responsa a @%s</string>
     <string name="load_more_placeholder_text">cargar mai</string>
-    
+
     <string name="add_account_name">Apondre un compte</string>
     <string name="add_account_description">Apondre un nòu compte Mastodon</string>
 
@@ -299,7 +288,6 @@
     <string name="compose_active_account_description">Publicar amb lo compte %1$s</string>
 
     <string name="error_failed_set_caption">Fracàs en apondre una legenda</string>
-    <string name="hint_describe_for_visually_impaired">Descripcion pels mal vesents</string>
     <string name="action_set_caption">Apondre una legenda</string>
     <string name="action_remove_media">Levar</string>
     <string name="lock_account_label">Clavar lo compte</string>
@@ -337,10 +325,25 @@
     <string name="license_apache_2">Licéncia Apache License (còpia çai-jos)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-    
+
     <string name="profile_metadata_label">Metadonada del perfil</string>
     <string name="profile_metadata_add">Contengut</string>
     <string name="profile_metadata_label_label">Nom</string>
     <string name="profile_metadata_content_label">Contengut</string>
+
+    <string name="error_video_upload_size">Los fichièrs vidèo devon pas far mai de 40 Mo.</string>
+    <string name="status_content_show_more">Desplegar</string>
+    <string name="status_content_show_less">Replegar</string>
+
+    <string name="send_media_to">Partejar l’imatge amb…</string>
+
+    <string name="dialog_delete_toot_warning">Suprimir aqueste tut \?</string>
+
+    <string name="pref_title_absolute_time">Utilizar lo format de temps absolut</string>
+
+    <string name="label_remote_account">Las informacions çai-jos son pas lo rebat del perfil complèt de l’utilizaire. Tocatz per dobrir lo perfil complèt dins lo navigador.</string>
+
+    <string name="unpin_action">Tirar del perfil</string>
+    <string name="pin_action">Penjar</string>
 
 </resources>

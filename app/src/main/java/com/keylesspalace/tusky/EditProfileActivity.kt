@@ -142,7 +142,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                     }
                 }
                 is Error -> {
-                    val snackbar = Snackbar.make(avatarButton, R.string.error_generic, Snackbar.LENGTH_LONG);
+                    val snackbar = Snackbar.make(avatarButton, R.string.error_generic, Snackbar.LENGTH_LONG)
                     snackbar.setAction(R.string.action_retry) {
                         viewModel.obtainProfile()
                     }

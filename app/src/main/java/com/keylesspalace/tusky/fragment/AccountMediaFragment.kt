@@ -30,7 +30,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
-import com.keylesspalace.tusky.ViewVideoActivity
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
@@ -207,7 +206,9 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         val type = items[currentIndex].attachment.type
 
         when (type) {
-            Attachment.Type.IMAGE -> {
+            Attachment.Type.IMAGE,
+            Attachment.Type.GIFV,
+            Attachment.Type.VIDEO -> {
                 val intent = ViewMediaActivity.newIntent(context, items, currentIndex)
                 if (view != null && activity != null) {
                     val url = items[currentIndex].attachment.url
@@ -217,13 +218,6 @@ class AccountMediaFragment : BaseFragment(), Injectable {
                 } else {
                     startActivity(intent)
                 }
-            }
-            Attachment.Type.GIFV, Attachment.Type.VIDEO -> {
-                val intent = Intent(context, ViewVideoActivity::class.java)
-                intent.putExtra(ViewVideoActivity.URL_EXTRA, items[currentIndex].attachment.url)
-                intent.putExtra(ViewVideoActivity.STATUS_ID_EXTRA, items[currentIndex].statusId)
-                intent.putExtra(ViewVideoActivity.STATUS_URL_EXTRA, items[currentIndex].statusUrl)
-                startActivity(intent)
             }
             Attachment.Type.UNKNOWN -> {
             }/* Intentionally do nothing. This case is here is to handle when new attachment

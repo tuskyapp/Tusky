@@ -10,6 +10,7 @@
     <string name="error_retrieving_oauth_token">Не удалось получить токен авторизации.</string>
     <string name="error_compose_character_limit">Статус слишком длинный!</string>
     <string name="error_image_upload_size">Файл должен быть не больше 8 Мбайт.</string>
+    <string name="error_video_upload_size">Видео должно быть не больше 40 Мбайт.</string>
     <string name="error_media_upload_type">Данный тип файла не может быть загружен.</string>
     <string name="error_media_upload_opening">Файл не может быть открыт.</string>
     <string name="error_media_upload_permission">Необходимо разрешение на чтение медиаконтента.</string>
@@ -46,6 +47,8 @@
     <string name="status_sensitive_media_directions">Нажмите для просмотра</string>
     <string name="status_content_warning_show_more">Развернуть</string>
     <string name="status_content_warning_show_less">Свернуть</string>
+    <string name="status_content_show_more">Развернуть</string>
+    <string name="status_content_show_less">Свернуть</string>
 
     <string name="footer_empty">Ничего нет. Прокрутите вниз, чтобы обновить!</string>
 
@@ -79,6 +82,7 @@
     <string name="action_close">Закрыть</string>
     <string name="action_view_profile">Профиль</string>
     <string name="action_view_preferences">Настройки</string>
+    <string name="action_view_account_preferences">Настройки аккаунта</string>
     <string name="action_view_favourites">Избранное</string>
     <string name="action_view_mutes">Список глушения</string>
     <string name="action_view_blocks">Список блокировки</string>
@@ -109,8 +113,9 @@
 
     <string name="action_copy_link">Копировать ссылку</string>
 
-    <string name="send_status_link_to">Поделиться ссылкой статуса</string>
-    <string name="send_status_content_to">Поделиться статусом</string>
+    <string name="send_status_link_to">Поделиться ссылкой на статус…</string>
+    <string name="send_status_content_to">Поделиться статусом…</string>
+    <string name="send_media_to">Поделиться медифайлом…</string>
 
     <string name="confirmation_reported">Отправить!</string>
     <string name="confirmation_unblocked">Пользователь разблокирован</string>
@@ -146,6 +151,7 @@
     <string name="dialog_download_image">Скачать</string>
     <string name="dialog_message_cancel_follow_request">Отменить запрос на подписку?</string>
     <string name="dialog_unfollow_warning">Отписаться от этого аккаунта?</string>
+    <string name="dialog_delete_toot_warning">Удалить статус?</string>
 
     <string name="visibility_public">Публичный: Показать в публичных лентах</string>
     <string name="visibility_unlisted">Скрытый: Не показывать в лентах</string>
@@ -153,10 +159,9 @@
     <string name="visibility_direct">Направленный: Показать только упомянутым</string>
 
     <string name="pref_title_notification_settings">Уведомления</string>
-    <string name="pref_title_edit_notification_settings">Настройки уведомлений</string>
+    <string name="pref_title_edit_notification_settings">Уведомления</string>
     <string name="pref_title_notifications_enabled">Push-уведомления</string>
     <string name="pref_summary_notifications">для аккаунта %1$s</string>
-    <string name="pref_title_pull_notification_check_interval">Интервал проверки</string>
     <string name="pref_title_notification_alerts">Предупреждения</string>
     <string name="pref_title_notification_alert_sound">Звуковые уведомления</string>
     <string name="pref_title_notification_alert_vibrate">Использовать вибрацию</string>
@@ -168,6 +173,7 @@
     <string name="pref_title_notification_filter_favourites">мой пост понравился</string>
     <string name="pref_title_appearance_settings">Внешний вид</string>
     <string name="pref_title_app_theme">Тема</string>
+    <string name="pref_title_timelines">Ленты</string>
 
     <string-array name="app_theme_names">
         <item>Тёмная</item>
@@ -191,18 +197,10 @@
     <string name="pref_title_http_proxy_server">Адрес сервера</string>
     <string name="pref_title_http_proxy_port">Порт</string>
 
-    <string-array name="pull_notification_check_interval_names">
-        <item>15 минут</item>
-        <item>20 минут</item>
-        <item>25 минут</item>
-        <item>30 минут</item>
-        <item>45 минут</item>
-        <item>1 час</item>
-        <item>2 часа</item>
-    </string-array>
-
     <string name="pref_default_post_privacy">Приватность статусов по умолчанию</string>
-    <string name="pref_publishing">Публикация</string>
+    <string name="pref_default_media_sensitivity">Считать все медиа чувствительными</string>
+    <string name="pref_publishing">Публикация (синхронизировано с сервером)</string>
+    <string name="pref_failed_to_sync">Не удалось синхронизировать настройки</string>
 
     <string-array name="post_privacy_names">
         <item>Публичные</item>
@@ -218,6 +216,13 @@
         <item>Средний</item>
         <item>Большой</item>
         <item>Огромный</item>
+    </string-array>
+
+    <string name="pref_media_display">Отображение медиафайлов</string>
+    <string-array name="media_display_names">
+        <item>Скрывать чувствительные медиафайлы</item>
+        <item>Всегда показывать чувствительные медиафайлы</item>
+        <item>Всегда скрывать все медиафайлы</item>
     </string-array>
 
     <string name="notification_channel_mention_name">Новые упоминания</string>
@@ -285,7 +290,7 @@
     <string name="compose_active_account_description">Отправка от имени %1$s</string>
 
     <string name="error_failed_set_caption">Не удалось добавить подпись</string>
-    <string name="hint_describe_for_visually_impaired">Описание для слабовидящих</string>
+    <string name="hint_describe_for_visually_impaired">Описание для слабовидящих\n(не более %d символов)</string>
     <string name="action_set_caption">Добавить подпись</string>
     <string name="action_remove_media">Удалить</string>
     <string name="lock_account_label">Закрыть аккаунт</string>
@@ -332,4 +337,9 @@
     <string name="profile_metadata_label_label">Заголовок</string>
     <string name="profile_metadata_content_label">Значение</string>
 
+    <string name="pref_title_absolute_time">Показывать точное время</string>
+    <string name="unpin_action">Открепить</string>
+    <string name="pin_action">Закрепить</string>
+
+    <string name="label_remote_account">Информация может не полностью отражать профиль пользователя. Нажмите чтобы открыть профиль в браузере.</string>
 </resources>

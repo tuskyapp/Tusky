@@ -201,9 +201,9 @@
     <string name="pref_title_http_proxy_enable">Aktivera HTTP-proxy</string>
     <string name="pref_title_http_proxy_server">HTTP-proxy server</string>
     <string name="pref_title_http_proxy_port">HTTP-proxy port</string>
-	
+
     <string name="pref_default_post_privacy">Standardinställning för inlägg</string>
-	<string name="pref_default_media_sensitivity">Markera alltid media som känsligt</string>
+	  <string name="pref_default_media_sensitivity">Markera alltid media som känsligt</string>
     <string name="pref_publishing">Publicering (synkroniserad med server)</string>
     <string name="pref_failed_to_sync">Misslyckades att synkronisera inställningar</string>
     
@@ -354,7 +354,6 @@
     <string name="profile_metadata_content_label">Innehåll</string>
 	
     <string name="pref_title_absolute_time">Använd absolut tid</string>
-
     <string name="label_remote_account">Information nedan kan visa en inkomplett profil. Tryck för att öppna profilen i webbläsaren.</string>
 
     <string name="unpin_action">Ta bort pin</string>

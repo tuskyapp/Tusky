@@ -38,7 +38,8 @@ data class Status(
         val visibility: Visibility,
         @SerializedName("media_attachments") var attachments: List<Attachment>,
         val mentions: Array<Mention>,
-        val application: Application?
+        val application: Application?,
+        var pinned: Boolean?
 ) {
 
     val actionableId: String?
@@ -99,6 +100,10 @@ data class Status(
 
     fun rebloggingAllowed(): Boolean {
         return (visibility != Visibility.DIRECT && visibility != Visibility.UNKNOWN)
+    }
+
+    fun isPinned(): Boolean {
+        return pinned ?: false
     }
 
     override fun equals(other: Any?): Boolean {

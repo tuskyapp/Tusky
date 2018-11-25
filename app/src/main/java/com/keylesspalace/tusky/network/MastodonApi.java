@@ -33,6 +33,7 @@ import com.keylesspalace.tusky.entity.StatusContext;
 
 import java.util.List;
 
+import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -156,8 +157,19 @@ public interface MastodonApi {
     @POST("api/v1/statuses/{id}/unfavourite")
     Call<Status> unfavouriteStatus(@Path("id") String statusId);
 
+    @POST("api/v1/statuses/{id}/pin")
+    Single<Status> pinStatus(@Path("id") String statusId);
+
+    @POST("api/v1/statuses/{id}/unpin")
+    Single<Status> unpinStatus(@Path("id") String statusId);
+
     @GET("api/v1/accounts/verify_credentials")
     Call<Account> accountVerifyCredentials();
+
+    @FormUrlEncoded
+    @PATCH("api/v1/accounts/update_credentials")
+    Call<Account> accountUpdateSource(@Nullable @Field("source[privacy]") String privacy,
+                                      @Nullable @Field("source[sensitive]") Boolean sensitive);
 
     @Multipart
     @PATCH("api/v1/accounts/update_credentials")

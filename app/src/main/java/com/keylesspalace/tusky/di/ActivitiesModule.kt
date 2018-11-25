@@ -77,14 +77,11 @@ abstract class ActivitiesModule {
     @ContributesAndroidInjector
     abstract fun contributesSavedTootActivity(): SavedTootActivity
 
-    @ContributesAndroidInjector
-    abstract fun contributesSPreferencesActivity(): PreferencesActivity
+    @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
+    abstract fun contributesPreferencesActivity(): PreferencesActivity
 
     @ContributesAndroidInjector
     abstract fun contributesViewMediaActivity(): ViewMediaActivity
-
-    @ContributesAndroidInjector
-    abstract fun contributesViewVideoActivity(): ViewVideoActivity
 
     @ContributesAndroidInjector
     abstract fun contributesLicenseActivity(): LicenseActivity
