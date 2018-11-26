@@ -3,7 +3,6 @@ package com.keylesspalace.tusky
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.widget.TextViewCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -175,7 +174,7 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
                         val icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_list).sizeDp(20)
 
                         ThemeUtils.setDrawableTint(context, icon, android.R.attr.textColorTertiary)
-                        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(nameTextView, icon, null, null, null)
+                        nameTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
                     }
         }
 

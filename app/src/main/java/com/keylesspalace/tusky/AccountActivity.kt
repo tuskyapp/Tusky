@@ -32,8 +32,6 @@ import android.support.text.emoji.EmojiCompat
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewCompat
-import android.support.v4.widget.TextViewCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
@@ -142,7 +140,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         accountId = intent.getStringExtra(KEY_ACCOUNT_ID)
 
         // set toolbar top margin according to system window insets
-        ViewCompat.setOnApplyWindowInsetsListener(accountCoordinatorLayout) { _, insets ->
+        accountCoordinatorLayout.setOnApplyWindowInsetsListener { _, insets ->
             val top = insets.systemWindowInsetTop
 
             val toolbarParams = accountToolbar.layoutParams as CollapsingToolbarLayout.LayoutParams
@@ -317,7 +315,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountAvatarImageView.setOnClickListener { avatarView ->
                 val intent = ViewMediaActivity.newAvatarIntent(avatarView.context, account.avatar)
 
-                ViewCompat.setTransitionName(avatarView, account.avatar)
+                avatarView.transitionName = account.avatar
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, avatarView, account.avatar)
 
                 startActivity(intent, options.toBundle())
@@ -352,7 +350,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
                 movedIcon?.setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
 
-                TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(accountMovedText, movedIcon, null, null, null)
+                accountMovedText.setCompoundDrawablesRelativeWithIntrinsicBounds(movedIcon, null, null, null)
 
                 accountFollowers.hide()
                 accountFollowing.hide()

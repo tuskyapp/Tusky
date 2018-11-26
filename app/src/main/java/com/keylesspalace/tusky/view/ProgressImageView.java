@@ -25,7 +25,6 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
@@ -117,7 +116,7 @@ public final class ProgressImageView extends AppCompatImageView {
                 canvas.getHeight() - circleMargin - circleRadius,
                 canvas.getWidth() - circleMargin,
                 canvas.getHeight() - circleMargin);
-        DrawableCompat.setTint(captionDrawable, Color.WHITE);
+        captionDrawable.setTint(Color.WHITE);
         captionDrawable.draw(canvas);
     }
 }

@@ -21,7 +21,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.support.v4.view.ViewCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,7 +71,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     override fun setupMediaView(url: String) {
         descriptionView = mediaDescription
         val videoView = videoPlayer
-        ViewCompat.setTransitionName(videoView, url)
+        videoView.transitionName = url
         videoView.setVideoPath(url)
         mediaController = MediaController(mediaActivity)
         mediaController.setMediaPlayer(videoPlayer)
