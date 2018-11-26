@@ -198,6 +198,7 @@
     <string name="pref_title_http_proxy_port">Порт</string>
 
     <string name="pref_default_post_privacy">Приватность статусов по умолчанию</string>
+    <string name="pref_default_media_sensitivity">Считать все медиа чувствительными</string>
     <string name="pref_publishing">Публикация (синхронизировано с сервером)</string>
     <string name="pref_failed_to_sync">Не удалось синхронизировать настройки</string>
 
