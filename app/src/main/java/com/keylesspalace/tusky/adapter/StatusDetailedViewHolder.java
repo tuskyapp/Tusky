@@ -178,11 +178,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 visibilityIcon = R.drawable.ic_email_24dp;
                 break;
             default:
-                visibilityIcon = 0;
-        }
-
-        if (visibilityIcon == 0) {
-            return;
+                return;
         }
 
         final Drawable visibilityDrawable = this.timestampInfo.getContext()
