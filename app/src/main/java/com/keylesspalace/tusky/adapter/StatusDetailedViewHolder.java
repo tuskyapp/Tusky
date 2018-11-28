@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.adapter;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -154,6 +155,51 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
             cardView.setVisibility(View.GONE);
         }
 
+        setStatusVisibility(status.getVisibility());
+    }
 
+    private void setStatusVisibility(Status.Visibility visibility) {
+        if (visibility == null || this.timestampInfo == null) {
+            return;
+        }
+
+        int visibilityIcon;
+        switch (visibility) {
+            case PUBLIC:
+                visibilityIcon = R.drawable.ic_public_24dp;
+                break;
+            case UNLISTED:
+                visibilityIcon = R.drawable.ic_lock_open_24dp;
+                break;
+            case PRIVATE:
+                visibilityIcon = R.drawable.ic_lock_open_24dp;
+                break;
+            case DIRECT:
+                visibilityIcon = R.drawable.ic_email_24dp;
+                break;
+            default:
+                return;
+        }
+
+        final Drawable visibilityDrawable = this.timestampInfo.getContext()
+                .getDrawable(visibilityIcon);
+        if (visibilityDrawable == null) {
+            return;
+        }
+
+        final int size = (int) this.timestampInfo.getTextSize();
+        visibilityDrawable.setBounds(
+                0,
+                0,
+                size,
+                size
+        );
+        visibilityDrawable.setTint(this.timestampInfo.getCurrentTextColor());
+        this.timestampInfo.setCompoundDrawables(
+                visibilityDrawable,
+                null,
+                null,
+                null
+        );
     }
 }
