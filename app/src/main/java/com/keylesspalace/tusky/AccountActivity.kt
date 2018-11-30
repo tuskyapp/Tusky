@@ -373,9 +373,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountFollowingTextView.text = numberFormat.format(account.followingCount)
             accountStatusesTextView.text = numberFormat.format(account.statusesCount)
 
-            accountFloatingActionButton.setOnClickListener { _ -> mention() }
+            accountFloatingActionButton.setOnClickListener { mention() }
 
-            accountFollowButton.setOnClickListener { _ ->
+            accountFollowButton.setOnClickListener {
                 if (isSelf) {
                     val intent = Intent(this@AccountActivity, EditProfileActivity::class.java)
                     startActivity(intent)

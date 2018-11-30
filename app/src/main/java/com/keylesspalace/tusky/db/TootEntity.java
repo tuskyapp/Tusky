@@ -40,6 +40,9 @@ public class TootEntity {
     @ColumnInfo(name = "urls")
     private final String urls;
 
+    @ColumnInfo(name = "descriptions")
+    private final String descriptions;
+
     @ColumnInfo(name = "contentWarning")
     private final String contentWarning;
 
@@ -57,12 +60,13 @@ public class TootEntity {
     @ColumnInfo(name = "visibility")
     private final Status.Visibility visibility;
 
-    public TootEntity(int uid, String text, String urls, String contentWarning, String inReplyToId,
+    public TootEntity(int uid, String text, String urls, String descriptions, String contentWarning, String inReplyToId,
                       @Nullable String inReplyToText, @Nullable String inReplyToUsername,
                       Status.Visibility visibility) {
         this.uid = uid;
         this.text = text;
         this.urls = urls;
+        this.descriptions = descriptions;
         this.contentWarning = contentWarning;
         this.inReplyToId = inReplyToId;
         this.inReplyToText = inReplyToText;
@@ -84,6 +88,10 @@ public class TootEntity {
 
     public String getUrls() {
         return urls;
+    }
+
+    public String getDescriptions() {
+        return descriptions;
     }
 
     public String getInReplyToId() {

@@ -44,7 +44,7 @@ import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
 
 abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
-    private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[] { SmartLengthInputFilter.INSTANCE };
+    private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
     private TextView displayName;
@@ -91,7 +91,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 itemView.findViewById(R.id.status_media_preview_2),
                 itemView.findViewById(R.id.status_media_preview_3)
         };
-        mediaOverlays =new ImageView[] {
+        mediaOverlays = new ImageView[]{
                 itemView.findViewById(R.id.status_media_overlay_0),
                 itemView.findViewById(R.id.status_media_overlay_1),
                 itemView.findViewById(R.id.status_media_overlay_2),

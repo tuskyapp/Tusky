@@ -158,7 +158,6 @@
     <string name="pref_title_edit_notification_settings">알림 설정 편집</string>
     <string name="pref_title_notifications_enabled">알림</string>
     <string name="pref_summary_notifications">%1$s 계정의 알림</string>
-    <string name="pref_title_pull_notification_check_interval">확인 간격</string>
     <string name="pref_title_notification_alerts">알림</string>
     <string name="pref_title_notification_alert_sound">소리로 알림</string>
     <string name="pref_title_notification_alert_vibrate">진동으로 알림</string>
@@ -264,7 +263,6 @@
     <string name="compose_active_account_description">다음 계정으로 작성 중: %1$s</string>
 
     <string name="error_failed_set_caption">캡션 설정 실패</string>
-    <string name="hint_describe_for_visually_impaired">시각 장애인을 위한 설명</string>
     <string name="action_set_caption">설명 쓰기</string>
     <string name="action_remove_media">삭제</string>
     <string name="lock_account_label">계정 잠금</string>

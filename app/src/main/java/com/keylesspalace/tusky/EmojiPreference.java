@@ -1,15 +1,17 @@
 package com.keylesspalace.tusky;
 
 import android.app.AlarmManager;
+import android.support.v7.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.preference.DialogPreference;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
+
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,9 +27,8 @@ import java.util.ArrayList;
 /**
  * This Preference lets the user select their preferred emoji font
  */
-public class EmojiPreference extends DialogPreference {
+public class EmojiPreference extends Preference {
     private static final String TAG = "EmojiPreference";
-    private final Context context;
     private EmojiCompatFont selected, original;
     static final String FONT_PREFERENCE = "selected_emoji_font";
     private static final EmojiCompatFont[] FONTS = EmojiCompatFont.FONTS;
@@ -42,13 +43,6 @@ public class EmojiPreference extends DialogPreference {
 
     public EmojiPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
-
-        setDialogLayoutResource(R.layout.dialog_emojicompat);
-
-        setPositiveButtonText(android.R.string.ok);
-        setNegativeButtonText(android.R.string.cancel);
-        setDialogIcon(null);
 
         // Find out which font is currently active
         this.selected = EmojiCompatFont.byId(PreferenceManager
@@ -60,27 +54,31 @@ public class EmojiPreference extends DialogPreference {
         setSummary(selected.getDisplay(context));
     }
 
-
-
     @Override
-    protected void onBindDialogView(View view) {
-        super.onBindDialogView(view);
+    protected void onClick() {
+
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_emojicompat, null);
+
         for(int i = 0; i < viewIds.length; i++) {
             setupItem(view.findViewById(viewIds[i]), FONTS[i]);
         }
+
+        new AlertDialog.Builder(getContext())
+                .setView(view)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> onDialogOk())
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     private void setupItem(View container, EmojiCompatFont font) {
         Context context = container.getContext();
 
-        TextView title       = container.findViewById(R.id.emojicompat_name);
-        TextView caption     = container.findViewById(R.id.emojicompat_caption);
-        ImageView thumb      = container.findViewById(R.id.emojicompat_thumb);
-        ImageButton download      = container.findViewById(R.id.emojicompat_download);
-
-        ImageButton cancel        = container.findViewById(R.id.emojicompat_download_cancel);
-
-        RadioButton radio    = container.findViewById(R.id.emojicompat_radio);
+        TextView title = container.findViewById(R.id.emojicompat_name);
+        TextView caption = container.findViewById(R.id.emojicompat_caption);
+        ImageView thumb = container.findViewById(R.id.emojicompat_thumb);
+        ImageButton download = container.findViewById(R.id.emojicompat_download);
+        ImageButton cancel = container.findViewById(R.id.emojicompat_download_cancel);
+        RadioButton radio = container.findViewById(R.id.emojicompat_radio);
 
         // Initialize all the views
         title.setText(font.getDisplay(context));
@@ -122,7 +120,7 @@ public class EmojiPreference extends DialogPreference {
         cancel.setVisibility(View.VISIBLE);
 
 
-        font.downloadFont(context, new EmojiCompatFont.Downloader.EmojiDownloadListener() {
+        font.downloadFont(getContext(), new EmojiCompatFont.Downloader.EmojiDownloadListener() {
             @Override
             public void onDownloaded(EmojiCompatFont font) {
                 finishDownload(font, container);
@@ -194,7 +192,7 @@ public class EmojiPreference extends DialogPreference {
         cancel.setVisibility(View.GONE);
         caption.setVisibility(View.VISIBLE);
 
-        if(font.isDownloaded(context)) {
+        if(font.isDownloaded(getContext())) {
             // Make it selectable
             download.setVisibility(View.GONE);
             radio.setVisibility(View.VISIBLE);
@@ -225,7 +223,7 @@ public class EmojiPreference extends DialogPreference {
         Log.i(TAG, "saveSelectedFont: Font ID: " + index);
         // It's saved using the key FONT_PREFERENCE
         PreferenceManager
-                .getDefaultSharedPreferences(context)
+                .getDefaultSharedPreferences(getContext())
                 .edit()
                 .putInt(FONT_PREFERENCE, index)
                 .apply();
@@ -235,29 +233,26 @@ public class EmojiPreference extends DialogPreference {
     /**
      * That's it. The user doesn't want to switch between these amazing radio buttons anymore!
      * That means, the selected font can be saved (if the user hit OK)
-     * @param positiveResult if OK has been selected.
      */
-    @Override
-    public void onDialogClosed(boolean positiveResult) {
-        if(positiveResult) {
+    private void onDialogOk() {
             saveSelectedFont();
             if(selected != original) {
-                new AlertDialog.Builder(context)
+                new AlertDialog.Builder(getContext())
                         .setTitle(R.string.restart_required)
                         .setMessage(R.string.restart_emoji)
                         .setNegativeButton(R.string.later, null)
                         .setPositiveButton(R.string.restart, ((dialog, which) -> {
                             // Restart the app
                             // From https://stackoverflow.com/a/17166729/5070653
-                            Intent launchIntent = new Intent(context, MainActivity.class);
+                            Intent launchIntent = new Intent(getContext(), SplashActivity.class);
                             PendingIntent mPendingIntent = PendingIntent.getActivity(
-                                    context,
+                                    getContext(),
                                     // This is the codepoint of the party face emoji :D
                                     0x1f973,
                                     launchIntent,
                                     PendingIntent.FLAG_CANCEL_CURRENT);
                             AlarmManager mgr =
-                                    (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                                    (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
                             if (mgr != null) {
                                 mgr.set(
                                         AlarmManager.RTC,
@@ -267,11 +262,7 @@ public class EmojiPreference extends DialogPreference {
                             System.exit(0);
                         })).show();
             }
-        }
-        else {
-            // This line is needed in order to reset the radio buttons later
-            selected = original;
-        }
+
     }
 
 }

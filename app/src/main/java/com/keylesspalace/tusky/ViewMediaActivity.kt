@@ -19,6 +19,8 @@ import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.DownloadManager
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -137,12 +139,13 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
             actionBar.setDisplayShowHomeEnabled(true)
             actionBar.title = adapter.getPageTitle(initialPosition)
         }
-        toolbar.setNavigationOnClickListener { _ -> supportFinishAfterTransition() }
+        toolbar.setNavigationOnClickListener { supportFinishAfterTransition() }
         toolbar.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.action_download -> downloadMedia()
                 R.id.action_open_status -> onOpenStatus()
                 R.id.action_share_media -> shareMedia()
+                R.id.action_copy_media_link -> copyLink()
             }
             true
         }
@@ -191,7 +194,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     downloadMedia()
                 } else {
-                    showErrorDialog(toolbar, R.string.error_media_download_permission, R.string.action_retry) { _ -> downloadMedia() }
+                    showErrorDialog(toolbar, R.string.error_media_download_permission, R.string.action_retry) { downloadMedia() }
                 }
             }
         }
@@ -222,6 +225,11 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     private fun onOpenStatus() {
         val attach = attachments!![viewPager.currentItem]
         startActivityWithSlideInAnimation(ViewThreadActivity.startIntent(this, attach.statusId, attach.statusUrl))
+    }
+
+    private fun copyLink() {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.primaryClip = ClipData.newPlainText(null, attachments!![viewPager.currentItem].attachment.url)
     }
 
     private fun shareMedia() {

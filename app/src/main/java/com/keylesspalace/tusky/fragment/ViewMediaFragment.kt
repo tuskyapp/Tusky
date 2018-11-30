@@ -16,21 +16,27 @@
 package com.keylesspalace.tusky.fragment
 
 import android.os.Bundle
+import android.text.TextUtils
+import android.widget.TextView
 
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.util.visible
 
 abstract class ViewMediaFragment : BaseFragment() {
     private var toolbarVisibiltyDisposable: Function0<Boolean>? = null
 
     abstract fun setupMediaView(url: String)
     abstract fun onToolbarVisibilityChange(visible: Boolean)
+    abstract val descriptionView : TextView
+
+    protected var showingDescription = false
+    protected var isDescriptionVisible = false
 
     companion object {
         @JvmStatic protected val ARG_START_POSTPONED_TRANSITION = "startPostponedTransition"
         @JvmStatic protected val ARG_ATTACHMENT = "attach"
         @JvmStatic protected val ARG_AVATAR_URL = "avatarUrl"
-        private const val TAG = "ViewMediaFragment"
 
         @JvmStatic
         fun newInstance(attachment: Attachment, shouldStartPostponedTransition: Boolean): ViewMediaFragment {
@@ -42,7 +48,7 @@ abstract class ViewMediaFragment : BaseFragment() {
                 Attachment.Type.IMAGE -> ViewImageFragment()
                 Attachment.Type.VIDEO,
                 Attachment.Type.GIFV -> ViewVideoFragment()
-                else -> throw Exception("Unknown media type: $attachment")
+                else -> ViewImageFragment()   // it probably won't show anything, but its better than crashing
             }
             fragment.arguments = arguments
             return fragment
@@ -60,7 +66,16 @@ abstract class ViewMediaFragment : BaseFragment() {
         }
     }
 
-    protected fun setupToolbarVisibilityListener() {
+    protected fun finalizeViewSetup(url: String, description: String?) {
+        val mediaActivity = activity as ViewMediaActivity
+        setupMediaView(url)
+
+        descriptionView.text = description ?: ""
+        showingDescription = !TextUtils.isEmpty(description)
+        isDescriptionVisible = showingDescription
+
+        descriptionView.visible(showingDescription && mediaActivity.isToolbarVisible())
+
         toolbarVisibiltyDisposable = (activity as ViewMediaActivity).addToolbarVisibilityListener(object: ViewMediaActivity.ToolbarVisibilityListener {
             override fun onToolbarVisiblityChanged(isVisible: Boolean) {
                 onToolbarVisibilityChange(isVisible)

@@ -140,7 +140,6 @@
     <string name="pref_title_notification_settings">Értesítések</string>
     <string name="pref_title_edit_notification_settings">Értesítések szerkesztése</string>
     <string name="pref_title_notifications_enabled">Értesítések</string>
-    <string name="pref_title_pull_notification_check_interval">Ellenőrzési időköz</string>
     <string name="pref_title_notification_alerts">Figyelmeztetések</string>
     <string name="pref_title_notification_alert_sound">Értesítés hanggal</string>
     <string name="pref_title_notification_alert_vibrate">Értesítés rezgéssel</string>

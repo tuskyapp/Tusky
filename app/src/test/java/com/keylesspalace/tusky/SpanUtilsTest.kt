@@ -2,7 +2,7 @@ package com.keylesspalace.tusky
 
 import android.text.Spannable
 import com.keylesspalace.tusky.util.highlightSpans
-import junit.framework.Assert
+import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -21,7 +21,7 @@ class SpanUtilsTest {
     fun doesntMergeAdjacentURLs() {
         val firstURL = "http://first.thing"
         val secondURL = "https://second.thing"
-        val inputSpannable = FakeSpannable("${firstURL} ${secondURL}")
+        val inputSpannable = FakeSpannable("$firstURL $secondURL")
         highlightSpans(inputSpannable, 0xffffff)
         val spans = inputSpannable.spans
         Assert.assertEquals(2, spans.size)
@@ -55,7 +55,7 @@ class SpanUtilsTest {
 
         @Test
         fun matchesSpanNotAtStart() {
-            val inputSpannable = FakeSpannable(" ${thingToHighlight}")
+            val inputSpannable = FakeSpannable(" $thingToHighlight")
             highlightSpans(inputSpannable, 0xffffff)
             val spans = inputSpannable.spans
             Assert.assertEquals(1, spans.size)
@@ -82,12 +82,12 @@ class SpanUtilsTest {
         fun spansDoNotOverlap() {
             val begin = "@begin"
             val end = "#end"
-            val inputSpannable = FakeSpannable("${begin} ${thingToHighlight} ${end}")
+            val inputSpannable = FakeSpannable("$begin $thingToHighlight $end")
             highlightSpans(inputSpannable, 0xffffff)
             val spans = inputSpannable.spans
             Assert.assertEquals(3, spans.size)
 
-            val middleSpan = spans.single ({ span -> span.start > 0 && span.end < inputSpannable.lastIndex })
+            val middleSpan = spans.single { span -> span.start > 0 && span.end < inputSpannable.lastIndex }
             Assert.assertEquals(begin.length + 1, middleSpan.start)
             Assert.assertEquals(inputSpannable.length - end.length - 1, middleSpan.end)
         }
@@ -104,15 +104,15 @@ class SpanUtilsTest {
             val matching = if (type == null) {
                 ArrayList<T>()
             } else {
-                spans.filter ({ it.start >= start && it.end <= end && type?.isAssignableFrom(it.span?.javaClass) })
-                        .map({ it -> it.span })
+                spans.filter { it.start >= start && it.end <= end && type.isAssignableFrom(it.span?.javaClass) }
+                        .map { it -> it.span }
                         .let { ArrayList(it) }
             }
             return matching.toArray() as Array<T>
         }
 
         override fun removeSpan(what: Any?) {
-            spans.removeIf({ span -> span.span == what})
+            spans.removeIf { span -> span.span == what}
         }
 
         override fun toString(): String {

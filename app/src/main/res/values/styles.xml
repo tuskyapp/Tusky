@@ -127,6 +127,8 @@
 
         <item name="compound_button_color">@color/compound_button_color_light</item>
 
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+
     </style>
 
     <style name="AppTheme.ImageButton.Light" parent="Widget.AppCompat.Button.Borderless.Colored">

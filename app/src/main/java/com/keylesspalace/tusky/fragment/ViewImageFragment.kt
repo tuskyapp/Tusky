@@ -20,18 +20,17 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.view.ViewCompat
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 
 import com.github.chrisbanes.photoview.PhotoViewAttacher
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.visible
 import com.squareup.picasso.Callback
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
@@ -48,13 +47,7 @@ class ViewImageFragment : ViewMediaFragment() {
     private lateinit var attacher: PhotoViewAttacher
     private lateinit var photoActionsListener: PhotoActionsListener
     private lateinit var toolbar: View
-
-    private var showingDescription = false
-    private var isDescriptionVisible = false
-
-    companion object {
-        private const val TAG = "ViewImageFragment"
-    }
+    override lateinit var descriptionView : TextView
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -62,12 +55,14 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     override fun setupMediaView(url: String) {
+        descriptionView = mediaDescription
+        ViewCompat.setTransitionName(photoView, url)
         attacher = PhotoViewAttacher(photoView)
 
         // Clicking outside the photo closes the viewer.
-        attacher.setOnOutsidePhotoTapListener { _ -> photoActionsListener.onDismiss() }
+        attacher.setOnOutsidePhotoTapListener { photoActionsListener.onDismiss() }
 
-        attacher.setOnClickListener { _ -> onMediaTap() }
+        attacher.setOnClickListener { onMediaTap() }
 
         /* A vertical swipe motion also closes the viewer. This is especially useful when the photo
          * mostly fills the screen so clicking outside is difficult. */
@@ -90,12 +85,12 @@ class ViewImageFragment : ViewMediaFragment() {
                     .into(photoView, object : Callback {
                         override fun onSuccess() {
                             // if we loaded image from disk, we should check that view is attached.
-                            if (ViewCompat.isAttachedToWindow(photoView)) {
+                            if (photoView?.isAttachedToWindow == true) {
                                 finishLoadingSuccessfully()
                             } else {
                                 // if view is not attached yet, wait for an attachment and
                                 // start transition when it's finally ready.
-                                photoView.addOnAttachStateChangeListener(
+                                photoView?.addOnAttachStateChangeListener(
                                         object : View.OnAttachStateChangeListener {
                                             override fun onViewAttachedToWindow(v: View?) {
                                                 finishLoadingSuccessfully()
@@ -132,37 +127,20 @@ class ViewImageFragment : ViewMediaFragment() {
         val arguments = this.arguments!!
         val attachment = arguments.getParcelable<Attachment>(ARG_ATTACHMENT)
         val url: String?
+        var description : String? = null
 
         if (attachment != null) {
             url = attachment.url
-
-            val description = attachment.description
-
-            descriptionView.text = description
-            showingDescription = !TextUtils.isEmpty(description)
-            isDescriptionVisible = showingDescription
+            description = attachment.description
         } else {
             url = arguments.getString(ARG_AVATAR_URL)
             if (url == null) {
                 throw IllegalArgumentException("attachment or avatar url has to be set")
             }
-
-            showingDescription = false
-            isDescriptionVisible = false
         }
 
-        // Setting visibility without animations so it looks nice when you scroll images
-        if (showingDescription && (activity as ViewMediaActivity).isToolbarVisible()) {
-            descriptionView.show()
-        } else {
-            descriptionView.hide()
-        }
-
-        setupMediaView(url)
-
-        setupToolbarVisibilityListener()
+        finalizeViewSetup(url, description)
     }
-
 
     private fun onMediaTap() {
         photoActionsListener.onPhotoTap()
@@ -177,11 +155,7 @@ class ViewImageFragment : ViewMediaFragment() {
         descriptionView.animate().alpha(alpha)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        if (isDescriptionVisible) {
-                            descriptionView.show()
-                        } else {
-                            descriptionView.hide()
-                        }
+                        descriptionView.visible(isDescriptionVisible)
                         animation.removeListener(this)
                     }
                 })
@@ -204,13 +178,13 @@ class ViewImageFragment : ViewMediaFragment() {
                     }
 
                     override fun onError() {
-                        progressBar.hide()
+                        progressBar?.hide()
                     }
                 })
     }
 
     private fun finishLoadingSuccessfully() {
-        progressBar.hide()
+        progressBar?.hide()
         attacher.update()
         photoActionsListener.onBringUp()
     }
