@@ -330,10 +330,10 @@ public interface MastodonApi {
     @POST("api/v1/filters")
     Call<Filter> createFilter(
             @Field("phrase") String phrase,
-            @Field("context") List<String> context,
-            @Nullable @Field("irreversible") Boolean irreversible,
-            @Nullable @Field("whole_word") Boolean wholeWord,
-            @Nullable @Field("expires_in") String expiresIn
+            @Field("context[]") List<String> context,
+            @Field("irreversible") Boolean irreversible,
+            @Field("whole_word") Boolean wholeWord,
+            @Field("expires_in") String expiresIn
     );
 
     @GET("api/v1/filters/{id}")
@@ -346,10 +346,10 @@ public interface MastodonApi {
     Call<Filter> updateFilter(
             @Path("id") String id,
             @Field("phrase") String phrase,
-            @Field("context") List<String> context,
-            @Nullable @Field("irreversible") Boolean irreversible,
-            @Nullable @Field("whole_word") Boolean wholeWord,
-            @Nullable @Field("expires_in") String expiresIn
+            @Field("context[]") List<String> context,
+            @Field("irreversible") Boolean irreversible,
+            @Field("whole_word") Boolean wholeWord,
+            @Field("expires_in") String expiresIn
     );
 
     @DELETE("api/v1/filters/{id}")

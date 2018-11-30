@@ -65,6 +65,10 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
     private lateinit var defaultMediaSensitivityPreference: SwitchPreference
     private lateinit var alwaysShowSensitiveMediaPreference: SwitchPreference
     private lateinit var mediaPreviewEnabledPreference: SwitchPreference
+    private lateinit var homeFiltersPreference: Preference
+    private lateinit var notificationFiltersPreference: Preference
+    private lateinit var publicFiltersPreference: Preference
+    private lateinit var threadFiltersPreference: Preference
 
     private val iconSize by lazy {resources.getDimensionPixelSize(R.dimen.preference_icon_size)}
 
@@ -79,6 +83,10 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         defaultMediaSensitivityPreference = findPreference("defaultMediaSensitivity") as SwitchPreference
         mediaPreviewEnabledPreference = findPreference("mediaPreviewEnabled") as SwitchPreference
         alwaysShowSensitiveMediaPreference = findPreference("alwaysShowSensitiveMedia") as SwitchPreference
+        homeFiltersPreference = findPreference("homeFilters")
+        notificationFiltersPreference = findPreference("notificationFilters")
+        publicFiltersPreference = findPreference("publicFilters")
+        threadFiltersPreference = findPreference("threadFilters")
 
         notificationPreference.icon = IconicsDrawable(notificationPreference.context, GoogleMaterial.Icon.gmd_notifications).sizePx(iconSize).color(ThemeUtils.getColor(notificationPreference.context, R.attr.toolbar_icon_tint))
         mutedUsersPreference.icon = getTintedIcon(R.drawable.ic_mute_24dp)
@@ -88,12 +96,15 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         tabPreference.onPreferenceClickListener = this
         mutedUsersPreference.onPreferenceClickListener = this
         blockedUsersPreference.onPreferenceClickListener = this
+        homeFiltersPreference.onPreferenceClickListener = this
+        notificationFiltersPreference.onPreferenceClickListener = this
+        publicFiltersPreference.onPreferenceClickListener = this
+        threadFiltersPreference.onPreferenceClickListener = this
 
         defaultPostPrivacyPreference.onPreferenceChangeListener = this
         defaultMediaSensitivityPreference.onPreferenceChangeListener = this
         mediaPreviewEnabledPreference.onPreferenceChangeListener = this
         alwaysShowSensitiveMediaPreference.onPreferenceChangeListener = this
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -177,6 +188,38 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
             blockedUsersPreference -> {
                 val intent = Intent(context, AccountListActivity::class.java)
                 intent.putExtra("type", AccountListActivity.Type.BLOCKS)
+                activity?.startActivity(intent)
+                activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                return true
+            }
+            homeFiltersPreference -> {
+                val intent = Intent(context, FiltersActivity::class.java)
+                intent.putExtra(FiltersActivity.FILTERS_CONTEXT, "home")
+                intent.putExtra(FiltersActivity.FILTERS_TITLE, getString(R.string.title_home))
+                activity?.startActivity(intent)
+                activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                return true
+            }
+            notificationFiltersPreference -> {
+                val intent = Intent(context, FiltersActivity::class.java)
+                intent.putExtra(FiltersActivity.FILTERS_CONTEXT, "notifications")
+                intent.putExtra(FiltersActivity.FILTERS_TITLE, getString(R.string.title_notifications))
+                activity?.startActivity(intent)
+                activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                return true
+            }
+            publicFiltersPreference -> {
+                val intent = Intent(context, FiltersActivity::class.java)
+                intent.putExtra(FiltersActivity.FILTERS_CONTEXT, "public")
+                intent.putExtra(FiltersActivity.FILTERS_TITLE, getString(R.string.pref_title_public_filter_keywords))
+                activity?.startActivity(intent)
+                activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                return true
+            }
+            threadFiltersPreference -> {
+                val intent = Intent(context, FiltersActivity::class.java)
+                intent.putExtra(FiltersActivity.FILTERS_CONTEXT, "thread")
+                intent.putExtra(FiltersActivity.FILTERS_TITLE, getString(R.string.pref_title_thread_filter_keywords))
                 activity?.startActivity(intent)
                 activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
                 return true

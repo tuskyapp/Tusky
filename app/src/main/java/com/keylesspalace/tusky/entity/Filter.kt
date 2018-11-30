@@ -18,12 +18,12 @@ package com.keylesspalace.tusky.entity
 import com.google.gson.annotations.SerializedName
 
 data class Filter (
-        val id: String,
-        val phrase: String,
-        val context: List<String>,
-        @SerializedName("expires_at") val expiresAt: String?,
-        val irreversible: Boolean,
-        @SerializedName("whole_word") val wholeWord: Boolean
+    val id: String,
+    val phrase: String,
+    val context: List<String>,
+    @SerializedName("expires_at") val expiresAt: String?,
+    val irreversible: Boolean,
+    @SerializedName("whole_word") val wholeWord: Boolean
 ) {
     override fun hashCode(): Int {
         return id.hashCode()
