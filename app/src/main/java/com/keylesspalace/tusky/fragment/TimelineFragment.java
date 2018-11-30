@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,7 @@ import com.keylesspalace.tusky.appstore.StatusDeletedEvent;
 import com.keylesspalace.tusky.appstore.UnfollowEvent;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
+import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
@@ -62,6 +64,7 @@ import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
+import java.util.ArrayList;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -322,15 +325,52 @@ public class TimelineFragment extends SFragment implements
         filter = preferences.getBoolean("tabFilterHomeBoosts", true);
         filterRemoveReblogs = kind == Kind.HOME && !filter;
 
-        String regexFilter = preferences.getString("tabFilterRegex", "");
-        filterRemoveRegex = (kind == Kind.HOME
-                || kind == Kind.PUBLIC_LOCAL
-                || kind == Kind.PUBLIC_FEDERATED)
-                && !regexFilter.isEmpty();
+        mastodonApi.getFilters().enqueue(new Callback<List<Filter>>() {
+            @Override
+            public void onResponse(Call<List<Filter>> call, Response<List<Filter>> response) {
+                applyFilters(response.body());
+            }
 
+            @Override
+            public void onFailure(Call<List<Filter>> call, Throwable t) {
+                Log.e(TAG, "Error getting filters from server");
+            }
+        });
+    }
+
+    private static boolean filterContextMatchesKind(Kind kind, List<String> filterContext) {
+        // home, notifications, public, thread
+        switch(kind) {
+            case HOME:
+                return filterContext.contains("home");
+            case PUBLIC_FEDERATED:
+            case PUBLIC_LOCAL:
+            case USER:
+            case TAG:
+                return filterContext.contains("public");
+            case USER_WITH_REPLIES:
+                return (filterContext.contains("public") || filterContext.contains("thread"));
+            case FAVOURITES:
+                return (filterContext.contains("public") || filterContext.contains("notifications"));
+            default:
+                return false;
+        }
+    }
+
+    private static String filterToRegexToken(Filter filter) {
+        return filter.getWholeWord() ? String.format("\\b%s\\b", filter.getPhrase()) : filter.getPhrase();
+    }
+
+    private void applyFilters(List<Filter> filters) {
+        List<String> tokens = new ArrayList<>();
+        for (Filter filter : filters) {
+            if (filterContextMatchesKind(kind, filter.getContext())) {
+                tokens.add(filterToRegexToken(filter));
+            }
+        }
+        filterRemoveRegex = !tokens.isEmpty();
         if (filterRemoveRegex) {
-            filterRemoveRegexMatcher = Pattern.compile(regexFilter, Pattern.CASE_INSENSITIVE)
-                    .matcher("");
+            filterRemoveRegexMatcher = Pattern.compile(TextUtils.join("|", tokens), Pattern.CASE_INSENSITIVE).matcher("");
         }
     }
 
