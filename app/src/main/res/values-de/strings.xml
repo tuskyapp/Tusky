@@ -185,7 +185,7 @@
 
     <string name="about_title_activity">Über</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky is freie Open-Source-Software.
+    <string name="about_tusky_license">Tusky ist freie Open-Source-Software.
         Es ist lizenziert unter der GNU General Public License Version 3.
         Du kannst dir die Lizenz hier anschauen: https://www.gnu.org/licenses/gpl-3.0.de.html</string>
     <string name="about_project_site">
