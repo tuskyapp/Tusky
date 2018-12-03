@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -16,7 +16,7 @@
         android:paddingBottom="8dp"
         android:orientation="vertical">
 
-    <android.support.text.emoji.widget.EmojiEditText
+    <androidx.emoji.widget.EmojiEditText
         android:id="@+id/accountFieldName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         android:textSize="?attr/status_text_medium"
         android:hint="@string/profile_metadata_label_label" />
 
-    <android.support.text.emoji.widget.EmojiEditText
+    <androidx.emoji.widget.EmojiEditText
         android:id="@+id/accountFieldValue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,4 +33,4 @@
         android:hint="@string/profile_metadata_content_label" />
     </LinearLayout>
 
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>

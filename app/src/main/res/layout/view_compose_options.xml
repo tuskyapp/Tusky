@@ -14,7 +14,7 @@
         android:checkedButton="@+id/radio_public"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatRadioButton
+        <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/publicRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             android:textColor="?android:textColorTertiary"
             app:buttonTint="?attr/compound_button_color" />
 
-        <android.support.v7.widget.AppCompatRadioButton
+        <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/unlistedRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             android:textColor="?android:textColorTertiary"
             app:buttonTint="?attr/compound_button_color" />
 
-        <android.support.v7.widget.AppCompatRadioButton
+        <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/privateRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             android:textColor="?android:textColorTertiary"
             app:buttonTint="?attr/compound_button_color" />
 
-        <android.support.v7.widget.AppCompatRadioButton
+        <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/directRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

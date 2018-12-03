@@ -18,11 +18,11 @@ package com.keylesspalace.tusky.fragment
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewCompat
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -143,7 +143,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
 
 
         val columnCount = context?.resources?.getInteger(R.integer.profile_media_column_count) ?: 2
-        val layoutManager = GridLayoutManager(context, columnCount)
+        val layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, columnCount)
 
         val bgRes = ThemeUtils.getColorId(context, R.attr.window_background)
 
@@ -171,9 +171,9 @@ class AccountMediaFragment : BaseFragment(), Injectable {
 
         nothing_message.visibility = View.GONE
 
-        recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        recycler_view.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
 
-            override fun onScrolled(recycler_view: RecyclerView, dx: Int, dy: Int) {
+            override fun onScrolled(recycler_view: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0) {
                     val itemCount = layoutManager.itemCount
                     val lastItem = layoutManager.findLastCompletelyVisibleItemPosition()
@@ -232,7 +232,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
     }
 
     inner class MediaGridAdapter
-        : RecyclerView.Adapter<MediaGridAdapter.MediaViewHolder>() {
+        : androidx.recyclerview.widget.RecyclerView.Adapter<MediaGridAdapter.MediaViewHolder>() {
 
         var baseItemColor = Color.BLACK
 
@@ -253,7 +253,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             notifyItemRangeInserted(oldLen, newItems.size)
         }
 
-        override fun onAttachedToRecyclerView(recycler_view: RecyclerView) {
+        override fun onAttachedToRecyclerView(recycler_view: androidx.recyclerview.widget.RecyclerView) {
             val hsv = FloatArray(3)
             Color.colorToHSV(baseItemColor, hsv)
             super.onAttachedToRecyclerView(recycler_view)
@@ -278,7 +278,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
 
 
         inner class MediaViewHolder(val imageView: ImageView)
-            : RecyclerView.ViewHolder(imageView),
+            : androidx.recyclerview.widget.RecyclerView.ViewHolder(imageView),
                 View.OnClickListener {
             init {
                 itemView.setOnClickListener(this)

@@ -18,8 +18,8 @@ package com.keylesspalace.tusky.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -62,8 +62,8 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
         mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true)
         useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
 
-        searchRecyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
-        searchRecyclerView.layoutManager = LinearLayoutManager(view.context)
+        searchRecyclerView.addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(view.context, androidx.recyclerview.widget.DividerItemDecoration.VERTICAL))
+        searchRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(view.context)
         searchAdapter = SearchResultsAdapter(
                 mediaPreviewEnabled,
                 alwaysShowSensitiveMedia,

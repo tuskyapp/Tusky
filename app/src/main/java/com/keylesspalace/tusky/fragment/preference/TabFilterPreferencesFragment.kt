@@ -17,8 +17,8 @@ package com.keylesspalace.tusky.fragment.preference
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.preference.PreferenceFragmentCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.preference.PreferenceFragmentCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText

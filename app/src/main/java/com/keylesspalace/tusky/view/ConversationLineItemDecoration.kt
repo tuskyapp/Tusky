@@ -18,15 +18,15 @@ package com.keylesspalace.tusky.view
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.ThreadAdapter
 
-class ConversationLineItemDecoration(private val context: Context, private val divider: Drawable) : RecyclerView.ItemDecoration() {
+class ConversationLineItemDecoration(private val context: Context, private val divider: Drawable) : androidx.recyclerview.widget.RecyclerView.ItemDecoration() {
 
-    override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+    override fun onDraw(canvas: Canvas, parent: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State) {
         val dividerStart = parent.paddingStart + context.resources.getDimensionPixelSize(R.dimen.status_line_margin_start)
         val dividerEnd = dividerStart + divider.intrinsicWidth
 

@@ -17,7 +17,7 @@ package com.keylesspalace.tusky.view
 
 import android.content.Context
 import android.graphics.Color
-import android.support.v7.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatButton
 import android.util.AttributeSet
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Status

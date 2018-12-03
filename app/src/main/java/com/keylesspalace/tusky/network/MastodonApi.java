@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.network;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.Account;

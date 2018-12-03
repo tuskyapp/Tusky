@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.adapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -26,7 +26,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.StringField
 import kotlinx.android.synthetic.main.item_edit_field.view.*
 
-class AccountFieldEditAdapter : RecyclerView.Adapter<AccountFieldEditAdapter.ViewHolder>() {
+class AccountFieldEditAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<AccountFieldEditAdapter.ViewHolder>() {
 
     private val fieldData = mutableListOf<MutableStringPair>()
 
@@ -87,7 +87,7 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<AccountFieldEditAdapter.Vie
 
     }
 
-    class ViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
+    class ViewHolder(rootView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(rootView) {
         val nameTextView: EditText = rootView.accountFieldName
         val valueTextView: EditText = rootView.accountFieldValue
     }

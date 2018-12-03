@@ -20,7 +20,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.MenuItem
 import com.keylesspalace.tusky.appstore.EventHub
@@ -41,7 +41,7 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
     lateinit var eventHub: EventHub
 
     @Inject
-    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var fragmentInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
 
     private var restartActivitiesOnExit: Boolean = false
 
@@ -57,7 +57,7 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
             setDisplayShowHomeEnabled(true)
         }
 
-        val fragment: Fragment = when(intent.getIntExtra(EXTRA_PREFERENCE_TYPE, 0)) {
+        val fragment: androidx.fragment.app.Fragment = when(intent.getIntExtra(EXTRA_PREFERENCE_TYPE, 0)) {
             GENERAL_PREFERENCES -> {
                 setTitle(R.string.action_view_preferences)
                 PreferencesFragment.newInstance()
@@ -164,7 +164,7 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
         }
     }
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
+    override fun supportFragmentInjector(): AndroidInjector<androidx.fragment.app.Fragment> {
         return fragmentInjector
     }
 

@@ -11,7 +11,7 @@
     android:paddingLeft="14dp"
     android:paddingRight="14dp">
 
-    <android.support.text.emoji.widget.EmojiTextView
+    <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_reblogged"
         android:drawableStart="?attr/status_reblog_small_drawable"
         android:layout_width="match_parent"
@@ -55,7 +55,7 @@
         android:paddingBottom="4dp"
         android:paddingTop="@dimen/status_avatar_padding">
 
-        <android.support.text.emoji.widget.EmojiTextView
+        <androidx.emoji.widget.EmojiTextView
             android:id="@+id/status_display_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
             android:textSize="?attr/status_text_medium"
             tools:text="13:37" />
 
-        <android.support.text.emoji.widget.EmojiTextView
+        <androidx.emoji.widget.EmojiTextView
             android:id="@+id/status_content_warning_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-    <android.support.text.emoji.widget.EmojiTextView
+    <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
             android:textSize="?attr/status_text_medium"
             android:visibility="gone" />
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/status_media_preview_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -269,7 +269,7 @@
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_container"
             app:srcCompat="@drawable/ic_eye_24dp" />
 
-        <android.support.text.emoji.widget.EmojiTextView
+        <androidx.emoji.widget.EmojiTextView
             android:id="@+id/status_sensitive_media_warning"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -288,7 +288,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <!--TODO: Check if this needs emoji support-->
-        <android.support.text.emoji.widget.EmojiTextView
+        <androidx.emoji.widget.EmojiTextView
             android:id="@+id/status_media_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -298,7 +298,7 @@
             android:textSize="?attr/status_text_medium"
             android:visibility="gone" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

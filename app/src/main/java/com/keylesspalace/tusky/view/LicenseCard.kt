@@ -16,7 +16,7 @@
 package com.keylesspalace.tusky.view
 
 import android.content.Context
-import android.support.v7.widget.CardView
+import androidx.cardview.widget.CardView
 import android.util.AttributeSet
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.util.LinkHelper
@@ -30,7 +30,7 @@ class LicenseCard
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0
-) : CardView(context, attrs, defStyleAttr) {
+) : androidx.cardview.widget.CardView(context, attrs, defStyleAttr) {
 
 
     init {

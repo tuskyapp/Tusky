@@ -12,9 +12,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.IBinder
 import android.os.Parcelable
-import android.support.v4.app.NotificationCompat
-import android.support.v4.app.ServiceCompat
-import android.support.v4.content.ContextCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.ServiceCompat
+import androidx.core.content.ContextCompat
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusComposedEvent

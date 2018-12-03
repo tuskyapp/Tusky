@@ -25,8 +25,8 @@ import android.media.MediaMetadataRetriever
 import android.media.ThumbnailUtils
 import android.net.Uri
 import android.provider.OpenableColumns
-import android.support.annotation.Px
-import android.support.media.ExifInterface
+import androidx.annotation.Px
+import androidx.exifinterface.media.ExifInterface
 import android.util.Log
 import java.io.*
 
@@ -155,23 +155,23 @@ fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeig
 fun reorientBitmap(bitmap: Bitmap?, orientation: Int): Bitmap? {
     val matrix = Matrix()
     when (orientation) {
-        ExifInterface.ORIENTATION_NORMAL -> return bitmap
-        ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale(-1.0f, 1.0f)
-        ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180.0f)
-        ExifInterface.ORIENTATION_FLIP_VERTICAL -> {
+        androidx.exifinterface.media.ExifInterface.ORIENTATION_NORMAL -> return bitmap
+        androidx.exifinterface.media.ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale(-1.0f, 1.0f)
+        androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180.0f)
+        androidx.exifinterface.media.ExifInterface.ORIENTATION_FLIP_VERTICAL -> {
             matrix.setRotate(180.0f)
             matrix.postScale(-1.0f, 1.0f)
         }
-        ExifInterface.ORIENTATION_TRANSPOSE -> {
+        androidx.exifinterface.media.ExifInterface.ORIENTATION_TRANSPOSE -> {
             matrix.setRotate(90.0f)
             matrix.postScale(-1.0f, 1.0f)
         }
-        ExifInterface.ORIENTATION_ROTATE_90 -> matrix.setRotate(90.0f)
-        ExifInterface.ORIENTATION_TRANSVERSE -> {
+        androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_90 -> matrix.setRotate(90.0f)
+        androidx.exifinterface.media.ExifInterface.ORIENTATION_TRANSVERSE -> {
             matrix.setRotate(-90.0f)
             matrix.postScale(-1.0f, 1.0f)
         }
-        ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate(-90.0f)
+        androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate(-90.0f)
         else -> return bitmap
     }
 
@@ -197,20 +197,20 @@ fun getImageOrientation(uri: Uri, contentResolver: ContentResolver): Int {
         inputStream = contentResolver.openInputStream(uri)
     } catch (e: FileNotFoundException) {
         Log.w(TAG, e)
-        return ExifInterface.ORIENTATION_UNDEFINED
+        return androidx.exifinterface.media.ExifInterface.ORIENTATION_UNDEFINED
     }
     if (inputStream == null) {
-        return ExifInterface.ORIENTATION_UNDEFINED
+        return androidx.exifinterface.media.ExifInterface.ORIENTATION_UNDEFINED
     }
-    val exifInterface: ExifInterface
+    val exifInterface: androidx.exifinterface.media.ExifInterface
     try {
-        exifInterface = ExifInterface(inputStream)
+        exifInterface = androidx.exifinterface.media.ExifInterface(inputStream)
     } catch (e: IOException) {
         Log.w(TAG, e)
         IOUtils.closeQuietly(inputStream)
-        return ExifInterface.ORIENTATION_UNDEFINED
+        return androidx.exifinterface.media.ExifInterface.ORIENTATION_UNDEFINED
     }
-    val orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+    val orientation = exifInterface.getAttributeInt(androidx.exifinterface.media.ExifInterface.TAG_ORIENTATION, androidx.exifinterface.media.ExifInterface.ORIENTATION_NORMAL)
     IOUtils.closeQuietly(inputStream)
     return orientation
 }

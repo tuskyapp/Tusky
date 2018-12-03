@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.util;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
