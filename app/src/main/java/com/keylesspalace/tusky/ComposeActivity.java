@@ -311,6 +311,9 @@ public final class ComposeActivity
                 @Override
                 public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
                     emojiList = response.body();
+                    if(emojiList == null) {
+                        emojiList = Collections.emptyList();
+                    }
                     Collections.sort(emojiList, (a, b) -> a.getShortcode().toLowerCase().compareTo(b.getShortcode().toLowerCase()));
                     setEmojiList(emojiList);
                     cacheInstanceMetadata(activeAccount);

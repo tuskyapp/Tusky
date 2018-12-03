@@ -90,7 +90,7 @@ class ViewImageFragment : ViewMediaFragment() {
                             } else {
                                 // if view is not attached yet, wait for an attachment and
                                 // start transition when it's finally ready.
-                                photoView.addOnAttachStateChangeListener(
+                                photoView?.addOnAttachStateChangeListener(
                                         object : View.OnAttachStateChangeListener {
                                             override fun onViewAttachedToWindow(v: View?) {
                                                 finishLoadingSuccessfully()
