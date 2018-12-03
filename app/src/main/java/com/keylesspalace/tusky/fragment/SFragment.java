@@ -173,14 +173,16 @@ public abstract class SFragment extends BaseFragment {
         popup.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.status_share_content: {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(status.getAccount().getUsername());
-                    sb.append(" - ");
-                    sb.append(status.getContent().toString());
+                    Status statusToShare = status;
+                    if(statusToShare.getReblog() != null) statusToShare = statusToShare.getReblog();
 
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+
+                    String stringToShare = statusToShare.getAccount().getUsername() +
+                            " - " +
+                            statusToShare.getContent().toString();
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, stringToShare);
                     sendIntent.setType("text/plain");
                     startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_content_to)));
                     return true;
