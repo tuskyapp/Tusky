@@ -29,7 +29,6 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import android.support.v4.widget.TextViewCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
@@ -98,7 +97,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
         val plusDrawable = IconicsDrawable(this, GoogleMaterial.Icon.gmd_add).sizeDp(12).color(Color.WHITE)
 
-        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(addFieldButton, plusDrawable, null, null, null)
+        addFieldButton.setCompoundDrawablesRelativeWithIntrinsicBounds(plusDrawable, null, null, null)
 
         addFieldButton.setOnClickListener {
             accountFieldEditAdapter.addField()
