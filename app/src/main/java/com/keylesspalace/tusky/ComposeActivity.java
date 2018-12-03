@@ -1479,6 +1479,16 @@ public final class ComposeActivity
     }
 
     private void handleCloseButton() {
+
+        if(composeOptionsBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ||
+                addMediaBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ||
+                emojiBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ) {
+            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            return;
+        }
+
         CharSequence contentText = textEditor.getText();
         CharSequence contentWarning = contentWarningEditor.getText();
 
