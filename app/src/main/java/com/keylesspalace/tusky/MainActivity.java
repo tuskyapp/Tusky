@@ -21,6 +21,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -393,11 +394,13 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         if (current && activeAccount != null) {
             Intent intent = AccountActivity.getIntent(this, activeAccount.getAccountId());
             startActivityWithSlideInAnimation(intent);
+            new Handler().postDelayed(() -> drawer.closeDrawer(), 100);
             return true;
         }
         //open LoginActivity to add new account
         if (profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT) {
             startActivityWithSlideInAnimation(LoginActivity.getIntent(this, true));
+            new Handler().postDelayed(() -> drawer.closeDrawer(), 100);
             return true;
         }
         //change Account
