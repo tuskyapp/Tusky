@@ -14,7 +14,6 @@
 
         <ImageButton
             android:id="@+id/drawer_toggle"
-            style="?attr/image_button_style"
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentStart="true"
@@ -28,20 +27,20 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
+            style="@style/TuskyTabAppearance"
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
             android:layout_toEndOf="@id/drawer_toggle"
             android:background="?android:colorBackground"
             android:elevation="@dimen/actionbar_elevation"
             app:tabGravity="fill"
-            app:tabIndicatorHeight="3dp"
             app:tabMaxWidth="0dp"
             app:tabPaddingEnd="1dp"
             app:tabPaddingStart="1dp"
             app:tabPaddingTop="4dp"
-            app:tabTextAppearance="@style/TabLayoutTextStyle">
+            app:tabUnboundedRipple="false">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
@@ -69,8 +68,8 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@id/tab_layout" />
+            android:layout_below="@id/tab_layout"
+            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 

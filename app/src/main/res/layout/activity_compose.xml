@@ -26,8 +26,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="@dimen/compose_activity_scrollview_height"
-        android:layout_marginBottom="52dp"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginBottom="52dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,9 +38,9 @@
                 android:id="@+id/composeReplyView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginBottom="6dp"
                 android:drawablePadding="6dp"
                 android:textSize="?attr/status_text_small"
                 android:textStyle="bold"
@@ -55,10 +55,10 @@
                 android:layout_marginBottom="2dp"
                 android:background="?attr/compose_reply_content_background"
                 android:lineSpacingMultiplier="1.1"
-                android:paddingBottom="4dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
                 android:paddingTop="4dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="4dp"
                 android:textSize="?attr/status_text_small"
                 android:visibility="gone"
                 tools:text="Post content which may be preeettyy long, so please, make sure there's enough room for everything, okay? Not kidding. I wish Eugen answered me more often, sigh."
@@ -103,10 +103,10 @@
                 android:hint="@string/hint_compose"
                 android:inputType="text|textMultiLine|textCapSentences"
                 android:lineSpacingMultiplier="1.1"
-                android:paddingBottom="8dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
                 android:paddingTop="8dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="8dp"
                 android:textColorHint="?android:attr/textColorTertiary"
                 android:textSize="?attr/status_text_large" />
 
@@ -139,10 +139,10 @@
         android:background="?android:colorBackground"
         android:elevation="12dp"
         android:orientation="vertical"
-        android:paddingBottom="52dp"
-        android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="52dp"
         app:behavior_hideable="true"
         app:behavior_peekHeight="0dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -174,10 +174,10 @@
         android:clipToPadding="false"
         android:elevation="12dp"
         android:orientation="horizontal"
-        android:paddingBottom="60dp"
-        android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="60dp"
         app:behavior_hideable="true"
         app:behavior_peekHeight="0dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
@@ -188,10 +188,10 @@
         android:layout_height="wrap_content"
         android:background="?android:colorBackground"
         android:elevation="12dp"
-        android:paddingBottom="52dp"
-        android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="52dp"
         app:behavior_hideable="true"
         app:behavior_peekHeight="0dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
@@ -203,10 +203,10 @@
         android:background="?android:colorBackground"
         android:elevation="12dp"
         android:gravity="center_vertical"
-        android:paddingBottom="4dp"
-        android:paddingEnd="8dp"
         android:paddingStart="8dp"
-        android:paddingTop="4dp">
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp">
 
         <ImageButton
             android:id="@+id/composeAddMediaButton"
@@ -232,26 +232,26 @@
 
         <ImageButton
             android:id="@+id/composeHideMediaButton"
+            style="?attr/image_button_style"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/action_hide_media"
             android:padding="4dp"
             android:tooltipText="@string/action_hide_media"
             android:visibility="gone"
             tools:src="@drawable/ic_eye_24dp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/composeContentWarningButton"
             style="?attr/image_button_style"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/action_content_warning"
             android:padding="4dp"
             android:text="CW"
-            android:textColor="?android:textColorTertiary"
             android:tooltipText="@string/action_content_warning" />
 
         <ImageButton
@@ -265,7 +265,7 @@
             android:tooltipText="@string/action_emoji_keyboard"
             app:srcCompat="@drawable/ic_emoji_24dp" />
 
-        <androidx.legacy.widget.Space
+        <Space
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
@@ -280,11 +280,10 @@
 
         <com.keylesspalace.tusky.view.TootButton
             android:id="@+id/composeTootButton"
-            style="@style/Widget.AppCompat.Button.Colored"
+            style="@style/TuskyButton"
             android:layout_width="@dimen/toot_button_width"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textColor="@android:color/white"
             android:textSize="?attr/status_text_medium" />
 
     </LinearLayout>

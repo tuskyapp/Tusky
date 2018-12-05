@@ -24,19 +24,20 @@
                 android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingBottom="16dp"
-                android:paddingTop="16dp">
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
 
                 <TextView
                     android:id="@+id/versionTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:drawablePadding="16dp"
                     android:drawableStart="@mipmap/ic_launcher"
+                    android:drawablePadding="16dp"
                     android:gravity="center_vertical"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textIsSelectable="true"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -45,11 +46,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:lineSpacingMultiplier="1.2"
-                    android:paddingEnd="@dimen/text_content_margin"
                     android:paddingStart="@dimen/text_content_margin"
+                    android:paddingEnd="@dimen/text_content_margin"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textIsSelectable="true"
+                    android:textSize="16sp"
                     tools:text="@string/about_tusky_license" />
 
                 <TextView
@@ -58,11 +59,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:lineSpacingMultiplier="1.2"
-                    android:paddingEnd="@dimen/text_content_margin"
                     android:paddingStart="@dimen/text_content_margin"
+                    android:paddingEnd="@dimen/text_content_margin"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textIsSelectable="true"
+                    android:textSize="16sp"
                     tools:text="@string/about_project_site" />
 
                 <TextView
@@ -71,38 +72,35 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:lineSpacingMultiplier="1.2"
-                    android:paddingEnd="@dimen/text_content_margin"
                     android:paddingStart="@dimen/text_content_margin"
+                    android:paddingEnd="@dimen/text_content_margin"
                     android:text="@string/about_bug_feature_request_site"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textIsSelectable="true" />
+                    android:textIsSelectable="true"
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/tuskyProfileButton"
+                    style="@style/TuskyButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:lineSpacingMultiplier="1.2"
                     android:text="@string/about_tusky_account"
-                    android:textAlignment="center"
                     android:textAllCaps="false"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@android:color/white" />
+                    android:textSize="16sp" />
 
-                <TextView
+                <Button
                     android:id="@+id/aboutLicensesButton"
+                    style="@style/TuskyButton.Outlined"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:padding="12dp"
                     android:lineSpacingMultiplier="1.2"
-                    android:paddingEnd="@dimen/text_content_margin"
-                    android:paddingStart="@dimen/text_content_margin"
                     android:text="@string/title_licenses"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/primary" />
+                    android:textAllCaps="false"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 

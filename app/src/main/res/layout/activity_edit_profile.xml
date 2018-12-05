@@ -87,45 +87,50 @@
                 </RelativeLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/hint_display_name"
+                    android:textColorHint="?android:attr/textColorTertiary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/displayNameEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginStart="16dp"
-                        android:hint="@string/hint_display_name"
-                        android:importantForAutofill="no" />
+                        android:importantForAutofill="no"
+                        android:lines="1" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:hint="@string/hint_note"
+                    android:textColorHint="?android:attr/textColorTertiary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/noteEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginStart="16dp"
-                        android:hint="@string/hint_note"
                         android:importantForAutofill="no" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <androidx.appcompat.widget.AppCompatCheckBox
+                <CheckBox
                     android:id="@+id/lockedCheckBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="30dp"
+                    android:layout_marginEnd="16dp"
                     android:paddingStart="8dp"
                     android:text="@string/lock_account_label"
                     android:textSize="?attr/status_text_medium" />
@@ -133,9 +138,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="24dp"
                     android:paddingStart="40dp"
                     android:text="@string/lock_account_label_description"
                     android:textSize="?attr/status_text_small" />
@@ -143,9 +148,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
                     android:text="@string/profile_metadata_label"
                     android:textSize="?attr/status_text_small" />
 
@@ -158,12 +163,13 @@
 
                 <Button
                     android:id="@+id/addFieldButton"
+                    style="@style/TuskyButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
                     android:drawablePadding="6dp"
                     android:text="@string/profile_metadata_add"
                     android:textColor="#fff" />

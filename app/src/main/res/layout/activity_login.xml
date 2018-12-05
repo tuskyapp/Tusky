@@ -33,26 +33,31 @@
                 android:id="@+id/loginInputLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:clipChildren="false"
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="250dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_domain"
+                    android:textColorHint="?android:attr/textColorTertiary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/domainEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="@string/hint_domain"
                         android:inputType="textUri" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/loginButton"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
                     android:text="@string/action_login"
                     android:textColor="@android:color/white" />
 
@@ -60,7 +65,7 @@
                     android:id="@+id/whatsAnInstanceTextView"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:paddingTop="6dp"
+                    android:paddingTop="8dp"
                     android:text="@string/link_whats_an_instance"
                     android:textAlignment="center" />
             </LinearLayout>

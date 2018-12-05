@@ -27,11 +27,7 @@
     <style name="TextSizeLargest">
         <item name="status_text_small">18sp</item>
         <item name="status_text_medium">20sp</item>
-        <item name="status_text_large">22sp</item>`
-    </style>
-
-    <style name="TabLayoutTextStyle" parent="TextAppearance.Design.Tab">
-        <item name="android:textStyle">normal|bold</item>
+        <item name="status_text_large">22sp</item>
     </style>
 
     <style name="AppTheme.Account.AppBarLayout" parent="ThemeOverlay.AppCompat">
@@ -40,7 +36,7 @@
         <item name="android:textColorTertiary">@color/text_color_tertiary_dark</item>
     </style>
 
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splash</item>
         <item name="colorPrimaryDark">@color/color_primary_dark_dark</item>
         <item name="android:windowNoTitle">true</item>
@@ -51,12 +47,12 @@
 
     <style name="TuskyDialogActivityTheme" parent="@style/TuskyTheme" />
 
-    <style name="TuskyBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="TuskyBaseTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/color_primary_light</item>
         <item name="colorPrimaryDark">@color/color_primary_dark_light</item>
         <item name="colorAccent">@color/color_accent_light</item>
         <item name="colorButtonNormal">@color/color_primary_dark_light</item>
-        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
+        <item name="android:buttonStyle">@style/Widget.MaterialComponents.Button</item>
 
         <item name="android:colorBackground">@color/color_background_light</item>
         <item name="android:windowBackground">@color/window_background_light</item>
@@ -68,6 +64,7 @@
         <item name="android:actionMenuTextColor">@color/text_color_primary_light</item>
 
         <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheetDialog.Light</item>
+        <item name="alertDialogTheme">@style/AppTheme.Dialog.Light</item>
 
         <item name="window_background">@color/window_background_light</item>
         <item name="custom_tab_toolbar">@color/custom_tab_toolbar_light</item>
@@ -129,16 +126,23 @@
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
 
+        <item name="material_drawer_header_selection_subtext">@color/text_color_secondary_dark</item>
+
     </style>
 
-    <style name="AppTheme.ImageButton.Light" parent="Widget.AppCompat.Button.Borderless.Colored">
+    <style name="AppTheme.ImageButton.Light" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:tint">@color/text_color_tertiary_light</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
-    <style name="AppTheme.BottomSheetDialog.Light" parent="@style/Theme.Design.Light.BottomSheetDialog">
+    <style name="AppTheme.BottomSheetDialog.Light" parent="@style/Theme.MaterialComponents.BottomSheetDialog">
         <item name="colorAccent">@color/color_accent_light</item>
         <item name="android:colorBackground">@color/color_background_light</item>
+    </style>
+
+    <style name="AppTheme.BottomSheetDialog.Dark" parent="@style/Theme.MaterialComponents.BottomSheetDialog">
+        <item name="colorAccent">@color/color_accent_dark</item>
+        <item name="android:colorBackground">@color/color_background_dark</item>
     </style>
 
     <style name="AppTheme.Account.ToolbarPopupTheme.Light" parent="ThemeOverlay.AppCompat">
@@ -147,9 +151,33 @@
         <item name="windowActionBarOverlay">true</item>
     </style>
 
-    <style name="TuskyTabAppearance" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">?attr/status_text_medium</item>
+    <style name="AppTheme.Dialog.Light" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
+        <item name="dialogCornerRadius">8dp</item>
     </style>
+
+
+    <style name="TuskyTabAppearance" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:textSize">?attr/status_text_medium</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabIndicatorColor">?attr/tab_icon_selected_tint</item>
+        <item name="tabTextColor">?android:attr/textColorSecondary</item>
+        <item name="tabSelectedTextColor">?attr/tab_icon_selected_tint</item>
+    </style>
+
+    <style name="TuskyButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TuskyButton.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TuskyButton.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+
 
     <!--Black Application Theme Styles-->
     <style name="TuskyBlackThemeBase" parent="TuskyBaseTheme">

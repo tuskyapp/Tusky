@@ -44,6 +44,7 @@
 
                 <Button
                     android:id="@+id/accountFollowButton"
+                    style="@style/TuskyButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
@@ -163,11 +164,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:lineSpacingMultiplier="1.1"
                     android:text="@string/label_remote_account"
                     android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@id/accountMovedView"
-                    tools:visibility="visible"
-                    android:lineSpacingMultiplier="1.1"/>
+                    tools:visibility="visible" />
 
                 <LinearLayout
                     android:id="@+id/accountFollowers"
@@ -280,10 +281,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="?android:colorBackground"
-            app:tabGravity="fill"
-            app:tabIndicatorHeight="3dp"
-            app:tabMaxWidth="0dp"
-            app:tabSelectedTextColor="?attr/colorAccent"
+            app:tabMode="fixed"
             app:tabTextAppearance="@style/TuskyTabAppearance" />
 
     </com.google.android.material.appbar.AppBarLayout>
