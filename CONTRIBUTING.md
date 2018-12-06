@@ -28,7 +28,7 @@ This project is in the process of migrating to Kotlin, we prefer new code to be 
 Existing code in Java should follow the [Android Style Guide](https://source.android.com/source/code-style), which is what Android uses for their own source code. ```@Nullable``` and ```@NotNull``` annotations are really helpful for Kotlin interoperability.
 
 ### Visuals
-There are two themes in the app, so any visual changes should be checked with both themes to ensure they look appropriate for both. Usually, you can use existing color attributes like ```?attr/colorPrimary``` and ```?attr/textColorSecondary```. For icons and drawables, use a white drawable and tint it at runtime using ```ThemeUtils``` and specify an attribute that references different colours depending on the theme. Do not reference attributes in drawable files, because it is only supported in API levels 21+.
+There are three themes in the app, so any visual changes should be checked with each of them to ensure they look appropriate no matter which theme is selected. Usually, you can use existing color attributes like ```?attr/colorPrimary``` and ```?attr/textColorSecondary```. For icons and drawables, use a white drawable and tint it at runtime using ```ThemeUtils``` and specify an attribute that references different colours depending on the theme. Do not reference attributes in drawable files, because it is only supported in API levels 21+.
 
 ### Saving
 Any time you get a good chunk of work done it's good to make a commit. You can either uses Android Studio's built-in UI for doing this or running the commands:
