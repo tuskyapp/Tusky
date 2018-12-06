@@ -30,6 +30,7 @@ import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AlertDialog;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.ImageButton;
@@ -393,11 +394,13 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         if (current && activeAccount != null) {
             Intent intent = AccountActivity.getIntent(this, activeAccount.getAccountId());
             startActivityWithSlideInAnimation(intent);
+            new Handler().postDelayed(() -> drawer.closeDrawer(), 100);
             return true;
         }
         //open LoginActivity to add new account
         if (profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT) {
             startActivityWithSlideInAnimation(LoginActivity.getIntent(this, true));
+            new Handler().postDelayed(() -> drawer.closeDrawer(), 100);
             return true;
         }
         //change Account
