@@ -64,71 +64,74 @@ public class LinkHelper {
      */
     public static void setClickableText(TextView view, Spanned content,
             @Nullable Status.Mention[] mentions, final LinkListener listener) {
-
-        SpannableStringBuilder builder = new SpannableStringBuilder(content);
-        URLSpan[] urlSpans = content.getSpans(0, content.length(), URLSpan.class);
-        for (URLSpan span : urlSpans) {
-            int start = builder.getSpanStart(span);
-            int end = builder.getSpanEnd(span);
-            int flags = builder.getSpanFlags(span);
-            CharSequence text = builder.subSequence(start, end);
-            ClickableSpan customSpan = null;
-
-            if (text.charAt(0) == '#') {
-                final String tag = text.subSequence(1, text.length()).toString();
-                customSpan = new ClickableSpanNoUnderline() {
-                    @Override
-                    public void onClick(View widget) { listener.onViewTag(tag); }
-                };
-            } else if (text.charAt(0) == '@' && mentions != null && mentions.length > 0) {
-                String accountUsername = text.subSequence(1, text.length()).toString();
-                /* There may be multiple matches for users on different instances with the same
-                 * username. If a match has the same domain we know it's for sure the same, but if
-                 * that can't be found then just go with whichever one matched last. */
-                String id = null;
-                for (Status.Mention mention : mentions) {
-                    if (mention.getLocalUsername().equalsIgnoreCase(accountUsername)) {
-                        id = mention.getId();
-                        if (mention.getUrl().contains(getDomain(span.getURL()))) {
-                            break;
-                        }
-                    }
-                }
-                if (id != null) {
-                    final String accountId = id;
-                    customSpan = new ClickableSpanNoUnderline() {
-                        @Override
-                        public void onClick(View widget) { listener.onViewAccount(accountId); }
-                    };
-                }
-            }
-
-            if (customSpan == null) {
-                customSpan = new CustomURLSpan(span.getURL()) {
-                    @Override
-                    public void onClick(View widget) {
-                        listener.onViewUrl(getURL());
-                    }
-                };
-            }
-            builder.removeSpan(span);
-            builder.setSpan(customSpan, start, end, flags);
-
-            /* Add zero-width space after links in end of line to fix its too large hitbox.
-             * See also : https://github.com/tuskyapp/Tusky/issues/846
-             *            https://github.com/tuskyapp/Tusky/pull/916 */
-            if(end >= builder.length()){
-                builder.insert(end, "\u200B");
-            } else {
-                if(builder.subSequence(end, end + 1).toString().equals("\n")){
-                    builder.insert(end, "\u200B");
-                }
-            }
-
-        }
-        view.setText(builder);
+        view.setText(LinkHelper.makeClickableText(content, mentions, listener));
         view.setLinksClickable(true);
         view.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    public static SpannableStringBuilder makeClickableText(
+            Spanned content, @Nullable Status.Mention[] mentions, final LinkListener listener) {
+         SpannableStringBuilder builder = new SpannableStringBuilder(content);
+         URLSpan[] urlSpans = content.getSpans(0, content.length(), URLSpan.class);
+         for (URLSpan span : urlSpans) {
+             int start = builder.getSpanStart(span);
+             int end = builder.getSpanEnd(span);
+             int flags = builder.getSpanFlags(span);
+             CharSequence text = builder.subSequence(start, end);
+             ClickableSpan customSpan = null;
+
+             if (text.charAt(0) == '#') {
+                 final String tag = text.subSequence(1, text.length()).toString();
+                 customSpan = new ClickableSpanNoUnderline() {
+                     @Override
+                     public void onClick(View widget) { listener.onViewTag(tag); }
+                 };
+             } else if (text.charAt(0) == '@' && mentions != null && mentions.length > 0) {
+                 String accountUsername = text.subSequence(1, text.length()).toString();
+                 /* There may be multiple matches for users on different instances with the same
+                  * username. If a match has the same domain we know it's for sure the same, but if
+                  * that can't be found then just go with whichever one matched last. */
+                 String id = null;
+                 for (Status.Mention mention : mentions) {
+                     if (mention.getLocalUsername().equalsIgnoreCase(accountUsername)) {
+                         id = mention.getId();
+                         if (mention.getUrl().contains(getDomain(span.getURL()))) {
+                             break;
+                         }
+                     }
+                 }
+                 if (id != null) {
+                     final String accountId = id;
+                     customSpan = new ClickableSpanNoUnderline() {
+                         @Override
+                         public void onClick(View widget) { listener.onViewAccount(accountId); }
+                     };
+                 }
+             }
+
+             if (customSpan == null) {
+                 customSpan = new CustomURLSpan(span.getURL()) {
+                     @Override
+                     public void onClick(View widget) {
+                         listener.onViewUrl(getURL());
+                     }
+                 };
+             }
+             builder.removeSpan(span);
+             builder.setSpan(customSpan, start, end, flags);
+
+             /* Add zero-width space after links in end of line to fix its too large hitbox.
+              * See also : https://github.com/tuskyapp/Tusky/issues/846
+              *            https://github.com/tuskyapp/Tusky/pull/916 */
+             if(end >= builder.length()){
+                 builder.insert(end, "\u200B");
+             } else {
+                 if(builder.subSequence(end, end + 1).toString().equals("\n")){
+                     builder.insert(end, "\u200B");
+                 }
+             }
+         }
+         return builder;
     }
 
     /**

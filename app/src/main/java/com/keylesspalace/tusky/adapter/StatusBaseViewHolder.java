@@ -9,6 +9,9 @@ import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.URLSpan;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.lang.StringBuilder;
 
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
@@ -50,6 +54,8 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private SparkButton reblogButton;
     private SparkButton favouriteButton;
     private ImageButton moreButton;
+    private Spannable contentText;
+    private Spannable mentionsOnlyContentText;
     private boolean favourited;
     private boolean reblogged;
     private ImageView[] mediaPreviews;
@@ -80,6 +86,8 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         reblogButton = itemView.findViewById(R.id.status_reblog);
         favouriteButton = itemView.findViewById(R.id.status_favourite);
         moreButton = itemView.findViewById(R.id.status_more);
+        contentText = null;
+        mentionsOnlyContentText = null;
         reblogged = false;
         favourited = false;
         mediaPreviews = new ImageView[]{
@@ -123,8 +131,25 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private void setContent(Spanned content, Status.Mention[] mentions, List<Emoji> emojis,
                             StatusActionListener listener) {
         Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, this.content);
-
         LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
+        this.contentText = (Spannable) this.content.getText();
+
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        for(Status.Mention mention : mentions) {
+            builder.append("@");
+            builder.append(mention.getUsername());
+            builder.append(" ");
+        }
+        // SpannableStringBuilder builder = new SpannableStringBuilder(emojifiedText);
+        // for(URLSpan span: content.getSpans(0, content.length(), URLSpan.class)) {
+        //     int start = builder.getSpanStart(span);
+        //     int end = builder.getSpanEnd(span);
+        //     CharSequence text = builder.subSequence(start, end);
+        //     if(text.charAt(0) != '@') {
+        //         builder.removeSpan(span);
+        //     }
+        // }
+        this.mentionsOnlyContentText = LinkHelper.makeClickableText(builder, mentions, listener);
     }
 
     void setAvatar(String url, @Nullable String rebloggedUrl) {
@@ -399,17 +424,25 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (getAdapterPosition() != RecyclerView.NO_POSITION) {
                 listener.onExpandedChange(isChecked, getAdapterPosition());
             }
-            content.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            this.setTextVisible(isChecked);
 
         });
-        content.setVisibility(expanded ? View.VISIBLE : View.GONE);
+        this.setTextVisible(expanded);
 
     }
 
     private void hideSpoilerText() {
         contentWarningDescription.setVisibility(View.GONE);
         contentWarningButton.setVisibility(View.GONE);
-        content.setVisibility(View.VISIBLE);
+        this.setTextVisible(true);
+    }
+
+    private void setTextVisible(boolean visible) {
+        if(visible) {
+            content.setText(this.contentText);
+        } else {
+            content.setText(this.mentionsOnlyContentText);
+        }
     }
 
     private void setupButtons(final StatusActionListener listener, final String accountId) {
