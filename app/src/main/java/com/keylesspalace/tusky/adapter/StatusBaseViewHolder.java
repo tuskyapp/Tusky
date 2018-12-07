@@ -9,8 +9,6 @@ import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.text.Spanned;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.style.URLSpan;
 import android.text.TextUtils;
 import android.view.View;
@@ -39,7 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.lang.StringBuilder;
+import java.lang.CharSequence;
 
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
@@ -54,8 +52,8 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private SparkButton reblogButton;
     private SparkButton favouriteButton;
     private ImageButton moreButton;
-    private Spannable contentText;
-    private Spannable mentionsOnlyContentText;
+    private CharSequence contentText;
+    private @Nullable CharSequence mentionsOnlyContentText;
     private boolean favourited;
     private boolean reblogged;
     private ImageView[] mediaPreviews;
@@ -132,24 +130,9 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                             StatusActionListener listener) {
         Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, this.content);
         LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
-        this.contentText = (Spannable) this.content.getText();
+        this.contentText = this.content.getText();
 
-        SpannableStringBuilder builder = new SpannableStringBuilder();
-        for(Status.Mention mention : mentions) {
-            builder.append("@");
-            builder.append(mention.getUsername());
-            builder.append(" ");
-        }
-        // SpannableStringBuilder builder = new SpannableStringBuilder(emojifiedText);
-        // for(URLSpan span: content.getSpans(0, content.length(), URLSpan.class)) {
-        //     int start = builder.getSpanStart(span);
-        //     int end = builder.getSpanEnd(span);
-        //     CharSequence text = builder.subSequence(start, end);
-        //     if(text.charAt(0) != '@') {
-        //         builder.removeSpan(span);
-        //     }
-        // }
-        this.mentionsOnlyContentText = LinkHelper.makeClickableText(builder, mentions, listener);
+        this.mentionsOnlyContentText = LinkHelper.makeMentionsText(mentions, listener);
     }
 
     void setAvatar(String url, @Nullable String rebloggedUrl) {
@@ -438,8 +421,11 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setTextVisible(boolean visible) {
-        if(visible) {
+        if (visible) {
             content.setText(this.contentText);
+            this.content.setVisibility(View.VISIBLE);
+        } else if (this.mentionsOnlyContentText == null) {
+            this.content.setVisibility(View.GONE);
         } else {
             content.setText(this.mentionsOnlyContentText);
         }
