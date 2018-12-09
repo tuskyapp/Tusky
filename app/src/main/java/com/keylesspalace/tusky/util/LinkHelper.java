@@ -160,12 +160,6 @@ public class LinkHelper {
                 public void onClick(View widget) { listener.onViewAccount(accountId); }
             };
 
-            customSpan = new CustomURLSpan(mention.getUrl()) {
-                @Override
-                public void onClick(View widget) {
-                    listener.onViewUrl(getURL());
-                }
-            };
             end += 1 + accountUsername.length(); // length of @ + username
             flags = builder.getSpanFlags(customSpan);
             if (firstMention) {

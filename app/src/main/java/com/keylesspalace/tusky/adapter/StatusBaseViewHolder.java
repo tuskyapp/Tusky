@@ -9,7 +9,6 @@ import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.text.Spanned;
-import android.text.style.URLSpan;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,8 +130,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, this.content);
         LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
         this.contentText = this.content.getText();
-
-        this.mentionsOnlyContentText = LinkHelper.makeMentionsText(mentions, listener);
     }
 
     void setAvatar(String url, @Nullable String rebloggedUrl) {
@@ -424,10 +421,12 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (visible) {
             content.setText(this.contentText);
             this.content.setVisibility(View.VISIBLE);
-        } else if (this.mentionsOnlyContentText == null) {
-            this.content.setVisibility(View.GONE);
         } else {
-            content.setText(this.mentionsOnlyContentText);
+            if (this.mentionsOnlyContentText == null) {
+                this.content.setVisibility(View.GONE);
+            } else {
+                content.setText(this.mentionsOnlyContentText);
+            }
         }
     }
 
@@ -528,9 +527,12 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         setupButtons(listener, status.getSenderId());
         setRebloggingEnabled(status.getRebloggingEnabled(), status.getVisibility());
+
+        setContent(status.getContent(), status.getMentions(), status.getStatusEmojis(), listener);
         if (status.getSpoilerText() == null || status.getSpoilerText().isEmpty()) {
             hideSpoilerText();
         } else {
+            this.mentionsOnlyContentText = LinkHelper.makeMentionsText(status.getMentions(), listener);
             setSpoilerText(status.getSpoilerText(), status.getStatusEmojis(), status.isExpanded(), listener);
         }
 
@@ -557,7 +559,5 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 content.setFilters(NO_INPUT_FILTER);
             }
         }
-
-        setContent(status.getContent(), status.getMentions(), status.getStatusEmojis(), listener);
     }
 }
