@@ -27,7 +27,7 @@ class EmojiAdapter(emojiList: List<Emoji>, private val onEmojiSelectedListener: 
     private val emojiList : List<Emoji>
 
     init {
-        this.emojiList = emojiList.filter { emoji -> emoji.visibleInPicker == null || emoji.visibleInPicker }
+        this.emojiList = emojiList.sortedWith(compareBy<Emoji> { it.shortcode }).filter { emoji -> emoji.visibleInPicker == null || emoji.visibleInPicker }
     }
 
     override fun getItemCount(): Int {
