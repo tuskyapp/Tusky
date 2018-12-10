@@ -37,9 +37,11 @@ class TootButton
         if(smallStyle) {
             setIconResource(R.drawable.ic_send_24dp)
         } else {
-            iconPadding = context.resources.getDimensionPixelSize(R.dimen.toot_button_drawable_padding)
             setText(R.string.action_send)
+            iconGravity = ICON_GRAVITY_TEXT_START
         }
+        val padding = resources.getDimensionPixelSize(R.dimen.toot_button_horizontal_padding)
+        setPadding(padding, 0, padding, 0)
     }
 
     fun setStatusVisibility(visibility: Status.Visibility) {

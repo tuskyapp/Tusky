@@ -2,6 +2,6 @@
 <resources>
     <bool name="show_small_toot_button">true</bool>
     <dimen name="toot_button_width">48dp</dimen>
-    <dimen name="toot_button_drawable_padding">4dp</dimen>
+    <dimen name="toot_button_horizontal_padding">12dp</dimen>
 
 </resources>
