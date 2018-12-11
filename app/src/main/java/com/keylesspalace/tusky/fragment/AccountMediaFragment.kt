@@ -15,14 +15,11 @@
 
 package com.keylesspalace.tusky.fragment
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -166,7 +163,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             currentCall?.enqueue(callback)
 
         }
-        swipe_refresh_layout.setColorSchemeResources(R.color.primary)
+        swipe_refresh_layout.setColorSchemeResources(R.color.tusky_blue)
         swipe_refresh_layout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground))
 
         nothing_message.visibility = View.GONE

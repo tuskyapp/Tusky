@@ -180,7 +180,7 @@ public class NotificationsFragment extends SFragment implements
         nothingMessageView = rootView.findViewById(R.id.nothing_message);
 
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.primary);
+        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
         // Setup the RecyclerView.
         recyclerView.setHasFixedSize(true);

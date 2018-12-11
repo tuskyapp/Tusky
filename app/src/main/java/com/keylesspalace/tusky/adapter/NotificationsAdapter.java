@@ -427,7 +427,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     icon = ContextCompat.getDrawable(context, R.drawable.ic_star_24dp);
                     if (icon != null) {
                         icon.setColorFilter(ContextCompat.getColor(context,
-                                R.color.status_favourite_button_marked_dark), PorterDuff.Mode.SRC_ATOP);
+                                R.color.tusky_orange), PorterDuff.Mode.SRC_ATOP);
                     }
 
                     format = context.getString(R.string.notification_favourite_format);
@@ -437,7 +437,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     icon = ContextCompat.getDrawable(context, R.drawable.ic_repeat_24dp);
                     if (icon != null) {
                         icon.setColorFilter(ContextCompat.getColor(context,
-                                R.color.color_accent_dark), PorterDuff.Mode.SRC_ATOP);
+                                R.color.tusky_blue), PorterDuff.Mode.SRC_ATOP);
                     }
 
                     format = context.getString(R.string.notification_reblog_format);

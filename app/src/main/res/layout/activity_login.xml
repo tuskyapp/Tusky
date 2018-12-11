@@ -37,11 +37,10 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    style="@style/TuskyTextInput"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_domain"
-                    android:textColorHint="?android:attr/textColorTertiary">
+                    android:hint="@string/hint_domain">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/domainEditText"
@@ -53,13 +52,12 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/loginButton"
-                    style="@style/Widget.MaterialComponents.Button"
+                    style="@style/TuskyButton"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:text="@string/action_login"
-                    android:textColor="@android:color/white" />
+                    android:text="@string/action_login" />
 
                 <TextView
                     android:id="@+id/whatsAnInstanceTextView"

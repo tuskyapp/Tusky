@@ -350,8 +350,8 @@
             sparkbutton:activeImage="@drawable/reblog_active"
             sparkbutton:iconSize="28dp"
             sparkbutton:inactiveImage="?attr/status_reblog_inactive_drawable"
-            sparkbutton:primaryColor="@color/status_reblog_button_marked_dark"
-            sparkbutton:secondaryColor="@color/status_reblog_button_marked_light" />
+            sparkbutton:primaryColor="@color/tusky_blue"
+            sparkbutton:secondaryColor="@color/tusky_blue_light" />
 
         <TextView
             android:id="@+id/status_reblogs"
@@ -375,7 +375,9 @@
             sparkbutton:iconSize="28dp"
             sparkbutton:inactiveImage="?attr/status_favourite_inactive_drawable"
             sparkbutton:primaryColor="@color/status_favourite_button_marked_dark"
-            sparkbutton:secondaryColor="@color/status_favourite_button_marked_light" />
+            sparkbutton:secondaryColor="@color/status_favourite_button_marked_light"
+            app:primaryColor="@color/tusky_orange"
+            app:secondaryColor="@color/tusky_orange_light" />
 
         <TextView
             android:id="@+id/status_favourites"

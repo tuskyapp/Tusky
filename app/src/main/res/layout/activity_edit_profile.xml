@@ -87,14 +87,13 @@
                 </RelativeLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    style="@style/TuskyTextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:hint="@string/hint_display_name"
-                    android:textColorHint="?android:attr/textColorTertiary">
+                    android:hint="@string/hint_display_name">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/displayNameEditText"
@@ -106,15 +105,14 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    style="@style/TuskyTextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
-                    android:hint="@string/hint_note"
-                    android:textColorHint="?android:attr/textColorTertiary">
+                    android:hint="@string/hint_note">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/noteEditText"
@@ -133,7 +131,8 @@
                     android:layout_marginEnd="16dp"
                     android:paddingStart="8dp"
                     android:text="@string/lock_account_label"
-                    android:textSize="?attr/status_text_medium" />
+                    android:textSize="?attr/status_text_medium"
+                    app:buttonTint="?attr/compound_button_color" />
 
                 <TextView
                     android:layout_width="match_parent"

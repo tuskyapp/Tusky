@@ -690,7 +690,7 @@ public final class ComposeActivity
                     color = ContextCompat.getColor(this, R.color.compose_media_visible_button_disabled_blue);
                 } else {
                     hideMediaToggle.setClickable(true);
-                    color = ContextCompat.getColor(this, R.color.primary);
+                    color = ContextCompat.getColor(this, R.color.tusky_blue);
                 }
             } else {
                 hideMediaToggle.setClickable(true);
@@ -1450,7 +1450,7 @@ public final class ComposeActivity
         if (show) {
             statusMarkSensitive = true;
             contentWarningBar.setVisibility(View.VISIBLE);
-            contentWarningButton.setTextColor(ContextCompat.getColor(this, R.color.primary));
+            contentWarningButton.setTextColor(ContextCompat.getColor(this, R.color.tusky_blue));
             contentWarningEditor.setSelection(contentWarningEditor.getText().length());
             contentWarningEditor.requestFocus();
         } else {

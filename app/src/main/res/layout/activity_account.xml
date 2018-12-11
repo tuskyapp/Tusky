@@ -270,8 +270,7 @@
                 android:layout_gravity="top"
                 android:background="@android:color/transparent"
                 app:layout_collapseMode="pin"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="?attr/toolbar_popup_theme" />
+                app:layout_scrollFlags="scroll|enterAlways" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         <com.google.android.material.tabs.TabLayout
@@ -281,6 +280,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="?android:colorBackground"
+            app:tabGravity="fill"
             app:tabMode="fixed"
             app:tabTextAppearance="@style/TuskyTabAppearance" />
 
@@ -294,6 +294,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/accountFloatingActionButton"
+        style="@style/TuskyFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
