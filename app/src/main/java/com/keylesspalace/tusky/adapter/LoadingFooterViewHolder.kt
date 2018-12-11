@@ -18,4 +18,4 @@ package com.keylesspalace.tusky.adapter
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 
-class LoadingFooterViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
+class LoadingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

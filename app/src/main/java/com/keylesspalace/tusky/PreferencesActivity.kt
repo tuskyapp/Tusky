@@ -41,7 +41,7 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
     lateinit var eventHub: EventHub
 
     @Inject
-    lateinit var fragmentInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
+    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
     private var restartActivitiesOnExit: Boolean = false
 
@@ -57,7 +57,7 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
             setDisplayShowHomeEnabled(true)
         }
 
-        val fragment: androidx.fragment.app.Fragment = when(intent.getIntExtra(EXTRA_PREFERENCE_TYPE, 0)) {
+        val fragment: Fragment = when(intent.getIntExtra(EXTRA_PREFERENCE_TYPE, 0)) {
             GENERAL_PREFERENCES -> {
                 setTitle(R.string.action_view_preferences)
                 PreferencesFragment.newInstance()
@@ -164,7 +164,7 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
         }
     }
 
-    override fun supportFragmentInjector(): AndroidInjector<androidx.fragment.app.Fragment> {
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
         return fragmentInjector
     }
 

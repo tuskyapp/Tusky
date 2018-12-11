@@ -94,7 +94,7 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
     @Inject
     lateinit var mastodonApi: MastodonApi
 
-    private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
+    private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
 
     private lateinit var viewModel: ListsViewModel
@@ -117,9 +117,9 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
         }
 
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(
-                androidx.recyclerview.widget.DividerItemDecoration(this, androidx.recyclerview.widget.DividerItemDecoration.VERTICAL))
+                DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
         viewModel = lastNonConfigurationInstance as? ListsViewModel ?: ListsViewModel(mastodonApi)
         viewModel.attach(this)
@@ -154,7 +154,7 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
         return false
     }
 
-    private inner class ListsAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<ListsAdapter.ListViewHolder>() {
+    private inner class ListsAdapter : RecyclerView.Adapter<ListsAdapter.ListViewHolder>() {
 
         private val items = mutableListOf<MastoList>()
 
@@ -182,7 +182,7 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
             holder.nameTextView.text = items[position].title
         }
 
-        private inner class ListViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view),
+        private inner class ListViewHolder(view: View) : RecyclerView.ViewHolder(view),
                 View.OnClickListener {
             val nameTextView: TextView = view.findViewById(R.id.list_name_textview)
 

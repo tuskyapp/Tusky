@@ -92,7 +92,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         avatarButton.setOnClickListener { onMediaPick(PickType.AVATAR) }
         headerButton.setOnClickListener { onMediaPick(PickType.HEADER) }
 
-        fieldList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        fieldList.layoutManager = LinearLayoutManager(this)
         fieldList.adapter = accountFieldEditAdapter
 
         val plusDrawable = IconicsDrawable(this, GoogleMaterial.Icon.gmd_add).sizeDp(12).color(Color.WHITE)

@@ -58,9 +58,7 @@ android {
     }
 }
 
-ext.supportLibraryVersion = '28.0.0'
 ext.daggerVersion = '2.19'
-
 
 // if libraries are changed here, they should also be changed in LicenseActivity
 dependencies {

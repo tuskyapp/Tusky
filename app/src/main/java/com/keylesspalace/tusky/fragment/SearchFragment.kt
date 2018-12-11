@@ -62,8 +62,8 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
         mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true)
         useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
 
-        searchRecyclerView.addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(view.context, androidx.recyclerview.widget.DividerItemDecoration.VERTICAL))
-        searchRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(view.context)
+        searchRecyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
+        searchRecyclerView.layoutManager = LinearLayoutManager(view.context)
         searchAdapter = SearchResultsAdapter(
                 mediaPreviewEnabled,
                 alwaysShowSensitiveMedia,

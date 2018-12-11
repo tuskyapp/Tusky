@@ -125,7 +125,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
         viewPager.adapter = adapter
         viewPager.currentItem = initialPosition
-        viewPager.addOnPageChangeListener(object: androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener() {
+        viewPager.addOnPageChangeListener(object: ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
                 toolbar.title = adapter.getPageTitle(position)
             }

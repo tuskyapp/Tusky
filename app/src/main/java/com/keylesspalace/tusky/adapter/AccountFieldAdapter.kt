@@ -28,7 +28,7 @@ import com.keylesspalace.tusky.util.CustomEmojiHelper
 import com.keylesspalace.tusky.util.LinkHelper
 import kotlinx.android.synthetic.main.item_account_field.view.*
 
-class AccountFieldAdapter(private val linkListener: LinkListener) : androidx.recyclerview.widget.RecyclerView.Adapter<AccountFieldAdapter.ViewHolder>() {
+class AccountFieldAdapter(private val linkListener: LinkListener) : RecyclerView.Adapter<AccountFieldAdapter.ViewHolder>() {
 
     var emojis: List<Emoji> = emptyList()
     var fields: List<Field> = emptyList()
@@ -54,7 +54,7 @@ class AccountFieldAdapter(private val linkListener: LinkListener) : androidx.rec
 
     }
 
-    class ViewHolder(rootView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(rootView) {
+    class ViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
         val nameTextView: TextView = rootView.accountFieldName
         val valueTextView: TextView = rootView.accountFieldValue
     }

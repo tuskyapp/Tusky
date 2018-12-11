@@ -20,6 +20,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.EventHubImpl
@@ -51,7 +52,7 @@ class AppModule {
     }
 
     @Provides
-    fun providesBroadcastManager(app: Application): androidx.localbroadcastmanager.content.LocalBroadcastManager {
+    fun providesBroadcastManager(app: Application): LocalBroadcastManager {
         return androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(app)
     }
 

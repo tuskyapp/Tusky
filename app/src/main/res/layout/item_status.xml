@@ -354,10 +354,8 @@
             sparkbutton:activeImage="?attr/status_favourite_active_drawable"
             sparkbutton:iconSize="24dp"
             sparkbutton:inactiveImage="?attr/status_favourite_inactive_drawable"
-            sparkbutton:primaryColor="@color/status_favourite_button_marked_dark"
-            sparkbutton:secondaryColor="@color/status_favourite_button_marked_light"
-            app:primaryColor="@color/tusky_orange"
-            app:secondaryColor="@color/tusky_orange_light" />
+            sparkbutton:primaryColor="@color/tusky_orange"
+            sparkbutton:secondaryColor="@color/tusky_orange_light"/>
 
         <Space
             android:layout_width="0dp"

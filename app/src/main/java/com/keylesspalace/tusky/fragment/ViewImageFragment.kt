@@ -19,7 +19,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.os.Bundle
-import androidx.core.view.ViewCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,7 +55,7 @@ class ViewImageFragment : ViewMediaFragment() {
 
     override fun setupMediaView(url: String) {
         descriptionView = mediaDescription
-        ViewCompat.setTransitionName(photoView, url)
+        photoView.transitionName = url
         attacher = PhotoViewAttacher(photoView)
 
         // Clicking outside the photo closes the viewer.

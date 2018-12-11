@@ -23,7 +23,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Emoji
 import com.squareup.picasso.Picasso
 
-class EmojiAdapter(emojiList: List<Emoji>, private val onEmojiSelectedListener: OnEmojiSelectedListener) : androidx.recyclerview.widget.RecyclerView.Adapter<EmojiAdapter.EmojiHolder>() {
+class EmojiAdapter(emojiList: List<Emoji>, private val onEmojiSelectedListener: OnEmojiSelectedListener) : RecyclerView.Adapter<EmojiAdapter.EmojiHolder>() {
     private val emojiList : List<Emoji>
 
     init {
@@ -51,7 +51,7 @@ class EmojiAdapter(emojiList: List<Emoji>, private val onEmojiSelectedListener: 
         }
     }
 
-    class EmojiHolder(val emojiImageView: ImageView) : androidx.recyclerview.widget.RecyclerView.ViewHolder(emojiImageView)
+    class EmojiHolder(val emojiImageView: ImageView) : RecyclerView.ViewHolder(emojiImageView)
 
 }
 
