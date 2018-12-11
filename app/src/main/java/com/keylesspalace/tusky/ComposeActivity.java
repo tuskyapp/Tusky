@@ -314,7 +314,9 @@ public final class ComposeActivity
                     if(emojiList == null) {
                         emojiList = Collections.emptyList();
                     }
-                    Collections.sort(emojiList, (a, b) -> a.getShortcode().toLowerCase().compareTo(b.getShortcode().toLowerCase()));
+                    Collections.sort(emojiList, (a, b) ->
+                        a.getShortcode().toLowerCase(Locale.ROOT).compareTo(
+                            b.getShortcode().toLowerCase(Locale.ROOT)));
                     setEmojiList(emojiList);
                     cacheInstanceMetadata(activeAccount);
                 }

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="error_generic">エラーが発生しました。</string>
     <string name="error_empty">本文なしでは投稿できません。</string>
@@ -319,7 +319,7 @@
     <string name="emoji_style">絵文字スタイル</string>
     <string name="system_default">システムのデフォルト</string>
     <string name="download_fonts">最初にこれらの絵文字セットをダウンロードする必要があります</string>
-    <string name="performing_lookup_title">検索中...</string>
+    <string name="performing_lookup_title">検索中…</string>
     <string name="expand_collapse_all_statuses">全て開く/閉じる</string>
     <string name="action_open_toot">トゥートを開く</string>
     <string name="restart_required">アプリの再起動が必要です</string>
@@ -327,7 +327,7 @@
     <string name="later">後で</string>
     <string name="restart">再起動</string>
     <string name="caption_systememoji">あなたのデバイスのデフォルト絵文字セットです</string>
-    <string name="caption_blobmoji">Android 4.4-7.1で知られる、Blob絵文字です</string>
+    <string name="caption_blobmoji" tools:ignore="TypographyDashes">Android 4.4-7.1で知られる、Blob絵文字です</string>
     <string name="caption_twemoji">Mastodonの標準絵文字セットです</string>
 
     <string name="download_failed">ダウンロード失敗</string>

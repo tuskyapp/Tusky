@@ -206,6 +206,8 @@
         <item>Public</item>
         <item>Non listé</item>
         <item>Abonné·e·s uniquement</item>
+        <item>Direct</item>
+        <item>Inconnu</item>
     </string-array>
 
     <string name="pref_status_text_size">Taille du texte pour les statuts</string>

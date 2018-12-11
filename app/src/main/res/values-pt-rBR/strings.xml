@@ -128,7 +128,7 @@
 
     <string name="search_no_results">Sem resultados</string>
 
-    <string name="label_quick_reply">Responder...</string>
+    <string name="label_quick_reply">Responder…</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Cabeçalho</string>
 
@@ -289,7 +289,7 @@
     <string name="lock_account_label">Trancar conta</string>
     <string name="lock_account_label_description">Requer aprovação manual de seguidores</string>
     <string name="compose_save_draft">Salvar rascunho?</string>
-    <string name="send_toot_notification_title">Enviando toot...</string>
+    <string name="send_toot_notification_title">Enviando toot…</string>
     <string name="send_toot_notification_error_title">Erro ao enviar toot</string>
     <string name="send_toot_notification_channel_name">Enviando toots</string>
     <string name="send_toot_notification_cancel_title">Envio cancelado</string>
@@ -301,7 +301,7 @@
     <string name="emoji_style">Estilo de emoji</string>
     <string name="system_default">Padrão do sistema</string>
     <string name="download_fonts">É necessário baixar esses conjuntos antes de usá-los</string>
-    <string name="performing_lookup_title">Realizando consulta...</string>
+    <string name="performing_lookup_title">Realizando consulta…</string>
     <string name="expand_collapse_all_statuses">Expandir/Esconder todas as postagens</string>
     <string name="action_open_toot">Abrir toot</string>
     <string name="restart_required">Reinicialização mandatória</string>

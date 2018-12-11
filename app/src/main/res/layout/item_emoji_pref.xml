@@ -36,7 +36,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/system_default" />
 
-    <!--A short caption...-->
+    <!--A short caption…-->
     <TextView
         android:id="@+id/emojicompat_caption"
         android:layout_width="0dp"
