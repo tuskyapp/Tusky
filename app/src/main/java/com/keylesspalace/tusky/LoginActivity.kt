@@ -144,7 +144,7 @@ class LoginActivity : AppCompatActivity(), Injectable {
             HttpUrl.Builder().host(domain).scheme("https").build()
         } catch (e: IllegalArgumentException) {
             setLoading(false)
-            domainEditText.error = getString(R.string.error_invalid_domain)
+            domainTextInputLayout.error = getString(R.string.error_invalid_domain)
             return
         }
 
@@ -153,7 +153,7 @@ class LoginActivity : AppCompatActivity(), Injectable {
                                     response: Response<AppCredentials>) {
                 if (!response.isSuccessful) {
                     loginButton.isEnabled = true
-                    domainEditText.error = getString(R.string.error_failed_app_registration)
+                    domainTextInputLayout.error = getString(R.string.error_failed_app_registration)
                     setLoading(false)
                     Log.e(TAG, "App authentication failed. " + response.message())
                     return
@@ -167,7 +167,7 @@ class LoginActivity : AppCompatActivity(), Injectable {
 
             override fun onFailure(call: Call<AppCredentials>, t: Throwable) {
                 loginButton.isEnabled = true
-                domainEditText.error = getString(R.string.error_failed_app_registration)
+                domainTextInputLayout.error = getString(R.string.error_failed_app_registration)
                 setLoading(false)
                 Log.e(TAG, Log.getStackTraceString(t))
             }
@@ -243,7 +243,7 @@ class LoginActivity : AppCompatActivity(), Injectable {
                             onLoginSuccess(response.body()!!.accessToken)
                         } else {
                             setLoading(false)
-                            domainEditText.error = getString(R.string.error_retrieving_oauth_token)
+                            domainTextInputLayout.error = getString(R.string.error_retrieving_oauth_token)
                             Log.e(TAG, String.format("%s %s",
                                     getString(R.string.error_retrieving_oauth_token),
                                     response.message()))
@@ -252,7 +252,7 @@ class LoginActivity : AppCompatActivity(), Injectable {
 
                     override fun onFailure(call: Call<AccessToken>, t: Throwable) {
                         setLoading(false)
-                        domainEditText.error = getString(R.string.error_retrieving_oauth_token)
+                        domainTextInputLayout.error = getString(R.string.error_retrieving_oauth_token)
                         Log.e(TAG, String.format("%s %s",
                                 getString(R.string.error_retrieving_oauth_token),
                                 t.message))
@@ -265,14 +265,14 @@ class LoginActivity : AppCompatActivity(), Injectable {
                 /* Authorization failed. Put the error response where the user can read it and they
                  * can try again. */
                 setLoading(false)
-                domainEditText.error = getString(R.string.error_authorization_denied)
+                domainTextInputLayout.error = getString(R.string.error_authorization_denied)
                 Log.e(TAG, String.format("%s %s",
                         getString(R.string.error_authorization_denied),
                         error))
             } else {
                 // This case means a junk response was received somehow.
                 setLoading(false)
-                domainEditText.error = getString(R.string.error_authorization_unknown)
+                domainTextInputLayout.error = getString(R.string.error_authorization_unknown)
             }
         } else {
             // first show or user cancelled login

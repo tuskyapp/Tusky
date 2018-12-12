@@ -37,10 +37,12 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/domainTextInputLayout"
                     style="@style/TuskyTextInput"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_domain">
+                    android:hint="@string/hint_domain"
+                    app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/domainEditText"
