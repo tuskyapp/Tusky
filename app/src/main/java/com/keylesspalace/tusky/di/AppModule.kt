@@ -53,7 +53,7 @@ class AppModule {
 
     @Provides
     fun providesBroadcastManager(app: Application): LocalBroadcastManager {
-        return androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(app)
+        return LocalBroadcastManager.getInstance(app)
     }
 
     @Provides
