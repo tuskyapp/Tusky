@@ -314,7 +314,9 @@ public final class ComposeActivity
                     if(emojiList == null) {
                         emojiList = Collections.emptyList();
                     }
-                    Collections.sort(emojiList, (a, b) -> a.getShortcode().toLowerCase().compareTo(b.getShortcode().toLowerCase()));
+                    Collections.sort(emojiList, (a, b) ->
+                        a.getShortcode().toLowerCase(Locale.ROOT).compareTo(
+                            b.getShortcode().toLowerCase(Locale.ROOT)));
                     setEmojiList(emojiList);
                     cacheInstanceMetadata(activeAccount);
                 }
@@ -1479,6 +1481,16 @@ public final class ComposeActivity
     }
 
     private void handleCloseButton() {
+
+        if(composeOptionsBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ||
+                addMediaBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ||
+                emojiBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ) {
+            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            return;
+        }
+
         CharSequence contentText = textEditor.getText();
         CharSequence contentWarning = contentWarningEditor.getText();
 

@@ -6,6 +6,7 @@
     <string name="oauth_scheme" translatable="false">oauth2redirect</string>
     <string name="preferences_file_key" translatable="false">com.keylesspalace.tusky.PREFERENCES</string>
 
+    <string name="text_content_warning_button">CW</string>
     <string name="status_sensitive_media_template" translatable="false">&lt;b>%1$s&lt;/b>&lt;br>%2$s</string>
 
     <string-array name="post_privacy_values">

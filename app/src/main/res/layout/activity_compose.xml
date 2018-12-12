@@ -251,7 +251,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/action_content_warning"
             android:padding="4dp"
-            android:text="CW"
+            android:text="@string/text_content_warning_button"
             android:tooltipText="@string/action_content_warning" />
 
         <ImageButton

@@ -128,7 +128,7 @@
 
     <string name="search_no_results">Sin resultados</string>
 
-    <string name="label_quick_reply">Respuesta...</string>
+    <string name="label_quick_reply">Respuesta…</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Cabecera</string>
 
@@ -296,7 +296,7 @@
     <string name="lock_account_label">Proteger cuenta</string>
     <string name="lock_account_label_description">Tendrá que admitir los seguidores manualmente</string>
     <string name="compose_save_draft">¿Guardar borrador?</string>
-    <string name="send_toot_notification_title">Eliminando estado...</string>
+    <string name="send_toot_notification_title">Eliminando estado…</string>
     <string name="send_toot_notification_error_title">Error enviando estado</string>
     <string name="send_toot_notification_channel_name">Enviando estado</string>
     <string name="send_toot_notification_cancel_title">Envío cancelado</string>
@@ -308,7 +308,7 @@
     <string name="emoji_style">Estilo de los emojis</string>
     <string name="system_default">Sistema</string>
     <string name="download_fonts">Tendrás que descargarlos primero</string>
-    <string name="performing_lookup_title">Buscando...</string>
+    <string name="performing_lookup_title">Buscando…</string>
     <string name="expand_collapse_all_statuses">Expandir/ocultar todos los estados</string>
     <string name="action_open_toot">Abrir</string>
     <string name="restart_required">Reinicio requerido</string>
