@@ -105,8 +105,10 @@ class ViewImageFragment : ViewMediaFragment() {
                         override fun onError() {
                             // if there's no image in cache, load from network and start transition
                             // immediately.
-                            photoActionsListener.onBringUp()
-                            loadImageFromNetwork(url, photoView)
+                            if (isAdded) {
+                                photoActionsListener.onBringUp()
+                                loadImageFromNetwork(url, photoView)
+                            }
                         }
                     })
         } else {
