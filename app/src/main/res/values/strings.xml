@@ -326,7 +326,7 @@
     <string name="emoji_style">Emoji style</string>
     <string name="system_default">System default</string>
     <string name="download_fonts">You\'ll need to download these emoji sets first</string>
-    <string name="performing_lookup_title">Performing lookup...</string>
+    <string name="performing_lookup_title">Performing lookup…</string>
     <string name="expand_collapse_all_statuses">Expand/Collapse all statuses</string>
     <string name="action_open_toot">Open toot</string>
     <string name="restart_required">App restart required</string>

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="error_generic">Произошла ошибка.</string>
     <string name="error_empty">Не может быть пустым.</string>
@@ -123,7 +123,7 @@
 
     <string name="status_sent">Отправлено!</string>
     <string name="status_sent_long">Ответ успешно отправлен.</string>
-    
+
     <string name="hint_domain">Какой узел?</string>
     <string name="hint_compose">Что происходит?</string>
     <string name="hint_content_warning">Предупреждение о содержании</string>
@@ -166,7 +166,7 @@
     <string name="pref_title_notification_alert_sound">Звуковые уведомления</string>
     <string name="pref_title_notification_alert_vibrate">Использовать вибрацию</string>
     <string name="pref_title_notification_alert_light">Световые уведомления</string>
-    <string name="pref_title_notification_filters">Уведомлять когда...</string>
+    <string name="pref_title_notification_filters">Уведомлять когда…</string>
     <string name="pref_title_notification_filter_mentions">упомянули</string>
     <string name="pref_title_notification_filter_follows">подписались</string>
     <string name="pref_title_notification_filter_reblogs">мой пост продвинули</string>
@@ -308,7 +308,7 @@
     <string name="emoji_style">Стиль эмодзи</string>
     <string name="system_default">Системный</string>
     <string name="download_fonts">Для начала эти наборы эмодзи нужно скачать</string>
-    <string name="performing_lookup_title">Производится поиск...</string>
+    <string name="performing_lookup_title">Производится поиск…</string>
     <string name="expand_collapse_all_statuses">Раскрыть/свернуть все статусы</string>
     <string name="action_open_toot">Перейти к посту</string>
     <string name="restart_required">Необходимо перезапустить приложение</string>
@@ -316,7 +316,7 @@
     <string name="later">Не сейчас</string>
     <string name="restart">Перезапустить</string>
     <string name="caption_systememoji">Набор эмодзи по умолчанию</string>
-    <string name="caption_blobmoji">Набор эмодзи Blob из Android 4.4-7.1</string>
+    <string name="caption_blobmoji" tools:ignore="TypographyDashes">Набор эмодзи Blob из Android 4.4-7.1</string>
     <string name="caption_twemoji">Стандартный набор эмодзи в Mastodon</string>
 
     <string name="download_failed">Загрузка не удалась</string>
@@ -331,7 +331,7 @@
     <string name="license_apache_2">Используется лицензия Apache License (копия ниже)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-    
+
     <string name="profile_metadata_label">Метаданные профиля</string>
     <string name="profile_metadata_add">добавить данные</string>
     <string name="profile_metadata_label_label">Заголовок</string>

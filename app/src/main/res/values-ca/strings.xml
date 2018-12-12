@@ -94,9 +94,9 @@
     <string name="download_image">S\'està baixant %1$s</string>
 
     <string name="action_copy_link">Copia l\'enllaç</string>
-  
-    <string name="send_status_link_to">Comparteix l\'URL del toot a...</string>
-    <string name="send_status_content_to">Comparteix el toot a...</string>
+
+    <string name="send_status_link_to">Comparteix l\'URL del toot a…</string>
+    <string name="send_status_content_to">Comparteix el toot a…</string>
 
     <string name="confirmation_reported">Enviat!</string>
     <string name="confirmation_unblocked">Usuari desblocat</string>
@@ -107,7 +107,7 @@
     <string name="hint_content_warning">Avís de contingut</string>
     <string name="hint_display_name">Nom visible</string>
     <string name="hint_note">Biografia</string>
-    <string name="hint_search">Cerca...</string>
+    <string name="hint_search">Cerca…</string>
 
     <string name="search_no_results">No hi ha cap resulat</string>
 
@@ -116,7 +116,7 @@
 
     <string name="link_whats_an_instance">Què és una instància?</string>
 
-    <string name="login_connection">S\'està connectant...</string>
+    <string name="login_connection">S\'està connectant…</string>
 
     <string name="dialog_whats_an_instance">Aquí pots introduir l\'adreça o domini de qualsevol instància,
         com ara mastodont.cat, mastodon.social, icosahedron.website o
@@ -127,7 +127,7 @@
         \n\nTens més informació a <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
     <string name="dialog_title_finishing_media_upload">S\'està finalitzant la pujada de materila multimèdia</string>
-    <string name="dialog_message_uploading_media">S\'està pujant...</string>
+    <string name="dialog_message_uploading_media">S\'està pujant…</string>
     <string name="dialog_download_image">Baixa</string>
     <string name="dialog_unfollow_warning">Vols deixar de seguir aquest compte?</string>
 
@@ -174,7 +174,7 @@
         <!--<item>Mitjana</item>-->
         <!--<item>Gran</item>-->
     <!--</string-array>-->
-    
+
     <string name="notification_channel_mention_name">Mencions noves</string>
     <string name="notification_channel_mention_descriptions">Notificacions sobre mencions noves</string>
     <string name="notification_channel_follow_name">Seguidors nous</string>

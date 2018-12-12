@@ -132,13 +132,13 @@
 
     <string name="search_no_results" >نتیجه ای نیست</string>
 
-    <string name="label_quick_reply" >پاسخ ...</string>
+    <string name="label_quick_reply" >پاسخ …</string>
     <string name="label_avatar" >آواتار</string>
     <string name="label_header" >سرتیتر</string>
 
     <string name="link_whats_an_instance" >یک سرور نمونه چیست؟</string>
 
-    <string name="login_connection" >در حال اتصال ...</string>
+    <string name="login_connection" >در حال اتصال …</string>
 
     <string name="dialog_whats_an_instance" >آدرس یا دامنه هر سروری را میتوانید وارد کنید مثلا mastodon.social, icosahedron.website, social.tchncs.de, و         &lt;a href="https://instances.social" &gt;بیشتر!\n\n اگر شما هنوز حساب کاربری ندارید، می توانید نام نمونه مورد نظر را وارد کنید از اینجا بپیوندید و حساب کاربری ایجاد کنید\n\n نمونه جایی است که حساب کاربری شما میزبان آن است اما شما به راحتی میتوانید با افراد دیگر در نمونه های دیگر ارتباط برقرار کنید و آنها را دنبال کنید شما درست مثل اینکه در  یکجا باشید.\n\n برای اطلاعات بیشتر به اینجا مراجعه کنید <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
 
