@@ -22,6 +22,7 @@
         <item name="android:actionMenuTextColor">@color/text_color_primary_dark</item>
 
         <item name="alertDialogTheme">@style/TuskyDialog.Dark</item>
+        <item name="snackbarButtonStyle">@style/TuskyButton.TextButton</item>
 
         <item name="window_background">@color/window_background_dark</item>
         <item name="custom_tab_toolbar">@color/custom_tab_toolbar_dark</item>

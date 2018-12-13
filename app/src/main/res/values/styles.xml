@@ -67,6 +67,7 @@
         <item name="android:actionMenuTextColor">@color/text_color_primary_light</item>
 
         <item name="alertDialogTheme">@style/TuskyDialog.Light</item>
+        <item name="snackbarButtonStyle">@style/TuskyButton.TextButton</item>
 
         <item name="window_background">@color/window_background_light</item>
         <item name="custom_tab_toolbar">@color/custom_tab_toolbar_light</item>
@@ -132,7 +133,6 @@
         <item name="dialogCornerRadius">8dp</item>
     </style>
 
-
     <style name="TuskyTabAppearance" parent="Widget.MaterialComponents.TabLayout">
         <item name="android:textSize">?attr/status_text_medium</item>
         <item name="android:textAllCaps">true</item>
@@ -155,6 +155,7 @@
     </style>
 
     <style name="TuskyButton.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:color">@color/tusky_blue</item>
         <item name="android:letterSpacing">0</item>
     </style>
 
