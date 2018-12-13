@@ -136,16 +136,18 @@ public class LinkHelper {
     }
 
     /**
-     * Make a text listing mentions and makes them clickable, associating them with
-     * callbacks to notify when they're clicked.
+     * Put mentions in a piece of text and makes them clickable, associating them with callbacks to
+     * notify when they're clicked.
      *
+     * @param view the returned text will be put in
      * @param mentions any '@' mentions which are known to be in the content
      * @param listener to notify about particular spans that are clicked
      */
-    public static @Nullable CharSequence makeMentionsText(
-            @Nullable Status.Mention[] mentions, final LinkListener listener) {
+    public static void setClickableMentions(
+            TextView view, @Nullable Status.Mention[] mentions, final LinkListener listener) {
         if (mentions == null || mentions.length == 0) {
-            return null;
+            view.setText(null);
+            return;
         }
         SpannableStringBuilder builder = new SpannableStringBuilder();
         int start = 0;
@@ -172,11 +174,11 @@ public class LinkHelper {
             builder.append("@");
             builder.append(accountUsername);
             builder.setSpan(customSpan, start, end, flags);
-            builder.append("\u200B");
+            builder.append("\u200B"); // same reasonning than in setClickableText
             end += 1; // shift position to take the previous character into account
             start = end;
         }
-        return builder;
+        view.setText(builder);
     }
 
     /**

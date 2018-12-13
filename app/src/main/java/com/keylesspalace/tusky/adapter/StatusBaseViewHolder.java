@@ -51,8 +51,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private SparkButton reblogButton;
     private SparkButton favouriteButton;
     private ImageButton moreButton;
-    private CharSequence contentText;
-    private @Nullable CharSequence mentionsOnlyContentText;
     private boolean favourited;
     private boolean reblogged;
     private ImageView[] mediaPreviews;
@@ -83,8 +81,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         reblogButton = itemView.findViewById(R.id.status_reblog);
         favouriteButton = itemView.findViewById(R.id.status_favourite);
         moreButton = itemView.findViewById(R.id.status_more);
-        contentText = null;
-        mentionsOnlyContentText = null;
         reblogged = false;
         favourited = false;
         mediaPreviews = new ImageView[]{
@@ -125,11 +121,46 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         username.setText(usernameText);
     }
 
-    private void setContent(Spanned content, Status.Mention[] mentions, List<Emoji> emojis,
-                            StatusActionListener listener) {
-        Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, this.content);
-        LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
-        this.contentText = this.content.getText();
+    private void setSpoilerAndContent(StatusViewData.Concrete status,
+                                final StatusActionListener listener) {
+        if (status.getSpoilerText() == null || status.getSpoilerText().isEmpty()) {
+            contentWarningDescription.setVisibility(View.GONE);
+            contentWarningButton.setVisibility(View.GONE);
+            this.setTextVisible(true, status, listener);
+        } else {
+            boolean expanded = status.isExpanded();
+            CharSequence emojiSpoiler = CustomEmojiHelper.emojifyString(
+                    status.getSpoilerText(), status.getStatusEmojis(), contentWarningDescription);
+            contentWarningDescription.setText(emojiSpoiler);
+            contentWarningDescription.setVisibility(View.VISIBLE);
+            contentWarningButton.setVisibility(View.VISIBLE);
+            contentWarningButton.setChecked(expanded);
+            contentWarningButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                contentWarningDescription.invalidate();
+                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onExpandedChange(isChecked, getAdapterPosition());
+                }
+                this.setTextVisible(isChecked, status, listener);
+            });
+            this.setTextVisible(expanded, status, listener);
+        }
+    }
+
+    private void setTextVisible(boolean visible, StatusViewData.Concrete status,
+                                final StatusActionListener listener) {
+        Status.Mention[] mentions = status.getMentions();
+        if (visible) {
+            Spanned emojifiedText = CustomEmojiHelper.emojifyText(
+                    status.getContent(), status.getStatusEmojis(), this.content);
+            LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
+            this.content.setVisibility(View.VISIBLE);
+        } else {
+            if (mentions == null || mentions.length == 0) {
+                this.content.setVisibility(View.GONE);
+            } else {
+                LinkHelper.setClickableMentions(this.content, mentions, listener);
+            }
+        }
     }
 
     void setAvatar(String url, @Nullable String rebloggedUrl) {
@@ -391,45 +422,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         sensitiveMediaShow.setVisibility(View.GONE);
     }
 
-    private void setSpoilerText(String spoilerText, List<Emoji> emojis,
-                                final boolean expanded, final StatusActionListener listener) {
-        CharSequence emojiSpoiler =
-                CustomEmojiHelper.emojifyString(spoilerText, emojis, contentWarningDescription);
-        contentWarningDescription.setText(emojiSpoiler);
-        contentWarningDescription.setVisibility(View.VISIBLE);
-        contentWarningButton.setVisibility(View.VISIBLE);
-        contentWarningButton.setChecked(expanded);
-        contentWarningButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            contentWarningDescription.invalidate();
-            if (getAdapterPosition() != RecyclerView.NO_POSITION) {
-                listener.onExpandedChange(isChecked, getAdapterPosition());
-            }
-            this.setTextVisible(isChecked);
-
-        });
-        this.setTextVisible(expanded);
-
-    }
-
-    private void hideSpoilerText() {
-        contentWarningDescription.setVisibility(View.GONE);
-        contentWarningButton.setVisibility(View.GONE);
-        this.setTextVisible(true);
-    }
-
-    private void setTextVisible(boolean visible) {
-        if (visible) {
-            content.setText(this.contentText);
-            this.content.setVisibility(View.VISIBLE);
-        } else {
-            if (this.mentionsOnlyContentText == null) {
-                this.content.setVisibility(View.GONE);
-            } else {
-                content.setText(this.mentionsOnlyContentText);
-            }
-        }
-    }
-
     private void setupButtons(final StatusActionListener listener, final String accountId) {
         /* Originally position was passed through to all these listeners, but it caused several
          * bugs where other statuses in the list would be removed or added and cause the position
@@ -528,13 +520,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         setupButtons(listener, status.getSenderId());
         setRebloggingEnabled(status.getRebloggingEnabled(), status.getVisibility());
 
-        setContent(status.getContent(), status.getMentions(), status.getStatusEmojis(), listener);
-        if (status.getSpoilerText() == null || status.getSpoilerText().isEmpty()) {
-            hideSpoilerText();
-        } else {
-            this.mentionsOnlyContentText = LinkHelper.makeMentionsText(status.getMentions(), listener);
-            setSpoilerText(status.getSpoilerText(), status.getStatusEmojis(), status.isExpanded(), listener);
-        }
+        setSpoilerAndContent(status, listener);
 
         // When viewing threads this ViewHolder is used and the main post does not have a collapse
         // button by design so avoid crashing the app when that happens
