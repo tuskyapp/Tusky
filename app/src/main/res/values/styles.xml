@@ -59,6 +59,7 @@
         <item name="colorPrimaryDark">@color/color_primary_dark_light</item>
 
         <item name="android:colorBackground">@color/color_background_light</item>
+        <item name="recents_background_color">@color/color_primary_light</item>
         <item name="android:windowBackground">@color/window_background_light</item>
         <item name="android:textColorPrimary">@color/text_color_primary_light</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
@@ -173,6 +174,7 @@
         <item name="android:windowBackground">@color/window_background_black</item>
         <item name="android:textColorPrimary">@color/text_color_primary_black</item>
 
+        <item name="recents_background_color">@color/toolbar_background_black</item>
         <item name="window_background">@color/window_background_black</item>
         <item name="toolbar_background_color">@color/toolbar_background_black</item>
         <item name="sensitive_media_warning_background_color">@color/color_background_black</item>

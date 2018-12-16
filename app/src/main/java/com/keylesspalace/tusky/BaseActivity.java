@@ -15,22 +15,22 @@
 
 package com.keylesspalace.tusky;
 
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
@@ -41,6 +41,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
 
 public abstract class BaseActivity extends AppCompatActivity implements Injectable {
@@ -68,6 +71,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         }
         ThemeUtils.setAppNightMode(theme, this);
 
+        /* set the taskdescription programmatically, the theme would turn it blue */
+        String appName = getString(R.string.app_name);
+        Bitmap appIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        int recentsBackgroundColor = ThemeUtils.getColor(this, R.attr.recents_background_color);
+
+        setTaskDescription(new ActivityManager.TaskDescription(appName, appIcon, recentsBackgroundColor));
+
         long accountId = getIntent().getLongExtra("account", -1);
         if (accountId != -1) {
             accountManager.setActiveAccount(accountId);
@@ -76,9 +86,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         int style = textStyle(preferences.getString("statusTextSize", "medium"));
         getTheme().applyStyle(style, false);
 
-        redirectIfNotLoggedIn();
+        if(requiresLogin()) {
+            redirectIfNotLoggedIn();
+        }
 
         callList = new ArrayList<>();
+    }
+
+    protected boolean requiresLogin() {
+        return true;
     }
 
     private int textStyle(String name) {

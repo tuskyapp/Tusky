@@ -22,16 +22,13 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.preference.PreferenceManager
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.appcompat.app.AppCompatActivity
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.AppCredentials
@@ -46,12 +43,10 @@ import retrofit2.Response
 import javax.inject.Inject
 
 
-class LoginActivity : AppCompatActivity(), Injectable {
+class LoginActivity : BaseActivity(), Injectable {
 
     @Inject
     lateinit var mastodonApi: MastodonApi
-    @Inject
-    lateinit var accountManager: AccountManager
 
     private lateinit var preferences: SharedPreferences
     private var domain: String = ""
@@ -67,13 +62,6 @@ class LoginActivity : AppCompatActivity(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
-        if (theme == "black") {
-            setTheme(R.style.TuskyBlackTheme)
-        }
-        ThemeUtils.setAppNightMode(theme, this)
 
         setContentView(R.layout.activity_login)
 
@@ -105,6 +93,10 @@ class LoginActivity : AppCompatActivity(), Injectable {
             toolbar.visibility = View.GONE
         }
 
+    }
+
+    override fun requiresLogin(): Boolean {
+        return false
     }
 
     override fun finish() {

@@ -9,6 +9,7 @@
     </declare-styleable>
 
     <!--Themed Attributes-->
+    <attr name="recents_background_color" format="reference|color" />
     <attr name="window_background" format="reference" />
     <attr name="custom_tab_toolbar" format="reference" />
     <attr name="toolbar_background_color" format="reference" />
