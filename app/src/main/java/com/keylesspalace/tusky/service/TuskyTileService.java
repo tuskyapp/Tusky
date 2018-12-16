@@ -34,6 +34,8 @@ public class TuskyTileService extends TileService {
 
     @Override
     public void onClick() {
-        startActivityAndCollapse(new Intent(this, ComposeActivity.class));
+        Intent intent = new Intent(this, ComposeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivityAndCollapse(intent);
     }
 }

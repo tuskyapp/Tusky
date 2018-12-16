@@ -34,6 +34,7 @@ import android.widget.TextView;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 
+import java.lang.CharSequence;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -64,7 +65,6 @@ public class LinkHelper {
      */
     public static void setClickableText(TextView view, Spanned content,
             @Nullable Status.Mention[] mentions, final LinkListener listener) {
-
         SpannableStringBuilder builder = new SpannableStringBuilder(content);
         URLSpan[] urlSpans = content.getSpans(0, content.length(), URLSpan.class);
         for (URLSpan span : urlSpans) {
@@ -117,18 +117,61 @@ public class LinkHelper {
             /* Add zero-width space after links in end of line to fix its too large hitbox.
              * See also : https://github.com/tuskyapp/Tusky/issues/846
              *            https://github.com/tuskyapp/Tusky/pull/916 */
-            if(end >= builder.length()){
+            if (end >= builder.length() ||
+                    builder.subSequence(end, end + 1).toString().equals("\n")){
                 builder.insert(end, "\u200B");
-            } else {
-                if(builder.subSequence(end, end + 1).toString().equals("\n")){
-                    builder.insert(end, "\u200B");
-                }
             }
-
         }
+
         view.setText(builder);
         view.setLinksClickable(true);
         view.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    /**
+     * Put mentions in a piece of text and makes them clickable, associating them with callbacks to
+     * notify when they're clicked.
+     *
+     * @param view the returned text will be put in
+     * @param mentions any '@' mentions which are known to be in the content
+     * @param listener to notify about particular spans that are clicked
+     */
+    public static void setClickableMentions(
+            TextView view, @Nullable Status.Mention[] mentions, final LinkListener listener) {
+        if (mentions == null || mentions.length == 0) {
+            view.setText(null);
+            return;
+        }
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        int start = 0;
+        int end = 0;
+        int flags;
+        boolean firstMention = true;
+        for (Status.Mention mention : mentions) {
+            String accountUsername = mention.getLocalUsername();
+            final String accountId = mention.getId();
+            ClickableSpan customSpan = new ClickableSpanNoUnderline() {
+                @Override
+                public void onClick(View widget) { listener.onViewAccount(accountId); }
+            };
+
+            end += 1 + accountUsername.length(); // length of @ + username
+            flags = builder.getSpanFlags(customSpan);
+            if (firstMention) {
+                firstMention = false;
+            } else {
+                builder.append(" ");
+                start += 1;
+                end += 1;
+            }
+            builder.append("@");
+            builder.append(accountUsername);
+            builder.setSpan(customSpan, start, end, flags);
+            builder.append("\u200B"); // same reasonning than in setClickableText
+            end += 1; // shift position to take the previous character into account
+            start = end;
+        }
+        view.setText(builder);
     }
 
     /**

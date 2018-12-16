@@ -36,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.lang.CharSequence;
 
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
@@ -120,11 +121,46 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         username.setText(usernameText);
     }
 
-    private void setContent(Spanned content, Status.Mention[] mentions, List<Emoji> emojis,
-                            StatusActionListener listener) {
-        Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, this.content);
+    private void setSpoilerAndContent(StatusViewData.Concrete status,
+                                final StatusActionListener listener) {
+        if (status.getSpoilerText() == null || status.getSpoilerText().isEmpty()) {
+            contentWarningDescription.setVisibility(View.GONE);
+            contentWarningButton.setVisibility(View.GONE);
+            this.setTextVisible(true, status, listener);
+        } else {
+            boolean expanded = status.isExpanded();
+            CharSequence emojiSpoiler = CustomEmojiHelper.emojifyString(
+                    status.getSpoilerText(), status.getStatusEmojis(), contentWarningDescription);
+            contentWarningDescription.setText(emojiSpoiler);
+            contentWarningDescription.setVisibility(View.VISIBLE);
+            contentWarningButton.setVisibility(View.VISIBLE);
+            contentWarningButton.setChecked(expanded);
+            contentWarningButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                contentWarningDescription.invalidate();
+                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onExpandedChange(isChecked, getAdapterPosition());
+                }
+                this.setTextVisible(isChecked, status, listener);
+            });
+            this.setTextVisible(expanded, status, listener);
+        }
+    }
 
-        LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
+    private void setTextVisible(boolean visible, StatusViewData.Concrete status,
+                                final StatusActionListener listener) {
+        Status.Mention[] mentions = status.getMentions();
+        if (visible) {
+            Spanned emojifiedText = CustomEmojiHelper.emojifyText(
+                    status.getContent(), status.getStatusEmojis(), this.content);
+            LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
+            this.content.setVisibility(View.VISIBLE);
+        } else {
+            if (mentions == null || mentions.length == 0) {
+                this.content.setVisibility(View.GONE);
+            } else {
+                LinkHelper.setClickableMentions(this.content, mentions, listener);
+            }
+        }
     }
 
     void setAvatar(String url, @Nullable String rebloggedUrl) {
@@ -386,32 +422,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         sensitiveMediaShow.setVisibility(View.GONE);
     }
 
-    private void setSpoilerText(String spoilerText, List<Emoji> emojis,
-                                final boolean expanded, final StatusActionListener listener) {
-        CharSequence emojiSpoiler =
-                CustomEmojiHelper.emojifyString(spoilerText, emojis, contentWarningDescription);
-        contentWarningDescription.setText(emojiSpoiler);
-        contentWarningDescription.setVisibility(View.VISIBLE);
-        contentWarningButton.setVisibility(View.VISIBLE);
-        contentWarningButton.setChecked(expanded);
-        contentWarningButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            contentWarningDescription.invalidate();
-            if (getAdapterPosition() != RecyclerView.NO_POSITION) {
-                listener.onExpandedChange(isChecked, getAdapterPosition());
-            }
-            content.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-
-        });
-        content.setVisibility(expanded ? View.VISIBLE : View.GONE);
-
-    }
-
-    private void hideSpoilerText() {
-        contentWarningDescription.setVisibility(View.GONE);
-        contentWarningButton.setVisibility(View.GONE);
-        content.setVisibility(View.VISIBLE);
-    }
-
     private void setupButtons(final StatusActionListener listener, final String accountId) {
         /* Originally position was passed through to all these listeners, but it caused several
          * bugs where other statuses in the list would be removed or added and cause the position
@@ -509,11 +519,8 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         setupButtons(listener, status.getSenderId());
         setRebloggingEnabled(status.getRebloggingEnabled(), status.getVisibility());
-        if (status.getSpoilerText() == null || status.getSpoilerText().isEmpty()) {
-            hideSpoilerText();
-        } else {
-            setSpoilerText(status.getSpoilerText(), status.getStatusEmojis(), status.isExpanded(), listener);
-        }
+
+        setSpoilerAndContent(status, listener);
 
         // When viewing threads this ViewHolder is used and the main post does not have a collapse
         // button by design so avoid crashing the app when that happens
@@ -538,7 +545,5 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 content.setFilters(NO_INPUT_FILTER);
             }
         }
-
-        setContent(status.getContent(), status.getMentions(), status.getStatusEmojis(), listener);
     }
 }
