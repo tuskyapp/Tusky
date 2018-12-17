@@ -56,6 +56,12 @@ android {
             includeAndroidResources = true
         }
     }
+
+    packagingOptions {
+        // Exclude unneeded files added by libraries
+        exclude 'LICENSE_OFL'
+        exclude 'LICENSE_UNICODE'
+    }
 }
 
 ext.daggerVersion = '2.19'
