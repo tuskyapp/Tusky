@@ -168,12 +168,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/emojiView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:colorBackground"
         android:clipToPadding="false"
         android:elevation="12dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:paddingStart="16dp"
         android:paddingTop="8dp"
         android:paddingEnd="16dp"
