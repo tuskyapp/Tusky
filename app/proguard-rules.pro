@@ -44,10 +44,10 @@
 # TUSKY SPECIFIC OPTIONS
 
 ## for okhttp
--dontwarn okio.**
--dontwarn javax.annotation.Nullable
--dontwarn javax.annotation.ParametersAreNonnullByDefault
--dontwarn org.conscrypt.**
+-dontwarn javax.annotation.**
+-keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
+-dontwarn org.codehaus.mojo.animal_sniffer.*
+-dontwarn okhttp3.internal.platform.ConscryptPlatform
 
 ## for picasso
 -dontwarn com.squareup.okhttp.**
