@@ -14,7 +14,7 @@
  * see <http://www.gnu.org/licenses>. */
 package com.keylesspalace.tusky.util;
 
-import android.arch.core.util.Function;
+import androidx.arch.core.util.Function;
 
 import java.util.ArrayList;
 import java.util.List;

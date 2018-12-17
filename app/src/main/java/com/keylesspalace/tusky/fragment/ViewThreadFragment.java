@@ -15,22 +15,22 @@
 
 package com.keylesspalace.tusky.fragment;
 
-import android.arch.core.util.Function;
-import android.arch.lifecycle.Lifecycle;
+import androidx.arch.core.util.Function;
+import androidx.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.util.Pair;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SimpleItemAnimator;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.util.Pair;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -72,8 +72,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.uber.autodispose.AutoDispose.*;
-import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.*;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
 public final class ViewThreadFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, Injectable {
@@ -136,7 +136,7 @@ public final class ViewThreadFragment extends SFragment implements
         Context context = getContext();
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.primary);
+        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
                 ThemeUtils.getColor(context, android.R.attr.colorBackground));
 

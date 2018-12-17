@@ -15,8 +15,8 @@
 
 package com.keylesspalace.tusky.interfaces;
 
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+import androidx.annotation.Nullable;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public interface ActionButtonActivity {
 

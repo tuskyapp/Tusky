@@ -16,7 +16,7 @@
 package com.keylesspalace.tusky.fragment.preference
 
 import android.os.Bundle
-import android.support.v7.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.PreferencesActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.util.ThemeUtils

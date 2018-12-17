@@ -22,16 +22,13 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.preference.PreferenceManager
-import android.support.customtabs.CustomTabsIntent
-import android.support.v7.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsIntent
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.AppCredentials
@@ -46,12 +43,10 @@ import retrofit2.Response
 import javax.inject.Inject
 
 
-class LoginActivity : AppCompatActivity(), Injectable {
+class LoginActivity : BaseActivity(), Injectable {
 
     @Inject
     lateinit var mastodonApi: MastodonApi
-    @Inject
-    lateinit var accountManager: AccountManager
 
     private lateinit var preferences: SharedPreferences
     private var domain: String = ""
@@ -67,13 +62,6 @@ class LoginActivity : AppCompatActivity(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
-        if (theme == "black") {
-            setTheme(R.style.TuskyBlackTheme)
-        }
-        ThemeUtils.setAppNightMode(theme, this)
 
         setContentView(R.layout.activity_login)
 
@@ -105,6 +93,10 @@ class LoginActivity : AppCompatActivity(), Injectable {
             toolbar.visibility = View.GONE
         }
 
+    }
+
+    override fun requiresLogin(): Boolean {
+        return false
     }
 
     override fun finish() {
@@ -144,7 +136,7 @@ class LoginActivity : AppCompatActivity(), Injectable {
             HttpUrl.Builder().host(domain).scheme("https").build()
         } catch (e: IllegalArgumentException) {
             setLoading(false)
-            domainEditText.error = getString(R.string.error_invalid_domain)
+            domainTextInputLayout.error = getString(R.string.error_invalid_domain)
             return
         }
 
@@ -153,7 +145,7 @@ class LoginActivity : AppCompatActivity(), Injectable {
                                     response: Response<AppCredentials>) {
                 if (!response.isSuccessful) {
                     loginButton.isEnabled = true
-                    domainEditText.error = getString(R.string.error_failed_app_registration)
+                    domainTextInputLayout.error = getString(R.string.error_failed_app_registration)
                     setLoading(false)
                     Log.e(TAG, "App authentication failed. " + response.message())
                     return
@@ -167,7 +159,7 @@ class LoginActivity : AppCompatActivity(), Injectable {
 
             override fun onFailure(call: Call<AppCredentials>, t: Throwable) {
                 loginButton.isEnabled = true
-                domainEditText.error = getString(R.string.error_failed_app_registration)
+                domainTextInputLayout.error = getString(R.string.error_failed_app_registration)
                 setLoading(false)
                 Log.e(TAG, Log.getStackTraceString(t))
             }
@@ -243,7 +235,7 @@ class LoginActivity : AppCompatActivity(), Injectable {
                             onLoginSuccess(response.body()!!.accessToken)
                         } else {
                             setLoading(false)
-                            domainEditText.error = getString(R.string.error_retrieving_oauth_token)
+                            domainTextInputLayout.error = getString(R.string.error_retrieving_oauth_token)
                             Log.e(TAG, String.format("%s %s",
                                     getString(R.string.error_retrieving_oauth_token),
                                     response.message()))
@@ -252,7 +244,7 @@ class LoginActivity : AppCompatActivity(), Injectable {
 
                     override fun onFailure(call: Call<AccessToken>, t: Throwable) {
                         setLoading(false)
-                        domainEditText.error = getString(R.string.error_retrieving_oauth_token)
+                        domainTextInputLayout.error = getString(R.string.error_retrieving_oauth_token)
                         Log.e(TAG, String.format("%s %s",
                                 getString(R.string.error_retrieving_oauth_token),
                                 t.message))
@@ -265,14 +257,14 @@ class LoginActivity : AppCompatActivity(), Injectable {
                 /* Authorization failed. Put the error response where the user can read it and they
                  * can try again. */
                 setLoading(false)
-                domainEditText.error = getString(R.string.error_authorization_denied)
+                domainTextInputLayout.error = getString(R.string.error_authorization_denied)
                 Log.e(TAG, String.format("%s %s",
                         getString(R.string.error_authorization_denied),
                         error))
             } else {
                 // This case means a junk response was received somehow.
                 setLoading(false)
-                domainEditText.error = getString(R.string.error_authorization_unknown)
+                domainTextInputLayout.error = getString(R.string.error_authorization_unknown)
             }
         } else {
             // first show or user cancelled login

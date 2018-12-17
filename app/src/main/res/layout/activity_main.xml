@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
@@ -14,7 +14,6 @@
 
         <ImageButton
             android:id="@+id/drawer_toggle"
-            style="?attr/image_button_style"
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentStart="true"
@@ -26,56 +25,57 @@
             app:layout_anchorGravity="top|left"
             app:srcCompat="@drawable/ic_menu_24dp" />
 
-        <android.support.design.widget.TabLayout
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
+            style="@style/TuskyTabAppearance"
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
             android:layout_toEndOf="@id/drawer_toggle"
             android:background="?android:colorBackground"
             android:elevation="@dimen/actionbar_elevation"
             app:tabGravity="fill"
-            app:tabIndicatorHeight="3dp"
             app:tabMaxWidth="0dp"
             app:tabPaddingEnd="1dp"
             app:tabPaddingStart="1dp"
             app:tabPaddingTop="4dp"
-            app:tabTextAppearance="@style/TabLayoutTextStyle">
+            app:tabUnboundedRipple="false">
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_home" />
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_notifications" />
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_public_local" />
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_public_federated" />
 
-        </android.support.design.widget.TabLayout>
+        </com.google.android.material.tabs.TabLayout>
 
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@id/tab_layout" />
+            android:layout_below="@id/tab_layout"
+            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_btn"
+        style="@style/TuskyFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -86,4 +86,4 @@
 
     <include layout="@layout/item_status_bottom_sheet" />
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

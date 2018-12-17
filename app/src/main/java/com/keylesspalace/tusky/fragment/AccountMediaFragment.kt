@@ -15,19 +15,18 @@
 
 package com.keylesspalace.tusky.fragment
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewCompat
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.di.Injectable
@@ -166,7 +165,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             currentCall?.enqueue(callback)
 
         }
-        swipe_refresh_layout.setColorSchemeResources(R.color.primary)
+        swipe_refresh_layout.setColorSchemeResources(R.color.tusky_blue)
         swipe_refresh_layout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground))
 
         nothing_message.visibility = View.GONE
@@ -231,8 +230,8 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         NOT_FETCHING, INITIAL_FETCHING, FETCHING_BOTTOM, REFRESHING
     }
 
-    inner class MediaGridAdapter
-        : RecyclerView.Adapter<MediaGridAdapter.MediaViewHolder>() {
+    inner class MediaGridAdapter:
+            RecyclerView.Adapter<MediaGridAdapter.MediaViewHolder>() {
 
         var baseItemColor = Color.BLACK
 

@@ -16,28 +16,31 @@
 package com.keylesspalace.tusky
 
 import android.animation.ArgbEvaluator
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.annotation.AttrRes
-import android.support.annotation.ColorInt
-import android.support.annotation.Px
-import android.support.design.widget.*
-import android.support.text.emoji.EmojiCompat
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
+import androidx.annotation.Px
+import androidx.emoji.text.EmojiCompat
+import androidx.core.app.ActivityOptionsCompat
+import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.adapter.AccountFieldAdapter
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
@@ -59,7 +62,7 @@ import javax.inject.Inject
 class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportFragmentInjector, LinkListener {
 
     @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 

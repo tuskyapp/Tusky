@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.db
 
-import android.arch.persistence.room.*
+import androidx.room.*
 
 @Dao
 interface AccountDao {

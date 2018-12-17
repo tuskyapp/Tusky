@@ -17,8 +17,8 @@ package com.keylesspalace.tusky
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.VisibleForTesting
-import android.support.design.widget.BottomSheetBehavior
+import androidx.annotation.VisibleForTesting
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import android.view.View
 import android.widget.LinearLayout
 import com.keylesspalace.tusky.entity.SearchResults

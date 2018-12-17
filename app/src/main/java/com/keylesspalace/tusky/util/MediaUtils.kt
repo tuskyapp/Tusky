@@ -25,8 +25,8 @@ import android.media.MediaMetadataRetriever
 import android.media.ThumbnailUtils
 import android.net.Uri
 import android.provider.OpenableColumns
-import android.support.annotation.Px
-import android.support.media.ExifInterface
+import androidx.annotation.Px
+import androidx.exifinterface.media.ExifInterface
 import android.util.Log
 import java.io.*
 

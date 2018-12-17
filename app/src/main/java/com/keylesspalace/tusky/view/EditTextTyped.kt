@@ -16,10 +16,10 @@
 package com.keylesspalace.tusky.view
 
 import android.content.Context
-import android.support.text.emoji.widget.EmojiEditTextHelper
-import android.support.v13.view.inputmethod.EditorInfoCompat
-import android.support.v13.view.inputmethod.InputConnectionCompat
-import android.support.v7.widget.AppCompatMultiAutoCompleteTextView
+import androidx.emoji.widget.EmojiEditTextHelper
+import androidx.core.view.inputmethod.EditorInfoCompat
+import androidx.core.view.inputmethod.InputConnectionCompat
+import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import android.text.InputType
 import android.text.method.KeyListener
 import android.util.AttributeSet

@@ -16,7 +16,7 @@
 package com.keylesspalace.tusky.util;
 
 import android.content.Context;
-import android.support.annotation.AnyRes;
+import androidx.annotation.AnyRes;
 
 /**
  * Created by remi on 1/14/18.

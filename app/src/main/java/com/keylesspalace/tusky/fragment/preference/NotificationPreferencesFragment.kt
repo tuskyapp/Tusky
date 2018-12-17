@@ -16,9 +16,9 @@
 package com.keylesspalace.tusky.fragment.preference
 
 import android.os.Bundle
-import android.support.v14.preference.SwitchPreference
-import android.support.v7.preference.Preference
-import android.support.v7.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import android.view.View
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountManager

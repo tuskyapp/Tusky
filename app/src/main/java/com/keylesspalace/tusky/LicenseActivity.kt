@@ -16,7 +16,7 @@
 package com.keylesspalace.tusky
 
 import android.os.Bundle
-import android.support.annotation.RawRes
+import androidx.annotation.RawRes
 import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView

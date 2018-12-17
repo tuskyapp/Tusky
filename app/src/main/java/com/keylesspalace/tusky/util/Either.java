@@ -14,8 +14,8 @@
  * see <http://www.gnu.org/licenses>. */
 package com.keylesspalace.tusky.util;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Created by charlag on 05/11/17.

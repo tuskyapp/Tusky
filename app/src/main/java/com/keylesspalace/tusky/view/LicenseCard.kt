@@ -16,22 +16,20 @@
 package com.keylesspalace.tusky.view
 
 import android.content.Context
-import android.support.v7.widget.CardView
 import android.util.AttributeSet
+import com.google.android.material.card.MaterialCardView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import kotlinx.android.synthetic.main.card_license.view.*
 
-
 class LicenseCard
 @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0
-) : CardView(context, attrs, defStyleAttr) {
-
+) : MaterialCardView(context, attrs, defStyleAttr) {
 
     init {
         inflate(context, R.layout.card_license, this)
@@ -55,7 +53,6 @@ class LicenseCard
         }
 
     }
-
 
 }
 

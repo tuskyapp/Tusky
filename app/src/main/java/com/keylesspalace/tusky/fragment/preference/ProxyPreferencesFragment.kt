@@ -17,8 +17,8 @@ package com.keylesspalace.tusky.fragment.preference
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v7.preference.EditTextPreference
-import android.support.v7.preference.PreferenceFragmentCompat
+import androidx.preference.EditTextPreference
+import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
 
 class ProxyPreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {

@@ -16,7 +16,7 @@
 package com.keylesspalace.tusky.viewdata;
 
 import android.os.Build;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 

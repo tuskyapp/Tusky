@@ -15,8 +15,8 @@
 
 package com.keylesspalace.tusky.view;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class EndlessOnScrollListener extends RecyclerView.OnScrollListener {
     private static final int VISIBLE_THRESHOLD = 15;
