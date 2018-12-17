@@ -210,8 +210,6 @@
         <item>Public</item>
         <item>Unlisted</item>
         <item>Followers-only</item>
-        <item>Direct</item>
-        <item>Unknown</item>
     </string-array>
 
     <string name="pref_status_text_size">Status text size</string>
