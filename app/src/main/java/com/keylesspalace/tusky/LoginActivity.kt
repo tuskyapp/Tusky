@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky
 
-import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -29,6 +28,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.AppCredentials
@@ -41,7 +41,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
-
 
 class LoginActivity : BaseActivity(), Injectable {
 
@@ -82,7 +81,7 @@ class LoginActivity : BaseActivity(), Injectable {
                     .setPositiveButton(R.string.action_close, null)
                     .show()
             val textView = dialog.findViewById<TextView>(android.R.id.message)
-            textView.movementMethod = LinkMovementMethod.getInstance()
+            textView?.movementMethod = LinkMovementMethod.getInstance()
         }
 
         if (isAdditionalLogin()) {

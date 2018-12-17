@@ -130,7 +130,8 @@
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
-    <style name="TuskyDialog.Light" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
+    <style name="TuskyDialog.Light" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:letterSpacing">0</item>
         <item name="dialogCornerRadius">8dp</item>
     </style>
 
@@ -156,7 +157,6 @@
     </style>
 
     <style name="TuskyButton.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:color">@color/tusky_blue</item>
         <item name="android:letterSpacing">0</item>
     </style>
 
