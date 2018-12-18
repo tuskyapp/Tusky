@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.fragment.preference
 
 import android.os.Bundle
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.PreferencesActivity
 import com.keylesspalace.tusky.R
@@ -32,16 +33,16 @@ class PreferencesFragment : PreferenceFragmentCompat() {
 
         addPreferencesFromResource(R.xml.preferences)
 
-        val themePreference = findPreference("appTheme")
+        val themePreference: Preference = findPreference("appTheme")
         themePreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_palette).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
 
-        val emojiPreference = findPreference("emojiCompat")
+        val emojiPreference: Preference = findPreference("emojiCompat")
         emojiPreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_sentiment_satisfied).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
 
-        val textSizePreference = findPreference("statusTextSize")
+        val textSizePreference: Preference = findPreference("statusTextSize")
         textSizePreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_format_size).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
 
-        val timelineFilterPreferences = findPreference("timelineFilterPreferences")
+        val timelineFilterPreferences: Preference = findPreference("timelineFilterPreferences")
         timelineFilterPreferences.setOnPreferenceClickListener {
             activity?.let { activity ->
                 val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.TAB_FILTER_PREFERENCES)
@@ -51,7 +52,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             true
         }
 
-        val httpProxyPreferences = findPreference("httpProxyPreferences")
+        val httpProxyPreferences: Preference = findPreference("httpProxyPreferences")
         httpProxyPreferences.setOnPreferenceClickListener {
             activity?.let { activity ->
                 val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.PROXY_PREFERENCES)
@@ -70,7 +71,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
 
     private fun updateHttpProxySummary() {
 
-        val httpProxyPref = findPreference("httpProxyPreferences")
+        val httpProxyPref: Preference = findPreference("httpProxyPreferences")
 
         val sharedPreferences = preferenceManager.sharedPreferences
 
