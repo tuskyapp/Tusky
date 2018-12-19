@@ -4,7 +4,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.Nullable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -29,6 +28,8 @@ import com.squareup.picasso.Picasso;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.Date;
+
+import androidx.annotation.Nullable;
 
 class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private TextView reblogs;
@@ -172,7 +173,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 visibilityIcon = R.drawable.ic_lock_open_24dp;
                 break;
             case PRIVATE:
-                visibilityIcon = R.drawable.ic_lock_open_24dp;
+                visibilityIcon = R.drawable.ic_lock_outline_24dp;
                 break;
             case DIRECT:
                 visibilityIcon = R.drawable.ic_email_24dp;
