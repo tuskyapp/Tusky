@@ -366,8 +366,8 @@
     </plurals>
 
     <plurals name="reblogs">
-        <item quantity="one">&lt;b>%s&lt;/b> Reblog</item>
-        <item quantity="other">&lt;b>%s&lt;/b> Reblogs</item>
+        <item quantity="one">&lt;b>%s&lt;/b> Boost</item>
+        <item quantity="other">&lt;b>%s&lt;/b> Boosts</item>
     </plurals>
 
 </resources>
