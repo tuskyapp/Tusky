@@ -51,6 +51,10 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+
+/**
+ * for documentation of the Mastodon REST API see https://docs.joinmastodon.org/api/
+ */
 public interface MastodonApi {
     String ENDPOINT_AUTHORIZE = "/oauth/authorize";
     String DOMAIN_HEADER = "domain";
@@ -131,16 +135,12 @@ public interface MastodonApi {
     @GET("api/v1/statuses/{id}/reblogged_by")
     Call<List<Account>> statusRebloggedBy(
             @Path("id") String statusId,
-            @Query("max_id") String maxId,
-            @Query("since_id") String sinceId,
-            @Query("limit") Integer limit);
+            @Query("max_id") String maxId);
 
     @GET("api/v1/statuses/{id}/favourited_by")
     Call<List<Account>> statusFavouritedBy(
             @Path("id") String statusId,
-            @Query("max_id") String maxId,
-            @Query("since_id") String sinceId,
-            @Query("limit") Integer limit);
+            @Query("max_id") String maxId);
 
     @DELETE("api/v1/statuses/{id}")
     Call<ResponseBody> deleteStatus(@Path("id") String statusId);
@@ -218,16 +218,12 @@ public interface MastodonApi {
     @GET("api/v1/accounts/{id}/followers")
     Call<List<Account>> accountFollowers(
             @Path("id") String accountId,
-            @Query("max_id") String maxId,
-            @Query("since_id") String sinceId,
-            @Query("limit") Integer limit);
+            @Query("max_id") String maxId);
 
     @GET("api/v1/accounts/{id}/following")
     Call<List<Account>> accountFollowing(
             @Path("id") String accountId,
-            @Query("max_id") String maxId,
-            @Query("since_id") String sinceId,
-            @Query("limit") Integer limit);
+            @Query("max_id") String maxId);
 
     @FormUrlEncoded
     @POST("api/v1/accounts/{id}/follow")
@@ -252,16 +248,10 @@ public interface MastodonApi {
     Call<List<Relationship>> relationships(@Query("id[]") List<String> accountIds);
 
     @GET("api/v1/blocks")
-    Call<List<Account>> blocks(
-            @Query("max_id") String maxId,
-            @Query("since_id") String sinceId,
-            @Query("limit") Integer limit);
+    Call<List<Account>> blocks(@Query("max_id") String maxId);
 
     @GET("api/v1/mutes")
-    Call<List<Account>> mutes(
-            @Query("max_id") String maxId,
-            @Query("since_id") String sinceId,
-            @Query("limit") Integer limit);
+    Call<List<Account>> mutes(@Query("max_id") String maxId);
 
     @GET("api/v1/favourites")
     Call<List<Status>> favourites(
@@ -270,10 +260,7 @@ public interface MastodonApi {
             @Query("limit") Integer limit);
 
     @GET("api/v1/follow_requests")
-    Call<List<Account>> followRequests(
-            @Query("max_id") String maxId,
-            @Query("since_id") String sinceId,
-            @Query("limit") Integer limit);
+    Call<List<Account>> followRequests(@Query("max_id") String maxId);
 
     @POST("api/v1/follow_requests/{id}/authorize")
     Call<Relationship> authorizeFollowRequest(@Path("id") String accountId);

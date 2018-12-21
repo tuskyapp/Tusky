@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.keylesspalace.tusky.AccountListActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
@@ -100,12 +101,12 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
             favReblogInfoContainer.setVisibility(View.VISIBLE);
         }
 
-        reblogs.setOnClickListener( v-> {
-
-        });
-        favourites.setOnClickListener( v-> {
-
-        });
+        reblogs.setOnClickListener( v ->
+            reblogs.getContext().startActivity(AccountListActivity.newIntent(reblogs.getContext(), AccountListActivity.Type.REBLOGGED, statusId))
+        );
+        favourites.setOnClickListener( v ->
+            reblogs.getContext().startActivity(AccountListActivity.newIntent(reblogs.getContext(), AccountListActivity.Type.FAVOURITED, statusId))
+        );
     }
 
     private void setApplication(@Nullable Status.Application app) {

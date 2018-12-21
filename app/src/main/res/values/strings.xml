@@ -370,4 +370,7 @@
         <item quantity="other">&lt;b>%s&lt;/b> Boosts</item>
     </plurals>
 
+    <string name="title_reblogged_by">Boosted by</string>
+    <string name="title_favourited_by">Favourited by</string>
+
 </resources>
