@@ -335,6 +335,7 @@
             android:id="@+id/status_reblogs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
             android:background="?attr/selectableItemBackground"
             android:padding="4dp"
             android:textSize="?attr/status_text_medium" />
@@ -343,7 +344,6 @@
             android:id="@+id/status_favourites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
             android:background="?attr/selectableItemBackground"
             android:padding="4dp"
             android:textSize="?attr/status_text_medium" />

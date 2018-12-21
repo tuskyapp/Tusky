@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.fragment;
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.Lifecycle;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -37,6 +38,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.keylesspalace.tusky.AccountListActivity;
+import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ViewThreadActivity;
@@ -322,8 +325,22 @@ public final class ViewThreadFragment extends SFragment implements
     }
 
     @Override
-    public void onLoadMore(int pos) {
+    public void onLoadMore(int position) {
 
+    }
+
+    @Override
+    public void onShowReblogs(int position) {
+        String statusId = statuses.get(position).getId();
+        Intent intent = AccountListActivity.newIntent(getContext(), AccountListActivity.Type.REBLOGGED, statusId);
+        ((BaseActivity) getActivity()).startActivityWithSlideInAnimation(intent);
+    }
+
+    @Override
+    public void onShowFavs(int position) {
+        String statusId = statuses.get(position).getId();
+        Intent intent = AccountListActivity.newIntent(getContext(), AccountListActivity.Type.FAVOURITED, statusId);
+        ((BaseActivity) getActivity()).startActivityWithSlideInAnimation(intent);
     }
 
     @Override

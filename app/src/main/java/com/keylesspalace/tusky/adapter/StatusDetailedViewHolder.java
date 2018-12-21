@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.keylesspalace.tusky.AccountListActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
@@ -32,6 +31,7 @@ import java.text.NumberFormat;
 import java.util.Date;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private TextView reblogs;
@@ -74,7 +74,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
         }
     }
 
-    private void setReblogAndFavCount(int reblogCount,  int favCount, String statusId) {
+    private void setReblogAndFavCount(int reblogCount,  int favCount, StatusActionListener listener) {
 
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
@@ -101,12 +101,18 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
             favReblogInfoContainer.setVisibility(View.VISIBLE);
         }
 
-        reblogs.setOnClickListener( v ->
-            reblogs.getContext().startActivity(AccountListActivity.newIntent(reblogs.getContext(), AccountListActivity.Type.REBLOGGED, statusId))
-        );
-        favourites.setOnClickListener( v ->
-            reblogs.getContext().startActivity(AccountListActivity.newIntent(reblogs.getContext(), AccountListActivity.Type.FAVOURITED, statusId))
-        );
+        reblogs.setOnClickListener( v -> {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onShowReblogs(position);
+            }
+        });
+        favourites.setOnClickListener( v -> {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onShowFavs(position);
+            }
+        });
     }
 
     private void setApplication(@Nullable Status.Application app) {
@@ -132,7 +138,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                          boolean mediaPreviewEnabled) {
         super.setupWithStatus(status, listener, mediaPreviewEnabled);
 
-        setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), status.getId());
+        setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), listener);
 
         setApplication(status.getApplication());
 
