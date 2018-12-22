@@ -276,9 +276,10 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
         val cb = object : Callback<List<Account>> {
             override fun onResponse(call: Call<List<Account>>, response: Response<List<Account>>) {
-                if (response.isSuccessful) {
+                val accountList = response.body()
+                if (response.isSuccessful && accountList != null) {
                     val linkHeader = response.headers().get("Link")
-                    onFetchAccountsSuccess(response.body()!!, linkHeader)
+                    onFetchAccountsSuccess(accountList, linkHeader)
                 } else {
                     onFetchAccountsFailure(Exception(response.message()))
                 }
@@ -300,7 +301,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         val next = HttpHeaderLink.findByRelationType(links, "next")
         val fromId = next?.uri?.getQueryParameter("max_id")
 
-        if (adapter.itemCount > 1) {
+        if (adapter.itemCount > 0) {
             adapter.addItems(accounts)
         } else {
             adapter.update(accounts)
@@ -310,7 +311,6 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
         fetching = false
 
-        adapter.setBottomLoading(false)
     }
 
     private fun onFetchAccountsFailure(exception: Exception) {

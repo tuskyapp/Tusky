@@ -45,6 +45,8 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private View infoDivider;
     private View favReblogInfoContainer;
 
+    private NumberFormat numberFormat = NumberFormat.getNumberInstance();
+
     StatusDetailedViewHolder(View view) {
         super(view, false);
         reblogs = view.findViewById(R.id.status_reblogs);
@@ -75,8 +77,6 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     private void setReblogAndFavCount(int reblogCount,  int favCount, StatusActionListener listener) {
-
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
         if(reblogCount > 0) {
             String reblogCountString = numberFormat.format(reblogCount);
