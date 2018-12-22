@@ -33,6 +33,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract TootDao tootDao();
     public abstract AccountDao accountDao();
     public abstract InstanceDao instanceDao();
+    public abstract TimelineDao timelineDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
@@ -158,7 +159,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     " PRIMARY KEY(`serverId`, `timelineUserId`)," +
                     " FOREIGN KEY(`authorServerId`, `timelineUserId`) REFERENCES `TimelineAccountEntity`(`serverId`, `timelineUserId`) " +
                     "ON UPDATE NO ACTION ON DELETE NO ACTION )");
-            database.execSQL("CREATE  INDEX " +
+            database.execSQL("CREATE  INDEX IF NOT EXISTS" +
                     "`index_TimelineStatusEntity_authorServerId_timelineUserId` " +
                     "ON `TimelineStatusEntity` (`authorServerId`, `timelineUserId`)");
         }

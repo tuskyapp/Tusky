@@ -1,12 +1,12 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 9,
-    "identityHash": "4d6613f426c1b3d2311238a149102b5c",
+    "version": 11,
+    "identityHash": "dfdccb4f203f6d2fa2b9d11f1670bcad",
     "entities": [
       {
         "tableName": "TootEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `text` TEXT, `urls` TEXT, `contentWarning` TEXT, `inReplyToId` TEXT, `inReplyToText` TEXT, `inReplyToUsername` TEXT, `visibility` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `text` TEXT, `urls` TEXT, `descriptions` TEXT, `contentWarning` TEXT, `inReplyToId` TEXT, `inReplyToText` TEXT, `inReplyToUsername` TEXT, `visibility` INTEGER)",
         "fields": [
           {
             "fieldPath": "uid",
@@ -23,6 +23,12 @@
           {
             "fieldPath": "urls",
             "columnName": "urls",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "descriptions",
+            "columnName": "descriptions",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -68,7 +74,7 @@
       },
       {
         "tableName": "AccountEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `domain` TEXT NOT NULL, `accessToken` TEXT NOT NULL, `isActive` INTEGER NOT NULL, `accountId` TEXT NOT NULL, `username` TEXT NOT NULL, `displayName` TEXT NOT NULL, `profilePictureUrl` TEXT NOT NULL, `notificationsEnabled` INTEGER NOT NULL, `notificationsMentioned` INTEGER NOT NULL, `notificationsFollowed` INTEGER NOT NULL, `notificationsReblogged` INTEGER NOT NULL, `notificationsFavorited` INTEGER NOT NULL, `notificationSound` INTEGER NOT NULL, `notificationVibration` INTEGER NOT NULL, `notificationLight` INTEGER NOT NULL, `lastNotificationId` TEXT NOT NULL, `activeNotifications` TEXT NOT NULL, `emojis` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `domain` TEXT NOT NULL, `accessToken` TEXT NOT NULL, `isActive` INTEGER NOT NULL, `accountId` TEXT NOT NULL, `username` TEXT NOT NULL, `displayName` TEXT NOT NULL, `profilePictureUrl` TEXT NOT NULL, `notificationsEnabled` INTEGER NOT NULL, `notificationsMentioned` INTEGER NOT NULL, `notificationsFollowed` INTEGER NOT NULL, `notificationsReblogged` INTEGER NOT NULL, `notificationsFavorited` INTEGER NOT NULL, `notificationSound` INTEGER NOT NULL, `notificationVibration` INTEGER NOT NULL, `notificationLight` INTEGER NOT NULL, `defaultPostPrivacy` INTEGER NOT NULL, `defaultMediaSensitivity` INTEGER NOT NULL, `alwaysShowSensitiveMedia` INTEGER NOT NULL, `mediaPreviewEnabled` INTEGER NOT NULL, `lastNotificationId` TEXT NOT NULL, `activeNotifications` TEXT NOT NULL, `emojis` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -163,6 +169,30 @@
           {
             "fieldPath": "notificationLight",
             "columnName": "notificationLight",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "defaultPostPrivacy",
+            "columnName": "defaultPostPrivacy",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "defaultMediaSensitivity",
+            "columnName": "defaultMediaSensitivity",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "alwaysShowSensitiveMedia",
+            "columnName": "alwaysShowSensitiveMedia",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mediaPreviewEnabled",
+            "columnName": "mediaPreviewEnabled",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -473,7 +503,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4d6613f426c1b3d2311238a149102b5c\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"dfdccb4f203f6d2fa2b9d11f1670bcad\")"
     ]
   }
 }

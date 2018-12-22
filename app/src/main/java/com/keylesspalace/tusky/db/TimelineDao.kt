@@ -1,8 +1,11 @@
 package com.keylesspalace.tusky.db
 
-import android.arch.persistence.room.*
-import android.arch.persistence.room.OnConflictStrategy.IGNORE
-import android.arch.persistence.room.OnConflictStrategy.REPLACE
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy.IGNORE
+import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.Query
+import androidx.room.Transaction
 import io.reactivex.Single
 
 @Dao

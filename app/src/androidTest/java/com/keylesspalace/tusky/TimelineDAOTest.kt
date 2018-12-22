@@ -1,8 +1,8 @@
 package com.keylesspalace.tusky
 
-import android.arch.persistence.room.Room
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.room.Room
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.runner.AndroidJUnit4
 import com.keylesspalace.tusky.db.*
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.repository.TimelineRepository
@@ -20,7 +20,7 @@ class TimelineDAOTest {
 
     @Before
     fun createDb() {
-        val context = InstrumentationRegistry.getTargetContext()
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
         timelineDao = db.timelineDao()
     }
@@ -167,8 +167,8 @@ class TimelineDAOTest {
                 content = "Content!$statusId",
                 createdAt = createdAt,
                 emojis = "emojis$statusId",
-                reblogsCount = 1 * statusId,
-                favouritesCount = 2 * statusId,
+                reblogsCount = 1 * statusId.toInt(),
+                favouritesCount = 2 * statusId.toInt(),
                 reblogged = even,
                 favourited = !even,
                 sensitive = even,

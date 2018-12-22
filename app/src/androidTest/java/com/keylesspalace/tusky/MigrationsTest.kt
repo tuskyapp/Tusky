@@ -1,9 +1,9 @@
 package com.keylesspalace.tusky
 
-import android.arch.persistence.db.framework.FrameworkSQLiteOpenHelperFactory
-import android.arch.persistence.room.testing.MigrationTestHelper
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.room.testing.MigrationTestHelper
+import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.runner.AndroidJUnit4
 import com.keylesspalace.tusky.db.AppDatabase
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -25,7 +25,7 @@ class MigrationsTest {
 
     @Test
     fun migrateTo9() {
-        val db = helper.createDatabase(TEST_DB, 8)
+        val db = helper.createDatabase(TEST_DB, 10)
 
         val id = 1
         val domain = "domain.site"
@@ -47,7 +47,7 @@ class MigrationsTest {
 
         db.close()
 
-        val newDb = helper.runMigrationsAndValidate(TEST_DB, 9, true, AppDatabase.MIGRATION_8_9)
+        val newDb = helper.runMigrationsAndValidate(TEST_DB, 11, true, AppDatabase.MIGRATION_10_11)
 
         val cursor = newDb.query("SELECT * FROM AccountEntity")
         cursor.moveToFirst()
