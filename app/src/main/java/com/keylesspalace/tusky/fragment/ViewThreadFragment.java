@@ -240,8 +240,8 @@ public final class ViewThreadFragment extends SFragment implements
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
                 if (response.isSuccessful()) {
-                    statuses.set(position, response.body());
-                    adapter.setItem(position, statuses.getPairedItem(position), true);
+                    updateStatus(position, response.body());
+
                     eventHub.dispatch(new ReblogEvent(status.getId(), reblog));
                 }
             }
@@ -261,8 +261,7 @@ public final class ViewThreadFragment extends SFragment implements
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
                 if (response.isSuccessful()) {
-                    statuses.set(position, response.body());
-                    adapter.setItem(position, statuses.getPairedItem(position), true);
+                    updateStatus(position, response.body());
 
                     eventHub.dispatch(new FavoriteEvent(status.getId(), favourite));
                 }
@@ -274,6 +273,22 @@ public final class ViewThreadFragment extends SFragment implements
                 t.printStackTrace();
             }
         });
+    }
+
+    private void updateStatus(int position, Status status) {
+        if(position >= 0 && position < statuses.size()) {
+
+            statuses.set(position, status);
+
+            if(position == statusIndex && card != null) {
+                StatusViewData.Concrete viewData = new StatusViewData.Builder(statuses.getPairedItem(position))
+                        .setCard(card)
+                        .createStatusViewData();
+                statuses.setPairedItem(position, viewData);
+            }
+            adapter.setItem(position, statuses.getPairedItem(position), true);
+
+        }
     }
 
     @Override
