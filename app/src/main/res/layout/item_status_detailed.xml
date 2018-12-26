@@ -308,99 +308,122 @@
 
     <TextView
         android:id="@+id/status_timestamp_info"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="6dp"
         android:drawablePadding="4dp"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_media_preview_container" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:clipChildren="false"
+    <ImageButton
+        android:id="@+id/status_reply"
+        style="?attr/image_button_style"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="@string/action_reply"
+        android:padding="4dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/status_space_1"
+        app:layout_constraintTop_toBottomOf="@id/status_timestamp_info"
+        app:srcCompat="@drawable/ic_reply_24dp" />
+
+    <Space
+        android:id="@+id/status_space_1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toRightOf="@id/status_reply"
+        app:layout_constraintRight_toLeftOf="@id/status_reblog"
+        app:layout_constraintTop_toTopOf="@id/status_reply" />
+
+    <at.connyduck.sparkbutton.SparkButton
+        android:id="@+id/status_reblog"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:clipToPadding="false"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        app:layout_constraintTop_toBottomOf="@id/status_timestamp_info">
+        android:contentDescription="@string/action_reblog"
+        android:padding="4dp"
+        app:layout_constraintLeft_toRightOf="@id/status_space_1"
+        app:layout_constraintRight_toLeftOf="@id/status_reblogs"
+        app:layout_constraintTop_toTopOf="@id/status_reply"
+        sparkbutton:activeImage="@drawable/reblog_active"
+        sparkbutton:iconSize="28dp"
+        sparkbutton:inactiveImage="?attr/status_reblog_inactive_drawable"
+        sparkbutton:primaryColor="@color/tusky_blue"
+        sparkbutton:secondaryColor="@color/tusky_blue_light" />
 
-        <ImageButton
-            android:id="@+id/status_reply"
-            style="?attr/image_button_style"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:contentDescription="@string/action_reply"
-            android:padding="4dp"
-            app:srcCompat="@drawable/ic_reply_24dp" />
+    <TextView
+        android:id="@+id/status_reblogs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintBottom_toBottomOf="@id/status_reblog"
+        app:layout_constraintLeft_toRightOf="@id/status_reblog"
+        app:layout_constraintRight_toLeftOf="@id/status_space_2"
+        app:layout_constraintTop_toTopOf="@id/status_reblog"
+        tools:text="4" />
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+    <Space
+        android:id="@+id/status_space_2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toRightOf="@id/status_reblogs"
+        app:layout_constraintRight_toLeftOf="@id/status_favourite"
+        app:layout_constraintTop_toTopOf="@id/status_reply" />
 
-        <at.connyduck.sparkbutton.SparkButton
-            android:id="@+id/status_reblog"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:clipToPadding="false"
-            android:contentDescription="@string/action_reblog"
-            android:padding="4dp"
-            sparkbutton:activeImage="@drawable/reblog_active"
-            sparkbutton:iconSize="28dp"
-            sparkbutton:inactiveImage="?attr/status_reblog_inactive_drawable"
-            sparkbutton:primaryColor="@color/tusky_blue"
-            sparkbutton:secondaryColor="@color/tusky_blue_light" />
+    <at.connyduck.sparkbutton.SparkButton
+        android:id="@+id/status_favourite"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:clipToPadding="false"
+        android:contentDescription="@string/action_favourite"
+        android:padding="4dp"
+        app:layout_constraintLeft_toRightOf="@id/status_space_2"
+        app:layout_constraintRight_toLeftOf="@id/status_favourites"
+        app:layout_constraintTop_toTopOf="@id/status_reblog"
+        sparkbutton:activeImage="?attr/status_favourite_active_drawable"
+        sparkbutton:iconSize="28dp"
+        sparkbutton:inactiveImage="?attr/status_favourite_inactive_drawable"
+        sparkbutton:primaryColor="@color/tusky_orange"
+        sparkbutton:secondaryColor="@color/tusky_orange_light" />
 
-        <TextView
-            android:id="@+id/status_reblogs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="?attr/status_text_medium" />
+    <TextView
+        android:id="@+id/status_favourites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintBottom_toBottomOf="@id/status_favourite"
+        app:layout_constraintLeft_toRightOf="@id/status_favourite"
+        app:layout_constraintRight_toLeftOf="@id/status_space_3"
+        app:layout_constraintTop_toTopOf="@id/status_favourite"
+        tools:text="8" />
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
 
-        <at.connyduck.sparkbutton.SparkButton
-            android:id="@+id/status_favourite"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:clipToPadding="false"
-            android:contentDescription="@string/action_favourite"
-            android:padding="4dp"
-            sparkbutton:activeImage="?attr/status_favourite_active_drawable"
-            sparkbutton:iconSize="28dp"
-            sparkbutton:inactiveImage="?attr/status_favourite_inactive_drawable"
-            sparkbutton:primaryColor="@color/tusky_orange"
-            sparkbutton:secondaryColor="@color/tusky_orange_light" />
+    <Space
+        android:id="@+id/status_space_3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toRightOf="@id/status_favourites"
+        app:layout_constraintRight_toLeftOf="@id/status_more"
+        app:layout_constraintTop_toTopOf="@id/status_reply" />
 
-        <TextView
-            android:id="@+id/status_favourites"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="?attr/status_text_medium" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <ImageButton
-            android:id="@+id/status_more"
-            style="?attr/image_button_style"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:contentDescription="@string/action_more"
-            android:padding="4dp"
-            app:srcCompat="@drawable/ic_more_horiz_24dp" />
-
-    </LinearLayout>
+    <ImageButton
+        android:id="@+id/status_more"
+        style="?attr/image_button_style"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:contentDescription="@string/action_more"
+        android:padding="4dp"
+        app:layout_constraintLeft_toRightOf="@id/status_space_3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/status_reply"
+        app:srcCompat="@drawable/ic_more_horiz_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/status_reply"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
