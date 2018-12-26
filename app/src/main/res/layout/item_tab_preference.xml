@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:colorBackground"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:textSize="?attr/status_text_large"
+            android:textColor="?android:attr/textColorSecondary"
+            android:drawableStart="@drawable/ic_home_24dp"
+            android:drawableTint="?android:attr/textColorSecondary"
+            android:layout_width="0dp"
+            android:drawablePadding="12dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_drag_indicator_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+

@@ -26,10 +26,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import android.util.Log
 import android.view.View
-import com.keylesspalace.tusky.AccountListActivity
-import com.keylesspalace.tusky.BuildConfig
-import com.keylesspalace.tusky.PreferencesActivity
-import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.*
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.db.AccountManager
@@ -60,6 +57,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
     lateinit var eventHub: EventHub
 
     private lateinit var notificationPreference: Preference
+    private lateinit var tabPreference: Preference
     private lateinit var mutedUsersPreference: Preference
     private lateinit var blockedUsersPreference: Preference
 
@@ -74,6 +72,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         addPreferencesFromResource(R.xml.account_preferences)
 
         notificationPreference = findPreference("notificationPreference")
+        tabPreference = findPreference("tabPreference")
         mutedUsersPreference = findPreference("mutedUsersPreference")
         blockedUsersPreference = findPreference("blockedUsersPreference")
         defaultPostPrivacyPreference = findPreference("defaultPostPrivacy") as ListPreference
@@ -86,6 +85,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         blockedUsersPreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_block).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
 
         notificationPreference.onPreferenceClickListener = this
+        tabPreference.onPreferenceClickListener = this
         mutedUsersPreference.onPreferenceClickListener = this
         blockedUsersPreference.onPreferenceClickListener = this
 
@@ -159,6 +159,12 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
                     }
 
                 }
+                return true
+            }
+            tabPreference -> {
+                val intent = Intent(context, TabPreferenceActivity::class.java)
+                activity?.startActivity(intent)
+                activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
                 return true
             }
             mutedUsersPreference -> {

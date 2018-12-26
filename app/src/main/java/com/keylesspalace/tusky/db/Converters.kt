@@ -18,8 +18,11 @@ package com.keylesspalace.tusky.db
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.keylesspalace.tusky.TabData
+import com.keylesspalace.tusky.createTabDataFromId
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
+import java.util.ArrayList
 
 class Converters {
 
@@ -43,5 +46,16 @@ class Converters {
     @TypeConverter
     fun intToVisibility(visibility: Int): Status.Visibility {
         return Status.Visibility.byNum(visibility)
+    }
+
+    @TypeConverter
+    fun stringToTabData(str: String?): List<TabData>? {
+        return str?.split(";")
+                ?.map { createTabDataFromId(it) }
+    }
+
+    @TypeConverter
+    fun tabDataToString(tabData: List<TabData>?): String? {
+        return tabData?.joinToString(";") { it.id }
     }
 }

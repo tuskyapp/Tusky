@@ -7,6 +7,10 @@
         android:title="@string/pref_title_edit_notification_settings" />
 
     <Preference
+        android:key="tabPreference"
+        android:title="custom tab config" />
+
+    <Preference
         android:key="mutedUsersPreference"
         android:title="@string/action_view_mutes" />
 

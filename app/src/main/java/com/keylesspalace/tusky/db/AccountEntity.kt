@@ -19,6 +19,8 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import com.keylesspalace.tusky.TabData
+import com.keylesspalace.tusky.defaultTabs
 
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
@@ -48,7 +50,8 @@ data class AccountEntity(@field:PrimaryKey(autoGenerate = true) var id: Long,
                          var mediaPreviewEnabled: Boolean = true,
                          var lastNotificationId: String = "0",
                          var activeNotifications: String = "[]",
-                         var emojis: List<Emoji> = emptyList()) {
+                         var emojis: List<Emoji> = emptyList(),
+                         var tabPreferences: List<TabData> = defaultTabs()) {
 
     val identifier: String
         get() = "$domain:$accountId"
