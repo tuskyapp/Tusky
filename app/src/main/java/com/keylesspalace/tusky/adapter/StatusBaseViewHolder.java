@@ -279,6 +279,8 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                             // initially when the image gets loaded:
                             .into(mediaPreviews[i], mediaPreviews[i]);
                 } else {
+                    mediaPreviews[i].removeFocalPoint();
+
                     Picasso.with(context)
                             .load(previewUrl)
                             .placeholder(mediaPreviewUnloadedId)

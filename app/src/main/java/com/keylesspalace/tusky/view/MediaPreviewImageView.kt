@@ -47,11 +47,50 @@ defStyleAttr: Int = 0
      * Set the focal point for this view.
      */
     fun setFocalPoint(focus: Attachment.Focus) {
-        scaleType = ScaleType.MATRIX
         this.focus = focus
+        super.setScaleType(ScaleType.MATRIX)
 
         if (focalMatrix == null) {
             focalMatrix = Matrix()
+        }
+    }
+
+    /**
+     * Remove the focal point from this view (if there was one).
+     */
+    fun removeFocalPoint() {
+        super.setScaleType(ScaleType.CENTER_CROP)
+        focus = null
+    }
+
+    /**
+     * Overridden getScaleType method which returns CENTER_CROP if we have a focal point set.
+     *
+     * This is necessary because the Android transitions framework tries to copy the scale type
+     * from this view to the PhotoView when animating between this view and the detailled view of
+     * the image. Since the PhotoView does not support a MATRIX scale type, the app would crash
+     * if we simply passed that on, so instead we pretend that CENTER_CROP is still used here
+     * even if we have a focus point set.
+     */
+    override fun getScaleType(): ScaleType {
+        if (focus != null) {
+            return ScaleType.CENTER_CROP
+        } else {
+            return scaleType
+        }
+    }
+
+    /**
+     * Overridden setScaleType method which only accepts the new type if we don't have a focal
+     * point set.
+     *
+     *
+     */
+    override fun setScaleType(type: ScaleType) {
+        if (focus != null) {
+            super.setScaleType(ScaleType.MATRIX)
+        } else {
+            super.setScaleType(type)
         }
     }
 
@@ -73,6 +112,7 @@ defStyleAttr: Int = 0
      */
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
         if (drawable != null && focus != null && focalMatrix != null) {
+            scaleType = ScaleType.MATRIX
             FocalPointUtil.updateFocalPointMatrix(width.toFloat(), height.toFloat(),
                     drawable.intrinsicWidth.toFloat(), drawable.intrinsicHeight.toFloat(),
                     focus as Attachment.Focus, focalMatrix as Matrix)
