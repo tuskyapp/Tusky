@@ -19,42 +19,49 @@
         android:layout_marginEnd="14dp"
         android:contentDescription="@string/action_view_profile"
         android:scaleType="centerCrop"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/avatar_default" />
 
     <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_display_name"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
         android:textStyle="normal|bold"
         app:layout_constraintBottom_toTopOf="@id/status_username"
-        app:layout_constraintLeft_toRightOf="@id/status_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@id/status_avatar"
         app:layout_constraintTop_toTopOf="@id/status_avatar"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:text="Display Name" />
+        tools:text="Display Name"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constrainedWidth="true"/>
 
     <TextView
         android:id="@+id/status_username"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="14dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintBottom_toBottomOf="@id/status_avatar"
-        app:layout_constraintLeft_toRightOf="@id/status_avatar"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/status_avatar"
         app:layout_constraintTop_toBottomOf="@id/status_display_name"
-        tools:text="\@ConnyDuck\@mastodon.social" />
+        tools:text="\@ConnyDuck\@mastodon.social"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constrainedWidth="true"/>
 
     <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_content_warning_description"
@@ -84,11 +91,12 @@
         android:textOff="@string/status_content_warning_show_more"
         android:textOn="@string/status_content_warning_show_less"
         android:textSize="?attr/status_text_large"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/status_content_warning_description" />
 
     <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_content"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
@@ -96,6 +104,8 @@
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/status_content_warning_button"
         tools:text="Status content. Can be pretty long. " />
 
@@ -326,11 +336,11 @@
         android:layout_height="40dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:contentDescription="@string/action_reply"
         android:padding="4dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/status_space_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/status_space_1"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_timestamp_info"
         app:srcCompat="@drawable/ic_reply_24dp" />
 
@@ -338,8 +348,8 @@
         android:id="@+id/status_space_1"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintLeft_toRightOf="@id/status_reply"
-        app:layout_constraintRight_toLeftOf="@id/status_reblog"
+        app:layout_constraintEnd_toStartOf="@id/status_reblog"
+        app:layout_constraintStart_toEndOf="@id/status_reply"
         app:layout_constraintTop_toTopOf="@id/status_reply" />
 
     <at.connyduck.sparkbutton.SparkButton
@@ -349,8 +359,8 @@
         android:clipToPadding="false"
         android:contentDescription="@string/action_reblog"
         android:padding="4dp"
-        app:layout_constraintLeft_toRightOf="@id/status_space_1"
-        app:layout_constraintRight_toLeftOf="@id/status_reblogs"
+        app:layout_constraintEnd_toStartOf="@id/status_reblogs"
+        app:layout_constraintStart_toEndOf="@id/status_space_1"
         app:layout_constraintTop_toTopOf="@id/status_reply"
         sparkbutton:activeImage="@drawable/reblog_active"
         sparkbutton:iconSize="28dp"
@@ -364,8 +374,8 @@
         android:layout_height="wrap_content"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintBottom_toBottomOf="@id/status_reblog"
-        app:layout_constraintLeft_toRightOf="@id/status_reblog"
-        app:layout_constraintRight_toLeftOf="@id/status_space_2"
+        app:layout_constraintEnd_toStartOf="@id/status_space_2"
+        app:layout_constraintStart_toEndOf="@id/status_reblog"
         app:layout_constraintTop_toTopOf="@id/status_reblog"
         tools:text="4" />
 
@@ -373,8 +383,8 @@
         android:id="@+id/status_space_2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintLeft_toRightOf="@id/status_reblogs"
-        app:layout_constraintRight_toLeftOf="@id/status_favourite"
+        app:layout_constraintEnd_toStartOf="@id/status_favourite"
+        app:layout_constraintStart_toEndOf="@id/status_reblogs"
         app:layout_constraintTop_toTopOf="@id/status_reply" />
 
     <at.connyduck.sparkbutton.SparkButton
@@ -384,8 +394,8 @@
         android:clipToPadding="false"
         android:contentDescription="@string/action_favourite"
         android:padding="4dp"
-        app:layout_constraintLeft_toRightOf="@id/status_space_2"
-        app:layout_constraintRight_toLeftOf="@id/status_favourites"
+        app:layout_constraintEnd_toStartOf="@id/status_favourites"
+        app:layout_constraintStart_toEndOf="@id/status_space_2"
         app:layout_constraintTop_toTopOf="@id/status_reblog"
         sparkbutton:activeImage="?attr/status_favourite_active_drawable"
         sparkbutton:iconSize="28dp"
@@ -399,8 +409,8 @@
         android:layout_height="wrap_content"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintBottom_toBottomOf="@id/status_favourite"
-        app:layout_constraintLeft_toRightOf="@id/status_favourite"
-        app:layout_constraintRight_toLeftOf="@id/status_space_3"
+        app:layout_constraintEnd_toStartOf="@id/status_space_3"
+        app:layout_constraintStart_toEndOf="@id/status_favourite"
         app:layout_constraintTop_toTopOf="@id/status_favourite"
         tools:text="8" />
 
@@ -409,8 +419,8 @@
         android:id="@+id/status_space_3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintLeft_toRightOf="@id/status_favourites"
-        app:layout_constraintRight_toLeftOf="@id/status_more"
+        app:layout_constraintEnd_toStartOf="@id/status_more"
+        app:layout_constraintStart_toEndOf="@id/status_favourites"
         app:layout_constraintTop_toTopOf="@id/status_reply" />
 
     <ImageButton
@@ -420,10 +430,10 @@
         android:layout_height="32dp"
         android:contentDescription="@string/action_more"
         android:padding="4dp"
-        app:layout_constraintLeft_toRightOf="@id/status_space_3"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/status_reply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/status_space_3"
         app:layout_constraintTop_toTopOf="@id/status_reply"
-        app:srcCompat="@drawable/ic_more_horiz_24dp"
-        app:layout_constraintBottom_toBottomOf="@id/status_reply"/>
+        app:srcCompat="@drawable/ic_more_horiz_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
