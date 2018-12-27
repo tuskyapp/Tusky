@@ -146,20 +146,21 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void setTextVisible(boolean visible, StatusViewData.Concrete status,
+    private void setTextVisible(boolean expanded, StatusViewData.Concrete status,
                                 final StatusActionListener listener) {
         Status.Mention[] mentions = status.getMentions();
-        if (visible) {
+        if (expanded) {
             Spanned emojifiedText = CustomEmojiHelper.emojifyText(
                     status.getContent(), status.getStatusEmojis(), this.content);
             LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
-            this.content.setVisibility(View.VISIBLE);
         } else {
-            if (mentions == null || mentions.length == 0) {
-                this.content.setVisibility(View.GONE);
-            } else {
                 LinkHelper.setClickableMentions(this.content, mentions, listener);
-            }
+
+        }
+        if(TextUtils.isEmpty(this.content.getText())) {
+            this.content.setVisibility(View.GONE);
+        } else {
+            this.content.setVisibility(View.VISIBLE);
         }
     }
 
