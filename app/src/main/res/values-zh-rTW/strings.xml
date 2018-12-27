@@ -342,4 +342,6 @@
     <string name="unpin_action">取消置頂</string>
     <string name="pin_action">置頂</string>
 
+	<string name="pref_default_media_sensitivity">總是將媒體標示為敏感</string>
+
 </resources>
