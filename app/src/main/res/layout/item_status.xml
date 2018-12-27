@@ -26,7 +26,8 @@
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlSymmetry"
-        tools:text="ConnyDuck boosted" />
+        tools:text="ConnyDuck boosted"
+        tools:visibility="gone"/>
 
     <com.keylesspalace.tusky.view.RoundedImageView
         android:id="@+id/status_avatar"
@@ -103,15 +104,19 @@
             android:id="@+id/status_content_warning_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/status_display_name"
             android:lineSpacingMultiplier="1.1"
             android:textColor="?android:textColorPrimary"
             android:textSize="?attr/status_text_medium"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="visible"
+            tools:text="content warning"/>
 
         <ToggleButton
             android:id="@+id/status_content_warning_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/status_content_warning_description"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:background="?attr/content_warning_button"
@@ -138,7 +143,7 @@
         android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_name_bar"
-        app:layout_constraintTop_toBottomOf="@id/status_name_bar"
+        app:layout_constraintTop_toBottomOf="@id/button_toggle_content"
         tools:text="This is a status" />
 
     <ToggleButton
@@ -160,7 +165,7 @@
         android:textSize="?attr/status_text_medium"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/status_name_bar"
-        app:layout_constraintTop_toBottomOf="@id/status_content"
+        app:layout_constraintTop_toBottomOf="@id/status_name_bar"
         tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -170,7 +175,7 @@
         android:layout_marginTop="@dimen/status_media_preview_margin_top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_name_bar"
-        app:layout_constraintTop_toBottomOf="@id/button_toggle_content">
+        app:layout_constraintTop_toBottomOf="@id/status_content">
 
         <ImageView
             android:id="@+id/status_media_preview_0"
