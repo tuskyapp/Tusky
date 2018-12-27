@@ -76,7 +76,7 @@ defStyleAttr: Int = 0
         if (focus != null) {
             return ScaleType.CENTER_CROP
         } else {
-            return scaleType
+            return super.getScaleType()
         }
     }
 
