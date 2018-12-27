@@ -30,7 +30,6 @@ public abstract class AccountAdapter extends RecyclerView.Adapter {
     static final int VIEW_TYPE_ACCOUNT = 0;
     static final int VIEW_TYPE_FOOTER = 1;
 
-
     List<Account> accountList;
     AccountActionListener accountActionListener;
     private boolean bottomLoading;
@@ -60,7 +59,7 @@ public abstract class AccountAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    public void addItems(List<Account> newAccounts) {
+    public void addItems(@NonNull List<Account> newAccounts) {
         int end = accountList.size();
         Account last = accountList.get(end - 1);
         if (last != null && !findAccount(newAccounts, last.getId())) {
@@ -82,7 +81,7 @@ public abstract class AccountAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private static boolean findAccount(List<Account> accounts, String id) {
+    private static boolean findAccount(@NonNull List<Account> accounts, String id) {
         for (Account account : accounts) {
             if (account.getId().equals(id)) {
                 return true;
@@ -101,7 +100,7 @@ public abstract class AccountAdapter extends RecyclerView.Adapter {
         return account;
     }
 
-    public void addItem(Account account, int position) {
+    public void addItem(@NonNull Account account, int position) {
         if (position < 0 || position > accountList.size()) {
             return;
         }
