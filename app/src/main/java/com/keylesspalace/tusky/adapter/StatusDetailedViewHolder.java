@@ -21,6 +21,7 @@ import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomURLSpan;
+import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
@@ -30,6 +31,7 @@ import java.text.NumberFormat;
 import java.util.Date;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private TextView reblogs;
@@ -40,6 +42,9 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private TextView cardTitle;
     private TextView cardDescription;
     private TextView cardUrl;
+    private View infoDivider;
+
+    private NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
     StatusDetailedViewHolder(View view) {
         super(view, false);
@@ -51,6 +56,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
         cardTitle = view.findViewById(R.id.card_title);
         cardDescription = view.findViewById(R.id.card_description);
         cardUrl = view.findViewById(R.id.card_link);
+        infoDivider = view.findViewById(R.id.status_info_divider);
     }
 
     @Override
@@ -66,6 +72,43 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
         } else {
             timestampInfo.setText("");
         }
+    }
+
+    private void setReblogAndFavCount(int reblogCount,  int favCount, StatusActionListener listener) {
+
+        if(reblogCount > 0) {
+            String reblogCountString = numberFormat.format(reblogCount);
+            reblogs.setText(HtmlUtils.fromHtml(reblogs.getResources().getQuantityString(R.plurals.reblogs, reblogCount, reblogCountString)));
+            reblogs.setVisibility(View.VISIBLE);
+        } else {
+            reblogs.setVisibility(View.GONE);
+        }
+        if(favCount > 0) {
+            String favCountString = numberFormat.format(favCount);
+            favourites.setText(HtmlUtils.fromHtml(favourites.getResources().getQuantityString(R.plurals.favs, favCount, favCountString)));
+            favourites.setVisibility(View.VISIBLE);
+        } else {
+            favourites.setVisibility(View.GONE);
+        }
+
+        if(reblogs.getVisibility() == View.GONE && favourites.getVisibility() == View.GONE) {
+            infoDivider.setVisibility(View.GONE);
+        } else {
+            infoDivider.setVisibility(View.VISIBLE);
+        }
+
+        reblogs.setOnClickListener( v -> {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onShowReblogs(position);
+            }
+        });
+        favourites.setOnClickListener( v -> {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onShowFavs(position);
+            }
+        });
     }
 
     private void setApplication(@Nullable Status.Application app) {
@@ -91,11 +134,10 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                          boolean mediaPreviewEnabled) {
         super.setupWithStatus(status, listener, mediaPreviewEnabled);
 
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), listener);
 
-        reblogs.setText(numberFormat.format(status.getReblogsCount()));
-        favourites.setText(numberFormat.format(status.getFavouritesCount()));
         setApplication(status.getApplication());
+
 
         View.OnLongClickListener longClickListener = view -> {
             TextView textView = (TextView)view;

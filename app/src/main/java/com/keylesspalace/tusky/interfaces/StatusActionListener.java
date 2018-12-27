@@ -37,4 +37,17 @@ public interface StatusActionListener extends LinkListener {
      * @param position    The position of the status in the list.
      */
     void onContentCollapsedChange(boolean isCollapsed, int position);
+
+    /**
+     * called when the reblog count has been clicked
+     * @param position The position of the status in the list.
+     */
+    default void onShowReblogs(int position) {}
+
+    /**
+     * called when the favourite count has been clicked
+     * @param position The position of the status in the list.
+     */
+    default void onShowFavs(int position) {}
+
 }

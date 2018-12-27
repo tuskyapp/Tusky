@@ -264,7 +264,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         val accountListClickListener = { v: View ->
             val type = when (v.id) {
                 R.id.accountFollowers-> AccountListActivity.Type.FOLLOWERS
-                R.id.accountFollowing -> AccountListActivity.Type.FOLLOWING
+                R.id.accountFollowing -> AccountListActivity.Type.FOLLOWS
                 else -> throw AssertionError()
             }
             val accountListIntent = AccountListActivity.newIntent(this, type, accountId)
