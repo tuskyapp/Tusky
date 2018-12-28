@@ -158,7 +158,6 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
         } else {
                 LinkHelper.setClickableMentions(this.content, mentions, listener);
-
         }
         if(TextUtils.isEmpty(this.content.getText())) {
             this.content.setVisibility(View.GONE);
