@@ -18,10 +18,10 @@ package com.keylesspalace.tusky;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
-import android.arch.persistence.room.Room;
+import androidx.room.Room;
 import android.content.BroadcastReceiver;
 import android.preference.PreferenceManager;
-import android.support.text.emoji.EmojiCompat;
+import androidx.emoji.text.EmojiCompat;
 
 import com.evernote.android.job.JobManager;
 import com.jakewharton.picasso.OkHttp3Downloader;

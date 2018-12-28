@@ -311,7 +311,7 @@
     <string name="emoji_style">Arddull emoji</string>
     <string name="system_default">Rhagosodiad system</string>
     <string name="download_fonts">Bydd angen i chi lawrlwytho\'r setiau emoji hyn yn gyntaf </string>
-    <string name="performing_lookup_title">Wrthi\'n chwilio...</string>
+    <string name="performing_lookup_title">Wrthi\'n chwilio…</string>
     <string name="expand_collapse_all_statuses">Chwyddo/lleihau pob statws </string>
     <string name="action_open_toot">Agor tŵt</string>
     <string name="restart_required">Angen ailddechrau\'r app</string>

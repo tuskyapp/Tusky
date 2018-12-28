@@ -20,11 +20,11 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.text.BidiFormatter;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.text.BidiFormatter;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -427,7 +427,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     icon = ContextCompat.getDrawable(context, R.drawable.ic_star_24dp);
                     if (icon != null) {
                         icon.setColorFilter(ContextCompat.getColor(context,
-                                R.color.status_favourite_button_marked_dark), PorterDuff.Mode.SRC_ATOP);
+                                R.color.tusky_orange), PorterDuff.Mode.SRC_ATOP);
                     }
 
                     format = context.getString(R.string.notification_favourite_format);
@@ -437,7 +437,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     icon = ContextCompat.getDrawable(context, R.drawable.ic_repeat_24dp);
                     if (icon != null) {
                         icon.setColorFilter(ContextCompat.getColor(context,
-                                R.color.color_accent_dark), PorterDuff.Mode.SRC_ATOP);
+                                R.color.tusky_blue), PorterDuff.Mode.SRC_ATOP);
                     }
 
                     format = context.getString(R.string.notification_reblog_format);

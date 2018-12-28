@@ -9,6 +9,7 @@
     </declare-styleable>
 
     <!--Themed Attributes-->
+    <attr name="recents_background_color" format="reference|color" />
     <attr name="window_background" format="reference" />
     <attr name="custom_tab_toolbar" format="reference" />
     <attr name="toolbar_background_color" format="reference" />
@@ -30,10 +31,8 @@
     <attr name="account_header_background_color" format="reference|color" />
     <attr name="account_toolbar_icon_tint_uncollapsed" format="reference|color" />
     <attr name="account_toolbar_icon_tint_collapsed" format="reference|color" />
-    <attr name="toolbar_popup_theme" format="reference" />
     <attr name="compose_close_button_tint" format="reference|color" />
     <attr name="compose_media_button_disabled_tint" format="reference|color" />
-    <attr name="compose_mention_color" format="reference|color" />
     <attr name="compose_content_warning_bar_background" format="reference" />
     <attr name="compose_reply_content_background" format="reference|color" />
     <attr name="report_status_background_color" format="reference|color" />
@@ -46,7 +45,5 @@
     <attr name="status_text_small" format="dimension" />
     <attr name="status_text_medium" format="dimension" />
     <attr name="status_text_large" format="dimension" />
-
-
 
 </resources>

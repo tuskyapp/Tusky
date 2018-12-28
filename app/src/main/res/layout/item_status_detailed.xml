@@ -15,8 +15,8 @@
         android:id="@+id/status_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="14dp"
         android:layout_marginTop="14dp"
+        android:layout_marginEnd="14dp"
         android:contentDescription="@string/action_view_profile"
         android:scaleType="centerCrop"
         tools:src="@drawable/avatar_default" />
@@ -25,14 +25,14 @@
         android:id="@+id/status_name_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginTop="14dp"
+        android:layout_marginBottom="8dp"
         android:layout_toEndOf="@+id/status_avatar"
         android:gravity="center_vertical"
         android:minHeight="48dp"
         android:orientation="vertical">
 
-        <android.support.text.emoji.widget.EmojiTextView
+        <androidx.emoji.widget.EmojiTextView
             android:id="@+id/status_display_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
 
     </LinearLayout>
 
-    <android.support.text.emoji.widget.EmojiTextView
+    <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_content_warning_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -71,21 +71,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/status_content_warning_description"
-        android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:background="?attr/content_warning_button"
-        android:minHeight="0dp"
         android:minWidth="160dp"
-        android:paddingBottom="4dp"
+        android:minHeight="0dp"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:paddingTop="4dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="4dp"
         android:textAllCaps="true"
         android:textOff="@string/status_content_warning_show_more"
         android:textOn="@string/status_content_warning_show_less"
         android:textSize="?attr/status_text_large" />
 
-    <android.support.text.emoji.widget.EmojiTextView
+    <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -118,13 +118,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="6dp"
             android:paddingLeft="6dp"
+            android:paddingTop="6dp"
             android:paddingRight="6dp"
-            android:paddingTop="6dp">
+            android:paddingBottom="6dp">
 
             <!--TODO: check if this needs emoji support-->
-            <android.support.text.emoji.widget.EmojiTextView
+            <androidx.emoji.widget.EmojiTextView
                 android:id="@+id/card_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
                 android:textSize="?attr/status_text_medium" />
 
             <!--TODO: Check if this needs emoji support-->
-            <android.support.text.emoji.widget.EmojiTextView
+            <androidx.emoji.widget.EmojiTextView
                 android:id="@+id/card_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -159,13 +159,13 @@
 
     </LinearLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/status_media_preview_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/card_view"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="@dimen/status_media_preview_margin_top">
+        android:layout_marginTop="@dimen/status_media_preview_margin_top"
+        android:layout_marginBottom="4dp">
 
         <com.keylesspalace.tusky.view.MediaPreviewImageView
             android:id="@+id/status_media_preview_0"
@@ -272,7 +272,7 @@
             app:srcCompat="@drawable/ic_eye_24dp" />
 
         <!--TODO: Check if this needs emoji support-->
-        <android.support.text.emoji.widget.EmojiTextView
+        <androidx.emoji.widget.EmojiTextView
             android:id="@+id/status_sensitive_media_warning"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -291,7 +291,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <!--TODO: Check if this needs emoji support-->
-        <android.support.text.emoji.widget.EmojiTextView
+        <androidx.emoji.widget.EmojiTextView
             android:id="@+id/status_media_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -301,30 +301,73 @@
             android:textSize="?attr/status_text_medium"
             android:visibility="gone" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/status_timestamp_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/status_media_preview_container"
-        android:layout_marginBottom="6dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="6dp"
         android:drawablePadding="4dp"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium" />
 
+    <View
+        android:id="@+id/status_info_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/status_timestamp_info"
+        android:background="?attr/status_divider_drawable"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp" />
+
     <LinearLayout
+        android:id="@+id/status_reblog_fav_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/status_timestamp_info"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp">
+
+        <TextView
+            android:id="@+id/status_reblogs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:background="?attr/selectableItemBackground"
+            android:padding="4dp"
+            android:textSize="?attr/status_text_medium" />
+
+        <TextView
+            android:id="@+id/status_favourites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:padding="4dp"
+            android:textSize="?attr/status_text_medium" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/status_reblog_fav_info"
+        android:background="?attr/status_divider_drawable"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/status_reblog_fav_info"
         android:layout_marginEnd="8dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp">
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
 
         <ImageButton
             android:id="@+id/status_reply"
@@ -350,14 +393,8 @@
             sparkbutton:activeImage="@drawable/reblog_active"
             sparkbutton:iconSize="28dp"
             sparkbutton:inactiveImage="?attr/status_reblog_inactive_drawable"
-            sparkbutton:primaryColor="@color/status_reblog_button_marked_dark"
-            sparkbutton:secondaryColor="@color/status_reblog_button_marked_light" />
-
-        <TextView
-            android:id="@+id/status_reblogs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="?attr/status_text_medium" />
+            sparkbutton:primaryColor="@color/tusky_blue"
+            sparkbutton:secondaryColor="@color/tusky_blue_light" />
 
         <Space
             android:layout_width="0dp"
@@ -374,14 +411,8 @@
             sparkbutton:activeImage="?attr/status_favourite_active_drawable"
             sparkbutton:iconSize="28dp"
             sparkbutton:inactiveImage="?attr/status_favourite_inactive_drawable"
-            sparkbutton:primaryColor="@color/status_favourite_button_marked_dark"
-            sparkbutton:secondaryColor="@color/status_favourite_button_marked_light" />
-
-        <TextView
-            android:id="@+id/status_favourites"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="?attr/status_text_medium" />
+            sparkbutton:primaryColor="@color/tusky_orange"
+            sparkbutton:secondaryColor="@color/tusky_orange_light" />
 
         <Space
             android:layout_width="0dp"

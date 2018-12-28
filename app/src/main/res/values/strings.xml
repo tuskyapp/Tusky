@@ -210,8 +210,6 @@
         <item>Public</item>
         <item>Unlisted</item>
         <item>Followers-only</item>
-        <item>Direct</item>
-        <item>Unknown</item>
     </string-array>
 
     <string name="pref_status_text_size">Status text size</string>
@@ -326,7 +324,7 @@
     <string name="emoji_style">Emoji style</string>
     <string name="system_default">System default</string>
     <string name="download_fonts">You\'ll need to download these emoji sets first</string>
-    <string name="performing_lookup_title">Performing lookup...</string>
+    <string name="performing_lookup_title">Performing lookup…</string>
     <string name="expand_collapse_all_statuses">Expand/Collapse all statuses</string>
     <string name="action_open_toot">Open toot</string>
     <string name="restart_required">App restart required</string>
@@ -361,5 +359,18 @@
 
     <string name="unpin_action">Unpin</string>
     <string name="pin_action">Pin</string>
+
+    <plurals name="favs">
+        <item quantity="one">&lt;b>%1$s&lt;/b> Favourite</item>
+        <item quantity="other">&lt;b>%1$s&lt;/b> Favourites</item>
+    </plurals>
+
+    <plurals name="reblogs">
+        <item quantity="one">&lt;b>%s&lt;/b> Boost</item>
+        <item quantity="other">&lt;b>%s&lt;/b> Boosts</item>
+    </plurals>
+
+    <string name="title_reblogged_by">Boosted by</string>
+    <string name="title_favourited_by">Favourited by</string>
 
 </resources>

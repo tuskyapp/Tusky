@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.adapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.View
@@ -33,9 +33,7 @@ class AccountFieldAdapter(private val linkListener: LinkListener) : RecyclerView
     var emojis: List<Emoji> = emptyList()
     var fields: List<Field> = emptyList()
 
-    override fun getItemCount(): Int {
-        return fields.size
-    }
+    override fun getItemCount() = fields.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountFieldAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_account_field, parent, false)
@@ -43,9 +41,17 @@ class AccountFieldAdapter(private val linkListener: LinkListener) : RecyclerView
     }
 
     override fun onBindViewHolder(viewHolder: AccountFieldAdapter.ViewHolder, position: Int) {
-        viewHolder.nameTextView.text = fields[position].name
-        val emojifiedValue = CustomEmojiHelper.emojifyText(fields[position].value, emojis, viewHolder.valueTextView)
+        val field = fields[position]
+        viewHolder.nameTextView.text = field.name
+        val emojifiedValue = CustomEmojiHelper.emojifyText(field.value, emojis, viewHolder.valueTextView)
         LinkHelper.setClickableText(viewHolder.valueTextView, emojifiedValue, null, linkListener)
+
+        if(field.verifiedAt != null) {
+            viewHolder.valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0,  R.drawable.ic_check_circle, 0)
+        } else {
+            viewHolder.valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0 )
+        }
+
     }
 
     class ViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {

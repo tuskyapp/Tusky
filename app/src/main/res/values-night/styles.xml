@@ -2,29 +2,34 @@
     <!--Dark Application Theme Styles-->
     <style name="TuskyTheme" parent="TuskyBaseTheme"/>
     <style name="TuskyDialogActivityTheme" parent="@style/TuskyTheme" />
-    <style name="TuskyBaseTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/color_primary_dark</item>
+    <style name="TuskyBaseTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/tusky_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <item name="colorSecondary">@color/tusky_blue</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <item name="colorSurface">@color/color_primary_dark_dark</item>
+
         <item name="colorPrimaryDark">@color/color_primary_dark_dark</item>
-        <item name="colorAccent">@color/color_accent_dark</item>
-        <item name="colorButtonNormal">@color/toolbar_background_dark</item>
-        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
 
         <item name="android:colorBackground">@color/color_primary_dark_dark</item>
+        <item name="recents_background_color">@color/color_primary_dark_dark</item>
         <item name="android:windowBackground">@color/window_background_dark</item>
-        <item name="android:editTextColor">@color/edit_text_color_dark</item>
         <item name="android:textColorPrimary">@color/text_color_primary_dark</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_dark</item>
         <item name="android:textColorTertiary">@color/text_color_tertiary_dark</item>
+
         <item name="android:actionMenuTextColor">@color/text_color_primary_dark</item>
 
-        <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheetDialog.Dark</item>
-        <item name="alertDialogTheme">@style/nightDialogTheme</item>
+        <item name="alertDialogTheme">@style/TuskyDialog.Dark</item>
+        <item name="snackbarButtonStyle">@style/TuskyButton.TextButton</item>
 
         <item name="window_background">@color/window_background_dark</item>
         <item name="custom_tab_toolbar">@color/custom_tab_toolbar_dark</item>
         <item name="toolbar_background_color">@color/toolbar_background_dark</item>
         <item name="toolbar_icon_tint">@color/toolbar_icon_dark</item>
-        <item name="image_button_style">@style/AppTheme.ImageButton.Dark</item>
+        <item name="image_button_style">@style/TuskyImageButton.Dark</item>
         <item name="status_reblog_small_drawable">@drawable/ic_reblog_dark_18dp</item>
         <item name="status_reblog_inactive_drawable">@drawable/reblog_inactive_dark</item>
         <item name="status_reblog_disabled_drawable">@drawable/reblog_private_dark</item>
@@ -36,15 +41,14 @@
         <item name="media_preview_unloaded_drawable">@drawable/media_preview_unloaded_dark</item>
         <item name="status_divider_drawable">@drawable/status_divider_dark</item>
         <item name="conversation_thread_line_drawable">@drawable/conversation_thread_line_dark</item>
-        <item name="tab_icon_selected_tint">@color/color_accent_dark</item>
+        <item name="tab_icon_selected_tint">@color/tusky_blue</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_dark</item>
         <item name="account_header_background_color">@color/color_background_dark</item>
         <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark</item>
         <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_dark</item>
-        <item name="toolbar_popup_theme">@style/AppTheme.Account.ToolbarPopupTheme.Dark</item>
+
         <item name="compose_close_button_tint">@color/toolbar_icon_dark</item>
         <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_dark</item>
-        <item name="compose_mention_color">@color/color_accent_dark</item>
         <item name="compose_content_warning_bar_background">@drawable/border_background_dark</item>
         <item name="compose_reply_content_background">@color/compose_reply_content_background_dark</item>
 
@@ -60,6 +64,7 @@
         <item name="material_drawer_selected">@color/color_primary_dark</item>
         <item name="material_drawer_selected_text">@color/text_color_primary_dark</item>
         <item name="material_drawer_header_selection_text">@color/text_color_primary_dark</item>
+        <item name="material_drawer_header_selection_subtext">@color/text_color_secondary_dark</item>
 
         <item name="card_background">@drawable/card_frame_dark</item>
         <item name="card_image_background">@color/text_color_tertiary_dark</item>
@@ -72,25 +77,15 @@
 
     </style>
 
-    <style name="AppTheme.ImageButton.Dark" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
+    <style name="TuskyImageButton.Dark" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:tint">@color/text_color_tertiary_dark</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
-    <style name="AppTheme.BottomSheetDialog.Dark" parent="@style/Theme.Design.BottomSheetDialog">
-        <item name="colorAccent">@color/color_accent_dark</item>
-        <item name="android:colorBackground">@color/color_background_dark</item>
-    </style>
-
-    <style name="AppTheme.Account.ToolbarPopupTheme.Dark" parent="ThemeOverlay.AppCompat">
-        <item name="android:textColorPrimary">@color/text_color_primary_dark</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="windowActionBarOverlay">true</item>
-    </style>
-
-    <style name="nightDialogTheme" parent="Theme.AppCompat.Dialog.Alert">
+    <style name="TuskyDialog.Dark" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:letterSpacing">0</item>
+        <item name="dialogCornerRadius">8dp</item>
         <item name="android:colorBackground">@color/color_primary_dark_dark</item>
-        <item name="colorAccent">@color/primary</item>
     </style>
 
 </resources>

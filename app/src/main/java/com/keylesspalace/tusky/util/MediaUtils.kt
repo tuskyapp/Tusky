@@ -25,8 +25,8 @@ import android.media.MediaMetadataRetriever
 import android.media.ThumbnailUtils
 import android.net.Uri
 import android.provider.OpenableColumns
-import android.support.annotation.Px
-import android.support.media.ExifInterface
+import androidx.annotation.Px
+import androidx.exifinterface.media.ExifInterface
 import android.util.Log
 import java.io.*
 
@@ -113,7 +113,15 @@ fun getImageThumbnail(contentResolver: ContentResolver, uri: Uri, @Px thumbnailS
 
 fun getVideoThumbnail(context: Context, uri: Uri, @Px thumbnailSize: Int): Bitmap? {
     val retriever = MediaMetadataRetriever()
-    retriever.setDataSource(context, uri)
+    try {
+        retriever.setDataSource(context, uri)
+    } catch (e: IllegalArgumentException) {
+        Log.w(TAG, e)
+        return null
+    } catch (e: SecurityException) {
+        Log.w(TAG, e)
+        return null
+    }
     val source = retriever.frameAtTime ?: return null
     return ThumbnailUtils.extractThumbnail(source, thumbnailSize, thumbnailSize, ThumbnailUtils.OPTIONS_RECYCLE_INPUT)
 }

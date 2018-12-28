@@ -16,8 +16,8 @@ package com.keylesspalace.tusky.view
 
 import android.content.Context
 import android.graphics.Matrix
-import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
+import androidx.appcompat.widget.AppCompatImageView
 import com.keylesspalace.tusky.entity.Attachment
 
 import com.keylesspalace.tusky.util.FocalPointUtil

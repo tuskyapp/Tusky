@@ -12,9 +12,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.IBinder
 import android.os.Parcelable
-import android.support.v4.app.NotificationCompat
-import android.support.v4.app.ServiceCompat
-import android.support.v4.content.ContextCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.ServiceCompat
+import androidx.core.content.ContextCompat
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
@@ -89,7 +89,7 @@ class SendTootService : Service(), Injectable {
                     .setContentText(notificationText)
                     .setProgress(1, 0, true)
                     .setOngoing(true)
-                    .setColor(ContextCompat.getColor(this, R.color.primary))
+                    .setColor(ContextCompat.getColor(this, R.color.tusky_blue))
                     .addAction(0, getString(android.R.string.cancel), cancelSendingIntent(sendingNotificationId))
 
             if (tootsToSend.size == 0 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -169,7 +169,7 @@ class SendTootService : Service(), Injectable {
                             .setSmallIcon(R.drawable.ic_notify)
                             .setContentTitle(getString(R.string.send_toot_notification_error_title))
                             .setContentText(getString(R.string.send_toot_notification_saved_content))
-                            .setColor(ContextCompat.getColor(this@SendTootService, R.color.primary))
+                            .setColor(ContextCompat.getColor(this@SendTootService, R.color.tusky_blue))
 
                     notificationManager.cancel(tootId)
                     notificationManager.notify(errorNotificationId--, builder.build())
@@ -218,7 +218,7 @@ class SendTootService : Service(), Injectable {
                     .setSmallIcon(R.drawable.ic_notify)
                     .setContentTitle(getString(R.string.send_toot_notification_cancel_title))
                     .setContentText(getString(R.string.send_toot_notification_saved_content))
-                    .setColor(ContextCompat.getColor(this@SendTootService, R.color.primary))
+                    .setColor(ContextCompat.getColor(this@SendTootService, R.color.tusky_blue))
 
             notificationManager.notify(tootId, builder.build())
 

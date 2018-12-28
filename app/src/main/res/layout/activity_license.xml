@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:license="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:clipChildren="false"
             android:orientation="vertical"
+            android:textDirection="anyRtl"
             android:paddingBottom="12dp">
 
             <TextView
@@ -207,4 +208,4 @@
 
     <include layout="@layout/item_status_bottom_sheet" />
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

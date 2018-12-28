@@ -305,7 +305,7 @@
     <string name="emoji_style">Estil dels Emoji</string>
     <string name="system_default">Çò del sistèma</string>
     <string name="download_fonts">D’en primièr vos cal telecargar los emojis seguents</string>
-    <string name="performing_lookup_title">Recèrca...</string>
+    <string name="performing_lookup_title">Recèrca…</string>
     <string name="expand_collapse_all_statuses">Desplegar/Plegar totes los estatuts</string>
     <string name="action_open_toot">Dobrir lo tut</string>
     <string name="restart_required">Reaviada necessària</string>

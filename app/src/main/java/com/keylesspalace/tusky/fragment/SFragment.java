@@ -20,12 +20,12 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.PopupMenu;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
 import android.text.Spanned;
 import android.view.Menu;
 import android.view.View;
@@ -173,14 +173,16 @@ public abstract class SFragment extends BaseFragment {
         popup.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.status_share_content: {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(status.getAccount().getUsername());
-                    sb.append(" - ");
-                    sb.append(status.getContent().toString());
+                    Status statusToShare = status;
+                    if(statusToShare.getReblog() != null) statusToShare = statusToShare.getReblog();
 
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+
+                    String stringToShare = statusToShare.getAccount().getUsername() +
+                            " - " +
+                            statusToShare.getContent().toString();
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, stringToShare);
                     sendIntent.setType("text/plain");
                     startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_content_to)));
                     return true;

@@ -133,7 +133,7 @@
 
     <string name="search_no_results">Emaitzarik ez</string>
 
-    <string name="label_quick_reply">Erantzuna...</string>
+    <string name="label_quick_reply">Erantzuna…</string>
     <string name="label_avatar">Irudia</string>
     <string name="label_header">Goiburua</string>
 
@@ -307,7 +307,7 @@
     <string name="lock_account_label">Kontua babestu</string>
     <string name="lock_account_label_description">Jarraitzaileak eskuz onartu beharko dituzu</string>
     <string name="compose_save_draft">Zirriborroa gorde?</string>
-    <string name="send_toot_notification_title">Tuta ezabatzen...</string>
+    <string name="send_toot_notification_title">Tuta ezabatzen…</string>
     <string name="send_toot_notification_error_title">Errorea tuta bidaltzerakoan</string>
     <string name="send_toot_notification_channel_name">Tuta bidaltzen</string>
     <string name="send_toot_notification_cancel_title">Bidalketa ezeztatua</string>
@@ -319,7 +319,7 @@
     <string name="emoji_style">Emojien estiloa</string>
     <string name="system_default">Sistema</string>
     <string name="download_fonts">Lehenago jaitsi beharko dituzu</string>
-    <string name="performing_lookup_title">Bilatzen...</string>
+    <string name="performing_lookup_title">Bilatzen…</string>
     <string name="expand_collapse_all_statuses">Tut guztiak ezkutatu/zabaldu</string>
     <string name="action_open_toot">Ireki</string>
     <string name="restart_required">Berrabiaraztea beharrezkoa da</string>

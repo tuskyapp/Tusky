@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky
 
-import android.support.design.widget.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import android.text.SpannedString
 import android.widget.LinearLayout
 import com.keylesspalace.tusky.entity.Account

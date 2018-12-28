@@ -18,10 +18,10 @@ package com.keylesspalace.tusky.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.support.v4.app.NotificationCompat
-import android.support.v4.app.NotificationManagerCompat
-import android.support.v4.app.RemoteInput
-import android.support.v4.content.ContextCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.RemoteInput
+import androidx.core.content.ContextCompat
 import android.util.Log
 import com.keylesspalace.tusky.ComposeActivity
 import com.keylesspalace.tusky.R
@@ -68,7 +68,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
                 val builder = NotificationCompat.Builder(context, NotificationHelper.CHANNEL_MENTION + senderIdentifier)
                         .setSmallIcon(R.drawable.ic_notify)
-                        .setColor(ContextCompat.getColor(context, (R.color.primary)))
+                        .setColor(ContextCompat.getColor(context, (R.color.tusky_blue)))
                         .setGroup(senderFullName)
                         .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
 
@@ -102,7 +102,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
                 val builder = NotificationCompat.Builder(context, NotificationHelper.CHANNEL_MENTION + senderIdentifier)
                         .setSmallIcon(R.drawable.ic_notify)
-                        .setColor(ContextCompat.getColor(context, (R.color.primary)))
+                        .setColor(ContextCompat.getColor(context, (R.color.tusky_blue)))
                         .setGroup(senderFullName)
                         .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
 

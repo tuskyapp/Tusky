@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.adapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -35,20 +35,22 @@ class EmojiAdapter(emojiList: List<Emoji>, private val onEmojiSelectedListener: 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmojiAdapter.EmojiHolder {
-
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_emoji_button, parent, false) as ImageView
-                return EmojiHolder(view)
-
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_emoji_button, parent, false) as ImageView
+        return EmojiHolder(view)
     }
 
     override fun onBindViewHolder(viewHolder: EmojiAdapter.EmojiHolder, position: Int) {
+        val emoji = emojiList[position]
+
         Picasso.with(viewHolder.emojiImageView.context)
-                .load(emojiList[position].url)
+                .load(emoji.url)
                 .into(viewHolder.emojiImageView)
 
         viewHolder.emojiImageView.setOnClickListener {
-            onEmojiSelectedListener.onEmojiSelected(emojiList[position].shortcode)
+            onEmojiSelectedListener.onEmojiSelected(emoji.shortcode)
         }
+
+        viewHolder.emojiImageView.contentDescription = emoji.shortcode
     }
 
     class EmojiHolder(val emojiImageView: ImageView) : RecyclerView.ViewHolder(emojiImageView)

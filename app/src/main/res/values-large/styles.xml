@@ -7,6 +7,8 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
         <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowMinWidthMajor">80%</item>
+        <item name="android:windowMinWidthMinor">80%</item>
     </style>
 
     <style name="TuskyDialogActivityBlackTheme" parent="@style/TuskyBlackTheme">
@@ -17,6 +19,8 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
         <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowMinWidthMajor">80%</item>
+        <item name="android:windowMinWidthMinor">80%</item>
     </style>
 
 </resources>
