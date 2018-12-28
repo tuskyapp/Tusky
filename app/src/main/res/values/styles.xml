@@ -123,6 +123,8 @@
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
 
+        <item name="minTouchTargetSize">32dp</item> <!-- this affects RadioButton size -->
+
     </style>
 
     <style name="TuskyImageButton.Light" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
