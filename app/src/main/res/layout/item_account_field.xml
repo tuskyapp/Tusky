@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:drawablePadding="6dp"
+        android:gravity="center"
         android:lineSpacingMultiplier="1.1"
         android:textSize="?attr/status_text_medium"
         app:layout_constrainedWidth="true"
