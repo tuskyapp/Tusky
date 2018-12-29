@@ -19,6 +19,8 @@ import android.widget.ToggleButton;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Attachment;
+import com.keylesspalace.tusky.entity.Attachment.Focus;
+import com.keylesspalace.tusky.entity.Attachment.MetaData;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
@@ -28,6 +30,7 @@ import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.ThemeUtils;
+import com.keylesspalace.tusky.view.MediaPreviewImageView;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
 import com.squareup.picasso.Picasso;
@@ -53,7 +56,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private ImageButton moreButton;
     private boolean favourited;
     private boolean reblogged;
-    private ImageView[] mediaPreviews;
+    private MediaPreviewImageView[] mediaPreviews;
     private ImageView[] mediaOverlays;
     private TextView sensitiveMediaWarning;
     private View sensitiveMediaShow;
@@ -83,7 +86,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         moreButton = itemView.findViewById(R.id.status_more);
         reblogged = false;
         favourited = false;
-        mediaPreviews = new ImageView[]{
+        mediaPreviews = new MediaPreviewImageView[] {
                 itemView.findViewById(R.id.status_media_preview_0),
                 itemView.findViewById(R.id.status_media_preview_1),
                 itemView.findViewById(R.id.status_media_preview_2),
@@ -146,20 +149,20 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void setTextVisible(boolean visible, StatusViewData.Concrete status,
+    private void setTextVisible(boolean expanded, StatusViewData.Concrete status,
                                 final StatusActionListener listener) {
         Status.Mention[] mentions = status.getMentions();
-        if (visible) {
+        if (expanded) {
             Spanned emojifiedText = CustomEmojiHelper.emojifyText(
                     status.getContent(), status.getStatusEmojis(), this.content);
             LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
-            this.content.setVisibility(View.VISIBLE);
         } else {
-            if (mentions == null || mentions.length == 0) {
-                this.content.setVisibility(View.GONE);
-            } else {
                 LinkHelper.setClickableMentions(this.content, mentions, listener);
-            }
+        }
+        if(TextUtils.isEmpty(this.content.getText())) {
+            this.content.setVisibility(View.GONE);
+        } else {
+            this.content.setVisibility(View.VISIBLE);
         }
     }
 
@@ -299,10 +302,26 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                         .load(mediaPreviewUnloadedId)
                         .into(mediaPreviews[i]);
             } else {
-                Picasso.with(context)
-                        .load(previewUrl)
-                        .placeholder(mediaPreviewUnloadedId)
-                        .into(mediaPreviews[i]);
+                MetaData meta = attachments.get(i).getMeta();
+                Focus focus = meta != null ? meta.getFocus() : null;
+
+                if (focus != null) { // If there is a focal point for this attachment:
+                    mediaPreviews[i].setFocalPoint(focus);
+
+                    Picasso.with(context)
+                            .load(previewUrl)
+                            .placeholder(mediaPreviewUnloadedId)
+                            // Also pass the mediaPreview as a callback to ensure it is called
+                            // initially when the image gets loaded:
+                            .into(mediaPreviews[i], mediaPreviews[i]);
+                } else {
+                    mediaPreviews[i].removeFocalPoint();
+
+                    Picasso.with(context)
+                            .load(previewUrl)
+                            .placeholder(mediaPreviewUnloadedId)
+                            .into(mediaPreviews[i]);
+                }
             }
 
             final Attachment.Type type = attachments.get(i).getType();

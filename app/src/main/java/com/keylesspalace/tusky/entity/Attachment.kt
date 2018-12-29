@@ -30,6 +30,7 @@ data class Attachment(
         var url: String,
         @SerializedName("preview_url") val previewUrl: String,
         @SerializedName("text_url") val textUrl: String?,
+        val meta: MetaData?,
         var type: Type,
         var description: String?
 ) : Parcelable {
@@ -57,4 +58,24 @@ data class Attachment(
             }
         }
     }
+
+    /**
+     * The meta data of an [Attachment].
+     */
+    @Parcelize
+    data class MetaData (
+            val focus: Focus?
+    ) : Parcelable
+
+    /**
+     * The Focus entity, used to specify the focal point of an image.
+     *
+     * See here for more details what the x and y mean:
+     *   https://github.com/jonom/jquery-focuspoint#1-calculate-your-images-focus-point
+     */
+    @Parcelize
+    data class Focus (
+            val x: Float,
+            val y: Float
+    ) : Parcelable
 }

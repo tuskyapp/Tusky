@@ -360,4 +360,17 @@
     <string name="unpin_action">Unpin</string>
     <string name="pin_action">Pin</string>
 
+    <plurals name="favs">
+        <item quantity="one">&lt;b>%1$s&lt;/b> Favourite</item>
+        <item quantity="other">&lt;b>%1$s&lt;/b> Favourites</item>
+    </plurals>
+
+    <plurals name="reblogs">
+        <item quantity="one">&lt;b>%s&lt;/b> Boost</item>
+        <item quantity="other">&lt;b>%s&lt;/b> Boosts</item>
+    </plurals>
+
+    <string name="title_reblogged_by">Boosted by</string>
+    <string name="title_favourited_by">Favourited by</string>
+
 </resources>

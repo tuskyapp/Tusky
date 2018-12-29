@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:clipChildren="false"
             android:orientation="vertical"
+            android:textDirection="anyRtl"
             android:paddingBottom="12dp">
 
             <TextView

@@ -1,22 +1,22 @@
 <resources>
-    
-    <string name="error_generic" >یک خطا رخ داد</string>
-    <string name="error_empty" >این نمیتواند خالی باشد.</string>       
+
+    <string name="error_generic" >خطایی رخ داد</string>
+    <string name="error_empty" >این نمی‌تواند خالی باشد.</string>       
     <string name="error_invalid_domain" >دامنه وارد شده نامعتبر است</string>
-    <string name="error_failed_app_registration" >تأیید صحت با سرور ناموفق بود</string>
+    <string name="error_failed_app_registration" >احراز هویت با سرور ناموفق بود</string>
     <string name="error_no_web_browser_found" >مرورگری برای استفاده یافت نشد</string>
-    <string name="error_authorization_unknown" >خطای مجوز ناشناس رخ داده است.</string>
-    <string name="error_authorization_denied" >مجوز صادر نشد</string>
+    <string name="error_authorization_unknown" >خطای احراز هویت ناشناس رخ داده است.</string>
+    <string name="error_authorization_denied" >هویت احراز نشد</string>
     <string name="error_retrieving_oauth_token" >دریافت توکن ورود ناموفق بود</string>
     <string name="error_compose_character_limit" >وضعیت خیلی طولانی است!</string>
-    <string name="error_image_upload_size" >فایل باید کمتر از ۸ مگابایت باشد</string>
-    <string name="error_video_upload_size" >فایل ویدئویی باید کمتر از ۴۰ مگابایت باشد</string>
-    <string name="error_media_upload_type" >این نوع از فایل نمیتواند آپلود شود</string>
-    <string name="error_media_upload_opening" >فایل باز نشد</string>
+    <string name="error_image_upload_size" >پرونده باید کمتر از ۸ مگابایت باشد</string>
+    <string name="error_video_upload_size" >پرونده ویدئویی باید کمتر از ۴۰ مگابایت باشد</string>
+    <string name="error_media_upload_type" >این نوع از پرونده نمی‌تواند بارگذاری شود</string>
+    <string name="error_media_upload_opening" >پرونده باز نشد</string>
     <string name="error_media_upload_permission" >مجوز برای خواندن رسانه نیاز است</string>
     <string name="error_media_download_permission" >اجازه ذخیره رسانه نیاز است</string>
-    <string name="error_media_upload_image_or_video" >تصاویر و فیلم ها هر دو نمی توانند به یک وضعیت ضمیمه شوند.</string>
-    <string name="error_media_upload_sending" >آپلود ناموفق بود</string>
+    <string name="error_media_upload_image_or_video" >تصاویر و فیلم‌ها هر دو نمی‌توانند به یک وضعیت ضمیمه شوند.</string>
+    <string name="error_media_upload_sending" >بارگذاری ناموفق بود</string>
     <string name="error_report_too_few_statuses" >حداقل یک وضعیت باید گزارش شود</string>
     <string name="error_invalid_regex" >عبارت با قاعده نامعتبر است</string>
     <string name="error_sender_account_gone" >خطا در ارسال بوق</string>
@@ -25,17 +25,17 @@
     <string name="title_advanced" >پیشرفته</string>
     <string name="title_notifications" >اعلان‌ها</string>
     <string name="title_public_local" >محلی</string>
-    <string name="title_public_federated" >فدراسیون</string>
+    <string name="title_public_federated" >فدرال</string>
     <string name="title_view_thread" >بوق</string>
     <string name="title_tag">#%s</string>
-    <string name="title_statuses" >پست ها</string>
+    <string name="title_statuses" >پست‌ها</string>
     <string name="title_statuses_with_replies" >با پاسخ‌</string>
     <string name="title_follows" >دنبال شونده‌ها</string>
     <string name="title_followers" >دنبال کننده‌ها</string>
-    <string name="title_favourites" >علاقه مندی ها</string>
+    <string name="title_favourites" >علاقه‌مندی‌ها</string>
     <string name="title_mutes" >کاربرهای بی‌صدا</string>
     <string name="title_blocks" >کاربرهای مسدود شده</string>
-    <string name="title_follow_requests" >درخواست های دنبال کردن</string>
+    <string name="title_follow_requests" >درخواست‌های دنبال کردن</string>
     <string name="title_edit_profile" >ویرایش نمایه شما</string>
     <string name="title_saved_toot" >پیش‌نویس‌ها</string>
     <string name="title_licenses" >مجوزها</string>
@@ -50,14 +50,14 @@
     <string name="status_content_show_more" >بازکردن</string>
     <string name="status_content_show_less" >بستن</string>
     
-    <string name="footer_empty" >چیزی اینجا نیست.برای تازه سازی به پایین بکشید</string>
+    <string name="footer_empty" >چیزی اینجا نیست.برای تازه سازی، به پایین بکشید</string>
     
     <string name="notification_reblog_format" >%s بوق شما را تقویت کرد</string>
     <string name="notification_favourite_format" >%s بوق شما را پسندید</string>
-    <string name="notification_follow_format" >%s شما را دنبال میکند</string>
+    <string name="notification_follow_format" >%s شما را دنبال می‌کند</string>
 
     <string name="report_username_format" >گزارش @%s</string>
-    <string name="report_comment_hint" >پیام های اضافی</string>
+    <string name="report_comment_hint" >پیام‌های اضافی</string>
 
     <string name="action_quick_reply" >پاسخ سریع</string>
     <string name="action_reply" >پاسخ</string>
@@ -70,10 +70,10 @@
     <string name="action_logout_confirm" >آیا از خارج شدن از این حساب %1s اطمینان دارید؟</string>
     <string name="action_follow" >دنبال کن</string>
     <string name="action_unfollow" >لغو دنبال کردن</string>
-    <string name="action_block" >بلاک</string>
+    <string name="action_block" >مسدودسازی</string>
     <string name="action_unblock" >رفع انسداد</string>
     <string name="action_hide_reblogs" >تقویت را پنهان کن</string>
-    <string name="action_show_reblogs" >نمایش تقویت ها</string>
+    <string name="action_show_reblogs" >نمایش تقویت‌ها</string>
     <string name="action_report" >گزارش</string>
     <string name="action_delete" >حذف</string>
     <string name="action_send" >بوق</string>
@@ -81,13 +81,14 @@
     <string name="action_retry" >تلاش مجدد</string>
     <string name="action_close" >بستن</string>
     <string name="action_view_profile" >نمایه</string>
-    <string name="action_view_preferences" >ترجیهات</string>
-    <string name="action_view_favourites" >علاقه مندی ها</string>
+    <string name="action_view_preferences" >ترجیحات</string>
+    <string name="action_view_account_preferences">ترجیحات حساب</string>
+    <string name="action_view_favourites" >علاقه‌مندی‌ها</string>
     <string name="action_view_mutes" >کاربران بی‌صدا</string>
     <string name="action_view_blocks" >کاربران مسدود شده</string>
-    <string name="action_view_follow_requests" >درخواست های دنبال کردن</string>
+    <string name="action_view_follow_requests" >درخواست‌های دنبال کردن</string>
     <string name="action_view_media" >رسانه</string>
-    <string name="action_open_in_web" >باز کزدن در مرورگر</string>
+    <string name="action_open_in_web" >باز کردن در مرورگر</string>
     <string name="action_add_media" >افزودن رسانه</string>
     <string name="action_photo_take" >عکس بگیر</string>
     <string name="action_share" >اشتراک</string>
@@ -103,7 +104,7 @@
     <string name="action_accept" >پذیرش</string>
     <string name="action_reject" >رد</string>
     <string name="action_search" >جستجو</string>
-    <string name="action_access_saved_toot" >پیش نویس</string>
+    <string name="action_access_saved_toot" >پیش‌نویس</string>
     <string name="action_toggle_visibility" >نمایش بوق</string>
     <string name="action_content_warning" >هشدار محتوی</string>
     <string name="action_emoji_keyboard" >صفحه کلیک شکلک</string>
@@ -112,71 +113,63 @@
 
     <string name="action_copy_link" >کپی لینک</string>
 
-    <string name="send_status_link_to" >اشتراک آدرس بوق با</string>
-    <string name="send_status_content_to" >اشتراک بوق با</string>
-    <string name="send_media_to">اشتراک رسانه با…</string>
+    <string name="send_status_link_to" >هم‌رسانی نشانی بوق با</string>
+    <string name="send_status_content_to" >هم‌رسانی بوق با</string>
+    <string name="send_media_to">هم‌رسانی رسانه با…</string>
 
-    <string name="confirmation_reported" >ارسال شد!</string>
+    <string name="confirmation_reported" >فرستاده شد!</string>
     <string name="confirmation_unblocked" >کاربر رفع انسداد شد</string>
     <string name="confirmation_unmuted" >کاربر رفع بی‌صدا شد</string>
 
-    <string name="status_sent" >ارسال شد!</string>
-    <string name="status_sent_long" >پاسخ با موفق ارسال شد‌.</string>
+    <string name="status_sent" >فرستاده شد!</string>
+    <string name="status_sent_long" >پاسخ با موفق فرستاده شد‌.</string>
 
-    <string name="hint_domain" >کدام سرور</string>
+    <string name="hint_domain" >کدام نمونه؟</string>
     <string name="hint_compose" >چه خبر؟</string>
     <string name="hint_content_warning" >هشدار محتوی</string>
     <string name="hint_display_name" >نام نمایشی</string>
     <string name="hint_note" >بیوگرافی</string>
     <string name="hint_search" >جستجو</string>
 
-    <string name="search_no_results" >نتیجه ای نیست</string>
+    <string name="search_no_results" >نتیجه‌ای نیست</string>
 
     <string name="label_quick_reply" >پاسخ …</string>
     <string name="label_avatar" >آواتار</string>
     <string name="label_header" >سرتیتر</string>
 
-    <string name="link_whats_an_instance" >یک سرور نمونه چیست؟</string>
+    <string name="link_whats_an_instance" >یک نمونه چیست؟</string>
 
     <string name="login_connection" >در حال اتصال …</string>
 
-    <string name="dialog_whats_an_instance" >آدرس یا دامنه هر سروری را میتوانید وارد کنید مثلا mastodon.social, icosahedron.website, social.tchncs.de, و         &lt;a href="https://instances.social" &gt;بیشتر!\n\n اگر شما هنوز حساب کاربری ندارید، می توانید نام نمونه مورد نظر را وارد کنید از اینجا بپیوندید و حساب کاربری ایجاد کنید\n\n نمونه جایی است که حساب کاربری شما میزبان آن است اما شما به راحتی میتوانید با افراد دیگر در نمونه های دیگر ارتباط برقرار کنید و آنها را دنبال کنید شما درست مثل اینکه در  یکجا باشید.\n\n برای اطلاعات بیشتر به اینجا مراجعه کنید <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
-
-
-
-
-
-
-
-
-    <string name="dialog_title_finishing_media_upload" >اتمام آپلود رسانه</string>
-    <string name="dialog_message_uploading_media" >در حال آپلود</string>
-    <string name="dialog_download_image" >دانلود</string>
-    <string name="dialog_message_cancel_follow_request" >درخواست دنبال کردن را لغو میکنید؟</string>
+    <string name="dialog_whats_an_instance" >آدرس یا دامنه هر نمونه را می‌توانید وارد کنید، مثلا mastodon.social, icosahedron.website, social.tchncs.de, و         &lt;a href="https://instances.social" &gt;بیشتر!\n\n اگر شما هنوز حساب کاربری ندارید، می‌توانید نام نمونه مورد نظر را وارد کنید از اینجا بپیوندید و حساب کاربری ایجاد کنید\n\n نمونه جایی است که حساب کاربری شما میزبان آن است اما شما به راحتی می‌توانید با افراد دیگر در نمونه‌های دیگر ارتباط برقرار کنید و آنها را دنبال کنید شما درست مثل اینکه در  یکجا باشید.\n\n برای اطلاعات بیشتر به اینجا مراجعه کنید <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
+    <string name="dialog_title_finishing_media_upload" >پایان بارگذاری رسانه</string>
+    <string name="dialog_message_uploading_media" >در حال بارگذاری</string>
+    <string name="dialog_download_image" >بارگیری</string>
+    <string name="dialog_message_cancel_follow_request" >درخواست دنبال کردن را لغو می‌کنید؟</string>
     <string name="dialog_unfollow_warning" >لغو دنبال کردن این حساب</string>
     <string name="dialog_delete_toot_warning" >حذف این بوق</string>
 
     <string name="visibility_public" >عمومی:پست به خط زمانی عمومی</string>
-    <string name="visibility_unlisted" >خارج از لیست:در خط زمانی عمومی نشان نده</string>
-    <string name="visibility_private" >تنها دنبال کنندگان:پست فقط به دنبال کنندگان</string>
+    <string name="visibility_unlisted" >خارج از لیست: در خط زمانی عمومی نشان نده</string>
+    <string name="visibility_private" >تنها دنبال‌کنندگان:پست فقط به دنبال‌کنندگان</string>
     <string name="visibility_direct" >مستقیم:پست فقط برای کاربران صدا زده شده</string>
 
-    <string name="pref_title_notification_settings" >اعلان ها</string>
+    <string name="pref_title_notification_settings" >اعلان‌ها</string>
     <string name="pref_title_edit_notification_settings" >ویرایش اعلان‌ها</string>
-    <string name="pref_title_notifications_enabled" >اعلان ها</string>
+    <string name="pref_title_notifications_enabled" >اعلان‌ها</string>
     <string name="pref_summary_notifications" >برای حساب %1$s</string>
     <string name="pref_title_notification_alerts" >هشدارها</string>
     <string name="pref_title_notification_alert_sound" >اعلان با صدا</string>
     <string name="pref_title_notification_alert_vibrate" >اعلان با لرزش</string>
     <string name="pref_title_notification_alert_light" >اعلان با نور</string>
     <string name="pref_title_notification_filters" >به من اطلاع بده زمانی که</string>
-    <string name="pref_title_notification_filter_mentions" >صدا زده ها</string>
-    <string name="pref_title_notification_filter_follows" >دنبال شده</string>
-    <string name="pref_title_notification_filter_reblogs" >پست های تقویت شده من</string>
-    <string name="pref_title_notification_filter_favourites" >پست های مورد علاقه من</string>
+    <string name="pref_title_notification_filter_mentions" >صدازده‌ها</string>
+    <string name="pref_title_notification_filter_follows" >دنبال‌شده</string>
+    <string name="pref_title_notification_filter_reblogs" >پست‌های تقویت شده من</string>
+    <string name="pref_title_notification_filter_favourites" >پست‌های مورد علاقه من</string>
     <string name="pref_title_appearance_settings" >ظاهر</string>
     <string name="pref_title_app_theme" >تم برنامه</string>
-
+    <string name="pref_title_timelines">خط‌های زمانی</string>
     <string-array name="app_theme_names">
         <item>روشن</item>
         <item>سیاه</item>
@@ -185,51 +178,62 @@
     </string-array>
 
     <string name="pref_title_browser_settings" >مرورگر</string>
-    <string name="pref_title_custom_tabs" >استفاده از تب های سفارشی chrome</string>
-    <string name="pref_title_hide_follow_button" >پنهان کردن دکمه ایجاد هنگام اسکرول</string>
+    <string name="pref_title_custom_tabs" >استفاده از زبانه‌های سفارشی کروم</string>
+    <string name="pref_title_hide_follow_button" >پنهان کردن دکمه ایجاد هنگام پیمایش</string>
     <string name="pref_title_status_filter" >فیلتر کردن خط زمانی</string>
-    <string name="pref_title_status_tabs" >تب ها</string>
-    <string name="pref_title_show_boosts" >نمایش تقویت ها</string>
-    <string name="pref_title_show_replies" >نمایش پاسخ ها</string>
+    <string name="pref_title_status_tabs" >زبانه‌ها</string>
+    <string name="pref_title_show_boosts" >نمایش تقویت‌ها</string>
+    <string name="pref_title_show_replies" >نمایش پاسخ‌ها</string>
     <string name="pref_title_filter_regex" >فیلتر کردن با عبارات باقاعده</string>
-    <string name="pref_title_show_media_preview" >پیش نمایش رسانه را نشان بده</string>
+    <string name="pref_title_show_media_preview" >پیش‌نمایش رسانه را نشان بده</string>
     <string name="pref_title_proxy_settings" >پراکسی</string>
     <string name="pref_title_http_proxy_settings" >پراکسی HTTP</string>
-    <string name="pref_title_http_proxy_enable" >فعالسازی پراکسی HTTP</string>
+    <string name="pref_title_http_proxy_enable" >فعال‌سازی پراکسی HTTP</string>
     <string name="pref_title_http_proxy_server" >سرور پراکسی HTTP</string>
-    <string name="pref_title_http_proxy_port" >پورت پراکسی HTTP</string>
+    <string name="pref_title_http_proxy_port" >درگاه پراکسی HTTP</string>
     
-    <string name="pref_default_post_privacy">حریم خصوصی پیشفرض پست</string>
+    <string name="pref_default_post_privacy">حریم خصوصی پیش‌فرض پست</string>
+    <string name="pref_default_media_sensitivity">همواره رسانه را به عنوان حساس نشانه‌گذاری کن</string>
     <string name="pref_publishing" >انتشار</string>
+    <string name="pref_failed_to_sync">ناتوانی در هم‌گام‌سازی تنظیمات</string>
 
     <string-array name="post_privacy_names">
         <item>عمومی</item>
-        <item>لیست نشده</item>
-        <item>فقط دنبال کنندگان</item>
+        <item>لیست‌نشده</item>
+        <item>فقط دنبال‌کنندگان</item>
     </string-array>
 
     <string name="pref_status_text_size">اندازه متن وضعیت</string>
 
     <string-array name="status_text_size_names">
-        <item>کوچک ترین</item>
+        <item>کوچک‌ترین</item>
         <item>کوچک</item>
         <item>متوسط</item>
         <item>بزرگ</item>
-        <item>بزرگترین</item>
+        <item>بزرگ‌ترین</item>
+    </string-array>
+
+    <string name="pref_media_display">نمایش رسانه</string>
+
+    <string-array name="media_display_names">
+        <item>رسانه‌های نشان‌گذاری شده به عنوان حساس را پنهان کن</item>
+        <item>رسانه‌های نشانه‌گذاری شده به عنوان حساس را همواره نشان بده</item>
+        <item>همه رسانه‌ها را همواره پنهان کن</item>
     </string-array>
 
     <string name="notification_channel_mention_name" >صدا زدن جدید</string>
     <string name="notification_channel_mention_descriptions" >هشدار در مورد صدازدن جدید</string>
-    <string name="notification_channel_follow_name">دنبال کننده‌های جدید</string>
-    <string name="notification_channel_follow_description" >هشدارها درمورد دنبال کنندگان جدید</string>
+    <string name="notification_channel_follow_name">دنبال‌کننده‌های جدید</string>
+    <string name="notification_channel_follow_description" >هشدارها درمورد دنبال‌کنندگان جدید</string>
     <string name="notification_channel_boost_name" >تقویت</string>
     <string name="notification_channel_boost_description" >وقتی بوق‌های شما تقویت شد هشدار بده</string>
     <string name="notification_channel_favourite_name" >مورد علاقه‌ها</string>
-    <string name="notification_channel_favourite_description" >هشدار ها زمانی که بوق‌های شما مورد علاقه قرار گرفت</string>
+    <string name="notification_channel_favourite_description" >هشدارها، زمانی که بوق‌های شما مورد علاقه قرار گرفت</string>
 
 
     <string name="notification_mention_format" >%s شما را صدا زد</string>
     <string name="notification_summary_large" >%1$s, %2$s, %3$s و %4$d دیگر</string>
+    <string name="notification_summary_medium">%1$s, %2$s, و %3$s</string>
     <string name="notification_summary_small" >%1$s و %2$s</string>
     <string name="notification_title_summary" >%d تعاملات جدید</string>
 
@@ -237,15 +241,9 @@
 
     <string name="about_title_activity" >درباره</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license" >Tusky  یک برنامه آزاد و متن باز است تحت مجوز  GNU General Public License Version 3.    منتشر شده است.\n
-                شما میتوانید مجوز را از اینجا ببینید:\n
+    <string name="about_tusky_license" >Tusky  یک برنامه آزاد و متن‌باز است که تحت مجوز  GNU General Public License Version 3.    منتشر شده است.\n
+                شما می‌توانید مجوز را از اینجا ببینید:\n
     https://www.gnu.org/licenses/gpl-3.0.en.html</string>
-
-
-
-
-
-
     <string name="about_project_site">
         سایت پروژه\n
         https://tuskyapp.github.io
@@ -254,18 +252,14 @@
         گزارش خطا و درخواست ویژگی:\n
         https://github.com/tuskyapp/Tusky/issues
     </string>
-    <string name="about_tusky_account" >پروفایل tusky</string>
+    <string name="about_tusky_account" >نمایه Tusky</string>
 
-    <string name="status_share_content" >اشتراک محتوی بوق</string>
-    <string name="status_share_link" >اشتراک لینک بوق</string>
-    <string name="status_media_images" >عکس ها</string>
+    <string name="status_share_content" >هم‌رسانی محتوی بوق</string>
+    <string name="status_share_link" >هم‌رسانی لینک بوق</string>
+    <string name="status_media_images" >تصویرها</string>
     <string name="status_media_video" >فیلم</string>
-
-    <string name="state_follow_requested" >دنبال درخواست شد</string>
-
+    <string name="state_follow_requested" >‌درخواست دنبال‌کردن فرستاده شد</string>
     <string name="no_content" >بدون محتوی</string>
-
-
     <string name="abbreviated_in_years" >در %dy</string>
     <string name="abbreviated_in_days" >در %dd</string>
     <string name="abbreviated_in_hours" >در % dh</string>
@@ -277,7 +271,7 @@
     <string name="abbreviated_minutes_ago" >%dm</string>
     <string name="abbreviated_seconds_ago" >%ds</string>
     
-    <string name="follows_you" >شما را دنبال میکند</string>
+    <string name="follows_you" >شما را دنبال می‌کند</string>
     <string name="pref_title_alway_show_sensitive_media" >همیشه مطالب حساس را نشان بده</string>
     <string name="title_media" >رسانه</string>
     <string name="replying_to" >پاسخ دادن به @%s</string>
@@ -286,59 +280,59 @@
     <string name="add_account_name" >افزودن حساب</string>
     <string name="add_account_description" >افزودن حساب ماستدون جدید</string>
 
-    <string name="action_lists" >لیست ها</string>
-    <string name="title_lists" >لیست ها</string>
+    <string name="action_lists" >لیست‌ها</string>
+    <string name="title_lists" >لیست‌ها</string>
     <string name="title_list_timeline" >لیست خط زمانی</string>
 
     <string name="compose_active_account_description" >پست با حساب %1$s</string>
 
     <string name="error_failed_set_caption" >ناتوان در تنظیم عنوان</string>
+    <string name="hint_describe_for_visually_impaired">توصیف برای کم‌بینایان\n(محدودیت نویسه %d)</string>
     <string name="action_set_caption" >تنظیم عنوان</string>
     <string name="action_remove_media" >حذف</string>
     <string name="lock_account_label" >قفل حساب</string>
-    <string name="lock_account_label_description" >به شما امکان میدهد بصورت دستی دنبال کنندگان را تایید کنید</string>
-    <string name="compose_save_draft" >ذخیره بعنوان پیش نویس</string>
-    <string name="send_toot_notification_title" >ارسال بوق</string>
-    <string name="send_toot_notification_error_title" >خطای ارسال بوق</string>
-    <string name="send_toot_notification_channel_name" >در حال ارسال بوق ها</string>
-    <string name="send_toot_notification_cancel_title" >ارسال لغو شد</string>
-    <string name="send_toot_notification_saved_content" >یک کپب از بوق در پیش نویس ها ذخیره شد</string>
+    <string name="lock_account_label_description" >به شما امکان می‌دهد بصورت دستی دنبال‌کنندگان را تایید کنید</string>
+    <string name="compose_save_draft" >ذخیره به عنوان پیش‌نویس</string>
+    <string name="send_toot_notification_title" >فرستادن بوق</string>
+    <string name="send_toot_notification_error_title" >خطای فرستادن بوق</string>
+    <string name="send_toot_notification_channel_name" >در حال فرستادن بوق‌ها</string>
+    <string name="send_toot_notification_cancel_title" >فرستادن لغو شد</string>
+    <string name="send_toot_notification_saved_content" >یک رونوشت از بوق در پیش‌نویس‌ها ذخیره شد</string>
     <string name="action_compose_shortcut" >ایجاد</string>
 
     <string name="error_no_custom_emojis" >سرور شما %s هیچ شکلک سفارشی ندارد</string>
     <string name="copy_to_clipboard_success" >به کلیپ بورد کپی شد</string>
     <string name="emoji_style" >قالب شکلک</string>
     <string name="system_default" >پیشفرض سیستم</string>
-    <string name="download_fonts" >شما ابتدا باید این شکلک ها را دریافت کنید</string>
+    <string name="download_fonts" >شما ابتدا باید این شکلک‌ها را دریافت کنید</string>
     <string name="performing_lookup_title" >اجرای جستجو</string>
-    <string name="expand_collapse_all_statuses" >باز/بستن همه وضعیت ها</string>
+    <string name="expand_collapse_all_statuses" >باز/بستن همه وضعیت‌ها</string>
     <string name="action_open_toot" >بوق را باز کن</string>
     <string name="restart_required" >برنامه به شروع مجدد نیاز دارد</string>
     <string name="restart_emoji" >شما برای اعمال این تغییرات به شروع مجدد برنامه نیاز دارید</string>
     <string name="later" >بعدا</string>
     <string name="restart" >شروع مجدد</string>
-    <string name="caption_systememoji" >شکلک های پیشفرض دستگاه شما تنظیم شدند</string>
-    <string name="caption_blobmoji" >شکلک ها از اندروید 4.4–7.1 شناخته شده اند</string>
-    <string name="caption_twemoji" >شکلک های استاندارد ماستدون تنظیم شدند</string>
-
-    <string name="download_failed" >دانلود شکست خورد</string>
-
-    <string name="profile_badge_bot_text" >ربات</string>
+    <string name="caption_systememoji" >شکلک‌های پیش‌فرض دستگاه شما تنظیم شدند</string>
+    <string name="caption_blobmoji" >شکلک‌ها از اندروید 4.4–7.1 شناخته شده‌اند</string>
+    <string name="caption_twemoji" >شکلک‌های استاندارد ماستدون تنظیم شدند</string>
+    <string name="download_failed" >بارگیری با شکست مواجه شد</string>
+    <string name="profile_badge_bot_text" >بات</string>
     <string name="account_moved_description" >%1$s جابجا شد به:</string>
-
     <string name="reblog_private" >تقویت برای مخاطب اصلی</string>
     <string name="unreblog_private" >لغو تقویت</string>
-
-    <string name="license_description" >Tusky شامل کد و دارایی های پروژه های منبع باز زیر است:</string>
-    <string name="license_apache_2" >تحت مجوز Apache License (copy below)</string>
+    <string name="license_description" >Tusky شامل کد و دارایی‌های پروژه‌های منبع‌باز زیر است:</string>
+    <string name="license_apache_2" >تحت مجوز آپاچی (رونوشت در ادامه)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     
-    <string name="profile_metadata_label">متاداده پروفایل</string>
+    <string name="profile_metadata_label">متاداده نمایه</string>
     <string name="profile_metadata_add" >افزودن داده</string>
     <string name="profile_metadata_label_label">برچسب</string>
     <string name="profile_metadata_content_label" >محتوی</string>
-
     <string name="pref_title_absolute_time" >استفاده از زمان مطلق</string>
+    <string name="label_remote_account">اطلاعات زیر ممکن است به طور ناقص نمایه کاربر را نشان دهد. برای دیدن نمایه کامل در مرورگر، لمس کنید.</string>
+
+    <string name="unpin_action">برداشتن سنجاق</string>
+    <string name="pin_action">سنجاق کردن</string>
 
 </resources>
