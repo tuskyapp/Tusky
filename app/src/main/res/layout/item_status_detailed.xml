@@ -28,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="14dp"
         android:ellipsize="end"
         android:maxLines="1"
@@ -40,7 +41,7 @@
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toEndOf="@id/status_avatar"
-        app:layout_constraintTop_toTopOf="@id/status_avatar"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="Display Name" />
 
@@ -396,10 +397,10 @@
         android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/status_reblog"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_buttons_divider"
-        app:srcCompat="@drawable/ic_reply_24dp"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"/>
+        app:srcCompat="@drawable/ic_reply_24dp" />
 
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_reblog"

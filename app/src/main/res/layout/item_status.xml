@@ -34,7 +34,6 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginTop="14dp"
-        android:layout_marginEnd="14dp"
         android:contentDescription="@string/action_view_profile"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,9 +56,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
+        android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:paddingStart="0dp"
         android:paddingEnd="@dimen/status_display_name_padding_end"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
@@ -68,7 +67,7 @@
         app:layout_constraintEnd_toStartOf="@id/status_timestamp_info"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toEndOf="@id/status_avatar"
-        app:layout_constraintTop_toTopOf="@id/status_avatar"
+        app:layout_constraintTop_toBottomOf="@id/status_reblogged"
         tools:text="Ente r the void you foooooo" />
 
     <TextView
@@ -323,10 +322,10 @@
         android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/status_reblog"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="@id/status_content_warning_description"
         app:layout_constraintTop_toBottomOf="@id/status_media_preview_container"
-        app:srcCompat="@drawable/ic_reply_24dp"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"/>
+        app:srcCompat="@drawable/ic_reply_24dp" />
 
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_reblog"
@@ -365,6 +364,7 @@
         style="?attr/image_button_style"
         android:layout_width="24dp"
         android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
         android:contentDescription="@string/action_more"
         android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="@id/status_reply"
