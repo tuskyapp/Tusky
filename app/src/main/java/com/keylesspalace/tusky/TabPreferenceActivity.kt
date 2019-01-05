@@ -1,4 +1,4 @@
-/* Copyright 2018 Conny Duck
+/* Copyright 2019 Conny Duck
  *
  * This file is a part of Tusky.
  *
@@ -16,19 +16,25 @@
 package com.keylesspalace.tusky
 
 import android.os.Bundle
-import android.util.Log
+import android.view.MenuItem
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.adapter.ItemInteractionListener
 import com.keylesspalace.tusky.adapter.TabAdapter
-import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.util.visible
 import kotlinx.android.synthetic.main.activity_tab_preference.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
-import javax.inject.Inject
 
-class TabPreferenceActivity : BaseActivity(), Injectable {
+class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListener {
+
+    private lateinit var currentTabs: MutableList<TabData>
+    private lateinit var currentTabsAdapter: TabAdapter
+    private lateinit var addTabAdapter: TabAdapter
+
+    private val selectedItemElevation by lazy { resources.getDimension(R.dimen.selected_drag_item_elevation) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,50 +44,145 @@ class TabPreferenceActivity : BaseActivity(), Injectable {
         setSupportActionBar(toolbar)
 
         supportActionBar?.apply {
-            title = "tab settings"
+            setTitle(R.string.title_tab_preferences)
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
         }
 
-        val items = (accountManager.activeAccount?.tabPreferences ?: emptyList()).toMutableList()
-        val adapter = TabAdapter(items)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
+        currentTabs = (accountManager.activeAccount?.tabPreferences ?: emptyList()).toMutableList()
+        currentTabsAdapter = TabAdapter(currentTabs)
+        currentTabsRecyclerView.adapter = currentTabsAdapter
+        currentTabsRecyclerView.layoutManager = LinearLayoutManager(this)
+        currentTabsRecyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
+        addTabAdapter = TabAdapter(listOf(createTabDataFromId(DIRECT)), true, this)
+        addTabRecyclerView.adapter = addTabAdapter
+        addTabRecyclerView.layoutManager = LinearLayoutManager(this)
 
         val touchHelper = ItemTouchHelper(object: ItemTouchHelper.Callback(){
             override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
                 return makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.END)
             }
 
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-                Log.d("TBA", ""+viewHolder.adapterPosition +" "+ viewHolder.layoutPosition +" "+ target.adapterPosition +" "+ target.layoutPosition)
-                val temp = items[viewHolder.adapterPosition]
-                items[viewHolder.adapterPosition] = items[target.adapterPosition]
-                items[target.adapterPosition] = temp
+            override fun isLongPressDragEnabled(): Boolean {
+                return true
+            }
 
-                adapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
+            override fun isItemViewSwipeEnabled(): Boolean {
+                return true
+            }
+
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                val temp = currentTabs[viewHolder.adapterPosition]
+                currentTabs[viewHolder.adapterPosition] = currentTabs[target.adapterPosition]
+                currentTabs[target.adapterPosition] = temp
+
+                currentTabsAdapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
+                saveTabs()
                 return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                items.removeAt(viewHolder.adapterPosition)
-                adapter.notifyItemRemoved(viewHolder.adapterPosition)
+                currentTabs.removeAt(viewHolder.adapterPosition)
+                currentTabsAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+                updateAvailableTabs()
+                saveTabs()
             }
 
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
                 if(actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-                    viewHolder?.itemView?.elevation = 36f
+                    viewHolder?.itemView?.elevation = selectedItemElevation
                 }
             }
 
             override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                super.clearView(recyclerView, viewHolder)
                 viewHolder.itemView.elevation = 0f
             }
         })
 
-        touchHelper.attachToRecyclerView(recyclerView)
+        touchHelper.attachToRecyclerView(currentTabsRecyclerView)
+
+
+        actionButton.setOnClickListener {
+            actionButton.isExpanded = true
+        }
+
+        scrim.setOnClickListener {
+            actionButton.isExpanded = false
+        }
+
+        updateAvailableTabs()
 
     }
 
+    override fun onTabAdded(tab: TabData) {
+        currentTabs.add(tab)
+        currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
+        actionButton.isExpanded = false
+        updateAvailableTabs()
+        saveTabs()
+    }
+
+    private fun updateAvailableTabs() {
+        val addableTabs: MutableList<TabData> = mutableListOf()
+
+        val homeTab = createTabDataFromId(HOME)
+        if(!currentTabs.contains(homeTab)) {
+            addableTabs.add(homeTab)
+        }
+        val notificationTab = createTabDataFromId(NOTIFICATIONS)
+        if(!currentTabs.contains(notificationTab)) {
+            addableTabs.add(notificationTab)
+        }
+        val localTab = createTabDataFromId(LOCAL)
+        if(!currentTabs.contains(localTab)) {
+            addableTabs.add(localTab)
+        }
+        val federatedTab = createTabDataFromId(FEDERATED)
+        if(!currentTabs.contains(federatedTab)) {
+            addableTabs.add(federatedTab)
+        }
+        val directMessagesTab = createTabDataFromId(DIRECT)
+        if(!currentTabs.contains(directMessagesTab)) {
+            addableTabs.add(directMessagesTab)
+        }
+
+        addTabAdapter.updateData(addableTabs)
+
+        maxTabsInfo.visible(addableTabs.size == 0)
+
+    }
+
+    override fun onStartDelete(viewHolder: RecyclerView.ViewHolder) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun saveTabs() {
+        accountManager.activeAccount?.let {
+            it.tabPreferences = currentTabs
+            accountManager.saveAccount(it)
+        }
+    }
+
+    override fun onBackPressed() {
+        if (actionButton.isExpanded) {
+            actionButton.isExpanded = false
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return false
+    }
 
 }

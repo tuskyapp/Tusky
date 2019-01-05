@@ -8,7 +8,7 @@
 
     <Preference
         android:key="tabPreference"
-        android:title="custom tab config" />
+        android:title="@string/title_tab_preferences" />
 
     <Preference
         android:key="mutedUsersPreference"
