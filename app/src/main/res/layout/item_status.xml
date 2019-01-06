@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:sparkbutton="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,156 +13,167 @@
 
     <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_reblogged"
-        android:drawableStart="?attr/status_reblog_small_drawable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/status_reblogged_bar_padding_top"
+        android:drawableStart="?attr/status_reblog_small_drawable"
         android:drawablePadding="6dp"
         android:gravity="center_vertical"
         android:paddingStart="38dp"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
-        tools:text="ConnyDuck boosted" />
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlSymmetry"
+        tools:text="ConnyDuck boosted"
+        tools:visibility="visible" />
 
     <com.keylesspalace.tusky.view.RoundedImageView
         android:id="@+id/status_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_below="@+id/status_reblogged"
-        android:layout_marginEnd="14dp"
         android:layout_marginTop="14dp"
         android:contentDescription="@string/action_view_profile"
         android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_reblogged"
         tools:src="@drawable/avatar_default" />
 
     <com.keylesspalace.tusky.view.RoundedImageView
         android:id="@+id/status_avatar_reblog"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_alignBottom="@+id/status_avatar"
-        android:layout_alignEnd="@id/status_avatar"
         android:contentDescription="@null"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/status_avatar"
+        app:layout_constraintEnd_toEndOf="@id/status_avatar"
         tools:src="@color/accent"
         tools:visibility="visible" />
 
-    <RelativeLayout
-        android:id="@+id/status_name_bar"
-        android:layout_width="match_parent"
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/status_display_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/status_reblogged"
-        android:layout_toEndOf="@+id/status_avatar"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingEnd="@dimen/status_display_name_padding_end"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        android:textStyle="normal|bold"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/status_timestamp_info"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/status_avatar"
+        app:layout_constraintTop_toBottomOf="@id/status_reblogged"
+        tools:text="Ente r the void you foooooo" />
+
+    <TextView
+        android:id="@+id/status_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toStartOf="@id/status_timestamp_info"
+        app:layout_constraintStart_toEndOf="@id/status_display_name"
+        app:layout_constraintTop_toTopOf="@id/status_display_name"
+        tools:text="\@Entenhausen@birbsarecooooooooooool.site" />
+
+    <TextView
+        android:id="@+id/status_timestamp_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/status_display_name"
+        tools:text="13:37" />
+
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/status_content_warning_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
+        app:layout_constraintTop_toBottomOf="@id/status_display_name"
+        tools:text="content warning"
+        tools:visibility="visible" />
+
+    <ToggleButton
+        android:id="@+id/status_content_warning_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="?attr/content_warning_button"
+        android:minWidth="150dp"
+        android:minHeight="0dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="4dp"
+        android:paddingRight="16dp"
         android:paddingBottom="4dp"
-        android:paddingTop="@dimen/status_avatar_padding">
-
-        <androidx.emoji.widget.EmojiTextView
-            android:id="@+id/status_display_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingEnd="@dimen/status_display_name_padding_end"
-            android:paddingStart="0dp"
-            android:textColor="?android:textColorPrimary"
-            android:textSize="?attr/status_text_medium"
-            android:textStyle="normal|bold"
-            tools:text="Ente" />
-
-        <TextView
-            android:id="@+id/status_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/status_display_name"
-            android:layout_toStartOf="@+id/status_timestamp_info"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="?attr/status_text_medium"
-            tools:text="\@Entenhausen" />
-
-        <TextView
-            android:id="@+id/status_timestamp_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="4dp"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="?attr/status_text_medium"
-            tools:text="13:37" />
-
-        <androidx.emoji.widget.EmojiTextView
-            android:id="@+id/status_content_warning_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/status_display_name"
-            android:lineSpacingMultiplier="1.1"
-            android:textColor="?android:textColorPrimary"
-            android:textSize="?attr/status_text_medium"
-            android:visibility="gone" />
-
-        <ToggleButton
-            android:id="@+id/status_content_warning_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/status_content_warning_description"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
-            android:background="?attr/content_warning_button"
-            android:minHeight="0dp"
-            android:minWidth="150dp"
-            android:paddingBottom="4dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="4dp"
-            android:textAllCaps="true"
-            android:textOff="@string/status_content_warning_show_more"
-            android:textOn="@string/status_content_warning_show_less"
-            android:textSize="?attr/status_text_medium"
-            android:visibility="gone" />
-    </RelativeLayout>
+        android:textAllCaps="true"
+        android:textOff="@string/status_content_warning_show_more"
+        android:textOn="@string/status_content_warning_show_less"
+        android:textSize="?attr/status_text_medium"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/status_content_warning_description"
+        app:layout_constraintTop_toBottomOf="@id/status_content_warning_description"
+        tools:visibility="visible" />
 
     <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_content"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/status_name_bar"
-        android:layout_toEndOf="@+id/status_avatar"
+        android:layout_marginTop="8dp"
         android:focusable="true"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/status_content_warning_button"
+        app:layout_constraintTop_toBottomOf="@id/status_content_warning_button"
         tools:text="This is a status" />
 
     <ToggleButton
-            android:id="@+id/button_toggle_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/status_avatar"
-            android:layout_below="@id/status_content"
-            android:textOff="@string/status_content_show_less"
-            android:textOn="@string/status_content_show_more"
-            android:background="?attr/content_warning_button"
-            android:minHeight="0dp"
-            android:minWidth="150dp"
-            android:paddingBottom="4dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:textAllCaps="true"
-            android:textSize="?attr/status_text_medium"
-            android:visibility="gone" />
+        android:id="@+id/button_toggle_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="?attr/content_warning_button"
+        android:minWidth="150dp"
+        android:minHeight="0dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="4dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="4dp"
+        android:textAllCaps="true"
+        android:textOff="@string/status_content_show_less"
+        android:textOn="@string/status_content_show_more"
+        android:textSize="?attr/status_text_medium"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/status_content_warning_description"
+        app:layout_constraintTop_toBottomOf="@id/status_content"
+        tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/status_media_preview_container"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button_toggle_content"
         android:layout_marginTop="@dimen/status_media_preview_margin_top"
-        android:layout_toEndOf="@+id/status_avatar">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/status_content_warning_description"
+        app:layout_constraintTop_toBottomOf="@id/button_toggle_content"
+        tools:visibility="gone">
 
         <com.keylesspalace.tusky.view.MediaPreviewImageView
             android:id="@+id/status_media_preview_0"
@@ -300,79 +311,66 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/status_media_preview_container"
-        android:layout_marginEnd="16dp"
-        android:layout_toEndOf="@+id/status_avatar"
-        android:clipChildren="false"
+    <ImageButton
+        android:id="@+id/status_reply"
+        style="?attr/image_button_style"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:contentDescription="@string/action_reply"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/status_reblog"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@id/status_content_warning_description"
+        app:layout_constraintTop_toBottomOf="@id/status_media_preview_container"
+        app:srcCompat="@drawable/ic_reply_24dp" />
+
+    <at.connyduck.sparkbutton.SparkButton
+        android:id="@+id/status_reblog"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:clipToPadding="false"
-        android:orientation="horizontal"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp">
+        android:contentDescription="@string/action_reblog"
+        android:padding="4dp"
+        app:layout_constraintEnd_toStartOf="@id/status_favourite"
+        app:layout_constraintStart_toEndOf="@id/status_reply"
+        app:layout_constraintTop_toTopOf="@id/status_reply"
+        sparkbutton:activeImage="@drawable/reblog_active"
+        sparkbutton:iconSize="28dp"
+        sparkbutton:inactiveImage="?attr/status_reblog_inactive_drawable"
+        sparkbutton:primaryColor="@color/tusky_blue"
+        sparkbutton:secondaryColor="@color/tusky_blue_light" />
 
-        <ImageButton
-            android:id="@+id/status_reply"
-            style="?attr/image_button_style"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/action_reply"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            app:srcCompat="@drawable/ic_reply_24dp" />
+    <at.connyduck.sparkbutton.SparkButton
+        android:id="@+id/status_favourite"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:clipToPadding="false"
+        android:contentDescription="@string/action_favourite"
+        android:padding="4dp"
+        app:layout_constraintEnd_toStartOf="@id/status_more"
+        app:layout_constraintStart_toEndOf="@id/status_reblog"
+        app:layout_constraintTop_toTopOf="@id/status_reblog"
+        sparkbutton:activeImage="?attr/status_favourite_active_drawable"
+        sparkbutton:iconSize="28dp"
+        sparkbutton:inactiveImage="?attr/status_favourite_inactive_drawable"
+        sparkbutton:primaryColor="@color/tusky_orange"
+        sparkbutton:secondaryColor="@color/tusky_orange_light" />
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+    <ImageButton
+        android:id="@+id/status_more"
+        style="?attr/image_button_style"
+        android:layout_width="24dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/action_more"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/status_reply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/status_favourite"
+        app:layout_constraintTop_toTopOf="@id/status_reply"
+        app:srcCompat="@drawable/ic_more_horiz_24dp" />
 
-        <at.connyduck.sparkbutton.SparkButton
-            android:id="@+id/status_reblog"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:contentDescription="@string/action_reblog"
-            sparkbutton:activeImage="@drawable/reblog_active"
-            sparkbutton:iconSize="24dp"
-            sparkbutton:inactiveImage="?attr/status_reblog_inactive_drawable"
-            sparkbutton:primaryColor="@color/tusky_blue"
-            sparkbutton:secondaryColor="@color/tusky_blue_light" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <at.connyduck.sparkbutton.SparkButton
-            android:id="@+id/status_favourite"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:contentDescription="@string/action_favourite"
-            sparkbutton:activeImage="?attr/status_favourite_active_drawable"
-            sparkbutton:iconSize="24dp"
-            sparkbutton:inactiveImage="?attr/status_favourite_inactive_drawable"
-            sparkbutton:primaryColor="@color/tusky_orange"
-            sparkbutton:secondaryColor="@color/tusky_orange_light"/>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <ImageButton
-            android:id="@+id/status_more"
-            style="?attr/image_button_style"
-            android:layout_width="24dp"
-            android:layout_height="30dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/action_more"
-            android:paddingLeft="6dp"
-            android:paddingRight="6dp"
-            app:srcCompat="@drawable/ic_more_horiz_24dp" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
