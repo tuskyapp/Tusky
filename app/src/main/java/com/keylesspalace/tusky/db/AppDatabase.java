@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky.db;
 
+import com.keylesspalace.tusky.TabDataKt;
+
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
@@ -25,7 +27,7 @@ import androidx.annotation.NonNull;
  * DB version & declare DAO
  */
 
-@Database(entities = {TootEntity.class, AccountEntity.class, InstanceEntity.class}, version = 10)
+@Database(entities = {TootEntity.class, AccountEntity.class, InstanceEntity.class}, version = 11)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TootDao tootDao();
@@ -113,6 +115,17 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `defaultMediaSensitivity` INTEGER NOT NULL DEFAULT 0");
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `alwaysShowSensitiveMedia` INTEGER NOT NULL DEFAULT 0");
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `mediaPreviewEnabled` INTEGER NOT NULL DEFAULT '1'");
+        }
+    };
+
+    public static final Migration MIGRATION_10_11 = new Migration(10, 11) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            String defaultTabs = TabDataKt.HOME+";"+
+                    TabDataKt.NOTIFICATIONS+";"+
+                    TabDataKt.LOCAL+";"+
+                    TabDataKt.FEDERATED;
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `tabPreferences` TEXT NOT NULL DEFAULT '" + defaultTabs+ "'");
         }
     };
 
