@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.adapter
 
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 
@@ -50,6 +51,14 @@ class TabAdapter(var data: List<TabData>,
         if(small) {
             holder.itemView.textView.setOnClickListener {
                 listener?.onTabAdded(data[position])
+            }
+        }
+        holder.itemView.imageView?.setOnTouchListener { _, event ->
+            if(event.action == MotionEvent.ACTION_DOWN) {
+                listener?.onStartDrag(holder)
+                true
+            } else {
+                false
             }
         }
     }

@@ -23,15 +23,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
 import com.keylesspalace.tusky.adapter.TabAdapter
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.visible
 import kotlinx.android.synthetic.main.activity_tab_preference.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
+import javax.inject.Inject
 
 class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListener {
 
+    @Inject
+    lateinit var eventHub: EventHub
+
     private lateinit var currentTabs: MutableList<TabData>
     private lateinit var currentTabsAdapter: TabAdapter
+    private lateinit var touchHelper: ItemTouchHelper
     private lateinit var addTabAdapter: TabAdapter
 
     private val selectedItemElevation by lazy { resources.getDimension(R.dimen.selected_drag_item_elevation) }
@@ -50,7 +57,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         }
 
         currentTabs = (accountManager.activeAccount?.tabPreferences ?: emptyList()).toMutableList()
-        currentTabsAdapter = TabAdapter(currentTabs)
+        currentTabsAdapter = TabAdapter(currentTabs, false, this)
         currentTabsRecyclerView.adapter = currentTabsAdapter
         currentTabsRecyclerView.layoutManager = LinearLayoutManager(this)
         currentTabsRecyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
@@ -59,7 +66,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         addTabRecyclerView.adapter = addTabAdapter
         addTabRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        val touchHelper = ItemTouchHelper(object: ItemTouchHelper.Callback(){
+        touchHelper = ItemTouchHelper(object: ItemTouchHelper.Callback(){
             override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
                 return makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.END)
             }
@@ -155,11 +162,11 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     override fun onStartDelete(viewHolder: RecyclerView.ViewHolder) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        touchHelper.startSwipe(viewHolder)
     }
 
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        touchHelper.startDrag(viewHolder)
     }
 
     private fun saveTabs() {
@@ -183,6 +190,11 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             return true
         }
         return false
+    }
+
+    override fun onPause() {
+        super.onPause()
+        eventHub.dispatch(MainTabsChangedEvent(currentTabs))
     }
 
 }
