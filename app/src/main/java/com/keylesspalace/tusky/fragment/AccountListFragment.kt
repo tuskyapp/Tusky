@@ -76,10 +76,10 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView.setHasFixedSize(true)
-        val layoutManager = LinearLayoutManager(context)
+        val layoutManager = LinearLayoutManager(view.context)
         recyclerView.layoutManager = layoutManager
-        val divider = DividerItemDecoration(context, layoutManager.orientation)
-        val drawable = ThemeUtils.getDrawable(context, R.attr.status_divider_drawable, R.drawable.status_divider_dark)
+        val divider = DividerItemDecoration(view.context, layoutManager.orientation)
+        val drawable = ThemeUtils.getDrawable(view.context, R.attr.status_divider_drawable, R.drawable.status_divider_dark)
         divider.setDrawable(drawable)
         recyclerView.addItemDecoration(divider)
 

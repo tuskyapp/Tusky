@@ -23,6 +23,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TabData
+import com.keylesspalace.tusky.util.ThemeUtils
 import kotlinx.android.synthetic.main.item_tab_preference.view.*
 
 interface ItemInteractionListener {
@@ -41,13 +42,19 @@ class TabAdapter(var data: List<TabData>,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(if(small) R.layout.item_tab_preference_small else R.layout.item_tab_preference, parent, false)
+        val layoutId = if(small) {
+            R.layout.item_tab_preference_small
+        } else {
+            R.layout.item_tab_preference
+        }
+        val view = LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.textView.setText(data[position].text)
-        holder.itemView.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(data[position].icon, 0, 0, 0)
+        val iconDrawable = ThemeUtils.getTintedDrawable(holder.itemView.context, data[position].icon, android.R.attr.textColorSecondary)
+        holder.itemView.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(iconDrawable, null, null, null)
         if(small) {
             holder.itemView.textView.setOnClickListener {
                 listener?.onTabAdded(data[position])
@@ -62,6 +69,8 @@ class TabAdapter(var data: List<TabData>,
             }
         }
     }
+
+
 
     override fun getItemCount(): Int {
         return data.size

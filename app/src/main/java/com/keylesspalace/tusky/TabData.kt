@@ -18,6 +18,7 @@ package com.keylesspalace.tusky
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import com.keylesspalace.tusky.fragment.NotificationsFragment
 import com.keylesspalace.tusky.fragment.TimelineFragment
 
 /** this would be a good case for a sealed class, but that does not work nice with Room */
@@ -37,7 +38,7 @@ data class TabData(val id: String,
 fun createTabDataFromId(id: String): TabData {
     return when (id) {
         HOME -> TabData(HOME, R.string.title_home, R.drawable.ic_home_24dp) { TimelineFragment.newInstance(TimelineFragment.Kind.HOME) }
-        NOTIFICATIONS -> TabData(NOTIFICATIONS, R.string.title_notifications, R.drawable.ic_notifications_24dp) { TimelineFragment.newInstance(TimelineFragment.Kind.HOME) }
+        NOTIFICATIONS -> TabData(NOTIFICATIONS, R.string.title_notifications, R.drawable.ic_notifications_24dp) { NotificationsFragment.newInstance() }
         LOCAL -> TabData(LOCAL, R.string.title_public_local, R.drawable.ic_local_24dp) { TimelineFragment.newInstance(TimelineFragment.Kind.PUBLIC_LOCAL) }
         FEDERATED -> TabData(FEDERATED, R.string.title_public_federated, R.drawable.ic_public_24dp) { TimelineFragment.newInstance(TimelineFragment.Kind.PUBLIC_FEDERATED) }
         DIRECT -> TabData(DIRECT, R.string.title_direct_messages, R.drawable.reblog_direct_dark) { TimelineFragment.newInstance(TimelineFragment.Kind.HOME) }

@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.pager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import com.keylesspalace.tusky.TabData
 
 class MainPagerAdapter(val tabs: List<TabData>, manager: FragmentManager) : FragmentPagerAdapter(manager) {
@@ -32,6 +33,14 @@ class MainPagerAdapter(val tabs: List<TabData>, manager: FragmentManager) : Frag
 
     override fun getPageTitle(position: Int): CharSequence? {
         return null
+    }
+
+    override fun getItemId(position: Int): Long {
+        return tabs[position].id.hashCode().toLong()
+    }
+
+    override fun getItemPosition(item: Any): Int {
+        return PagerAdapter.POSITION_NONE
     }
 
 }

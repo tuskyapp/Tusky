@@ -11,7 +11,6 @@
     android:lines="1"
     android:ellipsize="end"
     android:background="?attr/selectableItemBackground"
-    android:drawableTint="?android:attr/textColorSecondary"
     android:textColor="?android:attr/textColorSecondary"
     android:textSize="?attr/status_text_large" />
 

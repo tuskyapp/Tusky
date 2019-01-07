@@ -141,10 +141,10 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         super.onViewCreated(view, savedInstanceState)
 
 
-        val columnCount = context?.resources?.getInteger(R.integer.profile_media_column_count) ?: 2
-        val layoutManager = GridLayoutManager(context, columnCount)
+        val columnCount = view.context.resources.getInteger(R.integer.profile_media_column_count)
+        val layoutManager = GridLayoutManager(view.context, columnCount)
 
-        val bgRes = ThemeUtils.getColorId(context, R.attr.window_background)
+        val bgRes = ThemeUtils.getColorId(view.context, R.attr.window_background)
 
         adapter.baseItemColor = ContextCompat.getColor(recycler_view.context, bgRes)
 
@@ -166,7 +166,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
 
         }
         swipe_refresh_layout.setColorSchemeResources(R.color.tusky_blue)
-        swipe_refresh_layout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground))
+        swipe_refresh_layout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(view.context, android.R.attr.colorBackground))
 
         nothing_message.visibility = View.GONE
 

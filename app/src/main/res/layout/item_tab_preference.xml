@@ -17,7 +17,6 @@
             android:textSize="?attr/status_text_large"
             android:textColor="?android:attr/textColorSecondary"
             android:drawableStart="@drawable/ic_home_24dp"
-            android:drawableTint="?android:attr/textColorSecondary"
             android:layout_width="0dp"
             android:layout_marginStart="8dp"
             android:drawablePadding="12dp"

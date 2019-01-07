@@ -80,9 +80,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         mediaPreviewEnabledPreference = findPreference("mediaPreviewEnabled") as SwitchPreference
         alwaysShowSensitiveMediaPreference = findPreference("alwaysShowSensitiveMedia") as SwitchPreference
 
-        notificationPreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_notifications).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
+        notificationPreference.icon = IconicsDrawable(notificationPreference.context, GoogleMaterial.Icon.gmd_notifications).sizePx(iconSize).color(ThemeUtils.getColor(notificationPreference.context, R.attr.toolbar_icon_tint))
         mutedUsersPreference.icon = getTintedIcon(R.drawable.ic_mute_24dp)
-        blockedUsersPreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_block).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
+        blockedUsersPreference.icon = IconicsDrawable(blockedUsersPreference.context, GoogleMaterial.Icon.gmd_block).sizePx(iconSize).color(ThemeUtils.getColor(blockedUsersPreference.context, R.attr.toolbar_icon_tint))
 
         notificationPreference.onPreferenceClickListener = this
         tabPreference.onPreferenceClickListener = this

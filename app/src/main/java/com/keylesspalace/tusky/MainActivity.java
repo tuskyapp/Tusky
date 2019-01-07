@@ -354,11 +354,10 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private void setupTabs(boolean selectNotificationTab) {
         List<TabData> tabs = accountManager.getActiveAccount().getTabPreferences();
 
-        // Setup the tabs and timeline pager.
         MainPagerAdapter adapter = new MainPagerAdapter(tabs, getSupportFragmentManager());
-
         viewPager.setAdapter(adapter);
 
+        tabLayout.setupWithViewPager(viewPager);
         tabLayout.removeAllTabs();
         for (int i = 0; i < tabs.size(); i++) {
             TabLayout.Tab tab = tabLayout.newTab()
