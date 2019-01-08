@@ -332,7 +332,7 @@
     <string name="later">Più tardi</string>
     <string name="restart">Riavvia</string>
     <string name="caption_systememoji">Le emoji predefinite del tuo dispositivo</string>
-    <string name="caption_blobmoji" tools:ignore="TypographyDashes">Le emoji Blob conosciute da Android 4.4-7.1</string>
+    <string name="caption_blobmoji">Le emoji Blob conosciute da Android 4.4-7.1</string>
     <string name="caption_twemoji">Le emoji standard di Mastodon</string>
 
     <string name="download_failed">Scaricamento fallito</string>
