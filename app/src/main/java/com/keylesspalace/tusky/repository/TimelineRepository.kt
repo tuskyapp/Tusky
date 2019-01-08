@@ -37,7 +37,7 @@ interface TimelineRepository {
     }
 }
 
-class TimelineRepostiryImpl(
+class TimelineRepositoryImpl(
         private val timelineDao: TimelineDao,
         private val mastodonApi: MastodonApi,
         private val accountManager: AccountManager,

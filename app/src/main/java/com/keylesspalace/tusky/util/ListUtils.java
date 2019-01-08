@@ -37,12 +37,4 @@ public class ListUtils {
         LinkedHashSet<T> set = new LinkedHashSet<>(list);
         return new ArrayList<>(set);
     }
-
-    public static <T> void removeFirstN(int number, List<T> list) {
-        for (Iterator<T> iterator = list.listIterator(); iterator.hasNext() && number > 0; ) {
-            iterator.next();
-            iterator.remove();
-            number--;
-        }
-    }
 }

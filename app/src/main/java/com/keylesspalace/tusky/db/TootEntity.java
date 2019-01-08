@@ -15,14 +15,14 @@
 
 package com.keylesspalace.tusky.db;
 
+import com.keylesspalace.tusky.entity.Status;
+
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
-import androidx.annotation.Nullable;
-
-import com.keylesspalace.tusky.entity.Status;
 
 /**
  * Toot model.
