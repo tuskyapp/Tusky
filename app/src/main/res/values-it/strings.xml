@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="error_generic">Si è verificato un errore.</string>
     <string name="error_empty">Questo non può esser vuoto.</string>
@@ -145,8 +145,8 @@
 	qui, come mastodon.social, icosahedron.website, social.tchncs.de, e
 	<a href="https://instances.social">altro!</a>
 	\n\nSe non hai ancora un account, puoi inserire il nome di un\'istanza alla quale vuoi iscriverti
-	e creare un account.\n\nUn\'istanza è il luogo dove l\'account è custodito, 
-	ma puoi facilmente comunicare e seguire gente su altre istanze 
+	e creare un account.\n\nUn\'istanza è il luogo dove l\'account è custodito,
+	ma puoi facilmente comunicare e seguire gente su altre istanze
 	come se fossero sullo stesso sito.
 	\n\nPiù info possono essere trovate su <a href="https://joinmastodon.org">joinmastodon.org</a>.
 	</string>
@@ -312,7 +312,7 @@
     <string name="emoji_style">Stile di emoji</string>
     <string name="system_default">Predefiniti del sistema</string>
     <string name="download_fonts">Dovrai prima scaricare questo pacchetto di emoji</string>
-    <string name="performing_lookup_title">Eseguendo una ricerca...</string>
+    <string name="performing_lookup_title">Eseguendo una ricerca…</string>
     <string name="expand_collapse_all_statuses">Espandi/Riduci tutti gli stati</string>
     <string name="action_open_toot">Apri toot</string>
     <string name="restart_required">Riavvio dell\'app richiesto</string>
@@ -320,7 +320,7 @@
     <string name="later">Più tardi</string>
     <string name="restart">Riavvia</string>
     <string name="caption_systememoji">Le emoji predefinite del tuo dispositivo</string>
-    <string name="caption_blobmoji">Le emoji Blob conosciute da Android 4.4-7.1</string>
+    <string name="caption_blobmoji" tools:ignore="TypographyDashes">Le emoji Blob conosciute da Android 4.4-7.1</string>
     <string name="caption_twemoji">Le emoji standard di Mastodon</string>
 
     <string name="download_failed">Scaricamento fallito</string>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,30 +7,32 @@
     android:orientation="horizontal"
     android:paddingTop="4dp">
 
-    <android.support.text.emoji.widget.EmojiTextView
+    <!-- 30% width for the field name, 70% for the value -->
+    <androidx.emoji.widget.EmojiTextView
         android:id="@+id/accountFieldName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
+        android:gravity="center"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
-        app:layout_constraintEnd_toStartOf="@+id/accountFieldValue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintWidth_max="160dp"
-        tools:text="Field title " />
+        app:layout_constraintWidth_percent=".3"
+        tools:text="Field title" />
 
-    <android.support.text.emoji.widget.EmojiTextView
+    <androidx.emoji.widget.EmojiTextView
         android:id="@+id/accountFieldValue"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
+        android:drawablePadding="6dp"
+        android:gravity="center"
         android:lineSpacingMultiplier="1.1"
         android:textSize="?attr/status_text_medium"
+        app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/accountFieldName"
         tools:text="Field content. This can contain links and custom emojis" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

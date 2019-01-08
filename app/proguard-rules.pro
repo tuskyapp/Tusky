@@ -44,10 +44,10 @@
 # TUSKY SPECIFIC OPTIONS
 
 ## for okhttp
--dontwarn okio.**
--dontwarn javax.annotation.Nullable
--dontwarn javax.annotation.ParametersAreNonnullByDefault
--dontwarn org.conscrypt.**
+-dontwarn javax.annotation.**
+-keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
+-dontwarn org.codehaus.mojo.animal_sniffer.*
+-dontwarn okhttp3.internal.platform.ConscryptPlatform
 
 ## for picasso
 -dontwarn com.squareup.okhttp.**
@@ -91,6 +91,8 @@
 # remove some kotlin overhead
 -assumenosideeffects class kotlin.jvm.internal.Intrinsics {
     static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
+    static void checkExpressionValueIsNotNull(java.lang.Object, java.lang.String);
+    static void throwUninitializedPropertyAccessException(java.lang.String);
 }
 
 -dontwarn com.google.errorprone.annotations.*

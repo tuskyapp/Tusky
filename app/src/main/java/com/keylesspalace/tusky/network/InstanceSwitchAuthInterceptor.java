@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.network;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;

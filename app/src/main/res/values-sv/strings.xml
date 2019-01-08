@@ -114,9 +114,9 @@
 
     <string name="action_copy_link">Kopiera länken</string>
 
-    <string name="send_status_link_to">Dela toot-URL till...</string>
-    <string name="send_status_content_to">Dela toot till...</string>
-    <string name="send_media_to">Dela media till...</string>
+    <string name="send_status_link_to">Dela toot-URL till…</string>
+    <string name="send_status_content_to">Dela toot till…</string>
+    <string name="send_media_to">Dela media till…</string>
 
     <string name="confirmation_reported">Skickat!</string>
     <string name="confirmation_unblocked">Användare avblockerad</string>
@@ -140,7 +140,7 @@
 
     <string name="link_whats_an_instance">Vad är en instans?</string>
 
-    <string name="login_connection">Ansluter...</string>
+    <string name="login_connection">Ansluter…</string>
 
     <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges 
 		här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och 
@@ -152,7 +152,7 @@
     
 	</string>
     <string name="dialog_title_finishing_media_upload">Uppladdning av media</string>
-    <string name="dialog_message_uploading_media">Laddar upp...</string>
+    <string name="dialog_message_uploading_media">Laddar upp…</string>
     <string name="dialog_download_image">Ladda ned</string>
     <string name="dialog_message_cancel_follow_request">Återkalla följningsförfrågan?</string>
     <string name="dialog_unfollow_warning">Avfölja detta konto?</string>
@@ -312,7 +312,7 @@
     <string name="lock_account_label">Lås konto</string>
     <string name="lock_account_label_description">Kräver att du manuellt godkänner följare</string>
     <string name="compose_save_draft">Spara utkast?</string>
-    <string name="send_toot_notification_title">Skickar toot...</string>
+    <string name="send_toot_notification_title">Skickar toot…</string>
     <string name="send_toot_notification_error_title">Fel vid sändning av toot</string>
     <string name="send_toot_notification_channel_name">Skickar toot</string>
     <string name="send_toot_notification_cancel_title">Sändning avbruten</string>
@@ -324,7 +324,7 @@
     <string name="emoji_style">Emojis</string>
     <string name="system_default">Systemstandard</string>
     <string name="download_fonts">Du behöver ladda ned dessa emojis först</string>
-    <string name="performing_lookup_title">Utför sökning...</string>
+    <string name="performing_lookup_title">Utför sökning…</string>
     <string name="expand_collapse_all_statuses">Expandera/Dölj alla status</string>
     <string name="action_open_toot">Öppna toot</string>
     <string name="restart_required">Omstart av appen krävs</string>

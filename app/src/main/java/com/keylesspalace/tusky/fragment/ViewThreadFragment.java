@@ -15,28 +15,31 @@
 
 package com.keylesspalace.tusky.fragment;
 
-import android.arch.core.util.Function;
-import android.arch.lifecycle.Lifecycle;
+import androidx.arch.core.util.Function;
+import androidx.lifecycle.Lifecycle;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.util.Pair;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SimpleItemAnimator;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.util.Pair;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.keylesspalace.tusky.AccountListActivity;
+import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ViewThreadActivity;
@@ -72,8 +75,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.uber.autodispose.AutoDispose.*;
-import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.*;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
 public final class ViewThreadFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, Injectable {
@@ -136,7 +139,7 @@ public final class ViewThreadFragment extends SFragment implements
         Context context = getContext();
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.primary);
+        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
                 ThemeUtils.getColor(context, android.R.attr.colorBackground));
 
@@ -237,7 +240,8 @@ public final class ViewThreadFragment extends SFragment implements
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
                 if (response.isSuccessful()) {
-                    setReblogForStatus(position, status, reblog);
+                    updateStatus(position, response.body());
+
                     eventHub.dispatch(new ReblogEvent(status.getId(), reblog));
                 }
             }
@@ -250,24 +254,6 @@ public final class ViewThreadFragment extends SFragment implements
         });
     }
 
-    private void setReblogForStatus(int position, Status status, boolean reblog) {
-        status.setReblogged(reblog);
-
-        if (status.getReblog() != null) {
-            status.getReblog().setReblogged(reblog);
-        }
-
-        StatusViewData.Concrete viewdata = statuses.getPairedItem(position);
-
-        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
-        viewDataBuilder.setReblogged(reblog);
-
-        StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
-
-        statuses.setPairedItem(position, newViewData);
-        adapter.setItem(position, newViewData, true);
-    }
-
     @Override
     public void onFavourite(final boolean favourite, final int position) {
         final Status status = statuses.get(position);
@@ -275,7 +261,8 @@ public final class ViewThreadFragment extends SFragment implements
             @Override
             public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
                 if (response.isSuccessful()) {
-                    setFavForStatus(position, status, favourite);
+                    updateStatus(position, response.body());
+
                     eventHub.dispatch(new FavoriteEvent(status.getId(), favourite));
                 }
             }
@@ -288,22 +275,20 @@ public final class ViewThreadFragment extends SFragment implements
         });
     }
 
-    private void setFavForStatus(int position, Status status, boolean favourite) {
-        status.setFavourited(favourite);
+    private void updateStatus(int position, Status status) {
+        if(position >= 0 && position < statuses.size()) {
 
-        if (status.getReblog() != null) {
-            status.getReblog().setFavourited(favourite);
+            statuses.set(position, status);
+
+            if(position == statusIndex && card != null) {
+                StatusViewData.Concrete viewData = new StatusViewData.Builder(statuses.getPairedItem(position))
+                        .setCard(card)
+                        .createStatusViewData();
+                statuses.setPairedItem(position, viewData);
+            }
+            adapter.setItem(position, statuses.getPairedItem(position), true);
+
         }
-
-        StatusViewData.Concrete viewdata = statuses.getPairedItem(position);
-
-        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
-        viewDataBuilder.setFavourited(favourite);
-
-        StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
-
-        statuses.setPairedItem(position, newViewData);
-        adapter.setItem(position, newViewData, true);
     }
 
     @Override
@@ -355,8 +340,22 @@ public final class ViewThreadFragment extends SFragment implements
     }
 
     @Override
-    public void onLoadMore(int pos) {
+    public void onLoadMore(int position) {
 
+    }
+
+    @Override
+    public void onShowReblogs(int position) {
+        String statusId = statuses.get(position).getId();
+        Intent intent = AccountListActivity.newIntent(getContext(), AccountListActivity.Type.REBLOGGED, statusId);
+        ((BaseActivity) getActivity()).startActivityWithSlideInAnimation(intent);
+    }
+
+    @Override
+    public void onShowFavs(int position) {
+        String statusId = statuses.get(position).getId();
+        Intent intent = AccountListActivity.newIntent(getContext(), AccountListActivity.Type.FAVOURITED, statusId);
+        ((BaseActivity) getActivity()).startActivityWithSlideInAnimation(intent);
     }
 
     @Override
@@ -615,14 +614,44 @@ public final class ViewThreadFragment extends SFragment implements
         Pair<Integer, Status> posAndStatus = findStatusAndPos(event.getStatusId());
         if (posAndStatus == null) return;
         //noinspection ConstantConditions
-        setFavForStatus(posAndStatus.first, posAndStatus.second, event.getFavourite());
+        boolean favourite = event.getFavourite();
+        posAndStatus.second.setFavourited(favourite);
+
+        if (posAndStatus.second.getReblog() != null) {
+            posAndStatus.second.getReblog().setFavourited(favourite);
+        }
+
+        StatusViewData.Concrete viewdata = statuses.getPairedItem(posAndStatus.first);
+
+        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
+        viewDataBuilder.setFavourited(favourite);
+
+        StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
+
+        statuses.setPairedItem(posAndStatus.first, newViewData);
+        adapter.setItem(posAndStatus.first, newViewData, true);
     }
 
     private void handleReblogEvent(ReblogEvent event) {
         Pair<Integer, Status> posAndStatus = findStatusAndPos(event.getStatusId());
         if (posAndStatus == null) return;
         //noinspection ConstantConditions
-        setReblogForStatus(posAndStatus.first, posAndStatus.second, event.getReblog());
+        boolean reblog = event.getReblog();
+        posAndStatus.second.setReblogged(reblog);
+
+        if (posAndStatus.second.getReblog() != null) {
+            posAndStatus.second.getReblog().setReblogged(reblog);
+        }
+
+        StatusViewData.Concrete viewdata = statuses.getPairedItem(posAndStatus.first);
+
+        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
+        viewDataBuilder.setReblogged(reblog);
+
+        StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
+
+        statuses.setPairedItem(posAndStatus.first, newViewData);
+        adapter.setItem(posAndStatus.first, newViewData, true);
     }
 
     private void handleStatusComposedEvent(StatusComposedEvent event) {

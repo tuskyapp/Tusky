@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/accountCoordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:textDirection="anyRtl"
     android:fillViewport="true">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/accountAppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="@dimen/actionbar_elevation">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:background="#000" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/accountHeaderInfoContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,6 +45,7 @@
 
                 <Button
                     android:id="@+id/accountFollowButton"
+                    style="@style/TuskyButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
@@ -53,7 +55,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Follow" />
 
-                <android.support.text.emoji.widget.EmojiTextView
+                <androidx.emoji.widget.EmojiTextView
                     android:id="@+id/accountDisplayNameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -122,14 +124,14 @@
                     app:layout_goneMarginStart="0dp"
                     tools:visibility="visible" />
 
-                <android.support.constraint.Barrier
+                <androidx.constraintlayout.widget.Barrier
                     android:id="@+id/labelBarrier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
                     app:constraint_referenced_ids="accountFollowsYouTextView,accountBadgeTextView" />
 
-                <android.support.text.emoji.widget.EmojiTextView
+                <androidx.emoji.widget.EmojiTextView
                     android:id="@+id/accountNoteTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -141,7 +143,7 @@
                     app:layout_constraintTop_toBottomOf="@id/labelBarrier"
                     tools:text="This is a test description. Descriptions can be quite looooong." />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/accountFieldList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -163,11 +165,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:lineSpacingMultiplier="1.1"
                     android:text="@string/label_remote_account"
                     android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@id/accountMovedView"
-                    tools:visibility="visible"
-                    android:lineSpacingMultiplier="1.1"/>
+                    tools:visibility="visible" />
 
                 <LinearLayout
                     android:id="@+id/accountFollowers"
@@ -259,43 +261,40 @@
                         android:textColor="@color/account_tab_font_color"
                         android:textSize="?attr/status_text_medium" />
                 </LinearLayout>
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- top margin equal to statusbar size will be set programmatically -->
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/accountToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="top"
                 android:background="@android:color/transparent"
                 app:layout_collapseMode="pin"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="?attr/toolbar_popup_theme" />
-        </android.support.design.widget.CollapsingToolbarLayout>
+                app:layout_scrollFlags="scroll|enterAlways" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-        <android.support.design.widget.TabLayout
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/accountTabLayout"
             style="@style/TuskyTabAppearance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:background="?android:colorBackground"
-            app:tabGravity="fill"
-            app:tabIndicatorHeight="3dp"
-            app:tabMaxWidth="0dp"
-            app:tabSelectedTextColor="?attr/colorAccent"
+            app:tabGravity="center"
+            app:tabMode="fixed"
             app:tabTextAppearance="@style/TuskyTabAppearance" />
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/accountFragmentViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/accountFloatingActionButton"
+        style="@style/TuskyFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -316,4 +315,4 @@
         app:layout_anchorGravity="top"
         app:layout_scrollFlags="scroll"
         app:srcCompat="@drawable/avatar_default" />
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

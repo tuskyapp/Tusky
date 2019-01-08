@@ -24,6 +24,7 @@ import com.keylesspalace.tusky.util.HtmlUtils
 import kotlinx.android.parcel.Parceler
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.WriteWith
+import java.util.*
 
 @Parcelize
 data class Account(
@@ -78,7 +79,8 @@ data class AccountSource(
 @Parcelize
 data class Field (
         val name: String,
-        val value: @WriteWith<SpannedParceler>() Spanned
+        val value: @WriteWith<SpannedParceler>() Spanned,
+        @SerializedName("verified_at") val verifiedAt: Date?
 ): Parcelable
 
 @Parcelize

@@ -3,7 +3,7 @@ package com.keylesspalace.tusky.util;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.keylesspalace.tusky.R;

@@ -8,27 +8,27 @@
     <string name="error_authorization_unknown">Identifikatu gabeko baimentza akatsa gertatu da.</string>
     <string name="error_authorization_denied">Akatsa baimentzerakoan.</string>
     <string name="error_retrieving_oauth_token">Akatsa login identifikatzailea lortzerakoan.</string>
-    <string name="error_compose_character_limit">Orro luzeegia!</string>
+    <string name="error_compose_character_limit">Tut luzeegia!</string>
     <string name="error_image_upload_size">Fitxategiak 8MB baino gutxiago izan behar ditu.</string>
     <string name="error_video_upload_size">Bideoak 40MB baino gutxiago izan behar ditu.</string>
     <string name="error_media_upload_type">Ez da fitxategi mota hau onartzen.</string>
     <string name="error_media_upload_opening">Ezin izan da fitxategi hau ireki.</string>
     <string name="error_media_upload_permission">Memoriara sartzeko baimena behar da.</string>
     <string name="error_media_download_permission">Memoriara deskargatzeko  baimena behar da.</string>
-    <string name="error_media_upload_image_or_video">Ezin dira bideoak eta irudiak orro berean gehitu.</string>
+    <string name="error_media_upload_image_or_video">Ezin dira bideoak eta irudiak tut berean gehitu.</string>
     <string name="error_media_upload_sending">Akatsa igotzerakoan.</string>
-    <string name="error_report_too_few_statuses">Gutxienez egoera bat hautatu behar da.</string>
+    <string name="error_report_too_few_statuses">Gutxienez tut bat hautatu behar da.</string>
     <string name="error_invalid_regex">Espresio erregular baliogabea.</string>
-    <string name="error_sender_account_gone">Akatsa orro egiterakoan.</string>
+    <string name="error_sender_account_gone">Akatsa tuta bidaltzerakoan.</string>
 
     <string name="title_home">Hasiera</string>
     <string name="title_advanced">Aurreratua</string>
     <string name="title_notifications">Jakinarazpenak</string>
     <string name="title_public_local">Lokala</string>
     <string name="title_public_federated">Federatua</string>
-    <string name="title_view_thread">Orroa</string>
+    <string name="title_view_thread">Tuta</string>
     <string name="title_tag">#%s</string>
-    <string name="title_statuses">Egoerak</string>
+    <string name="title_statuses">Tutak</string>
     <string name="title_statuses_with_replies">Erantzunekin</string>
     <string name="title_follows">Jarraitzen</string>
     <string name="title_followers">Jarraitzaileak</string>
@@ -52,8 +52,8 @@
 
     <string name="footer_empty">Edukirik ez. Arrastatu behera birkargatzeko!</string>
 
-    <string name="notification_reblog_format">%s-(e)k zure orroa bultzatu du</string>
-    <string name="notification_favourite_format">%s-(e)k zure orroa gogoko du</string>
+    <string name="notification_reblog_format">%s-(e)k zure tuta bultzatu du</string>
+    <string name="notification_favourite_format">%s-(e)k zure tuta gogoko du</string>
     <string name="notification_follow_format">%s-(e)k jarraitu dizu</string>
 
     <string name="report_username_format">@%s salatu</string>
@@ -76,8 +76,8 @@
     <string name="action_show_reblogs">Bultzadak erakutsi</string>
     <string name="action_report">Salatu</string>
     <string name="action_delete">Ezabatu</string>
-    <string name="action_send">Orro egin</string>
-    <string name="action_send_public">ORRO!</string>
+    <string name="action_send">Tut</string>
+    <string name="action_send_public">TUT!</string>
     <string name="action_retry">Berriz saiatu</string>
     <string name="action_close">Itxi</string>
     <string name="action_view_profile">Profila</string>
@@ -105,7 +105,7 @@
     <string name="action_reject">Ukatu</string>
     <string name="action_search">Bilatu</string>
     <string name="action_access_saved_toot">Zirriborroak</string>
-    <string name="action_toggle_visibility">Orroaren ikusgarritasuna</string>
+    <string name="action_toggle_visibility">Tutaren ikusgarritasuna</string>
     <string name="action_content_warning">Edukiaren abisua</string>
     <string name="action_emoji_keyboard">Emoji teklatua</string>
 
@@ -113,8 +113,8 @@
 
     <string name="action_copy_link">Lotura kopiatu</string>
 
-    <string name="send_status_link_to">Orroaren URL-a partekatu…</string>
-    <string name="send_status_content_to">Orroa partekatu…</string>
+    <string name="send_status_link_to">Tutaren URL-a partekatu…</string>
+    <string name="send_status_content_to">Tuta partekatu…</string>
     <string name="send_media_to">Partekatu multimedia hona…</string>
 
     <string name="confirmation_reported">Bidalia!</string>
@@ -133,7 +133,7 @@
 
     <string name="search_no_results">Emaitzarik ez</string>
 
-    <string name="label_quick_reply">Erantzuna...</string>
+    <string name="label_quick_reply">Erantzuna…</string>
     <string name="label_avatar">Irudia</string>
     <string name="label_header">Goiburua</string>
 
@@ -151,7 +151,7 @@
     <string name="dialog_download_image">Jaitsi</string>
     <string name="dialog_message_cancel_follow_request">Lagun eskaera ezeztatu?</string>
     <string name="dialog_unfollow_warning">Kontu hau jarraitzeari utzi?</string>
-    <string name="dialog_delete_toot_warning">Orro hau ezabatu?</string>
+    <string name="dialog_delete_toot_warning">Tuta ezabatu?</string>
 
     <string name="visibility_public">Publikoa: Istorio publikoetan erakutsi</string>
     <string name="visibility_unlisted">Ezkutukoa: Ez erakutsi istorio publikoetan</string>
@@ -184,7 +184,7 @@
 
     <string name="pref_title_browser_settings">Nabigatzailea</string>
     <string name="pref_title_custom_tabs">Chromeko fitxak erabili</string>
-    <string name="pref_title_hide_follow_button">Orro egiteko botoia ezkutatu jaisterakoan.</string>
+    <string name="pref_title_hide_follow_button">Tut egiteko botoia ezkutatu jaisterakoan.</string>
     <string name="pref_title_status_filter">Denbora-lerro filtroak</string>
     <string name="pref_title_status_tabs">Fitxak</string>
     <string name="pref_title_show_boosts">Erakutsi bultzadak</string>
@@ -231,9 +231,9 @@
     <string name="notification_channel_follow_name">Jarritzaile berriak</string>
     <string name="notification_channel_follow_description">Jarraitzaile berrien jakinarazpenak</string>
     <string name="notification_channel_boost_name">Bultzadak</string>
-    <string name="notification_channel_boost_description">Bultzatutako orroen jakinarazpenak</string>
+    <string name="notification_channel_boost_description">Bultzatutako tuten jakinarazpenak</string>
     <string name="notification_channel_favourite_name">Gogokoak</string>
-    <string name="notification_channel_favourite_description">Gogoko orroen jakinarazpenak</string>
+    <string name="notification_channel_favourite_description">Gogokoen jakinarazpenak</string>
 
     <string name="notification_mention_format">%s-k aipatu zaitu</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s eta beste %4$d</string>
@@ -298,7 +298,7 @@
     <string name="title_lists">Zerrendak</string>
     <string name="title_list_timeline">Zerrenda denbora-lerroa</string>
 
-    <string name="compose_active_account_description">%1$s kontuarekin orro egiten</string>
+    <string name="compose_active_account_description">%1$s kontuarekin tut egiten</string>
 
     <string name="error_failed_set_caption">Akatsa deskribapena eranstean</string>
     <string name="hint_describe_for_visually_impaired">Ikusmen urritasuna dutenentzat deskribapena\n(%d karaktereko muga)</string>
@@ -307,11 +307,11 @@
     <string name="lock_account_label">Kontua babestu</string>
     <string name="lock_account_label_description">Jarraitzaileak eskuz onartu beharko dituzu</string>
     <string name="compose_save_draft">Zirriborroa gorde?</string>
-    <string name="send_toot_notification_title">Orroa ezabatzen...</string>
-    <string name="send_toot_notification_error_title">Errorea orroa bidaltzerakoan</string>
-    <string name="send_toot_notification_channel_name">Orroa bidaltzen</string>
+    <string name="send_toot_notification_title">Tuta ezabatzen…</string>
+    <string name="send_toot_notification_error_title">Errorea tuta bidaltzerakoan</string>
+    <string name="send_toot_notification_channel_name">Tuta bidaltzen</string>
     <string name="send_toot_notification_cancel_title">Bidalketa ezeztatua</string>
-    <string name="send_toot_notification_saved_content">Orroaren kopia zirriborroetan sartu da</string>
+    <string name="send_toot_notification_saved_content">Tutaren kopia zirriborroetan sartu da</string>
     <string name="action_compose_shortcut">Idatzi</string>
 
     <string name="error_no_custom_emojis">%s instantziak ez ditu emoji pertsonalizatuak eskaintzen</string>
@@ -319,8 +319,8 @@
     <string name="emoji_style">Emojien estiloa</string>
     <string name="system_default">Sistema</string>
     <string name="download_fonts">Lehenago jaitsi beharko dituzu</string>
-    <string name="performing_lookup_title">Bilatzen...</string>
-    <string name="expand_collapse_all_statuses">Egoera guztiak ezkutatu/zabaldu</string>
+    <string name="performing_lookup_title">Bilatzen…</string>
+    <string name="expand_collapse_all_statuses">Tut guztiak ezkutatu/zabaldu</string>
     <string name="action_open_toot">Ireki</string>
     <string name="restart_required">Berrabiaraztea beharrezkoa da</string>
     <string name="restart_emoji">Aplikazioa berrabiarazi beharko duzu aldaketa ezartzeko</string>

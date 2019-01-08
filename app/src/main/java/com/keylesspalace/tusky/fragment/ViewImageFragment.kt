@@ -19,7 +19,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.view.ViewCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,7 +55,7 @@ class ViewImageFragment : ViewMediaFragment() {
 
     override fun setupMediaView(url: String) {
         descriptionView = mediaDescription
-        ViewCompat.setTransitionName(photoView, url)
+        photoView.transitionName = url
         attacher = PhotoViewAttacher(photoView)
 
         // Clicking outside the photo closes the viewer.
@@ -105,8 +104,10 @@ class ViewImageFragment : ViewMediaFragment() {
                         override fun onError() {
                             // if there's no image in cache, load from network and start transition
                             // immediately.
-                            photoActionsListener.onBringUp()
-                            loadImageFromNetwork(url, photoView)
+                            if (isAdded) {
+                                photoActionsListener.onBringUp()
+                                loadImageFromNetwork(url, photoView)
+                            }
                         }
                     })
         } else {

@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.view
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 
 import com.keylesspalace.tusky.R

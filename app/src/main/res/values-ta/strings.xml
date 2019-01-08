@@ -126,7 +126,7 @@
     <string name="hint_content_warning">உள்ளடக்க எச்சரிக்கை</string>
     <string name="hint_display_name">காட்சி பெயர்</string>
     <string name="hint_note">சுயவிவரம்</string>
-    <string name="hint_search">தேடல்...</string>
+    <string name="hint_search">தேடல்…</string>
 
     <string name="search_no_results">முடிவுகள் ஏதுமில்லை</string>
     <string name="label_quick_reply">பதிலளி…</string>
@@ -135,7 +135,7 @@
 
     <string name="link_whats_an_instance">Instance(களம்) என்றால் என்ன?</string>
 
-    <string name="login_connection">இணைக்கபடுகிறது...</string>
+    <string name="login_connection">இணைக்கபடுகிறது…</string>
 
     <string name="dialog_whats_an_instance">ஏதேனும் instance-ன் முகவரியையோ அல்லது களத்தின் முகவரியையோ இங்கு உள்ளிடவும், உதாரணமாக mastodon.social, icosahedron.website, social.tchncs.de, மற்றும்
         <a href="https://instances.social">மேலும்!</a>
@@ -143,7 +143,7 @@
         \n\nமேலும் தகவல்கள் அறிய <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
     <string name="dialog_title_finishing_media_upload">மீடியா பதிவேற்றம் முடிகிறது</string>
-    <string name="dialog_message_uploading_media">ஏற்றுகிறது ...</string>
+    <string name="dialog_message_uploading_media">ஏற்றுகிறது …</string>
     <string name="dialog_download_image">பதிவிறக்க</string>
     <string name="dialog_unfollow_warning">இந்த கணக்கை பின்பற்ற வேண்டாமா?</string>
 
@@ -295,7 +295,7 @@
     <string name="emoji_style">Emoji பாணி</string>
     <string name="system_default">அமைப்பின் இயல்புநிலை</string>
     <string name="download_fonts">தாங்கள் முதலில் இந்த Emoji sets-னை பதிவிறக்கவேண்டும்</string>
-    <string name="performing_lookup_title">சேயல்பாட்டு தேடல்...</string>
+    <string name="performing_lookup_title">சேயல்பாட்டு தேடல்…</string>
     <string name="expand_collapse_all_statuses">அதிகமாக்கு/கம்மியாக்கு பற்றிய நிலைகள்</string>
     <string name="action_open_toot">Tootயை திற</string>
     <string name="restart_required">செயலி மறுதொடக்கம் தேவைபடுகிறது</string>

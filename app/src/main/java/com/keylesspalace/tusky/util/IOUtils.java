@@ -17,7 +17,7 @@ package com.keylesspalace.tusky.util;
 
 import android.content.ContentResolver;
 import android.net.Uri;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import java.io.Closeable;
 import java.io.File;

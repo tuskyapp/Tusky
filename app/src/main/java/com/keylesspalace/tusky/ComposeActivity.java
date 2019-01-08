@@ -18,7 +18,7 @@ package com.keylesspalace.tusky;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.arch.lifecycle.Lifecycle;
+import androidx.lifecycle.Lifecycle;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -39,27 +39,25 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.Px;
-import android.support.annotation.StringRes;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.Snackbar;
-import android.support.transition.TransitionManager;
-import android.support.v13.view.inputmethod.InputConnectionCompat;
-import android.support.v13.view.inputmethod.InputContentInfoCompat;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.TextViewCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.content.res.AppCompatResources;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.Px;
+import androidx.annotation.StringRes;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.transition.TransitionManager;
+import androidx.core.view.inputmethod.InputConnectionCompat;
+import androidx.core.view.inputmethod.InputContentInfoCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -316,7 +314,9 @@ public final class ComposeActivity
                     if(emojiList == null) {
                         emojiList = Collections.emptyList();
                     }
-                    Collections.sort(emojiList, (a, b) -> a.getShortcode().toLowerCase().compareTo(b.getShortcode().toLowerCase()));
+                    Collections.sort(emojiList, (a, b) ->
+                        a.getShortcode().toLowerCase(Locale.ROOT).compareTo(
+                            b.getShortcode().toLowerCase(Locale.ROOT)));
                     setEmojiList(emojiList);
                     cacheInstanceMetadata(activeAccount);
                 }
@@ -360,10 +360,10 @@ public final class ComposeActivity
         int textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);
 
         Drawable cameraIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_camera_alt).color(textColor).sizeDp(18);
-        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(actionPhotoTake, cameraIcon, null, null, null);
+        actionPhotoTake.setCompoundDrawablesRelativeWithIntrinsicBounds(cameraIcon, null, null, null);
 
         Drawable imageIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_image).color(textColor).sizeDp(18);
-        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(actionPhotoPick, imageIcon, null, null, null);
+        actionPhotoPick.setCompoundDrawablesRelativeWithIntrinsicBounds(imageIcon, null, null, null);
 
         actionPhotoTake.setOnClickListener(v -> initiateCameraApp());
         actionPhotoPick.setOnClickListener(v -> onMediaPick());
@@ -466,7 +466,7 @@ public final class ComposeActivity
                 Drawable arrowDownIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_down).sizeDp(12);
 
                 ThemeUtils.setDrawableTint(this, arrowDownIcon, android.R.attr.textColorTertiary);
-                TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(replyTextView, null, null, arrowDownIcon, null);
+                replyTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null);
 
                 replyTextView.setOnClickListener(v -> {
                     TransitionManager.beginDelayedTransition((ViewGroup)replyContentTextView.getParent());
@@ -476,11 +476,10 @@ public final class ComposeActivity
                         Drawable arrowUpIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_up).sizeDp(12);
 
                         ThemeUtils.setDrawableTint(this, arrowUpIcon, android.R.attr.textColorTertiary);
-                        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(replyTextView, null, null, arrowUpIcon, null);
+                        replyTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowUpIcon, null);
                     } else {
                         replyContentTextView.setVisibility(View.GONE);
-
-                        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(replyTextView, null, null, arrowDownIcon, null);
+                        replyTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null);
                     }
                 });
             }
@@ -662,14 +661,14 @@ public final class ComposeActivity
                 Snackbar.LENGTH_SHORT);
         bar.setAction(actionId, listener);
         //necessary so snackbar is shown over everything
-        ViewCompat.setElevation(bar.getView(), getResources().getDimensionPixelSize(R.dimen.compose_activity_snackbar_elevation));
+        bar.getView().setElevation(getResources().getDimensionPixelSize(R.dimen.compose_activity_snackbar_elevation));
         bar.show();
     }
 
     private void displayTransientError(@StringRes int stringId) {
         Snackbar bar = Snackbar.make(findViewById(R.id.activity_compose), stringId, Snackbar.LENGTH_LONG);
         //necessary so snackbar is shown over everything
-        ViewCompat.setElevation(bar.getView(), getResources().getDimensionPixelSize(R.dimen.compose_activity_snackbar_elevation));
+        bar.getView().setElevation(getResources().getDimensionPixelSize(R.dimen.compose_activity_snackbar_elevation));
         bar.show();
     }
 
@@ -693,7 +692,7 @@ public final class ComposeActivity
                     color = ContextCompat.getColor(this, R.color.compose_media_visible_button_disabled_blue);
                 } else {
                     hideMediaToggle.setClickable(true);
-                    color = ContextCompat.getColor(this, R.color.primary);
+                    color = ContextCompat.getColor(this, R.color.tusky_blue);
                 }
             } else {
                 hideMediaToggle.setClickable(true);
@@ -1453,7 +1452,7 @@ public final class ComposeActivity
         if (show) {
             statusMarkSensitive = true;
             contentWarningBar.setVisibility(View.VISIBLE);
-            contentWarningButton.setTextColor(ContextCompat.getColor(this, R.color.primary));
+            contentWarningButton.setTextColor(ContextCompat.getColor(this, R.color.tusky_blue));
             contentWarningEditor.setSelection(contentWarningEditor.getText().length());
             contentWarningEditor.requestFocus();
         } else {
@@ -1482,6 +1481,16 @@ public final class ComposeActivity
     }
 
     private void handleCloseButton() {
+
+        if(composeOptionsBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ||
+                addMediaBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ||
+                emojiBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ) {
+            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            return;
+        }
+
         CharSequence contentText = textEditor.getText();
         CharSequence contentWarning = contentWarningEditor.getText();
 
