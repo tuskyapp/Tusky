@@ -1,4 +1,4 @@
- ![](/app/src/main/res/mipmap-xhdpi/launcher_icon.png)
+ ![](/app/src/main/res/mipmap-xxhdpi/launcher_icon.png)
  
  # Roma
 
