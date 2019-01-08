@@ -30,10 +30,11 @@ s.spoilerText, s.visibility, s.mentions, s.application, s.reblogServerId,s.reblo
 s.content, s.attachments,
 a.serverId as 'a_serverId', a.timelineUserId as 'a_timelineUserId', a.instance as 'a_instance',
 a.localUsername as 'a_localUsername', a.username as 'a_username',
-a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar',
+a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar', a.emojis as 'a_emojis',
 rb.serverId as 'rb_serverId', rb.timelineUserId 'rb_timelineUserId', rb.instance as 'rb_instance',
 rb.localUsername as 'rb_localUsername', rb.username as 'rb_username',
-rb.displayName as 'rb_displayName', rb.url as 'rb_url', rb.avatar as 'rb_avatar'
+rb.displayName as 'rb_displayName', rb.url as 'rb_url', rb.avatar as 'rb_avatar',
+rb.emojis as'rb_emojis'
 FROM TimelineStatusEntity s
 LEFT JOIN TimelineAccountEntity a ON (s.timelineUserId = a.timelineUserId AND s.authorServerId = a.serverId)
 LEFT JOIN TimelineAccountEntity rb ON (s.timelineUserId = rb.timelineUserId AND s.reblogAccountId = rb.serverId)

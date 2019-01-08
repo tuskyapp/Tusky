@@ -131,6 +131,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     "`displayName` TEXT NOT NULL, " +
                     "`url` TEXT NOT NULL, " +
                     "`avatar` TEXT NOT NULL, " +
+                    "`emojis` TEXT NOT NULL," +
                     "PRIMARY KEY(`serverId`, `timelineUserId`))");
 
             database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineStatusEntity` (" +

@@ -221,7 +221,8 @@ class TimelineRepositoryImpl(
                 username = username,
                 displayName = displayName,
                 url = url,
-                avatar = avatar
+                avatar = avatar,
+                emojis = gson.toJson(emojis)
         )
     }
 
@@ -240,9 +241,8 @@ class TimelineRepositoryImpl(
                 followersCount = 0,
                 statusesCount = 0,
                 source = null,
-                // TODO actually fill these fields
                 bot = false,
-                emojis = null,
+                emojis = gson.fromJson(this.emojis, emojisListTypeToken.type),
                 fields = null,
                 moved = null
         )
@@ -394,5 +394,9 @@ class TimelineRepositoryImpl(
 
     private fun incId(id: String, value: Long): String {
         return BigInteger(id).add(BigInteger.valueOf(value)).toString()
+    }
+
+    companion object {
+        private val emojisListTypeToken = object : TypeToken<List<Emoji>>() {}
     }
 }

@@ -138,7 +138,8 @@ class TimelineDAOTest {
                 "username",
                 "displayName",
                 "blah",
-                "avatar"
+                "avatar",
+                "[\"tusky\": \"http://tusky.cool/emoji.jpg\"]"
         )
 
         val reblogAuthor = if (reblog) {
@@ -150,7 +151,8 @@ class TimelineDAOTest {
                     "Rusername",
                     "RdisplayName",
                     "Rblah",
-                    "Ravatar"
+                    "Ravatar",
+                    emojis = "[]"
             )
         } else null
 

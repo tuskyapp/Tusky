@@ -64,7 +64,8 @@ data class TimelineAccountEntity(
         val username: String,
         val displayName: String,
         val url: String,
-        val avatar: String
+        val avatar: String,
+        val emojis: String
 )
 
 
