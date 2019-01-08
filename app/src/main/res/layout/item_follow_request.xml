@@ -8,7 +8,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
 
-    <com.keylesspalace.tusky.view.RoundedImageView
+    <tech.bigfig.roma.view.RoundedImageView
         android:id="@+id/follow_request_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"

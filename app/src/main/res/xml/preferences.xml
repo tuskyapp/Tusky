@@ -14,7 +14,7 @@
             android:summary="%s"
             android:title="@string/pref_title_app_theme" />
 
-        <com.keylesspalace.tusky.EmojiPreference
+        <tech.bigfig.roma.EmojiPreference
             android:defaultValue="@string/system_default"
             android:key="emojiCompat"
             android:summary="@string/system_default"

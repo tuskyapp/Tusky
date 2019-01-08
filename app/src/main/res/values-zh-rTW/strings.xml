@@ -13,8 +13,8 @@
     <string name="error_video_upload_size">影片大小限制 40MB</string>
     <string name="error_media_upload_type">無法上傳此類型的檔案</string>
     <string name="error_media_upload_opening">此檔案無法開啟</string>
-    <string name="error_media_upload_permission">需要授予 Tusky 讀取媒體檔案的權限</string>
-    <string name="error_media_download_permission">需要授予 Tusky 寫入儲存空間的權限</string>
+    <string name="error_media_upload_permission">需要授予 Roma 讀取媒體檔案的權限</string>
+    <string name="error_media_download_permission">需要授予 Roma 寫入儲存空間的權限</string>
     <string name="error_media_upload_image_or_video">無法在嘟文中同時插入影片和圖片</string>
     <string name="error_media_upload_sending">媒體檔案上傳失敗</string>
     <string name="error_report_too_few_statuses">至少要檢舉 1 則嘟文</string>
@@ -41,7 +41,7 @@
     <string name="title_licenses">開源授權</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s 轉嘟了</string>
+    <string name="status_reposted_format">%s 轉嘟了</string>
     <string name="status_sensitive_media_title">敏感內容</string>
     <string name="status_media_hidden_title">已隱藏的照片或影片</string>
     <string name="status_sensitive_media_directions">點一下顯示</string>
@@ -183,7 +183,7 @@
     <string name="pref_title_hide_follow_button">瀏覽時自動隱藏發嘟按鈕</string>
     <string name="pref_title_status_filter">時間軸過濾</string>
     <string name="pref_title_status_tabs">標籤頁</string>
-    <string name="pref_title_show_boosts">顯示轉嘟</string>
+    <string name="pref_title_show_reposts">顯示轉嘟</string>
     <string name="pref_title_show_replies">顯示回覆</string>
     <string name="pref_title_filter_regex">使用正規表示式過濾</string>
     <string name="pref_title_show_media_preview">顯示預覽圖</string>
@@ -225,8 +225,8 @@
     <string name="notification_channel_mention_descriptions">當有使用者在嘟文中提及我時</string>
     <string name="notification_channel_follow_name">關注者</string>
     <string name="notification_channel_follow_description">當有使用者關注我時</string>
-    <string name="notification_channel_boost_name">轉嘟</string>
-    <string name="notification_channel_boost_description">當有使用者轉嘟了我的嘟文時</string>
+    <string name="notification_channel_repost_name">轉嘟</string>
+    <string name="notification_channel_repost_description">當有使用者轉嘟了我的嘟文時</string>
     <string name="notification_channel_favourite_name">收藏</string>
     <string name="notification_channel_favourite_description">當有使用者收藏了我的嘟文時</string>
 
@@ -239,19 +239,19 @@
 
     <string name="description_account_locked">被鎖定的帳號</string>
 
-    <string name="about_title_activity">關於 Tusky</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky 是基於 GNU General Public License Version 3 許可證開源的自由軟體完整的許可證協議：https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_title_activity">關於 Roma</string>
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Roma 是基於 GNU General Public License Version 3 許可證開源的自由軟體完整的許可證協議：https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators: the url can be changed to link to the localized version of the license -->
     <string name="about_project_site">
         專案網站：\n
-        https://tuskyapp.github.io
+        https://romaapp.github.io
     </string>
     <string name="about_bug_feature_request_site">
         問題回報：\n
-        https://github.com/tuskyapp/Tusky/issues
+        https://github.com/romaapp/Roma/issues
     </string>
-    <string name="about_tusky_account">Tusky 官方帳號</string>
+    <string name="about_roma_account">Roma 官方帳號</string>
 
     <string name="status_share_content">分享嘟文內容</string>
     <string name="status_share_link">分享嘟文連結</string>
@@ -310,7 +310,7 @@
     <string name="expand_collapse_all_statuses">展開/摺疊所有嘟文</string>
     <string name="action_open_toot">開啟嘟文</string>
     <string name="restart_required">需要重啟應用程式</string>
-    <string name="restart_emoji">你需要重啟 Tusky 才能生效</string>
+    <string name="restart_emoji">你需要重啟 Roma 才能生效</string>
     <string name="later">稍後</string>
     <string name="restart">立即重啟</string>
     <string name="caption_systememoji">系統預設的表情符號包</string>
@@ -325,7 +325,7 @@
     <string name="reblog_private">轉嘟（可見者不變）</string>
     <string name="unreblog_private">取消轉嘟</string>
 
-    <string name="license_description">Tusky 使用了以下開源專案的原始碼：</string>
+    <string name="license_description">Roma 使用了以下開源專案的原始碼：</string>
     <string name="license_apache_2">以 Apache License 授權（詳見下方）</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

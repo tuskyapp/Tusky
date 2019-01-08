@@ -33,7 +33,7 @@
     <string name="title_statuses_with_replies">Med svar</string>
     <string name="title_follows">Följer</string>
     <string name="title_followers">Följare</string>
-    <string name="title_favourites">Favoriter</string>
+    <string name="title_favourites">Favouriter</string>
     <string name="title_mutes">Dämpade användare</string>
     <string name="title_blocks">Blockerade användare</string>
     <string name="title_follow_requests">Följarförfrågningar</string>
@@ -42,7 +42,7 @@
     <string name="title_licenses">Licenser</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s knuffade</string>
+    <string name="status_reposted_format">%s knuffade</string>
     <string name="status_sensitive_media_title">Känsligt innehåll</string>
     <string name="status_media_hidden_title">Dold media</string>
     <string name="status_sensitive_media_directions">Klicka för att se</string>
@@ -63,7 +63,7 @@
     <string name="action_quick_reply">Snabbsvar</string>
     <string name="action_reply">Svara</string>
     <string name="action_reblog">Knuffa</string>
-    <string name="action_favourite">Favorit</string>
+    <string name="action_favourite">Favourit</string>
     <string name="action_more">Mer</string>
     <string name="action_compose">Skriva</string>
     <string name="action_login">Logga in med Mastodon</string>
@@ -84,7 +84,7 @@
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Inställningar</string>
     <string name="action_view_account_preferences">Kontospecifika inställningar</string>
-    <string name="action_view_favourites">Favoriter</string>
+    <string name="action_view_favourites">Favouriter</string>
     <string name="action_view_mutes">Dämpade användare</string>
     <string name="action_view_blocks">Blockerade användare</string>
     <string name="action_view_follow_requests">Följarförfrågningar</string>
@@ -192,7 +192,7 @@
     <string name="pref_title_hide_follow_button">Dölj skriv-knappen medan du scrollar</string>
     <string name="pref_title_status_filter">Tidslinje filtrering</string>
     <string name="pref_title_status_tabs">Flikar</string>
-    <string name="pref_title_show_boosts">Visa knuffar</string>
+    <string name="pref_title_show_reposts">Visa knuffar</string>
     <string name="pref_title_show_replies">Visa svar</string>
     <string name="pref_title_filter_regex">Filtrera ut med regelbundna uttryck</string>
     <string name="pref_title_show_media_preview">Visa en förhandsgranskning</string>
@@ -235,10 +235,10 @@
     <string name="notification_channel_mention_descriptions">Notifieringar om nya omnämnanden</string>
     <string name="notification_channel_follow_name">Nya följare</string>
     <string name="notification_channel_follow_description">Notifieringar för nya följare</string>
-    <string name="notification_channel_boost_name">Knuffningar</string>
-    <string name="notification_channel_boost_description">Notifieringar när dina toots blir knuffade</string>
-    <string name="notification_channel_favourite_name">Favoriter</string>
-    <string name="notification_channel_favourite_description">Notifieringar när dina toots blir markerade som favoriter</string>
+    <string name="notification_channel_repost_name">Knuffningar</string>
+    <string name="notification_channel_repost_description">Notifieringar när dina toots blir knuffade</string>
+    <string name="notification_channel_favourite_name">Favouriter</string>
+    <string name="notification_channel_favourite_description">Notifieringar när dina toots blir markerade som favouriter</string>
 
     <string name="notification_mention_format">%s omnämnde dig</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s och %4$d andra</string>
@@ -249,8 +249,8 @@
     <string name="description_account_locked">Låst konto</string>
 
     <string name="about_title_activity">Om</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky är fri programvara med öppen källkod. 
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Roma är fri programvara med öppen källkod. 
         Det är licensierat under GNU General Public License version 3. 
         Du kan läsa mer licensen här: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
@@ -260,14 +260,14 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">
-        Tuskys webbsida:\n
-        https://tuskyapp.github.io
+        Romas webbsida:\n
+        https://romaapp.github.io
     </string>
     <string name="about_bug_feature_request_site">
         Buggrapporter &amp; funktionsförslag:\n
-        https://github.com/tuskyapp/Tusky/issues
+        https://github.com/romaapp/Roma/issues
     </string>
-    <string name="about_tusky_account">Tusky\'s Profil</string>
+    <string name="about_roma_account">Roma\'s Profil</string>
 
     <string name="status_share_content">Dela innehåll av toot</string>
     <string name="status_share_link">Dela länk till toot</string>
@@ -328,7 +328,7 @@
     <string name="expand_collapse_all_statuses">Expandera/Dölj alla status</string>
     <string name="action_open_toot">Öppna toot</string>
     <string name="restart_required">Omstart av appen krävs</string>
-    <string name="restart_emoji">Du måste starta om Tusky för att kunna tillämpa ändringarna</string>
+    <string name="restart_emoji">Du måste starta om Roma för att kunna tillämpa ändringarna</string>
     <string name="later">Senare</string>
     <string name="restart">Starta om</string>
     <string name="caption_systememoji">Standard-emojis för din enhet</string>
@@ -343,7 +343,7 @@
     <string name="reblog_private">Knuffa till ursprunglig målgrupp</string>
     <string name="unreblog_private">Ta bort knuff</string>
 
-    <string name="license_description">Tusky innehåller kod och tillgångar från följande öppen källkodsprojekt:</string>
+    <string name="license_description">Roma innehåller kod och tillgångar från följande öppen källkodsprojekt:</string>
     <string name="license_apache_2">Licensenserad under the Apache License (copy below)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

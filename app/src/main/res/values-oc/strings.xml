@@ -40,7 +40,7 @@
     <string name="title_licenses">Licéncias</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s partejat</string>
+    <string name="status_reposted_format">%s partejat</string>
     <string name="status_sensitive_media_title">Contengut sensible</string>
     <string name="status_media_hidden_title">Mèdia amagat</string>
     <string name="status_sensitive_media_directions">Clicar per mostrar</string>
@@ -166,7 +166,7 @@
     <string name="pref_title_notification_filter_mentions">òm me menciona</string>
     <string name="pref_title_notification_filter_follows">òm me sèc</string>
     <string name="pref_title_notification_filter_reblogs">òm parteja mas publicacions</string>
-    <string name="pref_title_notification_filter_favourites">òm me met mos tuts en favorit</string>
+    <string name="pref_title_notification_filter_favourites">òm me met mos tuts en favourit</string>
     <string name="pref_title_appearance_settings">Aparença</string>
     <string name="pref_title_app_theme">Tèma de l’app</string>
 
@@ -182,7 +182,7 @@
     <string name="pref_title_hide_follow_button">Amagar lo boton de redaccion en desplaçament</string>
     <string name="pref_title_status_filter">Filtre de la cronologia</string>
     <string name="pref_title_status_tabs">Onglets</string>
-    <string name="pref_title_show_boosts">Mostrar los retuts</string>
+    <string name="pref_title_show_reposts">Mostrar los retuts</string>
     <string name="pref_title_show_replies">Mostrar las responsas</string>
     <string name="pref_title_filter_regex">Filtrar amb d’expressions regularas</string>
     <string name="pref_title_show_media_preview">Mostrar los apercebuts</string>
@@ -216,8 +216,8 @@
     <string name="notification_channel_mention_descriptions">Notificacions de mencions noves</string>
     <string name="notification_channel_follow_name">Seguidors nòus</string>
     <string name="notification_channel_follow_description">Notificacions de nòus seguidors</string>
-    <string name="notification_channel_boost_name">Retuts</string>
-    <string name="notification_channel_boost_description">Notificacions de compartiment de vòstres tuts</string>
+    <string name="notification_channel_repost_name">Retuts</string>
+    <string name="notification_channel_repost_description">Notificacions de compartiment de vòstres tuts</string>
     <string name="notification_channel_favourite_name">Preferits</string>
     <string name="notification_channel_favourite_description">Notificacions s’agradan vòstres tuts</string>
 
@@ -231,8 +231,8 @@
     <string name="description_account_locked">Compte blocat</string>
 
     <string name="about_title_activity">A prepaus</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky es programa gratuït, liure e de còdi dobèrt.
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Roma es programa gratuït, liure e de còdi dobèrt.
         Es publicat jols tèrms de la licéncia publica generala GNU version 3.
         Podeu trobar les llicència aquí: https://www.gnu.org/licenses/gpl-3.0.ca.html</string>
     <!-- note to translators:
@@ -243,13 +243,13 @@
     -->
     <string name="about_project_site">
         Site web del projècte :\n
-        https://tuskyapp.github.io
+        https://romaapp.github.io
     </string>
     <string name="about_bug_feature_request_site">
         Rapòrts d\'errors e demandas de foncionalitats :\n
-        https://github.com/tuskyapp/Tusky/issues
+        https://github.com/romaapp/Roma/issues
     </string>
-    <string name="about_tusky_account">Perfil de Tusky</string>
+    <string name="about_roma_account">Perfil de Roma</string>
 
     <string name="status_share_content">Partejar lo contengut del tut</string>
     <string name="status_share_link">Partejar lo ligam del tut</string>
@@ -309,7 +309,7 @@
     <string name="expand_collapse_all_statuses">Desplegar/Plegar totes los estatuts</string>
     <string name="action_open_toot">Dobrir lo tut</string>
     <string name="restart_required">Reaviada necessària</string>
-    <string name="restart_emoji">Vos caldrà reaviar Tusky per aplicar aquestes cambiaments</string>
+    <string name="restart_emoji">Vos caldrà reaviar Roma per aplicar aquestes cambiaments</string>
     <string name="later">Mai tard</string>
     <string name="restart">Reaviar</string>
     <string name="caption_systememoji">Los emoji per defaut de vòstre aparelh</string>
@@ -321,7 +321,7 @@
     <string name="account_moved_description">%1$s mudèt los catons a :</string>
     <string name="reblog_private">Partejar al public d’origina</string>
     <string name="unreblog_private">Quitar de partejar</string>
-    <string name="license_description">Tusky content de còdis e compausants dels projèctes liures seguents :</string>
+    <string name="license_description">Roma content de còdis e compausants dels projèctes liures seguents :</string>
     <string name="license_apache_2">Licéncia Apache License (còpia çai-jos)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

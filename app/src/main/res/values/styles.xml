@@ -43,15 +43,15 @@
     </style>
 
     <!--Light Application Theme Styles-->
-    <style name="TuskyTheme" parent="TuskyBaseTheme" />
+    <style name="RomaTheme" parent="RomaBaseTheme" />
 
-    <style name="TuskyDialogActivityTheme" parent="@style/TuskyTheme" />
+    <style name="RomaDialogActivityTheme" parent="@style/RomaTheme" />
 
-    <style name="TuskyBaseTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/tusky_blue</item>
+    <style name="RomaBaseTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/roma_blue</item>
         <item name="colorOnPrimary">@color/white</item>
 
-        <item name="colorSecondary">@color/tusky_blue</item>
+        <item name="colorSecondary">@color/roma_blue</item>
         <item name="colorOnSecondary">@color/white</item>
 
         <item name="colorSurface">@color/color_background_light</item>
@@ -67,14 +67,14 @@
 
         <item name="android:actionMenuTextColor">@color/text_color_primary_light</item>
 
-        <item name="alertDialogTheme">@style/TuskyDialog.Light</item>
-        <item name="snackbarButtonStyle">@style/TuskyButton.TextButton</item>
+        <item name="alertDialogTheme">@style/RomaDialog.Light</item>
+        <item name="snackbarButtonStyle">@style/RomaButton.TextButton</item>
 
         <item name="window_background">@color/window_background_light</item>
         <item name="custom_tab_toolbar">@color/custom_tab_toolbar_light</item>
         <item name="toolbar_background_color">@color/toolbar_background_light</item>
         <item name="toolbar_icon_tint">@color/toolbar_icon_light</item>
-        <item name="image_button_style">@style/TuskyImageButton.Light</item>
+        <item name="image_button_style">@style/RomaImageButton.Light</item>
         <item name="status_reblog_small_drawable">@drawable/ic_reblog_light_18dp</item>
         <item name="status_reblog_inactive_drawable">@drawable/reblog_inactive_light</item>
         <item name="status_reblog_disabled_drawable">@drawable/reblog_private_light</item>
@@ -86,7 +86,7 @@
         <item name="media_preview_unloaded_drawable">@drawable/media_preview_unloaded_light</item>
         <item name="status_divider_drawable">@drawable/status_divider_light</item>
         <item name="conversation_thread_line_drawable">@drawable/conversation_thread_line_light</item>
-        <item name="tab_icon_selected_tint">@color/tusky_blue</item>
+        <item name="tab_icon_selected_tint">@color/roma_blue</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_light</item>
         <item name="account_header_background_color">@color/color_primary_dark_light</item>
         <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark
@@ -127,17 +127,17 @@
 
     </style>
 
-    <style name="TuskyImageButton.Light" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
+    <style name="RomaImageButton.Light" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:tint">@color/text_color_tertiary_light</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
-    <style name="TuskyDialog.Light" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">
+    <style name="RomaDialog.Light" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="android:letterSpacing">0</item>
         <item name="dialogCornerRadius">8dp</item>
     </style>
 
-    <style name="TuskyTabAppearance" parent="Widget.MaterialComponents.TabLayout">
+    <style name="RomaTabAppearance" parent="Widget.MaterialComponents.TabLayout">
         <item name="android:textSize">?attr/status_text_medium</item>
         <item name="android:textAllCaps">true</item>
         <item name="tabIndicatorHeight">3dp</item>
@@ -146,30 +146,30 @@
         <item name="tabSelectedTextColor">?attr/tab_icon_selected_tint</item>
     </style>
 
-    <style name="TuskyFloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+    <style name="RomaFloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
 
     </style>
 
-    <style name="TuskyButton" parent="Widget.MaterialComponents.Button">
+    <style name="RomaButton" parent="Widget.MaterialComponents.Button">
         <item name="android:letterSpacing">0</item>
     </style>
 
-    <style name="TuskyButton.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="RomaButton.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:letterSpacing">0</item>
     </style>
 
-    <style name="TuskyButton.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+    <style name="RomaButton.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:letterSpacing">0</item>
     </style>
 
-    <style name="TuskyTextInput" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+    <style name="RomaTextInput" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">@color/text_input_layout_box_stroke_color</item>
         <item name="android:textColorHint">?android:attr/textColorTertiary</item>
     </style>
 
 
     <!--Black Application Theme Styles-->
-    <style name="TuskyBlackThemeBase" parent="TuskyBaseTheme">
+    <style name="RomaBlackThemeBase" parent="RomaBaseTheme">
         <item name="colorPrimaryDark">@color/color_primary_dark_black</item>
 
         <item name="android:colorBackground">@color/color_primary_dark_black</item>
@@ -192,6 +192,6 @@
         <item name="material_drawer_header_selection_text">@color/text_color_primary_black</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_black</item>
     </style>
-    <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase"/>
+    <style name="RomaBlackTheme" parent="RomaBlackThemeBase"/>
 
 </resources>

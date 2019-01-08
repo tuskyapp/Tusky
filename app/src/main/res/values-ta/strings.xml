@@ -37,7 +37,7 @@
     <string name="title_saved_toot">வரைவுகள்</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s மேலேற்றப்பட்டது</string>
+    <string name="status_reposted_format">%s மேலேற்றப்பட்டது</string>
     <string name="status_sensitive_media_title">உணர்ச்சிகரமான உள்ளடக்கம்</string>
     <string name="status_media_hidden_title">ஊடகம் மறைக்கப்பட்டது</string>
     <string name="status_sensitive_media_directions">பார்வையிட சொடுக்கவும்</string>
@@ -181,7 +181,7 @@
     <string name="pref_title_status_filter">காலவரிசை வடிகட்டல்</string>
     <string name="pref_title_status_tabs">கீற்றுகள்</string>
 
-    <string name="pref_title_show_boosts">மேலேற்றத்தை காண்பி</string>
+    <string name="pref_title_show_reposts">மேலேற்றத்தை காண்பி</string>
     <string name="pref_title_show_replies">பதில்களைக் காண்பி</string>
     <string name="pref_title_filter_regex">சுருங்குறித்தொடர் மூலம் வடிகட்டு</string>
     <string name="pref_title_show_media_preview">ஊடக மாதிரிக்காட்சிகளைக் காண்பி</string>
@@ -212,9 +212,9 @@
     <string name="notification_channel_mention_descriptions">புதிய குறிப்புகள் பற்றிய அறிவிப்புகள்</string>
     <string name="notification_channel_follow_name">புதிய பின்பற்றுபவர்கள்</string>
     <string name="notification_channel_follow_description">புதிய பின்தொடர்பவர்களைப் பற்றிய அறிவிப்புகள்</string>
-    <string name="notification_channel_boost_name">ஊக்கியாக</string>
+    <string name="notification_channel_repost_name">ஊக்கியாக</string>
 
-    <string name="notification_channel_boost_description">எமது toot மேலேற்றும் போது தெரிவி.</string>
+    <string name="notification_channel_repost_description">எமது toot மேலேற்றும் போது தெரிவி.</string>
     <string name="notification_channel_favourite_name">பிடித்தவைகள்</string>
     <string name="notification_channel_favourite_description">எமது toot பிடித்தவையானால் தெரிவி.</string>
 
@@ -227,18 +227,18 @@
     <string name="description_account_locked">கணக்கு மூடப்பட்டது</string>
 
     <string name="about_title_activity">பற்றி</string>
-    <string name="about_tusky_version">Tusky(டஸ்கி) %s</string>
-    <string name="about_tusky_license">Tusky ஒரு கட்டற்ற மற்றும் திறந்த மூல மென்பொருள். இதன் உரிமம் GNU General Public License(பொது உரிமம்) பதிப்பு 3 -ன் கீழ் உள்ளது. நீங்கள் உரிமம் பற்றி காண: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_roma_version">Roma(டஸ்கி) %s</string>
+    <string name="about_roma_license">Roma ஒரு கட்டற்ற மற்றும் திறந்த மூல மென்பொருள். இதன் உரிமம் GNU General Public License(பொது உரிமம்) பதிப்பு 3 -ன் கீழ் உள்ளது. நீங்கள் உரிமம் பற்றி காண: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators: the url can be changed to link to the localized version of the license -->
     <string name="about_project_site">
         	திட்டத்தின் வலைத்தளம்:\n
-        https://tuskyapp.github.io
+        https://romaapp.github.io
     </string>
     <string name="about_bug_feature_request_site">
         	பிழை அறிக்கைகள் &amp; அம்ச கோரிக்கைகள்:\n
-        https://github.com/tuskyapp/Tusky/issues
+        https://github.com/romaapp/Roma/issues
     </string>
-    <string name="about_tusky_account">Tusky-ன் கணக்கு</string>
+    <string name="about_roma_account">Roma-ன் கணக்கு</string>
 
     <string name="status_share_content">Toot உள்ளடக்கத்தைப் பகிர்</string>
     <string name="status_share_link">Toot இணைப்பைப் பகிர்</string>
@@ -314,7 +314,7 @@
     <string name="reblog_private">அசலான பார்வையாளர்களுக்கு மட்டும் மேலேற்று</string>
     <string name="unreblog_private">மேலேற்றத்தை தவிர்</string>
 
-    <string name="license_description">Tusky கொண்டுள்ள நிரல்  மற்றும் துணுக்குகள் பின்வரும் திறந்த மூல திட்டங்கள்:</string>
+    <string name="license_description">Roma கொண்டுள்ள நிரல்  மற்றும் துணுக்குகள் பின்வரும் திறந்த மூல திட்டங்கள்:</string>
     <string name="license_apache_2">Apache License (copy below)-ன் கீழ் உரிமமளிக்கப்பட்டுள்ளது</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

@@ -2,7 +2,7 @@
 
 ## Getting Started
 1. Fork the repository on the GitHub page by clicking the Fork button. This makes a fork of the project under your GitHub account.
-2. Clone your fork to your machine. ```git clone https://github.com/<Your_Username>/Tusky```
+2. Clone your fork to your machine. ```git clone https://github.com/<Your_Username>/Roma```
 3. Create a new branch named after your change. ```git checkout -b your-change-name``` (```checkout``` switches to a branch, ```-b``` specifies that the branch is a new one)
 
 ## Making Changes
@@ -49,4 +49,4 @@ It may refuse to start the rebase if there's changes that haven't been committed
 3. Then, go to the original project page and make a pull request. Select your fork/branch and use ```master``` as the base branch.
 4. Wait for feedback on your pull request and be ready to make some changes
 
-If you have any questions, don't hesitate to open an issue or contact [Tusky@mastodon.social](https://mastodon.social/@Tusky). Please also ask before you start implementing a new big feature.
+If you have any questions, don't hesitate to open an issue or contact [Roma@mastodon.social](https://mastodon.social/@Roma). Please also ask before you start implementing a new big feature.

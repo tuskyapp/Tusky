@@ -6,7 +6,7 @@
 
     <Button
         android:id="@+id/button_load_more"
-        style="@style/TuskyButton.TextButton"
+        style="@style/RomaButton.TextButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/load_more_placeholder_text"

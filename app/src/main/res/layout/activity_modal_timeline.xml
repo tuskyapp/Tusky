@@ -5,7 +5,7 @@
     android:id="@+id/activity_view_thread"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.keylesspalace.tusky.ModalTimelineActivity">
+    tools:context="tech.bigfig.roma.ModalTimelineActivity">
 
     <include layout="@layout/toolbar_basic" />
 

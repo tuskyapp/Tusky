@@ -32,7 +32,7 @@
     <string name="title_statuses_with_replies">With replies</string>
     <string name="title_follows">Follows</string>
     <string name="title_followers">Followers</string>
-    <string name="title_favourites">Favourites</string>
+    <string name="title_favourites">Favorites</string>
     <string name="title_mutes">Muted users</string>
     <string name="title_blocks">Blocked users</string>
     <string name="title_follow_requests">Follow Requests</string>
@@ -41,7 +41,7 @@
     <string name="title_licenses">Licenses</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s boosted</string>
+    <string name="status_reposted_format">%s reposted</string>
     <string name="status_sensitive_media_title">Sensitive content</string>
     <string name="status_media_hidden_title">Media hidden</string>
     <string name="status_sensitive_media_directions">Click to view</string>
@@ -52,8 +52,8 @@
 
     <string name="footer_empty">Nothing here. Pull down to refresh!</string>
 
-    <string name="notification_reblog_format">%s boosted your toot</string>
-    <string name="notification_favourite_format">%s favourited your toot</string>
+    <string name="notification_reblog_format">%s reposted your toot</string>
+    <string name="notification_favourite_format">%s favorited your toot</string>
     <string name="notification_follow_format">%s followed you</string>
 
     <string name="report_username_format">Report @%s</string>
@@ -61,19 +61,19 @@
 
     <string name="action_quick_reply">Quick Reply</string>
     <string name="action_reply">Reply</string>
-    <string name="action_reblog">Boost</string>
-    <string name="action_favourite">Favourite</string>
+    <string name="action_reblog">Repost</string>
+    <string name="action_favourite">Favorite</string>
     <string name="action_more">More</string>
     <string name="action_compose">Compose</string>
-    <string name="action_login">Login with Mastodon</string>
+    <string name="action_login">Login</string>
     <string name="action_logout">Log Out</string>
     <string name="action_logout_confirm">Are you sure you want to log out of the account %1$s?</string>
     <string name="action_follow">Follow</string>
     <string name="action_unfollow">Unfollow</string>
     <string name="action_block">Block</string>
     <string name="action_unblock">Unblock</string>
-    <string name="action_hide_reblogs">Hide boosts</string>
-    <string name="action_show_reblogs">Show boosts</string>
+    <string name="action_hide_reblogs">Hide reposts</string>
+    <string name="action_show_reblogs">Show reposts</string>
     <string name="action_report">Report</string>
     <string name="action_delete">Delete</string>
     <string name="action_send">TOOT</string>
@@ -83,7 +83,7 @@
     <string name="action_view_profile">Profile</string>
     <string name="action_view_preferences">Preferences</string>
     <string name="action_view_account_preferences">Account Preferences</string>
-    <string name="action_view_favourites">Favourites</string>
+    <string name="action_view_favourites">Favorites</string>
     <string name="action_view_mutes">Muted users</string>
     <string name="action_view_blocks">Blocked users</string>
     <string name="action_view_follow_requests">Follow Requests</string>
@@ -173,8 +173,8 @@
     <string name="pref_title_notification_filters">Notify me when</string>
     <string name="pref_title_notification_filter_mentions">mentioned</string>
     <string name="pref_title_notification_filter_follows">followed</string>
-    <string name="pref_title_notification_filter_reblogs">my posts are boosted</string>
-    <string name="pref_title_notification_filter_favourites">my posts are favourited</string>
+    <string name="pref_title_notification_filter_reblogs">my posts are reposted</string>
+    <string name="pref_title_notification_filter_favourites">my posts are favorited</string>
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_app_theme">App Theme</string>
     <string name="pref_title_timelines">Timelines</string>
@@ -191,7 +191,7 @@
     <string name="pref_title_hide_follow_button">Hide compose button while scrolling</string>
     <string name="pref_title_status_filter">Timeline filtering</string>
     <string name="pref_title_status_tabs">Tabs</string>
-    <string name="pref_title_show_boosts">Show boosts</string>
+    <string name="pref_title_show_reposts">Show reposts</string>
     <string name="pref_title_show_replies">Show replies</string>
     <string name="pref_title_filter_regex">Filter out by regular expressions</string>
     <string name="pref_title_show_media_preview">Show media previews</string>
@@ -234,10 +234,10 @@
     <string name="notification_channel_mention_descriptions">Notifications about new mentions</string>
     <string name="notification_channel_follow_name">New Followers</string>
     <string name="notification_channel_follow_description">Notifications about new followers</string>
-    <string name="notification_channel_boost_name">Boosts</string>
-    <string name="notification_channel_boost_description">Notifications when your toots get boosted</string>
-    <string name="notification_channel_favourite_name">Favourites</string>
-    <string name="notification_channel_favourite_description">Notifications when your toots get marked as favourite</string>
+    <string name="notification_channel_repost_name">Reposts</string>
+    <string name="notification_channel_repost_description">Notifications when your toots get reposted</string>
+    <string name="notification_channel_favourite_name">Favorites</string>
+    <string name="notification_channel_favourite_description">Notifications when your toots get marked as favorite</string>
 
 
     <string name="notification_mention_format">%s mentioned you</string>
@@ -249,8 +249,9 @@
     <string name="description_account_locked">Locked Account</string>
 
     <string name="about_title_activity">About</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky is free and open-source software.
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_description">Roma is an Android client for Pleroma based on Tusky.</string>
+    <string name="about_roma_license">Roma is free and open-source software.
         It is licensed under the GNU General Public License Version 3.
         You can view the license here: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
@@ -261,13 +262,13 @@
     -->
     <string name="about_project_site">
         Project website:\n
-        https://tuskyapp.github.io
+        https://romaapp.github.io
     </string>
     <string name="about_bug_feature_request_site">
         Bug reports &amp; feature requests:\n
-        https://github.com/tuskyapp/Tusky/issues
+        https://github.com/romaapp/Roma/issues
     </string>
-    <string name="about_tusky_account">Tusky\'s Profile</string>
+    <string name="about_roma_account">Roma\'s Profile</string>
 
     <string name="status_share_content">Share content of toot</string>
     <string name="status_share_link">Share link to toot</string>
@@ -328,7 +329,7 @@
     <string name="expand_collapse_all_statuses">Expand/Collapse all statuses</string>
     <string name="action_open_toot">Open toot</string>
     <string name="restart_required">App restart required</string>
-    <string name="restart_emoji">You\'ll need to restart Tusky in order to apply these changes</string>
+    <string name="restart_emoji">You\'ll need to restart Roma in order to apply these changes</string>
     <string name="later">Later</string>
     <string name="restart">Restart</string>
     <string name="caption_systememoji">Your device\'s default emoji set</string>
@@ -340,10 +341,10 @@
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s has moved to:</string>
 
-    <string name="reblog_private">Boost to original audience</string>
-    <string name="unreblog_private">Unboost</string>
+    <string name="reblog_private">Repost to original audience</string>
+    <string name="unreblog_private">Un-repost</string>
 
-    <string name="license_description">Tusky contains code and assets from the following open source projects:</string>
+    <string name="license_description">Roma contains code and assets from the following open source projects:</string>
     <string name="license_apache_2">Licensed under the Apache License (copy below)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
@@ -361,16 +362,16 @@
     <string name="pin_action">Pin</string>
 
     <plurals name="favs">
-        <item quantity="one">&lt;b>%1$s&lt;/b> Favourite</item>
-        <item quantity="other">&lt;b>%1$s&lt;/b> Favourites</item>
+        <item quantity="one">&lt;b>%1$s&lt;/b> Favorite</item>
+        <item quantity="other">&lt;b>%1$s&lt;/b> Favorites</item>
     </plurals>
 
     <plurals name="reblogs">
-        <item quantity="one">&lt;b>%s&lt;/b> Boost</item>
-        <item quantity="other">&lt;b>%s&lt;/b> Boosts</item>
+        <item quantity="one">&lt;b>%s&lt;/b> Repost</item>
+        <item quantity="other">&lt;b>%s&lt;/b> Reposts</item>
     </plurals>
 
-    <string name="title_reblogged_by">Boosted by</string>
-    <string name="title_favourited_by">Favourited by</string>
+    <string name="title_reblogged_by">Reposted by</string>
+    <string name="title_favourited_by">Favorited by</string>
 
 </resources>

@@ -41,7 +41,7 @@
     <string name="title_licenses">Лицензии</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s продвинул(а)</string>
+    <string name="status_reposted_format">%s продвинул(а)</string>
     <string name="status_sensitive_media_title">Чувствительный контент</string>
     <string name="status_media_hidden_title">Медиа скрыто</string>
     <string name="status_sensitive_media_directions">Нажмите для просмотра</string>
@@ -187,7 +187,7 @@
     <string name="pref_title_hide_follow_button">Скрывать кнопку подписки при прокрутке</string>
     <string name="pref_title_status_filter">Фильтрация ленты</string>
     <string name="pref_title_status_tabs">Вкладки</string>
-    <string name="pref_title_show_boosts">Показывать продвижения</string>
+    <string name="pref_title_show_reposts">Показывать продвижения</string>
     <string name="pref_title_show_replies">Показывать ответы</string>
     <string name="pref_title_filter_regex">Фильтрация по регулярному выражению</string>
     <string name="pref_title_show_media_preview">Предпросмотр медиаконтента</string>
@@ -229,8 +229,8 @@
     <string name="notification_channel_mention_descriptions">Уведомлять о новых упоминаниях</string>
     <string name="notification_channel_follow_name">Новые подписчики</string>
     <string name="notification_channel_follow_description">Уведомлять о новых подписчиках</string>
-    <string name="notification_channel_boost_name">Продвижения</string>
-    <string name="notification_channel_boost_description">Уведомлять, если кто-то продвинул ваши сообщения</string>
+    <string name="notification_channel_repost_name">Продвижения</string>
+    <string name="notification_channel_repost_description">Уведомлять, если кто-то продвинул ваши сообщения</string>
     <string name="notification_channel_favourite_name">Избранное</string>
     <string name="notification_channel_favourite_description">Уведомлять, когда ваши сообщения отмечают как «избранные»</string>
 
@@ -244,14 +244,14 @@
     <string name="description_account_locked">Закрытый аккаунт</string>
 
     <string name="about_title_activity">О приложении</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky – это бесплатное приложение с открытым исходным кодом.         Выпускается по лицензии GNU General Public License Version 3.         Вы можете прочитать текст лицензии по ссылке: https://www.gnu.org/licenses/gpl-3.0.ru.html</string>
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Roma – это бесплатное приложение с открытым исходным кодом.         Выпускается по лицензии GNU General Public License Version 3.         Вы можете прочитать текст лицензии по ссылке: https://www.gnu.org/licenses/gpl-3.0.ru.html</string>
     <!-- note to translators: the url can be changed to link to the localized version of the license -->
     <string name="about_project_site">Веб-сайт проекта:\n
-           https://tuskyapp.github.io</string>
+           https://romaapp.github.io</string>
     <string name="about_bug_feature_request_site">Отчеты об ошибках и пожелания:\n
-           https://github.com/tuskyapp/Tusky/issues</string>
-    <string name="about_tusky_account">Профиль Tusky</string>
+           https://github.com/romaapp/Roma/issues</string>
+    <string name="about_roma_account">Профиль Roma</string>
 
     <string name="status_share_content">Поделиться содержанием поста</string>
     <string name="status_share_link">Поделиться ссылкой на пост</string>
@@ -312,7 +312,7 @@
     <string name="expand_collapse_all_statuses">Раскрыть/свернуть все статусы</string>
     <string name="action_open_toot">Перейти к посту</string>
     <string name="restart_required">Необходимо перезапустить приложение</string>
-    <string name="restart_emoji">Вам нужно перезапустить Tusky для применения изменений</string>
+    <string name="restart_emoji">Вам нужно перезапустить Roma для применения изменений</string>
     <string name="later">Не сейчас</string>
     <string name="restart">Перезапустить</string>
     <string name="caption_systememoji">Набор эмодзи по умолчанию</string>
@@ -327,7 +327,7 @@
     <string name="reblog_private">Продвинуть для исходной аудитории</string>
     <string name="unreblog_private">Убрать продвижение</string>
 
-    <string name="license_description">Tusky содержит код и элементы из следующих приложений с открытым исходным кодом:</string>
+    <string name="license_description">Roma содержит код и элементы из следующих приложений с открытым исходным кодом:</string>
     <string name="license_apache_2">Используется лицензия Apache License (копия ниже)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

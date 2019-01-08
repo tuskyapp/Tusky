@@ -1,4 +1,4 @@
-Tusky is a lightweight client for Mastodon, a free and open-source social network server.
+Roma is a lightweight client for Mastodon, a free and open-source social network server.
 
 • Material Design
 • Most Mastodon APIs implemented

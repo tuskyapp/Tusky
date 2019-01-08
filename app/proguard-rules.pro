@@ -67,9 +67,9 @@
     @retrofit2.http.* <methods>;
 }
 
--keep class com.keylesspalace.tusky.entity.** { *; }
+-keep class tech.bigfig.roma.entity.** { *; }
 
--keep public enum com.keylesspalace.tusky.entity.*$** {
+-keep public enum tech.bigfig.roma.entity.*$** {
     **[] $VALUES;
     public *;
 }

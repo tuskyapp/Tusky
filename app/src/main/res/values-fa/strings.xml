@@ -41,7 +41,7 @@
     <string name="title_licenses" >مجوزها</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format" >%s تقویت شد</string>
+    <string name="status_reposted_format" >%s تقویت شد</string>
     <string name="status_sensitive_media_title" >محتوی حساس</string>
     <string name="status_media_hidden_title" >پنهان کردن رسانه</string>
     <string name="status_sensitive_media_directions" >برای نمایش کلیک کن</string>
@@ -182,7 +182,7 @@
     <string name="pref_title_hide_follow_button" >پنهان کردن دکمه ایجاد هنگام پیمایش</string>
     <string name="pref_title_status_filter" >فیلتر کردن خط زمانی</string>
     <string name="pref_title_status_tabs" >زبانه‌ها</string>
-    <string name="pref_title_show_boosts" >نمایش تقویت‌ها</string>
+    <string name="pref_title_show_reposts" >نمایش تقویت‌ها</string>
     <string name="pref_title_show_replies" >نمایش پاسخ‌ها</string>
     <string name="pref_title_filter_regex" >فیلتر کردن با عبارات باقاعده</string>
     <string name="pref_title_show_media_preview" >پیش‌نمایش رسانه را نشان بده</string>
@@ -225,8 +225,8 @@
     <string name="notification_channel_mention_descriptions" >هشدار در مورد صدازدن جدید</string>
     <string name="notification_channel_follow_name">دنبال‌کننده‌های جدید</string>
     <string name="notification_channel_follow_description" >هشدارها درمورد دنبال‌کنندگان جدید</string>
-    <string name="notification_channel_boost_name" >تقویت</string>
-    <string name="notification_channel_boost_description" >وقتی بوق‌های شما تقویت شد هشدار بده</string>
+    <string name="notification_channel_repost_name" >تقویت</string>
+    <string name="notification_channel_repost_description" >وقتی بوق‌های شما تقویت شد هشدار بده</string>
     <string name="notification_channel_favourite_name" >مورد علاقه‌ها</string>
     <string name="notification_channel_favourite_description" >هشدارها، زمانی که بوق‌های شما مورد علاقه قرار گرفت</string>
 
@@ -240,19 +240,19 @@
     <string name="description_account_locked" >حساب قفل شد</string>
 
     <string name="about_title_activity" >درباره</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license" >Tusky  یک برنامه آزاد و متن‌باز است که تحت مجوز  GNU General Public License Version 3.    منتشر شده است.\n
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license" >Roma  یک برنامه آزاد و متن‌باز است که تحت مجوز  GNU General Public License Version 3.    منتشر شده است.\n
                 شما می‌توانید مجوز را از اینجا ببینید:\n
     https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_project_site">
         سایت پروژه\n
-        https://tuskyapp.github.io
+        https://romaapp.github.io
     </string>   
     <string name="about_bug_feature_request_site">
         گزارش خطا و درخواست ویژگی:\n
-        https://github.com/tuskyapp/Tusky/issues
+        https://github.com/romaapp/Roma/issues
     </string>
-    <string name="about_tusky_account" >نمایه Tusky</string>
+    <string name="about_roma_account" >نمایه Roma</string>
 
     <string name="status_share_content" >هم‌رسانی محتوی بوق</string>
     <string name="status_share_link" >هم‌رسانی لینک بوق</string>
@@ -320,7 +320,7 @@
     <string name="account_moved_description" >%1$s جابجا شد به:</string>
     <string name="reblog_private" >تقویت برای مخاطب اصلی</string>
     <string name="unreblog_private" >لغو تقویت</string>
-    <string name="license_description" >Tusky شامل کد و دارایی‌های پروژه‌های منبع‌باز زیر است:</string>
+    <string name="license_description" >Roma شامل کد و دارایی‌های پروژه‌های منبع‌باز زیر است:</string>
     <string name="license_apache_2" >تحت مجوز آپاچی (رونوشت در ادامه)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

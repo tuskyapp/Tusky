@@ -1,31 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--These colors are not affected by themes or used in all themes.-->
-    <color name="tusky_blue">#2b90d9</color>
-    <color name="tusky_blue_light">#56a7e1</color>
-    <color name="tusky_orange">#ca8f04</color>
-    <color name="tusky_orange_light">#fab207</color>
+    <color name="roma_blue">#48b548</color>
+    <color name="roma_blue_light">#8fcc66</color>
+    <color name="roma_orange">#ca8f04</color>
+    <color name="roma_orange_light">#fab207</color>
 
+    <!--These colors are not affected by themes.-->
+    <color name="view_video_background">#000000</color>
     <color name="toolbar_view_media">#8f000000</color>
+    <color name="semi_transparent">#33000000</color>
     <color name="header_background_filter">#44000000</color>
     <color name="description_marker_unselected">#333</color>
     <color name="white">#ffffff</color>
 
     <!--Dark Theme Colors-->
-    <color name="color_primary_dark">#4c5368</color>
-    <color name="color_primary_dark_dark">#313543</color> <!--Dark Dark-->
-    <color name="color_background_dark">#1a1c23</color>
-    <color name="window_background_dark">#282c37</color>
-    <color name="text_color_primary_dark">#ffffff</color>
+    <color name="color_primary_dark">#0d460a</color>
+    <color name="color_primary_dark_dark">#1a3907</color> <!--Dark Dark-->
+    <color name="color_accent_dark">#258c1d</color>
+    <color name="button_dark">#1a3907</color>
+    <color name="color_background_dark">#1a3907</color>
+    <color name="window_background_dark">#0c1a03</color>
+    <color name="edit_text_color_dark">#FFFFFF</color>
+    <color name="text_color_primary_dark">#FFFFFF</color>
     <color name="text_color_secondary_dark">#d9e1e8</color>
-    <color name="text_color_tertiary_dark">#9baec8</color>
-    <color name="toolbar_background_dark">#4c5368</color>
+    <color name="text_color_tertiary_dark">#c7c7c7</color>
+    <color name="text_color_primary_inverse_dark">#000000</color>
+    <color name="text_color_secondary_inverse_dark">#000000</color>
+    <color name="text_color_tertiary_inverse_dark">#000000</color>
+    <color name="toolbar_background_dark">#54684c</color>
     <color name="toolbar_icon_dark">#d9e1e8</color>
-    <color name="status_reblog_button_disabled_dark">#444b5d</color>
+    <color name="image_button_dark">#708460</color>
+    <color name="status_reblog_button_dark">#6e8460</color>
+    <color name="status_reblog_button_marked_dark">#28b427</color>
+    <color name="status_reblog_button_disabled_dark">#4e5d44</color>
+    <color name="status_favourite_button_dark">#708460</color>
+    <color name="status_favourite_button_marked_dark">#ca8f04</color>
+    <color name="sensitive_media_warning_background_dark">#303030</color>
+    <color name="media_preview_unloaded_background_dark">#2F2F2F</color>
     <color name="status_divider_dark">#2f3441</color>
     <color name="tab_page_margin_dark">#1a1c23</color>
-    <color name="account_toolbar_icon_collapsed_dark">#ffffff</color>
+    <color name="account_toolbar_icon_collapsed_dark">#FFFFFF</color>
     <color name="compose_media_button_disabled_dark">#586173</color>
+    <color name="compose_mention_dark">#AFBFCF</color>
+    <color name="report_status_background_dark">#000000</color>
     <color name="report_status_divider_dark">#2F2F2F</color>
     <color name="custom_tab_toolbar_dark">#313543</color>
     <color name="compose_reply_content_background_dark">#373c4b</color>
@@ -42,34 +60,48 @@
     <!--Light Theme Colors-->
     <color name="color_primary_light">#dfdfdf</color>
     <color name="color_primary_dark_light">#8f8f8f</color>
+    <color name="color_accent_light">#61a937</color>
+    <color name="button_light">#28b427</color>
     <color name="color_background_light">#f4f4f4</color>
     <color name="window_background_light">#f4f4f4</color>
+    <color name="edit_text_color_light">#CC000000</color>
     <color name="text_color_primary_light">#CC000000</color>
     <color name="text_color_secondary_light">#3c3c3c</color>
-    <color name="text_color_tertiary_light">#5f636f</color>
+    <color name="text_color_tertiary_light">#666f5f</color>
+    <color name="text_color_primary_inverse_light">#ffffff</color>
+    <color name="text_color_secondary_inverse_light">#ffffff</color>
+    <color name="text_color_tertiary_inverse_light">#ffffff</color>
     <color name="toolbar_background_light">#f6f7f7</color>
     <color name="toolbar_icon_light">#7C000000</color>
+    <color name="status_reblog_button_light">#4f4f4f</color>
+    <color name="status_reblog_button_marked_light">#28b427</color>
     <color name="status_reblog_button_disabled_light">#BFBFBF</color>
+    <color name="status_favourite_button_light">#4f4f4f</color>
+    <color name="status_favourite_button_marked_light">#fab207</color>
     <color name="sensitive_media_warning_background_light">#b0b0b0</color>
     <color name="media_preview_unloaded_background_light">#cfcfcf</color>
     <color name="status_divider_light">#cfcfcf</color>
     <color name="tab_page_margin_light">#cfcfcf</color>
     <color name="account_toolbar_icon_collapsed_light">#DE000000</color>
     <color name="compose_media_button_disabled_light">#a3a5ab</color>
+    <color name="compose_mention_light">#4a6f2f</color>
     <color name="report_status_background_light">#EFEFEF</color>
     <color name="report_status_divider_light">#9F9F9F</color>
     <color name="custom_tab_toolbar_light">#ffffff</color>
     <color name="compose_reply_content_background_light">#e0e1e6</color>
 
-    <color name="compose_media_visible_button_disabled_blue">#8c2b90d9</color>
+    <color name="compose_media_visible_button_disabled_blue">#8fcc66</color>
 
-    <!-- colors used in the elephant friend drawables -->
-    <color name="elephant_friend_border_color">#121419</color>
-    <color name="elephant_friend_accent_color">@color/tusky_blue</color>
-    <color name="elephant_friend_body_color">#9BAEC8</color>
-    <color name="elephant_friend_dark_body_color_1">#8192A6</color>
-    <color name="elephant_friend_dark_body_color_2">#7F90A4</color>
-    <color name="elephant_friend_light_color_1">#CAD4E0</color>
-    <color name="elephant_friend_light_color_2">#d9e1e8</color>
+    <!-- colors used in the mato drawables -->
+    <color name="mato_border_color">#151912</color>
+    <color name="mato_accent_color">#28b427</color>
+    <color name="mato_body_color">#afc89b</color>
+    <color name="mato_dark_body_color_1">#8ca681</color>
+    <color name="mato_dark_body_color_2">#8ea47f</color>
+    <color name="mato_light_color_1">#d4e0ca</color>
+    <color name="mato_light_color_2">#dfe8d9</color>
+
+    <color name="primary">#8fcc66</color>
+
 
 </resources>

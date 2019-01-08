@@ -31,7 +31,7 @@
     <string name="title_statuses_with_replies">Con respuestas</string>
     <string name="title_follows">Siguiendo</string>
     <string name="title_followers">Seguidores</string>
-    <string name="title_favourites">Favoritos</string>
+    <string name="title_favourites">Favouritos</string>
     <string name="title_mutes">Silenciados</string>
     <string name="title_blocks">Bloqueados</string>
     <string name="title_follow_requests">Solicitudes</string>
@@ -40,7 +40,7 @@
     <string name="title_licenses">Licencias</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s compartió</string>
+    <string name="status_reposted_format">%s compartió</string>
     <string name="status_sensitive_media_title">Contenido sensible</string>
     <string name="status_media_hidden_title">Material oculto</string>
     <string name="status_sensitive_media_directions">Pulsa para ver</string>
@@ -50,7 +50,7 @@
     <string name="footer_empty">Nada por aquí. ¡Arrastra hacia abajo para recargar!</string>
 
     <string name="notification_reblog_format">%s compartió</string>
-    <string name="notification_favourite_format">%s marcó favorito</string>
+    <string name="notification_favourite_format">%s marcó favourito</string>
     <string name="notification_follow_format">%s te siguió</string>
 
     <string name="report_username_format">Reportar @%s</string>
@@ -59,7 +59,7 @@
     <string name="action_quick_reply">Respuesta rápida</string>
     <string name="action_reply">Responder</string>
     <string name="action_reblog">Compartir</string>
-    <string name="action_favourite">Favorito</string>
+    <string name="action_favourite">Favourito</string>
     <string name="action_more">Más</string>
     <string name="action_compose">Redactar</string>
     <string name="action_login">Iniciar sesión</string>
@@ -79,7 +79,7 @@
     <string name="action_close">Cerrar</string>
     <string name="action_view_profile">Perfil</string>
     <string name="action_view_preferences">Ajustes</string>
-    <string name="action_view_favourites">Favoritos</string>
+    <string name="action_view_favourites">Favouritos</string>
     <string name="action_view_mutes">Silenciados</string>
     <string name="action_view_blocks">Bloqueados</string>
     <string name="action_view_follow_requests">Solicitudes</string>
@@ -168,7 +168,7 @@
     <string name="pref_title_notification_filter_mentions">me mencionan</string>
     <string name="pref_title_notification_filter_follows">me siguen</string>
     <string name="pref_title_notification_filter_reblogs">me comparten</string>
-    <string name="pref_title_notification_filter_favourites">me dan favorito</string>
+    <string name="pref_title_notification_filter_favourites">me dan favourito</string>
     <string name="pref_title_appearance_settings">Interfaz</string>
     <string name="pref_title_app_theme">Tema</string>
 
@@ -184,7 +184,7 @@
     <string name="pref_title_hide_follow_button">Ocultar botón de redacción al bajar</string>
     <string name="pref_title_status_filter">Filtros de cronología</string>
     <string name="pref_title_status_tabs">Pestañas</string>
-    <string name="pref_title_show_boosts">Mostrar compartidos</string>
+    <string name="pref_title_show_reposts">Mostrar compartidos</string>
     <string name="pref_title_show_replies">Mostrar respuestas</string>
     <string name="pref_title_filter_regex">Filtrar con expresiones regulares</string>
     <string name="pref_title_show_media_preview">Previsualizar multimedia</string>
@@ -217,10 +217,10 @@
     <string name="notification_channel_mention_descriptions">Notificaciones de nuevas menciones</string>
     <string name="notification_channel_follow_name">Nuevos seguidores</string>
     <string name="notification_channel_follow_description">Notificaciones de nuevos seguidores</string>
-    <string name="notification_channel_boost_name">Compartidos</string>
-    <string name="notification_channel_boost_description">Notificaciones de estados que fueron compartidos</string>
-    <string name="notification_channel_favourite_name">Favoritos</string>
-    <string name="notification_channel_favourite_description">Notificaciones de estados que recibieron favorito</string>
+    <string name="notification_channel_repost_name">Compartidos</string>
+    <string name="notification_channel_repost_description">Notificaciones de estados que fueron compartidos</string>
+    <string name="notification_channel_favourite_name">Favouritos</string>
+    <string name="notification_channel_favourite_description">Notificaciones de estados que recibieron favourito</string>
 
 
     <string name="notification_mention_format">%s te mencionó</string>
@@ -232,8 +232,8 @@
     <string name="description_account_locked">Cuenta protegida</string>
 
     <string name="about_title_activity">Acerca de</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky es un software libre y de código abierto.
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Roma es un software libre y de código abierto.
         Está licenciado bajo la licencia "GNU General Public License Version 3".
         Puedes leer sobre la misma en: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
@@ -244,13 +244,13 @@
     -->
     <string name="about_project_site">
         Sitio del proyecto:\n
-        https://tuskyapp.github.io
+        https://romaapp.github.io
     </string>
     <string name="about_bug_feature_request_site">
         Reporte de errores y peticiones de características:\n
-        https://github.com/tuskyapp/Tusky/issues
+        https://github.com/romaapp/Roma/issues
     </string>
-    <string name="about_tusky_account">Perfil de Tusky</string>
+    <string name="about_roma_account">Perfil de Roma</string>
 
     <string name="status_share_content">Compartir contenido</string>
     <string name="status_share_link">Compartir enlace</string>
@@ -325,7 +325,7 @@
     <string name="reblog_private">Volver a compartir</string>
     <string name="unreblog_private">Dejar de compartir</string>
 
-    <string name="license_description">Tusky contiene código y recursos de los siguientes proyectos:</string>
+    <string name="license_description">Roma contiene código y recursos de los siguientes proyectos:</string>
     <string name="license_apache_2">Licenciado bajo Apache License (texto bajo la lista)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

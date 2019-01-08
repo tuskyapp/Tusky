@@ -1,7 +1,7 @@
 [Issue text goes here].
 
 * * * *
-- Tusky Version:
+- Roma Version:
 - Android Version:
 - Android Device:
 - Mastodon instance (if applicable):

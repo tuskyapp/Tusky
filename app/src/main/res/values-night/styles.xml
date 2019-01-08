@@ -1,12 +1,12 @@
 <resources>
     <!--Dark Application Theme Styles-->
-    <style name="TuskyTheme" parent="TuskyBaseTheme"/>
-    <style name="TuskyDialogActivityTheme" parent="@style/TuskyTheme" />
-    <style name="TuskyBaseTheme" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="colorPrimary">@color/tusky_blue</item>
+    <style name="RomaTheme" parent="RomaBaseTheme"/>
+    <style name="RomaDialogActivityTheme" parent="@style/RomaTheme" />
+    <style name="RomaBaseTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/roma_blue</item>
         <item name="colorOnPrimary">@color/white</item>
 
-        <item name="colorSecondary">@color/tusky_blue</item>
+        <item name="colorSecondary">@color/roma_blue</item>
         <item name="colorOnSecondary">@color/white</item>
 
         <item name="colorSurface">@color/color_primary_dark_dark</item>
@@ -22,14 +22,14 @@
 
         <item name="android:actionMenuTextColor">@color/text_color_primary_dark</item>
 
-        <item name="alertDialogTheme">@style/TuskyDialog.Dark</item>
-        <item name="snackbarButtonStyle">@style/TuskyButton.TextButton</item>
+        <item name="alertDialogTheme">@style/RomaDialog.Dark</item>
+        <item name="snackbarButtonStyle">@style/RomaButton.TextButton</item>
 
         <item name="window_background">@color/window_background_dark</item>
         <item name="custom_tab_toolbar">@color/custom_tab_toolbar_dark</item>
         <item name="toolbar_background_color">@color/toolbar_background_dark</item>
         <item name="toolbar_icon_tint">@color/toolbar_icon_dark</item>
-        <item name="image_button_style">@style/TuskyImageButton.Dark</item>
+        <item name="image_button_style">@style/RomaImageButton.Dark</item>
         <item name="status_reblog_small_drawable">@drawable/ic_reblog_dark_18dp</item>
         <item name="status_reblog_inactive_drawable">@drawable/reblog_inactive_dark</item>
         <item name="status_reblog_disabled_drawable">@drawable/reblog_private_dark</item>
@@ -41,7 +41,7 @@
         <item name="media_preview_unloaded_drawable">@drawable/media_preview_unloaded_dark</item>
         <item name="status_divider_drawable">@drawable/status_divider_dark</item>
         <item name="conversation_thread_line_drawable">@drawable/conversation_thread_line_dark</item>
-        <item name="tab_icon_selected_tint">@color/tusky_blue</item>
+        <item name="tab_icon_selected_tint">@color/roma_blue</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_dark</item>
         <item name="account_header_background_color">@color/color_background_dark</item>
         <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark</item>
@@ -79,12 +79,12 @@
 
     </style>
 
-    <style name="TuskyImageButton.Dark" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
+    <style name="RomaImageButton.Dark" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:tint">@color/text_color_tertiary_dark</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
-    <style name="TuskyDialog.Dark" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">
+    <style name="RomaDialog.Dark" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="android:letterSpacing">0</item>
         <item name="dialogCornerRadius">8dp</item>
         <item name="android:colorBackground">@color/color_primary_dark_dark</item>

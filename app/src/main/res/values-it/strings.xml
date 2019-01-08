@@ -42,7 +42,7 @@
     <string name="title_licenses">Licenze</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s ha boostato</string>
+    <string name="status_reposted_format">%s ha repostato</string>
     <string name="status_sensitive_media_title">Contenuto sensibile</string>
     <string name="status_media_hidden_title">Media nascosto</string>
     <string name="status_sensitive_media_directions">Clicca per visualizzare</string>
@@ -53,7 +53,7 @@
 
     <string name="footer_empty">Qui non c\'è niente. Trascina verso il basso per aggiornare!</string>
 
-    <string name="notification_reblog_format">%s ha boostato il tuo toot</string>
+    <string name="notification_reblog_format">%s ha repostato il tuo toot</string>
     <string name="notification_favourite_format">%s ha messo il tuo toot nei preferiti</string>
     <string name="notification_follow_format">%s ti segue</string>
 
@@ -62,7 +62,7 @@
 
     <string name="action_quick_reply">Risposta veloce</string>
     <string name="action_reply">Rispondi</string>
-    <string name="action_reblog">Boosta</string>
+    <string name="action_reblog">Reposta</string>
     <string name="action_favourite">Mi piace</string>
     <string name="action_more">Di più</string>
     <string name="action_compose">Componi</string>
@@ -73,8 +73,8 @@
     <string name="action_unfollow">Smetti di seguire</string>
     <string name="action_block">Blocca</string>
     <string name="action_unblock">Sblocca</string>
-    <string name="action_hide_reblogs">Nascondi boost</string>
-    <string name="action_show_reblogs">Mostra boost</string>
+    <string name="action_hide_reblogs">Nascondi repost</string>
+    <string name="action_show_reblogs">Mostra repost</string>
     <string name="action_report">Segnala</string>
     <string name="action_delete">Elimina</string>
     <string name="action_send">TOOT</string>
@@ -173,7 +173,7 @@
     <string name="pref_title_notification_filters">Notificami quando</string>
     <string name="pref_title_notification_filter_mentions">sono stato menzionato</string>
     <string name="pref_title_notification_filter_follows">sono stato seguito</string>
-    <string name="pref_title_notification_filter_reblogs">i miei post sono boostati</string>
+    <string name="pref_title_notification_filter_reblogs">i miei post sono repostati</string>
     <string name="pref_title_notification_filter_favourites">i miei post sono messi nei preferiti</string>
     <string name="pref_title_appearance_settings">Aspetto</string>
     <string name="pref_title_app_theme">Tema dell\'app</string>
@@ -190,7 +190,7 @@
     <string name="pref_title_hide_follow_button">Nascondi il pulsante componi mentre scorri</string>
     <string name="pref_title_status_filter">Filtraggio della timeline</string>
     <string name="pref_title_status_tabs">Schede</string>
-    <string name="pref_title_show_boosts">Mostra boost</string>
+    <string name="pref_title_show_reposts">Mostra repost</string>
     <string name="pref_title_show_replies">Mostra risposte</string>
     <string name="pref_title_filter_regex">Filtra con espressioni regolari</string>
     <string name="pref_title_show_media_preview">Mostra anteprime media</string>
@@ -223,8 +223,8 @@
     <string name="notification_channel_mention_descriptions">Notifiche quando qualcuno ti menziona</string>
     <string name="notification_channel_follow_name">Nuove persone che ti seguono</string>
     <string name="notification_channel_follow_description">Notifiche su nuove persone che ti seguono</string>
-    <string name="notification_channel_boost_name">Boost</string>
-    <string name="notification_channel_boost_description">Notifiche quando i tuoi toot vengono boostati</string>
+    <string name="notification_channel_repost_name">Repost</string>
+    <string name="notification_channel_repost_description">Notifiche quando i tuoi toot vengono repostati</string>
     <string name="notification_channel_favourite_name">Preferiti</string>
     <string name="notification_channel_favourite_description">Notifiche quando i tuoi toot vengono segnati come preferiti</string>
 
@@ -238,8 +238,8 @@
     <string name="description_account_locked">Account bloccato</string>
 
     <string name="about_title_activity">A proposito</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky è un programma libero ed open source.
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Roma è un programma libero ed open source.
 		È distribuito con licenza GNU General Public License Version 3.
 		Puoi leggere la licenza qui: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
@@ -250,13 +250,13 @@
     -->
     <string name="about_project_site">
 		Sito web del progetto:\n
-		https://tuskyapp.github.io
+		https://romaapp.github.io
 	</string>
     <string name="about_bug_feature_request_site">
 		Segnala problemi &amp; richiedi funzionalità:\n
-		https://github.com/tuskyapp/Tusky/issues
+		https://github.com/romaapp/Roma/issues
 	</string>
-    <string name="about_tusky_account">Profilo di Tusky</string>
+    <string name="about_roma_account">Profilo di Roma</string>
 
     <string name="status_share_content">Condividi contenuto del toot</string>
     <string name="status_share_link">Condividi link al toot</string>
@@ -316,7 +316,7 @@
     <string name="expand_collapse_all_statuses">Espandi/Riduci tutti gli stati</string>
     <string name="action_open_toot">Apri toot</string>
     <string name="restart_required">Riavvio dell\'app richiesto</string>
-    <string name="restart_emoji">Devi riavviare Tusky per applicare queste modifiche</string>
+    <string name="restart_emoji">Devi riavviare Roma per applicare queste modifiche</string>
     <string name="later">Più tardi</string>
     <string name="restart">Riavvia</string>
     <string name="caption_systememoji">Le emoji predefinite del tuo dispositivo</string>
@@ -328,10 +328,10 @@
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s si è spostato su:</string>
 
-    <string name="reblog_private">Boost con la visibilità del post di origine</string>
-    <string name="unreblog_private">Annulla boost</string>
+    <string name="reblog_private">Repost con la visibilità del post di origine</string>
+    <string name="unreblog_private">Annulla repost</string>
 
-    <string name="license_description">Tusky contiene codice e risorse dai seguenti progetti open source:</string>
+    <string name="license_description">Roma contiene codice e risorse dai seguenti progetti open source:</string>
     <string name="license_apache_2">Licenziata sotto la Licenza Apache (copia sotto)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

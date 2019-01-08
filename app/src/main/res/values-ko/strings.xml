@@ -41,7 +41,7 @@
     <string name="title_licenses">라이센스</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s가 부스트</string>
+    <string name="status_reposted_format">%s가 부스트</string>
     <string name="status_sensitive_media_title">민감한 컨텐츠</string>
     <string name="status_media_hidden_title">숨겨진 미디어</string>
     <string name="status_sensitive_media_directions">클릭하여 보기</string>
@@ -176,7 +176,7 @@
     <string name="pref_title_hide_follow_button">스크롤 중 쓰기 버튼 감추기</string>
     <string name="pref_title_status_filter">타임라인 필터링</string>
     <string name="pref_title_status_tabs">탭</string>
-    <string name="pref_title_show_boosts">부스트 보이기</string>
+    <string name="pref_title_show_reposts">부스트 보이기</string>
     <string name="pref_title_show_replies">답글 보이기</string>
     <string name="pref_title_filter_regex">정규 표현식으로 필터링</string>
     <string name="pref_title_show_media_preview">미디어 미리보기 보이기</string>
@@ -198,8 +198,8 @@
     <string name="notification_channel_mention_descriptions">멘션에 대한 알림 받기</string>
     <string name="notification_channel_follow_name">새 팔로워</string>
     <string name="notification_channel_follow_description">새 팔로워 알림 받기</string>
-    <string name="notification_channel_boost_name">부스트</string>
-    <string name="notification_channel_boost_description">툿이 부스트될 때 알림 받기</string>
+    <string name="notification_channel_repost_name">부스트</string>
+    <string name="notification_channel_repost_description">툿이 부스트될 때 알림 받기</string>
     <string name="notification_channel_favourite_name">즐겨찾기</string>
     <string name="notification_channel_favourite_description">툿이 즐겨찾기 될 때 알림 받기</string>
 
@@ -213,8 +213,8 @@
     <string name="description_account_locked">잠긴 계정</string>
 
     <string name="about_title_activity">정보</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky는 자유 오픈소스 소프트웨어입니다. GNU 일반 공중 사용 허가서 3 하에 이용 가능합니다.         다음 링크에서 라이센스 내용을 확인할 수 있습니다. https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Roma는 자유 오픈소스 소프트웨어입니다. GNU 일반 공중 사용 허가서 3 하에 이용 가능합니다.         다음 링크에서 라이센스 내용을 확인할 수 있습니다. https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -222,10 +222,10 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">프로젝트 웹사이트:\n
-                  https://tuskyapp.github.io</string>
+                  https://romaapp.github.io</string>
     <string name="about_bug_feature_request_site">버그 신고 &amp; 새 기능 요청:\n
-                  https://github.com/tuskyapp/Tusky/issues</string>
-    <string name="about_tusky_account">Tusky의 프로필</string>
+                  https://github.com/romaapp/Roma/issues</string>
+    <string name="about_roma_account">Roma의 프로필</string>
 
     <string name="status_share_content">툿 내용 공유</string>
     <string name="status_share_link">툿 링크 공유</string>
@@ -284,7 +284,7 @@
     <string name="expand_collapse_all_statuses">모든 게시물 접기/펴기</string>
     <string name="action_open_toot">툿 열기</string>
     <string name="restart_required">앱 재시작 필요</string>
-    <string name="restart_emoji">이 변경사항을 적용하려면 Tusky를 다시 시작해야 합니다.</string>
+    <string name="restart_emoji">이 변경사항을 적용하려면 Roma를 다시 시작해야 합니다.</string>
     <string name="later">나중에</string>
     <string name="restart">재시작</string>
     <string name="caption_systememoji">기기의 기본 에모지</string>
@@ -299,7 +299,7 @@
     <string name="reblog_private">기존 청중에게 부스트</string>
     <string name="unreblog_private">부스트 취소</string>
 
-    <string name="license_description">Tusky는 아래와 같은 오픈 소스 프로젝트로부터 가져온 코드와 자료가 포함되어 있습니다.</string>
+    <string name="license_description">Roma는 아래와 같은 오픈 소스 프로젝트로부터 가져온 코드와 자료가 포함되어 있습니다.</string>
     <string name="license_apache_2">아파치 라이센스 (아래 사본 참조)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

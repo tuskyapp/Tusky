@@ -41,7 +41,7 @@
     <string name="title_licenses">Trwyddedau</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s wedi\'u hybu</string>
+    <string name="status_reposted_format">%s wedi\'u hybu</string>
     <string name="status_sensitive_media_title">Cynnwys sensitif</string>
     <string name="status_media_hidden_title">Cyfryngau cudd</string>
     <string name="status_sensitive_media_directions">Cliciwch i weld</string>
@@ -189,7 +189,7 @@
     <string name="pref_title_hide_follow_button">Cuddio\'r botwm creu wrth sgrolio </string>
     <string name="pref_title_status_filter">Hidlo ffrwd</string>
     <string name="pref_title_status_tabs">Tabiau</string>
-    <string name="pref_title_show_boosts">Dangos hybiadau</string>
+    <string name="pref_title_show_reposts">Dangos hybiadau</string>
     <string name="pref_title_show_replies">Dangos atebion</string>
     <string name="pref_title_filter_regex">Hidlo drwy fynegiannau arferol </string>
     <string name="pref_title_show_media_preview">Dangos rhagolwg o gyfryngau</string>
@@ -222,8 +222,8 @@
     <string name="notification_channel_mention_descriptions">Hysbysiadau sôn amdanoch o\'r newydd</string>
     <string name="notification_channel_follow_name">Dilynwyr Newydd</string>
     <string name="notification_channel_follow_description">Hysbysiadau am ddilynwyr newydd </string>
-    <string name="notification_channel_boost_name">Hybiadau</string>
-    <string name="notification_channel_boost_description">Hysbysiadau pan gaiff eich tŵtiau eu hybu </string>
+    <string name="notification_channel_repost_name">Hybiadau</string>
+    <string name="notification_channel_repost_description">Hysbysiadau pan gaiff eich tŵtiau eu hybu </string>
     <string name="notification_channel_favourite_name">Ffefrynnau</string>
     <string name="notification_channel_favourite_description">Hysbysiadau pan fo\'r tŵtiau wedi\'u marcio fel ffefryn </string>
 
@@ -237,8 +237,8 @@
     <string name="description_account_locked">Cyfrif wedi\'i gloi </string>
 
     <string name="about_title_activity">Amdano</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Mae Tusky yn feddalwedd ffynhonnell agored barn rydd.
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Mae Roma yn feddalwedd ffynhonnell agored barn rydd.
         Fe\'i trwyddedir dan Drwydded Gyhoeddus Gyffredinol GNU Fersiwn 3.
         Gallwch weld y drwydded yma: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
@@ -249,13 +249,13 @@
     -->
     <string name="about_project_site">
         Gwefan y prosiect:\n
-        https://tuskyapp.github.io
+        https://romaapp.github.io
     </string>
     <string name="about_bug_feature_request_site">
         Adrodd byg &amp; ceisiadau nodwedd:\n
-        https://github.com/tuskyapp/Tusky/issues
+        https://github.com/romaapp/Roma/issues
     </string>
-    <string name="about_tusky_account">Proffil Tusky</string>
+    <string name="about_roma_account">Proffil Roma</string>
 
     <string name="status_share_content">Rhannu cynnwys tŵt</string>
     <string name="status_share_link">Rhannu dolen i\'r tŵt</string>
@@ -315,7 +315,7 @@
     <string name="expand_collapse_all_statuses">Chwyddo/lleihau pob statws </string>
     <string name="action_open_toot">Agor tŵt</string>
     <string name="restart_required">Angen ailddechrau\'r app</string>
-    <string name="restart_emoji">Bydd angen ailddechrau Tusky i roi\'r newidiadau ar waith</string>
+    <string name="restart_emoji">Bydd angen ailddechrau Roma i roi\'r newidiadau ar waith</string>
     <string name="later">Nes ymlaen</string>
     <string name="restart">Ailddechrau</string>
     <string name="caption_systememoji">Dewiswyd emoji ragosodedig i\'ch dyfais </string>
@@ -330,7 +330,7 @@
     <string name="reblog_private">Hwb i\'r gynulleidfa wreiddiol</string>
     <string name="unreblog_private">Dad-hybu</string>
 
-    <string name="license_description">Mae gan Tusky god ac asedau o\'r prosiectau ffynhonnell agored canlynol:</string>
+    <string name="license_description">Mae gan Roma god ac asedau o\'r prosiectau ffynhonnell agored canlynol:</string>
     <string name="license_apache_2">Trwyddedir dan Drwydded Apache (copi isod)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

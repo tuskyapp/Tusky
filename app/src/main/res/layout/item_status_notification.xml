@@ -137,7 +137,7 @@
             android:textSize="?attr/status_text_medium"
             android:visibility="gone"  />
 
-    <com.keylesspalace.tusky.view.RoundedImageView
+    <tech.bigfig.roma.view.RoundedImageView
         android:id="@+id/notification_status_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -153,7 +153,7 @@
         tools:ignore="RtlHardcoded,RtlSymmetry"
         tools:src="@drawable/avatar_default" />
 
-    <com.keylesspalace.tusky.view.RoundedImageView
+    <tech.bigfig.roma.view.RoundedImageView
         android:id="@+id/notification_notification_avatar"
         android:layout_width="24dp"
         android:layout_height="24dp"

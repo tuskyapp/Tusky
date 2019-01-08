@@ -45,7 +45,7 @@
 
                 <Button
                     android:id="@+id/accountFollowButton"
-                    style="@style/TuskyButton"
+                    style="@style/RomaButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
@@ -67,7 +67,7 @@
                     android:textStyle="normal|bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Tusky Mastodon Client " />
+                    tools:text="Roma Mastodon Client " />
 
                 <TextView
                     android:id="@+id/accountUsernameTextView"
@@ -80,7 +80,7 @@
                     android:textSize="?attr/status_text_medium"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/accountDisplayNameTextView"
-                    tools:text="\@Tusky" />
+                    tools:text="\@Roma" />
 
                 <ImageView
                     android:id="@+id/accountLockedImageView"
@@ -276,13 +276,13 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/accountTabLayout"
-            style="@style/TuskyTabAppearance"
+            style="@style/RomaTabAppearance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?android:colorBackground"
             app:tabGravity="center"
             app:tabMode="fixed"
-            app:tabTextAppearance="@style/TuskyTabAppearance" />
+            app:tabTextAppearance="@style/RomaTabAppearance" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -294,7 +294,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/accountFloatingActionButton"
-        style="@style/TuskyFloatingActionButton"
+        style="@style/RomaFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -304,7 +304,7 @@
 
     <include layout="@layout/item_status_bottom_sheet" />
 
-    <com.keylesspalace.tusky.view.RoundedImageView
+    <tech.bigfig.roma.view.RoundedImageView
         android:id="@+id/accountAvatarImageView"
         android:layout_width="@dimen/account_activity_avatar_size"
         android:layout_height="@dimen/account_activity_avatar_size"

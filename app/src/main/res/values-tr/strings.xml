@@ -35,7 +35,7 @@
     <string name="title_edit_profile">Profili düzeltme</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s yükseltti</string>
+    <string name="status_reposted_format">%s yükseltti</string>
     <string name="status_sensitive_media_title">Hasas Medya</string>
     <string name="status_sensitive_media_directions">Görmek için taklayın</string>
     <string name="status_content_warning_show_more">Daha Fazla Göster</string>

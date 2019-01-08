@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.keylesspalace.tusky">
+    package="tech.bigfig.roma">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -13,11 +13,17 @@
 
     <application
         android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher_icon"
         android:label="@string/app_name"
-        android:name=".TuskyApplication"
+        android:name=".RomaApplication"
         android:supportsRtl="true"
-        android:theme="@style/TuskyTheme">
+        android:theme="@style/RomaTheme">
+
+        <!-- Fabric API key-->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="f5962bea6e1eaa86ddff717677ff341e677618bb"
+            />
 
         <activity
             android:name=".SplashActivity"
@@ -51,7 +57,7 @@
         </activity>
         <activity
             android:name=".ComposeActivity"
-            android:theme="@style/TuskyDialogActivityTheme"
+            android:theme="@style/RomaDialogActivityTheme"
             android:windowSoftInputMode="stateVisible|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -84,7 +90,7 @@
             android:configChanges="orientation|screenSize" />
         <activity android:name=".ViewTagActivity" />
         <activity android:name=".ViewMediaActivity"
-            android:theme="@style/TuskyBaseTheme"
+            android:theme="@style/RomaBaseTheme"
             android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity android:name=".AccountActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"/>
@@ -120,8 +126,8 @@
 
         <service
             tools:targetApi="24"
-            android:name="com.keylesspalace.tusky.service.TuskyTileService"
-            android:icon="@drawable/ic_tusky"
+            android:name="tech.bigfig.roma.service.RomaTileService"
+            android:icon="@drawable/ic_roma"
             android:label="Compose Toot"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>

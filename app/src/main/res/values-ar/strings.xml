@@ -40,7 +40,7 @@
     <string name="title_licenses">الرّخص</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s رقّي</string>
+    <string name="status_reposted_format">%s رقّي</string>
     <string name="status_sensitive_media_title">محتوى حساس</string>
     <string name="status_media_hidden_title">وسائط مخفية</string>
     <string name="status_sensitive_media_directions">اضغط للعرض</string>
@@ -176,7 +176,7 @@
     <string name="pref_title_hide_follow_button">إخفاء زر التحرير عند التمرير</string>
     <string name="pref_title_status_filter">تصفية الخيوط</string>
     <string name="pref_title_status_tabs">الألسنة</string>
-    <string name="pref_title_show_boosts">عرض الترقيات</string>
+    <string name="pref_title_show_reposts">عرض الترقيات</string>
     <string name="pref_title_show_replies">عرض الردود</string>
     <string name="pref_title_filter_regex">التصفية عن طريق عبارات منطقية</string>
     <string name="pref_title_show_media_preview">إظهار معاينات الوسائط</string>
@@ -198,8 +198,8 @@
     <string name="notification_channel_mention_descriptions">الإخطارات عندما يشار إليك</string>
     <string name="notification_channel_follow_name">متابِعون جدد</string>
     <string name="notification_channel_follow_description">إخطارات عند تلقي متابعين جدد</string>
-    <string name="notification_channel_boost_name">الترقيات</string>
-    <string name="notification_channel_boost_description">إخطارات عندما يقوم أحدهم بترقية تبويقاتي</string>
+    <string name="notification_channel_repost_name">الترقيات</string>
+    <string name="notification_channel_repost_description">إخطارات عندما يقوم أحدهم بترقية تبويقاتي</string>
     <string name="notification_channel_favourite_name">المفضلة</string>
     <string name="notification_channel_favourite_description">الإشعار عندما يقوم أحدهم بإضافة تبويقاتك إلى مفضلاته</string>
 
@@ -213,8 +213,8 @@
     <string name="description_account_locked">حساب مقفل</string>
 
     <string name="about_title_activity">عن التطبيق</string>
-    <string name="about_tusky_version">توسكي %s</string>
-    <string name="about_tusky_license">Tuksy برنامج حر و مفتوح المصدر.         مطور تحت رخصة GNU General Public License Version 3.         يمكنكم الإطلاع على الرخصة على : https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_roma_version">توسكي %s</string>
+    <string name="about_roma_license">Tuksy برنامج حر و مفتوح المصدر.         مطور تحت رخصة GNU General Public License Version 3.         يمكنكم الإطلاع على الرخصة على : https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -222,10 +222,10 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">موقع المشروع :\n
-                   https://tuskyapp.github.io</string>
+                   https://romaapp.github.io</string>
     <string name="about_bug_feature_request_site">تقارير الأخطاء و طلبات التحسينات على  :\n
-                   https://github.com/tuskyapp/Tusky/issues</string>
-    <string name="about_tusky_account">الملف الشخصي لتوسكي</string>
+                   https://github.com/romaapp/Roma/issues</string>
+    <string name="about_roma_account">الملف الشخصي لتوسكي</string>
 
     <string name="status_share_content">شارك محتوى التبويق</string>
     <string name="status_share_link">شارك الرابط إلى التبويق</string>

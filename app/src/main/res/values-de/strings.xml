@@ -29,11 +29,11 @@
     <string name="title_statuses">Beiträge</string>
     <string name="title_follows">Folgt</string>
     <string name="title_followers">Folgende</string>
-    <string name="title_favourites">Favoriten</string>
+    <string name="title_favourites">Favouriten</string>
     <string name="title_blocks">Blockierte Profile</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s teilte</string>
+    <string name="status_reposted_format">%s teilte</string>
     <string name="status_sensitive_media_title">Heikle Inhalte</string>
     <string name="status_sensitive_media_directions">Zum Anzeigen tippen</string>
     <string name="status_content_warning_show_more">Zeige mehr</string>
@@ -67,7 +67,7 @@
     <string name="action_close">Schließen</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Einstellungen</string>
-    <string name="action_view_favourites">Favoriten</string>
+    <string name="action_view_favourites">Favouriten</string>
     <string name="action_view_blocks">Blockierte Profile</string>
     <string name="action_view_media">Medien</string>
     <string name="action_open_in_web">Im Browser öffnen</string>
@@ -184,19 +184,19 @@
     <string name="login_connection">Verbinden…</string>
 
     <string name="about_title_activity">Über</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky ist freie Open-Source-Software.
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Roma ist freie Open-Source-Software.
         Es ist lizenziert unter der GNU General Public License Version 3.
         Du kannst dir die Lizenz hier anschauen: https://www.gnu.org/licenses/gpl-3.0.de.html</string>
     <string name="about_project_site">
         Webseite des Projekts:\n
-        https://tuskyapp.github.io
+        https://romaapp.github.io
     </string>
     <string name="about_bug_feature_request_site">
         Fehlermeldungen &amp; Verbesserungsvorschläge:\n
-        https://github.com/tuskyapp/Tusky/issues
+        https://github.com/romaapp/Roma/issues
     </string>
-    <string name="about_tusky_account">Tuskys Profil</string>
+    <string name="about_roma_account">Romas Profil</string>
 
     <string name="search_no_results">Keine Ergebnisse</string>
     <string name="status_media_images">Bilder</string>
@@ -204,7 +204,7 @@
     <string name="pref_title_status_tabs">Tabs</string>
     <string name="pref_title_show_replies">Zeige Antworten</string>
     <string name="pref_title_show_media_preview">Zeige Medienvorschauen</string>
-    <string name="pref_title_show_boosts">Zeige Boosts</string>
+    <string name="pref_title_show_reposts">Zeige Reposts</string>
     <string name="no_content">leer</string>
     <string name="action_hide_media">Verstecke Medien</string>
     <string name="pref_title_status_filter">Timeline-Filter</string>
@@ -215,8 +215,8 @@
     <string name="download_image">%1$s heruntergeladen</string>
     <string name="dialog_unfollow_warning">Willst du diesem Profil wirklich nicht mehr folgen?</string>
     <string name="pref_title_alway_show_sensitive_media">Heikle Inhalte immer anzeigen</string>
-    <string name="notification_channel_boost_name">Geteilte Beiträge</string>
-    <string name="notification_channel_boost_description">Benachrichtigungen wenn deine Beiträge geteilt werden</string>
+    <string name="notification_channel_repost_name">Geteilte Beiträge</string>
+    <string name="notification_channel_repost_description">Benachrichtigungen wenn deine Beiträge geteilt werden</string>
     <string name="notification_channel_favourite_description">Benachrichtigungen wenn deine Beiträge favorisiert werden</string>
     <string name="notification_channel_favourite_name">Favorisierte Beiträge</string>
     <string name="notification_channel_follow_description">Benachrichtigunen über neue Folgende</string>
@@ -275,7 +275,7 @@
     <string name="system_default">System-Standard</string>
     <string name="download_fonts">Du musst diese Emoji-Sets zunächst herunterladen.</string>
     <string name="restart_required">App-Neustart erforderlich</string>
-    <string name="restart_emoji">Du musst Tusky neustarten um die Änderungen anzuwenden</string>
+    <string name="restart_emoji">Du musst Roma neustarten um die Änderungen anzuwenden</string>
     <string name="later">Später</string>
     <string name="restart">Neustarten</string>
     <string name="caption_systememoji">Die Standard-Emojis deines Geräts</string>
@@ -290,7 +290,7 @@
     <string name="reblog_private">An ursprüngliches Publikum teilen</string>
     <string name="unreblog_private">nicht mehr teilen</string>
 
-    <string name="license_description">Tusky enthält Code und Inhalte von den folgenden Open-Source-Projekten:</string>
+    <string name="license_description">Roma enthält Code und Inhalte von den folgenden Open-Source-Projekten:</string>
     <string name="license_apache_2">Lizenziert unter der Apache-Lizenz (s. u.)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="action_open_toot">Beitrag öffnen</string>

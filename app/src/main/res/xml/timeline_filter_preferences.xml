@@ -8,8 +8,8 @@
         app:iconSpaceReserved="false">
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="tabFilterHomeBoosts"
-            android:title="@string/pref_title_show_boosts"
+            android:key="tabFilterHomeReposts"
+            android:title="@string/pref_title_show_reposts"
             app:iconSpaceReserved="false" />
         <CheckBoxPreference
             android:defaultValue="true"

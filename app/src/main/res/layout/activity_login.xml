@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.keylesspalace.tusky.LoginActivity">
+    tools:context="tech.bigfig.roma.LoginActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:layout_height="178dp"
                 android:layout_marginBottom="50dp"
                 android:contentDescription="@null"
-                app:srcCompat="@drawable/elephant_friend" />
+                app:srcCompat="@drawable/mato" />
 
             <LinearLayout
                 android:id="@+id/loginInputLayout"
@@ -38,7 +38,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/domainTextInputLayout"
-                    style="@style/TuskyTextInput"
+                    style="@style/RomaTextInput"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_domain"
@@ -54,20 +54,14 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/loginButton"
-                    style="@style/TuskyButton"
+                    style="@style/RomaButton"
                     android:layout_width="250dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="60dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:text="@string/action_login" />
+                    android:text="@string/action_login"
+                    android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/whatsAnInstanceTextView"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:text="@string/link_whats_an_instance"
-                    android:textAlignment="center" />
             </LinearLayout>
 
             <LinearLayout

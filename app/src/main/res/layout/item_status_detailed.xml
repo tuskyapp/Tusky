@@ -11,7 +11,7 @@
     android:paddingLeft="14dp"
     android:paddingRight="14dp">
 
-    <com.keylesspalace.tusky.view.RoundedImageView
+    <tech.bigfig.roma.view.RoundedImageView
         android:id="@+id/status_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -181,7 +181,7 @@
         android:layout_marginBottom="4dp"
         app:layout_constraintTop_toBottomOf="@id/card_view">
 
-        <com.keylesspalace.tusky.view.MediaPreviewImageView
+        <tech.bigfig.roma.view.MediaPreviewImageView
             android:id="@+id/status_media_preview_0"
             android:layout_width="0dp"
             android:layout_height="@dimen/status_media_preview_height"
@@ -191,7 +191,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
 
-        <com.keylesspalace.tusky.view.MediaPreviewImageView
+        <tech.bigfig.roma.view.MediaPreviewImageView
             android:id="@+id/status_media_preview_1"
             android:layout_width="0dp"
             android:layout_height="@dimen/status_media_preview_height"
@@ -202,7 +202,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
 
-        <com.keylesspalace.tusky.view.MediaPreviewImageView
+        <tech.bigfig.roma.view.MediaPreviewImageView
             android:id="@+id/status_media_preview_2"
             android:layout_width="0dp"
             android:layout_height="@dimen/status_media_preview_height"
@@ -213,7 +213,7 @@
             app:layout_constraintTop_toBottomOf="@+id/status_media_preview_0"
             tools:ignore="ContentDescription" />
 
-        <com.keylesspalace.tusky.view.MediaPreviewImageView
+        <tech.bigfig.roma.view.MediaPreviewImageView
             android:id="@+id/status_media_preview_3"
             android:layout_width="0dp"
             android:layout_height="@dimen/status_media_preview_height"
@@ -415,8 +415,8 @@
         sparkbutton:activeImage="@drawable/reblog_active"
         sparkbutton:iconSize="28dp"
         sparkbutton:inactiveImage="?attr/status_reblog_inactive_drawable"
-        sparkbutton:primaryColor="@color/tusky_blue"
-        sparkbutton:secondaryColor="@color/tusky_blue_light" />
+        sparkbutton:primaryColor="@color/roma_blue"
+        sparkbutton:secondaryColor="@color/roma_blue_light" />
 
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_favourite"
@@ -431,8 +431,8 @@
         sparkbutton:activeImage="?attr/status_favourite_active_drawable"
         sparkbutton:iconSize="28dp"
         sparkbutton:inactiveImage="?attr/status_favourite_inactive_drawable"
-        sparkbutton:primaryColor="@color/tusky_orange"
-        sparkbutton:secondaryColor="@color/tusky_orange_light" />
+        sparkbutton:primaryColor="@color/roma_orange"
+        sparkbutton:secondaryColor="@color/roma_orange_light" />
 
     <ImageButton
         android:id="@+id/status_more"

@@ -41,7 +41,7 @@
     <string name="title_licenses">Licences</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s a boosté</string>
+    <string name="status_reposted_format">%s a reposté</string>
     <string name="status_sensitive_media_title">Contenu sensible</string>
     <string name="status_media_hidden_title">Média caché</string>
     <string name="status_sensitive_media_directions">Cliquer pour voir</string>
@@ -52,7 +52,7 @@
 
     <string name="footer_empty">Il n’y a aucun pouet pour le moment.\nGlissez vers le bas pour actualiser !</string>
 
-    <string name="notification_reblog_format">%s a boosté votre pouet</string>
+    <string name="notification_reblog_format">%s a reposté votre pouet</string>
     <string name="notification_favourite_format">%s a ajouté votre pouet à ses favoris</string>
     <string name="notification_follow_format">%s vous suit</string>
 
@@ -61,7 +61,7 @@
 
     <string name="action_quick_reply">Réponse rapide</string>
     <string name="action_reply">Répondre</string>
-    <string name="action_reblog">Booster</string>
+    <string name="action_reblog">Reposter</string>
     <string name="action_favourite">Favori</string>
     <string name="action_more">Plus</string>
     <string name="action_compose">Écrire</string>
@@ -72,8 +72,8 @@
     <string name="action_unfollow">Ne plus suivre</string>
     <string name="action_block">Bloquer</string>
     <string name="action_unblock">Débloquer</string>
-    <string name="action_hide_reblogs">Cacher les boosts</string>
-    <string name="action_show_reblogs">Montrer les boosts</string>
+    <string name="action_hide_reblogs">Cacher les reposts</string>
+    <string name="action_show_reblogs">Montrer les reposts</string>
     <string name="action_report">Signaler</string>
     <string name="action_delete">Supprimer</string>
     <string name="action_send">POUET</string>
@@ -172,7 +172,7 @@
     <string name="pref_title_notification_filters">Me notifier lorsque</string>
     <string name="pref_title_notification_filter_mentions">on me mentionne</string>
     <string name="pref_title_notification_filter_follows">on me suit</string>
-    <string name="pref_title_notification_filter_reblogs">mes pouets sont boostés</string>
+    <string name="pref_title_notification_filter_reblogs">mes pouets sont repostés</string>
     <string name="pref_title_notification_filter_favourites">mes pouets sont mis en favoris</string>
     <string name="pref_title_appearance_settings">Apparence</string>
     <string name="pref_title_app_theme">Thème de l’application</string>
@@ -189,7 +189,7 @@
     <string name="pref_title_hide_follow_button">Masquer le bouton de composition lors du défilement</string>
     <string name="pref_title_status_filter">Filtrage des fils</string>
     <string name="pref_title_status_tabs">Onglets</string>
-    <string name="pref_title_show_boosts">Afficher les boosts</string>
+    <string name="pref_title_show_reposts">Afficher les reposts</string>
     <string name="pref_title_show_replies">Afficher les réponses</string>
     <string name="pref_title_filter_regex">Filtrer avec des expressions régulières</string>
     <string name="pref_title_show_media_preview">Montrer les miniatures des médias</string>
@@ -222,8 +222,8 @@
     <string name="notification_channel_mention_descriptions">Notifications pour les nouvelles mentions</string>
     <string name="notification_channel_follow_name">Nouveaux abonnés</string>
     <string name="notification_channel_follow_description">Notifications pour les nouveaux abonnés</string>
-    <string name="notification_channel_boost_name">Boosts</string>
-    <string name="notification_channel_boost_description">Notifications quand vos pouets sont boostés</string>
+    <string name="notification_channel_repost_name">Reposts</string>
+    <string name="notification_channel_repost_description">Notifications quand vos pouets sont repostés</string>
     <string name="notification_channel_favourite_name">Favoris</string>
     <string name="notification_channel_favourite_description">Notifications quand vos pouets sont mis en favoris</string>
 
@@ -237,8 +237,8 @@
     <string name="description_account_locked">Compte bloqué</string>
 
     <string name="about_title_activity">À propos</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky est une application libre et open source.
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Roma est une application libre et open source.
         Elle est publiée sous licence publique générale GNU version 3.
         Vous pouvez consulter la licence ici : https://www.gnu.org/licenses/gpl-3.0.fr.html</string>
     <!-- note to translators:
@@ -249,13 +249,13 @@
     -->
     <string name="about_project_site">
       Site du projet :\n
-      https://tuskyapp.github.io
+      https://romaapp.github.io
     </string>
     <string name="about_bug_feature_request_site">
       Rapports d’anomalies &amp; demandes de fonctionnalités :\n
-      https://github.com/tuskyapp/Tusky/issues
+      https://github.com/romaapp/Roma/issues
     </string>
-    <string name="about_tusky_account">Profil de Tusky</string>
+    <string name="about_roma_account">Profil de Roma</string>
 
     <string name="status_share_content">Partager le contenu du pouet</string>
     <string name="status_share_link">Partager le lien du pouet</string>
@@ -315,7 +315,7 @@
     <string name="expand_collapse_all_statuses">Déplier/replier tout les statuts</string>
     <string name="action_open_toot">Ouvrir le pouet</string>
     <string name="restart_required">Un redémarrage de l’application est nécessaire</string>
-    <string name="restart_emoji">Vous devrez redémarrer Tusky pour appliquer ces modifications</string>
+    <string name="restart_emoji">Vous devrez redémarrer Roma pour appliquer ces modifications</string>
     <string name="later">Plus tard</string>
     <string name="restart">Redémarrer</string>
     <string name="caption_systememoji">Votre jeu d’émojis par défaut</string>
@@ -327,10 +327,10 @@
     <string name="profile_badge_bot_text">Robot</string>
     <string name="account_moved_description">%1$s a déménagé vers :</string>
 
-    <string name="reblog_private">Booster vers l’audience originale</string>
-    <string name="unreblog_private">Ne plus booster</string>
+    <string name="reblog_private">Reposter vers l’audience originale</string>
+    <string name="unreblog_private">Ne plus reposter</string>
 
-    <string name="license_description">Tusky contient du code et des ressources issus des projets open source suivants :</string>
+    <string name="license_description">Roma contient du code et des ressources issus des projets open source suivants :</string>
     <string name="license_apache_2">Sous licence Apache (copie ci-dessous)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

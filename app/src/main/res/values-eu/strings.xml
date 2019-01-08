@@ -41,7 +41,7 @@
     <string name="title_licenses">Lizentziak</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s-(e)k bultzatu du</string>
+    <string name="status_reposted_format">%s-(e)k bultzatu du</string>
     <string name="status_sensitive_media_title">Kontuz edukiarekin</string>
     <string name="status_media_hidden_title">Ezkutuko multimedia</string>
     <string name="status_sensitive_media_directions">Sakatu ikusteko</string>
@@ -187,7 +187,7 @@
     <string name="pref_title_hide_follow_button">Tut egiteko botoia ezkutatu jaisterakoan.</string>
     <string name="pref_title_status_filter">Denbora-lerro filtroak</string>
     <string name="pref_title_status_tabs">Fitxak</string>
-    <string name="pref_title_show_boosts">Erakutsi bultzadak</string>
+    <string name="pref_title_show_reposts">Erakutsi bultzadak</string>
     <string name="pref_title_show_replies">Erakutsi erantzunak</string>
     <string name="pref_title_filter_regex">Espresio erregularrekin filtratu</string>
     <string name="pref_title_show_media_preview">Multimedia aurreikusi</string>
@@ -230,8 +230,8 @@
     <string name="notification_channel_mention_descriptions">Aipamen berrien jakinarazpenak</string>
     <string name="notification_channel_follow_name">Jarritzaile berriak</string>
     <string name="notification_channel_follow_description">Jarraitzaile berrien jakinarazpenak</string>
-    <string name="notification_channel_boost_name">Bultzadak</string>
-    <string name="notification_channel_boost_description">Bultzatutako tuten jakinarazpenak</string>
+    <string name="notification_channel_repost_name">Bultzadak</string>
+    <string name="notification_channel_repost_description">Bultzatutako tuten jakinarazpenak</string>
     <string name="notification_channel_favourite_name">Gogokoak</string>
     <string name="notification_channel_favourite_description">Gogokoen jakinarazpenak</string>
 
@@ -244,8 +244,8 @@
 
 
     <string name="about_title_activity">Honi buruz</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky software libre eta kode askekoa da.
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Roma software libre eta kode askekoa da.
         "GNU General Public License Version 3" lizentziapean zabaldua.
         Lizentzia hontaz gehiago irakurtzeko: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
@@ -256,13 +256,13 @@
     -->
     <string name="about_project_site">
         Proiektuaren gunea:\n
-        https://tuskyapp.github.io
+        https://romaapp.github.io
     </string>
     <string name="about_bug_feature_request_site">
         Akats jakinarazpenak eta hobekuntza eskariak:\n
-        https://github.com/tuskyapp/Tusky/issues
+        https://github.com/romaapp/Roma/issues
     </string>
-    <string name="about_tusky_account">Tusky-ren profila</string>
+    <string name="about_roma_account">Roma-ren profila</string>
 
     <string name="status_share_content">Partekatu edukia</string>
     <string name="status_share_link">Partekatu lotura</string>
@@ -338,7 +338,7 @@
     <string name="reblog_private">Berriz bultzatu</string>
     <string name="unreblog_private">Bultzatzea utzi</string>
 
-    <string name="license_description">Tusky-k ondorengo proiektuetako kode eta baliabideak ditu:</string>
+    <string name="license_description">Roma-k ondorengo proiektuetako kode eta baliabideak ditu:</string>
     <string name="license_apache_2">Apache Lizentziapean (testua zerrendaren azpian)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

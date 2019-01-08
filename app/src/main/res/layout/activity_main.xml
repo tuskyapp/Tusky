@@ -5,7 +5,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.keylesspalace.tusky.MainActivity">
+    tools:context="tech.bigfig.roma.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
-            style="@style/TuskyTabAppearance"
+            style="@style/RomaTabAppearance"
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
@@ -75,7 +75,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_btn"
-        style="@style/TuskyFloatingActionButton"
+        style="@style/RomaFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"

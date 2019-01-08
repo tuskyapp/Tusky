@@ -1,5 +1,5 @@
 <resources>
-    <style name="TuskyDialogActivityTheme" parent="@style/TuskyTheme">
+    <style name="RomaDialogActivityTheme" parent="@style/RomaTheme">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowBackground">@drawable/background_dialog_activity</item>
         <item name="android:windowIsFloating">true</item>
@@ -11,7 +11,7 @@
         <item name="android:windowMinWidthMinor">80%</item>
     </style>
 
-    <style name="TuskyDialogActivityBlackTheme" parent="@style/TuskyBlackTheme">
+    <style name="RomaDialogActivityBlackTheme" parent="@style/RomaBlackTheme">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowBackground">@drawable/background_dialog_activity_black</item>
         <item name="android:windowIsFloating">true</item>

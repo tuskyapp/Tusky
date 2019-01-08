@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.keylesspalace.tusky.AboutActivity">
+    tools:context="tech.bigfig.roma.AboutActivity">
 
     <include layout="@layout/toolbar_basic" />
 
@@ -32,7 +32,7 @@
                 android:lineSpacingMultiplier="1.1"
                 android:text="@string/license_description" />
 
-            <com.keylesspalace.tusky.view.LicenseCard
+            <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
@@ -42,7 +42,7 @@
                 license:link="https://developer.android.com/topic/libraries/support-library/"
                 license:name="Android Support Library" />
 
-            <com.keylesspalace.tusky.view.LicenseCard
+            <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
@@ -52,7 +52,7 @@
                 license:link="https://developer.android.com/topic/libraries/architecture/"
                 license:name="Android Architecture Components" />
 
-            <com.keylesspalace.tusky.view.LicenseCard
+            <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
@@ -62,7 +62,7 @@
                 license:link="https://square.github.io/okhttp/"
                 license:name="OkHttp" />
 
-            <com.keylesspalace.tusky.view.LicenseCard
+            <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
@@ -72,7 +72,7 @@
                 license:link="https://square.github.io/retrofit/"
                 license:name="Retrofit" />
 
-            <com.keylesspalace.tusky.view.LicenseCard
+            <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
@@ -82,7 +82,7 @@
                 license:link="https://square.github.io/picasso/"
                 license:name="Picasso" />
 
-            <com.keylesspalace.tusky.view.LicenseCard
+            <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
@@ -92,7 +92,7 @@
                 license:link="https://google.github.io/dagger/"
                 license:name="Dagger 2" />
 
-            <com.keylesspalace.tusky.view.LicenseCard
+            <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
@@ -102,7 +102,7 @@
                 license:link="https://github.com/ReactiveX/RxJava"
                 license:name="RxJava" />
 
-            <com.keylesspalace.tusky.view.LicenseCard
+            <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
@@ -112,7 +112,7 @@
                 license:link="https://github.com/uber/AutoDispose"
                 license:name="AutoDispose" />
 
-            <com.keylesspalace.tusky.view.LicenseCard
+            <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
@@ -122,7 +122,7 @@
                 license:link="https://github.com/mikepenz/MaterialDrawer"
                 license:name="MaterialDrawer" />
 
-            <com.keylesspalace.tusky.view.LicenseCard
+            <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
@@ -132,7 +132,7 @@
                 license:link="https://github.com/connyduck/SparkButton"
                 license:name="SparkButton" />
 
-            <com.keylesspalace.tusky.view.LicenseCard
+            <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
@@ -142,7 +142,7 @@
                 license:link="https://github.com/chrisbanes/PhotoView"
                 license:name="PhotoView" />
 
-            <com.keylesspalace.tusky.view.LicenseCard
+            <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
@@ -152,7 +152,7 @@
                 license:link="https://github.com/ArthurHub/Android-Image-Cropper"
                 license:name="Android Image Cropper" />
 
-            <com.keylesspalace.tusky.view.LicenseCard
+            <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
@@ -162,7 +162,7 @@
                 license:link="https://github.com/C1710/blobmoji"
                 license:name="FileMojiCompat" />
 
-            <com.keylesspalace.tusky.view.LicenseCard
+            <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
@@ -172,7 +172,7 @@
                 license:link="https://twemoji.twitter.com/"
                 license:name="Twemoji" />
 
-            <com.keylesspalace.tusky.view.LicenseCard
+            <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
@@ -181,16 +181,6 @@
                 license:license="@string/license_cc_by_4"
                 license:link="https://github.com/c1710/blobmoji"
                 license:name="Blobmoji" />
-
-            <com.keylesspalace.tusky.view.LicenseCard
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                license:license="@string/license_cc_by_sa_4"
-                license:link="https://github.com/tuskyapp/artwork"
-                license:name="Tusky elephant artwork" />
 
             <TextView
                 android:id="@+id/licenseApacheTextView"

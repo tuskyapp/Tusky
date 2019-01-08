@@ -41,7 +41,7 @@
     <string name="title_licenses">ライセンス</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%sさんがブーストしました</string>
+    <string name="status_reposted_format">%sさんがブーストしました</string>
     <string name="status_sensitive_media_title">閲覧注意</string>
     <string name="status_media_hidden_title">非表示のメディア</string>
     <string name="status_sensitive_media_directions">タップして表示</string>
@@ -192,7 +192,7 @@
     <string name="pref_title_hide_follow_button">スクロール中はフォローボタンを隠す</string>
     <string name="pref_title_status_filter">タイムラインのフィルタリング</string>
     <string name="pref_title_status_tabs">タブ</string>
-    <string name="pref_title_show_boosts">ブーストを表示</string>
+    <string name="pref_title_show_reposts">ブーストを表示</string>
     <string name="pref_title_show_replies">返信を表示</string>
     <string name="pref_title_filter_regex">正規表現による除外</string>
     <string name="pref_title_show_media_preview">メディアのプレビューを表示する</string>
@@ -235,8 +235,8 @@
     <string name="notification_channel_mention_descriptions">新しい返信の通知</string>
     <string name="notification_channel_follow_name">新しいフォロワー</string>
     <string name="notification_channel_follow_description">新しいフォロワーの通知</string>
-    <string name="notification_channel_boost_name">ブースト</string>
-    <string name="notification_channel_boost_description">あなたのトゥートがブーストされたときの通知</string>
+    <string name="notification_channel_repost_name">ブースト</string>
+    <string name="notification_channel_repost_description">あなたのトゥートがブーストされたときの通知</string>
     <string name="notification_channel_favourite_name">お気に入り</string>
     <string name="notification_channel_favourite_description">あなたのトゥートがお気に入りに登録されたときの通知</string>
 
@@ -249,20 +249,20 @@
     <string name="description_account_locked">非公開アカウント</string>
 
     <string name="about_title_activity">このアプリについて</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tuskyは無料のオープンソースソフトウェアです。<!--
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Romaは無料のオープンソースソフトウェアです。<!--
      -->GNU General Public License Version 3 の下で使用許諾されています。<!--
      -->ライセンスはここからご覧いただけます： https://www.gnu.org/licenses/gpl-3.0.ja.html</string>
     <!-- Commented out line breaks brcause inserting a space after the japanese period is incorrect. -->
     <string name="about_project_site">
         プロジェクトのWebサイト（英語）：\n
-        https://tuskyapp.github.io
+        https://romaapp.github.io
     </string>
     <string name="about_bug_feature_request_site">
         バグ報告 &amp; 機能リクエスト（英語）：\n
-        https://github.com/tuskyapp/Tusky/issues
+        https://github.com/romaapp/Roma/issues
     </string>
-    <string name="about_tusky_account">Tusky公式アカウント</string>
+    <string name="about_roma_account">Roma公式アカウント</string>
 
     <string name="status_share_content">トゥートの内容を共有</string>
     <string name="status_share_link">トゥートへのリンクを共有</string>
@@ -323,7 +323,7 @@
     <string name="expand_collapse_all_statuses">全て開く/閉じる</string>
     <string name="action_open_toot">トゥートを開く</string>
     <string name="restart_required">アプリの再起動が必要です</string>
-    <string name="restart_emoji">これらの変更を適用するには、Tuskyの再起動が必要になります</string>
+    <string name="restart_emoji">これらの変更を適用するには、Romaの再起動が必要になります</string>
     <string name="later">後で</string>
     <string name="restart">再起動</string>
     <string name="caption_systememoji">あなたのデバイスのデフォルト絵文字セットです</string>
@@ -338,7 +338,7 @@
     <string name="reblog_private">ブースト</string>
     <string name="unreblog_private">ブーストを解除</string>
 
-    <string name="license_description">Tuskyは、以下のオープンソース プロジェクトからのコードとアセットを含んでいます:</string>
+    <string name="license_description">Romaは、以下のオープンソース プロジェクトからのコードとアセットを含んでいます:</string>
     <string name="license_apache_2">Apache Licenseの下にライセンスされています（下記をコピー）</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

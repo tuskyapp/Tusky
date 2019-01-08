@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.keylesspalace.tusky.EditProfileActivity">
+    tools:context="tech.bigfig.roma.EditProfileActivity">
 
     <include layout="@layout/toolbar_basic" />
 
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp">
 
-                    <com.keylesspalace.tusky.view.RoundedImageView
+                    <tech.bigfig.roma.view.RoundedImageView
                         android:id="@+id/avatarPreview"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
@@ -87,7 +87,7 @@
                 </RelativeLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/TuskyTextInput"
+                    style="@style/RomaTextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -105,7 +105,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/TuskyTextInput"
+                    style="@style/RomaTextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -162,7 +162,7 @@
 
                 <Button
                     android:id="@+id/addFieldButton"
-                    style="@style/TuskyButton"
+                    style="@style/RomaButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"

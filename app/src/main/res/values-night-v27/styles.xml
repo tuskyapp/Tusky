@@ -1,13 +1,13 @@
 <resources>
 
     <!--Dark Application Theme Styles-->
-    <style name="TuskyTheme" parent="TuskyBaseTheme">
+    <style name="RomaTheme" parent="RomaBaseTheme">
         <item name="android:windowLightNavigationBar">false</item>
         <item name="android:navigationBarColor">@color/window_background_dark</item>
         <item name="android:navigationBarDividerColor">@color/status_divider_dark</item>
     </style>
 
-    <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase">
+    <style name="RomaBlackTheme" parent="RomaBlackThemeBase">
         <item name="android:navigationBarColor">@color/window_background_black</item>
         <item name="android:navigationBarDividerColor">@color/window_background_black</item>
     </style>

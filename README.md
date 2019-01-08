@@ -1,13 +1,7 @@
-[![Translate - with Stringlate](https://img.shields.io/badge/translate%20with-stringlate-green.svg)](https://lonamiwebs.github.io/stringlate/translate?git=https%3A%2F%2Fgithub.com%2Ftuskyapp%2FTusky) [![Build Status](https://app.bitrise.io/app/a3e773c3c57a894c/status.svg?token=qLu_Ti4Gp2LWcYT4eo2INQ&branch=master)](https://app.bitrise.io/app/a3e773c3c57a894c#/builds) 
-# Tusky
+ # Roma
 
-![](/fastlane/metadata/android/en-US/images/icon.png)
 
-Tusky is a beautiful Android client for [Mastodon](https://github.com/tootsuite/mastodon). Mastodon is a GNU social-compatible federated social network. That means not one entity controls the whole network, rather, like e-mail, volunteers and organisations operate their own independent servers, users from which can all interact with each other seamlessly.
-
-[<img src="/assets/fdroid_badge.png" alt="Get it on F-Droid" height="80" />](https://f-droid.org/repository/browse/?fdid=com.keylesspalace.tusky)
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Google Play" height="80" />](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky&utm_source=github&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
-[<img src="/assets/amazon_badge.png" alt="Get it on Amazon" height="80" />](https://www.amazon.com/dp/B077ZWWX9T)
+Roma is an Android client for [Pleroma](https://pleroma.social/) based on [Tusky](https://tuskyapp.github.io/).
 
 ## Features
 
@@ -20,18 +14,6 @@ Tusky is a beautiful Android client for [Mastodon](https://github.com/tootsuite/
 - Optimized for all screen sizes
 - Completely open-source - no non-free dependencies like Google services
 
-### Testing
+## Head of development
 
-The nightly build from master is [available on Google Play](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky.test). 
-
-### Support
-
-If you have any bug reports, feature requests or questions please open an issue or send us a toot at [Tusky@mastodon.social](https://mastodon.social/@Tusky)!
-
-### Head of development
-
-This app was developed by [Vavassor@mastodon.social](https://mastodon.social/users/Vavassor).
-The current maintainer is [ConnyDuck@mastodon.social](https://mastodon.social/users/ConnyDuck).
-
-### Development chatroom
-https://riot.im/app/#/room/#Tusky:matrix.org
+Diondre Lewis ([diondre.lewis@gmail.com](mailto:diondre.lewis@gmail.com))

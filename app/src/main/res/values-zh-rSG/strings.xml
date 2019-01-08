@@ -13,8 +13,8 @@
     <string name="error_video_upload_size">视频文件大小限制 40MB。</string>
     <string name="error_media_upload_type">无法上传此类型的文件。</string>
     <string name="error_media_upload_opening">此文件无法打开。</string>
-    <string name="error_media_upload_permission">需要授予 Tusky 读取媒体文件的权限。</string>
-    <string name="error_media_download_permission">需要授予 Tusky 写入存储空间的权限。</string>
+    <string name="error_media_upload_permission">需要授予 Roma 读取媒体文件的权限。</string>
+    <string name="error_media_download_permission">需要授予 Roma 写入存储空间的权限。</string>
     <string name="error_media_upload_image_or_video">无法在嘟文中同时插入视频和图片。</string>
     <string name="error_media_upload_sending">媒体文件上传失败。</string>
     <string name="error_report_too_few_statuses">至少要报告 1 则嘟文。</string>
@@ -41,7 +41,7 @@
     <string name="title_licenses">开源协议</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s 转嘟了</string>
+    <string name="status_reposted_format">%s 转嘟了</string>
     <string name="status_sensitive_media_title">敏感内容</string>
     <string name="status_media_hidden_title">已隐藏的照片或视频</string>
     <string name="status_sensitive_media_directions">点击显示</string>
@@ -142,7 +142,7 @@
     <string name="login_connection">正在连接…</string>
 
     <string name="dialog_whats_an_instance">请输入你帐号所在的 Mastodon 站点的域名，比如 pawoo.net，mstdn.jp，mao.daizhige.org，<a href="https://instances.social">等等</a> 。
-        \n\n还没有 Mastodon 帐号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的帐号并授权 Tusky 登入。
+        \n\n还没有 Mastodon 帐号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的帐号并授权 Roma 登入。
         \n\n在 Mastodon 里，跨站互动和站内互动一样简单。可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 了解更多信息。
     </string>
     <string name="dialog_title_finishing_media_upload">正在结束上传…</string>
@@ -186,7 +186,7 @@
     <string name="pref_title_hide_follow_button">浏览时自动隐藏发嘟按钮</string>
     <string name="pref_title_status_filter">时间线过滤</string>
     <string name="pref_title_status_tabs">选项卡</string>
-    <string name="pref_title_show_boosts">显示转嘟</string>
+    <string name="pref_title_show_reposts">显示转嘟</string>
     <string name="pref_title_show_replies">显示回复</string>
     <string name="pref_title_filter_regex">使用正则表达式过滤</string>
     <string name="pref_title_show_media_preview">显示预览图</string>
@@ -228,8 +228,8 @@
     <string name="notification_channel_mention_descriptions">当有用户在嘟文中提及我时</string>
     <string name="notification_channel_follow_name">关注者</string>
     <string name="notification_channel_follow_description">当有用户关注我时</string>
-    <string name="notification_channel_boost_name">转嘟</string>
-    <string name="notification_channel_boost_description">当有用户转嘟了我的嘟文时</string>
+    <string name="notification_channel_repost_name">转嘟</string>
+    <string name="notification_channel_repost_description">当有用户转嘟了我的嘟文时</string>
     <string name="notification_channel_favourite_name">被收藏</string>
     <string name="notification_channel_favourite_description">当有用户收藏了我的嘟文时</string>
 
@@ -242,19 +242,19 @@
 
     <string name="description_account_locked">被锁定的帐号</string>
 
-    <string name="about_title_activity">关于 Tusky</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky 是基于 GNU General Public License Version 3 许可证开源的自由软件。完整的许可证协议：https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_title_activity">关于 Roma</string>
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Roma 是基于 GNU General Public License Version 3 许可证开源的自由软件。完整的许可证协议：https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators: the url can be changed to link to the localized version of the license -->
     <string name="about_project_site">
         项目地址：\n
-        https://tuskyapp.github.io
+        https://romaapp.github.io
     </string>
     <string name="about_bug_feature_request_site">
         问题反馈：\n
-        https://github.com/tuskyapp/Tusky/issues
+        https://github.com/romaapp/Roma/issues
     </string>
-    <string name="about_tusky_account">Tusky 官方帐号</string>
+    <string name="about_roma_account">Roma 官方帐号</string>
 
     <string name="status_share_content">分享嘟文内容</string>
     <string name="status_share_link">分享嘟文链接</string>
@@ -313,7 +313,7 @@
     <string name="expand_collapse_all_statuses">展开/折叠所有嘟文</string>
     <string name="action_open_toot">打开嘟文</string>
     <string name="restart_required">需要重启应用</string>
-    <string name="restart_emoji">你需要重启 Tusky 才能生效</string>
+    <string name="restart_emoji">你需要重启 Roma 才能生效</string>
     <string name="later">以后</string>
     <string name="restart">立即重启</string>
     <string name="caption_systememoji">系统默认 Emoji 表情</string>
@@ -328,7 +328,7 @@
     <string name="reblog_private">转嘟（可见者不变）</string>
     <string name="unreblog_private">取消转嘟</string>
 
-    <string name="license_description">Tusky 使用了以下开源项目的源码：</string>
+    <string name="license_description">Roma 使用了以下开源项目的源码：</string>
     <string name="license_apache_2">以 Apache License 授权（复制如下）</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

@@ -40,7 +40,7 @@
     <string name="title_licenses">Licenties</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s boostte</string>
+    <string name="status_reposted_format">%s repostte</string>
     <string name="status_sensitive_media_title">Gevoelige inhoud</string>
     <string name="status_media_hidden_title">Verborgen media</string>
     <string name="status_sensitive_media_directions">Klik om te bekijken</string>
@@ -49,7 +49,7 @@
 
     <string name="footer_empty">Niets te zien. Swipe naar beneden om te verversen!</string>
 
-    <string name="notification_reblog_format">%s boostte jouw toot</string>
+    <string name="notification_reblog_format">%s repostte jouw toot</string>
     <string name="notification_favourite_format">%s markeerde jouw toot als favoriet</string>
     <string name="notification_follow_format">%s volgt jou</string>
 
@@ -58,7 +58,7 @@
 
     <string name="action_quick_reply">Snelle reactie</string>
     <string name="action_reply">Reageren</string>
-    <string name="action_reblog">Boosten</string>
+    <string name="action_reblog">Reposten</string>
     <string name="action_favourite">Als favoriet markeren</string>
     <string name="action_more">Meer</string>
     <string name="action_compose">Schrijf een toot</string>
@@ -69,8 +69,8 @@
     <string name="action_unfollow">Ontvolgen</string>
     <string name="action_block">Blokkeren</string>
     <string name="action_unblock">Deblokkeren</string>
-    <string name="action_hide_reblogs">Boosts verbergen</string>
-    <string name="action_show_reblogs">Boosts tonen</string>
+    <string name="action_hide_reblogs">Reposts verbergen</string>
+    <string name="action_show_reblogs">Reposts tonen</string>
     <string name="action_report">Rapporteren</string>
     <string name="action_delete">Verwijderen</string>
     <string name="action_send">TOOT</string>
@@ -165,7 +165,7 @@
     <string name="pref_title_notification_filters">Waarschuw mij wanneer</string>
     <string name="pref_title_notification_filter_mentions">ik word vermeld</string>
     <string name="pref_title_notification_filter_follows">ik word gevolgd</string>
-    <string name="pref_title_notification_filter_reblogs">mijn toots werden geboost</string>
+    <string name="pref_title_notification_filter_reblogs">mijn toots werden gerepost</string>
     <string name="pref_title_notification_filter_favourites">mijn toots als favoriet werden gemarkeerd</string>
     <string name="pref_title_appearance_settings">Uiterlijk</string>
     <string name="pref_title_app_theme">Thema</string>
@@ -182,7 +182,7 @@
     <string name="pref_title_hide_follow_button">Verberg zwevende tootknop tijdens scrollen</string>
     <string name="pref_title_status_filter">Filteren</string>
     <string name="pref_title_status_tabs">Tijdlijnen</string>
-    <string name="pref_title_show_boosts">Boosts tonen</string>
+    <string name="pref_title_show_reposts">Reposts tonen</string>
     <string name="pref_title_show_replies">Reacties tonen</string>
     <string name="pref_title_filter_regex">Filteren op reguliere expressies</string>
     <string name="pref_title_show_media_preview">Voorbeelden van media tonen</string>
@@ -215,8 +215,8 @@
     <string name="notification_channel_mention_descriptions">Meldingen over nieuwe vermeldingen</string>
     <string name="notification_channel_follow_name">Nieuwe volgers</string>
     <string name="notification_channel_follow_description">Meldingen over nieuwe volgers</string>
-    <string name="notification_channel_boost_name">Boosts</string>
-    <string name="notification_channel_boost_description">Meldingen wanneer jouw toots worden geboost</string>
+    <string name="notification_channel_repost_name">Reposts</string>
+    <string name="notification_channel_repost_description">Meldingen wanneer jouw toots worden gerepost</string>
     <string name="notification_channel_favourite_name">Favorieten</string>
     <string name="notification_channel_favourite_description">Meldingen wanneer jouw toots als favoriet worden gemarkeerd</string>
 
@@ -230,8 +230,8 @@
     <string name="description_account_locked">Besloten account</string>
 
     <string name="about_title_activity">Over</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky is opensource- en vrije software. De licentie valt onder de GNU Algemene Publieke Licentie versie 3. Je kunt de licentie hier bekijken: https://www.gnu.org/licenses/gpl-3.0.nl.html</string>
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Roma is opensource- en vrije software. De licentie valt onder de GNU Algemene Publieke Licentie versie 3. Je kunt de licentie hier bekijken: https://www.gnu.org/licenses/gpl-3.0.nl.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -239,10 +239,10 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">Projectwebsite:\n
-                    https://tuskyapp.github.io</string>
+                    https://romaapp.github.io</string>
     <string name="about_bug_feature_request_site">Foutmeldingen &amp; nieuwe functies aanvragen:\n
-                    https://github.com/tuskyapp/Tusky/issues</string>
-    <string name="about_tusky_account">Tusky\'s profiel</string>
+                    https://github.com/romaapp/Roma/issues</string>
+    <string name="about_roma_account">Roma\'s profiel</string>
 
     <string name="status_share_content">Deel de inhoud van de toot</string>
     <string name="status_share_link">Deel de link van de toot</string>
@@ -302,7 +302,7 @@
     <string name="expand_collapse_all_statuses">Alle toots in- of uitklappen</string>
     <string name="action_open_toot">Toot openen</string>
     <string name="restart_required">Herstarten app vereist</string>
-    <string name="restart_emoji">Je moet Tusky herstarten om deze veranderingen te kunnen doorvoeren</string>
+    <string name="restart_emoji">Je moet Roma herstarten om deze veranderingen te kunnen doorvoeren</string>
     <string name="later">Later</string>
     <string name="restart">Herstarten</string>
     <string name="caption_systememoji">Standaard emojiset van jouw apparaat</string>
@@ -314,10 +314,10 @@
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s is verhuisd naar:</string>
 
-    <string name="reblog_private">Boost naar oorspronkelijke ontvangers</string>
-    <string name="unreblog_private">Niet langer boosten</string>
+    <string name="reblog_private">Repost naar oorspronkelijke ontvangers</string>
+    <string name="unreblog_private">Niet langer reposten</string>
 
-    <string name="license_description">Tusky bevat broncode en onderdelen van de volgende opensourceprojecten:</string>
+    <string name="license_description">Roma bevat broncode en onderdelen van de volgende opensourceprojecten:</string>
     <string name="license_apache_2">Gelicenseerd onder de Apache-licentie (kopie hieronder)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
