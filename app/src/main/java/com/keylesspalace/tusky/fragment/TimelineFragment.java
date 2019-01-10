@@ -15,28 +15,11 @@
 
 package com.keylesspalace.tusky.fragment;
 
-import androidx.arch.core.util.Function;
-import androidx.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-import androidx.core.util.Pair;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.recyclerview.widget.AsyncDifferConfig;
-import androidx.recyclerview.widget.AsyncListDiffer;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListUpdateCallback;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +27,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
 import com.keylesspalace.tusky.appstore.BlockEvent;
@@ -79,15 +64,28 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.arch.core.util.Function;
+import androidx.core.util.Pair;
+import androidx.lifecycle.Lifecycle;
+import androidx.recyclerview.widget.AsyncDifferConfig;
+import androidx.recyclerview.widget.AsyncListDiffer;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.ListUpdateCallback;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import kotlin.collections.CollectionsKt;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -156,8 +154,6 @@ public class TimelineFragment extends SFragment implements
     private boolean didLoadEverythingBottom;
     private boolean alwaysShowSensitiveMedia;
     private boolean initialUpdateFailed = false;
-
-    private CompositeDisposable disposable = new CompositeDisposable();
 
     @Override
     protected TimelineCases timelineCases() {
@@ -252,9 +248,10 @@ public class TimelineFragment extends SFragment implements
     private void tryCache() {
         // Request timeline from disk to make it quick, then replace it with timeline from
         // the server to update it
-        this.disposable.add(this.timelineRepo.getStatuses(null, null, LOAD_AT_ONCE,
+        this.timelineRepo.getStatuses(null, null, LOAD_AT_ONCE,
                 TimelineRequestMode.DISK)
                 .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(statuses -> {
                     filterStatuses(statuses);
 
@@ -268,8 +265,7 @@ public class TimelineFragment extends SFragment implements
                     }
 
                     this.updateCurrent();
-                })
-        );
+                });
     }
 
     private void updateCurrent() {
@@ -279,9 +275,10 @@ public class TimelineFragment extends SFragment implements
         } else {
             topId = CollectionsKt.first(statuses, Either::isRight).asRight().getId();
         }
-        disposable.add(this.timelineRepo.getStatuses(topId, null, LOAD_AT_ONCE,
+        this.timelineRepo.getStatuses(topId, null, LOAD_AT_ONCE,
                 TimelineRequestMode.NETWORK)
                 .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(
                         (statuses) -> {
                             this.initialUpdateFailed = false;
@@ -311,8 +308,7 @@ public class TimelineFragment extends SFragment implements
                             // Indicate that we are not loading anymore
                             this.progressBar.setVisibility(View.GONE);
                             this.swipeRefreshLayout.setRefreshing(false);
-                        })
-        );
+                        });
     }
 
     private void setupTimelinePreferences() {
@@ -537,13 +533,13 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void onReblog(final boolean reblog, final int position) {
         final Status status = statuses.get(position).asRight();
-        disposable.add(timelineCases.reblog(status, reblog)
+        timelineCases.reblog(status, reblog)
                 .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(
                         (newStatus) -> setRebloggedForStatus(position, status, reblog),
                         (err) -> Log.d(TAG, "Failed to reblog status " + status.getId(), err)
-                )
-        );
+                );
     }
 
     private void setRebloggedForStatus(int position, Status status, boolean reblog) {
@@ -569,13 +565,13 @@ public class TimelineFragment extends SFragment implements
     public void onFavourite(final boolean favourite, final int position) {
         final Status status = statuses.get(position).asRight();
 
-        disposable.add(timelineCases.favourite(status, favourite)
+        timelineCases.favourite(status, favourite)
                 .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(
                         (newStatus) -> setFavouriteForStatus(position, newStatus, favourite),
                         (err) -> Log.d(TAG, "Failed to favourite status " + status.getId(), err)
-                )
-        );
+                );
     }
 
     private void setFavouriteForStatus(int position, Status status, boolean favourite) {
@@ -872,14 +868,13 @@ public class TimelineFragment extends SFragment implements
             } else {
                 mode = TimelineRequestMode.NETWORK;
             }
-            disposable.add(
                     timelineRepo.getStatuses(fromId, uptoId, LOAD_AT_ONCE, mode)
                             .observeOn(AndroidSchedulers.mainThread())
+                            .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                             .subscribe(
                                     (result) -> onFetchTimelineSuccess(result, fetchEnd, pos),
                                     (err) -> onFetchTimelineFailure(new Exception(err), fetchEnd, pos)
-                            )
-            );
+                            );
         } else {
             Callback<List<Status>> callback = new Callback<List<Status>>() {
                 @Override
@@ -924,6 +919,11 @@ public class TimelineFragment extends SFragment implements
                         && !this.statuses.get(this.statuses.size() - 1).isRight()) {
                     this.statuses.remove(this.statuses.size() - 1);
                     updateAdapter();
+                }
+
+                if (!statuses.isEmpty() && !statuses.get(statuses.size() - 1).isRight()) {
+                    // Removing placeholder if it's the last one from the cache
+                    statuses.remove(statuses.size() - 1);
                 }
                 int oldSize = this.statuses.size();
                 if (this.statuses.size() > 1) {

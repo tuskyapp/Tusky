@@ -94,7 +94,7 @@ class TimelineRepositoryImpl(
             statusesCopy.removeAt(0)
         }
         if (sinceId != null && statusesCopy.lastOrNull()?.id == sinceId) {
-            statusesCopy.removeAt(statuses.size - 1)
+            statusesCopy.removeAt(statusesCopy.size - 1)
         }
 
         return statusesCopy.map { s -> Either.Right<Placeholder, Status>(s) }
@@ -130,7 +130,9 @@ class TimelineRepositoryImpl(
                                   limit: Int): Single<out List<TimelineStatus>> {
         return timelineDao.getStatusesForAccount(accountId, maxId, sinceId, limit)
                 .subscribeOn(Schedulers.io())
-                .map { statuses -> statuses.map { it.toStatus() } }
+                .map { statuses ->
+                    statuses.map { it.toStatus() }
+                }
     }
 
     private fun saveStatusesToDb(instance: String, accountId: Long, statuses: List<Status>,
