@@ -77,6 +77,7 @@ import java.util.Objects;
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import kotlin.collections.CollectionsKt;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -134,7 +135,6 @@ public class NotificationsFragment extends SFragment implements
     private boolean topLoading;
     private boolean bottomLoading;
     private String bottomId;
-    private String topId;
     private boolean alwaysShowSensitiveMedia;
 
     @Override
@@ -206,12 +206,11 @@ public class NotificationsFragment extends SFragment implements
         topLoading = false;
         bottomLoading = false;
         bottomId = null;
-        topId = null;
 
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         setupNothingView();
 
-        sendFetchNotificationsRequest(null, topId, FetchEnd.BOTTOM, -1);
+        sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1);
 
         return rootView;
     }
@@ -333,6 +332,13 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onRefresh() {
+        Either<Placeholder, Notification> first = CollectionsKt.firstOrNull(this.notifications);
+        String topId;
+        if (first != null && first.isRight()) {
+            topId = first.getAsRight().getId();
+        } else {
+            topId = null;
+        }
         sendFetchNotificationsRequest(null, topId, FetchEnd.TOP, -1);
     }
 
@@ -676,7 +682,7 @@ public class NotificationsFragment extends SFragment implements
                 if (previous != null) {
                     uptoId = previous.uri.getQueryParameter("since_id");
                 }
-                update(notifications, null, uptoId);
+                update(notifications, null);
                 break;
             }
             case MIDDLE: {
@@ -707,7 +713,7 @@ public class NotificationsFragment extends SFragment implements
                     if (previous != null) {
                         uptoId = previous.uri.getQueryParameter("since_id");
                     }
-                    update(notifications, fromId, uptoId);
+                    update(notifications, fromId);
                 }
 
                 break;
@@ -770,16 +776,12 @@ public class NotificationsFragment extends SFragment implements
         return lastShownNotificationId.compareTo(newId) < 0;
     }
 
-    private void update(@Nullable List<Notification> newNotifications, @Nullable String fromId,
-                        @Nullable String uptoId) {
+    private void update(@Nullable List<Notification> newNotifications, @Nullable String fromId) {
         if (ListUtils.isEmpty(newNotifications)) {
             return;
         }
         if (fromId != null) {
             bottomId = fromId;
-        }
-        if (uptoId != null) {
-            topId = uptoId;
         }
         List<Either<Placeholder, Notification>> liftedNew =
                 liftNotificationList(newNotifications);

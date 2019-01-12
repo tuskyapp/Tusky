@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:sparkbutton="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -19,58 +19,66 @@
         android:layout_marginEnd="14dp"
         android:contentDescription="@string/action_view_profile"
         android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/avatar_default" />
 
-    <LinearLayout
-        android:id="@+id/status_name_bar"
-        android:layout_width="match_parent"
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/status_display_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:layout_marginBottom="8dp"
-        android:layout_toEndOf="@+id/status_avatar"
-        android:gravity="center_vertical"
-        android:minHeight="48dp"
-        android:orientation="vertical">
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="14dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        android:textStyle="normal|bold"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toTopOf="@id/status_username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@id/status_avatar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Display Name" />
 
-        <androidx.emoji.widget.EmojiTextView
-            android:id="@+id/status_display_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="?android:textColorPrimary"
-            android:textSize="?attr/status_text_medium"
-            android:textStyle="normal|bold"
-            tools:text="Display Name" />
-
-        <TextView
-            android:id="@+id/status_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="?attr/status_text_medium"
-            tools:text="\@ConnyDuck\@mastodon.social" />
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/status_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="14dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@id/status_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/status_avatar"
+        app:layout_constraintTop_toBottomOf="@id/status_display_name"
+        tools:text="\@ConnyDuck\@mastodon.social" />
 
     <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_content_warning_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/status_name_bar"
+        android:layout_marginTop="8dp"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_large"
+        app:layout_constraintTop_toBottomOf="@id/status_avatar"
         tools:text="CW this is a long long long long long long long long content warning" />
 
     <ToggleButton
         android:id="@+id/status_content_warning_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/status_content_warning_description"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:background="?attr/content_warning_button"
@@ -83,29 +91,35 @@
         android:textAllCaps="true"
         android:textOff="@string/status_content_warning_show_more"
         android:textOn="@string/status_content_warning_show_less"
-        android:textSize="?attr/status_text_large" />
+        android:textSize="?attr/status_text_large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status_content_warning_description" />
 
     <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_content"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/status_content_warning_button"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:focusable="true"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status_content_warning_button"
         tools:text="Status content. Can be pretty long. " />
 
     <LinearLayout
         android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/status_content"
-        android:layout_marginTop="4dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:background="?attr/card_background"
         android:clipChildren="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/status_content"
+        tools:visibility="gone">
 
         <ImageView
             android:id="@+id/card_image"
@@ -163,9 +177,9 @@
         android:id="@+id/status_media_preview_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/card_view"
-        android:layout_marginTop="@dimen/status_media_preview_margin_top"
-        android:layout_marginBottom="4dp">
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintTop_toBottomOf="@id/card_view">
 
         <com.keylesspalace.tusky.view.MediaPreviewImageView
             android:id="@+id/status_media_preview_0"
@@ -305,129 +319,132 @@
 
     <TextView
         android:id="@+id/status_timestamp_info"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/status_media_preview_container"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="6dp"
         android:drawablePadding="4dp"
         android:textColor="?android:textColorTertiary"
-        android:textSize="?attr/status_text_medium" />
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_media_preview_container"
+        tools:text="21 Dec 2018 18:45" />
 
     <View
         android:id="@+id/status_info_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/status_timestamp_info"
+        android:layout_marginTop="6dp"
         android:background="?attr/status_divider_drawable"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp" />
+        android:paddingEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@id/status_timestamp_info" />
 
-    <LinearLayout
-        android:id="@+id/status_reblog_fav_info"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/status_reblogs"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/status_timestamp_info"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp">
+        android:layout_marginTop="6dp"
+        android:background="?attr/selectableItemBackground"
+        android:padding="4dp"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintStart_toStartOf="@id/status_info_divider"
+        app:layout_constraintTop_toBottomOf="@id/status_info_divider"
+        tools:text="4 reblogs"
+        tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/status_reblogs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:background="?attr/selectableItemBackground"
-            android:padding="4dp"
-            android:textSize="?attr/status_text_medium" />
+    <TextView
+        android:id="@+id/status_favourites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
+        android:background="?attr/selectableItemBackground"
+        android:padding="4dp"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintStart_toEndOf="@id/status_reblogs"
+        app:layout_constraintTop_toBottomOf="@id/status_info_divider"
+        app:layout_goneMarginStart="0dp"
+        tools:text="8 favs"
+        tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/status_favourites"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:padding="4dp"
-            android:textSize="?attr/status_text_medium" />
-    </LinearLayout>
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/status_counters_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="status_reblogs,status_favourites" />
 
     <View
+        android:id="@+id/status_buttons_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/status_reblog_fav_info"
+        android:layout_marginTop="6dp"
         android:background="?attr/status_divider_drawable"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp" />
+        android:paddingEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@id/status_counters_barrier" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/status_reblog_fav_info"
-        android:layout_marginEnd="8dp"
-        android:clipChildren="false"
+    <ImageButton
+        android:id="@+id/status_reply"
+        style="?attr/image_button_style"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:contentDescription="@string/action_reply"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/status_reblog"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_buttons_divider"
+        app:srcCompat="@drawable/ic_reply_24dp" />
+
+    <at.connyduck.sparkbutton.SparkButton
+        android:id="@+id/status_reblog"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:clipToPadding="false"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp">
+        android:contentDescription="@string/action_reblog"
+        android:padding="4dp"
+        app:layout_constraintEnd_toStartOf="@id/status_favourite"
+        app:layout_constraintStart_toEndOf="@id/status_reply"
+        app:layout_constraintTop_toTopOf="@id/status_reply"
+        sparkbutton:activeImage="@drawable/reblog_active"
+        sparkbutton:iconSize="28dp"
+        sparkbutton:inactiveImage="?attr/status_reblog_inactive_drawable"
+        sparkbutton:primaryColor="@color/tusky_blue"
+        sparkbutton:secondaryColor="@color/tusky_blue_light" />
 
-        <ImageButton
-            android:id="@+id/status_reply"
-            style="?attr/image_button_style"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:contentDescription="@string/action_reply"
-            android:padding="4dp"
-            app:srcCompat="@drawable/ic_reply_24dp" />
+    <at.connyduck.sparkbutton.SparkButton
+        android:id="@+id/status_favourite"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:clipToPadding="false"
+        android:contentDescription="@string/action_favourite"
+        android:padding="4dp"
+        app:layout_constraintEnd_toStartOf="@id/status_more"
+        app:layout_constraintStart_toEndOf="@id/status_reblog"
+        app:layout_constraintTop_toTopOf="@id/status_reblog"
+        sparkbutton:activeImage="?attr/status_favourite_active_drawable"
+        sparkbutton:iconSize="28dp"
+        sparkbutton:inactiveImage="?attr/status_favourite_inactive_drawable"
+        sparkbutton:primaryColor="@color/tusky_orange"
+        sparkbutton:secondaryColor="@color/tusky_orange_light" />
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+    <ImageButton
+        android:id="@+id/status_more"
+        style="?attr/image_button_style"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:contentDescription="@string/action_more"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/status_reply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/status_favourite"
+        app:layout_constraintTop_toTopOf="@id/status_reply"
+        app:srcCompat="@drawable/ic_more_horiz_24dp" />
 
-        <at.connyduck.sparkbutton.SparkButton
-            android:id="@+id/status_reblog"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:clipToPadding="false"
-            android:contentDescription="@string/action_reblog"
-            android:padding="4dp"
-            sparkbutton:activeImage="@drawable/reblog_active"
-            sparkbutton:iconSize="28dp"
-            sparkbutton:inactiveImage="?attr/status_reblog_inactive_drawable"
-            sparkbutton:primaryColor="@color/tusky_blue"
-            sparkbutton:secondaryColor="@color/tusky_blue_light" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <at.connyduck.sparkbutton.SparkButton
-            android:id="@+id/status_favourite"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:clipToPadding="false"
-            android:contentDescription="@string/action_favourite"
-            android:padding="4dp"
-            sparkbutton:activeImage="?attr/status_favourite_active_drawable"
-            sparkbutton:iconSize="28dp"
-            sparkbutton:inactiveImage="?attr/status_favourite_inactive_drawable"
-            sparkbutton:primaryColor="@color/tusky_orange"
-            sparkbutton:secondaryColor="@color/tusky_orange_light" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <ImageButton
-            android:id="@+id/status_more"
-            style="?attr/image_button_style"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:contentDescription="@string/action_more"
-            android:padding="4dp"
-            app:srcCompat="@drawable/ic_more_horiz_24dp" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

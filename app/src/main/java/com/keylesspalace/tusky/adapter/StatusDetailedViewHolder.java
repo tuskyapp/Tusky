@@ -43,7 +43,6 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private TextView cardDescription;
     private TextView cardUrl;
     private View infoDivider;
-    private View favReblogInfoContainer;
 
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
@@ -58,7 +57,6 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
         cardDescription = view.findViewById(R.id.card_description);
         cardUrl = view.findViewById(R.id.card_link);
         infoDivider = view.findViewById(R.id.status_info_divider);
-        favReblogInfoContainer = view.findViewById(R.id.status_reblog_fav_info);
     }
 
     @Override
@@ -95,10 +93,8 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
         if(reblogs.getVisibility() == View.GONE && favourites.getVisibility() == View.GONE) {
             infoDivider.setVisibility(View.GONE);
-            favReblogInfoContainer.setVisibility(View.GONE);
         } else {
             infoDivider.setVisibility(View.VISIBLE);
-            favReblogInfoContainer.setVisibility(View.VISIBLE);
         }
 
         reblogs.setOnClickListener( v -> {
