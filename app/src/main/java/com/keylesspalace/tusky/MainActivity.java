@@ -94,6 +94,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private static final long DRAWER_ITEM_ABOUT = 7;
     private static final long DRAWER_ITEM_LOG_OUT = 8;
     private static final long DRAWER_ITEM_FOLLOW_REQUESTS = 9;
+    public static final String STATUS_URL = "statusUrl";
 
     @Inject
     public DispatchingAndroidInjector<Fragment> fragmentInjector;
@@ -271,6 +272,18 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        Intent intent = getIntent();
+        if (intent != null) {
+            String statusUrl = intent.getStringExtra(STATUS_URL);
+            if (statusUrl != null) {
+                viewUrl(statusUrl);
+            }
+        }
     }
 
     private void tintTab(TabLayout.Tab tab, boolean tinted) {
