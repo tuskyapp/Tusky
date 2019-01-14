@@ -335,7 +335,7 @@ public class NotificationsFragment extends SFragment implements
         Either<Placeholder, Notification> first = CollectionsKt.firstOrNull(this.notifications);
         String topId;
         if (first != null && first.isRight()) {
-            topId = first.getAsRight().getId();
+            topId = first.asRight().getId();
         } else {
             topId = null;
         }
