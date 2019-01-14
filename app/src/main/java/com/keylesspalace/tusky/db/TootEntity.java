@@ -15,14 +15,14 @@
 
 package com.keylesspalace.tusky.db;
 
+import com.keylesspalace.tusky.entity.Status;
+
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
-import androidx.annotation.Nullable;
-
-import com.keylesspalace.tusky.entity.Status;
 
 /**
  * Toot model.
@@ -120,8 +120,8 @@ public class TootEntity {
         }
 
         @TypeConverter
-        public int intToVisibility(Status.Visibility visibility) {
-            return visibility.getNum();
+        public int intFromVisibility(Status.Visibility visibility) {
+            return visibility == null ? Status.Visibility.UNKNOWN.getNum() : visibility.getNum();
         }
     }
 }

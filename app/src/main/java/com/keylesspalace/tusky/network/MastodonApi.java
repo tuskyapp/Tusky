@@ -66,6 +66,12 @@ public interface MastodonApi {
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
 
+    @GET("api/v1/timelines/home")
+    Single<List<Status>> homeTimelineSingle(
+            @Query("max_id") String maxId,
+            @Query("since_id") String sinceId,
+            @Query("limit") Integer limit);
+
     @GET("api/v1/timelines/public")
     Call<List<Status>> publicTimeline(
             @Query("local") Boolean local,
@@ -146,16 +152,16 @@ public interface MastodonApi {
     Call<ResponseBody> deleteStatus(@Path("id") String statusId);
 
     @POST("api/v1/statuses/{id}/reblog")
-    Call<Status> reblogStatus(@Path("id") String statusId);
+    Single<Status> reblogStatus(@Path("id") String statusId);
 
     @POST("api/v1/statuses/{id}/unreblog")
-    Call<Status> unreblogStatus(@Path("id") String statusId);
+    Single<Status> unreblogStatus(@Path("id") String statusId);
 
     @POST("api/v1/statuses/{id}/favourite")
-    Call<Status> favouriteStatus(@Path("id") String statusId);
+    Single<Status> favouriteStatus(@Path("id") String statusId);
 
     @POST("api/v1/statuses/{id}/unfavourite")
-    Call<Status> unfavouriteStatus(@Path("id") String statusId);
+    Single<Status> unfavouriteStatus(@Path("id") String statusId);
 
     @POST("api/v1/statuses/{id}/pin")
     Single<Status> pinStatus(@Path("id") String statusId);
