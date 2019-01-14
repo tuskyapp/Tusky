@@ -79,8 +79,8 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
             if(isAdded) {
-                swipe_refresh_layout.isRefreshing = false
-                progress_bar.visibility = View.GONE
+                swipeRefreshLayout.isRefreshing = false
+                progressBar.visibility = View.GONE
             }
 
             Log.d(TAG, "Failed to fetch account media", t)
@@ -89,8 +89,8 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         override fun onResponse(call: Call<List<Status>>, response: Response<List<Status>>) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
             if(isAdded) {
-                swipe_refresh_layout.isRefreshing = false
-                progress_bar.visibility = View.GONE
+                swipeRefreshLayout.isRefreshing = false
+                progressBar.visibility = View.GONE
 
                 val body = response.body()
                 body?.let { fetched ->
@@ -101,7 +101,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
                         result.addAll(AttachmentViewData.list(status))
                     }
                     adapter.addTop(result)
-                    nothing_message.visible(statuses.isEmpty())
+                    nothingMessage.visible(statuses.isEmpty())
                 }
             }
         }
@@ -146,14 +146,14 @@ class AccountMediaFragment : BaseFragment(), Injectable {
 
         val bgRes = ThemeUtils.getColorId(view.context, R.attr.window_background)
 
-        adapter.baseItemColor = ContextCompat.getColor(recycler_view.context, bgRes)
+        adapter.baseItemColor = ContextCompat.getColor(recyclerView.context, bgRes)
 
-        recycler_view.layoutManager = layoutManager
-        recycler_view.adapter = adapter
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = adapter
 
         val accountId = arguments?.getString(ACCOUNT_ID_ARG)
 
-        swipe_refresh_layout.setOnRefreshListener {
+        swipeRefreshLayout.setOnRefreshListener {
             if (fetchingStatus != FetchingStatus.NOT_FETCHING) return@setOnRefreshListener
             currentCall = if (statuses.isEmpty()) {
                 fetchingStatus = FetchingStatus.INITIAL_FETCHING
@@ -165,12 +165,12 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             currentCall?.enqueue(callback)
 
         }
-        swipe_refresh_layout.setColorSchemeResources(R.color.tusky_blue)
-        swipe_refresh_layout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(view.context, android.R.attr.colorBackground))
+        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(view.context, android.R.attr.colorBackground))
 
-        nothing_message.visibility = View.GONE
+        nothingMessage.visibility = View.GONE
 
-        recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrolled(recycler_view: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0) {

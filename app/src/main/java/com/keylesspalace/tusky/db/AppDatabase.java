@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.db;
 
 import com.keylesspalace.tusky.TabDataKt;
+import com.keylesspalace.tusky.components.conversation.ConversationEntity;
 
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.Database;
@@ -27,12 +28,13 @@ import androidx.annotation.NonNull;
  * DB version & declare DAO
  */
 
-@Database(entities = {TootEntity.class, AccountEntity.class, InstanceEntity.class}, version = 11)
+@Database(entities = {TootEntity.class, AccountEntity.class, InstanceEntity.class, ConversationEntity.class}, version = 11)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TootDao tootDao();
     public abstract AccountDao accountDao();
     public abstract InstanceDao instanceDao();
+    public abstract ConversationsDao conversationDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override

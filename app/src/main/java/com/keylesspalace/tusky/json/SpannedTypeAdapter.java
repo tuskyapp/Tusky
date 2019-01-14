@@ -17,24 +17,35 @@ package com.keylesspalace.tusky.json;
 
 import android.text.Spanned;
 import android.text.SpannedString;
+import android.util.Log;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.keylesspalace.tusky.util.HtmlUtils;
 
 import java.lang.reflect.Type;
 
-public class SpannedTypeAdapter implements JsonDeserializer<Spanned> {
+public class SpannedTypeAdapter implements JsonDeserializer<Spanned>, JsonSerializer<Spanned> {
     @Override
     public Spanned deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
+        Log.d("JSON", json.toString());
         String string = json.getAsString();
         if (string != null) {
             return HtmlUtils.fromHtml(string);
         } else {
             return new SpannedString("");
         }
+    }
+
+
+    @Override
+    public JsonElement serialize(Spanned src, Type typeOfSrc, JsonSerializationContext context) {
+        return new JsonPrimitive(HtmlUtils.toHtml(src));
     }
 }

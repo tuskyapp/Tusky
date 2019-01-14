@@ -106,7 +106,7 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         recyclerView = findViewById(R.id.lists_recycler)
-        progressBar = findViewById(R.id.progress_bar)
+        progressBar = findViewById(R.id.progressBar)
 
         setSupportActionBar(toolbar)
         val bar = supportActionBar

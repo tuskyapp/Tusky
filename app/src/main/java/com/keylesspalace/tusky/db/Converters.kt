@@ -15,18 +15,23 @@
 
 package com.keylesspalace.tusky.db
 
+import android.text.Spanned
+import android.util.Log
 import androidx.room.TypeConverter
-import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.createTabDataFromId
+import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
-import java.util.ArrayList
+import com.keylesspalace.tusky.json.SpannedTypeAdapter
 
 class Converters {
 
-    private val gson = Gson()
+    private val gson = GsonBuilder()
+            .registerTypeAdapter(Spanned::class.java, SpannedTypeAdapter())
+            .create()
 
     @TypeConverter
     fun jsonToEmojiList(emojiListJson: String?): List<Emoji>? {
@@ -57,5 +62,26 @@ class Converters {
     @TypeConverter
     fun tabDataToString(tabData: List<TabData>?): String? {
         return tabData?.joinToString(";") { it.id }
+    }
+
+    @TypeConverter
+    fun statusToJson(status: Status?): String {
+        return gson.toJson(status)
+    }
+
+    @TypeConverter
+    fun jsonToStatus(statusJson: String?): Status? {
+        Log.d("JSOND", statusJson)
+        return gson.fromJson(statusJson, object : TypeToken<Status>() {}.type)
+    }
+
+    @TypeConverter
+    fun accountListToJson(accountList: List<Account>?): String {
+        return gson.toJson(accountList)
+    }
+
+    @TypeConverter
+    fun jsonToAccountList(accountListJson: String?): List<Account>? {
+        return gson.fromJson(accountListJson, object : TypeToken<List<Account>>() {}.type)
     }
 }

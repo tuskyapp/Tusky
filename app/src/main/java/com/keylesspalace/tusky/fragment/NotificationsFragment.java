@@ -174,10 +174,10 @@ public class NotificationsFragment extends SFragment implements
 
         @NonNull Context context = inflater.getContext(); // from inflater to silence warning
         // Setup the SwipeRefreshLayout.
-        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
-        recyclerView = rootView.findViewById(R.id.recycler_view);
-        progressBar = rootView.findViewById(R.id.progress_bar);
-        nothingMessageView = rootView.findViewById(R.id.nothing_message);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
+        progressBar = rootView.findViewById(R.id.progressBar);
+        nothingMessageView = rootView.findViewById(R.id.nothingMessage);
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);

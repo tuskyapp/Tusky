@@ -17,7 +17,7 @@
         app:layout_constraintTop_toBottomOf="@id/appbar" />
 
     <ProgressBar
-        android:id="@+id/progress_bar"
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"

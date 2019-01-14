@@ -224,10 +224,10 @@ public class TimelineFragment extends SFragment implements
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
 
-        recyclerView = rootView.findViewById(R.id.recycler_view);
-        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
-        progressBar = rootView.findViewById(R.id.progress_bar);
-        nothingMessageView = rootView.findViewById(R.id.nothing_message);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+        progressBar = rootView.findViewById(R.id.progressBar);
+        nothingMessageView = rootView.findViewById(R.id.nothingMessage);
 
         setupSwipeRefreshLayout();
         setupRecyclerView();
