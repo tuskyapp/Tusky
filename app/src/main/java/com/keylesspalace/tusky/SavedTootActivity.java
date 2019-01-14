@@ -165,7 +165,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
                 .savedJsonUrls(item.getUrls())
                 .savedJsonDescriptions(item.getDescriptions())
                 .inReplyToId(item.getInReplyToId())
-                .repyingStatusAuthor(item.getInReplyToUsername())
+                .replyingStatusAuthor(item.getInReplyToUsername())
                 .replyingStatusContent(item.getInReplyToText())
                 .savedVisibility(item.getVisibility())
                 .build(this);
