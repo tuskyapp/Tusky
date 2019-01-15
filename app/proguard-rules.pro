@@ -96,3 +96,7 @@
 }
 
 -dontwarn com.google.errorprone.annotations.*
+
+# work around a bug in proguard
+# see https://sourceforge.net/p/proguard/bugs/729/
+-keepnames public interface com.uber.autodispose.lifecycle.CorrespondingEventsFunction { *; }
