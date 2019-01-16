@@ -19,12 +19,16 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+
 import android.text.Spanned;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
+import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BottomSheetActivity;
 import com.keylesspalace.tusky.ComposeActivity;
+import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ReportActivity;
 import com.keylesspalace.tusky.ViewMediaActivity;
@@ -139,6 +143,9 @@ public abstract class SFragment extends BaseFragment {
         final String accountUsername = status.getActionableStatus().getAccount().getUsername();
         final Spanned content = status.getActionableStatus().getContent();
         final String statusUrl = status.getActionableStatus().getUrl();
+        List<AccountEntity> accounts = accountManager.getAllAccountsOrderedByActive();
+        String openAsTitle = null;
+
         String loggedInAccountId = null;
         AccountEntity activeAccount = accountManager.getActiveAccount();
         if(activeAccount != null) {
@@ -169,6 +176,28 @@ public abstract class SFragment extends BaseFragment {
                 }
             }
         }
+
+        Menu menu = popup.getMenu();
+        MenuItem openAsItem = menu.findItem(R.id.status_open_as);
+        switch(accounts.size()) {
+            case 0:
+            case 1:
+                openAsItem.setVisible(false);
+                break;
+            case 2:
+                for (AccountEntity account : accounts) {
+                    if (account != activeAccount) {
+                        openAsTitle = String.format(getString(R.string.action_open_as), account.getFullName());
+                        break;
+                    }
+                }
+                break;
+            default:
+                openAsTitle = String.format(getString(R.string.action_open_as), "…");
+                break;
+        }
+        openAsItem.setTitle(openAsTitle);
+
         popup.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.status_share_content: {
@@ -199,6 +228,10 @@ public abstract class SFragment extends BaseFragment {
                             getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                     ClipData clip = ClipData.newPlainText(null, statusUrl);
                     clipboard.setPrimaryClip(clip);
+                    return true;
+                }
+                case R.id.status_open_as: {
+                    showOpenAsDialog(statusUrl, item.getTitle());
                     return true;
                 }
                 case R.id.status_mute: {
@@ -292,5 +325,38 @@ public abstract class SFragment extends BaseFragment {
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
+    }
+
+    private void openAsAccount(String statusUrl, AccountEntity account) {
+        accountManager.setActiveAccount(account);
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(MainActivity.STATUS_URL, statusUrl);
+        startActivity(intent);
+        ((BaseActivity)getActivity()).finishWithoutSlideOutAnimation();
+    }
+
+    private void showOpenAsDialog(String statusUrl, CharSequence dialogTitle) {
+        List<AccountEntity> accounts = accountManager.getAllAccountsOrderedByActive();
+        AccountEntity activeAccount = accountManager.getActiveAccount();
+
+        if (accounts.size() == 2) {
+            for (AccountEntity account : accounts) {
+                if (activeAccount != account) {
+                    openAsAccount(statusUrl, account);
+                    break;
+                }
+            }
+        } else {
+            accounts.remove(activeAccount);
+            CharSequence[] accountNames = new CharSequence[accounts.size()];
+            for (int i = 0; i < accounts.size(); ++i) {
+                accountNames[i] = accounts.get(i).getFullName();
+            }
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(dialogTitle)
+                    .setItems(accountNames, (dialogInterface, index) -> openAsAccount(statusUrl, accounts.get(index)))
+                    .show();
+        }
     }
 }
