@@ -15,8 +15,6 @@
 
 package com.keylesspalace.tusky.network;
 
-import androidx.annotation.Nullable;
-
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.AppCredentials;
@@ -33,6 +31,7 @@ import com.keylesspalace.tusky.entity.StatusContext;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -219,7 +218,8 @@ public interface MastodonApi {
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit,
             @Nullable @Query("exclude_replies") Boolean excludeReplies,
-            @Nullable @Query("only_media") Boolean onlyMedia);
+            @Nullable @Query("only_media") Boolean onlyMedia,
+            @Nullable @Query("pinned") Boolean pinned);
 
     @GET("api/v1/accounts/{id}/followers")
     Call<List<Account>> accountFollowers(

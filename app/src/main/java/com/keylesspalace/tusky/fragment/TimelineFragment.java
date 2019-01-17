@@ -110,6 +110,7 @@ public class TimelineFragment extends SFragment implements
         PUBLIC_FEDERATED,
         TAG,
         USER,
+        USER_PINNED,
         USER_WITH_REPLIES,
         FAVOURITES,
         LIST
@@ -201,6 +202,7 @@ public class TimelineFragment extends SFragment implements
         kind = Kind.valueOf(arguments.getString(KIND_ARG));
         if (kind == Kind.TAG
                 || kind == Kind.USER
+                || kind == Kind.USER_PINNED
                 || kind == Kind.USER_WITH_REPLIES
                 || kind == Kind.LIST) {
             hashtagOrId = arguments.getString(HASHTAG_OR_ID_ARG);
@@ -847,9 +849,11 @@ public class TimelineFragment extends SFragment implements
             case TAG:
                 return api.hashtagTimeline(tagOrId, null, fromId, uptoId, LOAD_AT_ONCE);
             case USER:
-                return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, true, null);
+                return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, true, null, null);
+            case USER_PINNED:
+                return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, null, null, true);
             case USER_WITH_REPLIES:
-                return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, null, null);
+                return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, null, null, null);
             case FAVOURITES:
                 return api.favourites(fromId, uptoId, LOAD_AT_ONCE);
             case LIST:
