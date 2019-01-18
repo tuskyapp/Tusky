@@ -67,7 +67,7 @@ class SpanUtilsTest {
 
         @Test
         fun doesNotMatchSpanEmbeddedInText() {
-            val inputSpannable = FakeSpannable("aa${thingToHighlight}aa")
+            val inputSpannable = FakeSpannable("__${thingToHighlight}__")
             highlightSpans(inputSpannable, 0xffffff)
             val spans = inputSpannable.spans
             Assert.assertTrue(spans.isEmpty())
