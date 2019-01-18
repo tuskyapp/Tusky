@@ -26,6 +26,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.View;
@@ -35,25 +36,9 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 
 import java.lang.CharSequence;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.HashSet;
 
 public class LinkHelper {
-    private static String getDomain(String urlString) {
-        URI uri;
-        try {
-            uri = new URI(urlString);
-        } catch (URISyntaxException e) {
-            return "";
-        }
-        String host = uri.getHost();
-        if (host.startsWith("www.")) {
-            return host.substring(4);
-        } else {
-            return host;
-        }
-    }
-
     /**
      * Finds links, mentions, and hashtags in a piece of text and makes them clickable, associating
      * them with callbacks to notify when they're clicked.
@@ -66,8 +51,33 @@ public class LinkHelper {
     public static void setClickableText(TextView view, Spanned content,
             @Nullable Status.Mention[] mentions, final LinkListener listener) {
         SpannableStringBuilder builder = new SpannableStringBuilder(content);
-        URLSpan[] urlSpans = content.getSpans(0, content.length(), URLSpan.class);
+        SpanUtilsKt.highlightSpans(builder, view.getLinkTextColors().getDefaultColor());
+        URLSpan[] urlSpans = builder.getSpans(0, content.length(), URLSpan.class);
         for (URLSpan span : urlSpans) {
+            int start = builder.getSpanStart(span);
+            int end = builder.getSpanEnd(span);
+            int flags = builder.getSpanFlags(span);
+            ClickableSpan customSpan = new CustomURLSpan(span.getURL()) {
+                @Override
+                public void onClick(View widget) {
+                                               listener.onViewUrl(getURL());
+                                                                            }
+            };
+            builder.removeSpan(span);
+            builder.setSpan(customSpan, start, end, flags);
+
+            /* Add zero-width space after links in end of line to fix its too large hitbox.
+             * See also : https://github.com/tuskyapp/Tusky/issues/846
+             *            https://github.com/tuskyapp/Tusky/pull/916 */
+            if (end >= builder.length() ||
+                    builder.subSequence(end, end + 1).toString().equals("\n")){
+                builder.insert(end, "\u200B");
+            }
+        }
+
+        ForegroundColorSpan[] otherSpans = builder.getSpans(0, content.length(), ForegroundColorSpan.class);
+        HashSet<String> usedMentionIds = new HashSet<>();
+        for (ForegroundColorSpan span : otherSpans) {
             int start = builder.getSpanStart(span);
             int end = builder.getSpanEnd(span);
             int flags = builder.getSpanFlags(span);
@@ -89,13 +99,14 @@ public class LinkHelper {
                 for (Status.Mention mention : mentions) {
                     if (mention.getLocalUsername().equalsIgnoreCase(accountUsername)) {
                         id = mention.getId();
-                        if (mention.getUrl().contains(getDomain(span.getURL()))) {
+                        if (!usedMentionIds.contains(id)) {
                             break;
                         }
                     }
                 }
                 if (id != null) {
                     final String accountId = id;
+                    usedMentionIds.add(id);
                     customSpan = new ClickableSpanNoUnderline() {
                         @Override
                         public void onClick(View widget) { listener.onViewAccount(accountId); }
@@ -103,14 +114,6 @@ public class LinkHelper {
                 }
             }
 
-            if (customSpan == null) {
-                customSpan = new CustomURLSpan(span.getURL()) {
-                    @Override
-                    public void onClick(View widget) {
-                        listener.onViewUrl(getURL());
-                    }
-                };
-            }
             builder.removeSpan(span);
             builder.setSpan(customSpan, start, end, flags);
 
