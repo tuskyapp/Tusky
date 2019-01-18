@@ -549,7 +549,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         }
         headerResult.clear();
         headerResult.setProfiles(profiles);
-
+        headerResult.setActiveProfile(accountManager.getActiveAccount().getId());
     }
 
     private void onFetchUserInfoFailure(Exception exception) {
