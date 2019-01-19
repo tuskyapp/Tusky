@@ -129,7 +129,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                     .replyVisibility(visibility)
                     .contentWarning(spoiler)
                     .mentionedUsernames(Arrays.asList(*mentions))
-                    .repyingStatusAuthor(localAuthorId)
+                    .replyingStatusAuthor(localAuthorId)
                     .replyingStatusContent(citedText)
                     .build(context)
 

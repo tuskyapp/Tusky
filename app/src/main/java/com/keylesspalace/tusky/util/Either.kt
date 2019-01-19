@@ -13,28 +13,25 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.util;
+package com.keylesspalace.tusky.util
 
-import androidx.annotation.Nullable;
+/**
+ * Created by charlag on 05/11/17.
+ *
+ * Class to represent sum type/tagged union/variant/ADT e.t.c.
+ * It is either Left or Right.
+ */
+sealed class Either<out L, out R> {
+    data class Left<out L, out R>(val value: L) : Either<L, R>()
+    data class Right<out L, out R>(val value: R) : Either<L, R>()
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
+    fun isRight() = this is Right
 
-public class ListUtils {
-    /**
-     * @return true if list is null or else return list.isEmpty()
-     */
-    public static boolean isEmpty(@Nullable List list) {
-        return list == null || list.isEmpty();
-    }
+    fun asLeftOrNull() = (this as? Left<L, R>)?.value
 
-    /**
-     * @return a new ArrayList containing the elements without duplicates in the same order
-     */
-    public static <T> ArrayList<T> removeDuplicates(List<T> list) {
-        LinkedHashSet<T> set = new LinkedHashSet<>(list);
-        return new ArrayList<>(set);
-    }
+    fun asRightOrNull() = (this as? Right<L, R>)?.value
+
+    fun asLeft(): L = (this as Left<L, R>).value
+
+    fun asRight(): R = (this as Right<L, R>).value
 }

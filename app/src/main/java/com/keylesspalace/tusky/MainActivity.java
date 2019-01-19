@@ -36,6 +36,7 @@ import android.view.KeyEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.keylesspalace.tusky.appstore.CacheUpdater;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent;
 import com.keylesspalace.tusky.appstore.ProfileEditedEvent;
@@ -94,11 +95,14 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private static final long DRAWER_ITEM_ABOUT = 7;
     private static final long DRAWER_ITEM_LOG_OUT = 8;
     private static final long DRAWER_ITEM_FOLLOW_REQUESTS = 9;
+    public static final String STATUS_URL = "statusUrl";
 
     @Inject
     public DispatchingAndroidInjector<Fragment> fragmentInjector;
     @Inject
     public EventHub eventHub;
+    @Inject
+    public CacheUpdater cacheUpdater;
 
     private FloatingActionButton composeButton;
     private AccountHeader headerResult;
@@ -237,6 +241,18 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        Intent intent = getIntent();
+        if (intent != null) {
+            String statusUrl = intent.getStringExtra(STATUS_URL);
+            if (statusUrl != null) {
+                viewUrl(statusUrl);
+            }
+        }
     }
 
     private void setupDrawer() {
@@ -397,6 +413,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
 
     private void changeAccount(long newSelectedId) {
+        cacheUpdater.stop();
         accountManager.setActiveAccount(newSelectedId);
 
         Intent intent = new Intent(this, MainActivity.class);
@@ -419,6 +436,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {
 
                         NotificationHelper.deleteNotificationChannelsForAccount(accountManager.getActiveAccount(), MainActivity.this);
+                        cacheUpdater.clearForUser(activeAccount.getId());
 
                         AccountEntity newAccount = accountManager.logActiveAccountOut();
 
@@ -518,7 +536,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         }
         headerResult.clear();
         headerResult.setProfiles(profiles);
-
+        headerResult.setActiveProfile(accountManager.getActiveAccount().getId());
     }
 
     private void onFetchUserInfoFailure(Exception exception) {

@@ -111,8 +111,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:hint="@string/hint_note">
+                    android:hint="@string/hint_note"
+                    app:counterEnabled="true"
+                    app:counterTextColor="?android:textColorTertiary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/noteEditText"

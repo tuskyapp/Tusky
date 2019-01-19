@@ -28,13 +28,16 @@ import androidx.annotation.NonNull;
  * DB version & declare DAO
  */
 
-@Database(entities = {TootEntity.class, AccountEntity.class, InstanceEntity.class, ConversationEntity.class}, version = 11)
+@Database(entities = {TootEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
+                TimelineAccountEntity.class,  ConversationEntity.class
+        }, version = 12)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TootDao tootDao();
     public abstract AccountDao accountDao();
     public abstract InstanceDao instanceDao();
     public abstract ConversationsDao conversationDao();
+    public abstract TimelineDao timelineDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
@@ -123,11 +126,58 @@ public abstract class AppDatabase extends RoomDatabase {
     public static final Migration MIGRATION_10_11 = new Migration(10, 11) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            String defaultTabs = TabDataKt.HOME+";"+
-                    TabDataKt.NOTIFICATIONS+";"+
-                    TabDataKt.LOCAL+";"+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineAccountEntity` (" +
+                    "`serverId` TEXT NOT NULL, " +
+                    "`timelineUserId` INTEGER NOT NULL, " +
+                    "`instance` TEXT NOT NULL, " +
+                    "`localUsername` TEXT NOT NULL, " +
+                    "`username` TEXT NOT NULL, " +
+                    "`displayName` TEXT NOT NULL, " +
+                    "`url` TEXT NOT NULL, " +
+                    "`avatar` TEXT NOT NULL, " +
+                    "`emojis` TEXT NOT NULL," +
+                    "PRIMARY KEY(`serverId`, `timelineUserId`))");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineStatusEntity` (" +
+                    "`serverId` TEXT NOT NULL, " +
+                    "`url` TEXT, " +
+                    "`timelineUserId` INTEGER NOT NULL, " +
+                    "`authorServerId` TEXT," +
+                    "`instance` TEXT, " +
+                    "`inReplyToId` TEXT, " +
+                    "`inReplyToAccountId` TEXT, " +
+                    "`content` TEXT, " +
+                    "`createdAt` INTEGER NOT NULL, " +
+                    "`emojis` TEXT, " +
+                    "`reblogsCount` INTEGER NOT NULL, " +
+                    "`favouritesCount` INTEGER NOT NULL, " +
+                    "`reblogged` INTEGER NOT NULL, " +
+                    "`favourited` INTEGER NOT NULL, " +
+                    "`sensitive` INTEGER NOT NULL, " +
+                    "`spoilerText` TEXT, " +
+                    "`visibility` INTEGER, " +
+                    "`attachments` TEXT, " +
+                    "`mentions` TEXT, " +
+                    "`application` TEXT, " +
+                    "`reblogServerId` TEXT, " +
+                    "`reblogAccountId` TEXT," +
+                    " PRIMARY KEY(`serverId`, `timelineUserId`)," +
+                    " FOREIGN KEY(`authorServerId`, `timelineUserId`) REFERENCES `TimelineAccountEntity`(`serverId`, `timelineUserId`) " +
+                    "ON UPDATE NO ACTION ON DELETE NO ACTION )");
+            database.execSQL("CREATE  INDEX IF NOT EXISTS" +
+                    "`index_TimelineStatusEntity_authorServerId_timelineUserId` " +
+                    "ON `TimelineStatusEntity` (`authorServerId`, `timelineUserId`)");
+        }
+    };
+
+    public static final Migration MIGRATION_11_12 = new Migration(11, 12) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            String defaultTabs = TabDataKt.HOME + ";" +
+                    TabDataKt.NOTIFICATIONS + ";" +
+                    TabDataKt.LOCAL + ";" +
                     TabDataKt.FEDERATED;
-            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `tabPreferences` TEXT NOT NULL DEFAULT '" + defaultTabs+ "'");
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `tabPreferences` TEXT NOT NULL DEFAULT '" + defaultTabs + "'");
         }
     };
 
