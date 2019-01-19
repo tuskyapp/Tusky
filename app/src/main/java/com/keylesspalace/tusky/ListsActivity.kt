@@ -165,7 +165,7 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
             }
             LOADED -> {
                 if (state.lists.isEmpty()) {
-                    showMessage(R.string.empty_message, null)
+                    showMessage(R.string.message_empty, null)
                 }
             }
             else -> {

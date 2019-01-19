@@ -49,6 +49,7 @@ import javax.inject.Inject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
@@ -83,7 +84,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         divider.setDrawable(drawable)
         recyclerView.addItemDecoration(divider)
 
-        adapter = when(type) {
+        adapter = when (type) {
             Type.BLOCKS -> BlocksAdapter(this)
             Type.MUTES -> MutesAdapter(this)
             Type.FOLLOW_REQUESTS -> FollowRequestsAdapter(this)
@@ -143,7 +144,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         val mutesAdapter = adapter as MutesAdapter
         val unmutedUser = mutesAdapter.removeItem(position)
 
-        if(unmutedUser != null) {
+        if (unmutedUser != null) {
             Snackbar.make(recyclerView, R.string.confirmation_unmuted, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_undo) {
                         mutesAdapter.addItem(unmutedUser, position)
@@ -193,7 +194,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         val blocksAdapter = adapter as BlocksAdapter
         val unblockedUser = blocksAdapter.removeItem(position)
 
-        if(unblockedUser != null) {
+        if (unblockedUser != null) {
             Snackbar.make(recyclerView, R.string.confirmation_unblocked, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_undo) {
                         blocksAdapter.addItem(unblockedUser, position)
@@ -311,11 +312,34 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
         fetching = false
 
+        statusImage.setImageResource(if (adapter.itemCount == 0) {
+            R.drawable.elephant_friend_empty
+        } else {
+            android.R.color.transparent
+        })
+        Snackbar.make(statusImage, R.string.message_empty, Snackbar.LENGTH_INDEFINITE)
+                .show()
     }
 
     private fun onFetchAccountsFailure(exception: Exception) {
         fetching = false
         Log.e(TAG, "Fetch failure", exception)
+
+        statusImage.setImageResource(if (adapter.itemCount == 0) {
+            if (exception is IOException) {
+                Snackbar.make(statusImage, R.string.error_network, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.action_retry) { this.fetchAccounts(null) }
+                        .show()
+                R.drawable.elephant_offline
+            } else {
+                Snackbar.make(statusImage, R.string.error_generic, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.action_retry) { this.fetchAccounts(null) }
+                        .show()
+                R.drawable.elephant_error
+            }
+        } else {
+            android.R.color.transparent
+        })
     }
 
     companion object {
