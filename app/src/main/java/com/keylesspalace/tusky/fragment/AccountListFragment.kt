@@ -41,6 +41,8 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.visible
+import com.keylesspalace.tusky.view.BackgroundMessageView
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import kotlinx.android.synthetic.main.fragment_account_list.*
 
@@ -312,34 +314,34 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
         fetching = false
 
-        statusImage.setImageResource(if (adapter.itemCount == 0) {
-            R.drawable.elephant_friend_empty
-        } else {
-            android.R.color.transparent
-        })
-        Snackbar.make(statusImage, R.string.message_empty, Snackbar.LENGTH_INDEFINITE)
-                .show()
+        messageView.visible(true)
+        messageView.setup(
+                if (adapter.itemCount == 0) {
+                    R.drawable.elephant_friend_empty
+                } else {
+                    android.R.color.transparent
+                },
+                R.string.message_empty,
+                null
+        )
     }
 
     private fun onFetchAccountsFailure(exception: Exception) {
         fetching = false
         Log.e(TAG, "Fetch failure", exception)
 
-        statusImage.setImageResource(if (adapter.itemCount == 0) {
+        if (adapter.itemCount == 0) {
+            messageView.visible(true)
             if (exception is IOException) {
-                Snackbar.make(statusImage, R.string.error_network, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.action_retry) { this.fetchAccounts(null) }
-                        .show()
-                R.drawable.elephant_offline
+                messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                    this.fetchAccounts(null)
+                }
             } else {
-                Snackbar.make(statusImage, R.string.error_generic, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.action_retry) { this.fetchAccounts(null) }
-                        .show()
-                R.drawable.elephant_error
+                messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                    this.fetchAccounts(null)
+                }
             }
-        } else {
-            android.R.color.transparent
-        })
+        }
     }
 
     companion object {
