@@ -18,7 +18,6 @@ package com.keylesspalace.tusky;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import androidx.lifecycle.Lifecycle;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -39,25 +38,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.Px;
-import androidx.annotation.StringRes;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.transition.TransitionManager;
-import androidx.core.view.inputmethod.InputConnectionCompat;
-import androidx.core.view.inputmethod.InputContentInfoCompat;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -81,10 +61,12 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.keylesspalace.tusky.adapter.EmojiAdapter;
-import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
+import com.keylesspalace.tusky.adapter.MentionTagAutoCompleteAdapter;
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AppDatabase;
@@ -94,6 +76,7 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Instance;
+import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.ProgressRequestBody;
@@ -101,7 +84,7 @@ import com.keylesspalace.tusky.service.SendTootService;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
 import com.keylesspalace.tusky.util.ListUtils;
-import com.keylesspalace.tusky.util.MentionTokenizer;
+import com.keylesspalace.tusky.util.MentionTagTokenizer;
 import com.keylesspalace.tusky.util.SaveTootHelper;
 import com.keylesspalace.tusky.util.SpanUtilsKt;
 import com.keylesspalace.tusky.util.StringUtils;
@@ -128,15 +111,35 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.Px;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.core.view.inputmethod.InputConnectionCompat;
+import androidx.core.view.inputmethod.InputContentInfoCompat;
+import androidx.lifecycle.Lifecycle;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionManager;
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import kotlin.collections.CollectionsKt;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -155,7 +158,7 @@ import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvid
 public final class ComposeActivity
         extends BaseActivity
         implements ComposeOptionsListener,
-        MentionAutoCompleteAdapter.AccountSearchProvider,
+        MentionTagAutoCompleteAdapter.AutocomletionProvider,
         OnEmojiSelectedListener,
         Injectable, InputConnectionCompat.OnCommitContentListener {
 
@@ -225,7 +228,8 @@ public final class ComposeActivity
     private int savedTootUid = 0;
     private List<Emoji> emojiList;
     private int maximumTootCharacters = STATUS_CHARACTER_LIMIT;
-    private @Px int thumbnailViewSize;
+    private @Px
+    int thumbnailViewSize;
 
     private SaveTootHelper saveTootHelper;
     private Gson gson = new Gson();
@@ -516,8 +520,8 @@ public final class ComposeActivity
         });
 
         textEditor.setAdapter(
-                new MentionAutoCompleteAdapter(this, R.layout.item_autocomplete, this));
-        textEditor.setTokenizer(new MentionTokenizer());
+                new MentionTagAutoCompleteAdapter(this, this));
+        textEditor.setTokenizer(new MentionTagTokenizer());
 
         // Add any mentions to the text field when a reply is first composed.
         if (mentionedUsernames != null) {
@@ -983,7 +987,7 @@ public final class ComposeActivity
             spoilerText = contentWarningEditor.getText().toString();
         }
         int characterCount = calculateTextLength();
-        if (characterCount <= 0 && mediaQueued.size()==0) {
+        if (characterCount <= 0 && mediaQueued.size() == 0) {
             textEditor.setError(getString(R.string.error_empty));
             enableButtons();
         } else if (characterCount <= maximumTootCharacters) {
@@ -1532,19 +1536,38 @@ public final class ComposeActivity
     }
 
     @Override
-    public List<Account> searchAccounts(String mention) {
-        ArrayList<Account> resultList = new ArrayList<>();
+    public List<MentionTagAutoCompleteAdapter.AutocompleteResult> search(String token) {
         try {
-            List<Account> accountList = mastodonApi.searchAccounts(mention, false, 40)
-                    .execute()
-                    .body();
-            if (accountList != null) {
-                resultList.addAll(accountList);
+            switch (token.charAt(0)) {
+                case '@':
+                    ArrayList<Account> resultList = new ArrayList<>();
+                    List<Account> accountList = mastodonApi
+                            .searchAccounts(token.substring(1), false, 20)
+                            .execute()
+                            .body();
+                    if (accountList != null) {
+                        resultList.addAll(accountList);
+                    }
+                    return CollectionsKt.map(resultList, MentionTagAutoCompleteAdapter.AccountResult::new);
+                case '#':
+                    Response<SearchResults> response = mastodonApi.search(token, false).execute();
+                    if (response.isSuccessful()) {
+                        return CollectionsKt.map(
+                                Objects.requireNonNull(response.body()).getHashtags(),
+                                MentionTagAutoCompleteAdapter.HashtagResult::new
+                        );
+                    } else {
+                        Log.e(TAG, String.format("Autocomplete search for %s failed.", token));
+                        return Collections.emptyList();
+                    }
+                default:
+                    Log.w(TAG, "Unexpected autocompletion token: " + token);
+                    return Collections.emptyList();
             }
         } catch (IOException e) {
-            Log.e(TAG, String.format("Autocomplete search for %s failed.", mention));
+            Log.e(TAG, String.format("Autocomplete search for %s failed.", token));
+            return Collections.emptyList();
         }
-        return resultList;
     }
 
     @Override
