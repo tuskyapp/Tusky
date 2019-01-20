@@ -13,6 +13,10 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.util.visible
 
 
+/**
+ * This view is used for screens with downloadable content which may fail.
+ * Can show an image, text and button below them.
+ */
 class BackgroundMessageView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
@@ -35,6 +39,10 @@ class BackgroundMessageView @JvmOverloads constructor(
         requestLayout()
     }
 
+    /**
+     * Setup image, message and button.
+     * If [clickListener] is `null` then the button will be hidden.
+     */
     fun setup(@DrawableRes imageRes: Int, @StringRes messageRes: Int, clickListener: ((v: View) -> Unit)?) {
         message.setText(messageRes)
         message.setCompoundDrawablesWithIntrinsicBounds(null, context.getDrawable(imageRes),
