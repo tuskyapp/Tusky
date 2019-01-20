@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.DrawableRes
@@ -19,7 +18,6 @@ class BackgroundMessageView @JvmOverloads constructor(
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
-    private val image: ImageView
     private val message: TextView
     private val button: Button
 
@@ -28,20 +26,19 @@ class BackgroundMessageView @JvmOverloads constructor(
         gravity = Gravity.CENTER_HORIZONTAL
         orientation = VERTICAL
 
-        image = findViewById(R.id.imageView)
         message = findViewById(R.id.messageTextView)
         button = findViewById(R.id.button)
 
-////        if (isInEditMode) {
-        image.setImageResource(R.drawable.elephant_offline)
-        message.setText(R.string.error_network)
-////        }
+        if (isInEditMode) {
+            setup(R.drawable.elephant_offline, R.string.error_network) {}
+        }
         requestLayout()
     }
 
     fun setup(@DrawableRes imageRes: Int, @StringRes messageRes: Int, clickListener: ((v: View) -> Unit)?) {
-        image.setImageResource(imageRes)
         message.setText(messageRes)
+        message.setCompoundDrawablesWithIntrinsicBounds(null, context.getDrawable(imageRes),
+                null, null)
         button.setOnClickListener(clickListener)
         button.visible(clickListener != null)
     }

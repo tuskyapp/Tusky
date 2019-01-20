@@ -25,11 +25,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
@@ -54,6 +52,7 @@ import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
+import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
@@ -78,6 +77,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -126,7 +126,7 @@ public class NotificationsFragment extends SFragment implements
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
-    private ImageView statusImage;
+    private BackgroundMessageView statusView;
 
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
@@ -137,8 +137,6 @@ public class NotificationsFragment extends SFragment implements
     private boolean bottomLoading;
     private String bottomId;
     private boolean alwaysShowSensitiveMedia;
-    @Nullable
-    private Snackbar snackbar;
 
     @Override
     protected TimelineCases timelineCases() {
@@ -180,7 +178,7 @@ public class NotificationsFragment extends SFragment implements
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         progressBar = rootView.findViewById(R.id.progress_bar);
-        statusImage = rootView.findViewById(R.id.statusImage);
+        statusView = rootView.findViewById(R.id.statusView);
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
@@ -327,11 +325,7 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onRefresh() {
-        if (this.snackbar != null) {
-            this.snackbar.dismiss();
-            this.snackbar = null;
-        }
-        this.statusImage.setImageResource(android.R.color.transparent);
+        this.statusView.setVisibility(View.GONE);
         Either<Placeholder, Notification> first = CollectionsKt.firstOrNull(this.notifications);
         String topId;
         if (first != null && first.isRight()) {
@@ -721,8 +715,9 @@ public class NotificationsFragment extends SFragment implements
         }
 
         if (notifications.size() == 0 && adapter.getItemCount() == 0) {
-            statusImage.setImageResource(R.drawable.elephant_friend_empty);
-            snackbar = Snackbar.make(statusImage, R.string.message_empty, Snackbar.LENGTH_INDEFINITE);
+            this.statusView.setVisibility(View.VISIBLE);
+            this.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null);
+
         }
         swipeRefreshLayout.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
@@ -736,16 +731,19 @@ public class NotificationsFragment extends SFragment implements
             notifications.setPairedItem(position, placeholderVD);
             adapter.updateItemWithNotify(position, placeholderVD, true);
         } else if (this.notifications.isEmpty()) {
+            this.statusView.setVisibility(View.VISIBLE);
             if (exception instanceof IOException) {
-                statusImage.setImageResource(R.drawable.elephant_offline);
-                snackbar = Snackbar.make(statusImage, R.string.error_network, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.action_retry, __ -> onRefresh());
-                snackbar.show();
+                this.statusView.setup(R.drawable.elephant_offline, R.string.error_network, __ -> {
+                    this.progressBar.setVisibility(View.VISIBLE);
+                    this.onRefresh();
+                    return Unit.INSTANCE;
+                });
             } else {
-                statusImage.setImageResource(R.drawable.elephant_error);
-                snackbar = Snackbar.make(statusImage, R.string.error_generic, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.action_retry, __ -> onRefresh());
-                snackbar.show();
+                this.statusView.setup(R.drawable.elephant_error, R.string.error_generic, __ -> {
+                    this.progressBar.setVisibility(View.VISIBLE);
+                    this.onRefresh();
+                    return Unit.INSTANCE;
+                });
             }
         }
         Log.e(TAG, "Fetch failure: " + exception.getMessage());

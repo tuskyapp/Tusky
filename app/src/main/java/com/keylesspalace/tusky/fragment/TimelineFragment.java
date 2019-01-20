@@ -24,11 +24,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
@@ -57,6 +55,7 @@ import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
+import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
@@ -87,6 +86,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -137,7 +137,7 @@ public class TimelineFragment extends SFragment implements
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
-    private ImageView statusImage;
+    private BackgroundMessageView statusView;
 
     private TimelineAdapter adapter;
     private Kind kind;
@@ -151,8 +151,6 @@ public class TimelineFragment extends SFragment implements
     private Matcher filterRemoveRegexMatcher;
     private boolean hideFab;
     private boolean bottomLoading;
-    @Nullable
-    private Snackbar snackbar;
 
     private boolean didLoadEverythingBottom;
     private boolean alwaysShowSensitiveMedia;
@@ -221,7 +219,7 @@ public class TimelineFragment extends SFragment implements
         recyclerView = rootView.findViewById(R.id.recycler_view);
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         progressBar = rootView.findViewById(R.id.progress_bar);
-        statusImage = rootView.findViewById(R.id.statusImage);
+        statusView = rootView.findViewById(R.id.statusView);
 
         setupSwipeRefreshLayout();
         setupRecyclerView();
@@ -381,9 +379,8 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void showNothing() {
-        statusImage.setImageResource(R.drawable.elephant_friend_empty);
-        Snackbar.make(this.recyclerView, R.string.message_empty, Snackbar.LENGTH_INDEFINITE)
-                .show();
+        statusView.setVisibility(View.VISIBLE);
+        statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null);
     }
 
     @Override
@@ -510,11 +507,7 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onRefresh() {
-        if (this.snackbar != null) {
-            this.snackbar.dismiss();
-            this.snackbar = null;
-        }
-        this.statusImage.setImageResource(android.R.color.transparent);
+        this.statusView.setVisibility(View.GONE);
         if (this.initialUpdateFailed) {
             updateCurrent();
         } else {
@@ -951,7 +944,7 @@ public class TimelineFragment extends SFragment implements
         if (this.statuses.size() == 0) {
             this.showNothing();
         } else {
-            this.statusImage.setImageResource(android.R.color.transparent);
+            this.statusView.setVisibility(View.GONE);
         }
     }
 
@@ -971,16 +964,19 @@ public class TimelineFragment extends SFragment implements
                 statuses.setPairedItem(position, newViewData);
                 updateAdapter();
             } else if (this.statuses.isEmpty()) {
+                this.statusView.setVisibility(View.VISIBLE);
                 if (exception instanceof IOException) {
-                    this.statusImage.setImageResource(R.drawable.elephant_offline);
-                    this.snackbar = Snackbar.make(this.statusImage, R.string.error_network, Snackbar.LENGTH_INDEFINITE)
-                            .setAction(R.string.action_retry, __ -> this.onRefresh());
-                    snackbar.show();
+                    this.statusView.setup(R.drawable.elephant_offline, R.string.error_network, __ -> {
+                        this.progressBar.setVisibility(View.VISIBLE);
+                        this.onRefresh();
+                        return Unit.INSTANCE;
+                    });
                 } else {
-                    this.statusImage.setImageResource(R.drawable.elephant_error);
-                    this.snackbar = Snackbar.make(this.statusImage, R.string.error_generic, Snackbar.LENGTH_INDEFINITE)
-                            .setAction(R.string.action_retry, __ -> this.onRefresh());
-                    snackbar.show();
+                    this.statusView.setup(R.drawable.elephant_error, R.string.error_generic, __ -> {
+                        this.progressBar.setVisibility(View.VISIBLE);
+                        this.onRefresh();
+                        return Unit.INSTANCE;
+                    });
                 }
             }
 

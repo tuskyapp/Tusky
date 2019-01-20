@@ -20,6 +20,8 @@ import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.fragment.TimelineFragment
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import kotlinx.android.synthetic.main.activity_lists.*
@@ -147,38 +149,29 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
     override fun update(state: State) {
         adapter.update(state.lists)
         progressBar.visibility = if (state.loadingState == LOADING) View.VISIBLE else View.GONE
-        statusImage.setImageResource(when (state.loadingState) {
-            INITIAL, LOADING -> android.R.color.transparent
-            ERROR_NETWORK -> R.drawable.elephant_offline
-            ERROR_OTHER -> R.drawable.elephant_error
+        when (state.loadingState) {
+            INITIAL, LOADING -> messageView.hide()
+            ERROR_NETWORK -> {
+                messageView.show()
+                messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                    viewModel.retryLoading()
+                }
+            }
+            ERROR_OTHER -> {
+                messageView.show()
+                messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                    viewModel.retryLoading()
+                }
+            }
             LOADED ->
                 if (state.lists.isEmpty()) {
-                    R.drawable.elephant_friend_empty
+                    messageView.show()
+                    messageView.setup(R.drawable.elephant_friend_empty, R.string.message_empty,
+                            null)
                 } else {
-                    android.R.color.transparent
+                    messageView.hide()
                 }
-        })
-        when (state.loadingState) {
-            ERROR_OTHER -> showMessage(R.string.error_generic) { viewModel.retryLoading() }
-            ERROR_NETWORK -> {
-                showMessage(R.string.error_network) { viewModel.retryLoading() }
-            }
-            LOADED -> {
-                if (state.lists.isEmpty()) {
-                    showMessage(R.string.message_empty, null)
-                }
-            }
-            else -> {
-            }
         }
-    }
-
-    fun showMessage(@StringRes message: Int, retry: ((v: View) -> Unit)?) {
-        Snackbar.make(window.decorView.rootView, message, Snackbar.LENGTH_INDEFINITE)
-                .apply {
-                    retry?.let { setAction(R.string.action_retry, retry) }
-                }
-                .show()
     }
 
     override fun openTimeline(listId: String) {
