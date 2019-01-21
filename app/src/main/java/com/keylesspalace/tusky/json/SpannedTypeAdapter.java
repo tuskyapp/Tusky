@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.json;
 
 import android.text.Spanned;
 import android.text.SpannedString;
-import android.util.Log;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -34,7 +33,6 @@ public class SpannedTypeAdapter implements JsonDeserializer<Spanned>, JsonSerial
     @Override
     public Spanned deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
-        Log.d("JSON", json.toString());
         String string = json.getAsString();
         if (string != null) {
             return HtmlUtils.fromHtml(string);
@@ -42,7 +40,6 @@ public class SpannedTypeAdapter implements JsonDeserializer<Spanned>, JsonSerial
             return new SpannedString("");
         }
     }
-
 
     @Override
     public JsonElement serialize(Spanned src, Type typeOfSrc, JsonSerializationContext context) {

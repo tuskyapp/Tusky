@@ -27,7 +27,7 @@ interface ConversationsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(conversation: ConversationEntity)
 
-    @Query("SELECT * FROM ConversationEntity WHERE accountId = :accountId ORDER BY id DESC")
+    @Query("SELECT * FROM ConversationEntity WHERE accountId = :accountId ORDER BY s_createdAt DESC")
     fun conversationsForAccount(accountId: Long) : DataSource.Factory<Int, ConversationEntity>
 
     @Query("DELETE FROM ConversationEntity WHERE accountId = :accountId")

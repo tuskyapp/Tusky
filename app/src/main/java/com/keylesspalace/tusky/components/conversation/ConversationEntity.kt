@@ -15,21 +15,79 @@
 
 package com.keylesspalace.tusky.components.conversation
 
+import android.text.Spanned
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.db.Converters
-import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Conversation
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.*
+import com.keylesspalace.tusky.util.SmartLengthInputFilter
+import java.util.*
 
 @Entity(primaryKeys = ["id","accountId"])
 @TypeConverters(Converters::class)
 data class ConversationEntity(
         val accountId: Long,
         val id: String,
-        val accounts: List<Account>,
-        val lastStatus: Status,
-        val unread: Boolean
+        val accounts: List<ConversationAccountEntity>,
+        val unread: Boolean,
+        @Embedded(prefix = "s_") val lastStatus: ConversationStatusEntity
 )
 
-fun Conversation.mapToEntity(accountId: Long)=  ConversationEntity(accountId, id, accounts, lastStatus, unread)
+data class ConversationAccountEntity(
+        val id: String,
+        val username: String,
+        val displayName: String,
+        val avatar: String,
+        val emojis: List<Emoji>
+)
+
+@TypeConverters(Converters::class)
+data class ConversationStatusEntity(
+        val id: String?,
+        val inReplyToId: String?,
+        val inReplyToAccountId: String?,
+        val account: ConversationAccountEntity,
+        val content: Spanned,
+        val createdAt: Date,
+        val emojis: List<Emoji>,
+        val favouritesCount: Int,
+        val favourited: Boolean,
+        val sensitive: Boolean,
+        val spoilerText: String?,
+        val attachments: List<Attachment>,
+        val mentions: Array<Status.Mention>,
+        val expanded: Boolean,
+        val collapsible: Boolean,
+        val collapsed: Boolean
+)
+
+
+fun Account.toEntity() =
+        ConversationAccountEntity(
+                id,
+                username,
+                displayName,
+                avatar,
+                emojis ?: emptyList()
+        )
+
+fun Status.toEntity() =
+        ConversationStatusEntity(
+                id, inReplyToId, inReplyToAccountId, account.toEntity(), content, createdAt,
+                emojis, favouritesCount, favourited, sensitive,
+                spoilerText, attachments, mentions,
+                false,
+                !SmartLengthInputFilter.hasBadRatio(content, SmartLengthInputFilter.LENGTH_DEFAULT),
+                true
+        )
+
+
+fun Conversation.toEntity(accountId: Long) =
+        ConversationEntity(
+                accountId,
+                id,
+                accounts.map { it.toEntity() },
+                unread,
+                lastStatus.toEntity()
+        )

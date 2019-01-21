@@ -16,16 +16,18 @@
 package com.keylesspalace.tusky.db
 
 import android.text.Spanned
-import android.util.Log
 import androidx.room.TypeConverter
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.TabData
+import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
 import com.keylesspalace.tusky.createTabDataFromId
-import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.json.SpannedTypeAdapter
+import com.keylesspalace.tusky.util.HtmlUtils
+import java.util.*
 
 class Converters {
 
@@ -44,8 +46,8 @@ class Converters {
     }
 
     @TypeConverter
-    fun visibilityToInt(visibility: Status.Visibility): Int {
-        return visibility.num
+    fun visibilityToInt(visibility: Status.Visibility?): Int {
+        return visibility?.num ?: Status.Visibility.UNKNOWN.num
     }
 
     @TypeConverter
@@ -65,23 +67,69 @@ class Converters {
     }
 
     @TypeConverter
-    fun statusToJson(status: Status?): String {
-        return gson.toJson(status)
+    fun accountToJson(account: ConversationAccountEntity?): String {
+        return gson.toJson(account)
     }
 
     @TypeConverter
-    fun jsonToStatus(statusJson: String?): Status? {
-        Log.d("JSOND", statusJson)
-        return gson.fromJson(statusJson, object : TypeToken<Status>() {}.type)
+    fun jsonToAccount(accountJson: String?): ConversationAccountEntity? {
+        return gson.fromJson(accountJson, ConversationAccountEntity::class.java)
     }
 
     @TypeConverter
-    fun accountListToJson(accountList: List<Account>?): String {
+    fun accountListToJson(accountList: List<ConversationAccountEntity>?): String {
         return gson.toJson(accountList)
     }
 
     @TypeConverter
-    fun jsonToAccountList(accountListJson: String?): List<Account>? {
-        return gson.fromJson(accountListJson, object : TypeToken<List<Account>>() {}.type)
+    fun jsonToAccountList(accountListJson: String?): List<ConversationAccountEntity>? {
+        return gson.fromJson(accountListJson, object : TypeToken<List<ConversationAccountEntity>>() {}.type)
     }
+
+    @TypeConverter
+    fun attachmentListToJson(attachmentList: List<Attachment>?): String {
+        return gson.toJson(attachmentList)
+    }
+
+    @TypeConverter
+    fun jsonToAttachmentList(attachmentListJson: String?): List<Attachment>? {
+        return gson.fromJson(attachmentListJson, object : TypeToken<List<Attachment>>() {}.type)
+    }
+
+    @TypeConverter
+    fun mentionArrayToJson(mentionArray: Array<Status.Mention>?): String? {
+        return gson.toJson(mentionArray)
+    }
+
+    @TypeConverter
+    fun jsonToMentionArray(mentionListJson: String?): Array<Status.Mention>? {
+        return gson.fromJson(mentionListJson, object : TypeToken<Array<Status.Mention>>() {}.type)
+    }
+
+    @TypeConverter
+    fun dateToLong(date: Date): Long {
+        return date.time
+    }
+
+    @TypeConverter
+    fun longToDate(date: Long): Date {
+        return Date(date)
+    }
+
+    @TypeConverter
+    fun spannedToString(spanned: Spanned?): String? {
+        if(spanned == null) {
+            return null
+        }
+        return HtmlUtils.toHtml(spanned)
+    }
+
+    @TypeConverter
+    fun stringToSpanned(spannedString: String?): Spanned? {
+        if(spannedString == null) {
+            return null
+        }
+        return HtmlUtils.fromHtml(spannedString)
+    }
+
 }

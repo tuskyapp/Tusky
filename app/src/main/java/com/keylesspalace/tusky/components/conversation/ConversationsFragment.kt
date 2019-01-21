@@ -36,6 +36,8 @@ import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.NetworkState
+import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.hide
 import kotlinx.android.synthetic.main.fragment_timeline.*
 import javax.inject.Inject
 
@@ -54,10 +56,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     private var mediaPreviewEnabled = true
     private var useAbsoluteTime = false
 
-    private val adapter = ConversationAdapter {
-        // TODO
-       // db.conversationDao().insert(it.copy(liked = !it.liked))
-    }
+    private lateinit var adapter: ConversationAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -72,10 +71,16 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true)
         useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
 
+        adapter = ConversationAdapter(this)  {
+            viewModel.retry()
+        }
+
         recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.adapter = adapter
 
+        progressBar.hide()
+        nothingMessage.hide()
 
         initSwipeToRefresh()
 
@@ -83,7 +88,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
             adapter.submitList(it)
         })
         viewModel.networkState.observe(this, Observer {
-           // adapter.setNetworkState(it)
+           adapter.setNetworkState(it)
         })
 
         viewModel.load(0)
@@ -92,32 +97,19 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     private fun initSwipeToRefresh() {
         viewModel.refreshState.observe(this, Observer {
             swipeRefreshLayout.isRefreshing = it == NetworkState.LOADING
+            if(it == NetworkState.LOADED) {
+                recyclerView.scrollToPosition(0)
+            }
         })
         swipeRefreshLayout.setOnRefreshListener {
             viewModel.refresh()
         }
+        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(swipeRefreshLayout.context, android.R.attr.colorBackground))
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-      /*  val status = searchAdapter.getStatusAtPosition(position)
-        if (status != null) {
-            timelineCases.reblogWithCallback(status, reblog, object: Callback<Status> {
-                override fun onResponse(call: Call<Status>?, response: Response<Status>?) {
-                    status.reblogged = true
-                    searchAdapter.updateStatusAtPosition(
-                            ViewDataUtils.statusToViewData(
-                                    status,
-                                    alwaysShowSensitiveMedia
-                            ),
-                            position
-                    )
-                }
-
-                override fun onFailure(call: Call<Status>?, t: Throwable?) {
-                    Log.d(TAG, "Failed to reblog status " + status.id, t)
-                }
-            })
-        }*/
+      // its impossible to reblog private messages
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.Config
 import androidx.paging.toLiveData
+import com.google.gson.Gson
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.network.MastodonApi
@@ -19,7 +20,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, val db: AppDatabase) {
+class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, val db: AppDatabase, val gson: Gson) {
 
     private val ioExecutor = Executors.newSingleThreadExecutor()
 
@@ -93,7 +94,7 @@ class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, 
 
     private fun insertResultIntoDb(accountId: Long, result: List<Conversation>?) {
         result?.let { conversations ->
-                db.conversationDao().insert(conversations.map { it.mapToEntity(accountId) })
+                db.conversationDao().insert(conversations.map { it.toEntity(accountId) })
         }
     }
 }

@@ -8,20 +8,20 @@
     android:layout_height="wrap_content"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:paddingLeft="14dp"
-    android:paddingRight="14dp">
+    android:paddingStart="12dp"
+    android:paddingEnd="14dp">
 
     <androidx.emoji.widget.EmojiTextView
-        android:id="@+id/status_reblogged"
+        android:id="@+id/conversation_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="@dimen/status_reblogged_bar_padding_top"
-        android:drawableStart="?attr/status_reblog_small_drawable"
-        android:drawablePadding="6dp"
         android:gravity="center_vertical"
-        android:paddingStart="38dp"
-        android:textColor="?android:textColorTertiary"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
+        android:textStyle="normal|bold"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -30,14 +30,42 @@
         tools:visibility="visible" />
 
     <com.keylesspalace.tusky.view.RoundedImageView
-        android:id="@+id/status_avatar"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="14dp"
+        android:id="@+id/status_avatar_2"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="22dp"
+        android:background="@drawable/avatar_border"
         android:contentDescription="@string/action_view_profile"
+        android:padding="2dp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_reblogged"
+        app:layout_constraintTop_toTopOf="@id/status_avatar_1"
+        tools:src="@drawable/avatar_default" />
+
+    <com.keylesspalace.tusky.view.RoundedImageView
+        android:id="@+id/status_avatar_1"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="22dp"
+        android:background="@drawable/avatar_border"
+        android:contentDescription="@string/action_view_profile"
+        android:padding="2dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/status_avatar"
+        tools:src="@drawable/avatar_default" />
+
+    <com.keylesspalace.tusky.view.RoundedImageView
+        android:id="@+id/status_avatar"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/avatar_border"
+        android:contentDescription="@string/action_view_profile"
+        android:padding="2dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/conversation_name"
         tools:src="@drawable/avatar_default" />
 
     <com.keylesspalace.tusky.view.RoundedImageView
@@ -67,7 +95,7 @@
         app:layout_constraintEnd_toStartOf="@id/status_timestamp_info"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toEndOf="@id/status_avatar"
-        app:layout_constraintTop_toBottomOf="@id/status_reblogged"
+        app:layout_constraintTop_toBottomOf="@id/conversation_name"
         tools:text="Ente r the void you foooooo" />
 
     <TextView

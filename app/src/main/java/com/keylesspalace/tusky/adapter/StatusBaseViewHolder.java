@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
-import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
@@ -28,7 +27,6 @@ import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
-import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.MediaPreviewImageView;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
@@ -44,7 +42,7 @@ import java.lang.CharSequence;
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
 
-abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
+public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private TextView displayName;
     private TextView username;
@@ -54,23 +52,23 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private ImageButton moreButton;
     private boolean favourited;
     private boolean reblogged;
-    private MediaPreviewImageView[] mediaPreviews;
+    protected MediaPreviewImageView[] mediaPreviews;
     private ImageView[] mediaOverlays;
     private TextView sensitiveMediaWarning;
     private View sensitiveMediaShow;
-    private TextView mediaLabel;
+    protected TextView mediaLabel;
     private ToggleButton contentWarningButton;
 
-    ImageView avatar;
-    TextView timestampInfo;
-    TextView content;
-    TextView contentWarningDescription;
+    public ImageView avatar;
+    public TextView timestampInfo;
+    public TextView content;
+    public TextView contentWarningDescription;
 
     private boolean useAbsoluteTime;
     private SimpleDateFormat shortSdf;
     private SimpleDateFormat longSdf;
 
-    StatusBaseViewHolder(View itemView, boolean useAbsoluteTime) {
+    protected StatusBaseViewHolder(View itemView, boolean useAbsoluteTime) {
         super(itemView);
         displayName = itemView.findViewById(R.id.status_display_name);
         username = itemView.findViewById(R.id.status_username);
@@ -108,28 +106,30 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     protected abstract int getMediaPreviewHeight(Context context);
 
-    private void setDisplayName(String name, List<Emoji> customEmojis) {
+    protected void setDisplayName(String name, List<Emoji> customEmojis) {
         CharSequence emojifiedName = CustomEmojiHelper.emojifyString(name, customEmojis, displayName);
         displayName.setText(emojifiedName);
     }
 
-    private void setUsername(String name) {
+    protected void setUsername(String name) {
         Context context = username.getContext();
         String format = context.getString(R.string.status_username_format);
         String usernameText = String.format(format, name);
         username.setText(usernameText);
     }
 
-    private void setSpoilerAndContent(StatusViewData.Concrete status,
-                                final StatusActionListener listener) {
-        if (status.getSpoilerText() == null || status.getSpoilerText().isEmpty()) {
+    protected void setSpoilerAndContent(boolean expanded,
+                            @NonNull Spanned content,
+                                        @Nullable String spoilerText,
+                                         @Nullable Status.Mention[] mentions,
+                                         @NonNull List<Emoji> emojis,
+                                        final StatusActionListener listener) {
+        if (TextUtils.isEmpty(spoilerText)) {
             contentWarningDescription.setVisibility(View.GONE);
             contentWarningButton.setVisibility(View.GONE);
-            this.setTextVisible(true, status, listener);
+            this.setTextVisible(true, content, mentions, emojis, listener);
         } else {
-            boolean expanded = status.isExpanded();
-            CharSequence emojiSpoiler = CustomEmojiHelper.emojifyString(
-                    status.getSpoilerText(), status.getStatusEmojis(), contentWarningDescription);
+            CharSequence emojiSpoiler = CustomEmojiHelper.emojifyString(spoilerText, emojis, contentWarningDescription);
             contentWarningDescription.setText(emojiSpoiler);
             contentWarningDescription.setVisibility(View.VISIBLE);
             contentWarningButton.setVisibility(View.VISIBLE);
@@ -139,18 +139,19 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 if (getAdapterPosition() != RecyclerView.NO_POSITION) {
                     listener.onExpandedChange(isChecked, getAdapterPosition());
                 }
-                this.setTextVisible(isChecked, status, listener);
+                this.setTextVisible(isChecked, content, mentions, emojis, listener);
             });
-            this.setTextVisible(expanded, status, listener);
+            this.setTextVisible(expanded, content, mentions, emojis, listener);
         }
     }
 
-    private void setTextVisible(boolean expanded, StatusViewData.Concrete status,
+    private void setTextVisible(boolean expanded,
+                                Spanned content,
+                                Status.Mention[] mentions,
+                                List<Emoji> emojis,
                                 final StatusActionListener listener) {
-        Status.Mention[] mentions = status.getMentions();
         if (expanded) {
-            Spanned emojifiedText = CustomEmojiHelper.emojifyText(
-                    status.getContent(), status.getStatusEmojis(), this.content);
+            Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, this.content);
             LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
         } else {
                 LinkHelper.setClickableMentions(this.content, mentions, listener);
@@ -162,7 +163,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    void setAvatar(String url, @Nullable String rebloggedUrl) {
+    protected void setAvatar(String url, @Nullable String rebloggedUrl) {
         if (TextUtils.isEmpty(url)) {
             avatar.setImageResource(R.drawable.avatar_default);
         } else {
@@ -219,7 +220,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void setIsReply(boolean isReply) {
+    protected void setIsReply(boolean isReply) {
         if (isReply) {
             replyButton.setImageResource(R.drawable.ic_reply_all_24dp);
         } else {
@@ -265,13 +266,13 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void setFavourited(boolean favourited) {
+    protected void setFavourited(boolean favourited) {
         this.favourited = favourited;
         favouriteButton.setChecked(favourited);
     }
 
-    private void setMediaPreviews(final List<Attachment> attachments, boolean sensitive,
-                                  final StatusActionListener listener, boolean showingContent) {
+    protected void setMediaPreviews(final List<Attachment> attachments, boolean sensitive,
+                                    final StatusActionListener listener, boolean showingContent) {
 
         Context context = itemView.getContext();
 
@@ -406,8 +407,8 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void setMediaLabel(List<Attachment> attachments, boolean sensitive,
-                               final StatusActionListener listener) {
+    protected void setMediaLabel(List<Attachment> attachments, boolean sensitive,
+                                 final StatusActionListener listener) {
         if (attachments.size() == 0) {
             mediaLabel.setVisibility(View.GONE);
             return;
@@ -432,12 +433,12 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         mediaLabel.setOnClickListener(v -> listener.onViewMedia(getAdapterPosition(), 0, null));
     }
 
-    private void hideSensitiveMediaWarning() {
+    protected void hideSensitiveMediaWarning() {
         sensitiveMediaWarning.setVisibility(View.GONE);
         sensitiveMediaShow.setVisibility(View.GONE);
     }
 
-    private void setupButtons(final StatusActionListener listener, final String accountId) {
+    protected void setupButtons(final StatusActionListener listener, final String accountId) {
         /* Originally position was passed through to all these listeners, but it caused several
          * bugs where other statuses in the list would be removed or added and cause the position
          * here to become outdated. So, getting the adapter position at the time the listener is
@@ -503,8 +504,8 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(viewThreadListener);
     }
 
-    void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
-                         boolean mediaPreviewEnabled) {
+    protected void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
+                                   boolean mediaPreviewEnabled) {
         setDisplayName(status.getUserFullName(), status.getAccountEmojis());
         setUsername(status.getNickname());
         setCreatedAt(status.getCreatedAt());
@@ -535,7 +536,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         setupButtons(listener, status.getSenderId());
         setRebloggingEnabled(status.getRebloggingEnabled(), status.getVisibility());
 
-        setSpoilerAndContent(status, listener);
+        setSpoilerAndContent(status.isExpanded(), status.getContent(), status.getSpoilerText(), status.getMentions(), status.getStatusEmojis(), listener);
 
     }
 }

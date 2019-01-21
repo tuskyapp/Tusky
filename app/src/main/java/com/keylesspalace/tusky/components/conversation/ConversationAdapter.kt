@@ -1,50 +1,79 @@
 package com.keylesspalace.tusky.components.conversation
 
-import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.keylesspalace.tusky.entity.Conversation
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.keylesspalace.tusky.R
-import kotlinx.android.synthetic.main.item_conversation.view.*
+import com.keylesspalace.tusky.adapter.NetworkStateViewHolder
+import com.keylesspalace.tusky.interfaces.StatusActionListener
+import com.keylesspalace.tusky.util.NetworkState
 
-class ConversationAdapter(val likeListener: (ConversationEntity) -> Unit): PagedListAdapter<ConversationEntity, RecyclerView.ViewHolder>(POST_COMPARATOR) {
+class ConversationAdapter(
+                          private val listener: StatusActionListener,
+                          private val retryCallback: () -> Unit)
+ : PagedListAdapter<ConversationEntity, RecyclerView.ViewHolder>(CONVERSATION_COMPARATOR) {
+
+    private var networkState: NetworkState? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_conversation, parent, false))
+        val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+        return when (viewType) {
+            R.layout.item_network_state -> NetworkStateViewHolder(view, retryCallback)
+            R.layout.item_conversation -> ConversationViewHolder(view, listener, false, false)
+            else -> throw IllegalArgumentException("unknown view type $viewType")
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.itemView.status_username.text = getItem(position)?.lastStatus?.content
+        when (getItemViewType(position)) {
+            R.layout.item_network_state -> (holder as NetworkStateViewHolder).setUpWithNetworkState(networkState)
+            R.layout.item_conversation -> (holder as ConversationViewHolder).setupWithConversation(getItem(position))
+        }
+    }
 
+    private fun hasExtraRow() = networkState != null && networkState != NetworkState.LOADED
 
-        if(getItem(position)?.lastStatus?.favourited == true) {
-            holder.itemView.setBackgroundColor(Color.RED)
+    override fun getItemViewType(position: Int): Int {
+        return if (hasExtraRow() && position == itemCount - 1) {
+            R.layout.item_network_state
         } else {
-            holder.itemView.setBackgroundColor(Color.BLUE)
+            R.layout.item_conversation
         }
-        holder.itemView.setOnClickListener{
-            likeListener(getItem(position)!!)
-        }
+    }
 
+    override fun getItemCount(): Int {
+        return super.getItemCount() + if (hasExtraRow()) 1 else 0
+    }
+
+    fun setNetworkState(newNetworkState: NetworkState?) {
+        val previousState = this.networkState
+        val hadExtraRow = hasExtraRow()
+        this.networkState = newNetworkState
+        val hasExtraRow = hasExtraRow()
+        if (hadExtraRow != hasExtraRow) {
+            if (hadExtraRow) {
+                notifyItemRemoved(super.getItemCount())
+            } else {
+                notifyItemInserted(super.getItemCount())
+            }
+        } else if (hasExtraRow && previousState != newNetworkState) {
+            notifyItemChanged(itemCount - 1)
+        }
     }
 
 
     companion object {
-        private val PAYLOAD_SCORE = Any()
-        val POST_COMPARATOR = object : DiffUtil.ItemCallback<ConversationEntity>() {
+
+        val CONVERSATION_COMPARATOR = object : DiffUtil.ItemCallback<ConversationEntity>() {
             override fun areContentsTheSame(oldItem: ConversationEntity, newItem: ConversationEntity): Boolean =
                     oldItem == newItem
 
             override fun areItemsTheSame(oldItem: ConversationEntity, newItem: ConversationEntity): Boolean =
                     oldItem.id == newItem.id
-
         }
 
     }
-
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
 }

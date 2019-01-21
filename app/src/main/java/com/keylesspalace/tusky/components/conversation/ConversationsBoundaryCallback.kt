@@ -53,7 +53,6 @@ class ConversationsBoundaryCallback(
         helper.runIfNotRunning(PagingRequestHelper.RequestType.INITIAL) {
             mastodonApi.getConversations(null, networkPageSize)
                     .enqueue(createWebserviceCallback(it))
-
         }
     }
 

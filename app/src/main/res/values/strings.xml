@@ -377,4 +377,9 @@
     <string name="title_reblogged_by">Boosted by</string>
     <string name="title_favourited_by">Favourited by</string>
 
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s and %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s and %3$d more</string>
+
+
 </resources>
