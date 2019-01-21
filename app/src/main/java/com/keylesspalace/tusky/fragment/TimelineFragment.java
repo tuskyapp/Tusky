@@ -507,6 +507,7 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onRefresh() {
+        swipeRefreshLayout.setEnabled(true);
         this.statusView.setVisibility(View.GONE);
         if (this.initialUpdateFailed) {
             updateCurrent();
@@ -941,6 +942,7 @@ public class TimelineFragment extends SFragment implements
         updateBottomLoadingState(fetchEnd);
         progressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setEnabled(true);
         if (this.statuses.size() == 0) {
             this.showNothing();
         } else {
@@ -964,6 +966,7 @@ public class TimelineFragment extends SFragment implements
                 statuses.setPairedItem(position, newViewData);
                 updateAdapter();
             } else if (this.statuses.isEmpty()) {
+                swipeRefreshLayout.setEnabled(false);
                 this.statusView.setVisibility(View.VISIBLE);
                 if (exception instanceof IOException) {
                     this.statusView.setup(R.drawable.elephant_offline, R.string.error_network, __ -> {

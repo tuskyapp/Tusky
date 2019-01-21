@@ -6,10 +6,14 @@
         android:id="@+id/messageTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:drawablePadding="8dp"
+        android:drawablePadding="16dp"
+        android:lineSpacingMultiplier="1.1"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
         android:textAlignment="center"
         android:textSize="?attr/status_text_medium"
+        tools:drawableTop="@drawable/elephant_offline"
         tools:text="@string/error_network" />
 
     <Button
@@ -17,6 +21,6 @@
         style="@style/TuskyButton.Outlined"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:text="@string/action_retry" />
 </merge>

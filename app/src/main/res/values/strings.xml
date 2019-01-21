@@ -1,7 +1,7 @@
 <resources>
 
     <string name="error_generic">An error occurred.</string>
-    <string name="error_network">Network error occurred</string>
+    <string name="error_network">A network error occurred! Please check you connection and try again!</string>
     <string name="error_empty">This cannot be empty.</string>
     <string name="error_invalid_domain">Invalid domain entered</string>
     <string name="error_failed_app_registration">Failed authenticating with that instance.</string>

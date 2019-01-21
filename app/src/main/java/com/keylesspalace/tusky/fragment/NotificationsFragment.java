@@ -325,6 +325,7 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onRefresh() {
+        swipeRefreshLayout.setEnabled(true);
         this.statusView.setVisibility(View.GONE);
         Either<Placeholder, Notification> first = CollectionsKt.firstOrNull(this.notifications);
         String topId;
@@ -732,6 +733,7 @@ public class NotificationsFragment extends SFragment implements
             adapter.updateItemWithNotify(position, placeholderVD, true);
         } else if (this.notifications.isEmpty()) {
             this.statusView.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setEnabled(false);
             if (exception instanceof IOException) {
                 this.statusView.setup(R.drawable.elephant_offline, R.string.error_network, __ -> {
                     this.progressBar.setVisibility(View.VISIBLE);
