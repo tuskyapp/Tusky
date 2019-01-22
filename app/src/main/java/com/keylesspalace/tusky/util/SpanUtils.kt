@@ -1,3 +1,4 @@
+@file:JvmName("SpanUtils")
 package com.keylesspalace.tusky.util
 
 import android.text.Spannable
@@ -61,9 +62,8 @@ private fun findPattern(string: String, fromIndex: Int): FindCharsResult {
     var foundResult: FindCharsResult? = null
     for (i in fromIndex..string.lastIndex) {
         val c = string[i]
-        for (matchType in FoundMatchType.values()) {
-            val finder = finders[matchType]
-            if (finder!!.searchCharacter == c &&
+        for ((matchType, finder) in finders) {
+            if (finder.searchCharacter == c &&
                     (finder.searchPrefixWidth == 0 ||
                             (i - fromIndex) < finder.searchPrefixWidth ||
                             Character.isWhitespace(string.codePointAt(i - finder.searchPrefixWidth)))) {
