@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.fragment
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -74,6 +75,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
     private var currentCall: Call<List<Status>>? = null
     private val statuses = mutableListOf<Status>()
     private var fetchingStatus = FetchingStatus.NOT_FETCHING
+    private var isVisibleToUser: Boolean = false
 
     private val callback = object : Callback<List<Status>> {
         override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
@@ -187,12 +189,19 @@ class AccountMediaFragment : BaseFragment(), Injectable {
                 }
             }
         })
+
+        if (isVisibleToUser) doInitialLoadingIfNeeded()
     }
 
     // That's sort of an optimization to only load media once user has opened the tab
+    // Attention: can be called before *any* lifecycle method!
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        if (!isVisibleToUser) return
+        this.isVisibleToUser = isVisibleToUser
+        if (isVisibleToUser && isAdded) doInitialLoadingIfNeeded()
+    }
+
+    private fun doInitialLoadingIfNeeded() {
         val accountId = arguments?.getString(ACCOUNT_ID_ARG)
         if (fetchingStatus == FetchingStatus.NOT_FETCHING && statuses.isEmpty()) {
             fetchingStatus = FetchingStatus.INITIAL_FETCHING
