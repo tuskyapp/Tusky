@@ -111,7 +111,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -158,7 +157,7 @@ import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvid
 public final class ComposeActivity
         extends BaseActivity
         implements ComposeOptionsListener,
-        MentionTagAutoCompleteAdapter.AutocomletionProvider,
+        MentionTagAutoCompleteAdapter.AutocompletionProvider,
         OnEmojiSelectedListener,
         Injectable, InputConnectionCompat.OnCommitContentListener {
 
@@ -520,7 +519,7 @@ public final class ComposeActivity
         });
 
         textEditor.setAdapter(
-                new MentionTagAutoCompleteAdapter(this, this));
+                new MentionTagAutoCompleteAdapter(this));
         textEditor.setTokenizer(new MentionTagTokenizer());
 
         // Add any mentions to the text field when a reply is first composed.
@@ -1551,9 +1550,9 @@ public final class ComposeActivity
                     return CollectionsKt.map(resultList, MentionTagAutoCompleteAdapter.AccountResult::new);
                 case '#':
                     Response<SearchResults> response = mastodonApi.search(token, false).execute();
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful() && response.body() != null) {
                         return CollectionsKt.map(
-                                Objects.requireNonNull(response.body()).getHashtags(),
+                                response.body().getHashtags(),
                                 MentionTagAutoCompleteAdapter.HashtagResult::new
                         );
                     } else {

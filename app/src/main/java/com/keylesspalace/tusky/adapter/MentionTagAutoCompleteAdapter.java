@@ -46,15 +46,12 @@ public class MentionTagAutoCompleteAdapter extends BaseAdapter
     private static final int HASHTAG_VIEW_TYPE = 1;
 
     private final ArrayList<AutocompleteResult> resultList;
-    private final AutocomletionProvider autocomletionProvider;
-    private final Context context;
+    private final AutocompletionProvider autocompletionProvider;
 
-    public MentionTagAutoCompleteAdapter(Context context,
-                                         AutocomletionProvider autocomletionProvider) {
+    public MentionTagAutoCompleteAdapter(AutocompletionProvider autocompletionProvider) {
         super();
-        this.context = context;
         resultList = new ArrayList<>();
-        this.autocomletionProvider = autocomletionProvider;
+        this.autocompletionProvider = autocompletionProvider;
     }
 
     @Override
@@ -91,7 +88,7 @@ public class MentionTagAutoCompleteAdapter extends BaseAdapter
                 FilterResults filterResults = new FilterResults();
                 if (constraint != null) {
                     List<AutocompleteResult> results =
-                            autocomletionProvider.search(constraint.toString());
+                            autocompletionProvider.search(constraint.toString());
                     filterResults.values = results;
                     filterResults.count = results.size();
                 }
@@ -116,13 +113,15 @@ public class MentionTagAutoCompleteAdapter extends BaseAdapter
     @NonNull
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
+        final Context context = parent.getContext();
 
         switch (getItemViewType(position)) {
             case ACCOUNT_VIEW_TYPE:
                 AccountViewHolder holder;
                 if (convertView == null) {
                     //noinspection ConstantConditions
-                    view = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                    view = ((LayoutInflater) context
+                            .getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                             .inflate(R.layout.item_autocomplete_account, parent, false);
                 }
                 if (view.getTag() == null) {
@@ -150,7 +149,8 @@ public class MentionTagAutoCompleteAdapter extends BaseAdapter
 
             case HASHTAG_VIEW_TYPE:
                 if (convertView == null) {
-                    view = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                    view = ((LayoutInflater) context
+                            .getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                             .inflate(R.layout.item_hashtag, parent, false);
                 }
 
@@ -205,7 +205,7 @@ public class MentionTagAutoCompleteAdapter extends BaseAdapter
         }
     }
 
-    public interface AutocomletionProvider {
+    public interface AutocompletionProvider {
         List<AutocompleteResult> search(String mention);
     }
 
