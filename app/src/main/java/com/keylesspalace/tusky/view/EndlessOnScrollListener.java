@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.view;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,7 +30,7 @@ public abstract class EndlessOnScrollListener extends RecyclerView.OnScrollListe
     }
 
     @Override
-    public void onScrolled(RecyclerView view, int dx, int dy) {
+    public void onScrolled(@NonNull RecyclerView view, int dx, int dy) {
         int totalItemCount = layoutManager.getItemCount();
         int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
         if (totalItemCount < previousTotalItemCount) {

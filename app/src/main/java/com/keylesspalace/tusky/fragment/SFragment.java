@@ -19,19 +19,16 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.PopupMenu;
+
 import android.text.Spanned;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
+import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BottomSheetActivity;
 import com.keylesspalace.tusky.ComposeActivity;
+import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ReportActivity;
 import com.keylesspalace.tusky.ViewMediaActivity;
@@ -51,6 +48,13 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
+
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
  * of that is complicated by how they're coupled with Status and Notification and the corresponding
@@ -58,8 +62,6 @@ import javax.inject.Inject;
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
 public abstract class SFragment extends BaseFragment {
-    protected String loggedInAccountId;
-    protected String loggedInUsername;
 
     protected abstract TimelineCases timelineCases();
 
@@ -73,16 +75,6 @@ public abstract class SFragment extends BaseFragment {
     public MastodonApi mastodonApi;
     @Inject
     public AccountManager accountManager;
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        AccountEntity activeAccount = accountManager.getActiveAccount();
-        if (activeAccount != null) {
-            loggedInAccountId = activeAccount.getAccountId();
-            loggedInUsername = activeAccount.getUsername();
-        }
-    }
 
     @Override
     public void startActivity(Intent intent) {
@@ -125,6 +117,11 @@ public abstract class SFragment extends BaseFragment {
         Status.Mention[] mentions = actionableStatus.getMentions();
         Set<String> mentionedUsernames = new LinkedHashSet<>();
         mentionedUsernames.add(actionableStatus.getAccount().getUsername());
+        String loggedInUsername = null;
+        AccountEntity activeAccount = accountManager.getActiveAccount();
+        if(activeAccount != null) {
+            loggedInUsername = activeAccount.getUsername();
+        }
         for (Status.Mention mention : mentions) {
             mentionedUsernames.add(mention.getUsername());
         }
@@ -134,7 +131,7 @@ public abstract class SFragment extends BaseFragment {
                 .replyVisibility(replyVisibility)
                 .contentWarning(contentWarning)
                 .mentionedUsernames(mentionedUsernames)
-                .repyingStatusAuthor(actionableStatus.getAccount().getLocalUsername())
+                .replyingStatusAuthor(actionableStatus.getAccount().getLocalUsername())
                 .replyingStatusContent(actionableStatus.getContent().toString())
                 .build(getContext());
         getActivity().startActivity(intent);
@@ -146,6 +143,15 @@ public abstract class SFragment extends BaseFragment {
         final String accountUsername = status.getActionableStatus().getAccount().getUsername();
         final Spanned content = status.getActionableStatus().getContent();
         final String statusUrl = status.getActionableStatus().getUrl();
+        List<AccountEntity> accounts = accountManager.getAllAccountsOrderedByActive();
+        String openAsTitle = null;
+
+        String loggedInAccountId = null;
+        AccountEntity activeAccount = accountManager.getActiveAccount();
+        if(activeAccount != null) {
+            loggedInAccountId = activeAccount.getAccountId();
+        }
+
         PopupMenu popup = new PopupMenu(getContext(), view);
         // Give a different menu depending on whether this is the user's own toot or not.
         if (loggedInAccountId == null || !loggedInAccountId.equals(accountId)) {
@@ -170,6 +176,28 @@ public abstract class SFragment extends BaseFragment {
                 }
             }
         }
+
+        Menu menu = popup.getMenu();
+        MenuItem openAsItem = menu.findItem(R.id.status_open_as);
+        switch(accounts.size()) {
+            case 0:
+            case 1:
+                openAsItem.setVisible(false);
+                break;
+            case 2:
+                for (AccountEntity account : accounts) {
+                    if (account != activeAccount) {
+                        openAsTitle = String.format(getString(R.string.action_open_as), account.getFullName());
+                        break;
+                    }
+                }
+                break;
+            default:
+                openAsTitle = String.format(getString(R.string.action_open_as), "…");
+                break;
+        }
+        openAsItem.setTitle(openAsTitle);
+
         popup.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.status_share_content: {
@@ -200,6 +228,10 @@ public abstract class SFragment extends BaseFragment {
                             getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                     ClipData clip = ClipData.newPlainText(null, statusUrl);
                     clipboard.setPrimaryClip(clip);
+                    return true;
+                }
+                case R.id.status_open_as: {
+                    showOpenAsDialog(statusUrl, item.getTitle());
                     return true;
                 }
                 case R.id.status_mute: {
@@ -293,5 +325,38 @@ public abstract class SFragment extends BaseFragment {
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
+    }
+
+    private void openAsAccount(String statusUrl, AccountEntity account) {
+        accountManager.setActiveAccount(account);
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(MainActivity.STATUS_URL, statusUrl);
+        startActivity(intent);
+        ((BaseActivity)getActivity()).finishWithoutSlideOutAnimation();
+    }
+
+    private void showOpenAsDialog(String statusUrl, CharSequence dialogTitle) {
+        List<AccountEntity> accounts = accountManager.getAllAccountsOrderedByActive();
+        AccountEntity activeAccount = accountManager.getActiveAccount();
+
+        if (accounts.size() == 2) {
+            for (AccountEntity account : accounts) {
+                if (activeAccount != account) {
+                    openAsAccount(statusUrl, account);
+                    break;
+                }
+            }
+        } else {
+            accounts.remove(activeAccount);
+            CharSequence[] accountNames = new CharSequence[accounts.size()];
+            for (int i = 0; i < accounts.size(); ++i) {
+                accountNames[i] = accounts.get(i).getFullName();
+            }
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(dialogTitle)
+                    .setItems(accountNames, (dialogInterface, index) -> openAsAccount(statusUrl, accounts.get(index)))
+                    .show();
+        }
     }
 }

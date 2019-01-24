@@ -1739,7 +1739,7 @@ public final class ComposeActivity
             return this;
         }
 
-        public IntentBuilder repyingStatusAuthor(String username) {
+        public IntentBuilder replyingStatusAuthor(String username) {
             this.replyingStatusAuthor = username;
             return this;
         }

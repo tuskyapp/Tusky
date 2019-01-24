@@ -96,15 +96,16 @@
 
     <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_content_warning_description"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
         android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_display_name"
-        tools:text="content warning"
+        tools:text="content warning which is very long and it doesn't fit"
         tools:visibility="visible" />
 
     <ToggleButton
@@ -125,7 +126,7 @@
         android:textOn="@string/status_content_warning_show_less"
         android:textSize="?attr/status_text_medium"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@id/status_content_warning_description"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_content_warning_description"
         tools:visibility="visible" />
 
@@ -161,7 +162,7 @@
         android:textOn="@string/status_content_show_more"
         android:textSize="?attr/status_text_medium"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@id/status_content_warning_description"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_content"
         tools:visibility="visible" />
 
@@ -171,7 +172,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/status_media_preview_margin_top"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/status_content_warning_description"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/button_toggle_content"
         tools:visibility="gone">
 
@@ -323,7 +324,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/status_reblog"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="@id/status_content_warning_description"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_media_preview_container"
         app:srcCompat="@drawable/ic_reply_24dp" />
 
