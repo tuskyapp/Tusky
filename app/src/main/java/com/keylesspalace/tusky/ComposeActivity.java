@@ -118,6 +118,7 @@ import com.keylesspalace.tusky.util.SaveTootHelper;
 import com.keylesspalace.tusky.util.SpanUtilsKt;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
+import com.keylesspalace.tusky.util.VersionUtils;
 import com.keylesspalace.tusky.view.AddPollDialog;
 import com.keylesspalace.tusky.view.ComposeOptionsListener;
 import com.keylesspalace.tusky.view.ComposeOptionsView;
@@ -1974,6 +1975,10 @@ public final class ComposeActivity
             if (instance.getMaxTootChars() != null) {
                 maximumTootCharacters = instance.getMaxTootChars();
                 updateVisibleCharactersLeft();
+            }
+
+            if (!new VersionUtils(instance.getVersion()).supportsScheduledToots()) {
+                scheduleButton.setVisibility(View.GONE);
             }
 
             if (instance.getPollLimits() != null) {
