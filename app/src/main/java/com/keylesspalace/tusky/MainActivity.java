@@ -108,6 +108,21 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private Drawer drawer;
     private ViewPager viewPager;
 
+    private boolean forwardShare(Intent intent) {
+        String type = intent.getType();
+        boolean sharing = (type != null &&
+                (type.startsWith("image/") || type.startsWith("video/") || type.equals("text/plain")));
+        if (sharing) {
+            // Shared to
+            Intent composeIntent = new Intent(this, ComposeActivity.class);
+            composeIntent.setAction(intent.getAction());
+            composeIntent.setType(intent.getType());
+            composeIntent.putExtras(intent);
+            new Handler().postDelayed(() -> startActivity(composeIntent), 100);
+        }
+        return sharing;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,16 +134,18 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
             long accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1);
 
             if (accountId != -1) {
-                // user clicked a notification, show notification tab and switch user if necessary
-                tabPosition = 1;
                 AccountEntity account = accountManager.getActiveAccount();
-
                 if (account == null || accountId != account.getId()) {
                     accountManager.setActiveAccount(accountId);
                 }
             }
-        }
 
+            boolean sharing = forwardShare(intent);
+            if (accountId != -1 && !sharing) {
+                // user clicked a notification, show notification tab and switch user if necessary
+                tabPosition = 1;
+            }
+        }
         setContentView(R.layout.activity_main);
 
         composeButton = findViewById(R.id.floating_btn);
