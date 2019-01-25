@@ -17,7 +17,9 @@ package com.keylesspalace.tusky;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -55,13 +57,34 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.Px;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.core.view.inputmethod.InputConnectionCompat;
+import androidx.core.view.inputmethod.InputContentInfoCompat;
+import androidx.lifecycle.Lifecycle;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionManager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -98,6 +121,7 @@ import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.AddPollDialog;
 import com.keylesspalace.tusky.view.ComposeOptionsListener;
 import com.keylesspalace.tusky.view.ComposeOptionsView;
+import com.keylesspalace.tusky.view.ComposeScheduleView;
 import com.keylesspalace.tusky.view.EditTextTyped;
 import com.keylesspalace.tusky.view.PollPreviewView;
 import com.keylesspalace.tusky.view.ProgressImageView;
@@ -122,25 +146,6 @@ import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
 import javax.inject.Inject;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.Px;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.core.view.inputmethod.InputConnectionCompat;
-import androidx.core.view.inputmethod.InputContentInfoCompat;
-import androidx.lifecycle.Lifecycle;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.transition.TransitionManager;
 
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.Single;
@@ -169,7 +174,8 @@ public final class ComposeActivity
         implements ComposeOptionsListener,
         ComposeAutoCompleteAdapter.AutocompletionProvider,
         OnEmojiSelectedListener,
-        Injectable, InputConnectionCompat.OnCommitContentListener {
+        Injectable, InputConnectionCompat.OnCommitContentListener,
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private static final String TAG = "ComposeActivity"; // logging tag
     static final int STATUS_CHARACTER_LIMIT = 500;
@@ -217,6 +223,7 @@ public final class ComposeActivity
     private ImageButton contentWarningButton;
     private ImageButton emojiButton;
     private ImageButton hideMediaToggle;
+    private ImageButton scheduleButton;
     private TextView actionAddPoll;
     private Button atButton;
     private Button hashButton;
@@ -225,6 +232,8 @@ public final class ComposeActivity
     private BottomSheetBehavior composeOptionsBehavior;
     private BottomSheetBehavior addMediaBehavior;
     private BottomSheetBehavior emojiBehavior;
+    private BottomSheetBehavior scheduleBehavior;
+    private ComposeScheduleView scheduleView;
     private RecyclerView emojiView;
 
     private PollPreviewView pollPreview;
@@ -278,6 +287,8 @@ public final class ComposeActivity
         contentWarningButton = findViewById(R.id.composeContentWarningButton);
         emojiButton = findViewById(R.id.composeEmojiButton);
         hideMediaToggle = findViewById(R.id.composeHideMediaButton);
+        scheduleButton = findViewById(R.id.composeScheduleButton);
+        scheduleView = findViewById(R.id.composeScheduleView);
         emojiView = findViewById(R.id.emojiView);
         emojiList = Collections.emptyList();
         atButton = findViewById(R.id.atButton);
@@ -361,6 +372,8 @@ public final class ComposeActivity
 
         addMediaBehavior = BottomSheetBehavior.from(findViewById(R.id.addMediaBottomSheet));
 
+        scheduleBehavior = BottomSheetBehavior.from(scheduleView);
+
         emojiBehavior = BottomSheetBehavior.from(emojiView);
 
         emojiView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false));
@@ -374,6 +387,7 @@ public final class ComposeActivity
         contentWarningButton.setOnClickListener(v -> onContentWarningChanged());
         emojiButton.setOnClickListener(v -> showEmojis());
         hideMediaToggle.setOnClickListener(v -> toggleHideMedia());
+        scheduleButton.setOnClickListener(v -> showScheduleView());
         atButton.setOnClickListener(v -> atButtonClicked());
         hashButton.setOnClickListener(v -> hashButtonClicked());
 
@@ -804,6 +818,7 @@ public final class ComposeActivity
         visibilityButton.setClickable(false);
         emojiButton.setClickable(false);
         hideMediaToggle.setClickable(false);
+        scheduleButton.setClickable(false);
         tootButton.setEnabled(false);
     }
 
@@ -812,6 +827,7 @@ public final class ComposeActivity
         visibilityButton.setClickable(true);
         emojiButton.setClickable(true);
         hideMediaToggle.setClickable(true);
+        scheduleButton.setClickable(true);
         tootButton.setEnabled(true);
     }
 
@@ -859,9 +875,20 @@ public final class ComposeActivity
             composeOptionsBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
+            scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         } else {
             composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+    }
+
+    private void showScheduleView() {
+        if (scheduleBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN || scheduleBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            scheduleBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        } else {
+            scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
     }
 
@@ -876,7 +903,7 @@ public final class ComposeActivity
                     emojiBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                     addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
+                    scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                 } else {
                     emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                 }
@@ -891,7 +918,7 @@ public final class ComposeActivity
             addMediaBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
+            scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         } else {
             addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
@@ -1084,7 +1111,8 @@ public final class ComposeActivity
         }
 
         Intent sendIntent = SendTootService.sendTootIntent(this, content, spoilerText,
-                visibility, !mediaUris.isEmpty() && sensitive, mediaIds, mediaUris, mediaDescriptions, inReplyToId, poll,
+                visibility, !mediaUris.isEmpty() && sensitive, mediaIds, mediaUris, mediaDescriptions,
+                scheduleView.getTime(), inReplyToId, poll,
                 getIntent().getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
                 getIntent().getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA),
                 getIntent().getStringExtra(SAVED_JSON_URLS_EXTRA),
@@ -1743,10 +1771,12 @@ public final class ComposeActivity
         // Acting like a teen: deliberately ignoring parent.
         if (composeOptionsBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ||
                 addMediaBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ||
-                emojiBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                emojiBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ||
+                scheduleBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             return;
         }
 
@@ -2045,6 +2075,16 @@ public final class ComposeActivity
             dest.writeString(readyStage.name());
             dest.writeString(description);
         }
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        scheduleView.onDateSet(year, month, dayOfMonth);
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        scheduleView.onTimeSet(hourOfDay, minute);
     }
 
     public static final class IntentBuilder {

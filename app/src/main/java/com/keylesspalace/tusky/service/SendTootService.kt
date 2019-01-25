@@ -140,6 +140,7 @@ class SendTootService : Service(), Injectable {
                 tootToSend.visibility,
                 tootToSend.sensitive,
                 tootToSend.mediaIds,
+                tootToSend.scheduledAt,
                 tootToSend.poll
         )
 
@@ -156,6 +157,7 @@ class SendTootService : Service(), Injectable {
         val callback = object : Callback<Status> {
             override fun onResponse(call: Call<Status>, response: Response<Status>) {
 
+                val scheduled = tootToSend.scheduledAt.isNullOrEmpty()
                 tootsToSend.remove(tootId)
 
                 if (response.isSuccessful) {
@@ -164,7 +166,7 @@ class SendTootService : Service(), Injectable {
                         saveTootHelper.deleteDraft(tootToSend.savedTootUid)
                     }
 
-                    response.body()?.let(::StatusComposedEvent)?.let(eventHub::dispatch)
+                    if (!scheduled) response.body()?.let(::StatusComposedEvent)?.let(eventHub::dispatch)
 
                     notificationManager.cancel(tootId)
 
@@ -284,6 +286,7 @@ class SendTootService : Service(), Injectable {
                            mediaIds: List<String>,
                            mediaUris: List<Uri>,
                            mediaDescriptions: List<String>,
+                           scheduledAt: String?,
                            inReplyToId: String?,
                            poll: NewPoll?,
                            replyingStatusContent: String?,
@@ -303,6 +306,7 @@ class SendTootService : Service(), Injectable {
                     mediaIds,
                     mediaUris.map { it.toString() },
                     mediaDescriptions,
+                    scheduledAt,
                     inReplyToId,
                     poll,
                     replyingStatusContent,
@@ -346,6 +350,7 @@ data class TootToSend(val text: String,
                       val mediaIds: List<String>,
                       val mediaUris: List<String>,
                       val mediaDescriptions: List<String>,
+                      val scheduledAt: String?,
                       val inReplyToId: String?,
                       val poll: NewPoll?,
                       val replyingStatusContent: String?,
