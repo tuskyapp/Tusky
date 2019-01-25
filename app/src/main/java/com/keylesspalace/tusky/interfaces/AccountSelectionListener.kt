@@ -1,4 +1,4 @@
-/* Copyright 2018 Conny Duck
+/* Copyright 2019 Levi Bard
  *
  * This file is a part of Tusky.
  *
@@ -13,17 +13,10 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.di
+package com.keylesspalace.tusky.interfaces
 
-import com.keylesspalace.tusky.service.AccountChooserService
-import com.keylesspalace.tusky.service.SendTootService
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
+import com.keylesspalace.tusky.db.AccountEntity
 
-@Module
-abstract class ServicesModule {
-    @ContributesAndroidInjector
-    abstract fun contributesSendTootService(): SendTootService
-    @ContributesAndroidInjector
-    abstract fun contributesAccountChooserService(): AccountChooserService
+interface AccountSelectionListener {
+    fun onAccountSelected(account: AccountEntity)
 }

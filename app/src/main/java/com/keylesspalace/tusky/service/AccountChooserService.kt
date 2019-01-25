@@ -23,26 +23,22 @@ import android.os.Bundle
 import android.service.chooser.ChooserTarget
 import android.service.chooser.ChooserTargetService
 import android.text.TextUtils
-import androidx.room.Room
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.NotificationHelper
 import com.squareup.picasso.Picasso
+import dagger.android.AndroidInjection
+import javax.inject.Inject
 
 @TargetApi(23)
-class AccountChooserService : ChooserTargetService() {
+class AccountChooserService : ChooserTargetService(), Injectable {
+    @Inject
     lateinit var accountManager: AccountManager
 
     override fun onCreate() {
         super.onCreate()
-        val appDatabase = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "tuskyDB")
-                .allowMainThreadQueries()
-                .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5,
-                        AppDatabase.MIGRATION_5_6, AppDatabase.MIGRATION_6_7, AppDatabase.MIGRATION_7_8,
-                        AppDatabase.MIGRATION_8_9, AppDatabase.MIGRATION_9_10, AppDatabase.MIGRATION_10_11)
-                .build()
-        accountManager = AccountManager(appDatabase)
+        AndroidInjection.inject(this)
     }
 
     override fun onGetChooserTargets(targetActivityName: ComponentName?, intentFilter: IntentFilter?): MutableList<ChooserTarget> {
