@@ -59,7 +59,6 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     private lateinit var adapter: ConversationAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
         viewModel = ViewModelProviders.of(this, viewModelFactory)[ConversationsViewModel::class.java]
 
         return inflater.inflate(R.layout.fragment_timeline, container, false)
@@ -71,7 +70,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true)
         useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
 
-        adapter = ConversationAdapter(this)  {
+        adapter = ConversationAdapter(this) {
             viewModel.retry()
         }
 
@@ -113,6 +112,8 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
+
+        viewModel.favourite(favourite, position)
      /*   val status = searchAdapter.getStatusAtPosition(position)
         if(status != null) {
             timelineCases.favouriteWithCallback(status, favourite, object: Callback<Status> {
@@ -177,7 +178,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     }
 
     override fun onLoadMore(position: Int) {
-        // not needed here, search is not paginated
+        // not using the old way of pagination
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {

@@ -6,12 +6,18 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Listing
 import com.keylesspalace.tusky.util.NetworkState
 import javax.inject.Inject
 
 class ConversationsViewModel  @Inject constructor(
-            private val repository: ConversationsRepository
+            private val repository: ConversationsRepository,
+            private val mastodonApi: MastodonApi,
+            private val eventHub: EventHub,
+            private val database: AppDatabase
     ): ViewModel() {
 
     private val accountId = MutableLiveData<Long>()
@@ -36,5 +42,14 @@ class ConversationsViewModel  @Inject constructor(
         val listing = repoResult.value
         listing?.retry?.invoke()
     }
+
+    fun favourite(favourite: Boolean, position: Int) {
+        conversations.value?.getOrNull(position)?.let {
+            val conversation = it.copy(lastStatus = it.lastStatus.copy(favourited = favourite))
+            database.conversationDao().insert(conversation)
+        }
+
+    }
+
 
 }
