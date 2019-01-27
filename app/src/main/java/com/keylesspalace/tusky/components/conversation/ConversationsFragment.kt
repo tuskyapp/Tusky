@@ -15,9 +15,11 @@
 
 package com.keylesspalace.tusky.components.conversation
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -26,7 +28,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.keylesspalace.tusky.AccountActivity
+import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.db.AppDatabase
@@ -38,6 +42,7 @@ import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
+import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_timeline.*
 import javax.inject.Inject
 
@@ -57,6 +62,16 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     private var useAbsoluteTime = false
 
     private lateinit var adapter: ConversationAdapter
+    private lateinit var bottomSheetActivity: BottomSheetActivity
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is BottomSheetActivity) {
+            bottomSheetActivity = context
+        } else {
+            throw IllegalStateException("Fragment must be attached to a BottomSheetActivity!")
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[ConversationsViewModel::class.java]
@@ -77,6 +92,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.adapter = adapter
+        (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         progressBar.hide()
         nothingMessage.hide()
@@ -114,45 +130,25 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     override fun onFavourite(favourite: Boolean, position: Int) {
 
         viewModel.favourite(favourite, position)
-     /*   val status = searchAdapter.getStatusAtPosition(position)
-        if(status != null) {
-            timelineCases.favouriteWithCallback(status, favourite, object: Callback<Status> {
-                override fun onResponse(call: Call<Status>?, response: Response<Status>?) {
-                    status.favourited = true
-                    searchAdapter.updateStatusAtPosition(
-                            ViewDataUtils.statusToViewData(
-                                    status,
-                                    alwaysShowSensitiveMedia
-                            ),
-                            position
-                    )
-                }
 
-                override fun onFailure(call: Call<Status>?, t: Throwable?) {
-                    Log.d(TAG, "Failed to favourite status " + status.id, t)
-                }
-
-            })
-        }*/
     }
 
-    override fun onMore(view: View?, position: Int) {
+    override fun onMore(view: View, position: Int) {
        /* val status = searchAdapter.getStatusAtPosition(position)
         if(status != null) {
             more(status, view, position)
         }*/
     }
 
-    override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
+    override fun onViewMedia(position: Int, attachmentIndex: Int, view: View) {
        /* val status = searchAdapter.getStatusAtPosition(position) ?: return
         viewMedia(attachmentIndex, status, view)*/
     }
 
     override fun onViewThread(position: Int) {
-     /*   val status = searchAdapter.getStatusAtPosition(position)
-        if(status != null) {
-            viewThread(status)
-        }*/
+        viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let { status ->
+            bottomSheetActivity.viewThread(status.id, status.url)
+        }
     }
 
     override fun onOpenReblog(position: Int) {
@@ -160,21 +156,11 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-     /*   val status = searchAdapter.getConcreteStatusAtPosition(position)
-        if(status != null) {
-            val newStatus = StatusViewData.Builder(status)
-                    .setIsExpanded(expanded).createStatusViewData()
-            searchAdapter.updateStatusAtPosition(newStatus, position)
-        }*/
+     viewModel.expandHiddenStatus(expanded, position)
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-      /*  val status = searchAdapter.getConcreteStatusAtPosition(position)
-        if(status != null) {
-            val newStatus = StatusViewData.Builder(status)
-                    .setIsShowingSensitiveContent(isShowing).createStatusViewData()
-            searchAdapter.updateStatusAtPosition(newStatus, position)
-        }*/
+      viewModel.showContent(isShowing, position)
     }
 
     override fun onLoadMore(position: Int) {
@@ -182,18 +168,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-     /*   // TODO: No out-of-bounds check in getConcreteStatusAtPosition
-        val status = searchAdapter.getConcreteStatusAtPosition(position)
-        if(status == null) {
-            Log.e(TAG, String.format("Tried to access status but got null at position: %d", position))
-            return
-        }
-
-        val updatedStatus = StatusViewData.Builder(status)
-                .setCollapsed(isCollapsed)
-                .createStatusViewData()
-        searchAdapter.updateStatusAtPosition(updatedStatus, position)
-        searchRecyclerView.post { searchAdapter.notifyItemChanged(position, updatedStatus) }*/
+         viewModel.collapseLongStatus(isCollapsed, position)
     }
 
     override fun onViewAccount(id: String) {

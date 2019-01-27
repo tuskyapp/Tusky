@@ -33,6 +33,7 @@ import retrofit2.Response
 interface TimelineCases {
     fun reblog(status: Status, reblog: Boolean): Single<Status>
     fun favourite(status: Status, favourite: Boolean): Single<Status>
+    fun favourite(statusId: String, favourite: Boolean): Single<Status>
     fun mute(id: String)
     fun block(id: String)
     fun delete(id: String)
@@ -73,6 +74,17 @@ class TimelineCasesImpl(
         }
         return call.doAfterSuccess {
             eventHub.dispatch(FavoriteEvent(status.id, favourite))
+        }
+    }
+
+    override fun favourite(statusId: String, favourite: Boolean): Single<Status> {
+        val call = if (favourite) {
+            mastodonApi.favouriteStatus(statusId)
+        } else {
+            mastodonApi.unfavouriteStatus(statusId)
+        }
+        return call.doAfterSuccess {
+            eventHub.dispatch(FavoriteEvent(statusId, favourite))
         }
     }
 

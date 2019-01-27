@@ -350,27 +350,11 @@
         android:contentDescription="@string/action_reply"
         android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/status_reblog"
+        app:layout_constraintEnd_toStartOf="@id/status_favourite"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_media_preview_container"
         app:srcCompat="@drawable/ic_reply_24dp" />
-
-    <at.connyduck.sparkbutton.SparkButton
-        android:id="@+id/status_reblog"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:clipToPadding="false"
-        android:contentDescription="@string/action_reblog"
-        android:padding="4dp"
-        app:layout_constraintEnd_toStartOf="@id/status_favourite"
-        app:layout_constraintStart_toEndOf="@id/status_reply"
-        app:layout_constraintTop_toTopOf="@id/status_reply"
-        sparkbutton:activeImage="@drawable/reblog_active"
-        sparkbutton:iconSize="28dp"
-        sparkbutton:inactiveImage="?attr/status_reblog_inactive_drawable"
-        sparkbutton:primaryColor="@color/tusky_blue"
-        sparkbutton:secondaryColor="@color/tusky_blue_light" />
 
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_favourite"
@@ -380,8 +364,8 @@
         android:contentDescription="@string/action_favourite"
         android:padding="4dp"
         app:layout_constraintEnd_toStartOf="@id/status_more"
-        app:layout_constraintStart_toEndOf="@id/status_reblog"
-        app:layout_constraintTop_toTopOf="@id/status_reblog"
+        app:layout_constraintStart_toEndOf="@id/status_reply"
+        app:layout_constraintTop_toTopOf="@id/status_reply"
         sparkbutton:activeImage="?attr/status_favourite_active_drawable"
         sparkbutton:iconSize="28dp"
         sparkbutton:inactiveImage="?attr/status_favourite_inactive_drawable"

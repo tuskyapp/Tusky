@@ -284,12 +284,12 @@ public final class ViewThreadFragment extends SFragment implements
     }
 
     @Override
-    public void onMore(View view, int position) {
+    public void onMore(@NonNull View view, int position) {
         super.more(statuses.get(position), view, position);
     }
 
     @Override
-    public void onViewMedia(int position, int attachmentIndex, View view) {
+    public void onViewMedia(int position, int attachmentIndex, @NonNull View view) {
         Status status = statuses.get(position);
         super.viewMedia(attachmentIndex, status, view);
     }

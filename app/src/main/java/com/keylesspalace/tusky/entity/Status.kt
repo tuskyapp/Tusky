@@ -42,7 +42,7 @@ data class Status(
         var pinned: Boolean?
 ) {
 
-    val actionableId: String?
+    val actionableId: String
         get() = reblog?.id ?: id
 
     val actionableStatus: Status

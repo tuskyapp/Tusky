@@ -594,7 +594,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public void onMore(View view, final int position) {
+    public void onMore(@NonNull View view, final int position) {
         super.more(statuses.get(position).asRight(), view, position);
     }
 
@@ -670,7 +670,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public void onViewMedia(int position, int attachmentIndex, View view) {
+    public void onViewMedia(int position, int attachmentIndex, @NonNull View view) {
         Status status = statuses.get(position).asRightOrNull();
         if (status == null) return;
         super.viewMedia(attachmentIndex, status, view);

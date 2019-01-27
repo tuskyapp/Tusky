@@ -421,13 +421,13 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onMore(View view, int position) {
+    public void onMore(@NonNull View view, int position) {
         Notification notification = notifications.get(position).asRight();
         super.more(notification.getStatus(), view, position);
     }
 
     @Override
-    public void onViewMedia(int position, int attachmentIndex, View view) {
+    public void onViewMedia(int position, int attachmentIndex, @NonNull View view) {
         Notification notification = notifications.get(position).asRightOrNull();
         if (notification == null || notification.getStatus() == null) return;
         super.viewMedia(attachmentIndex, notification.getStatus(), view);
