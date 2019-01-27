@@ -113,7 +113,6 @@
         android:paddingBottom="10dp"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
-        android:textColorLink="?android:textColorTertiary"
         tools:text="Example status here" />
 
 
