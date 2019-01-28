@@ -30,6 +30,7 @@
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Post</string>
     <string name="title_statuses_with_replies">Con risposte</string>
+	<string name="title_statuses_pinned">Fissati in alto</string>
     <string name="title_follows">Seguono</string>
     <string name="title_followers">Ti seguono</string>
     <string name="title_favourites">Preferiti</string>
@@ -112,6 +113,7 @@
     <string name="download_image">Scaricando %1$s</string>
 
     <string name="action_copy_link">Copia il link</string>
+	<string name="action_open_as">Apri come %s</string>
 
     <string name="send_status_link_to">Condividi URL del toot su…</string>
     <string name="send_status_content_to">Condividi toot su…</string>
