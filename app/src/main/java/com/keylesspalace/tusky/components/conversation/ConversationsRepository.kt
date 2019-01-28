@@ -57,7 +57,7 @@ class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, 
 
 
     @MainThread
-    fun conversations(accountId: Long, pageSize: Int): Listing<ConversationEntity> {
+    fun conversations(accountId: Long): Listing<ConversationEntity> {
         // create a boundary callback which will observe when the user reaches to the edges of
         // the list and update the database with extra data.
         val boundaryCallback = ConversationsBoundaryCallback(
@@ -75,9 +75,10 @@ class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, 
         }
 
         // We use toLiveData Kotlin extension function here, you could also use LivePagedListBuilder
-        val livePagedList =  db.conversationDao().conversationsForAccount(0).toLiveData(
-                config = Config(pageSize = pageSize, prefetchDistance = pageSize / 2),
-                boundaryCallback = boundaryCallback)
+        val livePagedList =  db.conversationDao().conversationsForAccount(accountId).toLiveData(
+                config = Config(pageSize = DEFAULT_PAGE_SIZE, prefetchDistance = DEFAULT_PAGE_SIZE / 2),
+                boundaryCallback = boundaryCallback
+        )
 
         return Listing(
                 pagedList = livePagedList,

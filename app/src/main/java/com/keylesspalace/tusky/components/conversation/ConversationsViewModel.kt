@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.Listing
@@ -18,14 +18,11 @@ import javax.inject.Inject
 class ConversationsViewModel  @Inject constructor(
         private val repository: ConversationsRepository,
         private val timelineCases: TimelineCases,
-        private val database: AppDatabase
+        private val database: AppDatabase,
+        private val accountManager: AccountManager
 ): ViewModel() {
 
-    private val accountId = MutableLiveData<Long>()
-
-    private val repoResult: LiveData<Listing<ConversationEntity>> = map(accountId) {
-        repository.conversations(it, 30)
-    }
+    private val repoResult = MutableLiveData<Listing<ConversationEntity>>()
 
     val conversations: LiveData<PagedList<ConversationEntity>> = Transformations.switchMap(repoResult) { it.pagedList }
     val networkState: LiveData<NetworkState>  = Transformations.switchMap(repoResult) { it.networkState }
@@ -33,13 +30,13 @@ class ConversationsViewModel  @Inject constructor(
 
     private val disposables = CompositeDisposable()
 
+    fun load() {
+        val accountId = accountManager.activeAccount?.id ?: return
+        repoResult.value = repository.conversations(accountId)
+    }
 
     fun refresh() {
         repoResult.value?.refresh?.invoke()
-    }
-
-    fun load(accountId: Long) {
-        this.accountId.value = accountId
     }
 
     fun retry() {
@@ -49,7 +46,7 @@ class ConversationsViewModel  @Inject constructor(
 
     fun favourite(favourite: Boolean, position: Int) {
         conversations.value?.getOrNull(position)?.let { conversation ->
-            timelineCases.favourite(conversation.lastStatus.id, favourite)
+            timelineCases.favourite(conversation.lastStatus.toStatus(), favourite)
                     .subscribe({
                         val newConversation = conversation.copy(
                                 lastStatus = conversation.lastStatus.copy(favourited = favourite)
@@ -57,9 +54,6 @@ class ConversationsViewModel  @Inject constructor(
                         database.conversationDao().insert(newConversation)
                     }, { t -> Log.w("ConversationViewModel", "Failed to favourite conversation", t) })
                     .addTo(disposables)
-
-
-
         }
 
     }
@@ -89,6 +83,15 @@ class ConversationsViewModel  @Inject constructor(
                     lastStatus = conversation.lastStatus.copy(showingHiddenContent = showing)
             )
             database.conversationDao().insert(newConversation)
+        }
+    }
+
+    fun remove(position: Int) {
+        conversations.value?.getOrNull(position)?.let { conversation ->
+            /* this is not ideal since deleting last toot from an conversation
+               should not delete the conversation but show another toot of the conversation */
+            timelineCases.delete(conversation.lastStatus.id)
+            database.conversationDao().delete(conversation)
         }
     }
 

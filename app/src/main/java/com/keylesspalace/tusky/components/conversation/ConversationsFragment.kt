@@ -15,11 +15,9 @@
 
 package com.keylesspalace.tusky.components.conversation
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.util.Log
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -30,7 +28,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.keylesspalace.tusky.AccountActivity
-import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.db.AppDatabase
@@ -42,7 +39,6 @@ import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
-import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_timeline.*
 import javax.inject.Inject
 
@@ -62,16 +58,6 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     private var useAbsoluteTime = false
 
     private lateinit var adapter: ConversationAdapter
-    private lateinit var bottomSheetActivity: BottomSheetActivity
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is BottomSheetActivity) {
-            bottomSheetActivity = context
-        } else {
-            throw IllegalStateException("Fragment must be attached to a BottomSheetActivity!")
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[ConversationsViewModel::class.java]
@@ -85,9 +71,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true)
         useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
 
-        adapter = ConversationAdapter(this) {
-            viewModel.retry()
-        }
+        adapter = ConversationAdapter(this, viewModel::retry)
 
         recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         recyclerView.layoutManager = LinearLayoutManager(view.context)
@@ -103,10 +87,10 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
             adapter.submitList(it)
         })
         viewModel.networkState.observe(this, Observer {
-           adapter.setNetworkState(it)
+            adapter.setNetworkState(it)
         })
 
-        viewModel.load(0)
+        viewModel.load()
     }
 
     private fun initSwipeToRefresh() {
@@ -124,30 +108,28 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-      // its impossible to reblog private messages
+        // its impossible to reblog private messages
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-
         viewModel.favourite(favourite, position)
-
     }
 
     override fun onMore(view: View, position: Int) {
-       /* val status = searchAdapter.getStatusAtPosition(position)
-        if(status != null) {
-            more(status, view, position)
-        }*/
+        viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let {
+            more(it.toStatus(), view, position)
+        }
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View) {
-       /* val status = searchAdapter.getStatusAtPosition(position) ?: return
-        viewMedia(attachmentIndex, status, view)*/
+        viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let {
+            viewMedia(attachmentIndex, it.toStatus(), view)
+        }
     }
 
     override fun onViewThread(position: Int) {
-        viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let { status ->
-            bottomSheetActivity.viewThread(status.id, status.url)
+        viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let {
+            viewThread(it.toStatus())
         }
     }
 
@@ -156,11 +138,11 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-     viewModel.expandHiddenStatus(expanded, position)
+        viewModel.expandHiddenStatus(expanded, position)
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-      viewModel.showContent(isShowing, position)
+        viewModel.showContent(isShowing, position)
     }
 
     override fun onLoadMore(position: Int) {
@@ -168,7 +150,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-         viewModel.collapseLongStatus(isCollapsed, position)
+        viewModel.collapseLongStatus(isCollapsed, position)
     }
 
     override fun onViewAccount(id: String) {
@@ -182,19 +164,21 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         startActivity(intent)
     }
 
-    companion object {
-        fun newInstance() = ConversationsFragment()
-    }
-
     override fun timelineCases(): TimelineCases {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return timelineCases
     }
 
     override fun removeItem(position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        viewModel.remove(position)
     }
 
     override fun onReply(position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let {
+            reply(it.toStatus())
+        }
+    }
+
+    companion object {
+        fun newInstance() = ConversationsFragment()
     }
 }

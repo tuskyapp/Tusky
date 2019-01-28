@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.conversation
 
 import android.text.Spanned
+import android.text.SpannedString
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.TypeConverters
@@ -40,7 +41,21 @@ data class ConversationAccountEntity(
         val displayName: String,
         val avatar: String,
         val emojis: List<Emoji>
-)
+) {
+    fun toAccount(): Account {
+        return Account(
+                id = id,
+                username = username,
+                displayName = displayName,
+                avatar = avatar,
+                emojis = emojis,
+                url = "",
+                localUsername = "",
+                note = SpannedString(""),
+                header = ""
+        )
+    }
+}
 
 @TypeConverters(Converters::class)
 data class ConversationStatusEntity(
@@ -55,7 +70,7 @@ data class ConversationStatusEntity(
         val favouritesCount: Int,
         val favourited: Boolean,
         val sensitive: Boolean,
-        val spoilerText: String?,
+        val spoilerText: String,
         val attachments: List<Attachment>,
         val mentions: Array<Status.Mention>,
         val showingHiddenContent: Boolean,
@@ -114,6 +129,30 @@ data class ConversationStatusEntity(
         result = 31 * result + collapsible.hashCode()
         result = 31 * result + collapsed.hashCode()
         return result
+    }
+
+    fun toStatus(): Status {
+        return Status(
+                id = id,
+                url = url,
+                account = account.toAccount(),
+                inReplyToId = inReplyToId,
+                inReplyToAccountId = inReplyToAccountId,
+                content = content,
+                reblog = null,
+                createdAt = createdAt,
+                emojis = emojis,
+                reblogsCount = 0,
+                favouritesCount = favouritesCount,
+                reblogged = false,
+                favourited = favourited,
+                sensitive= sensitive,
+                spoilerText = spoilerText,
+                visibility = Status.Visibility.PRIVATE,
+                attachments = attachments,
+                mentions = mentions,
+                application = null,
+                pinned = false)
     }
 }
 
