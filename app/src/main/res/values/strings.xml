@@ -1,6 +1,7 @@
 <resources>
 
     <string name="error_generic">An error occurred.</string>
+    <string name="error_network">A network error occurred! Please check your connection and try again!</string>
     <string name="error_empty">This cannot be empty.</string>
     <string name="error_invalid_domain">Invalid domain entered</string>
     <string name="error_failed_app_registration">Failed authenticating with that instance.</string>
@@ -51,6 +52,7 @@
     <string name="status_content_show_more">Expand</string>
     <string name="status_content_show_less">Collapse</string>
 
+    <string name="message_empty">Nothing here.</string>
     <string name="footer_empty">Nothing here. Pull down to refresh!</string>
 
     <string name="notification_reblog_format">%s boosted your toot</string>

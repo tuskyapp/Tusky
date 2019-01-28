@@ -16,24 +16,19 @@
 package com.keylesspalace.tusky.fragment
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.AccountListActivity.Type
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.AccountAdapter
-import com.keylesspalace.tusky.adapter.BlocksAdapter
-import com.keylesspalace.tusky.adapter.FollowAdapter
-import com.keylesspalace.tusky.adapter.FollowRequestsAdapter
-import com.keylesspalace.tusky.adapter.MutesAdapter
+import com.keylesspalace.tusky.adapter.*
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
@@ -41,14 +36,15 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import kotlinx.android.synthetic.main.fragment_account_list.*
-
-import javax.inject.Inject
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
+import javax.inject.Inject
 
 class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
@@ -83,7 +79,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         divider.setDrawable(drawable)
         recyclerView.addItemDecoration(divider)
 
-        adapter = when(type) {
+        adapter = when (type) {
             Type.BLOCKS -> BlocksAdapter(this)
             Type.MUTES -> MutesAdapter(this)
             Type.FOLLOW_REQUESTS -> FollowRequestsAdapter(this)
@@ -143,7 +139,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         val mutesAdapter = adapter as MutesAdapter
         val unmutedUser = mutesAdapter.removeItem(position)
 
-        if(unmutedUser != null) {
+        if (unmutedUser != null) {
             Snackbar.make(recyclerView, R.string.confirmation_unmuted, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_undo) {
                         mutesAdapter.addItem(unmutedUser, position)
@@ -193,7 +189,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         val blocksAdapter = adapter as BlocksAdapter
         val unblockedUser = blocksAdapter.removeItem(position)
 
-        if(unblockedUser != null) {
+        if (unblockedUser != null) {
             Snackbar.make(recyclerView, R.string.confirmation_unblocked, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_undo) {
                         blocksAdapter.addItem(unblockedUser, position)
@@ -311,11 +307,36 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
         fetching = false
 
+        if (adapter.itemCount == 0) {
+            messageView.show()
+            messageView.setup(
+                    R.drawable.elephant_friend_empty,
+                    R.string.message_empty,
+                    null
+            )
+        } else {
+            messageView.hide()
+        }
     }
 
     private fun onFetchAccountsFailure(exception: Exception) {
         fetching = false
         Log.e(TAG, "Fetch failure", exception)
+
+        if (adapter.itemCount == 0) {
+            messageView.show()
+            if (exception is IOException) {
+                messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                    messageView.hide()
+                    this.fetchAccounts(null)
+                }
+            } else {
+                messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                    messageView.hide()
+                    this.fetchAccounts(null)
+                }
+            }
+        }
     }
 
     companion object {
