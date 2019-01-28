@@ -15,16 +15,17 @@
 
 package com.keylesspalace.tusky.fragment
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
@@ -74,6 +75,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
     private var currentCall: Call<List<Status>>? = null
     private val statuses = mutableListOf<Status>()
     private var fetchingStatus = FetchingStatus.NOT_FETCHING
+    private var isVisibleToUser: Boolean = false
 
     private val callback = object : Callback<List<Status>> {
         override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
@@ -157,10 +159,10 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             if (fetchingStatus != FetchingStatus.NOT_FETCHING) return@setOnRefreshListener
             currentCall = if (statuses.isEmpty()) {
                 fetchingStatus = FetchingStatus.INITIAL_FETCHING
-                api.accountStatuses(accountId, null, null, null, null, true)
+                api.accountStatuses(accountId, null, null, null, null, true, null)
             } else {
                 fetchingStatus = FetchingStatus.REFRESHING
-                api.accountStatuses(accountId, null, statuses[0].id, null, null, true)
+                api.accountStatuses(accountId, null, statuses[0].id, null, null, true, null)
             }
             currentCall?.enqueue(callback)
 
@@ -180,23 +182,30 @@ class AccountMediaFragment : BaseFragment(), Injectable {
                         statuses.lastOrNull()?.let { last ->
                             Log.d(TAG, "Requesting statuses with max_id: ${last.id}, (bottom)")
                             fetchingStatus = FetchingStatus.FETCHING_BOTTOM
-                            currentCall = api.accountStatuses(accountId, last.id, null, null, null, true)
+                            currentCall = api.accountStatuses(accountId, last.id, null, null, null, true, null)
                             currentCall?.enqueue(bottomCallback)
                         }
                     }
                 }
             }
         })
+
+        if (isVisibleToUser) doInitialLoadingIfNeeded()
     }
 
     // That's sort of an optimization to only load media once user has opened the tab
+    // Attention: can be called before *any* lifecycle method!
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        if (!isVisibleToUser) return
+        this.isVisibleToUser = isVisibleToUser
+        if (isVisibleToUser && isAdded) doInitialLoadingIfNeeded()
+    }
+
+    private fun doInitialLoadingIfNeeded() {
         val accountId = arguments?.getString(ACCOUNT_ID_ARG)
         if (fetchingStatus == FetchingStatus.NOT_FETCHING && statuses.isEmpty()) {
             fetchingStatus = FetchingStatus.INITIAL_FETCHING
-            currentCall = api.accountStatuses(accountId, null, null, null, null, true)
+            currentCall = api.accountStatuses(accountId, null, null, null, null, true, null)
             currentCall?.enqueue(callback)
         }
     }

@@ -281,7 +281,7 @@
             android:layout_height="wrap_content"
             android:background="?android:colorBackground"
             app:tabGravity="center"
-            app:tabMode="fixed"
+            app:tabMode="scrollable"
             app:tabTextAppearance="@style/TuskyTabAppearance" />
 
     </com.google.android.material.appbar.AppBarLayout>

@@ -32,6 +32,7 @@
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Posts</string>
     <string name="title_statuses_with_replies">With replies</string>
+    <string name="title_statuses_pinned">Pinned</string>
     <string name="title_follows">Follows</string>
     <string name="title_followers">Followers</string>
     <string name="title_favourites">Favourites</string>
