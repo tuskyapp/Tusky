@@ -166,14 +166,14 @@ class EditProfileViewModel  @Inject constructor(
 
         val avatar = if (avatarData.value is Success && avatarData.value?.data != null) {
             val avatarBody = RequestBody.create(MediaType.parse("image/png"), getCacheFileForName(context, AVATAR_FILE_NAME))
-            MultipartBody.Part.createFormData("avatar", StringUtils.randomAlphanumericString(12), avatarBody)
+            MultipartBody.Part.createFormData("avatar", randomAlphanumericString(12), avatarBody)
         } else {
             null
         }
 
         val header = if (headerData.value is Success && headerData.value?.data != null) {
             val headerBody = RequestBody.create(MediaType.parse("image/png"), getCacheFileForName(context, HEADER_FILE_NAME))
-            MultipartBody.Part.createFormData("header", StringUtils.randomAlphanumericString(12), headerBody)
+            MultipartBody.Part.createFormData("header", randomAlphanumericString(12), headerBody)
         } else {
             null
         }

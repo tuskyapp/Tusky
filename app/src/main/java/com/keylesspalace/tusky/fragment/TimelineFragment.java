@@ -53,6 +53,7 @@ import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.PairedList;
+import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.BackgroundMessageView;
@@ -788,9 +789,7 @@ public class TimelineFragment extends SFragment implements
         Either<Placeholder, Status> last = statuses.get(statuses.size() - 1);
         Placeholder placeholder;
         if (last.isRight()) {
-            final String placeholderId = new BigInteger(last.asRight().getId())
-                    .subtract(BigInteger.ONE)
-                    .toString();
+            final String placeholderId = StringUtils.dec(last.asRight().getId());
             placeholder = new Placeholder(placeholderId);
             statuses.add(new Either.Left<>(placeholder));
         } else {
@@ -963,7 +962,7 @@ public class TimelineFragment extends SFragment implements
                 StatusViewData newViewData;
                 if (placeholder == null) {
                     Status above = statuses.get(position - 1).asRight();
-                    String newId = this.idPlus(above.getId(), -1);
+                    String newId = StringUtils.dec(above.getId());
                     placeholder = new Placeholder(newId);
                 }
                 newViewData = new StatusViewData.Placeholder(placeholder.getId(), false);
@@ -1033,8 +1032,8 @@ public class TimelineFragment extends SFragment implements
             int newIndex = newStatuses.indexOf(statuses.get(0));
             if (newIndex == -1) {
                 if (index == -1 && fullFetch) {
-                    String placeholderId = idPlus(CollectionsKt.last(newStatuses, Either::isRight)
-                            .asRight().getId(), 1);
+                    String placeholderId = StringUtils.inc(
+                            CollectionsKt.last(newStatuses, Either::isRight).asRight().getId());
                     newStatuses.add(new Either.Left<>(new Placeholder(placeholderId)));
                 }
                 statuses.addAll(0, newStatuses);
@@ -1246,8 +1245,4 @@ public class TimelineFragment extends SFragment implements
             return oldItem.deepEquals(newItem);
         }
     };
-
-    private String idPlus(String id, int delta) {
-        return new BigInteger(id).add(BigInteger.valueOf(delta)).toString();
-    }
 }
