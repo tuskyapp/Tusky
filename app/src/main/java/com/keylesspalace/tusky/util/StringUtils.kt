@@ -35,18 +35,20 @@ fun String.inc(): String {
  */
 fun String.dec(): String {
     val builder = this.toCharArray()
-    var i = 0
-    while (i < builder.size) {
+    var i = builder.lastIndex
+    while (i > 0) {
         if (builder[i] > '0') {
-            builder[i].dec()
+            builder[i] = builder[i].dec()
             break
+        } else {
+            builder[i] = 'z'
         }
-        i++
+        i--
     }
     // All characters were '0'
-    if (i == builder.lastIndex && this.isNotEmpty()) {
+    if (i == 0 && this.isNotEmpty()) {
         // Remove one character
-        return this.substring(1)
+        return String(builder.copyOfRange(1, builder.size))
     }
 
     return String(builder)
