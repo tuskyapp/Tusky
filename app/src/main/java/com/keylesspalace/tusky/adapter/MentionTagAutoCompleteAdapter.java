@@ -76,7 +76,7 @@ public class MentionTagAutoCompleteAdapter extends BaseAdapter
             @Override
             public CharSequence convertResultToString(Object resultValue) {
                 if (resultValue instanceof AccountResult) {
-                    return ((AccountResult) resultValue).account.getUsername();
+                    return formatUsername(((AccountResult) resultValue));
                 } else {
                     return formatHashtag((HashtagResult) resultValue);
                 }
@@ -164,6 +164,10 @@ public class MentionTagAutoCompleteAdapter extends BaseAdapter
         }
 
         return view;
+    }
+
+    private String formatUsername(AccountResult result) {
+        return String.format("@%s", result.account.getUsername());
     }
 
     private String formatHashtag(HashtagResult result) {
