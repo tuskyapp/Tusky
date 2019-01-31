@@ -78,7 +78,6 @@ data class ConversationStatusEntity(
         val collapsible: Boolean,
         val collapsed: Boolean
 
-
 ) {
     /** its necessary to override this because Spanned.equals does not work as expected  */
     override fun equals(other: Any?): Boolean {
@@ -121,7 +120,7 @@ data class ConversationStatusEntity(
         result = 31 * result + favouritesCount
         result = 31 * result + favourited.hashCode()
         result = 31 * result + sensitive.hashCode()
-        result = 31 * result + (spoilerText?.hashCode() ?: 0)
+        result = 31 * result + spoilerText.hashCode()
         result = 31 * result + attachments.hashCode()
         result = 31 * result + mentions.contentHashCode()
         result = 31 * result + showingHiddenContent.hashCode()
@@ -156,7 +155,6 @@ data class ConversationStatusEntity(
     }
 }
 
-
 fun Account.toEntity() =
         ConversationAccountEntity(
                 id,
@@ -172,8 +170,8 @@ fun Status.toEntity() =
                 createdAt, emojis, favouritesCount, favourited, sensitive,
                 spoilerText, attachments, mentions,
                 false,
+                false,
                 !SmartLengthInputFilter.hasBadRatio(content, SmartLengthInputFilter.LENGTH_DEFAULT),
-                true,
                 true
         )
 
