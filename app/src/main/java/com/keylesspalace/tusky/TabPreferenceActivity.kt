@@ -76,7 +76,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             }
 
             override fun isItemViewSwipeEnabled(): Boolean {
-                return true
+                return MIN_TAB_COUNT < currentTabs.size
             }
 
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
@@ -157,7 +157,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
         addTabAdapter.updateData(addableTabs)
 
-        maxTabsInfo.visible(addableTabs.size == 0)
+        maxTabsInfo.visible(addableTabs.size == 0 || currentTabs.size >= MAX_TAB_COUNT)
 
     }
 
@@ -195,6 +195,11 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     override fun onPause() {
         super.onPause()
         eventHub.dispatch(MainTabsChangedEvent(currentTabs))
+    }
+
+    companion object {
+        private const val MIN_TAB_COUNT = 2
+        private const val MAX_TAB_COUNT = 5
     }
 
 }
