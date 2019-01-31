@@ -13,10 +13,11 @@ import com.keylesspalace.tusky.repository.TimelineRequestMode.DISK
 import com.keylesspalace.tusky.repository.TimelineRequestMode.NETWORK
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.HtmlUtils
+import com.keylesspalace.tusky.util.dec
+import com.keylesspalace.tusky.util.inc
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.io.IOException
-import java.math.BigInteger
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -65,8 +66,8 @@ class TimelineRepositoryImpl(
                                        instance: String, accountId: Long,
                                        requestMode: TimelineRequestMode
     ): Single<out List<TimelineStatus>> {
-        val maxIdInc = maxId?.let { this.incId(it, 1) }
-        val sinceIdDec = sinceId?.let { this.incId(it, -1) }
+        val maxIdInc = maxId?.let(String::inc)
+        val sinceIdDec = sinceId?.let(String::dec)
         return mastodonApi.homeTimelineSingle(maxIdInc, sinceIdDec, limit + 2)
                 .doAfterSuccess { statuses ->
                     this.saveStatusesToDb(instance, accountId, statuses, maxId, sinceId)
@@ -177,27 +178,27 @@ class TimelineRepositoryImpl(
         val firstId = statuses.first().id
         val prepend = if (maxId != null) {
             if (maxId > firstId) {
-                val decMax = this.incId(maxId, -1)
+                val decMax = maxId.dec()
                 if (decMax != firstId) {
                     Placeholder(decMax)
                 } else null
             } else null
         } else {
             // Placeholders never overwrite real values so it's safe
-            Placeholder(incId(firstId, 1))
+            Placeholder(firstId.inc())
         }
 
         val lastId = statuses.last().id
         val append = if (sinceId != null) {
             if (sinceId < lastId) {
-                val incSince = this.incId(sinceId, 1)
+                val incSince = sinceId.inc()
                 if (incSince != lastId) {
                     Placeholder(incSince)
                 } else null
             } else null
         } else {
             // Placeholders never overwrite real values so it's safe
-            Placeholder(incId(lastId, -1))
+            Placeholder(lastId.dec())
         }
 
         return prepend to append
@@ -392,10 +393,6 @@ class TimelineRepositoryImpl(
                 reblogAccountId = null
 
         )
-    }
-
-    private fun incId(id: String, value: Long): String {
-        return BigInteger(id).add(BigInteger.valueOf(value)).toString()
     }
 
     companion object {

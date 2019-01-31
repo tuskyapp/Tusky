@@ -39,9 +39,13 @@ FROM TimelineStatusEntity s
 LEFT JOIN TimelineAccountEntity a ON (s.timelineUserId = a.timelineUserId AND s.authorServerId = a.serverId)
 LEFT JOIN TimelineAccountEntity rb ON (s.timelineUserId = rb.timelineUserId AND s.reblogAccountId = rb.serverId)
 WHERE s.timelineUserId = :account
-AND (CASE WHEN :maxId IS NOT NULL THEN s.serverId < :maxId ELSE 1 END)
-AND (CASE WHEN :sinceId IS NOT NULL THEN s.serverId > :sinceId ELSE 1 END)
-ORDER BY s.serverId DESC
+AND (CASE WHEN :maxId IS NOT NULL THEN
+(LENGTH(s.serverId) < LENGTH(:maxId) OR LENGTH(s.serverId) == LENGTH(:maxId) AND s.serverId < :maxId)
+ELSE 1 END)
+AND (CASE WHEN :sinceId IS NOT NULL THEN
+(LENGTH(s.serverId) > LENGTH(:sinceId) OR LENGTH(s.serverId) == LENGTH(:sinceId) AND s.serverId > :sinceId)
+ELSE 1 END)
+ORDER BY LENGTH(s.serverId) DESC, s.serverId DESC
 LIMIT :limit""")
     abstract fun getStatusesForAccount(account: Long, maxId: String?, sinceId: String?, limit: Int): Single<List<TimelineStatusWithAccount>>
 

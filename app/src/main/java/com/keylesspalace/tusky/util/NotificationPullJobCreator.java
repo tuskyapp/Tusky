@@ -16,8 +16,6 @@
 package com.keylesspalace.tusky.util;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.evernote.android.job.Job;
@@ -28,14 +26,17 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.network.MastodonApi;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import retrofit2.Response;
+
+import static com.keylesspalace.tusky.util.StringUtils.isLessThan;
 
 /**
  * Created by charlag on 31/10/17.
@@ -111,28 +112,24 @@ public final class NotificationPullJobCreator implements JobCreator {
 
         private void onNotificationsReceived(AccountEntity account, List<Notification> notificationList) {
             Collections.reverse(notificationList);
-            BigInteger newId = new BigInteger(account.getLastNotificationId());
-            BigInteger newestId = BigInteger.ZERO;
+            String newId = account.getLastNotificationId();
+            String newestId = "";
             boolean isFirstOfBatch = true;
 
             for (Notification notification : notificationList) {
-                BigInteger currentId = new BigInteger(notification.getId());
-                if (isBiggerThan(currentId, newestId)) {
+                String currentId = notification.getId();
+                if (isLessThan(newestId, currentId)) {
                     newestId = currentId;
                 }
-
-                if (isBiggerThan(currentId, newId)) {
+                if (isLessThan(newId, currentId)) {
                     NotificationHelper.make(context, notification, account, isFirstOfBatch);
                     isFirstOfBatch = false;
                 }
             }
 
-            account.setLastNotificationId(newestId.toString());
+            account.setLastNotificationId(newestId);
             accountManager.saveAccount(account);
         }
 
-        private boolean isBiggerThan(BigInteger newId, BigInteger lastShownNotificationId) {
-            return lastShownNotificationId.compareTo(newId) < 0;
-        }
     }
 }

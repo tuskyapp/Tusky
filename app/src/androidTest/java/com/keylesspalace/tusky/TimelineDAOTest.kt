@@ -1,8 +1,8 @@
 package com.keylesspalace.tusky
 
 import androidx.room.Room
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.runner.AndroidJUnit4
 import com.keylesspalace.tusky.db.*
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.repository.TimelineRepository
@@ -32,7 +32,7 @@ class TimelineDAOTest {
 
     @Test
     fun insertGetStatus() {
-        val setOne = makeStatus()
+        val setOne = makeStatus(statusId = 3)
         val setTwo = makeStatus(statusId = 20, reblog = true)
         val ignoredOne = makeStatus(statusId = 1)
         val ignoredTwo = makeStatus(accountId = 2)
@@ -79,7 +79,7 @@ class TimelineDAOTest {
         val now = System.currentTimeMillis()
         val oldDate = now - TimelineRepository.CLEANUP_INTERVAL - 20_000
         val oldByThisAccount = makeStatus(
-                statusId = 30,
+                statusId = 5,
                 createdAt = oldDate
         )
         val oldByAnotherAccount = makeStatus(
@@ -94,7 +94,7 @@ class TimelineDAOTest {
                 createdAt = oldDate
         )
         val recentByThisAccount = makeStatus(
-                statusId = 50,
+                statusId = 30,
                 createdAt = System.currentTimeMillis()
         )
         val recentByAnotherAccount = makeStatus(

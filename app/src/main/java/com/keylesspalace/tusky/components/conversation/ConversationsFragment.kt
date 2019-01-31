@@ -79,7 +79,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         progressBar.hide()
-        nothingMessage.hide()
+        statusView.hide()
 
         initSwipeToRefresh()
 

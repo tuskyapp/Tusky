@@ -30,8 +30,8 @@ If you have any bug reports, feature requests or questions please open an issue 
 
 ### Head of development
 
-This app was developed by [Vavassor@mastodon.social](https://mastodon.social/users/Vavassor).
-The current maintainer is [ConnyDuck@mastodon.social](https://mastodon.social/users/ConnyDuck).
+This app was developed by [Vavassor@mastodon.social](https://mastodon.social/@Vavassor).
+The current maintainer is [ConnyDuck@chaos.social](https://chaos.social/@ConnyDuck).
 
 ### Development chatroom
 https://riot.im/app/#/room/#Tusky:matrix.org
