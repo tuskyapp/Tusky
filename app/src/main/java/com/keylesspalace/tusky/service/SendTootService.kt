@@ -25,7 +25,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.SaveTootHelper
-import com.keylesspalace.tusky.util.StringUtils
+import com.keylesspalace.tusky.util.randomAlphanumericString
 import dagger.android.AndroidInjection
 import kotlinx.android.parcel.Parcelize
 import retrofit2.Call
@@ -285,7 +285,7 @@ class SendTootService : Service(), Injectable {
         ): Intent {
             val intent = Intent(context, SendTootService::class.java)
 
-            val idempotencyKey = StringUtils.randomAlphanumericString(16)
+            val idempotencyKey = randomAlphanumericString(16)
 
             val tootToSend = TootToSend(text,
                     warningText,

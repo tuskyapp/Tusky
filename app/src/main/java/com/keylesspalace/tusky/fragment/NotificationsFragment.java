@@ -83,6 +83,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.keylesspalace.tusky.util.StringUtils.isLessThan;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
@@ -756,26 +757,20 @@ public class NotificationsFragment extends SFragment implements
 
         AccountEntity account = accountManager.getActiveAccount();
         if (account != null) {
-            BigInteger lastNoti = new BigInteger(account.getLastNotificationId());
+            String lastNotificationId = account.getLastNotificationId();
 
             for (Notification noti : notifications) {
-                BigInteger a = new BigInteger(noti.getId());
-                if (isBiggerThan(a, lastNoti)) {
-                    lastNoti = a;
+                if (isLessThan(lastNotificationId, noti.getId())) {
+                    lastNotificationId = noti.getId();
                 }
             }
 
-            String lastNotificationId = lastNoti.toString();
             if (!account.getLastNotificationId().equals(lastNotificationId)) {
                 Log.d(TAG, "saving newest noti id: " + lastNotificationId);
                 account.setLastNotificationId(lastNotificationId);
                 accountManager.saveAccount(account);
             }
         }
-    }
-
-    private boolean isBiggerThan(BigInteger newId, BigInteger lastShownNotificationId) {
-        return lastShownNotificationId.compareTo(newId) < 0;
     }
 
     private void update(@Nullable List<Notification> newNotifications, @Nullable String fromId) {
