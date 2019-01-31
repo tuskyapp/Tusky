@@ -20,7 +20,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, val db: AppDatabase, val gson: Gson) {
+class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, val db: AppDatabase) {
 
     private val ioExecutor = Executors.newSingleThreadExecutor()
 
@@ -54,7 +54,6 @@ class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, 
         )
         return networkState
     }
-
 
     @MainThread
     fun conversations(accountId: Long): Listing<ConversationEntity> {

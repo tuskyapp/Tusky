@@ -10,7 +10,8 @@ import com.keylesspalace.tusky.adapter.NetworkStateViewHolder
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.NetworkState
 
-class ConversationAdapter(
+class ConversationAdapter(private val useAbsoluteTime: Boolean,
+                          private val mediaPreviewEnabled: Boolean,
                           private val listener: StatusActionListener,
                           private val retryCallback: () -> Unit)
  : PagedListAdapter<ConversationEntity, RecyclerView.ViewHolder>(CONVERSATION_COMPARATOR) {
@@ -21,7 +22,7 @@ class ConversationAdapter(
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
         return when (viewType) {
             R.layout.item_network_state -> NetworkStateViewHolder(view, retryCallback)
-            R.layout.item_conversation -> ConversationViewHolder(view, listener, false, false)
+            R.layout.item_conversation -> ConversationViewHolder(view, listener, useAbsoluteTime, mediaPreviewEnabled)
             else -> throw IllegalArgumentException("unknown view type $viewType")
         }
     }

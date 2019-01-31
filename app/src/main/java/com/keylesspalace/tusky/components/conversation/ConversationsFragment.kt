@@ -53,10 +53,6 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
 
     private lateinit var viewModel: ConversationsViewModel
 
-    private var alwaysShowSensitiveMedia = false
-    private var mediaPreviewEnabled = true
-    private var useAbsoluteTime = false
-
     private lateinit var adapter: ConversationAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -66,14 +62,19 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
-        alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false)
-        mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true)
-        useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
+        val useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
 
-        adapter = ConversationAdapter(this, viewModel::retry)
+        val account = accountManager.activeAccount
+        val mediaPreviewEnabled = account?.mediaPreviewEnabled ?: true
 
-        recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
+        adapter = ConversationAdapter(useAbsoluteTime, mediaPreviewEnabled,this, viewModel::retry)
+
+        val divider = DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
+        val drawable = ThemeUtils.getDrawable(view.context, R.attr.status_divider_drawable, R.drawable.status_divider_dark)
+        divider.setDrawable(drawable)
+        recyclerView.addItemDecoration(divider)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.adapter = adapter
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false

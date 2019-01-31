@@ -62,7 +62,7 @@ class ConversationsBoundaryCallback(
     @MainThread
     override fun onItemAtEndLoaded(itemAtEnd: ConversationEntity) {
         helper.runIfNotRunning(PagingRequestHelper.RequestType.AFTER) {
-            mastodonApi.getConversations(itemAtEnd.id, networkPageSize)
+            mastodonApi.getConversations(itemAtEnd.lastStatus.id, networkPageSize)
                     .enqueue(createWebserviceCallback(it))
         }
     }
