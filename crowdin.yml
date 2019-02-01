@@ -1,0 +1,13 @@
+files:
+  - source: /app/src/main/res/values/strings.xml
+    translation: /app/src/main/res/values-%two_letters_code%/%original_file_name%
+    update_option: update_without_changes
+    languages_mapping:
+        two_letters_code:
+            zh-TW: zh-rTW
+            zh-CN: zh-rCN
+            zh-HK: zh-rCN
+            zh-MO: zh-rCN
+            zh-SG: zh-rCN
+            pt-BR: pt-rBR
+
