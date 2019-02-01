@@ -178,6 +178,32 @@ public abstract class AppDatabase extends RoomDatabase {
                     TabDataKt.LOCAL + ";" +
                     TabDataKt.FEDERATED;
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `tabPreferences` TEXT NOT NULL DEFAULT '" + defaultTabs + "'");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `ConversationEntity` (" +
+                    "`accountId` INTEGER NOT NULL, " +
+                    "`id` TEXT NOT NULL, " +
+                    "`accounts` TEXT NOT NULL, " +
+                    "`unread` INTEGER NOT NULL, " +
+                    "`s_id` TEXT NOT NULL, " +
+                    "`s_url` TEXT, " +
+                    "`s_inReplyToId` TEXT, " +
+                    "`s_inReplyToAccountId` TEXT, " +
+                    "`s_account` TEXT NOT NULL, " +
+                    "`s_content` TEXT NOT NULL, " +
+                    "`s_createdAt` INTEGER NOT NULL, " +
+                    "`s_emojis` TEXT NOT NULL, " +
+                    "`s_favouritesCount` INTEGER NOT NULL, " +
+                    "`s_favourited` INTEGER NOT NULL, " +
+                    "`s_sensitive` INTEGER NOT NULL, " +
+                    "`s_spoilerText` TEXT NOT NULL, " +
+                    "`s_attachments` TEXT NOT NULL, " +
+                    "`s_mentions` TEXT NOT NULL, " +
+                    "`s_showingHiddenContent` INTEGER NOT NULL, " +
+                    "`s_expanded` INTEGER NOT NULL, " +
+                    "`s_collapsible` INTEGER NOT NULL, " +
+                    "`s_collapsed` INTEGER NOT NULL, " +
+                    "PRIMARY KEY(`id`, `accountId`))");
+
         }
     };
 
