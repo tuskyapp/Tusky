@@ -617,13 +617,24 @@ public final class ComposeActivity
                 } else if (type.equals("text/plain")) {
                     String action = intent.getAction();
                     if (action != null && action.equals(Intent.ACTION_SEND)) {
+                        String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
                         String text = intent.getStringExtra(Intent.EXTRA_TEXT);
-                        if (text != null) {
+                        String shareBody = null;
+                        boolean haveSubject = preferences.getBoolean("haveSubjectSharedContent", false);
+                        if(haveSubject && subject != null && text != null){
+                            shareBody = String.format("%s\n%s", subject, text);
+                        }else if(haveSubject && subject != null){
+                            shareBody = subject;
+                        }else if(text != null){
+                            shareBody = text;
+                        }
+
+                        if (shareBody != null) {
                             int start = Math.max(textEditor.getSelectionStart(), 0);
                             int end = Math.max(textEditor.getSelectionEnd(), 0);
                             int left = Math.min(start, end);
                             int right = Math.max(start, end);
-                            textEditor.getText().replace(left, right, text, 0, text.length());
+                            textEditor.getText().replace(left, right, shareBody, 0, shareBody.length());
                         }
                     }
                 }

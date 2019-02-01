@@ -376,5 +376,6 @@
 
     <string name="title_reblogged_by">Boosted by</string>
     <string name="title_favourited_by">Favourited by</string>
+    <string name="pref_have_subject_shared_content">Attach subject from Shared contents of other app</string>
 
 </resources>

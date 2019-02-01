@@ -31,6 +31,11 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="haveSubjectSharedContent"
+            android:title="@string/pref_have_subject_shared_content" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="fabHide"
             android:title="@string/pref_title_hide_follow_button" />
 
