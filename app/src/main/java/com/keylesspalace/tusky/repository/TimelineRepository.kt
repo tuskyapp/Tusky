@@ -30,7 +30,7 @@ enum class TimelineRequestMode {
 }
 
 interface TimelineRepository {
-    fun getStatuses(maxId: String?, sinceId: String?, limit: Int,
+    fun getStatuses(maxId: String?, sinceId: String?, sincedIdMinusOne: String?, limit: Int,
                     requestMode: TimelineRequestMode): Single<out List<TimelineStatus>>
 
     companion object {
@@ -49,8 +49,9 @@ class TimelineRepositoryImpl(
         this.cleanup()
     }
 
-    override fun getStatuses(maxId: String?, sinceId: String?, limit: Int,
-                             requestMode: TimelineRequestMode): Single<out List<TimelineStatus>> {
+    override fun getStatuses(maxId: String?, sinceId: String?, sincedIdMinusOne: String?,
+                             limit: Int, requestMode: TimelineRequestMode
+    ): Single<out List<TimelineStatus>> {
         val acc = accountManager.activeAccount ?: throw IllegalStateException()
         val accountId = acc.id
         val instance = acc.domain
@@ -58,21 +59,19 @@ class TimelineRepositoryImpl(
         return if (requestMode == DISK) {
             this.getStatusesFromDb(accountId, maxId, sinceId, limit)
         } else {
-            getStatusesFromNetwork(maxId, sinceId, limit, instance, accountId, requestMode)
+            getStatusesFromNetwork(maxId, sinceId, sincedIdMinusOne, limit, instance, accountId,
+                    requestMode)
         }
     }
 
-    private fun getStatusesFromNetwork(maxId: String?, sinceId: String?, limit: Int,
-                                       instance: String, accountId: Long,
-                                       requestMode: TimelineRequestMode
+    private fun getStatusesFromNetwork(maxId: String?, sinceId: String?,
+                                       sinceIdMinusOne: String?, limit: Int, instance: String,
+                                       accountId: Long, requestMode: TimelineRequestMode
     ): Single<out List<TimelineStatus>> {
-        val maxIdInc = maxId?.let(String::inc)
-        val sinceIdDec = sinceId?.let(String::dec)
-        return mastodonApi.homeTimelineSingle(maxIdInc, sinceIdDec, limit + 2)
-                .doAfterSuccess { statuses ->
-                    this.saveStatusesToDb(instance, accountId, statuses, maxId, sinceId)
+        return mastodonApi.homeTimelineSingle(maxId, sinceIdMinusOne, limit + 1)
+                .map { statuses ->
+                    this.saveStatusesToDb(instance, accountId, statuses, maxId, sinceIdMinusOne)
                 }
-                .map { statuses -> this.removePlaceholdersAndMap(statuses, maxId, sinceId) }
                 .flatMap { statuses ->
                     this.addFromDbIfNeeded(accountId, statuses, maxId, sinceId, limit, requestMode)
                 }
@@ -83,22 +82,6 @@ class TimelineRepositoryImpl(
                         Single.error(error)
                     }
                 }
-    }
-
-    private fun removePlaceholdersAndMap(statuses: List<Status>, maxId: String?,
-                                         sinceId: String?
-    ): List<Either.Right<Placeholder, Status>> {
-        val statusesCopy = statuses.toMutableList()
-
-        // Remove first and last statuses if they were used used just for overlap
-        if (maxId != null && statusesCopy.firstOrNull()?.id == maxId) {
-            statusesCopy.removeAt(0)
-        }
-        if (sinceId != null && statusesCopy.lastOrNull()?.id == sinceId) {
-            statusesCopy.removeAt(statusesCopy.size - 1)
-        }
-
-        return statusesCopy.map { s -> Either.Right<Placeholder, Status>(s) }
     }
 
     private fun addFromDbIfNeeded(accountId: Long, statuses: List<Either<Placeholder, Status>>,
@@ -137,18 +120,33 @@ class TimelineRepositoryImpl(
     }
 
     private fun saveStatusesToDb(instance: String, accountId: Long, statuses: List<Status>,
-                                 maxId: String?, sinceId: String?) {
+                                 maxId: String?, sincedIdMinusOne: String?
+    ): List<Either<Placeholder, Status>> {
+        var placeholderToInsert: Placeholder? = null
+
+        // Look for overlap
+        val resultStatuses = if (statuses.isNotEmpty() && sincedIdMinusOne != null) {
+            val indexOfSince = statuses.indexOfLast { it.id == sincedIdMinusOne }
+            if (indexOfSince == -1) {
+                // We didn't find the status which must be there. Add a placeholder
+                placeholderToInsert = Placeholder(sincedIdMinusOne.inc())
+                statuses.mapTo(mutableListOf<Either<Placeholder, Status>>()) { Either.Right(it) }
+                        .apply {
+                            add(Either.Left(placeholderToInsert))
+                        }
+            } else {
+                // There was an overlap. Remove all overlapped statuses. No need for a placeholder.
+                statuses.mapTo(mutableListOf()) { Either.Right<Placeholder, Status>(it) }
+                        .apply {
+                            subList(indexOfSince, lastIndex).clear()
+                        }
+            }
+        } else {
+            // Just a normal case.
+            statuses.map { Either.Right<Placeholder, Status>(it) }
+        }
+
         Single.fromCallable {
-            val (prepend, append) = calculatePlaceholders(maxId, sinceId, statuses)
-
-            if (prepend != null) {
-                timelineDao.insertStatusIfNotThere(prepend.toEntity(accountId))
-            }
-
-            if (append != null) {
-                timelineDao.insertStatusIfNotThere(append.toEntity(accountId))
-            }
-
             for (status in statuses) {
                 timelineDao.insertInTransaction(
                         status.toEntity(accountId, instance),
@@ -157,51 +155,29 @@ class TimelineRepositoryImpl(
                 )
             }
 
+            placeholderToInsert?.let {
+                timelineDao.insertStatusIfNotThere(placeholderToInsert.toEntity(accountId))
+            }
+
+            // If we're loading in the bottom insert placeholder after every load
+            // (for requests on next launches) but not return it.
+            if (sincedIdMinusOne == null && maxId != null && statuses.isNotEmpty()) {
+                timelineDao.insertStatusIfNotThere(
+                        Placeholder(statuses.last().id.dec()).toEntity(accountId))
+            }
+
             // There may be placeholders which we thought could be from our TL but they are not
             if (statuses.size > 2) {
                 timelineDao.removeAllPlaceholdersBetween(accountId, statuses.first().id,
                         statuses.last().id)
-            } else if (maxId != null && sinceId != null) {
-                timelineDao.removeAllPlaceholdersBetween(accountId, maxId, sinceId)
+            } else if (maxId != null && sincedIdMinusOne != null) {
+                timelineDao.removeAllPlaceholdersBetween(accountId, maxId, sincedIdMinusOne)
             }
         }
                 .subscribeOn(Schedulers.io())
                 .subscribe()
 
-    }
-
-    private fun calculatePlaceholders(maxId: String?, sinceId: String?,
-                                      statuses: List<Status>
-    ): Pair<Placeholder?, Placeholder?> {
-        if (statuses.isEmpty()) return null to null
-
-        val firstId = statuses.first().id
-        val prepend = if (maxId != null) {
-            if (maxId > firstId) {
-                val decMax = maxId.dec()
-                if (decMax != firstId) {
-                    Placeholder(decMax)
-                } else null
-            } else null
-        } else {
-            // Placeholders never overwrite real values so it's safe
-            Placeholder(firstId.inc())
-        }
-
-        val lastId = statuses.last().id
-        val append = if (sinceId != null) {
-            if (sinceId < lastId) {
-                val incSince = sinceId.inc()
-                if (incSince != lastId) {
-                    Placeholder(incSince)
-                } else null
-            } else null
-        } else {
-            // Placeholders never overwrite real values so it's safe
-            Placeholder(lastId.dec())
-        }
-
-        return prepend to append
+        return resultStatuses
     }
 
     private fun cleanup() {

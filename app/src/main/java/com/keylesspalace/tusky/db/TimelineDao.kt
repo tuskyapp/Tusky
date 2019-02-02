@@ -59,7 +59,11 @@ LIMIT :limit""")
     }
 
     @Query("""DELETE FROM TimelineStatusEntity WHERE authorServerId = null
-AND timelineUserId = :acccount AND serverId > :sinceId AND serverId < :maxId""")
+AND timelineUserId = :acccount AND
+(LENGTH(serverId) < LENGTH(:maxId) OR LENGTH(serverId) == LENGTH(:maxId) AND serverId < :maxId)
+AND
+(LENGTH(serverId) > LENGTH(:sinceId) OR LENGTH(serverId) == LENGTH(:sinceId) AND serverId > :sinceId)
+""")
     abstract fun removeAllPlaceholdersBetween(acccount: Long, maxId: String, sinceId: String)
 
     @Query("""UPDATE TimelineStatusEntity SET favourited = :favourited
