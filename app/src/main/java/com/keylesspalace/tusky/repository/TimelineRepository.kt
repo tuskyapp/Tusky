@@ -90,8 +90,7 @@ class TimelineRepositoryImpl(
             val newMaxID = if (statuses.isEmpty()) {
                 maxId
             } else {
-                // It's statuses from network. They're always Right
-                statuses.last().asRight().id
+                statuses.last { it.isRight() }.asRight().id
             }
             this.getStatusesFromDb(accountId, newMaxID, sinceId, limit)
                     .map { fromDb ->

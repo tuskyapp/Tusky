@@ -6,6 +6,7 @@ import com.keylesspalace.tusky.SpanUtilsTest
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.TimelineDao
+import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
@@ -18,10 +19,12 @@ import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Single
 import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.schedulers.TestScheduler
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
@@ -244,7 +247,43 @@ class TimelineRepositoryTest {
         verifyNoMoreInteractions(timelineDao)
     }
 
-    fun makeStatus(id: String, account: Account = makeAccount(id)): Status {
+    @Test
+    fun addingFromDb() {
+        RxJavaPlugins.setIoSchedulerHandler { Schedulers.single() }
+        val status = makeStatus("2")
+        val dbStatus = makeStatus("1")
+        val dbResult = TimelineStatusWithAccount()
+        dbResult.status = dbStatus.toEntity(account.id, account.domain, htmlConverter, gson)
+        dbResult.account = status.account.toEntity(account.domain, account.id, gson)
+
+        whenever(mastodonApi.homeTimelineSingle(any(), any(), any()))
+                .thenReturn(Single.just(listOf(status)))
+        whenever(timelineDao.getStatusesForAccount(account.id, status.id, null, 30))
+                .thenReturn(Single.just(listOf(dbResult)))
+        val result = subject.getStatuses(null, null, null, limit, TimelineRequestMode.ANY)
+                .blockingGet()
+        assertEquals(listOf(status, dbStatus).map(Status::lift), result)
+    }
+
+    @Test
+    fun addingFromDbExhausted() {
+        RxJavaPlugins.setIoSchedulerHandler { Schedulers.single() }
+        val status = makeStatus("4")
+        val dbResult = TimelineStatusWithAccount()
+        dbResult.status = Placeholder("2").toEntity(account.id)
+        val dbResult2 = TimelineStatusWithAccount()
+        dbResult2.status = Placeholder("1").toEntity(account.id)
+
+        whenever(mastodonApi.homeTimelineSingle(any(), any(), any()))
+                .thenReturn(Single.just(listOf(status)))
+        whenever(timelineDao.getStatusesForAccount(account.id, status.id, null, 30))
+                .thenReturn(Single.just(listOf(dbResult, dbResult2)))
+        val result = subject.getStatuses(null, null, null, limit, TimelineRequestMode.ANY)
+                .blockingGet()
+        assertEquals(listOf(status).map(Status::lift), result)
+    }
+
+    private fun makeStatus(id: String, account: Account = makeAccount(id)): Status {
         return Status(
                 id = id,
                 account = account,
@@ -269,7 +308,7 @@ class TimelineRepositoryTest {
         )
     }
 
-    fun makeAccount(id: String): Account {
+    private fun makeAccount(id: String): Account {
         return Account(
                 id = id,
                 localUsername = "test$id",
