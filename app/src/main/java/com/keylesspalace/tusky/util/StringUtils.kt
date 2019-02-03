@@ -34,24 +34,25 @@ fun String.inc(): String {
  * "Decrement" string so that during sorting it's smaller than [this].
  */
 fun String.dec(): String {
+    if (this.isEmpty()) return this
+
     val builder = this.toCharArray()
     var i = builder.lastIndex
     while (i > 0) {
         if (builder[i] > '0') {
             builder[i] = builder[i].dec()
-            break
+            return String(builder)
         } else {
             builder[i] = 'z'
         }
         i--
     }
-    // All characters were '0'
-    if (i == 0 && this.isNotEmpty()) {
-        // Remove one character
-        return String(builder.copyOfRange(1, builder.size))
+    return if (builder[0] > '1') {
+        builder[0] = builder[0].dec()
+        String(builder)
+    } else {
+        String(builder.copyOfRange(1, builder.size))
     }
-
-    return String(builder)
 }
 
 /**

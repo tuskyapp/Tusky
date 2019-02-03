@@ -11,10 +11,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.repository.TimelineRequestMode.DISK
 import com.keylesspalace.tusky.repository.TimelineRequestMode.NETWORK
-import com.keylesspalace.tusky.util.Either
-import com.keylesspalace.tusky.util.HtmlUtils
-import com.keylesspalace.tusky.util.dec
-import com.keylesspalace.tusky.util.inc
+import com.keylesspalace.tusky.util.*
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.io.IOException
@@ -42,7 +39,8 @@ class TimelineRepositoryImpl(
         private val timelineDao: TimelineDao,
         private val mastodonApi: MastodonApi,
         private val accountManager: AccountManager,
-        private val gson: Gson
+        private val gson: Gson,
+        private val htmlConverter: HtmlConverter
 ) : TimelineRepository {
 
     init {
@@ -149,7 +147,7 @@ class TimelineRepositoryImpl(
         Single.fromCallable {
             for (status in statuses) {
                 timelineDao.insertInTransaction(
-                        status.toEntity(accountId, instance),
+                        status.toEntity(accountId, instance, htmlConverter),
                         status.account.toEntity(instance, accountId),
                         status.reblog?.account?.toEntity(instance, accountId)
                 )
@@ -161,7 +159,7 @@ class TimelineRepositoryImpl(
 
             // If we're loading in the bottom insert placeholder after every load
             // (for requests on next launches) but not return it.
-            if (sincedIdMinusOne == null && maxId != null && statuses.isNotEmpty()) {
+            if (sincedIdMinusOne == null && statuses.isNotEmpty()) {
                 timelineDao.insertStatusIfNotThere(
                         Placeholder(statuses.last().id.dec()).toEntity(accountId))
             }
@@ -191,7 +189,7 @@ class TimelineRepositoryImpl(
                 .subscribe()
     }
 
-    private fun Account.toEntity(instance: String, accountId: Long): TimelineAccountEntity {
+    fun Account.toEntity(instance: String, accountId: Long): TimelineAccountEntity {
         return TimelineAccountEntity(
                 serverId = id,
                 timelineUserId = accountId,
@@ -205,7 +203,7 @@ class TimelineRepositoryImpl(
         )
     }
 
-    private fun TimelineAccountEntity.toAccount(): Account {
+    fun TimelineAccountEntity.toAccount(): Account {
         return Account(
                 id = serverId,
                 localUsername = localUsername,
@@ -248,7 +246,7 @@ class TimelineRepositoryImpl(
                     inReplyToId = status.inReplyToId,
                     inReplyToAccountId = status.inReplyToAccountId,
                     reblog = null,
-                    content = HtmlUtils.fromHtml(status.content),
+                    content = status.content?.let(htmlConverter::fromHtml) ?: SpannedString(""),
                     createdAt = Date(status.createdAt),
                     emojis = emojis,
                     reblogsCount = status.reblogsCount,
@@ -296,7 +294,7 @@ class TimelineRepositoryImpl(
                     inReplyToId = status.inReplyToId,
                     inReplyToAccountId = status.inReplyToAccountId,
                     reblog = null,
-                    content = HtmlUtils.fromHtml(status.content),
+                    content = status.content?.let(htmlConverter::fromHtml) ?: SpannedString(""),
                     createdAt = Date(status.createdAt),
                     emojis = emojis,
                     reblogsCount = status.reblogsCount,
@@ -315,7 +313,8 @@ class TimelineRepositoryImpl(
         return Either.Right(status)
     }
 
-    private fun Status.toEntity(timelineUserId: Long, instance: String): TimelineStatusEntity {
+    fun Status.toEntity(timelineUserId: Long, instance: String,
+                        htmlConverter: HtmlConverter): TimelineStatusEntity {
         val actionable = actionableStatus
         return TimelineStatusEntity(
                 serverId = this.id,
@@ -325,7 +324,7 @@ class TimelineRepositoryImpl(
                 authorServerId = actionable.account.id,
                 inReplyToId = actionable.inReplyToId,
                 inReplyToAccountId = actionable.inReplyToAccountId,
-                content = HtmlUtils.toHtml(actionable.content),
+                content = htmlConverter.toHtml(actionable.content),
                 createdAt = actionable.createdAt.time,
                 emojis = actionable.emojis.let(gson::toJson),
                 reblogsCount = actionable.reblogsCount,
@@ -343,35 +342,36 @@ class TimelineRepositoryImpl(
         )
     }
 
-    private fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
-        return TimelineStatusEntity(
-                serverId = this.id,
-                url = null,
-                instance = null,
-                timelineUserId = timelineUserId,
-                authorServerId = null,
-                inReplyToId = null,
-                inReplyToAccountId = null,
-                content = null,
-                createdAt = 0L,
-                emojis = null,
-                reblogsCount = 0,
-                favouritesCount = 0,
-                reblogged = false,
-                favourited = false,
-                sensitive = false,
-                spoilerText = null,
-                visibility = null,
-                attachments = null,
-                mentions = null,
-                application = null,
-                reblogServerId = null,
-                reblogAccountId = null
-
-        )
-    }
-
     companion object {
         private val emojisListTypeToken = object : TypeToken<List<Emoji>>() {}
     }
+}
+
+
+fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
+    return TimelineStatusEntity(
+            serverId = this.id,
+            url = null,
+            instance = null,
+            timelineUserId = timelineUserId,
+            authorServerId = null,
+            inReplyToId = null,
+            inReplyToAccountId = null,
+            content = null,
+            createdAt = 0L,
+            emojis = null,
+            reblogsCount = 0,
+            favouritesCount = 0,
+            reblogged = false,
+            favourited = false,
+            sensitive = false,
+            spoilerText = null,
+            visibility = null,
+            attachments = null,
+            mentions = null,
+            application = null,
+            reblogServerId = null,
+            reblogAccountId = null
+
+    )
 }

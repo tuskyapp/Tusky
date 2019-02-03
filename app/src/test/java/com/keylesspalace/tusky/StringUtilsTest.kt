@@ -11,7 +11,8 @@ class StringUtilsTest {
         val lessList = listOf(
                 "abc" to "bcd",
                 "ab" to "abc",
-                "cb" to "abc"
+                "cb" to "abc",
+                "1" to "2"
         )
         lessList.forEach { (l, r) -> assertTrue("$l < $r", l.isLessThan(r)) }
         val notLessList = lessList.map { (l, r) -> r to l } + listOf(
@@ -28,7 +29,8 @@ class StringUtilsTest {
                 "120" to "11z",
                 "100" to "zz",
                 "0" to "",
-                "" to ""
+                "" to "",
+                "2" to "1"
         ).forEach { (l, r) -> assertEquals("$l - 1 = $r", r, l.dec()) }
     }
 }
