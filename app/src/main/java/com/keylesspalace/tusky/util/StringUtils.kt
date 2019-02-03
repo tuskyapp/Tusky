@@ -25,7 +25,7 @@ fun randomAlphanumericString(count: Int): String {
 fun String.inc(): String {
     // We assume that we will stay in the safe range for now
     val builder = this.toCharArray()
-    builder.last().inc()
+    builder[lastIndex] = builder[lastIndex].inc()
     return String(builder)
 }
 

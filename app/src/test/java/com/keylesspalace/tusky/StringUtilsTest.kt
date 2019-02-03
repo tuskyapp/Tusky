@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky
 
 import com.keylesspalace.tusky.util.dec
+import com.keylesspalace.tusky.util.inc
 import com.keylesspalace.tusky.util.isLessThan
 import org.junit.Assert.*
 import org.junit.Test
@@ -19,6 +20,15 @@ class StringUtilsTest {
                 "abc" to "abc"
         )
         notLessList.forEach { (l, r) -> assertFalse("not $l < $r", l.isLessThan(r)) }
+    }
+
+    @Test
+    fun inc() {
+        listOf(
+                "122" to "123",
+                "12A" to "12B",
+                "1" to "2"
+        ).forEach { (l, r) -> assertEquals("$l + 1 = $r", r, l.inc()) }
     }
 
     @Test

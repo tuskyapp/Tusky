@@ -68,7 +68,7 @@ class TimelineRepositoryImpl(
     ): Single<out List<TimelineStatus>> {
         return mastodonApi.homeTimelineSingle(maxId, sinceIdMinusOne, limit + 1)
                 .map { statuses ->
-                    this.saveStatusesToDb(instance, accountId, statuses, maxId, sinceIdMinusOne)
+                    this.saveStatusesToDb(instance, accountId, statuses, maxId, sinceId)
                 }
                 .flatMap { statuses ->
                     this.addFromDbIfNeeded(accountId, statuses, maxId, sinceId, limit, requestMode)
@@ -118,38 +118,38 @@ class TimelineRepositoryImpl(
     }
 
     private fun saveStatusesToDb(instance: String, accountId: Long, statuses: List<Status>,
-                                 maxId: String?, sincedIdMinusOne: String?
+                                 maxId: String?, sinceId: String?
     ): List<Either<Placeholder, Status>> {
         var placeholderToInsert: Placeholder? = null
 
         // Look for overlap
-        val resultStatuses = if (statuses.isNotEmpty() && sincedIdMinusOne != null) {
-            val indexOfSince = statuses.indexOfLast { it.id == sincedIdMinusOne }
+        val resultStatuses = if (statuses.isNotEmpty() && sinceId != null) {
+            val indexOfSince = statuses.indexOfLast { it.id == sinceId }
             if (indexOfSince == -1) {
                 // We didn't find the status which must be there. Add a placeholder
-                placeholderToInsert = Placeholder(sincedIdMinusOne.inc())
-                statuses.mapTo(mutableListOf<Either<Placeholder, Status>>()) { Either.Right(it) }
+                placeholderToInsert = Placeholder(sinceId.inc())
+                statuses.mapTo(mutableListOf(), Status::lift)
                         .apply {
                             add(Either.Left(placeholderToInsert))
                         }
             } else {
                 // There was an overlap. Remove all overlapped statuses. No need for a placeholder.
-                statuses.mapTo(mutableListOf()) { Either.Right<Placeholder, Status>(it) }
+                statuses.mapTo(mutableListOf(), Status::lift)
                         .apply {
-                            subList(indexOfSince, lastIndex).clear()
+                            subList(indexOfSince, size).clear()
                         }
             }
         } else {
             // Just a normal case.
-            statuses.map { Either.Right<Placeholder, Status>(it) }
+            statuses.map(Status::lift)
         }
 
         Single.fromCallable {
             for (status in statuses) {
                 timelineDao.insertInTransaction(
-                        status.toEntity(accountId, instance, htmlConverter),
-                        status.account.toEntity(instance, accountId),
-                        status.reblog?.account?.toEntity(instance, accountId)
+                        status.toEntity(accountId, instance, htmlConverter, gson),
+                        status.account.toEntity(instance, accountId, gson),
+                        status.reblog?.account?.toEntity(instance, accountId, gson)
                 )
             }
 
@@ -159,7 +159,7 @@ class TimelineRepositoryImpl(
 
             // If we're loading in the bottom insert placeholder after every load
             // (for requests on next launches) but not return it.
-            if (sincedIdMinusOne == null && statuses.isNotEmpty()) {
+            if (sinceId == null && statuses.isNotEmpty()) {
                 timelineDao.insertStatusIfNotThere(
                         Placeholder(statuses.last().id.dec()).toEntity(accountId))
             }
@@ -168,8 +168,8 @@ class TimelineRepositoryImpl(
             if (statuses.size > 2) {
                 timelineDao.removeAllPlaceholdersBetween(accountId, statuses.first().id,
                         statuses.last().id)
-            } else if (maxId != null && sincedIdMinusOne != null) {
-                timelineDao.removeAllPlaceholdersBetween(accountId, maxId, sincedIdMinusOne)
+            } else if (placeholderToInsert == null && maxId != null && sinceId != null) {
+                timelineDao.removeAllPlaceholdersBetween(accountId, maxId, sinceId)
             }
         }
                 .subscribeOn(Schedulers.io())
@@ -189,42 +189,6 @@ class TimelineRepositoryImpl(
                 .subscribe()
     }
 
-    fun Account.toEntity(instance: String, accountId: Long): TimelineAccountEntity {
-        return TimelineAccountEntity(
-                serverId = id,
-                timelineUserId = accountId,
-                instance = instance,
-                localUsername = localUsername,
-                username = username,
-                displayName = displayName,
-                url = url,
-                avatar = avatar,
-                emojis = gson.toJson(emojis)
-        )
-    }
-
-    fun TimelineAccountEntity.toAccount(): Account {
-        return Account(
-                id = serverId,
-                localUsername = localUsername,
-                username = username,
-                displayName = displayName,
-                note = SpannedString(""),
-                url = url,
-                avatar = avatar,
-                header = "",
-                locked = false,
-                followingCount = 0,
-                followersCount = 0,
-                statusesCount = 0,
-                source = null,
-                bot = false,
-                emojis = gson.fromJson(this.emojis, emojisListTypeToken.type),
-                fields = null,
-                moved = null
-        )
-    }
-
     private fun TimelineStatusWithAccount.toStatus(): TimelineStatus {
         if (this.status.authorServerId == null) {
             return Either.Left(Placeholder(this.status.serverId))
@@ -242,7 +206,7 @@ class TimelineRepositoryImpl(
             Status(
                     id = id,
                     url = status.url,
-                    account = account.toAccount(),
+                    account = account.toAccount(gson),
                     inReplyToId = status.inReplyToId,
                     inReplyToAccountId = status.inReplyToAccountId,
                     reblog = null,
@@ -267,7 +231,7 @@ class TimelineRepositoryImpl(
             Status(
                     id = status.serverId,
                     url = null, // no url for reblogs
-                    account = this.reblogAccount!!.toAccount(),
+                    account = this.reblogAccount!!.toAccount(gson),
                     inReplyToId = null,
                     inReplyToAccountId = null,
                     reblog = reblog,
@@ -290,7 +254,7 @@ class TimelineRepositoryImpl(
             Status(
                     id = status.serverId,
                     url = status.url,
-                    account = account.toAccount(),
+                    account = account.toAccount(gson),
                     inReplyToId = status.inReplyToId,
                     inReplyToAccountId = status.inReplyToAccountId,
                     reblog = null,
@@ -312,39 +276,44 @@ class TimelineRepositoryImpl(
         }
         return Either.Right(status)
     }
+}
 
-    fun Status.toEntity(timelineUserId: Long, instance: String,
-                        htmlConverter: HtmlConverter): TimelineStatusEntity {
-        val actionable = actionableStatus
-        return TimelineStatusEntity(
-                serverId = this.id,
-                url = actionable.url!!,
-                instance = instance,
-                timelineUserId = timelineUserId,
-                authorServerId = actionable.account.id,
-                inReplyToId = actionable.inReplyToId,
-                inReplyToAccountId = actionable.inReplyToAccountId,
-                content = htmlConverter.toHtml(actionable.content),
-                createdAt = actionable.createdAt.time,
-                emojis = actionable.emojis.let(gson::toJson),
-                reblogsCount = actionable.reblogsCount,
-                favouritesCount = actionable.favouritesCount,
-                reblogged = actionable.reblogged,
-                favourited = actionable.favourited,
-                sensitive = actionable.sensitive,
-                spoilerText = actionable.spoilerText,
-                visibility = actionable.visibility,
-                attachments = actionable.attachments.let(gson::toJson),
-                mentions = actionable.mentions.let(gson::toJson),
-                application = actionable.let(gson::toJson),
-                reblogServerId = reblog?.id,
-                reblogAccountId = reblog?.let { this.account.id }
-        )
-    }
+private val emojisListTypeToken = object : TypeToken<List<Emoji>>() {}
 
-    companion object {
-        private val emojisListTypeToken = object : TypeToken<List<Emoji>>() {}
-    }
+fun Account.toEntity(instance: String, accountId: Long, gson: Gson): TimelineAccountEntity {
+    return TimelineAccountEntity(
+            serverId = id,
+            timelineUserId = accountId,
+            instance = instance,
+            localUsername = localUsername,
+            username = username,
+            displayName = displayName,
+            url = url,
+            avatar = avatar,
+            emojis = gson.toJson(emojis)
+    )
+}
+
+fun TimelineAccountEntity.toAccount(gson: Gson): Account {
+    return Account(
+            id = serverId,
+            localUsername = localUsername,
+            username = username,
+            displayName = displayName,
+            note = SpannedString(""),
+            url = url,
+            avatar = avatar,
+            header = "",
+            locked = false,
+            followingCount = 0,
+            followersCount = 0,
+            statusesCount = 0,
+            source = null,
+            bot = false,
+            emojis = gson.fromJson(this.emojis, emojisListTypeToken.type),
+            fields = null,
+            moved = null
+    )
 }
 
 
@@ -375,3 +344,35 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
 
     )
 }
+
+fun Status.toEntity(timelineUserId: Long, instance: String,
+                    htmlConverter: HtmlConverter,
+                    gson: Gson): TimelineStatusEntity {
+    val actionable = actionableStatus
+    return TimelineStatusEntity(
+            serverId = this.id,
+            url = actionable.url!!,
+            instance = instance,
+            timelineUserId = timelineUserId,
+            authorServerId = actionable.account.id,
+            inReplyToId = actionable.inReplyToId,
+            inReplyToAccountId = actionable.inReplyToAccountId,
+            content = htmlConverter.toHtml(actionable.content),
+            createdAt = actionable.createdAt.time,
+            emojis = actionable.emojis.let(gson::toJson),
+            reblogsCount = actionable.reblogsCount,
+            favouritesCount = actionable.favouritesCount,
+            reblogged = actionable.reblogged,
+            favourited = actionable.favourited,
+            sensitive = actionable.sensitive,
+            spoilerText = actionable.spoilerText,
+            visibility = actionable.visibility,
+            attachments = actionable.attachments.let(gson::toJson),
+            mentions = actionable.mentions.let(gson::toJson),
+            application = actionable.let(gson::toJson),
+            reblogServerId = reblog?.id,
+            reblogAccountId = reblog?.let { this.account.id }
+    )
+}
+
+fun Status.lift(): Either<Placeholder, Status> = Either.Right(this)

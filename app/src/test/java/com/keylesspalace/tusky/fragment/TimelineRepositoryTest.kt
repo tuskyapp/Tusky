@@ -14,6 +14,7 @@ import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.HtmlConverter
 import com.nhaarman.mockitokotlin2.isNull
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Single
 import io.reactivex.plugins.RxJavaPlugins
@@ -45,26 +46,27 @@ class TimelineRepositoryTest {
 
 
     val limit = 30
-    val accountId = 1L
+    val account = AccountEntity(
+            id = 2,
+            accessToken = "token",
+            domain = "domain.com",
+            isActive = true
+    )
+    val htmlConverter = object : HtmlConverter {
+        override fun fromHtml(html: String): Spanned {
+            return SpanUtilsTest.FakeSpannable(html)
+        }
+
+        override fun toHtml(text: Spanned): String {
+            return text.toString()
+        }
+    }
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        whenever(accountManager.activeAccount).thenReturn(AccountEntity(
-                id = accountId,
-                accessToken = "token",
-                domain = "domain.com",
-                isActive = true)
-        )
-        val htmlConverter = object : HtmlConverter {
-            override fun fromHtml(html: String): Spanned {
-                return SpanUtilsTest.FakeSpannable(html)
-            }
+        whenever(accountManager.activeAccount).thenReturn(account)
 
-            override fun toHtml(text: Spanned): String {
-                return text.toString()
-            }
-        }
         gson = Gson()
         testScheduler = TestScheduler()
         RxJavaPlugins.setIoSchedulerHandler { testScheduler }
@@ -83,9 +85,163 @@ class TimelineRepositoryTest {
         val result = subject.getStatuses(null, null, null, limit, TimelineRequestMode.NETWORK)
                 .blockingGet()
 
-        assertEquals(statuses.map { Either.Right<Placeholder, Status>(it) }, result)
+        assertEquals(statuses.map(Status::lift), result)
         testScheduler.advanceTimeBy(100, TimeUnit.SECONDS)
-        verify(timelineDao).insertStatusIfNotThere(Placeholder("1").toEntity(accountId))
+        verify(timelineDao).insertStatusIfNotThere(Placeholder("1").toEntity(account.id))
+        for (status in statuses) {
+            verify(timelineDao).insertInTransaction(
+                    status.toEntity(account.id, account.domain, htmlConverter, gson),
+                    status.account.toEntity(account.domain, account.id, gson),
+                    null
+            )
+        }
+        verifyNoMoreInteractions(timelineDao)
+    }
+
+    @Test
+    fun testNetworkLoadingTopNoGap() {
+        val response = listOf(
+                makeStatus("4"),
+                makeStatus("3"),
+                makeStatus("2")
+        )
+        val sinceId = "2"
+        val sinceIdMinusOne = "1"
+        whenever(mastodonApi.homeTimelineSingle(null, sinceIdMinusOne, limit + 1))
+                .thenReturn(Single.just(response))
+        val result = subject.getStatuses(null, sinceId, sinceIdMinusOne, limit,
+                TimelineRequestMode.NETWORK)
+                .blockingGet()
+
+        assertEquals(
+                response.subList(0, 2).map(Status::lift),
+                result
+        )
+        testScheduler.advanceTimeBy(100, TimeUnit.SECONDS)
+        // We assume for now that overlapped one is inserted but it's not that important
+        for (status in response) {
+            verify(timelineDao).insertInTransaction(
+                    status.toEntity(account.id, account.domain, htmlConverter, gson),
+                    status.account.toEntity(account.domain, account.id, gson),
+                    null
+            )
+        }
+        verify(timelineDao).removeAllPlaceholdersBetween(account.id, response.first().id,
+                response.last().id)
+        verifyNoMoreInteractions(timelineDao)
+    }
+
+    @Test
+    fun testNetworkLoadingTopWithGap() {
+        val response = listOf(
+                makeStatus("5"),
+                makeStatus("4")
+        )
+        val sinceId = "2"
+        val sinceIdMinusOne = "1"
+        whenever(mastodonApi.homeTimelineSingle(null, sinceIdMinusOne, limit + 1))
+                .thenReturn(Single.just(response))
+        val result = subject.getStatuses(null, sinceId, sinceIdMinusOne, limit,
+                TimelineRequestMode.NETWORK)
+                .blockingGet()
+
+        val placeholder = Placeholder("3")
+        assertEquals(response.map(Status::lift) + Either.Left(placeholder), result)
+        testScheduler.advanceTimeBy(100, TimeUnit.SECONDS)
+        for (status in response) {
+            verify(timelineDao).insertInTransaction(
+                    status.toEntity(account.id, account.domain, htmlConverter, gson),
+                    status.account.toEntity(account.domain, account.id, gson),
+                    null
+            )
+        }
+        verify(timelineDao).insertStatusIfNotThere(placeholder.toEntity(account.id))
+        verifyNoMoreInteractions(timelineDao)
+    }
+
+    @Test
+    fun testNetworkLoadingMiddleNoGap() {
+        // Example timelne:
+        // 5
+        // 4
+        // [gap]
+        // 2
+        // 1
+
+        val response = listOf(
+                makeStatus("5"),
+                makeStatus("4"),
+                makeStatus("3"),
+                makeStatus("2")
+        )
+        val sinceId = "2"
+        val sinceIdMinusOne = "1"
+        val maxId = "3"
+        whenever(mastodonApi.homeTimelineSingle(maxId, sinceIdMinusOne, limit + 1))
+                .thenReturn(Single.just(response))
+        val result = subject.getStatuses(maxId, sinceId, sinceIdMinusOne, limit,
+                TimelineRequestMode.NETWORK)
+                .blockingGet()
+
+        assertEquals(
+                response.subList(0, response.lastIndex).map(Status::lift),
+                result
+        )
+        testScheduler.advanceTimeBy(100, TimeUnit.SECONDS)
+        // We assume for now that overlapped one is inserted but it's not that important
+        for (status in response) {
+            verify(timelineDao).insertInTransaction(
+                    status.toEntity(account.id, account.domain, htmlConverter, gson),
+                    status.account.toEntity(account.domain, account.id, gson),
+                    null
+            )
+        }
+        verify(timelineDao).removeAllPlaceholdersBetween(account.id, response.first().id,
+                response.last().id)
+        verifyNoMoreInteractions(timelineDao)
+    }
+
+    @Test
+    fun testNetworkLoadingMiddleWithGap() {
+        // Example timelne:
+        // 6
+        // 5
+        // [gap]
+        // 2
+        // 1
+
+        val response = listOf(
+                makeStatus("6"),
+                makeStatus("5"),
+                makeStatus("4")
+        )
+        val sinceId = "2"
+        val sinceIdMinusOne = "1"
+        val maxId = "4"
+        whenever(mastodonApi.homeTimelineSingle(maxId, sinceIdMinusOne, limit + 1))
+                .thenReturn(Single.just(response))
+        val result = subject.getStatuses(maxId, sinceId, sinceIdMinusOne, limit,
+                TimelineRequestMode.NETWORK)
+                .blockingGet()
+
+        val placeholder = Placeholder("3")
+        assertEquals(
+                response.map(Status::lift) + Either.Left(placeholder),
+                result
+        )
+        testScheduler.advanceTimeBy(100, TimeUnit.SECONDS)
+        // We assume for now that overlapped one is inserted but it's not that important
+        for (status in response) {
+            verify(timelineDao).insertInTransaction(
+                    status.toEntity(account.id, account.domain, htmlConverter, gson),
+                    status.account.toEntity(account.domain, account.id, gson),
+                    null
+            )
+        }
+        verify(timelineDao).removeAllPlaceholdersBetween(account.id, response.first().id,
+                response.last().id)
+        verify(timelineDao).insertStatusIfNotThere(placeholder.toEntity(account.id))
+        verifyNoMoreInteractions(timelineDao)
     }
 
     fun makeStatus(id: String, account: Account = makeAccount(id)): Status {
