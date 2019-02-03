@@ -26,6 +26,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.R
@@ -92,14 +93,19 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         })
 
         viewModel.load()
+
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (positionStart == 0) {
+                    recyclerView.scrollToPosition(0)
+                }
+            }
+        })
     }
 
     private fun initSwipeToRefresh() {
         viewModel.refreshState.observe(this, Observer {
             swipeRefreshLayout.isRefreshing = it == NetworkState.LOADING
-            if(it == NetworkState.LOADED) {
-                recyclerView.scrollToPosition(0)
-            }
         })
         swipeRefreshLayout.setOnRefreshListener {
             viewModel.refresh()
