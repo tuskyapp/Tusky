@@ -41,7 +41,6 @@
 
     </PreferenceCategory>
 
-        
     <PreferenceCategory
         android:title="@string/pref_title_browser_settings">
         <CheckBoxPreference
