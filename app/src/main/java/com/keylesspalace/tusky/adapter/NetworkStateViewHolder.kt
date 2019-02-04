@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
+import android.view.ViewGroup
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.Status
 import com.keylesspalace.tusky.util.visible
@@ -26,13 +27,18 @@ class NetworkStateViewHolder(itemView: View,
                              private val retryCallback: () -> Unit)
 : RecyclerView.ViewHolder(itemView) {
 
-    fun setUpWithNetworkState(state: NetworkState?) {
+    fun setUpWithNetworkState(state: NetworkState?, fullScreen: Boolean) {
         itemView.progressBar.visible(state?.status == Status.RUNNING)
         itemView.retryButton.visible(state?.status == Status.FAILED)
         itemView.errorMsg.visible(state?.msg != null)
         itemView.errorMsg.text = state?.msg
         itemView.retryButton.setOnClickListener {
             retryCallback()
+        }
+        if(fullScreen) {
+            itemView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+        } else {
+            itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         }
     }
 

@@ -18,15 +18,14 @@ package com.keylesspalace.tusky.components.conversation
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.R
@@ -40,6 +39,7 @@ import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import kotlinx.android.synthetic.main.fragment_timeline.*
 import javax.inject.Inject
 
@@ -70,7 +70,8 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         val account = accountManager.activeAccount
         val mediaPreviewEnabled = account?.mediaPreviewEnabled ?: true
 
-        adapter = ConversationAdapter(useAbsoluteTime, mediaPreviewEnabled,this, viewModel::retry)
+
+        adapter = ConversationAdapter(useAbsoluteTime, mediaPreviewEnabled,this, ::onTopLoaded, viewModel::retry)
 
         val divider = DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
         val drawable = ThemeUtils.getDrawable(view.context, R.attr.status_divider_drawable, R.drawable.status_divider_dark)
@@ -94,13 +95,6 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
 
         viewModel.load()
 
-        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (positionStart == 0) {
-                    recyclerView.scrollToPosition(0)
-                }
-            }
-        })
     }
 
     private fun initSwipeToRefresh() {
@@ -112,6 +106,10 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         }
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(swipeRefreshLayout.context, android.R.attr.colorBackground))
+    }
+
+    private fun onTopLoaded() {
+        recyclerView.scrollToPosition(0)
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {

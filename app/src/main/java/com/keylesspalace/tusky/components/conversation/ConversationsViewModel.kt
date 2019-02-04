@@ -32,6 +32,9 @@ class ConversationsViewModel  @Inject constructor(
 
     fun load() {
         val accountId = accountManager.activeAccount?.id ?: return
+        if(repoResult.value == null) {
+            repository.refresh(accountId, false)
+        }
         repoResult.value = repository.conversations(accountId)
     }
 
@@ -40,8 +43,7 @@ class ConversationsViewModel  @Inject constructor(
     }
 
     fun retry() {
-        val listing = repoResult.value
-        listing?.retry?.invoke()
+        repoResult.value?.retry?.invoke()
     }
 
     fun favourite(favourite: Boolean, position: Int) {

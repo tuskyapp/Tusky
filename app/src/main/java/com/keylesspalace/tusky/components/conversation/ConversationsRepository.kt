@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.Config
 import androidx.paging.toLiveData
-import com.google.gson.Gson
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.network.MastodonApi
@@ -29,9 +28,11 @@ class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, 
     }
 
     @MainThread
-    private fun refresh(accountId: Long): LiveData<NetworkState> {
+    fun refresh(accountId: Long, showLoadingIndicator: Boolean): LiveData<NetworkState> {
         val networkState = MutableLiveData<NetworkState>()
-        networkState.value = NetworkState.LOADING
+        if(showLoadingIndicator) {
+            networkState.value = NetworkState.LOADING
+        }
 
         mastodonApi.getConversations(null, DEFAULT_PAGE_SIZE).enqueue(
                 object : Callback<List<Conversation>> {
@@ -43,7 +44,7 @@ class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, 
                     override fun onResponse(call: Call<List<Conversation>>, response: Response<List<Conversation>>) {
                         ioExecutor.execute {
                             db.runInTransaction {
-                                db.conversationDao().conversationsForAccount(accountId)
+                                db.conversationDao().deleteForAccount(accountId)
                                 insertResultIntoDb(accountId, response.body())
                             }
                             // since we are in bg thread now, post the result.
@@ -70,12 +71,12 @@ class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, 
         // dispatched data in refreshTrigger
         val refreshTrigger = MutableLiveData<Unit>()
         val refreshState = Transformations.switchMap(refreshTrigger) {
-            refresh(accountId)
+            refresh(accountId, true)
         }
 
         // We use toLiveData Kotlin extension function here, you could also use LivePagedListBuilder
         val livePagedList =  db.conversationDao().conversationsForAccount(accountId).toLiveData(
-                config = Config(pageSize = DEFAULT_PAGE_SIZE, prefetchDistance = DEFAULT_PAGE_SIZE / 2),
+                config = Config(pageSize = DEFAULT_PAGE_SIZE, prefetchDistance = DEFAULT_PAGE_SIZE / 2, enablePlaceholders = false),
                 boundaryCallback = boundaryCallback
         )
 
