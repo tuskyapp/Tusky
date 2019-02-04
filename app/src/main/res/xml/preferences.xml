@@ -41,17 +41,6 @@
 
     </PreferenceCategory>
 
-
-    <PreferenceCategory
-        android:title="@string/pref_title_compose_settings">
-        
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="haveSubjectSharedContent"
-            android:title="@string/pref_have_subject_shared_content" />
-        
-    </PreferenceCategory>
         
     <PreferenceCategory
         android:title="@string/pref_title_browser_settings">

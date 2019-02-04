@@ -620,13 +620,12 @@ public final class ComposeActivity
                         String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
                         String text = intent.getStringExtra(Intent.EXTRA_TEXT);
                         String shareBody = null;
-                        boolean haveSubject = preferences.getBoolean("haveSubjectSharedContent", false);
-                        if(haveSubject && subject != null && text != null){
+                        if(subject != null && text != null){
                             shareBody = String.format("%s\n%s", subject, text);
-                        }else if(haveSubject && subject != null){
-                            shareBody = subject;
                         }else if(text != null){
                             shareBody = text;
+                        }else if(subject != null){
+                            shareBody = subject;
                         }
 
                         if (shareBody != null) {

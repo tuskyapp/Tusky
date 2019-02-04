@@ -182,7 +182,6 @@
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_app_theme">App Theme</string>
     <string name="pref_title_timelines">Timelines</string>
-    <string name="pref_title_compose_settings">Compose</string>
 
     <string-array name="app_theme_names">
         <item>Dark</item>
@@ -377,6 +376,5 @@
 
     <string name="title_reblogged_by">Boosted by</string>
     <string name="title_favourited_by">Favourited by</string>
-    <string name="pref_have_subject_shared_content">Attach title for url of shared from other app</string>
 
 </resources>
