@@ -123,6 +123,7 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
     testImplementation 'org.robolectric:robolectric:4.1'
     testImplementation 'org.mockito:mockito-inline:2.23.4'
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
