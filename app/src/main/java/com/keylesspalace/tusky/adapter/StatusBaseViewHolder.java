@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
-import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
@@ -28,7 +27,6 @@ import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
-import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.MediaPreviewImageView;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
@@ -153,7 +151,7 @@ abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     status.getContent(), status.getStatusEmojis(), this.content);
             LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
         } else {
-                LinkHelper.setClickableMentions(this.content, mentions, listener);
+            LinkHelper.setClickableMentions(this.content, mentions, listener);
         }
         if(TextUtils.isEmpty(this.content.getText())) {
             this.content.setVisibility(View.GONE);
