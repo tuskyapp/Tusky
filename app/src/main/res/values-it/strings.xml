@@ -109,6 +109,7 @@
     <string name="download_image">Scaricando %1$s</string>
     <string name="action_copy_link">Copia il link</string>
     <string name="action_open_as">Apri come %s</string>
+    <string name="action_share_as">Condividi come …</string>
     <string name="send_status_link_to">Condividi URL del toot su…</string>
     <string name="send_status_content_to">Condividi toot su…</string>
     <string name="send_media_to">Condividi media su…</string>
