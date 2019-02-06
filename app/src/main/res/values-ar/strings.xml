@@ -38,6 +38,7 @@
     <string name="title_edit_profile">عدل ملفك الشخصي</string>
     <string name="title_saved_toot">المسودات</string>
     <string name="title_licenses">الرّخص</string>
+    <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s رقّي</string>
     <string name="status_sensitive_media_title">محتوى حساس</string>
     <string name="status_media_hidden_title">وسائط مخفية</string>
@@ -46,6 +47,7 @@
     <string name="status_content_warning_show_less">اعرض أقل</string>
     <string name="status_content_show_more">توسيع</string>
     <string name="status_content_show_less">تصغير</string>
+    <string name="message_empty">لا شيء هنا.</string>
     <string name="footer_empty">لا يوجد شيئ هنا. إسحب إلى أسفل للتحديث !</string>
     <string name="notification_reblog_format">رقّى %s تبويقك</string>
     <string name="notification_favourite_format">أعجب %s بتبويقك</string>
@@ -103,6 +105,7 @@
     <string name="action_emoji_keyboard">لوحة مفاتيح الإيموجي</string>
     <string name="download_image">تنزيل %1$s</string>
     <string name="action_copy_link">إنسخ الرابط</string>
+    <string name="action_open_as">إفتحه كـ %s</string>
     <string name="send_status_link_to">شارك رابط التبويق مع…</string>
     <string name="send_status_content_to">شارك التبويق على …</string>
     <string name="send_media_to">شارك رابط التبويق مع…</string>
@@ -156,6 +159,12 @@
     <string name="pref_title_appearance_settings">المظهر</string>
     <string name="pref_title_app_theme">سمة التطبيق</string>
     <string name="pref_title_timelines">الخيوط</string>
+    <string-array name="app_theme_names">
+        <item>داكنة</item>
+        <item>فاتحة</item>
+        <item>سوداء</item>
+        <item>تلقائي عند غروب الشمس</item>
+    </string-array>
     <string name="pref_title_browser_settings">المتصفح</string>
     <string name="pref_title_custom_tabs">إخفاء زر المتابعة أثناء تمرير الصفحة</string>
     <string name="pref_title_hide_follow_button">إخفاء زر التحرير عند التمرير</string>
@@ -174,9 +183,14 @@
     <string name="pref_default_media_sensitivity">تعيين الوسائط كمحتوى حساس دائمًا</string>
     <string name="pref_publishing">النشر</string>
     <string name="pref_failed_to_sync">فَشِلَت عملية مزامنة الإعدادات</string>
+    <string-array name="post_privacy_names">
+        <item>للعامة</item>
+        <item>غير مدرج</item>
+        <item>للمُتابِعين فقط</item>
+    </string-array>
     <string name="pref_status_text_size">حجم الخط</string>
     <string-array name="status_text_size_names">
-        <item>Smallest</item>
+        <item>صغير جدا</item>
         <item>صغير</item>
         <item>متوسط</item>
         <item>عريض</item>
@@ -185,8 +199,8 @@
     <string name="pref_media_display">عرض الوسائط</string>
     <string-array name="media_display_names">
         <item>إخفاء الوسائط المعينة كحساسة</item>
-        <item>Always show media marked as sensitive</item>
-        <item>Always hide all media</item>
+        <item>اظهار الوسائط المعينة كمحتوى حساس دائمًا</item>
+        <item>إخفاء كافة الوسائط دائما</item>
     </string-array>
     <string name="notification_channel_mention_name">إشارات جديدة</string>
     <string name="notification_channel_mention_descriptions">الإخطارات عندما يشار إليك</string>
@@ -290,4 +304,6 @@
     <string name="label_remote_account">المعلومات الواردة أدناه قد لا تعكس الملف الكامل للمستخدم. اضغط لفتحه على المتصفح.</string>
     <string name="unpin_action">فك التدبيس</string>
     <string name="pin_action">تدبيس</string>
+    <string name="title_reblogged_by">رقّاه</string>
+    <string name="title_favourited_by">قام بإضافته إلى المفضلة</string>
 </resources>
