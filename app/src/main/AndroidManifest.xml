@@ -48,11 +48,6 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden">
-        </activity>
-        <activity
-            android:name=".ComposeActivity"
-            android:theme="@style/TuskyDialogActivityTheme"
-            android:windowSoftInputMode="stateVisible|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -78,6 +73,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="video/*" />
             </intent-filter>
+            <meta-data
+                android:name="android.service.chooser.chooser_target_service"
+                android:value="com.keylesspalace.tusky.service.AccountChooserService"
+                />
+        </activity>
+        <activity
+            android:name=".ComposeActivity"
+            android:theme="@style/TuskyDialogActivityTheme"
+            android:windowSoftInputMode="stateVisible|adjustResize">
         </activity>
         <activity
             android:name=".ViewThreadActivity"
@@ -129,6 +133,16 @@
             </intent-filter>
         </service>
         <service android:name=".service.SendTootService" />
+        <service
+            tools:targetApi="23"
+            android:name="com.keylesspalace.tusky.service.AccountChooserService"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_CHOOSER_TARGET_SERVICE"
+            >
+            <intent-filter>
+                <action android:name="android.service.chooser.ChooserTargetService" />
+            </intent-filter>
+        </service>
 
         <provider
             android:name="androidx.core.content.FileProvider"

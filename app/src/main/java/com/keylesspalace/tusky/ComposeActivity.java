@@ -1615,6 +1615,11 @@ public final class ComposeActivity
         return maximumTootCharacters;
     }
 
+    static boolean canHandleMimeType(@Nullable String mimeType) {
+        return (mimeType != null &&
+                    (mimeType.startsWith("image/") || mimeType.startsWith("video/") || mimeType.equals("text/plain")));
+    }
+
     public static final class QueuedMedia {
         Type type;
         ProgressImageView preview;
