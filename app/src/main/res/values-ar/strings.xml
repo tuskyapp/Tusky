@@ -175,7 +175,19 @@
     <string name="pref_publishing">النشر</string>
     <string name="pref_failed_to_sync">فَشِلَت عملية مزامنة الإعدادات</string>
     <string name="pref_status_text_size">حجم الخط</string>
+    <string-array name="status_text_size_names">
+        <item>Smallest</item>
+        <item>صغير</item>
+        <item>متوسط</item>
+        <item>عريض</item>
+        <item>عريض جدا</item>
+    </string-array>
     <string name="pref_media_display">عرض الوسائط</string>
+    <string-array name="media_display_names">
+        <item>إخفاء الوسائط المعينة كحساسة</item>
+        <item>Always show media marked as sensitive</item>
+        <item>Always hide all media</item>
+    </string-array>
     <string name="notification_channel_mention_name">إشارات جديدة</string>
     <string name="notification_channel_mention_descriptions">الإخطارات عندما يشار إليك</string>
     <string name="notification_channel_follow_name">متابِعون جدد</string>
