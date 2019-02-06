@@ -109,6 +109,7 @@
     <string name="download_image">Téléchargement de %1$s</string>
     <string name="action_copy_link">Copier le lien</string>
     <string name="action_open_as">Ouvrir comme %s</string>
+    <string name="action_share_as">Partager comme …</string>
     <string name="send_status_link_to">Partager le lien de votre pouet avec…</string>
     <string name="send_status_content_to">Partager le pouet avec…</string>
     <string name="send_media_to">Partager l’image avec …</string>
