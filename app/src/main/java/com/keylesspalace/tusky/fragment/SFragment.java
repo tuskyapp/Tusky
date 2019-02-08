@@ -337,26 +337,7 @@ public abstract class SFragment extends BaseFragment {
     }
 
     private void showOpenAsDialog(String statusUrl, CharSequence dialogTitle) {
-        List<AccountEntity> accounts = accountManager.getAllAccountsOrderedByActive();
-        AccountEntity activeAccount = accountManager.getActiveAccount();
-
-        if (accounts.size() == 2) {
-            for (AccountEntity account : accounts) {
-                if (activeAccount != account) {
-                    openAsAccount(statusUrl, account);
-                    break;
-                }
-            }
-        } else {
-            accounts.remove(activeAccount);
-            CharSequence[] accountNames = new CharSequence[accounts.size()];
-            for (int i = 0; i < accounts.size(); ++i) {
-                accountNames[i] = accounts.get(i).getFullName();
-            }
-            new AlertDialog.Builder(getActivity())
-                    .setTitle(dialogTitle)
-                    .setItems(accountNames, (dialogInterface, index) -> openAsAccount(statusUrl, accounts.get(index)))
-                    .show();
-        }
+        BaseActivity activity = (BaseActivity)getActivity();
+        activity.showAccountChooserDialog(dialogTitle, false, account -> openAsAccount(statusUrl, account));
     }
 }

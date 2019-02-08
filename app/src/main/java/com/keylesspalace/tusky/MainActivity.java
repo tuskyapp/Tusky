@@ -121,18 +121,40 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         if (intent != null) {
             long accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1);
+            boolean accountRequested = (accountId != -1);
 
-            if (accountId != -1) {
-                // user clicked a notification, show notification tab and switch user if necessary
-                showNotificationTab = true;
+            if (accountRequested) {
                 AccountEntity account = accountManager.getActiveAccount();
-
                 if (account == null || accountId != account.getId()) {
                     accountManager.setActiveAccount(accountId);
                 }
             }
-        }
 
+            if (ComposeActivity.canHandleMimeType(intent.getType())) {
+                // Sharing to Tusky from an external app
+                if (accountRequested) {
+                    // The correct account is already active
+                    forwardShare(intent);
+                } else {
+                    // No account was provided, show the chooser
+                    showAccountChooserDialog(getString(R.string.action_share_as), true, account -> {
+                        long requestedId = account.getId();
+                        AccountEntity activeAccount = accountManager.getActiveAccount();
+                        if (activeAccount != null && requestedId == activeAccount.getId()) {
+                            // The correct account is already active
+                            forwardShare(intent);
+                        } else {
+                            // A different account was requested, restart the activity
+                            intent.putExtra(NotificationHelper.ACCOUNT_ID, requestedId);
+                            changeAccount(requestedId, intent);
+                        }
+                    });
+                }
+            } else if (accountRequested) {
+                // user clicked a notification, show notification tab and switch user if necessary
+                showNotificationTab = true;
+            }
+        }
         setContentView(R.layout.activity_main);
 
         composeButton = findViewById(R.id.floating_btn);
@@ -253,6 +275,14 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                 viewUrl(statusUrl);
             }
         }
+    }
+
+    private void forwardShare(Intent intent) {
+        Intent composeIntent = new Intent(this, ComposeActivity.class);
+        composeIntent.setAction(intent.getAction());
+        composeIntent.setType(intent.getType());
+        composeIntent.putExtras(intent);
+        startActivity(composeIntent);
     }
 
     private void setupDrawer() {
@@ -407,17 +437,22 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
             return true;
         }
         //change Account
-        changeAccount(profile.getIdentifier());
+        changeAccount(profile.getIdentifier(), null);
         return false;
     }
 
 
-    private void changeAccount(long newSelectedId) {
+    private void changeAccount(long newSelectedId, @Nullable Intent forward) {
         cacheUpdater.stop();
         accountManager.setActiveAccount(newSelectedId);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        if (forward != null) {
+            intent.setType(forward.getType());
+            intent.setAction(forward.getAction());
+            intent.putExtras(forward);
+        }
         startActivity(intent);
         finishWithoutSlideOutAnimation();
 
