@@ -16,9 +16,8 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
-
 import android.text.InputFilter;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,8 +29,11 @@ import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import at.connyduck.sparkbutton.helpers.Utils;
+import kotlin.collections.CollectionsKt;
 
 public class StatusViewHolder extends StatusBaseViewHolder {
     private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
@@ -92,9 +94,78 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             }
 
             rebloggedBar.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));
+        }
+        setContentDescription(status);
+    }
 
+    private void setContentDescription(@Nullable StatusViewData.Concrete status) {
+        if (status == null) {
+            itemView.setContentDescription(
+                    itemView.getContext().getString(R.string.load_more_placeholder_text));
+        } else {
+            setStatusDescriptionForStatus(status);
         }
 
+    }
+
+    private void setStatusDescriptionForStatus(@NonNull StatusViewData.Concrete status) {
+        CharSequence postedAgo = DateUtils.getRelativeTimeSpanString(
+                status.getCreatedAt().getTime(),
+                System.currentTimeMillis(),
+                DateUtils.SECOND_IN_MILLIS,
+                DateUtils.FORMAT_ABBREV_RELATIVE
+        );
+        Context context = itemView.getContext();
+
+
+        String description = itemView.getContext().getString(R.string.status_description,
+                status.getUserFullName(),
+                getContentWarningDescription(context, status),
+                (!status.isSensitive() || status.isExpanded() ? status.getContent() : ""),
+                postedAgo,
+                getReblogDescription(context, status),
+                status.getNickname(),
+                getMediaDescription(context, status));
+        itemView.setContentDescription(description);
+    }
+
+    private CharSequence getReblogDescription(Context context, @NonNull StatusViewData.Concrete status) {
+        CharSequence reblogDescriontion;
+        String rebloggedUsername = status.getRebloggedByUsername();
+        if (rebloggedUsername != null) {
+            reblogDescriontion = context
+                    .getString(R.string.status_boosted_format, rebloggedUsername);
+        } else {
+            reblogDescriontion = "";
+        }
+        return reblogDescriontion;
+    }
+
+    private CharSequence getMediaDescription(Context context, @NonNull StatusViewData.Concrete status) {
+        if (status.getAttachments().isEmpty()) {
+            return "";
+        }
+        StringBuilder mediaDescriptions = CollectionsKt.fold(
+                status.getAttachments(),
+                new StringBuilder(),
+                (builder, a) -> {
+                    if (a.getDescription() == null) {
+                        String placeholder = context.getString(R.string.status_description_media_no_description_placeholder);
+                        return builder.append(placeholder);
+                    } else {
+                        builder.append("; ");
+                        return builder.append(a.getDescription());
+                    }
+                });
+        return context.getString(R.string.status_description_media, mediaDescriptions);
+    }
+
+    private CharSequence getContentWarningDescription(Context context, @NonNull StatusViewData.Concrete status) {
+        if (status.isSensitive()) {
+            return context.getString(R.string.status_description_cw, status.getSpoilerText());
+        } else {
+            return "";
+        }
     }
 
     private void setRebloggedByDisplayName(final String name) {

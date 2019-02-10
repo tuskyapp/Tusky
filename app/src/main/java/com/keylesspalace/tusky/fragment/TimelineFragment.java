@@ -73,6 +73,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.arch.core.util.Function;
 import androidx.core.util.Pair;
+import androidx.core.view.AccessibilityDelegateCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.AsyncListDiffer;
@@ -81,6 +83,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.ListUpdateCallback;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import at.connyduck.sparkbutton.helpers.Utils;
@@ -359,6 +362,77 @@ public class TimelineFragment extends SFragment implements
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         recyclerView.setAdapter(adapter);
+        recyclerView.setAccessibilityDelegateCompat(new RecyclerViewAccessibilityDelegate(recyclerView) {
+            AccessibilityDelegateCompat itemDelegate = new RecyclerViewAccessibilityDelegate.ItemDelegate(this) {
+                @Override
+                public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
+                    super.onInitializeAccessibilityNodeInfo(host, info);
+
+                    int pos = recyclerView.getChildAdapterPosition(host);
+                    Either<Placeholder, Status> either = statuses.get(pos);
+                    if (either.isRight()) {
+                        Status status = either.asRight();
+                        info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_reply, getString(R.string.action_reply)));
+                        if (status.getFavourited()) {
+                            info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_unfavourite, getString(R.string.action_favourite)));
+                        } else {
+                            // TODO: change string
+                            info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_favourite, getString(R.string.action_favourite)));
+                        }
+                        switch (status.getVisibility()) {
+                            case PUBLIC:
+                            case UNLISTED:
+                            case UNKNOWN:
+                                if (status.getReblogged()) {
+                                    // TODO: change string here
+                                    info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_unreblog, getString(R.string.action_reblog)));
+                                } else {
+                                    info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_reblog, getString(R.string.action_reblog)));
+                                }
+                        }
+                        info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_open_profile, getString(R.string.action_view_profile)));
+                    }
+
+                }
+
+                @Override
+                public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                    int pos = recyclerView.getChildAdapterPosition(host);
+                    switch (action) {
+                        case R.id.action_reply:
+                            onReply(pos);
+                            break;
+                        case R.id.action_favourite:
+                            onFavourite(true, pos);
+                            break;
+                        case R.id.action_unfavourite:
+                            onFavourite(false, pos);
+                            break;
+                        case R.id.action_reblog:
+                            onReblog(true, pos);
+                            break;
+                        case R.id.action_unreblog:
+                            onReblog(false, pos);
+                            break;
+                        case R.id.action_open_profile:
+                            onViewAccount(
+                                    statuses.get(pos).asRight().getAccount().getId());
+                            break;
+
+                    }
+                    if (action == R.id.action_reply) {
+                        return true;
+                    }
+                    return super.performAccessibilityAction(host, action, args);
+                }
+            };
+
+            @NonNull
+            @Override
+            public AccessibilityDelegateCompat getItemDelegate() {
+                return itemDelegate;
+            }
+        });
     }
 
     private void deleteStatusById(String id) {

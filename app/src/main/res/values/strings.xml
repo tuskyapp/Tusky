@@ -380,6 +380,23 @@
 
     <string name="title_reblogged_by">Boosted by</string>
     <string name="title_favourited_by">Favourited by</string>
+    
+    <string name="status_description_media">
+        Media: %s
+    </string>
+
+    <string name="status_description_cw">
+        Content warning: %s
+    </string>
+
+    <string name="status_description_media_no_description_placeholder">
+        No description
+    </string>
+
+    <string name="status_description">
+        <!-- Display name, cw?, content?, relative date, boosted?, username, media?-->
+        %s; %s; %s, %s, posted %s; %s, %s
+    </string>
 
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s and %2$s</string>
