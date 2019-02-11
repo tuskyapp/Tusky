@@ -47,6 +47,7 @@
     <string name="status_content_warning_show_less">Zeige weniger</string>
     <string name="status_content_show_more">Mehr</string>
     <string name="status_content_show_less">Weniger</string>
+    <string name="message_empty">Hier ist nichts.</string>
     <string name="footer_empty">Noch keine Beiträge hier! Ziehe nach unten um zu aktualisieren!</string>
     <string name="notification_reblog_format">%s teilte deinen Beitrag</string>
     <string name="notification_favourite_format">%s favorisierte deinen Beitrag</string>
@@ -104,6 +105,8 @@
     <string name="action_emoji_keyboard">Emoji</string>
     <string name="download_image">%1$s heruntergeladen</string>
     <string name="action_copy_link">Link kopieren</string>
+    <string name="action_open_as">Öffnen als %s</string>
+    <string name="action_share_as">Teilen als …</string>
     <string name="send_status_link_to">Beitragslink teilen</string>
     <string name="send_status_content_to">Beitragsinhalt teilen</string>
     <string name="send_media_to">Mediendatei teilen…</string>
@@ -195,7 +198,7 @@
     <string-array name="media_display_names">
         <item>Verberge Medien welche als heikel makiert sind</item>
         <item>Always show media marked as sensitive</item>
-        <item>Always hide all media</item>
+        <item>Medien immer verstecken</item>
     </string-array>
     <string name="notification_channel_mention_name">Neue Erwähnungen</string>
     <string name="notification_channel_mention_descriptions">Benachrichtigungen über neue Erwähnungen</string>
@@ -287,4 +290,5 @@
     <string name="label_remote_account">Das Profil wird möglicherweise unvollständig wiedergegeben. Klick um vollständiges Profil anzuzeigen.</string>
     <string name="unpin_action">Vom Profil lösen</string>
     <string name="pin_action">Im Profil anheften</string>
+    <string name="title_favourited_by">Favorisiert von</string>
 </resources>
