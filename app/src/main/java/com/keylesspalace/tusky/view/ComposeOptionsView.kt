@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.view
 
 import android.content.Context
-import android.os.Build
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import com.keylesspalace.tusky.R

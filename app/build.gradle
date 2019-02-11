@@ -74,21 +74,22 @@ android {
     }
 }
 
-ext.daggerVersion = '2.19'
+ext.daggerVersion = '2.21'
 
 // if libraries are changed here, they should also be changed in LicenseActivity
 dependencies {
     implementation('com.mikepenz:materialdrawer:6.1.1@aar') {
         transitive = true
     }
+    implementation 'androidx.core:core:1.0.1'
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.browser:browser:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.legacy:legacy-support-v13:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0-alpha02'
+    implementation 'com.google.android.material:material:1.1.0-alpha03'
     implementation 'androidx.exifinterface:exifinterface:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.preference:preference:1.1.0-alpha02'
+    implementation 'androidx.preference:preference:1.1.0-alpha03'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
@@ -122,7 +123,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
     testImplementation 'org.robolectric:robolectric:4.1'
-    testImplementation 'org.mockito:mockito-inline:2.23.4'
+    testImplementation 'org.mockito:mockito-inline:2.24.0'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -130,7 +131,7 @@ dependencies {
     androidTestImplementation('android.arch.persistence.room:testing:1.1.1')
     androidTestImplementation "androidx.test.ext:junit:1.1.0"
     debugImplementation 'im.dino:dbinspector:3.4.1@aar'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.4'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'

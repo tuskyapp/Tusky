@@ -99,7 +99,7 @@ defStyleAttr: Int = 0
      * that the custom matrix of this image is initialized if a focus point is set.
      */
     override fun onSuccess() {
-        onSizeChanged(width, height, width, height);
+        onSizeChanged(width, height, width, height)
     }
 
     // We do not handle the error here, instead it will be handled higher up the call chain.

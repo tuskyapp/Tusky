@@ -308,7 +308,9 @@
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:textSize="?attr/status_text_medium"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
