@@ -108,9 +108,15 @@
     <string name="action_emoji_keyboard">Emoji klavye</string>
     <string name="download_image">%1$s İndiriliyor</string>
     <string name="action_copy_link">Bağlantıyı kopyala</string>
+    <string name="action_open_as">Farklı aç %s</string>
+    <string name="action_share_as">Olarak paylaş …</string>
     <string name="send_status_link_to">İletinin adresini paylaş…</string>
     <string name="send_status_content_to">İletiyi paylaş…</string>
+    <string name="send_media_to">Medyayı paylaş…</string>
     <string name="confirmation_reported">İletildi!</string>
+    <string name="confirmation_unblocked">Kullanıcının engeli kaldırdı</string>
+    <string name="confirmation_unmuted">Kullanıcının sesi açıldı</string>
+    <string name="status_sent">İletildi!</string>
     <string name="hint_domain">Hangi sunucu?</string>
     <string name="hint_compose">Neler oluyor?</string>
     <string name="hint_content_warning">İçerik uyarı</string>
