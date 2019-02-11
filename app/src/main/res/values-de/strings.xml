@@ -156,6 +156,7 @@
     <string name="pref_title_notification_filter_favourites">Jemandem meine Posts gefallen</string>
     <string name="pref_title_appearance_settings">Aussehen</string>
     <string name="pref_title_app_theme">App-Thema</string>
+    <string name="pref_title_timelines">Zeitleisten</string>
     <string-array name="app_theme_names">
         <item>Dunkel</item>
         <item>Hell</item>
@@ -191,6 +192,11 @@
         <item>Größer</item>
     </string-array>
     <string name="pref_media_display">Medienanzeige</string>
+    <string-array name="media_display_names">
+        <item>Verberge Medien welche als heikel makiert sind</item>
+        <item>Always show media marked as sensitive</item>
+        <item>Always hide all media</item>
+    </string-array>
     <string name="notification_channel_mention_name">Neue Erwähnungen</string>
     <string name="notification_channel_mention_descriptions">Benachrichtigungen über neue Erwähnungen</string>
     <string name="notification_channel_follow_name">Neue Folgende</string>
