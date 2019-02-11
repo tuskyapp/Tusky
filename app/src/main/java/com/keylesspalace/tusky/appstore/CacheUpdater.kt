@@ -10,7 +10,7 @@ import javax.inject.Inject
 class CacheUpdater @Inject constructor(
         eventHub: EventHub,
         accountManager: AccountManager,
-        val appDatabase: AppDatabase
+        private val appDatabase: AppDatabase
 ) {
 
     private val disposable: Disposable
