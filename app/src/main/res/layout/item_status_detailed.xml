@@ -72,6 +72,7 @@
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_large"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_avatar"
         tools:text="CW this is a long long long long long long long long content warning" />
 
@@ -313,7 +314,9 @@
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:textSize="?attr/status_text_medium"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

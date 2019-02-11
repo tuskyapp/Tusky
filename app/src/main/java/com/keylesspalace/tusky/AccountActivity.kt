@@ -300,7 +300,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 supportActionBar?.subtitle = subtitle
             }
             val emojifiedNote = CustomEmojiHelper.emojifyText(account.note, account.emojis, accountNoteTextView)
-            setClickableText(accountNoteTextView, emojifiedNote, null, this)
+            LinkHelper.setClickableText(accountNoteTextView, emojifiedNote, null, this)
 
             accountLockedImageView.visible(account.locked)
             accountBadgeTextView.visible(account.bot)
@@ -365,7 +365,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             if (account.isRemote()) {
                 accountRemoveView.show()
                 accountRemoveView.setOnClickListener {
-                    openLink(account.url, this)
+                    LinkHelper.openLink(account.url, this)
                 }
             }
 
@@ -567,7 +567,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             R.id.action_open_in_web -> {
                 // If the account isn't loaded yet, eat the input.
                 if (loadedAccount != null) {
-                    openLink(loadedAccount?.url, this)
+                    LinkHelper.openLink(loadedAccount?.url, this)
                 }
                 return true
             }

@@ -10,11 +10,11 @@ import org.junit.runners.Parameterized
 class SpanUtilsTest {
     @Test
     fun matchesMixedSpans() {
-        val input = "one #one two dat://tw.wo?no=yes three @three four https://fo.ur/meh?foo=bar&wat=@at#hmm five #five ipfs://si.xx/?pick=up#sticks seven @seven "
+        val input = "one #one two @two three https://thr.ee/meh?foo=bar&wat=@at#hmm four #four five @five"
         val inputSpannable = FakeSpannable(input)
         highlightSpans(inputSpannable, 0xffffff)
         val spans = inputSpannable.spans
-        Assert.assertEquals(7, spans.size)
+        Assert.assertEquals(5, spans.size)
     }
 
     @Test
@@ -38,9 +38,6 @@ class SpanUtilsTest {
                 return listOf(
                         "@mention",
                         "#tag",
-                        "dat://thr.ee/meh?foo=bar&wat=@at#hmm",
-                        "ssb://thr.ee/meh?foo=bar&wat=@at#hmm",
-                        "ipfs://thr.ee/meh?foo=bar&wat=@at#hmm",
                         "https://thr.ee/meh?foo=bar&wat=@at#hmm",
                         "http://thr.ee/meh?foo=bar&wat=@at#hmm"
                 )
@@ -67,7 +64,7 @@ class SpanUtilsTest {
 
         @Test
         fun doesNotMatchSpanEmbeddedInText() {
-            val inputSpannable = FakeSpannable("__${thingToHighlight}__")
+            val inputSpannable = FakeSpannable("aa${thingToHighlight}aa")
             highlightSpans(inputSpannable, 0xffffff)
             val spans = inputSpannable.spans
             Assert.assertTrue(spans.isEmpty())
@@ -79,7 +76,6 @@ class SpanUtilsTest {
             highlightSpans(inputSpannable, 0xffffff)
             val spans = inputSpannable.spans
             Assert.assertEquals(1, spans.size)
-            Assert.assertEquals(0, spans[0].start)
         }
 
         @Test

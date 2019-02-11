@@ -135,7 +135,6 @@
                     android:id="@+id/accountNoteTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/labelBarrier"
                     android:lineSpacingMultiplier="1.1"
                     android:paddingTop="10dp"
                     android:textColor="?android:textColorTertiary"

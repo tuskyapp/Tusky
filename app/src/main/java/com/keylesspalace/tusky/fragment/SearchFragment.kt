@@ -61,9 +61,11 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
-        alwaysShowSensitiveMedia = preferences.getBoolean("alwaysShowSensitiveMedia", false)
-        mediaPreviewEnabled = preferences.getBoolean("mediaPreviewEnabled", true)
         useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
+
+        val account = accountManager.activeAccount
+        alwaysShowSensitiveMedia = account?.alwaysShowSensitiveMedia ?: false
+        mediaPreviewEnabled = account?.mediaPreviewEnabled ?: true
 
         searchRecyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         searchRecyclerView.layoutManager = LinearLayoutManager(view.context)
