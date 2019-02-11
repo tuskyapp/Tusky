@@ -19,6 +19,7 @@
     <string name="error_media_upload_sending">Feltöltés sikertelen.</string>
     <string name="error_report_too_few_statuses">Legalább egy tülkölésnek jelentve kell lennie.</string>
     <string name="title_home">Kezdőlap</string>
+    <string name="title_advanced">Haladó</string>
     <string name="title_notifications">Értesítések</string>
     <string name="title_public_local">Helyi</string>
     <string name="title_public_federated">Egyesített</string>
@@ -90,6 +91,8 @@
     <string name="confirmation_reported">Elküldve!</string>
     <string name="confirmation_unblocked">Felhasználó deblokkolva</string>
     <string name="confirmation_unmuted">Felhasználó kinémítva</string>
+    <string name="status_sent">Elküldve!</string>
+    <string name="status_sent_long">Válasz sikeresen elküldve.</string>
     <string name="hint_domain">Mely példány?</string>
     <string name="hint_compose">Mire gondolsz?</string>
     <string name="hint_content_warning">Tartalom Figyelmeztető</string>
