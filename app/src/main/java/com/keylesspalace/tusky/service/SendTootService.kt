@@ -157,7 +157,7 @@ class SendTootService : Service(), Injectable {
         val callback = object : Callback<Status> {
             override fun onResponse(call: Call<Status>, response: Response<Status>) {
 
-                val scheduled = tootToSend.scheduledAt.isNullOrEmpty()
+                val scheduled = !tootToSend.scheduledAt.isNullOrEmpty()
                 tootsToSend.remove(tootId)
 
                 if (response.isSuccessful) {
