@@ -36,27 +36,27 @@
     <string name="title_favourites">Kedvencek</string>
     <string name="title_mutes">Némított felhasználók</string>
     <string name="title_blocks">Blokkolt felhasználók</string>
-    <string name="title_follow_requests">Követési kérések</string>
-    <string name="title_edit_profile">Frofil módosítása</string>
+    <string name="title_follow_requests">Követési kérelmek</string>
+    <string name="title_edit_profile">Profil szerkesztése</string>
     <string name="title_saved_toot">Piszkozatok</string>
-    <string name="status_boosted_format">%s rebloggolt</string>
-    <string name="status_sensitive_media_title">Kényes Tartalom</string>
+    <string name="status_boosted_format">%s reblogolta</string>
+    <string name="status_sensitive_media_title">Kényes tartalom</string>
     <string name="status_sensitive_media_directions">Kattints a megnézéshez</string>
-    <string name="status_content_warning_show_more">Többet</string>
-    <string name="status_content_warning_show_less">Kevesebbet</string>
+    <string name="status_content_warning_show_more">Mutass többet</string>
+    <string name="status_content_warning_show_less">Mutass kevesebbet</string>
     <string name="status_content_show_more">Kibont</string>
     <string name="status_content_show_less">Összecsuk</string>
     <string name="footer_empty">Üres tartalom. Húzd le a frissítéshez!</string>
     <string name="notification_reblog_format">%s rebloggolta tülkölésed</string>
     <string name="notification_favourite_format">%s kedvencnek jelölte tülkölésed</string>
     <string name="notification_follow_format">%s követett</string>
-    <string name="report_username_format">Jelenti @%s</string>
-    <string name="report_comment_hint">Egyéb hozzáfűzés?</string>
+    <string name="report_username_format">\@%s jelentése</string>
+    <string name="report_comment_hint">Egyéb megjegyzés?</string>
     <string name="action_quick_reply">Gyors válasz</string>
     <string name="action_reply">Válasz</string>
     <string name="action_reblog">Rebloggol</string>
     <string name="action_favourite">Kedvenc</string>
-    <string name="action_more">Tovább</string>
+    <string name="action_more">Több</string>
     <string name="action_compose">Szerkeszt</string>
     <string name="action_login">Bejelentkezés Mastodon-al</string>
     <string name="action_logout">Kijelentkezés</string>
@@ -64,7 +64,7 @@
     <string name="action_follow">Követ</string>
     <string name="action_unfollow">Követőktől eltávolít</string>
     <string name="action_block">Blokkol</string>
-    <string name="action_unblock">Deblokkolás</string>
+    <string name="action_unblock">Tiltás feloldása</string>
     <string name="action_hide_reblogs">Reblogok elrejtése</string>
     <string name="action_show_reblogs">Reblogok megjelenítése</string>
     <string name="action_report">Jelent</string>
@@ -167,6 +167,11 @@
     <string name="pref_title_show_boosts">Rebloggolások mutatása</string>
     <string name="pref_title_show_replies">Válaszok mutatása</string>
     <string name="pref_title_show_media_preview">Média előnézet mutatása</string>
+    <string name="pref_title_proxy_settings">Proxy</string>
+    <string name="pref_title_http_proxy_settings">HTTP proxy</string>
+    <string name="pref_title_http_proxy_enable">HTTP proxy engedélyezése</string>
+    <string name="pref_title_http_proxy_server">HTTP Proxy szerver</string>
+    <string name="pref_title_http_proxy_port">HTTP Proxy port</string>
     <string-array name="post_privacy_names">
         <item>Nyilvános</item>
         <item>Unlisted</item>
@@ -194,6 +199,7 @@
     <string name="notification_title_summary">%d új interakció</string>
     <string name="description_account_locked">Fiók lezárva</string>
     <string name="about_title_activity">Rólunk</string>
+    <string name="about_tusky_version">Tusky %s</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -218,8 +224,11 @@
     <string name="pref_title_alway_show_sensitive_media">Mindig mutassa a NSFW tartalmat</string>
     <string name="add_account_name">Fiók hozzáadása</string>
     <string name="add_account_description">Új Mastodon fiók hozzáadása</string>
+    <string name="action_lists">Listák</string>
+    <string name="title_lists">Listák</string>
     <string name="action_remove_media">Törlés</string>
     <string name="lock_account_label">Fiók lezárása</string>
+    <string name="compose_save_draft">Elmented a vázlatot?</string>
     <string name="send_toot_notification_title">Tülk elküldése…</string>
     <string name="send_toot_notification_error_title">A tülk elküldése nem sikerult</string>
     <string name="send_toot_notification_channel_name">Tülkök elküldése</string>
@@ -232,6 +241,8 @@
     <string name="restart">Újraindítás</string>
     <string name="download_failed">Letöltés sikertelen</string>
     <string name="account_moved_description">%1$s elköltözött:</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label_label">Címke</string>
     <string name="profile_metadata_content_label">Tartalom</string>
     <string name="title_reblogged_by">Reblogolta</string>
