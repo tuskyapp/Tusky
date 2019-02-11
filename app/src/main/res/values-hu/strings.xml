@@ -8,7 +8,7 @@
     <string name="error_failed_app_registration">Sikertelen bejelentkezés ezen a példányon.</string>
     <string name="error_no_web_browser_found">Nem található használható böngésző.</string>
     <string name="error_authorization_unknown">Azonosítatlan engedélyezési hiba történt.</string>
-    <string name="error_authorization_denied">Engedélyezés letiltva.</string>
+    <string name="error_authorization_denied">Engedély megtagadva.</string>
     <string name="error_retrieving_oauth_token">Bejelentkezési token megszerzése sikertelen.</string>
     <string name="error_compose_character_limit">Túl hosszú a tülkölés!</string>
     <string name="error_image_upload_size">A fájlnak kisebbnek kell lennie, mint 8MB.</string>
@@ -37,7 +37,7 @@
     <string name="title_mutes">Némított felhasználók</string>
     <string name="title_blocks">Blokkolt felhasználók</string>
     <string name="title_follow_requests">Követési kérelmek</string>
-    <string name="title_edit_profile">Profil szerkesztése</string>
+    <string name="title_edit_profile">Profilod szerkesztése</string>
     <string name="title_saved_toot">Piszkozatok</string>
     <string name="status_boosted_format">%s reblogolta</string>
     <string name="status_sensitive_media_title">Kényes tartalom</string>
@@ -197,7 +197,7 @@
     <string name="notification_summary_medium">%1$s, %2$s meg %3$s</string>
     <string name="notification_summary_small">%1$s és %2$s</string>
     <string name="notification_title_summary">%d új interakció</string>
-    <string name="description_account_locked">Fiók lezárva</string>
+    <string name="description_account_locked">Zárolt fiók</string>
     <string name="about_title_activity">Rólunk</string>
     <string name="about_tusky_version">Tusky %s</string>
     <!-- note to translators:
