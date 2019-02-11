@@ -25,7 +25,7 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Field
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.CustomEmojiHelper
-import com.keylesspalace.tusky.util.setClickableText
+import com.keylesspalace.tusky.util.LinkHelper
 import kotlinx.android.synthetic.main.item_account_field.view.*
 
 class AccountFieldAdapter(private val linkListener: LinkListener) : RecyclerView.Adapter<AccountFieldAdapter.ViewHolder>() {
@@ -44,7 +44,7 @@ class AccountFieldAdapter(private val linkListener: LinkListener) : RecyclerView
         val field = fields[position]
         viewHolder.nameTextView.text = field.name
         val emojifiedValue = CustomEmojiHelper.emojifyText(field.value, emojis, viewHolder.valueTextView)
-        setClickableText(viewHolder.valueTextView, emojifiedValue, null, linkListener)
+        LinkHelper.setClickableText(viewHolder.valueTextView, emojifiedValue, null, linkListener)
 
         if(field.verifiedAt != null) {
             viewHolder.valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0,  R.drawable.ic_check_circle, 0)

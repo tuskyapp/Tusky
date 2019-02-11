@@ -24,7 +24,7 @@ import android.widget.LinearLayout
 import com.keylesspalace.tusky.entity.SearchResults
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.openLink
+import com.keylesspalace.tusky.util.LinkHelper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -156,7 +156,7 @@ abstract class BottomSheetActivity : BaseActivity() {
 
     @VisibleForTesting
     open fun openLink(url: String) {
-        openLink(url, this)
+        LinkHelper.openLink(url, this)
     }
 
     private fun showQuerySheet() {

@@ -19,9 +19,9 @@ import android.content.Context
 import android.util.AttributeSet
 import com.google.android.material.card.MaterialCardView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.openLink
 import kotlinx.android.synthetic.main.card_license.view.*
 
 class LicenseCard
@@ -49,7 +49,7 @@ class LicenseCard
             licenseCardLink.hide()
         } else {
             licenseCardLink.text = link
-            setOnClickListener { openLink(link, context) }
+            setOnClickListener { LinkHelper.openLink(link, context) }
         }
 
     }
