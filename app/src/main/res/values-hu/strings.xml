@@ -28,6 +28,7 @@
     <string name="title_public_local">Helyi</string>
     <string name="title_public_federated">Egyesített</string>
     <string name="title_direct_messages">Közvetlen üzenetek</string>
+    <string name="title_tab_preferences">Fülek</string>
     <string name="title_view_thread">Tülk</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Posztok</string>
@@ -195,6 +196,11 @@
         <item>Közepes</item>
         <item>Nagy</item>
         <item>Legnagyobb</item>
+    </string-array>
+    <string-array name="media_display_names">
+        <item>Rejtsd el az érzékenynek jelölt médiát</item>
+        <item>Mindig mutasd az érzékenynek jelölt médiát</item>
+        <item>Mindig rejtsd el a média tartalmakat</item>
     </string-array>
     <string name="notification_channel_mention_name">Új említések</string>
     <string name="notification_channel_mention_descriptions">Értesítések új említések esetén</string>
