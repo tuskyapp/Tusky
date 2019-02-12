@@ -282,4 +282,5 @@
     <string name="pref_title_absolute_time">Abszolút idő használata</string>
     <string name="label_remote_account">Az alábbi felhasználói profil adatok lehet, hogy hiányosak. Kattints ide a teljes profil böngészőben való megnyitásához.</string>
     <string name="title_reblogged_by">Reblogolta</string>
+    <string name="title_favourited_by">Kedvencnek jelölte</string>
 </resources>
