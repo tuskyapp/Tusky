@@ -98,7 +98,7 @@ class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, 
     fun deleteCacheForAccount(accountId: Long) {
         Single.fromCallable {
             db.conversationDao().deleteForAccount(accountId)
-        }.observeOn(Schedulers.io())
+        }.subscribeOn(Schedulers.io())
                 .subscribe()
     }
 
