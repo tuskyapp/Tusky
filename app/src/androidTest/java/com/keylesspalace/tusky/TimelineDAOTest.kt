@@ -133,7 +133,6 @@ class TimelineDAOTest {
         val author = TimelineAccountEntity(
                 authorServerId,
                 accountId,
-                "birb.site",
                 "localUsername",
                 "username",
                 "displayName",
@@ -146,7 +145,6 @@ class TimelineDAOTest {
             TimelineAccountEntity(
                     "R$authorServerId",
                     accountId,
-                    "Rbirb.site",
                     "RlocalUsername",
                     "Rusername",
                     "RdisplayName",
@@ -163,7 +161,6 @@ class TimelineDAOTest {
                 url = "url$statusId",
                 timelineUserId = accountId,
                 authorServerId = authorServerId,
-                instance = "birb.site$statusId",
                 inReplyToId = "inReplyToId$statusId",
                 inReplyToAccountId = "inReplyToAccountId$statusId",
                 content = "Content!$statusId",
@@ -191,7 +188,6 @@ class TimelineDAOTest {
                 url = null,
                 timelineUserId = timelineUserId,
                 authorServerId = null,
-                instance = null,
                 inReplyToId = null,
                 inReplyToAccountId = null,
                 content = null,
