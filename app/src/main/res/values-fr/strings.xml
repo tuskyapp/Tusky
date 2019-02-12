@@ -27,6 +27,8 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Global</string>
+    <string name="title_direct_messages">Messages directs</string>
+    <string name="title_tab_preferences">Onglets</string>
     <string name="title_view_thread">Pouet</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Pouets</string>
@@ -106,6 +108,7 @@
     <string name="action_toggle_visibility">Visibilité du pouet</string>
     <string name="action_content_warning">Contenu sensible</string>
     <string name="action_emoji_keyboard">Clavier d’émojis</string>
+    <string name="action_add_tab">Ajouter un onglet</string>
     <string name="download_image">Téléchargement de %1$s</string>
     <string name="action_copy_link">Copier le lien</string>
     <string name="action_open_as">Ouvrir comme %s</string>
@@ -324,4 +327,7 @@
     </plurals>
     <string name="title_reblogged_by">Boosté par</string>
     <string name="title_favourited_by">Mis en favoris par</string>
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s et %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s et %3$d autres</string>
 </resources>
