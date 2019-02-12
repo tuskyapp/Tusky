@@ -17,6 +17,7 @@ package com.keylesspalace.tusky
 
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,9 +28,14 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.visible
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tab_preference.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
+
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
+import com.uber.autodispose.autoDisposable
 
 class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListener {
 
@@ -171,8 +177,14 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     private fun saveTabs() {
         accountManager.activeAccount?.let {
-            it.tabPreferences = currentTabs
-            accountManager.saveAccount(it)
+            Single.fromCallable {
+                it.tabPreferences = currentTabs
+                accountManager.saveAccount(it)
+            }
+                    .subscribeOn(Schedulers.io())
+                    .autoDisposable(from(this, Lifecycle.Event.ON_DESTROY))
+                    .subscribe()
+
         }
     }
 
