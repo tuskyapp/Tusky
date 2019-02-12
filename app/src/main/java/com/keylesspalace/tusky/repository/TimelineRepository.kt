@@ -52,23 +52,21 @@ class TimelineRepositoryImpl(
     ): Single<out List<TimelineStatus>> {
         val acc = accountManager.activeAccount ?: throw IllegalStateException()
         val accountId = acc.id
-        val instance = acc.domain
 
         return if (requestMode == DISK) {
             this.getStatusesFromDb(accountId, maxId, sinceId, limit)
         } else {
-            getStatusesFromNetwork(maxId, sinceId, sincedIdMinusOne, limit, instance, accountId,
-                    requestMode)
+            getStatusesFromNetwork(maxId, sinceId, sincedIdMinusOne, limit, accountId, requestMode)
         }
     }
 
     private fun getStatusesFromNetwork(maxId: String?, sinceId: String?,
-                                       sinceIdMinusOne: String?, limit: Int, instance: String,
+                                       sinceIdMinusOne: String?, limit: Int,
                                        accountId: Long, requestMode: TimelineRequestMode
     ): Single<out List<TimelineStatus>> {
         return mastodonApi.homeTimelineSingle(maxId, sinceIdMinusOne, limit + 1)
                 .map { statuses ->
-                    this.saveStatusesToDb(instance, accountId, statuses, maxId, sinceId)
+                    this.saveStatusesToDb(accountId, statuses, maxId, sinceId)
                 }
                 .flatMap { statuses ->
                     this.addFromDbIfNeeded(accountId, statuses, maxId, sinceId, limit, requestMode)
@@ -116,7 +114,7 @@ class TimelineRepositoryImpl(
                 }
     }
 
-    private fun saveStatusesToDb(instance: String, accountId: Long, statuses: List<Status>,
+    private fun saveStatusesToDb(accountId: Long, statuses: List<Status>,
                                  maxId: String?, sinceId: String?
     ): List<Either<Placeholder, Status>> {
         var placeholderToInsert: Placeholder? = null
@@ -146,9 +144,9 @@ class TimelineRepositoryImpl(
         Single.fromCallable {
             for (status in statuses) {
                 timelineDao.insertInTransaction(
-                        status.toEntity(accountId, instance, htmlConverter, gson),
-                        status.account.toEntity(instance, accountId, gson),
-                        status.reblog?.account?.toEntity(instance, accountId, gson)
+                        status.toEntity(accountId, htmlConverter, gson),
+                        status.account.toEntity(accountId, gson),
+                        status.reblog?.account?.toEntity(accountId, gson)
                 )
             }
 
@@ -279,11 +277,10 @@ class TimelineRepositoryImpl(
 
 private val emojisListTypeToken = object : TypeToken<List<Emoji>>() {}
 
-fun Account.toEntity(instance: String, accountId: Long, gson: Gson): TimelineAccountEntity {
+fun Account.toEntity(accountId: Long, gson: Gson): TimelineAccountEntity {
     return TimelineAccountEntity(
             serverId = id,
             timelineUserId = accountId,
-            instance = instance,
             localUsername = localUsername,
             username = username,
             displayName = displayName,
@@ -320,7 +317,6 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
     return TimelineStatusEntity(
             serverId = this.id,
             url = null,
-            instance = null,
             timelineUserId = timelineUserId,
             authorServerId = null,
             inReplyToId = null,
@@ -344,14 +340,13 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
     )
 }
 
-fun Status.toEntity(timelineUserId: Long, instance: String,
+fun Status.toEntity(timelineUserId: Long,
                     htmlConverter: HtmlConverter,
                     gson: Gson): TimelineStatusEntity {
     val actionable = actionableStatus
     return TimelineStatusEntity(
             serverId = this.id,
             url = actionable.url!!,
-            instance = instance,
             timelineUserId = timelineUserId,
             authorServerId = actionable.account.id,
             inReplyToId = actionable.inReplyToId,
