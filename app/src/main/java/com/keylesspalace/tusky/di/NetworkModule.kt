@@ -46,6 +46,7 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule {
+
     @Provides
     @IntoMap
     @ClassKey(Spanned::class)

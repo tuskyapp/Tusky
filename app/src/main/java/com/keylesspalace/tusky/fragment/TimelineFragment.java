@@ -219,9 +219,9 @@ public class TimelineFragment extends SFragment implements
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
 
-        recyclerView = rootView.findViewById(R.id.recycler_view);
-        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
-        progressBar = rootView.findViewById(R.id.progress_bar);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+        progressBar = rootView.findViewById(R.id.progressBar);
         statusView = rootView.findViewById(R.id.statusView);
 
         setupSwipeRefreshLayout();
@@ -608,7 +608,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public void onMore(View view, final int position) {
+    public void onMore(@NonNull View view, final int position) {
         super.more(statuses.get(position).asRight(), view, position);
     }
 
@@ -689,7 +689,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public void onViewMedia(int position, int attachmentIndex, View view) {
+    public void onViewMedia(int position, int attachmentIndex, @NonNull View view) {
         Status status = statuses.get(position).asRightOrNull();
         if (status == null) return;
         super.viewMedia(attachmentIndex, status, view);

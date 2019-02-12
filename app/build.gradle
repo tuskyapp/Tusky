@@ -137,4 +137,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     implementation 'com.uber.autodispose:autodispose-android-archcomponents:1.1.0'
     implementation 'com.uber.autodispose:autodispose-ktx:1.1.0'
+    implementation 'androidx.paging:paging-runtime-ktx:2.1.0-rc01'
 }

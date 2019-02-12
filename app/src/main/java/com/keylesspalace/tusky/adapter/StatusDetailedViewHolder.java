@@ -130,8 +130,8 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    void setupWithStatus(final StatusViewData.Concrete status, final StatusActionListener listener,
-                         boolean mediaPreviewEnabled) {
+    protected void setupWithStatus(final StatusViewData.Concrete status, final StatusActionListener listener,
+                                   boolean mediaPreviewEnabled) {
         super.setupWithStatus(status, listener, mediaPreviewEnabled);
 
         setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), listener);

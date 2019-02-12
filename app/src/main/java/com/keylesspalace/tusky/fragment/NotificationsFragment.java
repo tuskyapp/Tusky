@@ -176,9 +176,9 @@ public class NotificationsFragment extends SFragment implements
 
         @NonNull Context context = inflater.getContext(); // from inflater to silence warning
         // Setup the SwipeRefreshLayout.
-        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
-        recyclerView = rootView.findViewById(R.id.recycler_view);
-        progressBar = rootView.findViewById(R.id.progress_bar);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
+        progressBar = rootView.findViewById(R.id.progressBar);
         statusView = rootView.findViewById(R.id.statusView);
 
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -417,13 +417,13 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onMore(View view, int position) {
+    public void onMore(@NonNull View view, int position) {
         Notification notification = notifications.get(position).asRight();
         super.more(notification.getStatus(), view, position);
     }
 
     @Override
-    public void onViewMedia(int position, int attachmentIndex, View view) {
+    public void onViewMedia(int position, int attachmentIndex, @NonNull View view) {
         Notification notification = notifications.get(position).asRightOrNull();
         if (notification == null || notification.getStatus() == null) return;
         super.viewMedia(attachmentIndex, notification.getStatus(), view);

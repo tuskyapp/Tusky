@@ -38,11 +38,12 @@ import android.widget.ImageView;
 
 import com.keylesspalace.tusky.appstore.CacheUpdater;
 import com.keylesspalace.tusky.appstore.EventHub;
+import com.keylesspalace.tusky.appstore.MainTabsChangedEvent;
 import com.keylesspalace.tusky.appstore.ProfileEditedEvent;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
-import com.keylesspalace.tusky.pager.TimelinePagerAdapter;
+import com.keylesspalace.tusky.pager.MainPagerAdapter;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.NotificationHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
@@ -106,22 +107,17 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private FloatingActionButton composeButton;
     private AccountHeader headerResult;
     private Drawer drawer;
+    private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    private void forwardShare(Intent intent) {
-        Intent composeIntent = new Intent(this, ComposeActivity.class);
-        composeIntent.setAction(intent.getAction());
-        composeIntent.setType(intent.getType());
-        composeIntent.putExtras(intent);
-        startActivity(composeIntent);
-    }
+    private int notificationTabPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        int tabPosition = 0;
+        boolean showNotificationTab = false;
 
         if (intent != null) {
             long accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1);
@@ -156,14 +152,14 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                 }
             } else if (accountRequested) {
                 // user clicked a notification, show notification tab and switch user if necessary
-                tabPosition = 1;
+                showNotificationTab = true;
             }
         }
         setContentView(R.layout.activity_main);
 
         composeButton = findViewById(R.id.floating_btn);
         ImageButton drawerToggle = findViewById(R.id.drawer_toggle);
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.pager);
 
         composeButton.setOnClickListener(v -> {
@@ -181,70 +177,32 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
          * drawer, though, because its callback touches the header in the drawer. */
         fetchUserInfo();
 
-        // Setup the tabs and timeline pager.
-        TimelinePagerAdapter adapter = new TimelinePagerAdapter(getSupportFragmentManager());
+        setupTabs(showNotificationTab);
 
         int pageMargin = getResources().getDimensionPixelSize(R.dimen.tab_page_margin);
         viewPager.setPageMargin(pageMargin);
         Drawable pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
                 R.drawable.tab_page_margin_dark);
         viewPager.setPageMarginDrawable(pageMarginDrawable);
-        viewPager.setAdapter(adapter);
-
-        tabLayout.setupWithViewPager(viewPager);
-
-        int[] tabIcons = {
-                R.drawable.ic_home_24dp,
-                R.drawable.ic_notifications_24dp,
-                R.drawable.ic_local_24dp,
-                R.drawable.ic_public_24dp,
-        };
-        String[] pageTitles = {
-                getString(R.string.title_home),
-                getString(R.string.title_notifications),
-                getString(R.string.title_public_local),
-                getString(R.string.title_public_federated),
-        };
-        for (int i = 0; i < 4; i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            tab.setIcon(tabIcons[i]);
-            tab.setContentDescription(pageTitles[i]);
-        }
-
-        if (tabPosition != 0) {
-            TabLayout.Tab tab = tabLayout.getTabAt(tabPosition);
-            if (tab != null) {
-                tab.select();
-            } else {
-                tabPosition = 0;
-            }
-        }
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
 
-                tintTab(tab, true);
-
-                if (tab.getPosition() == 1) {
+                if (tab.getPosition() == notificationTabPosition) {
                     NotificationHelper.clearNotificationsForActiveAccount(MainActivity.this, accountManager);
                 }
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                tintTab(tab, false);
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
-        for (int i = 0; i < 4; i++) {
-            tintTab(tabLayout.getTabAt(i), i == tabPosition);
-        }
 
         // Setup push notifications
         if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
@@ -259,6 +217,9 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                 .subscribe(event -> {
                     if (event instanceof ProfileEditedEvent) {
                         onFetchUserInfoSuccess(((ProfileEditedEvent) event).getNewProfileData());
+                    }
+                    if (event instanceof MainTabsChangedEvent) {
+                        setupTabs(false);
                     }
                 });
 
@@ -316,9 +277,12 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         }
     }
 
-    private void tintTab(TabLayout.Tab tab, boolean tinted) {
-        int color = (tinted) ? R.attr.tab_icon_selected_tint : R.attr.toolbar_icon_tint;
-        ThemeUtils.setDrawableTint(this, tab.getIcon(), color);
+    private void forwardShare(Intent intent) {
+        Intent composeIntent = new Intent(this, ComposeActivity.class);
+        composeIntent.setAction(intent.getAction());
+        composeIntent.setType(intent.getType());
+        composeIntent.putExtras(intent);
+        startActivity(composeIntent);
     }
 
     private void setupDrawer() {
@@ -431,6 +395,29 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                 updateProfiles();
             }
         });
+    }
+
+    private void setupTabs(boolean selectNotificationTab) {
+        List<TabData> tabs = accountManager.getActiveAccount().getTabPreferences();
+
+        MainPagerAdapter adapter = new MainPagerAdapter(tabs, getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.removeAllTabs();
+        for (int i = 0; i < tabs.size(); i++) {
+            TabLayout.Tab tab = tabLayout.newTab()
+                    .setIcon(tabs.get(i).getIcon())
+                    .setContentDescription(tabs.get(i).getText());
+            tabLayout.addTab(tab);
+            if(tabs.get(i).getId().equals(TabDataKt.NOTIFICATIONS)) {
+                notificationTabPosition = i;
+                if(selectNotificationTab) {
+                    tab.select();
+                }
+            }
+        }
+
     }
 
     private boolean handleProfileClick(IProfile profile, boolean current) {

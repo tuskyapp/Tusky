@@ -81,9 +81,10 @@ class AccountMediaFragment : BaseFragment(), Injectable {
     private val callback = object : Callback<List<Status>> {
         override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
-            if (isAdded) {
-                swipe_refresh_layout.isRefreshing = false
-                progress_bar.visibility = View.GONE
+
+            if(isAdded) {
+                swipeRefreshLayout.isRefreshing = false
+                progressBar.visibility = View.GONE
                 statusView.show()
                 if (t is IOException) {
                     statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
@@ -101,9 +102,9 @@ class AccountMediaFragment : BaseFragment(), Injectable {
 
         override fun onResponse(call: Call<List<Status>>, response: Response<List<Status>>) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
-            if (isAdded) {
-                swipe_refresh_layout.isRefreshing = false
-                progress_bar.visibility = View.GONE
+            if(isAdded) {
+                swipeRefreshLayout.isRefreshing = false
+                progressBar.visibility = View.GONE
 
                 val body = response.body()
                 body?.let { fetched ->
@@ -114,6 +115,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
                         result.addAll(AttachmentViewData.list(status))
                     }
                     adapter.addTop(result)
+
                     if (statuses.isEmpty()) {
                         statusView.show()
                         statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty,
@@ -159,19 +161,19 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         super.onViewCreated(view, savedInstanceState)
 
 
-        val columnCount = context?.resources?.getInteger(R.integer.profile_media_column_count) ?: 2
-        val layoutManager = GridLayoutManager(context, columnCount)
+        val columnCount = view.context.resources.getInteger(R.integer.profile_media_column_count)
+        val layoutManager = GridLayoutManager(view.context, columnCount)
 
-        val bgRes = ThemeUtils.getColorId(context, R.attr.window_background)
+        val bgRes = ThemeUtils.getColorId(view.context, R.attr.window_background)
 
-        adapter.baseItemColor = ContextCompat.getColor(recycler_view.context, bgRes)
+        adapter.baseItemColor = ContextCompat.getColor(recyclerView.context, bgRes)
 
-        recycler_view.layoutManager = layoutManager
-        recycler_view.adapter = adapter
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = adapter
 
         val accountId = arguments?.getString(ACCOUNT_ID_ARG)
 
-        swipe_refresh_layout.setOnRefreshListener {
+        swipeRefreshLayout.setOnRefreshListener {
             statusView.hide()
             if (fetchingStatus != FetchingStatus.NOT_FETCHING) return@setOnRefreshListener
             currentCall = if (statuses.isEmpty()) {
@@ -184,12 +186,12 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             currentCall?.enqueue(callback)
 
         }
-        swipe_refresh_layout.setColorSchemeResources(R.color.tusky_blue)
-        swipe_refresh_layout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground))
+        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(view.context, android.R.attr.colorBackground))
 
         statusView.visibility = View.GONE
 
-        recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrolled(recycler_view: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0) {

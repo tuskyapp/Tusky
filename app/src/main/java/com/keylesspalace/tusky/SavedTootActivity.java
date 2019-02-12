@@ -92,7 +92,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
             bar.setDisplayShowHomeEnabled(true);
         }
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         noContent = findViewById(R.id.no_content);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

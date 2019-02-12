@@ -49,7 +49,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    void setAvatar(String url, @Nullable String rebloggedUrl) {
+    protected void setAvatar(String url, @Nullable String rebloggedUrl) {
         super.setAvatar(url, rebloggedUrl);
 
         Context context = avatar.getContext();
@@ -75,8 +75,8 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
-                         boolean mediaPreviewEnabled) {
+    protected void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
+                                   boolean mediaPreviewEnabled) {
         if(status == null) {
             showContent(false);
         } else {
