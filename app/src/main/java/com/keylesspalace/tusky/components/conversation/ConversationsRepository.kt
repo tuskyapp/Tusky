@@ -11,6 +11,8 @@ import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Listing
 import com.keylesspalace.tusky.util.NetworkState
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -93,9 +95,16 @@ class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, 
         )
     }
 
+    fun deleteCacheForAccount(accountId: Long) {
+        Single.fromCallable {
+            db.conversationDao().deleteForAccount(accountId)
+        }.observeOn(Schedulers.io())
+                .subscribe()
+    }
+
     private fun insertResultIntoDb(accountId: Long, result: List<Conversation>?) {
         result?.let { conversations ->
-                db.conversationDao().insert(conversations.map { it.toEntity(accountId) })
+            db.conversationDao().insert(conversations.map { it.toEntity(accountId) })
         }
     }
 }
