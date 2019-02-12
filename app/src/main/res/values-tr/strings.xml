@@ -27,6 +27,8 @@
     <string name="title_notifications">Bildirimler</string>
     <string name="title_public_local">Yerel</string>
     <string name="title_public_federated">Birleşmiş</string>
+    <string name="title_direct_messages">Direkt Mesaj</string>
+    <string name="title_tab_preferences">Sekmeler</string>
     <string name="title_view_thread">Dizi</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">İletiler</string>
@@ -106,6 +108,7 @@
     <string name="action_toggle_visibility">Toot görünürlüğü</string>
     <string name="action_content_warning">İçerik uyarısı</string>
     <string name="action_emoji_keyboard">Emoji klavye</string>
+    <string name="action_add_tab">Sekme Ekle</string>
     <string name="download_image">%1$s İndiriliyor</string>
     <string name="action_copy_link">Bağlantıyı kopyala</string>
     <string name="action_open_as">Farklı aç %s</string>
@@ -209,20 +212,103 @@
     </string-array>
     <string name="notification_channel_mention_name">Yeni Bahsedilenler</string>
     <string name="notification_channel_mention_descriptions">Yeni bahsedilenler hakkında bildirim</string>
+    <string name="notification_channel_follow_name">Yeni Takipçiler</string>
+    <string name="notification_channel_follow_description">Yeni takipçiler hakkında bildirim</string>
+    <string name="notification_channel_boost_name">Yükseltilenler</string>
+    <string name="notification_channel_boost_description">Tootların yükseltildiğinde bildirimler</string>
+    <string name="notification_channel_favourite_name">Favoriler</string>
+    <string name="notification_channel_favourite_description">Tootların favori olarak işaretlendiğinde</string>
     <string name="notification_mention_format">%s senden bahsetti</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s ve %4$d daha</string>
     <string name="notification_summary_medium">%1$s, %2$s ve %3$s</string>
     <string name="notification_summary_small">%1$s ve %2$s</string>
     <string name="notification_title_summary">%d yeni etkileşim</string>
     <string name="description_account_locked">Kitli Hesap</string>
+    <string name="about_title_activity">Hakkında</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Özgür ve açık kaynak yazılım Tusky.
+        GNU Genel Kamu Lisansı sürüm 3 altında lisanslanmıştır.
+        Lisansı buradan görüntüleyebilirsiniz: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
+    <string name="about_project_site">        Proje Web sitesi:\n
+        https://tuskyapp.github.io
+    </string>
+    <string name="about_bug_feature_request_site"> &amp; özellik istekleri hata raporları:\n
+        https://github.com/tuskyapp/Tusky/issues
+    </string>
+    <string name="about_tusky_account">Tusky\'nin Profili</string>
     <string name="status_share_content">İletinin içeriğini paylaş</string>
     <string name="status_share_link">İletinin adresini paylaş</string>
+    <string name="status_media_images">Görseller</string>
+    <string name="status_media_video">Video</string>
     <string name="state_follow_requested">Takip edebilme istendi</string>
+    <string name="no_content">içerik yok</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">%dy de</string>
+    <string name="abbreviated_in_days">%dy de</string>
+    <string name="abbreviated_in_hours">%dy de</string>
+    <string name="abbreviated_in_minutes">%dy de</string>
+    <string name="abbreviated_in_seconds">%dy de</string>
+    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
+    <string name="follows_you">Sizi takip ediyor</string>
+    <string name="pref_title_alway_show_sensitive_media">Her zaman hassas içerikleri göster</string>
+    <string name="title_media">Medya</string>
+    <string name="replying_to">Yanıtlanıyor: %s</string>
+    <string name="load_more_placeholder_text">daha fazla yükle</string>
+    <string name="add_account_name">Hesap Ekle</string>
+    <string name="add_account_description">Yeni Mastodon hesabı ekle</string>
+    <string name="action_lists">Listeler</string>
+    <string name="title_lists">Listeler</string>
+    <string name="title_list_timeline">Zaman çizelgelerini listele</string>
+    <string name="compose_active_account_description">%1$s hesabıyla gönderiliyor</string>
+    <string name="error_failed_set_caption">Altyazı başlatılamadı</string>
+    <string name="hint_describe_for_visually_impaired">Görsel engelli için tanımla\n(%d karakter limiti)</string>
+    <string name="action_set_caption">Başlık belirle</string>
+    <string name="action_remove_media">Kaldır</string>
+    <string name="lock_account_label">Hesabı Kilitle</string>
+    <string name="lock_account_label_description">Manuel olarak takipçi onayla</string>
+    <string name="compose_save_draft">Taslaklara kaydet?</string>
+    <string name="send_toot_notification_title">Toot gönderiliyor…</string>
+    <string name="send_toot_notification_error_title">Toot gönderilirken hata oluştu</string>
+    <string name="send_toot_notification_channel_name">Toot gönderiliyor</string>
+    <string name="send_toot_notification_cancel_title">Gönderme iptal edildi</string>
+    <string name="send_toot_notification_saved_content">Toot\'un bir kopyası taslaklara kaydedildi</string>
+    <string name="action_compose_shortcut">Oluştur</string>
+    <string name="error_no_custom_emojis">Sunucunuzun %s özel emoji seti yok</string>
+    <string name="copy_to_clipboard_success">Panoya kopyalandı</string>
+    <string name="emoji_style">Emoji Stili</string>
+    <string name="system_default">Sistem varsayılanı</string>
+    <string name="download_fonts">Emoji setini kullanabilmek için indirmeniz gerekli</string>
+    <string name="performing_lookup_title">Araştırılıyor…</string>
+    <string name="expand_collapse_all_statuses">Tüm durumları Genişlet/Küçült</string>
+    <string name="action_open_toot">Toot aç</string>
+    <string name="restart_required">Uygulamayı yeniden başlatmanız lazım</string>
+    <string name="restart_emoji">Değişikliklerin uygulanabilmesi için uygulama yeniden başlatılmalı</string>
+    <string name="later">Daha sonra</string>
+    <string name="restart">Yeniden başlat</string>
+    <string name="caption_systememoji">Cihazınızın varsayılan emoji seti</string>
+    <string name="caption_blobmoji">Android 4.4-7.1\'den bilinen baloncuk emojisi</string>
+    <string name="caption_twemoji">Mastodon\'un standart emoji seti</string>
+    <string name="download_failed">İndirme başarısız</string>
+    <string name="profile_badge_bot_text">Alt Metin</string>
+    <string name="account_moved_description">%1$s buraya taşındı:</string>
+    <string name="reblog_private">Kendi kitlenize yükseltin</string>
+    <string name="unreblog_private">Yükseltmeyi geri çek</string>
+    <string name="license_description">Tusky aşağıdakı açık kaynaklı projelerden kod ve materyal içeriyor:</string>
+    <string name="license_apache_2">Apache Lisansı altında lisanslanmıştır (kopya aşağıda)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+    <string name="profile_metadata_label">Profil Metaverisi</string>
+    <string name="profile_metadata_add">veri ekle</string>
+    <string name="profile_metadata_label_label">Etiket</string>
+    <string name="profile_metadata_content_label">İçerik</string>
 </resources>
