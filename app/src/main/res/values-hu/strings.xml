@@ -240,6 +240,7 @@
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="follows_you">Követ téged</string>
     <string name="pref_title_alway_show_sensitive_media">Mindig mutassa a NSFW tartalmat</string>
+    <string name="title_media">Média</string>
     <string name="load_more_placeholder_text">több betöltése</string>
     <string name="add_account_name">Fiók hozzáadása</string>
     <string name="add_account_description">Új Mastodon fiók hozzáadása</string>
@@ -252,14 +253,24 @@
     <string name="send_toot_notification_error_title">A tülk elküldése nem sikerult</string>
     <string name="send_toot_notification_channel_name">Tülkök elküldése</string>
     <string name="send_toot_notification_cancel_title">Küldés megszakítva</string>
+    <string name="send_toot_notification_saved_content">A tülk másolatát elmentettük a vázlataid közé</string>
     <string name="action_compose_shortcut">Szerkeszt</string>
+    <string name="error_no_custom_emojis">A %s instanciádnak nincsenek egyedi emoji-jai</string>
     <string name="copy_to_clipboard_success">Vágólapra másolva</string>
     <string name="emoji_style">Emoji stílus</string>
     <string name="system_default">Rendszer alapértelmezett</string>
+    <string name="download_fonts">Először le kell töltened ezeket az emoji készleteket</string>
+    <string name="performing_lookup_title">Keresés…</string>
+    <string name="action_open_toot">Tülk megnyitása</string>
     <string name="restart_required">Újraindítás szükséges</string>
+    <string name="restart_emoji">A beállítások érvényesítéséhez újra kell indítani a Tusky-t</string>
     <string name="later">Később</string>
     <string name="restart">Újraindítás</string>
+    <string name="caption_systememoji">Az eszközöd alap emoji készlete</string>
+    <string name="caption_blobmoji">Az Android 4.4-7.1 Blob emoji-jai</string>
+    <string name="caption_twemoji">Mastodon alap emoji készlet</string>
     <string name="download_failed">Letöltés sikertelen</string>
+    <string name="profile_badge_bot_text">Robot</string>
     <string name="account_moved_description">%1$s elköltözött:</string>
     <string name="license_description">A Tusky a következő nyílt forráskódú projektekből tartalmaz programkódot és más elemeket:</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
