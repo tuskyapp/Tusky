@@ -107,6 +107,7 @@
     <string name="action_toggle_visibility">Tülkök láthatósága</string>
     <string name="action_content_warning">Tartalom figyelmeztetés</string>
     <string name="action_emoji_keyboard">Emoji billentyűzet</string>
+    <string name="action_add_tab">Fül hozzáadása</string>
     <string name="download_image">%1$s letöltése</string>
     <string name="action_copy_link">Link másolása</string>
     <string name="action_share_as">Megosztás mint …</string>
