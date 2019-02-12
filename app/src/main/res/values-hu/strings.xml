@@ -39,6 +39,8 @@
     <string name="title_follow_requests">Követési kérelmek</string>
     <string name="title_edit_profile">Profilod szerkesztése</string>
     <string name="title_saved_toot">Piszkozatok</string>
+    <string name="title_licenses">Licencek</string>
+    <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s reblogolta</string>
     <string name="status_sensitive_media_title">Kényes tartalom</string>
     <string name="status_sensitive_media_directions">Kattints a megnézéshez</string>
@@ -46,6 +48,7 @@
     <string name="status_content_warning_show_less">Mutass kevesebbet</string>
     <string name="status_content_show_more">Kibont</string>
     <string name="status_content_show_less">Összecsuk</string>
+    <string name="message_empty">Nincs itt semmi.</string>
     <string name="footer_empty">Üres tartalom. Húzd le a frissítéshez!</string>
     <string name="notification_reblog_format">%s rebloggolta tülkölésed</string>
     <string name="notification_favourite_format">%s kedvencnek jelölte tülkölésed</string>
@@ -166,6 +169,7 @@
     <string name="pref_title_status_tabs">Fülek</string>
     <string name="pref_title_show_boosts">Rebloggolások mutatása</string>
     <string name="pref_title_show_replies">Válaszok mutatása</string>
+    <string name="pref_title_filter_regex">Kiszűrés reguláris kifejezésekkel</string>
     <string name="pref_title_show_media_preview">Média előnézet mutatása</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP proxy</string>
