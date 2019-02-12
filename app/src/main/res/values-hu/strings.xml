@@ -27,6 +27,7 @@
     <string name="title_notifications">Értesítések</string>
     <string name="title_public_local">Helyi</string>
     <string name="title_public_federated">Egyesített</string>
+    <string name="title_direct_messages">Közvetlen üzenetek</string>
     <string name="title_view_thread">Tülk</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Posztok</string>
@@ -43,6 +44,7 @@
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s reblogolta</string>
     <string name="status_sensitive_media_title">Kényes tartalom</string>
+    <string name="status_media_hidden_title">Média elrejtve</string>
     <string name="status_sensitive_media_directions">Kattints a megnézéshez</string>
     <string name="status_content_warning_show_more">Mutass többet</string>
     <string name="status_content_warning_show_less">Mutass kevesebbet</string>
@@ -102,9 +104,11 @@
     <string name="action_search">Keresés</string>
     <string name="action_access_saved_toot">Piszkozatok</string>
     <string name="action_toggle_visibility">Tülkök láthatósága</string>
+    <string name="action_content_warning">Tartalom figyelmeztetés</string>
     <string name="action_emoji_keyboard">Emoji billentyűzet</string>
     <string name="download_image">%1$s letöltése</string>
     <string name="action_copy_link">Link másolása</string>
+    <string name="action_share_as">Megosztás mint …</string>
     <string name="send_status_link_to">Tülk URL megosztása…</string>
     <string name="send_status_content_to">Tülk megosztása…</string>
     <string name="confirmation_reported">Elküldve!</string>
@@ -136,6 +140,7 @@
     <string name="dialog_title_finishing_media_upload">Média feltöltés befejezése</string>
     <string name="dialog_message_uploading_media">Feltöltés…</string>
     <string name="dialog_download_image">Letöltés</string>
+    <string name="dialog_message_cancel_follow_request">Visszavonod a követési kérelmet?</string>
     <string name="dialog_unfollow_warning">Követés megszüntetése?</string>
     <string name="dialog_delete_toot_warning">Törlöd ezt a tülköt?</string>
     <string name="visibility_public">Nyilvános: Nyilvános idővonalra való posztolás</string>
@@ -176,11 +181,14 @@
     <string name="pref_title_http_proxy_enable">HTTP proxy engedélyezése</string>
     <string name="pref_title_http_proxy_server">HTTP Proxy szerver</string>
     <string name="pref_title_http_proxy_port">HTTP Proxy port</string>
+    <string name="pref_default_media_sensitivity">Minden médiát jelölj meg érzékenynek</string>
+    <string name="pref_failed_to_sync">A beállítások szinkronizálása nem sikerült</string>
     <string-array name="post_privacy_names">
         <item>Nyilvános</item>
         <item>Unlisted</item>
-        <item>Followers-only</item>
+        <item>Csak követőknek</item>
     </string-array>
+    <string name="pref_status_text_size">Státusz szöveg mérete</string>
     <string-array name="status_text_size_names">
         <item>Legkisebb</item>
         <item>Kicsi</item>
@@ -247,11 +255,14 @@
     <string name="restart">Újraindítás</string>
     <string name="download_failed">Letöltés sikertelen</string>
     <string name="account_moved_description">%1$s elköltözött:</string>
+    <string name="license_description">A Tusky a következő nyílt forráskódú projektekből tartalmaz programkódot és más elemeket:</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+    <string name="profile_metadata_label">Profil metaadatok</string>
     <string name="profile_metadata_add">adatok hozzáadása</string>
     <string name="profile_metadata_label_label">Címke</string>
     <string name="profile_metadata_content_label">Tartalom</string>
+    <string name="pref_title_absolute_time">Abszolút idő használata</string>
     <string name="label_remote_account">Az alábbi felhasználói profil adatok lehet, hogy hiányosak. Kattints ide a teljes profil böngészőben való megnyitásához.</string>
     <string name="title_reblogged_by">Reblogolta</string>
 </resources>
