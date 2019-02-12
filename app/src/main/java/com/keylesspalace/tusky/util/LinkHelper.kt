@@ -27,7 +27,6 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.text.style.ForegroundColorSpan
 import android.text.style.URLSpan
 import android.util.Log
 import android.view.View
@@ -52,16 +51,11 @@ private const val TAG = "LinkHelper"
  */
 fun setClickableText(view: TextView, content: Spanned, mentions: Array<Status.Mention>?, listener: LinkListener) {
     val builder = SpannableStringBuilder(content)
-    highlightSpans(builder, view.linkTextColors.defaultColor)
-    val urlSpans = builder.getSpans(0, content.length, URLSpan::class.java)
-    for (span in urlSpans) {
-        replaceSpan(builder, span, getLinkSpan(span.url, listener))
-    }
-
-    val otherSpans = builder.getSpans(0, content.length, ForegroundColorSpan::class.java)
+    highlightSpans(builder, view.linkTextColors.defaultColor, listOf())
+    val spans = builder.getSpans(0, content.length, ParcelableSpan::class.java)
     val usedMentionIds = HashSet<String>()
 
-    for (span in otherSpans) {
+    for (span in spans) {
         val start = builder.getSpanStart(span)
         val end = builder.getSpanEnd(span)
         val text = builder.subSequence(start, end)
@@ -73,15 +67,25 @@ fun setClickableText(view: TextView, content: Spanned, mentions: Array<Status.Me
                     /* There may be multiple matches for users on different instances with the same
                      * username. If a match has the same domain we know it's for sure the same, but if
                      * that can't be found then just go with whichever one matched last. */
-                    firstUnusedMention(text.substring(1), mentions, usedMentionIds)?.let { id ->
+                    val id = firstUnusedMention(text.substring(1), mentions, usedMentionIds)
+                    if (id != null) {
                         usedMentionIds.add(id)
                         getAccountSpan(id, listener)
+                    } else if (span is URLSpan) {
+                        // Couldn't even get a fallback account id, just pass through and hope
+                        getLinkSpan(span.url, listener)
+                    } else {
+                        span
                     }
                 } else {
-                    null
+                    span
                 }
             }
-            else -> null
+            else -> if (span is URLSpan) {
+                getLinkSpan(span.url, listener)
+            } else {
+                span
+            }
         }
 
         replaceSpan(builder, span, customSpan)
@@ -98,7 +102,7 @@ fun setClickableText(view: TextView, content: Spanned, mentions: Array<Status.Me
  * @param oldSpan the span to be replaced
  * @param newSpan the new span to be used
  */
-private fun replaceSpan(builder: SpannableStringBuilder, oldSpan: ParcelableSpan?, newSpan: ClickableSpan?) {
+private fun replaceSpan(builder: SpannableStringBuilder, oldSpan: ParcelableSpan?, newSpan: Any?) {
     val start = builder.getSpanStart(oldSpan)
     val end = builder.getSpanEnd(oldSpan)
     val flags = builder.getSpanFlags(oldSpan)
@@ -129,6 +133,9 @@ private fun firstUnusedMention(username: String, mentions: Array<Status.Mention>
             if (!usedIds.contains(id)) {
                 break
             }
+        } else if (mention.username?.startsWith(username, true) == true) {
+            // Fall back to full username matching if there's no valid local username match (misskey)
+            id = mention.id
         }
     }
     return id

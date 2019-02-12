@@ -122,9 +122,9 @@ private fun getSpan(matchType: FoundMatchType, string: String, colour: Int, star
 }
 
 /** Takes text containing mentions and hashtags and urls and makes them the given colour. */
-fun highlightSpans(text: Spannable, colour: Int) {
+fun highlightSpans(text: Spannable, colour: Int, spanClassesToStrip: List<Class<out Any>> = spanClasses) {
     // Strip all existing colour spans.
-    for (spanClass in spanClasses) {
+    for (spanClass in spanClassesToStrip) {
         clearSpans(text, spanClass)
     }
 
@@ -134,11 +134,11 @@ fun highlightSpans(text: Spannable, colour: Int) {
     var start = 0
     var end = 0
     while (end >= 0 && end < length && start >= 0) {
-        // Search for url first because it can contain the other characters
         val found = findPattern(string, end)
         start = found.start
         end = found.end
-        if (start >= 0 && end > start) {
+        val existingSpans = text.getSpans(start, end, Any::class.java)
+        if (existingSpans.isEmpty() && start >= 0 && end > start) {
             text.setSpan(getSpan(found.matchType, string, colour, start, end), start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
             start += finders[found.matchType]!!.searchPrefixWidth
         }

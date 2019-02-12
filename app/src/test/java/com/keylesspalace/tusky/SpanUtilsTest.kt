@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky
 
 import android.text.Spannable
+import android.text.style.URLSpan
 import com.keylesspalace.tusky.util.highlightSpans
 import org.junit.Assert
 import org.junit.Test
@@ -27,6 +28,20 @@ class SpanUtilsTest {
         Assert.assertEquals(2, spans.size)
         Assert.assertEquals(firstURL.length, spans[0].end - spans[0].start)
         Assert.assertEquals(secondURL.length, spans[1].end - spans[1].start)
+    }
+
+    @Test
+    fun doesntStripExistingURL() {
+        val anchorText = "first thing"
+        val text = "The $anchorText to do is"
+        val firstURL = "http://first.thing"
+        val inputSpannable = FakeSpannable(text)
+        inputSpannable.setSpan(null, 4, 4 + anchorText.length, firstURL)
+        highlightSpans(inputSpannable, 0xffffff, listOf())
+        val spans = inputSpannable.spans
+        Assert.assertEquals(1, spans.size)
+        Assert.assertEquals(anchorText.length, spans[0].end - spans[0].start)
+        Assert.assertEquals(firstURL, spans[0].url)
     }
 
     @RunWith(Parameterized::class)
@@ -100,8 +115,12 @@ class SpanUtilsTest {
     class FakeSpannable(private val text: String) : Spannable {
         val spans = mutableListOf<BoundedSpan>()
 
+        fun setSpan(what: Any?, start: Int, end: Int, url: String) {
+            spans.add(BoundedSpan(what, start, end, url))
+        }
+
         override fun setSpan(what: Any?, start: Int, end: Int, flags: Int) {
-            spans.add(BoundedSpan(what, start, end))
+            setSpan(what, start, end, "")
         }
 
         override fun <T : Any?> getSpans(start: Int, end: Int, type: Class<T>?): Array<T> {
@@ -126,7 +145,7 @@ class SpanUtilsTest {
         override val length: Int
             get() = text.length
 
-        class BoundedSpan(val span: Any?, val start: Int, val end: Int)
+        class BoundedSpan(val span: Any?, val start: Int, val end: Int, val url: String? = ""): URLSpan(url)
 
         override fun nextSpanTransition(start: Int, limit: Int, type: Class<*>?): Int {
             throw NotImplementedError()

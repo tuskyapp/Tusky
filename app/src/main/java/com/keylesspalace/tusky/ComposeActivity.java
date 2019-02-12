@@ -43,6 +43,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -105,6 +106,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -503,7 +505,8 @@ public final class ComposeActivity
         // Setup the main text field.
         textEditor.setOnCommitContentListener(this);
         final int mentionColour = textEditor.getLinkTextColors().getDefaultColor();
-        SpanUtils.highlightSpans(textEditor.getText(), mentionColour);
+        List<Class<?>> spanClassesToStrip = Arrays.asList(ForegroundColorSpan.class, URLSpan.class);
+        SpanUtils.highlightSpans(textEditor.getText(), mentionColour, spanClassesToStrip);
         textEditor.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -515,7 +518,7 @@ public final class ComposeActivity
 
             @Override
             public void afterTextChanged(Editable editable) {
-                SpanUtils.highlightSpans(editable, mentionColour);
+                SpanUtils.highlightSpans(editable, mentionColour, spanClassesToStrip);
                 updateVisibleCharactersLeft();
             }
         });
