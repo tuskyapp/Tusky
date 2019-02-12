@@ -226,6 +226,7 @@
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="follows_you">Követ téged</string>
     <string name="pref_title_alway_show_sensitive_media">Mindig mutassa a NSFW tartalmat</string>
+    <string name="load_more_placeholder_text">több betöltése</string>
     <string name="add_account_name">Fiók hozzáadása</string>
     <string name="add_account_description">Új Mastodon fiók hozzáadása</string>
     <string name="action_lists">Listák</string>
@@ -238,6 +239,7 @@
     <string name="send_toot_notification_channel_name">Tülkök elküldése</string>
     <string name="send_toot_notification_cancel_title">Küldés megszakítva</string>
     <string name="action_compose_shortcut">Szerkeszt</string>
+    <string name="copy_to_clipboard_success">Vágólapra másolva</string>
     <string name="emoji_style">Emoji stílus</string>
     <string name="system_default">Rendszer alapértelmezett</string>
     <string name="restart_required">Újraindítás szükséges</string>
@@ -247,7 +249,9 @@
     <string name="account_moved_description">%1$s elköltözött:</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+    <string name="profile_metadata_add">adatok hozzáadása</string>
     <string name="profile_metadata_label_label">Címke</string>
     <string name="profile_metadata_content_label">Tartalom</string>
+    <string name="label_remote_account">Az alábbi felhasználói profil adatok lehet, hogy hiányosak. Kattints ide a teljes profil böngészőben való megnyitásához.</string>
     <string name="title_reblogged_by">Reblogolta</string>
 </resources>
