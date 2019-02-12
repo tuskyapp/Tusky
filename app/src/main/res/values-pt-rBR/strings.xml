@@ -4,7 +4,7 @@
     <string name="error_generic">Ocorreu um erro.</string>
     <string name="error_empty">Isso não pode ficar vazio.</string>
     <string name="error_invalid_domain">Domínio inválido</string>
-    <string name="error_failed_app_registration">A autenticação com esta instância falhou.</string>
+    <string name="error_failed_app_registration">Falha ao autenticar com esta instância.</string>
     <string name="error_no_web_browser_found">Navegador não foi encontrado.</string>
     <string name="error_authorization_unknown">Um erro não-identificado de autorização ocorreu.</string>
     <string name="error_authorization_denied">Autorização negada.</string>
@@ -25,38 +25,38 @@
     <string name="title_notifications">Notificações</string>
     <string name="title_public_federated">Global</string>
     <string name="title_view_thread">Sequência</string>
-    <string name="title_statuses">Postagens</string>
+    <string name="title_statuses">Publicações</string>
     <string name="title_statuses_with_replies">Com respostas</string>
     <string name="title_follows">Segue</string>
     <string name="title_followers">Seguidores</string>
-    <string name="title_favourites">Favoritos</string>
+    <string name="title_favourites">Curtidas</string>
     <string name="title_mutes">Usuários silenciados</string>
     <string name="title_blocks">Usuários bloqueados</string>
     <string name="title_follow_requests">Solicitações de seguidor</string>
-    <string name="title_edit_profile">Edite seu perfil</string>
+    <string name="title_edit_profile">Editar seu perfil</string>
     <string name="title_saved_toot">Rascunhos</string>
     <string name="title_licenses">Licenças</string>
     <string name="status_boosted_format">%s compartilhou</string>
-    <string name="status_sensitive_media_title">Mídia sensível</string>
-    <string name="status_media_hidden_title">Mídia escondida</string>
-    <string name="status_sensitive_media_directions">Clique para ver</string>
+    <string name="status_sensitive_media_title">Conteúdo sensível</string>
+    <string name="status_media_hidden_title">Mídia oculta</string>
+    <string name="status_sensitive_media_directions">Clique para exibir</string>
     <string name="status_content_warning_show_more">Mostrar mais</string>
     <string name="status_content_warning_show_less">Mostrar menos</string>
     <string name="footer_empty">Nada aqui. Arraste para atualizar!</string>
-    <string name="notification_reblog_format">%s compartilhou seu toot</string>
-    <string name="notification_favourite_format">%s favoritou seu toot</string>
+    <string name="notification_reblog_format">%s compartilhou o seu toot</string>
+    <string name="notification_favourite_format">%s curtiu o seu toot</string>
     <string name="notification_follow_format">%s seguiu você</string>
     <string name="report_username_format">Denunciar @%s</string>
     <string name="report_comment_hint">Comentários adicionais?</string>
     <string name="action_quick_reply">Resposta rápida</string>
     <string name="action_reply">Responder</string>
     <string name="action_reblog">Compartilhar</string>
-    <string name="action_favourite">Favoritar</string>
+    <string name="action_favourite">Curtir</string>
     <string name="action_more">Mais</string>
     <string name="action_compose">Compor</string>
     <string name="action_login">Entrar com Mastodon</string>
     <string name="action_logout">Sair</string>
-    <string name="action_logout_confirm">Você tem certeza que quer encerrar a sessão da conta %1$s?</string>
+    <string name="action_logout_confirm">Você tem certeza de que deseja encerrar a sessão da conta %1$s?</string>
     <string name="action_follow">Seguir</string>
     <string name="action_unfollow">Deixar de seguir</string>
     <string name="action_block">Bloquear</string>
@@ -69,7 +69,7 @@
     <string name="action_close">Fechar</string>
     <string name="action_view_profile">Perfil</string>
     <string name="action_view_preferences">Preferências</string>
-    <string name="action_view_favourites">Favoritos</string>
+    <string name="action_view_favourites">Curtidas</string>
     <string name="action_view_mutes">Usuários silenciados</string>
     <string name="action_view_blocks">Usuários bloqueados</string>
     <string name="action_view_follow_requests">Solicitações de seguidor</string>
@@ -107,9 +107,11 @@
     <string name="hint_compose">No que você está pensando?</string>
     <string name="hint_content_warning">Aviso de conteúdo</string>
     <string name="hint_display_name">Nome de exibição</string>
+    <string name="hint_note">Biografia</string>
     <string name="hint_search">Buscar…</string>
     <string name="search_no_results">Sem resultados</string>
     <string name="label_quick_reply">Responder…</string>
+    <string name="label_avatar">Avatar</string>
     <string name="label_header">Cabeçalho</string>
     <string name="link_whats_an_instance">O que é uma instância?</string>
     <string name="login_connection">Conectando…</string>
@@ -125,6 +127,7 @@
     <string name="dialog_download_image">Baixar</string>
     <string name="dialog_message_cancel_follow_request">Revogar a solicitação de seguidor?</string>
     <string name="dialog_unfollow_warning">Deixar de seguir esta conta?</string>
+    <string name="dialog_delete_toot_warning">Excluir este toot?</string>
     <string name="visibility_public">Público: Postar em timelines públicas</string>
     <string name="visibility_unlisted">Não-listado: Não postar em timelines públicas</string>
     <string name="visibility_private">Privado: Postar apenas para seguidores</string>
@@ -144,6 +147,7 @@
     <string name="pref_title_notification_filter_favourites">minhas postagens forem favoritadas</string>
     <string name="pref_title_appearance_settings">Aparência</string>
     <string name="pref_title_app_theme">Temas do app</string>
+    <string name="pref_title_timelines">Linhas do tempo</string>
     <string-array name="app_theme_names">
         <item>Noturno</item>
         <item>Diurno</item>
@@ -159,12 +163,15 @@
     <string name="pref_title_show_replies">Mostrar respostas</string>
     <string name="pref_title_filter_regex">Filtrar com expressões regulares</string>
     <string name="pref_title_show_media_preview">Mostrar prévias de mídia</string>
+    <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">Proxy HTTP</string>
     <string name="pref_title_http_proxy_enable">Ativar proxy HTTP</string>
     <string name="pref_title_http_proxy_server">Servidor do proxy HTTP</string>
     <string name="pref_title_http_proxy_port">Porta do proxy HTTP</string>
     <string name="pref_default_post_privacy">Privacidade padrão dos posts</string>
+    <string name="pref_default_media_sensitivity">Sempre marcar mídia como sensível</string>
     <string name="pref_publishing">Publicação</string>
+    <string name="pref_failed_to_sync">Falha ao sincronizar configurações</string>
     <string-array name="post_privacy_names">
         <item>Público</item>
         <item>Não-listado</item>
@@ -193,6 +200,7 @@
     <string name="notification_title_summary">%d novas interações</string>
     <string name="description_account_locked">Conta trancada</string>
     <string name="about_title_activity">Sobre</string>
+    <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tusky é um software gratuito e de código aberto.        Ele é licenciado sob a versão 3 da Licença Pública Geral GNU.        Você pode ler a licença aqui: https://www.gnu.org/licenses/gpl-3.0.pt-br.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
@@ -217,6 +225,11 @@
     <string name="abbreviated_in_hours">em %dh</string>
     <string name="abbreviated_in_minutes">em %dm</string>
     <string name="abbreviated_in_seconds">em %ds</string>
+    <string name="abbreviated_years_ago">%da</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Segue você</string>
     <string name="pref_title_alway_show_sensitive_media">Sempre mostrar conteúdo NSFW</string>
     <string name="title_media">Mídia</string>
@@ -266,4 +279,7 @@
     <string name="profile_metadata_add">Adicionar</string>
     <string name="profile_metadata_label_label">Rótulo</string>
     <string name="profile_metadata_content_label">Conteúdo</string>
+    <string name="pref_title_absolute_time">Usar tempo absoluto</string>
+    <string name="title_reblogged_by">Compartilhado por</string>
+    <string name="title_favourited_by">Curtido por</string>
 </resources>
