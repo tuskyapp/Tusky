@@ -27,6 +27,8 @@
     <string name="title_notifications">الاشعارات</string>
     <string name="title_public_local">المحلية</string>
     <string name="title_public_federated">الفدرالية</string>
+    <string name="title_direct_messages">الرسائل المباشرة</string>
+    <string name="title_tab_preferences">الألسنة</string>
     <string name="title_view_thread">بَوِّق</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">المشاركات</string>
@@ -106,6 +108,7 @@
     <string name="action_toggle_visibility">كيفية عرض التبويق</string>
     <string name="action_content_warning">تحذير عن المحتوى</string>
     <string name="action_emoji_keyboard">لوحة مفاتيح الإيموجي</string>
+    <string name="action_add_tab">إضافة لسان</string>
     <string name="download_image">تنزيل %1$s</string>
     <string name="action_copy_link">إنسخ الرابط</string>
     <string name="action_open_as">إفتحه كـ %s</string>
@@ -310,4 +313,7 @@
     <string name="pin_action">تدبيس</string>
     <string name="title_reblogged_by">رقّاه</string>
     <string name="title_favourited_by">قام بإضافته إلى المفضلة</string>
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s و %2$s</string>
+    <string name="conversation_more_recipients">%1$s و %2$s و %3$d آخَرون</string>
 </resources>
