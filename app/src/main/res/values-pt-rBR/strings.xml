@@ -11,6 +11,7 @@
     <string name="error_retrieving_oauth_token">Falha ao adquirir token de entrada.</string>
     <string name="error_compose_character_limit">A postagem é muito longa!</string>
     <string name="error_image_upload_size">O arquivo deve ser menor que 8MB.</string>
+    <string name="error_video_upload_size">Os arquivos de vídeo devem ser menores que 40MB.</string>
     <string name="error_media_upload_type">Esse tipo de arquivo não pode ser enviado.</string>
     <string name="error_media_upload_opening">Esse arquvo não pode ser aberto.</string>
     <string name="error_media_upload_permission">Permissão para ler mídia é necessária.</string>
@@ -23,7 +24,10 @@
     <string name="title_home">Página inicial</string>
     <string name="title_advanced">Avançado</string>
     <string name="title_notifications">Notificações</string>
+    <string name="title_public_local">Local</string>
     <string name="title_public_federated">Global</string>
+    <string name="title_direct_messages">Mensagens diretas</string>
+    <string name="title_tab_preferences">Abas</string>
     <string name="title_view_thread">Sequência</string>
     <string name="title_statuses">Publicações</string>
     <string name="title_statuses_with_replies">Com respostas</string>
@@ -94,8 +98,11 @@
     <string name="action_toggle_visibility">Privacidade do toot</string>
     <string name="action_content_warning">Aviso de conteúdo</string>
     <string name="action_emoji_keyboard">Teclado de emojis</string>
+    <string name="action_add_tab">Adicionar aba</string>
     <string name="download_image">Baixando %1$s</string>
     <string name="action_copy_link">Copiar link</string>
+    <string name="action_open_as">Abrir como %s</string>
+    <string name="action_share_as">Compartilhar como …</string>
     <string name="send_status_link_to">Compartilhar URL do toot no…</string>
     <string name="send_status_content_to">Compartilhar toot no…</string>
     <string name="confirmation_reported">Enviado!</string>
@@ -184,6 +191,11 @@
         <item>Médio</item>
         <item>Grande</item>
         <item>Maior</item>
+    </string-array>
+    <string-array name="media_display_names">
+        <item>Ocultar mídia marcada como sensível</item>
+        <item>Always show media marked as sensitive</item>
+        <item>Always hide all media</item>
     </string-array>
     <string name="notification_channel_mention_name">Novas Menções</string>
     <string name="notification_channel_mention_descriptions">Notificações sobre novas menções</string>
