@@ -13,6 +13,7 @@ import com.keylesspalace.tusky.util.Listing
 import com.keylesspalace.tusky.util.NetworkState
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class ConversationsViewModel  @Inject constructor(
@@ -49,12 +50,15 @@ class ConversationsViewModel  @Inject constructor(
     fun favourite(favourite: Boolean, position: Int) {
         conversations.value?.getOrNull(position)?.let { conversation ->
             timelineCases.favourite(conversation.lastStatus.toStatus(), favourite)
-                    .subscribe({
+                    .observeOn(Schedulers.io())
+                    .flatMap {
                         val newConversation = conversation.copy(
                                 lastStatus = conversation.lastStatus.copy(favourited = favourite)
                         )
-                        database.conversationDao().insert(newConversation)
-                    }, { t -> Log.w("ConversationViewModel", "Failed to favourite conversation", t) })
+                        database.conversationDao().insert(newConversation).toSingle { it }
+                    }
+                    .doOnError { t -> Log.w("ConversationViewModel", "Failed to favourite conversation", t)  }
+                    .subscribe()
                     .addTo(disposables)
         }
 
@@ -67,6 +71,8 @@ class ConversationsViewModel  @Inject constructor(
                     lastStatus = conversation.lastStatus.copy(expanded = expanded)
             )
             database.conversationDao().insert(newConversation)
+                    .subscribe()
+                    .addTo(disposables)
         }
     }
 
@@ -76,6 +82,8 @@ class ConversationsViewModel  @Inject constructor(
                     lastStatus = conversation.lastStatus.copy(collapsed = collapsed)
             )
             database.conversationDao().insert(newConversation)
+                    .subscribe()
+                    .addTo(disposables)
         }
     }
 
@@ -85,6 +93,8 @@ class ConversationsViewModel  @Inject constructor(
                     lastStatus = conversation.lastStatus.copy(showingHiddenContent = showing)
             )
             database.conversationDao().insert(newConversation)
+                    .subscribe()
+                    .addTo(disposables)
         }
     }
 
@@ -94,6 +104,8 @@ class ConversationsViewModel  @Inject constructor(
                should not delete the conversation but show another toot of the conversation */
             timelineCases.delete(conversation.lastStatus.id)
             database.conversationDao().delete(conversation)
+                    .subscribe()
+                    .addTo(disposables)
         }
     }
 
