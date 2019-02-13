@@ -93,8 +93,8 @@ class TimelineRepositoryTest {
         verify(timelineDao).insertStatusIfNotThere(Placeholder("1").toEntity(account.id))
         for (status in statuses) {
             verify(timelineDao).insertInTransaction(
-                    status.toEntity(account.id, account.domain, htmlConverter, gson),
-                    status.account.toEntity(account.domain, account.id, gson),
+                    status.toEntity(account.id, htmlConverter, gson),
+                    status.account.toEntity(account.id, gson),
                     null
             )
         }
@@ -124,8 +124,8 @@ class TimelineRepositoryTest {
         // We assume for now that overlapped one is inserted but it's not that important
         for (status in response) {
             verify(timelineDao).insertInTransaction(
-                    status.toEntity(account.id, account.domain, htmlConverter, gson),
-                    status.account.toEntity(account.domain, account.id, gson),
+                    status.toEntity(account.id, htmlConverter, gson),
+                    status.account.toEntity(account.id, gson),
                     null
             )
         }
@@ -153,8 +153,8 @@ class TimelineRepositoryTest {
         testScheduler.advanceTimeBy(100, TimeUnit.SECONDS)
         for (status in response) {
             verify(timelineDao).insertInTransaction(
-                    status.toEntity(account.id, account.domain, htmlConverter, gson),
-                    status.account.toEntity(account.domain, account.id, gson),
+                    status.toEntity(account.id, htmlConverter, gson),
+                    status.account.toEntity(account.id, gson),
                     null
             )
         }
@@ -194,8 +194,8 @@ class TimelineRepositoryTest {
         // We assume for now that overlapped one is inserted but it's not that important
         for (status in response) {
             verify(timelineDao).insertInTransaction(
-                    status.toEntity(account.id, account.domain, htmlConverter, gson),
-                    status.account.toEntity(account.domain, account.id, gson),
+                    status.toEntity(account.id, htmlConverter, gson),
+                    status.account.toEntity(account.id, gson),
                     null
             )
         }
@@ -236,8 +236,8 @@ class TimelineRepositoryTest {
         // We assume for now that overlapped one is inserted but it's not that important
         for (status in response) {
             verify(timelineDao).insertInTransaction(
-                    status.toEntity(account.id, account.domain, htmlConverter, gson),
-                    status.account.toEntity(account.domain, account.id, gson),
+                    status.toEntity(account.id, htmlConverter, gson),
+                    status.account.toEntity(account.id, gson),
                     null
             )
         }
@@ -253,8 +253,8 @@ class TimelineRepositoryTest {
         val status = makeStatus("2")
         val dbStatus = makeStatus("1")
         val dbResult = TimelineStatusWithAccount()
-        dbResult.status = dbStatus.toEntity(account.id, account.domain, htmlConverter, gson)
-        dbResult.account = status.account.toEntity(account.domain, account.id, gson)
+        dbResult.status = dbStatus.toEntity(account.id, htmlConverter, gson)
+        dbResult.account = status.account.toEntity(account.id, gson)
 
         whenever(mastodonApi.homeTimelineSingle(any(), any(), any()))
                 .thenReturn(Single.just(listOf(status)))
