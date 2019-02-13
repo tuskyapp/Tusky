@@ -103,8 +103,9 @@ class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, 
     }
 
     private fun insertResultIntoDb(accountId: Long, result: List<Conversation>?) {
-        result?.let { conversations ->
-            db.conversationDao().insert(conversations.map { it.toEntity(accountId) })
-        }
+        result?.filter { it.lastStatus != null }
+                ?.map{ it.toEntity(accountId) }
+                ?.let { db.conversationDao().insert(it) }
+
     }
 }
