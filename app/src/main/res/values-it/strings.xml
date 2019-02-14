@@ -27,6 +27,8 @@
     <string name="title_notifications">Notifiche</string>
     <string name="title_public_local">Locale</string>
     <string name="title_public_federated">Federata</string>
+    <string name="title_direct_messages">Messaggi Diretti</string>
+    <string name="title_tab_preferences">Schede</string>
     <string name="title_view_thread">Toot</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Post</string>
@@ -106,6 +108,7 @@
     <string name="action_toggle_visibility">Visibilità dei toot</string>
     <string name="action_content_warning">Avviso per il contenuto</string>
     <string name="action_emoji_keyboard">Tastiera emoji</string>
+    <string name="action_add_tab">Aggiungi Scheda</string>
     <string name="download_image">Scaricando %1$s</string>
     <string name="action_copy_link">Copia il link</string>
     <string name="action_open_as">Apri come %s</string>
@@ -316,4 +319,7 @@
     </plurals>
     <string name="title_reblogged_by">Boostato da</string>
     <string name="title_favourited_by">Preferito da</string>
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s e %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s ed altri %3$d</string>
 </resources>
