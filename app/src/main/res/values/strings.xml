@@ -384,6 +384,7 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s and %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s and %3$d more</string>
+    <string name="max_tab_number_reached">maximum of %1$d tabs reached</string>
 
 
 </resources>

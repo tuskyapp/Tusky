@@ -330,4 +330,7 @@
     <string name="title_reblogged_by">Geteilt von</string>
     <string name="title_favourited_by">Favorisiert von</string>
 
+    <string name="max_tab_number_reached">maximale Anzahl von %1$d Tabs erreicht</string>
+
+
 </resources>

@@ -125,6 +125,8 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             actionButton.isExpanded = false
         }
 
+        maxTabsInfo.text = getString(R.string.max_tab_number_reached, MAX_TAB_COUNT)
+
         updateAvailableTabs()
 
     }
