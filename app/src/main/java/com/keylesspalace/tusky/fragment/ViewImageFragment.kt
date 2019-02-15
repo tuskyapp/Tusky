@@ -74,8 +74,8 @@ class ViewImageFragment : ViewMediaFragment() {
             result
         }
 
-        val maxW = context!!.resources.getInteger(R.integer.media_max_width)
-        val maxH = context!!.resources.getInteger(R.integer.media_max_height)
+        val maxW = photoView.context.resources.getInteger(R.integer.media_max_width)
+        val maxH = photoView.context.resources.getInteger(R.integer.media_max_height)
 
         // If we are the view to be shown initially...
         if (arguments!!.getBoolean(ViewMediaFragment.ARG_START_POSTPONED_TRANSITION)) {
@@ -175,8 +175,8 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     private fun loadImageFromNetwork(url: String, photoView: ImageView) {
-        val maxW = context!!.resources.getInteger(R.integer.media_max_width)
-        val maxH = context!!.resources.getInteger(R.integer.media_max_height)
+        val maxW = photoView.context.resources.getInteger(R.integer.media_max_width)
+        val maxH = photoView.context.resources.getInteger(R.integer.media_max_height)
 
         Picasso.with(context)
                 .load(url)

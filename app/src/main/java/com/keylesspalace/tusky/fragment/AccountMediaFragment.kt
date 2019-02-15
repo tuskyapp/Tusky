@@ -302,8 +302,8 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             holder.imageView.setBackgroundColor(Color.HSVToColor(itemBgBaseHSV))
             val item = items[position]
 
-            val maxW = context!!.resources.getInteger(R.integer.media_max_width)
-            val maxH = context!!.resources.getInteger(R.integer.media_max_height)
+            val maxW = holder.imageView.context.resources.getInteger(R.integer.media_max_width)
+            val maxH = holder.imageView.context.resources.getInteger(R.integer.media_max_height)
 
             Picasso.with(holder.imageView.context)
                     .load(item.attachment.previewUrl)
