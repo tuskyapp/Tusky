@@ -369,6 +369,7 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s и %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s и ещё %3$d</string>
+    <string name="max_tab_number_reached">достигнут лимит в %1$d вкладок</string>
 
     <string name="label_remote_account">Информация может не полностью отражать профиль пользователя. Нажмите чтобы открыть профиль в браузере.</string>
 </resources>
