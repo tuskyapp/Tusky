@@ -74,6 +74,9 @@ class ViewImageFragment : ViewMediaFragment() {
             result
         }
 
+        val maxW = context!!.resources.getInteger(R.integer.media_max_width)
+        val maxH = context!!.resources.getInteger(R.integer.media_max_height)
+
         // If we are the view to be shown initially...
         if (arguments!!.getBoolean(ViewMediaFragment.ARG_START_POSTPONED_TRANSITION)) {
             // Try to load image from disk.
@@ -81,6 +84,9 @@ class ViewImageFragment : ViewMediaFragment() {
                     .load(url)
                     .noFade()
                     .networkPolicy(NetworkPolicy.OFFLINE)
+                    .resize(maxW, maxH)
+                    .onlyScaleDown()
+                    .centerInside()
                     .into(photoView, object : Callback {
                         override fun onSuccess() {
                             // if we loaded image from disk, we should check that view is attached.
@@ -169,10 +175,15 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     private fun loadImageFromNetwork(url: String, photoView: ImageView) {
+        val maxW = context!!.resources.getInteger(R.integer.media_max_width)
+        val maxH = context!!.resources.getInteger(R.integer.media_max_height)
+
         Picasso.with(context)
                 .load(url)
                 .noPlaceholder()
                 .networkPolicy(NetworkPolicy.NO_STORE)
+                .resize(maxW, maxH)
+                .onlyScaleDown()
                 .into(photoView, object : Callback {
                     override fun onSuccess() {
                         finishLoadingSuccessfully()
