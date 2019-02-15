@@ -112,9 +112,9 @@ dependencies {
     // architecture components
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     //room
-    implementation 'androidx.room:room-runtime:2.1.0-alpha04'
-    kapt 'androidx.room:room-compiler:2.1.0-alpha04'
-    implementation 'androidx.room:room-rxjava2:2.1.0-alpha04'
+    implementation 'androidx.room:room-runtime:2.0.0'
+    kapt 'androidx.room:room-compiler:2.0.0'
+    implementation 'androidx.room:room-rxjava2:2.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
     implementation "com.google.dagger:dagger:$daggerVersion"
@@ -137,5 +137,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     implementation 'com.uber.autodispose:autodispose-android-archcomponents:1.1.0'
     implementation 'com.uber.autodispose:autodispose-ktx:1.1.0'
-    implementation 'androidx.paging:paging-runtime-ktx:2.1.0-rc01'
+    implementation 'androidx.paging:paging-runtime-ktx:2.1.0'
 }
