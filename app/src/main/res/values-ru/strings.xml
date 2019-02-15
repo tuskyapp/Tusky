@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="error_generic">Произошла ошибка.</string>
+    <string name="error_network">Произошла ошибка сети! Пожалуйста, проверьте интернет-соединение и попробуйте снова!</string>
     <string name="error_empty">Не может быть пустым.</string>
     <string name="error_invalid_domain">Некорректный домен.</string>
     <string name="error_failed_app_registration">Ошибка аутентификации на этом узле.</string>
@@ -26,10 +27,13 @@
     <string name="title_notifications">Уведомления</string>
     <string name="title_public_local">Локальная лента</string>
     <string name="title_public_federated">Глобальная лента</string>
+    <string name="title_direct_messages">Личные сообщения</string>
+    <string name="title_tab_preferences">Вкладки</string>
     <string name="title_view_thread">Обсуждение</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Посты</string>
     <string name="title_statuses_with_replies">Посты и ответы</string>
+    <string name="title_statuses_pinned">Закреплённые</string>
     <string name="title_follows">Подписки</string>
     <string name="title_followers">Подписчики</string>
     <string name="title_favourites">Избранное</string>
@@ -50,7 +54,8 @@
     <string name="status_content_show_more">Развернуть</string>
     <string name="status_content_show_less">Свернуть</string>
 
-    <string name="footer_empty">Ничего нет. Прокрутите вниз, чтобы обновить!</string>
+    <string name="message_empty">Ничего нет.</string>
+    <string name="footer_empty">Ничего нет. Потяните вниз, чтобы обновить!</string>
 
     <string name="notification_reblog_format">%s продвинул(а) Ваш статус</string>
     <string name="notification_favourite_format">%s понравился Ваш статус</string>
@@ -108,10 +113,13 @@
     <string name="action_toggle_visibility">Видимость поста</string>
     <string name="action_content_warning">Предупреждение о контенте</string>
     <string name="action_emoji_keyboard">Эмодзи-клавиатура</string>
+    <string name="action_add_tab">Добавить вкладку</string>
 
     <string name="download_image">Загрузка %1$s</string>
 
     <string name="action_copy_link">Копировать ссылку</string>
+    <string name="action_open_as">Открыть как %s</string>
+    <string name="action_share_as">Поделиться как …</string>
 
     <string name="send_status_link_to">Поделиться ссылкой на статус…</string>
     <string name="send_status_content_to">Поделиться статусом…</string>
@@ -184,7 +192,7 @@
 
     <string name="pref_title_browser_settings">Браузер</string>
     <string name="pref_title_custom_tabs">Использовать Chrome Custom Tabs</string>
-    <string name="pref_title_hide_follow_button">Скрывать кнопку подписки при прокрутке</string>
+    <string name="pref_title_hide_follow_button">Скрывать кнопку создания поста при прокрутке ленты</string>
     <string name="pref_title_status_filter">Фильтрация ленты</string>
     <string name="pref_title_status_tabs">Вкладки</string>
     <string name="pref_title_show_boosts">Показывать продвижения</string>
@@ -340,6 +348,28 @@
     <string name="pref_title_absolute_time">Показывать точное время</string>
     <string name="unpin_action">Открепить</string>
     <string name="pin_action">Закрепить</string>
+
+    <plurals name="favs">
+        <item quantity="one">&lt;b>%1$s&lt;/b> Понравилось</item>
+        <item quantity="few">&lt;b>%1$s&lt;/b> Понравилось</item>
+        <item quantity="many">&lt;b>%1$s&lt;/b> Понравилось</item>
+        <item quantity="other">&lt;b>%1$s&lt;/b> Понравилось</item>
+    </plurals>
+
+    <plurals name="reblogs">
+        <item quantity="one">&lt;b>%s&lt;/b> Продвинул(а)</item>
+        <item quantity="few">&lt;b>%s&lt;/b> Продвинули</item>
+        <item quantity="many">&lt;b>%s&lt;/b> Продвинули</item>
+        <item quantity="other">&lt;b>%s&lt;/b> Продвинули</item>
+    </plurals>
+
+    <string name="title_reblogged_by">Продвинули</string>
+    <string name="title_favourited_by">Понравилось</string>
+
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s и %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s и ещё %3$d</string>
+    <string name="max_tab_number_reached">достигнут лимит в %1$d вкладок</string>
 
     <string name="label_remote_account">Информация может не полностью отражать профиль пользователя. Нажмите чтобы открыть профиль в браузере.</string>
 </resources>
