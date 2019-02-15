@@ -26,10 +26,6 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import android.util.Log
 import android.view.View
-import tech.bigfig.roma.AccountListActivity
-import tech.bigfig.roma.BuildConfig
-import tech.bigfig.roma.PreferencesActivity
-import tech.bigfig.roma.R
 import tech.bigfig.roma.appstore.EventHub
 import tech.bigfig.roma.appstore.PreferenceChangedEvent
 import tech.bigfig.roma.db.AccountManager
@@ -43,6 +39,7 @@ import com.mikepenz.iconics.IconicsDrawable
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import tech.bigfig.roma.*
 import javax.inject.Inject
 
 
@@ -60,6 +57,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
     lateinit var eventHub: EventHub
 
     private lateinit var notificationPreference: Preference
+    private lateinit var tabPreference: Preference
     private lateinit var mutedUsersPreference: Preference
     private lateinit var blockedUsersPreference: Preference
 
@@ -74,6 +72,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         addPreferencesFromResource(R.xml.account_preferences)
 
         notificationPreference = findPreference("notificationPreference")
+        tabPreference = findPreference("tabPreference")
         mutedUsersPreference = findPreference("mutedUsersPreference")
         blockedUsersPreference = findPreference("blockedUsersPreference")
         defaultPostPrivacyPreference = findPreference("defaultPostPrivacy") as ListPreference
@@ -81,11 +80,12 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         mediaPreviewEnabledPreference = findPreference("mediaPreviewEnabled") as SwitchPreference
         alwaysShowSensitiveMediaPreference = findPreference("alwaysShowSensitiveMedia") as SwitchPreference
 
-        notificationPreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_notifications).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
+        notificationPreference.icon = IconicsDrawable(notificationPreference.context, GoogleMaterial.Icon.gmd_notifications).sizePx(iconSize).color(ThemeUtils.getColor(notificationPreference.context, R.attr.toolbar_icon_tint))
         mutedUsersPreference.icon = getTintedIcon(R.drawable.ic_mute_24dp)
-        blockedUsersPreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_block).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
+        blockedUsersPreference.icon = IconicsDrawable(blockedUsersPreference.context, GoogleMaterial.Icon.gmd_block).sizePx(iconSize).color(ThemeUtils.getColor(blockedUsersPreference.context, R.attr.toolbar_icon_tint))
 
         notificationPreference.onPreferenceClickListener = this
+        tabPreference.onPreferenceClickListener = this
         mutedUsersPreference.onPreferenceClickListener = this
         blockedUsersPreference.onPreferenceClickListener = this
 
@@ -159,6 +159,12 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
                     }
 
                 }
+                return true
+            }
+            tabPreference -> {
+                val intent = Intent(context, TabPreferenceActivity::class.java)
+                activity?.startActivity(intent)
+                activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
                 return true
             }
             mutedUsersPreference -> {

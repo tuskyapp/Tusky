@@ -41,7 +41,7 @@
 -dontwarn android.support.**
 
 
-# TUSKY SPECIFIC OPTIONS
+# ROMA SPECIFIC OPTIONS
 
 ## for okhttp
 -dontwarn javax.annotation.**
@@ -96,3 +96,7 @@
 }
 
 -dontwarn com.google.errorprone.annotations.*
+
+# work around a bug in proguard
+# see https://sourceforge.net/p/proguard/bugs/729/
+-keepnames public interface com.uber.autodispose.lifecycle.CorrespondingEventsFunction { *; }

@@ -16,27 +16,27 @@
 package tech.bigfig.roma
 
 import android.animation.ArgbEvaluator
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.preference.PreferenceManager
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
-import androidx.annotation.Px
-import androidx.emoji.text.EmojiCompat
-import androidx.core.app.ActivityOptionsCompat
-import androidx.fragment.app.Fragment
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
+import androidx.annotation.Px
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat
+import androidx.emoji.text.EmojiCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -251,7 +251,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
         // Setup the tabs and timeline pager.
         val adapter = AccountPagerAdapter(supportFragmentManager, accountId)
-        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_media))
+        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_statuses_pinned), getString(R.string.title_media))
         adapter.setPageTitles(pageTitles)
         accountFragmentViewPager.pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
         val pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,

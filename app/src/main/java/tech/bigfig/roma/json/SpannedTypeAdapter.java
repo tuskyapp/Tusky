@@ -22,11 +22,15 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+
 import tech.bigfig.roma.util.HtmlUtils;
 
 import java.lang.reflect.Type;
 
-public class SpannedTypeAdapter implements JsonDeserializer<Spanned> {
+public class SpannedTypeAdapter implements JsonDeserializer<Spanned>, JsonSerializer<Spanned> {
     @Override
     public Spanned deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
@@ -36,5 +40,10 @@ public class SpannedTypeAdapter implements JsonDeserializer<Spanned> {
         } else {
             return new SpannedString("");
         }
+    }
+
+    @Override
+    public JsonElement serialize(Spanned src, Type typeOfSrc, JsonSerializationContext context) {
+        return new JsonPrimitive(HtmlUtils.toHtml(src));
     }
 }

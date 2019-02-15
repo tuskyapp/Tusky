@@ -34,13 +34,13 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         addPreferencesFromResource(R.xml.preferences)
 
         val themePreference: Preference = findPreference("appTheme")
-        themePreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_palette).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
+        themePreference.icon = IconicsDrawable(themePreference.context, GoogleMaterial.Icon.gmd_palette).sizePx(iconSize).color(ThemeUtils.getColor(themePreference.context, R.attr.toolbar_icon_tint))
 
         val emojiPreference: Preference = findPreference("emojiCompat")
-        emojiPreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_sentiment_satisfied).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
+        emojiPreference.icon = IconicsDrawable(emojiPreference.context, GoogleMaterial.Icon.gmd_sentiment_satisfied).sizePx(iconSize).color(ThemeUtils.getColor(emojiPreference.context, R.attr.toolbar_icon_tint))
 
         val textSizePreference: Preference = findPreference("statusTextSize")
-        textSizePreference.icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_format_size).sizePx(iconSize).color(ThemeUtils.getColor(context, R.attr.toolbar_icon_tint))
+        textSizePreference.icon = IconicsDrawable(textSizePreference.context, GoogleMaterial.Icon.gmd_format_size).sizePx(iconSize).color(ThemeUtils.getColor(textSizePreference.context, R.attr.toolbar_icon_tint))
 
         val timelineFilterPreferences: Preference = findPreference("timelineFilterPreferences")
         timelineFilterPreferences.setOnPreferenceClickListener {

@@ -15,34 +15,19 @@
 
 package tech.bigfig.roma.fragment;
 
-import androidx.arch.core.util.Function;
-import androidx.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-import androidx.core.util.Pair;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.recyclerview.widget.AsyncDifferConfig;
-import androidx.recyclerview.widget.AsyncListDiffer;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListUpdateCallback;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
 import tech.bigfig.roma.R;
 import tech.bigfig.roma.adapter.TimelineAdapter;
@@ -62,26 +47,48 @@ import tech.bigfig.roma.interfaces.ActionButtonActivity;
 import tech.bigfig.roma.interfaces.StatusActionListener;
 import tech.bigfig.roma.network.MastodonApi;
 import tech.bigfig.roma.network.TimelineCases;
+import tech.bigfig.roma.repository.Placeholder;
+import tech.bigfig.roma.repository.TimelineRepository;
+import tech.bigfig.roma.repository.TimelineRequestMode;
 import tech.bigfig.roma.util.CollectionUtil;
 import tech.bigfig.roma.util.Either;
-import tech.bigfig.roma.util.HttpHeaderLink;
 import tech.bigfig.roma.util.ListUtils;
 import tech.bigfig.roma.util.PairedList;
+import tech.bigfig.roma.util.StringUtils;
 import tech.bigfig.roma.util.ThemeUtils;
 import tech.bigfig.roma.util.ViewDataUtils;
+import tech.bigfig.roma.view.BackgroundMessageView;
 import tech.bigfig.roma.view.EndlessOnScrollListener;
 import tech.bigfig.roma.viewdata.StatusViewData;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.arch.core.util.Function;
+import androidx.core.util.Pair;
+import androidx.lifecycle.Lifecycle;
+import androidx.recyclerview.widget.AsyncDifferConfig;
+import androidx.recyclerview.widget.AsyncListDiffer;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.ListUpdateCallback;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import kotlin.Unit;
+import kotlin.collections.CollectionsKt;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -105,6 +112,7 @@ public class TimelineFragment extends SFragment implements
         PUBLIC_FEDERATED,
         TAG,
         USER,
+        USER_PINNED,
         USER_WITH_REPLIES,
         FAVOURITES,
         LIST
@@ -121,6 +129,9 @@ public class TimelineFragment extends SFragment implements
     @Inject
     public EventHub eventHub;
     @Inject
+    public TimelineRepository timelineRepo;
+
+    @Inject
     public AccountManager accountManager;
 
     private boolean eventRegistered = false;
@@ -128,7 +139,7 @@ public class TimelineFragment extends SFragment implements
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
-    private TextView nothingMessageView;
+    private BackgroundMessageView statusView;
 
     private TimelineAdapter adapter;
     private Kind kind;
@@ -143,14 +154,9 @@ public class TimelineFragment extends SFragment implements
     private boolean hideFab;
     private boolean bottomLoading;
 
-    @Nullable
-    private String bottomId = null;
-    @Nullable
-    private String topId = null;
-    private long maxPlaceholderId = -1;
     private boolean didLoadEverythingBottom;
-
     private boolean alwaysShowSensitiveMedia;
+    private boolean initialUpdateFailed = false;
 
     @Override
     protected TimelineCases timelineCases() {
@@ -161,15 +167,15 @@ public class TimelineFragment extends SFragment implements
             new PairedList<>(new Function<Either<Placeholder, Status>, StatusViewData>() {
                 @Override
                 public StatusViewData apply(Either<Placeholder, Status> input) {
-                    Status status = input.getAsRightOrNull();
+                    Status status = input.asRightOrNull();
                     if (status != null) {
                         return ViewDataUtils.statusToViewData(
                                 status,
                                 alwaysShowSensitiveMedia
                         );
                     } else {
-                        Placeholder placeholder = input.getAsLeft();
-                        return new StatusViewData.Placeholder(placeholder.id, false);
+                        Placeholder placeholder = input.asLeft();
+                        return new StatusViewData.Placeholder(placeholder.getId(), false);
                     }
                 }
             });
@@ -191,18 +197,6 @@ public class TimelineFragment extends SFragment implements
         return fragment;
     }
 
-    private static final class Placeholder {
-        final long id;
-
-        public static Placeholder getInstance(long id) {
-            return new Placeholder(id);
-        }
-
-        private Placeholder(long id) {
-            this.id = id;
-        }
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -210,6 +204,7 @@ public class TimelineFragment extends SFragment implements
         kind = Kind.valueOf(arguments.getString(KIND_ARG));
         if (kind == Kind.TAG
                 || kind == Kind.USER
+                || kind == Kind.USER_PINNED
                 || kind == Kind.USER_WITH_REPLIES
                 || kind == Kind.LIST) {
             hashtagOrId = arguments.getString(HASHTAG_OR_ID_ARG);
@@ -224,26 +219,99 @@ public class TimelineFragment extends SFragment implements
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
 
-        recyclerView = rootView.findViewById(R.id.recycler_view);
-        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
-        progressBar = rootView.findViewById(R.id.progress_bar);
-        nothingMessageView = rootView.findViewById(R.id.nothing_message);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+        progressBar = rootView.findViewById(R.id.progressBar);
+        statusView = rootView.findViewById(R.id.statusView);
 
         setupSwipeRefreshLayout();
         setupRecyclerView();
         updateAdapter();
         setupTimelinePreferences();
-        setupNothingView();
 
         if (statuses.isEmpty()) {
             progressBar.setVisibility(View.VISIBLE);
             bottomLoading = true;
-            sendFetchTimelineRequest(null, null, FetchEnd.BOTTOM, -1);
+            this.sendInitialRequest();
         } else {
             progressBar.setVisibility(View.GONE);
         }
 
         return rootView;
+    }
+
+    private void sendInitialRequest() {
+        if (this.kind == Kind.HOME) {
+            this.tryCache();
+        } else {
+            sendFetchTimelineRequest(null, null, null, FetchEnd.BOTTOM, -1);
+        }
+    }
+
+    private void tryCache() {
+        // Request timeline from disk to make it quick, then replace it with timeline from
+        // the server to update it
+        this.timelineRepo.getStatuses(null, null, null, LOAD_AT_ONCE,
+                TimelineRequestMode.DISK)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(statuses -> {
+                    filterStatuses(statuses);
+
+                    if (statuses.size() > 1) {
+                        this.clearPlaceholdersForResponse(statuses);
+                        this.statuses.clear();
+                        this.statuses.addAll(statuses);
+                        this.updateAdapter();
+                        this.progressBar.setVisibility(View.GONE);
+                        // Request statuses including current top to refresh all of them
+                    }
+
+                    this.updateCurrent();
+                });
+    }
+
+    private void updateCurrent() {
+        String topId;
+        if (this.statuses.isEmpty()) {
+            topId = null;
+        } else {
+            topId = CollectionsKt.first(statuses, Either::isRight).asRight().getId();
+        }
+        this.timelineRepo.getStatuses(topId, null, null, LOAD_AT_ONCE,
+                TimelineRequestMode.NETWORK)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(
+                        (statuses) -> {
+                            this.initialUpdateFailed = false;
+                            // When cached timeline is too old, we would replace it with nothing
+                            if (!statuses.isEmpty()) {
+                                filterStatuses(statuses);
+
+                                // Working around a bug when Mastodon API doesn't return the first
+                                // status because of string "id < maxId". Hacking with ID doesn't
+                                // help.
+                                if (!this.statuses.isEmpty()) {
+                                    Either<Placeholder, Status> firstOld = this.statuses.get(0);
+                                    this.statuses.clear();
+                                    this.statuses.add(firstOld);
+                                } else {
+                                    this.statuses.clear();
+                                }
+                                this.statuses.addAll(statuses);
+                                this.updateAdapter();
+                            }
+                            this.bottomLoading = false;
+                            // Get more statuses so that users know that something is there
+                            this.loadAbove();
+                        },
+                        (e) -> {
+                            this.initialUpdateFailed = true;
+                            // Indicate that we are not loading anymore
+                            this.progressBar.setVisibility(View.GONE);
+                            this.swipeRefreshLayout.setRefreshing(false);
+                        });
     }
 
     private void setupTimelinePreferences() {
@@ -302,15 +370,20 @@ public class TimelineFragment extends SFragment implements
         for (int i = 0; i < statuses.size(); i++) {
             Either<Placeholder, Status> either = statuses.get(i);
             if (either.isRight()
-                    && id.equals(either.getAsRight().getId())) {
+                    && id.equals(either.asRight().getId())) {
                 statuses.remove(either);
                 updateAdapter();
                 break;
             }
         }
         if (statuses.size() == 0) {
-            nothingMessageView.setVisibility(View.VISIBLE);
+            showNothing();
         }
+    }
+
+    private void showNothing() {
+        statusView.setVisibility(View.VISIBLE);
+        statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null);
     }
 
     @Override
@@ -435,39 +508,52 @@ public class TimelineFragment extends SFragment implements
         super.onDestroyView();
     }
 
-    private void setupNothingView() {
-        Drawable top = AppCompatResources.getDrawable(requireContext(), R.drawable.mato_empty);
-        nothingMessageView.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
-        nothingMessageView.setVisibility(View.GONE);
-    }
-
     @Override
     public void onRefresh() {
-        sendFetchTimelineRequest(null, topId, FetchEnd.TOP, -1);
+        swipeRefreshLayout.setEnabled(true);
+        this.statusView.setVisibility(View.GONE);
+        if (this.initialUpdateFailed) {
+            updateCurrent();
+        } else {
+            this.loadAbove();
+        }
+    }
+
+    private void loadAbove() {
+        String firstOrNull = null;
+        String secondOrNull = null;
+        for (int i = 0; i < this.statuses.size(); i++) {
+            Either<Placeholder, Status> status = this.statuses.get(i);
+            if (status.isRight()) {
+                firstOrNull = status.asRight().getId();
+                if (i + 1 < statuses.size() && statuses.get(i + 1).isRight()) {
+                    secondOrNull = statuses.get(i + 1).asRight().getId();
+                }
+                break;
+            }
+        }
+        if (firstOrNull != null) {
+            this.sendFetchTimelineRequest(null, firstOrNull, secondOrNull, FetchEnd.TOP, -1);
+        } else {
+            this.sendFetchTimelineRequest(null, null, null, FetchEnd.BOTTOM, -1);
+        }
     }
 
     @Override
     public void onReply(int position) {
-        super.reply(statuses.get(position).getAsRight());
+        super.reply(statuses.get(position).asRight());
     }
 
     @Override
     public void onReblog(final boolean reblog, final int position) {
-        final Status status = statuses.get(position).getAsRight();
-        timelineCases.reblogWithCallback(status, reblog, new Callback<Status>() {
-            @Override
-            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
-
-                if (response.isSuccessful()) {
-                    setRebloggedForStatus(position, status, reblog);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(TAG, "Failed to reblog status " + status.getId(), t);
-            }
-        });
+        final Status status = statuses.get(position).asRight();
+        timelineCases.reblog(status, reblog)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(
+                        (newStatus) -> setRebloggedForStatus(position, status, reblog),
+                        (err) -> Log.d(TAG, "Failed to reblog status " + status.getId(), err)
+                );
     }
 
     private void setRebloggedForStatus(int position, Status status, boolean reblog) {
@@ -491,22 +577,15 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onFavourite(final boolean favourite, final int position) {
-        final Status status = statuses.get(position).getAsRight();
+        final Status status = statuses.get(position).asRight();
 
-        timelineCases.favouriteWithCallback(status, favourite, new Callback<Status>() {
-            @Override
-            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
-
-                if (response.isSuccessful()) {
-                    setFavouriteForStatus(position, status, favourite);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(TAG, "Failed to favourite status " + status.getId(), t);
-            }
-        });
+        timelineCases.favourite(status, favourite)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(
+                        (newStatus) -> setFavouriteForStatus(position, newStatus, favourite),
+                        (err) -> Log.d(TAG, "Failed to favourite status " + status.getId(), err)
+                );
     }
 
     private void setFavouriteForStatus(int position, Status status, boolean favourite) {
@@ -529,13 +608,13 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public void onMore(View view, final int position) {
-        super.more(statuses.get(position).getAsRight(), view, position);
+    public void onMore(@NonNull View view, final int position) {
+        super.more(statuses.get(position).asRight(), view, position);
     }
 
     @Override
     public void onOpenReblog(int position) {
-        super.openReblog(statuses.get(position).getAsRight());
+        super.openReblog(statuses.get(position).asRight());
     }
 
     @Override
@@ -560,16 +639,21 @@ public class TimelineFragment extends SFragment implements
     public void onLoadMore(int position) {
         //check bounds before accessing list,
         if (statuses.size() >= position && position > 0) {
-            Status fromStatus = statuses.get(position - 1).getAsRightOrNull();
-            Status toStatus = statuses.get(position + 1).getAsRightOrNull();
+            Status fromStatus = statuses.get(position - 1).asRightOrNull();
+            Status toStatus = statuses.get(position + 1).asRightOrNull();
+            String maxMinusOne =
+                    statuses.size() > position + 1 && statuses.get(position + 2).isRight()
+                            ? statuses.get(position + 1).asRight().getId()
+                            : null;
             if (fromStatus == null || toStatus == null) {
                 Log.e(TAG, "Failed to load more at " + position + ", wrong placeholder position");
                 return;
             }
-            sendFetchTimelineRequest(fromStatus.getId(), toStatus.getId(), FetchEnd.MIDDLE, position);
+            sendFetchTimelineRequest(fromStatus.getId(), toStatus.getId(), maxMinusOne,
+                    FetchEnd.MIDDLE, position);
 
-            Placeholder placeholder = statuses.get(position).getAsLeft();
-            StatusViewData newViewData = new StatusViewData.Placeholder(placeholder.id, true);
+            Placeholder placeholder = statuses.get(position).asLeft();
+            StatusViewData newViewData = new StatusViewData.Placeholder(placeholder.getId(), true);
             statuses.setPairedItem(position, newViewData);
             updateAdapter();
         } else {
@@ -605,15 +689,15 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public void onViewMedia(int position, int attachmentIndex, View view) {
-        Status status = statuses.get(position).getAsRightOrNull();
+    public void onViewMedia(int position, int attachmentIndex, @NonNull View view) {
+        Status status = statuses.get(position).asRightOrNull();
         if (status == null) return;
         super.viewMedia(attachmentIndex, status, view);
     }
 
     @Override
     public void onViewThread(int position) {
-        super.viewThread(statuses.get(position).getAsRight());
+        super.viewThread(statuses.get(position).asRight());
     }
 
     @Override
@@ -703,7 +787,7 @@ public class TimelineFragment extends SFragment implements
         // using iterator to safely remove items while iterating
         Iterator<Either<Placeholder, Status>> iterator = statuses.iterator();
         while (iterator.hasNext()) {
-            Status status = iterator.next().getAsRightOrNull();
+            Status status = iterator.next().asRightOrNull();
             if (status != null && status.getAccount().getId().equals(accountId)) {
                 iterator.remove();
             }
@@ -720,24 +804,35 @@ public class TimelineFragment extends SFragment implements
         Either<Placeholder, Status> last = statuses.get(statuses.size() - 1);
         Placeholder placeholder;
         if (last.isRight()) {
-            placeholder = newPlaceholder();
-            statuses.add(Either.left(placeholder));
+            final String placeholderId = StringUtils.dec(last.asRight().getId());
+            placeholder = new Placeholder(placeholderId);
+            statuses.add(new Either.Left<>(placeholder));
         } else {
-            placeholder = last.getAsLeft();
+            placeholder = last.asLeft();
         }
         statuses.setPairedItem(statuses.size() - 1,
-                new StatusViewData.Placeholder(placeholder.id, true));
+                new StatusViewData.Placeholder(placeholder.getId(), true));
 
         updateAdapter();
 
-        sendFetchTimelineRequest(bottomId, null, FetchEnd.BOTTOM, -1);
+        String bottomId = null;
+        final ListIterator<Either<Placeholder, Status>> iterator =
+                this.statuses.listIterator(this.statuses.size());
+        while (iterator.hasPrevious()) {
+            Either<Placeholder, Status> previous = iterator.previous();
+            if (previous.isRight()) {
+                bottomId = previous.asRight().getId();
+                break;
+            }
+        }
+        sendFetchTimelineRequest(bottomId, null, null, FetchEnd.BOTTOM, -1);
     }
 
     private void fullyRefresh() {
         statuses.clear();
         updateAdapter();
         bottomLoading = true;
-        sendFetchTimelineRequest(null, null, FetchEnd.BOTTOM, -1);
+        sendFetchTimelineRequest(null, null, null, FetchEnd.BOTTOM, -1);
     }
 
     private boolean jumpToTopAllowed() {
@@ -769,9 +864,11 @@ public class TimelineFragment extends SFragment implements
             case TAG:
                 return api.hashtagTimeline(tagOrId, null, fromId, uptoId, LOAD_AT_ONCE);
             case USER:
-                return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, true, null);
+                return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, true, null, null);
+            case USER_PINNED:
+                return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, null, null, true);
             case USER_WITH_REPLIES:
-                return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, null, null);
+                return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, null, null, null);
             case FAVOURITES:
                 return api.favourites(fromId, uptoId, LOAD_AT_ONCE);
             case LIST:
@@ -779,47 +876,57 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
-    private void sendFetchTimelineRequest(@Nullable String fromId, @Nullable String uptoId,
+    private void sendFetchTimelineRequest(@Nullable String maxId, @Nullable String sinceId,
+                                          @Nullable String sinceIdMinusOne,
                                           final FetchEnd fetchEnd, final int pos) {
-
-        Callback<List<Status>> callback = new Callback<List<Status>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Status>> call, @NonNull Response<List<Status>> response) {
-                if (response.isSuccessful()) {
-                    String linkHeader = response.headers().get("Link");
-                    onFetchTimelineSuccess(response.body(), linkHeader, fetchEnd, pos);
-                } else {
-                    onFetchTimelineFailure(new Exception(response.message()), fetchEnd, pos);
+        if (kind == Kind.HOME) {
+            TimelineRequestMode mode;
+            // allow getting old statuses/fallbacks for network only for for bottom loading
+            if (fetchEnd == FetchEnd.BOTTOM) {
+                mode = TimelineRequestMode.ANY;
+            } else {
+                mode = TimelineRequestMode.NETWORK;
+            }
+            timelineRepo.getStatuses(maxId, sinceId, sinceIdMinusOne, LOAD_AT_ONCE, mode)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                    .subscribe(
+                            (result) -> onFetchTimelineSuccess(result, fetchEnd, pos),
+                            (err) -> onFetchTimelineFailure(new Exception(err), fetchEnd, pos)
+                    );
+        } else {
+            Callback<List<Status>> callback = new Callback<List<Status>>() {
+                @Override
+                public void onResponse(@NonNull Call<List<Status>> call, @NonNull Response<List<Status>> response) {
+                    if (response.isSuccessful()) {
+                        onFetchTimelineSuccess(liftStatusList(response.body()), fetchEnd, pos);
+                    } else {
+                        onFetchTimelineFailure(new Exception(response.message()), fetchEnd, pos);
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<List<Status>> call, @NonNull Throwable t) {
-                onFetchTimelineFailure((Exception) t, fetchEnd, pos);
-            }
-        };
+                @Override
+                public void onFailure(@NonNull Call<List<Status>> call, @NonNull Throwable t) {
+                    onFetchTimelineFailure((Exception) t, fetchEnd, pos);
+                }
+            };
 
-        Call<List<Status>> listCall = getFetchCallByTimelineType(kind, hashtagOrId, fromId, uptoId);
-        callList.add(listCall);
-        listCall.enqueue(callback);
+            Call<List<Status>> listCall = getFetchCallByTimelineType(kind, hashtagOrId, maxId, sinceId);
+            callList.add(listCall);
+            listCall.enqueue(callback);
+        }
     }
 
-    private void onFetchTimelineSuccess(List<Status> statuses, String linkHeader,
+    private void onFetchTimelineSuccess(List<Either<Placeholder, Status>> statuses,
                                         FetchEnd fetchEnd, int pos) {
 
         // We filled the hole (or reached the end) if the server returned less statuses than we
         // we asked for.
         boolean fullFetch = statuses.size() >= LOAD_AT_ONCE;
         filterStatuses(statuses);
-        List<HttpHeaderLink> links = HttpHeaderLink.parse(linkHeader);
         switch (fetchEnd) {
             case TOP: {
-                HttpHeaderLink previous = HttpHeaderLink.findByRelationType(links, "prev");
-                String uptoId = null;
-                if (previous != null) {
-                    uptoId = previous.uri.getQueryParameter("since_id");
-                }
-                updateStatuses(statuses, null, uptoId, fullFetch);
+                updateStatuses(statuses, fullFetch);
                 break;
             }
             case MIDDLE: {
@@ -827,29 +934,21 @@ public class TimelineFragment extends SFragment implements
                 break;
             }
             case BOTTOM: {
-                HttpHeaderLink next = HttpHeaderLink.findByRelationType(links, "next");
-                String fromId = null;
-                if (next != null) {
-                    fromId = next.uri.getQueryParameter("max_id");
-                }
                 if (!this.statuses.isEmpty()
                         && !this.statuses.get(this.statuses.size() - 1).isRight()) {
                     this.statuses.remove(this.statuses.size() - 1);
                     updateAdapter();
                 }
+
+                if (!statuses.isEmpty() && !statuses.get(statuses.size() - 1).isRight()) {
+                    // Removing placeholder if it's the last one from the cache
+                    statuses.remove(statuses.size() - 1);
+                }
                 int oldSize = this.statuses.size();
                 if (this.statuses.size() > 1) {
-                    addItems(statuses, fromId);
+                    addItems(statuses);
                 } else {
-                    /* If this is the first fetch, also save the id from the "previous" link and
-                     * treat this operation as a refresh so the scroll position doesn't get pushed
-                     * down to the end. */
-                    HttpHeaderLink previous = HttpHeaderLink.findByRelationType(links, "prev");
-                    String uptoId = null;
-                    if (previous != null) {
-                        uptoId = previous.uri.getQueryParameter("since_id");
-                    }
-                    updateStatuses(statuses, fromId, uptoId, fullFetch);
+                    updateStatuses(statuses, fullFetch);
                 }
                 if (this.statuses.size() == oldSize) {
                     // This may be a brittle check but seems like it works
@@ -859,13 +958,14 @@ public class TimelineFragment extends SFragment implements
                 break;
             }
         }
-        fulfillAnyQueuedFetches(fetchEnd);
+        updateBottomLoadingState(fetchEnd);
         progressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setEnabled(true);
         if (this.statuses.size() == 0) {
-            nothingMessageView.setVisibility(View.VISIBLE);
+            this.showNothing();
         } else {
-            nothingMessageView.setVisibility(View.GONE);
+            this.statusView.setVisibility(View.GONE);
         }
     }
 
@@ -874,23 +974,41 @@ public class TimelineFragment extends SFragment implements
             swipeRefreshLayout.setRefreshing(false);
 
             if (fetchEnd == FetchEnd.MIDDLE && !statuses.get(position).isRight()) {
-                Placeholder placeholder = statuses.get(position).getAsLeftOrNull();
+                Placeholder placeholder = statuses.get(position).asLeftOrNull();
                 StatusViewData newViewData;
                 if (placeholder == null) {
-                    placeholder = newPlaceholder();
+                    Status above = statuses.get(position - 1).asRight();
+                    String newId = StringUtils.dec(above.getId());
+                    placeholder = new Placeholder(newId);
                 }
-                newViewData = new StatusViewData.Placeholder(placeholder.id, false);
+                newViewData = new StatusViewData.Placeholder(placeholder.getId(), false);
                 statuses.setPairedItem(position, newViewData);
                 updateAdapter();
+            } else if (this.statuses.isEmpty()) {
+                swipeRefreshLayout.setEnabled(false);
+                this.statusView.setVisibility(View.VISIBLE);
+                if (exception instanceof IOException) {
+                    this.statusView.setup(R.drawable.elephant_offline, R.string.error_network, __ -> {
+                        this.progressBar.setVisibility(View.VISIBLE);
+                        this.onRefresh();
+                        return Unit.INSTANCE;
+                    });
+                } else {
+                    this.statusView.setup(R.drawable.elephant_error, R.string.error_generic, __ -> {
+                        this.progressBar.setVisibility(View.VISIBLE);
+                        this.onRefresh();
+                        return Unit.INSTANCE;
+                    });
+                }
             }
 
             Log.e(TAG, "Fetch Failure: " + exception.getMessage());
-            fulfillAnyQueuedFetches(fetchEnd);
+            updateBottomLoadingState(fetchEnd);
             progressBar.setVisibility(View.GONE);
         }
     }
 
-    private void fulfillAnyQueuedFetches(FetchEnd fetchEnd) {
+    private void updateBottomLoadingState(FetchEnd fetchEnd) {
         switch (fetchEnd) {
             case BOTTOM: {
                 bottomLoading = false;
@@ -899,80 +1017,90 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
-    private void filterStatuses(List<Status> statuses) {
-        Iterator<Status> it = statuses.iterator();
+    private void filterStatuses(List<Either<Placeholder, Status>> statuses) {
+        Iterator<Either<Placeholder, Status>> it = statuses.iterator();
         while (it.hasNext()) {
-            Status status = it.next();
-            if ((status.getInReplyToId() != null && filterRemoveReplies)
+            Status status = it.next().asRightOrNull();
+            if (status != null
+                    && ((status.getInReplyToId() != null && filterRemoveReplies)
                     || (status.getReblog() != null && filterRemoveReblogs)
                     || (filterRemoveRegex && (filterRemoveRegexMatcher.reset(status.getContent()).find()
-                    || (!status.getSpoilerText().isEmpty() && filterRemoveRegexMatcher.reset(status.getSpoilerText()).find())))) {
+                    || (!status.getSpoilerText().isEmpty() && filterRemoveRegexMatcher.reset(status.getSpoilerText()).find()))))) {
                 it.remove();
             }
         }
     }
 
-    private void updateStatuses(List<Status> newStatuses, @Nullable String fromId,
-                                @Nullable String toId, boolean fullFetch) {
+    private void updateStatuses(List<Either<Placeholder, Status>> newStatuses, boolean fullFetch) {
         if (ListUtils.isEmpty(newStatuses)) {
             return;
         }
-        if (fromId != null) {
-            bottomId = fromId;
-        }
-        if (toId != null) {
-            topId = toId;
-        }
-
-        List<Either<Placeholder, Status>> liftedNew = liftStatusList(newStatuses);
 
         if (statuses.isEmpty()) {
-            statuses.addAll(liftedNew);
+            statuses.addAll(newStatuses);
         } else {
-            Either<Placeholder, Status> lastOfNew = liftedNew.get(newStatuses.size() - 1);
+            Either<Placeholder, Status> lastOfNew = newStatuses.get(newStatuses.size() - 1);
             int index = statuses.indexOf(lastOfNew);
 
             for (int i = 0; i < index; i++) {
                 statuses.remove(0);
             }
-            int newIndex = liftedNew.indexOf(statuses.get(0));
+            int newIndex = newStatuses.indexOf(statuses.get(0));
             if (newIndex == -1) {
                 if (index == -1 && fullFetch) {
-                    liftedNew.add(Either.left(newPlaceholder()));
+                    String placeholderId = StringUtils.inc(
+                            CollectionsKt.last(newStatuses, Either::isRight).asRight().getId());
+                    newStatuses.add(new Either.Left<>(new Placeholder(placeholderId)));
                 }
-                statuses.addAll(0, liftedNew);
+                statuses.addAll(0, newStatuses);
             } else {
-                statuses.addAll(0, liftedNew.subList(0, newIndex));
+                statuses.addAll(0, newStatuses.subList(0, newIndex));
             }
         }
+        // Remove all consecutive placeholders
+        removeConsecutivePlaceholders();
         updateAdapter();
     }
 
-    private void addItems(List<Status> newStatuses, @Nullable String fromId) {
+    private void removeConsecutivePlaceholders() {
+        for (int i = 0; i < statuses.size() - 1; i++) {
+            if (!statuses.get(i).isRight() && !statuses.get(i + 1).isRight()) {
+                statuses.remove(i);
+            }
+        }
+    }
+
+    private void addItems(List<Either<Placeholder, Status>> newStatuses) {
         if (ListUtils.isEmpty(newStatuses)) {
             return;
         }
-        Status last = null;
+        Either<Placeholder, Status> last = null;
         for (int i = statuses.size() - 1; i >= 0; i--) {
             if (statuses.get(i).isRight()) {
-                last = statuses.get(i).getAsRight();
+                last = statuses.get(i);
                 break;
             }
         }
         // I was about to replace findStatus with indexOf but it is incorrect to compare value
         // types by ID anyway and we should change equals() for Status, I think, so this makes sense
-        if (last != null && !findStatus(newStatuses, last.getId())) {
-            statuses.addAll(liftStatusList(newStatuses));
-            if (fromId != null) {
-                bottomId = fromId;
-            }
+        if (last != null && !newStatuses.contains(last)) {
+            statuses.addAll(newStatuses);
+            removeConsecutivePlaceholders();
             updateAdapter();
         }
     }
 
-    private void replacePlaceholderWithStatuses(List<Status> newStatuses, boolean fullFetch, int pos) {
-        Status status = statuses.get(pos).getAsRightOrNull();
-        if (status == null) {
+    /**
+     * For certain requests we don't want to see placeholders, they will be removed some other way
+     */
+    private void clearPlaceholdersForResponse(List<Either<Placeholder, Status>> statuses) {
+        CollectionsKt.removeAll(statuses, s -> !s.isRight());
+    }
+
+    private void replacePlaceholderWithStatuses(List<Either<Placeholder, Status>> newStatuses,
+                                                boolean fullFetch, int pos) {
+        Either<Placeholder, Status> placeholder = statuses.get(pos);
+        if (!placeholder.isRight()) {
             statuses.remove(pos);
         }
 
@@ -981,29 +1109,20 @@ public class TimelineFragment extends SFragment implements
             return;
         }
 
-        List<Either<Placeholder, Status>> liftedNew = liftStatusList(newStatuses);
-
         if (fullFetch) {
-            liftedNew.add(Either.left(newPlaceholder()));
+            newStatuses.add(placeholder);
         }
 
-        statuses.addAll(pos, liftedNew);
+        statuses.addAll(pos, newStatuses);
+        removeConsecutivePlaceholders();
+
         updateAdapter();
 
     }
 
-    private static boolean findStatus(List<Status> statuses, String id) {
-        for (Status status : statuses) {
-            if (status.getId().equals(id)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private int findStatusOrReblogPositionById(@NonNull String statusId) {
         for (int i = 0; i < statuses.size(); i++) {
-            Status status = statuses.get(i).getAsRightOrNull();
+            Status status = statuses.get(i).asRightOrNull();
             if (status != null
                     && (statusId.equals(status.getId())
                     || (status.getReblog() != null
@@ -1015,7 +1134,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private final Function<Status, Either<Placeholder, Status>> statusLifter =
-            Either::right;
+            Either.Right::new;
 
     private @Nullable
     Pair<StatusViewData.Concrete, Integer>
@@ -1028,7 +1147,7 @@ public class TimelineFragment extends SFragment implements
         if ((someOldViewData instanceof StatusViewData.Placeholder) ||
                 !((StatusViewData.Concrete) someOldViewData).getId().equals(status.getId())) {
             // try to find the status we need to update
-            int foundPos = statuses.indexOf(Either.<Placeholder, Status>right(status));
+            int foundPos = statuses.indexOf(new Either.Right<>(status));
             if (foundPos < 0) return null; // okay, it's hopeless, give up
             statusToUpdate = ((StatusViewData.Concrete)
                     statuses.getPairedItem(foundPos));
@@ -1043,14 +1162,14 @@ public class TimelineFragment extends SFragment implements
     private void handleReblogEvent(@NonNull ReblogEvent reblogEvent) {
         int pos = findStatusOrReblogPositionById(reblogEvent.getStatusId());
         if (pos < 0) return;
-        Status status = statuses.get(pos).getAsRight();
+        Status status = statuses.get(pos).asRight();
         setRebloggedForStatus(pos, status, reblogEvent.getReblog());
     }
 
     private void handleFavEvent(@NonNull FavouriteEvent favEvent) {
         int pos = findStatusOrReblogPositionById(favEvent.getStatusId());
         if (pos < 0) return;
-        Status status = statuses.get(pos).getAsRight();
+        Status status = statuses.get(pos).asRight();
         setFavouriteForStatus(pos, status, favEvent.getFavourite());
     }
 
@@ -1077,12 +1196,6 @@ public class TimelineFragment extends SFragment implements
 
     private List<Either<Placeholder, Status>> liftStatusList(List<Status> list) {
         return CollectionUtil.map(list, statusLifter);
-    }
-
-    private Placeholder newPlaceholder() {
-        Placeholder placeholder = Placeholder.getInstance(maxPlaceholderId);
-        maxPlaceholderId--;
-        return placeholder;
     }
 
     private void updateAdapter() {
@@ -1144,7 +1257,7 @@ public class TimelineFragment extends SFragment implements
         }
 
         @Override
-        public boolean areContentsTheSame(StatusViewData oldItem, StatusViewData newItem) {
+        public boolean areContentsTheSame(StatusViewData oldItem, @NonNull StatusViewData newItem) {
             return oldItem.deepEquals(newItem);
         }
     };

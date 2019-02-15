@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar_basic" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/currentTabsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintTop_toBottomOf="@id/appbar" />
+
+    <View
+        android:id="@+id/scrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/scrimBackground"
+        android:visibility="invisible"
+        app:layout_behavior="@string/fab_transformation_scrim_behavior" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/actionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_plus_24dp" />
+
+    <com.google.android.material.transformation.TransformationChildCard
+        android:id="@+id/sheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:visibility="invisible"
+        app:cardBackgroundColor="?attr/colorSurface"
+        app:cardElevation="2dp"
+        app:layout_behavior="@string/fab_transformation_sheet_behavior">
+
+        <LinearLayout
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/addTabRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
+
+            <TextView
+                android:id="@+id/maxTabsInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="maximum of 5 tabs reached"
+                android:padding="8dp"
+                android:lineSpacingMultiplier="1.1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_gravity="bottom"
+                android:background="?attr/colorPrimary"
+                android:drawableStart="@drawable/ic_plus_24dp"
+                android:drawablePadding="12dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/action_add_tab"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="?attr/status_text_large" />
+        </LinearLayout>
+    </com.google.android.material.transformation.TransformationChildCard>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

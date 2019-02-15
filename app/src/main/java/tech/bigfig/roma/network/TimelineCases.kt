@@ -15,10 +15,7 @@
 
 package tech.bigfig.roma.network
 
-import tech.bigfig.roma.appstore.BlockEvent
-import tech.bigfig.roma.appstore.EventHub
-import tech.bigfig.roma.appstore.MuteEvent
-import tech.bigfig.roma.appstore.StatusDeletedEvent
+import io.reactivex.Single
 import tech.bigfig.roma.entity.Relationship
 import tech.bigfig.roma.entity.Status
 import io.reactivex.disposables.CompositeDisposable
@@ -27,14 +24,15 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import tech.bigfig.roma.appstore.*
 
 /**
  * Created by charlag on 3/24/18.
  */
 
 interface TimelineCases {
-    fun reblogWithCallback(status: Status, reblog: Boolean, callback: Callback<Status>)
-    fun favouriteWithCallback(status: Status, favourite: Boolean, callback: Callback<Status>)
+    fun reblog(status: Status, reblog: Boolean): Single<Status>
+    fun favourite(status: Status, favourite: Boolean): Single<Status>
     fun mute(id: String)
     fun block(id: String)
     fun delete(id: String)
@@ -52,7 +50,7 @@ class TimelineCasesImpl(
      */
     private val cancelDisposable = CompositeDisposable()
 
-    override fun reblogWithCallback(status: Status, reblog: Boolean, callback: Callback<Status>) {
+    override fun reblog(status: Status, reblog: Boolean): Single<Status> {
         val id = status.actionableId
 
         val call = if (reblog) {
@@ -60,10 +58,12 @@ class TimelineCasesImpl(
         } else {
             mastodonApi.unreblogStatus(id)
         }
-        call.enqueue(callback)
+        return call.doAfterSuccess {
+            eventHub.dispatch(ReblogEvent(status.id, reblog))
+        }
     }
 
-    override fun favouriteWithCallback(status: Status, favourite: Boolean, callback: Callback<Status>) {
+    override fun favourite(status: Status, favourite: Boolean): Single<Status> {
         val id = status.actionableId
 
         val call = if (favourite) {
@@ -71,7 +71,9 @@ class TimelineCasesImpl(
         } else {
             mastodonApi.unfavouriteStatus(id)
         }
-        call.enqueue(callback)
+        return call.doAfterSuccess {
+            eventHub.dispatch(FavouriteEvent(status.id, favourite))
+        }
     }
 
     override fun mute(id: String) {

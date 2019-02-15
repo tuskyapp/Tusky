@@ -31,9 +31,13 @@ import android.view.Menu;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
+
+import tech.bigfig.roma.adapter.AccountSelectionAdapter;
 import tech.bigfig.roma.db.AccountEntity;
+import tech.bigfig.roma.entity.Account;
 import tech.bigfig.roma.db.AccountManager;
 import tech.bigfig.roma.di.Injectable;
+import tech.bigfig.roma.interfaces.AccountSelectionListener;
 import tech.bigfig.roma.util.ThemeUtils;
 
 import java.util.ArrayList;
@@ -43,6 +47,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
 
@@ -177,5 +182,37 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
             call.cancel();
         }
         super.onDestroy();
+    }
+
+    public void showAccountChooserDialog(CharSequence dialogTitle, boolean showActiveAccount, AccountSelectionListener listener) {
+        List<AccountEntity> accounts = accountManager.getAllAccountsOrderedByActive();
+        AccountEntity activeAccount = accountManager.getActiveAccount();
+
+        switch(accounts.size()) {
+            case 1:
+                listener.onAccountSelected(activeAccount);
+                return;
+            case 2:
+                if (!showActiveAccount) {
+                    for (AccountEntity account : accounts) {
+                        if (activeAccount != account) {
+                            listener.onAccountSelected(account);
+                            return;
+                        }
+                    }
+                }
+                break;
+        }
+
+        if (!showActiveAccount && activeAccount != null) {
+            accounts.remove(activeAccount);
+        }
+        AccountSelectionAdapter adapter = new AccountSelectionAdapter(this);
+        adapter.addAll(accounts);
+
+        new AlertDialog.Builder(this)
+            .setTitle(dialogTitle)
+            .setAdapter(adapter, (dialogInterface, index) -> listener.onAccountSelected(accounts.get(index)))
+            .show();
     }
 }

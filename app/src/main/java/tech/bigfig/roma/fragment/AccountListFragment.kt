@@ -16,14 +16,14 @@
 package tech.bigfig.roma.fragment
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 
 import tech.bigfig.roma.AccountActivity
 import tech.bigfig.roma.AccountListActivity.Type
@@ -43,12 +43,13 @@ import tech.bigfig.roma.util.HttpHeaderLink
 import tech.bigfig.roma.util.ThemeUtils
 import tech.bigfig.roma.view.EndlessOnScrollListener
 import kotlinx.android.synthetic.main.fragment_account_list.*
-
-import javax.inject.Inject
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import tech.bigfig.roma.util.hide
+import tech.bigfig.roma.util.show
+import java.io.IOException
+import javax.inject.Inject
 
 class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
@@ -76,14 +77,14 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView.setHasFixedSize(true)
-        val layoutManager = LinearLayoutManager(context)
+        val layoutManager = LinearLayoutManager(view.context)
         recyclerView.layoutManager = layoutManager
-        val divider = DividerItemDecoration(context, layoutManager.orientation)
-        val drawable = ThemeUtils.getDrawable(context, R.attr.status_divider_drawable, R.drawable.status_divider_dark)
+        val divider = DividerItemDecoration(view.context, layoutManager.orientation)
+        val drawable = ThemeUtils.getDrawable(view.context, R.attr.status_divider_drawable, R.drawable.status_divider_dark)
         divider.setDrawable(drawable)
         recyclerView.addItemDecoration(divider)
 
-        adapter = when(type) {
+        adapter = when (type) {
             Type.BLOCKS -> BlocksAdapter(this)
             Type.MUTES -> MutesAdapter(this)
             Type.FOLLOW_REQUESTS -> FollowRequestsAdapter(this)
@@ -143,7 +144,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         val mutesAdapter = adapter as MutesAdapter
         val unmutedUser = mutesAdapter.removeItem(position)
 
-        if(unmutedUser != null) {
+        if (unmutedUser != null) {
             Snackbar.make(recyclerView, R.string.confirmation_unmuted, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_undo) {
                         mutesAdapter.addItem(unmutedUser, position)
@@ -193,7 +194,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         val blocksAdapter = adapter as BlocksAdapter
         val unblockedUser = blocksAdapter.removeItem(position)
 
-        if(unblockedUser != null) {
+        if (unblockedUser != null) {
             Snackbar.make(recyclerView, R.string.confirmation_unblocked, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_undo) {
                         blocksAdapter.addItem(unblockedUser, position)
@@ -311,11 +312,36 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
         fetching = false
 
+        if (adapter.itemCount == 0) {
+            messageView.show()
+            messageView.setup(
+                    R.drawable.elephant_friend_empty,
+                    R.string.message_empty,
+                    null
+            )
+        } else {
+            messageView.hide()
+        }
     }
 
     private fun onFetchAccountsFailure(exception: Exception) {
         fetching = false
         Log.e(TAG, "Fetch failure", exception)
+
+        if (adapter.itemCount == 0) {
+            messageView.show()
+            if (exception is IOException) {
+                messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                    messageView.hide()
+                    this.fetchAccounts(null)
+                }
+            } else {
+                messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                    messageView.hide()
+                    this.fetchAccounts(null)
+                }
+            }
+        }
     }
 
     companion object {

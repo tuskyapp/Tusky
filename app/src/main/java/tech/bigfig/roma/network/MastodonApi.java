@@ -22,6 +22,7 @@ import tech.bigfig.roma.entity.Account;
 import tech.bigfig.roma.entity.AppCredentials;
 import tech.bigfig.roma.entity.Attachment;
 import tech.bigfig.roma.entity.Card;
+import tech.bigfig.roma.entity.Conversation;
 import tech.bigfig.roma.entity.Emoji;
 import tech.bigfig.roma.entity.Instance;
 import tech.bigfig.roma.entity.MastoList;
@@ -33,6 +34,7 @@ import tech.bigfig.roma.entity.StatusContext;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -62,6 +64,12 @@ public interface MastodonApi {
 
     @GET("api/v1/timelines/home")
     Call<List<Status>> homeTimeline(
+            @Query("max_id") String maxId,
+            @Query("since_id") String sinceId,
+            @Query("limit") Integer limit);
+
+    @GET("api/v1/timelines/home")
+    Single<List<Status>> homeTimelineSingle(
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
@@ -146,16 +154,16 @@ public interface MastodonApi {
     Call<ResponseBody> deleteStatus(@Path("id") String statusId);
 
     @POST("api/v1/statuses/{id}/reblog")
-    Call<Status> reblogStatus(@Path("id") String statusId);
+    Single<Status> reblogStatus(@Path("id") String statusId);
 
     @POST("api/v1/statuses/{id}/unreblog")
-    Call<Status> unreblogStatus(@Path("id") String statusId);
+    Single<Status> unreblogStatus(@Path("id") String statusId);
 
     @POST("api/v1/statuses/{id}/favourite")
-    Call<Status> favouriteStatus(@Path("id") String statusId);
+    Single<Status> favouriteStatus(@Path("id") String statusId);
 
     @POST("api/v1/statuses/{id}/unfavourite")
-    Call<Status> unfavouriteStatus(@Path("id") String statusId);
+    Single<Status> unfavouriteStatus(@Path("id") String statusId);
 
     @POST("api/v1/statuses/{id}/pin")
     Single<Status> pinStatus(@Path("id") String statusId);
@@ -213,7 +221,8 @@ public interface MastodonApi {
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit,
             @Nullable @Query("exclude_replies") Boolean excludeReplies,
-            @Nullable @Query("only_media") Boolean onlyMedia);
+            @Nullable @Query("only_media") Boolean onlyMedia,
+            @Nullable @Query("pinned") Boolean pinned);
 
     @GET("api/v1/accounts/{id}/followers")
     Call<List<Account>> accountFollowers(
@@ -311,4 +320,7 @@ public interface MastodonApi {
 
     @GET("api/v1/instance")
     Call<Instance> getInstance();
+
+    @GET("/api/v1/conversations")
+    Call<List<Conversation>> getConversations(@Nullable @Query("max_id") String maxId, @Query("limit") int limit);
 }

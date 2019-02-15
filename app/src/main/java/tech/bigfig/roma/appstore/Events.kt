@@ -1,5 +1,6 @@
 package tech.bigfig.roma.appstore
 
+import tech.bigfig.roma.TabData
 import tech.bigfig.roma.entity.Account
 import tech.bigfig.roma.entity.Status
 
@@ -12,3 +13,4 @@ data class StatusDeletedEvent(val statusId: String) : Dispatchable
 data class StatusComposedEvent(val status: Status) : Dispatchable
 data class ProfileEditedEvent(val newProfileData: Account) : Dispatchable
 data class PreferenceChangedEvent(val preferenceKey: String) : Dispatchable
+data class MainTabsChangedEvent(val newTabs: List<TabData>) : Dispatchable

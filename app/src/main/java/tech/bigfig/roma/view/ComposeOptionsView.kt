@@ -16,7 +16,6 @@
 package tech.bigfig.roma.view
 
 import android.content.Context
-import android.os.Build
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import tech.bigfig.roma.R

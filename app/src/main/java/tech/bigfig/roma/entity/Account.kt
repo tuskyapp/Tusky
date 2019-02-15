@@ -37,13 +37,13 @@ data class Account(
         val avatar: String,
         val header: String,
         val locked: Boolean = false,
-        @SerializedName("followers_count") val followersCount: Int,
-        @SerializedName("following_count") val followingCount: Int,
-        @SerializedName("statuses_count") val statusesCount: Int,
-        val source: AccountSource?,
-        val bot: Boolean,
-        val emojis: List<Emoji>?,  // nullable for backward compatibility
-        val fields: List<Field>?,  //nullable for backward compatibility
+        @SerializedName("followers_count") val followersCount: Int = 0,
+        @SerializedName("following_count") val followingCount: Int = 0,
+        @SerializedName("statuses_count") val statusesCount: Int = 0,
+        val source: AccountSource? = null,
+        val bot: Boolean = false,
+        val emojis: List<Emoji>? = emptyList(),  // nullable for backward compatibility
+        val fields: List<Field>? = emptyList(),  //nullable for backward compatibility
         val moved: Account? = null
 
 ) : Parcelable {

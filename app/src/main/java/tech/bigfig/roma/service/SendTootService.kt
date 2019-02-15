@@ -25,12 +25,12 @@ import tech.bigfig.roma.di.Injectable
 import tech.bigfig.roma.entity.Status
 import tech.bigfig.roma.network.MastodonApi
 import tech.bigfig.roma.util.SaveTootHelper
-import tech.bigfig.roma.util.StringUtils
 import dagger.android.AndroidInjection
 import kotlinx.android.parcel.Parcelize
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import tech.bigfig.roma.util.randomAlphanumericString
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
@@ -285,7 +285,7 @@ class SendTootService : Service(), Injectable {
         ): Intent {
             val intent = Intent(context, SendTootService::class.java)
 
-            val idempotencyKey = StringUtils.randomAlphanumericString(16)
+            val idempotencyKey = randomAlphanumericString(16)
 
             val tootToSend = TootToSend(text,
                     warningText,

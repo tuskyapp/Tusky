@@ -196,7 +196,7 @@ class BottomSheetActivityTest {
     fun search_inIdealConditions_returnsRequestedResults_forStatus() {
         activity.viewUrl(statusQuery)
         statusCallback.invokeCallback()
-        Assert.assertEquals(status, activity.status)
+        Assert.assertEquals(status.id, activity.statusId)
     }
 
     @Test
@@ -250,7 +250,7 @@ class BottomSheetActivityTest {
 
         // ensure that the result of the status search was recorded
         // and the account search wasn't
-        Assert.assertEquals(status, activity.status)
+        Assert.assertEquals(status.id, activity.statusId)
         Assert.assertEquals(null, activity.accountId)
     }
 
@@ -288,7 +288,7 @@ class BottomSheetActivityTest {
 
     class FakeBottomSheetActivity(api: MastodonApi) : BottomSheetActivity() {
 
-        var status: Status? = null
+        var statusId: String? = null
         var accountId: String? = null
         var link: String? = null
 
@@ -307,8 +307,8 @@ class BottomSheetActivityTest {
             this.accountId = id
         }
 
-        override fun viewThread(status: Status) {
-            this.status = status
+        override fun viewThread(statusId: String, url: String?) {
+            this.statusId = statusId
         }
 
     }

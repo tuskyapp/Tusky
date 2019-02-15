@@ -84,6 +84,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="video/*" />
             </intent-filter>
+            <meta-data
+                android:name="android.service.chooser.chooser_target_service"
+                android:value="tech.bigfig.roma.service.AccountChooserService"
+                />
         </activity>
         <activity
             android:name=".ViewThreadActivity"
@@ -99,6 +103,7 @@
         <activity android:name=".FavouritesActivity" />
         <activity android:name=".AccountListActivity" />
         <activity android:name=".AboutActivity" />
+        <activity android:name=".TabPreferenceActivity" />
         <activity
             android:name=".ReportActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
@@ -135,6 +140,16 @@
             </intent-filter>
         </service>
         <service android:name=".service.SendTootService" />
+        <service
+            tools:targetApi="23"
+            android:name="tech.bigfig.service.AccountChooserService"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_CHOOSER_TARGET_SERVICE"
+            >
+            <intent-filter>
+                <action android:name="android.service.chooser.ChooserTargetService" />
+            </intent-filter>
+        </service>
 
         <provider
             android:name="androidx.core.content.FileProvider"

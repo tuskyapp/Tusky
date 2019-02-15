@@ -15,6 +15,9 @@
 
 package tech.bigfig.roma.db;
 
+import tech.bigfig.roma.TabDataKt;
+import tech.bigfig.roma.components.conversation.ConversationEntity;
+
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
@@ -25,12 +28,16 @@ import androidx.annotation.NonNull;
  * DB version & declare DAO
  */
 
-@Database(entities = {TootEntity.class, AccountEntity.class, InstanceEntity.class}, version = 10)
+@Database(entities = {TootEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
+                TimelineAccountEntity.class,  ConversationEntity.class
+        }, version = 13)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TootDao tootDao();
     public abstract AccountDao accountDao();
     public abstract InstanceDao instanceDao();
+    public abstract ConversationsDao conversationDao();
+    public abstract TimelineDao timelineDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
@@ -113,6 +120,147 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `defaultMediaSensitivity` INTEGER NOT NULL DEFAULT 0");
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `alwaysShowSensitiveMedia` INTEGER NOT NULL DEFAULT 0");
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `mediaPreviewEnabled` INTEGER NOT NULL DEFAULT '1'");
+        }
+    };
+
+    public static final Migration MIGRATION_10_11 = new Migration(10, 11) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineAccountEntity` (" +
+                    "`serverId` TEXT NOT NULL, " +
+                    "`timelineUserId` INTEGER NOT NULL, " +
+                    "`instance` TEXT NOT NULL, " +
+                    "`localUsername` TEXT NOT NULL, " +
+                    "`username` TEXT NOT NULL, " +
+                    "`displayName` TEXT NOT NULL, " +
+                    "`url` TEXT NOT NULL, " +
+                    "`avatar` TEXT NOT NULL, " +
+                    "`emojis` TEXT NOT NULL," +
+                    "PRIMARY KEY(`serverId`, `timelineUserId`))");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineStatusEntity` (" +
+                    "`serverId` TEXT NOT NULL, " +
+                    "`url` TEXT, " +
+                    "`timelineUserId` INTEGER NOT NULL, " +
+                    "`authorServerId` TEXT," +
+                    "`instance` TEXT, " +
+                    "`inReplyToId` TEXT, " +
+                    "`inReplyToAccountId` TEXT, " +
+                    "`content` TEXT, " +
+                    "`createdAt` INTEGER NOT NULL, " +
+                    "`emojis` TEXT, " +
+                    "`reblogsCount` INTEGER NOT NULL, " +
+                    "`favouritesCount` INTEGER NOT NULL, " +
+                    "`reblogged` INTEGER NOT NULL, " +
+                    "`favourited` INTEGER NOT NULL, " +
+                    "`sensitive` INTEGER NOT NULL, " +
+                    "`spoilerText` TEXT, " +
+                    "`visibility` INTEGER, " +
+                    "`attachments` TEXT, " +
+                    "`mentions` TEXT, " +
+                    "`application` TEXT, " +
+                    "`reblogServerId` TEXT, " +
+                    "`reblogAccountId` TEXT," +
+                    " PRIMARY KEY(`serverId`, `timelineUserId`)," +
+                    " FOREIGN KEY(`authorServerId`, `timelineUserId`) REFERENCES `TimelineAccountEntity`(`serverId`, `timelineUserId`) " +
+                    "ON UPDATE NO ACTION ON DELETE NO ACTION )");
+            database.execSQL("CREATE  INDEX IF NOT EXISTS" +
+                    "`index_TimelineStatusEntity_authorServerId_timelineUserId` " +
+                    "ON `TimelineStatusEntity` (`authorServerId`, `timelineUserId`)");
+        }
+    };
+
+    public static final Migration MIGRATION_11_12 = new Migration(11, 12) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            String defaultTabs = TabDataKt.HOME + ";" +
+                    TabDataKt.NOTIFICATIONS + ";" +
+                    TabDataKt.LOCAL + ";" +
+                    TabDataKt.FEDERATED;
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `tabPreferences` TEXT NOT NULL DEFAULT '" + defaultTabs + "'");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `ConversationEntity` (" +
+                    "`accountId` INTEGER NOT NULL, " +
+                    "`id` TEXT NOT NULL, " +
+                    "`accounts` TEXT NOT NULL, " +
+                    "`unread` INTEGER NOT NULL, " +
+                    "`s_id` TEXT NOT NULL, " +
+                    "`s_url` TEXT, " +
+                    "`s_inReplyToId` TEXT, " +
+                    "`s_inReplyToAccountId` TEXT, " +
+                    "`s_account` TEXT NOT NULL, " +
+                    "`s_content` TEXT NOT NULL, " +
+                    "`s_createdAt` INTEGER NOT NULL, " +
+                    "`s_emojis` TEXT NOT NULL, " +
+                    "`s_favouritesCount` INTEGER NOT NULL, " +
+                    "`s_favourited` INTEGER NOT NULL, " +
+                    "`s_sensitive` INTEGER NOT NULL, " +
+                    "`s_spoilerText` TEXT NOT NULL, " +
+                    "`s_attachments` TEXT NOT NULL, " +
+                    "`s_mentions` TEXT NOT NULL, " +
+                    "`s_showingHiddenContent` INTEGER NOT NULL, " +
+                    "`s_expanded` INTEGER NOT NULL, " +
+                    "`s_collapsible` INTEGER NOT NULL, " +
+                    "`s_collapsed` INTEGER NOT NULL, " +
+                    "PRIMARY KEY(`id`, `accountId`))");
+
+        }
+    };
+
+    public static final Migration MIGRATION_12_13 = new Migration(12, 13) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+
+            database.execSQL("DROP TABLE IF EXISTS `TimelineAccountEntity`");
+            database.execSQL("DROP TABLE IF EXISTS `TimelineStatusEntity`");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineAccountEntity` (" +
+                    "`serverId` TEXT NOT NULL, " +
+                    "`timelineUserId` INTEGER NOT NULL, " +
+                    "`localUsername` TEXT NOT NULL, " +
+                    "`username` TEXT NOT NULL, " +
+                    "`displayName` TEXT NOT NULL, " +
+                    "`url` TEXT NOT NULL, " +
+                    "`avatar` TEXT NOT NULL, " +
+                    "`emojis` TEXT NOT NULL," +
+                    "PRIMARY KEY(`serverId`, `timelineUserId`))");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineStatusEntity` (" +
+                    "`serverId` TEXT NOT NULL, " +
+                    "`url` TEXT, " +
+                    "`timelineUserId` INTEGER NOT NULL, " +
+                    "`authorServerId` TEXT," +
+                    "`inReplyToId` TEXT, " +
+                    "`inReplyToAccountId` TEXT, " +
+                    "`content` TEXT, " +
+                    "`createdAt` INTEGER NOT NULL, " +
+                    "`emojis` TEXT, " +
+                    "`reblogsCount` INTEGER NOT NULL, " +
+                    "`favouritesCount` INTEGER NOT NULL, " +
+                    "`reblogged` INTEGER NOT NULL, " +
+                    "`favourited` INTEGER NOT NULL, " +
+                    "`sensitive` INTEGER NOT NULL, " +
+                    "`spoilerText` TEXT, " +
+                    "`visibility` INTEGER, " +
+                    "`attachments` TEXT, " +
+                    "`mentions` TEXT, " +
+                    "`application` TEXT, " +
+                    "`reblogServerId` TEXT, " +
+                    "`reblogAccountId` TEXT," +
+                    " PRIMARY KEY(`serverId`, `timelineUserId`)," +
+                    " FOREIGN KEY(`authorServerId`, `timelineUserId`) REFERENCES `TimelineAccountEntity`(`serverId`, `timelineUserId`) " +
+                    "ON UPDATE NO ACTION ON DELETE NO ACTION )");
+            database.execSQL("CREATE  INDEX IF NOT EXISTS" +
+                    "`index_TimelineStatusEntity_authorServerId_timelineUserId` " +
+                    "ON `TimelineStatusEntity` (`authorServerId`, `timelineUserId`)");
+        }
+    };
+
+    public static final Migration MIGRATION_10_13 = new Migration(10, 13) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            MIGRATION_11_12.migrate(database);
+            MIGRATION_12_13.migrate(database);
         }
     };
 

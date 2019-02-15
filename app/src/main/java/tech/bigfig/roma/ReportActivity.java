@@ -18,18 +18,13 @@ package tech.bigfig.roma;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.ActionBar;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import tech.bigfig.roma.adapter.ReportAdapter;
 import tech.bigfig.roma.di.Injectable;
@@ -44,6 +39,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -189,7 +190,7 @@ public class ReportActivity extends BaseActivity implements Injectable {
                 onFetchStatusesFailure((Exception) t);
             }
         };
-        mastodonApi.accountStatuses(accountId, null, null, null, null, null)
+        mastodonApi.accountStatuses(accountId, null, null, null, null, null, null)
                 .enqueue(callback);
     }
 

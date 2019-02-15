@@ -20,6 +20,7 @@ import tech.bigfig.roma.fragment.*
 import tech.bigfig.roma.fragment.preference.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import tech.bigfig.roma.components.conversation.ConversationsFragment
 
 /**
  * Created by charlag on 3/24/18.
@@ -50,5 +51,8 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun accountPreferencesFragment(): AccountPreferencesFragment
+
+    @ContributesAndroidInjector
+    abstract fun directMessagesPreferencesFragment(): ConversationsFragment
 
 }

@@ -15,6 +15,9 @@
 
 package tech.bigfig.roma.db;
 
+import tech.bigfig.roma.entity.Status;
+
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -120,8 +123,8 @@ public class TootEntity {
         }
 
         @TypeConverter
-        public int intToVisibility(Status.Visibility visibility) {
-            return visibility.getNum();
+        public int intFromVisibility(Status.Visibility visibility) {
+            return visibility == null ? Status.Visibility.UNKNOWN.getNum() : visibility.getNum();
         }
     }
 }

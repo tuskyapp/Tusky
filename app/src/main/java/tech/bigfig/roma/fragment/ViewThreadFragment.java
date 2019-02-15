@@ -137,13 +137,13 @@ public final class ViewThreadFragment extends SFragment implements
         View rootView = inflater.inflate(R.layout.fragment_view_thread, container, false);
 
         Context context = getContext();
-        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.roma_blue);
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
                 ThemeUtils.getColor(context, android.R.attr.colorBackground));
 
-        recyclerView = rootView.findViewById(R.id.recycler_view);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -236,43 +236,35 @@ public final class ViewThreadFragment extends SFragment implements
     @Override
     public void onReblog(final boolean reblog, final int position) {
         final Status status = statuses.get(position);
-        timelineCases.reblogWithCallback(statuses.get(position), reblog, new Callback<Status>() {
-            @Override
-            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
-                if (response.isSuccessful()) {
-                    updateStatus(position, response.body());
 
-                    eventHub.dispatch(new ReblogEvent(status.getId(), reblog));
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.getId());
-                t.printStackTrace();
-            }
-        });
+        timelineCases.reblog(statuses.get(position), reblog)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newStatus) -> updateStatus(position, newStatus),
+                        (t) -> {
+                            Log.d(getClass().getSimpleName(),
+                                    "Failed to reblog status: " + status.getId());
+                            t.printStackTrace();
+                        }
+                );
     }
 
     @Override
     public void onFavourite(final boolean favourite, final int position) {
         final Status status = statuses.get(position);
-        timelineCases.favouriteWithCallback(statuses.get(position), favourite, new Callback<Status>() {
-            @Override
-            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
-                if (response.isSuccessful()) {
-                    updateStatus(position, response.body());
 
-                    eventHub.dispatch(new FavouriteEvent(status.getId(), favourite));
-                }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.getId());
-                t.printStackTrace();
-            }
-        });
+        timelineCases.favourite(statuses.get(position), favourite)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newStatus) -> updateStatus(position, newStatus),
+                        (t) -> {
+                            Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.getId());
+                            t.printStackTrace();
+                        }
+                );
     }
 
     private void updateStatus(int position, Status status) {
@@ -292,12 +284,12 @@ public final class ViewThreadFragment extends SFragment implements
     }
 
     @Override
-    public void onMore(View view, int position) {
+    public void onMore(@NonNull View view, int position) {
         super.more(statuses.get(position), view, position);
     }
 
     @Override
-    public void onViewMedia(int position, int attachmentIndex, View view) {
+    public void onViewMedia(int position, int attachmentIndex, @NonNull View view) {
         Status status = statuses.get(position);
         super.viewMedia(attachmentIndex, status, view);
     }

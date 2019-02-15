@@ -10,6 +10,7 @@ import dagger.Binds
 import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
+import tech.bigfig.roma.components.conversation.ConversationsViewModel
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
@@ -41,6 +42,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(EditProfileViewModel::class)
     internal abstract fun editProfileViewModel(viewModel: EditProfileViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ConversationsViewModel::class)
+    internal abstract fun conversationsViewModel(viewModel: ConversationsViewModel): ViewModel
 
     //Add more ViewModels here
 }

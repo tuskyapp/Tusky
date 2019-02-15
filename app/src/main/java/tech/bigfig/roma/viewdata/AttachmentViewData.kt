@@ -16,7 +16,7 @@ data class AttachmentViewData(
         fun list(status: Status): List<AttachmentViewData> {
             val actionable = status.actionableStatus
             return actionable.attachments.map {
-                AttachmentViewData(it, actionable.id, actionable.url)
+                AttachmentViewData(it, actionable.id, actionable.url!!)
             }
         }
     }

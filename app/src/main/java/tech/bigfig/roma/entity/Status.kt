@@ -21,7 +21,7 @@ import java.util.*
 
 data class Status(
         var id: String,
-        var url: String,
+        var url: String?, // not present if it's reblog
         val account: Account,
         @SerializedName("in_reply_to_id") var inReplyToId: String?,
         @SerializedName("in_reply_to_account_id") val inReplyToAccountId: String?,
@@ -42,7 +42,7 @@ data class Status(
         var pinned: Boolean?
 ) {
 
-    val actionableId: String?
+    val actionableId: String
         get() = reblog?.id ?: id
 
     val actionableStatus: Status

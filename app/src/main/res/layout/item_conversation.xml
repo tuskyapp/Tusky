@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:sparkbutton="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/status_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:paddingStart="12dp"
+    android:paddingEnd="14dp">
+
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/conversation_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="@dimen/status_reblogged_bar_padding_top"
+        android:gravity="center_vertical"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        android:textStyle="normal|bold"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlSymmetry"
+        tools:text="ConnyDuck boosted"
+        tools:visibility="visible" />
+
+    <tech.bigfig.roma.view.RoundedImageView
+        android:id="@+id/status_avatar_2"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="22dp"
+        android:background="@drawable/avatar_border"
+        android:contentDescription="@string/action_view_profile"
+        android:padding="2dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/status_avatar_1"
+        tools:src="@drawable/avatar_default" />
+
+    <tech.bigfig.roma.view.RoundedImageView
+        android:id="@+id/status_avatar_1"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="22dp"
+        android:background="@drawable/avatar_border"
+        android:contentDescription="@string/action_view_profile"
+        android:padding="2dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/status_avatar"
+        tools:src="@drawable/avatar_default" />
+
+    <tech.bigfig.roma.view.RoundedImageView
+        android:id="@+id/status_avatar"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/avatar_border"
+        android:contentDescription="@string/action_view_profile"
+        android:padding="2dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/conversation_name"
+        tools:src="@drawable/avatar_default" />
+
+    <tech.bigfig.roma.view.RoundedImageView
+        android:id="@+id/status_avatar_reblog"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="@null"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/status_avatar"
+        app:layout_constraintEnd_toEndOf="@id/status_avatar"
+        tools:src="@color/accent"
+        tools:visibility="visible" />
+
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/status_display_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingEnd="@dimen/status_display_name_padding_end"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        android:textStyle="normal|bold"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/status_timestamp_info"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/status_avatar"
+        app:layout_constraintTop_toBottomOf="@id/conversation_name"
+        tools:text="Ente r the void you foooooo" />
+
+    <TextView
+        android:id="@+id/status_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toStartOf="@id/status_timestamp_info"
+        app:layout_constraintStart_toEndOf="@id/status_display_name"
+        app:layout_constraintTop_toTopOf="@id/status_display_name"
+        tools:text="\@Entenhausen@birbsarecooooooooooool.site" />
+
+    <TextView
+        android:id="@+id/status_timestamp_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/status_display_name"
+        tools:text="13:37" />
+
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/status_content_warning_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
+        app:layout_constraintTop_toBottomOf="@id/status_display_name"
+        tools:text="content warning which is very long and it doesn't fit"
+        tools:visibility="visible" />
+
+    <ToggleButton
+        android:id="@+id/status_content_warning_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="?attr/content_warning_button"
+        android:minWidth="150dp"
+        android:minHeight="0dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="4dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="4dp"
+        android:textAllCaps="true"
+        android:textOff="@string/status_content_warning_show_more"
+        android:textOn="@string/status_content_warning_show_less"
+        android:textSize="?attr/status_text_medium"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
+        app:layout_constraintTop_toBottomOf="@id/status_content_warning_description"
+        tools:visibility="visible" />
+
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/status_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:focusable="true"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/status_content_warning_button"
+        app:layout_constraintTop_toBottomOf="@id/status_content_warning_button"
+        tools:text="This is a status" />
+
+    <ToggleButton
+        android:id="@+id/button_toggle_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="?attr/content_warning_button"
+        android:minWidth="150dp"
+        android:minHeight="0dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="4dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="4dp"
+        android:textAllCaps="true"
+        android:textOff="@string/status_content_show_less"
+        android:textOn="@string/status_content_show_more"
+        android:textSize="?attr/status_text_medium"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
+        app:layout_constraintTop_toBottomOf="@id/status_content"
+        tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/status_media_preview_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/status_media_preview_margin_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
+        app:layout_constraintTop_toBottomOf="@id/button_toggle_content"
+        tools:visibility="gone">
+
+        <tech.bigfig.roma.view.MediaPreviewImageView
+            android:id="@+id/status_media_preview_0"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_media_preview_height"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toStartOf="@+id/status_media_preview_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <tech.bigfig.roma.view.MediaPreviewImageView
+            android:id="@+id/status_media_preview_1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_media_preview_height"
+            android:layout_marginStart="4dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/status_media_preview_0"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+
+        <tech.bigfig.roma.view.MediaPreviewImageView
+            android:id="@+id/status_media_preview_2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_media_preview_height"
+            android:layout_marginTop="4dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toStartOf="@+id/status_media_preview_3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/status_media_preview_0"
+            tools:ignore="ContentDescription" />
+
+        <tech.bigfig.roma.view.MediaPreviewImageView
+            android:id="@+id/status_media_preview_3"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_media_preview_height"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/status_media_preview_2"
+            app:layout_constraintTop_toBottomOf="@+id/status_media_preview_1"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_media_overlay_0"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="@+id/status_media_preview_0"
+            app:layout_constraintEnd_toEndOf="@+id/status_media_preview_0"
+            app:layout_constraintStart_toStartOf="@+id/status_media_preview_0"
+            app:layout_constraintTop_toTopOf="@+id/status_media_preview_0"
+            app:srcCompat="?attr/play_indicator_drawable"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_media_overlay_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="@+id/status_media_preview_1"
+            app:layout_constraintEnd_toEndOf="@+id/status_media_preview_1"
+            app:layout_constraintStart_toStartOf="@+id/status_media_preview_1"
+            app:layout_constraintTop_toTopOf="@+id/status_media_preview_1"
+            app:srcCompat="?attr/play_indicator_drawable"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_media_overlay_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="@+id/status_media_preview_2"
+            app:layout_constraintEnd_toEndOf="@+id/status_media_preview_2"
+            app:layout_constraintStart_toStartOf="@+id/status_media_preview_2"
+            app:layout_constraintTop_toTopOf="@+id/status_media_preview_2"
+            app:srcCompat="?attr/play_indicator_drawable"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_media_overlay_3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="@+id/status_media_preview_3"
+            app:layout_constraintEnd_toEndOf="@+id/status_media_preview_3"
+            app:layout_constraintStart_toStartOf="@+id/status_media_preview_3"
+            app:layout_constraintTop_toTopOf="@+id/status_media_preview_3"
+            app:srcCompat="?attr/play_indicator_drawable"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_sensitive_media_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.7"
+            android:contentDescription="@null"
+            android:padding="@dimen/status_sensitive_media_button_padding"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="@+id/status_media_preview_container"
+            app:layout_constraintTop_toTopOf="@+id/status_media_preview_container"
+            app:srcCompat="@drawable/ic_eye_24dp" />
+
+        <androidx.emoji.widget.EmojiTextView
+            android:id="@+id/status_sensitive_media_warning"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/sensitive_media_warning_background_color"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.2"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="?attr/status_text_medium"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--TODO: Check if this needs emoji support-->
+        <androidx.emoji.widget.EmojiTextView
+            android:id="@+id/status_media_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:textSize="?attr/status_text_medium"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageButton
+        android:id="@+id/status_reply"
+        style="?attr/image_button_style"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:contentDescription="@string/action_reply"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/status_favourite"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
+        app:layout_constraintTop_toBottomOf="@id/status_media_preview_container"
+        app:srcCompat="@drawable/ic_reply_24dp" />
+
+    <at.connyduck.sparkbutton.SparkButton
+        android:id="@+id/status_favourite"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:clipToPadding="false"
+        android:contentDescription="@string/action_favourite"
+        android:padding="4dp"
+        app:layout_constraintEnd_toStartOf="@id/status_more"
+        app:layout_constraintStart_toEndOf="@id/status_reply"
+        app:layout_constraintTop_toTopOf="@id/status_reply"
+        sparkbutton:activeImage="?attr/status_favourite_active_drawable"
+        sparkbutton:iconSize="28dp"
+        sparkbutton:inactiveImage="?attr/status_favourite_inactive_drawable"
+        sparkbutton:primaryColor="@color/roma_orange"
+        sparkbutton:secondaryColor="@color/roma_orange_light" />
+
+    <ImageButton
+        android:id="@+id/status_more"
+        style="?attr/image_button_style"
+        android:layout_width="24dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/action_more"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/status_reply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/status_favourite"
+        app:layout_constraintTop_toTopOf="@id/status_reply"
+        app:srcCompat="@drawable/ic_more_horiz_24dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

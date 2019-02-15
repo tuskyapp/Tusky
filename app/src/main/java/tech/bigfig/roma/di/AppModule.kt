@@ -31,6 +31,8 @@ import tech.bigfig.roma.network.TimelineCases
 import tech.bigfig.roma.network.TimelineCasesImpl
 import dagger.Module
 import dagger.Provides
+import tech.bigfig.roma.util.HtmlConverter
+import tech.bigfig.roma.util.HtmlConverterImpl
 import javax.inject.Singleton
 
 /**
@@ -76,5 +78,11 @@ class AppModule {
     @Singleton
     fun providesDatabase(app: RomaApplication): AppDatabase {
         return app.serviceLocator.get(AppDatabase::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesHtmlConverter(): HtmlConverter {
+        return HtmlConverterImpl()
     }
 }

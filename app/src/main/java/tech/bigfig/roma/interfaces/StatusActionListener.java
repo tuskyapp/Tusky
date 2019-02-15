@@ -17,12 +17,14 @@ package tech.bigfig.roma.interfaces;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 public interface StatusActionListener extends LinkListener {
     void onReply(int position);
     void onReblog(final boolean reblog, final int position);
     void onFavourite(final boolean favourite, final int position);
-    void onMore(View view, final int position);
-    void onViewMedia(int position, int attachmentIndex, View view);
+    void onMore(@NonNull View view, final int position);
+    void onViewMedia(int position, int attachmentIndex, @NonNull View view);
     void onViewThread(int position);
     void onOpenReblog(int position);
     void onExpandedChange(boolean expanded, int position);

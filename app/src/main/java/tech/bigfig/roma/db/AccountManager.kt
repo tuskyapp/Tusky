@@ -58,7 +58,9 @@ class AccountManager(db: AppDatabase) {
             accountDao.insertOrReplace(it)
         }
 
-        activeAccount = AccountEntity(id = 0, domain = domain.toLowerCase(), accessToken = accessToken, isActive = true)
+        val maxAccountId = accounts.maxBy { it.id }?.id ?: 0
+        val newAccountId = maxAccountId + 1
+        activeAccount = AccountEntity(id = newAccountId, domain = domain.toLowerCase(), accessToken = accessToken, isActive = true)
 
     }
 

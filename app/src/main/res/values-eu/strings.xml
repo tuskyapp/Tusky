@@ -56,7 +56,7 @@
     <string name="notification_favourite_format">%s-(e)k zure tuta gogoko du</string>
     <string name="notification_follow_format">%s-(e)k jarraitu dizu</string>
 
-    <string name="report_username_format">@%s salatu</string>
+    <string name="report_username_format">\@%s salatu</string>
     <string name="report_comment_hint">Informazio gehigarria?</string>
 
     <string name="action_quick_reply">Erantzun azkarra</string>
@@ -288,7 +288,7 @@
     <string name="follows_you">Jarraitzen zaitu</string>
     <string name="pref_title_alway_show_sensitive_media">Eduki mingarria erakutsi</string>
     <string name="title_media">Multimedia</string>
-    <string name="replying_to">@%s-ri erantzuten</string>
+    <string name="replying_to">\@%s-ri erantzuten</string>
     <string name="load_more_placeholder_text">Gehiago erakutsi</string>
 
     <string name="add_account_name">Gehitu kontua</string>

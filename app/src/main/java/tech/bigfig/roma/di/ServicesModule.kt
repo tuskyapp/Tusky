@@ -18,9 +18,12 @@ package tech.bigfig.roma.di
 import tech.bigfig.roma.service.SendTootService
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import tech.bigfig.roma.service.AccountChooserService
 
 @Module
 abstract class ServicesModule {
     @ContributesAndroidInjector
     abstract fun contributesSendTootService(): SendTootService
+    @ContributesAndroidInjector
+    abstract fun contributesAccountChooserService(): AccountChooserService
 }

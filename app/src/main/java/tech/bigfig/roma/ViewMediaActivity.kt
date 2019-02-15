@@ -209,8 +209,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
                     PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)
         } else {
             val url = attachments!![viewPager.currentItem].attachment.url
-            val filename = File(url).name
-
+            val filename = Uri.parse(url).lastPathSegment
             val toastText = String.format(resources.getString(R.string.download_image), filename)
             Toast.makeText(applicationContext, toastText, Toast.LENGTH_SHORT).show()
 
