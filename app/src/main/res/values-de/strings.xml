@@ -316,4 +316,18 @@
     <string name="status_content_show_more">Mehr</string>
     <string name="status_content_show_less">Weniger</string>
 
+    <string name="title_statuses_pinned">Angeheftet</string>
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s und %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s und %3$d weitere</string>
+    <string name="action_share_as">Teilen als …</string>
+    <string name="action_add_tab">Tab hinzufügen</string>
+    <string name="title_tab_preferences">Tabs</string>
+    <string name="title_direct_messages">Direktnachrichten</string>
+    <string name="message_empty">Hier ist nichts.</string>
+    <string name="error_network">Ein Netzwerkfehler ist aufgetreten. Bitte überprüfe deine Verbindung und versuche es erneut.</string>
+    <string name="action_open_as">Öffnen als %s</string>
+    <string name="title_reblogged_by">Geteilt von</string>
+    <string name="title_favourited_by">Favorisiert von</string>
+
 </resources>
