@@ -270,15 +270,15 @@ public final class ViewThreadFragment extends SFragment implements
     private void updateStatus(int position, Status status) {
         if(position >= 0 && position < statuses.size()) {
 
-            statuses.set(position, status);
+            StatusViewData.Concrete viewData = new StatusViewData.Builder(statuses.getPairedItem(position))
+                    .setReblogged(status.getReblogged())
+                    .setReblogsCount(status.getReblogsCount())
+                    .setFavourited(status.getFavourited())
+                    .setFavouritesCount(status.getFavouritesCount())
+                    .createStatusViewData();
+            statuses.setPairedItem(position, viewData);
 
-            if(position == statusIndex && card != null) {
-                StatusViewData.Concrete viewData = new StatusViewData.Builder(statuses.getPairedItem(position))
-                        .setCard(card)
-                        .createStatusViewData();
-                statuses.setPairedItem(position, viewData);
-            }
-            adapter.setItem(position, statuses.getPairedItem(position), true);
+            adapter.setItem(position, viewData, true);
 
         }
     }
