@@ -160,7 +160,8 @@ class AccountManager(db: AppDatabase) {
      * @return an immutable list of all accounts in the database with the active account first
      */
     fun getAllAccountsOrderedByActive(): List<AccountEntity> {
-        accounts.sortWith(Comparator { l, r ->
+        val accountsCopy = accounts.toMutableList()
+        accountsCopy.sortWith(Comparator { l, r ->
             when {
                 l.isActive && !r.isActive -> -1
                 r.isActive && !l.isActive -> 1
@@ -168,7 +169,7 @@ class AccountManager(db: AppDatabase) {
             }
         })
 
-        return accounts.toList()
+        return accountsCopy
     }
 
     /**
