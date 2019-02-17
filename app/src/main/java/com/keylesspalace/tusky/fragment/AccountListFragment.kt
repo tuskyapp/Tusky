@@ -35,7 +35,6 @@ import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
@@ -74,10 +73,8 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         recyclerView.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(view.context)
         recyclerView.layoutManager = layoutManager
-        val divider = DividerItemDecoration(view.context, layoutManager.orientation)
-        val drawable = ThemeUtils.getDrawable(view.context, R.attr.status_divider_drawable, R.drawable.status_divider_dark)
-        divider.setDrawable(drawable)
-        recyclerView.addItemDecoration(divider)
+
+        recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
 
         adapter = when (type) {
             Type.BLOCKS -> BlocksAdapter(this)
