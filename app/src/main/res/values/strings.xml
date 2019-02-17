@@ -67,7 +67,9 @@
     <string name="action_quick_reply">Quick Reply</string>
     <string name="action_reply">Reply</string>
     <string name="action_reblog">Boost</string>
+    <string name="action_unreblog">Remove boost</string>
     <string name="action_favourite">Favourite</string>
+    <string name="action_unfavourite">Remove favourite</string>
     <string name="action_more">More</string>
     <string name="action_compose">Compose</string>
     <string name="action_login">Login with Mastodon</string>
@@ -114,6 +116,7 @@
     <string name="action_content_warning">Content warning</string>
     <string name="action_emoji_keyboard">Emoji keyboard</string>
     <string name="action_add_tab">Add Tab</string>
+    <string name="action_open_media_n">Open media #%d</string>
 
     <string name="download_image">Downloading %1$s</string>
 
@@ -393,9 +396,18 @@
         No description
     </string>
 
+    <string name="status_description_reblogged">
+        Reblogged
+    </string>
+
+
+    <string name="status_description_favourited">
+        Favourited
+    </string>
+
     <string name="status_description">
-        <!-- Display name, cw?, content?, relative date, boosted?, username, media?-->
-        %s; %s; %s, %s, posted %s; %s, %s
+        <!-- Display name, cw?, content?, relative date, reposted by?, reposted?, favorited?, username, media?-->
+        %s; %s; %s, %s, posted %s; %s, %s, %s, %s
     </string>
 
     <string name="conversation_1_recipients">%1$s</string>

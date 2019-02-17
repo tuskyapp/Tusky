@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -350,6 +351,103 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void setupRecyclerView() {
+        recyclerView.setAccessibilityDelegateCompat(new RecyclerViewAccessibilityDelegate(recyclerView) {
+            @NonNull
+            @Override
+            public AccessibilityDelegateCompat getItemDelegate() {
+                Log.d(TAG, "getItemDelegate");
+                return new RecyclerViewAccessibilityDelegate.ItemDelegate(this) {
+                    @Override
+                    public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
+                        Log.d(TAG, "onInitializeAccessibilityNodeInfo");
+                        super.onInitializeAccessibilityNodeInfo(host, info);
+
+                        int pos = recyclerView.getChildAdapterPosition(host);
+                        Either<Placeholder, Status> either = statuses.get(pos);
+                        if (either.isRight()) {
+                            Status status = either.asRight();
+                            info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_reply, getString(R.string.action_reply)));
+
+                            switch (status.getVisibility()) {
+                                case PUBLIC:
+                                case UNLISTED:
+                                case UNKNOWN:
+                                    if (status.getReblogged()) {
+                                        info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_unreblog, getString(R.string.action_unreblog)));
+                                    } else {
+                                        info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_reblog, getString(R.string.action_reblog)));
+                                    }
+                            }
+
+                            if (status.getFavourited()) {
+                                info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_unfavourite, getString(R.string.action_unfavourite)));
+                            } else {
+                                info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_favourite, getString(R.string.action_favourite)));
+                            }
+                            int[] mediaActions = new int[]{
+                                    R.id.action_open_media_1,
+                                    R.id.action_open_media_2,
+                                    R.id.action_open_media_3,
+                                    R.id.action_open_media_4
+                            };
+                            for (int i = 0; i < status.getAttachments().size(); i++) {
+                                info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(mediaActions[i], getString(R.string.action_open_media_n, i + 1)));
+                            }
+                            info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_open_profile, getString(R.string.action_view_profile)));
+                        }
+
+                    }
+
+                    @Override
+                    public void onPopulateAccessibilityEvent(View host, AccessibilityEvent event) {
+                        Log.d(TAG, "onPopulateAccessaibilityEvent");
+                        super.onPopulateAccessibilityEvent(host, event);
+                    }
+
+                    @Override
+                    public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                        Log.d(TAG, "performAccessibilityAction");
+                        int pos = recyclerView.getChildAdapterPosition(host);
+                        switch (action) {
+                            case R.id.action_reply:
+                                onReply(pos);
+                                break;
+                            case R.id.action_favourite:
+                                onFavourite(true, pos);
+                                break;
+                            case R.id.action_unfavourite:
+                                onFavourite(false, pos);
+                                break;
+                            case R.id.action_reblog:
+                                onReblog(true, pos);
+                                break;
+                            case R.id.action_unreblog:
+                                onReblog(false, pos);
+                                break;
+                            case R.id.action_open_profile:
+                                onViewAccount(
+                                        statuses.get(pos).asRight().getAccount().getId());
+                                break;
+                            case R.id.action_open_media_1:
+                                onViewMedia(pos, 0, null);
+                                break;
+                            case R.id.action_open_media_2:
+                                onViewMedia(pos, 1, null);
+                                break;
+                            case R.id.action_open_media_3:
+                                onViewMedia(pos, 2, null);
+                                break;
+                            case R.id.action_open_media_4:
+                                onViewMedia(pos, 3, null);
+                                break;
+                            default:
+                                return super.performAccessibilityAction(host, action, args);
+                        }
+                        return true;
+                    }
+                };
+            }
+        });
         Context context = recyclerView.getContext();
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
@@ -362,77 +460,6 @@ public class TimelineFragment extends SFragment implements
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         recyclerView.setAdapter(adapter);
-        recyclerView.setAccessibilityDelegateCompat(new RecyclerViewAccessibilityDelegate(recyclerView) {
-            AccessibilityDelegateCompat itemDelegate = new RecyclerViewAccessibilityDelegate.ItemDelegate(this) {
-                @Override
-                public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
-                    super.onInitializeAccessibilityNodeInfo(host, info);
-
-                    int pos = recyclerView.getChildAdapterPosition(host);
-                    Either<Placeholder, Status> either = statuses.get(pos);
-                    if (either.isRight()) {
-                        Status status = either.asRight();
-                        info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_reply, getString(R.string.action_reply)));
-                        if (status.getFavourited()) {
-                            info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_unfavourite, getString(R.string.action_favourite)));
-                        } else {
-                            // TODO: change string
-                            info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_favourite, getString(R.string.action_favourite)));
-                        }
-                        switch (status.getVisibility()) {
-                            case PUBLIC:
-                            case UNLISTED:
-                            case UNKNOWN:
-                                if (status.getReblogged()) {
-                                    // TODO: change string here
-                                    info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_unreblog, getString(R.string.action_reblog)));
-                                } else {
-                                    info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_reblog, getString(R.string.action_reblog)));
-                                }
-                        }
-                        info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_open_profile, getString(R.string.action_view_profile)));
-                    }
-
-                }
-
-                @Override
-                public boolean performAccessibilityAction(View host, int action, Bundle args) {
-                    int pos = recyclerView.getChildAdapterPosition(host);
-                    switch (action) {
-                        case R.id.action_reply:
-                            onReply(pos);
-                            break;
-                        case R.id.action_favourite:
-                            onFavourite(true, pos);
-                            break;
-                        case R.id.action_unfavourite:
-                            onFavourite(false, pos);
-                            break;
-                        case R.id.action_reblog:
-                            onReblog(true, pos);
-                            break;
-                        case R.id.action_unreblog:
-                            onReblog(false, pos);
-                            break;
-                        case R.id.action_open_profile:
-                            onViewAccount(
-                                    statuses.get(pos).asRight().getAccount().getId());
-                            break;
-
-                    }
-                    if (action == R.id.action_reply) {
-                        return true;
-                    }
-                    return super.performAccessibilityAction(host, action, args);
-                }
-            };
-
-            @NonNull
-            @Override
-            public AccessibilityDelegateCompat getItemDelegate() {
-                return itemDelegate;
-            }
-        });
     }
 
     private void deleteStatusById(String id) {

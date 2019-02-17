@@ -125,6 +125,8 @@ public class StatusViewHolder extends StatusBaseViewHolder {
                 postedAgo,
                 getReblogDescription(context, status),
                 status.getNickname(),
+                status.isReblogged() ? context.getString(R.string.status_description_reblogged) : "",
+                status.isFavourited() ? context.getString(R.string.status_description_favourited) : "",
                 getMediaDescription(context, status));
         itemView.setContentDescription(description);
     }
