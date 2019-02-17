@@ -287,4 +287,5 @@
     <string name="title_reblogged_by">Reblogolta</string>
     <string name="title_favourited_by">Kedvencnek jelölte</string>
     <string name="conversation_2_recipients">%1$s és %2$s</string>
+    <string name="max_tab_number_reached">fülek maximális száma (%1$d) elérve</string>
 </resources>
