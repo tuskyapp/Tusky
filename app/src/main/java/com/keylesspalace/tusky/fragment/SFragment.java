@@ -99,7 +99,7 @@ public abstract class SFragment extends BaseFragment {
 
     protected void viewThread(Status status) {
         Status actionableStatus = status.getActionableStatus();
-        bottomSheetActivity.viewThread(actionableStatus.getActionableId(), actionableStatus.getUrl());
+        bottomSheetActivity.viewThread(actionableStatus.getId(), actionableStatus.getUrl());
     }
 
     protected void viewAccount(String accountId) {
