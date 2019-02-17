@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="action_expand_collapse_cw" type="id"/>
+    <item name="action_expand_collapse_cw" type="id" />
     <item name="action_reply" type="id" />
     <item name="action_favourite" type="id" />
     <item name="action_unfavourite" type="id" />
     <item name="action_reblog" type="id" />
     <item name="action_unreblog" type="id" />
-    <item name="action_open_profile" type="id"/>
-    <item name="action_open_media_1" type="id"/>
-    <item name="action_open_media_2" type="id"/>
-    <item name="action_open_media_3" type="id"/>
-    <item name="action_open_media_4" type="id"/>
+    <item name="action_open_profile" type="id" />
+    <item name="action_open_media_1" type="id" />
+    <item name="action_open_media_2" type="id" />
+    <item name="action_open_media_3" type="id" />
+    <item name="action_open_media_4" type="id" />
+    <item name="action_open_mention" type="id" />
+    <item name="action_expand_cw" type="id" />
+    <item name="action_collapse_cw" type="id" />
 </resources>

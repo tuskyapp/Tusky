@@ -23,7 +23,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.accessibility.AccessibilityEvent;
 import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -51,6 +50,7 @@ import com.keylesspalace.tusky.repository.TimelineRepository;
 import com.keylesspalace.tusky.repository.TimelineRequestMode;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
+import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.StringUtils;
@@ -74,8 +74,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.arch.core.util.Function;
 import androidx.core.util.Pair;
-import androidx.core.view.AccessibilityDelegateCompat;
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.AsyncListDiffer;
@@ -84,7 +82,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.ListUpdateCallback;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import at.connyduck.sparkbutton.helpers.Utils;
@@ -351,103 +348,8 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void setupRecyclerView() {
-        recyclerView.setAccessibilityDelegateCompat(new RecyclerViewAccessibilityDelegate(recyclerView) {
-            @NonNull
-            @Override
-            public AccessibilityDelegateCompat getItemDelegate() {
-                Log.d(TAG, "getItemDelegate");
-                return new RecyclerViewAccessibilityDelegate.ItemDelegate(this) {
-                    @Override
-                    public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
-                        Log.d(TAG, "onInitializeAccessibilityNodeInfo");
-                        super.onInitializeAccessibilityNodeInfo(host, info);
-
-                        int pos = recyclerView.getChildAdapterPosition(host);
-                        Either<Placeholder, Status> either = statuses.get(pos);
-                        if (either.isRight()) {
-                            Status status = either.asRight();
-                            info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_reply, getString(R.string.action_reply)));
-
-                            switch (status.getVisibility()) {
-                                case PUBLIC:
-                                case UNLISTED:
-                                case UNKNOWN:
-                                    if (status.getReblogged()) {
-                                        info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_unreblog, getString(R.string.action_unreblog)));
-                                    } else {
-                                        info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_reblog, getString(R.string.action_reblog)));
-                                    }
-                            }
-
-                            if (status.getFavourited()) {
-                                info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_unfavourite, getString(R.string.action_unfavourite)));
-                            } else {
-                                info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_favourite, getString(R.string.action_favourite)));
-                            }
-                            int[] mediaActions = new int[]{
-                                    R.id.action_open_media_1,
-                                    R.id.action_open_media_2,
-                                    R.id.action_open_media_3,
-                                    R.id.action_open_media_4
-                            };
-                            for (int i = 0; i < status.getAttachments().size(); i++) {
-                                info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(mediaActions[i], getString(R.string.action_open_media_n, i + 1)));
-                            }
-                            info.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.action_open_profile, getString(R.string.action_view_profile)));
-                        }
-
-                    }
-
-                    @Override
-                    public void onPopulateAccessibilityEvent(View host, AccessibilityEvent event) {
-                        Log.d(TAG, "onPopulateAccessaibilityEvent");
-                        super.onPopulateAccessibilityEvent(host, event);
-                    }
-
-                    @Override
-                    public boolean performAccessibilityAction(View host, int action, Bundle args) {
-                        Log.d(TAG, "performAccessibilityAction");
-                        int pos = recyclerView.getChildAdapterPosition(host);
-                        switch (action) {
-                            case R.id.action_reply:
-                                onReply(pos);
-                                break;
-                            case R.id.action_favourite:
-                                onFavourite(true, pos);
-                                break;
-                            case R.id.action_unfavourite:
-                                onFavourite(false, pos);
-                                break;
-                            case R.id.action_reblog:
-                                onReblog(true, pos);
-                                break;
-                            case R.id.action_unreblog:
-                                onReblog(false, pos);
-                                break;
-                            case R.id.action_open_profile:
-                                onViewAccount(
-                                        statuses.get(pos).asRight().getAccount().getId());
-                                break;
-                            case R.id.action_open_media_1:
-                                onViewMedia(pos, 0, null);
-                                break;
-                            case R.id.action_open_media_2:
-                                onViewMedia(pos, 1, null);
-                                break;
-                            case R.id.action_open_media_3:
-                                onViewMedia(pos, 2, null);
-                                break;
-                            case R.id.action_open_media_4:
-                                onViewMedia(pos, 3, null);
-                                break;
-                            default:
-                                return super.performAccessibilityAction(host, action, args);
-                        }
-                        return true;
-                    }
-                };
-            }
-        });
+        recyclerView.setAccessibilityDelegateCompat(
+                new ListStatusAccessibilityDelegate(recyclerView, this, statuses::getPairedItem));
         Context context = recyclerView.getContext();
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
@@ -785,7 +687,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public void onViewMedia(int position, int attachmentIndex, @NonNull View view) {
+    public void onViewMedia(int position, int attachmentIndex, @Nullable View view) {
         Status status = statuses.get(position).asRightOrNull();
         if (status == null) return;
         super.viewMedia(attachmentIndex, status, view);

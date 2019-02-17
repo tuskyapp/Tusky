@@ -122,7 +122,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         }
     }
 
-    override fun onViewMedia(position: Int, attachmentIndex: Int, view: View) {
+    override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
         viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let {
             viewMedia(attachmentIndex, it.toStatus(), view)
         }

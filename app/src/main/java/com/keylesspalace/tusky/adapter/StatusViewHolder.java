@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -96,6 +97,12 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             rebloggedBar.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));
         }
         setContentDescription(status);
+        // Workaround for RecyclerView 1.0.0 / androidx.core 1.0.0
+        // RecyclerView tries to set AccessibilityDelegateCompat to null
+        // but ViewCompat code replaces is with the default one. RecyclerView never
+        // fetches another one from its delegate because it checks that it's set so we remove it
+        // and let RecyclerView ask for a new delegate.
+        itemView.setAccessibilityDelegate(null);
     }
 
     private void setContentDescription(@Nullable StatusViewData.Concrete status) {
@@ -163,7 +170,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     private CharSequence getContentWarningDescription(Context context, @NonNull StatusViewData.Concrete status) {
-        if (status.isSensitive()) {
+        if (!TextUtils.isEmpty(status.getSpoilerText())) {
             return context.getString(R.string.status_description_cw, status.getSpoilerText());
         } else {
             return "";
