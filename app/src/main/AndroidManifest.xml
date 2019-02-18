@@ -142,7 +142,7 @@
         <service android:name=".service.SendTootService" />
         <service
             tools:targetApi="23"
-            android:name="tech.bigfig.service.AccountChooserService"
+            android:name="tech.bigfig.roma.service.AccountChooserService"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_CHOOSER_TARGET_SERVICE"
             >

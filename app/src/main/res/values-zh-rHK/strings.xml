@@ -1,6 +1,7 @@
 <resources>
 
     <string name="error_generic">應用程式出現異常</string>
+    <string name="error_network">網絡請求出錯，請檢查互聯網連接並重試</string>
     <string name="error_empty">內容不能為空</string>
     <string name="error_invalid_domain">該域名無效</string>
     <string name="error_failed_app_registration">無法連接此伺服器</string>
@@ -26,10 +27,13 @@
     <string name="title_notifications">通知</string>
     <string name="title_public_local">本站時間軸</string>
     <string name="title_public_federated">跨站公開時間軸</string>
+    <string name="title_direct_messages">私信</string>
+    <string name="title_tab_preferences">標籤頁</string>
     <string name="title_view_thread">嘟文</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">嘟文</string>
     <string name="title_statuses_with_replies">嘟文和回覆</string>
+    <string name="title_statuses_pinned">已置頂</string>
     <string name="title_follows">正在關注</string>
     <string name="title_followers">關注者</string>
     <string name="title_favourites">我的收藏</string>
@@ -50,6 +54,7 @@
     <string name="status_content_show_less">摺疊</string>
     <string name="status_content_show_more">展開</string>
 
+    <string name="message_empty">還沒有內容</string>
     <string name="footer_empty">還沒有內容，向下拉動即可重新整理</string>
 
     <string name="notification_reblog_format">%s 轉嘟了你的嘟文</string>
@@ -108,10 +113,13 @@
     <string name="action_toggle_visibility">設定嘟文可見範圍</string>
     <string name="action_content_warning">設定敏感內容警告</string>
     <string name="action_emoji_keyboard">插入表情符號</string>
+    <string name="action_add_tab">添加標籤頁</string>
 
     <string name="download_image">正在下載 %1$s…</string>
 
     <string name="action_copy_link">複製連結</string>
+    <string name="action_open_as">打開為 %s</string>
+    <string name="action_share_as">分享為 …</string>
 
     <string name="send_status_link_to">分享連結到…</string>
     <string name="send_status_content_to">分享嘟文到…</string>
@@ -174,7 +182,7 @@
     <string-array name="app_theme_names">
         <item>黑夜</item>
         <item>白天</item>
-        <item>黑色</item>
+        <item>暗色</item>
         <item>自動切換</item>
     </string-array>
 
@@ -194,6 +202,7 @@
     <string name="pref_title_http_proxy_port">HTTP 代理伺服器埠</string>
 
     <string name="pref_default_post_privacy">嘟文預設可見範圍</string>
+    <string name="pref_default_media_sensitivity">總是將媒體標示為敏感</string>
     <string name="pref_publishing">發佈（與伺服器同步）</string>
     <string name="pref_failed_to_sync">同步設定失敗</string>
 
@@ -290,6 +299,7 @@
     <string name="compose_active_account_description">以 %1$s 發嘟文</string>
 
     <string name="error_failed_set_caption">設定圖片標題失敗</string>
+    <string name="hint_describe_for_visually_impaired">為視覺障礙用戶提供的描述\n(限制 %d 字)</string>
     <string name="action_set_caption">設定圖片標題</string>
     <string name="action_remove_media">移除</string>
     <string name="lock_account_label">保護你的帳戶（鎖嘟）</string>
@@ -302,6 +312,7 @@
     <string name="send_toot_notification_saved_content">嘟文已儲存為草稿</string>
     <string name="action_compose_shortcut">撰寫嘟文</string>
 
+    <string name="error_no_custom_emojis">此伺服器无自訂表情符號</string>
     <string name="copy_to_clipboard_success">已複製到剪貼簿</string>
     <string name="emoji_style">表情符號風格</string>
     <string name="system_default">系統預設</string>
@@ -342,6 +353,22 @@
     <string name="unpin_action">取消置頂</string>
     <string name="pin_action">置頂</string>
 
-	<string name="pref_default_media_sensitivity">總是將媒體標示為敏感</string>
+	<plurals name="favs">
+        <item quantity="one">&lt;b>%1$s&lt;/b> 收藏</item>
+        <item quantity="other">&lt;b>%1$s&lt;/b> 收藏</item>
+    </plurals>
+
+    <plurals name="reblogs">
+        <item quantity="one">&lt;b>%s&lt;/b> 轉嘟</item>
+        <item quantity="other">&lt;b>%s&lt;/b> 轉嘟</item>
+    </plurals>
+
+    <string name="title_reblogged_by">Boosted by</string>
+    <string name="title_favourited_by">Favourited by</string>
+
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s 和 %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s 和 %3$d 等人</string>
+
 
 </resources>

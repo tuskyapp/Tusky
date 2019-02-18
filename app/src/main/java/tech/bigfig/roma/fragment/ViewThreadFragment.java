@@ -254,7 +254,6 @@ public final class ViewThreadFragment extends SFragment implements
     public void onFavourite(final boolean favourite, final int position) {
         final Status status = statuses.get(position);
 
-
         timelineCases.favourite(statuses.get(position), favourite)
                 .observeOn(AndroidSchedulers.mainThread())
                 .as(autoDisposable(from(this)))
@@ -270,15 +269,17 @@ public final class ViewThreadFragment extends SFragment implements
     private void updateStatus(int position, Status status) {
         if(position >= 0 && position < statuses.size()) {
 
-            statuses.set(position, status);
+            Status actionableStatus = status.getActionableStatus();
 
-            if(position == statusIndex && card != null) {
-                StatusViewData.Concrete viewData = new StatusViewData.Builder(statuses.getPairedItem(position))
-                        .setCard(card)
-                        .createStatusViewData();
-                statuses.setPairedItem(position, viewData);
-            }
-            adapter.setItem(position, statuses.getPairedItem(position), true);
+            StatusViewData.Concrete viewData = new StatusViewData.Builder(statuses.getPairedItem(position))
+                    .setReblogged(actionableStatus.getReblogged())
+                    .setReblogsCount(actionableStatus.getReblogsCount())
+                    .setFavourited(actionableStatus.getFavourited())
+                    .setFavouritesCount(actionableStatus.getFavouritesCount())
+                    .createStatusViewData();
+            statuses.setPairedItem(position, viewData);
+
+            adapter.setItem(position, viewData, true);
 
         }
     }
