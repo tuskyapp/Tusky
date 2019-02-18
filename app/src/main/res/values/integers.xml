@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="profile_media_column_count">3</integer>
+
+    <!-- Images larger than this will be downscaled to avoid OpenGL errors -->
+    <integer name="media_max_width">1920</integer>
+    <integer name="media_max_height">1920</integer>
 </resources>

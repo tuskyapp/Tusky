@@ -1490,11 +1490,6 @@ public final class ComposeActivity
     @Override
     public void onBackPressed() {
         // Acting like a teen: deliberately ignoring parent.
-        handleCloseButton();
-    }
-
-    private void handleCloseButton() {
-
         if(composeOptionsBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ||
                 addMediaBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ||
                 emojiBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ) {
@@ -1503,6 +1498,11 @@ public final class ComposeActivity
             emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             return;
         }
+
+        handleCloseButton();
+    }
+
+    private void handleCloseButton() {
 
         CharSequence contentText = textEditor.getText();
         CharSequence contentWarning = contentWarningEditor.getText();
