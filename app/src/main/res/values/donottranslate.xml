@@ -28,6 +28,7 @@
         <item>day</item>
         <item>black</item>
         <item>auto</item>
+        <item>system</item>
     </string-array>
 
 </resources>

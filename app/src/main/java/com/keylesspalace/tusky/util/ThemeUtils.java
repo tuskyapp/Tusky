@@ -42,6 +42,7 @@ public class ThemeUtils {
     private static final String THEME_DAY = "day";
     private static final String THEME_BLACK = "black";
     private static final String THEME_AUTO = "auto";
+    private static final String THEME_SYSTEM = "system";
 
     public static Drawable getDrawable(@NonNull Context context, @AttrRes int attribute,
             @DrawableRes int fallbackDrawable) {
@@ -119,14 +120,18 @@ public class ThemeUtils {
             case THEME_AUTO:
                 mode = UiModeManager.MODE_NIGHT_AUTO;
                 break;
+            case THEME_SYSTEM:
+                mode = -1; //https://developer.android.com/reference/android/support/v7/app/AppCompatDelegate.html#mode_night_follow_system
+                break;
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             UiModeManager uiModeManager = (UiModeManager)context.getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
             uiModeManager.setNightMode(mode);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(mode);
         }
+
+
+        AppCompatDelegate.setDefaultNightMode(mode);
 
     }
 }
