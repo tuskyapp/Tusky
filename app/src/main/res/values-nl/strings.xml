@@ -206,13 +206,14 @@
     <string name="pref_media_display">Mediaweergave</string>
     <string-array name="media_display_names">
         <item>Als gevoelig gemarkeerde media verbergen</item>
-        <item>Always show media marked as sensitive</item>
-        <item>Always hide all media</item>
+        <item>Als gevoelig gemarkeerde media altijd verbergen</item>
+        <item>Media altijd verbergen</item>
     </string-array>
     <string name="notification_channel_mention_name">Nieuwe vermeldingen</string>
     <string name="notification_channel_mention_descriptions">Meldingen over nieuwe vermeldingen</string>
     <string name="notification_channel_follow_name">Nieuwe volgers</string>
     <string name="notification_channel_follow_description">Meldingen over nieuwe volgers</string>
+    <string name="notification_channel_boost_name">Boosts</string>
     <string name="notification_channel_boost_description">Meldingen wanneer jouw toots worden geboost</string>
     <string name="notification_channel_favourite_name">Favorieten</string>
     <string name="notification_channel_favourite_description">Meldingen wanneer jouw toots als favoriet worden gemarkeerd</string>
@@ -223,6 +224,7 @@
     <string name="notification_title_summary">%d nieuwe interacties</string>
     <string name="description_account_locked">Besloten account</string>
     <string name="about_title_activity">Over</string>
+    <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tusky is opensource- en vrije software. De licentie valt onder de GNU Algemene Publieke Licentie versie 3. Je kunt de licentie hier bekijken: https://www.gnu.org/licenses/gpl-3.0.nl.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
@@ -238,6 +240,7 @@
     <string name="status_share_content">Deel de inhoud van de toot</string>
     <string name="status_share_link">Deel de link van de toot</string>
     <string name="status_media_images">Afbeeldingen</string>
+    <string name="status_media_video">Video</string>
     <string name="state_follow_requested">Volgverzoek verzonden</string>
     <string name="no_content">geen inhoud</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
@@ -247,9 +250,13 @@
     <string name="abbreviated_in_minutes">over %dm</string>
     <string name="abbreviated_in_seconds">over %ds</string>
     <string name="abbreviated_years_ago">%dj</string>
+    <string name="abbreviated_days_ago">%dd</string>
     <string name="abbreviated_hours_ago">%du</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Volgt jou</string>
     <string name="pref_title_alway_show_sensitive_media">Altijd gevoelige inhoud (nsfw) tonen</string>
+    <string name="title_media">Media</string>
     <string name="replying_to">Aan het reageren op @%s</string>
     <string name="load_more_placeholder_text">meer laden</string>
     <string name="add_account_name">Account toevoegen</string>
@@ -259,6 +266,7 @@
     <string name="title_list_timeline">Tijdlijn lijst</string>
     <string name="compose_active_account_description">Aan het publiceren met account %1$s</string>
     <string name="error_failed_set_caption">Toevoegen van beschrijving mislukt</string>
+    <string name="hint_describe_for_visually_impaired">Omschrijf dit voor mensen met een visuele beperking\n(tekenlimiet is %d)</string>
     <string name="action_set_caption">Beschrijving toevoegen</string>
     <string name="action_remove_media">Verwijderen</string>
     <string name="lock_account_label">Account besloten maken</string>
@@ -280,16 +288,20 @@
     <string name="action_open_toot">Toot openen</string>
     <string name="restart_required">Herstarten app vereist</string>
     <string name="restart_emoji">Je moet Tusky herstarten om deze veranderingen te kunnen doorvoeren</string>
+    <string name="later">Later</string>
     <string name="restart">Herstarten</string>
     <string name="caption_systememoji">Standaard emojiset van jouw apparaat</string>
     <string name="caption_blobmoji">De Blob-emojis van Android 4.4–7.1</string>
     <string name="caption_twemoji">Standaard emojiset van Mastodon</string>
     <string name="download_failed">Downloaden mislukt</string>
+    <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s is verhuisd naar:</string>
     <string name="reblog_private">Boost naar oorspronkelijke ontvangers</string>
     <string name="unreblog_private">Niet langer boosten</string>
     <string name="license_description">Tusky bevat broncode en onderdelen van de volgende opensourceprojecten:</string>
     <string name="license_apache_2">Gelicenseerd onder de Apache-licentie (kopie hieronder)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Metadata profiel</string>
     <string name="profile_metadata_add">Metadata toevoegen</string>
     <string name="profile_metadata_content_label">Inhoud</string>
