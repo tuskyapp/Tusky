@@ -306,5 +306,7 @@
     <string name="profile_metadata_add">Metadata toevoegen</string>
     <string name="profile_metadata_label_label">Label</string>
     <string name="profile_metadata_content_label">Inhoud</string>
+    <string name="pref_title_absolute_time">Absolute tijd gebruiken</string>
+    <string name="label_remote_account">De informatie hieronder kan een incompleet beeld geven van dit gebruikersprofiel. Druk hier om het volledige profiel in de webbrowser te openen.</string>
     <string name="max_tab_number_reached">maximum van %1$d tabs bereikt</string>
 </resources>
