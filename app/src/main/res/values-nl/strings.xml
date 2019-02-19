@@ -304,6 +304,7 @@
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Metadata profiel</string>
     <string name="profile_metadata_add">Metadata toevoegen</string>
+    <string name="profile_metadata_label_label">Label</string>
     <string name="profile_metadata_content_label">Inhoud</string>
     <string name="max_tab_number_reached">maximum van %1$d tabs bereikt</string>
 </resources>
