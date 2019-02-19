@@ -310,10 +310,18 @@
     <string name="label_remote_account">De informatie hieronder kan een incompleet beeld geven van dit gebruikersprofiel. Druk hier om het volledige profiel in de webbrowser te openen.</string>
     <string name="unpin_action">Losmaken</string>
     <string name="pin_action">Vastmaken</string>
+    <plurals name="favs">
+        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; favoriet</item>
+        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; favorieten</item>
+    </plurals>
     <plurals name="reblogs">
         <item quantity="one">&lt;b&gt;%s&lt;/b&gt; boost</item>
         <item quantity="other">&lt;b&gt;%s&lt;/b&gt; boosts</item>
     </plurals>
     <string name="title_reblogged_by">Geboost door</string>
+    <string name="title_favourited_by">Aan favorieten toegevoegd door</string>
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s en %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s en %3$d meer</string>
     <string name="max_tab_number_reached">maximum van %1$d tabs bereikt</string>
 </resources>
