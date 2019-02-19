@@ -15,7 +15,10 @@
 
 package com.keylesspalace.tusky.components.conversation
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
@@ -23,6 +26,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -94,6 +98,9 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         })
 
         viewModel.load()
+
+        LocalBroadcastManager.getInstance(context!!).registerReceiver(refreshReceiver,
+                IntentFilter("refresh"))
 
     }
 
@@ -185,5 +192,12 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
 
     companion object {
         fun newInstance() = ConversationsFragment()
+    }
+
+    private val refreshReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            //refresh
+            initSwipeToRefresh()
+        }
     }
 }

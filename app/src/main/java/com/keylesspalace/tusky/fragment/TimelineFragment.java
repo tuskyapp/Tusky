@@ -15,7 +15,10 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -61,7 +64,6 @@ import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -76,6 +78,7 @@ import androidx.annotation.Nullable;
 import androidx.arch.core.util.Function;
 import androidx.core.util.Pair;
 import androidx.lifecycle.Lifecycle;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.AsyncListDiffer;
 import androidx.recyclerview.widget.DiffUtil;
@@ -236,6 +239,9 @@ public class TimelineFragment extends SFragment implements
         } else {
             progressBar.setVisibility(View.GONE);
         }
+
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(refreshReceiver,
+                new IntentFilter("refresh"));
 
         return rootView;
     }
@@ -1259,6 +1265,14 @@ public class TimelineFragment extends SFragment implements
         @Override
         public boolean areContentsTheSame(StatusViewData oldItem, @NonNull StatusViewData newItem) {
             return oldItem.deepEquals(newItem);
+        }
+    };
+
+    private BroadcastReceiver refreshReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //refresh
+            onRefresh();
         }
     };
 }

@@ -16,7 +16,10 @@
 package com.keylesspalace.tusky.fragment;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -71,6 +74,7 @@ import androidx.annotation.Nullable;
 import androidx.arch.core.util.Function;
 import androidx.core.util.Pair;
 import androidx.lifecycle.Lifecycle;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -212,6 +216,9 @@ public class NotificationsFragment extends SFragment implements
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1);
+
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(refreshReceiver,
+                new IntentFilter("refresh"));
 
         return rootView;
     }
@@ -870,4 +877,12 @@ public class NotificationsFragment extends SFragment implements
         }
         return null;
     }
+
+    private BroadcastReceiver refreshReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //refresh
+            onRefresh();
+        }
+    };
 }
