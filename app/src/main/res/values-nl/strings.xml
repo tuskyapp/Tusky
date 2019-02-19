@@ -115,6 +115,7 @@
     <string name="action_share_as">Delen als …</string>
     <string name="send_status_link_to">Link van de toot delen</string>
     <string name="send_status_content_to">Inhoud van de toot delen</string>
+    <string name="send_media_to">Media delen met …</string>
     <string name="confirmation_reported">Verzonden!</string>
     <string name="confirmation_unblocked">Gebruiker is gedeblokkeerd</string>
     <string name="confirmation_unmuted">Gebruiker wordt niet langer genegeerd</string>
@@ -124,9 +125,11 @@
     <string name="hint_compose">Wat wil je kwijt?</string>
     <string name="hint_content_warning">Waarschuwingstekst</string>
     <string name="hint_display_name">Weergavenaam</string>
+    <string name="hint_note">Bio</string>
     <string name="hint_search">Zoeken</string>
     <string name="search_no_results">Geen resultaten</string>
     <string name="label_quick_reply">Reageren…</string>
+    <string name="label_avatar">Avatar</string>
     <string name="label_header">Omslagfoto</string>
     <string name="link_whats_an_instance">Wat is een Mastodonserver?</string>
     <string name="login_connection">Aan het verbinden</string>
@@ -139,8 +142,10 @@
     Meer informatie kun je vinden op <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Uploaden media bijna voltooid</string>
     <string name="dialog_message_uploading_media">Aan het uploaden</string>
+    <string name="dialog_download_image">Downloaden</string>
     <string name="dialog_message_cancel_follow_request">Het volgverzoek intrekken?</string>
     <string name="dialog_unfollow_warning">Dit account ontvolgen?</string>
+    <string name="dialog_delete_toot_warning">Deze toot verwijderen?</string>
     <string name="visibility_public">Openbaar: op openbare tijdlijnen tonen</string>
     <string name="visibility_unlisted">Minder openbaar: niet op openbare tijdlijnen tonen</string>
     <string name="visibility_private">Alleen volgers: alleen aan jouw volgers tonen</string>
@@ -160,6 +165,7 @@
     <string name="pref_title_notification_filter_favourites">mijn toots als favoriet werden gemarkeerd</string>
     <string name="pref_title_appearance_settings">Uiterlijk</string>
     <string name="pref_title_app_theme">Thema</string>
+    <string name="pref_title_timelines">Tijdlijnen</string>
     <string-array name="app_theme_names">
         <item>Donker</item>
         <item>Licht</item>
@@ -175,12 +181,15 @@
     <string name="pref_title_show_replies">Reacties tonen</string>
     <string name="pref_title_filter_regex">Filteren op reguliere expressies</string>
     <string name="pref_title_show_media_preview">Voorbeelden van media tonen</string>
+    <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP-proxy</string>
     <string name="pref_title_http_proxy_enable">HTTP-proxy inschakelen</string>
     <string name="pref_title_http_proxy_server">Serveradres van HTTP-proxy</string>
     <string name="pref_title_http_proxy_port">Poort van HTTP-proxy</string>
     <string name="pref_default_post_privacy">Standaardzichtbaarheid van jouw toots</string>
+    <string name="pref_default_media_sensitivity">Media altijd als gevoelig markeren</string>
     <string name="pref_publishing">Publiceren</string>
+    <string name="pref_failed_to_sync">Synchroniseren</string>
     <string-array name="post_privacy_names">
         <item>Openbaar</item>
         <item>Minder openbaar</item>
@@ -193,6 +202,12 @@
         <item>Standaard</item>
         <item>Groot</item>
         <item>Grootst</item>
+    </string-array>
+    <string name="pref_media_display">Mediaweergave</string>
+    <string-array name="media_display_names">
+        <item>Als gevoelig gemarkeerde media verbergen</item>
+        <item>Always show media marked as sensitive</item>
+        <item>Always hide all media</item>
     </string-array>
     <string name="notification_channel_mention_name">Nieuwe vermeldingen</string>
     <string name="notification_channel_mention_descriptions">Meldingen over nieuwe vermeldingen</string>
