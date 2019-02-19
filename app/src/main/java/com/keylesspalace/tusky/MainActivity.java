@@ -285,7 +285,9 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         composeIntent.setAction(intent.getAction());
         composeIntent.setType(intent.getType());
         composeIntent.putExtras(intent);
+        composeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(composeIntent);
+        finish();
     }
 
     private void setupDrawer() {
