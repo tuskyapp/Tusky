@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_create_24dp"
+        android:shortcutDisabledMessage="@string/shortcut_disabled_message"
+        android:shortcutId="random_constellation"
+        android:shortcutLongLabel="@string/shortcut_long_label"
+        android:shortcutShortLabel="@string/shortcut_short_label">
+        <!-- Each one of these intents needs an android:action, even if you don't
+             do anything with it. Otherwise you're in for a crash! -->
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.keylesspalace.tusky.SplashActivity"
+            android:targetPackage="com.keylesspalace.tusky"/>
+        <intent
+            android:action="Compose"
+            android:targetClass="com.keylesspalace.tusky.ComposeActivity"
+            android:targetPackage="com.keylesspalace.tusky"/>
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list is what the user sees when they
+             launch this shortcut. The previous intents will be put on the backstack -->
+        <!-- You can also specify the category of the shortcut via the <categories>
+             tag. As of this writing, the only supported category is
+             android.shortcut.conversation, and can be specified using android:name
+             like so: -->
+        <!-- <categories android:name="android.shortcut.conversation"/> -->
+
+    </shortcut>
+
+</shortcuts>

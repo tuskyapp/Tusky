@@ -386,5 +386,7 @@
     <string name="conversation_more_recipients">%1$s, %2$s and %3$d more</string>
     <string name="max_tab_number_reached">maximum of %1$d tabs reached</string>
 
-
+    <string name="shortcut_disabled_message">Compose TOOT disabled</string>
+    <string name="shortcut_long_label">Compose new TOOT</string>
+    <string name="shortcut_short_label">Compose</string>
 </resources>
