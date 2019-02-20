@@ -15,12 +15,10 @@
 
 package com.keylesspalace.tusky.util;
 
-import android.app.UiModeManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
@@ -105,26 +103,23 @@ public class ThemeUtils {
     }
 
     public static void setAppNightMode(String flavor) {
-        int mode;
         switch (flavor) {
             default:
             case THEME_NIGHT:
-                mode = UiModeManager.MODE_NIGHT_YES;
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
             case THEME_DAY:
-                mode = UiModeManager.MODE_NIGHT_NO;
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 break;
             case THEME_BLACK:
-                mode = UiModeManager.MODE_NIGHT_YES;
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
             case THEME_AUTO:
-                mode = UiModeManager.MODE_NIGHT_AUTO;
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
                 break;
             case THEME_SYSTEM:
-                mode = -1; //https://developer.android.com/reference/android/support/v7/app/AppCompatDelegate.html#mode_night_follow_system
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                 break;
         }
-
-        AppCompatDelegate.setDefaultNightMode(mode);
     }
 }
