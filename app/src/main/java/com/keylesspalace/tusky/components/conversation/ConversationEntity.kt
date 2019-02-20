@@ -30,7 +30,7 @@ import java.util.*
 data class ConversationEntity(
         val accountId: Long,
         val id: String,
-        val accounts: List<ConversationAccountEntity>?,
+        val accounts: List<ConversationAccountEntity>,
         val unread: Boolean,
         @Embedded(prefix = "s_") val lastStatus: ConversationStatusEntity
 )
@@ -180,7 +180,7 @@ fun Conversation.toEntity(accountId: Long) =
         ConversationEntity(
                 accountId,
                 id,
-                accounts!!.map { it.toEntity() },
+                accounts.map { it.toEntity() },
                 unread,
                 lastStatus!!.toEntity()
         )
