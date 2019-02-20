@@ -44,7 +44,6 @@ import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDisposable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_account_list.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -278,7 +277,6 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         }
 
         getFetchCallByListType(type, id)
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDisposable(from(this, Lifecycle.Event.ON_DESTROY))
                 .subscribe({ response ->
