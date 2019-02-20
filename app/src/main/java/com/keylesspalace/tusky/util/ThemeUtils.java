@@ -104,7 +104,7 @@ public class ThemeUtils {
         drawable.setColorFilter(getColor(context, attribute), PorterDuff.Mode.SRC_IN);
     }
 
-    public static void setAppNightMode(String flavor, Context context) {
+    public static void setAppNightMode(String flavor) {
         int mode;
         switch (flavor) {
             default:
@@ -125,13 +125,6 @@ public class ThemeUtils {
                 break;
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            UiModeManager uiModeManager = (UiModeManager)context.getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
-            uiModeManager.setNightMode(mode);
-        }
-
-
         AppCompatDelegate.setDefaultNightMode(mode);
-
     }
 }
