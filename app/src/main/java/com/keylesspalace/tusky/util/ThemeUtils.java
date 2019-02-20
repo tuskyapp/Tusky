@@ -40,7 +40,7 @@ public class ThemeUtils {
     private static final String THEME_DAY = "day";
     private static final String THEME_BLACK = "black";
     private static final String THEME_AUTO = "auto";
-    private static final String THEME_SYSTEM = "system";
+    private static final String THEME_SYSTEM = "auto_system";
 
     public static Drawable getDrawable(@NonNull Context context, @AttrRes int attribute,
             @DrawableRes int fallbackDrawable) {
