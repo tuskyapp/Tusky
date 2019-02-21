@@ -134,9 +134,6 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
                 startActivityWithSlideInAnimation(intent)
                 finish()
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-
-                restartActivitiesOnExit = true
-
             }
             "statusTextSize" -> {
                 restartActivitiesOnExit = true
