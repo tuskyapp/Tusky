@@ -125,7 +125,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         Context context = itemView.getContext();
 
 
-        String description = itemView.getContext().getString(R.string.status_description,
+        String description = context.getString(R.string.status_description,
                 status.getUserFullName(),
                 getContentWarningDescription(context, status),
                 (!status.isSensitive() || status.isExpanded() ? status.getContent() : ""),
