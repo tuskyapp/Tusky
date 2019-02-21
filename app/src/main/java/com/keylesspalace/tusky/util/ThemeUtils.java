@@ -27,7 +27,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import android.util.TypedValue;
-import android.widget.ImageView;
 
 /**
  * Provides runtime compatibility to obtain theme information and re-theme views, especially where
@@ -82,10 +81,6 @@ public class ThemeUtils {
     public static @ColorInt int getColorById(@NonNull Context context, String name) {
         return getColor(context,
                 ResourcesUtils.getResourceIdentifier(context, "attr", name));
-    }
-
-    public static void setImageViewTint(ImageView view, @AttrRes int attribute) {
-        view.setColorFilter(getColor(view.getContext(), attribute), PorterDuff.Mode.SRC_IN);
     }
 
     /** this can be replaced with drawableTint in xml once minSdkVersion >= 23 */
