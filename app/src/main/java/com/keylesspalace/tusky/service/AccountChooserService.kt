@@ -24,21 +24,22 @@ import android.service.chooser.ChooserTarget
 import android.service.chooser.ChooserTargetService
 import android.text.TextUtils
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.NotificationHelper
 import com.squareup.picasso.Picasso
-import dagger.android.AndroidInjection
-import javax.inject.Inject
+
 
 @TargetApi(23)
 class AccountChooserService : ChooserTargetService(), Injectable {
-    @Inject
+
+    // cannot inject here, it crashes on APIs < 23
     lateinit var accountManager: AccountManager
 
     override fun onCreate() {
         super.onCreate()
-        AndroidInjection.inject(this)
+        accountManager = (application as TuskyApplication).serviceLocator.get(AccountManager::class.java)
     }
 
     override fun onGetChooserTargets(targetActivityName: ComponentName?, intentFilter: IntentFilter?): MutableList<ChooserTarget> {
