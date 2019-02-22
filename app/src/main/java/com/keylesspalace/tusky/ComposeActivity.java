@@ -150,10 +150,12 @@ import static com.keylesspalace.tusky.util.MediaUtilsKt.MEDIA_SIZE_UNKNOWN;
 import static com.keylesspalace.tusky.util.MediaUtilsKt.getImageSquarePixels;
 import static com.keylesspalace.tusky.util.MediaUtilsKt.getImageThumbnail;
 import static com.keylesspalace.tusky.util.MediaUtilsKt.getMediaSize;
+import static com.keylesspalace.tusky.util.MediaUtilsKt.getMimeType;
 import static com.keylesspalace.tusky.util.MediaUtilsKt.getSampledBitmap;
 import static com.keylesspalace.tusky.util.MediaUtilsKt.getVideoThumbnail;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
+import static com.keylesspalace.tusky.util.MediaUtilsKt.isFileUri;
 
 public final class ComposeActivity
         extends BaseActivity
@@ -170,6 +172,7 @@ public final class ComposeActivity
     private static final int MEDIA_PICK_RESULT = 1;
     private static final int MEDIA_TAKE_PHOTO_RESULT = 2;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_PICTURE = 2;
 
     private static final String SAVED_TOOT_UID_EXTRA = "saved_toot_uid";
     private static final String SAVED_TOOT_TEXT_EXTRA = "saved_toot_text";
@@ -234,6 +237,7 @@ public final class ComposeActivity
 
     private SaveTootHelper saveTootHelper;
     private Gson gson = new Gson();
+    private ArrayList<Uri> uriListForAttach;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -397,6 +401,7 @@ public final class ComposeActivity
                 onCommitContentInternal(previousInputContentInfo, previousFlags);
             }
             photoUploadUri = savedInstanceState.getParcelable("photoUploadUri");
+            uriListForAttach = savedInstanceState.getParcelableArrayList("imagesForAttach");
         } else {
             statusMarkSensitive = activeAccount.getDefaultMediaSensitivity();
             startingHideText = false;
@@ -612,9 +617,8 @@ public final class ComposeActivity
                             }
                         }
                     }
-                    for (Uri uri : uriList) {
-                        long mediaSize = getMediaSize(getContentResolver(), uri);
-                        pickMedia(uri, mediaSize, null);
+                    if (checkUriForPermissions(uriList)) {
+                        attachImages(uriList);
                     }
                 } else if (type.equals("text/plain")) {
                     String action = intent.getAction();
@@ -648,6 +652,30 @@ public final class ComposeActivity
         textEditor.requestFocus();
     }
 
+    private boolean checkUriForPermissions(@NonNull List<Uri> uriList) {
+        boolean isFileUriExists = false;
+        for (Uri uri:uriList){
+            if (isFileUri(uri)){
+                isFileUriExists = true;
+                break;
+            }
+        }
+        if (!isFileUriExists)
+            return true;
+        else{
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                this.uriListForAttach = new ArrayList<>(uriList);
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_PICTURE);
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         ArrayList<SavedQueuedMedia> savedMediaQueued = new ArrayList<>();
@@ -667,6 +695,7 @@ public final class ComposeActivity
         currentFlags = 0;
         outState.putParcelable("photoUploadUri", photoUploadUri);
         outState.putInt("statusVisibility", statusVisibility.getNum());
+        outState.putParcelableArrayList("imagesForAttach",uriListForAttach);
         super.onSaveInstanceState(outState);
     }
 
@@ -1029,6 +1058,27 @@ public final class ComposeActivity
                             v -> onMediaPick());
                 }
                 break;
+            }
+            case PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_PICTURE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    attachImages(uriListForAttach);
+                    uriListForAttach = null;
+                } else {
+                    doErrorDialog(R.string.error_media_upload_permission, R.string.action_retry,
+                            v -> checkUriForPermissions(uriListForAttach));
+                }
+                break;
+            }
+
+        }
+    }
+
+    private void attachImages(List<Uri> uriList) {
+        if (uriList!=null) {
+            for (Uri uri : uriList) {
+                long mediaSize = getMediaSize(getContentResolver(), uri);
+                pickMedia(uri, mediaSize, null);
             }
         }
     }
@@ -1419,8 +1469,10 @@ public final class ComposeActivity
             displayTransientError(R.string.error_media_upload_opening);
             return;
         }
+
         ContentResolver contentResolver = getContentResolver();
-        String mimeType = contentResolver.getType(uri);
+        String mimeType = getMimeType(uri,contentResolver);
+
         if (mimeType != null) {
             String topLevelType = mimeType.substring(0, mimeType.indexOf('/'));
             switch (topLevelType) {
