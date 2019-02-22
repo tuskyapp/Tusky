@@ -25,15 +25,18 @@ import android.media.MediaMetadataRetriever
 import android.media.ThumbnailUtils
 import android.net.Uri
 import android.provider.OpenableColumns
+import android.util.Log
+import android.webkit.MimeTypeMap
 import androidx.annotation.Px
 import androidx.exifinterface.media.ExifInterface
-import android.util.Log
-import java.io.*
-
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.io.InputStream
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
+import java.util.*
+
+
 
 /**
  * Helper methods for obtaining and resizing media files
@@ -41,6 +44,7 @@ import java.util.Locale
 private const val TAG = "MediaUtils"
 private const val MEDIA_TEMP_PREFIX = "Roma_Share_Media"
 const val MEDIA_SIZE_UNKNOWN = -1L
+private const val SCHEME_FILE="file"
 
 /**
  * Fetches the size of the media represented by the given URI, assuming it is openable and
@@ -52,6 +56,16 @@ fun getMediaSize(contentResolver: ContentResolver, uri: Uri?): Long {
     if(uri == null) {
         return MEDIA_SIZE_UNKNOWN
     }
+    return if (isFileUri(uri))
+        getMediaSizeFile(uri)
+    else
+        getMediaSizeOther(contentResolver,uri)
+}
+
+/**
+ * Fetches the size of the media via content resolver
+ */
+private fun getMediaSizeOther(contentResolver: ContentResolver, uri: Uri):Long{
 
     var mediaSize = MEDIA_SIZE_UNKNOWN
     val cursor: Cursor?
@@ -67,6 +81,16 @@ fun getMediaSize(contentResolver: ContentResolver, uri: Uri?): Long {
         cursor.close()
     }
     return mediaSize
+}
+
+/**
+ * Fetches the size of media from file
+ */
+private fun getMediaSizeFile(uri: Uri):Long{
+    val file = File(uri.path)
+    if (file.isFile && file.exists())
+        return file.length()
+    return MEDIA_SIZE_UNKNOWN
 }
 
 fun getSampledBitmap(contentResolver: ContentResolver, uri: Uri, @Px reqWidth: Int, @Px reqHeight: Int): Bitmap? {
@@ -251,3 +275,36 @@ fun deleteStaleCachedMedia(mediaDirectory: File?) {
 fun getTemporaryMediaFilename(extension: String): String {
     return "${MEDIA_TEMP_PREFIX}_${SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())}.$extension"
 }
+
+fun getMimeType(uri: Uri, contentResolver: ContentResolver):String?{
+    return if (isFileUri(uri))
+        getMimeTypeFile(uri)
+    else
+        getMimeTypeOther(uri,contentResolver)
+}
+
+/**
+ * Get mime type of the file Uri by extension
+ */
+private fun getMimeTypeFile(uri: Uri):String?{
+    val extension = MimeTypeMap.getFileExtensionFromUrl(uri.path)
+    return if (extension != null)
+        MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+    else
+        null
+}
+
+/**
+ * Get mime type of the content from content provider
+ */
+private fun getMimeTypeOther(uri: Uri, contentResolver: ContentResolver):String?{
+    return contentResolver.getType(uri)
+}
+
+/**
+ * Check is it a File Uri
+ *
+ * @param uri uri for check
+ * @return true if uri has a "file" scheme
+ */
+fun isFileUri(uri:Uri):Boolean = uri.scheme?.startsWith(SCHEME_FILE)==true
