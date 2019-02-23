@@ -114,7 +114,7 @@ public class ThemeUtils {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
                 break;
             case THEME_SYSTEM:
-                //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 
                 //stupid workaround to make MODE_NIGHT_FOLLOW_SYSTEM work :(
                 if((Settings.System.getInt(context.getContentResolver(), "display_night_theme", 0) == 1)) {
