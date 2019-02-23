@@ -26,6 +26,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
+import android.provider.Settings;
 import android.util.TypedValue;
 
 /**
@@ -97,7 +98,7 @@ public class ThemeUtils {
         drawable.setColorFilter(getColor(context, attribute), PorterDuff.Mode.SRC_IN);
     }
 
-    public static void setAppNightMode(String flavor) {
+    public static void setAppNightMode(String flavor, Context context) {
         switch (flavor) {
             default:
             case THEME_NIGHT:
@@ -113,7 +114,14 @@ public class ThemeUtils {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
                 break;
             case THEME_SYSTEM:
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+
+                //stupid workaround to make MODE_NIGHT_FOLLOW_SYSTEM work :(
+                if((Settings.System.getInt(context.getContentResolver(), "display_night_theme", 0) == 1)) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else if ((Settings.System.getInt(context.getContentResolver(), "display_night_theme", 0) == 0)) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
                 break;
         }
     }

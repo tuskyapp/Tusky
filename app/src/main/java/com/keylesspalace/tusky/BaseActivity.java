@@ -72,7 +72,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         if (theme.equals("black")) {
             setTheme(R.style.TuskyBlackTheme);
         }
-        ThemeUtils.setAppNightMode(theme);
+        ThemeUtils.setAppNightMode(theme, this);
 
         /* set the taskdescription programmatically, the theme would turn it blue */
         String appName = getString(R.string.app_name);
