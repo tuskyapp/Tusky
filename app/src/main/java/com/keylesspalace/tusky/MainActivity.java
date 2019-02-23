@@ -28,6 +28,7 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.emoji.text.EmojiCompat;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AlertDialog;
 import android.os.Handler;
@@ -595,4 +596,20 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         return fragmentInjector;
     }
 
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_F5:
+                sendRefreshBroadcast();
+                return true;
+            default:
+                return super.dispatchKeyEvent(event);
+        }
+    }
+
+    private void sendRefreshBroadcast(){
+        Intent intent = new Intent("refresh");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
 }
