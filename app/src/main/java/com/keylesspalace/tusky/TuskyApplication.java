@@ -32,6 +32,10 @@ import com.keylesspalace.tusky.util.EmojiCompatFont;
 import com.keylesspalace.tusky.util.NotificationPullJobCreator;
 import com.squareup.picasso.Picasso;
 
+import org.conscrypt.Conscrypt;
+
+import java.security.Security;
+
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
@@ -61,6 +65,8 @@ public class TuskyApplication extends Application implements HasActivityInjector
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Security.insertProviderAt(Conscrypt.newProvider(), 1);
 
         appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
                 .allowMainThreadQueries()
