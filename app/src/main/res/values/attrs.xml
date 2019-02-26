@@ -24,7 +24,6 @@
     <attr name="content_warning_button" format="reference" />
     <attr name="sensitive_media_warning_background_color" format="reference|color" />
     <attr name="media_preview_unloaded_drawable" format="reference" />
-    <attr name="status_divider_drawable" format="reference" />
     <attr name="conversation_thread_line_drawable" format="reference" />
     <attr name="tab_icon_selected_tint" format="reference|color" />
     <attr name="tab_page_margin_drawable" format="reference" />
@@ -36,7 +35,6 @@
     <attr name="compose_content_warning_bar_background" format="reference" />
     <attr name="compose_reply_content_background" format="reference|color" />
     <attr name="report_status_background_color" format="reference|color" />
-    <attr name="report_status_divider_drawable" format="reference" />
     <attr name="card_background" format="reference|color" />
     <attr name="card_image_background" format="reference|color" />
     <attr name="compound_button_color" format="reference" />

@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -31,7 +30,6 @@ import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.util.SaveTootHelper;
-import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -99,9 +97,6 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
         recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration divider = new DividerItemDecoration(
                 this, layoutManager.getOrientation());
-        Drawable drawable = ThemeUtils.getDrawable(this, R.attr.status_divider_drawable,
-                R.drawable.status_divider_dark);
-        divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
         adapter = new SavedTootAdapter(this);
         recyclerView.setAdapter(adapter);
