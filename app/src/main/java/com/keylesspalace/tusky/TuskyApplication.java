@@ -66,7 +66,7 @@ public class TuskyApplication extends Application implements HasActivityInjector
     public void onCreate() {
         super.onCreate();
 
-        Security.insertProviderAt(Conscrypt.newProvider(), 1);
+        initSecurityProvider();
 
         appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
                 .allowMainThreadQueries()
@@ -97,6 +97,10 @@ public class TuskyApplication extends Application implements HasActivityInjector
 
         JobManager.create(this).addJobCreator(notificationPullJobCreator);
 
+    }
+
+    protected void initSecurityProvider() {
+        Security.insertProviderAt(Conscrypt.newProvider(), 1);
     }
 
     /**
