@@ -89,7 +89,7 @@
     <string name="confirmation_reported">Gesendet!</string>
 
     <string name="hint_domain">Welche Instanz?</string>
-    <string name="hint_compose">Worüber möchtest du schreiben?</string>
+    <string name="hint_compose">Was gibt\'s Neues?</string>
     <string name="hint_content_warning">Inhaltswarnung</string>
     <string name="hint_display_name">Anzeigename</string>
     <string name="hint_note">Bio</string>
