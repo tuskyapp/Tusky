@@ -20,6 +20,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -51,6 +52,7 @@ import tech.bigfig.roma.util.show
 import java.io.IOException
 import javax.inject.Inject
 
+
 class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
     @Inject
@@ -79,10 +81,8 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         recyclerView.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(view.context)
         recyclerView.layoutManager = layoutManager
-        val divider = DividerItemDecoration(view.context, layoutManager.orientation)
-        val drawable = ThemeUtils.getDrawable(view.context, R.attr.status_divider_drawable, R.drawable.status_divider_dark)
-        divider.setDrawable(drawable)
-        recyclerView.addItemDecoration(divider)
+
+        recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
 
         adapter = when (type) {
             Type.BLOCKS -> BlocksAdapter(this)
@@ -253,7 +253,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         Log.e(TAG, "Failed to $verb account id $accountId.")
     }
 
-    private fun getFetchCallByListType(type: Type, fromId: String?): Call<List<Account>> {
+    private fun getFetchCallByListType(type: Type, fromId: String?): Single<Response<List<Account>>> {
         return when (type) {
             Type.FOLLOWS -> api.accountFollowing(id, fromId)
             Type.FOLLOWERS -> api.accountFollowers(id, fromId)
@@ -275,24 +275,22 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
             recyclerView.post { adapter.setBottomLoading(true) }
         }
 
-        val cb = object : Callback<List<Account>> {
-            override fun onResponse(call: Call<List<Account>>, response: Response<List<Account>>) {
-                val accountList = response.body()
-                if (response.isSuccessful && accountList != null) {
-                    val linkHeader = response.headers().get("Link")
-                    onFetchAccountsSuccess(accountList, linkHeader)
-                } else {
-                    onFetchAccountsFailure(Exception(response.message()))
-                }
-            }
+        getFetchCallByListType(type, id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .autoDisposable(from(this, Lifecycle.Event.ON_DESTROY))
+                .subscribe({ response ->
+                    val accountList = response.body()
 
-            override fun onFailure(call: Call<List<Account>>, t: Throwable) {
-                onFetchAccountsFailure(t as Exception)
-            }
-        }
-        val listCall = getFetchCallByListType(type, id)
-        callList.add(listCall)
-        listCall.enqueue(cb)
+                    if (response.isSuccessful && accountList != null) {
+                        val linkHeader = response.headers().get("Link")
+                        onFetchAccountsSuccess(accountList, linkHeader)
+                    } else {
+                        onFetchAccountsFailure(Exception(response.message()))
+                    }
+                }, {throwable ->
+                    onFetchAccountsFailure(throwable)
+                })
+
     }
 
     private fun onFetchAccountsSuccess(accounts: List<Account>, linkHeader: String?) {
@@ -324,13 +322,13 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         }
     }
 
-    private fun onFetchAccountsFailure(exception: Exception) {
+    private fun onFetchAccountsFailure(throwable: Throwable) {
         fetching = false
-        Log.e(TAG, "Fetch failure", exception)
+        Log.e(TAG, "Fetch failure", throwable)
 
         if (adapter.itemCount == 0) {
             messageView.show()
-            if (exception is IOException) {
+            if (throwable is IOException) {
                 messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
                     messageView.hide()
                     this.fetchAccounts(null)

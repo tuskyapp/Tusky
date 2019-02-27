@@ -463,10 +463,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.account_toolbar, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
 
-    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         if (!isSelf) {
             val follow = menu.findItem(R.id.action_follow)
             follow.title = if (followState == FollowState.NOT_FOLLOWING) {
@@ -510,7 +507,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             menu.removeItem(R.id.action_mute)
             menu.removeItem(R.id.action_show_reblogs)
         }
-        return super.onPrepareOptionsMenu(menu)
+
+        return super.onCreateOptionsMenu(menu)
     }
 
     private fun showFollowRequestPendingDialog() {

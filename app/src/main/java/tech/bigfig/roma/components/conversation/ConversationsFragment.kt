@@ -72,10 +72,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
 
         adapter = ConversationAdapter(useAbsoluteTime, mediaPreviewEnabled,this, ::onTopLoaded, viewModel::retry)
 
-        val divider = DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
-        val drawable = ThemeUtils.getDrawable(view.context, R.attr.status_divider_drawable, R.drawable.status_divider_dark)
-        divider.setDrawable(drawable)
-        recyclerView.addItemDecoration(divider)
+        recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.adapter = adapter
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false

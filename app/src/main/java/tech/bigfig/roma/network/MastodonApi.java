@@ -40,6 +40,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -141,12 +142,12 @@ public interface MastodonApi {
     Call<StatusContext> statusContext(@Path("id") String statusId);
 
     @GET("api/v1/statuses/{id}/reblogged_by")
-    Call<List<Account>> statusRebloggedBy(
+    Single<Response<List<Account>>> statusRebloggedBy(
             @Path("id") String statusId,
             @Query("max_id") String maxId);
 
     @GET("api/v1/statuses/{id}/favourited_by")
-    Call<List<Account>> statusFavouritedBy(
+    Single<Response<List<Account>>> statusFavouritedBy(
             @Path("id") String statusId,
             @Query("max_id") String maxId);
 
@@ -225,12 +226,12 @@ public interface MastodonApi {
             @Nullable @Query("pinned") Boolean pinned);
 
     @GET("api/v1/accounts/{id}/followers")
-    Call<List<Account>> accountFollowers(
+    Single<Response<List<Account>>> accountFollowers(
             @Path("id") String accountId,
             @Query("max_id") String maxId);
 
     @GET("api/v1/accounts/{id}/following")
-    Call<List<Account>> accountFollowing(
+    Single<Response<List<Account>>> accountFollowing(
             @Path("id") String accountId,
             @Query("max_id") String maxId);
 
@@ -257,10 +258,10 @@ public interface MastodonApi {
     Call<List<Relationship>> relationships(@Query("id[]") List<String> accountIds);
 
     @GET("api/v1/blocks")
-    Call<List<Account>> blocks(@Query("max_id") String maxId);
+    Single<Response<List<Account>>> blocks(@Query("max_id") String maxId);
 
     @GET("api/v1/mutes")
-    Call<List<Account>> mutes(@Query("max_id") String maxId);
+    Single<Response<List<Account>>> mutes(@Query("max_id") String maxId);
 
     @GET("api/v1/favourites")
     Call<List<Status>> favourites(
@@ -269,7 +270,7 @@ public interface MastodonApi {
             @Query("limit") Integer limit);
 
     @GET("api/v1/follow_requests")
-    Call<List<Account>> followRequests(@Query("max_id") String maxId);
+    Single<Response<List<Account>>> followRequests(@Query("max_id") String maxId);
 
     @POST("api/v1/follow_requests/{id}/authorize")
     Call<Relationship> authorizeFollowRequest(@Path("id") String accountId);

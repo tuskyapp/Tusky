@@ -24,6 +24,4 @@ import tech.bigfig.roma.service.AccountChooserService
 abstract class ServicesModule {
     @ContributesAndroidInjector
     abstract fun contributesSendTootService(): SendTootService
-    @ContributesAndroidInjector
-    abstract fun contributesAccountChooserService(): AccountChooserService
 }

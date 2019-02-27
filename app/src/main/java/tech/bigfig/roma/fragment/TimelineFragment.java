@@ -17,7 +17,6 @@ package tech.bigfig.roma.fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -355,9 +354,6 @@ public class TimelineFragment extends SFragment implements
         recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration divider = new DividerItemDecoration(
                 context, layoutManager.getOrientation());
-        Drawable drawable = ThemeUtils.getDrawable(context, R.attr.status_divider_drawable,
-                R.drawable.status_divider_dark);
-        divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
 
         // CWs are expanded without animation, buttons animate itself, we don't need it basically
@@ -472,17 +468,17 @@ public class TimelineFragment extends SFragment implements
                                 removeAllByAccountId(id);
                             }
                         } else if (event instanceof BlockEvent) {
-                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
+                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
                                 String id = ((BlockEvent) event).getAccountId();
                                 removeAllByAccountId(id);
                             }
                         } else if (event instanceof MuteEvent) {
-                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
+                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
                                 String id = ((MuteEvent) event).getAccountId();
                                 removeAllByAccountId(id);
                             }
                         } else if (event instanceof StatusDeletedEvent) {
-                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
+                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
                                 String id = ((StatusDeletedEvent) event).getStatusId();
                                 deleteStatusById(id);
                             }

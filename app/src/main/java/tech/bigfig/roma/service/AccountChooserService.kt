@@ -28,17 +28,17 @@ import tech.bigfig.roma.db.AccountManager
 import tech.bigfig.roma.di.Injectable
 import tech.bigfig.roma.util.NotificationHelper
 import com.squareup.picasso.Picasso
-import dagger.android.AndroidInjection
-import javax.inject.Inject
+
 
 @TargetApi(23)
 class AccountChooserService : ChooserTargetService(), Injectable {
-    @Inject
+
+    // cannot inject here, it crashes on APIs < 23
     lateinit var accountManager: AccountManager
 
     override fun onCreate() {
         super.onCreate()
-        AndroidInjection.inject(this)
+        accountManager = (application as TuskyApplication).serviceLocator.get(AccountManager::class.java)
     }
 
     override fun onGetChooserTargets(targetActivityName: ComponentName?, intentFilter: IntentFilter?): MutableList<ChooserTarget> {

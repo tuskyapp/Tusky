@@ -1,5 +1,5 @@
  ![](/app/src/main/res/mipmap-xxhdpi/launcher_icon.png)
- 
+
  # Roma
 
 Roma is an Android client for [Pleroma](https://pleroma.social/) based on [Tusky](https://tuskyapp.github.io/).

@@ -18,7 +18,6 @@ package tech.bigfig.roma.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -60,7 +59,6 @@ import tech.bigfig.roma.viewdata.NotificationViewData;
 import tech.bigfig.roma.viewdata.StatusViewData;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -190,12 +188,8 @@ public class NotificationsFragment extends SFragment implements
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration divider = new DividerItemDecoration(
-                context, layoutManager.getOrientation());
-        Drawable drawable = ThemeUtils.getDrawable(context, R.attr.status_divider_drawable,
-                R.drawable.status_divider_dark);
-        divider.setDrawable(drawable);
-        recyclerView.addItemDecoration(divider);
+
+        recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
         adapter = new NotificationsAdapter(this, this);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());

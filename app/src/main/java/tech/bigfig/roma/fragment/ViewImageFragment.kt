@@ -184,6 +184,7 @@ class ViewImageFragment : ViewMediaFragment() {
                 .networkPolicy(NetworkPolicy.NO_STORE)
                 .resize(maxW, maxH)
                 .onlyScaleDown()
+                .centerInside()
                 .into(photoView, object : Callback {
                     override fun onSuccess() {
                         finishLoadingSuccessfully()
