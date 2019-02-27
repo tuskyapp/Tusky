@@ -17,18 +17,10 @@ package com.keylesspalace.tusky
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 
-import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.NotificationHelper
 
-import javax.inject.Inject
-
-class SplashActivity : AppCompatActivity(), Injectable {
-
-    @Inject
-    lateinit var accountManager: AccountManager
+class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
