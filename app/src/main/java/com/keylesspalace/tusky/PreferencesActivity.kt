@@ -138,7 +138,7 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
 
                 // MODE_NIGHT_FOLLOW_SYSTEM workaround part 2 :/
                 when(theme){
-                    "auto_system" -> {
+                    ThemeUtils.THEME_SYSTEM -> {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                     }
                 }
