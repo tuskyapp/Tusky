@@ -25,6 +25,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.uber.autodispose.autoDisposable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 import tech.bigfig.roma.AccountActivity
 import tech.bigfig.roma.AccountListActivity.Type
@@ -41,7 +44,7 @@ import tech.bigfig.roma.entity.Relationship
 import tech.bigfig.roma.interfaces.AccountActionListener
 import tech.bigfig.roma.network.MastodonApi
 import tech.bigfig.roma.util.HttpHeaderLink
-import tech.bigfig.roma.util.ThemeUtils
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import tech.bigfig.roma.view.EndlessOnScrollListener
 import kotlinx.android.synthetic.main.fragment_account_list.*
 import retrofit2.Call

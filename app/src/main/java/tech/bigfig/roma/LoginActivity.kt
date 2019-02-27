@@ -22,15 +22,10 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import androidx.browser.customtabs.CustomTabsIntent
-import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import com.crashlytics.android.Crashlytics
-import io.fabric.sdk.android.Fabric
 import tech.bigfig.roma.di.Injectable
 import tech.bigfig.roma.entity.AccessToken
 import tech.bigfig.roma.entity.AppCredentials
@@ -63,9 +58,6 @@ class LoginActivity : BaseActivity(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // init Fabric
-        Fabric.with(this, Crashlytics());
 
         setContentView(R.layout.activity_login)
 

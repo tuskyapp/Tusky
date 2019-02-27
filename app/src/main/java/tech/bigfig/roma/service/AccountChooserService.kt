@@ -28,6 +28,7 @@ import tech.bigfig.roma.db.AccountManager
 import tech.bigfig.roma.di.Injectable
 import tech.bigfig.roma.util.NotificationHelper
 import com.squareup.picasso.Picasso
+import tech.bigfig.roma.RomaApplication
 
 
 @TargetApi(23)
@@ -38,7 +39,7 @@ class AccountChooserService : ChooserTargetService(), Injectable {
 
     override fun onCreate() {
         super.onCreate()
-        accountManager = (application as TuskyApplication).serviceLocator.get(AccountManager::class.java)
+        accountManager = (application as RomaApplication).serviceLocator.get(AccountManager::class.java)
     }
 
     override fun onGetChooserTargets(targetActivityName: ComponentName?, intentFilter: IntentFilter?): MutableList<ChooserTarget> {
