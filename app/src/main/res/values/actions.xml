@@ -14,4 +14,7 @@
     <item name="action_open_mention" type="id" />
     <item name="action_expand_cw" type="id" />
     <item name="action_collapse_cw" type="id" />
+    <item name="action_links" type="id" />
+    <item name="action_mentions" type="id" />
+    <item name="actions_hashtags" type="id" />
 </resources>

@@ -116,6 +116,13 @@
     <string name="action_content_warning">Content warning</string>
     <string name="action_emoji_keyboard">Emoji keyboard</string>
     <string name="action_add_tab">Add Tab</string>
+    <string name="action_links">Links</string>
+    <string name="action_mentions">Mentions</string>
+    <string name="action_hashtags">Hashtags</string>
+
+    <string name="title_hashtags_dialog">Hashtags</string>
+    <string name="title_mentions_dialog">Mentions</string>
+    <string name="title_links_dialog">Links</string>
     <string name="action_open_media_n">Open media #%d</string>
 
     <string name="download_image">Downloading %1$s</string>
@@ -383,37 +390,43 @@
 
     <string name="title_reblogged_by">Boosted by</string>
     <string name="title_favourited_by">Favourited by</string>
-    
-    <string name="status_description_media">
-        Media: %s
-    </string>
-
-    <string name="status_description_cw">
-        Content warning: %s
-    </string>
-
-    <string name="status_description_media_no_description_placeholder">
-        No description
-    </string>
-
-    <string name="status_description_reblogged">
-        Reblogged
-    </string>
-
-
-    <string name="status_description_favourited">
-        Favourited
-    </string>
-
-    <string name="status_description">
-        <!-- Display name, cw?, content?, relative date, reposted by?, reposted?, favorited?, username, media?-->
-        %s; %s; %s, %s, posted %s; %s, %s, %s, %s
-    </string>
 
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s and %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s and %3$d more</string>
     <string name="max_tab_number_reached">maximum of %1$d tabs reached</string>
 
+
+    <string name="description_status_media">
+        Media: %s
+    </string>
+    <string name="description_status_cw">
+        Content warning: %s
+    </string>
+    <string name="description_status_media_no_description_placeholder">
+        No description
+    </string>
+    <string name="description_status_reblogged">
+        Reblogged
+    </string>
+    <string name="description_status_favourited">
+        Favourited
+    </string>
+    <string name="description_visiblity_public">
+        Public
+    </string>
+    <string name="description_visiblity_unlisted">
+        Unlisted
+    </string>
+    <string name="description_visiblity_private">
+        Followers
+    </string>
+    <string name="description_visiblity_direct">
+        Direct
+    </string>
+    <string name="description_status">
+        <!-- Display name, cw?, content?, relative date, reposted by?, reposted?, favorited?, username, media?; visibility-->
+        %s; %s; %s, %s, %s; %s, %s, %s, %s; %s
+    </string>
 
 </resources>
