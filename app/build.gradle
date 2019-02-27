@@ -143,8 +143,6 @@ dependencies {
     implementation 'com.uber.autodispose:autodispose-ktx:1.1.0'
     implementation 'androidx.paging:paging-runtime-ktx:2.1.0'
 
-}
-
     //Crashlytics
     implementation 'com.google.firebase:firebase-core:16.0.7'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
