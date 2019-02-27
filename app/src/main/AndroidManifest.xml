@@ -19,11 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/RomaTheme">
 
-        <!-- Fabric API key-->
         <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="f5962bea6e1eaa86ddff717677ff341e677618bb"
-            />
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false" />
 
         <activity
             android:name=".SplashActivity"

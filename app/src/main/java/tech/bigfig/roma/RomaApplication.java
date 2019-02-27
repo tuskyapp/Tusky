@@ -23,8 +23,12 @@ import android.content.BroadcastReceiver;
 import android.preference.PreferenceManager;
 import androidx.emoji.text.EmojiCompat;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.evernote.android.job.JobManager;
 import com.jakewharton.picasso.OkHttp3Downloader;
+
+import io.fabric.sdk.android.Fabric;
 import tech.bigfig.roma.db.AccountManager;
 import tech.bigfig.roma.db.AppDatabase;
 import tech.bigfig.roma.di.AppInjector;
@@ -61,6 +65,7 @@ public class RomaApplication extends Application implements HasActivityInjector,
     @Override
     public void onCreate() {
         super.onCreate();
+        initCrashlytics();
 
         appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "romaDB")
                 .allowMainThreadQueries()
@@ -91,6 +96,19 @@ public class RomaApplication extends Application implements HasActivityInjector,
 
         JobManager.create(this).addJobCreator(notificationPullJobCreator);
 
+    }
+
+    /**
+     * Init crashlytics and disable crash reports for debug builds
+     */
+    private void initCrashlytics() {
+        // Set up Crashlytics, disabled for debug builds
+        Crashlytics crashlyticsKit = new Crashlytics.Builder()
+                .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
+                .build();
+
+        // Initialize Fabric with the debug-disabled crashlytics.
+        Fabric.with(this, crashlyticsKit);
     }
 
     /**

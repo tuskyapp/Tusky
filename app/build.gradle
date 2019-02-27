@@ -2,6 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
+
+
 
 def getGitSha = { ->
     def stdout = new ByteArrayOutputStream()
@@ -35,7 +38,11 @@ android {
             shrinkResources true
             proguardFiles 'proguard-rules.pro'
         }
-        debug { }
+        debug {
+            //Disable crashlytics for debug builds
+            ext.enableCrashlytics = false
+        }
+
     }
 
     flavorDimensions "color"
@@ -135,4 +142,9 @@ dependencies {
     implementation 'com.uber.autodispose:autodispose-android-archcomponents:1.1.0'
     implementation 'com.uber.autodispose:autodispose-ktx:1.1.0'
     implementation 'androidx.paging:paging-runtime-ktx:2.1.0'
+
+    //Crashlytics
+    implementation 'com.google.firebase:firebase-core:16.0.7'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 }
+apply plugin: 'com.google.gms.google-services'
