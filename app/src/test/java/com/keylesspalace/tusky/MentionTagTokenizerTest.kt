@@ -50,7 +50,13 @@ class MentionTagTokenizerTest(private val text: CharSequence,
                     arrayOf("#tusky", 0, 6),
                     arrayOf("#@tusky", 7, 7),
                     arrayOf("@#tusky", 7, 7),
-                    arrayOf(" @#tusky", 8, 8)
+                    arrayOf(" @#tusky", 8, 8),
+                    arrayOf(":mastodon", 0, 9),
+                    arrayOf(":@mastodon", 10, 10),
+                    arrayOf("@:mastodon", 10, 10),
+                    arrayOf(" @:mastodon", 11, 11),
+                    arrayOf("#@:mastodon", 11, 11),
+                    arrayOf(" #@:mastodon", 12, 12)
             )
         }
     }
