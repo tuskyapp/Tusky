@@ -119,6 +119,7 @@
     <string name="action_links">Links</string>
     <string name="action_mentions">Mentions</string>
     <string name="action_hashtags">Hashtags</string>
+    <string name="action_open_reblogger">Open boost author</string>
 
     <string name="title_hashtags_dialog">Hashtags</string>
     <string name="title_mentions_dialog">Mentions</string>

@@ -28,12 +28,12 @@ class ListStatusAccessibilityDelegate(
         private val statusActionListener: StatusActionListener,
         private val statusProvider: StatusProvider
 ) : RecyclerViewAccessibilityDelegate(recyclerView) {
-    override fun getItemDelegate(): AccessibilityDelegateCompat {
-        return itemDelegate
-    }
+    private val a11yManager = context.getSystemService(Context.ACCESSIBILITY_SERVICE)
+            as AccessibilityManager
 
-    private val context: Context
-        get() = recyclerView.context
+    override fun getItemDelegate(): AccessibilityDelegateCompat = itemDelegate
+
+    private val context: Context get() = recyclerView.context
 
     private val itemDelegate = object : RecyclerViewAccessibilityDelegate.ItemDelegate(this) {
         override fun onInitializeAccessibilityNodeInfo(host: View,
@@ -44,42 +44,16 @@ class ListStatusAccessibilityDelegate(
             val status = statusProvider.getStatus(pos)
             if (status is StatusViewData.Concrete) {
                 if (!status.spoilerText.isNullOrEmpty()) {
-                    if (status.isExpanded) {
-                        info.addAction(AccessibilityActionCompat(
-                                R.id.action_collapse_cw,
-                                context.getString(R.string.status_content_warning_show_less)))
-                    } else {
-                        info.addAction(AccessibilityActionCompat(
-                                R.id.action_expand_cw,
-                                context.getString(R.string.status_content_warning_show_more)))
-                    }
+                    info.addAction(if (status.isExpanded) collapseCwAction else expandCwAction)
                 }
 
-                info.addAction(AccessibilityActionCompat(
-                        R.id.action_reply,
-                        context.getString(R.string.action_reply)))
+                info.addAction(replyAction)
 
                 if (status.rebloggingEnabled) {
-                    if (status.isReblogged) {
-                        info.addAction(AccessibilityActionCompat(
-                                R.id.action_unreblog,
-                                context.getString(R.string.action_unreblog)))
-                    } else {
-                        info.addAction(AccessibilityActionCompat(
-                                R.id.action_reblog,
-                                context.getString(R.string.action_reblog)))
-                    }
+                    info.addAction(if (status.isReblogged) unreblogAction else reblogAction)
                 }
+                info.addAction(if (status.isFavourited) unfavouriteAction else favouriteAction)
 
-                if (status.isFavourited) {
-                    info.addAction(AccessibilityActionCompat(
-                            R.id.action_unfavourite,
-                            context.getString(R.string.action_unfavourite)))
-                } else {
-                    info.addAction(AccessibilityActionCompat(
-                            R.id.action_favourite,
-                            context.getString(R.string.action_favourite)))
-                }
                 val mediaActions = intArrayOf(
                         R.id.action_open_media_1,
                         R.id.action_open_media_2,
@@ -90,29 +64,15 @@ class ListStatusAccessibilityDelegate(
                             mediaActions[i],
                             context.getString(R.string.action_open_media_n, i + 1)))
                 }
-                info.addAction(AccessibilityActionCompat(
-                        R.id.action_open_profile,
-                        context.getString(R.string.action_view_profile)))
 
-                if (getLinks(status).any()) {
-                    info.addAction(AccessibilityActionCompat(
-                            R.id.action_links,
-                            context.getString(R.string.action_links)
-                    ))
-                }
+                info.addAction(openProfileAction)
+                if (getLinks(status).any()) info.addAction(linksAction)
+
                 val mentions = status.mentions
-                if (mentions != null && mentions.isNotEmpty()) {
-                    info.addAction(AccessibilityActionCompat(
-                            R.id.action_mentions,
-                            context.getString(R.string.action_mentions)
-                    ))
-                }
-                if (getHashtags(status).any()) {
-                    info.addAction(AccessibilityActionCompat(
-                            R.id.actions_hashtags,
-                            context.getString(R.string.action_hashtags)
-                    ))
-                }
+                if (mentions != null && mentions.isNotEmpty()) info.addAction(mentionsAction)
+
+                if (getHashtags(status).any()) info.addAction(hashtagsAction)
+                info.addAction(openRebloggerAction)
             }
 
         }
@@ -134,28 +94,19 @@ class ListStatusAccessibilityDelegate(
                 R.id.action_open_media_4 -> statusActionListener.onViewMedia(pos, 3, null)
                 R.id.action_expand_cw -> {
                     statusActionListener.onExpandedChange(true, pos)
-                    // Stop and restart narrator before it reads old description
+                    // Stop and restart narrator before it reads old description.
+                    // Would be nice if we could *just* read the content here but doesn't seem
+                    // to be possible.
                     forceFocus(host)
                 }
                 R.id.action_collapse_cw -> {
                     statusActionListener.onExpandedChange(false, pos)
-                    // See above
-                    val a11yManager = context.getSystemService(Context.ACCESSIBILITY_SERVICE)
-                            as AccessibilityManager
                     a11yManager.interrupt()
-                    host.post {
-                        host.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
-                    }
                 }
-                R.id.action_links -> {
-                    showLinksDialog(host)
-                }
-                R.id.action_mentions -> {
-                    showMentionsDialog(host)
-                }
-                R.id.actions_hashtags -> {
-                    showHashtagsDialog(host)
-                }
+                R.id.action_links -> showLinksDialog(host)
+                R.id.action_mentions -> showMentionsDialog(host)
+                R.id.action_hashtags -> showHashtagsDialog(host)
+                R.id.action_open_reblogger -> statusActionListener.onOpenReblog(pos)
                 else -> return super.performAccessibilityAction(host, action, args)
             }
             return true
@@ -240,15 +191,62 @@ class ListStatusAccessibilityDelegate(
     }
 
     private fun forceFocus(host: View) {
-        val a11yManager = context.getSystemService(Context.ACCESSIBILITY_SERVICE)
-                as AccessibilityManager
         a11yManager.interrupt()
         host.post {
             host.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
         }
     }
 
-    private data class LinkSpanInfo(val text: String, val link: String)
 
     private fun isHashtag(text: CharSequence) = text.startsWith("#")
+
+    private val collapseCwAction = AccessibilityActionCompat(
+            R.id.action_collapse_cw,
+            context.getString(R.string.status_content_warning_show_less))
+
+    private val expandCwAction = AccessibilityActionCompat(
+            R.id.action_expand_cw,
+            context.getString(R.string.status_content_warning_show_more))
+
+    private val replyAction = AccessibilityActionCompat(
+            R.id.action_reply,
+            context.getString(R.string.action_reply))
+
+    private val unreblogAction = AccessibilityActionCompat(
+            R.id.action_unreblog,
+            context.getString(R.string.action_unreblog))
+
+    private val reblogAction = AccessibilityActionCompat(
+            R.id.action_reblog,
+            context.getString(R.string.action_reblog))
+
+    private val unfavouriteAction = AccessibilityActionCompat(
+            R.id.action_unfavourite,
+            context.getString(R.string.action_unfavourite))
+
+    private val favouriteAction = AccessibilityActionCompat(
+            R.id.action_favourite,
+            context.getString(R.string.action_favourite))
+
+    private val openProfileAction = AccessibilityActionCompat(
+            R.id.action_open_profile,
+            context.getString(R.string.action_view_profile))
+
+    private val linksAction = AccessibilityActionCompat(
+            R.id.action_links,
+            context.getString(R.string.action_links))
+
+    private val mentionsAction = AccessibilityActionCompat(
+            R.id.action_mentions,
+            context.getString(R.string.action_mentions))
+
+    private val hashtagsAction = AccessibilityActionCompat(
+            R.id.action_hashtags,
+            context.getString(R.string.action_hashtags))
+
+    private val openRebloggerAction = AccessibilityActionCompat(
+            R.id.action_open_reblogger,
+            context.getString(R.string.action_open_reblogger))
+
+    private data class LinkSpanInfo(val text: String, val link: String)
 }

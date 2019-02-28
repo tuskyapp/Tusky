@@ -16,5 +16,6 @@
     <item name="action_collapse_cw" type="id" />
     <item name="action_links" type="id" />
     <item name="action_mentions" type="id" />
-    <item name="actions_hashtags" type="id" />
+    <item name="action_hashtags" type="id" />
+    <item name="action_open_reblogger" type="id" />
 </resources>
