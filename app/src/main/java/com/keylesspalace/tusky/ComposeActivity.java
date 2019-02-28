@@ -315,16 +315,13 @@ public final class ComposeActivity
             mastodonApi.getCustomEmojis().enqueue(new Callback<List<Emoji>>() {
                 @Override
                 public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
-                    emojiList = response.body();
+                    List<Emoji> emojiList = response.body();
                     if(emojiList == null) {
                         emojiList = Collections.emptyList();
                     }
                     Collections.sort(emojiList, (a, b) ->
                         a.getShortcode().toLowerCase(Locale.ROOT).compareTo(
                             b.getShortcode().toLowerCase(Locale.ROOT)));
-
-                    emojiListRetrievalLatch.countDown();
-
                     setEmojiList(emojiList);
                     cacheInstanceMetadata(activeAccount);
                 }
@@ -332,10 +329,7 @@ public final class ComposeActivity
                 @Override
                 public void onFailure(@NonNull Call<List<Emoji>> call, @NonNull Throwable t) {
                     Log.w(TAG, "error loading custom emojis", t);
-
                     loadCachedInstanceMetadata(activeAccount);
-
-                    emojiListRetrievalLatch.countDown();
                 }
             });
         } else {
@@ -1621,13 +1615,16 @@ public final class ComposeActivity
         if(instanceEntity != null) {
             Integer max = instanceEntity.getMaximumTootCharacters();
             maximumTootCharacters = (max == null ? STATUS_CHARACTER_LIMIT : max);
-            emojiList = instanceEntity.getEmojiList();
-            setEmojiList(emojiList);
+            setEmojiList(instanceEntity.getEmojiList());
             updateVisibleCharactersLeft();
         }
     }
 
     private void setEmojiList(@Nullable List<Emoji> emojiList) {
+        this.emojiList = emojiList;
+
+        emojiListRetrievalLatch.countDown();
+
         if (emojiList != null) {
             emojiView.setAdapter(new EmojiAdapter(emojiList, ComposeActivity.this));
             enableButton(emojiButton, true, emojiList.size() > 0);
