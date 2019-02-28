@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -67,6 +68,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private boolean useAbsoluteTime;
     private SimpleDateFormat shortSdf;
     private SimpleDateFormat longSdf;
+
+    private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
     protected StatusBaseViewHolder(View itemView, boolean useAbsoluteTime) {
         super(itemView);
@@ -600,7 +603,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 status.isReblogged() ? context.getString(R.string.description_status_reblogged) : "",
                 status.isFavourited() ? context.getString(R.string.description_status_favourited) : "",
                 getMediaDescription(context, status),
-                getVisibilityDecription(context, status.getVisibility())
+                getVisibilityDecription(context, status.getVisibility()),
+                getFavouriteDescription(context, status),
+                getReblogsDescription(context, status)
         );
         itemView.setContentDescription(description);
     }
@@ -667,5 +672,25 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 return "";
         }
         return context.getString(resource);
+    }
+
+    protected CharSequence getFavouriteDescription(Context context, StatusViewData.Concrete status) {
+        int count = status.getFavouritesCount();
+        if (count > 0) {
+            String countString = numberFormat.format(count);
+            return HtmlUtils.fromHtml(context.getResources().getQuantityString(R.plurals.favs, count, countString));
+        } else {
+            return "";
+        }
+    }
+
+    protected CharSequence getReblogsDescription(Context context, StatusViewData.Concrete status) {
+        int count = status.getReblogsCount();
+        if (count > 0) {
+            String countString = numberFormat.format(count);
+            return HtmlUtils.fromHtml(context.getResources().getQuantityString(R.plurals.reblogs, count, countString));
+        } else {
+            return "";
+        }
     }
 }

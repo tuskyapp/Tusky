@@ -120,6 +120,8 @@
     <string name="action_mentions">Mentions</string>
     <string name="action_hashtags">Hashtags</string>
     <string name="action_open_reblogger">Open boost author</string>
+    <string name="action_open_reblogged_by">Show boosts</string>
+    <string name="action_open_faved_by">Show favourites</string>
 
     <string name="title_hashtags_dialog">Hashtags</string>
     <string name="title_mentions_dialog">Mentions</string>
@@ -426,8 +428,8 @@
         Direct
     </string>
     <string name="description_status">
-        <!-- Display name, cw?, content?, relative date, reposted by?, reposted?, favorited?, username, media?; visibility-->
-        %s; %s; %s, %s, %s; %s, %s, %s, %s; %s
+        <!-- Display name, cw?, content?, relative date, reposted by?, reposted?, favorited?, username, media?; visibility, fav number?, reblog number?-->
+        %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
     </string>
 
 </resources>

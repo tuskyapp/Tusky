@@ -72,7 +72,11 @@ class ListStatusAccessibilityDelegate(
                 if (mentions != null && mentions.isNotEmpty()) info.addAction(mentionsAction)
 
                 if (getHashtags(status).any()) info.addAction(hashtagsAction)
-                info.addAction(openRebloggerAction)
+                if (!status.rebloggedByUsername.isNullOrEmpty()) {
+                    info.addAction(openRebloggerAction)
+                }
+                if (status.reblogsCount > 0) info.addAction(openRebloggedByAction)
+                if (status.favouritesCount > 0) info.addAction(openFavsAction)
             }
 
         }
@@ -81,17 +85,35 @@ class ListStatusAccessibilityDelegate(
                                                 args: Bundle?): Boolean {
             val pos = recyclerView.getChildAdapterPosition(host)
             when (action) {
-                R.id.action_reply -> statusActionListener.onReply(pos)
+                R.id.action_reply -> {
+                    interrupt()
+                    statusActionListener.onReply(pos)
+                }
                 R.id.action_favourite -> statusActionListener.onFavourite(true, pos)
                 R.id.action_unfavourite -> statusActionListener.onFavourite(false, pos)
                 R.id.action_reblog -> statusActionListener.onReblog(true, pos)
                 R.id.action_unreblog -> statusActionListener.onReblog(false, pos)
-                R.id.action_open_profile -> statusActionListener.onViewAccount(
-                        (statusProvider.getStatus(pos) as StatusViewData.Concrete).senderId)
-                R.id.action_open_media_1 -> statusActionListener.onViewMedia(pos, 0, null)
-                R.id.action_open_media_2 -> statusActionListener.onViewMedia(pos, 1, null)
-                R.id.action_open_media_3 -> statusActionListener.onViewMedia(pos, 2, null)
-                R.id.action_open_media_4 -> statusActionListener.onViewMedia(pos, 3, null)
+                R.id.action_open_profile -> {
+                    interrupt()
+                    statusActionListener.onViewAccount(
+                            (statusProvider.getStatus(pos) as StatusViewData.Concrete).senderId)
+                }
+                R.id.action_open_media_1 -> {
+                    interrupt()
+                    statusActionListener.onViewMedia(pos, 0, null)
+                }
+                R.id.action_open_media_2 -> {
+                    interrupt()
+                    statusActionListener.onViewMedia(pos, 1, null)
+                }
+                R.id.action_open_media_3 -> {
+                    interrupt()
+                    statusActionListener.onViewMedia(pos, 2, null)
+                }
+                R.id.action_open_media_4 -> {
+                    interrupt()
+                    statusActionListener.onViewMedia(pos, 3, null)
+                }
                 R.id.action_expand_cw -> {
                     statusActionListener.onExpandedChange(true, pos)
                     // Stop and restart narrator before it reads old description.
@@ -101,12 +123,23 @@ class ListStatusAccessibilityDelegate(
                 }
                 R.id.action_collapse_cw -> {
                     statusActionListener.onExpandedChange(false, pos)
-                    a11yManager.interrupt()
+                    interrupt()
                 }
                 R.id.action_links -> showLinksDialog(host)
                 R.id.action_mentions -> showMentionsDialog(host)
                 R.id.action_hashtags -> showHashtagsDialog(host)
-                R.id.action_open_reblogger -> statusActionListener.onOpenReblog(pos)
+                R.id.action_open_reblogger -> {
+                    interrupt()
+                    statusActionListener.onOpenReblog(pos)
+                }
+                R.id.action_open_reblogged_by -> {
+                    interrupt()
+                    statusActionListener.onShowReblogs(pos)
+                }
+                R.id.action_open_faved_by -> {
+                    interrupt()
+                    statusActionListener.onShowFavs(pos)
+                }
                 else -> return super.performAccessibilityAction(host, action, args)
             }
             return true
@@ -191,10 +224,14 @@ class ListStatusAccessibilityDelegate(
     }
 
     private fun forceFocus(host: View) {
-        a11yManager.interrupt()
+        interrupt()
         host.post {
             host.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
         }
+    }
+
+    private fun interrupt() {
+        a11yManager.interrupt()
     }
 
 
@@ -247,6 +284,14 @@ class ListStatusAccessibilityDelegate(
     private val openRebloggerAction = AccessibilityActionCompat(
             R.id.action_open_reblogger,
             context.getString(R.string.action_open_reblogger))
+
+    private val openRebloggedByAction = AccessibilityActionCompat(
+            R.id.action_open_reblogged_by,
+            context.getString(R.string.action_open_reblogged_by))
+
+    private val openFavsAction = AccessibilityActionCompat(
+            R.id.action_open_faved_by,
+            context.getString(R.string.action_open_faved_by))
 
     private data class LinkSpanInfo(val text: String, val link: String)
 }

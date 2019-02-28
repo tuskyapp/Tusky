@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -27,6 +28,8 @@ import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.keylesspalace.tusky.AccountListActivity;
+import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
 import com.keylesspalace.tusky.appstore.BlockEvent;
@@ -631,6 +634,21 @@ public class TimelineFragment extends SFragment implements
                 .setIsShowingSensitiveContent(isShowing).createStatusViewData();
         statuses.setPairedItem(position, newViewData);
         updateAdapter();
+    }
+
+
+    @Override
+    public void onShowReblogs(int position) {
+        String statusId = statuses.get(position).asRight().getId();
+        Intent intent = AccountListActivity.newIntent(getContext(), AccountListActivity.Type.REBLOGGED, statusId);
+        ((BaseActivity) getActivity()).startActivityWithSlideInAnimation(intent);
+    }
+
+    @Override
+    public void onShowFavs(int position) {
+        String statusId = statuses.get(position).asRight().getId();
+        Intent intent = AccountListActivity.newIntent(getContext(), AccountListActivity.Type.FAVOURITED, statusId);
+        ((BaseActivity) getActivity()).startActivityWithSlideInAnimation(intent);
     }
 
     @Override
