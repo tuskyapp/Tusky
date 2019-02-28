@@ -20,7 +20,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 
 // Not using lambdas because there's boxing of int then
 interface StatusProvider {
-    fun getStatus(pos: Int): StatusViewData
+    fun getStatus(pos: Int): StatusViewData?
 }
 
 class ListStatusAccessibilityDelegate(
@@ -41,7 +41,7 @@ class ListStatusAccessibilityDelegate(
             super.onInitializeAccessibilityNodeInfo(host, info)
 
             val pos = recyclerView.getChildAdapterPosition(host)
-            val status = statusProvider.getStatus(pos)
+            val status = statusProvider.getStatus(pos) ?: return
             if (status is StatusViewData.Concrete) {
                 if (!status.spoilerText.isNullOrEmpty()) {
                     info.addAction(if (status.isExpanded) collapseCwAction else expandCwAction)
@@ -191,7 +191,7 @@ class ListStatusAccessibilityDelegate(
         }
 
         private fun getStatus(childView: View): StatusViewData {
-            return statusProvider.getStatus(recyclerView.getChildAdapterPosition(childView))
+            return statusProvider.getStatus(recyclerView.getChildAdapterPosition(childView))!!
         }
     }
 
