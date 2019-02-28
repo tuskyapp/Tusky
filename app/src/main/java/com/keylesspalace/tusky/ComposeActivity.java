@@ -111,6 +111,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
 
 import javax.inject.Inject;
 
@@ -226,6 +227,7 @@ public final class ComposeActivity
     private Uri photoUploadUri;
     private int savedTootUid = 0;
     private List<Emoji> emojiList;
+    private CountDownLatch emojiListRetrievalLatch = new CountDownLatch(1);
     private int maximumTootCharacters = STATUS_CHARACTER_LIMIT;
     private @Px
     int thumbnailViewSize;
@@ -320,6 +322,9 @@ public final class ComposeActivity
                     Collections.sort(emojiList, (a, b) ->
                         a.getShortcode().toLowerCase(Locale.ROOT).compareTo(
                             b.getShortcode().toLowerCase(Locale.ROOT)));
+
+                    emojiListRetrievalLatch.countDown();
+
                     setEmojiList(emojiList);
                     cacheInstanceMetadata(activeAccount);
                 }
@@ -327,7 +332,10 @@ public final class ComposeActivity
                 @Override
                 public void onFailure(@NonNull Call<List<Emoji>> call, @NonNull Throwable t) {
                     Log.w(TAG, "error loading custom emojis", t);
+
                     loadCachedInstanceMetadata(activeAccount);
+
+                    emojiListRetrievalLatch.countDown();
                 }
             });
         } else {
@@ -1567,6 +1575,28 @@ public final class ComposeActivity
                         );
                     } else {
                         Log.e(TAG, String.format("Autocomplete search for %s failed.", token));
+                        return Collections.emptyList();
+                    }
+                case ':':
+                    try {
+                        emojiListRetrievalLatch.await();
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, String.format("Autocomplete search for %s was interrupted.", token));
+                        return Collections.emptyList();
+                    }
+                    if (emojiList != null) {
+                        final String incomplete = token.substring(1);
+
+                        List<Emoji> results = CollectionsKt.filter(
+                                emojiList,
+                                emoji -> emoji.getShortcode().startsWith(incomplete)
+                        );
+
+                        return CollectionsKt.map(
+                                results,
+                                MentionTagAutoCompleteAdapter.EmojiResult::new
+                        );
+                    } else {
                         return Collections.emptyList();
                     }
                 default:
