@@ -21,7 +21,6 @@ import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomURLSpan;
-import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
@@ -43,8 +42,6 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private TextView cardDescription;
     private TextView cardUrl;
     private View infoDivider;
-
-    private NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
     StatusDetailedViewHolder(View view) {
         super(view, false);
@@ -77,15 +74,13 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private void setReblogAndFavCount(int reblogCount, int favCount, StatusActionListener listener) {
 
         if (reblogCount > 0) {
-            String reblogCountString = numberFormat.format(reblogCount);
-            reblogs.setText(HtmlUtils.fromHtml(reblogs.getResources().getQuantityString(R.plurals.reblogs, reblogCount, reblogCountString)));
+            reblogs.setText(getReblogsText(reblogs.getContext(), reblogCount));
             reblogs.setVisibility(View.VISIBLE);
         } else {
             reblogs.setVisibility(View.GONE);
         }
         if (favCount > 0) {
-            String favCountString = numberFormat.format(favCount);
-            favourites.setText(HtmlUtils.fromHtml(favourites.getResources().getQuantityString(R.plurals.favs, favCount, favCountString)));
+            favourites.setText(getFavsText(favourites.getContext(), favCount));
             favourites.setVisibility(View.VISIBLE);
         } else {
             favourites.setVisibility(View.GONE);

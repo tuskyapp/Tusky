@@ -603,9 +603,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 status.isReblogged() ? context.getString(R.string.description_status_reblogged) : "",
                 status.isFavourited() ? context.getString(R.string.description_status_favourited) : "",
                 getMediaDescription(context, status),
-                getVisibilityDecription(context, status.getVisibility()),
-                getFavouriteDescription(context, status),
-                getReblogsDescription(context, status)
+                getVisibilityDescription(context, status.getVisibility()),
+                getFavsText(context, status.getFavouritesCount()),
+                getReblogsText(context, status.getReblogsCount())
         );
         itemView.setContentDescription(description);
     }
@@ -653,7 +653,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private CharSequence getVisibilityDecription(Context context, Status.Visibility visibility) {
+    private CharSequence getVisibilityDescription(Context context, Status.Visibility visibility) {
         int resource;
         switch (visibility) {
             case PUBLIC:
@@ -674,8 +674,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         return context.getString(resource);
     }
 
-    protected CharSequence getFavouriteDescription(Context context, StatusViewData.Concrete status) {
-        int count = status.getFavouritesCount();
+    protected CharSequence getFavsText(Context context, int count) {
         if (count > 0) {
             String countString = numberFormat.format(count);
             return HtmlUtils.fromHtml(context.getResources().getQuantityString(R.plurals.favs, count, countString));
@@ -684,8 +683,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    protected CharSequence getReblogsDescription(Context context, StatusViewData.Concrete status) {
-        int count = status.getReblogsCount();
+    protected CharSequence getReblogsText(Context context, int count) {
         if (count > 0) {
             String countString = numberFormat.format(count);
             return HtmlUtils.fromHtml(context.getResources().getQuantityString(R.plurals.reblogs, count, countString));
