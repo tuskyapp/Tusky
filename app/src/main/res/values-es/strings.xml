@@ -167,6 +167,7 @@
     <string name="pref_title_notification_filter_favourites">me dan favorito</string>
     <string name="pref_title_appearance_settings">Interfaz</string>
     <string name="pref_title_app_theme">Tema</string>
+    <string name="pref_title_timelines">Cronologia</string>
     <string-array name="app_theme_names">
         <item>Oscuro</item>
         <item>Claro</item>
@@ -182,12 +183,15 @@
     <string name="pref_title_show_replies">Mostrar respuestas</string>
     <string name="pref_title_filter_regex">Filtrar con expresiones regulares</string>
     <string name="pref_title_show_media_preview">Previsualizar multimedia</string>
+    <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">Proxy HTTP</string>
     <string name="pref_title_http_proxy_enable">Habilitar proxy HTTP</string>
     <string name="pref_title_http_proxy_server">Servidor del proxy HTTP</string>
     <string name="pref_title_http_proxy_port">Puerto del proxy HTTP</string>
     <string name="pref_default_post_privacy">Visibilidad por defecto</string>
+    <string name="pref_default_media_sensitivity">Marcar siempre medios como sensibles</string>
     <string name="pref_publishing">Publicaciones</string>
+    <string name="pref_failed_to_sync">Error al sincronizar los ajustes</string>
     <string-array name="post_privacy_names">
         <item>Público</item>
         <item>Oculto</item>
@@ -200,6 +204,12 @@
         <item>Medio</item>
         <item>Grande</item>
         <item>Enorme</item>
+    </string-array>
+    <string name="pref_media_display">Pantalla multimedia</string>
+    <string-array name="media_display_names">
+        <item>Ocultar medios marcados como sensibles</item>
+        <item>Mostrar siempre los medios marcados como sensibles</item>
+        <item>Ocultar siempre todos los medios</item>
     </string-array>
     <string name="notification_channel_mention_name">Nuevas menciones</string>
     <string name="notification_channel_mention_descriptions">Notificaciones de nuevas menciones</string>
@@ -216,6 +226,7 @@
     <string name="notification_title_summary">%d nuevas interacciones</string>
     <string name="description_account_locked">Cuenta protegida</string>
     <string name="about_title_activity">Acerca de</string>
+    <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tusky es un software libre y de código abierto.
         Está licenciado bajo la licencia \"GNU General Public License Version 3\".
         Puedes leer sobre la misma en: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
@@ -235,6 +246,7 @@
     <string name="status_share_content">Compartir contenido</string>
     <string name="status_share_link">Compartir enlace</string>
     <string name="status_media_images">Imágenes</string>
+    <string name="status_media_video">Video</string>
     <string name="state_follow_requested">Solicitud enviada</string>
     <string name="no_content">No hay nada aquí</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
@@ -243,6 +255,11 @@
     <string name="abbreviated_in_hours">en %dh</string>
     <string name="abbreviated_in_minutes">en %dm</string>
     <string name="abbreviated_in_seconds">en %ds</string>
+    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Te sigue</string>
     <string name="pref_title_alway_show_sensitive_media">Mostrar contenido NSFW</string>
     <string name="title_media">Multimedia</string>
@@ -255,6 +272,7 @@
     <string name="title_list_timeline">Cronología de lista</string>
     <string name="compose_active_account_description">Publicando con la cuenta %1$s</string>
     <string name="error_failed_set_caption">Error al añadir leyenda</string>
+    <string name="hint_describe_for_visually_impaired">Describir para invidentes\n(límite de %d caracteres)</string>
     <string name="action_set_caption">Añadir leyenda</string>
     <string name="action_remove_media">Eliminar</string>
     <string name="lock_account_label">Proteger cuenta</string>
@@ -278,16 +296,36 @@
     <string name="restart_emoji">Tendrás que reiniciar la aplicación para aplicar estos cambios</string>
     <string name="later">Más tarde</string>
     <string name="restart">Reiniciar</string>
+    <string name="caption_systememoji">Conjunto de emoji predeterminado de su dispositivo</string>
     <string name="caption_blobmoji">Los emojis de Android 4.4 a 7.1</string>
     <string name="caption_twemoji">Pack estándar de Emojis de Mastodon</string>
     <string name="download_failed">Descarga fallida</string>
+    <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s se trasladó a:</string>
     <string name="reblog_private">Volver a compartir</string>
     <string name="unreblog_private">Dejar de compartir</string>
     <string name="license_description">Tusky contiene código y recursos de los siguientes proyectos:</string>
     <string name="license_apache_2">Licenciado bajo Apache License (texto bajo la lista)</string>
+    <string name="license_cc_by_4">CC BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Información adicional</string>
     <string name="profile_metadata_add">añadir campo</string>
     <string name="profile_metadata_label_label">Etiqueta</string>
     <string name="profile_metadata_content_label">Contenido</string>
+    <string name="pref_title_absolute_time">Usar tiempo absoluto</string>
+    <string name="label_remote_account">La información de abajo puede mostrar el perfil del usuario incompleto. Pulse para abrir el perfil completo en el navegador.</string>
+    <string name="unpin_action">No fijar</string>
+    <string name="pin_action">Fijar</string>
+    <plurals name="favs">
+        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorito</item>
+        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoritos</item>
+    </plurals>
+    <plurals name="reblogs">
+        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Boost</item>
+        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Boosts</item>
+    </plurals>
+    <string name="title_reblogged_by">Impulsado por</string>
+    <string name="title_favourited_by">Marcado como favorito por</string>
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s y %2$s</string>
 </resources>
