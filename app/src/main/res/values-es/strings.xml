@@ -278,7 +278,7 @@
     <string name="lock_account_label">Proteger cuenta</string>
     <string name="lock_account_label_description">Tendrá que admitir los seguidores manualmente</string>
     <string name="compose_save_draft">¿Guardar borrador?</string>
-    <string name="send_toot_notification_title">Eliminando estado…</string>
+    <string name="send_toot_notification_title">Enviando estado…</string>
     <string name="send_toot_notification_error_title">Error enviando estado</string>
     <string name="send_toot_notification_channel_name">Enviando estado</string>
     <string name="send_toot_notification_cancel_title">Envío cancelado</string>
@@ -328,4 +328,6 @@
     <string name="title_favourited_by">Marcado como favorito por</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s y %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s y %3$d más</string>
+    <string name="max_tab_number_reached">máximo de %1$d pestañas alcanzadas</string>
 </resources>
