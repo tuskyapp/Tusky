@@ -41,7 +41,7 @@ import androidx.annotation.Nullable;
  * Created by charlag on 12/11/17.
  */
 
-public class MentionTagAutoCompleteAdapter extends BaseAdapter
+public class ComposeAutoCompleteAdapter extends BaseAdapter
         implements Filterable {
     private static final int ACCOUNT_VIEW_TYPE = 0;
     private static final int HASHTAG_VIEW_TYPE = 1;
@@ -50,7 +50,7 @@ public class MentionTagAutoCompleteAdapter extends BaseAdapter
     private final ArrayList<AutocompleteResult> resultList;
     private final AutocompletionProvider autocompletionProvider;
 
-    public MentionTagAutoCompleteAdapter(AutocompletionProvider autocompletionProvider) {
+    public ComposeAutoCompleteAdapter(AutocompletionProvider autocompletionProvider) {
         super();
         resultList = new ArrayList<>();
         this.autocompletionProvider = autocompletionProvider;

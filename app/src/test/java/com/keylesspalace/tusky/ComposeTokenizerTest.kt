@@ -15,16 +15,16 @@
 
 package com.keylesspalace.tusky
 
-import com.keylesspalace.tusky.util.MentionTagTokenizer
+import com.keylesspalace.tusky.util.ComposeTokenizer
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class MentionTagTokenizerTest(private val text: CharSequence,
-                              private val expectedStartIndex: Int,
-                              private val expectedEndIndex: Int) {
+class ComposeTokenizerTest(private val text: CharSequence,
+                           private val expectedStartIndex: Int,
+                           private val expectedEndIndex: Int) {
 
     companion object {
         @Parameterized.Parameters(name = "{0}")
@@ -61,7 +61,7 @@ class MentionTagTokenizerTest(private val text: CharSequence,
         }
     }
 
-    private val tokenizer = MentionTagTokenizer()
+    private val tokenizer = ComposeTokenizer()
 
     @Test
     fun tokenIndices_matchExpectations() {

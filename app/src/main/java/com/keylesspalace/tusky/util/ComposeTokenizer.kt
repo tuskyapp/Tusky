@@ -20,7 +20,7 @@ import android.text.Spanned
 import android.text.TextUtils
 import android.widget.MultiAutoCompleteTextView
 
-class MentionTagTokenizer : MultiAutoCompleteTextView.Tokenizer {
+class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
     override fun findTokenStart(text: CharSequence, cursor: Int): Int {
         if (cursor == 0) {
             return cursor

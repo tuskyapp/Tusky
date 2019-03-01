@@ -66,7 +66,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.keylesspalace.tusky.adapter.EmojiAdapter;
-import com.keylesspalace.tusky.adapter.MentionTagAutoCompleteAdapter;
+import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter;
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AppDatabase;
@@ -84,7 +84,7 @@ import com.keylesspalace.tusky.service.SendTootService;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
 import com.keylesspalace.tusky.util.ListUtils;
-import com.keylesspalace.tusky.util.MentionTagTokenizer;
+import com.keylesspalace.tusky.util.ComposeTokenizer;
 import com.keylesspalace.tusky.util.SaveTootHelper;
 import com.keylesspalace.tusky.util.SpanUtilsKt;
 import com.keylesspalace.tusky.util.StringUtils;
@@ -158,7 +158,7 @@ import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvid
 public final class ComposeActivity
         extends BaseActivity
         implements ComposeOptionsListener,
-        MentionTagAutoCompleteAdapter.AutocompletionProvider,
+        ComposeAutoCompleteAdapter.AutocompletionProvider,
         OnEmojiSelectedListener,
         Injectable, InputConnectionCompat.OnCommitContentListener {
 
@@ -521,8 +521,8 @@ public final class ComposeActivity
         });
 
         textEditor.setAdapter(
-                new MentionTagAutoCompleteAdapter(this));
-        textEditor.setTokenizer(new MentionTagTokenizer());
+                new ComposeAutoCompleteAdapter(this));
+        textEditor.setTokenizer(new ComposeTokenizer());
 
         // Add any mentions to the text field when a reply is first composed.
         if (mentionedUsernames != null) {
@@ -1547,7 +1547,7 @@ public final class ComposeActivity
     }
 
     @Override
-    public List<MentionTagAutoCompleteAdapter.AutocompleteResult> search(String token) {
+    public List<ComposeAutoCompleteAdapter.AutocompleteResult> search(String token) {
         try {
             switch (token.charAt(0)) {
                 case '@':
@@ -1559,13 +1559,13 @@ public final class ComposeActivity
                     if (accountList != null) {
                         resultList.addAll(accountList);
                     }
-                    return CollectionsKt.map(resultList, MentionTagAutoCompleteAdapter.AccountResult::new);
+                    return CollectionsKt.map(resultList, ComposeAutoCompleteAdapter.AccountResult::new);
                 case '#':
                     Response<SearchResults> response = mastodonApi.search(token, false).execute();
                     if (response.isSuccessful() && response.body() != null) {
                         return CollectionsKt.map(
                                 response.body().getHashtags(),
-                                MentionTagAutoCompleteAdapter.HashtagResult::new
+                                ComposeAutoCompleteAdapter.HashtagResult::new
                         );
                     } else {
                         Log.e(TAG, String.format("Autocomplete search for %s failed.", token));
@@ -1588,7 +1588,7 @@ public final class ComposeActivity
 
                         return CollectionsKt.map(
                                 results,
-                                MentionTagAutoCompleteAdapter.EmojiResult::new
+                                ComposeAutoCompleteAdapter.EmojiResult::new
                         );
                     } else {
                         return Collections.emptyList();
