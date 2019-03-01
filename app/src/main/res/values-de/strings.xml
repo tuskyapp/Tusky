@@ -123,9 +123,11 @@
     <string name="hint_compose">Was gibt\'s Neues?</string>
     <string name="hint_content_warning">Inhaltswarnung</string>
     <string name="hint_display_name">Anzeigename</string>
+    <string name="hint_note">Über mich</string>
     <string name="hint_search">Mastodon durchsuchen</string>
     <string name="search_no_results">Keine Ergebnisse</string>
     <string name="label_quick_reply">Antworten…</string>
+    <string name="label_avatar">Profilbild</string>
     <string name="label_header">Titelbild</string>
     <string name="link_whats_an_instance">Was ist eine Instanz?</string>
     <string name="login_connection">Verbinden…</string>
@@ -170,13 +172,16 @@
         <item>Schwarz</item>
         <item>Automatisch bei Sonnenuntergang</item>
     </string-array>
+    <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Öffne Links in der App</string>
     <string name="pref_title_hide_follow_button">Verstecke Button bei Bildlauf </string>
     <string name="pref_title_status_filter">Timeline-Filter</string>
+    <string name="pref_title_status_tabs">Tabs</string>
     <string name="pref_title_show_boosts">Zeige Boosts</string>
     <string name="pref_title_show_replies">Zeige Antworten</string>
     <string name="pref_title_filter_regex">Mit regulärem Ausdruck filtern</string>
     <string name="pref_title_show_media_preview">Zeige Medienvorschauen</string>
+    <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP-Proxy</string>
     <string name="pref_title_http_proxy_enable">HTTP-Proxy aktivieren</string>
     <string name="pref_title_http_proxy_server">HTTP-Proxy-Server</string>
@@ -201,7 +206,7 @@
     <string name="pref_media_display">Medienanzeige</string>
     <string-array name="media_display_names">
         <item>Verberge Medien welche als heikel makiert sind</item>
-        <item>Always show media marked as sensitive</item>
+        <item>Medien, die als sensibel markiert sind, immer anzeigen</item>
         <item>Medien immer verstecken</item>
     </string-array>
     <string name="notification_channel_mention_name">Neue Erwähnungen</string>
