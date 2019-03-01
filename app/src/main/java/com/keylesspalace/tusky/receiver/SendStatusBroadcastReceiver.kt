@@ -133,6 +133,8 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                     .replyingStatusContent(citedText)
                     .build(context)
 
+            composeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
             context.startActivity(composeIntent)
         }
     }
