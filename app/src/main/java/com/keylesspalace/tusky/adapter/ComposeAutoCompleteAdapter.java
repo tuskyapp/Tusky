@@ -43,9 +43,10 @@ import androidx.annotation.Nullable;
 
 public class ComposeAutoCompleteAdapter extends BaseAdapter
         implements Filterable {
-    private static final int ACCOUNT_VIEW_TYPE = 0;
-    private static final int HASHTAG_VIEW_TYPE = 1;
-    private static final int EMOJI_VIEW_TYPE = 2;
+    private static final int ACCOUNT_VIEW_TYPE = 1;
+    private static final int HASHTAG_VIEW_TYPE = 2;
+    private static final int EMOJI_VIEW_TYPE = 3;
+    private static final int SEPARATOR_VIEW_TYPE = 0;
 
     private final ArrayList<AutocompleteResult> resultList;
     private final AutocompletionProvider autocompletionProvider;
@@ -81,8 +82,10 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                     return formatUsername(((AccountResult) resultValue));
                 } else if (resultValue instanceof HashtagResult) {
                     return formatHashtag((HashtagResult) resultValue);
-                } else {
+                } else if (resultValue instanceof  EmojiResult) {
                     return formatEmoji((EmojiResult) resultValue);
+                } else {
+                    return "";
                 }
             }
 
@@ -190,6 +193,14 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                             .into(emojiViewHolder.preview);
                 }
                 break;
+
+            case SEPARATOR_VIEW_TYPE:
+                if (convertView == null) {
+                    view = ((LayoutInflater) context
+                            .getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                            .inflate(R.layout.item_autocomplete_divider, parent, false);
+                }
+                break;
             default:
                 throw new AssertionError("unknown view type");
         }
@@ -211,7 +222,7 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
 
     @Override
     public int getViewTypeCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -222,9 +233,22 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
             return ACCOUNT_VIEW_TYPE;
         } else if (item instanceof HashtagResult) {
             return HASHTAG_VIEW_TYPE;
-        } else {
+        } else if (item instanceof EmojiResult) {
             return EMOJI_VIEW_TYPE;
+        } else {
+            return SEPARATOR_VIEW_TYPE;
         }
+    }
+
+    @Override
+    public boolean areAllItemsEnabled() {
+        // there may be separators
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        return !(getItem(position) instanceof ResultSeparator);
     }
 
     public abstract static class AutocompleteResult {
@@ -255,6 +279,8 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
             this.emoji = emoji;
         }
     }
+
+    public final static class ResultSeparator extends AutocompleteResult {}
 
     public interface AutocompletionProvider {
         List<AutocompleteResult> search(String mention);

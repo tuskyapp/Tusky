@@ -1596,6 +1596,11 @@ public final class ComposeActivity
                             }
                         }
 
+                        if (!results.isEmpty() && !resultsInside.isEmpty()) {
+                            // both lists have results. include a separator between them.
+                            results.add(new ComposeAutoCompleteAdapter.ResultSeparator());
+                        }
+
                         results.addAll(resultsInside);
                         return results;
                     } else {
