@@ -26,7 +26,9 @@
     <string name="title_notifications">通知</string>
     <string name="title_public_local">ローカル</string>
     <string name="title_public_federated">連合</string>
+    <string name="title_tab_preferences">タブ</string>
     <string name="title_view_thread">スレッド</string>
+    <string name="title_tag">#%s</string>
     <string name="title_statuses">投稿</string>
     <string name="title_statuses_with_replies">投稿と返信</string>
     <string name="title_follows">フォロー</string>
@@ -216,6 +218,7 @@
     <string name="notification_title_summary">%d件の新しい通知</string>
     <string name="description_account_locked">非公開アカウント</string>
     <string name="about_title_activity">このアプリについて</string>
+    <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tuskyは無料のオープンソースソフトウェアです。<!--
      -->GNU General Public License Version 3 の下で使用許諾されています。<!--
      -->ライセンスはここからご覧いただけます： https://www.gnu.org/licenses/gpl-3.0.ja.html</string>
@@ -295,6 +298,8 @@
     <string name="unreblog_private">ブーストを解除</string>
     <string name="license_description">Tuskyは、以下のオープンソース プロジェクトからのコードとアセットを含んでいます:</string>
     <string name="license_apache_2">Apache Licenseの下にライセンスされています（下記をコピー）</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">プロフィール メタデータ</string>
     <string name="profile_metadata_add">データを追加</string>
     <string name="profile_metadata_label_label">ラベル</string>
@@ -303,6 +308,12 @@
     <string name="label_remote_account">以下の情報は不正確な可能性があります。タップしてブラウザでプロフィールを開く</string>
     <string name="unpin_action">固定表示を解除</string>
     <string name="pin_action">プロフィールに固定</string>
+    <plurals name="favs">
+        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; お気に入り</item>
+    </plurals>
+    <plurals name="reblogs">
+        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; ブースト</item>
+    </plurals>
     <string name="title_reblogged_by">ブーストした人物</string>
     <string name="title_favourited_by">お気に入りした人物</string>
 </resources>
