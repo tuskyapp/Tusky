@@ -1579,17 +1579,25 @@ public final class ComposeActivity
                         return Collections.emptyList();
                     }
                     if (emojiList != null) {
-                        final String incomplete = token.substring(1);
+                        String incomplete = token.substring(1).toLowerCase();
 
-                        List<Emoji> results = CollectionsKt.filter(
-                                emojiList,
-                                emoji -> emoji.getShortcode().startsWith(incomplete)
-                        );
+                        List<ComposeAutoCompleteAdapter.AutocompleteResult> results =
+                                new ArrayList<>();
+                        List<ComposeAutoCompleteAdapter.AutocompleteResult> resultsInside =
+                                new ArrayList<>();
 
-                        return CollectionsKt.map(
-                                results,
-                                ComposeAutoCompleteAdapter.EmojiResult::new
-                        );
+                        for (Emoji emoji : emojiList) {
+                            String shortcode = emoji.getShortcode().toLowerCase();
+
+                            if (shortcode.startsWith(incomplete)) {
+                                results.add(new ComposeAutoCompleteAdapter.EmojiResult(emoji));
+                            } else if (shortcode.indexOf(incomplete, 1) != -1) {
+                                resultsInside.add(new ComposeAutoCompleteAdapter.EmojiResult(emoji));
+                            }
+                        }
+
+                        results.addAll(resultsInside);
+                        return results;
                     } else {
                         return Collections.emptyList();
                     }
