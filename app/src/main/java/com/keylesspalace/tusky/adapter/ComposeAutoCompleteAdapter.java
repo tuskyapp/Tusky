@@ -154,7 +154,7 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                 if (convertView == null) {
                     view = ((LayoutInflater) context
                             .getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                            .inflate(R.layout.item_hashtag, parent, false);
+                            .inflate(R.layout.item_autocomplete_hashtag, parent, false);
                 }
 
                 HashtagResult result = (HashtagResult) getItem(position);
