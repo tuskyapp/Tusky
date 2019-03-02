@@ -135,8 +135,10 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                 AccountResult accountResult = ((AccountResult) getItem(position));
                 if (accountResult != null) {
                     Account account = accountResult.account;
-                    String format = context.getString(R.string.status_username_format);
-                    String formattedUsername = String.format(format, account.getUsername());
+                    String formattedUsername = context.getString(
+                            R.string.status_username_format,
+                            account.getUsername()
+                    );
                     accountViewHolder.username.setText(formattedUsername);
                     CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(),
                             account.getEmojis(), accountViewHolder.displayName);
@@ -178,8 +180,10 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                 EmojiResult emojiResult = ((EmojiResult) getItem(position));
                 if (emojiResult != null) {
                     Emoji emoji = emojiResult.emoji;
-                    String format = context.getString(R.string.emoji_shortcode_format);
-                    String formattedShortcode = String.format(format, emoji.getShortcode());
+                    String formattedShortcode = context.getString(
+                            R.string.emoji_shortcode_format,
+                            emoji.getShortcode()
+                    );
                     emojiViewHolder.shortcode.setText(formattedShortcode);
                     Picasso.with(context)
                             .load(emoji.getUrl())
