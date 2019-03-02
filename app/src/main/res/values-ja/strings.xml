@@ -31,6 +31,7 @@
     <string name="title_tag">#%s</string>
     <string name="title_statuses">投稿</string>
     <string name="title_statuses_with_replies">投稿と返信</string>
+    <string name="title_statuses_pinned">ピン留め</string>
     <string name="title_follows">フォロー</string>
     <string name="title_followers">フォロワー</string>
     <string name="title_favourites">お気に入り</string>
@@ -186,7 +187,7 @@
     <string name="pref_failed_to_sync">設定の同期に失敗しました</string>
     <string-array name="post_privacy_names">
         <item>公開</item>
-        <item>Unlisted</item>
+        <item>未収載</item>
         <item>フォロワーに限定</item>
     </string-array>
     <string name="pref_status_text_size">トゥートのテキストサイズ</string>
