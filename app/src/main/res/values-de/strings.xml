@@ -79,7 +79,6 @@
     <string name="action_view_preferences">Einstellungen</string>
     <string name="action_view_favourites">Favouriten</string>
     <string name="action_view_account_preferences">Profileinstellungen</string>
-    <string name="action_view_favourites">Favoriten</string>
     <string name="action_view_mutes">Stummgeschaltete Profile</string>
     <string name="action_view_blocks">Blockierte Profile</string>
     <string name="action_view_follow_requests">Folgeanfragen</string>
@@ -174,11 +173,7 @@
     <string name="pref_title_custom_tabs">Öffne Links in der App</string>
     <string name="pref_title_hide_follow_button">Verstecke Button bei Bildlauf </string>
     <string name="pref_title_status_filter">Timeline-Filter</string>
-    <string name="pref_title_status_tabs">Tabs</string>
-    <string name="pref_title_show_boosts">Zeige Boosts</string>
-    <string name="pref_title_show_replies">Zeige Antworten</string>
     <string name="pref_title_filter_regex">Mit regulärem Ausdruck filtern</string>
-    <string name="pref_title_show_media_preview">Zeige Medienvorschauen</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP-Proxy</string>
     <string name="pref_title_http_proxy_enable">HTTP-Proxy aktivieren</string>
@@ -211,8 +206,6 @@
     <string name="notification_channel_mention_descriptions">Benachrichtigungen über neue Erwähnungen</string>
     <string name="notification_channel_follow_name">Neue Folgende</string>
     <string name="notification_channel_follow_description">Benachrichtigunen über neue Folgende</string>
-    <string name="notification_channel_boost_name">Geteilte Beiträge</string>
-    <string name="notification_channel_boost_description">Benachrichtigungen wenn deine Beiträge geteilt werden</string>
     <string name="notification_channel_favourite_name">Favorisierte Beiträge</string>
     <string name="notification_channel_favourite_description">Benachrichtigungen wenn deine Beiträge favorisiert werden</string>
     <string name="notification_mention_format">%s hat dich erwähnt</string>
@@ -236,7 +229,6 @@
     </string>
     <string name="about_roma_account">Romas Profil</string>
 
-    <string name="search_no_results">Keine Ergebnisse</string>
     <string name="status_media_images">Bilder</string>
     <string name="status_media_video">Video</string>
     <string name="pref_title_status_tabs">Tabs</string>
@@ -249,15 +241,8 @@
     <string name="pref_title_alway_show_sensitive_media">Heikle Inhalte immer anzeigen</string>
     <string name="notification_channel_repost_name">Geteilte Beiträge</string>
     <string name="notification_channel_repost_description">Benachrichtigungen wenn deine Beiträge geteilt werden</string>
-    <string name="notification_channel_favourite_description">Benachrichtigungen wenn deine Beiträge favorisiert werden</string>
-    <string name="notification_channel_favourite_name">Favorisierte Beiträge</string>
-    <string name="notification_channel_follow_description">Benachrichtigunen über neue Folgende</string>
-    <string name="notification_channel_follow_name">Neue Folgende</string>
-    <string name="notification_channel_mention_descriptions">Benachrichtigungen über neue Erwähnungen</string>
-    <string name="notification_channel_mention_name">Neue Erwähnungen</string>
     <string name="replying_to">Antworten an @%s</string>
     <string name="title_media">Medien</string>
-    <string name="replying_to">Antworten an @%s</string>
     <string name="load_more_placeholder_text">mehr laden</string>
     <string name="add_account_name">Konto hinzufügen</string>
     <string name="add_account_description">Neues Mastodon-Konto hinzufügen</string>
