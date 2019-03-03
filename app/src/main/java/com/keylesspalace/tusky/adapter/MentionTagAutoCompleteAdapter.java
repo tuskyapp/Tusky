@@ -119,7 +119,6 @@ public class MentionTagAutoCompleteAdapter extends BaseAdapter
             case ACCOUNT_VIEW_TYPE:
                 AccountViewHolder holder;
                 if (convertView == null) {
-                    //noinspection ConstantConditions
                     view = ((LayoutInflater) context
                             .getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                             .inflate(R.layout.item_autocomplete_account, parent, false);
