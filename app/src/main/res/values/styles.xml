@@ -145,10 +145,6 @@
         <item name="tabSelectedTextColor">?attr/tab_icon_selected_tint</item>
     </style>
 
-    <style name="TuskyFloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
-
-    </style>
-
     <style name="TuskyButton" parent="Widget.MaterialComponents.Button">
         <item name="android:letterSpacing">0</item>
     </style>
