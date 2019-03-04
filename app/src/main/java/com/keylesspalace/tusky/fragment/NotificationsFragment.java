@@ -21,7 +21,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,6 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -69,6 +67,7 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.arch.core.util.Function;
+import androidx.core.util.Pair;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.AsyncListDiffer;
@@ -390,10 +389,6 @@ public class NotificationsFragment extends SFragment implements
         updateAdapter();
     }
 
-    private void updateAdapter() {
-        differ.submitList(notifications.getPairedCopy());
-    }
-
     @Override
     public void onFavourite(final boolean favourite, final int position) {
         final Notification notification = notifications.get(position).asRight();
@@ -686,11 +681,6 @@ public class NotificationsFragment extends SFragment implements
         List<HttpHeaderLink> links = HttpHeaderLink.parse(linkHeader);
         switch (fetchEnd) {
             case TOP: {
-                HttpHeaderLink previous = HttpHeaderLink.findByRelationType(links, "prev");
-                String uptoId = null;
-                if (previous != null) {
-                    uptoId = previous.uri.getQueryParameter("since_id");
-                }
                 update(notifications, null);
                 break;
             }
@@ -714,14 +704,6 @@ public class NotificationsFragment extends SFragment implements
                 if (adapter.getItemCount() > 0) {
                     addItems(notifications, fromId);
                 } else {
-                    /* If this is the first fetch, also save the id from the "previous" link and
-                     * treat this operation as a refresh so the scroll position doesn't get pushed
-                     * down to the end. */
-                    HttpHeaderLink previous = HttpHeaderLink.findByRelationType(links, "prev");
-                    String uptoId = null;
-                    if (previous != null) {
-                        uptoId = previous.uri.getQueryParameter("since_id");
-                    }
                     update(notifications, fromId);
                 }
 
@@ -796,10 +778,6 @@ public class NotificationsFragment extends SFragment implements
         }
     }
 
-    private boolean isBiggerThan(BigInteger newId, BigInteger lastShownNotificationId) {
-        return lastShownNotificationId.compareTo(newId) < 0;
-    }
-
     private void update(@Nullable List<Notification> newNotifications, @Nullable String fromId) {
         if (ListUtils.isEmpty(newNotifications)) {
             return;
@@ -840,9 +818,6 @@ public class NotificationsFragment extends SFragment implements
         Either<Placeholder, Notification> last = notifications.get(end - 1);
         if (last != null && liftedNew.indexOf(last) == -1) {
             notifications.addAll(liftedNew);
-            List<NotificationViewData> newViewDatas = notifications.getPairedCopy()
-                    .subList(notifications.size() - newNotifications.size(),
-                            notifications.size());
             updateAdapter();
         }
     }
@@ -898,6 +873,10 @@ public class NotificationsFragment extends SFragment implements
         return null;
     }
 
+    private void updateAdapter() {
+        differ.submitList(notifications.getPairedCopy());
+    }
+
     private final ListUpdateCallback listUpdateCallback = new ListUpdateCallback() {
         @Override
         public void onInserted(int position, int count) {
@@ -928,7 +907,7 @@ public class NotificationsFragment extends SFragment implements
 
     private final AsyncListDiffer<NotificationViewData>
             differ = new AsyncListDiffer<>(listUpdateCallback,
-            new AsyncDifferConfig.Builder<NotificationViewData>(diffCallback).build());
+            new AsyncDifferConfig.Builder<>(diffCallback).build());
 
     private final NotificationsAdapter.AdapterDataSource<NotificationViewData> dataSource =
             new NotificationsAdapter.AdapterDataSource<NotificationViewData>() {
