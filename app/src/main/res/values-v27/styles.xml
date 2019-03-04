@@ -16,4 +16,11 @@
         <item name="android:navigationBarDividerColor">@color/status_divider_light</item>
     </style>
 
+    <!--Black Application Theme Styles-->
+    <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase">
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:navigationBarColor">@color/window_background_black</item>
+        <item name="android:navigationBarDividerColor">@color/window_background_black</item>
+    </style>
+
 </resources>
