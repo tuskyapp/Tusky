@@ -3,25 +3,29 @@ package com.keylesspalace.tusky
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.LoadingState.*
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.fragment.TimelineFragment
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
+import kotlinx.android.synthetic.main.activity_lists.*
 import retrofit2.Call
 import retrofit2.Response
+import java.io.IOException
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -35,13 +39,17 @@ interface ListsView {
 }
 
 
-data class State(val lists: List<MastoList>, val isLoading: Boolean)
+enum class LoadingState {
+    INITIAL, LOADING, LOADED, ERROR_NETWORK, ERROR_OTHER
+}
+
+data class State(val lists: List<MastoList>, val loadingState: LoadingState)
 
 class ListsViewModel(private val api: MastodonApi) {
 
     private var _view: WeakReference<ListsView>? = null
     private val view: ListsView? get() = _view?.get()
-    private var state = State(listOf(), false)
+    private var state = State(listOf(), INITIAL)
 
     fun attach(view: ListsView) {
         this._view = WeakReference(view)
@@ -57,17 +65,23 @@ class ListsViewModel(private val api: MastodonApi) {
         view?.openTimeline(id)
     }
 
+    fun retryLoading() {
+        loadIfNeeded()
+    }
+
     private fun loadIfNeeded() {
-        if (state.isLoading || !state.lists.isEmpty()) return
-        updateState(state.copy(isLoading = false))
+        if (state.loadingState == LOADING || !state.lists.isEmpty()) return
+        updateState(state.copy(loadingState = LOADING))
 
         api.getLists().enqueue(object : retrofit2.Callback<List<MastoList>> {
             override fun onResponse(call: Call<List<MastoList>>, response: Response<List<MastoList>>) {
-                updateState(state.copy(lists = response.body() ?: listOf(), isLoading = false))
+                updateState(state.copy(lists = response.body() ?: listOf(), loadingState = LOADED))
             }
 
-            override fun onFailure(call: Call<List<MastoList>>, t: Throwable?) {
-                updateState(state.copy(isLoading = false))
+            override fun onFailure(call: Call<List<MastoList>>, err: Throwable?) {
+                updateState(state.copy(
+                        loadingState = if (err is IOException) ERROR_NETWORK else ERROR_OTHER
+                ))
             }
         })
     }
@@ -94,9 +108,6 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
     @Inject
     lateinit var mastodonApi: MastodonApi
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var progressBar: ProgressBar
-
     private lateinit var viewModel: ListsViewModel
     private val adapter = ListsAdapter()
 
@@ -105,8 +116,6 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
         setContentView(R.layout.activity_lists)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        recyclerView = findViewById(R.id.lists_recycler)
-        progressBar = findViewById(R.id.progress_bar)
 
         setSupportActionBar(toolbar)
         val bar = supportActionBar
@@ -116,9 +125,9 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
             bar.setDisplayShowHomeEnabled(true)
         }
 
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.addItemDecoration(
+        listsRecycler.adapter = adapter
+        listsRecycler.layoutManager = LinearLayoutManager(this)
+        listsRecycler.addItemDecoration(
                 DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
         viewModel = lastNonConfigurationInstance as? ListsViewModel ?: ListsViewModel(mastodonApi)
@@ -137,8 +146,30 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
 
     override fun update(state: State) {
         adapter.update(state.lists)
-        progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
-
+        progressBar.visibility = if (state.loadingState == LOADING) View.VISIBLE else View.GONE
+        when (state.loadingState) {
+            INITIAL, LOADING -> messageView.hide()
+            ERROR_NETWORK -> {
+                messageView.show()
+                messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                    viewModel.retryLoading()
+                }
+            }
+            ERROR_OTHER -> {
+                messageView.show()
+                messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                    viewModel.retryLoading()
+                }
+            }
+            LOADED ->
+                if (state.lists.isEmpty()) {
+                    messageView.show()
+                    messageView.setup(R.drawable.elephant_friend_empty, R.string.message_empty,
+                            null)
+                } else {
+                    messageView.hide()
+                }
+        }
     }
 
     override fun openTimeline(listId: String) {

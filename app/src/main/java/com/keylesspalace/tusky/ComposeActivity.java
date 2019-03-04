@@ -18,7 +18,6 @@ package com.keylesspalace.tusky;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import androidx.lifecycle.Lifecycle;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -39,25 +38,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.Px;
-import androidx.annotation.StringRes;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.transition.TransitionManager;
-import androidx.core.view.inputmethod.InputConnectionCompat;
-import androidx.core.view.inputmethod.InputContentInfoCompat;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -81,10 +61,12 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.keylesspalace.tusky.adapter.EmojiAdapter;
-import com.keylesspalace.tusky.adapter.MentionAutoCompleteAdapter;
+import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter;
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AppDatabase;
@@ -94,6 +76,7 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Instance;
+import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.ProgressRequestBody;
@@ -101,7 +84,7 @@ import com.keylesspalace.tusky.service.SendTootService;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
 import com.keylesspalace.tusky.util.ListUtils;
-import com.keylesspalace.tusky.util.MentionTokenizer;
+import com.keylesspalace.tusky.util.ComposeTokenizer;
 import com.keylesspalace.tusky.util.SaveTootHelper;
 import com.keylesspalace.tusky.util.SpanUtilsKt;
 import com.keylesspalace.tusky.util.StringUtils;
@@ -128,15 +111,35 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
 
 import javax.inject.Inject;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.Px;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.core.view.inputmethod.InputConnectionCompat;
+import androidx.core.view.inputmethod.InputContentInfoCompat;
+import androidx.lifecycle.Lifecycle;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionManager;
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import kotlin.collections.CollectionsKt;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -155,7 +158,7 @@ import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvid
 public final class ComposeActivity
         extends BaseActivity
         implements ComposeOptionsListener,
-        MentionAutoCompleteAdapter.AccountSearchProvider,
+        ComposeAutoCompleteAdapter.AutocompletionProvider,
         OnEmojiSelectedListener,
         Injectable, InputConnectionCompat.OnCommitContentListener {
 
@@ -224,8 +227,10 @@ public final class ComposeActivity
     private Uri photoUploadUri;
     private int savedTootUid = 0;
     private List<Emoji> emojiList;
+    private CountDownLatch emojiListRetrievalLatch = new CountDownLatch(1);
     private int maximumTootCharacters = STATUS_CHARACTER_LIMIT;
-    private @Px int thumbnailViewSize;
+    private @Px
+    int thumbnailViewSize;
 
     private SaveTootHelper saveTootHelper;
     private Gson gson = new Gson();
@@ -310,7 +315,7 @@ public final class ComposeActivity
             mastodonApi.getCustomEmojis().enqueue(new Callback<List<Emoji>>() {
                 @Override
                 public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
-                    emojiList = response.body();
+                    List<Emoji> emojiList = response.body();
                     if(emojiList == null) {
                         emojiList = Collections.emptyList();
                     }
@@ -516,8 +521,8 @@ public final class ComposeActivity
         });
 
         textEditor.setAdapter(
-                new MentionAutoCompleteAdapter(this, R.layout.item_autocomplete, this));
-        textEditor.setTokenizer(new MentionTokenizer());
+                new ComposeAutoCompleteAdapter(this));
+        textEditor.setTokenizer(new ComposeTokenizer());
 
         // Add any mentions to the text field when a reply is first composed.
         if (mentionedUsernames != null) {
@@ -614,13 +619,23 @@ public final class ComposeActivity
                 } else if (type.equals("text/plain")) {
                     String action = intent.getAction();
                     if (action != null && action.equals(Intent.ACTION_SEND)) {
+                        String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
                         String text = intent.getStringExtra(Intent.EXTRA_TEXT);
-                        if (text != null) {
+                        String shareBody = null;
+                        if(subject != null && text != null){
+                            shareBody = String.format("%s\n%s", subject, text);
+                        }else if(text != null){
+                            shareBody = text;
+                        }else if(subject != null){
+                            shareBody = subject;
+                        }
+
+                        if (shareBody != null) {
                             int start = Math.max(textEditor.getSelectionStart(), 0);
                             int end = Math.max(textEditor.getSelectionEnd(), 0);
                             int left = Math.min(start, end);
                             int right = Math.max(start, end);
-                            textEditor.getText().replace(left, right, text, 0, text.length());
+                            textEditor.getText().replace(left, right, shareBody, 0, shareBody.length());
                         }
                     }
                 }
@@ -983,7 +998,7 @@ public final class ComposeActivity
             spoilerText = contentWarningEditor.getText().toString();
         }
         int characterCount = calculateTextLength();
-        if (characterCount <= 0 && mediaQueued.size()==0) {
+        if (characterCount <= 0 && mediaQueued.size() == 0) {
             textEditor.setError(getString(R.string.error_empty));
             enableButtons();
         } else if (characterCount <= maximumTootCharacters) {
@@ -1477,11 +1492,6 @@ public final class ComposeActivity
     @Override
     public void onBackPressed() {
         // Acting like a teen: deliberately ignoring parent.
-        handleCloseButton();
-    }
-
-    private void handleCloseButton() {
-
         if(composeOptionsBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ||
                 addMediaBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ||
                 emojiBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ) {
@@ -1490,6 +1500,11 @@ public final class ComposeActivity
             emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             return;
         }
+
+        handleCloseButton();
+    }
+
+    private void handleCloseButton() {
 
         CharSequence contentText = textEditor.getText();
         CharSequence contentWarning = contentWarningEditor.getText();
@@ -1532,19 +1547,73 @@ public final class ComposeActivity
     }
 
     @Override
-    public List<Account> searchAccounts(String mention) {
-        ArrayList<Account> resultList = new ArrayList<>();
+    public List<ComposeAutoCompleteAdapter.AutocompleteResult> search(String token) {
         try {
-            List<Account> accountList = mastodonApi.searchAccounts(mention, false, 40)
-                    .execute()
-                    .body();
-            if (accountList != null) {
-                resultList.addAll(accountList);
+            switch (token.charAt(0)) {
+                case '@':
+                    ArrayList<Account> resultList = new ArrayList<>();
+                    List<Account> accountList = mastodonApi
+                            .searchAccounts(token.substring(1), false, 20)
+                            .execute()
+                            .body();
+                    if (accountList != null) {
+                        resultList.addAll(accountList);
+                    }
+                    return CollectionsKt.map(resultList, ComposeAutoCompleteAdapter.AccountResult::new);
+                case '#':
+                    Response<SearchResults> response = mastodonApi.search(token, false).execute();
+                    if (response.isSuccessful() && response.body() != null) {
+                        return CollectionsKt.map(
+                                response.body().getHashtags(),
+                                ComposeAutoCompleteAdapter.HashtagResult::new
+                        );
+                    } else {
+                        Log.e(TAG, String.format("Autocomplete search for %s failed.", token));
+                        return Collections.emptyList();
+                    }
+                case ':':
+                    try {
+                        emojiListRetrievalLatch.await();
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, String.format("Autocomplete search for %s was interrupted.", token));
+                        return Collections.emptyList();
+                    }
+                    if (emojiList != null) {
+                        String incomplete = token.substring(1).toLowerCase();
+
+                        List<ComposeAutoCompleteAdapter.AutocompleteResult> results =
+                                new ArrayList<>();
+                        List<ComposeAutoCompleteAdapter.AutocompleteResult> resultsInside =
+                                new ArrayList<>();
+
+                        for (Emoji emoji : emojiList) {
+                            String shortcode = emoji.getShortcode().toLowerCase();
+
+                            if (shortcode.startsWith(incomplete)) {
+                                results.add(new ComposeAutoCompleteAdapter.EmojiResult(emoji));
+                            } else if (shortcode.indexOf(incomplete, 1) != -1) {
+                                resultsInside.add(new ComposeAutoCompleteAdapter.EmojiResult(emoji));
+                            }
+                        }
+
+                        if (!results.isEmpty() && !resultsInside.isEmpty()) {
+                            // both lists have results. include a separator between them.
+                            results.add(new ComposeAutoCompleteAdapter.ResultSeparator());
+                        }
+
+                        results.addAll(resultsInside);
+                        return results;
+                    } else {
+                        return Collections.emptyList();
+                    }
+                default:
+                    Log.w(TAG, "Unexpected autocompletion token: " + token);
+                    return Collections.emptyList();
             }
         } catch (IOException e) {
-            Log.e(TAG, String.format("Autocomplete search for %s failed.", mention));
+            Log.e(TAG, String.format("Autocomplete search for %s failed.", token));
+            return Collections.emptyList();
         }
-        return resultList;
     }
 
     @Override
@@ -1559,13 +1628,16 @@ public final class ComposeActivity
         if(instanceEntity != null) {
             Integer max = instanceEntity.getMaximumTootCharacters();
             maximumTootCharacters = (max == null ? STATUS_CHARACTER_LIMIT : max);
-            emojiList = instanceEntity.getEmojiList();
-            setEmojiList(emojiList);
+            setEmojiList(instanceEntity.getEmojiList());
             updateVisibleCharactersLeft();
         }
     }
 
     private void setEmojiList(@Nullable List<Emoji> emojiList) {
+        this.emojiList = emojiList;
+
+        emojiListRetrievalLatch.countDown();
+
         if (emojiList != null) {
             emojiView.setAdapter(new EmojiAdapter(emojiList, ComposeActivity.this));
             enableButton(emojiButton, true, emojiList.size() > 0);
@@ -1581,6 +1653,11 @@ public final class ComposeActivity
     int getMaximumTootCharacters()
     {
         return maximumTootCharacters;
+    }
+
+    static boolean canHandleMimeType(@Nullable String mimeType) {
+        return (mimeType != null &&
+                    (mimeType.startsWith("image/") || mimeType.startsWith("video/") || mimeType.equals("text/plain")));
     }
 
     public static final class QueuedMedia {
@@ -1739,7 +1816,7 @@ public final class ComposeActivity
             return this;
         }
 
-        public IntentBuilder repyingStatusAuthor(String username) {
+        public IntentBuilder replyingStatusAuthor(String username) {
             this.replyingStatusAuthor = username;
             return this;
         }

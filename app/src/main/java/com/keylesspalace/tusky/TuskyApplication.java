@@ -32,6 +32,10 @@ import com.keylesspalace.tusky.util.EmojiCompatFont;
 import com.keylesspalace.tusky.util.NotificationPullJobCreator;
 import com.squareup.picasso.Picasso;
 
+import org.conscrypt.Conscrypt;
+
+import java.security.Security;
+
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
@@ -62,11 +66,14 @@ public class TuskyApplication extends Application implements HasActivityInjector
     public void onCreate() {
         super.onCreate();
 
+        initSecurityProvider();
+
         appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tuskyDB")
                 .allowMainThreadQueries()
                 .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5,
                         AppDatabase.MIGRATION_5_6, AppDatabase.MIGRATION_6_7, AppDatabase.MIGRATION_7_8,
-                        AppDatabase.MIGRATION_8_9, AppDatabase.MIGRATION_9_10)
+                        AppDatabase.MIGRATION_8_9, AppDatabase.MIGRATION_9_10, AppDatabase.MIGRATION_10_11,
+                        AppDatabase.MIGRATION_11_12, AppDatabase.MIGRATION_12_13, AppDatabase.MIGRATION_10_13)
                 .build();
         accountManager = new AccountManager(appDatabase);
         serviceLocator = new ServiceLocator() {
@@ -90,6 +97,10 @@ public class TuskyApplication extends Application implements HasActivityInjector
 
         JobManager.create(this).addJobCreator(notificationPullJobCreator);
 
+    }
+
+    protected void initSecurityProvider() {
+        Security.insertProviderAt(Conscrypt.newProvider(), 1);
     }
 
     /**

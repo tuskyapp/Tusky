@@ -46,8 +46,9 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule {
+
     @Provides
-    @IntoMap()
+    @IntoMap
     @ClassKey(Spanned::class)
     fun providesSpannedTypeAdapter(): JsonDeserializer<*> = SpannedTypeAdapter()
 
@@ -86,7 +87,7 @@ class NetworkModule {
     @Singleton
     fun providesRetrofit(httpClient: OkHttpClient,
                          converters: @JvmSuppressWildcards Set<Converter.Factory>): Retrofit {
-        return Retrofit.Builder().baseUrl("https://"+MastodonApi.PLACEHOLDER_DOMAIN)
+        return Retrofit.Builder().baseUrl("https://" + MastodonApi.PLACEHOLDER_DOMAIN)
                 .client(httpClient)
                 .let { builder ->
                     // Doing it this way in case builder will be immutable so we return the final

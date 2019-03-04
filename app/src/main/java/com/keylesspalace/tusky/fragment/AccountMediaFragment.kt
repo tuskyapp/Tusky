@@ -17,14 +17,14 @@ package com.keylesspalace.tusky.fragment
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
@@ -34,7 +34,8 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ThemeUtils
-import com.keylesspalace.tusky.util.visible
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.view.SquareImageView
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.squareup.picasso.Picasso
@@ -42,6 +43,7 @@ import kotlinx.android.synthetic.main.fragment_timeline.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 import java.util.*
 import javax.inject.Inject
 
@@ -74,13 +76,25 @@ class AccountMediaFragment : BaseFragment(), Injectable {
     private var currentCall: Call<List<Status>>? = null
     private val statuses = mutableListOf<Status>()
     private var fetchingStatus = FetchingStatus.NOT_FETCHING
+    private var isVisibleToUser: Boolean = false
 
     private val callback = object : Callback<List<Status>> {
         override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
+
             if(isAdded) {
-                swipe_refresh_layout.isRefreshing = false
-                progress_bar.visibility = View.GONE
+                swipeRefreshLayout.isRefreshing = false
+                progressBar.visibility = View.GONE
+                statusView.show()
+                if (t is IOException) {
+                    statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                        doInitialLoadingIfNeeded()
+                    }
+                } else {
+                    statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                        doInitialLoadingIfNeeded()
+                    }
+                }
             }
 
             Log.d(TAG, "Failed to fetch account media", t)
@@ -89,8 +103,8 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         override fun onResponse(call: Call<List<Status>>, response: Response<List<Status>>) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
             if(isAdded) {
-                swipe_refresh_layout.isRefreshing = false
-                progress_bar.visibility = View.GONE
+                swipeRefreshLayout.isRefreshing = false
+                progressBar.visibility = View.GONE
 
                 val body = response.body()
                 body?.let { fetched ->
@@ -101,7 +115,12 @@ class AccountMediaFragment : BaseFragment(), Injectable {
                         result.addAll(AttachmentViewData.list(status))
                     }
                     adapter.addTop(result)
-                    nothing_message.visible(statuses.isEmpty())
+
+                    if (statuses.isEmpty()) {
+                        statusView.show()
+                        statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty,
+                                null)
+                    }
                 }
             }
         }
@@ -110,6 +129,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
     private val bottomCallback = object : Callback<List<Status>> {
         override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
+
             Log.d(TAG, "Failed to fetch account media", t)
         }
 
@@ -141,36 +161,37 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         super.onViewCreated(view, savedInstanceState)
 
 
-        val columnCount = context?.resources?.getInteger(R.integer.profile_media_column_count) ?: 2
-        val layoutManager = GridLayoutManager(context, columnCount)
+        val columnCount = view.context.resources.getInteger(R.integer.profile_media_column_count)
+        val layoutManager = GridLayoutManager(view.context, columnCount)
 
-        val bgRes = ThemeUtils.getColorId(context, R.attr.window_background)
+        val bgRes = ThemeUtils.getColorId(view.context, R.attr.window_background)
 
-        adapter.baseItemColor = ContextCompat.getColor(recycler_view.context, bgRes)
+        adapter.baseItemColor = ContextCompat.getColor(recyclerView.context, bgRes)
 
-        recycler_view.layoutManager = layoutManager
-        recycler_view.adapter = adapter
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = adapter
 
         val accountId = arguments?.getString(ACCOUNT_ID_ARG)
 
-        swipe_refresh_layout.setOnRefreshListener {
+        swipeRefreshLayout.setOnRefreshListener {
+            statusView.hide()
             if (fetchingStatus != FetchingStatus.NOT_FETCHING) return@setOnRefreshListener
             currentCall = if (statuses.isEmpty()) {
                 fetchingStatus = FetchingStatus.INITIAL_FETCHING
-                api.accountStatuses(accountId, null, null, null, null, true)
+                api.accountStatuses(accountId, null, null, null, null, true, null)
             } else {
                 fetchingStatus = FetchingStatus.REFRESHING
-                api.accountStatuses(accountId, null, statuses[0].id, null, null, true)
+                api.accountStatuses(accountId, null, statuses[0].id, null, null, true, null)
             }
             currentCall?.enqueue(callback)
 
         }
-        swipe_refresh_layout.setColorSchemeResources(R.color.tusky_blue)
-        swipe_refresh_layout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground))
+        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(view.context, android.R.attr.colorBackground))
 
-        nothing_message.visibility = View.GONE
+        statusView.visibility = View.GONE
 
-        recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrolled(recycler_view: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0) {
@@ -180,23 +201,33 @@ class AccountMediaFragment : BaseFragment(), Injectable {
                         statuses.lastOrNull()?.let { last ->
                             Log.d(TAG, "Requesting statuses with max_id: ${last.id}, (bottom)")
                             fetchingStatus = FetchingStatus.FETCHING_BOTTOM
-                            currentCall = api.accountStatuses(accountId, last.id, null, null, null, true)
+                            currentCall = api.accountStatuses(accountId, last.id, null, null, null, true, null)
                             currentCall?.enqueue(bottomCallback)
                         }
                     }
                 }
             }
         })
+
+        if (isVisibleToUser) doInitialLoadingIfNeeded()
     }
 
     // That's sort of an optimization to only load media once user has opened the tab
+    // Attention: can be called before *any* lifecycle method!
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        if (!isVisibleToUser) return
+        this.isVisibleToUser = isVisibleToUser
+        if (isVisibleToUser && isAdded) doInitialLoadingIfNeeded()
+    }
+
+    private fun doInitialLoadingIfNeeded() {
+        if (isAdded) {
+            statusView.hide()
+        }
         val accountId = arguments?.getString(ACCOUNT_ID_ARG)
         if (fetchingStatus == FetchingStatus.NOT_FETCHING && statuses.isEmpty()) {
             fetchingStatus = FetchingStatus.INITIAL_FETCHING
-            currentCall = api.accountStatuses(accountId, null, null, null, null, true)
+            currentCall = api.accountStatuses(accountId, null, null, null, null, true, null)
             currentCall?.enqueue(callback)
         }
     }
@@ -230,7 +261,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         NOT_FETCHING, INITIAL_FETCHING, FETCHING_BOTTOM, REFRESHING
     }
 
-    inner class MediaGridAdapter:
+    inner class MediaGridAdapter :
             RecyclerView.Adapter<MediaGridAdapter.MediaViewHolder>() {
 
         var baseItemColor = Color.BLACK
@@ -270,8 +301,15 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             itemBgBaseHSV[2] = random.nextFloat() * (1f - 0.3f) + 0.3f
             holder.imageView.setBackgroundColor(Color.HSVToColor(itemBgBaseHSV))
             val item = items[position]
+
+            val maxW = holder.imageView.context.resources.getInteger(R.integer.media_max_width)
+            val maxH = holder.imageView.context.resources.getInteger(R.integer.media_max_height)
+
             Picasso.with(holder.imageView.context)
                     .load(item.attachment.previewUrl)
+                    .resize(maxW, maxH)
+                    .onlyScaleDown()
+                    .centerInside()
                     .into(holder.imageView)
         }
 

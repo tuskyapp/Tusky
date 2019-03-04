@@ -54,8 +54,8 @@ public abstract class StatusViewData {
 
         private final String id;
         private final Spanned content;
-        private final boolean reblogged;
-        private final boolean favourited;
+        final boolean reblogged;
+        final boolean favourited;
         @Nullable
         private final String spoilerText;
         private final Status.Visibility visibility;
@@ -65,7 +65,7 @@ public abstract class StatusViewData {
         @Nullable
         private final String rebloggedAvatar;
         private final boolean isSensitive;
-        private final boolean isExpanded;
+        final boolean isExpanded;
         private final boolean isShowingContent;
         private final String userFullName;
         private final String nickname;
@@ -86,7 +86,7 @@ public abstract class StatusViewData {
         @Nullable
         private final Card card;
         private final boolean isCollapsible; /** Whether the status meets the requirement to be collapse */
-        private final boolean isCollapsed; /** Whether the status is shown partially or fully */
+        final boolean isCollapsed; /** Whether the status is shown partially or fully */
 
         public Concrete(String id, Spanned content, boolean reblogged, boolean favourited,
                         @Nullable String spoilerText, Status.Visibility visibility, List<Attachment> attachments,
@@ -331,9 +331,9 @@ public abstract class StatusViewData {
 
     public static final class Placeholder extends StatusViewData {
         private final boolean isLoading;
-        private final long id;
+        private final String id;
 
-        public Placeholder(long id, boolean isLoading) {
+        public Placeholder(String id, boolean isLoading) {
             this.id = id;
             this.isLoading = isLoading;
         }
@@ -342,18 +342,18 @@ public abstract class StatusViewData {
             return isLoading;
         }
 
-        public long getId() {
+        public String getId() {
             return id;
         }
 
         @Override public long getViewDataId() {
-            return id;
+            return id.hashCode();
         }
 
         @Override public boolean deepEquals(StatusViewData other) {
             if (!(other instanceof Placeholder)) return false;
             Placeholder that = (Placeholder) other;
-            return isLoading == that.isLoading && id == that.id;
+            return isLoading == that.isLoading && id.equals(that.id);
         }
 
         @Override public boolean equals(Object o) {
@@ -365,9 +365,10 @@ public abstract class StatusViewData {
             return deepEquals(that);
         }
 
-        @Override public int hashCode() {
+        @Override
+        public int hashCode() {
             int result = (isLoading ? 1 : 0);
-            result = 31 * result + (int) (id ^ (id >>> 32));
+            result = 31 * result + id.hashCode();
             return result;
         }
     }

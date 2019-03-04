@@ -15,37 +15,27 @@
 
 package com.keylesspalace.tusky.fragment;
 
-import androidx.arch.core.util.Function;
-import androidx.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.util.Pair;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.keylesspalace.tusky.AccountListActivity;
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.adapter.ThreadAdapter;
-import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.BlockEvent;
+import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
 import com.keylesspalace.tusky.appstore.ReblogEvent;
 import com.keylesspalace.tusky.appstore.StatusComposedEvent;
@@ -57,6 +47,7 @@ import com.keylesspalace.tusky.entity.StatusContext;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
+import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.ThemeUtils;
@@ -70,6 +61,16 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.arch.core.util.Function;
+import androidx.core.util.Pair;
+import androidx.lifecycle.Lifecycle;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -137,21 +138,20 @@ public final class ViewThreadFragment extends SFragment implements
         View rootView = inflater.inflate(R.layout.fragment_view_thread, container, false);
 
         Context context = getContext();
-        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
                 ThemeUtils.getColor(context, android.R.attr.colorBackground));
 
-        recyclerView = rootView.findViewById(R.id.recycler_view);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAccessibilityDelegateCompat(
+                new ListStatusAccessibilityDelegate(recyclerView, this, statuses::getPairedItem));
         DividerItemDecoration divider = new DividerItemDecoration(
                 context, layoutManager.getOrientation());
-        Drawable dividerDrawable = ThemeUtils.getDrawable(context, R.attr.status_divider_drawable,
-                R.drawable.status_divider_dark);
-        divider.setDrawable(dividerDrawable);
         recyclerView.addItemDecoration(divider);
 
         Drawable threadLineDrawable = ThemeUtils.getDrawable(context, R.attr.conversation_thread_line_drawable,
@@ -236,68 +236,61 @@ public final class ViewThreadFragment extends SFragment implements
     @Override
     public void onReblog(final boolean reblog, final int position) {
         final Status status = statuses.get(position);
-        timelineCases.reblogWithCallback(statuses.get(position), reblog, new Callback<Status>() {
-            @Override
-            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
-                if (response.isSuccessful()) {
-                    updateStatus(position, response.body());
 
-                    eventHub.dispatch(new ReblogEvent(status.getId(), reblog));
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(getClass().getSimpleName(), "Failed to reblog status: " + status.getId());
-                t.printStackTrace();
-            }
-        });
+        timelineCases.reblog(statuses.get(position), reblog)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newStatus) -> updateStatus(position, newStatus),
+                        (t) -> {
+                            Log.d(getClass().getSimpleName(),
+                                    "Failed to reblog status: " + status.getId());
+                            t.printStackTrace();
+                        }
+                );
     }
 
     @Override
     public void onFavourite(final boolean favourite, final int position) {
         final Status status = statuses.get(position);
-        timelineCases.favouriteWithCallback(statuses.get(position), favourite, new Callback<Status>() {
-            @Override
-            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
-                if (response.isSuccessful()) {
-                    updateStatus(position, response.body());
 
-                    eventHub.dispatch(new FavoriteEvent(status.getId(), favourite));
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.getId());
-                t.printStackTrace();
-            }
-        });
+        timelineCases.favourite(statuses.get(position), favourite)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newStatus) -> updateStatus(position, newStatus),
+                        (t) -> {
+                            Log.d(getClass().getSimpleName(), "Failed to favourite status: " + status.getId());
+                            t.printStackTrace();
+                        }
+                );
     }
 
     private void updateStatus(int position, Status status) {
-        if(position >= 0 && position < statuses.size()) {
+        if (position >= 0 && position < statuses.size()) {
 
-            statuses.set(position, status);
+            Status actionableStatus = status.getActionableStatus();
 
-            if(position == statusIndex && card != null) {
-                StatusViewData.Concrete viewData = new StatusViewData.Builder(statuses.getPairedItem(position))
-                        .setCard(card)
-                        .createStatusViewData();
-                statuses.setPairedItem(position, viewData);
-            }
-            adapter.setItem(position, statuses.getPairedItem(position), true);
+            StatusViewData.Concrete viewData = new StatusViewData.Builder(statuses.getPairedItem(position))
+                    .setReblogged(actionableStatus.getReblogged())
+                    .setReblogsCount(actionableStatus.getReblogsCount())
+                    .setFavourited(actionableStatus.getFavourited())
+                    .setFavouritesCount(actionableStatus.getFavouritesCount())
+                    .createStatusViewData();
+            statuses.setPairedItem(position, viewData);
+
+            adapter.setItem(position, viewData, true);
 
         }
     }
 
     @Override
-    public void onMore(View view, int position) {
+    public void onMore(@NonNull View view, int position) {
         super.more(statuses.get(position), view, position);
     }
 
     @Override
-    public void onViewMedia(int position, int attachmentIndex, View view) {
+    public void onViewMedia(int position, int attachmentIndex, @NonNull View view) {
         Status status = statuses.get(position);
         super.viewMedia(attachmentIndex, status, view);
     }

@@ -15,17 +15,9 @@
 
 package com.keylesspalace.tusky;
 
-import androidx.lifecycle.Lifecycle;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -38,7 +30,6 @@ import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.util.SaveTootHelper;
-import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -46,6 +37,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Lifecycle;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 import static com.uber.autodispose.AutoDispose.autoDisposable;
@@ -92,16 +90,13 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
             bar.setDisplayShowHomeEnabled(true);
         }
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         noContent = findViewById(R.id.no_content);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration divider = new DividerItemDecoration(
                 this, layoutManager.getOrientation());
-        Drawable drawable = ThemeUtils.getDrawable(this, R.attr.status_divider_drawable,
-                R.drawable.status_divider_dark);
-        divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
         adapter = new SavedTootAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -165,7 +160,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
                 .savedJsonUrls(item.getUrls())
                 .savedJsonDescriptions(item.getDescriptions())
                 .inReplyToId(item.getInReplyToId())
-                .repyingStatusAuthor(item.getInReplyToUsername())
+                .replyingStatusAuthor(item.getInReplyToUsername())
                 .replyingStatusContent(item.getInReplyToText())
                 .savedVisibility(item.getVisibility())
                 .build(this);

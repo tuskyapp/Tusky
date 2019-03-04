@@ -9,7 +9,8 @@
         android:id="@+id/emoji_font_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
         <include
             android:id="@+id/item_blobmoji"
@@ -29,14 +30,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:lineSpacingMultiplier="1.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingBottom="8dp"
-        android:paddingEnd="24dp"
         android:paddingStart="24dp"
         android:paddingTop="16dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="8dp"
         android:text="@string/download_fonts"
         android:textColor="?android:attr/textColorSecondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emoji_font_list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

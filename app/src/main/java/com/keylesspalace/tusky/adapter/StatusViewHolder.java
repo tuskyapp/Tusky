@@ -16,30 +16,39 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import at.connyduck.sparkbutton.helpers.Utils;
 
 public class StatusViewHolder extends StatusBaseViewHolder {
+    private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
+    private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
+
     private ImageView avatarReblog;
     private TextView rebloggedBar;
+    private ToggleButton contentCollapseButton;
 
     StatusViewHolder(View itemView, boolean useAbsoluteTime) {
         super(itemView, useAbsoluteTime);
         avatarReblog = itemView.findViewById(R.id.status_avatar_reblog);
         rebloggedBar = itemView.findViewById(R.id.status_reblogged);
+        contentCollapseButton = itemView.findViewById(R.id.button_toggle_content);
     }
 
     @Override
-    void setAvatar(String url, @Nullable String rebloggedUrl) {
+    protected void setAvatar(String url, @Nullable String rebloggedUrl) {
         super.setAvatar(url, rebloggedUrl);
 
         Context context = avatar.getContext();
@@ -65,12 +74,13 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
-                         boolean mediaPreviewEnabled) {
+    protected void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
+                                   boolean mediaPreviewEnabled) {
         if(status == null) {
             showContent(false);
         } else {
             showContent(true);
+            setupCollapsedState(status, listener);
             super.setupWithStatus(status, listener, mediaPreviewEnabled);
 
             String rebloggedByDisplayName = status.getRebloggedByUsername();
@@ -80,14 +90,11 @@ public class StatusViewHolder extends StatusBaseViewHolder {
                 setRebloggedByDisplayName(rebloggedByDisplayName);
             }
 
-            // I think it's not efficient to create new object every time we bind a holder.
-            // More efficient approach would be creating View.OnClickListener during holder creation
-            // and storing StatusActionListener in a variable after binding.
             rebloggedBar.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));
         }
     }
 
-    private void setRebloggedByDisplayName(String name) {
+    private void setRebloggedByDisplayName(final String name) {
         Context context = rebloggedBar.getContext();
         String boostedText = context.getString(R.string.status_boosted_format, name);
         rebloggedBar.setText(boostedText);
@@ -99,5 +106,28 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             return;
         }
         rebloggedBar.setVisibility(View.GONE);
+    }
+
+    private void setupCollapsedState(final StatusViewData.Concrete status, final StatusActionListener listener) {
+        /* input filter for TextViews have to be set before text */
+        if (status.isCollapsible() && (status.isExpanded() || status.getSpoilerText() == null || status.getSpoilerText().isEmpty())) {
+            contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION)
+                    listener.onContentCollapsedChange(isChecked, position);
+            });
+
+            contentCollapseButton.setVisibility(View.VISIBLE);
+            if (status.isCollapsed()) {
+                contentCollapseButton.setChecked(true);
+                content.setFilters(COLLAPSE_INPUT_FILTER);
+            } else {
+                contentCollapseButton.setChecked(false);
+                content.setFilters(NO_INPUT_FILTER);
+            }
+        } else {
+            contentCollapseButton.setVisibility(View.GONE);
+            content.setFilters(NO_INPUT_FILTER);
+        }
     }
 }

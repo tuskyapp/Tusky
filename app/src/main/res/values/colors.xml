@@ -26,9 +26,9 @@
     <color name="tab_page_margin_dark">#1a1c23</color>
     <color name="account_toolbar_icon_collapsed_dark">#ffffff</color>
     <color name="compose_media_button_disabled_dark">#586173</color>
-    <color name="report_status_divider_dark">#2F2F2F</color>
     <color name="custom_tab_toolbar_dark">#313543</color>
     <color name="compose_reply_content_background_dark">#373c4b</color>
+    <color name="autocomplete_divider_dark">#424a5b</color>
     <!--Black Theme Colors-->
     <color name="color_primary_black">#000000</color>
     <color name="color_primary_dark_black">#111111</color> <!--Dark Dark-->
@@ -57,7 +57,6 @@
     <color name="account_toolbar_icon_collapsed_light">#DE000000</color>
     <color name="compose_media_button_disabled_light">#a3a5ab</color>
     <color name="report_status_background_light">#EFEFEF</color>
-    <color name="report_status_divider_light">#9F9F9F</color>
     <color name="custom_tab_toolbar_light">#ffffff</color>
     <color name="compose_reply_content_background_light">#e0e1e6</color>
 

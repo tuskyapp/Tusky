@@ -36,33 +36,12 @@
             android:background="?android:colorBackground"
             android:elevation="@dimen/actionbar_elevation"
             app:tabGravity="fill"
-            app:tabMaxWidth="0dp"
+            app:tabIconTint="@color/tab_icon_color"
+            app:tabMode="fixed"
             app:tabPaddingEnd="1dp"
             app:tabPaddingStart="1dp"
             app:tabPaddingTop="4dp"
-            app:tabUnboundedRipple="false">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_home" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_notifications" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_public_local" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_public_federated" />
-
-        </com.google.android.material.tabs.TabLayout>
+            app:tabUnboundedRipple="false" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
@@ -75,7 +54,6 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_btn"
-        style="@style/TuskyFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"

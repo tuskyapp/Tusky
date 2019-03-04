@@ -15,12 +15,12 @@
 
 package com.keylesspalace.tusky.pager;
 
+import com.keylesspalace.tusky.fragment.AccountMediaFragment;
+import com.keylesspalace.tusky.fragment.TimelineFragment;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-
-import com.keylesspalace.tusky.fragment.AccountMediaFragment;
-import com.keylesspalace.tusky.fragment.TimelineFragment;
 
 public class AccountPagerAdapter extends FragmentPagerAdapter {
     private String accountId;
@@ -45,6 +45,9 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
                 return TimelineFragment.newInstance(TimelineFragment.Kind.USER_WITH_REPLIES, accountId);
             }
             case 2: {
+                return TimelineFragment.newInstance(TimelineFragment.Kind.USER_PINNED, accountId);
+            }
+            case 3: {
                 return AccountMediaFragment.newInstance(accountId);
             }
             default: {
@@ -55,7 +58,7 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Override

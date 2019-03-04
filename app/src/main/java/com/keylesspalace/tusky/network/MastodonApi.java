@@ -15,13 +15,12 @@
 
 package com.keylesspalace.tusky.network;
 
-import androidx.annotation.Nullable;
-
 import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.AppCredentials;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
+import com.keylesspalace.tusky.entity.Conversation;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Instance;
 import com.keylesspalace.tusky.entity.MastoList;
@@ -33,11 +32,13 @@ import com.keylesspalace.tusky.entity.StatusContext;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -62,6 +63,12 @@ public interface MastodonApi {
 
     @GET("api/v1/timelines/home")
     Call<List<Status>> homeTimeline(
+            @Query("max_id") String maxId,
+            @Query("since_id") String sinceId,
+            @Query("limit") Integer limit);
+
+    @GET("api/v1/timelines/home")
+    Single<List<Status>> homeTimelineSingle(
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit);
@@ -133,12 +140,12 @@ public interface MastodonApi {
     Call<StatusContext> statusContext(@Path("id") String statusId);
 
     @GET("api/v1/statuses/{id}/reblogged_by")
-    Call<List<Account>> statusRebloggedBy(
+    Single<Response<List<Account>>> statusRebloggedBy(
             @Path("id") String statusId,
             @Query("max_id") String maxId);
 
     @GET("api/v1/statuses/{id}/favourited_by")
-    Call<List<Account>> statusFavouritedBy(
+    Single<Response<List<Account>>> statusFavouritedBy(
             @Path("id") String statusId,
             @Query("max_id") String maxId);
 
@@ -146,16 +153,16 @@ public interface MastodonApi {
     Call<ResponseBody> deleteStatus(@Path("id") String statusId);
 
     @POST("api/v1/statuses/{id}/reblog")
-    Call<Status> reblogStatus(@Path("id") String statusId);
+    Single<Status> reblogStatus(@Path("id") String statusId);
 
     @POST("api/v1/statuses/{id}/unreblog")
-    Call<Status> unreblogStatus(@Path("id") String statusId);
+    Single<Status> unreblogStatus(@Path("id") String statusId);
 
     @POST("api/v1/statuses/{id}/favourite")
-    Call<Status> favouriteStatus(@Path("id") String statusId);
+    Single<Status> favouriteStatus(@Path("id") String statusId);
 
     @POST("api/v1/statuses/{id}/unfavourite")
-    Call<Status> unfavouriteStatus(@Path("id") String statusId);
+    Single<Status> unfavouriteStatus(@Path("id") String statusId);
 
     @POST("api/v1/statuses/{id}/pin")
     Single<Status> pinStatus(@Path("id") String statusId);
@@ -213,15 +220,16 @@ public interface MastodonApi {
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit,
             @Nullable @Query("exclude_replies") Boolean excludeReplies,
-            @Nullable @Query("only_media") Boolean onlyMedia);
+            @Nullable @Query("only_media") Boolean onlyMedia,
+            @Nullable @Query("pinned") Boolean pinned);
 
     @GET("api/v1/accounts/{id}/followers")
-    Call<List<Account>> accountFollowers(
+    Single<Response<List<Account>>> accountFollowers(
             @Path("id") String accountId,
             @Query("max_id") String maxId);
 
     @GET("api/v1/accounts/{id}/following")
-    Call<List<Account>> accountFollowing(
+    Single<Response<List<Account>>> accountFollowing(
             @Path("id") String accountId,
             @Query("max_id") String maxId);
 
@@ -248,10 +256,10 @@ public interface MastodonApi {
     Call<List<Relationship>> relationships(@Query("id[]") List<String> accountIds);
 
     @GET("api/v1/blocks")
-    Call<List<Account>> blocks(@Query("max_id") String maxId);
+    Single<Response<List<Account>>> blocks(@Query("max_id") String maxId);
 
     @GET("api/v1/mutes")
-    Call<List<Account>> mutes(@Query("max_id") String maxId);
+    Single<Response<List<Account>>> mutes(@Query("max_id") String maxId);
 
     @GET("api/v1/favourites")
     Call<List<Status>> favourites(
@@ -260,7 +268,7 @@ public interface MastodonApi {
             @Query("limit") Integer limit);
 
     @GET("api/v1/follow_requests")
-    Call<List<Account>> followRequests(@Query("max_id") String maxId);
+    Single<Response<List<Account>>> followRequests(@Query("max_id") String maxId);
 
     @POST("api/v1/follow_requests/{id}/authorize")
     Call<Relationship> authorizeFollowRequest(@Path("id") String accountId);
@@ -311,4 +319,7 @@ public interface MastodonApi {
 
     @GET("api/v1/instance")
     Call<Instance> getInstance();
+
+    @GET("/api/v1/conversations")
+    Call<List<Conversation>> getConversations(@Nullable @Query("max_id") String maxId, @Query("limit") int limit);
 }

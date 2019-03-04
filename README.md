@@ -1,4 +1,4 @@
-[![Translate - with Stringlate](https://img.shields.io/badge/translate%20with-stringlate-green.svg)](https://lonamiwebs.github.io/stringlate/translate?git=https%3A%2F%2Fgithub.com%2Ftuskyapp%2FTusky) [![Build Status](https://app.bitrise.io/app/a3e773c3c57a894c/status.svg?token=qLu_Ti4Gp2LWcYT4eo2INQ&branch=master)](https://app.bitrise.io/app/a3e773c3c57a894c#/builds) 
+[![Translate - with Crowdin](https://img.shields.io/badge/translate%20with-crowdin-green.svg?style=flat)](https://crowdin.com/project/tusky) [![Build Status](https://app.bitrise.io/app/a3e773c3c57a894c/status.svg?token=qLu_Ti4Gp2LWcYT4eo2INQ&branch=master)](https://app.bitrise.io/app/a3e773c3c57a894c#/builds) 
 # Tusky
 
 ![](/fastlane/metadata/android/en-US/images/icon.png)
@@ -30,8 +30,8 @@ If you have any bug reports, feature requests or questions please open an issue 
 
 ### Head of development
 
-This app was developed by [Vavassor@mastodon.social](https://mastodon.social/users/Vavassor).
-The current maintainer is [ConnyDuck@mastodon.social](https://mastodon.social/users/ConnyDuck).
+This app was developed by [Vavassor@mastodon.social](https://mastodon.social/@Vavassor).
+The current maintainer is [ConnyDuck@chaos.social](https://chaos.social/@ConnyDuck).
 
 ### Development chatroom
 https://riot.im/app/#/room/#Tusky:matrix.org

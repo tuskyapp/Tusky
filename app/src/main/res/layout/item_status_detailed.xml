@@ -18,6 +18,7 @@
         android:layout_marginTop="14dp"
         android:layout_marginEnd="14dp"
         android:contentDescription="@string/action_view_profile"
+        android:importantForAccessibility="no"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -31,6 +32,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="14dp"
         android:ellipsize="end"
+        android:importantForAccessibility="no"
         android:maxLines="1"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
@@ -53,6 +55,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="14dp"
         android:ellipsize="end"
+        android:importantForAccessibility="no"
         android:maxLines="1"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
@@ -69,9 +72,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:importantForAccessibility="no"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_large"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_avatar"
         tools:text="CW this is a long long long long long long long long content warning" />
 
@@ -82,6 +87,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:background="?attr/content_warning_button"
+        android:importantForAccessibility="no"
         android:minWidth="160dp"
         android:minHeight="0dp"
         android:paddingLeft="16dp"
@@ -102,6 +108,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:focusable="true"
+        android:importantForAccessibility="no"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_large"
@@ -179,6 +186,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="4dp"
+        android:importantForAccessibility="noHideDescendants"
         app:layout_constraintTop_toBottomOf="@id/card_view">
 
         <com.keylesspalace.tusky.view.MediaPreviewImageView
@@ -313,7 +321,9 @@
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:textSize="?attr/status_text_medium"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -323,6 +333,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:drawablePadding="4dp"
+        android:importantForAccessibility="no"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -336,7 +347,8 @@
         android:layout_height="1dp"
         android:layout_below="@id/status_timestamp_info"
         android:layout_marginTop="6dp"
-        android:background="?attr/status_divider_drawable"
+        android:importantForAccessibility="no"
+        android:background="?android:attr/listDivider"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         app:layout_constraintTop_toBottomOf="@id/status_timestamp_info" />
@@ -347,6 +359,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:background="?attr/selectableItemBackground"
+        android:importantForAccessibility="no"
         android:padding="4dp"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintStart_toStartOf="@id/status_info_divider"
@@ -361,6 +374,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="6dp"
         android:background="?attr/selectableItemBackground"
+        android:importantForAccessibility="no"
         android:padding="4dp"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintStart_toEndOf="@id/status_reblogs"
@@ -381,7 +395,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="6dp"
-        android:background="?attr/status_divider_drawable"
+        android:importantForAccessibility="no"
+        android:background="?android:attr/listDivider"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         app:layout_constraintTop_toBottomOf="@id/status_counters_barrier" />
@@ -394,6 +409,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:contentDescription="@string/action_reply"
+        android:importantForAccessibility="no"
         android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/status_reblog"
@@ -408,6 +424,7 @@
         android:layout_height="40dp"
         android:clipToPadding="false"
         android:contentDescription="@string/action_reblog"
+        android:importantForAccessibility="no"
         android:padding="4dp"
         app:layout_constraintEnd_toStartOf="@id/status_favourite"
         app:layout_constraintStart_toEndOf="@id/status_reply"
@@ -424,6 +441,7 @@
         android:layout_height="40dp"
         android:clipToPadding="false"
         android:contentDescription="@string/action_favourite"
+        android:importantForAccessibility="no"
         android:padding="4dp"
         app:layout_constraintEnd_toStartOf="@id/status_more"
         app:layout_constraintStart_toEndOf="@id/status_reblog"
@@ -440,6 +458,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:contentDescription="@string/action_more"
+        android:importantForAccessibility="no"
         android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="@id/status_reply"
         app:layout_constraintEnd_toEndOf="parent"

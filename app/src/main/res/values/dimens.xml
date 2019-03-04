@@ -30,4 +30,6 @@
     <item name="wrap_content" format="integer" type="dimen">-2</item>
 
     <dimen name="preference_icon_size">20dp</dimen>
+
+    <dimen name="selected_drag_item_elevation">12dp</dimen>
 </resources>
