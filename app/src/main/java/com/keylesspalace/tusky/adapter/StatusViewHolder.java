@@ -16,8 +16,6 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
-
 import android.text.InputFilter;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,6 +28,7 @@ import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import at.connyduck.sparkbutton.helpers.Utils;
 
@@ -92,9 +91,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             }
 
             rebloggedBar.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));
-
         }
-
     }
 
     private void setRebloggedByDisplayName(final String name) {

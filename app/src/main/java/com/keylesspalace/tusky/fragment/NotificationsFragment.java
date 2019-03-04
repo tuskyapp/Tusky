@@ -47,6 +47,7 @@ import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
+import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.ThemeUtils;
@@ -186,6 +187,16 @@ public class NotificationsFragment extends SFragment implements
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAccessibilityDelegateCompat(
+                new ListStatusAccessibilityDelegate(recyclerView, this, (pos) -> {
+                    NotificationViewData notification = notifications.getPairedItem(pos);
+                    // We support replies only for now
+                    if (notification instanceof NotificationViewData.Concrete) {
+                        return ((NotificationViewData.Concrete) notification).getStatusViewData();
+                    } else {
+                        return null;
+                    }
+                }));
 
         recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
