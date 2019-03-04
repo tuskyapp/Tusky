@@ -19,8 +19,8 @@
     <!--Black Application Theme Styles-->
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase">
         <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:navigationBarColor">@color/window_background_black</item>
-        <item name="android:navigationBarDividerColor">@color/window_background_black</item>
+        <item name="android:navigationBarColor">@color/color_primary_dark_black</item>
+        <item name="android:navigationBarDividerColor">@color/color_primary_dark_black</item>
     </style>
 
 </resources>
