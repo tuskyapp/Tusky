@@ -158,7 +158,6 @@
         <item>Hell</item>
         <item>Schwarz</item>
         <item>Automatisch bei Sonnenuntergang</item>
-        <item>Systemdesign verwenden</item>
     </string-array>
 
     <string name="notification_mention_format">%s hat dich erwähnt</string>
