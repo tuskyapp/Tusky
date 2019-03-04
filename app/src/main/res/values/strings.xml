@@ -202,7 +202,7 @@
     <string name="pref_title_show_boosts">Show boosts</string>
     <string name="pref_title_show_replies">Show replies</string>
     <string name="pref_title_filter_regex">Filter out by regular expressions</string>
-    <string name="pref_title_show_media_preview">Show media previews</string>
+    <string name="pref_title_show_media_preview">Download media previews</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP proxy</string>
     <string name="pref_title_http_proxy_enable">Enable HTTP proxy</string>
