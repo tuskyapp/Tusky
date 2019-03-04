@@ -38,6 +38,7 @@
     <attr name="card_background" format="reference|color" />
     <attr name="card_image_background" format="reference|color" />
     <attr name="compound_button_color" format="reference" />
+    <attr name="autocomplete_divider_drawable" format="reference" />
 
     <attr name="play_indicator_drawable" format="reference" />
     <attr name="status_text_small" format="dimension" />

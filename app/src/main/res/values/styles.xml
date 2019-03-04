@@ -120,6 +120,8 @@
 
         <item name="compound_button_color">@color/compound_button_color_light</item>
 
+        <item name="autocomplete_divider_drawable">@drawable/autocomplete_divider_light</item>
+
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
 
         <item name="minTouchTargetSize">32dp</item> <!-- this affects RadioButton size -->
