@@ -349,6 +349,8 @@
     </string>
     <string name="description_status_media_no_description_placeholder">        Pas de description
     </string>
+    <string name="description_status_reblogged">        Reblogué
+    </string>
     <string name="description_status_favourited">        Mis en favoris
     </string>
     <string name="description_visiblity_public">        Public
@@ -357,5 +359,8 @@
     <string name="description_visiblity_private">        Abonné·e·s
     </string>
     <string name="description_visiblity_direct">        Direct
+    </string>
+    <string name="description_status">        <!-- Nom public, avertissement?, contenu?, date relative, reblogué par?, reblogué?, mis en favoris?, username, media?; visibilité, nombre de fav?, nombre de reblogs?-->
+        %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
     </string>
 </resources>
