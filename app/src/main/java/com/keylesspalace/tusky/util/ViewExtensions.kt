@@ -10,6 +10,6 @@ fun View.hide() {
     this.visibility = View.GONE
 }
 
-fun View.visible(visible: Boolean) {
-    this.visibility = if (visible) View.VISIBLE else View.GONE
+fun View.visible(visible: Boolean, or: Int = View.GONE) {
+    this.visibility = if (visible) View.VISIBLE else or
 }

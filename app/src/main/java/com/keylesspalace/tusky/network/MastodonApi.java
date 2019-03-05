@@ -312,7 +312,14 @@ public interface MastodonApi {
     );
 
     @GET("/api/v1/lists")
-    Call<List<MastoList>> getLists();
+    Single<List<MastoList>> getLists();
+
+    @FormUrlEncoded
+    @POST("api/v1/lists")
+    Single<MastoList> createList(@Field("title") String title);
+
+    @GET("api/v1/lists/{listId}/accounts")
+    Single<List<Account>> getAccountsInList(@Path("listId") String listId, @Query("limit") int limit);
 
     @GET("/api/v1/custom_emojis")
     Call<List<Emoji>> getCustomEmojis();

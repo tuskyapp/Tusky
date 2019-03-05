@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list_name_textview"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:background="?selectableItemBackground"
-    android:drawablePadding="8dp"
-    android:gravity="center_vertical"
-    android:textSize="?attr/status_text_medium"
-    tools:text="Example list" />
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/list_name_textview"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:background="?selectableItemBackground"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textSize="?attr/status_text_medium"
+        tools:text="Example list" />
+
+    <ImageButton
+        android:id="@+id/editListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:layout_margin="8dp"
+        android:src="@drawable/ic_create_24dp" />
+</LinearLayout>
