@@ -62,7 +62,9 @@
     <string name="action_quick_reply">Risposta veloce</string>
     <string name="action_reply">Rispondi</string>
     <string name="action_reblog">Boosta</string>
+    <string name="action_unreblog">Rimuovi boost</string>
     <string name="action_favourite">Mi piace</string>
+    <string name="action_unfavourite">Rimuovi preferito</string>
     <string name="action_more">Di più</string>
     <string name="action_compose">Componi</string>
     <string name="action_login">Accedi con Mastodon</string>
@@ -109,6 +111,16 @@
     <string name="action_content_warning">Avviso per il contenuto</string>
     <string name="action_emoji_keyboard">Tastiera emoji</string>
     <string name="action_add_tab">Aggiungi Scheda</string>
+    <string name="action_links">Collegamenti</string>
+    <string name="action_mentions">Menzioni</string>
+    <string name="action_hashtags">Hashtag</string>
+    <string name="action_open_reblogger">Apri autore del boost</string>
+    <string name="action_open_reblogged_by">Mostra boost</string>
+    <string name="action_open_faved_by">Mostra preferiti</string>
+    <string name="title_hashtags_dialog">Hashtag</string>
+    <string name="title_mentions_dialog">Menzioni</string>
+    <string name="title_links_dialog">Collegamenti</string>
+    <string name="action_open_media_n">Apri media #%d</string>
     <string name="download_image">Scaricando %1$s</string>
     <string name="action_copy_link">Copia il link</string>
     <string name="action_open_as">Apri come %s</string>
@@ -323,4 +335,22 @@
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s ed altri %3$d</string>
     <string name="max_tab_number_reached">limite massimo di %1$d tab raggiunto</string>
+    <string name="description_status_media">        Media: %s
+    </string>
+    <string name="description_status_cw">        Contenuto sensibile: %s
+    </string>
+    <string name="description_status_media_no_description_placeholder">        Nessuna descrizione
+    </string>
+    <string name="description_status_reblogged">        Ribloggato
+    </string>
+    <string name="description_status_favourited">        Apprezzato
+    </string>
+    <string name="description_visiblity_public">        Pubblico
+    </string>
+    <string name="description_visiblity_unlisted">        Non elencato
+    </string>
+    <string name="description_visiblity_private">        Seguaci
+    </string>
+    <string name="description_visiblity_direct">        Diretti
+    </string>
 </resources>
