@@ -19,6 +19,38 @@
     <string name="action_unblock">Malbloki</string>
     <string name="action_mute">Silentigi</string>
     <string name="action_unmute">Malsilentigi</string>
+    <string name="action_edit_profile">Redakti profilon</string>
+    <string name="action_edit_own_profile">Redakti</string>
+    <string name="action_search">Serĉi</string>
+    <string name="action_links">Ligiloj</string>
+    <string name="action_hashtags">Kradvortoj</string>
+    <string name="confirmation_reported">Sendita!</string>
+    <string name="status_sent">Sendita!</string>
+    <string name="hint_domain">Kiu nodo?</string>
+    <string name="hint_compose">Kio okazas?</string>
+    <string name="hint_display_name">Publika nomo</string>
+    <string name="hint_note">Sinprezento</string>
+    <string name="hint_search">Serĉi…</string>
+    <string name="label_quick_reply">Respondi…</string>
+    <string name="label_avatar">Profilbildo</string>
+    <string name="label_header">Fonbildo</string>
+    <string name="link_whats_an_instance">Kio estas nodo?</string>
+    <string name="dialog_delete_toot_warning">Forigi ĉi tiun mesaĝon?</string>
+    <string name="pref_title_notification_settings">Sciigoj</string>
+    <string name="pref_title_edit_notification_settings">Sciigoj</string>
+    <string name="pref_title_notifications_enabled">Sciigoj</string>
+    <string name="pref_title_appearance_settings">Aspekto</string>
+    <string-array name="app_theme_names">
+        <item>Malhela</item>
+        <item>Hela</item>
+        <item>Black</item>
+        <item>Automatic at sunset</item>
+    </string-array>
+    <string-array name="post_privacy_names">
+        <item>Publika</item>
+        <item>Nelistigita</item>
+        <item>Nur por sekvantoj</item>
+    </string-array>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
