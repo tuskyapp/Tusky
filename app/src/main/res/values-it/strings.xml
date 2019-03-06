@@ -329,6 +329,10 @@
         <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Mi piace</item>
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Mi piace</item>
     </plurals>
+    <plurals name="reblogs">
+        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Boost</item>
+        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Boost</item>
+    </plurals>
     <string name="title_reblogged_by">Boostato da</string>
     <string name="title_favourited_by">Preferito da</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -352,5 +356,8 @@
     <string name="description_visiblity_private">        Seguaci
     </string>
     <string name="description_visiblity_direct">        Diretti
+    </string>
+    <string name="description_status">        <!-- Nome visualizzato, cw?, contenuto?, data relativa, ripostato da?, ripostato?, apprezzato?, nome utente, media?; visibilità, numero di mi piace?, numero di riblog?-->
+        %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
     </string>
 </resources>
