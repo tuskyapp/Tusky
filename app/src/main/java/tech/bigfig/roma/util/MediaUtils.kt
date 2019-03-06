@@ -308,3 +308,15 @@ private fun getMimeTypeOther(uri: Uri, contentResolver: ContentResolver):String?
  * @return true if uri has a "file" scheme
  */
 fun isFileUri(uri:Uri):Boolean = uri.scheme?.startsWith(SCHEME_FILE)==true
+
+/**
+ * Check is this a image media or not
+ */
+fun isImageMedia(contentResolver: ContentResolver,uri: Uri):Boolean{
+    val mimeType =  if (isFileUri(uri))
+        getMimeTypeFile(uri)
+    else
+        getMimeTypeOther(uri,contentResolver)
+
+    return "image" == mimeType?.substring(0, mimeType.indexOf('/'))
+}

@@ -17,6 +17,7 @@ package tech.bigfig.roma;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -97,6 +98,7 @@ import tech.bigfig.roma.view.TootButton;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -156,6 +158,7 @@ import static tech.bigfig.roma.util.MediaUtilsKt.getVideoThumbnail;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 import static tech.bigfig.roma.util.MediaUtilsKt.isFileUri;
+import static tech.bigfig.roma.util.MediaUtilsKt.isImageMedia;
 
 public final class ComposeActivity
         extends BaseActivity
@@ -238,6 +241,8 @@ public final class ComposeActivity
     private SaveTootHelper saveTootHelper;
     private Gson gson = new Gson();
     private ArrayList<Uri> uriListForAttach;
+
+    private Uri imageForCrop;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -402,10 +407,12 @@ public final class ComposeActivity
             }
             photoUploadUri = savedInstanceState.getParcelable("photoUploadUri");
             uriListForAttach = savedInstanceState.getParcelableArrayList("imagesForAttach");
+            imageForCrop = savedInstanceState.getParcelable("imageForCrop");
         } else {
             statusMarkSensitive = activeAccount.getDefaultMediaSensitivity();
             startingHideText = false;
             photoUploadUri = null;
+            imageForCrop = null;
         }
 
         /* If the composer is started up as a reply to another post, override the "starting" state
@@ -696,6 +703,7 @@ public final class ComposeActivity
         outState.putParcelable("photoUploadUri", photoUploadUri);
         outState.putInt("statusVisibility", statusVisibility.getNum());
         outState.putParcelableArrayList("imagesForAttach",uriListForAttach);
+        outState.putParcelable("imageForCrop", imageForCrop);
         super.onSaveInstanceState(outState);
     }
 
@@ -1455,14 +1463,49 @@ public final class ComposeActivity
         super.onActivityResult(requestCode, resultCode, intent);
         if (resultCode == RESULT_OK && requestCode == MEDIA_PICK_RESULT && intent != null) {
             Uri uri = intent.getData();
-            long mediaSize = getMediaSize(getContentResolver(), uri);
-            pickMedia(uri, mediaSize, null);
+            if (uri!=null&&isImageMedia(getContentResolver(),uri))
+                startCropActivity(uri);
+            else {
+                processMedia(uri);
+            }
         } else if (resultCode == RESULT_OK && requestCode == MEDIA_TAKE_PHOTO_RESULT) {
-            long mediaSize = getMediaSize(getContentResolver(), photoUploadUri);
-            pickMedia(photoUploadUri, mediaSize, null);
+            if (photoUploadUri!=null&&isImageMedia(getContentResolver(),photoUploadUri))
+                startCropActivity(photoUploadUri);
+            else {
+                processMedia(photoUploadUri);
+            }
+        }
+        else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+            CropImage.ActivityResult result = CropImage.getActivityResult(intent);
+            if (resultCode == Activity.RESULT_CANCELED){
+                processMedia(imageForCrop);
+            }
+            else if (resultCode == Activity.RESULT_OK){
+                if (result!=null)
+                    processMedia(result.getUri());
+            }
+            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+                Snackbar.make(tootButton, R.string.error_media_crop, Snackbar.LENGTH_LONG).show();
+                processMedia(imageForCrop);
+            }
+            imageForCrop = null;
         }
     }
 
+    private void processMedia(Uri uri) {
+        if (uri!=null) {
+            long mediaSize = getMediaSize(getContentResolver(), uri);
+            pickMedia(uri, mediaSize, null);
+        }
+    }
+
+
+    private void startCropActivity(Uri uri){
+        imageForCrop = uri;
+        CropImage.activity(uri)
+                .setInitialCropWindowPaddingRatio(0f)
+                .start(this);
+    }
 
     private void pickMedia(Uri uri, long mediaSize, String description) {
         if (mediaSize == MEDIA_SIZE_UNKNOWN) {
