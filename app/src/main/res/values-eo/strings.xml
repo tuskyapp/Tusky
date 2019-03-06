@@ -8,6 +8,17 @@
     <string name="title_direct_messages">Rektaj mesaĝoj</string>
     <string name="title_tab_preferences">Langetoj</string>
     <string name="title_statuses_pinned">Alpinglitaj</string>
+    <string name="title_follows">Sekvatoj</string>
+    <string name="title_followers">Sekvantoj</string>
+    <string name="title_favourites">Stelumoj</string>
+    <string name="status_boosted_format">%s diskonigis</string>
+    <string name="status_sensitive_media_title">Tikla enhavo</string>
+    <string name="status_sensitive_media_directions">Alklaki por vidi</string>
+    <string name="action_logout">Elsaluti</string>
+    <string name="action_block">Bloki</string>
+    <string name="action_unblock">Malbloki</string>
+    <string name="action_mute">Silentigi</string>
+    <string name="action_unmute">Malsilentigi</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
