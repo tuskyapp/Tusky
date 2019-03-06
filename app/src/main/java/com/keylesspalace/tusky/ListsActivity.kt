@@ -2,6 +2,8 @@ package com.keylesspalace.tusky
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -87,7 +89,7 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
         viewModel.retryLoading()
 
         addListButton.setOnClickListener {
-            NewListDialogFragment().show(supportFragmentManager, null)
+            ListNameDialogFragment.newInstance().show(supportFragmentManager, null)
         }
     }
 
@@ -129,13 +131,17 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
         AccountsInListFragment.newInstance(list.id, list.title).show(supportFragmentManager, null)
     }
 
+    private fun renameListDialog(list: MastoList) {
+        ListNameDialogFragment.newInstanceRename(list.id, list.title).show(supportFragmentManager, null)
+    }
+
     private fun onMore(list: MastoList, view: View) {
         PopupMenu(view.context, view).apply {
             inflate(R.menu.list_actions)
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.list_edit -> openListSettings(list)
-                    R.id.list_rename -> TODO()
+                    R.id.list_rename -> renameListDialog(list)
                     R.id.list_delete -> viewModel.deleteList(list.id)
                     else -> return@setOnMenuItemClickListener false
                 }
@@ -203,18 +209,35 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
         }
     }
 
-    fun onPickedDialogName(name: CharSequence) {
-        viewModel.createNewList(name.toString())
+    fun onPickedDialogName(name: CharSequence, listId: String?) {
+        if (listId == null) {
+            viewModel.createNewList(name.toString())
+        } else {
+            viewModel.renameList(listId, name.toString())
+        }
     }
 }
 
-class NewListDialogFragment : DialogFragment() {
+class ListNameDialogFragment : DialogFragment() {
     companion object {
-        fun newInstance(name: String?): NewListDialogFragment {
-            val args = Bundle()
-            args.putString("name", name)
-            return NewListDialogFragment().also { it.arguments = args }
+        fun newInstance(): ListNameDialogFragment {
+            return ListNameDialogFragment()
         }
+
+        fun newInstanceRename(listId: String, name: String): ListNameDialogFragment {
+            val args = Bundle()
+            args.putString(LIST_ID_ARG, listId)
+            args.putString(NAME_ARG, name)
+            return ListNameDialogFragment().also { it.arguments = args }
+        }
+
+        private const val LIST_ID_ARG = "listId"
+        private const val NAME_ARG = "name"
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -224,6 +247,10 @@ class NewListDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val listId = arguments?.getString(LIST_ID_ARG)
+        createButton.setText(if (listId == null) "Create" else  "Rename")
+
         listNameEditText.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 createButton.isEnabled = !s.isNullOrBlank()
@@ -235,10 +262,10 @@ class NewListDialogFragment : DialogFragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
         })
-        listNameEditText.setText(arguments?.getString("name"))
+        listNameEditText.setText(arguments?.getString(NAME_ARG))
 
         createButton.setOnClickListener {
-            (activity as ListsActivity).onPickedDialogName(listNameEditText.text)
+            (activity as ListsActivity).onPickedDialogName(listNameEditText.text, listId)
             dismiss()
         }
         cancelbutton.setOnClickListener { dismiss() }

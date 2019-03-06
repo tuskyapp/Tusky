@@ -6,6 +6,7 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.Either.Left
 import com.keylesspalace.tusky.util.Either.Right
+import com.keylesspalace.tusky.util.withoutFirstWhich
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -48,10 +49,7 @@ class AccountsInListViewModel @Inject constructor(private val api: MastodonApi) 
                 .subscribe({
                     updateState {
                         copy(accounts = accounts.map { accounts ->
-                            val withoutAccount = accounts.toMutableList()
-                            val index = accounts.indexOfFirst { it.id == accountId }
-                            if (index > 0) withoutAccount.removeAt(index)
-                            withoutAccount
+                            accounts.withoutFirstWhich { it.id == accountId }
                         })
                     }
                 }, {

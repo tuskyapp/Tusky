@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/list_edit"
-        android:title="Edit lsit" />
+        android:title="Edit list" />
     <item
         android:id="@+id/list_rename"
         android:title="Rename list" />

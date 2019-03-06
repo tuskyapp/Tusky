@@ -22,9 +22,11 @@
     <ImageButton
         android:id="@+id/editListButton"
         style="?attr/image_button_style"
-        android:layout_width="wrap_content"
+        android:layout_width="36dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:background="?selectableItemBackground"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:src="@drawable/ic_more_horiz_24dp" />
 </LinearLayout>

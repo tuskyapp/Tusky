@@ -320,6 +320,10 @@ public interface MastodonApi {
     @POST("api/v1/lists")
     Single<MastoList> createList(@Field("title") String title);
 
+    @FormUrlEncoded
+    @PUT("api/v1/lists/{listId}")
+    Single<MastoList> updateList(@Path("listId") String listId, @Field("title") String title);
+
     @DELETE("api/v1/lists/{listId}")
     Completable deleteList(@Path("listId") String listId);
 

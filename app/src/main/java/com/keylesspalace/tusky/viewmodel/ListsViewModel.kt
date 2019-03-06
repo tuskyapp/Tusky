@@ -3,6 +3,8 @@ package com.keylesspalace.tusky.viewmodel
 import androidx.lifecycle.ViewModel
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.withoutFirstWhich
+import com.keylesspalace.tusky.util.replacedFirstWhich
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -63,15 +65,20 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
         }).addTo(disposable)
     }
 
+    fun renameList(listId: String, listName: String) {
+        api.updateList(listId, listName).subscribe({ list ->
+            updateState {
+                copy(lists = lists.replacedFirstWhich(list) { it.id == listId })
+            }
+        }, {
+            // TODO: handle error here
+        }).addTo(disposable)
+    }
+
     fun deleteList(listId: String) {
         api.deleteList(listId).subscribe({
             updateState {
-                val newLists = lists.toMutableList()
-                val index = newLists.indexOfFirst { it.id == listId }
-                if (index != -1) {
-                    newLists.removeAt(index)
-                }
-                copy(lists = newLists)
+                copy(lists = lists.withoutFirstWhich { it.id == listId })
             }
         }, {
             // TODO: handle error
