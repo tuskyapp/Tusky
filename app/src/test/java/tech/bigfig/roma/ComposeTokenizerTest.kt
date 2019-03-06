@@ -15,16 +15,16 @@
 
 package tech.bigfig.roma
 
-import tech.bigfig.roma.util.MentionTagTokenizer
+import tech.bigfig.roma.util.ComposeTokenizer
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class MentionTagTokenizerTest(private val text: CharSequence,
-                              private val expectedStartIndex: Int,
-                              private val expectedEndIndex: Int) {
+class ComposeTokenizerTest(private val text: CharSequence,
+                           private val expectedStartIndex: Int,
+                           private val expectedEndIndex: Int) {
 
     companion object {
         @Parameterized.Parameters(name = "{0}")
@@ -47,15 +47,21 @@ class MentionTagTokenizerTest(private val text: CharSequence,
                     arrayOf("mention", 7, 7),
                     arrayOf("ment10n", 7, 7),
                     arrayOf("mentio_", 7, 7),
-                    arrayOf("#roma", 0, 5),
-                    arrayOf("#@roma", 6, 6),
-                    arrayOf("@#roma", 6, 6),
-                    arrayOf(" @#roma", 7, 7)
+                    arrayOf("#tusky", 0, 6),
+                    arrayOf("#@tusky", 7, 7),
+                    arrayOf("@#tusky", 7, 7),
+                    arrayOf(" @#tusky", 8, 8),
+                    arrayOf(":mastodon", 0, 9),
+                    arrayOf(":@mastodon", 10, 10),
+                    arrayOf("@:mastodon", 10, 10),
+                    arrayOf(" @:mastodon", 11, 11),
+                    arrayOf("#@:mastodon", 11, 11),
+                    arrayOf(" #@:mastodon", 12, 12)
             )
         }
     }
 
-    private val tokenizer = MentionTagTokenizer()
+    private val tokenizer = ComposeTokenizer()
 
     @Test
     fun tokenIndices_matchExpectations() {

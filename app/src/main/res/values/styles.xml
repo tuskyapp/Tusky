@@ -120,6 +120,8 @@
 
         <item name="compound_button_color">@color/compound_button_color_light</item>
 
+        <item name="autocomplete_divider_drawable">@drawable/autocomplete_divider_light</item>
+
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
 
         <item name="minTouchTargetSize">32dp</item> <!-- this affects RadioButton size -->
@@ -143,10 +145,6 @@
         <item name="tabIndicatorColor">?attr/tab_icon_selected_tint</item>
         <item name="tabTextColor">?android:attr/textColorSecondary</item>
         <item name="tabSelectedTextColor">?attr/tab_icon_selected_tint</item>
-    </style>
-
-    <style name="RomaFloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
-
     </style>
 
     <style name="RomaButton" parent="Widget.MaterialComponents.Button">

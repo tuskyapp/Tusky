@@ -66,7 +66,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import tech.bigfig.roma.adapter.EmojiAdapter;
-import tech.bigfig.roma.adapter.MentionTagAutoCompleteAdapter;
+import tech.bigfig.roma.adapter.ComposeAutoCompleteAdapter;
 import tech.bigfig.roma.adapter.OnEmojiSelectedListener;
 import tech.bigfig.roma.db.AccountEntity;
 import tech.bigfig.roma.db.AppDatabase;
@@ -84,7 +84,7 @@ import tech.bigfig.roma.service.SendTootService;
 import tech.bigfig.roma.util.CountUpDownLatch;
 import tech.bigfig.roma.util.DownsizeImageTask;
 import tech.bigfig.roma.util.ListUtils;
-import tech.bigfig.roma.util.MentionTagTokenizer;
+import tech.bigfig.roma.util.ComposeTokenizer;
 import tech.bigfig.roma.util.SaveTootHelper;
 import tech.bigfig.roma.util.SpanUtilsKt;
 import tech.bigfig.roma.util.StringUtils;
@@ -111,6 +111,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
 
 import javax.inject.Inject;
 
@@ -159,7 +160,7 @@ import static tech.bigfig.roma.util.MediaUtilsKt.isFileUri;
 public final class ComposeActivity
         extends BaseActivity
         implements ComposeOptionsListener,
-        MentionTagAutoCompleteAdapter.AutocompletionProvider,
+        ComposeAutoCompleteAdapter.AutocompletionProvider,
         OnEmojiSelectedListener,
         Injectable, InputConnectionCompat.OnCommitContentListener {
 
@@ -229,6 +230,7 @@ public final class ComposeActivity
     private Uri photoUploadUri;
     private int savedTootUid = 0;
     private List<Emoji> emojiList;
+    private CountDownLatch emojiListRetrievalLatch = new CountDownLatch(1);
     private int maximumTootCharacters = STATUS_CHARACTER_LIMIT;
     private @Px
     int thumbnailViewSize;
@@ -317,7 +319,7 @@ public final class ComposeActivity
             mastodonApi.getCustomEmojis().enqueue(new Callback<List<Emoji>>() {
                 @Override
                 public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
-                    emojiList = response.body();
+                    List<Emoji> emojiList = response.body();
                     if(emojiList == null) {
                         emojiList = Collections.emptyList();
                     }
@@ -524,8 +526,8 @@ public final class ComposeActivity
         });
 
         textEditor.setAdapter(
-                new MentionTagAutoCompleteAdapter(this));
-        textEditor.setTokenizer(new MentionTagTokenizer());
+                new ComposeAutoCompleteAdapter(this));
+        textEditor.setTokenizer(new ComposeTokenizer());
 
         // Add any mentions to the text field when a reply is first composed.
         if (mentionedUsernames != null) {
@@ -1597,7 +1599,7 @@ public final class ComposeActivity
     }
 
     @Override
-    public List<MentionTagAutoCompleteAdapter.AutocompleteResult> search(String token) {
+    public List<ComposeAutoCompleteAdapter.AutocompleteResult> search(String token) {
         try {
             switch (token.charAt(0)) {
                 case '@':
@@ -1609,16 +1611,51 @@ public final class ComposeActivity
                     if (accountList != null) {
                         resultList.addAll(accountList);
                     }
-                    return CollectionsKt.map(resultList, MentionTagAutoCompleteAdapter.AccountResult::new);
+                    return CollectionsKt.map(resultList, ComposeAutoCompleteAdapter.AccountResult::new);
                 case '#':
                     Response<SearchResults> response = mastodonApi.search(token, false).execute();
                     if (response.isSuccessful() && response.body() != null) {
                         return CollectionsKt.map(
                                 response.body().getHashtags(),
-                                MentionTagAutoCompleteAdapter.HashtagResult::new
+                                ComposeAutoCompleteAdapter.HashtagResult::new
                         );
                     } else {
                         Log.e(TAG, String.format("Autocomplete search for %s failed.", token));
+                        return Collections.emptyList();
+                    }
+                case ':':
+                    try {
+                        emojiListRetrievalLatch.await();
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, String.format("Autocomplete search for %s was interrupted.", token));
+                        return Collections.emptyList();
+                    }
+                    if (emojiList != null) {
+                        String incomplete = token.substring(1).toLowerCase();
+
+                        List<ComposeAutoCompleteAdapter.AutocompleteResult> results =
+                                new ArrayList<>();
+                        List<ComposeAutoCompleteAdapter.AutocompleteResult> resultsInside =
+                                new ArrayList<>();
+
+                        for (Emoji emoji : emojiList) {
+                            String shortcode = emoji.getShortcode().toLowerCase();
+
+                            if (shortcode.startsWith(incomplete)) {
+                                results.add(new ComposeAutoCompleteAdapter.EmojiResult(emoji));
+                            } else if (shortcode.indexOf(incomplete, 1) != -1) {
+                                resultsInside.add(new ComposeAutoCompleteAdapter.EmojiResult(emoji));
+                            }
+                        }
+
+                        if (!results.isEmpty() && !resultsInside.isEmpty()) {
+                            // both lists have results. include a separator between them.
+                            results.add(new ComposeAutoCompleteAdapter.ResultSeparator());
+                        }
+
+                        results.addAll(resultsInside);
+                        return results;
+                    } else {
                         return Collections.emptyList();
                     }
                 default:
@@ -1643,13 +1680,16 @@ public final class ComposeActivity
         if(instanceEntity != null) {
             Integer max = instanceEntity.getMaximumTootCharacters();
             maximumTootCharacters = (max == null ? STATUS_CHARACTER_LIMIT : max);
-            emojiList = instanceEntity.getEmojiList();
-            setEmojiList(emojiList);
+            setEmojiList(instanceEntity.getEmojiList());
             updateVisibleCharactersLeft();
         }
     }
 
     private void setEmojiList(@Nullable List<Emoji> emojiList) {
+        this.emojiList = emojiList;
+
+        emojiListRetrievalLatch.countDown();
+
         if (emojiList != null) {
             emojiView.setAdapter(new EmojiAdapter(emojiList, ComposeActivity.this));
             enableButton(emojiButton, true, emojiList.size() > 0);

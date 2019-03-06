@@ -16,6 +16,7 @@
 package tech.bigfig.roma.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -28,6 +29,8 @@ import android.widget.ProgressBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import tech.bigfig.roma.AccountListActivity;
+import tech.bigfig.roma.BaseActivity;
 import tech.bigfig.roma.R;
 import tech.bigfig.roma.adapter.TimelineAdapter;
 import tech.bigfig.roma.appstore.BlockEvent;
@@ -51,6 +54,7 @@ import tech.bigfig.roma.repository.TimelineRepository;
 import tech.bigfig.roma.repository.TimelineRequestMode;
 import tech.bigfig.roma.util.CollectionUtil;
 import tech.bigfig.roma.util.Either;
+import tech.bigfig.roma.util.ListStatusAccessibilityDelegate;
 import tech.bigfig.roma.util.ListUtils;
 import tech.bigfig.roma.util.PairedList;
 import tech.bigfig.roma.util.StringUtils;
@@ -348,6 +352,8 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void setupRecyclerView() {
+        recyclerView.setAccessibilityDelegateCompat(
+                new ListStatusAccessibilityDelegate(recyclerView, this, statuses::getPairedItem));
         Context context = recyclerView.getContext();
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
@@ -631,6 +637,21 @@ public class TimelineFragment extends SFragment implements
         updateAdapter();
     }
 
+
+    @Override
+    public void onShowReblogs(int position) {
+        String statusId = statuses.get(position).asRight().getId();
+        Intent intent = AccountListActivity.newIntent(getContext(), AccountListActivity.Type.REBLOGGED, statusId);
+        ((BaseActivity) getActivity()).startActivityWithSlideInAnimation(intent);
+    }
+
+    @Override
+    public void onShowFavs(int position) {
+        String statusId = statuses.get(position).asRight().getId();
+        Intent intent = AccountListActivity.newIntent(getContext(), AccountListActivity.Type.FAVOURITED, statusId);
+        ((BaseActivity) getActivity()).startActivityWithSlideInAnimation(intent);
+    }
+
     @Override
     public void onLoadMore(int position) {
         //check bounds before accessing list,
@@ -685,7 +706,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public void onViewMedia(int position, int attachmentIndex, @NonNull View view) {
+    public void onViewMedia(int position, int attachmentIndex, @Nullable View view) {
         Status status = statuses.get(position).asRightOrNull();
         if (status == null) return;
         super.viewMedia(attachmentIndex, status, view);

@@ -7,8 +7,4 @@
         <item name="android:navigationBarDividerColor">@color/status_divider_dark</item>
     </style>
 
-    <style name="RomaBlackTheme" parent="RomaBlackThemeBase">
-        <item name="android:navigationBarColor">@color/window_background_black</item>
-        <item name="android:navigationBarDividerColor">@color/window_background_black</item>
-    </style>
 </resources>

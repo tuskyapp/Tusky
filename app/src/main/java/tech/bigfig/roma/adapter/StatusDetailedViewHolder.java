@@ -44,8 +44,6 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private TextView cardUrl;
     private View infoDivider;
 
-    private NumberFormat numberFormat = NumberFormat.getNumberInstance();
-
     StatusDetailedViewHolder(View view) {
         super(view, false);
         reblogs = view.findViewById(R.id.status_reblogs);
@@ -74,36 +72,34 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
         }
     }
 
-    private void setReblogAndFavCount(int reblogCount,  int favCount, StatusActionListener listener) {
+    private void setReblogAndFavCount(int reblogCount, int favCount, StatusActionListener listener) {
 
-        if(reblogCount > 0) {
-            String reblogCountString = numberFormat.format(reblogCount);
-            reblogs.setText(HtmlUtils.fromHtml(reblogs.getResources().getQuantityString(R.plurals.reblogs, reblogCount, reblogCountString)));
+        if (reblogCount > 0) {
+            reblogs.setText(getReblogsText(reblogs.getContext(), reblogCount));
             reblogs.setVisibility(View.VISIBLE);
         } else {
             reblogs.setVisibility(View.GONE);
         }
-        if(favCount > 0) {
-            String favCountString = numberFormat.format(favCount);
-            favourites.setText(HtmlUtils.fromHtml(favourites.getResources().getQuantityString(R.plurals.favs, favCount, favCountString)));
+        if (favCount > 0) {
+            favourites.setText(getFavsText(favourites.getContext(), favCount));
             favourites.setVisibility(View.VISIBLE);
         } else {
             favourites.setVisibility(View.GONE);
         }
 
-        if(reblogs.getVisibility() == View.GONE && favourites.getVisibility() == View.GONE) {
+        if (reblogs.getVisibility() == View.GONE && favourites.getVisibility() == View.GONE) {
             infoDivider.setVisibility(View.GONE);
         } else {
             infoDivider.setVisibility(View.VISIBLE);
         }
 
-        reblogs.setOnClickListener( v -> {
+        reblogs.setOnClickListener(v -> {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 listener.onShowReblogs(position);
             }
         });
-        favourites.setOnClickListener( v -> {
+        favourites.setOnClickListener(v -> {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 listener.onShowFavs(position);
@@ -140,7 +136,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
 
         View.OnLongClickListener longClickListener = view -> {
-            TextView textView = (TextView)view;
+            TextView textView = (TextView) view;
             ClipboardManager clipboard = (ClipboardManager) view.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("toot", textView.getText());
             clipboard.setPrimaryClip(clip);
@@ -153,7 +149,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
         content.setOnLongClickListener(longClickListener);
         contentWarningDescription.setOnLongClickListener(longClickListener);
 
-        if(status.getAttachments().size() == 0 && status.getCard() != null && !TextUtils.isEmpty(status.getCard().getUrl())) {
+        if (status.getAttachments().size() == 0 && status.getCard() != null && !TextUtils.isEmpty(status.getCard().getUrl())) {
             final Card card = status.getCard();
             cardView.setVisibility(View.VISIBLE);
             cardTitle.setText(card.getTitle());
@@ -161,10 +157,10 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
             cardUrl.setText(card.getUrl());
 
-            if(card.getWidth() > 0 && card.getHeight() > 0 && !TextUtils.isEmpty(card.getImage())) {
+            if (card.getWidth() > 0 && card.getHeight() > 0 && !TextUtils.isEmpty(card.getImage())) {
                 cardImage.setVisibility(View.VISIBLE);
 
-                if(card.getWidth() > card.getHeight()) {
+                if (card.getWidth() > card.getHeight()) {
                     cardView.setOrientation(LinearLayout.VERTICAL);
                     cardImage.getLayoutParams().height = cardImage.getContext().getResources()
                             .getDimensionPixelSize(R.dimen.card_image_vertical_height);

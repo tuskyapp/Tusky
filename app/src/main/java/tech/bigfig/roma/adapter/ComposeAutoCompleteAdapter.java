@@ -25,9 +25,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import tech.bigfig.roma.R;
-import tech.bigfig.roma.entity.Account;
-import tech.bigfig.roma.util.CustomEmojiHelper;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -35,20 +33,26 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import tech.bigfig.roma.R;
+import tech.bigfig.roma.entity.Account;
+import tech.bigfig.roma.entity.Emoji;
+import tech.bigfig.roma.util.CustomEmojiHelper;
 
 /**
  * Created by charlag on 12/11/17.
  */
 
-public class MentionTagAutoCompleteAdapter extends BaseAdapter
+public class ComposeAutoCompleteAdapter extends BaseAdapter
         implements Filterable {
-    private static final int ACCOUNT_VIEW_TYPE = 0;
-    private static final int HASHTAG_VIEW_TYPE = 1;
+    private static final int ACCOUNT_VIEW_TYPE = 1;
+    private static final int HASHTAG_VIEW_TYPE = 2;
+    private static final int EMOJI_VIEW_TYPE = 3;
+    private static final int SEPARATOR_VIEW_TYPE = 0;
 
     private final ArrayList<AutocompleteResult> resultList;
     private final AutocompletionProvider autocompletionProvider;
 
-    public MentionTagAutoCompleteAdapter(AutocompletionProvider autocompletionProvider) {
+    public ComposeAutoCompleteAdapter(AutocompletionProvider autocompletionProvider) {
         super();
         resultList = new ArrayList<>();
         this.autocompletionProvider = autocompletionProvider;
@@ -77,8 +81,12 @@ public class MentionTagAutoCompleteAdapter extends BaseAdapter
             public CharSequence convertResultToString(Object resultValue) {
                 if (resultValue instanceof AccountResult) {
                     return formatUsername(((AccountResult) resultValue));
-                } else {
+                } else if (resultValue instanceof HashtagResult) {
                     return formatHashtag((HashtagResult) resultValue);
+                } else if (resultValue instanceof  EmojiResult) {
+                    return formatEmoji((EmojiResult) resultValue);
+                } else {
+                    return "";
                 }
             }
 
@@ -117,9 +125,8 @@ public class MentionTagAutoCompleteAdapter extends BaseAdapter
 
         switch (getItemViewType(position)) {
             case ACCOUNT_VIEW_TYPE:
-                AccountViewHolder holder;
+                AccountViewHolder accountViewHolder;
                 if (convertView == null) {
-                    //noinspection ConstantConditions
                     view = ((LayoutInflater) context
                             .getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                             .inflate(R.layout.item_autocomplete_account, parent, false);
@@ -127,22 +134,24 @@ public class MentionTagAutoCompleteAdapter extends BaseAdapter
                 if (view.getTag() == null) {
                     view.setTag(new AccountViewHolder(view));
                 }
-                holder = (AccountViewHolder) view.getTag();
+                accountViewHolder = (AccountViewHolder) view.getTag();
 
                 AccountResult accountResult = ((AccountResult) getItem(position));
                 if (accountResult != null) {
                     Account account = accountResult.account;
-                    String format = context.getString(R.string.status_username_format);
-                    String formattedUsername = String.format(format, account.getUsername());
-                    holder.username.setText(formattedUsername);
+                    String formattedUsername = context.getString(
+                            R.string.status_username_format,
+                            account.getUsername()
+                    );
+                    accountViewHolder.username.setText(formattedUsername);
                     CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(),
-                            account.getEmojis(), holder.displayName);
-                    holder.displayName.setText(emojifiedName);
+                            account.getEmojis(), accountViewHolder.displayName);
+                    accountViewHolder.displayName.setText(emojifiedName);
                     if (!account.getAvatar().isEmpty()) {
                         Picasso.with(context)
                                 .load(account.getAvatar())
                                 .placeholder(R.drawable.avatar_default)
-                                .into(holder.avatar);
+                                .into(accountViewHolder.avatar);
                     }
                 }
                 break;
@@ -151,12 +160,46 @@ public class MentionTagAutoCompleteAdapter extends BaseAdapter
                 if (convertView == null) {
                     view = ((LayoutInflater) context
                             .getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                            .inflate(R.layout.item_hashtag, parent, false);
+                            .inflate(R.layout.item_autocomplete_hashtag, parent, false);
                 }
 
                 HashtagResult result = (HashtagResult) getItem(position);
                 if (result != null) {
                     ((TextView) view).setText(formatHashtag(result));
+                }
+                break;
+
+            case EMOJI_VIEW_TYPE:
+                EmojiViewHolder emojiViewHolder;
+                if (convertView == null) {
+                    view = ((LayoutInflater) context
+                            .getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                            .inflate(R.layout.item_autocomplete_emoji, parent, false);
+                }
+                if (view.getTag() == null) {
+                    view.setTag(new EmojiViewHolder(view));
+                }
+                emojiViewHolder = (EmojiViewHolder) view.getTag();
+
+                EmojiResult emojiResult = ((EmojiResult) getItem(position));
+                if (emojiResult != null) {
+                    Emoji emoji = emojiResult.emoji;
+                    String formattedShortcode = context.getString(
+                            R.string.emoji_shortcode_format,
+                            emoji.getShortcode()
+                    );
+                    emojiViewHolder.shortcode.setText(formattedShortcode);
+                    Picasso.with(context)
+                            .load(emoji.getUrl())
+                            .into(emojiViewHolder.preview);
+                }
+                break;
+
+            case SEPARATOR_VIEW_TYPE:
+                if (convertView == null) {
+                    view = ((LayoutInflater) context
+                            .getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                            .inflate(R.layout.item_autocomplete_divider, parent, false);
                 }
                 break;
             default:
@@ -174,18 +217,39 @@ public class MentionTagAutoCompleteAdapter extends BaseAdapter
         return String.format("#%s", result.hashtag);
     }
 
+    private String formatEmoji(EmojiResult result) {
+        return String.format(":%s:", result.emoji.getShortcode());
+    }
+
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return 4;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (getItem(position) instanceof AccountResult) {
+        AutocompleteResult item = getItem(position);
+
+        if (item instanceof AccountResult) {
             return ACCOUNT_VIEW_TYPE;
-        } else {
+        } else if (item instanceof HashtagResult) {
             return HASHTAG_VIEW_TYPE;
+        } else if (item instanceof EmojiResult) {
+            return EMOJI_VIEW_TYPE;
+        } else {
+            return SEPARATOR_VIEW_TYPE;
         }
+    }
+
+    @Override
+    public boolean areAllItemsEnabled() {
+        // there may be separators
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        return !(getItem(position) instanceof ResultSeparator);
     }
 
     public abstract static class AutocompleteResult {
@@ -209,6 +273,16 @@ public class MentionTagAutoCompleteAdapter extends BaseAdapter
         }
     }
 
+    public final static class EmojiResult extends AutocompleteResult {
+        private final Emoji emoji;
+
+        public EmojiResult(Emoji emoji) {
+            this.emoji = emoji;
+        }
+    }
+
+    public final static class ResultSeparator extends AutocompleteResult {}
+
     public interface AutocompletionProvider {
         List<AutocompleteResult> search(String mention);
     }
@@ -222,6 +296,16 @@ public class MentionTagAutoCompleteAdapter extends BaseAdapter
             username = view.findViewById(R.id.username);
             displayName = view.findViewById(R.id.display_name);
             avatar = view.findViewById(R.id.avatar);
+        }
+    }
+
+    private class EmojiViewHolder {
+        final TextView shortcode;
+        final ImageView preview;
+
+        private EmojiViewHolder(View view) {
+            shortcode = view.findViewById(R.id.shortcode);
+            preview = view.findViewById(R.id.preview);
         }
     }
 }

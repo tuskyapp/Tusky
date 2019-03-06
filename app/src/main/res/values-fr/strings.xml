@@ -63,7 +63,9 @@
     <string name="action_quick_reply">Réponse rapide</string>
     <string name="action_reply">Répondre</string>
     <string name="action_reblog">Reposter</string>
+    <string name="action_unreblog">Supprimer le boost</string>
     <string name="action_favourite">Favori</string>
+    <string name="action_unfavourite">Supprimer le favori</string>
     <string name="action_more">Plus</string>
     <string name="action_compose">Écrire</string>
     <string name="action_login">Se connecter à Mastodon</string>
@@ -110,6 +112,16 @@
     <string name="action_content_warning">Contenu sensible</string>
     <string name="action_emoji_keyboard">Clavier d’émojis</string>
     <string name="action_add_tab">Ajouter un onglet</string>
+    <string name="action_links">Liens</string>
+    <string name="action_mentions">Mentions</string>
+    <string name="action_hashtags">Hashtags</string>
+    <string name="action_open_reblogger">Afficher l’auteur·rice du boost</string>
+    <string name="action_open_reblogged_by">Afficher les boosts</string>
+    <string name="action_open_faved_by">Montrer les favoris</string>
+    <string name="title_hashtags_dialog">Hashtags</string>
+    <string name="title_mentions_dialog">Mentions</string>
+    <string name="title_links_dialog">Liens</string>
+    <string name="action_open_media_n">Ouvrir le média #%d</string>
     <string name="download_image">Téléchargement de %1$s</string>
     <string name="action_copy_link">Copier le lien</string>
     <string name="action_open_as">Ouvrir comme %s</string>
@@ -337,4 +349,24 @@
     <string name="conversation_2_recipients">%1$s et %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s et %3$d autres</string>
     <string name="max_tab_number_reached">nombre maximum d\'onglets %1$d atteint</string>
+    <string name="description_status_media">        Média : %s
+    </string>
+    <string name="description_status_cw">        Avertissement : %s
+    </string>
+    <string name="description_status_media_no_description_placeholder">        Pas de description
+    </string>
+    <string name="description_status_reblogged">        Reblogué
+    </string>
+    <string name="description_status_favourited">        Mis en favoris
+    </string>
+    <string name="description_visiblity_public">        Public
+    </string>
+    <string name="description_visiblity_unlisted">        Non-listé    </string>
+    <string name="description_visiblity_private">        Abonné·e·s
+    </string>
+    <string name="description_visiblity_direct">        Direct
+    </string>
+    <string name="description_status">        <!-- Nom public, avertissement?, contenu?, date relative, reblogué par?, reblogué?, mis en favoris?, username, media?; visibilité, nombre de fav?, nombre de reblogs?-->
+        %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
+    </string>
 </resources>

@@ -16,8 +16,6 @@
 package tech.bigfig.roma.adapter;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
-
 import android.text.InputFilter;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,6 +28,7 @@ import tech.bigfig.roma.util.SmartLengthInputFilter;
 import tech.bigfig.roma.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import at.connyduck.sparkbutton.helpers.Utils;
 
@@ -95,9 +94,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             // More efficient approach would be creating View.OnClickListener during holder creation
             // and storing StatusActionListener in a variable after binding.
             rebloggedBar.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));
-
         }
-
     }
 
     private void setRebloggedByDisplayName(final String name) {

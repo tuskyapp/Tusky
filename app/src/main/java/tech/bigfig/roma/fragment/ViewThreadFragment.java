@@ -15,37 +15,27 @@
 
 package tech.bigfig.roma.fragment;
 
-import androidx.arch.core.util.Function;
-import androidx.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.util.Pair;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.snackbar.Snackbar;
 import tech.bigfig.roma.AccountListActivity;
 import tech.bigfig.roma.BaseActivity;
 import tech.bigfig.roma.BuildConfig;
 import tech.bigfig.roma.R;
 import tech.bigfig.roma.ViewThreadActivity;
 import tech.bigfig.roma.adapter.ThreadAdapter;
-import tech.bigfig.roma.appstore.EventHub;
 import tech.bigfig.roma.appstore.BlockEvent;
+import tech.bigfig.roma.appstore.EventHub;
 import tech.bigfig.roma.appstore.FavouriteEvent;
 import tech.bigfig.roma.appstore.ReblogEvent;
 import tech.bigfig.roma.appstore.StatusComposedEvent;
@@ -57,6 +47,7 @@ import tech.bigfig.roma.entity.StatusContext;
 import tech.bigfig.roma.interfaces.StatusActionListener;
 import tech.bigfig.roma.network.MastodonApi;
 import tech.bigfig.roma.network.TimelineCases;
+import tech.bigfig.roma.util.ListStatusAccessibilityDelegate;
 import tech.bigfig.roma.util.PairedList;
 import tech.bigfig.roma.util.SmartLengthInputFilter;
 import tech.bigfig.roma.util.ThemeUtils;
@@ -70,6 +61,16 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.arch.core.util.Function;
+import androidx.core.util.Pair;
+import androidx.lifecycle.Lifecycle;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -147,6 +148,8 @@ public final class ViewThreadFragment extends SFragment implements
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAccessibilityDelegateCompat(
+                new ListStatusAccessibilityDelegate(recyclerView, this, statuses::getPairedItem));
         DividerItemDecoration divider = new DividerItemDecoration(
                 context, layoutManager.getOrientation());
         recyclerView.addItemDecoration(divider);
@@ -264,7 +267,7 @@ public final class ViewThreadFragment extends SFragment implements
     }
 
     private void updateStatus(int position, Status status) {
-        if(position >= 0 && position < statuses.size()) {
+        if (position >= 0 && position < statuses.size()) {
 
             Status actionableStatus = status.getActionableStatus();
 

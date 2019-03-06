@@ -108,6 +108,11 @@
     <string name="action_content_warning">Tartalom figyelmeztetés</string>
     <string name="action_emoji_keyboard">Emoji billentyűzet</string>
     <string name="action_add_tab">Fül hozzáadása</string>
+    <string name="action_links">Linkek</string>
+    <string name="action_mentions">Említések</string>
+    <string name="action_hashtags">Címkék</string>
+    <string name="title_mentions_dialog">Említések</string>
+    <string name="title_links_dialog">Linkek</string>
     <string name="download_image">%1$s letöltése</string>
     <string name="action_copy_link">Link másolása</string>
     <string name="action_open_as">Megnyitás mint %s</string>
@@ -262,7 +267,7 @@
     <string name="performing_lookup_title">Keresés…</string>
     <string name="action_open_toot">Tülk megnyitása</string>
     <string name="restart_required">Újraindítás szükséges</string>
-    <string name="restart_emoji">A beállítások érvényesítéséhez újra kell indítani a Tusky-t</string>
+    <string name="restart_emoji">A beállítások érvényesítéséhez újra kell indítani a Roma-t</string>
     <string name="later">Később</string>
     <string name="restart">Újraindítás</string>
     <string name="caption_systememoji">Az eszközöd alap emoji készlete</string>
@@ -271,7 +276,7 @@
     <string name="download_failed">Letöltés sikertelen</string>
     <string name="profile_badge_bot_text">Robot</string>
     <string name="account_moved_description">%1$s elköltözött:</string>
-    <string name="license_description">A Tusky a következő nyílt forráskódú projektekből tartalmaz programkódot és más elemeket:</string>
+    <string name="license_description">A Roma a következő nyílt forráskódú projektekből tartalmaz programkódot és más elemeket:</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profil metaadatok</string>
@@ -284,4 +289,8 @@
     <string name="title_favourited_by">Kedvencnek jelölte</string>
     <string name="conversation_2_recipients">%1$s és %2$s</string>
     <string name="max_tab_number_reached">fülek maximális száma (%1$d) elérve</string>
+    <string name="description_status_media_no_description_placeholder">        Nincs leírás
+    </string>
+    <string name="description_visiblity_public">Nyilvános    </string>
+    <string name="description_visiblity_private">Követők    </string>
 </resources>

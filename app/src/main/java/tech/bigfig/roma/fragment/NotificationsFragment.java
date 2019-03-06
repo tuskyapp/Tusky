@@ -49,6 +49,7 @@ import tech.bigfig.roma.network.TimelineCases;
 import tech.bigfig.roma.util.CollectionUtil;
 import tech.bigfig.roma.util.Either;
 import tech.bigfig.roma.util.HttpHeaderLink;
+import tech.bigfig.roma.util.ListStatusAccessibilityDelegate;
 import tech.bigfig.roma.util.ListUtils;
 import tech.bigfig.roma.util.PairedList;
 import tech.bigfig.roma.util.ThemeUtils;
@@ -188,6 +189,16 @@ public class NotificationsFragment extends SFragment implements
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAccessibilityDelegateCompat(
+                new ListStatusAccessibilityDelegate(recyclerView, this, (pos) -> {
+                    NotificationViewData notification = notifications.getPairedItem(pos);
+                    // We support replies only for now
+                    if (notification instanceof NotificationViewData.Concrete) {
+                        return ((NotificationViewData.Concrete) notification).getStatusViewData();
+                    } else {
+                        return null;
+                    }
+                }));
 
         recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 

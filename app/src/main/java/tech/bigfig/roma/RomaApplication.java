@@ -36,6 +36,10 @@ import tech.bigfig.roma.util.EmojiCompatFont;
 import tech.bigfig.roma.util.NotificationPullJobCreator;
 import com.squareup.picasso.Picasso;
 
+import org.conscrypt.Conscrypt;
+
+import java.security.Security;
+
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
@@ -66,6 +70,8 @@ public class RomaApplication extends Application implements HasActivityInjector,
     public void onCreate() {
         super.onCreate();
         initCrashlytics();
+
+        initSecurityProvider();
 
         appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "romaDB")
                 .allowMainThreadQueries()
@@ -109,6 +115,10 @@ public class RomaApplication extends Application implements HasActivityInjector,
 
         // Initialize Fabric with the debug-disabled crashlytics.
         Fabric.with(this, crashlyticsKit);
+    }
+
+    protected void initSecurityProvider() {
+        Security.insertProviderAt(Conscrypt.newProvider(), 1);
     }
 
     /**

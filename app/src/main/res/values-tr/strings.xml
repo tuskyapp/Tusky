@@ -178,7 +178,6 @@
     <string name="pref_title_hide_follow_button">Kaydırırken takip düğmesi gizlensin</string>
     <string name="pref_title_status_filter">Zaman çizelgesi filtreleme</string>
     <string name="pref_title_status_tabs">Sekmeler</string>
-    <string name="pref_title_show_boosts">Yükseltilenleri göster</string>
     <string name="pref_title_show_replies">Yanıtları göster</string>
     <string name="pref_title_filter_regex">Düzenli ifadeleri filtrele</string>
     <string name="pref_title_show_media_preview">Medya önizlemelerini göster</string>
@@ -214,8 +213,6 @@
     <string name="notification_channel_mention_descriptions">Yeni bahsedilenler hakkında bildirim</string>
     <string name="notification_channel_follow_name">Yeni Takipçiler</string>
     <string name="notification_channel_follow_description">Yeni takipçiler hakkında bildirim</string>
-    <string name="notification_channel_boost_name">Yükseltilenler</string>
-    <string name="notification_channel_boost_description">Tootların yükseltildiğinde bildirimler</string>
     <string name="notification_channel_favourite_name">Favoriler</string>
     <string name="notification_channel_favourite_description">Tootların favori olarak işaretlendiğinde</string>
     <string name="notification_mention_format">%s senden bahsetti</string>
@@ -225,8 +222,8 @@
     <string name="notification_title_summary">%d yeni etkileşim</string>
     <string name="description_account_locked">Kitli Hesap</string>
     <string name="about_title_activity">Hakkında</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Özgür ve açık kaynak yazılım Tusky.
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Özgür ve açık kaynak yazılım Roma.
         GNU Genel Kamu Lisansı sürüm 3 altında lisanslanmıştır.
         Lisansı buradan görüntüleyebilirsiniz: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
@@ -236,12 +233,11 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">        Proje Web sitesi:\n
-        https://tuskyapp.github.io
+        https://romaapp.github.io
     </string>
     <string name="about_bug_feature_request_site"> &amp; özellik istekleri hata raporları:\n
-        https://github.com/tuskyapp/Tusky/issues
+        https://github.com/romaapp/Roma/issues
     </string>
-    <string name="about_tusky_account">Tusky\'nin Profili</string>
     <string name="status_share_content">İletinin içeriğini paylaş</string>
     <string name="status_share_link">İletinin adresini paylaş</string>
     <string name="status_media_images">Görseller</string>
@@ -303,7 +299,7 @@
     <string name="account_moved_description">%1$s buraya taşındı:</string>
     <string name="reblog_private">Kendi kitlenize yükseltin</string>
     <string name="unreblog_private">Yükseltmeyi geri çek</string>
-    <string name="license_description">Tusky aşağıdakı açık kaynaklı projelerden kod ve materyal içeriyor:</string>
+    <string name="license_description">Roma aşağıdakı açık kaynaklı projelerden kod ve materyal içeriyor:</string>
     <string name="license_apache_2">Apache Lisansı altında lisanslanmıştır (kopya aşağıda)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

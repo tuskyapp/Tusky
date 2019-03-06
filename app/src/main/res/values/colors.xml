@@ -47,6 +47,7 @@
     <color name="report_status_divider_dark">#2F2F2F</color>
     <color name="custom_tab_toolbar_dark">#313543</color>
     <color name="compose_reply_content_background_dark">#373c4b</color>
+    <color name="autocomplete_divider_dark">#424a5b</color>
     <!--Black Theme Colors-->
     <color name="color_primary_black">#000000</color>
     <color name="color_primary_dark_black">#111111</color> <!--Dark Dark-->

@@ -149,7 +149,7 @@ data class ConversationStatusEntity(
                 favourited = favourited,
                 sensitive= sensitive,
                 spoilerText = spoilerText,
-                visibility = Status.Visibility.PRIVATE,
+                visibility = Status.Visibility.DIRECT,
                 attachments = attachments,
                 mentions = mentions,
                 application = null,

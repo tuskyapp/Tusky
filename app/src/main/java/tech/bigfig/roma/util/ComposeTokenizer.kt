@@ -20,14 +20,14 @@ import android.text.Spanned
 import android.text.TextUtils
 import android.widget.MultiAutoCompleteTextView
 
-class MentionTagTokenizer : MultiAutoCompleteTextView.Tokenizer {
+class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
     override fun findTokenStart(text: CharSequence, cursor: Int): Int {
         if (cursor == 0) {
             return cursor
         }
         var i = cursor
         var character = text[i - 1]
-        while (i > 0 && character != '@' && character != '#') {
+        while (i > 0 && character != '@' && character != '#' && character != ':') {
             // See SpanUtils.MENTION_REGEX
             if (!Character.isLetterOrDigit(character) && character != '_') {
                 return cursor
@@ -36,7 +36,7 @@ class MentionTagTokenizer : MultiAutoCompleteTextView.Tokenizer {
             character = if (i == 0) ' ' else text[i - 1]
         }
         if (i < 1
-                || (character != '@' && character != '#')
+                || (character != '@' && character != '#' && character != ':')
                 || i > 1 && !Character.isWhitespace(text[i - 2])) {
             return cursor
         }
