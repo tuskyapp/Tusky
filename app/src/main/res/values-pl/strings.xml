@@ -38,7 +38,6 @@
     <string name="title_saved_toot">Szkice</string>
     <string name="title_licenses">Licencje</string>
     <string name="status_reposted_format">%s podbił</string>
-    <string name="status_boosted_format">%s podbił</string>
     <string name="status_sensitive_media_title"><b>Wrażliwe treści</b>\nDotknij, aby wyświetlić</string>
     <string name="status_media_hidden_title">Ukryto zawartość multimedialną</string>
     <string name="status_sensitive_media_directions">Naciśnij, aby wyświetlić</string>
