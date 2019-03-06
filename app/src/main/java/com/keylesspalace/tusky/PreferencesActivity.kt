@@ -124,19 +124,9 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
                 val theme = sharedPreferences.getNonNullString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
                 Log.d("activeTheme", theme)
                 ThemeUtils.setAppNightMode(theme, this)
-                restartActivitiesOnExit = true
-
-                // recreate() could be used instead, but it doesn't have an animation B).
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-                val savedInstanceState = Bundle()
-                saveInstanceState(savedInstanceState)
-                intent.putExtras(savedInstanceState)
-                startActivityWithSlideInAnimation(intent)
-                finish()
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
 
                 restartActivitiesOnExit = true
-
+                this.restartCurrentActivity()
             }
             "statusTextSize" -> {
                 restartActivitiesOnExit = true
@@ -144,11 +134,28 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
             "absoluteTimeView" -> {
                 restartActivitiesOnExit = true
             }
+            "language" -> {
+                val language = sharedPreferences.getNonNullString("language", "en")
+                Log.d("activeLanguage", language)
+                sharedPreferences.edit().putString("language", language).apply()
+
+                restartActivitiesOnExit = true
+                this.restartCurrentActivity()
+            }
         }
 
         eventHub.dispatch(PreferenceChangedEvent(key))
     }
 
+    private fun restartCurrentActivity() {
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        val savedInstanceState = Bundle()
+        saveInstanceState(savedInstanceState)
+        intent.putExtras(savedInstanceState)
+        startActivityWithSlideInAnimation(intent)
+        finish()
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
 
     override fun onBackPressed() {
         /* Switching themes won't actually change the theme of activities on the back stack.

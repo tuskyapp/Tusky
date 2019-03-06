@@ -61,7 +61,6 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             }
             true
         }
-
     }
 
     override fun onResume() {
@@ -75,22 +74,22 @@ class PreferencesFragment : PreferenceFragmentCompat() {
 
         val sharedPreferences = preferenceManager.sharedPreferences
 
-            val httpProxyEnabled = sharedPreferences.getBoolean("httpProxyEnabled", false)
+        val httpProxyEnabled = sharedPreferences.getBoolean("httpProxyEnabled", false)
 
-            val httpServer = sharedPreferences.getNonNullString("httpProxyServer", "")
+        val httpServer = sharedPreferences.getNonNullString("httpProxyServer", "")
 
-            try {
-                val httpPort = sharedPreferences.getNonNullString("httpProxyPort", "-1").toInt()
+        try {
+            val httpPort = sharedPreferences.getNonNullString("httpProxyPort", "-1").toInt()
 
-                if (httpProxyEnabled && httpServer.isNotBlank() && httpPort > 0 && httpPort < 65535) {
-                    httpProxyPref.summary = "$httpServer:$httpPort"
-                    return
-                }
-            } catch (e: NumberFormatException) {
-                // user has entered wrong port, fall back to empty summary
+            if (httpProxyEnabled && httpServer.isNotBlank() && httpPort > 0 && httpPort < 65535) {
+                httpProxyPref.summary = "$httpServer:$httpPort"
+                return
             }
+        } catch (e: NumberFormatException) {
+            // user has entered wrong port, fall back to empty summary
+        }
 
-            httpProxyPref.summary = ""
+        httpProxyPref.summary = ""
 
     }
 

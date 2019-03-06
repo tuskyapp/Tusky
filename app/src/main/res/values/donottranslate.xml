@@ -30,4 +30,65 @@
         <item>auto</item>
     </string-array>
 
+    <string-array name="language_entries">
+        <item>@string/system_default</item>
+        <item>Català</item>
+        <item>Cymraeg</item>
+        <item>Deutsch</item>
+        <item>English</item>
+        <item>Español</item>
+        <item>Euskara</item>
+        <item>Français</item>
+        <item>Italiano</item>
+        <item>Magyar</item>
+        <item>Nederlands</item>
+        <item>Occitan</item>
+        <item>Polski</item>
+        <item>Português (Brasil)</item>
+        <item>Svenska</item>
+        <item>Türkçe</item>
+        <item>Русский</item>
+        <item>العَرَبِيَّة‎</item>
+        <item>فارسی</item>
+        <item>தமிழ்</item>
+        <item>한국어</item>
+        <item>中文(台灣)</item>
+        <item>中文(新加坡)</item>
+        <item>中文(澳門)</item>
+        <item>中文(简体)</item>
+        <item>中文(香港)</item>
+        <item>日本語</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>default</item>
+        <item>ca</item>
+        <item>cy</item>
+        <item>de</item>
+        <item>en</item>
+        <item>es</item>
+        <item>eu</item>
+        <item>fr</item>
+        <item>it</item>
+        <item>hu</item>
+        <item>nl</item>
+        <item>oc</item>
+        <item>pl</item>
+        <item>pt-BR</item>
+        <item>sv</item>
+        <item>tr</item>
+        <item>ru</item>
+        <item>ar</item>
+        <item>fa</item>
+        <item>ta</item>
+        <item>ko</item>
+        <item>zh-TW</item>
+        <item>zh-SG</item>
+        <item>zh-MO</item>
+        <item>zh-CN</item>
+        <item>zh-HK</item>
+        <item>ja</item>
+    </string-array>
+
+    <string name="pref_title_language_settings">Language</string>
 </resources>

@@ -20,7 +20,10 @@ import android.app.Application;
 import android.app.Service;
 import androidx.room.Room;
 import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import androidx.emoji.text.EmojiCompat;
 
 import com.evernote.android.job.JobManager;
@@ -29,6 +32,7 @@ import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.di.AppInjector;
 import com.keylesspalace.tusky.util.EmojiCompatFont;
+import com.keylesspalace.tusky.util.LocaleManager;
 import com.keylesspalace.tusky.util.NotificationPullJobCreator;
 import com.squareup.picasso.Picasso;
 
@@ -61,6 +65,10 @@ public class TuskyApplication extends Application implements HasActivityInjector
     private AccountManager accountManager;
 
     private ServiceLocator serviceLocator;
+
+    public static LocaleManager localeManager;
+
+    private final String TAG = "TuskyApplication";
 
     @Override
     public void onCreate() {
@@ -102,6 +110,21 @@ public class TuskyApplication extends Application implements HasActivityInjector
     protected void initSecurityProvider() {
         Security.insertProviderAt(Conscrypt.newProvider(), 1);
     }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        localeManager = new LocaleManager(base);
+        super.attachBaseContext(localeManager.setLocale(base));
+        Log.d(TAG, "attachBaseContext");
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        localeManager.setLocale(this);
+        Log.d(TAG, "onConfigurationChanged: " + newConfig.locale.getLanguage());
+    }
+
 
     /**
      * This method will load the EmojiCompat font which has been selected.
