@@ -289,7 +289,7 @@ class LoginActivity : BaseActivity(), Injectable {
 
     companion object {
         private const val TAG = "LoginActivity" // logging tag
-        private const val OAUTH_SCOPES = "read write follow"
+        private const val OAUTH_SCOPES = "read write follow push"
         private const val LOGIN_MODE = "LOGIN_MODE"
         private const val DOMAIN = "domain"
         private const val CLIENT_ID = "clientId"
